@@ -2,15 +2,14 @@
 type: doc
 layout: reference
 category: "Syntax"
-title: "Properties and Fields"
+title: "属性(Property)与域(Field)"
 ---
 
-# Properties and Fields
+# 属性(Property)与域(Field)
 
-## Declaring Properties
+## 声明属性
 
-Classes in Kotlin can have properties.
-These can be declared as mutable, using the *var*{: .keyword } keyword or read-only using the *val*{: .keyword } keyword.
+Kotlin 中的类可以拥有属性. 可以使用 *var*{: .keyword } 关键字声明为可变(mutable)属性, 也可以使用 *val*{: .keyword } 关键字声明为只读属性.
 
 ``` kotlin
 public class Address { 
@@ -22,21 +21,21 @@ public class Address {
 }
 ```
 
-To use a property, we simply refer to it by name, as if it were a field in Java:
+使用属性时, 只需要简单地通过属性名来参照它, 和使用 Java 中的域变量(field)一样:
 
 ``` kotlin
 fun copyAddress(address: Address): Address {
-  val result = Address() // there's no 'new' keyword in Kotlin
-  result.name = address.name // accessors are called
+  val result = Address() // Kotlin 中没有 'new' 关键字
+  result.name = address.name // 将会调用属性的访问器方法
   result.street = address.street
   // ...
   return result
 }
 ```
 
-## Getters and Setters
+## 取值方法(Getter)与设值方法(Setter)
 
-The full syntax for declaring a property is
+声明属性的完整语法是:
 
 ``` kotlin
 var <propertyName>: <PropertyType> [= <property_initializer>]
@@ -44,103 +43,101 @@ var <propertyName>: <PropertyType> [= <property_initializer>]
   [<setter>]
 ```
 
-The initializer, getter and setter are optional. Property type is optional if it can be inferred from the initializer or from the base class member being overridden.
+其中的初始化器(initializer), 取值方法(getter), 以及设值方法(setter)都是可选的. 如果属性类型可以通过初始化器自动推断得到, 或者可以通过这个属性覆盖的基类成员属性推断得到, 则属性类型的声明也可以省略.
 
-Examples:
-
-``` kotlin
-var allByDefault: Int? // error: explicit initializer required, default getter and setter implied
-var initialized = 1 // has type Int, default getter and setter
-```
-
-The full syntax of a read-only property declaration differs from a mutable one in two ways: it starts with `val` instead of `var` and does not allow a setter:
+示例:
 
 ``` kotlin
-val simple: Int? // has type Int, default getter, must be initialized in constructor
-val inferredType = 1 // has type Int and a default getter
+var allByDefault: Int? // 错误: 需要明确指定初始化器, 此处会隐含地使用默认的取值方法和设值方法
+var initialized = 1 // 属性类型为 Int, 使用默认的取值方法和设值方法
 ```
 
-We can write custom accessors, very much like ordinary functions, right inside a property declaration. Here's an example of a custom getter:
+只读属性声明的完整语法与可变属性有两点不同: 由 `val` 开头, 而不是 `var`, 并且不允许指定设值方法:
+
+``` kotlin
+val simple: Int? // 属性类型为 Int, 使用默认的取值方法, 属性值必须在构造器中初始化
+val inferredType = 1 // 属性类型为 Int, 使用默认的取值方法
+```
+
+我们可以编写自定义的访问方法, 与普通的函数很类似, 访问方法的位置就在属性定义体之内. 下面是一个自定义取值方法的示例:
 
 ``` kotlin
 val isEmpty: Boolean
   get() = this.size == 0
 ```
 
-A custom setter looks like this:
+自定义设值方法的示例如下:
 
 ``` kotlin
 var stringRepresentation: String
   get() = this.toString()
   set(value) {
-    setDataFromString(value) // parses the string and assigns values to other properties
+    setDataFromString(value) // 解析字符串内容, 并将解析得到的值赋给对应的其他属性
   }
 ```
 
-By convention, the name of the setter parameter is `value`, but you can choose a different name if you prefer.
+Kotlin 的编程惯例是, 设值方法的参数名称为 `value`, 但如果你喜欢, 也可以选择使用不同的名称.
 
-If you need to change the visibility of an accessor or to annotate it, but don't need to change the default implementation,
-you can define the accessor without defining its body:
+如果你需要改变属性访问方法的可见度, 或者需要对其添加注解, 但又不需要修改它的默认实现, 你可以定义这个方法, 但不定义它的实现体:
 
 ``` kotlin
 var setterVisibility: String = "abc"
-  private set // the setter is private and has the default implementation
+  private set // 设值方法的可见度为 private, 并使用默认实现
 
 var setterWithAnnotation: Any? = null
-  @Inject set // annotate the setter with Inject
+  @Inject set // 对设值方法添加 Inject 注解
 ```
 
-### Backing Fields
+### 属性的后端域变量(Backing Field)
 
-Classes in Kotlin cannot have fields. However, sometimes it is necessary to have a backing field when using custom accessors. For these purposes, Kotlin provides
-an automatic backing field which can be accessed using the `field` identifier:
+Kotlin 的类不能拥有域变量. 但是, 使用属性的自定义访问器时, 有时会需要后端域变量(backing field). 为了这种目的, Kotlin 提供了一种自动的后端域变量, 可以通过 `field` 标识符来访问:
 
 ``` kotlin
-var counter = 0 // the initializer value is written directly to the backing field
+var counter = 0 // 初始化给定的值将直接写入后端域变量中
   set(value) {
     if (value >= 0)
       field = value
   }
 ```
 
-The `field` identifier can only be used in the accessors of the property.
+`field` 标识符只允许在属性的访问器函数内使用.
 
-The compiler looks at the accessors' bodies, and if they use the backing field (or the accessor implementation is left by default), a backing field is generated, otherwise it is not.
+编译器会检查属性访问器的函数体, 如果使用了后端域变量(或者, 如果没有指定访问器的函数体, 使用了默认实现), 编译器就会生成一个后端域变量, 否则, 就不会生成后端域变量.
 
-For example, in the following case there will be no backing field:
+比如, 下面的情况不会存在后端域变量:
 
 ``` kotlin
 val isEmpty: Boolean
   get() = this.size == 0
 ```
 
-### Backing Properties
+### 后端属性(Backing Property)
 
-If you want to do something that does not fit into this "implicit backing field" scheme, you can always fall back to having a *backing property*:
+如果你希望实现的功能无法通过这种 "隐含的后端域变量" 方案来解决, 你可以使用 *后端属性(backing property)* 作为替代方案:
 
 ``` kotlin
 private var _table: Map<String, Int>? = null
 public val table: Map<String, Int>
   get() {
     if (_table == null)
-      _table = HashMap() // Type parameters are inferred
+      _table = HashMap() // 类型参数可以自动推断得到, 不必指定
     return _table ?: throw AssertionError("Set to null by another thread")
   }
 ```
 
-In all respects, this is just the same as in Java since access to private properties with default getters and setters is optimized so that no function call overhead is introduced.
+不管从哪方面看, 这种方案都与 Java 中完全相同, 因为后端私有属性的取值方法与设值方法都使用默认实现, 我们对这个属性的访问将被编译器优化, 变为直接读写后端域变量, 因此不会发生不必要的函数调用, 导致性能损失.
 
 
-## Compile-Time Constants
+## 编译期常数值
 
-Properties the value of which is known at compile time can be marked as _compile time constants_ using the `const` modifier.
-Such properties need to fulfil the following requirements:
+如果属性值在编译期间就能确定, 则可以使用 `const` 修饰符, 将属性标记为_编译期常数值(compile time constants)_.
+这类属性必须满足以下所有条件:
 
-  * Top-level or member of an `object`
-  * Initialized with a value of type `String` or a primitive type
-  * No custom getter
+  * 必须是顶级属性, 或者是一个 `object` 的成员
+  * 值被初始化为 `String` 类型, 或基本类型(primitive type)
+  * 不存在自定义的取值方法
 
-Such properties can be used in annotations:
+这类属性可以用在注解内:
 
 ``` kotlin
 const val SUBSYSTEM_DEPRECATED: String = "This subsystem is deprecated"
@@ -149,14 +146,11 @@ const val SUBSYSTEM_DEPRECATED: String = "This subsystem is deprecated"
 ```
 
 
-## Late-Initialized Properties
+## 延迟初始化属性(Late-Initialized Property)
 
-Normally, properties declared as having a non-null type must be initialized in the constructor.
-However, fairly often this is not convenient. For example, properties can be initialized through dependency injection,
-or in the setup method of a unit test. In this case, you cannot supply a non-null initializer in the constructor,
-but you still want to avoid null checks when referencing the property inside the body of a class.
+通常, 如果属性声明为非 null 数据类型, 那么属性值必须在构造器内初始化. 但是, 这种限制很多时候会带来一些不便. 比如, 属性值可以通过依赖注入来进行初始化, 或者在单元测试代码的 setup 方法中初始化. 这种情况下, 你就无法在构造器中为属性编写一段非 null 值的初始化代码, 但你仍然希望在类内参照这个属性时能够避免 null 值检查.
 
-To handle this case, you can mark the property with the `lateinit` modifier:
+要解决这个问题, 你可以为属性添加一个 `lateinit` 修饰符:
 
 ``` kotlin
 public class MyTest {
@@ -167,28 +161,21 @@ public class MyTest {
     }
 
     @Test fun test() {
-        subject.method()  // dereference directly
+        subject.method()  // 直接访问属性
     }
 }
 ```
 
-The modifier can only be used on `var` properties declared inside the body of a class (not in the primary constructor), and only
-when the property does not have a custom getter or setter. The type of the property must be non-null, and it must not be
-a primitive type.
+这个修饰符只能用于 `var` 属性, 而且只能是声明在类主体部分之内的属性(不可以是主构造器中声明的属性), 而且属性不能有自定义的取值方法和设值方法. 属性类型必须是非 null 的, 而且不能是基本类型.
 
-Accessing a `lateinit` property before it has been initialized throws a special exception that clearly identifies the property
-being accessed and the fact that it hasn't been initialized.
+在一个 `lateinit` 属性被初始化之前访问它, 会抛出一个特别的异常, 这个异常将会指明被访问的属性, 以及它没有被初始化这一错误.
 
-## Overriding Properties
+## 属性的覆盖
 
-See [Overriding Members](classes.html#overriding-members)
+参见 [成员的覆盖](classes.html#overriding-members)
 
-## Delegated Properties
+## 委托属性(Delegated Property)
   
-The most common kind of properties simply reads from (and maybe writes to) a backing field. 
-On the other hand, with custom getters and setters one can implement any behaviour of a property.
-Somewhere in between, there are certain common patterns of how a property may work. A few examples: lazy values,
-reading from a map by a given key, accessing a database, notifying listener on access, etc.
+最常见的属性只是简单地读取(也有可能会写入)一个后端域变量. 但是, 通过使用自定义的取值方法和设值方法, 我们可以实现属性任意复杂的行为. 在这两种极端情况之间, 还存在一些非常常见的属性工作模式. 比如: 属性值的延迟加载, 通过指定的键值(key)从 map 中读取数据, 访问数据库, 属性被访问时通知监听器, 等等.
 
-Such common behaviours can be implemented as libraries using [_delegated properties_](delegated-properties.html).
-
+这些常见行为可以使用[_委托属性(delegated property)_](delegated-properties.html), 以库的形式实现.

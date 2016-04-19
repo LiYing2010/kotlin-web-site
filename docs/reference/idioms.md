@@ -2,54 +2,54 @@
 type: doc
 layout: reference
 category: "Basics"
-title: "Idioms"
+title: "惯用法"
 ---
 
-# Idioms
+# 惯用法
 
-A collection of random and frequently used idioms in Kotlin. If you have a favorite idiom, contribute it. Do a pull request.
+本章介绍 Kotlin 中的一些常见的习惯用法. 如果你有自己的好的经验, 可以将它贡献给我们. 你可以你的修正提交到 git, 并发起一个 Pull Request.
 
-### Creating DTOs (POJOs/POCOs)
+### 创建 DTO 类(或者叫 POJO/POCO 类)
 
 ``` kotlin
 data class Customer(val name: String, val email: String)
 ```
 
-provides a `Customer` class with the following functionality:
+以上代码将创建一个 `Customer` 类, 其中包含以下功能:
 
-* getters (and setters in case of *var*{: .keyword }s) for all properties
-* `equals()`
-* `hashCode()`
-* `toString()`
-* `copy()`
-* `component1()`, `component2()`, ..., for all properties (see [Data classes](data-classes.html))
+* 所有属性的 getter 函数(对于 *var*{: .keyword } 型属性还有 setter 函数)
+* `equals()` 函数
+* `hashCode()` 函数
+* `toString()` 函数
+* `copy()` 函数
+* 所有属性的 `component1()`, `component2()`, ...  函数(参见 [数据类](data-classes.html))
 
 
-### Default values for function parameters
+### 对函数参数指定默认值
 
 ``` kotlin
 fun foo(a: Int = 0, b: String = "") { ... }
 ```
 
-### Filtering a list
+### 过滤 List 中的元素
 
 ``` kotlin
 val positives = list.filter { x -> x > 0 }
 ```
 
-Or alternatively, even shorter:
+甚至还可以写得更短:
 
 ``` kotlin
 val positives = list.filter { it > 0 }
 ```
 
-### String Interpolation
+### 在字符串内插入变量值
 
 ``` kotlin
 println("Name $name")
 ```
 
-### Instance Checks
+### 类型实例检查
 
 ``` kotlin
 when (x) {
@@ -59,7 +59,7 @@ when (x) {
 }
 ```
 
-### Traversing a map/list of pairs
+### 使用成对变量来遍历 Map, 这种语法也可以用来遍历 Pair 组成的 List
 
 ``` kotlin
 for ((k, v) in map) {
@@ -67,35 +67,35 @@ for ((k, v) in map) {
 }
 ```
 
-`k`, `v` can be called anything.
+上例中的 `k`, `v` 可以使用任何的变量名.
 
-### Using ranges
+### 使用数值范围
 
 ``` kotlin
 for (i in 1..100) { ... }
 for (x in 2..10) { ... }
 ```
 
-### Read-only list
+### 只读 List
 
 ``` kotlin
 val list = listOf("a", "b", "c")
 ```
 
-### Read-only map
+### 只读 Map
 
 ``` kotlin
 val map = mapOf("a" to 1, "b" to 2, "c" to 3)
 ```
 
-### Accessing a map
+### 访问 Map
 
 ``` kotlin
 println(map["key"])
 map["key"] = value
 ```
 
-### Lazy property
+### 延迟计算(Lazy)属性
 
 ``` kotlin
 val p: String by lazy {
@@ -103,7 +103,7 @@ val p: String by lazy {
 }
 ```
 
-### Extension Functions
+### 扩展函数
 
 ``` kotlin
 fun String.spaceToCamelCase() { ... }
@@ -111,7 +111,7 @@ fun String.spaceToCamelCase() { ... }
 "Convert this to camelcase".spaceToCamelCase()
 ```
 
-### Creating a singleton
+### 创建单例(Singleton)
 
 ``` kotlin
 object Resource {
@@ -119,7 +119,7 @@ object Resource {
 }
 ```
 
-### If not null shorthand
+### If not null 的简写表达方式
 
 ``` kotlin
 val files = File("Test").listFiles()
@@ -127,7 +127,7 @@ val files = File("Test").listFiles()
 println(files?.size)
 ```
 
-### If not null and else shorthand
+### If not null ... else 的简写表达方式
 
 ``` kotlin
 val files = File("Test").listFiles()
@@ -135,24 +135,24 @@ val files = File("Test").listFiles()
 println(files?.size ?: "empty")
 ```
 
-### Executing a statement if null
+### 当值为 null 时, 执行某个语句
 
 ``` kotlin
 val data = ...
 val email = data["email"] ?: throw IllegalStateException("Email is missing!")
 ```
 
-### Execute if not null
+### 当值不为 null 时, 执行某个语句
 
 ``` kotlin
 val data = ...
 
 data?.let {
-    ... // execute this block if not null
+    ... // 这个代码段将在 data 不为 null 时执行
 }
 ```
 
-### Return on when statement
+### 在函数的 return 语句中使用 when 语句
 
 ``` kotlin
 fun transform(color: String): Int {
@@ -165,7 +165,7 @@ fun transform(color: String): Int {
 }
 ```
 
-### 'try/catch' expression
+### 将 'try/catch' 用作一个表达式
 
 ``` kotlin
 fun test() {
@@ -175,11 +175,11 @@ fun test() {
         throw IllegalStateException(e)
     }
 
-    // Working with result
+    // 使用 result
 }
 ```
 
-### 'if' expression
+### 将 'if' 用作一个表达式
 
 ``` kotlin
 fun foo(param: Int) {
@@ -193,7 +193,7 @@ fun foo(param: Int) {
 }
 ```
 
-### Builder-style usage of methods that return `Unit`
+### 返回值为 `Unit` 类型的多个方法, 可以通过 Builder 风格的方式来串联调用
 
 ``` kotlin
 fun arrayOfMinusOnes(size: Int): IntArray {
@@ -202,13 +202,13 @@ fun arrayOfMinusOnes(size: Int): IntArray {
 ```
 
 
-### Single-expression functions
+### 使用单个表达式来定义一个函数
 
 ``` kotlin
 fun theAnswer() = 42
 ```
 
-This is equivalent to
+以上代码等价于:
 
 ``` kotlin
 fun theAnswer(): Int {
@@ -216,7 +216,7 @@ fun theAnswer(): Int {
 }
 ```
 
-This can be effectively combined with other idioms, leading to shorter code. E.g. with the *when*{: .keyword }-expression:
+这种用法与其他惯用法有效地结合起来, 可以编写出更简短的代码. 比如. 可以与 *when*{: .keyword }-表达式结合起来:
 
 ``` kotlin
 fun transform(color: String): Int = when (color) {
@@ -227,7 +227,7 @@ fun transform(color: String): Int = when (color) {
 }
 ```
 
-### Calling multiple methods on an object instance ('with')
+### 在同一个对象实例上调用多个方法('with' 语句)
 
 ``` kotlin
 class Turtle {
@@ -238,7 +238,7 @@ class Turtle {
 }
 
 val myTurtle = Turtle()
-with(myTurtle) { //draw a 100 pix square
+with(myTurtle) { // 描绘一个边长 100 像素的正方形
     penDown()
     for(i in 1..4) {
         forward(100.0)
@@ -248,7 +248,7 @@ with(myTurtle) { //draw a 100 pix square
 }
 ```
 
-### Java 7's try with resources
+### 类似 Java 7 中针对资源的 try 语句
 
 ``` kotlin
 val stream = Files.newInputStream(Paths.get("/some/file.txt"))
@@ -257,7 +257,7 @@ stream.buffered().reader().use { reader ->
 }
 ```
 
-### Convenient form for a generic function that requires the generic type information
+### 对于需要泛型类型信息的函数, 可以使用这样的简便形式
 
 ``` kotlin
 //  public final class Gson {

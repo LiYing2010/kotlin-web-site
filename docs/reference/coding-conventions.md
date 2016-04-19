@@ -2,25 +2,25 @@
 type: doc
 layout: reference
 category: Basics
-title: Coding Conventions
+title: 编码规约
 ---
 
-# Coding Conventions
+# 编码规约
 
-This page contains the current coding style for the Kotlin language.
+本章介绍 Kotlin 语言目前的编码风格.
 
-## Naming Style
-If in doubt default to the Java Coding Conventions such as:
+## 命名风格
+如果对某种规约存在疑问, 请默认使用 Java 编码规约, 比如:
 
-* use of camelCase for names (and avoid underscore in names)
-* types start with upper case
-* methods and properties start with lower case
-* use 4 space indentation
-* public functions should have documentation such that it appears in Kotlin Doc
+* 在名称中使用驼峰式大小写(并且不要在名称中使用下划线)
+* 类型首字母大写
+* 方法和属性名称首字母小写
+* 语句缩进使用 4 个空格
+* public 函数应该编写文档, 这些文档将出现在 Kotlin Doc 中
 
-## Colon
+## 冒号
 
-There is a space before colon where colon separates type and supertype and there's no space where colon separates instance and type:
+当冒号用来分隔类型和父类型时, 冒号之前要有空格, 当冒号用来分隔类型和实例时, 冒号之前不加空格:
 
 ``` kotlin
 interface Foo<out T : Any> : Bar {
@@ -28,24 +28,22 @@ interface Foo<out T : Any> : Bar {
 }
 ```
 
-## Lambdas
+## Lambda 表达式
 
-In lambda expressions, spaces should be used around the curly braces, as well as around the arrow which separates the parameters
-from the body. Whenever possible, a lambda should be passed outside of parentheses.
+在 Lambda 表达式中, 大括号前后应该加空格, 分隔参数与函数体的箭头符号前后也应该加空格. 如果有可能, 将 Lambda 表达式作为参数传递时, 应该尽量放在圆括号之外.
 
 ``` kotlin
 list.filter { it > 10 }.map { element -> element * 2 }
 ```
 
-In lambdas which are short and not nested, it's recommended to use the `it` convention instead of declaring the parameter
-explicitly. In nested lambdas with parameters, parameters should be always declared explicitly.
+在简短, 并且无嵌套的 Lambda 表达式中, 推荐使用惯用约定的 `it` 作为参数名, 而不要明确地声明参数. 在有参数, 并且嵌套的 Lambda 表达式中, 应该明确地声明参数.
 
 ## Unit
 
-If a function returns Unit, the return type should be omitted:
+如果函数的返回值为 Unit 类型, 那么返回值的类型声明应当省略:
 
 ``` kotlin
-fun foo() { // ": Unit" is omitted here
+fun foo() { // 此处省略了 ": Unit" 
 
 }
 ```

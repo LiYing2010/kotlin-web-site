@@ -1,72 +1,70 @@
 ---
 type: doc
 layout: reference
-title: "Operator overloading"
+title: "操作符重载"
 category: "Syntax"
 ---
 
-# Operator overloading
+# 操作符重载(Operator overloading)
 
-Kotlin allows us to provide implementations for a predefined set of operators on our types. These operators have fixed symbolic representation
-(like `+` or `*`) and fixed [precedence](grammar.html#precedence). To implement an operator, we provide a [member function](functions.html#member-functions)
-or an [extension function](extensions.html) with a fixed name, for the corresponding type, i.e. left-hand side type for binary operations and argument type for unary ones.
-Functions that overload operators need to be marked with the `operator` modifier.
+Kotlin 允许我们对数据类型的一组预定义的操作符提供实现函数. 这些操作符的表达符号是固定(比如 `+` 或 `*`), [优先顺序](grammar.html#precedence)也是固定的. 要实现这些操作符, 我们需要对相应的数据类型实现一个固定名称的 [成员函数](functions.html#member-functions) 或 [扩展函数](extensions.html), 这里所谓"相应的数据类型", 对于二元操作符, 是指左侧操作数的类型, 对于一元操作符, 是指唯一一个操作数的类型.
+用于实现操作符重载的函数应该使用 `operator` 修饰符进行标记.
 
-## Conventions
+## 约定
 
-Here we describe the conventions that regulate operator overloading for different operators.
+下面我们介绍与各种操作符的重载相关的约定.
 
-### Unary operations
+### 一元操作符
 
-| Expression | Translated to |
+| 表达式 | 翻译为 |
 |------------|---------------|
 | `+a` | `a.unaryPlus()` |
 | `-a` | `a.unaryMinus()` |
 | `!a` | `a.not()` |
 
-This table says that when the compiler processes, for example, an expression `+a`, it performs the following steps:
+上表告诉我们说, 当编译器处理一元操作符时, 比如表达式 `+a`, 它将执行以下步骤:
 
-* Determines the type of `a`, let it be `T`.
-* Looks up a function `unaryPlus()` with the `operator` modifier and no parameters for the receiver `T`, i.e. a member function or an extension function.
-* If the function is absent or ambiguous, it is a compilation error.
-* If the function is present and its return type is `R`, the expression `+a` has type `R`.
+* 确定 `a` 的类型, 假设为 `T`.
+* 查找带有 `operator` 修饰符, 无参数的 `unaryPlus()` 函数, 而且函数的接受者类型为 `T`, 也就是说, `T` 类型的成员函数或扩展函数.
+* 如果这个函数不存在, 或者找到多个, 则认为是编译错误.
+* 如果这个函数存在, 并且返回值类型为 `R`, 则表达式 `+a` 的类型为 `R`.
 
-*Note* that these operations, as well as all the others, are optimized for [Basic types](basic-types.html) and do not introduce overhead of function calls for them.
+*注意*, 这些操作符, 以其其它所有操作符, 都对 [基本类型](basic-types.html) 进行了优化, 因此不会发生函数调用, 并由此产生性能损耗.
 
-| Expression | Translated to |
+| 表达式 | 翻译为 |
 |------------|---------------|
-| `a++` | `a.inc()` + see below |
-| `a--` | `a.dec()` + see below |
+| `a++` | `a.inc()` (参见下文) |
+| `a--` | `a.dec()` (参见下文) |
 
 
-These operations are supposed to change their receiver and (optionally) return a value.
+这些操作符应该改变它们的接受者, 并且返回一个值(可选).
 
-> **`inc()/dec()` shouldn't mutate the receiver object**.<br>
-> By "changing the receiver" we mean _the receiver-variable_, not the receiver object.
+> **`inc()/dec()` 不应该改变接受者对象的值**.<br>
+> 上文所谓"改变它们的接受者", 我们指的是改变 _接受者变量_, 而不是改变接受者对象的值.
 {:.note}
 
-The compiler performs the following steps for resolution of an operator in the *postfix* form, e.g. `a++`:
+对于 *后缀* 形式操作符, 比如 `a++`, 编译器解析时将执行以下步骤:
 
-* Determines the type of `a`, let it be `T`.
-* Looks up a function `inc()` with the `operator` modifier and no parameters, applicable to the receiver of type `T`.
-* If the function returns a type `R`, then it must be a subtype of `T`.
+* 确定 `a` 的类型, 假设为 `T`.
+* 查找带有 `operator` 修饰符, 无参数的 `inc()` 函数, 而且函数的接受者类型为 `T`.
+* 如果这个函数返回值类型为 `R`, 那么它必须是 `T` 的子类型.
 
-The effect of computing the expression is:
+计算这个表达式所造成的影响是:
 
-* Store the initial value of `a` to a temporary storage `a0`,
-* Assign the result of `a.inc()` to `a`,
-* Return `a0` as a result of the expression.
+* 将 `a` 的初始值保存到临时变量 `a0` 中,
+* 将 `a.inc()` 的结果赋值给 `a`,
+* 返回 `a0`, 作为表达式的计算结果值.
 
-For `a--` the steps are completely analogous.
+对于 `a--`, 计算步骤完全类似.
 
-For the *prefix* forms `++a` and `--a` resolution works the same way, and the effect is:
+对于 *前缀* 形式的操作符 `++a` 和 `--a`, 解析过程是一样的, 计算表达式所造成的影响是:
 
-* Assign the result of `a.inc()` to `a`,
-* Return the new value of `a` as a result of the expression.
+* 将 `a.inc()` 的结果赋值给 `a`,
+* 返回 `a` 的新值, 作为表达式的计算结果值.
 
-### Binary operations
+### 二元操作符
 
-| Expression | Translated to |
+| 表达式 | 翻译为 |
 | -----------|-------------- |
 | `a + b` | `a.plus(b)` |
 | `a - b` | `a.minus(b)` |
@@ -75,17 +73,17 @@ For the *prefix* forms `++a` and `--a` resolution works the same way, and the ef
 | `a % b` | `a.mod(b)` |
 | `a..b ` | `a.rangeTo(b)` |
 
-For the operations in this table, the compiler just resolves the expression in the *Translated to* column.
+对于上表中的操作符, 编译器只是简单地解析 *翻译为* 列中的表达式.
 
-| Expression | Translated to |
+| 表达式 | 翻译为 |
 | -----------|-------------- |
 | `a in b` | `b.contains(a)` |
 | `a !in b` | `!b.contains(a)` |
 
-For `in` and `!in` the procedure is the same, but the order of arguments is reversed.
+对于 `in` 和 `!in` 操作符, 解析过程也是一样的, 但参数顺序被反转了.
 {:#in}
 
-| Symbol | Translated to |
+| 符号 | 翻译为 |
 | -------|-------------- |
 | `a[i]`  | `a.get(i)` |
 | `a[i, j]`  | `a.get(i, j)` |
@@ -94,18 +92,18 @@ For `in` and `!in` the procedure is the same, but the order of arguments is reve
 | `a[i, j] = b` | `a.set(i, j, b)` |
 | `a[i_1, ...,  i_n] = b` | `a.set(i_1, ..., i_n, b)` |
 
-Square brackets are translated to calls to `get` and `set` with appropriate numbers of arguments.
+方括号被翻译为, 使用适当个数的参数, 对 `get` 和 `set` 函数的调用.
 
-| Symbol | Translated to |
+| 符号 | 翻译为 |
 |--------|---------------|
 | `a()`  | `a.invoke()` |
 | `a(i)`  | `a.invoke(i)` |
 | `a(i, j)`  | `a.invoke(i, j)` |
 | `a(i_1, ...,  i_n)`  | `a.invoke(i_1, ...,  i_n)` |
 
-Parentheses are translated to calls to `invoke` with appropriate number of arguments.
+圆括号被翻译为, 使用适当个数的参数, 调用 `invoke` 函数.
 
-| Expression | Translated to |
+| 表达式 | 翻译为 |
 |------------|---------------|
 | `a += b` | `a.plusAssign(b)` |
 | `a -= b` | `a.minusAssign(b)` |
@@ -114,35 +112,35 @@ Parentheses are translated to calls to `invoke` with appropriate number of argum
 | `a %= b` | `a.modAssign(b)` |
 {:#assignments}
 
-For the assignment operations, e.g. `a += b`, the compiler performs the following steps:
+对于赋值操作符, 比如 `a += b`, 编译器执行以下步骤:
 
-* If the function from the right column is available
-  * If the corresponding binary function (i.e. `plus()` for `plusAssign()`) is available too, report error (ambiguity).
-  * Make sure its return type is `Unit`, and report an error otherwise.
-  * Generate code for `a.plusAssign(b)`
-* Otherwise, try to generate code for `a = a + b` (this includes a type check: the type of `a + b` must be a subtype of `a`).
+* 如果上表中右列的函数可用
+  * 如果对应的二元操作函数(也就是说, 对于 `plusAssign()` 来说, `plus()` 函数) 也可用, 报告错误(歧义).
+  * 确认函数的返回值类型为 `Unit`, 否则报告错误.
+  * 生成 `a.plusAssign(b)` 的代码 
+* 否则, 尝试生成 `a = a + b` 的代码(这里包括类型检查: `a + b` 的类型必须是 `a` 的子类型).
 
-*Note*: assignments are *NOT* expressions in Kotlin.
+*注意*: 在 Kotlin 中, 赋值操作 *不是* 表达式.
 {:#Equals}
 
-| Expression | Translated to |
+| 表达式 | 翻译为 |
 |------------|---------------|
 | `a == b` | `a?.equals(b) ?: b === null` |
 | `a != b` | `!(a?.equals(b) ?: b === null)` |
 
-*Note*: `===` and `!==` (identity checks) are not overloadable, so no conventions exist for them
+*注意*: `===` 和 `!==` (同一性检查) 操作符不允许重载, 因此对这两个操作符不存在约定
 
-The `==` operation is special: it is translated to a complex expression that screens for `null`'s, and `null == null` is `true`.
+`==` 操作符是特殊的: 它被翻译为一个复杂的表达式, 其中包括对 `null` 值的判断, 而且, `null == null` 的判断结果为 `true`.
 
-| Symbol | Translated to |
+| 符号 | 翻译为 |
 |--------|---------------|
 | `a > b`  | `a.compareTo(b) > 0` |
 | `a < b`  | `a.compareTo(b) < 0` |
 | `a >= b` | `a.compareTo(b) >= 0` |
 | `a <= b` | `a.compareTo(b) <= 0` |
 
-All comparisons are translated into calls to `compareTo`, that is required to return `Int`.
+所有的比较操作符都被翻译为对 `compareTo` 函数的调用, 这个函数的返回值必须是 `Int` 类型.
 
-## Infix calls for named functions
+## 对命名函数的中缀式调用
 
-We can simulate custom infix operations by using [infix function calls](functions.html#infix-notation).
+使用 [中缀式函数调用](functions.html#infix-notation), 我们可以模拟自定义的中缀操作符.

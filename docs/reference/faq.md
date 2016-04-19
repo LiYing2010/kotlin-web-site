@@ -7,100 +7,93 @@ title: FAQ
 
 # FAQ
 
-## Common Questions
+## 常见问题
 
-### What is Kotlin?
+### 什么是 Kotlin?
 
-Kotlin is a statically typed language that targets the JVM and JavaScript. It is a general-purpose language intended for industry use.
+Kotlin 是一种针对 JVM 和 JavaScript 环境的静态类型语言. 它是一种面向软件产业实际应用的通用语言.
 
-It is developed by a team at JetBrains although it is an OSS language and has external contributors.
+Kotlin 的开发者是 JetBrains 公司的一个团队, 但它是开源的, 而且还有 JetBrains 公司之外的贡献者.
 
-### Why a new language?
+### 为什么要开发一种新的语言?
 
-At JetBrains, we’ve been developing for the Java platform for a long time, and we know how good it is.
-On the other hand, we know that the Java programming language has certain limitations and problems that are either impossible
-or very hard to fix due to backward-compatibility issues. We know that Java is going to stand long,
-but we believe that the community can benefit from a new statically typed JVM-targeted language free of the
-legacy trouble and having the features so desperately wanted by the developers.
+在 JetBrains 公司, 我们已经在 Java 平台上进行了很多年的开发工作, 而且我们很了解 Java 的优点.
+但是, 我们也认识到 Java 语言存在着一些问题, 而且由于向后兼容性的限制, 导致这些问题很难甚至不可能得到解决. 我们知道 Java 还会长期存在下去, 但我们相信, 假如开发一种针对 JVM 平台的静态类型的新语言, 丢掉那些历史遗留的包袱, 加上开发者们长期渴望的功能, 那么开发社区将会因此大大受益.
 
 
-The main design goals behind this project are
+这个项目背后的主要涉及目标是:
 
-* To create a Java-compatible language,
-* That compiles at least as fast as Java,
-* Make it safer than Java, i.e. statically check for common pitfalls such as null pointer dereference,
-* Make it more concise than Java by supporting variable type inference, higher-order functions (closures), extension functions, mixins and first-class delegation, etc;
-* And, keeping the useful level of expressiveness (see above), make it way simpler than the most mature competitor – Scala.
+* 创建一个与 Java 兼容的语言,
+* 编译速度至少要与 Java 一样快,
+* 新语言要比 Java 更加安全, 也就是说, 要对软件开发中的常见问题进行静态检查, 比如对空指针的访问问题,
+* 新语言要比 Java 更简洁, 要支持变量类型推断, 高阶函数(闭包), 扩展函数, 代码混合(mixin), 委托(first-class delegation), 等等;
+* 此外, 将新语言的表达能力控制在实用的程度(参见上文)(译注: 这里似乎应该是参见 "与 Scala 比较" 小节), 让它比最成熟的竞争者 – Scala - 更加简单.
 
-### How is it licensed?
+### Kotlin 使用什么样的许可证(license)?
 
-Kotlin is an OSS language and is licensed under the Apache 2 OSS License. The IntelliJ Plug-in is also OSS.
+Kotlin 是一个开源语言, 使用 Apache 2 OSS License. IntelliJ Plug-in 也是开源的.
 
-It is hosted on GitHub and we happily accept contributors
+Kotlin 的代码目前托管在 GitHub 上, 我们很欢迎大家贡献自己的代码.
 
 
-### Is it Java Compatible?
+### Kotlin 与 Java 兼容吗?
 
-Yes. The compiler emits Java byte-code. Kotlin can call Java, and Java can call Kotlin. See [Java interoperability](java-interop.html).
+是的. 编译器将会输出 Java 字节码. Kotlin 可以调用 Java, 反过来 Java 也可以调用 Kotlin. 请参见 [与 Java 的互操作性](java-interop.html).
 
-### Which minimum Java version is required for running Kotlin code?
+### 运行 Kotlin 代码需要的最低 Java 版本是多少?
 
-Kotlin generates bytecode which is compatible with Java 6 or newer. This ensures that Kotlin can be used in environments such as Android, where Java 6 is the latest supported version.
+Kotlin 编译产生的字节码兼容 Java 6 或更高版本. 因此 Kotlin 可以用于 Android 之类的环境, Android 目前支持的最高版本是 Java 6.
 
-### Is there tooling support?
+### 有针对 Kotlin 的开发工具吗?
 
-Yes. There is an IntelliJ IDEA plugin that is available as an OSS project under the Apache 2 License. You can use Kotlin both
- in the [free OSS Community Edition and Ultimate Edition](http://www.jetbrains.com/idea/features/editions_comparison_matrix.html) of IntelliJ IDEA.
+是的. 有一个开源的 IntelliJ IDEA plugin, 使用 Apache 2 License. 在 IntelliJ IDEA 的 [免费的 OSS Community 版和 Ultimate 版](http://www.jetbrains.com/idea/features/editions_comparison_matrix.html) 中都可以使用 Kotlin.
 
-### Is there Eclipse support?
+### 有 Eclipse 环境的工具吗?
 
-Yes. Please refer to the [tutorial](/docs/tutorials/getting-started-eclipse.html) for installation instructions.
+是的. 关于安装方法, 请参照 [教程](/docs/tutorials/getting-started-eclipse.html).
 
-### Is there a standalone compiler?
+### 有不依赖 IDE 环境的独立的(standalone)编译器吗?
 
-Yes. You can download the standalone compiler and other builds tools from the [release page on GitHub]({{site.data.releases.latest.url}})
+是的. 你可以在 [GitHub 上的 Release 页面]({{site.data.releases.latest.url}}) 下载独立的编译器, 以及其他构建工具.
 
-### Is Kotlin a Functional Language?
+### Kotlin 是函数式语言吗(Functional Language)?
 
-Kotlin is an Object-Orientated language. However it has support for higher-order functions as well as lambda expressions and top-level functions. In addition, there are
-a good number of common functional language constructs in the standard Kotlin library (such as map, flatMap, reduce, etc.). Also, there's no clear definition on what a Functional Language is so we couldn't say Kotlin is one.
+Kotlin 是面向对象的语言. 但是它支持高阶函数, Lambda 表达式, 以及顶级(top-level)函数. 此外, Kotlin 的标准库中还存在函数式语言中常见的大量元素(比如 map, flatMap, reduce, 等等.). 而且, 关于函数式语言, 并没有一个清晰的定义, 所以我们并能说 Kotlin 是一种函数式语言.
 
-### Does Kotlin support generics?
+### Kotlin 支持泛型吗?
 
-Kotlin supports generics. It also supports declaration-site variance and usage-site variance. Kotlin also does not have wildcard types. Inline functions support reified type parameters.
+Kotlin 支持泛型. 它还支持声明处的类型变异(declaration-site variance )和使用处类型变异(usage-site variance). 而且 Kotlin 没有通配符类型. 内联函数(Inline function)支持实体化的类型参数(reified type parameter).
 
-### Are semicolons required?
+### 语句末尾需要分号(semicolon)吗?
 
-No. They are optional.
+不. 分号是可选的.
 
-### Are curly braces required?
+### 需要大括号(curly brace)吗?
 
-Yes.
+是的.
 
-### Why have type declarations on the right?
+### 为什么要将类型声明放在右侧?
 
-We believe it makes the code more readable. Besides, it enables some nice syntactic features. For instance, it is easy to leave type annotations out. Scala has also
-proven pretty well this is not a problem.
+我们认为这样可以提高代码的可读性. 此外, 这样还有助于实现一些很好的语法功能. 比如, 可以很容易地省略类型声明. Scala 也证明了这种设计没有问题.
 
-### Will right-handed type declarations affect tooling?
+### 类型声明放在右侧会不会对开发工具造成不好的影响?
 
-No. It won't. We can still implement suggestions for variable names, etc.
+不会. 我们照样可以实现变量名称的自动提示之类的功能.
 
-### Is Kotlin extensible?
+### Kotlin 可以扩展吗?
 
-We are planning on making it extensible in a few ways: from inline functions to annotations and type loaders.
+我们计划让它变得可扩展, 方法包括: 内联函数, 注解, 类型装载器(type loader).
 
-### Can I embed my DSL into the language?
+### 我能将自己的 DSL 嵌入到 Kotlin 中吗?
 
-Yes. Kotlin provides a few features that help: Operator overloading, Custom Control Structures via inline functions, Infix function calls, Extension Functions, Annotations and
-language quotations.
+可以. Kotlin 提供了一些特性可以帮助你: 操作符重载, 通过内联函数实现自定义的控制结构, 使用中缀(infix)语法调用函数, 扩展函数, 注解, 以及语言引用(language quotation).
 
-### What ECMAScript level does the JavaScript support?
+### JavaScript 支持的 ECMAScript 级别是多少?
 
-Currently at 5.
+目前是 5.
 
-### Does the JavaScript back-end support module systems?
+### JavaScript 后端支持模块系统(module system)吗?
 
-Yes. There are plans to provide CommonJS and AMD support.
+是的. 我们计划提供 CommonJS 和 AMD 支持.
 
 

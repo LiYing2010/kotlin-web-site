@@ -2,18 +2,18 @@
 type: doc
 layout: reference
 category: "Syntax"
-title: "Object Expressions and Declarations"
+title: "对象表达式与对象声明"
 ---
 
-# Object Expressions and Declarations
+# 对象表达式(Object Expression)与对象声明(Object Declaration)
 
-Sometimes we need to create an object of a slight modification of some class, without explicitly declaring a new subclass for it.
-Java handles this case with *anonymous inner classes*.
-Kotlin slightly generalizes this concept with *object expressions* and *object declarations*.
+有时我们需要创建一个对象, 这个对象在某个类的基础上略做修改, 但又不希望仅仅为了这一点点修改就明确地声明一个新类.
+Java 通过 *匿名内部类(anonymous inner class)* 来解决这种问题.
+Kotlin 使用 *对象表达式(object expression)* 和 *对象声明(object declaration)*, 对这个概念略做了一点泛化.
 
-## Object expressions
+## 对象表达式(Object expression)
 
-To create an object of an anonymous class that inherits from some type (or types), we write:
+要创建一个继承自某个类(或多个类)的匿名类的对象, 我们需要写这样的代码:
 
 ``` kotlin
 window.addMouseListener(object : MouseAdapter() {
@@ -27,8 +27,8 @@ window.addMouseListener(object : MouseAdapter() {
 })
 ```
 
-If a supertype has a constructor, appropriate constructor parameters must be passed to it.
-Many supertypes may be specified as a comma-separated list after the colon:
+如果某个基类有构造器, 那么必须向构造器传递适当的参数.
+通过冒号之后的逗号分隔的类型列表, 可以指定多个基类:
 
 
 ``` kotlin
@@ -43,7 +43,7 @@ val ab = object : A(1), B {
 }
 ```
 
-If, by any chance, we need "just an object", with no nontrivial supertypes, we can simply say:
+如果, 我们 "只需要对象", 而不需要继承任何有价值的基类, 我们可以简单地写:
 
 ``` kotlin
 val adHoc = object {
@@ -53,8 +53,8 @@ val adHoc = object {
 print(adHoc.x + adHoc.y)
 ```
 
-Just like Java's anonymous inner classes, code in object expressions can access variables from the enclosing scope.
-(Unlike Java, this is not restricted to final variables.)
+与 Java 的匿名内部类(anonymous inner class)类似, 对象表达式内的代码可以访问创建这个对象的代码范围内的变量.
+(与 Java 不同的是, 被访问的变量不需要被限制为 final 变量.)
 
 ``` kotlin
 fun countClicks(window: JComponent) {
@@ -74,9 +74,9 @@ fun countClicks(window: JComponent) {
 }
 ```
 
-## Object declarations
+## 对象声明(Object declaration)
 
-[Singleton](http://en.wikipedia.org/wiki/Singleton_pattern) is a very useful pattern, and Kotlin (after Scala) makes it easy to declare singletons:
+[单例模式](http://en.wikipedia.org/wiki/Singleton_pattern) 是一种非常有用的模式, Kotlin (继 Scala 之后) 可以非常便利地声明一个单例:
 
 ``` kotlin
 object DataProviderManager {
@@ -89,8 +89,8 @@ object DataProviderManager {
 }
 ```
 
-This is called an *object declaration*. If there's a name following the *object*{: .keyword } keyword, we are not talking about an _expression_ anymore.
-We cannot assign such a thing to a variable, but we can refer to it by its name. Such objects can have supertypes:
+这样的代码称为一个 *对象声明(object declaration)*. 如果在 *object*{: .keyword } 关键字之后指定了一个名称, 那么它就不再是 _对象表达式_ 了.
+我们不能再将它赋值给一个变量, 但我们可以通过它的名称来引用它. 这样的对象也可以指定基类:
 
 ``` kotlin
 object DefaultListener : MouseAdapter() {
@@ -104,12 +104,12 @@ object DefaultListener : MouseAdapter() {
 }
 ```
 
-**NOTE**: object declarations can't be local (i.e. be nested directly inside a function), but they can be nested into other object declarations or non-inner classes.
+**注意**: 对象声明不可以是局部的(也就是说, 不可以直接嵌套在函数之内), 但可以嵌套在另一个对象声明之内, 或者嵌套在另一个非内部类(non-inner class)之内.
 
 
-### Companion Objects
+### 同伴对象(Companion Object)
 
-An object declaration inside a class can be marked with the *companion*{: .keyword } keyword:
+一个类内部的对象声明, 可以使用 *companion*{: .keyword } 关键字标记为同伴对象:
 
 ``` kotlin
 class MyClass {
@@ -119,13 +119,13 @@ class MyClass {
 }
 ```
 
-Members of the companion object can be called by using simply the class name as the qualifier:
+我们可以直接使用类名称作为限定符来访问同伴对象的成员:
 
 ``` kotlin
 val instance = MyClass.create()
 ```
 
-The name of the companion object can be omitted, in which case the name `Companion` will be used:
+同伴对象的名称可以省略, 如果省略, 则会使用默认名称 `Companion`:
 
 ``` kotlin
 class MyClass {
@@ -136,8 +136,7 @@ class MyClass {
 val x = MyClass.Companion
 ```
 
-Note that, even though the members of companion objects look like static members in other languages, at runtime those
-are still instance members of real objects, and can, for example, implement interfaces:
+注意, 虽然同伴对象的成员看起来很像其他语言中的类的静态成员(static member), 但在运行时期, 这些成员仍然是真实对象的实例的成员, 它们与静态成员是不同的, 举例来说, 它还可以实现接口:
 
 ``` kotlin
 interface Factory<T> {
@@ -152,16 +151,14 @@ class MyClass {
 }
 ```
 
-However, on the JVM you can have members of companion objects generated as real static methods and fields, if you use
-the `@JvmStatic` annotation. See the [Java interoperability](java-interop.html#static-methods-and-fields) section
-for more details.
+但是, 如果使用 `@JvmStatic` 注解, 你可以让同伴对象的成员在 JVM 上被编译为真正的静态方法(static method)和静态域(static field). 详情请参见 [与 Java 的互操作性](java-interop.html#static-methods-and-fields).
 
 
-### Semantic difference between object expressions and declarations
+### 对象表达式与对象声明在语义上的区别
 
-There is one important semantic difference between object expressions and object declarations:
+对象表达式与对象声明在语义上存在一个重要的区别:
 
-* object declarations are initialized **lazily**, when accessed for the first time
-* object expressions are executed (and initialized) **immediately**, where they are used
+* 对象声明是 **延迟(lazily)** 初始化的, 只会在首次访问时才会初始化
+* 对象表达式则会在使用处 **立即** 执行(并且初始化)
 
 

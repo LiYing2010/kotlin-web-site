@@ -2,24 +2,23 @@
 type: doc
 layout: reference
 category: "Syntax"
-title: "Inline Functions"
+title: "内联函数"
 ---
 
-# Inline Functions
+# 内联函数(Inline Function)
 
-Using [higher-order functions](lambdas.html) imposes certain runtime penalties: each function is an object, and it captures a closure,
-i.e. those variables that are accessed in the body of the function.
-Memory allocations (both for function objects and classes) and virtual calls introduce runtime overhead.
+使用 [高阶函数](lambdas.html) 在运行时会带来一些不利: 每个函数都是一个对象, 而且它还要捕获一个闭包, 也就是, 在函数体内部访问的那些外层变量.
+内存占用(函数对象和类都会占用内存) 以及虚方法调用都会带来运行时的消耗.
 
-But it appears that in many cases this kind of overhead can be eliminated by inlining the lambda expressions.
-The functions shown above are good examples of this situation. I.e., the `lock()` function could be easily inlined at call-sites.
-Consider the following case:
+但在很多情况下, 通过将 Lambda 表达式内联在使用处, 可以消除这些运行时消耗.
+上文中的那些函数就是很好的例子. 也就是说, `lock()` 函数可以很容易地内联在调用处.
+看看下面的例子:
 
 ``` kotlin
 lock(l) { foo() }
 ```
 
-Instead of creating a function object for the parameter and generating a call, the compiler could emit the following code
+编译器可以直接产生下面的代码, 而不必为参数创建函数对象, 然后再调用这个参数指向的函数:
 
 ``` kotlin
 l.lock()
@@ -31,9 +30,9 @@ finally {
 }
 ```
 
-Isn't it what we wanted from the very beginning?
+这不就是我们最初期望的东西吗?
 
-To make the compiler do this, we need to mark the `lock()` function with the `inline` modifier:
+为了让编译器做到这点, 我们需要使用 `inline` 修饰符标记 `lock()` 函数:
 
 ``` kotlin
 inline fun lock<T>(lock: Lock, body: () -> T): T {
@@ -41,16 +40,13 @@ inline fun lock<T>(lock: Lock, body: () -> T): T {
 }
 ```
 
-The `inline` modifier affects both the function itself and the lambdas passed to it: all of those will be inlined
-into the call site.
+`inline` 修饰符既会影响到函数本身, 也影响到传递给它的 Lambda 表达式: 这两者都会被内联到调用处.
 
-Inlining may cause the generated code to grow, but if we do it in a reasonable way (do not inline big functions)
-it will pay off in performance, especially at "megamorphic" call-sites inside loops.
+函数内联也许会导致编译产生的代码尺寸变大, 但如果我们使用合理(不要内联太大的函数), 可以换来性能的提高, 尤其是在循环内发生的 "megamorphic" 函数调用. (译注: megamorphic 意义不明)
 
 ## noinline
 
-In case you want only some of the lambdas passed to an inline function to be inlined, you can mark some of your function
-parameters with the `noinline` modifier:
+如果一个内联函数的参数中有多个 Lambda 表达式, 而你只希望内联其中的一部分, 你可以对函数的一部分参数添加 `noinline` 标记:
 
 ``` kotlin
 inline fun foo(inlined: () -> Unit, noinline notInlined: () -> Unit) {
@@ -58,53 +54,45 @@ inline fun foo(inlined: () -> Unit, noinline notInlined: () -> Unit) {
 }
 ```
 
-Inlinable lambdas can only be called inside the inline functions or passed as inlinable arguments,
-but `noinline` ones can be manipulated in any way we like: stored in fields, passed around etc.
+可内联的 Lambda 表达式只能在内联函数内部调用, 或者再作为可内联的参数传递给其他函数, 但 `noinline` 的 Lambda 表达式可以按照我们喜欢的方式任意使用: 可以保存在域内, 也可以当作参数传递, 等等.
 
-Note that if an inline function has no inlinable function parameters and no
-[reified type parameters](#reified-type-parameters), the compiler will issue a warning, since inlining such functions is
- very unlikely to be beneficial (you can suppress the warning if you are sure the inlining is needed).
+注意. 如果一个内联函数不存在可以内联的函数类型参数, 而且没有 [实体化的类型参数](#reified-type-parameters), 编译器将会产生一个警告, 因为将这样的函数内联不太可能带来任何益处(如果你确信需要内联, 可以关闭这个警告).
 
-## Non-local returns
+## 非局部返回(Non-local return)
 
-In Kotlin, we can only use a normal, unqualified `return` to exit a named function or an anonymous function.
-This means that to exit a lambda, we have to use a [label](returns.html#return-at-labels), and a bare `return` is forbidden
-inside a lambda, because a lambda can not make the enclosing function return:
+在 Kotlin 中, 使用无限定符的通常的 `return` 语句, 只能用来退出一个有名称的函数, 或匿名函数.
+这就意味着, 要退出一个 Lambda 表达式, 我们必须使用一个 [标签](returns.html#return-at-labels), 无标签的 `return` 在 Lambda 表达式内是禁止使用的, 因为 Lambda 表达式不允许强制包含它的函数返回:
 
 ``` kotlin
 fun foo() {
   ordinaryFunction {
-     return // ERROR: can not make `foo` return here
+     return // 错误: 这里不允许让 `foo` 函数返回
   }
 }
 ```
 
-But if the function the lambda is passed to is inlined, the return can be inlined as well, so it is allowed:
+但是, 如果 Lambda 表达式被传递去的函数是内联函数, 那么 return 语句也可以内联, 因此 return 是允许的:
 
 ``` kotlin
 fun foo() {
   inlineFunction {
-    return // OK: the lambda is inlined
+    return // OK: 这里的 Lambda 表达式是内联的
   }
 }
 ```
 
-Such returns (located in a lambda, but exiting the enclosing function) are called *non-local* returns. We are used to
-this sort of constructs in loops, which inline functions often enclose:
+这样的 return 语句(位于 Lambda 表达式内部, 但是退出包含 Lambda 表达式的函数) 成为 *非局部(non-local)* 返回. 我们在循环中经常用到这样的结构, 而循环也常常就是包含内联函数的地方:
 
 ``` kotlin
 fun hasZeros(ints: List<Int>): Boolean {
   ints.forEach {
-    if (it == 0) return true // returns from hasZeros
+    if (it == 0) return true // 从 hasZeros 函数返回
   }
   return false
 }
 ```
 
-Note that some inline functions may call the lambdas passed to them as parameters not directly from the function body,
-but from another execution context, such as a local object or a nested function. In such cases, non-local control flow
-is also not allowed in the lambdas. To indicate that, the lambda parameter needs to be marked with
-the `crossinline` modifier:
+注意, 有些内联函数可能并不在自己的函数体内直接调用传递给它的 Lambda 表达式参数, 而是通过另一个执行环境来调用, 比如通过一个局部对象, 或者一个嵌套函数. 这种情况下, 在 Lambda 表达式内, 非局部的控制流同样是禁止的. 为了标识这一点, Lambda 表达式参数需要添加 `crossinline` 修饰符:
 
 ``` kotlin
 inline fun f(crossinline body: () -> Unit) {
@@ -116,11 +104,11 @@ inline fun f(crossinline body: () -> Unit) {
 ```
 
 
-> `break` and `continue` are not yet available in inlined lambdas, but we are planning to support them too
+> 在内联的 Lambda 表达式中目前还不能使用 `break` 和 `continue`, 但我们计划将来支持它们
 
-## Reified type parameters
+## 实体化的类型参数(Reified type parameter)
 
-Sometimes we need to access a type passed to us as a parameter:
+有些时候我们需要访问作为参数传递来的类型:
 
 ``` kotlin
 fun <T> TreeNode.findParentOfType(clazz: Class<T>): T? {
@@ -133,20 +121,19 @@ fun <T> TreeNode.findParentOfType(clazz: Class<T>): T? {
 }
 ```
 
-Here, we walk up a tree and use reflection to check if a node has a certain type.
-It’s all fine, but the call site is not very pretty:
+这里, 我们向上遍历一颗树, 然后使用反射来检查节点是不是某个特定的类型. 这些都没问题, 但这个函数的调用代码不太漂亮:
 
 ``` kotlin
 myTree.findParentOfType(MyTreeNodeType::class.java)
 ```
 
-What we actually want is simply pass a type to this function, i.e. call it like this:
+我们真正需要的, 只是简单地将一个类型传递给这个函数, 也就是说, 象这样调用它:
 
 ``` kotlin
 myTree.findParentOfType<MyTreeNodeType>()
 ```
 
-To enable this, inline functions support *reified type parameters*, so we can write something like this:
+为了达到这个目的, 内联函数支持 *实体化的类型参数(reified type parameter)*, 使用这个功能我们可以将代码写成:
 
 ``` kotlin
 inline fun <reified T> TreeNode.findParentOfType(): T? {
@@ -158,11 +145,9 @@ inline fun <reified T> TreeNode.findParentOfType(): T? {
 }
 ```
 
-We qualified the type parameter with the `reified` modifier, now it’s accessible inside the function,
-almost as if it were a normal class. Since the function is inlined, no reflection is needed, normal operators like `!is`
-and `as` are working now. Also, we can call it as mentioned above: `myTree.findParentOfType<MyTreeNodeType>()`.
+我们给类型参数添加了 `reified` 修饰符, 现在, 它可以在函数内部访问了, 就好象它是一个普通的类一样. 由于函数是内联的, 因此不必使用反射, 通常的操作符, 比如 `!is` 和 `as` 都可以正常工作了. 此外, 我们可以象前面提到的那样来调用这个函数: `myTree.findParentOfType<MyTreeNodeType>()`.
 
-Though reflection may not be needed in many cases, we can still use it with a reified type parameter:
+虽然很多情况下并不需要, 但我们仍然可以对一个实体化的类型参数使用反射:
 
 ``` kotlin
 inline fun <reified T> membersOf() = T::class.members
@@ -172,8 +157,7 @@ fun main(s: Array<String>) {
 }
 ```
 
-Normal functions (not marked as inline) can not have reified parameters.
-A type that does not have a run-time representation (e.g. a non-reified type parameter or a fictitious type like `Nothing`)
-can not be used as an argument for a reified type parameter.
+通常的函数(没有使用 inline 标记的) 不能够使用实体化的类型参数.
+一个没有运行时表现的类型(比如, 一个没有实体化的类型参数, 或者一个虚拟类型, 比如 `Nothing`) 不可以用作实体化的类型参数.
 
-For a low-level description, see the [spec document](https://github.com/JetBrains/kotlin/blob/master/spec-docs/reified-type-parameters.md).
+关于实体化类型参数的更底层的介绍, 请参见 [规格文档](https://github.com/JetBrains/kotlin/blob/master/spec-docs/reified-type-parameters.md).

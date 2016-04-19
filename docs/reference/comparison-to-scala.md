@@ -2,44 +2,44 @@
 type: doc
 layout: reference
 category: FAQ
-title: "Comparison to Scala"
+title: "与 Scala 比较"
 ---
 
-# Comparison to Scala
+# 与 Scala 比较
 
-The main goal of the Kotlin team is to create a pragmatic and productive programming language, rather than to advance the state of the art in programming language research.
-Taking this into account, if you are happy with Scala, you most likely do not need Kotlin.
+Kotlin 的主要目标是创建一种实用的、高生产性的编程语言, 而不是验证编程语言理论研究的新结果.
+从这一点考虑, 如果你喜欢 Scala, 那么你很可能就不需要 Kotlin.
 
-## What Scala has that Kotlin does not
+## Scala 中有, 而 Kotlin 中没有的东西
 
-* Implicit conversions, parameters, etc
-    * In Scala, sometimes it's very hard to tell what's happening in your code without using a debugger, because too many implicits get into the picture
-    * To enrich your types with functions in Kotlin use [Extension functions](extensions.html).
-* Overridable type members
-* Path-dependent types
-* Macros
-* Existential types
-    * [Type projections](generics.html#type-projections) are a very special case
-* Complicated logic for initialization of traits
-    * See [Classes and Inheritance](classes.html)
-* Custom symbolic operations
-    * See [Operator overloading](operator-overloading.html)
-* Built-in XML
-    * See [Type-safe Groovy-style builders](type-safe-builders.html)
-* Structural types
-* Value types
-    * We plan to support [Project Valhalla](http://openjdk.java.net/projects/valhalla/) once it is released as part of the JDK
-* Yield operator
-* Actors
-    * Kotlin supports [Quasar](http://www.paralleluniverse.co/quasar/), a third-party framework for actor support on the JVM
-* Parallel collections
-    * Kotlin supports Java 8 streams, which provide similar functionality
+* 隐式转换, 参数, 等等
+    * 在 Scala 中, 有时不使用调试器简直很难搞清楚你的代码中究竟发生了什么, 因为在程序中出现了太多的隐含处理
+    * 要对你的类型添加新的功能, 在 Kotlin 中请使用 [扩展函数](extensions.html).
+* 可覆盖的类型成员(Overridable type member)
+* 路径依赖类型(Path-dependent type)
+* 宏
+* 存在类型(Existential type)
+    * [类型投射(Type projection)](generics.html#type-projections) 是一种很特殊的情况
+* 特征(trait)初始化中的复杂逻辑
+    * 参见 [类与继承](classes.html)
+* 自定义的符号化操作(symbolic operation)
+    * 参见 [操作符重载](operator-overloading.html)
+* 内建的 XML
+    * 参见 [类型安全的 Groovy 风格构建器(Type-safe Groovy-style builder)](type-safe-builders.html)
+* 结构化类型(Structural type)
+* 值类型(Value type)
+    * 当 [Valhalla 项目](http://openjdk.java.net/projects/valhalla/) 作为 JDK 的一部分发布时, 我们计划支持这个项目
+* Yield 操作符
+* Actor
+    * Kotlin 支持 [Quasar](http://www.paralleluniverse.co/quasar/), 一个第三方框架, 可以在 JVM 上支持 actor
+* 平行集合(Parallel collection)
+    * Kotlin 支持 Java 8 的 stream, 它可以提供类似的功能
 
-## What Kotlin has that Scala does not
+## Kotlin 中有, 而 Scala 中没有的东西
 
-* [Zero-overhead null-safety](null-safety.html)
-    * Scala has Option, which is a syntactic and run-time wrapper
-* [Smart casts](typecasts.html)
-* [Kotlin's Inline functions facilitate Nonlocal jumps](inline-functions.html#inline-functions)
-* [First-class delegation](delegation.html). Also implemented via 3rd party plugin: Autoproxy
-* [Member references](reflection.html#function-references) (also supported in Java 8).
+* [无任何额外耗费的 Null 值安全性](null-safety.html)
+    * Scala 中有 Option, 它是一种语法上的和运行时的封装
+* [类型智能转换](typecasts.html)
+* [Kotli 的内联函数可以帮助实现非局部的跳转(Nonlocal jump)](inline-functions.html#inline-functions)
+* [委托(First-class delegation)](delegation.html). 可以使用第三方 plugin 实现: Autoproxy
+* [成员引用](reflection.html#function-references) (Java 8 中也支持).

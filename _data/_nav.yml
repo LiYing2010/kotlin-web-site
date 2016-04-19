@@ -46,92 +46,92 @@ docs:
 # Reference navigation
 # ====================
 reference:
-  - title: Getting Started
+  - title: 入门
     description: Get familiar with the basics of Kotlin including operations, coding conventions and idioms.
     content:
-      - /docs/reference/basic-syntax.html: Basic Syntax
-      - /docs/reference/idioms.html: Idioms
-      - /docs/reference/coding-conventions.html: Coding Conventions
+      - /docs/reference/basic-syntax.html: 基本语法
+      - /docs/reference/idioms.html: 惯用法
+      - /docs/reference/coding-conventions.html: 编码规约
 
-  - title: Basics
+  - title: 基础
     description: The Basics
     content:
-      - /docs/reference/basic-types.html: Basic Types
-      - /docs/reference/packages.html: Packages
-      - /docs/reference/control-flow.html: Control Flow
-      - /docs/reference/returns.html: Returns and Jumps
+      - /docs/reference/basic-types.html: 基本类型
+      - /docs/reference/packages.html: 包
+      - /docs/reference/control-flow.html: 控制流
+      - /docs/reference/returns.html: 返回与跳转
 
-  - title: Classes and Objects
+  - title: 类与对象
     description: All about objects
     content:
-      - /docs/reference/classes.html: Classes and Inheritance
-      - /docs/reference/properties.html: Properties and Fields
-      - /docs/reference/interfaces.html: Interfaces
-      - /docs/reference/visibility-modifiers.html: Visibility Modifiers
-      - /docs/reference/extensions.html: Extensions
-      - /docs/reference/data-classes.html: Data Classes
-      - /docs/reference/generics.html: Generics
-      - /docs/reference/nested-classes.html: Nested Classes
-      - /docs/reference/enum-classes.html: Enum Classes
-      - /docs/reference/object-declarations.html: Objects
-      - /docs/reference/delegation.html: Delegation
-      - /docs/reference/delegated-properties.html: Delegated Properties
+      - /docs/reference/classes.html: 类与继承
+      - /docs/reference/properties.html: 属性(Property)与域(Field)
+      - /docs/reference/interfaces.html: 接口(Interface)
+      - /docs/reference/visibility-modifiers.html: 可见度修饰符
+      - /docs/reference/extensions.html: 扩展(Extension)
+      - /docs/reference/data-classes.html: 数据类
+      - /docs/reference/generics.html: 泛型(Generic)
+      - /docs/reference/nested-classes.html: 嵌套类
+      - /docs/reference/enum-classes.html: 枚举类
+      - /docs/reference/object-declarations.html: 对象
+      - /docs/reference/delegation.html: 委托
+      - /docs/reference/delegated-properties.html: 委托属性
 
-  - title: Functions and Lambdas
+  - title: 函数与 Lambda 表达式
     description: All about functions
     content:
-      - /docs/reference/functions.html: Functions
-      - /docs/reference/lambdas.html: Lambdas
-      - /docs/reference/inline-functions.html: Inline Functions
+      - /docs/reference/functions.html: 函数
+      - /docs/reference/lambdas.html: Lambda 表达式
+      - /docs/reference/inline-functions.html: 内联函数(Inline Function)
 
-  - title: Other
+  - title: 其他
     description: Various bits and bobs
     content:
-      - /docs/reference/multi-declarations.html: Destructuring Declarations
-      - /docs/reference/collections.html: Collections
-      - /docs/reference/ranges.html: Ranges
-      - /docs/reference/typecasts.html: Type Checks and Casts
-      - /docs/reference/this-expressions.html: This expressions
-      - /docs/reference/equality.html: Equality
-      - /docs/reference/operator-overloading.html: Operator overloading
-      - /docs/reference/null-safety.html: Null Safety
-      - /docs/reference/exceptions.html: Exceptions
-      - /docs/reference/annotations.html: Annotations
-      - /docs/reference/reflection.html: Reflection
-      - /docs/reference/type-safe-builders.html: Type-Safe Builders
-      - /docs/reference/dynamic-type.html: Dynamic Type
+      - /docs/reference/multi-declarations.html: 解构声明(Destructuring Declaration)
+      - /docs/reference/collections.html: 集合(Collection)
+      - /docs/reference/ranges.html: 值范围(Range)
+      - /docs/reference/typecasts.html: 类型检查与类型转换
+      - /docs/reference/this-expressions.html: this 表达式
+      - /docs/reference/equality.html: 相等判断
+      - /docs/reference/operator-overloading.html: 操作符重载(Operator overloading)
+      - /docs/reference/null-safety.html: Null 值安全性
+      - /docs/reference/exceptions.html: 异常(Exception)
+      - /docs/reference/annotations.html: 注解(Annotation)
+      - /docs/reference/reflection.html: 反射(Reflection)
+      - /docs/reference/type-safe-builders.html: 类型安全的构建器(Type-Safe Builder)
+      - /docs/reference/dynamic-type.html: 动态类型(Dynamic Type)
 
 
 
-  - title: Reference
+  - title: 参考
     description: API and Grammar
     content:
-      - /api/latest/jvm/stdlib/: API Reference
-      - /docs/reference/grammar.html: Grammar
+      - /api/latest/jvm/stdlib/index.html: API 文档
+      - /docs/reference/grammar.html: 语法
 
 
-  - title: Interop
+  - title: 与 Java 的互操作性
     description: What you need to know about interoperability with Java and JavaScript.
     content:
-      - /docs/reference/java-interop.html: Calling Java from Kotlin
-      - /docs/reference/java-to-kotlin-interop.html: Calling Kotlin from Java
+      - /docs/reference/java-interop.html: 在 Kotlin 中调用 Java
+      - /docs/reference/java-to-kotlin-interop.html: 在 Java 中调用 Kotlin
 
-  - title: Tools
+  - title: 工具
     description:
     content:
 #      - /docs/reference/kotlin-build-tools.html: Kotlin Build Tools
-      - /docs/reference/kotlin-doc.html: Documenting Kotlin Code
-      - /docs/reference/using-maven.html: Using Maven
-      - /docs/reference/using-ant.html: Using Ant
-      - /docs/reference/using-gradle.html: Using Gradle
-      - /docs/reference/kotlin-osgi.html: Kotlin and OSGi
+      - /docs/reference/kotlin-doc.html: 为 Kotlin 代码编写文档
+      - /docs/reference/using-maven.html: 使用 Maven
+      - /docs/reference/using-ant.html: 使用 Ant
+      - /docs/reference/using-gradle.html: 使用 Gradle
+      - /docs/reference/kotlin-osgi.html: Kotlin 与 OSGi
 
   - title: FAQ
     description: Every question you could possibly think of, might be answered.
     content:
       - /docs/reference/faq.html: FAQ
-      - /docs/reference/comparison-to-java.html: Comparison to Java
-      - /docs/reference/comparison-to-scala.html: Comparison to Scala
+      - /docs/reference/comparison-to-java.html: 与 Java 比较
+      - /docs/reference/comparison-to-scala.html: 与 Scala 比较
 
 
 
@@ -148,7 +148,7 @@ tutorials:
   - title: JavaScript
     content:
       - /docs/tutorials/create-library-js.html: Creating Kotlin/JavaScript library with IntelliJ IDEA
-      - /docs/tutorials/command-line-library-js.html: Creating Kotlin/JavaScript library with the Command Line Compiler       
+      - /docs/tutorials/command-line-library-js.html: Creating Kotlin/JavaScript library with the Command Line Compiler
   - title: Interop
     content:
       - /docs/tutorials/mixing-java-kotlin-intellij.html: Mixing Java and Kotlin in one project

@@ -1,23 +1,23 @@
 ---
 type: doc
 layout: reference
-title: "Using Maven"
+title: "使用 Maven"
 description: "This tutorials walks you through different scenarios when using Maven for building applications that contain Kotlin code"
 ---
 
-# Using Maven
+# 使用 Maven
 
-## Plugin and Versions
+## 插件与版本
 
-The *kotlin-maven-plugin* compiles Kotlin sources and modules. Currently only Maven v3 is supported.
+*kotlin-maven-plugin* 插件用来在 maven 环境中编译 Kotlin 源代码和模块. 目前只支持 Maven v3.
 
-Define the version of Kotlin you want to use via *kotlin.version*. The correspondence between Kotlin releases and versions is displayed below:
+可以通过 *kotlin.version* 变量来指定你希望使用的 Kotlin 版本. 下表是 Kotlin 的 Release 版本名称与版本号之间的对应关系:
 
 <table>
 <thead>
 <tr>
-  <th>Milestone</th>
-  <th>Version</th>
+  <th>Release 版本名</th>
+  <th>版本号</th>
 </tr>
 </thead>
 <tbody>
@@ -31,9 +31,9 @@ Define the version of Kotlin you want to use via *kotlin.version*. The correspon
 </table>
 
 
-## Dependencies
+## 依赖
 
-Kotlin has an extensive standard library that can be used in your applications. Configure the following dependency in the pom file
+Kotlin 有一个内容广泛的标准库, 可以在你的应用程序中使用. 请在 pom 文件中添加以下依赖设置:
 
 ``` xml
 <dependencies>
@@ -45,16 +45,16 @@ Kotlin has an extensive standard library that can be used in your applications. 
 </dependencies>
 ```
 
-## Compiling Kotlin only source code
+## 编译 Kotlin 源代码
 
-To compile source code, specify the source directories in the <build> tag:
+要编译 Kotlin 源代码, 请在 <build> 标签内指定源代码目录:
 
 ``` xml
 <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
 <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
 ```
 
-The Kotlin Maven Plugin needs to be referenced to compile the sources:
+编译源代码时, 需要引用 Kotlin Maven 插件:
 
 ``` xml
 
@@ -77,12 +77,12 @@ The Kotlin Maven Plugin needs to be referenced to compile the sources:
 </plugin>
 ```
 
-## Compiling Kotlin and Java sources
+## 编译 Kotlin 和 Java 的混合源代码
 
-To compile mixed code applications Kotlin compiler should be invoked before Java compiler.
-In maven terms that means kotlin-maven-plugin should be run before maven-compiler-plugin.
+要编译混合源代码的应用程序, 需要在 Java 编译器之前调用 Kotlin 编译器.
+用 Maven 的术语来说就是, kotlin-maven-plugin 应该在 maven-compiler-plugin 之前运行.
 
-It could be done by moving Kotlin compilation to previous phase, process-sources (feel free to suggest a better solution if you have one):
+为了达到这个目的, 可以将 Kotlin 编译动作移动到比 Java 编译当作更前的 process-sources 步骤(phase)(如果你有更好的解决方法, 欢迎告诉我们):
 
 ``` xml
 <plugin>
@@ -108,8 +108,8 @@ It could be done by moving Kotlin compilation to previous phase, process-sources
 
 ## OSGi
 
-For OSGi support see the [Kotlin OSGi page](kotlin-osgi.html).
+关于对 OSGi 的支持, 请参见 [Kotlin 与 OSGi](kotlin-osgi.html).
 
-## Examples
+## 示例
 
-An example Maven project can be [downloaded directly from the GitHub repository](https://github.com/JetBrains/kotlin-examples/archive/master/maven.zip)
+我们提供了一个 Maven 工程示例, 可以 [通过 GitHub 仓库下载](https://github.com/JetBrains/kotlin-examples/archive/master/maven.zip).

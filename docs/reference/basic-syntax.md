@@ -1,15 +1,15 @@
 ---
 type: doc
 layout: reference
-category: "Basics"
-title: "Basic Syntax"
+category: "基础"
+title: "基本语法"
 ---
 
-# Basic Syntax
+# 基本语法
 
-## Defining packages
+## 定义包
 
-Package specification should be at the top of the source file:
+包的定义应该在源代码文件的最上方:
 
 ``` kotlin
 package my.demo
@@ -19,13 +19,13 @@ import java.util.*
 // ...
 ```
 
-It is not required to match directories and packages: source files can be placed arbitrarily in the file system.
+源代码所在的目录结构不必与包结构保持一致: 源代码文件可以放置在文件系统的任意位置.
 
-See [Packages](packages.html).
+参见 [包](packages.html).
 
-## Defining functions
+## 定义函数
 
-Function having two `Int` parameters with `Int` return type:
+以下函数接受两个 `Int` 类型参数, 并返回 `Int` 类型结果:
 
 ``` kotlin
 fun sum(a: Int, b: Int): Int {
@@ -33,13 +33,13 @@ fun sum(a: Int, b: Int): Int {
 }
 ```
 
-Function with an expression body and inferred return type:
+以下函数使用表达式语句作为函数体, 返回类型由自动推断决定:
 
 ``` kotlin
 fun sum(a: Int, b: Int) = a + b
 ```
 
-Function returning no meaningful value:
+以下函数不返回有意义的结果:
 
 ``` kotlin
 fun printSum(a: Int, b: Int): Unit {
@@ -47,7 +47,7 @@ fun printSum(a: Int, b: Int): Unit {
 }
 ```
 
-`Unit` return type can be omitted:
+返回值为 `Unit` 类型时, 可以省略:
 
 ``` kotlin
 fun printSum(a: Int, b: Int) {
@@ -55,45 +55,45 @@ fun printSum(a: Int, b: Int) {
 }
 ```
 
-See [Functions](functions.html).
+参见 [函数](functions.html).
 
-## Defining local variables
+## 定义局部变量
 
-Assign-once (read-only) local variable:
+一次性赋值 (只读) 的局部变量:
 
 ``` kotlin
 val a: Int = 1
-val b = 1   // `Int` type is inferred
-val c: Int  // Type required when no initializer is provided
-c = 1       // definite assignment
+val b = 1   // 变量类型自动推断为 `Int` 类型
+val c: Int  // 没有初始化语句时, 必须明确指定类型
+c = 1       // 明确赋值
 ```
 
-Mutable variable:
+值可变的变量:
 
 ``` kotlin
-var x = 5 // `Int` type is inferred
+var x = 5 // 变量类型自动推断为 `Int` 类型
 x += 1
 ```
 
-See also [Properties And Fields](properties.html).
+参见 [属性(Property)与域(Field)](properties.html).
 
 
-## Comments
+## 注释
 
-Just like Java and JavaScript, Kotlin supports end-of-line and block comments.
+与 Java 和 JavaScript 一样, Kotlin 支持行末注释, 也支持块注释.
 
 ``` kotlin
-// This is an end-of-line comment
+// 这是一条行末注释
 
-/* This is a block comment
-   on multiple lines. */
+/* 这是一条块注释
+   可以包含多行内容. */
 ```
 
-Unlike Java, block comments in Kotlin can be nested.
+与 Java 不同, Kotlin 中的块注释允许嵌套.
 
-See [Documenting Kotlin Code](kotlin-doc.html) for information on the documentation comment syntax.
+关于文档注释的语法, 详情请参见 [Kotlin 代码中的文档](kotlin-doc.html).
 
-## Using string templates
+## 使用字符串模板
 
 ``` kotlin
 fun main(args: Array<String>) {
@@ -103,9 +103,9 @@ fun main(args: Array<String>) {
 }
 ```
 
-See [String templates](basic-types.html#string-templates).
+参见 [字符串模板](basic-types.html#string-templates).
 
-## Using conditional expressions
+## 使用条件表达式
 
 ``` kotlin
 fun max(a: Int, b: Int): Int {
@@ -116,19 +116,19 @@ fun max(a: Int, b: Int): Int {
 }
 ```
 
-Using *if*{: .keyword } as an expression:
+以表达式的形式使用 *if*{: .keyword }:
 
 ``` kotlin
 fun max(a: Int, b: Int) = if (a > b) a else b
 ```
 
-See [*if*{: .keyword }-expressions](control-flow.html#if-expression).
+参见 [*if*{: .keyword } 表达式](control-flow.html#if-expression).
 
-## Using nullable values and checking for *null*{: .keyword }
+## 使用可为 null 的值, 以及检查 *null*{: .keyword }
 
-A reference must be explicitly marked as nullable when *null*{: .keyword } value is possible.
+当一个引用可能为 *null*{: .keyword } 值时, 对应的类型声明必须明确地标记为可为 null.
 
-Return *null*{: .keyword } if `str` does not hold an integer:
+当 `str` 中的字符串内容不是一个整数时, 返回 *null*{: .keyword }:
 
 ``` kotlin
 fun parseInt(str: String): Int? {
@@ -136,7 +136,7 @@ fun parseInt(str: String): Int? {
 }
 ```
 
-Use a function returning nullable value:
+以下示例演示如何使用一个返回值可为 null 的函数:
 
 ``` kotlin
 fun main(args: Array<String>) {
@@ -148,15 +148,15 @@ fun main(args: Array<String>) {
   val x = parseInt(args[0])
   val y = parseInt(args[1])
 
-  // Using `x * y` yields error because they may hold nulls.
+  // 直接使用 `x * y` 会导致错误, 因为它们可能为 null.
   if (x != null && y != null) {
-    // x and y are automatically cast to non-nullable after null check
+    // 在进行过 null 值检查之后, x 和 y 的类型会被自动转换为非 null 变量
     print(x * y)
   }
 }
 ```
 
-or
+或者
 
 ``` kotlin
   // ...
@@ -169,46 +169,46 @@ or
     return
   }
 
-  // x and y are automatically cast to non-nullable after null check
+  // 在进行过 null 值检查之后, x 和 y 的类型会被自动转换为非 null 变量
   print(x * y)
 ```
 
-See [Null-safety](null-safety.html).
+参见 [Null 值安全](null-safety.html).
 
-## Using type checks and automatic casts
+## 使用类型检查和自动类型转换
 
-The *is*{: .keyword } operator checks if an expression is an instance of a type.
-If an immutable local variable or property is checked for a specific type, there's no need to cast it explicitly:
+*is*{: .keyword } 运算符可以检查一个表达式的值是不是某个类型的实例.
+如果对一个不可变的局部变量或属性进行过类型检查, 那么之后的代码就不必再对它进行显式地类型转换, 而可以直接将它当作需要的类型来使用:
 
 ``` kotlin
 fun getStringLength(obj: Any): Int? {
   if (obj is String) {
-    // `obj` is automatically cast to `String` in this branch
+    // 在这个分支中, `obj` 的类型会被自动转换为 `String`
     return obj.length
   }
 
-  // `obj` is still of type `Any` outside of the type-checked branch
+  // 在类型检查所影响的分支之外, `obj` 的类型仍然是 `Any`
   return null
 }
 ```
 
-or
+或者
 
 ``` kotlin
 fun getStringLength(obj: Any): Int? {
   if (obj !is String)
     return null
 
-  // `obj` is automatically cast to `String` in this branch
+  // 在这个分支中, `obj` 的类型会被自动转换为 `String`
   return obj.length
 }
 ```
 
-or even
+甚至还可以
 
 ``` kotlin
 fun getStringLength(obj: Any): Int? {
-  // `obj` is automatically cast to `String` on the right-hand side of `&&`
+  // 在 `&&` 运算符的右侧, `obj` 的类型会被自动转换为 `String`
   if (obj is String && obj.length > 0)
     return obj.length
 
@@ -216,9 +216,9 @@ fun getStringLength(obj: Any): Int? {
 }
 ```
 
-See [Classes](classes.html) and [Type casts](typecasts.html).
+参见 [类](classes.html) 和 [类型转换](typecasts.html).
 
-## Using a `for` loop
+## 使用 `for` 循环
 
 ``` kotlin
 fun main(args: Array<String>) {
@@ -227,16 +227,16 @@ fun main(args: Array<String>) {
 }
 ```
 
-or
+或者
 
 ``` kotlin
 for (i in args.indices)
   print(args[i])
 ```
 
-See [for loop](control-flow.html#for-loops).
+参见 [for 循环](control-flow.html#for-loops).
 
-## Using a `while` loop
+## 使用 `while` 循环
 
 ``` kotlin
 fun main(args: Array<String>) {
@@ -246,9 +246,9 @@ fun main(args: Array<String>) {
 }
 ```
 
-See [while loop](control-flow.html#while-loops).
+参见 [while 循环](control-flow.html#while-loops).
 
-## Using `when` expression
+## 使用 `when` 表达式
 
 ``` kotlin
 fun cases(obj: Any) {
@@ -262,50 +262,50 @@ fun cases(obj: Any) {
 }
 ```
 
-See [when expression](control-flow.html#when-expression).
+参见 [when expression](control-flow.html#when-expression).
 
-## Using ranges
+## 使用范围值
 
-Check if a number is within a range using *in*{: .keyword } operator:
+使用 *in*{: .keyword } 运算符检查一个数值是否在某个范围之内:
 
 ``` kotlin
 if (x in 1..y-1)
   print("OK")
 ```
 
-Check if a number is out of range:
+检查一个数值是否在某个范围之外:
 
 ``` kotlin
 if (x !in 0..array.lastIndex)
   print("Out")
 ```
 
-Iterating over a range:
+在一个值范围内进行遍历迭代:
 
 ``` kotlin
 for (x in 1..5)
   print(x)
 ```
 
-See [Ranges](ranges.html).
+参见 [范围](ranges.html).
 
-## Using collections
+## 使用集合(Collection)
 
-Iterating over a collection:
+在一个集合上进行遍历迭代:
 
 ``` kotlin
 for (name in names)
   println(name)
 ```
 
-Checking if a collection contains an object using *in*{: .keyword } operator:
+使用 *in*{: .keyword } 运算符检查一个集合是否包含某个对象:
 
 ``` kotlin
-if (text in names) // names.contains(text) is called
+if (text in names) // 将会调用 names.contains(text) 方法
   print("Yes")
 ```
 
-Using lambda expressions to filter and map collections:
+使用 Lambda 表达式, 对集合元素进行过滤和变换:
 
 ``` kotlin
 names
@@ -315,5 +315,5 @@ names
     .forEach { print(it) }
 ```
 
-See [Higher-order functions and Lambdas](lambdas.html).
+参见 [高阶函数与 Lambda 表达式](lambdas.html).
 

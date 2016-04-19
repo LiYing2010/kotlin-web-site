@@ -2,52 +2,49 @@
 type: doc
 layout: reference
 category: "Syntax"
-title: "Dynamic Type"
+title: "动态类型"
 ---
 
-# Dynamic Type
+# 动态类型(Dynamic Type)
 
-> The dynamic type is not supported in code targeting the JVM
+> 当编译目标平台为 JVM 时, 不支持动态类型 
 {:.note}
 
-Being a statically typed language, Kotlin still has to interoperate with untyped or loosely typed environments,
-such as the JavaScript ecosystem. To facilitate these use cases, the `dynamic` type is available in the language:
+Kotlin 虽然是一种静态类型的语言, 但它仍然可以与无类型或松散类型的环境互操作, 比如各种 JavaScript 环境. 为了为这样的使用场景提供帮助, Kotlin 提供了 `dynamic` 类型:
 
 ``` kotlin
 val dyn: dynamic = ...
 ```
 
-The `dynamic` type basically turns off Kotlin's type checker:
+简单来说, `dynamic` 类型关闭了 Kotlin 的类型检查:
 
-  - a value of this type can be assigned to any variable or passed anywhere as a parameter,
-  - any value can be assigned to a variable of type `dynamic` or passed to a function that takes `dynamic` as a parameter,
-  - `null`-checks are disabled for such values.
+  - 这个类型的值可以赋值给任意变量, 也可以作为参数传递给任何函数,
+  - 任何值都可以复制给 `dynamic` 类型的变量, 也可以传递给函数的 `dynamic` 类型参数,
+  - 对这些值不做 `null` 检查.
 
-The most peculiar feature of `dynamic` is that we are allowed to call **any** property or function with any parameters
-on a `dynamic` variable:
+`dynamic` 类型最特殊的功能是, 允许我们对 `dynamic` 类型变量访问它的 **任何** 属性, 还可以使用任意参数访问它的 **任何** 函数:
 
 ``` kotlin
-dyn.whatever(1, "foo", dyn) // 'whatever' is not defined anywhere
+dyn.whatever(1, "foo", dyn) // 没有在任何地方定义过 'whatever'
 dyn.whatever(*arrayOf(1, 2, 3))
 ```
 
-On the JavaScript platform this code will be compiled "as is": `dyn.whatever(1)` in Kotlin becomes `dyn.whatever(1)` in
-the generated JavaScript code.
+在 JavaScript 平台上, 这些代码会被"原封不动"地编译: Kotlin 代码中的 `dyn.whatever(1)`, 编译产生的 JavaScript 代码就是同样的 `dyn.whatever(1)`.
 
-A dynamic call always returns `dynamic` as a result, so we can chain such calls freely:
+一个动态调用永远会返回一个 `dynamic` 的结果, 因此我们可以将这些调用自由地串联起来:
 
 ``` kotlin
 dyn.foo().bar.baz()
 ```
 
-When we pass a lambda to a dynamic call, all of its parameters by default have the type `dynamic`:
+当我们向一个动态调用传递一个 Lambda 表达式作为参数时, Lambda 表达式的所有参数类型默认都是 `dynamic`:
 
 ``` kotlin
 dyn.foo {
-  x -> x.bar() // x is dynamic
+  x -> x.bar() // x 是 dynamic 类型
 }
 ```
 
-For a more technical description, see the [spec document](https://github.com/JetBrains/kotlin/blob/master/spec-docs/dynamic-types.md).
+关于更加深入的技术性介绍, 请参见 [规格文档](https://github.com/JetBrains/kotlin/blob/master/spec-docs/dynamic-types.md).
 
 

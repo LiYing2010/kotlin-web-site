@@ -2,12 +2,12 @@
 type: doc
 layout: reference
 category: "Syntax"
-title: "Packages"
+title: "包"
 ---
 
-# Packages
+# 包
 
-A source file may start with a package declaration:
+源代码文件的开始部分可以是包声明:
 
 ``` kotlin
 package foo.bar
@@ -19,43 +19,43 @@ class Goo {}
 // ...
 ```
 
-All the contents (such as classes and functions) of the source file are contained by the package declared.
-So, in the example above, the full name of `baz()` is `foo.bar.baz`, and the full name of `Goo` is `foo.bar.Goo`. 
+源代码内的所有内容(比如类, 函数)全部都包含在所声明的包之内.
+因此, 上面的示例代码中, `baz()` 函数的完整名称将是 `foo.bar.baz`, `Goo` 类的完整名称将是 `foo.bar.Goo`. 
  
-If the package is not specified, the contents of such a file belong to "default" package that has no name.
+如果没有指定包, 那么源代码文件中的内容将属于 "default" 包, 这个包没有名称.
 
-## Imports
+## 导入(Import)
 
-Apart from the default imports, each file may contain its own import directives.
-Syntax for imports is described in the [grammar](grammar.html#import).
+除默认导入(Import)的内容之外, 各源代码可以包含自己独自的 import 指令.
+import 指令的语法请参见 [语法](grammar.html#import).
 
-We can import either a single name, e.g.
-
-``` kotlin
-import foo.Bar // Bar is now accessible without qualification
-```
-
-or all the accessible contents of a scope (package, class, object etc):
+我们可以导入一个单独的名称, 比如
 
 ``` kotlin
-import foo.* // everything in 'foo' becomes accessible
+import foo.Bar // 导入后 Bar 就可以直接访问, 不必指定完整的限定符
 ```
 
-If there is a name clash, we can disambiguate by using *as*{: .keyword } keyword to locally rename the clashing entity:
+也可以导入某个范围(包, 类, 对象, 等等)之内所有可访问的内容:
 
 ``` kotlin
-import foo.Bar // Bar is accessible
-import bar.Bar as bBar // bBar stands for 'bar.Bar'
+import foo.* // 导入后 'foo' 内的一切都可以访问了
 ```
 
-The `import` keyword is not restricted to importing classes; you can also use it to import other declarations:
+如果发生了名称冲突, 我们可以使用 *as*{: .keyword } 关键字, 给重名实体指定新的名称(新名称仅在当前范围内有效):
 
-  * top-level functions and properties;
-  * functions and properties declared in [object declarations](object-declarations.html#object-declarations);
-  * [enum constants](enum-classes.html)
+``` kotlin
+import foo.Bar // 导入后 Bar 可以访问了
+import bar.Bar as bBar // 可以使用新名称 bBar 来访问 'bar.Bar'
+```
 
-Unlike Java, Kotlin does not have a separate "import static" syntax; all of these declarations are imported using the regular `import` keyword.
+`import` 关键字不仅可以用来导入类; 还可以用来导入其他声明:
 
-## Visibility of Top-level Declarations
+  * 顶级(top-level) 函数和属性;
+  * [对象声明](object-declarations.html#object-declarations) 中定义的函数和属性;
+  * [枚举常数](enum-classes.html)
 
-If a top-level declaration is marked *private*{: .keyword }, it is private to the file it's declared in (see [Visibility Modifiers](visibility-modifiers.html)).
+与 Java 不同, Kotlin 没有单独的 "import static" 语法; 所有这些声明都使用通常的 `import` 关键字来表达.
+
+## 顶级(top-level) 声明的可见度
+
+如果一个顶级(top-level) 声明被标注为 *private*{: .keyword }, 它将成为私有的, 只有在它所属的文件内可以访问(参见 [可见度修饰符](visibility-modifiers.html)).

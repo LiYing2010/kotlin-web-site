@@ -2,44 +2,42 @@
 type: doc
 layout: reference
 category: "Syntax"
-title: "This expressions"
+title: "this 表达式"
 ---
 
-# This Expression
+# this 表达式
 
-To denote the current _receiver_, we use *this*{: .keyword } expressions:
+为了表示当前函数的 _接收者(receiver)_, 我们使用 *this*{: .keyword } 表达式:
 
-* In a member of a [class](classes.html#inheritance), *this*{: .keyword } refers to the current object of that class
-* In an [extension function](extensions.html) or a [function literal with receiver](lambdas.html#function-literals-with-receiver),
-*this*{: .keyword } denotes the _receiver_ parameter that is passed on the left-hand side of a dot.
+* 在 [类](classes.html#inheritance) 的成员函数中, *this*{: .keyword } 指向这个类的当前对象实例
+* 在 [扩展函数](extensions.html) 中, 或 [带接收者的函数字面值(function literal)](lambdas.html#function-literals-with-receiver) 中,
+*this*{: .keyword } 代表调用函数时, 在点号左侧传递的 _接收者_ 参数.
 
-If *this*{: .keyword } has no qualifiers, it refers to the _innermost enclosing scope_. To refer to *this*{: .keyword } in other scopes, _label qualifiers_ are used:
+如果 *this*{: .keyword } 没有限定符, 那么它指向 _包含当前代码的最内层范围_. 如果想要指向其他范围内的 *this*{: .keyword }, 需要使用 _标签限定符_:
 
-## Qualified *this*{: .keyword }
+## 带限定符的 *this*{: .keyword }
 {:#qualified}
 
-To access *this*{: .keyword } from an outer scope (a [class](classes.html), or [extension function](extensions.html),
-or labeled [function literal with receiver](lambdas.html#function-literals-with-receiver)) we write `this@label` where `@label` is a [label](returns.html)
-on the scope *this*{: .keyword } is meant to be from:
+为了访问更外层范围(比如 [类](classes.html), 或 [扩展函数](extensions.html),
+或有标签的 [带接受者的函数字面值](lambdas.html#function-literals-with-receiver))内的 *this*{: .keyword }, 我们使用 `this@label`, 其中的 `@label` 是一个 [标签](returns.html), 代表我们想要访问的 *this*{: .keyword } 所属的范围:
 
 ``` kotlin
-class A { // implicit label @A
-  inner class B { // implicit label @B
-    fun Int.foo() { // implicit label @foo
-      val a = this@A // A's this
-      val b = this@B // B's this
+class A { // 隐含的标签 @A
+  inner class B { // 隐含的标签 @B
+    fun Int.foo() { // 隐含的标签 @foo
+      val a = this@A // 指向 A 的 this
+      val b = this@B // 指向 B 的 this
 
-      val c = this // foo()'s receiver, an Int
-      val c1 = this@foo // foo()'s receiver, an Int
+      val c = this // 指向 foo() 函数的接受者, 一个 Int 值
+      val c1 = this@foo // 指向 foo() 函数的接受者, 一个 Int 值
 
       val funLit = lambda@ fun String.() {
-        val d = this // funLit's receiver
+        val d = this // 指向 funLit 的接受者
       }
 
 
       val funLit2 = { s: String ->
-        // foo()'s receiver, since enclosing lambda expression
-        // doesn't have any receiver
+        // 指向 foo() 函数的接受者, 因为包含当前代码的 Lambda 表达式没有接受者
         val d1 = this
       }
     }

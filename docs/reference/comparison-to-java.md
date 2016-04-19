@@ -2,45 +2,45 @@
 type: doc
 layout: reference
 category: FAQ
-title: "Comparison to Java"
+title: "与 Java 比较"
 ---
 
-# Comparison to Java
+# 与 Java 比较
 
-## Some Java issues addressed in Kotlin
+## Kotlin 中得到解决的一些 Java 问题
 
-Kotlin fixes a series of issues that Java suffers from
+Java 中长期困扰的一系列问题, 在 Kotlin 得到了解决:
 
-* Null references are [controlled by the type system](null-safety.html).
-* [No raw types](java-interop.html)
-* Arrays in Kotlin are [invariant](basic-types.html#Arrays)
-* Kotlin has proper [function types](lambdas.html#function-types), as opposed to Java's SAM-conversions
-* [Use-site variance](generics.html#use-site-variance) without wildcards
-* Kotlin does not have checked [exceptions](exceptions.html)
+* Null 引用 [由类型系统管理](null-safety.html).
+* [没有原生类型(raw type)](java-interop.html)
+* Kotlin 中的数组是 [类型不可变的](basic-types.html#Arrays)
+* 与 Java 中的 SAM 变换方案相反, Kotlin 中存在专门的 [函数类型(function type)](lambdas.html#function-types) 
+* 不使用通配符的 [使用处类型变异(Use-site variance)](generics.html#use-site-variance)
+* Kotlin 中不存在受控 [异常](exceptions.html)
 
-## What Java has that Kotlin does not
+## Java 中有, 而 Kotlin 中没有的东西
 
-* [Checked exceptions](exceptions.html)
-* [Primitive types](basic-types.html) that are not classes
-* [Static members](classes.html)
-* [Non-private fields](properties.html)
-* [Wildcard-types](generics.html)
+* [受控异常](exceptions.html)
+* 不是类的 [基本数据类型](basic-types.html)
+* [静态成员](classes.html)
+* [非私有的域(Non-private field)](properties.html)
+* [通配符类型(Wildcard-type)](generics.html)
 
-## What Kotlin has that Java does not
+## Kotlin 中有, 而 Java 中没有的东西
 
-* [Lambda expressions](lambdas.html) + [Inline functions](inline-functions.html) = performant custom control structures
-* [Extension functions](extensions.html)
-* [Null-safety](null-safety.html)
-* [Smart casts](typecasts.html)
-* [String templates](basic-types.html#strings)
-* [Properties](properties.html)
-* [Primary constructors](classes.html)
-* [First-class delegation](delegation.html)
-* [Type inference for variable and property types](basic-types.html)
-* [Singletons](object-declarations.html)
-* [Declaration-site variance & Type projections](generics.html)
-* [Range expressions](ranges.html)
-* [Operator overloading](operator-overloading.html)
-* [Companion objects](classes.html#companion-objects)
-* [Data classes](data-classes.html)
-* [Separate interfaces for read-only and mutable collections](collections.html)
+* [Lambda 表达式](lambdas.html) + [内联函数](inline-functions.html) = 实现自定义的控制结构
+* [扩展函数](extensions.html)
+* [Null 值安全性](null-safety.html)
+* [类型智能转换](typecasts.html)
+* [字符串模板](basic-types.html#strings)
+* [属性](properties.html)
+* [主构造器](classes.html)
+* [委托(First-class delegation)](delegation.html)
+* [变量和属性的类型推断](basic-types.html)
+* [单例(Singleton)](object-declarations.html)
+* [声明处类型变异(Declaration-site variance) 和类型投射(Type projection)](generics.html)
+* [值范围表达式](ranges.html)
+* [操作符重载](operator-overloading.html)
+* [同伴对象(Companion object)](classes.html#companion-objects)
+* [数据类](data-classes.html)
+* [集合的接口定义区分为只读集合与可变集合](collections.html)

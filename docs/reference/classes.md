@@ -2,53 +2,48 @@
 type: doc
 layout: reference
 category: "Syntax"
-title: "Classes and Inheritance"
+title: "类与继承"
 related:
-    - functions.md
-    - nested-classes.md
-    - interfaces.md
+    - 函数.md
+    - 嵌套类.md
+    - 接口.md
 ---
 
-# Classes and Inheritance
+# 类与继承
 
-## Classes
+## 类
 
-Classes in Kotlin are declared using the keyword *class*{: .keyword }:
+Kotlin 中的类使用 *class*{: .keyword } 关键字定义:
 
 ``` kotlin
 class Invoice {
 }
 ```
 
-The class declaration consists of the class name, the class header (specifying its type parameters, the primary
-constructor etc.) and the class body, surrounded by curly braces. Both the header and the body are optional;
-if the class has no body, curly braces can be omitted.
+类的定义由以下几部分组成: 类名, 类头部(指定类的类型参数, 主构造器, 等等.), 以及由大括号括起的类主体部分. 类的头部和主体部分都是可选的; 如果类没有主体部分, 那么大括号也可以省略.
 
 ``` kotlin
 class Empty
 ```
 
 
-### Constructors
+### 构造器
 
-A class in Kotlin can have a **primary constructor** and one or more **secondary constructors**. The primary
-constructor is part of the class header: it goes after the class name (and optional type parameters).
+Kotlin 中的类可以有一个 **主构造器** (primary constructor), 以及一个或多个 **次构造器** (secondary constructor). 主构造器是类头部的一部分, 位于类名称(以及可选的类型参数)之后.
 
 ``` kotlin
 class Person constructor(firstName: String) {
 }
 ```
 
-If the primary constructor does not have any annotations or visibility modifiers, the *constructor*{: .keyword }
-keyword can be omitted:
+如果主构造器没有任何注解(annotation), 也没有任何可见度修饰符, 那么 *constructor*{: .keyword } 关键字可以省略:
 
 ``` kotlin
 class Person(firstName: String) {
 }
 ```
 
-The primary constructor cannot contain any code. Initialization code can be placed
-in **initializer blocks**, which are prefixed with the *init*{: .keyword } keyword:
+主构造器中不能包含任何代码. 初始化代码可以放在 **初始化代码段** (initializer block) 中, 初始化代码段使用 *init*{: .keyword } 关键字作为前缀:
 
 ``` kotlin
 class Customer(name: String) {
@@ -58,8 +53,7 @@ class Customer(name: String) {
 }
 ```
 
-Note that parameters of the primary constructor can be used in the initializer blocks. They can also be used in
-property initializers declared in the class body:
+注意, 主构造器的参数可以在初始化代码段中使用. 也可以在类主体定义的属性初始化代码中使用:
 
 ``` kotlin
 class Customer(name: String) {
@@ -67,7 +61,7 @@ class Customer(name: String) {
 }
 ```
 
-In fact, for declaring properties and initializing them from the primary constructor, Kotlin has a concise syntax:
+实际上, Kotlin 有一种简洁语法, 可以通过主构造器来定义属性并初始化属性值:
 
 
 ``` kotlin
@@ -76,22 +70,20 @@ class Person(val firstName: String, val lastName: String, var age: Int) {
 }
 ```
 
-Much the same way as regular properties, the properties declared in the primary constructor can be
-mutable (*var*{: .keyword }) or read-only (*val*{: .keyword }).
+与通常的属性一样, 主构造器中定义的属性可以是可变的(*var*{: .keyword }), 也可以是只读的(*val*{: .keyword }).
 
-If the constructor has annotations or visibility modifiers, the *constructor*{: .keyword } keyword is required, and
-the modifiers go before it:
+如果构造器有注解, 或者有可见度修饰符, 这时 *constructor*{: .keyword } 关键字是必须的, 注解和修饰符要放在它之前:
 
 ``` kotlin
 class Customer public @Inject constructor(name: String) { ... }
 ```
 
-For more details, see [Visibility Modifiers](visibility-modifiers.html#constructors).
+详情请参见 [可见度修饰符](visibility-modifiers.html#constructors).
 
 
-#### Secondary Constructors
+#### 次级构造器(secondary constructor)
 
-The class can also declare **secondary constructors**, which are prefixed with *constructor*{: .keyword }:
+类还可以声明 **次级构造器** (secondary constructor), 使用 *constructor*{: .keyword } 关键字作为前缀:
 
 ``` kotlin
 class Person {
@@ -101,9 +93,7 @@ class Person {
 }
 ```
 
-If the class has a primary constructor, each secondary constructor needs to delegate to the primary constructor, either
-directly or indirectly through another secondary constructor(s). Delegation to another constructor of the same class
-is done using the *this*{: .keyword } keyword:
+如果类有主构造器, 那么每个次级构造器都必须委托给主构造器, 要么直接委托, 要么通过其他次级构造器间接委托. 委托到同一个类的另一个构造器时, 使用 *this*{: .keyword } 关键字实现:
 
 ``` kotlin
 class Person(val name: String) {
@@ -113,27 +103,23 @@ class Person(val name: String) {
 }
 ```
 
-If a non-abstract class does not declare any constructors (primary or secondary), it will have a generated primary
-constructor with no arguments. The visibility of the constructor will be public. If you do not want your class
-to have a public constructor, you need to declare an empty primary constructor with non-default visibility:
+如果一个非抽象类没有声明任何主构造器和次级构造器, 它将带有一个自动生成的, 无参数的主构造器. 这个构造器的可见度为 public. 如果不希望你的类带有 public 的构造器, 你需要声明一个空的构造器, 并明确设置其可见度:
 
 ``` kotlin
 class DontCreateMe private constructor () {
 }
 ```
 
-> **NOTE**: On the JVM, if all of the parameters of the primary constructor have default values, the compiler will
-> generate an additional parameterless constructor which will use the default values. This makes it easier to use
-> Kotlin with libraries such as Jackson or JPA that create class instances through parameterless constructors.
+> **注意**: 在 JVM 中, 如果主构造器的所有参数都指定了默认值, 编译器将会产生一个额外的无参数构造器, 这个无参数构造器会使用默认参数值来调用既有的构造器. 有些库(比如 Jackson 或 JPA) 会使用无参数构造器来创建对象实例, 这个特性将使得 Kotlin 比较容易与这种库协同工作.
 >
 > ``` kotlin
 > class Customer(val customerName: String = "")
 > ```
 {:.info}
 
-### Creating instances of classes
+### 创建类的实例
 
-To create an instance of a class, we call the constructor as if it were a regular function:
+要创建一个类的实例, 我们需要调用类的构造器, 调用方式与使用通常的函数一样:
 
 ``` kotlin
 val invoice = Invoice()
@@ -141,32 +127,31 @@ val invoice = Invoice()
 val customer = Customer("Joe Smith")
 ```
 
-Note that Kotlin does not have a *new*{: .keyword } keyword.
+注意, Kotlin 没有 *new*{: .keyword } 关键字.
 
 
-### Class Members
+### 类成员
 
-Classes can contain
+类中可以包含以下内容:
 
-* Constructors and initializer blocks
-* [Functions](functions.html)
-* [Properties](properties.html)
-* [Nested and Inner Classes](nested-classes.html)
-* [Object Declarations](object-declarations.html)
+* 构造器和初始化代码块
+* [函数](functions.html)
+* [属性](properties.html)
+* [嵌套类和内部类](nested-classes.html)
+* [对象声明](object-declarations.html)
 
 
-## Inheritance
+## 继承
 
-All classes in Kotlin have a common superclass `Any`, that is a default super for a class with no supertypes declared:
+Kotlin 中所有的类都有一个共同的超类 `Any`, 如果类声明时没有指定超类, 则默认为 `Any`:
 
 ``` kotlin
-class Example // Implicitly inherits from Any
+class Example // 隐含地继承自 Any
 ```
 
-`Any` is not `java.lang.Object`; in particular, it does not have any members other than `equals()`, `hashCode()` and `toString()`.
-Please consult the [Java interoperability](java-interop.html#object-methods) section for more details.
+`Any` 不是 `java.lang.Object`; 尤其要注意, 除 `equals()`, `hashCode()` 和 `toString()` 之外, 它没有任何成员. 详情请参见 [与 Java 的互操作性](java-interop.html#object-methods).
 
-To declare an explicit supertype, we place the type after a colon in the class header:
+要明确声明类的超类, 我们在类的头部添加一个冒号, 冒号之后指定超类:
 
 ``` kotlin
 open class Base(p: Int)
@@ -174,12 +159,10 @@ open class Base(p: Int)
 class Derived(p: Int) : Base(p)
 ```
 
-If the class has a primary constructor, the base type can (and must) be initialized right there,
-using the parameters of the primary constructor.
+如果类有主构造器, 那么可以(而且必须)在主构造器中使用主构造器的参数来初始化基类.
 
-If the class has no primary constructor, then each secondary constructor has to initialize the base type
-using the *super*{: .keyword } keyword, or to delegate to another constructor which does that.
-Note that in this case different secondary constructors can call different constructors of the base type:
+如果类没有主构造器, 那么所有的次级构造器都必须使用 *super*{: .keyword } 关键字来初始化基类, 或者委托到另一个构造器, 由被委托的构造器来初始化基类.
+注意, 这种情况下, 不同的次级构造器可以调用基类中不同的构造器:
 
 ``` kotlin
 class MyView : View {
@@ -191,15 +174,12 @@ class MyView : View {
 }
 ```
 
-The *open*{: .keyword } annotation on a class is the opposite of Java's *final*{: .keyword }: it allows others
-to inherit from this class. By default, all classes in Kotlin are final, which
-corresponds to [Effective Java](http://www.oracle.com/technetwork/java/effectivejava-136174.html),
-Item 17: *Design and document for inheritance or else prohibit it*.
+类上的 *open*{: .keyword } 注解(annotation) 与 Java 的 *final*{: .keyword } 正好相反: 这个注解表示允许从这个类继承出其他子类. 默认情况下, Kotlin 中所有的类都是 final 的, 这种设计符合 [Effective Java](http://www.oracle.com/technetwork/java/effectivejava-136174.html),
+一书中的第 17 条原则: *允许继承的地方, 应该明确设计, 并通过文档注明, 否则应该禁止继承*.
 
-### Overriding Members
+### 成员的覆盖
 
-As we mentioned before, we stick to making things explicit in Kotlin. And unlike Java, Kotlin requires explicit
-annotations for overridable members (we call them *open*) and for overrides:
+我们在前面提到过, 我们很注意让 Kotlin 中的一切都明白无误. 而且与 Java 不同, Kotlin 要求明确地注解来标识允许被子类覆盖的成员(我们称之为 *open*), 而且也要求明确地注解来标识对超类成员的覆盖:
 
 ``` kotlin
 open class Base {
@@ -211,11 +191,9 @@ class Derived() : Base() {
 }
 ```
 
-The *override*{: .keyword } annotation is required for `Derived.v()`. If it were missing, the compiler would complain.
-If there is no *open*{: .keyword } annotation on a function, like `Base.nv()`, declaring a method with the same signature in a subclass is illegal,
-either with *override*{: .keyword } or without it. In a final class (e.g. a class with no *open*{: .keyword } annotation), open members are prohibited.
+对于 `Derived.v()` 必须添加 *override*{: .keyword } 注解. 如果遗漏了这个注解, 编译器将会报告错误. 如果一个函数没有标注 *open*{: .keyword } 注解, 比如上例中的 `Base.nv()`, 那么在子类中声明一个同名同参的方法将是非法的, 无论是否添加 *override*{: .keyword } 注解, 都不可以. 在一个 final 类(比如, 一个没有添加 *open*{: .keyword } 注解的类)中, 声明 open 成员是禁止的.
 
-A member marked *override*{: .keyword } is itself open, i.e. it may be overridden in subclasses. If you want to prohibit re-overriding, use *final*{: .keyword }:
+当一个子类成员标记了 *override*{: .keyword } 注解来覆盖父类成员时, 覆盖后的子类成员本身也将是 open 的, 也就是说, 子类成员可以被自己的子类再次覆盖. 如果你希望禁止这种再次覆盖, 可以使用 *final*{: .keyword } 关键字:
 
 ``` kotlin
 open class AnotherDerived() : Base() {
@@ -223,21 +201,20 @@ open class AnotherDerived() : Base() {
 }
 ```
 
-#### Wait! How will I hack my libraries now?!
+#### 等一下! 这样一来, 我如何才能 hack 我用到的那些类库呢?!
 
-One issue with our approach to overriding (classes and members final by default) is that it would be difficult to subclass something inside the libraries you use to override some method that was not intended for overriding by the library designer, and introduce some nasty hack there.
+你可能曾经习惯于从类库中的某个类继承一个子类, 然后覆盖掉类库设计者并不期望你覆盖的某些方法, 以这种比较肮脏的手段来 hack 类库. 但在 Kotlin 中, 类与成员默认都是 final 的, 我们针对继承和覆盖问题所选择的这种设计原则, 将会带来一个问题, 就是前面所说的那种类库 hack 方式将会变得比较困难.
 
-We think that this is not a disadvantage, for the following reasons:
+但我们认为这并不是一个缺点, 理由如下:
 
-* Best practices say that you should not allow these hacks anyway
-* People successfully use other languages (C++, C#) that have similar approach
-* If people really want to hack, there still are ways: you can always write your hack in Java and call it from Kotlin (*see [Java Interop](java-interop.html)*), and Aspect frameworks always work for these purposes
+* 程序设计的最佳实践原则认为, 你本来就不应该使用这种 hack 手段
+* 其他语言(比如 C++, C#)也使用了类似的原则, 大家使用起来并未遇到问题
+* 如果有人确实希望 hack, 仍然存在其他方法: 你可以用 Java 来编写你的 hack 代码, 然后通过 Kotlin 来调用(*参见 [与 Java 的互操作性](java-interop.html)*). 另外 Aspect 框架就是为这类目的设计的, 你可以使用 Aspect 框架来解决这类问题.
 
-### Overriding Rules
+### 覆盖的规则
 
-In Kotlin, implementation inheritance is regulated by the following rule: if a class inherits many implementations of the same member from its immediate superclasses,
-it must override this member and provide its own implementation (perhaps, using one of the inherited ones).
-To denote the supertype from which the inherited implementation is taken, we use *super*{: .keyword } qualified by the supertype name in angle brackets, e.g. `super<Base>`:
+在 Kotlin 中, 类继承中的方法实现问题, 遵守以下规则: 如果一个类从它的直接超类中继承了同一个成员的多个实现, 那么这个子类必须覆盖这个成员, 并提供一个自己的实现(可以使用继承得到的多个实现中的某一个).
+为了表示使用的方法是从哪个超类继承得到的, 我们使用 *super*{: .keyword } 关键字, 将超类名称放在尖括号类, 比如, `super<Base>`:
 
 ``` kotlin
 open class A {
@@ -246,30 +223,26 @@ open class A {
 }
 
 interface B {
-  fun f() { print("B") } // interface members are 'open' by default
+  fun f() { print("B") } // 接口的成员默认是 'open' 的
   fun b() { print("b") }
 }
 
 class C() : A(), B {
-  // The compiler requires f() to be overridden:
+  // 编译器要求 f() 方法必须覆盖:
   override fun f() {
-    super<A>.f() // call to A.f()
-    super<B>.f() // call to B.f()
+    super<A>.f() // 调用 A.f()
+    super<B>.f() // 调用 B.f()
   }
 }
 ```
 
-It's fine to inherit from both `A` and `B`, and we have no problems with `a()` and `b()` since `C` inherits only one implementation of each of these functions.
-But for `f()` we have two implementations inherited by `C`, and thus we have to override `f()` in `C`
-and provide our own implementation that eliminates the ambiguity.
+同时继承 `A` 和 `B` 是合法的, 而且函数 `a()` 和 `b()` 的继承也不存在问题, 因为对于这两个函数, `C` 类都只继承得到了唯一的一个实现. 但对函数 `f()` 的继承就发生了问题, 因为 `C` 类从超类中继承得到了两个实现, 因此在 `C` 类中我们必须覆盖函数 `f()`, 并提供我们自己的实现, 这样才能消除歧义.
 
-## Abstract Classes
+## 抽象类
 
-A class and some of its members may be declared *abstract*{: .keyword }.
-An abstract member does not have an implementation in its class.
-Note that we do not need to annotate an abstract class or function with open – it goes without saying.
+类本身, 或类中的部分成员, 都可以声明为 *abstract*{: .keyword } 的. 抽象成员在类中不存在具体的实现. 注意, 我们不必对抽象类或抽象成员标注 open 注解 – 因为它显然必须是 open 的.
 
-We can override a non-abstract open member with an abstract one
+我们可以使用抽象成员来覆盖一个非抽象的 open 成员:
 
 ``` kotlin
 open class Base {
@@ -281,29 +254,20 @@ abstract class Derived : Base() {
 }
 ```
 
-## Companion Objects
+## 同伴对象(Companion Object)
 
-In Kotlin, unlike Java or C#, classes do not have static methods. In most cases, it's recommended to simply use
-package-level functions instead.
+与 Java 或 C# 不同, Kotlin 的类没有静态方法(static method). 大多数情况下, 建议使用包级函数(package-level function)替代静态方法.
 
-If you need to write a function that can be called without having a class instance but needs access to the internals
-of a class (for example, a factory method), you can write it as a member of an [object declaration](object-declarations.html)
-inside that class.
+如果你需要写一个函数, 希望使用者不必通过类的实例来调用它, 但又需要访问类的内部信息(比如, 一个工厂方法), 你可以将这个函数写为这个类之内的一个 [对象声明](object-declarations.html) 的成员, 而不是类本身的成员.
 
-Even more specifically, if you declare a [companion object](object-declarations.html#companion-objects) inside your class,
-you'll be able to call its members with the same syntax as calling static methods in Java/C#, using only the class name
-as a qualifier.
+具体来说, 如果你在类中声明一个 [同伴对象](object-declarations.html#companion-objects), 那么只需要使用类名作为限定符就可以调用同伴对象的成员了, 语法与 Java/C# 中调用类的静态方法一样.
 
 
-## Sealed Classes
+## 封闭类(Sealed Class)
 
-Sealed classes are used for representing restricted class hierarchies, when a value can have one of the types from a
-limited set, but cannot have any other type. They are, in a sense, an extension of enum classes: the set of values
-for an enum type is also restricted, but each enum constant exists only as a single instance, whereas a subclass
-of a sealed class can have multiple instances which can contain state.
+封闭类(Sealed class)用来表示对类阶层的限制, 可以限定一个值只允许是某些指定的类型之一, 而不允许是其他类型. 感觉上, 封闭类是枚举类(enum class)的一种扩展: 枚举类的值也是有限的, 但每一个枚举值常数都只存在唯一的一个实例, 封闭类则不同, 它允许的子类类型是有限的, 但子类可以有多个实例, 每个实例都可以包含它自己的状态数据.
 
-To declare a sealed class, you put the `sealed` modifier before the name of the class. A sealed class can have
-subclasses, but all of them must be nested inside the declaration of the sealed class itself.
+要声明一个封闭类, 需要将 `sealed` 修饰符放在类名之前. 封闭类可以有子类, 但所有的子类声明都必须嵌套在封闭类的声明部分之内.
 
 ``` kotlin
 sealed class Expr {
@@ -313,17 +277,15 @@ sealed class Expr {
 }
 ```
 
-Note that classes which extend subclasses of a sealed class (indirect inheritors) can be placed anywhere, not necessarily inside
-the declaration of the sealed class.
+注意, 从封闭类的子类再继承的子类(间接继承者)可以放在任何地方, 不必在封闭类的声明部分之内.
 
-The key benefit of using sealed classes comes into play when you use them in a [`when` expression](control-flow.html#when-expression). If it's possible
-to verify that the statement covers all cases, you don't need to add an `else` clause to the statement.
+使用封闭类的主要好处在于, 当使用 [`when` expression](control-flow.html#when-expression) 时, 可以验证分支语句覆盖了所有的可能情况, 因此就不必通过 `else` 分支来处理例外情况.
 
 ``` kotlin
 fun eval(expr: Expr): Double = when(expr) {
     is Expr.Const -> expr.number
     is Expr.Sum -> eval(expr.e1) + eval(expr.e2)
     Expr.NotANumber -> Double.NaN
-    // the `else` clause is not required because we've covered all the cases
+    // 不需要 `else` 分支, 因为我们已经覆盖了所有的可能情况
 }
 ```

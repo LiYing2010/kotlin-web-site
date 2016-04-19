@@ -2,12 +2,12 @@
 type: doc
 layout: reference
 category: "Syntax"
-title: "Nested Classes"
+title: "嵌套类"
 ---
 
-# Nested Classes
+# 嵌套类(Nested Class)
 
-Classes can be nested in other classes
+类可以嵌套在另一个类之内:
 
 ``` kotlin
 class Outer {
@@ -20,9 +20,9 @@ class Outer {
 val demo = Outer.Nested().foo() // == 2
 ```
 
-## Inner classes
+## 内部类(Inner class)
 
-A class may be marked as *inner*{: .keyword } to be able to access members of outer class. Inner classes carry a reference to an object of an outer class:
+类可以使用 *inner*{: .keyword } 关键字来标记, 然后就可以访问外部类(outer class)的成员. 内部类会保存一个引用, 指向外部类的对象实例:
 
 ``` kotlin
 class Outer {
@@ -35,5 +35,5 @@ class Outer {
 val demo = Outer().Inner().foo() // == 1
 ```
 
-See [Qualified *this*{: .keyword } expressions](this-expressions.html) to learn about disambiguation of *this*{: .keyword } in inner classes.
+在内部类中使用 *this*{: .keyword } 关键字会产生歧义, 关于如何消除这种歧义, 请参见 [带限定符的 *this*{: .keyword } 表达式](this-expressions.html).
 

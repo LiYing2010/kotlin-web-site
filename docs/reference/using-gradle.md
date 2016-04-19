@@ -1,18 +1,18 @@
 ---
 type: doc
 layout: reference
-title: "Using Gradle"
+title: "使用 Gradle"
 ---
 
-# Using Gradle
+# 使用 Gradle
 
-In order to build Kotlin with Gradle you should [set up the *kotlin-gradle* plugin](#plugin-and-versions), [apply it](#targeting-the-jvm) to your project and [add *kotlin-stdlib* dependencies](#configuring-dependencies). Those actions may also be performed automatically in IntelliJ IDEA by invoking the Tools | Kotlin | Configure Kotlin in Project action.
+要使用 Gradle 编译 Kotlin 代码, 你需要 [设值 *kotlin-gradle* plugin](#plugin-and-versions), 将它 [应用](#targeting-the-jvm) 到你的工程, 然后 [添加 *kotlin-stdlib* 依赖](#configuring-dependencies). 在 IntelliJ IDEA 中, 在 Project action 内选择 Tools -> Kotlin -> Configure Kotlin 也可以自动完成这些操作.
 
-## Plugin and Versions
+## Plugin 与版本 Versions
 
-The *kotlin-gradle-plugin* compiles Kotlin sources and modules.
+*kotlin-gradle-plugin* 可以用来编译 Kotlin 源代码和模块.
 
-The version of Kotlin to use is usually defined as the *kotlin_version* property:
+使用的 Kotlin 版本通常定义为 *kotlin_version* 属性:
 
 ``` groovy
 buildscript {
@@ -28,7 +28,7 @@ buildscript {
 }
 ```
 
-The correspondence between Kotlin releases and versions is displayed below:
+下表是 Kotlin 的 Release 版本名称与版本号之间的对应关系:
 
 <table>
 <thead>
@@ -47,15 +47,15 @@ The correspondence between Kotlin releases and versions is displayed below:
 </tbody>
 </table>
 
-## Targeting the JVM
+## 编译到 JVM 平台
 
-To target the JVM, the Kotlin plugin needs to be applied
+要编译到 JVM 平台, 需要应用(apply) Kotlin plugin:
 
 ``` groovy
 apply plugin: "kotlin"
 ```
 
-Kotlin sources can be mixed with Java sources in the same folder, or in different folders. The default convention is using different folders:
+Kotlin 源代码可以与 Java 源代码共存在同一个文件夹下, 也可以放在不同的文件夹下. 默认的约定是使用不同的文件夹:
 
 ``` groovy
 project
@@ -65,7 +65,7 @@ project
             - java
 ```
 
-The corresponding *sourceSets* property should be updated if not using the default convention
+如果不使用默认约定的文件夹结构, 那么需要修改相应的 *sourceSets* 属性:
 
 ``` groovy
 sourceSets {
@@ -74,16 +74,15 @@ sourceSets {
 }
 ```
 
-## Targeting JavaScript
+## 编译到 JavaScript
 
-When targeting JavaScript, a different plugin should be applied:
+编译到 JavaScript 时, 需要应用(apply)另一个 plugin:
 
 ``` groovy
 apply plugin: "kotlin2js"
 ```
 
-This plugin only works for Kotlin files so it is recommended to keep Kotlin and Java files separate (if it's the case that the same project contains Java files). As with
-targeting the JVM, if not using the default convention, we need to specify the source folder using *sourceSets*
+这个 plugin 只能编译 Kotlin 源代码文件, 因此推荐将 Kotlin 和 Java 源代码文件放在不同的文件夹内(如果工程内包含 Java 文件的话). 与编译到 JVM 平台时一样, 如果不使用默认约定的文件夹结构, 我们需要使用 *sourceSets* 来指定文件夹目录:
 
 ``` groovy
 sourceSets {
@@ -91,8 +90,8 @@ sourceSets {
 }
 ```
 
-If you want to create a re-usable library, use `kotlinOptions.metaInfo` to generate additional JS file with binary descriptors.
-This file should be distributed together with the result of translation.
+如果希望创建一个可重复使用的 JavaScript 库, 请使用 `kotlinOptions.metaInfo` 生成一个带二进制描述符(binary descriptor)的 JS 文件.
+这个文件需要与与编译结果一起发布.
 
 ``` groovy
 compileKotlin2Js {
@@ -101,10 +100,9 @@ compileKotlin2Js {
 ```
 
 
-## Targeting Android
+## 编译到 Android
 
-Android's Gradle model is a little different from ordinary Gradle, so if we want to build an Android project written in Kotlin, we need
-*kotlin-android* plugin instead of *kotlin*:
+Android 的 Gradle 模型与通常的 Gradle 略有区别, 因此如果我们想要编译一个使用 Kotlin 语言开发的 Android 工程, 就需要使用 *kotlin-android* plugin 而不是 *kotlin* plugin:
 
 ``` groovy
 buildscript {
@@ -116,7 +114,7 @@ apply plugin: 'kotlin-android'
 
 ### Android Studio
 
-If using Android Studio, the following needs to be added under android:
+如果使用 Android Studio, 需要在 android 之下添加以下内容:
 
 ``` groovy
 android {
@@ -128,13 +126,13 @@ android {
 }
 ```
 
-This lets Android Studio know that the kotlin directory is a source root, so when the project model is loaded into the IDE it will be properly recognized.
+这些设置告诉 Android Studio, kotlin 目录是一个源代码根目录, 因此当工程模型装载进入 IDE 时, 就可以正确地识别这个目录.
 
 
 
-## Configuring Dependencies
+## 配置依赖
 
-In addition to the kotlin-gradle-plugin dependency shown above, you need to add a dependency on the Kotlin standard library:
+除了上文讲到的 kotlin-gradle-plugin 依赖之外, 你还需要添加 Kotlin 标准库的依赖:
 
 ``` groovy
 buildscript {
@@ -147,7 +145,7 @@ buildscript {
   }
 }
 
-apply plugin: "kotlin" // or apply plugin: "kotlin2js" if targeting JavaScript
+apply plugin: "kotlin" // 编译到 JavaScript 时, 应该是 apply plugin: "kotlin2js" 
 
 repositories {
   mavenCentral()
@@ -158,7 +156,7 @@ dependencies {
 }
 ```
 
-If your project uses Kotlin reflection or testing facilities, you need to add the corresponding dependencies as well:
+如果你的工程使用 Kotlin 的反射功能或测试功能, 那么还需要添加相应的依赖:
 
 ``` groovy
 compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
@@ -168,13 +166,13 @@ testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
 
 ## OSGi
 
-For OSGi support see the [Kotlin OSGi page](kotlin-osgi.html).
+关于对 OSGi 的支持, 请参见 [Kotlin 与 OSGi](kotlin-osgi.html).
 
-## Examples
+## 示例
 
-The [Kotlin Repository](https://github.com/jetbrains/kotlin) contains examples:
+[Kotlin 代码仓库](https://github.com/jetbrains/kotlin) 中包含以下示例:
 
 * [Kotlin](https://github.com/JetBrains/kotlin-examples/tree/master/gradle/hello-world)
-* [Mixed Java and Kotlin](https://github.com/JetBrains/kotlin-examples/tree/master/gradle/mixed-java-kotlin-hello-world)
+* [Java 代码与 Kotlin 代码的混合](https://github.com/JetBrains/kotlin-examples/tree/master/gradle/mixed-java-kotlin-hello-world)
 * [Android](https://github.com/JetBrains/kotlin-examples/tree/master/gradle/android-mixed-java-kotlin-project)
 * [JavaScript](https://github.com/JetBrains/kotlin/tree/master/libraries/tools/kotlin-gradle-plugin/src/test/resources/testProject/kotlin2JsProject)

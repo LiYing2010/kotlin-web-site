@@ -2,47 +2,43 @@
 type: doc
 layout: reference
 category: "Syntax"
-title: "Interfaces"
+title: "接口"
 ---
 
-# Interfaces
+# 接口
 
-Interfaces in Kotlin are very similar to Java 8. They can contain declarations of abstract methods, as well as method
-implementations. What makes them different from abstract classes is that interfaces cannot store state. They can have
-properties but these need to be abstract or to provide accessor implementations.
+Kotlin 中的接口与 Java 8 非常类似. 接口中可以包含抽象方法的声明, 也可以包含方法的实现. 接口与抽象类的区别在于, 接口不能存储状态数据. 接口可以有属性, 但这些属性必须是抽象的, 或者必须提供访问器的自定义实现.
 
-An interface is defined using the keyword *interface*{: .keyword }
+接口使用 *interface*{: .keyword } 关键字来定义:
 
 ``` kotlin
 interface MyInterface {
     fun bar()
     fun foo() {
-      // optional body
+      // 方法体是可选的
     }
 }
 ```
 
-## Implementing Interfaces
+## 实现接口
 
-A class or object can implement one or more interfaces
+类或者对象可以实现一个或多个接口:
 
 ``` kotlin
 class Child : MyInterface {
    override fun bar() {
-      // body
+      // 方法体
    }
 }
 ```
 
-## Properties in Interfaces
+## 接口中的属性
 
-You can declare properties in interfaces. A property declared in an interface can either be abstract, or it can provide
-implementations for accessors. Properties declared in interfaces can't have backing fields, and therefore accessors
-declared in interfaces can't reference them.
+你可以在接口中定义属性. 接口中声明的属性要么是抽象的, 要么提供访问器的自定义实现. 接口中声明的属性不能拥有后端域变量(backing field), 因此, 在接口中定义的属性访问器也不能访问属性的后端域变量.
 
 ``` kotlin
 interface MyInterface {
-    val property: Int // abstract
+    val property: Int // 抽象属性
 
     val propertyWithImplementation: String
         get() = "foo"
@@ -57,9 +53,9 @@ class Child : MyInterface {
 }
 ```
 
-## Resolving overriding conflicts
+## 解决覆盖冲突(overriding conflict)
 
-When we declare many types in our supertype list, it may appear that we inherit more than one implementation of the same method. For example
+当我们为一个类指定了多个超类, 可能会导致我们对同一个方法继承得到了多个实现. 比如:
 
 ``` kotlin
 interface A {
@@ -84,7 +80,4 @@ class D : A, B {
 }
 ```
 
-Interfaces *A* and *B* both declare functions *foo()* and *bar()*. Both of them implement *foo()*, but only *B* implements *bar()* (*bar()* is not marked abstract in *A*,
-because this is the default for interfaces, if the function has no body). Now, if we derive a concrete class *C* from *A*, we, obviously, have to override *bar()* and provide
-an implementation. And if we derive *D* from *A* and *B*, we don’t have to override *bar()*, because we have inherited only one implementation of it.
-But we have inherited two implementations of *foo()*, so the compiler does not know which one to choose, and forces us to override *foo()* and say what we want explicitly.
+接口 *A* 和 *B* 都定义了函数 *foo()* 和 *bar()*. 它们也都实现了 *foo()*, 但只有 *B* 实现了 *bar()* (在 *A* 中 *bar()* 没有标记为 abstract, 因为在接口中, 如果没有定义函数体, 则函数默认为 abstract). 现在, 如果我们从 *A* 派生一个实体类 *C*, 显然, 我们必须覆盖函数 *bar()*, 并提供一个实现. 如果我们从 *A* 和 *B* 派生出 *D*, 我们就不必覆盖函数 *bar()*, 因为我们从超类中继承得到了它的唯一一个实现. 但是对于函数 *foo()*, 我们继承得到了两个实现, 因此编译器不知道应该选择使用哪个实现, 因此编译器强制要求我们覆盖函数 *foo()*, 明确地告诉编译器, 我们究竟希望做什么.

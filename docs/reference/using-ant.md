@@ -1,26 +1,26 @@
 ---
 type: doc
 layout: reference
-title: "Using Ant"
+title: "使用 Ant"
 description: "This tutorial walks you through different scenarios when using Ant for building applications that contain Kotlin code"
 ---
 
-# Using Ant
+# 使用 Ant
 
-## Getting the Ant Tasks
+## 安装 Ant Task
 
-Kotlin provides three tasks for Ant:
+Kotlin 提供了 3 个 Ant Task:
 
-* kotlinc: Kotlin compiler targeting the JVM
-* kotlin2js: Kotlin compiler targeting JavaScript
-* withKotlin: Task to compile Kotlin files when using the standard *javac* Ant task
+* kotlinc: 面向 JVM 的 Kotlin 编译器 
+* kotlin2js: 面向 JavaScript 的 Kotlin 编译器
+* withKotlin: 使用标准的 *javac* Ant Task 来编译 Kotlin 代码 
 
-These tasks are defined in the *kotlin-ant.jar* library which is located in the *lib* folder for the [Kotlin Compiler]({{site.data.releases.latest.url}})
+这些 Task 定义在 *kotlin-ant.jar* 库文件内, 这个库文件位于 [Kotlin 编译器]({{site.data.releases.latest.url}}) 的 *lib* 文件夹内
 
 
-## Targeting JVM with Kotlin-only source
+## 面向 JVM, 编译纯 Kotlin 代码
 
-When the project consists of exclusively Kotlin source code, the easiest way to compile the project is to use the *kotlinc* task
+如果工程内只包含 Kotlin 源代码, 这种情况下最简单的编译方法是使用 *kotlinc* Task:
 
 ``` xml
 <project name="Ant Task Test" default="build">
@@ -32,11 +32,11 @@ When the project consists of exclusively Kotlin source code, the easiest way to 
 </project>
 ```
 
-where ${kotlin.lib} points to the folder where the Kotlin standalone compiler was unzipped.
+这里的 ${kotlin.lib} 指向 Kotlin standalone 编译器解压缩后的文件夹.
 
-## Targeting JVM with Kotlin-only source and multiple roots
+## 面向 JVM, 编译包含多个根目录的纯 Kotlin 代码
 
-If a project consists of multiple source roots, use *src* as elements to define paths
+如果工程中包含多个源代码根目录, 可以使用 *src* 元素来定义源代码路径:
 
 ``` xml
 <project name="Ant Task Test" default="build">
@@ -51,10 +51,9 @@ If a project consists of multiple source roots, use *src* as elements to define 
 </project>
 ```
 
-## Targeting JVM with Kotlin and Java source
+## 面向 JVM, 编译 Kotlin 和 Java 的混合代码
 
-If a project consists of both Kotlin and Java source code, while it is possible to use *kotlinc*, to avoid repetition of task parameters, it is
-recommended to use *withKotlin* task
+如果工程包含 Kotlin 和 Java 的混合代码, 这时尽管也能够使用 *kotlinc*, 但为了避免重复指定 Task 参数, 推荐使用 *withKotlin* Task:
 
 ``` xml
 <project name="Ant Task Test" default="build">
@@ -73,9 +72,9 @@ recommended to use *withKotlin* task
 </project>
 ```
 
-To specify additional command line arguments for `<withKotlin>`, you can use a nested `<compilerArg>` parameter.
-The full list of arguments that can be used is shown when you run `kotlinc -help`.
-You can also specify the name of the module being compiled as the `moduleName` attribute:
+要对 `<withKotlin>` 指定额外的命令行参数, 可以使用内嵌的 `<compilerArg>` 参数.
+运行 `kotlinc -help` 命令, 可以看到参数的完整列表.
+还可以通过 `moduleName` 属性来指定被编译的模块名称:
 
 ``` xml
 <withKotlin moduleName="myModule">
@@ -84,7 +83,7 @@ You can also specify the name of the module being compiled as the `moduleName` a
 ```
 
 
-## Targeting JavaScript with single source folder
+## 面向 JavaScript, 编译单个源代码文件夹
 
 ``` xml
 <project name="Ant Task Test" default="build">
@@ -96,7 +95,7 @@ You can also specify the name of the module being compiled as the `moduleName` a
 </project>
 ```
 
-## Targeting JavaScript with Prefix, PostFix and sourcemap options
+## 面向 JavaScript, 使用 Prefix, PostFix 和 sourcemap 选项
 
 ``` xml
 <project name="Ant Task Test" default="build">
@@ -108,58 +107,56 @@ You can also specify the name of the module being compiled as the `moduleName` a
 </project>
 ```
 
-## Targeting JavaScript with single source folder and metaInfo option
+## 面向 JavaScript, 编译单个源代码文件夹, 使用 metaInfo 选项
 
-The `metaInfo` option is useful, if you want to distribute the result of translation as a Kotlin/JavaScript library.
-If `metaInfo` was set to `true`, then during compilation additional JS file with
-binary metadata will be created. This file should be distributed together with the
-result of translation.
+如果你希望将编译结果当作一个 Kotlin/JavaScript 库发布, 可以使用 `metaInfo` 选项.
+如果 `metaInfo` 设值为 `true`, 那么编译时会额外创建带二进制元数据(binary metadata)的 JS 文件. 这个文件需要与编译结果一起发布.
 
 ``` xml
 <project name="Ant Task Test" default="build">
     <typedef resource="org/jetbrains/kotlin/ant/antlib.xml" classpath="${kotlin.lib}/kotlin-ant.jar"/>
 
     <target name="build">
-        <!-- out.meta.js will be created, which contains binary descriptors -->
+        <!-- 会创建 out.meta.js 文件, 其中包含二进制描述符(binary descriptor) -->
         <kotlin2js src="root1" output="out.js" metaInfo="true"/>
     </target>
 </project>
 ```
 
-## References
+## 参照
 
-Complete list of elements and attributes are listed below
+完整的 Ant Task 元素和属性一览表如下:
 
-### Attributes common for kotlinc and kotlin2js
+### kotlinc 和 kotlin2js 的共通属性
 
-| Name | Description | Required | Default Value |
+| 名称 | 说明 | 是否必须 | 默认值 |
 |------|-------------|----------|---------------|
-| `src`  | Kotlin source file or directory to compile | Yes |  |
-| `nowarn` | Suppresses all compilation warnings | No | false |
-| `noStdlib` | Does not include the Kotlin standard library into the classpath | No | false |
-| `failOnError` | Fails the build if errors are detected during the compilation | No | true |
+| `src`  | 需要编译的 Kotlin 源代码文件或源代码目录 | 是 |  |
+| `nowarn` | 屏蔽编译时的警告信息 | 否 | false |
+| `noStdlib` | 不要将 Kotlin 标准库包含在 classpath 内 | 否 | false |
+| `failOnError` | 如果编译过程中检测到错误, 是否让整个构建过程失败 | 否 | true |
 
-### kotlinc Attributes
+### kotlinc 的属性
 
-| Name | Description | Required | Default Value |
+| 名称 | 说明 | 是否必须 | 默认值 |
 |------|-------------|----------|---------------|
-| `output`  | Destination directory or .jar file name | Yes |  |
-| `classpath`  | Compilation class path | No |  |
-| `classpathref`  | Compilation class path reference | No |  |
-| `includeRuntime`  | If `output` is a .jar file, whether Kotlin runtime library is included in the jar | No | true  |
-| `moduleName` | Name of the module being compiled | No | The name of the target (if specified) or the project |
+| `output`  | 编译输出的目标目录, 或目标 .jar 文件名 | 是 |  |
+| `classpath`  | 编译时的 class path 值 | 否 |  |
+| `classpathref`  | 编译时的 class path 参照 | 否 |  |
+| `includeRuntime`  | 当 `output` 是 .jar 文件时, 是否将 Kotlin 运行库包含在这个 jar 内 | 否 | true  |
+| `moduleName` | 被编译的模块名称 | 否 | 编译目标的名称(如果有指定), 或工程名称 |
 
 
-### kotlin2js Attributes
+### kotlin2js 的属性
 
-| Name | Description | Required |
+| 名称 | 说明 | 是否必须 |
 |------|-------------|----------|
-| `output`  | Destination file | Yes |
-| `library`  | Library files (kt, dir, jar) | No |
-| `outputPrefix`  | Prefix to use for generated JavaScript files | No |
-| `outputSuffix` | Suffix to use for generated JavaScript files | No |
-| `sourcemap`  | Whether sourcemap file should be generated | No |
-| `metaInfo`  | Whether metadata file with binary descriptors should be generated | No |
-| `main`  | Should compiler generated code call the main function | No |
+| `output`  | 编译输出的目标文件 | 是 |
+| `library`  | 库文件(kt, dir, jar) | 否 |
+| `outputPrefix`  | 生成 JavaScript 文件时使用的前缀 | 否 |
+| `outputSuffix` | 生成 JavaScript 文件时使用的后缀 | 否 |
+| `sourcemap`  | 是否生成 sourcemap 文件 | 否 |
+| `metaInfo`  | 是否生成带二进制描述符(binary descriptor)的元数据(metadata)文件 | 否 |
+| `main`  | 编译器是否生成对 main 函数的调用代码 | 否 |
 
 

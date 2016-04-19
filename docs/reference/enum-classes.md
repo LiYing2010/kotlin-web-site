@@ -2,12 +2,12 @@
 type: doc
 layout: reference
 category: "Syntax"
-title: "Enum Classes"
+title: "枚举类"
 ---
 
-# Enum Classes
+# 枚举类
 
-The most basic usage of enum classes is implementing type-safe enums
+枚举类最基本的用法, 就是实现类型安全的枚举值:
 
 ``` kotlin
 enum class Direction {
@@ -15,11 +15,11 @@ enum class Direction {
 }
 ```
 
-Each enum constant is an object. Enum constants are separated with commas.
+每个枚举常数都是一个对象. 枚举常数之间用逗号分隔.
 
-## Initialization
+## 初始化
 
-Since each enum is an instance of the enum class, they can be initialized
+由于每个枚举值都是枚举类的一个实例, 因此枚举值可以初始化:
 
 ``` kotlin
 enum class Color(val rgb: Int) {
@@ -29,9 +29,9 @@ enum class Color(val rgb: Int) {
 }
 ```
 
-## Anonymous Classes
+## 匿名类
 
-Enum constants can also declare their own anonymous classes
+枚举常数也可以定义它自己的匿名类:
 
 ``` kotlin
 enum class ProtocolState {
@@ -47,30 +47,24 @@ enum class ProtocolState {
 }
 ```
 
-with their corresponding methods, as well as overriding base methods. Note that if the enum class defines any
-members, you need to separate the enum constant definitions from the member definitions with a semicolon, just like
-in Java.
+枚举常数的匿名类可以有各自的方法, 还可以覆盖基类的方法. 注意, 与 Java 中一样, 如果枚举类中定义了任何成员, 你需要用分号将枚举常数的定义与枚举类的成员定义分隔开.
 
-## Working with Enum Constants
+## 使用枚举常数
 
-Just like in Java, enum classes in Kotlin have synthetic methods allowing to list
-the defined enum constants and to get an enum constant by its name. The signatures
-of these methods are as follows (assuming the name of the enum class is `EnumClass`):
+与 Java 中一样, Kotlin 中的枚举类拥有编译器添加的方法, 可以列出枚举类中定义的所有枚举常数值, 可以通过枚举常数值的名称字符串得到对应的枚举常数值. 这些方法的签名如下(这里假设枚举类名称为 `EnumClass`):
 
 ``` kotlin
 EnumClass.valueOf(value: String): EnumClass
 EnumClass.values(): Array<EnumClass>
 ```
 
-The `valueOf()` method throws an `IllegalArgumentException` if the specified name does
-not match any of the enum constants defined in the class.
+如果给定的名称不能匹配枚举类中定义的任何一个枚举常数值, `valueOf()` 方法会抛出 `IllegalArgumentException` 异常.
 
-Every enum constant has properties to obtain its name and position in the enum class declaration:
+每个枚举常数值都拥有属性, 可以取得它的名称, 以及它在枚举类中声明的顺序:
 
 ``` kotlin
 val name: String
 val ordinal: Int
 ```
 
-The enum constants also implement the [Comparable](/api/latest/jvm/stdlib/kotlin/-comparable/index.html) interface,
-with the natural order being the order in which they are defined in the enum class.
+枚举常数值还实现了 [Comparable](/api/latest/jvm/stdlib/kotlin/-comparable/index.html) 接口, 枚举常数值之间比较时, 会使用枚举常数值在枚举类中声明的顺序作为自己的大小顺序.
