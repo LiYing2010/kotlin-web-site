@@ -1,6 +1,8 @@
 <a href="http://kotlinslackin.herokuapp.com"><img src="https://kotlinslackin.herokuapp.com/badge.svg" height="20"></a>
 
-This is the source for the [Kotlin Web Site](http://kotlinlang.org)
+这里是《Kotlin 语言参考文档》中文翻译版的代码库.
+
+网页地址: [http://www.liying-cn.net/kotlin/docs/reference/](http://www.liying-cn.net/kotlin/docs/reference/)
 
 - [Filing bugs](#filing-bugs)
 - [Installation](#installation)
