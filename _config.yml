@@ -24,7 +24,7 @@ include:
   - js
 
 # Site Settings
-baseurl:
+baseurl: /kotlin
 code_baseurl: https://github.com/JetBrains/kotlin-web-site/tree/master/code
 
 # Custom Settings
@@ -33,7 +33,7 @@ twitter_url: https://twitter.com/kotlin
 forum_url: http://devnet.jetbrains.com/community/kotlin
 site_github_url: http://github.com/JetBrains/kotlin-web-site
 edit_on_github_url: https://github.com/JetBrains/kotlin-web-site/edit/master/%path%
-pdf_url: /docs/kotlin-docs.pdf
+pdf_url: /kotlin/docs/kotlin-docs.pdf
 img_tutorial_root: assets/images/tutorials
 
 grammar_file_path: grammar.xml
