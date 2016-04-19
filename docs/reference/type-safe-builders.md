@@ -10,7 +10,7 @@ title: "类型安全的 Groovy 风格构建器"
 [构建器(builder)](http://www.groovy-lang.org/dsls.html#_nodebuilder) 的理念在 *Groovy* 开发社区非常流行.
 使用构建器, 可以以一种半声明式的方式(semi-declarative way)来定义数据. 构建器非常适合于 [生成 XML](http://www.groovy-lang.org/processing-xml.html#_creating_xml), 
 [控制 UI 组件布局](http://www.groovy-lang.org/swing.html), 
-[描述 3D 场景](http://www.artima.com/weblogs/viewpost.jsp?thread=296081) and more...
+[描述 3D 场景](http://www.artima.com/weblogs/viewpost.jsp?thread=296081), 等等等等...
 
 在很多的使用场景下, Kotlin 可以创建一种 *类型检查* 的构建器, 这种功能使得 kotlin 中的构建器比 Groovy 自己的动态类型构建器更具吸引力.
 
