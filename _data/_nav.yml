@@ -24,23 +24,23 @@ main:
 docs:
   reference:
     url: /docs/reference/
-    title: Reference
+    title: 参考文档
 
   tutorials:
     url: /docs/tutorials/
-    title: Tutorials
+    title: 教程
 
   videos:
     url: /docs/videos.html
-    title: Videos
+    title: 视频
 
   events:
     url: /docs/events.html
-    title: Events
+    title: 活动
 
   resources:
     url: /docs/resources.html
-    title: More resources
+    title: 其他资源
 
 
 # Reference navigation
