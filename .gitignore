@@ -27,3 +27,5 @@ uiDesigner.xml
 api/
 .idea
 *.iml
+/.settings
+/.project
