@@ -86,7 +86,7 @@
         </style>
       </head>
       <body>
-        <h1 class="book-toc-title">Table of Contents</h1>
+        <h1 class="book-toc-title">目录</h1>
         <ol class="book-toc-list">
           <xsl:apply-templates select="outline:item/outline:item"/>
         </ol>
