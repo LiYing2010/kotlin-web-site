@@ -82,6 +82,17 @@ def get_doc_contents
   toc = YAML::load_file("#{source_dir}/_data/_nav.yml")
   doc_content = []
 
+  toc_data_index = {
+      'id' => "前言",
+      'title' => "前言",
+      'content' => [
+            {
+              "/docs/reference/index.html" => "前言"
+            }
+          ]
+  }
+  toc["reference"].insert(0, toc_data_index)
+
   toc["reference"].each do |toc_data|
     section = {
         'id' => ERB::Util.url_encode(toc_data['title'].sub(' ', '_')),
