@@ -15,7 +15,7 @@ Kotlin 将函数和属性当作语言中的一等公民(first-class citizen), �
 
 ## 类引用(Class Reference)
 
-最基本的引用功能是得到一个 Kotlin 类的运行时引用. 要得到一个静态的已知的 Kotlin 类的引用, 可以使用 _类字面值(class literal)_ 语法:
+最基本的反射功能就是获取一个 Kotlin 类的运行时引用. 要得到一个静态的已知的 Kotlin 类的引用, 可以使用 _类字面值(class literal)_ 语法:
 
 ``` kotlin
 val c = MyClass::class

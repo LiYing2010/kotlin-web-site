@@ -76,7 +76,7 @@ for ((key, value) in map) {
 为了让上面的代码正确运行, 我们应该:
 
 * 实现 `iterator()` 函数, 使得 map 成为多个值构成的序列,
-* 实现 `component1()` 和 `component2()` 函数, 使得 map 内的每个元素称为一对值.
+* 实现 `component1()` 和 `component2()` 函数, 使得 map 内的每个元素成为一对值.
   
 Kotlin 的标准库也的确实现了这些扩展函数:
 

@@ -55,7 +55,7 @@ fun demo(x: Any) {
 ```
 
 
-这种 _智能类型转换(smart cast)_ 对于 [*when*{: .keyword }-expressions](control-flow.html#when-expressions) 和 [*while*{: .keyword }-loops](control-flow.html#while-loops) 同样有效:
+这种 _智能类型转换(smart cast)_ 对于 [*when*{: .keyword } 表达式](control-flow.html#when-expressions) 和 [*while*{: .keyword } 循环](control-flow.html#while-loops) 同样有效:
 
 ``` kotlin
 when (x) {
