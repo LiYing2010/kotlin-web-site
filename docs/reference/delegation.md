@@ -23,7 +23,7 @@ class BaseImpl(val x: Int) : Base {
 
 class Derived(b: Base) : Base by b
 
-fun main() {
+fun main(args: Array<String>) {
   val b = BaseImpl(10)
   Derived(b).print() // 打印结果为: 10
 }

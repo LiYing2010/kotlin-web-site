@@ -82,6 +82,19 @@ fun C.foo() { println("extension") }
 
 如果我们对 `C` 类型的任意变量 `c` 调用`c.foo()`, 结果会打印 "member", 而不是 "extension".
 
+但是, 我们完全可以使用同名称但不同参数的扩展函数, 来重载(overload)成员函数:
+
+``` kotlin
+class C {
+    fun foo() { println("member") }
+}
+
+fun C.foo(i: Int) { println("extension") }
+```
+
+调用 `C().foo(1)` 的打印结果将是 "extension".
+
+
 ## 可为空的接收者(Nullable Receiver)
 
 注意, 对可以为空的接收者类型也可以定义扩展. 这样的扩展函数, 即使在对象变量值为 null 时也可以调用, 在扩展函数的实现体之内, 可以通过 `this == null` 来检查接收者是否为 null. 在 Kotlin 中允许你调用 toString() 函数, 而不必检查对象是否为 null, 就是通过这个原理实现的: 对象是否为 null 的检查发生在扩展函数内部, 因此调用者不必再做检查.

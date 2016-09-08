@@ -54,13 +54,15 @@ internal val baz = 6    // 在同一个模块(module)内可以访问
 * `public` --- 凡是能够访问到这个类的地方, 同时也能访问这个类的 `public` 成员.
 
 Java 使用者 *请注意*: 在 Kotlin 中, 外部类(outer class)不能访问其内部类(inner class)的 private 成员.
- 
+
+如果你覆盖一个 `protected` 成员, 并且没有明确指定可见度, 那么覆盖后成员的可见度也将是 `protected`.
+
 示例:
 
 ``` kotlin
 open class Outer {
     private val a = 1
-    protected val b = 2
+    protected open val b = 2
     internal val c = 3
     val d = 4  // 默认为 public
     
@@ -73,6 +75,8 @@ class Subclass : Outer() {
     // a 不可访问
     // b, c 和 d 可以访问
     // Nested 和 e 可以访问
+
+    override val b = 5   // 'b' 可见度为 protected
 }
 
 class Unrelated(o: Outer) {

@@ -38,7 +38,7 @@ open class A(x: Int) {
 
 interface B {...}
 
-val ab = object : A(1), B {
+val ab: A = object : A(1), B {
   override val y = 15
 }
 ```
@@ -88,9 +88,16 @@ object DataProviderManager {
     get() = // ...
 }
 ```
+这样的代码称为一个 *对象声明(object declaration)*, 在 *object*{: .keyword } 关键字之后必须指定对象名称.
+与变量声明类似, 对象声明不是一个表达式, 因此不能用在赋值语句的右侧.
 
-这样的代码称为一个 *对象声明(object declaration)*. 如果在 *object*{: .keyword } 关键字之后指定了一个名称, 那么它就不再是 _对象表达式_ 了.
-我们不能再将它赋值给一个变量, 但我们可以通过它的名称来引用它. 这样的对象也可以指定基类:
+要引用这个对象, 我们直接使用它的名称:
+
+``` kotlin
+DataProviderManager.registerDataProvider(...)
+```
+
+这样的对象也可以指定基类:
 
 ``` kotlin
 object DefaultListener : MouseAdapter() {
@@ -151,14 +158,14 @@ class MyClass {
 }
 ```
 
-但是, 如果使用 `@JvmStatic` 注解, 你可以让同伴对象的成员在 JVM 上被编译为真正的静态方法(static method)和静态域(static field). 详情请参见 [与 Java 的互操作性](java-interop.html#static-methods-and-fields).
+但是, 如果使用 `@JvmStatic` 注解, 你可以让同伴对象的成员在 JVM 上被编译为真正的静态方法(static method)和静态域(static field). 详情请参见 [与 Java 的互操作性](java-to-kotlin-interop.html#static-fields).
 
 
 ### 对象表达式与对象声明在语义上的区别
 
 对象表达式与对象声明在语义上存在一个重要的区别:
 
-* 对象声明是 **延迟(lazily)** 初始化的, 只会在首次访问时才会初始化
 * 对象表达式则会在使用处 **立即** 执行(并且初始化)
-
+* 对象声明是 **延迟(lazily)** 初始化的, 只会在首次访问时才会初始化
+* 同伴对象会在对应的类被装载(解析)时初始化, 语义上等价于 Java 的静态初始化代码块(static initializer)
 

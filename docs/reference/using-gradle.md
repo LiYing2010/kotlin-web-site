@@ -6,7 +6,9 @@ title: "使用 Gradle"
 
 # 使用 Gradle
 
-要使用 Gradle 编译 Kotlin 代码, 你需要 [设值 *kotlin-gradle* plugin](#plugin-and-versions), 将它 [应用](#targeting-the-jvm) 到你的工程, 然后 [添加 *kotlin-stdlib* 依赖](#configuring-dependencies). 在 IntelliJ IDEA 中, 在 Project action 内选择 Tools -> Kotlin -> Configure Kotlin 也可以自动完成这些操作.
+要使用 Gradle 编译 Kotlin 代码, 你需要 [设置 *kotlin-gradle* plugin](#plugin-and-versions), 将它 [应用](#targeting-the-jvm) 到你的工程, 然后 [添加 *kotlin-stdlib* 依赖](#configuring-dependencies). 在 IntelliJ IDEA 中, 在 Project action 内选择 Tools \| Kotlin \| Configure Kotlin 也可以自动完成这些操作.
+
+你还可以打开 [增量编译(incremental compilation)](#incremental-compilation) 功能, 来提高编译速度. 
 
 ## Plugin 与版本 Versions
 
@@ -126,9 +128,7 @@ android {
 }
 ```
 
-这些设置告诉 Android Studio, kotlin 目录是一个源代码根目录, 因此当工程模型装载进入 IDE 时, 就可以正确地识别这个目录.
-
-
+这些设置告诉 Android Studio, kotlin 目录是一个源代码根目录, 因此当工程模型装载进入 IDE 时, 就可以正确地识别这个目录. 或者, 你也可以将 Kotlin 类放在 Java 源代码目录内, 通常是 `src/main/java`.
 
 ## 配置依赖
 
@@ -161,8 +161,50 @@ dependencies {
 ``` groovy
 compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 ```
 
+## 处理注解
+
+Kotlin plugin 支持 _Dagger_ 或 _DBFlow_ 之类的注解处理器. 为了让这些注解处理器与正确处理 Kotlin 类, 需要在你的 `dependencies` 块中使用 `kapt` 设置来添加对应的依赖:
+
+``` groovy
+dependencies {
+  kapt 'groupId:artifactId:version'
+}
+```
+
+如果你以前使用过 [android-apt](https://bitbucket.org/hvisser/android-apt) plugin, 请将它从你的 `build.gradle` 文件中删除, 然后将使用 `apt` 设置的地方替换为 `kapt`. 如果你的工程中包含 Java 类, `kapt` 也会正确地处理这些 Java 类. 如果你需要对 `androidTest` 或 `test` 源代码使用注解处理器, 那么与 `kapt` 配置相对应的名称应该是 `kaptAndroidTest` 和 `kaptTest`.
+
+有些注解处理库要求你在源代码中使用自动生成的类. 为了实现这一点, 你需要在 build 文件中添加一些额外的标记, 来打开 _桩(stub)代码生成_ 功能:
+
+``` groovy
+kapt {
+    generateStubs = true
+}
+```
+
+注意, 生成桩代码(stub)会使你的编译工程略微变慢, 因此这个功能默认是关闭的. 如果生成的代码只在你的代码中很少的地方使用, 你可以选择替代方案, 用 Java 写一些辅助类(helper class), 然后在你的 Kotlin 中可以 [毫无障碍地调用这些辅助类](java-interop.html).
+
+关于 `kapt` 的更多信息, 请参见 [官方 Blog](http://blog.jetbrains.com/kotlin/2015/06/better-annotation-processing-supporting-stubs-in-kapt/).
+
+## 增量编译(Incremental compilation)
+
+Kotlin 1.0.2 引入了新的 Gradle 中的增量编译模式, 但这个功能目前还是实验性的. 
+增量编译功能会监视源代码文件在两次编译之间的变更, 因此只会编译那些变更过的文件.
+
+打开增量编译功能的方式有以下几种:
+
+  1. 向 `gradle.properties` 或 `local.properties` 文件添加 `kotlin.incremental=true`;
+
+  2. 向 Gradle 命令行参数添加 `-Pkotlin.incremental=true`. 注意, 这种情况下应该向所有后续的编译命令都添加这个参数(任何一次编译, 如果不带这个参数, 都会导致增量编译的缓存失效).
+
+增量编译功能打开之后, 你将会在编译 log 中看到以下警告信息:
+```
+Using experimental kotlin incremental compilation
+```
+
+注意, 初次编译不会是增量编译.
 
 ## OSGi
 

@@ -24,8 +24,6 @@ Kotlin 的主要目标是创建一种实用的、高生产性的编程语言, �
     * 参见 [类与继承](classes.html)
 * 自定义的符号化操作(symbolic operation)
     * 参见 [操作符重载](operator-overloading.html)
-* 内建的 XML
-    * 参见 [类型安全的 Groovy 风格构建器(Type-safe Groovy-style builder)](type-safe-builders.html)
 * 结构化类型(Structural type)
 * 值类型(Value type)
     * 当 [Valhalla 项目](http://openjdk.java.net/projects/valhalla/) 作为 JDK 的一部分发布时, 我们计划支持这个项目
@@ -42,4 +40,3 @@ Kotlin 的主要目标是创建一种实用的、高生产性的编程语言, �
 * [类型智能转换](typecasts.html)
 * [Kotli 的内联函数可以帮助实现非局部的跳转(Nonlocal jump)](inline-functions.html#inline-functions)
 * [委托(First-class delegation)](delegation.html). 可以使用第三方 plugin 实现: Autoproxy
-* [成员引用](reflection.html#function-references) (Java 8 中也支持).

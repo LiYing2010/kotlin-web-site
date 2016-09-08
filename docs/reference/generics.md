@@ -242,7 +242,7 @@ fun <T> T.basicToString() : String {  // 扩展函数
 }
 ```
 
-如果在调用处明确地传入了类型参数, 那么类型参数应该放在函数名称 **之后**:
+调用泛型函数时, 应该在函数名称 **之后** 指定调用端类型参数:
 
 ``` kotlin
 val l = singletonList<Int>(1)

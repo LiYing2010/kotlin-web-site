@@ -95,13 +95,13 @@ strings.filter { it.length == 5 }.sortBy { it }.map { it.toUpperCase() }
 Lambda 表达式, 或者匿名函数, 是一种"函数字面值(function literal)", 也就是, 一个没有声明的函数, 但是立即作为表达式传递出去. 我们来看看下面的代码:
 
 ``` kotlin
-max(strings, { a, b -> a.length() < b.length() })
+max(strings, { a, b -> a.length < b.length })
 ```
 
 函数 `max` 是一个高阶函数, 也就是说, 它接受一个函数值作为第二个参数. 第二个参数是一个表达式, 本身又是另一个函数, 也就是说, 它是一个函数字面量. 作为函数, 它等价于:
 
 ``` kotlin
-fun compare(a: String, b: String): Boolean = a.length() < b.length()
+fun compare(a: String, b: String): Boolean = a.length < b.length
 ```
 
 ### 函数类型(Function Type)

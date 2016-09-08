@@ -98,8 +98,17 @@ val notNull: String = item // 允许, 但在运行时刻可能失败
 
 ### 可否为 null(Nullability) 注解
 
-带有可否为 null(Nullability) 注解的 Java 类型在 Kotlin 中不会被当作平台数据类型, 而会被识别为可为 null 的, 或非 null 的 Kotlin 类型. 目前, 编译器支持 [JetBrains 风格的可否为 null 注解](https://www.jetbrains.com/idea/help/nullable-and-notnull-annotations.html)
-(`org.jetbrains.annotations` 包中定义的 `@Nullable` 和 `@NotNull` 注解).
+带有可否为 null(Nullability) 注解的 Java 类型在 Kotlin 中不会被当作平台数据类型, 而会被识别为可为 null 的, 或非 null 的 Kotlin 类型. 编译器支持几种不同风格的可否为 null 注解, 包括:
+
+  * [JetBrain](https://www.jetbrains.com/idea/help/nullable-and-notnull-annotations.html)
+(`org.jetbrains.annotations` 包中定义的 `@Nullable` 和 `@NotNull` 注解)
+  * Android (`com.android.annotations` 和 `android.support.annotations`)
+  * JSR-305 (`javax.annotation`)
+  * FindBugs (`edu.umd.cs.findbugs.annotations`)
+  * Eclipse (`org.eclipse.jdt.annotation`)
+  * Lombok (`lombok.NonNull`).
+
+完整的列表请参见 [Kotlin 编译器源代码](https://github.com/JetBrains/kotlin/blob/master/core/descriptor.loader.java/src/org/jetbrains/kotlin/load/java/JvmAnnotationNames.kt).
 
 ## 数据类型映射
 

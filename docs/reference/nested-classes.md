@@ -37,3 +37,24 @@ val demo = Outer().Inner().foo() // == 1
 
 在内部类中使用 *this*{: .keyword } 关键字会产生歧义, 关于如何消除这种歧义, 请参见 [带限定符的 *this*{: .keyword } 表达式](this-expressions.html).
 
+## 匿名内部类(Anonymous inner class)
+
+匿名内部类的实例使用 [对象表达式(object expression)](object-declarations.html#object-expressions) 来创建:
+                                                      
+``` kotlin
+window.addMouseListener(object: MouseAdapter() {
+  override fun mouseClicked(e: MouseEvent) {
+    // ...
+  }
+                                                      
+  override fun mouseEntered(e: MouseEvent) {
+    // ...
+  }
+})
+```
+
+如果这个对象是一个 Java 函数式接口的实例(也就是, 只包含唯一一个抽象方法的 Java 接口), 那么你可以使用带接口类型前缀的 Lambda 表达式来创建这个对象:
+
+``` kotlin
+val listener = ActionListener { println("clicked") }
+```

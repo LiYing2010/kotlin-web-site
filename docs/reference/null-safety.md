@@ -86,6 +86,15 @@ bob?.department?.head?.name
 
 这样的链式调用, 只要属性链中任何一个属性为 null, 整个表达式就会返回 *null*{: .keyword }.
 
+如果需要只对非 null 的值执行某个操作, 你可以组合使用安全调用操作符和 [`let`](/api/latest/jvm/stdlib/kotlin/let.html):
+
+``` kotlin
+val listWithNulls: List<String?> = listOf("A", null)
+for (item in listWithNulls) {
+     item?.let { println(it) } // 打印 A, 并忽略 null 值
+}
+```
+
 ## Elvis 操作符
 
 假设我们有一个可为 null 的引用 `r`, 我们可以用说, "如果 `r` 不为 null, 那么就使用它, 否则, 就使用某个非 null 的值 `x`":
@@ -118,7 +127,7 @@ fun foo(node: Node): String? {
 对于 NPE 的热爱者们来说, 还有第三个选择方案. 我们可以写 `b!!`, 对于 `b` 不为 null 的情况, 这个表达式将会返回这个非 null 的值(比如, 在我们的例子中就是一个 `String` 类型值), 如果 `b` 是 null, 这个表达式就会抛出一个 NPE:
 
 ``` kotlin
-val l = b!!.length()
+val l = b!!.length
 ```
 
 所以, 如果你确实想要 NPE, 你可以抛出它, 但你必须明确地提出这个要求, 否则 NPE 不会在你没有注意的地方无声无息地出现.
@@ -132,3 +141,11 @@ val l = b!!.length()
 val aInt: Int? = a as? Int
 ```
 
+## 可为 null 的类型构成的集合
+
+如果你的有一个集合, 其中的元素是可为 null 的类型, 并且希望将其中非 null 值的元素过滤出来, 那么可以使用 `filterNotNull` 函数.
+
+``` kotlin
+val nullableList: List<Int?> = listOf(1, 2, null, 4)
+val intList: List<Int> = nullableList.filterNotNull()
+```

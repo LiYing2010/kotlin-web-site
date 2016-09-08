@@ -43,7 +43,22 @@ println(numbers.filter(::isOdd)) // 打印结果为: [1, 3]
 
 这里的 `::isOdd` 是一个 `(Int) -> Boolean` 函数类型的值.
 
-注意, 现在 `::` 操作符不能用于重载函数. 将来, 我们计划提供一种语法来指明函数的参数类型, 这样就可以在多个重载函数中选择我们希望引用的那一个.
+`::` 也可以用在重载函数上, 前提是必须能够推断出对应的函数参数类型.
+比如:
+
+``` kotlin
+fun isOdd(x: Int) = x % 2 != 0
+fun isOdd(s: String) = s == "brillig" || s == "slithy" || s == "tove"
+
+val numbers = listOf(1, 2, 3)
+println(numbers.filter(::isOdd)) // 指向 isOdd(x: Int) 函数
+```
+
+或者, 你也可以将方法引用保存到一个明确指定了类型的变量中, 通过这种方式来提供必要的函数参数类型信息:
+
+``` kotlin
+val predicate: (String) -> Boolean = ::isOdd   // 指向 isOdd(x: String) 函数
+```
 
 如果我们需要使用一个类的成员函数, 或者一个扩展函数, 就必须使用限定符.
 比如, `String::toCharArray` 指向 `String` 上的一个扩展函数, 函数类型为: `String.() -> CharArray`.
@@ -63,7 +78,7 @@ fun <A, B, C> compose(f: (B) -> C, g: (A) -> B): (A) -> C {
 
 
 ``` kotlin
-fun length(s: String) = s.size
+fun length(s: String) = s.length
 
 val oddLength = compose(::isOdd, ::length)
 val strings = listOf("a", "ab", "abc")
@@ -113,7 +128,7 @@ fun main(args: Array<String>) {
 
 ``` kotlin
 val String.lastChar: Char
-  get() = this[size - 1]
+  get() = this[length - 1]
 
 fun main(args: Array<String>) {
   println(String::lastChar.get("abc")) // 打印结果为: "c"

@@ -72,8 +72,11 @@ for ((k, v) in map) {
 ### 使用数值范围
 
 ``` kotlin
-for (i in 1..100) { ... }
-for (x in 2..10) { ... }
+for (i in 1..100) { ... }  // 闭区间: 包括 100
+for (i in 1 until 100) { ... } // 半开(half-open)区间: 不包括 100
+for (x in 2..10 step 2) { ... }
+for (x in 10 downTo 1) { ... }
+if (x in 1..10) { ... }
 ```
 
 ### 只读 List
@@ -266,4 +269,15 @@ stream.buffered().reader().use { reader ->
 //     ...
 
 inline fun <reified T: Any> Gson.fromJson(json): T = this.fromJson(json, T::class.java)
+```
+
+### 使用可为 null 的布尔值
+
+``` kotlin
+val b: Boolean? = ...
+if (b == true) {
+    ...
+} else {
+    // `b` 为 false 或为 null
+}
 ```
