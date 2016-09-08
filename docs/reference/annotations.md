@@ -88,6 +88,18 @@ public annotation class Deprecated(
 @Deprecated("This function is deprecated, use === instead", ReplaceWith("this === other"))
 ```
 
+如果你需要指定一个类作为注解的参数, 请使用 Kotlin 类
+(参见 [KClass](/api/latest/jvm/stdlib/kotlin.reflect/-k-class/index.html)). Kotlin 编译器会将它自动转换为 Java 类, 因此 Java 代码可以正常地访问到这个注解和它的参数.
+
+``` kotlin
+
+import kotlin.reflect.KClass
+
+annotation class Ann(val arg1: KClass<*>, val arg2: KClass<out Any?>)
+
+@Ann(String::class, Int::class) class MyClass
+```
+
 ### Lambda 表达式
 
 注解也可以用在 Lambda 上. 此时, Lambda 表达式的函数体内容将会生成一个`invoke()` 方法, 注解将被添加到这个方法上. 这个功能对于 [Quasar](http://www.paralleluniverse.co/quasar/) 这样的框架非常有用,
@@ -158,9 +170,15 @@ Kotlin 100% 兼容 Java 注解:
 ``` kotlin
 import org.junit.Test
 import org.junit.Assert.*
+import org.junit.Rule
+import org.junit.rules.*
 
 class Tests {
+  // 对属性的 get 方法使用 @Rule 注解
+  @get:Rule val tempFolder = TemporaryFolder()
+
   @Test fun simple() {
+    val f = tempFolder.newFile()
     assertEquals(42, getTheAnswer())
   }
 }
@@ -209,15 +227,18 @@ public @interface AnnWithArrayValue {
 @AnnWithArrayValue("abc", "foo", "bar") class C
 ```
 
-如果需要指定一个类作为注解的参数, 可以使用 Kotlin 类([KClass](/api/latest/jvm/stdlib/kotlin.reflect/-k-class/index.html)). Kotlin 编译器会自动将它转换为 Java 类, 因此 Java 代码可以正常地访问到这个注解和它的参数.
+对于其他数组类型的参数, 你需要明确地使用 `arrayOf` 函数为其赋值:
+
+``` java
+// Java
+public @interface AnnWithArrayMethod {
+    String[] names();
+}
+```
 
 ``` kotlin
-
-import kotlin.reflect.KClass
-
-annotation class Ann(val arg1: KClass<*>, val arg2: KClass<out Any?>)
-
-@Ann(String::class, Int::class) class MyClass
+// Kotlin
+@AnnWithArrayMethod(names = arrayOf("abc", "foo", "bar")) class C
 ```
 
 Java 注解实例的值, 在 Kotlin 代码中可以通过属性的形式访问.
