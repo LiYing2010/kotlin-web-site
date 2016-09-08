@@ -129,6 +129,7 @@ val customer = Customer("Joe Smith")
 
 注意, Kotlin 没有 *new*{: .keyword } 关键字.
 
+关于嵌套类, 内部类, 以及匿名内部类的实例创建, 请参见[嵌套类(Nested Class)](nested-classes.html).
 
 ### 类成员
 
@@ -200,6 +201,23 @@ open class AnotherDerived() : Base() {
   final override fun v() {}
 }
 ```
+
+属性的覆盖方式与方法覆盖类似.
+注意, 你可以在主构造器的属性声明中使用 `override` 关键字:
+
+``` kotlin
+open class Foo {
+    open val x: Int get { ... }
+}
+
+class Bar1(override val x: Int) : Foo() {
+
+}
+```
+
+你也可以使用一个 `var` 属性覆盖一个 `val` 属性, 但不可以反过来使用一个 `val` 属性覆盖一个 `var` 属性.
+允许这种覆盖的原因是, `val` 属性本质上只是定义了一个 get 方法, 使用 `var` 属性来覆盖它, 只是向后代类中添加了一个 set 方法.
+
 
 #### 等一下! 这样一来, 我如何才能 hack 我用到的那些类库呢?!
 
