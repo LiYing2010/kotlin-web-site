@@ -31,8 +31,8 @@ code_baseurl: https://github.com/JetBrains/kotlin-web-site/tree/master/code
 github_url: https://github.com/JetBrains/kotlin
 twitter_url: https://twitter.com/kotlin
 forum_url: http://devnet.jetbrains.com/community/kotlin
-site_github_url: http://github.com/JetBrains/kotlin-web-site
-edit_on_github_url: https://github.com/JetBrains/kotlin-web-site/edit/master/%path%
+site_github_url: https://github.com/LiYing2010/kotlin-web-site
+edit_on_github_url: https://github.com/LiYing2010/kotlin-web-site/edit/master/%path%
 pdf_url: /kotlin/docs/kotlin-docs.pdf
 img_tutorial_root: assets/images/tutorials
 
