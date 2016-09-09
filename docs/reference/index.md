@@ -3,9 +3,35 @@ layout: reference
 title: "参考文档"
 ---
 
+# 关于翻译
+
+本文是 Kotlin 语言参考文档的中文翻译版.
+
+原文
+
+网址: [https://kotlinlang.org/docs/reference/](https://kotlinlang.org/docs/reference/)
+
+代码库: [https://github.com/JetBrains/kotlin-web-site](https://github.com/JetBrains/kotlin-web-site)
+
+中文翻译版
+
+网址: [http://www.liying-cn.net/kotlin/docs/reference/](http://www.liying-cn.net/kotlin/docs/reference/)
+
+代码库: [https://github.com/LiYing2010/kotlin-web-site](https://github.com/LiYing2010/kotlin-web-site)
+
+翻译者: 李 颖 [liying.cn.2010@gmail.com](mailto:liying.cn.2010@gmail.com)
+
+关于本文档的任何问题, 欢迎与译者联系.
+
+
+### 变更履历
+* 2016-04-20: 第1版
+* 2016-09-09: 第2版
+
+
 # 参考文档
 
-关于 Kotlin 语言和 [标准库](/api/latest/jvm/stdlib/index.html) 的完整参考文档.
+关于 Kotlin 语言和 [标准库](https://kotlinlang.org/api/latest/jvm/stdlib/index.html) 的完整参考文档.
 
 ### 从哪里开始
 
@@ -13,7 +39,7 @@ title: "参考文档"
 请从 [基本语法](basic-syntax.html) 开始, 然后继续阅读更高级的内容.
 阅读本文档时, 你可以在 [online IDE](http://try.kotlinlang.org/) 中试验文档中的例子程序.
 
-当你大致了解 Kotlin 之后, 你可以前往 [Kotlin Koans](/docs/tutorials/koans.html), 这里是一些交互式编程练习题, 你可以试着自己解决这些问题.
+当你大致了解 Kotlin 之后, 你可以前往 [Kotlin Koans](https://kotlinlang.org/docs/tutorials/koans.html), 这里是一些交互式编程练习题, 你可以试着自己解决这些问题.
 如果你不清楚如何解决某个练习题, 或者想要寻找更优雅的解决方式, 可以参考 [Kotlin 惯用法](idioms.html).
 
 
