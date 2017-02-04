@@ -14,18 +14,18 @@ title: "委托"
 
 ``` kotlin
 interface Base {
-  fun print()
+    fun print()
 }
 
 class BaseImpl(val x: Int) : Base {
-  override fun print() { print(x) }
+    override fun print() { print(x) }
 }
 
 class Derived(b: Base) : Base by b
 
 fun main(args: Array<String>) {
-  val b = BaseImpl(10)
-  Derived(b).print() // 打印结果为: 10
+    val b = BaseImpl(10)
+    Derived(b).print() // 打印结果为: 10
 }
 ```
 

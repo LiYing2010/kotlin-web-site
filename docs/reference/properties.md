@@ -13,11 +13,11 @@ Kotlin 中的类可以拥有属性. 可以使用 *var*{: .keyword } 关键字声
 
 ``` kotlin
 public class Address { 
-  public var name: String = ...
-  public var street: String = ...
-  public var city: String = ...
-  public var state: String? = ...
-  public var zip: String = ...
+    public var name: String = ...
+    public var street: String = ...
+    public var city: String = ...
+    public var state: String? = ...
+    public var zip: String = ...
 }
 ```
 
@@ -25,11 +25,11 @@ public class Address {
 
 ``` kotlin
 fun copyAddress(address: Address): Address {
-  val result = Address() // Kotlin 中没有 'new' 关键字
-  result.name = address.name // 将会调用属性的访问器方法
-  result.street = address.street
-  // ...
-  return result
+    val result = Address() // Kotlin 中没有 'new' 关键字
+    result.name = address.name // 将会调用属性的访问器方法
+    result.street = address.street
+    // ...
+    return result
 }
 ```
 
@@ -39,8 +39,8 @@ fun copyAddress(address: Address): Address {
 
 ``` kotlin
 var <propertyName>: <PropertyType> [= <property_initializer>]
-  [<getter>]
-  [<setter>]
+    [<getter>]
+    [<setter>]
 ```
 
 其中的初始化器(initializer), 取值方法(getter), 以及设值方法(setter)都是可选的. 如果属性类型可以通过初始化器自动推断得到, 或者可以通过这个属性覆盖的基类成员属性推断得到, 则属性类型的声明也可以省略.
@@ -63,17 +63,17 @@ val inferredType = 1 // 属性类型为 Int, 使用默认的取值方法
 
 ``` kotlin
 val isEmpty: Boolean
-  get() = this.size == 0
+    get() = this.size == 0
 ```
 
 自定义设值方法的示例如下:
 
 ``` kotlin
 var stringRepresentation: String
-  get() = this.toString()
-  set(value) {
-    setDataFromString(value) // 解析字符串内容, 并将解析得到的值赋给对应的其他属性
-  }
+    get() = this.toString()
+    set(value) {
+        setDataFromString(value) // 解析字符串内容, 并将解析得到的值赋给对应的其他属性
+    }
 ```
 
 Kotlin 的编程惯例是, 设值方法的参数名称为 `value`, 但如果你喜欢, 也可以选择使用不同的名称.
@@ -82,10 +82,10 @@ Kotlin 的编程惯例是, 设值方法的参数名称为 `value`, 但如果你�
 
 ``` kotlin
 var setterVisibility: String = "abc"
-  private set // 设值方法的可见度为 private, 并使用默认实现
+    private set // 设值方法的可见度为 private, 并使用默认实现
 
 var setterWithAnnotation: Any? = null
-  @Inject set // 对设值方法添加 Inject 注解
+    @Inject set // 对设值方法添加 Inject 注解
 ```
 
 ### 属性的后端域变量(Backing Field)
@@ -94,9 +94,9 @@ Kotlin 的类不能拥有域变量. 但是, 使用属性的自定义访问器时
 
 ``` kotlin
 var counter = 0 // 初始化给定的值将直接写入后端域变量中
-  set(value) {
-    if (value >= 0)
-      field = value
+    set(value) {
+        if (value >= 0) field = value
+    }
   }
 ```
 
@@ -108,7 +108,7 @@ var counter = 0 // 初始化给定的值将直接写入后端域变量中
 
 ``` kotlin
 val isEmpty: Boolean
-  get() = this.size == 0
+    get() = this.size == 0
 ```
 
 ### 后端属性(Backing Property)
@@ -118,11 +118,12 @@ val isEmpty: Boolean
 ``` kotlin
 private var _table: Map<String, Int>? = null
 public val table: Map<String, Int>
-  get() {
-    if (_table == null)
-      _table = HashMap() // 类型参数可以自动推断得到, 不必指定
-    return _table ?: throw AssertionError("Set to null by another thread")
-  }
+    get() {
+        if (_table == null) {
+            _table = HashMap() // 类型参数可以自动推断得到, 不必指定
+        }
+        return _table ?: throw AssertionError("Set to null by another thread")
+    }
 ```
 
 不管从哪方面看, 这种方案都与 Java 中完全相同, 因为后端私有属性的取值方法与设值方法都使用默认实现, 我们对这个属性的访问将被编译器优化, 变为直接读写后端域变量, 因此不会发生不必要的函数调用, 导致性能损失.
@@ -172,7 +173,7 @@ public class MyTest {
 
 ## 属性的覆盖
 
-参见 [成员的覆盖](classes.html#overriding-members)
+参见 [属性的覆盖](classes.html#overriding-properties)
 
 ## 委托属性(Delegated Property)
   

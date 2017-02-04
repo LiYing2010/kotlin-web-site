@@ -12,7 +12,7 @@ title: "值范围(Range)"
 
 ``` kotlin
 if (i in 1..10) { // 等价于: 1 <= i && i <= 10
-  println(i)
+    println(i)
 }
 ```
 
@@ -39,6 +39,13 @@ for (i in 1..4 step 2) print(i) // 打印结果为: "13"
 for (i in 4 downTo 1 step 2) print(i) // 打印结果为: "42"
 ```
 
+要创建一个不包含其末尾元素的值范围, 可以使用 `until` 函数:
+
+``` kotlin
+for (i in 1 until 10) { // i in [1, 10), 不包含 10
+     println(i)
+}
+```
 
 ## 值范围的工作原理
 
@@ -68,7 +75,7 @@ for (int i = first; i != last; i += increment) {
 要构造一个数列, 可以使用对应的类的同伴对象中定义的 `fromClosedRange` 函数:
 
 ``` kotlin
-  IntProgression.fromClosedRange(start, end, increment)
+    IntProgression.fromClosedRange(start, end, increment)
 ```
 
 数列的 `last` 元素会自动计算, 对于 `increment` 为正数的情况, 会求得一个不大于 `end` 的最大值, 对于 `increment` 为负数的情况, 会求得一个不小于 `end` 的最小值, 并且使得 `(last - first) % increment == 0`.
@@ -83,18 +90,18 @@ for (int i = first; i != last; i += increment) {
 
 ``` kotlin
 class Int {
-  //...
-  operator fun rangeTo(other: Long): LongRange = LongRange(this, other)
-  //...
-  operator fun rangeTo(other: Int): IntRange = IntRange(this, other)
-  //...
+    //...
+    operator fun rangeTo(other: Long): LongRange = LongRange(this, other)
+    //...
+    operator fun rangeTo(other: Int): IntRange = IntRange(this, other)
+    //...
 }
 ```
 
 浮点型数值(`Double`, `Float`) 没有定义自己的 `rangeTo` 操作符, 而是使用标准库为共通的 `Comparable` 类型提供的操作符:
 
 ``` kotlin
-  public operator fun <T: Comparable<T>> T.rangeTo(that: T): ClosedRange<T>
+    public operator fun <T: Comparable<T>> T.rangeTo(that: T): ClosedRange<T>
 ```
 
 这个函数返回的值范围不能用来遍历.
@@ -105,11 +112,11 @@ class Int {
 
 ``` kotlin
 fun Long.downTo(other: Int): LongProgression {
-  return LongProgression.fromClosedRange(this, other, -1.0)
+    return LongProgression.fromClosedRange(this, other, -1.0)
 }
 
 fun Byte.downTo(other: Int): IntProgression {
-  return IntProgression.fromClosedRange(this, other, -1)
+    return IntProgression.fromClosedRange(this, other, -1)
 }
 ```
 
@@ -119,7 +126,7 @@ fun Byte.downTo(other: Int): IntProgression {
 
 ``` kotlin
 fun IntProgression.reversed(): IntProgression {
-  return IntProgression.fromClosedRange(last, first, -increment)
+    return IntProgression.fromClosedRange(last, first, -increment)
 }
 ```
 
@@ -130,20 +137,20 @@ fun IntProgression.reversed(): IntProgression {
 
 ``` kotlin
 fun IntProgression.step(step: Int): IntProgression {
-  if (step <= 0) throw IllegalArgumentException("Step must be positive, was: $step")
-  return IntProgression.fromClosedRange(first, last, if (increment > 0) step else -step)
+    if (step <= 0) throw IllegalArgumentException("Step must be positive, was: $step")
+    return IntProgression.fromClosedRange(first, last, if (increment > 0) step else -step)
 }
 
 fun CharProgression.step(step: Int): CharProgression {
-  if (step <= 0) throw IllegalArgumentException("Step must be positive, was: $step")
-  return CharProgression.fromClosedRange(first, last, step)
+    if (step <= 0) throw IllegalArgumentException("Step must be positive, was: $step")
+    return CharProgression.fromClosedRange(first, last, step)
 }
 ```
 
 注意, 函数返回的数列的 `last` 值可能会与原始数列的 `last` 值不同, 这是为了保证 `(last - first) % increment == 0` 原则. 下面是一个例子:
 
 ``` kotlin
-  (1..12 step 2).last == 11  // 数列中的元素为 [1, 3, 5, 7, 9, 11]
-  (1..12 step 3).last == 10  // 数列中的元素为 [1, 4, 7, 10]
-  (1..12 step 4).last == 9   // 数列中的元素为 [1, 5, 9]
+    (1..12 step 2).last == 11  // 数列中的元素为 [1, 3, 5, 7, 9, 11]
+    (1..12 step 3).last == 10  // 数列中的元素为 [1, 4, 7, 10]
+    (1..12 step 4).last == 9   // 数列中的元素为 [1, 5, 9]
 ```

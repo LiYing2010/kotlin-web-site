@@ -13,14 +13,14 @@ title: "类型检查与类型转换"
 
 ``` kotlin
 if (obj is String) {
-  print(obj.length)
+    print(obj.length)
 }
 
 if (obj !is String) { // 等价于 !(obj is String)
-  print("Not a String")
+    print("Not a String")
 }
 else {
-  print(obj.length)
+    print(obj.length)
 }
 ```
 
@@ -30,28 +30,29 @@ else {
 
 ``` kotlin
 fun demo(x: Any) {
-  if (x is String) {
-    print(x.length) // x 被自动转换为 String 类型
-  }
+    if (x is String) {
+        print(x.length) // x 被自动转换为 String 类型
+    }
 }
 ```
 
 如果一个相反的类型检查导致了 return, 此时编译器足够智能, 可以判断出转换处理是安全的:
 
 ``` kotlin
-  if (x !is String) return
-  print(x.length) // x 被自动转换为 String 类型
+    if (x !is String) return
+    print(x.length) // x 被自动转换为 String 类型
 ```
 
 在 `&&` 和 `||` 操作符的右侧也是如此:
 
 ``` kotlin
-  // 在 `||` 的右侧, x 被自动转换为 String 类型 
-  if (x !is String || x.length == 0) return
+    // 在 `||` 的右侧, x 被自动转换为 String 类型 
+    if (x !is String || x.length == 0) return
 
-  // 在 `&&` 的右侧, x 被自动转换为 String 类型
-  if (x is String && x.length > 0)
-      print(x.length) // x 被自动转换为 String 类型
+    // 在 `&&` 的右侧, x 被自动转换为 String 类型
+    if (x is String && x.length > 0) {
+        print(x.length) // x 被自动转换为 String 类型
+    }
 ```
 
 
@@ -59,9 +60,9 @@ fun demo(x: Any) {
 
 ``` kotlin
 when (x) {
-  is Int -> print(x + 1)
-  is String -> print(x.length + 1)
-  is IntArray -> print(x.sum())
+    is Int -> print(x + 1)
+    is String -> print(x.length + 1)
+    is IntArray -> print(x.sum())
 }
 ```
 
@@ -100,4 +101,3 @@ val x: String? = y as? String
 ```
 
 注意, 尽管 *as?*{: .keyword } 操作符的右侧是一个非 null 的 `String` 类型, 但这个转换操作的结果仍然是可为 null 的.
-

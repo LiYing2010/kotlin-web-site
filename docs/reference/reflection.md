@@ -128,10 +128,10 @@ fun main(args: Array<String>) {
 
 ``` kotlin
 val String.lastChar: Char
-  get() = this[length - 1]
+    get() = this[length - 1]
 
 fun main(args: Array<String>) {
-  println(String::lastChar.get("abc")) // 打印结果为: "c"
+    println(String::lastChar.get("abc")) // 打印结果为: "c"
 }
 ```
 

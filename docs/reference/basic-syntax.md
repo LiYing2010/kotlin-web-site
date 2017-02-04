@@ -29,7 +29,7 @@ import java.util.*
 
 ``` kotlin
 fun sum(a: Int, b: Int): Int {
-  return a + b
+    return a + b
 }
 ```
 
@@ -43,7 +43,7 @@ fun sum(a: Int, b: Int) = a + b
 
 ``` kotlin
 fun printSum(a: Int, b: Int): Unit {
-  print(a + b)
+    print(a + b)
 }
 ```
 
@@ -51,7 +51,7 @@ fun printSum(a: Int, b: Int): Unit {
 
 ``` kotlin
 fun printSum(a: Int, b: Int) {
-  print(a + b)
+    print(a + b)
 }
 ```
 
@@ -97,9 +97,9 @@ x += 1
 
 ``` kotlin
 fun main(args: Array<String>) {
-  if (args.size == 0) return
+    if (args.size == 0) return
 
-  print("First argument: ${args[0]}")
+    print("First argument: ${args[0]}")
 }
 ```
 
@@ -109,10 +109,11 @@ fun main(args: Array<String>) {
 
 ``` kotlin
 fun max(a: Int, b: Int): Int {
-  if (a > b)
-    return a
-  else
-    return b
+    if (a > b) {
+        return a
+    } else {
+        return b
+    }
 }
 ```
 
@@ -132,7 +133,7 @@ fun max(a: Int, b: Int) = if (a > b) a else b
 
 ``` kotlin
 fun parseInt(str: String): Int? {
-  // ...
+    // ...
 }
 ```
 
@@ -140,37 +141,37 @@ fun parseInt(str: String): Int? {
 
 ``` kotlin
 fun main(args: Array<String>) {
-  if (args.size < 2) {
-    print("Two integers expected")
-    return
-  }
+    if (args.size < 2) {
+        print("Two integers expected")
+        return
+    }
 
-  val x = parseInt(args[0])
-  val y = parseInt(args[1])
+    val x = parseInt(args[0])
+    val y = parseInt(args[1])
 
-  // 直接使用 `x * y` 会导致错误, 因为它们可能为 null.
-  if (x != null && y != null) {
-    // 在进行过 null 值检查之后, x 和 y 的类型会被自动转换为非 null 变量
-    print(x * y)
-  }
+    // 直接使用 `x * y` 会导致错误, 因为它们可能为 null.
+    if (x != null && y != null) {
+        // 在进行过 null 值检查之后, x 和 y 的类型会被自动转换为非 null 变量
+        print(x * y)
+    }
 }
 ```
 
 或者
 
 ``` kotlin
-  // ...
-  if (x == null) {
-    print("Wrong number format in '${args[0]}'")
-    return
-  }
-  if (y == null) {
-    print("Wrong number format in '${args[1]}'")
-    return
-  }
+    // ...
+    if (x == null) {
+        print("Wrong number format in '${args[0]}'")
+        return
+    }
+    if (y == null) {
+        print("Wrong number format in '${args[1]}'")
+        return
+    }
 
-  // 在进行过 null 值检查之后, x 和 y 的类型会被自动转换为非 null 变量
-  print(x * y)
+    // 在进行过 null 值检查之后, x 和 y 的类型会被自动转换为非 null 变量
+    print(x * y)
 ```
 
 参见 [Null 值安全](null-safety.html).
@@ -182,13 +183,13 @@ fun main(args: Array<String>) {
 
 ``` kotlin
 fun getStringLength(obj: Any): Int? {
-  if (obj is String) {
-    // 在这个分支中, `obj` 的类型会被自动转换为 `String`
-    return obj.length
-  }
+    if (obj is String) {
+        // 在这个分支中, `obj` 的类型会被自动转换为 `String`
+        return obj.length
+    }
 
-  // 在类型检查所影响的分支之外, `obj` 的类型仍然是 `Any`
-  return null
+    // 在类型检查所影响的分支之外, `obj` 的类型仍然是 `Any`
+    return null
 }
 ```
 
@@ -196,11 +197,10 @@ fun getStringLength(obj: Any): Int? {
 
 ``` kotlin
 fun getStringLength(obj: Any): Int? {
-  if (obj !is String)
-    return null
+    if (obj !is String) return null
 
-  // 在这个分支中, `obj` 的类型会被自动转换为 `String`
-  return obj.length
+    // 在这个分支中, `obj` 的类型会被自动转换为 `String`
+    return obj.length
 }
 ```
 
@@ -208,11 +208,12 @@ fun getStringLength(obj: Any): Int? {
 
 ``` kotlin
 fun getStringLength(obj: Any): Int? {
-  // 在 `&&` 运算符的右侧, `obj` 的类型会被自动转换为 `String`
-  if (obj is String && obj.length > 0)
-    return obj.length
+    // 在 `&&` 运算符的右侧, `obj` 的类型会被自动转换为 `String`
+    if (obj is String && obj.length > 0) {
+        return obj.length
+    }
 
-  return null
+    return null
 }
 ```
 
@@ -222,16 +223,18 @@ fun getStringLength(obj: Any): Int? {
 
 ``` kotlin
 fun main(args: Array<String>) {
-  for (arg in args)
-    print(arg)
+    for (arg in args) {
+        print(arg)
+    } 
 }
 ```
 
 或者
 
 ``` kotlin
-for (i in args.indices)
-  print(args[i])
+for (i in args.indices) {
+    print(args[i])
+}
 ```
 
 参见 [for 循环](control-flow.html#for-loops).
@@ -240,9 +243,10 @@ for (i in args.indices)
 
 ``` kotlin
 fun main(args: Array<String>) {
-  var i = 0
-  while (i < args.size)
-    print(args[i++])
+    var i = 0
+    while (i < args.size) {
+        print(args[i++])
+    }
 }
 ```
 
@@ -252,13 +256,13 @@ fun main(args: Array<String>) {
 
 ``` kotlin
 fun cases(obj: Any) {
-  when (obj) {
-    1          -> print("One")
-    "Hello"    -> print("Greeting")
-    is Long    -> print("Long")
-    !is String -> print("Not a string")
-    else       -> print("Unknown")
-  }
+    when (obj) {
+        1          -> print("One")
+        "Hello"    -> print("Greeting")
+        is Long    -> print("Long")
+        !is String -> print("Not a string")
+        else       -> print("Unknown")
+    }
 }
 ```
 
@@ -269,22 +273,25 @@ fun cases(obj: Any) {
 使用 *in*{: .keyword } 运算符检查一个数值是否在某个范围之内:
 
 ``` kotlin
-if (x in 1..y-1)
-  print("OK")
+if (x in 1..y-1) {
+    print("OK")
+}
 ```
 
 检查一个数值是否在某个范围之外:
 
 ``` kotlin
-if (x !in 0..array.lastIndex)
-  print("Out")
+if (x !in 0..array.lastIndex) {
+    print("Out")
+}
 ```
 
 在一个值范围内进行遍历迭代:
 
 ``` kotlin
-for (x in 1..5)
-  print(x)
+for (x in 1..5) {
+    print(x)
+}
 ```
 
 参见 [范围](ranges.html).
@@ -294,26 +301,27 @@ for (x in 1..5)
 在一个集合上进行遍历迭代:
 
 ``` kotlin
-for (name in names)
-  println(name)
+for (name in names) {
+    println(name)
+}
 ```
 
 使用 *in*{: .keyword } 运算符检查一个集合是否包含某个对象:
 
 ``` kotlin
-if (text in names) // 将会调用 names.contains(text) 方法
-  print("Yes")
+if (text in names) { // 将会调用 names.contains(text) 方法
+    print("Yes")
+}
 ```
 
 使用 Lambda 表达式, 对集合元素进行过滤和变换:
 
 ``` kotlin
 names
-    .filter { it.startsWith("A") }
-    .sortedBy { it }
-    .map { it.toUpperCase() }
-    .forEach { print(it) }
+        .filter { it.startsWith("A") }
+        .sortedBy { it }
+        .map { it.toUpperCase() }
+        .forEach { print(it) }
 ```
 
 参见 [高阶函数与 Lambda 表达式](lambdas.html).
-

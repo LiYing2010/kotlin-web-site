@@ -138,9 +138,9 @@ val x = (1 shl 2) and 0x000FF000
 
 ``` kotlin
 fun check(c: Char) {
-  if (c == 1) { // 错误: 类型不兼容
-    // ...
-  }
+    if (c == 1) { // 错误: 类型不兼容
+        // ...
+    }
 }
 ```
 
@@ -153,9 +153,9 @@ Kotlin 支持的转义字符包括: `\t`, `\b`, `\n`, `\r`, `\'`, `\"`, `\\` 以
 
 ``` kotlin
 fun decimalDigitValue(c: Char): Int {
-  if (c !in '0'..'9')
-    throw IllegalArgumentException("Out of range")
-  return c.toInt() - '0'.toInt() // 显式转换为数值
+    if (c !in '0'..'9')
+        throw IllegalArgumentException("Out of range")
+    return c.toInt() - '0'.toInt() // 显式转换为数值
 }
 ```
 
@@ -179,12 +179,12 @@ Kotlin 中的数组通过 `Array` 类表达, 这个类拥有 `get` 和 `set` 函
 
 ``` kotlin
 class Array<T> private constructor() {
-  val size: Int
-  fun get(index: Int): T
-  fun set(index: Int, value: T): Unit
+    val size: Int
+    fun get(index: Int): T
+    fun set(index: Int, value: T): Unit
 
-  fun iterator(): Iterator<T>
-  // ...
+    fun iterator(): Iterator<T>
+    // ...
 }
 ```
 
@@ -219,7 +219,7 @@ x[0] = x[1] + x[2]
 
 ``` kotlin
 for (c in str) {
-  println(c)
+    println(c)
 }
 ```
 
@@ -237,8 +237,8 @@ val s = "Hello, world!\n"
 
 ``` kotlin
 val text = """
-  for (c in "foo")
-    print(c)
+    for (c in "foo")
+        print(c)
 """
 ```
 
@@ -246,8 +246,8 @@ val text = """
 
 ``` kotlin
 val text = """
-    |Tell me and I forget. 
-    |Teach me and I remember. 
+    |Tell me and I forget.
+    |Teach me and I remember.
     |Involve me and I learn.
     |(Benjamin Franklin)
     """.trimMargin()

@@ -26,9 +26,9 @@ interface MyInterface {
 
 ``` kotlin
 class Child : MyInterface {
-   override fun bar() {
-      // 方法体
-   }
+    override fun bar() {
+        // 方法体
+    }
 }
 ```
 
@@ -59,24 +59,24 @@ class Child : MyInterface {
 
 ``` kotlin
 interface A {
-  fun foo() { print("A") }
-  fun bar()
+    fun foo() { print("A") }
+    fun bar()
 }
 
 interface B {
-  fun foo() { print("B") }
-  fun bar() { print("bar") }
+    fun foo() { print("B") }
+    fun bar() { print("bar") }
 }
 
 class C : A {
-  override fun bar() { print("bar") }
+    override fun bar() { print("bar") }
 }
 
 class D : A, B {
-  override fun foo() {
-    super<A>.foo()
-    super<B>.foo()
-  }
+    override fun foo() {
+        super<A>.foo()
+        super<B>.foo()
+    }
 }
 ```
 

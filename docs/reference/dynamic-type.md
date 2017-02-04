@@ -41,7 +41,7 @@ dyn.foo().bar.baz()
 
 ``` kotlin
 dyn.foo {
-  x -> x.bar() // x 是 dynamic 类型
+    x -> x.bar() // x 是 dynamic 类型
 }
 ```
 

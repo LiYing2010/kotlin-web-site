@@ -22,13 +22,13 @@ throw MyException("Hi There!")
 
 ``` kotlin
 try {
-  // 某些代码
+    // 某些代码
 }
 catch (e: SomeException) {
-  // 异常处理
+    // 异常处理
 }
 finally {
-  // 可选的 finally 代码段
+    // 可选的 finally 代码段
 }
 ```
 
@@ -61,10 +61,10 @@ Appendable append(CharSequence csq) throws IOException;
 
 ``` kotlin
 try {
-  log.append(message)
+    log.append(message)
 }
 catch (IOException e) {
-  // 实际上前面的代码必然是安全的
+    // 实际上前面的代码必然是安全的
 }
 ```
 
@@ -82,4 +82,3 @@ Bruce Eckel 在 [Java 需要受控异常吗?](http://www.mindview.net/Etc/Discus
 ## 与 Java 的互操作性
 
 关于与 Java 的互操作性问题, 请参见 [与 Java 的互操作性](java-interop.html) 中关于异常的小节.
-

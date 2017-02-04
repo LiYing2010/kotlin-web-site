@@ -61,10 +61,11 @@ val l = if (b != null) b.length else -1
 更复杂的条件也是支持的:
 
 ``` kotlin
-if (b != null && b.length > 0)
-  print("String of length ${b.length}")
-else
-  print("Empty string")
+if (b != null && b.length > 0) {
+    print("String of length ${b.length}")
+} else {
+    print("Empty string")
+}
 ```
 
 注意, 以上方案需要的前提是, `b` 的内容不可变(也就是说, 对于局部变量的情况, 在 null 值检查与变量使用之间, 要求这个局部变量没有被修改, 对于类属性的情况, 要求是一个使用后端域变量的 *val*{: .keyword } 属性, 并且不允许被后代类覆盖), 因为, 假如没有这样的限制的话, `b` 就有可能会在检查之后被修改为 *null*{: .keyword } 值.
@@ -116,9 +117,9 @@ val l = b?.length ?: -1
 
 ``` kotlin
 fun foo(node: Node): String? {
-  val parent = node.getParent() ?: return null
-  val name = node.getName() ?: throw IllegalArgumentException("name expected")
-  // ...
+    val parent = node.getParent() ?: return null
+    val name = node.getName() ?: throw IllegalArgumentException("name expected")
+    // ...
 }
 ```
 

@@ -14,13 +14,13 @@ title: "高阶函数与 Lambda 表达式"
 
 ``` kotlin
 fun <T> lock(lock: Lock, body: () -> T): T {
-  lock.lock()
-  try {
-    return body()
-  }
-  finally {
-    lock.unlock()
-  }
+    lock.lock()
+    try {
+        return body()
+    }
+    finally {
+        lock.unlock()
+    }
 }
 ```
 
@@ -47,11 +47,11 @@ Lambda 表达式的详细介绍请参见 [后面的章节](#lambda-expressions-a
 * 它的参数(如果存在的话)定义在 `->` 之前 (参数类型可以省略),
 * (如果存在 `->` 的话)函数体定义在 `->` 之后.
 
-在 Kotlin 中有一种约定, 如果调用一个函数时, 最后一个参数是另一个函数, 那么这个参数可以写在括号之外:
+在 Kotlin 中有一种约定, 如果调用一个函数时, 最后一个参数是另一个函数, 而且你使用一个 Lambda 表达式作为这个函数参数的值, 那么这个 Lamda 表达式可以写在括号之外:
 
 ``` kotlin
 lock (lock) {
-  sharedResource.operation()
+    sharedResource.operation()
 }
 ```
 
@@ -59,10 +59,10 @@ lock (lock) {
 
 ``` kotlin
 fun <T, R> List<T>.map(transform: (T) -> R): List<R> {
-  val result = arrayListOf<R>()
-  for (item in this)
-    result.add(transform(item))
-  return result
+    val result = arrayListOf<R>()
+    for (item in this)
+        result.add(transform(item))
+    return result
 }
 ```
 
@@ -73,6 +73,8 @@ val doubled = ints.map { it -> it * 2 }
 ```
 
 注意, 调用函数时, 如果 Lambda 表达式是唯一的一个参数, 那么整个括号都可以省略.
+
+### `it`: 单一参数的隐含名称
 
 另一个有用的约定是, 如果一个函数字面值(function literal)只有唯一一个参数, 那么这个参数的声明可以省略(`->` 也可以一起省略), 参数声明省略后, 将使用默认名称 `it`:
 
@@ -111,11 +113,11 @@ fun compare(a: String, b: String): Boolean = a.length < b.length
 
 ``` kotlin
 fun <T> max(collection: Collection<T>, less: (T, T) -> Boolean): T? {
-  var max: T? = null
-  for (it in collection)
-    if (max == null || less(max, it))
-      max = it
-  return max
+    var max: T? = null
+    for (it in collection)
+        if (max == null || less(max, it))
+            max = it
+    return max
 }
 ```
 
@@ -137,18 +139,34 @@ Lambda 表达式的完整语法形式, 也就是, 函数类型的字面值, 如�
 val sum = { x: Int, y: Int -> x + y }
 ```
 
-Lambda 表达式包含在大括号之内, 在完整语法形式中, 参数声明在圆括号之内, 参数类型的声明可选, 函数体在 `->` 符号之后.
+Lambda 表达式包含在大括号之内, 在完整语法形式中, 参数声明在圆括号之内, 参数类型的声明可选, 函数体在 `->` 符号之后. 如果 Lambda 表达式自动推断的返回值类型不是 `Unit`, 那么 Lambda 表达式函数体中, 最后一条(或者就是唯一一条)表达式的值, 会被当作整个 Lambda 表达式的返回值.
+
 如果我们把所有可选的内容都去掉, 那么剩余的部分如下:
 
 ``` kotlin
 val sum: (Int, Int) -> Int = { x, y -> x + y }
 ```
 
+
 很多情况下 Lambda 表达式只有唯一一个参数.
 如果 Kotlin 能够自行判断出 Lambda 表达式的参数定义, 那么它将允许我们省略唯一一个参数的定义, 并且会为我们隐含地定义这个参数, 使用的参数名为 `it`:
 
 ``` kotlin
 ints.filter { it > 0 } // 这个函数字面值的类型是 '(it: Int) -> Boolean'
+```
+
+如果使用 [带标签限定的 return](returns.html#return-at-labels) 语法, 我们可以在 Lambda 表达式内明确地返回一个结果值. 否则, 会隐含地返回 Lambda 表达式内最后一条表达式的值. 因此, 下面两段代码是等价的:
+
+``` kotlin
+ints.filter {
+    val shouldFilter = it > 0 
+    shouldFilter
+}
+
+ints.filter {
+    val shouldFilter = it > 0 
+    return@filter shouldFilter
+}
 ```
 
 注意, 如果一个函数接受另一个函数作为它的最后一个参数, 那么 Lambda 表达式作为参数时, 可以写在圆括号之外.
@@ -166,7 +184,7 @@ fun(x: Int, y: Int): Int = x + y
 
 ``` kotlin
 fun(x: Int, y: Int): Int {
-  return x + y
+    return x + y
 }
 ```
 
@@ -189,7 +207,7 @@ Lambda 表达式, 匿名函数 (此外还有 [局部函数](functions.html#local
 ``` kotlin
 var sum = 0
 ints.filter { it > 0 }.forEach {
-  sum += it
+    sum += it
 }
 print(sum)
 ```
@@ -229,9 +247,9 @@ class HTML {
 }
 
 fun html(init: HTML.() -> Unit): HTML {
-  val html = HTML()  // 创建接受者对象
-  html.init()        // 将接受者对象传递给 Lambda 表达式
-  return html
+    val html = HTML()  // 创建接受者对象
+    html.init()        // 将接受者对象传递给 Lambda 表达式
+    return html
 }
 
 

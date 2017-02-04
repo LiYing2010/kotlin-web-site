@@ -11,10 +11,10 @@ title: "嵌套类"
 
 ``` kotlin
 class Outer {
-  private val bar: Int = 1
-  class Nested {
-    fun foo() = 2
-  }
+    private val bar: Int = 1
+    class Nested {
+        fun foo() = 2
+    }
 }
 
 val demo = Outer.Nested().foo() // == 2
@@ -26,10 +26,10 @@ val demo = Outer.Nested().foo() // == 2
 
 ``` kotlin
 class Outer {
-  private val bar: Int = 1
-  inner class Inner {
-    fun foo() = bar
-  }
+    private val bar: Int = 1
+    inner class Inner {
+        fun foo() = bar
+    }
 }
 
 val demo = Outer().Inner().foo() // == 1
@@ -43,13 +43,13 @@ val demo = Outer().Inner().foo() // == 1
                                                       
 ``` kotlin
 window.addMouseListener(object: MouseAdapter() {
-  override fun mouseClicked(e: MouseEvent) {
-    // ...
-  }
-                                                      
-  override fun mouseEntered(e: MouseEvent) {
-    // ...
-  }
+    override fun mouseClicked(e: MouseEvent) {
+        // ...
+    }
+                                                                                                            
+    override fun mouseEntered(e: MouseEvent) {
+        // ...
+    }
 })
 ```
 

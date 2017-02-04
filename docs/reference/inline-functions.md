@@ -11,7 +11,7 @@ title: "内联函数"
 内存占用(函数对象和类都会占用内存) 以及虚方法调用都会带来运行时的消耗.
 
 但在很多情况下, 通过将 Lambda 表达式内联在使用处, 可以消除这些运行时消耗.
-上文中的那些函数就是很好的例子. 也就是说, `lock()` 函数可以很容易地内联在调用处.
+下文中的函数就是很好的例子. 也就是说, `lock()` 函数可以很容易地内联在调用处.
 看看下面的例子:
 
 ``` kotlin
@@ -23,10 +23,10 @@ lock(l) { foo() }
 ``` kotlin
 l.lock()
 try {
-  foo()
+    foo()
 }
 finally {
-  l.unlock()
+    l.unlock()
 }
 ```
 
@@ -36,7 +36,7 @@ finally {
 
 ``` kotlin
 inline fun lock<T>(lock: Lock, body: () -> T): T {
-  // ...
+    // ...
 }
 ```
 
@@ -50,7 +50,7 @@ inline fun lock<T>(lock: Lock, body: () -> T): T {
 
 ``` kotlin
 inline fun foo(inlined: () -> Unit, noinline notInlined: () -> Unit) {
-  // ...
+    // ...
 }
 ```
 
@@ -65,9 +65,9 @@ inline fun foo(inlined: () -> Unit, noinline notInlined: () -> Unit) {
 
 ``` kotlin
 fun foo() {
-  ordinaryFunction {
-     return // 错误: 这里不允许让 `foo` 函数返回
-  }
+    ordinaryFunction {
+        return // 错误: 这里不允许让 `foo` 函数返回
+    }
 }
 ```
 
@@ -75,9 +75,9 @@ fun foo() {
 
 ``` kotlin
 fun foo() {
-  inlineFunction {
-    return // OK: 这里的 Lambda 表达式是内联的
-  }
+    inlineFunction {
+        return // OK: 这里的 Lambda 表达式是内联的
+    }
 }
 ```
 
@@ -85,10 +85,10 @@ fun foo() {
 
 ``` kotlin
 fun hasZeros(ints: List<Int>): Boolean {
-  ints.forEach {
-    if (it == 0) return true // 从 hasZeros 函数返回
-  }
-  return false
+    ints.forEach {
+        if (it == 0) return true // 从 hasZeros 函数返回
+    }
+    return false
 }
 ```
 
@@ -153,7 +153,7 @@ inline fun <reified T> TreeNode.findParentOfType(): T? {
 inline fun <reified T> membersOf() = T::class.members
 
 fun main(s: Array<String>) {
-  println(membersOf<StringBuilder>().joinToString("\n"))
+    println(membersOf<StringBuilder>().joinToString("\n"))
 }
 ```
 

@@ -11,7 +11,7 @@ title: "枚举类"
 
 ``` kotlin
 enum class Direction {
-  NORTH, SOUTH, WEST, EAST
+    NORTH, SOUTH, WEST, EAST
 }
 ```
 
@@ -23,9 +23,9 @@ enum class Direction {
 
 ``` kotlin
 enum class Color(val rgb: Int) {
-    RED(0xFF0000),
-    GREEN(0x00FF00),
-    BLUE(0x0000FF)
+        RED(0xFF0000),
+        GREEN(0x00FF00),
+        BLUE(0x0000FF)
 }
 ```
 
@@ -35,15 +35,15 @@ enum class Color(val rgb: Int) {
 
 ``` kotlin
 enum class ProtocolState {
-  WAITING {
-    override fun signal() = TALKING
-  },
+    WAITING {
+        override fun signal() = TALKING
+    },
 
-  TALKING {
-    override fun signal() = WAITING
-  };
+    TALKING {
+        override fun signal() = WAITING
+    };
 
-  abstract fun signal(): ProtocolState
+    abstract fun signal(): ProtocolState
 }
 ```
 

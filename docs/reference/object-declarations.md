@@ -17,13 +17,13 @@ Kotlin 使用 *对象表达式(object expression)* 和 *对象声明(object decl
 
 ``` kotlin
 window.addMouseListener(object : MouseAdapter() {
-  override fun mouseClicked(e: MouseEvent) {
-    // ...
-  }
+    override fun mouseClicked(e: MouseEvent) {
+        // ...
+    }
 
-  override fun mouseEntered(e: MouseEvent) {
-    // ...
-  }
+    override fun mouseEntered(e: MouseEvent) {
+        // ...
+    }
 })
 ```
 
@@ -33,13 +33,13 @@ window.addMouseListener(object : MouseAdapter() {
 
 ``` kotlin
 open class A(x: Int) {
-  public open val y: Int = x
+    public open val y: Int = x
 }
 
 interface B {...}
 
 val ab: A = object : A(1), B {
-  override val y = 15
+    override val y = 15
 }
 ```
 
@@ -47,8 +47,8 @@ val ab: A = object : A(1), B {
 
 ``` kotlin
 val adHoc = object {
-  var x: Int = 0
-  var y: Int = 0
+    var x: Int = 0
+    var y: Int = 0
 }
 print(adHoc.x + adHoc.y)
 ```
@@ -58,19 +58,19 @@ print(adHoc.x + adHoc.y)
 
 ``` kotlin
 fun countClicks(window: JComponent) {
-  var clickCount = 0
-  var enterCount = 0
+    var clickCount = 0
+    var enterCount = 0
 
-  window.addMouseListener(object : MouseAdapter() {
-    override fun mouseClicked(e: MouseEvent) {
-      clickCount++
-    }
+    window.addMouseListener(object : MouseAdapter() {
+        override fun mouseClicked(e: MouseEvent) {
+            clickCount++
+        }
 
-    override fun mouseEntered(e: MouseEvent) {
-      enterCount++
-    }
-  })
-  // ...
+        override fun mouseEntered(e: MouseEvent) {
+            enterCount++
+        }
+    })
+    // ...
 }
 ```
 
@@ -80,12 +80,12 @@ fun countClicks(window: JComponent) {
 
 ``` kotlin
 object DataProviderManager {
-  fun registerDataProvider(provider: DataProvider) {
-    // ...
-  }
+    fun registerDataProvider(provider: DataProvider) {
+        // ...
+    }
 
-  val allDataProviders: Collection<DataProvider>
-    get() = // ...
+    val allDataProviders: Collection<DataProvider>
+        get() = // ...
 }
 ```
 这样的代码称为一个 *对象声明(object declaration)*, 在 *object*{: .keyword } 关键字之后必须指定对象名称.
@@ -101,13 +101,13 @@ DataProviderManager.registerDataProvider(...)
 
 ``` kotlin
 object DefaultListener : MouseAdapter() {
-  override fun mouseClicked(e: MouseEvent) {
-    // ...
-  }
+    override fun mouseClicked(e: MouseEvent) {
+        // ...
+    }
 
-  override fun mouseEntered(e: MouseEvent) {
-    // ...
-  }
+    override fun mouseEntered(e: MouseEvent) {
+        // ...
+    }
 }
 ```
 
@@ -120,9 +120,9 @@ object DefaultListener : MouseAdapter() {
 
 ``` kotlin
 class MyClass {
-  companion object Factory {
-    fun create(): MyClass = MyClass()
-  }
+    companion object Factory {
+        fun create(): MyClass = MyClass()
+    }
 }
 ```
 
@@ -136,8 +136,8 @@ val instance = MyClass.create()
 
 ``` kotlin
 class MyClass {
-  companion object {
-  }
+    companion object {
+    }
 }
 
 val x = MyClass.Companion
@@ -147,14 +147,14 @@ val x = MyClass.Companion
 
 ``` kotlin
 interface Factory<T> {
-  fun create(): T
+    fun create(): T
 }
 
 
 class MyClass {
-  companion object : Factory<MyClass> {
-    override fun create(): MyClass = MyClass()
-  }
+    companion object : Factory<MyClass> {
+        override fun create(): MyClass = MyClass()
+    }
 }
 ```
 

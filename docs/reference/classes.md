@@ -66,7 +66,7 @@ class Customer(name: String) {
 
 ``` kotlin
 class Person(val firstName: String, val lastName: String, var age: Int) {
-  // ...
+    // ...
 }
 ```
 
@@ -167,28 +167,27 @@ class Derived(p: Int) : Base(p)
 
 ``` kotlin
 class MyView : View {
-    constructor(ctx: Context) : super(ctx) {
-    }
+    constructor(ctx: Context) : super(ctx)
 
-    constructor(ctx: Context, attrs: AttributeSet) : super(ctx, attrs) {
-    }
+    constructor(ctx: Context, attrs: AttributeSet) : super(ctx, attrs)
+}
 }
 ```
 
 类上的 *open*{: .keyword } 注解(annotation) 与 Java 的 *final*{: .keyword } 正好相反: 这个注解表示允许从这个类继承出其他子类. 默认情况下, Kotlin 中所有的类都是 final 的, 这种设计符合 [Effective Java](http://www.oracle.com/technetwork/java/effectivejava-136174.html),
 一书中的第 17 条原则: *允许继承的地方, 应该明确设计, 并通过文档注明, 否则应该禁止继承*.
 
-### 成员的覆盖
+### 方法的覆盖
 
 我们在前面提到过, 我们很注意让 Kotlin 中的一切都明白无误. 而且与 Java 不同, Kotlin 要求明确地注解来标识允许被子类覆盖的成员(我们称之为 *open*), 而且也要求明确地注解来标识对超类成员的覆盖:
 
 ``` kotlin
 open class Base {
-  open fun v() {}
-  fun nv() {}
+    open fun v() {}
+    fun nv() {}
 }
 class Derived() : Base() {
-  override fun v() {}
+    override fun v() {}
 }
 ```
 
@@ -198,36 +197,39 @@ class Derived() : Base() {
 
 ``` kotlin
 open class AnotherDerived() : Base() {
-  final override fun v() {}
+    final override fun v() {}
 }
 ```
 
-属性的覆盖方式与方法覆盖类似.
-注意, 你可以在主构造器的属性声明中使用 `override` 关键字:
+### 属性的覆盖
+
+属性的覆盖方式与方法覆盖类似; 超类中声明的属性在后代类中再次声明时, 必须使用 *override*{: .keyword } 关键字来标记, 而且覆盖后的属性数据类型必须与超类中的属性数据类型兼容. 可以使用带初始化器的属性来覆盖超类属性, 也可以使用带取值方法(getter)的属性来覆盖.
 
 ``` kotlin
 open class Foo {
     open val x: Int get { ... }
 }
 
-class Bar1(override val x: Int) : Foo() {
-
+class Bar1 : Foo() {
+    override val x: Int = ...
 }
 ```
 
-你也可以使用一个 `var` 属性覆盖一个 `val` 属性, 但不可以反过来使用一个 `val` 属性覆盖一个 `var` 属性.
-允许这种覆盖的原因是, `val` 属性本质上只是定义了一个 get 方法, 使用 `var` 属性来覆盖它, 只是向后代类中添加了一个 set 方法.
+你也可以使用一个 `var` 属性覆盖一个 `val` 属性, 但不可以反过来使用一个 `val` 属性覆盖一个 `var` 属性. 允许这种覆盖的原因是, `val` 属性本质上只是定义了一个 get 方法, 使用 `var` 属性来覆盖它, 只是向后代类中添加了一个 set 方法.
 
+注意, 你可以在主构造器的属性声明中使用 *override*{: .keyword } 关键字:
 
-#### 等一下! 这样一来, 我如何才能 hack 我用到的那些类库呢?!
+``` kotlin 
+interface Foo {
+    val count: Int
+}
 
-你可能曾经习惯于从类库中的某个类继承一个子类, 然后覆盖掉类库设计者并不期望你覆盖的某些方法, 以这种比较肮脏的手段来 hack 类库. 但在 Kotlin 中, 类与成员默认都是 final 的, 我们针对继承和覆盖问题所选择的这种设计原则, 将会带来一个问题, 就是前面所说的那种类库 hack 方式将会变得比较困难.
+class Bar1(override val count: Int) : Foo
 
-但我们认为这并不是一个缺点, 理由如下:
-
-* 程序设计的最佳实践原则认为, 你本来就不应该使用这种 hack 手段
-* 其他语言(比如 C++, C#)也使用了类似的原则, 大家使用起来并未遇到问题
-* 如果有人确实希望 hack, 仍然存在其他方法: 你可以用 Java 来编写你的 hack 代码, 然后通过 Kotlin 来调用(*参见 [与 Java 的互操作性](java-interop.html)*). 另外 Aspect 框架就是为这类目的设计的, 你可以使用 Aspect 框架来解决这类问题.
+class Bar2 : Foo {
+    override var count: Int = 0
+}
+```
 
 ### 覆盖的规则
 
@@ -236,21 +238,21 @@ class Bar1(override val x: Int) : Foo() {
 
 ``` kotlin
 open class A {
-  open fun f() { print("A") }
-  fun a() { print("a") }
+    open fun f() { print("A") }
+    fun a() { print("a") }
 }
 
 interface B {
-  fun f() { print("B") } // 接口的成员默认是 'open' 的
-  fun b() { print("b") }
+    fun f() { print("B") } // 接口的成员默认是 'open' 的
+    fun b() { print("b") }
 }
 
 class C() : A(), B {
-  // 编译器要求 f() 方法必须覆盖:
-  override fun f() {
-    super<A>.f() // 调用 A.f()
-    super<B>.f() // 调用 B.f()
-  }
+    // 编译器要求 f() 方法必须覆盖:
+    override fun f() {
+        super<A>.f() // 调用 A.f()
+        super<B>.f() // 调用 B.f()
+    }
 }
 ```
 
@@ -264,11 +266,11 @@ class C() : A(), B {
 
 ``` kotlin
 open class Base {
-  open fun f() {}
+    open fun f() {}
 }
 
 abstract class Derived : Base() {
-  override abstract fun f()
+    override abstract fun f()
 }
 ```
 

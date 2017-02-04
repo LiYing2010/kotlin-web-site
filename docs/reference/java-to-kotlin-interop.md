@@ -1,7 +1,7 @@
 ---
 type: doc
 layout: reference
-category: "Interop"
+category: "Java Interop"
 title: "在 Java 中调用 Kotlin"
 ---
 
@@ -155,7 +155,7 @@ Singleton.provider = new Provider();
 // file example.kt
 
 object Obj {
-  const val CONST = 1
+    const val CONST = 1
 }
 
 class C {
@@ -183,10 +183,10 @@ int v = C.VERSION;
 
 ``` kotlin
 class C {
-  companion object {
-    @JvmStatic fun foo() {}
-    fun bar() {}
-  }
+    companion object {
+        @JvmStatic fun foo() {}
+        fun bar() {}
+    }
 }
 ```
 
@@ -217,6 +217,14 @@ Obj.INSTANCE.foo(); // 也正确
 
 `@JvmStatic` 注解也可以用于命名对象或同伴对象的属性, 可以使得属性的取值方法和设值方法变成静态方法, 对于命名对象, 这些静态方法在命名对象之内, 对于同伴对象, 这些静态方法在包含同伴对象的类之内.
 
+## KClass
+
+调用 Kotlin 中的方法时, 有时你可能会需要使用 `KClass` 类型的参数.
+Java 的 `Class` 不会自动转换为 Kotlin 的 `KClass`, 因此你必须手动进行转换, 方法是使用 `Class<T>.kotlin` 扩展属性, 这个扩展属性对应的方法是:
+
+```kotlin
+kotlin.jvm.JvmClassMappingKt.getKotlinClass(MainView.class)
+```
 
 ## 使用 @JvmName 注解处理签名冲突
 
@@ -244,8 +252,8 @@ fun List<Int>.filterValid(): List<Int>
 
 ``` kotlin
 val x: Int
-  @JvmName("getX_prop")
-  get() = 15
+    @JvmName("getX_prop")
+    get() = 15
 
 fun getX() = 10
 ```
@@ -286,7 +294,7 @@ void f(String a) { }
 package demo
 
 fun foo() {
-  throw IOException()
+    throw IOException()
 }
 ```
 

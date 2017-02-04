@@ -110,8 +110,8 @@ Kotlin 有一个内容广泛的标准库, 可以在你的应用程序中使用. 
                     <goals> <goal>test-compile</goal> </goals>
                     <configuration>
                         <sourceDirs>
-                            <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
-                            <sourceDir>${project.basedir}/src/main/java</sourceDir>
+                            <sourceDir>${project.basedir}/src/test/kotlin</sourceDir>
+                            <sourceDir>${project.basedir}/src/test/java</sourceDir>
                         </sourceDirs>
                     </configuration>
                 </execution>

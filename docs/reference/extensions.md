@@ -17,9 +17,9 @@ title: "扩展"
 
 ``` kotlin
 fun MutableList<Int>.swap(index1: Int, index2: Int) {
-  val tmp = this[index1] // 'this' 指代 list 实例
-  this[index1] = this[index2]
-  this[index2] = tmp
+    val tmp = this[index1] // 'this' 指代 list 实例
+    this[index1] = this[index2]
+    this[index2] = tmp
 }
 ```
 
@@ -35,9 +35,9 @@ l.swap(0, 2) // 'swap()' 函数内的 'this' 将指向 'l' 的值
 
 ``` kotlin
 fun <T> MutableList<T>.swap(index1: Int, index2: Int) {
-  val tmp = this[index1] // 'this' 指代 list 实例
-  this[index1] = this[index2]
-  this[index2] = tmp
+    val tmp = this[index1] // 'this' 指代 list 实例
+    this[index1] = this[index2]
+    this[index2] = tmp
 }
 ```
 
@@ -46,7 +46,7 @@ fun <T> MutableList<T>.swap(index1: Int, index2: Int) {
 
 ## 扩展函数是**静态**解析的
 
-扩展函数并不会真正修改它所扩展的类. 定义扩展函数时, 其实并没有向类中插入新的成员方法, 而只是创建了一个新的函数, 并且可以通过点号标记法的形式, 对一个类的实例调用这个新函数.
+扩展函数并不会真正修改它所扩展的类. 定义扩展函数时, 其实并没有向类中插入新的成员方法, 而只是创建了一个新的函数, 并且可以通过点号标记法的形式, 对这个数据类型的变量调用这个新函数.
 
 我们希望强调一下, 扩展函数的调用派发过程是**静态的**, 也就是说, 它并不是接收者类型的虚拟成员.
 这就意味着, 调用扩展函数时, 具体被调用的函数是哪一个, 是通过调用函数的对象表达式的类型来决定的, 而不是在运行时刻表达式动态计算的最终结果类型决定的. 比如:
@@ -114,7 +114,7 @@ fun Any?.toString(): String {
 
 ``` kotlin
 val <T> List<T>.lastIndex: Int
-  get() = size - 1
+    get() = size - 1
 ```
 
 注意, 由于扩展属性实际上不会向类添加新的成员, 因此无法让一个扩展属性拥有一个 [后端域变量](properties.html#backing-fields). 所以, **对于扩展属性不允许存在初始化器**. 扩展属性的行为只能通过明确给定的取值方法与设值方法来定义.
@@ -132,11 +132,11 @@ val Foo.bar = 1 // 错误: 扩展属性不允许存在初始化器
 
 ``` kotlin
 class MyClass {
-  companion object { }  // 通过 "Companion" 来引用这个同伴对象
+    companion object { }  // 通过 "Companion" 来引用这个同伴对象
 }
 
 fun MyClass.Companion.foo() {
-  // ...
+    // ...
 }
 ```
 
@@ -167,7 +167,7 @@ import foo.bar.goo // 通过名称 "goo" 来导入扩展
 import foo.bar.*   // 导入 "foo.bar" 包之下的全部内容
 
 fun usage(baz: Baz) {
-  baz.goo()
+    baz.goo()
 )
 
 ```

@@ -26,16 +26,16 @@ annotation class Fancy
         AnnotationTarget.VALUE_PARAMETER, AnnotationTarget.EXPRESSION)
 @Retention(AnnotationRetention.SOURCE)
 @MustBeDocumented
-public annotation class Fancy
+annotation class Fancy
 ```
 
 ### 使用
 
 ``` kotlin
 @Fancy class Foo {
-  @Fancy fun baz(@Fancy foo: Int): Int {
-    return (@Fancy 1)
-  }
+    @Fancy fun baz(@Fancy foo: Int): Int {
+        return (@Fancy 1)
+    }
 }
 ```
 
@@ -44,7 +44,7 @@ public annotation class Fancy
 
 ``` kotlin
 class Foo @Inject constructor(dependency: MyDependency) {
-  // ...
+    // ...
 }
 ```
 
@@ -79,9 +79,9 @@ annotation class Special(val why: String)
 如果一个注解被用作另一个注解的参数, 那么在它的名字之前不使用 @ 前缀:
 
 ``` kotlin
-public annotation class ReplaceWith(val expression: String)
+annotation class ReplaceWith(val expression: String)
 
-public annotation class Deprecated(
+annotation class Deprecated(
         val message: String,
         val replaceWith: ReplaceWith = ReplaceWith(""))
 
@@ -134,7 +134,7 @@ package org.jetbrains.demo
 ``` kotlin
 class Example {
      @set:[Inject VisibleForTesting]
-     public var collaborator: Collaborator
+     var collaborator: Collaborator
 }
 ```
 
@@ -174,13 +174,13 @@ import org.junit.Rule
 import org.junit.rules.*
 
 class Tests {
-  // 对属性的 get 方法使用 @Rule 注解
-  @get:Rule val tempFolder = TemporaryFolder()
+    // 对属性的 get 方法使用 @Rule 注解
+    @get:Rule val tempFolder = TemporaryFolder()
 
-  @Test fun simple() {
-    val f = tempFolder.newFile()
-    assertEquals(42, getTheAnswer())
-  }
+    @Test fun simple() {
+        val f = tempFolder.newFile()
+        assertEquals(42, getTheAnswer())
+    }
 }
 ```
 

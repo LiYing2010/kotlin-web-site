@@ -10,7 +10,7 @@ title: "使用 Gradle"
 
 你还可以打开 [增量编译(incremental compilation)](#incremental-compilation) 功能, 来提高编译速度. 
 
-## Plugin 与版本 Versions
+## Plugin 与版本
 
 *kotlin-gradle-plugin* 可以用来编译 Kotlin 源代码和模块.
 
@@ -29,25 +29,6 @@ buildscript {
    }
 }
 ```
-
-下表是 Kotlin 的 Release 版本名称与版本号之间的对应关系:
-
-<table>
-<thead>
-<tr>
-  <th>Milestone</th>
-  <th>Version</th>
-</tr>
-</thead>
-<tbody>
-{% for entry in site.data.releases.list %}
-<tr>
-  <td>{{ entry.milestone }}</td>
-  <td>{{ entry.version }}</td>
-</tr>
-{% endfor %}
-</tbody>
-</table>
 
 ## 编译到 JVM 平台
 
@@ -206,6 +187,60 @@ Using experimental kotlin incremental compilation
 
 注意, 初次编译不会是增量编译.
 
+## 编译选项
+
+如果需要指定额外的编译选项, 请使用 Kotlin 编译任务的 `kotlinOptions` 属性. 示例如下:
+
+``` groovy
+compileKotlin {
+    kotlinOptions.suppressWarnings = true
+}
+
+compileKotlin {
+    kotlinOptions {
+        suppressWarnings = true
+    }
+}
+```
+
+
+Gradle 任务所支持的编译选项完整列表如下:
+
+### 'kotlin' 和 'kotlin2js' 任务支持的共通属性 
+
+| 属性名称 | 描述 | 可以选择的值 |默认值 |
+|------|-------------|-----------------|--------------|
+| `apiVersion` | 只允许使用指定的版本的运行库中的 API | "1.0" | "1.0" |
+| `languageVersion` | 指定源代码所兼容的 Kotlin 语言版本 | "1.0" | "1.0" |
+| `suppressWarnings` | 不产生警告信息 |  | false |
+| `verbose` | 输出详细的 log 信息 |  | false |
+| `freeCompilerArgs` | 指定额外的编译参数, 可以是多个 |  | [] |
+
+### 'kotlin' 任务独有的属性
+
+| 属性名称 | 描述 | 可以选择的值 |默认值 |
+|------|-------------|-----------------|--------------|
+| `includeRuntime` | 将 Kotlin 运行库包含到编译结果的 .jar 文件内 |  | false |
+| `jdkHome` | 如果 JDK home 目录路径与默认的 JAVA_HOME 值不一致, 这个参数可以指定 JDK home 目录路径, 这个路径将被添加到 classpath 内 |  |  |
+| `jvmTarget` | 指定编译输出的 JVM 字节码的版本, 只支持 1.6 | "1.6" | "1.6" |
+| `noJdk` | 不要将 Java 运行库包含到 classpath 内 |  | false |
+| `noReflect` | 不要将 Kotlin 的反射功能实现库包含到 classpath 内 |  | true |
+| `noStdlib` | 不要将 Kotlin 的运行库包含到 classpath 内 |  | true |
+
+### 'kotlin2js' 任务独有的属性
+
+| 属性名称 | 描述 | 可以选择的值 |默认值 |
+|------|-------------|-----------------|--------------|
+| `kjsm` | 生成 kjsm 文件 (用于创建 JavaScript 库) |  | true |
+| `main` | 指定是否调用 main 函数 | "call", "noCall" | "call" |
+| `metaInfo` | 指定是否生成 metadata |  | true |
+| `moduleKind` | 指定编译器生成的模块类型 | "plain", "amd", "commonjs", "umd" | "plain" |
+| `noStdlib` | 不使用默认附带的 Kotlin 标准库(stdlib) |  | true |
+| `outputFile` | 指定输出文件的路径 |  |  |
+| `sourceMap` | 是否生成源代码映射文件(source map) |  | false |
+| `target` | 指定生成的 JS 文件 的 ECMA 版本 | "v5" | "v5" |
+
+
 ## OSGi
 
 关于对 OSGi 的支持, 请参见 [Kotlin 与 OSGi](kotlin-osgi.html).
@@ -217,4 +252,4 @@ Using experimental kotlin incremental compilation
 * [Kotlin](https://github.com/JetBrains/kotlin-examples/tree/master/gradle/hello-world)
 * [Java 代码与 Kotlin 代码的混合](https://github.com/JetBrains/kotlin-examples/tree/master/gradle/mixed-java-kotlin-hello-world)
 * [Android](https://github.com/JetBrains/kotlin-examples/tree/master/gradle/android-mixed-java-kotlin-project)
-* [JavaScript](https://github.com/JetBrains/kotlin/tree/master/libraries/tools/kotlin-gradle-plugin/src/test/resources/testProject/kotlin2JsProject)
+* [JavaScript](https://github.com/JetBrains/kotlin/tree/master/libraries/tools/kotlin-gradle-plugin-integration-tests/src/test/resources/testProject/kotlin2JsProject)

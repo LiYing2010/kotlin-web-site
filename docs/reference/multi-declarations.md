@@ -84,7 +84,6 @@ Kotlin 的标准库也的确实现了这些扩展函数:
 operator fun <K, V> Map<K, V>.iterator(): Iterator<Map.Entry<K, V>> = entrySet().iterator()
 operator fun <K, V> Map.Entry<K, V>.component1() = getKey()
 operator fun <K, V> Map.Entry<K, V>.component2() = getValue()
-  
 ```  
   
 因此, 你可以在对 map 的 *for*{: .keyword } 循环中自由地使用解构声明(也可以在对数据类集合的 *for*{: .keyword } 循环中使用解构声明).

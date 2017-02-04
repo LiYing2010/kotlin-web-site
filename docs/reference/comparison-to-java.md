@@ -15,7 +15,7 @@ Java 中长期困扰的一系列问题, 在 Kotlin 得到了解决:
 * [没有原生类型(raw type)](java-interop.html)
 * Kotlin 中的数组是 [类型不可变的](basic-types.html#Arrays)
 * 与 Java 中的 SAM 变换方案相反, Kotlin 中存在专门的 [函数类型(function type)](lambdas.html#function-types) 
-* 不使用通配符的 [使用处类型变异(Use-site variance)](generics.html#use-site-variance)
+* 不使用通配符的 [使用处类型变异(Use-site variance)](generics.html#use-site-variance-type-projections)
 * Kotlin 中不存在受控 [异常](exceptions.html)
 
 ## Java 中有, 而 Kotlin 中没有的东西

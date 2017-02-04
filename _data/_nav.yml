@@ -52,6 +52,7 @@ reference:
       - /docs/reference/basic-syntax.html: 基本语法
       - /docs/reference/idioms.html: 惯用法
       - /docs/reference/coding-conventions.html: 编码规约
+      - /docs/reference/whatsnew11.html: 1.1 版中的新功能
 
   - title: 基础
     description: The Basics
@@ -99,7 +100,6 @@ reference:
       - /docs/reference/annotations.html: 注解(Annotation)
       - /docs/reference/reflection.html: 反射(Reflection)
       - /docs/reference/type-safe-builders.html: 类型安全的构建器(Type-Safe Builder)
-      - /docs/reference/dynamic-type.html: 动态类型(Dynamic Type)
 
 
 
@@ -111,10 +111,17 @@ reference:
 
 
   - title: 与 Java 的互操作性
-    description: What you need to know about interoperability with Java and JavaScript.
+    description: What you need to know about interoperability with Java.
     content:
       - /docs/reference/java-interop.html: 在 Kotlin 中调用 Java
       - /docs/reference/java-to-kotlin-interop.html: 在 Java 中调用 Kotlin
+      
+  - title: JavaScript
+    description: Using Kotlin with JavaScript
+    content:
+       - /docs/reference/dynamic-type.html: 动态类型(Dynamic Type)
+       - /docs/reference/js-interop.html: 与 JavaScript 的互操作性
+       - /docs/reference/js-reflection.html: JavaScript 中的反射功能
 
   - title: 工具
     description:

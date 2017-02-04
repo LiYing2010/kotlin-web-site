@@ -1,7 +1,7 @@
 ---
 type: doc
 layout: reference
-category: "Interop"
+category: "Java Interop"
 title: "在 Kotlin 中调用 Java"
 ---
 
@@ -15,13 +15,15 @@ Kotlin 的设计过程中就考虑到了与 Java 的互操作性. 在 Kotlin 中
 import java.util.*
 
 fun demo(source: List<Int>) {
-  val list = ArrayList<Int>()
-  // 对 Java 集合使用 'for' 循环:
-  for (item in source)
-    list.add(item)
-  // 也可以对 Java 类使用 Kotlin 操作符:
-  for (i in 0..source.size() - 1)
-    list[i] = source[i] // 这里会调用 get 和 set 方法
+    val list = ArrayList<Int>()
+    // 对 Java 集合使用 'for' 循环:
+    for (item in source) {
+        list.add(item)
+    }
+    // 也可以对 Java 类使用 Kotlin 操作符:
+    for (i in 0..source.size() - 1) {
+        list[i] = source[i] // 这里会调用 get 和 set 方法
+    }
 }
 ```
 
@@ -221,22 +223,24 @@ javaObj.removeIndices(array)  // 向方法传递 int[] 参数
 ``` kotlin
 val array = arrayOf(1, 2, 3, 4)
 array[x] = array[x] * 2 // 编译器不会产生对 get() 和 set() 方法的调用
-for (x in array) // 不会创建迭代器(iterator)
-  print(x)
+for (x in array) { // 不会创建迭代器(iterator)
+    print(x)
+}
 ```
 
 即使我们使用下标来遍历数组, 也不会产生任何性能损失:
 
 ``` kotlin
-for (i in array.indices) // 不会创建迭代器(iterator)
-  array[i] += 2
+for (i in array.indices) { // 不会创建迭代器(iterator)
+    array[i] += 2
+}
 ```
 
 最后, *in*{: .keyword } 判断也不会产生性能损失:
 
 ``` kotlin
 if (i in array.indices) { // 等价于 (i >= 0 && i < array.size)
-  print(array[i])
+    print(array[i])
 }
 ```
 
@@ -276,8 +280,9 @@ javaObj.removeIndicesVarArg(*array)
 
 ``` kotlin
 fun render(list: List<*>, to: Appendable) {
-  for (item in list)
-    to.append(item.toString()) // Java 会要求我们在这里捕获 IOException
+    for (item in list) {
+        to.append(item.toString()) // Java 会要求我们在这里捕获 IOException
+    }
 }
 ```
 
@@ -319,7 +324,7 @@ val fooClass = Foo::class.java
 ```kotlin
 
 class Example : Cloneable {
-  override fun clone(): Any { ... }
+    override fun clone(): Any { ... }
 }
 ```
 
@@ -331,9 +336,9 @@ class Example : Cloneable {
 
 ```kotlin
 class C {
-  protected fun finalize() {
-    // finalization logic
-  }
+    protected fun finalize() {
+        // finalization 处理逻辑
+    }
 }
 ```
 
@@ -349,7 +354,7 @@ Java 类的静态成员(static member)构成这些类的"同伴对象(companion 
 
 ``` kotlin
 if (Character.isLetter(a)) {
-  // ...
+    // ...
 }
 ```
 

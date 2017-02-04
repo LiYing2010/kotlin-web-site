@@ -21,7 +21,7 @@ Kotlin 中的任何表达式都可以用 *label*{: .keyword } 标签来标记.
 
 ``` kotlin
 loop@ for (i in 1..100) {
-  // ...
+    // ...
 }
 ```
 
@@ -29,10 +29,9 @@ loop@ for (i in 1..100) {
 
 ``` kotlin
 loop@ for (i in 1..100) {
-  for (j in 1..100) {
-    if (...)
-      break@loop
-  }
+    for (j in 1..100) {
+        if (...) break@loop
+    }
 }
 ```
 
@@ -47,10 +46,10 @@ loop@ for (i in 1..100) {
 
 ``` kotlin
 fun foo() {
-  ints.forEach {
-    if (it == 0) return
-    print(it)
-  }
+    ints.forEach {
+        if (it == 0) return
+        print(it)
+    }
 }
 ```
 
@@ -59,10 +58,10 @@ fun foo() {
 
 ``` kotlin
 fun foo() {
-  ints.forEach lit@ {
-    if (it == 0) return@lit
-    print(it)
-  }
+    ints.forEach lit@ {
+        if (it == 0) return@lit
+        print(it)
+    }
 }
 ```
 
@@ -70,10 +69,10 @@ fun foo() {
 
 ``` kotlin
 fun foo() {
-  ints.forEach {
-    if (it == 0) return@forEach
-    print(it)
-  }
+    ints.forEach {
+        if (it == 0) return@forEach
+        print(it)
+    }
 }
 ```
 
@@ -81,10 +80,10 @@ fun foo() {
 
 ``` kotlin
 fun foo() {
-  ints.forEach(fun(value: Int) {
-    if (value == 0) return
-    print(value)
-  })
+    ints.forEach(fun(value: Int) {
+        if (value == 0) return
+        print(value)
+    })
 }
 ```
 

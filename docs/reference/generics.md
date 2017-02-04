@@ -11,7 +11,7 @@ title: "泛型"
 
 ``` kotlin
 class Box<T>(t: T) {
-  var value = t
+    var value = t
 }
 ```
 
@@ -117,12 +117,12 @@ void demo(Source<String> strs) {
 
 ``` kotlin
 abstract class Source<out T> {
-  abstract fun nextT(): T
+    abstract fun nextT(): T
 }
 
 fun demo(strs: Source<String>) {
-  val objects: Source<Any> = strs // 这是 OK 的, 因为 T 是一个 out 类型参数
-  // ...
+    val objects: Source<Any> = strs // 这是 OK 的, 因为 T 是一个 out 类型参数
+    // ...
 }
 ```
 
@@ -138,13 +138,13 @@ fun demo(strs: Source<String>) {
 
 ``` kotlin
 abstract class Comparable<in T> {
-  abstract fun compareTo(other: T): Int
+    abstract fun compareTo(other: T): Int
 }
 
 fun demo(x: Comparable<Number>) {
-  x.compareTo(1.0) // 1.0 类型为 Double, 是 Number 的子类型
-  // 因此, 我们可以将 x 赋值给 Comparable<Double> 类型的变量
-  val y: Comparable<Double> = x // OK!
+    x.compareTo(1.0) // 1.0 类型为 Double, 是 Number 的子类型
+    // 因此, 我们可以将 x 赋值给 Comparable<Double> 类型的变量
+    val y: Comparable<Double> = x // OK!
 }
 ```
 
@@ -163,8 +163,8 @@ fun demo(x: Comparable<Number>) {
 
 ``` kotlin
 class Array<T>(val size: Int) {
-  fun get(index: Int): T { /* ... */ }
-  fun set(index: Int, value: T) { /* ... */ }
+    fun get(index: Int): T { /* ... */ }
+    fun set(index: Int, value: T) { /* ... */ }
 }
 ```
 
@@ -172,9 +172,9 @@ class Array<T>(val size: Int) {
 
 ``` kotlin
 fun copy(from: Array<Any>, to: Array<Any>) {
-  assert(from.size == to.size)
-  for (i in from.indices)
-    to[i] = from[i]
+    assert(from.size == to.size)
+    for (i in from.indices)
+        to[i] = from[i]
 }
 ```
 
@@ -202,7 +202,7 @@ fun copy(from: Array<out Any>, to: Array<Any>) {
 
 ``` kotlin
 fun fill(dest: Array<in String>, value: String) {
-  // ...
+    // ...
 }
 ```
 
@@ -228,17 +228,17 @@ fun fill(dest: Array<in String>, value: String) {
 
 *注意*: 星号投射与 Java 的原生类型(raw type)非常类似, 但可以安全使用.
 
-# 泛型函数
+## 泛型函数
 
 不仅类可以有类型参数. 函数一样可以有类型参数. 类型参数放在函数名称之前:
 
 ``` kotlin
 fun <T> singletonList(item: T): List<T> {
-  // ...
+    // ...
 }
 
 fun <T> T.basicToString() : String {  // 扩展函数
-  // ...
+    // ...
 }
 ```
 
@@ -248,17 +248,17 @@ fun <T> T.basicToString() : String {  // 扩展函数
 val l = singletonList<Int>(1)
 ```
 
-# 泛型约束(Generic constraint)
+## 泛型约束(Generic constraint)
 
 对于一个给定的类型参数, 所允许使用的类型, 可以通过 **泛型约束(generic constraint)** 来限制.
 
-## 上界(Upper bound)
+### 上界(Upper bound)
 
 最常见的约束是 **上界(upper bound)**, 与 Java 中的 *extends* 关键字相同:
 
 ``` kotlin
 fun <T : Comparable<T>> sort(list: List<T>) {
-  // ...
+    // ...
 }
 ```
 

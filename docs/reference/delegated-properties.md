@@ -17,7 +17,7 @@ title: "委托属性"
 
 ``` kotlin
 class Example {
-  var p: String by Delegate()
+    var p: String by Delegate()
 }
 ```
 
@@ -27,13 +27,13 @@ class Example {
 
 ``` kotlin
 class Delegate {
-  operator fun getValue(thisRef: Any?, property: KProperty<*>): String {
-    return "$thisRef, thank you for delegating '${property.name}' to me!"
-  }
-
-  operator fun setValue(thisRef: Any?, property: KProperty<*>, value: String) {
-    println("$value has been assigned to '${property.name} in $thisRef.'")
-  }
+    operator fun getValue(thisRef: Any?, property: KProperty<*>): String {
+        return "$thisRef, thank you for delegating '${property.name}' to me!"
+    }
+ 
+    operator fun setValue(thisRef: Any?, property: KProperty<*>, value: String) {
+        println("$value has been assigned to '${property.name} in $thisRef.'")
+    }
 }
 ```
 
@@ -105,6 +105,14 @@ fun main(args: Array<String>) {
     println(lazyValue)
     println(lazyValue)
 }
+```
+
+上面的示例代码打印的结果将是:
+
+```
+computed!
+Hello
+Hello
 ```
 
 默认情况下, 延迟加载属性(lazy property)的计算是 **同步的(synchronized)**: 属性值只会在唯一一个线程内计算, 然后所有线程都将得到同样的属性值. 如果委托的初始化计算不需要同步, 多个线程可以同时执行初始化计算, 那么可以向`lazy()` 函数传入一个 `LazyThreadSafetyMode.PUBLICATION` 参数.

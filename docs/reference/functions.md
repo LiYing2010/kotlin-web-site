@@ -125,7 +125,7 @@ reformat(str,
     upperCaseFirstLetter = true,
     divideByCamelHumps = false,
     wordSeparator = '_'
-  )
+)
 ```
 
 而且, 如果我们不需要指定所有的参数, 那么可以这样:
@@ -185,17 +185,17 @@ fun double(x: Int) = x * 2
 
 ``` kotlin
 fun <T> asList(vararg ts: T): List<T> {
-  val result = ArrayList<T>()
-  for (t in ts) // ts 是一个 Array
-    result.add(t)
-  return result
+    val result = ArrayList<T>()
+    for (t in ts) // ts 是一个 Array
+        result.add(t)
+    return result
 }
 ```
 
 调用时, 可以向这个函数传递不定数量的参数:
 
-```kotlin
-  val list = asList(1, 2, 3)
+``` kotlin
+val list = asList(1, 2, 3)
 ```
 
 在函数内部, 类型为 `T` 的 `vararg` 参数会被看作一个 `T` 类型的数组, 也就是说, 上例中的 `ts` 变量的类型为 `Array<out T>`.
@@ -219,13 +219,13 @@ Kotlin 支持局部函数, 也就是, 嵌套在另一个函数内的函数:
 
 ``` kotlin
 fun dfs(graph: Graph) {
-  fun dfs(current: Vertex, visited: Set<Vertex>) {
-    if (!visited.add(current)) return
-    for (v in current.neighbors)
-      dfs(v, visited)
-  }
+    fun dfs(current: Vertex, visited: Set<Vertex>) {
+        if (!visited.add(current)) return
+        for (v in current.neighbors)
+            dfs(v, visited)
+    }
 
-  dfs(graph.vertices[0], HashSet())
+    dfs(graph.vertices[0], HashSet())
 }
 ```
 
@@ -233,14 +233,14 @@ fun dfs(graph: Graph) {
 
 ``` kotlin
 fun dfs(graph: Graph) {
-  val visited = HashSet<Vertex>()
-  fun dfs(current: Vertex) {
-    if (!visited.add(current)) return
-    for (v in current.neighbors)
-      dfs(v)
-  }
+    val visited = HashSet<Vertex>()
+    fun dfs(current: Vertex) {
+        if (!visited.add(current)) return
+        for (v in current.neighbors)
+            dfs(v)
+    }
 
-  dfs(graph.vertices[0])
+    dfs(graph.vertices[0])
 }
 ```
 
@@ -250,7 +250,7 @@ fun dfs(graph: Graph) {
 
 ``` kotlin
 class Sample() {
-  fun foo() { print("Foo") }
+    fun foo() { print("Foo") }
 }
 ```
 
@@ -268,7 +268,7 @@ Sample().foo() // 创建 Sample 类的实例, 并调用 foo 函数
 
 ``` kotlin
 fun <T> singletonList(item: T): List<T> {
-  // ...
+    // ...
 }
 ```
 
@@ -311,4 +311,3 @@ private fun findFixPoint(): Double {
 ```
 
 要符合 `tailrec` 修饰符的要求, 函数必须在它执行的所有操作的最后一步, 递归调用它自身. 如果在这个递归调用之后还存在其他代码, 那么你不能使用尾递归, 而且你不能将尾递归用在 try/catch/finally 结构内. 尾递归目前只能用在 JVM 环境内.
-

@@ -24,34 +24,34 @@ title: "类型安全的 Groovy 风格构建器"
 import com.example.html.* // 具体的声明参见下文
 
 fun result(args: Array<String>) =
-  html {
-    head {
-      title {+"XML encoding with Kotlin"}
+    html {
+        head {
+            title {+"XML encoding with Kotlin"}
+        }
+        body {
+            h1 {+"XML encoding with Kotlin"}
+            p  {+"this format can be used as an alternative markup to XML"}
+
+            // 一个元素, 指定了属性, 还指定了其中的文本内容
+            a(href = "http://kotlinlang.org") {+"Kotlin"}
+
+            // 混合内容
+            p {
+                +"This is some"
+                b {+"mixed"}
+                +"text. For more see the"
+                a(href = "http://kotlinlang.org") {+"Kotlin"}
+                +"project"
+            }
+            p {+"some text"}
+
+            // 由程序生成的内容
+            p {
+                for (arg in args)
+                    +arg
+            }
+        }
     }
-    body {
-      h1 {+"XML encoding with Kotlin"}
-      p  {+"this format can be used as an alternative markup to XML"}
-
-      // 一个元素, 指定了属性, 还指定了其中的文本内容
-      a(href = "http://kotlinlang.org") {+"Kotlin"}
-
-      // 混合内容
-      p {
-        +"This is some"
-        b {+"mixed"}
-        +"text. For more see the"
-        a(href = "http://kotlinlang.org") {+"Kotlin"}
-        +"project"
-      }
-      p {+"some text"}
-
-      // 由程序生成的内容
-      p {
-        for (arg in args)
-          +arg
-      }
-    }
-  }
 ```
 
 上面是一段完全合法的 Kotlin 代码.
@@ -78,9 +78,9 @@ html {
 
 ``` kotlin
 fun html(init: HTML.() -> Unit): HTML {
-  val html = HTML()
-  html.init()
-  return html
+    val html = HTML()
+    html.init()
+    return html
 }
 ```
 
@@ -91,19 +91,19 @@ fun html(init: HTML.() -> Unit): HTML {
 
 ``` kotlin
 html {
-  this.head { /* ... */ }
-  this.body { /* ... */ }
+    this.head { /* ... */ }
+    this.body { /* ... */ }
 }
 ```
 
-(`head` 和 `body` 是 `html` 类的成员函数.)
+(`head` 和 `body` 是 `HTML` 类的成员函数.)
 
 现在, *this*{: .keyword } 关键字可以省略, 通常都是如此, 省略之后我们的代码就已经非常接近一个构建器了:
 
 ``` kotlin
 html {
-  head { /* ... */ }
-  body { /* ... */ }
+    head { /* ... */ }
+    body { /* ... */ }
 }
 ```
 
@@ -116,28 +116,28 @@ html {
 
 ``` kotlin
 fun head(init: Head.() -> Unit) : Head {
-  val head = Head()
-  head.init()
-  children.add(head)
-  return head
+    val head = Head()
+    head.init()
+    children.add(head)
+    return head
 }
 
 fun body(init: Body.() -> Unit) : Body {
-  val body = Body()
-  body.init()
-  children.add(body)
-  return body
+    val body = Body()
+    body.init()
+    children.add(body)
+    return body
 }
 ```
 
 实际上这两个函数做的事情完全相同, 因此我们可以编写一个泛型化的函数, 名为 `initTag`:
 
 ``` kotlin
-  protected fun <T : Element> initTag(tag: T, init: T.() -> Unit): T {
-    tag.init()
-    children.add(tag)
-    return tag
-  }
+    protected fun <T : Element> initTag(tag: T, init: T.() -> Unit): T {
+        tag.init()
+        children.add(tag)
+        return tag
+    }
 ```
 
 然后, 这两个函数就变得很简单了:
@@ -155,10 +155,10 @@ fun body(init: Body.() -> Unit) = initTag(Body(), init)
 
 ``` kotlin
 html {
-  head {
-    title {+"XML encoding with Kotlin"}
-  }
-  // ...
+    head {
+        title {+"XML encoding with Kotlin"}
+    }
+    // ...
 }
 ```
 
@@ -168,7 +168,7 @@ html {
 
 ``` kotlin
 fun String.unaryPlus() {
-  children.add(TextElement(this))
+    children.add(TextElement(this))
 }
 ```
 
@@ -215,7 +215,7 @@ abstract class Tag(val name: String) : Element {
         builder.append("$indent</$name>\n")
     }
 
-    private fun renderAttributes(): String? {
+    private fun renderAttributes(): String {
         val builder = StringBuilder()
         for (a in attributes.keys) {
             builder.append(" $a=\"${attributes[a]}\"")

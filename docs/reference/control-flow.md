@@ -15,15 +15,15 @@ title: "控制流"
 ``` kotlin
 // if 的传统用法
 var max = a 
-if (a < b) 
-  max = b 
+if (a < b) max = b 
  
 // 使用 else 分支的方式 
 var max: Int
-if (a > b) 
-  max = a 
-else 
-  max = b 
+if (a > b) {
+    max = a
+} else {
+    max = b
+}
  
 // if 作为表达式使用
 val max = if (a > b) a else b
@@ -32,14 +32,13 @@ val max = if (a > b) a else b
 *if*{: .keyword } 的分支可以是多条语句组成的代码段, 代码段内最后一个表达式的值将成为整个代码段的返回值:
 
 ``` kotlin
-val max = if (a > b) { 
-    print("Choose a") 
-    a 
-  } 
-  else { 
-    print("Choose b") 
-    b 
-  }
+val max = if (a > b) {
+    print("Choose a")
+    a
+} else {
+    print("Choose b")
+    b
+}
 ```
 
 如果你将 *if*{: .keyword } 作为表达式来使用(比如, 将它的值作为函数的返回值, 或将它的值赋值给一个变量), 而不是用作普通的流程控制语句, 这种情况下 *if*{: .keyword } 表达式必须有 `else` 分支.
@@ -52,11 +51,11 @@ val max = if (a > b) {
 
 ``` kotlin
 when (x) {
-  1 -> print("x == 1")
-  2 -> print("x == 2")
-  else -> { // 注意, 这里是代码段
-    print("x is neither 1 nor 2")
-  }
+    1 -> print("x == 1")
+    2 -> print("x == 2")
+    else -> { // 注意, 这里是代码段
+        print("x is neither 1 nor 2")
+    }
 }
 ```
 
@@ -70,8 +69,8 @@ when (x) {
 
 ``` kotlin
 when (x) {
-  0, 1 -> print("x == 0 or x == 1")
-  else -> print("otherwise")
+    0, 1 -> print("x == 0 or x == 1")
+    else -> print("otherwise")
 }
 ```
 
@@ -79,8 +78,8 @@ when (x) {
 
 ``` kotlin
 when (x) {
-  parseInt(s) -> print("s encodes x")
-  else -> print("s does not encode x")
+    parseInt(s) -> print("s encodes x")
+    else -> print("s does not encode x")
 }
 ```
 
@@ -88,10 +87,10 @@ when (x) {
 
 ``` kotlin
 when (x) {
-  in 1..10 -> print("x is in the range")
-  in validNumbers -> print("x is valid")
-  !in 10..20 -> print("x is outside the range")
-  else -> print("none of the above")
+    in 1..10 -> print("x is in the range")
+    in validNumbers -> print("x is valid")
+    !in 10..20 -> print("x is outside the range")
+    else -> print("none of the above")
 }
 ```
 
@@ -99,8 +98,8 @@ when (x) {
 
 ```kotlin
 val hasPrefix = when(x) {
-  is String -> x.startsWith("prefix")
-  else -> false
+    is String -> x.startsWith("prefix")
+    else -> false
 }
 ```
 
@@ -109,9 +108,9 @@ val hasPrefix = when(x) {
 
 ``` kotlin
 when {
-  x.isOdd() -> print("x is odd")
-  x.isEven() -> print("x is even")
-  else -> print("x is funny")
+    x.isOdd() -> print("x is odd")
+    x.isEven() -> print("x is even")
+    else -> print("x is funny")
 }
 ```
 
@@ -123,15 +122,14 @@ when {
 任何值, 只要能够产生一个迭代器(iterator), 就可以使用 *for*{: .keyword } 循环进行遍历. 语法如下:
 
 ``` kotlin
-for (item in collection)
-  print(item)
+for (item in collection) print(item)
 ```
 
 循环体可以是多条语句组成的代码段.
 
 ``` kotlin
 for (item: Int in ints) {
-  // ...
+    // ...
 }
 ```
 
@@ -148,8 +146,9 @@ for (item: Int in ints) {
 如果你希望使用下标变量来遍历数组或 List, 可以这样做:
 
 ``` kotlin
-for (i in array.indices)
-  print(array[i])
+for (i in array.indices) {
+    print(array[i])
+}
 ```
 
 注意, 上例中的 "在数值范围内的遍历" 会在编译期间进行优化, 运行时不会产生额外的对象实例.
@@ -170,11 +169,11 @@ for ((index, value) in array.withIndex()) {
 
 ``` kotlin
 while (x > 0) {
-  x--
+    x--
 }
 
 do {
-  val y = retrieveData()
+    val y = retrieveData()
 } while (y != null) // y is visible here!
 ```
 
@@ -183,5 +182,3 @@ do {
 ## 循环的中断(break)与继续(continue)
 
 Kotlin 的循环支持传统的 *break*{: .keyword } 和 *continue*{: .keyword } 操作符. 参见 [返回与跳转](returns.html).
-
-
