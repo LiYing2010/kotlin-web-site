@@ -130,7 +130,7 @@ fun eval(expr: Expr): Double = when (expr) {
 [数据类](https://github.com/Kotlin/KEEP/blob/master/proposals/data-class-inheritance.md).
 
 
-### 在 lambda 表达式中使用解构声明 
+### 在 lambda 表达式中使用解构声明
 
 现在你可以使用 [解构声明](multi-declarations.html) 语法, 将对象解构为多个值, 然后作为参数传递给 lambda 表达式.
 示例代码如下:
@@ -198,9 +198,9 @@ val foo: Foo
 关于这个功能的详情, 请参见 [KEEP 文档](https://github.com/Kotlin/KEEP/blob/master/proposals/inline-properties.md).
 
 
-### 局部的代理属性
+### 局部的委托属性
 
-你现在可以对局部变量使用 [代理属性](delegated-properties.html) 语法.
+你现在可以对局部变量使用 [委托属性](delegated-properties.html) 语法.
 这个功能可以用来定义一个延迟计算的局部变量:
 
 ``` kotlin
@@ -215,9 +215,9 @@ fun foo() {
 关于这个功能的详情, 请参见 [KEEP 文档](https://github.com/Kotlin/KEEP/blob/master/proposals/local-delegated-properties.md).
 
 
-### 代理属性绑定的拦截
+### 委托属性绑定的拦截
 
-对于 [代理属性](delegated-properties.html), 现在可以使用 `provideDelegate` 操作符来拦截代理到属性的绑定.
+对于 [委托属性](delegated-properties.html), 现在可以使用 `provideDelegate` 操作符来拦截委托到属性的绑定.
 比如, 如果我们希望在绑定之前检查属性名称, 我们可以编写以下代码:
 
 ``` kotlin
@@ -308,9 +308,9 @@ fun Tag.td(init: TD.() -> Unit) {
 ### takeIf() 和 also()
 
 新增了两个多用途的扩展函数, 可以用于任意类型的接受者.
- 
-`also` 函数类似于 `apply`: 它得到一个接受者, 对它执行某种操作, 然后返回这个接受者. 
-区别在于, 在 `apply` 的代码段内部, 接受者可以通过 `this` 得到, 
+
+`also` 函数类似于 `apply`: 它得到一个接受者, 对它执行某种操作, 然后返回这个接受者.
+区别在于, 在 `apply` 的代码段内部, 接受者可以通过 `this` 得到,
 而在 `also` 的代码段内部, 接受者是 `it` (而且如果你愿意, 也可以指定其他名称).
 如果你不希望其他范围内的 `this` 被屏蔽掉, 那么这个功能就很方便了:
 
@@ -318,7 +318,7 @@ fun Tag.td(init: TD.() -> Unit) {
 fun Block.copy() = Block().also { it.content = this.content }
 ```
 
-`takeIf` 函数类似于 `filter`, 但适用于单个值. 这个函数首先检查接受者是否符合某些条件, 如果满足条件则返回接受者, 否则返回 `null`. 
+`takeIf` 函数类似于 `filter`, 但适用于单个值. 这个函数首先检查接受者是否符合某些条件, 如果满足条件则返回接受者, 否则返回 `null`.
 将这个函数与 Elvis 操作符, 以及快速返回(early return)组合起来, 可以编写下面这样的代码:
 
 ```kotlin
@@ -370,7 +370,7 @@ MutableList(size) { index -> element }
 ### 抽象的集合类
 
 实现 Kotlin 集合类时, 可以使用这些抽象类作为基类.
-为了实现只读集合, 可以使用的基类有 `AbstractCollection`, `AbstractList`, `AbstractSet` 以及 `AbstractMap`, 
+为了实现只读集合, 可以使用的基类有 `AbstractCollection`, `AbstractList`, `AbstractSet` 以及 `AbstractMap`,
 对于可变的集合, 可以使用的基类有 `AbstractMutableCollection`, `AbstractMutableList`, `AbstractMutableSet` 以及 `AbstractMutableMap`.
 在 JVM 环境中, 这些可变集合的抽象类的大多数功能, 通过继承 JDK 的集合抽象类得到.
 
