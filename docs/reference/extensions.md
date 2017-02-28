@@ -128,7 +128,7 @@ val Foo.bar = 1 // 错误: 扩展属性不允许存在初始化器
 
 ## 对同伴对象(Companion Object)的扩展
 
-如果一个类定义了[同伴对象](object-declarations.html#companion-objects), 你可以对这个同伴对象定义扩展函数和扩展熟悉:
+如果一个类定义了[同伴对象](object-declarations.html#companion-objects), 你可以对这个同伴对象定义扩展函数和扩展属性:
 
 ``` kotlin
 class MyClass {
