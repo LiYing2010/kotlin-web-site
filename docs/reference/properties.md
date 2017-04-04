@@ -43,7 +43,7 @@ var <propertyName>: <PropertyType> [= <property_initializer>]
     [<setter>]
 ```
 
-其中的initializer, getter, 以及 setter 都是可选的. 如果属性的类型可以通过 initializer 自动推断得到, 或者可以通过这个属性重载的基类成员属性推断得到, 则属性的类型声明也可以省略.
+其中的initializer, getter, 以及 setter 都是可选的. 如果属性的类型可以通过 initializer 自动推断得到, 或者可以通过这个属性覆盖的基类成员属性推断得到, 则属性的类型声明也可以省略.
 
 示例:
 
@@ -174,9 +174,9 @@ public class MyTest {
 
 在一个 `lateinit` 属性被初始化之前访问它, 会抛出一个特别的异常, 这个异常将会指明被访问的属性, 以及它没有被初始化这一错误.
 
-## 属性的重载
+## 属性的覆盖
 
-参见 [属性的重载](classes.html#overriding-properties)
+参见 [属性的覆盖](classes.html#overriding-properties)
 
 ## 委托属性(Delegated Property)
   
