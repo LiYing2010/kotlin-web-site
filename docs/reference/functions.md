@@ -35,7 +35,7 @@ Sample().foo() // 创建一个 Sample 类的实例, 然后调用这个实例的 
 
 也可以使用中缀标记法(infix notation)来调用函数, 但需要满足以下条件:
 
-* 是成员函数, 或者是[扩展函数](extensions.html)
+* 是成员函数, 或者是[扩展函数](extensions.md)
 * 只有单个参数
 * 使用 `infix` 关键字标记
 
@@ -260,7 +260,7 @@ class Sample() {
 Sample().foo() // 创建 Sample 类的实例, 并调用 foo 函数
 ```
 
-关于类, 以及成员覆盖, 详情请参见 [类](classes.html) 和 [继承](classes.html#inheritance)
+关于类, 以及成员覆盖, 详情请参见 [类和继承](classes.md)
 
 ## 泛型函数
 
@@ -272,19 +272,19 @@ fun <T> singletonList(item: T): List<T> {
 }
 ```
 
-关于泛型函数, 详情请参见 [泛型](generics.html)
+关于泛型函数, 详情请参见 [泛型](generics.md)
 
 ## 内联函数(Inline Function)
 
-内联函数的详细解释在 [这里](inline-functions.html)
+内联函数的详细解释在 [这里](inline-functions.md)
 
 ## 扩展函数
 
-扩展函数的详细解释在 [单独的章节](extensions.html)
+扩展函数的详细解释在 [单独的章节](extensions.md)
 
 ## 高阶函数(Higher-Order Function) 与 Lambda 表达式
 
-高阶函数(Higher-Order Function) 与 Lambda 表达式的详细解释在 [单独的章节](lambdas.html)
+高阶函数(Higher-Order Function) 与 Lambda 表达式的详细解释在 [单独的章节](lambdas.md)
 
 ## 尾递归函数(Tail recursive function)
 
