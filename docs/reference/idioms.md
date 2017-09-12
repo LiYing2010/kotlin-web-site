@@ -7,7 +7,7 @@ title: "惯用法"
 
 # 惯用法
 
-本章介绍 Kotlin 中的一些常见的习惯用法. 如果你有自己的好的经验, 可以将它贡献给我们. 你可以将你的修正提交到 git, 并发起一个 Pull Request.
+本章介绍 Kotlin 中的一些常见的习惯用法. 如果你有自己的好的经验, 可以将它贡献给我们. 你可以将你的修正提交到 git, 并创建一个 Pull Request.
 
 ### 创建 DTO 类(或者叫 POJO/POCO 类)
 
@@ -155,6 +155,14 @@ data?.let {
 }
 ```
 
+### 当值不为 null 时, 进行映射变换
+
+``` kotlin
+val data = ...
+
+val mapped = data?.let { transformData(it) } ?: defaultValueIfDataIsNull
+```
+
 ### 在函数的 return 语句中使用 when 语句
 
 ``` kotlin
@@ -268,7 +276,7 @@ stream.buffered().reader().use { reader ->
 //     public <T> T fromJson(JsonElement json, Class<T> classOfT) throws JsonSyntaxException {
 //     ...
 
-inline fun <reified T: Any> Gson.fromJson(json): T = this.fromJson(json, T::class.java)
+inline fun <reified T: Any> Gson.fromJson(json: JsonElement): T = this.fromJson(json, T::class.java)
 ```
 
 ### 使用可为 null 的布尔值

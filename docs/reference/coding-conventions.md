@@ -38,19 +38,55 @@ list.filter { it > 10 }.map { element -> element * 2 }
 
 在简短, 并且无嵌套的 Lambda 表达式中, 推荐使用惯用约定的 `it` 作为参数名, 而不要明确地声明参数. 在有参数, 并且嵌套的 Lambda 表达式中, 应该明确地声明参数.
 
+## Class 的头部格式
+
+如果类只有少量参数, 可以写成单独的一行:
+
+```kotlin
+class Person(id: Int, name: String)
+```
+
+如果类的头部很长, 应该调整代码格式, 将主构造器(primary constructor)的每一个参数放在单独的行中, 并对其缩进. 同时, 闭括号也应放在新的一行.
+如果我们用到了类的继承, 那么对超类构造器的调用, 以及实现的接口的列表, 应该与闭括号放在同一行内:
+
+```kotlin
+class Person(
+    id: Int,
+    name: String,
+    surname: String
+) : Human(id, name) {
+    // ...
+}
+```
+
+对于多个接口的情况, 对超类构造器的调用应该放在最前, 然后将每个接口放在单独的行中:
+
+```kotlin
+class Person(
+    id: Int,
+    name: String,
+    surname: String
+) : Human(id, name),
+    KotlinMaker {
+    // ...
+}
+```
+
+构造器参数应该使用通常缩进(regular indent), 或者使用连续缩进(continuation indent) (比通常缩进多缩进一倍).
+
 ## Unit
 
 如果函数的返回值为 Unit 类型, 那么返回值的类型声明应当省略:
 
 ``` kotlin
-fun foo() { // 此处省略了 ": Unit" 
+fun foo() { // 此处省略了 ": Unit"
 
 }
 ```
 
 ## 函数 vs 属性
 
-有些情况下, 无参数的函数可以与只读属性相互替代. 
+有些情况下, 无参数的函数可以与只读属性相互替代.
 虽然它们在语义上是相似的, 但从编程风格上的角度看, 存在一些规约来决定在什么时候应该使用函数, 什么时候应该使用属性.
 
 当以下条件成立时, 应该选择使用只读属性, 而不是使用函数:
