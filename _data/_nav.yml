@@ -46,47 +46,56 @@ docs:
 # Reference navigation
 # ====================
 reference:
+  - title: 概述
+    description: Kotlin 概述
+    content:
+      - /docs/reference/server-overview.html: 在服务器端开发中使用 Kotlin
+      - /docs/reference/android-overview.html: 在 Android 开发中使用 Kotlin
+      - /docs/reference/js-overview.html: 在 JavaScript 开发中使用 Kotlin
+      - /docs/reference/whatsnew11.html: 1.1 版中的新功能
+
   - title: 入门
-    description: Get familiar with the basics of Kotlin including operations, coding conventions and idioms.
+    description: 熟悉 Kotlin 的基本知识, 包括操作符, 编码规约, 以及惯用法.
     content:
       - /docs/reference/basic-syntax.html: 基本语法
       - /docs/reference/idioms.html: 惯用法
       - /docs/reference/coding-conventions.html: 编码规约
-      - /docs/reference/whatsnew11.html: 1.1 版中的新功能
 
   - title: 基础
-    description: The Basics
+    description: 基础知识
     content:
       - /docs/reference/basic-types.html: 基本类型
-      - /docs/reference/packages.html: 包
+      - /docs/reference/packages.html: 包(Package)与导入(Import)
       - /docs/reference/control-flow.html: 控制流
       - /docs/reference/returns.html: 返回与跳转
 
   - title: 类与对象
-    description: All about objects
+    description: 关于对象
     content:
       - /docs/reference/classes.html: 类与继承
       - /docs/reference/properties.html: 属性(Property)与域(Field)
       - /docs/reference/interfaces.html: 接口(Interface)
-      - /docs/reference/visibility-modifiers.html: 可见度修饰符
+      - /docs/reference/visibility-modifiers.html: 可见度修饰符(Visibility Modifier)
       - /docs/reference/extensions.html: 扩展(Extension)
-      - /docs/reference/data-classes.html: 数据类
+      - /docs/reference/data-classes.html: 数据类(Data Class)
+      - /docs/reference/sealed-classes.html: 封闭类(Sealed Class)
       - /docs/reference/generics.html: 泛型(Generic)
-      - /docs/reference/nested-classes.html: 嵌套类
-      - /docs/reference/enum-classes.html: 枚举类
-      - /docs/reference/object-declarations.html: 对象
-      - /docs/reference/delegation.html: 委托
-      - /docs/reference/delegated-properties.html: 委托属性
+      - /docs/reference/nested-classes.html: 嵌套类(Nested Class)
+      - /docs/reference/enum-classes.html: 枚举类(Enum Class)
+      - /docs/reference/object-declarations.html: 对象(Object)
+      - /docs/reference/delegation.html: 委托(Delegation)
+      - /docs/reference/delegated-properties.html: 委托属性(Delegated Property)
 
   - title: 函数与 Lambda 表达式
-    description: All about functions
+    description: 关于函数
     content:
-      - /docs/reference/functions.html: 函数
+      - /docs/reference/functions.html: 函数(Function)
       - /docs/reference/lambdas.html: Lambda 表达式
       - /docs/reference/inline-functions.html: 内联函数(Inline Function)
+      - /docs/reference/coroutines.html: 协程(Coroutine)
 
   - title: 其他
-    description: Various bits and bobs
+    description: 其他各种知识
     content:
       - /docs/reference/multi-declarations.html: 解构声明(Destructuring Declaration)
       - /docs/reference/collections.html: 集合(Collection)
@@ -100,45 +109,55 @@ reference:
       - /docs/reference/annotations.html: 注解(Annotation)
       - /docs/reference/reflection.html: 反射(Reflection)
       - /docs/reference/type-safe-builders.html: 类型安全的构建器(Type-Safe Builder)
+      - /docs/reference/type-aliases.html: 类型别名(Type Aliases)
 
+
+  - title: 核心库
+    content:
+      - /api/latest/jvm/stdlib/index.html: 标准库(Standard Library)
+      - /api/latest/kotlin.test/index.html: 测试库(kotlin.test)
 
 
   - title: 参考
-    description: API and Grammar
+    description: API 与语法
     content:
-      - /api/latest/jvm/stdlib/index.html: API 文档
+      - /docs/reference/keyword-reference.html: 关键字(Keyword)与操作符(Operator)
       - /docs/reference/grammar.html: 语法
-
+      - /docs/reference/compatibility.html: 兼容性
 
   - title: 与 Java 的互操作性
-    description: What you need to know about interoperability with Java.
+    description: 关于与 Java 互操作的相关知识.
     content:
       - /docs/reference/java-interop.html: 在 Kotlin 中调用 Java
       - /docs/reference/java-to-kotlin-interop.html: 在 Java 中调用 Kotlin
       
   - title: JavaScript
-    description: Using Kotlin with JavaScript
+    description: 在 JavaScript 开发中使用 Kotlin
     content:
        - /docs/reference/dynamic-type.html: 动态类型(Dynamic Type)
-       - /docs/reference/js-interop.html: 与 JavaScript 的互操作性
-       - /docs/reference/js-reflection.html: JavaScript 中的反射功能
+       - /docs/reference/js-interop.html: 在 Kotlin 中调用 JavaScript
+       - /docs/reference/js-to-kotlin-interop.html: 在 JavaScript 中调用 Kotlin
+       - /docs/reference/js-modules.html: JavaScript 模块(Module)
+       - /docs/reference/js-reflection.html: JavaScript 中的反射(Reflection)
+       - /docs/reference/javascript-dce.html: JavaScript DCE
 
   - title: 工具
     description:
     content:
 #      - /docs/reference/kotlin-build-tools.html: Kotlin Build Tools
       - /docs/reference/kotlin-doc.html: 为 Kotlin 代码编写文档
+      - /docs/reference/kapt.html: 使用 Kapt
+      - /docs/reference/using-gradle.html: 使用 Gradle
       - /docs/reference/using-maven.html: 使用 Maven
       - /docs/reference/using-ant.html: 使用 Ant
-      - /docs/reference/using-gradle.html: 使用 Gradle
       - /docs/reference/kotlin-osgi.html: Kotlin 与 OSGi
+      - /docs/reference/compiler-plugins.html: 编译器插件
 
   - title: FAQ
-    description: Every question you could possibly think of, might be answered.
+    description: 你想到的问题, 可能已经回答过了, 所以请先查看相关的 FAQ.
     content:
       - /docs/reference/faq.html: FAQ
       - /docs/reference/comparison-to-java.html: 与 Java 比较
-      - /docs/reference/comparison-to-scala.html: 与 Scala 比较
 
 
 
