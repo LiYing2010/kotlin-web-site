@@ -2,10 +2,10 @@
 type: doc
 layout: reference
 category: "Syntax"
-title: "控制流"
+title: "控制流: if, when, for, while"
 ---
 
-# 控制流
+# 控制流: if, when, for, while
 
 ## if 表达式
 
@@ -14,17 +14,17 @@ title: "控制流"
 
 ``` kotlin
 // if 的传统用法
-var max = a 
-if (a < b) max = b 
- 
-// 使用 else 分支的方式 
+var max = a
+if (a < b) max = b
+
+// 使用 else 分支的方式
 var max: Int
 if (a > b) {
     max = a
 } else {
     max = b
 }
- 
+
 // if 作为表达式使用
 val max = if (a > b) a else b
 ```
@@ -97,7 +97,7 @@ when (x) {
 还可以使用 *is*{: .keyword } 或 *!is*{: .keyword } 来检查一个值是不是某个类型. 注意, 由于 Kotlin 的 [智能类型转换](typecasts.html#smart-casts) 功能, 进行过类型判断之后, 你就可以直接访问这个类型的方法和属性, 而不必再进行显式的类型检查.
 
 ```kotlin
-val hasPrefix = when(x) {
+fun hasPrefix(x: Any) = when(x) {
     is String -> x.startsWith("prefix")
     else -> false
 }
@@ -119,7 +119,7 @@ when {
 
 ## for 循环
 
-任何值, 只要能够产生一个迭代器(iterator), 就可以使用 *for*{: .keyword } 循环进行遍历. 语法如下:
+任何值, 只要能够产生一个迭代器(iterator), 就可以使用 *for*{: .keyword } 循环进行遍历. 相当于 C# 等语言中的 `foreach` 循环. 语法如下:
 
 ``` kotlin
 for (item in collection) print(item)

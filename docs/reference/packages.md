@@ -2,7 +2,7 @@
 type: doc
 layout: reference
 category: "Syntax"
-title: "包"
+title: "包与导入"
 ---
 
 # 包
@@ -20,9 +20,31 @@ class Goo {}
 ```
 
 源代码内的所有内容(比如类, 函数)全部都包含在所声明的包之内.
-因此, 上面的示例代码中, `baz()` 函数的完整名称将是 `foo.bar.baz`, `Goo` 类的完整名称将是 `foo.bar.Goo`. 
- 
+因此, 上面的示例代码中, `baz()` 函数的完整名称将是 `foo.bar.baz`, `Goo` 类的完整名称将是 `foo.bar.Goo`.
+
 如果没有指定包, 那么源代码文件中的内容将属于 "default" 包, 这个包没有名称.
+
+## 默认导入
+
+以下各个包会被默认导入到每一个 Kotlin 源代码文件:
+
+- [kotlin.*](/api/latest/jvm/stdlib/kotlin/index.html)
+- [kotlin.annotation.*](/api/latest/jvm/stdlib/kotlin.annotation/index.html)
+- [kotlin.collections.*](/api/latest/jvm/stdlib/kotlin.collections/index.html)
+- [kotlin.comparisons.*](/api/latest/jvm/stdlib/kotlin.comparisons/index.html)  (since 1.1)
+- [kotlin.io.*](/api/latest/jvm/stdlib/kotlin.io/index.html)
+- [kotlin.ranges.*](/api/latest/jvm/stdlib/kotlin.ranges/index.html)
+- [kotlin.sequences.*](/api/latest/jvm/stdlib/kotlin.sequences/index.html)
+- [kotlin.text.*](/api/latest/jvm/stdlib/kotlin.text/index.html)
+
+根据编译的目标平台不同, 还会导入以下包:
+
+- JVM 平台:
+  - java.lang.*
+  - [kotlin.jvm.*](/api/latest/jvm/stdlib/kotlin.jvm/index.html)
+
+- JavaScript 平台:
+  - [kotlin.js.*](/api/latest/jvm/stdlib/kotlin.js/index.html)
 
 ## 导入(Import)
 
@@ -54,7 +76,7 @@ import bar.Bar as bBar // 可以使用新名称 bBar 来访问 'bar.Bar'
   * [对象声明](object-declarations.html#object-declarations) 中定义的函数和属性;
   * [枚举常数](enum-classes.html)
 
-与 Java 不同, Kotlin 没有单独的 "import static" 语法; 所有这些声明都使用通常的 `import` 关键字来表达.
+与 Java 不同, Kotlin 没有单独的 ["import static"](https://docs.oracle.com/javase/8/docs/technotes/guides/language/static-import.html) 语法; 所有这些声明都使用通常的 `import` 关键字来表达.
 
 ## 顶级(top-level) 声明的可见度
 

@@ -2,12 +2,14 @@
 type: doc
 layout: reference
 category: "Syntax"
-title: "基本类型"
+title: "基本类型: 数值, 字符串, 数组"
 ---
 
 # 基本类型
 
-在 Kotlin 中, 一切都是对象, 这就意味着, 我们可以对任何变量访问它的成员函数和属性. 有些数据类型是内建的(built-in), 因为对它们的实现进行了优化, 但对于使用者来说内建类型与普通类没有区别. 本节我们将介绍大部分内建类型: 数值, 字符, 布尔值, 以及数组.
+在 Kotlin 中, 一切都是对象, 这就意味着, 我们可以对任何变量访问它的成员函数和属性.
+有些数据类型有着特殊的内部表现形式, 比如, 数值, 字符, 布尔值在运行时可以使用 Java 的基本类型(Primitive Type)来表达, 但对于使用者来说, 它们就和通常的类一样.
+本章我们将介绍 Kotlin 中使用的基本类型: 数值, 字符, 布尔值, 数组, 以及字符串.
 
 ## 数值
 
@@ -38,16 +40,16 @@ Kotlin 提供了以下内建类型来表达数值(与 Java 类似):
 注意: 不支持8进制数的字面值.
 
 Kotlin 还支持传统的浮点数值表达方式:
- 
+
 * 无标识时默认为 Double 值: `123.5`, `123.5e10`
-* Float 值需要用 `f` 或 `F` 标识: `123.5f` 
+* Float 值需要用 `f` 或 `F` 标识: `123.5f`
 
 ### 内部表达
 
-在 Java 平台中, 数值的物理存储使用 JVM 的基本类型来实现, 但当我们需要表达一个可为 null 的数值引用时(比如. `Int?`), 或者涉及到泛型时, 我们就不能使用基本类型了. 
+在 Java 平台中, 数值的物理存储使用 JVM 的基本类型来实现, 但当我们需要表达一个可为 null 的数值引用时(比如. `Int?`), 或者涉及到泛型时, 我们就不能使用基本类型了.
 这种情况下数值会被装箱(box)为数值对象.
 
-注意, 数值对象的装箱(box)并不保持对象的同一性(identity):
+注意, 数值对象的装箱(box)并不一定会保持对象的同一性(identity):
 
 ``` kotlin
 val a: Int = 10000
@@ -132,6 +134,26 @@ val x = (1 shl 2) and 0x000FF000
 * `xor(bits)` – 按位异或(xor)
 * `inv()` – 按位取反
 
+### 浮点值的比较
+
+本节我们讨论的浮点值操作包括:
+
+* 相等判断: `a == b` 以及 `a != b`
+* 比较操作符: `a < b`, `a > b`, `a <= b`, `a >= b`
+* 浮点值范围(Range) 的创建, 以及范围检查: `a..b`, `x in a..b`, `x !in a..b`
+
+如果操作数 `a` 和 `b` 的类型能够静态地判定为 `Float` 或 `Double`(或者可为 null 值的 `Float?` 或 `Double?`),
+(比如, 类型明确声明为浮点值, 或者由编译器推断为浮点值, 或者通过[智能类型转换](typecasts.html#smart-casts)变为浮点值),
+那么此时对这些数值, 或由这些数值构成的范围的操作, 将遵循 IEEE 754 浮点数值运算标准.
+
+但是, 为了支持使用泛型的情况, 并且支持完整的排序功能, 如果操作数 **不能** 静态地判定为浮点值类型(比如. `Any`, `Comparable<...>`, 或者类型参数),
+此时对这些浮点值的操作将使用 `Float` 和 `Double` 类中实现的 `equals` 和 `compareTo` 方法,
+这些方法不符合 IEEE 754 浮点数值运算标准, 因此:
+
+* `NaN` 会被判定为等于它自己
+* `NaN` 会被判定为大于任何其他数值, 包括正无穷大(`POSITIVE_INFINITY`)
+* `-0.0` 会被判定为小于 `0.0`
+
 ## 字符
 
 字符使用 `Char` 类型表达. 字符不能直接当作数值使用
@@ -180,10 +202,10 @@ Kotlin 中的数组通过 `Array` 类表达, 这个类拥有 `get` 和 `set` 函
 ``` kotlin
 class Array<T> private constructor() {
     val size: Int
-    fun get(index: Int): T
-    fun set(index: Int, value: T): Unit
+    operator fun get(index: Int): T
+    operator fun set(index: Int, value: T): Unit
 
-    fun iterator(): Iterator<T>
+    operator fun iterator(): Iterator<T>
     // ...
 }
 ```
@@ -200,7 +222,7 @@ val asc = Array(5, { i -> (i * i).toString() })
 
 我们在前面提到过, `[]` 运算符可以用来调用数组的成员函数 `get()` 和 `set()`.
 
-注意: 与 Java 不同, Kotlin 中数组的类型是不可变的. 所以 Kotlin 不允许将一个 `Array<String>` 赋值给一个 `Array<Any>`, 否则可能会导致运行时错误(但你可以使用 `Array<out Any>`, 
+注意: 与 Java 不同, Kotlin 中数组的类型是不可变的. 所以 Kotlin 不允许将一个 `Array<String>` 赋值给一个 `Array<Any>`, 否则可能会导致运行时错误(但你可以使用 `Array<out Any>`,
 参见 [类型投射](generics.html#type-projections)).
 
 Kotlin 中也有专门的类来表达基本数据类型的数组: `ByteArray`,
