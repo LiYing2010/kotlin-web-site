@@ -207,7 +207,7 @@ open class AnotherDerived() : Base() {
 
 ``` kotlin
 open class Foo {
-    open val x: Int get { ... }
+    open val x: Int get() { ... }
 }
 
 class Bar1 : Foo() {
@@ -219,7 +219,7 @@ class Bar1 : Foo() {
 
 注意, 你可以在主构造器的属性声明中使用 *override*{: .keyword } 关键字:
 
-``` kotlin 
+``` kotlin
 interface Foo {
     val count: Int
 }
@@ -228,6 +228,42 @@ class Bar1(override val count: Int) : Foo
 
 class Bar2 : Foo {
     override var count: Int = 0
+}
+```
+
+### 调用超类中的实现
+
+后代类中的代码, 可以使用 *super*{: .keyword } 关键字来调用超类中的函数和属性访问器的实现:
+
+```kotlin
+open class Foo {
+    open fun f() { println("Foo.f()") }
+    open val x: Int get() = 1
+}
+
+class Bar : Foo() {
+    override fun f() {
+        super.f()
+        println("Bar.f()")
+    }
+
+    override val x: Int get() = super.x + 1
+}
+```
+
+在内部类(inner class)的代码中, 可以使用 *super*{: .keyword } 关键字加上外部类名称限定符: `super@Outer` 来访问外部类(outer class)的超类:
+
+```kotlin
+class Bar : Foo() {
+    override fun f() { /* ... */ }
+    override val x: Int get() = 0
+
+    inner class Baz {
+        fun g() {
+            super@Bar.f() // 调用 Foo 类中的 f() 函数实现
+            println(super@Bar.x) // 使用 Foo 类中的 x 属性取值方法实现
+        }
+    }
 }
 ```
 
