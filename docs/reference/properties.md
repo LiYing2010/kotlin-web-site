@@ -2,7 +2,7 @@
 type: doc
 layout: reference
 category: "Syntax"
-title: "属性(Property)与域(Field)"
+title: "属性(Property)与域(Field): 取值方法, 设值方法, 常数值, 延迟初始化"
 ---
 
 # 属性(Property)与域(Field)
@@ -12,12 +12,12 @@ title: "属性(Property)与域(Field)"
 Kotlin 中的类可以拥有属性. 可以使用 *var*{: .keyword } 关键字声明为可变(mutable)属性, 也可以使用 *val*{: .keyword } 关键字声明为只读属性.
 
 ``` kotlin
-public class Address { 
-    public var name: String = ...
-    public var street: String = ...
-    public var city: String = ...
-    public var state: String? = ...
-    public var zip: String = ...
+class Address {
+    var name: String = ...
+    var street: String = ...
+    var city: String = ...
+    var state: String? = ...
+    var zip: String = ...
 }
 ```
 
@@ -38,12 +38,12 @@ fun copyAddress(address: Address): Address {
 声明属性的完整语法是:
 
 ``` kotlin
-var <propertyName>: <PropertyType> [= <property_initializer>]
+var <propertyName>[: <PropertyType>] [= <property_initializer>]
     [<getter>]
     [<setter>]
 ```
 
-其中的初始化器(initializer), 取值方法(getter), 以及设值方法(setter)都是可选的. 如果属性类型可以通过初始化器自动推断得到, 或者可以通过这个属性覆盖的基类成员属性推断得到, 则属性类型的声明也可以省略.
+其中的初始化器(initializer), 取值方法(getter), 以及设值方法(setter)都是可选的. 如果属性类型可以通过初始化器自动推断得到, (或者可以通过取值方法的返回值类型推断得到, 详情见下文), 则属性类型的声明也可以省略.
 
 示例:
 
@@ -77,6 +77,12 @@ var stringRepresentation: String
 ```
 
 Kotlin 的编程惯例是, 设值方法的参数名称为 `value`, 但如果你喜欢, 也可以选择使用不同的名称.
+
+从 Kotlin 1.1 开始, 如果属性类型可以通过取值方法推断得到, 那么你可以在属性的定义中省略类型声明:
+
+``` kotlin
+val isEmpty get() = this.size == 0  // 属性类型为 Boolean
+```
 
 如果你需要改变属性访问方法的可见度, 或者需要对其添加注解, 但又不需要修改它的默认实现, 你可以定义这个方法, 但不定义它的实现体:
 
@@ -131,7 +137,7 @@ public val table: Map<String, Int>
 
 ## 编译期常数值
 
-如果属性值在编译期间就能确定, 则可以使用 `const` 修饰符, 将属性标记为_编译期常数值(compile time constants)_.
+如果属性值在编译期间就能确定, 则可以使用 `const` 修饰符, 将属性标记为 _编译期常数值(compile time constants)_.
 这类属性必须满足以下所有条件:
 
   * 必须是顶级属性, 或者是一个 `object` 的成员
@@ -176,7 +182,7 @@ public class MyTest {
 参见 [属性的覆盖](classes.html#overriding-properties)
 
 ## 委托属性(Delegated Property)
-  
+
 最常见的属性只是简单地读取(也有可能会写入)一个后端域变量. 但是, 通过使用自定义的取值方法和设值方法, 我们可以实现属性任意复杂的行为. 在这两种极端情况之间, 还存在一些非常常见的属性工作模式. 比如: 属性值的延迟加载, 通过指定的键值(key)从 map 中读取数据, 访问数据库, 属性被访问时通知监听器, 等等.
 
 这些常见行为可以使用[_委托属性(delegated property)_](delegated-properties.html), 以库的形式实现.

@@ -2,7 +2,7 @@
 type: doc
 layout: reference
 category: "Syntax"
-title: "对象表达式与对象声明"
+title: "对象表达式,对象声明,以及伴随对象"
 ---
 
 # 对象表达式(Object Expression)与对象声明(Object Declaration)
@@ -46,11 +46,34 @@ val ab: A = object : A(1), B {
 如果, 我们 "只需要对象", 而不需要继承任何有价值的基类, 我们可以简单地写:
 
 ``` kotlin
-val adHoc = object {
-    var x: Int = 0
-    var y: Int = 0
+fun foo() {
+    val adHoc = object {
+        var x: Int = 0
+        var y: Int = 0
+    }
+    print(adHoc.x + adHoc.y)
 }
-print(adHoc.x + adHoc.y)
+```
+
+注意, 只有在局部并且私有的声明范围内, 匿名对象才可以被用作类型. 如果你将匿名对象用作公开函数的返回类型, 或者用作公开属性的类型, 那么这个函数或属性的真实类型会被声明为这个匿名对象的超类, 如果匿名对象没有超类, 则是 `Any`. 在匿名对象中添加的成员将无法访问.
+
+``` kotlin
+class C {
+    // 私有函数, 因此它的返回类型为匿名对象类型
+    private fun foo() = object {
+        val x: String = "x"
+    }
+
+    // 公开函数, 因此它的返回类型为 Any
+    fun publicFoo() = object {
+        val x: String = "x"
+    }
+
+    fun bar() {
+        val x1 = foo().x        // 正确
+        val x2 = publicFoo().x  // 错误: 无法找到 'x'
+    }
+}
 ```
 
 与 Java 的匿名内部类(anonymous inner class)类似, 对象表达式内的代码可以访问创建这个对象的代码范围内的变量.
@@ -88,6 +111,7 @@ object DataProviderManager {
         get() = // ...
 }
 ```
+
 这样的代码称为一个 *对象声明(object declaration)*, 在 *object*{: .keyword } 关键字之后必须指定对象名称.
 与变量声明类似, 对象声明不是一个表达式, 因此不能用在赋值语句的右侧.
 
@@ -165,7 +189,6 @@ class MyClass {
 
 对象表达式与对象声明在语义上存在一个重要的区别:
 
-* 对象表达式则会在使用处 **立即** 执行(并且初始化)
-* 对象声明是 **延迟(lazily)** 初始化的, 只会在首次访问时才会初始化
-* 同伴对象会在对应的类被装载(解析)时初始化, 语义上等价于 Java 的静态初始化代码块(static initializer)
-
+* 对象表达式则会在使用处 **立即** 执行(并且初始化);
+* 对象声明是 **延迟(lazily)** 初始化的, 只会在首次访问时才会初始化;
+* 同伴对象会在对应的类被装载(解析)时初始化, 语义上等价于 Java 的静态初始化代码块(static initializer).

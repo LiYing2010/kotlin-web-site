@@ -381,7 +381,7 @@ class MyUI {
 
 ### 枚举值访问的通用方式
 
-现在可以使用一种通用的方式来列举一个枚举类(enum class)的所有值.
+现在可以使用泛型方式来列举一个枚举类(enum class)的所有值.
 
 <div class="sample" markdown="1" data-min-compiler-version="1.1">
 

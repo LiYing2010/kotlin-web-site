@@ -38,18 +38,18 @@ class Child : MyInterface {
 
 ``` kotlin
 interface MyInterface {
-    val property: Int // 抽象属性
+    val prop: Int // 抽象属性
 
     val propertyWithImplementation: String
         get() = "foo"
 
     fun foo() {
-        print(property)
+        print(prop)
     }
 }
 
 class Child : MyInterface {
-    override val property: Int = 29
+    override val prop: Int = 29
 }
 ```
 
@@ -77,7 +77,13 @@ class D : A, B {
         super<A>.foo()
         super<B>.foo()
     }
+
+    override fun bar() {
+        super<B>.bar()
+    }
 }
 ```
 
-接口 *A* 和 *B* 都定义了函数 *foo()* 和 *bar()*. 它们也都实现了 *foo()*, 但只有 *B* 实现了 *bar()* (在 *A* 中 *bar()* 没有标记为 abstract, 因为在接口中, 如果没有定义函数体, 则函数默认为 abstract). 现在, 如果我们从 *A* 派生一个实体类 *C*, 显然, 我们必须覆盖函数 *bar()*, 并提供一个实现. 如果我们从 *A* 和 *B* 派生出 *D*, 我们就不必覆盖函数 *bar()*, 因为我们从超类中继承得到了它的唯一一个实现. 但是对于函数 *foo()*, 我们继承得到了两个实现, 因此编译器不知道应该选择使用哪个实现, 因此编译器强制要求我们覆盖函数 *foo()*, 明确地告诉编译器, 我们究竟希望做什么.
+接口 *A* 和 *B* 都定义了函数 *foo()* 和 *bar()*. 它们也都实现了 *foo()*, 但只有 *B* 实现了 *bar()* (在 *A* 中 *bar()* 没有标记为 abstract, 因为在接口中, 如果没有定义函数体, 则函数默认为 abstract). 现在, 如果我们从 *A* 派生一个实体类 *C*, 显然, 我们必须覆盖函数 *bar()*, 并提供一个实现.
+
+然而, 如果我们从 *A* 和 *B* 派生出 *D*, 对于从多个接口中继承得到的所有方法我们都需要实现, 并且指明 *D* 具体应该如何实现各个方法. 对于只继承得到了单个实现的方法(如上例中的 *bar()* 方法), 以及继承得到了多个实现的方法(如上例中的 *foo()* 方法), 都存在这个限制.

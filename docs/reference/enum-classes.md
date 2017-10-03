@@ -19,7 +19,7 @@ enum class Direction {
 
 ## 初始化
 
-由于每个枚举值都是枚举类的一个实例, 因此枚举值可以初始化:
+由于每个枚举值都是枚举类的一个实例, 因此枚举值可以这样初始化:
 
 ``` kotlin
 enum class Color(val rgb: Int) {
@@ -59,6 +59,18 @@ EnumClass.values(): Array<EnumClass>
 ```
 
 如果给定的名称不能匹配枚举类中定义的任何一个枚举常数值, `valueOf()` 方法会抛出 `IllegalArgumentException` 异常.
+
+从 Kotlin 1.1 开始, 可以通过 `enumValues<T>()` 和 `enumValueOf<T>()` 函数, 以泛型方式取得枚举类中的常数:
+
+``` kotlin
+enum class RGB { RED, GREEN, BLUE }
+
+inline fun <reified T : Enum<T>> printAllValues() {
+    print(enumValues<T>().joinToString { it.name })
+}
+
+printAllValues<RGB>() // 打印结果为 RED, GREEN, BLUE
+```
 
 每个枚举常数值都拥有属性, 可以取得它的名称, 以及它在枚举类中声明的顺序:
 

@@ -317,31 +317,3 @@ abstract class Derived : Base() {
 如果你需要写一个函数, 希望使用者不必通过类的实例来调用它, 但又需要访问类的内部信息(比如, 一个工厂方法), 你可以将这个函数写为这个类之内的一个 [对象声明](object-declarations.html) 的成员, 而不是类本身的成员.
 
 具体来说, 如果你在类中声明一个 [同伴对象](object-declarations.html#companion-objects), 那么只需要使用类名作为限定符就可以调用同伴对象的成员了, 语法与 Java/C# 中调用类的静态方法一样.
-
-
-## 封闭类(Sealed Class)
-
-封闭类(Sealed class)用来表示对类阶层的限制, 可以限定一个值只允许是某些指定的类型之一, 而不允许是其他类型. 感觉上, 封闭类是枚举类(enum class)的一种扩展: 枚举类的值也是有限的, 但每一个枚举值常数都只存在唯一的一个实例, 封闭类则不同, 它允许的子类类型是有限的, 但子类可以有多个实例, 每个实例都可以包含它自己的状态数据.
-
-要声明一个封闭类, 需要将 `sealed` 修饰符放在类名之前. 封闭类可以有子类, 但所有的子类声明都必须嵌套在封闭类的声明部分之内.
-
-``` kotlin
-sealed class Expr {
-    class Const(val number: Double) : Expr()
-    class Sum(val e1: Expr, val e2: Expr) : Expr()
-    object NotANumber : Expr()
-}
-```
-
-注意, 从封闭类的子类再继承的子类(间接继承者)可以放在任何地方, 不必在封闭类的声明部分之内.
-
-使用封闭类的主要好处在于, 当使用 [`when` expression](control-flow.html#when-expression) 时, 可以验证分支语句覆盖了所有的可能情况, 因此就不必通过 `else` 分支来处理例外情况.
-
-``` kotlin
-fun eval(expr: Expr): Double = when(expr) {
-    is Expr.Const -> expr.number
-    is Expr.Sum -> eval(expr.e1) + eval(expr.e2)
-    Expr.NotANumber -> Double.NaN
-    // 不需要 `else` 分支, 因为我们已经覆盖了所有的可能情况
-}
-```

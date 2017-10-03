@@ -168,7 +168,7 @@ import foo.bar.*   // 导入 "foo.bar" 包之下的全部内容
 
 fun usage(baz: Baz) {
     baz.goo()
-)
+}
 
 ```
 
@@ -254,21 +254,21 @@ C().caller(D1())  // 打印结果为 "D.foo in C" - 扩展接受者的解析过�
 
 ``` java
 // Java
-Collections.swap(list, Collections.binarySearch(list, Collections.max(otherList)), Collections.max(list))
+Collections.swap(list, Collections.binarySearch(list, Collections.max(otherList)), Collections.max(list));
 ```
 
 代码中反复出现的工具类类名非常烦人. 我们也可以使用静态导入(tatic import), 然后代码会变成这样:
 
 ``` java
 // Java
-swap(list, binarySearch(list, max(otherList)), max(list))
+swap(list, binarySearch(list, max(otherList)), max(list));
 ```
 
 这样略好了一点点, 但是没有了类名做前缀, 就导致我们无法利用 IDE 强大的代码自动补完功能. 如果我们能写下面这样的代码, 那不是很好吗:
 
 ``` java
 // Java
-list.swap(list.binarySearch(otherList.max()), list.max())
+list.swap(list.binarySearch(otherList.max()), list.max());
 ```
 
 但是我们又不希望将一切可能出现的方法在 `List` 类之内全部都实现出来, 对不对? 这恰恰就是 Kotlin 的扩展机制可以帮助我们解决的问题.

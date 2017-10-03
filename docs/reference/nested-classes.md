@@ -2,10 +2,10 @@
 type: doc
 layout: reference
 category: "Syntax"
-title: "嵌套类"
+title: "嵌套类与内部类"
 ---
 
-# 嵌套类(Nested Class)
+# 嵌套类(Nested Class)与内部类(Inner Class)
 
 类可以嵌套在另一个类之内:
 
@@ -40,13 +40,13 @@ val demo = Outer().Inner().foo() // == 1
 ## 匿名内部类(Anonymous inner class)
 
 匿名内部类的实例使用 [对象表达式(object expression)](object-declarations.html#object-expressions) 来创建:
-                                                      
+
 ``` kotlin
 window.addMouseListener(object: MouseAdapter() {
     override fun mouseClicked(e: MouseEvent) {
         // ...
     }
-                                                                                                            
+
     override fun mouseEntered(e: MouseEvent) {
         // ...
     }

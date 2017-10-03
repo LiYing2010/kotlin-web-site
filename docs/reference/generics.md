@@ -2,7 +2,7 @@
 type: doc
 layout: reference
 category: "Syntax"
-title: "泛型"
+title: "泛型: in, out, where"
 ---
 
 # 泛型
@@ -33,7 +33,7 @@ Java 的类型系统中, 最微妙, 最难于理解和使用的部分之一, 就
 Kotlin 中不存在这样的通配符类型. 它使用另外的两种东西: 声明处类型变异(declaration-site variance), 以及类型投射(type projection).
 
 首先, 我们来思考一下为什么 Java 需要那些神秘的通配符类型. 这个问题已有详细的解释, 请参见 [Effective Java](http://www.oracle.com/technetwork/java/effectivejava-136174.html), 第 28 条: *为增加 API 的灵活性, 应该使用限定范围的通配符类型(bounded wildcard)*.
-首先, Java 中的泛型类型是 **不可变的(invariant)**, 也就是说 `List<String>` **不是** `List<Object>` 的子类型. 
+首先, Java 中的泛型类型是 **不可变的(invariant)**, 也就是说 `List<String>` **不是** `List<Object>` 的子类型.
 为什么会这样? 因为, 如果 List 不是 **不可变的(invariant)**, 那么下面的代码将可以通过编译, 然后在运行时导致一个异常, 那么 List 就并没有任何优于 Java 数组的地方了:
 
 ``` java
@@ -74,13 +74,13 @@ interface Collection<E> ... {
 }
 ```
 
-这里的 **通配符类型参数(wildcard type argument)** `? extends T` 表示, 该方法接受的参数是一个集合, 集合元素的类型是 `T` 的*某种子类型*, 而不限于 `T` 本身. 
-这就意味着, 我们可以安全地从集合元素中 **读取** `T` (因为集合的元素是 T 的某个子类型的实例), 但 **不能写入** 到集合中去, 因为我们不知道什么样的对象实例才能与这个 `T` 的未知子类型匹配. 
-尽管有这样的限制, 作为回报, 我们得到了希望的功能: `Collection<String>` *是* `Collection<? extends Object>` 的子类型. 
+这里的 **通配符类型参数(wildcard type argument)** `? extends E` 表示, 该方法接受的参数是一个集合, 集合元素的类型是 `E` *或 `E` 的某种子类型*, 而不限于 `E` 本身.
+这就意味着, 我们可以安全地从集合元素中 **读取** `E` (因为集合的元素是 `E` 的某个子类型的实例), 但 **不能写入** 到集合中去, 因为我们不知道什么样的对象实例才能与这个 `E` 的未知子类型匹配.
+尽管有这样的限制, 作为回报, 我们得到了希望的功能: `Collection<String>` *是* `Collection<? extends Object>` 的子类型.
 用"高级术语"来说, 指定了 **extends** 边界 (**上** 边界)的通配符类型, 使得我们的类型成为一种 **协变(covariant)** 类型.
 
 要理解这种技巧的工作原理十分简单: 如果你只能从一个集合 **取得** 元素, 那么就可以使用一个 `String` 组成的集合, 并从中读取 `Object` 实例. 反过来, 如果你只能向集合 _放入_ 元素, 那么就可以使用一个 `Object` 组成的集合, 并向其中放入 `String`: 在 Java 中, 我们可以使用 `List<? super String>`, 它是 `List<Object>` 的一个 **父类型**.
- 
+
 上面的后一种情况称为 **反向类型变异(contravariance)**, 对于 `List<? super String>`, 你只能调用那些接受 String 类型参数的方法(比如, 可以调用 `add(String)`, 或 `set(int, String)`), 而当你对 `List<T>` 调用返回类型为 `T` 的方法时, 你得到的返回值将不会是 `String` 类型, 而只是 `Object` 类型.
 
 Joshua Bloch 将那些只能 **读取** 的对象称为 **生产者(Producer)**, 将那些只能 **写入** 的对象称为 **消费者(Consumer)**. 他建议: "*为尽量保证灵活性, 应该对代表生产者和消费者的输入参数使用通配符类型*", 他还提出了下面的记忆口诀:
@@ -112,7 +112,7 @@ void demo(Source<String> strs) {
 
 为了解决这个问题, 我们不得不将对象类型声明为 `Source<? extends Object>`, 其实是毫无意义的, 因为我们在这样修改之后, 我们所能调用的方法与修改之前其实是完全一样的, 因此, 使用这样复杂的类型声明并未带来什么好处. 但编译器并不理解这一点.
 
-在 Kotlin 中, 我们有办法将这种情况告诉编译器. 这种技术称为 **声明处的类型变异(declaration-site variance)**: 我们可以对 Source 的 **类型参数** `T` 添加注解, 来确保 `Source<T>` 的成员函数只会 **返回** (生产) `T` 类型, 而绝不会消费 `T` 类型. 
+在 Kotlin 中, 我们有办法将这种情况告诉编译器. 这种技术称为 **声明处的类型变异(declaration-site variance)**: 我们可以对 Source 的 **类型参数** `T` 添加注解, 来确保 `Source<T>` 的成员函数只会 **返回** (生产) `T` 类型, 而绝不会消费 `T` 类型.
 为了实现这个目的, 我们可以对 `T` 添加 **out** 修饰符:
 
 ``` kotlin
@@ -128,10 +128,10 @@ fun demo(strs: Source<String>) {
 
 一般规则是: 当 `C` 类的类型参数 `T` 声明为 **out** 时, 那么在 `C` 的成员函数中, `T` 类型只允许出现在 **输出** 位置, 这样的限制带来的回报就是, `C<Base>` 可以安全地用作 `C<Derived>` 的父类型.
 
-用"高级术语"来说, 我们将 `C` 类称为, 在类型参数 `T` 上 **协变的(covariant)**, 或者说 `T` 是一个 **协变的(covariant)** 类型参数. 
+用"高级术语"来说, 我们将 `C` 类称为, 在类型参数 `T` 上 **协变的(covariant)**, 或者说 `T` 是一个 **协变的(covariant)** 类型参数.
 你可以将 `C` 类看作 `T` 类型对象的 **生产者**, 而不是 `T` 类型对象的 **消费者**.
 
-**out** 修饰符称为 **协变注解(variance annotation)**, 而且, 由于这个注解出现在类型参数的声明处, 因此我们称之为 **声明处的类型变异(declaration-site variance)**. 
+**out** 修饰符称为 **协变注解(variance annotation)**, 而且, 由于这个注解出现在类型参数的声明处, 因此我们称之为 **声明处的类型变异(declaration-site variance)**.
 这种方案与 Java 中的 **使用处类型变异(use-site variance)** 刚好相反, 在 Java 中, 是类型使用处的通配符产生了类型的协变.
 
 除了 **out** 之外, Kotlin 还提供了另一种类型变异注解: **in**. 这个注解导致类型参数 **反向类型变异(contravariant)**: 这个类型将只能被消费, 而不能被生产. 反向类型变异的一个很好的例子是 `Comparable`:
@@ -158,7 +158,7 @@ fun demo(x: Comparable<Number>) {
 
 ### 使用处的类型变异(Use-site variance): 类型投射(Type projection)
 
-将声明类型参数 T 声明为 *out*, 就可以在使用时将它子类化, 这是十分方便的. 当我们的类 **能够** 局限为仅仅只返回 `T` 类型值的时候, 的确如此, 但如果不能呢? 
+将声明类型参数 T 声明为 *out*, 就可以免去使用时子类化的麻烦, 这是十分方便的. 但是有些类 **不能** 限定为仅仅只返回 `T` 类型值!
 关于这个问题, 一个很好的例子是 Array 类:
 
 ``` kotlin
@@ -182,7 +182,7 @@ fun copy(from: Array<Any>, to: Array<Any>) {
 
 ``` kotlin
 val ints: Array<Int> = arrayOf(1, 2, 3)
-val any = Array<Any>(3)
+val any = Array<Any>(3) { "" }
 copy(ints, any) // 错误: 期待的参数类型是 (Array<Any>, Array<Any>)
 ```
 

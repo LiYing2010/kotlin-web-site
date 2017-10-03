@@ -31,3 +31,4 @@ fun main(args: Array<String>) {
 
 `Derived` 类声明的基类列表中的 *by*{: .keyword } 子句表示, `b` 将被保存在 `Derived` 的对象实例内部, 而且编译器将会生成继承自 `Base` 接口的所有方法, 并将调用转发给 `b`.
 
+注意, 函数和属性的覆盖会如你预期的那样工作: 编译器将会使用你的 `override` 实现, 而不会使用代理对象中的实现. 如果我们在 `Derived` 中添加一段函数覆盖 `override fun print() { print("abc") }` , 那么上面的程序的打印结果将是 "abc", 而不是 "10".
