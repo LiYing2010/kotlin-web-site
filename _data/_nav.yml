@@ -110,6 +110,7 @@ reference:
       - /docs/reference/reflection.html: 反射(Reflection)
       - /docs/reference/type-safe-builders.html: 类型安全的构建器(Type-Safe Builder)
       - /docs/reference/type-aliases.html: 类型别名(Type Aliases)
+      - /docs/reference/multiplatform.html: 跨平台工程(Multiplatform Projects) (预览)
 
 
   - title: 核心库

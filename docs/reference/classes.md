@@ -135,7 +135,7 @@ val customer = Customer("Joe Smith")
 
 类中可以包含以下内容:
 
-* 构造器和初始化代码块
+* [构造器和初始化代码块](classes.html#constructors)
 * [函数](functions.html)
 * [属性](properties.html)
 * [嵌套类和内部类](nested-classes.html)

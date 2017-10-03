@@ -24,7 +24,7 @@ val s = person.name ?: return
 ## Break 和 Continue 的位置标签
 
 Kotlin 中的任何表达式都可以用 *label*{: .keyword } 标签来标记.
-标签的形式与标识符相同, 后面附加一个 `@` 符号, 比如: `abc@`, `fooBar@` 都是合法的标签(参见 [语法](grammar.html#labelReference)).
+标签由标识符后面加一个 `@` 符号构成, 比如: `abc@`, `fooBar@` 都是合法的标签(参见 [语法](grammar.html#labelReference)).
 要给一个表达式标记标签, 我们只需要将标签放在它之前:
 
 ``` kotlin
