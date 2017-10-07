@@ -50,7 +50,7 @@ for ((a, b) in collection) { ... }
 ``` kotlin
 data class Result(val result: Int, val status: Status)
 fun function(...): Result {
-    // computations
+    // 计算
     
     return Result(result, status)
 }
@@ -87,3 +87,45 @@ operator fun <K, V> Map.Entry<K, V>.component2() = getValue()
 ```  
   
 因此, 你可以在对 map 的 *for*{: .keyword } 循环中自由地使用解构声明(也可以在对数据类集合的 *for*{: .keyword } 循环中使用解构声明).
+
+## 用下划线代替未使用的变量 (从 Kotlin 1.1 开始支持)
+
+如果在解构声明中, 你不需要其中的某个变量, 你可以用下划线来代替变量名:
+
+``` kotlin
+val (_, status) = getResult()
+```
+
+以这种方式跳过的变量, 不会调用对应的 `componentN()` 操作符函数.
+
+## 在 Lambda 表达式中使用解构声明 (从 Kotlin 1.1 开始支持)
+
+你可以在 lambda 表达式的参数中使用解构声明语法. 如果 lambda 表达式的一个参数是 `Pair` 类型 (或 `Map.Entry` 类型, 或者任何其他类型, 只要它拥有适当的 `componentN` 函数), 就可以使用几个新的参数来代替原来的参数, 只需要将新参数包含在括号内:   
+
+``` kotlin
+map.mapValues { entry -> "${entry.value}!" }
+map.mapValues { (key, value) -> "$value!" }
+```
+
+请注意声明两个参数, 与将一个参数解构为多个参数的区别:  
+
+``` kotlin
+{ a -> ... } // 这里是一个参数
+{ a, b -> ... } // 这里是两个参数
+{ (a, b) -> ... } // 这里是将一个参数解构为两个参数
+{ (a, b), c -> ... } // 这里是将一个参数解构为两个参数, 然后是另一个参数
+```
+
+如果解构后得到的某个参数未被使用到, 你可以用下划线代替它, 这样就不必为它编造一个变量名了:
+
+``` kotlin
+map.mapValues { (_, value) -> "$value!" }
+```
+
+你可以为解构前的整个参数指定类型, 也可以为解构后的部分参数单独指定类型:
+
+``` kotlin
+map.mapValues { (_, value): Map.Entry<Int, String> -> "$value!" }
+
+map.mapValues { (_, value: String) -> "$value!" }
+```
