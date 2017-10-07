@@ -87,11 +87,11 @@ class Derived: Base {
 
 ### `@RestrictsSuspension` 注解
 
-Extension functions (and lambdas) can also be marked `suspend`, just like regular ones. This enables creation of [DSLs](type-safe-builders.html) and other APIs that users can extend. In some cases the library author needs to prevent the user from adding *new ways* of suspending a coroutine.
+扩展函数 (以及 lambda 表达式) 与通常的函数一样, 也可以标记为 `suspend`. 因此我们可以创建 [面向特定领域的专有语言 (DSL)](type-safe-builders.html) 以及其他可供用户扩展的 API. 某些情况下, 库的作者需要防止使用者增加 *新方式* 来挂起协程.
 
-To achieve this, the [`@RestrictsSuspension`](/api/latest/jvm/stdlib/kotlin.coroutines.experimental/-restricts-suspension/index.html) annotation may be used. When a receiver class or interface `R` is annotated with it, all suspending extensions are required to delegate to either members of `R` or other extensions to it. Since extensions can't delegate to each other indefinitely (the program would not terminate), this guarantees that all suspensions happen through calling members of `R` that the author of the library can fully control.
+为了达到这个目的, 可以使用 [`@RestrictsSuspension`](/api/latest/jvm/stdlib/kotlin.coroutines.experimental/-restricts-suspension/index.html) 注解. 如果扩展函数的接受者类(或接口) `R` 标注了这个注解, 所有的挂起扩展函数都必须委托给 `R` 的成员函数, 或者 `R` 的其他扩展函数. 由于扩展函数之间的委托关系不能出现无限循环 (否则程序将会陷入死循环), 因此可以保证所有的挂起都必须通过调用 `R` 的成员函数来发生, 而 `R` 的成员函数是库作者能够完全控制的.
 
-This is relevant in the _rare_ cases when every suspension is handled in a special way in the library. For example, when implementing generators through the [`buildSequence()`](/api/latest/jvm/stdlib/kotlin.coroutines.experimental/build-sequence.html) function described [below](#generators-api-in-kotlincoroutines), we need to make sure that any suspending call in the coroutine ends up calling either `yield()` or `yieldAll()` and not any other function. This is why [`SequenceBuilder`](/api/latest/jvm/stdlib/kotlin.coroutines.experimental/-sequence-builder/index.html) is annotated with `@RestrictsSuspension`:
+在 _少数_ 情况下, 这种功能是有必要的, 比如, 如果所有的挂起都需要在库内以某种特殊的方式处理. 举例来说, 如果要通过 [`buildSequence()`](/api/latest/jvm/stdlib/kotlin.coroutines.experimental/build-sequence.html)函数 (详情参见 [下文](#generators-api-in-kotlincoroutines)) 来实现生成器, 我们需要确保协程内所有的挂起调用最终都调用到 `yield()` 或 `yieldAll()` 函数, 而不是其他任何函数. 所以 [`SequenceBuilder`](/api/latest/jvm/stdlib/kotlin.coroutines.experimental/-sequence-builder/index.html) 标注了 `@RestrictsSuspension` 注解:
 
 ``` kotlin
 @RestrictsSuspension
@@ -100,55 +100,55 @@ public abstract class SequenceBuilder<in T> {
 }
 ```
 
-See the sources [on Github](https://github.com/JetBrains/kotlin/blob/master/libraries/stdlib/src/kotlin/coroutines/experimental/SequenceBuilder.kt).   
+源代码请参见 [on Github](https://github.com/JetBrains/kotlin/blob/master/libraries/stdlib/src/kotlin/coroutines/experimental/SequenceBuilder.kt).   
 
-## The inner workings of coroutines
+## 协程的内部工作机制
 
-We are not trying here to give a complete explanation of how coroutines work under the hood, but a rough sense of what's going on is rather important.
+我们不会在这里对协程的内部工作机制进行一个完整的解释, 但粗略地了解一下大致的工作原理还是很重要的.
 
-Coroutines are completely implemented through a compilation technique (no support from the VM or OS side is required), and suspension works through code transformation. Basically, every suspending function (optimizations may apply, but we'll not go into this here) is transformed to a state machine where states correspond to suspending calls. Right before a suspension, the next state is stored in a field of a compiler-generated class along with relevant local variables, etc. Upon resumption of that coroutine, local variables are restored and the state machine proceeds from the state right after suspension.
+协程完全通过编译技术实现 (不需要 VM 或 OS 的特殊支持), 挂起则通过代码转换来实现. 基本上, 每一个挂起函数 (编译时可能会发生代码优化, 但这里我们不讨论这个问题) 都被转换为一个状态机, 状态机中的各个状态对应于挂起调用. 在挂起之前, 状态机的下一个状态, 以及相关的局部变量等信息, 会被保存到编译器生成的类的成员域变量中. 协程恢复执行时, 局部变量会被恢复出来, 状态机会在挂起之后的状态开始继续执行.
 
-A suspended coroutine can be stored and passed around as an object that keeps its suspended state and locals. The type of such objects is `Continuation`, and the overall code transformation described here corresponds to the classical [Continuation-passing style](https://en.wikipedia.org/wiki/Continuation-passing_style). Consequently, suspending functions take an extra parameter of type `Continuation` under the hood.
+协程挂起之后可以作为对象来保存和传递, 对象内保存了协程的挂起后的状态, 以及相关的局部变量等信息. 这种对象的类型是 `Continuation`, 我们在这里描述的整个代码转换过程, 其实就是典型的 [延续性传递编程风格(Continuation-passing style)](https://en.wikipedia.org/wiki/Continuation-passing_style). 因此, 挂起函数的底层实现会接受一个额外的 `Continuation` 类型参数.
 
-More details on how coroutines work may be found in [this design document](https://github.com/Kotlin/kotlin-coroutines/blob/master/kotlin-coroutines-informal.md). Similar descriptions of async/await in other languages (such as C# or ECMAScript 2016) are relevant here, although the language features they implement may not be as general as Kotlin coroutines.
+协程工作机制的更多的信息请参见 [这篇设计文档](https://github.com/Kotlin/kotlin-coroutines/blob/master/kotlin-coroutines-informal.md). 这篇文档也提到了其他语言中 (比如 C# 或 ECMAScript 2016) 类似的 async/await 功能, 虽然它们实现的语言特性并不象 Kotlin 的协程那样通用.
 
-## Experimental status of coroutines
+## 协程还处于试验性阶段
 
-The design of coroutines is [experimental](compatibility.html#experimental-features), which means that it may be changed in the upcoming releases. When compiling coroutines in Kotlin 1.1, a warning is reported by default: *The feature "coroutines" is experimental*. To remove the warning, you need to specify an [opt-in flag](/docs/diagnostics/experimental-coroutines.html).
+协程的设计仍然处于 [试验阶段](compatibility.html#experimental-features), 也就是说在 Kotlin 发布后续的版本中可能会有变化. 在 Kotlin 1.1 中编译协程时, 默认会报告一条警告信息: *"协程" 特性还处于试验阶段*. 你可以使用 [编译参数](/docs/diagnostics/experimental-coroutines.html) 来去掉这条警告.
 
-Due to its experimental status, the coroutine-related API in the Standard Library is put under the `kotlin.coroutines.experimental` package. When the design is finalized and the experimental status lifted, the final API will be moved to `kotlin.coroutines`, and the experimental package will be kept around (probably in a separate artifact) for backward compatibility.
+由于写成还处于试验阶段, 标准库中与协程相关的 API 被放在 `kotlin.coroutines.experimental` 包下. 当设计最终确定, 试验阶段结束时, 最终的 API 将被移动到 `kotlin.coroutines` 包下, 而 `kotlin.coroutines.experimental` 包仍会被保留(可能在一个单独的 artifact 文件内) 以便保证向后兼容性.
 
-**IMPORTANT NOTE**: We advise library authors to follow the same convention: add the "experimental" (e.g. `com.example.experimental`) suffix to your packages exposing coroutine-based APIs so that your library remains binary compatible. When the final API is released, follow these steps:
- * copy all the APIs to `com.example` (without the experimental suffix),
- * keep the experimental package around for backward compatibility.
+**重要注意事项**: 我们建议库的作者遵循以下惯例: 如果你的包向外公布基于协程的 API, 请为包名称添加 "experimental" 后缀 (比如 `com.example.experimental`), 以便保证你的库的二进制兼容性. 当最终的 API 发布后, 请遵循以下步骤:
+ * 将所有的 API 复制到 `com.example` (不含 "experimental" 后缀) 包下,
+ * 继续保留 "experimental" 包存在, 以保证向后兼容性.
 
-This will minimize migration issues for your users.
+这样可以帮助你的库的使用者, 将库版本迁移时带来的问题减到最少.
 
-## Standard APIs
+## 标准 API
 
-Coroutines come in three main ingredients:
- - language support (i.s. suspending functions, as described above);
- - low-level core API in the Kotlin Standard Library;
- - high-level APIs that can be used directly in the user code.
+协程功能主要有三个部分组成:
+ - 语言层面的支持 (也就是上文所述的挂起函数);
+ - Kotlin 标准库中的底层核心 API;
+ - 可在用户代码中直接使用的高级 API.
 
-### Low-level API: `kotlin.coroutines`
+### 底层 API: `kotlin.coroutines`
 
-Low-level API is relatively small and should never be used other than for creating higher-level libraries. It consists of two main packages:
-- [`kotlin.coroutines.experimental`](/api/latest/jvm/stdlib/kotlin.coroutines.experimental/index.html) with main types and primitives such as:
+底层 API 相对来说比较小, 而且, 除了用于创建更高层的库之外, 不应该使用底层 API. 它主要由两个包构成:
+- [`kotlin.coroutines.experimental`](/api/latest/jvm/stdlib/kotlin.coroutines.experimental/index.html), 包含主要的类型和基本命令, 比如:
   - [`createCoroutine()`](/api/latest/jvm/stdlib/kotlin.coroutines.experimental/create-coroutine.html),
   - [`startCoroutine()`](/api/latest/jvm/stdlib/kotlin.coroutines.experimental/start-coroutine.html),
   - [`suspendCoroutine()`](/api/latest/jvm/stdlib/kotlin.coroutines.experimental/suspend-coroutine.html);
-- [`kotlin.coroutines.experimental.intrinsics`](/api/latest/jvm/stdlib/kotlin.coroutines.experimental.intrinsics/index.html) with even lower-level intrinsics such as [`suspendCoroutineOrReturn`](/api/latest/jvm/stdlib/kotlin.coroutines.experimental.intrinsics/suspend-coroutine-or-return.html).
+- [`kotlin.coroutines.experimental.intrinsics`](/api/latest/jvm/stdlib/kotlin.coroutines.experimental.intrinsics/index.html) 包含更底层的内部操作, 比如 [`suspendCoroutineOrReturn`](/api/latest/jvm/stdlib/kotlin.coroutines.experimental.intrinsics/suspend-coroutine-or-return.html).
 
- More details about the usage of these APIs can be found [here](https://github.com/Kotlin/kotlin-coroutines/blob/master/kotlin-coroutines-informal.md).
+关于这些 API 的使用方法, 更多详细信息请参见 [这里](https://github.com/Kotlin/kotlin-coroutines/blob/master/kotlin-coroutines-informal.md).
 
-### Generators API in `kotlin.coroutines`
+### `kotlin.coroutines` 包中的生成器(Generator) API 
 
-The only "application-level" functions in `kotlin.coroutines.experimental` are
+`kotlin.coroutines.experimental` 包中唯一的 "应用程序层次" 的函数是:
 - [`buildSequence()`](/api/latest/jvm/stdlib/kotlin.coroutines.experimental/build-sequence.html)
 - [`buildIterator()`](/api/latest/jvm/stdlib/kotlin.coroutines.experimental/build-iterator.html)
 
-These are shipped within `kotlin-stdlib` because they are related to sequences. In fact, these functions (and we can limit ourselves to `buildSequence()` alone here) implement _generators_, i.e. provide a way to cheaply build a lazy sequence:
+这两个函数包含在 `kotlin-stdlib` 内, 因为它们与序列的产生相关. 实际上, 这些函数 (这里我们只讨论 `buildSequence()`) 实现了 _生成器(generator)_, 也就是, 提供一种方法, 以比较低的代价构建一个延迟产生的序列:
 
 <div class="sample" markdown="1" data-min-compiler-version="1.1">
 
@@ -173,16 +173,16 @@ fun main(args: Array<String>) {
     }
 //sampleEnd
 
-    // Print the first five Fibonacci numbers
+    // 打印斐波那契数列的前 8 个数字
     println(fibonacciSeq.take(8).toList())
 }
 ```
 
 </div>
 
-This generates a lazy, potentially infinite Fibonacci sequence by creating a coroutine that yields consecutive Fibonacci numbers by calling the `yield()` function. When iterating over such a sequence every step of the iterator executes another portion of the coroutine that generates the next number. So, we can take any finite list of numbers out of this sequence, e.g. `fibonacciSeq.take(8).toList()` results in `[1, 1, 2, 3, 5, 8, 13, 21]`. And coroutines are cheap enough to make this practical.
+这个示例程序将会产生一个延迟加载的, 内容无限多的斐波那契数列, 示例程序创建一个协程, 协程调用 `yield()` 函数来产生连续的斐波那契数列. 当我们在这个数列上遍历时, 迭代器(iterator)的每一次迭代都会执行协程的下个部分, 产生出数列的下一个数字. 因此, 我们可以从这个数列中取出有限的任意多个数字, 比如, `fibonacciSeq.take(8).toList()` 会得到 `[1, 1, 2, 3, 5, 8, 13, 21]`. 而且, 协程的代价是相当低廉的, 因此这种方案实际是可行的.
 
-To demonstrate the real laziness of such a sequence, let's print some debug output inside a call to `buildSequence()`:
+为了演示一下数列是延迟加载的, 我们在 `buildSequence()` 调用的内部打印一些 debug 信息:
 
 <div class="sample" markdown="1" data-min-compiler-version="1.1">
 
@@ -200,7 +200,7 @@ fun main(args: Array<String>) {
         print("END")
     }
 
-    // Print the first three elements of the sequence
+    // 打印序列的前 3 个元素
     lazySeq.take(3).forEach { print("$it ") }
 //sampleEnd
 }
@@ -208,9 +208,9 @@ fun main(args: Array<String>) {
 
 </div>  
 
-Running the code above prints the first three elements. The numbers are interleaved with `STEP`s in the generating loop. This means that the computation is lazy indeed. To print `1` we only execute until the first `yield(i)`, and print `START` along the way. Then, to print `2` we need to proceed to the next `yield(i)`, and this prints `STEP`. Same for `3`. And the next `STEP` never gets printed (as well as `END`), because we never requested further elements of the sequence.   
+运行上面的示例出现, 会打印出序列的前 3 个元素. 打印出来的数字之间插入了 `STEP`, 这是在生成数字的循环代码中输出的. 这个结果证明计算过程却是是延迟加载的. 打印 `1` 之前, 我们只执行到了第一次 `yield(i)`, 并且在这之前打印了 `START`. 然后, 打印 `2` 之前, 我们需要继续执行到下一次 `yield(i)`, 因此会打印出 `STEP`. 同样, 打印 `3` 之前也是如此. 下一个 `STEP` 不会被打印出来(`END` 也是如此), 因为在外部的代码中, 我们并没有从序列中获取更多的元素.   
 
-To yield a collection (or sequence) of values at once, the `yieldAll()` function is available:
+如果要一次性产生所有值的集合(collection) (或序列), 可以使用 `yieldAll()`:
 
 <div class="sample" markdown="1" data-min-compiler-version="1.1">
 
@@ -231,9 +231,9 @@ fun main(args: Array<String>) {
 
 </div>  
 
-The `buildIterator()` works similarly to `buildSequence()`, but returns a lazy iterator.
+`buildIterator()` 函数与 `buildSequence()` 类似, 区别是它返回的是延迟加载的迭代器(iterator).
 
-One can add custom yielding logic to `buildSequence()` by writing suspending extensions to the `SequenceBuilder` class (that bears the `@RestrictsSuspension` annotation described [above](#restrictssuspension-annotation)):
+也可以为 `buildSequence()` 函数添加自定义的数值产生逻辑, 方法是编写 `SequenceBuilder` 类的挂起扩展函数(这个类带有 [上文](#restrictssuspension-annotation) 讨论过的 `@RestrictsSuspension` 注解):
 
 <div class="sample" markdown="1" data-min-compiler-version="1.1">
 
@@ -257,17 +257,17 @@ fun main(args: Array<String>) {
 
 </div>  
 
-### Other high-level APIs: `kotlinx.coroutines`
+### 其他高阶 API: `kotlinx.coroutines`
 
-Only core APIs related to coroutines are available from the Kotlin Standard Library. This mostly consists of core primitives and interfaces that all coroutine-based libraries are likely to use.   
+Kotlin 标准库只提供了与协程有关的核心 API. 主要包括核心的基本命令, 以及核心接口, 所有与协程相关的库都可能会用到这些基本命令和接口.   
 
-Most application-level APIs based on coroutines are released as a separate library: [`kotlinx.coroutines`](https://github.com/Kotlin/kotlinx.coroutines). This library covers
- * Platform-agnostic asynchronous programming with `kotlinx-coroutines-core`:
-   * this module includes Go-like channels that support `select` and other convenient primitives,
-   * a comprehensive guide to this library is available [here](https://github.com/Kotlin/kotlinx.coroutines/blob/master/coroutines-guide.md);
- * APIs based on `CompletableFuture` from JDK 8: `kotlinx-coroutines-jdk8`;
- * Non-blocking IO (NIO) based on APIs from JDK 7 and higher: `kotlinx-coroutines-nio`;
- * Support for Swing (`kotlinx-coroutines-swing`) and JavaFx (`kotlinx-coroutines-javafx`);
- * Support for RxJava: `kotlinx-coroutines-rx`.
+大多数与协程相关的应用程序层次 API 都以单独的库的形式发布: [`kotlinx.coroutines`](https://github.com/Kotlin/kotlinx.coroutines). 这个库包括
+ * 使用 `kotlinx-coroutines-core` 实现不依赖于平台的异步编程 :
+   * 这个模块包括 Go 风格的 channel, 支持 `select` 和其他便利的基本命令,
+   * 关于这个库的详细指南, 请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/coroutines-guide.md);
+ * 基于 JDK 8 `CompletableFuture` 的 API: `kotlinx-coroutines-jdk8`;
+ * 基于 JDK 7 及更高版本 API 的非阻塞 IO (Non-blocking IO, NIO)): `kotlinx-coroutines-nio`;
+ * 对 Swing 的支持 (`kotlinx-coroutines-swing`), 以及对 JavaFx 的支持 (`kotlinx-coroutines-javafx`);
+ * 对 RxJava 的支持: `kotlinx-coroutines-rx`.
 
-These libraries serve as both convenient APIs that make common tasks easy and end-to-end examples of how to build coroutine-based libraries.
+这些库不仅包含了便利的 API, 帮助你方便地完成常见任务, 此外它本身也可以作为详细的示例, 向你演示如何创建与协程相关的库.
