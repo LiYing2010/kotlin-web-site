@@ -2,10 +2,10 @@
 type: doc
 layout: reference
 category: "Syntax"
-title: "类型检查与类型转换"
+title: "类型检查与类型转换: 'is' 与 'as'"
 ---
 
-# 类型检查与类型转换
+# 类型检查与类型转换: 'is' 与 'as'
 
 ## `is` 与 `!is` 操作符
 
@@ -26,7 +26,7 @@ else {
 
 ## 智能类型转换
 
-很多情况下, 在 Kotlin 中你不必使用显式的类型转换操作, 因为编译器会对不可变的值追踪 `is` 检查, 然后在需要的时候自动插入(安全的)类型转换:
+很多情况下, 在 Kotlin 中你不必使用显式的类型转换操作, 因为编译器会对不可变值的 `is` 检查和[显式的类型转换](#unsafe-cast-operator) 进行追踪, 然后在需要的时候自动插入(安全的)类型转换:
 
 ``` kotlin
 fun demo(x: Any) {
@@ -46,7 +46,7 @@ fun demo(x: Any) {
 在 `&&` 和 `||` 操作符的右侧也是如此:
 
 ``` kotlin
-    // 在 `||` 的右侧, x 被自动转换为 String 类型 
+    // 在 `||` 的右侧, x 被自动转换为 String 类型
     if (x !is String || x.length == 0) return
 
     // 在 `&&` 的右侧, x 被自动转换为 String 类型
@@ -54,7 +54,6 @@ fun demo(x: Any) {
         print(x.length) // x 被自动转换为 String 类型
     }
 ```
-
 
 这种 _智能类型转换(smart cast)_ 对于 [*when*{: .keyword } 表达式](control-flow.html#when-expressions) 和 [*while*{: .keyword } 循环](control-flow.html#while-loops) 同样有效:
 
@@ -78,7 +77,7 @@ when (x) {
 ## "不安全的" 类型转换操作符
 
 如果类型转换不成功, 类型转换操作符通常会抛出一个异常. 因此, 我们称之为 *不安全的(unsafe)*.
-在 Kotlin 中, 不安全的类型转换使用中缀操作符 *as*{: .keyword } (参见 [操作符优先顺序](grammar.html#operator-precedence)):
+在 Kotlin 中, 不安全的类型转换使用中缀操作符 *as*{: .keyword } (参见 [操作符优先顺序](grammar.html#precedence)):
 
 ``` kotlin
 val x: String = y as String

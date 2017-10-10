@@ -15,10 +15,10 @@ Kotlin 类型系统的设计目标就是希望消除代码中 null 引用带来�
 
 Kotlin 的类型系统致力于从我们的代码中消除 `NullPointerException`. 只有以下情况可能导致 NPE:
 
-* 明确调用 `throw NullPointerException()`
-* 使用 `!!` 操作符, 详情见后文
-* 外部的 Java 代码导致这个异常
-* 初始化过程中存在某些数据不一致 (在构造器中使用了未初始化的 *this*)
+* 明确调用 `throw NullPointerException()`;
+* 使用 `!!` 操作符, 详情见后文;
+* 外部的 Java 代码导致这个异常;
+* 初始化过程中存在某些数据不一致 (在构造器中使用了未初始化的 *this*).
 
 在 Kotlin 中, 类型系统明确区分可以指向 *null*{: .keyword } 的引用 (可为 null 引用) 与不可以指向 null 的引用 (非 null 引用).
 比如, 一个通常的 `String` 类型变量不可以指向 *null*{: .keyword }:
@@ -144,7 +144,7 @@ val aInt: Int? = a as? Int
 
 ## 可为 null 的类型构成的集合
 
-如果你的有一个集合, 其中的元素是可为 null 的类型, 并且希望将其中非 null 值的元素过滤出来, 那么可以使用 `filterNotNull` 函数.
+如果你的有一个集合, 其中的元素是可为 null 的类型, 并且希望将其中非 null 值的元素过滤出来, 那么可以使用 `filterNotNull` 函数:
 
 ``` kotlin
 val nullableList: List<Int?> = listOf(1, 2, null, 4)

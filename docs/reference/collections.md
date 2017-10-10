@@ -2,10 +2,10 @@
 type: doc
 layout: reference
 category: Other
-title: "集合"
+title: "集合: List, Set, Map"
 ---
 
-# 集合(Collection)
+# 集合(Collection): List, Set, Map
 
 与很多其他语言不同, Kotlin 明确地区分可变的和不可变的集合(list, set, map, 等等). 明确地控制集合什么时候可变什么时候不可变, 对于消除 bug 是很有帮助的, 也有助于设计出良好的 API.
 
@@ -28,7 +28,7 @@ assert(strings.size == 3)
 ```
 
 Kotlin 没有专门的语法用来创建 list 和 set. 你可以使用标准库中的方法, 比如 `listOf()`, `mutableListOf()`, `setOf()`, `mutableSetOf()`.
-在并不极端关注性能的情况下, 创建 map 可以使用一个简单的 [惯用法](idioms.html#read-only-map): `mapOf(a to b, c to d)`
+在并不极端关注性能的情况下, 创建 map 可以使用一个简单的 [惯用法](idioms.html#read-only-map): `mapOf(a to b, c to d)`.
 
 注意, `readOnlyView` 变量指向的其实是同一个 list 实例, 因此它的内容会随着后端 list 一同变化. 如果指向 list 的只有唯一一个引用,  而且这个引用是只读的, 那么我们可以这个集合完全是不可变的. 创建一个这样的集合的简单办法如下:
 

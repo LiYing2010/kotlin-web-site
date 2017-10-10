@@ -9,7 +9,7 @@ title: "this 表达式"
 
 为了表示当前函数的 _接收者(receiver)_, 我们使用 *this*{: .keyword } 表达式:
 
-* 在 [类](classes.html#inheritance) 的成员函数中, *this*{: .keyword } 指向这个类的当前对象实例
+* 在 [类](classes.html#inheritance) 的成员函数中, *this*{: .keyword } 指向这个类的当前对象实例.
 * 在 [扩展函数](extensions.html) 中, 或 [带接收者的函数字面值(function literal)](lambdas.html#function-literals-with-receiver) 中,
 *this*{: .keyword } 代表调用函数时, 在点号左侧传递的 _接收者_ 参数.
 

@@ -25,6 +25,17 @@ val c = MyClass::class
 
 注意, Kotlin 的类引用不是一个 Java 的类引用. 要得到 Java 的类引用, 请使用 `KClass` 对象实例的 `.java` 属性.
 
+## 与对象实例绑定的类引用语法 (从 Kotlin 1.1 开始支持)
+
+`::class` 语法同样可以用于取得某个对象实例的类的引用:
+
+``` kotlin
+val widget: Widget = ...
+assert(widget is GoodWidget) { "Bad widget: ${widget::class.qualifiedName}" }
+```
+
+在这个例子中, 尽管 widget 的类型为 `Widget`, 但你将会得到对象实例的确切的类的引用, 比如 `GoodWidget`, 或 `BadWidget`.
+
 ## 函数引用(Function Reference)
 
 假设我们有一个有名称的函数, 声明如下:
@@ -106,7 +117,7 @@ fun main(args: Array<String>) {
 它有一个 `set()` 方法.                     
 
 属性引用可以用在所有使用无参函数的地方:
- 
+
 ``` kotlin
 val strs = listOf("a", "bc", "def")
 println(strs.map(String::length)) // 打印结果为: [1, 2, 3]
@@ -143,9 +154,9 @@ fun main(args: Array<String>) {
 
 ``` kotlin
 import kotlin.reflect.jvm.*
- 
+
 class A(val p: Int)
- 
+
 fun main(args: Array<String>) {
     println(A::p.javaGetter) // 打印结果为: "public final int A.getP()"
     println(A::p.javaField)  // 打印结果为: "private final int A.p"
@@ -161,14 +172,14 @@ fun getKClass(o: Any): KClass<Any> = o.javaClass.kotlin
 ## 构造器引用(Constructor Reference)
 
 与方法和属性一样, 也可以引用构造器. 构造器引用可以用于使用函数类型对象的地方, 但这个函数类型接受的参数应该与构造器相同, 返回值应该是构造器所属类的对象实例.
-引用构造器使用 `::` 操作符, 再加上类名称. 
+引用构造器使用 `::` 操作符, 再加上类名称.
 我们来看看下面的函数, 它接受的参数是一个函数, 这个函数参数本身没有参数, 并返回 `Foo` 类型:
 
 ``` kotlin
 class Foo
 
-fun function(factory : () -> Foo) {
-    val x : Foo = factory()
+fun function(factory: () -> Foo) {
+    val x: Foo = factory()
 }
 ```
 
@@ -176,4 +187,41 @@ fun function(factory : () -> Foo) {
 
 ``` kotlin
 function(::Foo)
+```
+
+## 与对象实例绑定的函数和属性引用 (从 Kotlin 1.1 开始支持)
+
+你可以引用某个具体的对象实例的方法:
+
+``` kotlin
+val numberRegex = "\\d+".toRegex()
+println(numberRegex.matches("29")) // 打印结果为 "true"
+
+val isNumber = numberRegex::matches
+println(isNumber("29")) // 打印结果为 "true"
+```
+
+我们将 `matches` 方法保存在一个指向它的引用变量内, 而不是直接调用这个方法.
+这样的引用会与方法的接受者绑定在一起.
+这样的引用可以直接调用(就像上面的示例程序中那样), 也可以用在任何使用函数类型表达式的地方:
+
+``` kotlin
+val strings = listOf("abc", "124", "a70")
+println(strings.filter(numberRegex::matches)) // 打印结果为 "[124]"
+```
+
+我们来比较一下绑定到对象实例的引用, 以及未绑定到实例的引用.
+绑定到对象实例的引用与它的接受者对象实例结合在一起, 因此接受者的类型不再是它的一个参数:
+
+``` kotlin
+val isNumber: (CharSequence) -> Boolean = numberRegex::matches
+
+val matches: (Regex, CharSequence) -> Boolean = Regex::matches
+```
+
+同样, 属性的引用也可以与对象实例绑定:
+
+``` kotlin
+val prop = "abc"::length
+println(prop.get())   // 打印结果为 "3"
 ```

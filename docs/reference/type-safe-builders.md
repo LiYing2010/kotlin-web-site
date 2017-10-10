@@ -8,8 +8,8 @@ title: "类型安全的 Groovy 风格构建器"
 # 类型安全的构建器(Type-Safe Builder)
 
 [构建器(builder)](http://www.groovy-lang.org/dsls.html#_nodebuilder) 的理念在 *Groovy* 开发社区非常流行.
-使用构建器, 可以以一种半声明式的方式(semi-declarative way)来定义数据. 构建器非常适合于 [生成 XML](http://www.groovy-lang.org/processing-xml.html#_creating_xml), 
-[控制 UI 组件布局](http://www.groovy-lang.org/swing.html), 
+使用构建器, 可以以一种半声明式的方式(semi-declarative way)来定义数据. 构建器非常适合于 [生成 XML](http://www.groovy-lang.org/processing-xml.html#_creating_xml),
+[控制 UI 组件布局](http://www.groovy-lang.org/swing.html),
 [描述 3D 场景](http://www.artima.com/weblogs/viewpost.jsp?thread=296081), 等等等等...
 
 在很多的使用场景下, Kotlin 可以创建一种 *类型检查* 的构建器, 这种功能使得 kotlin 中的构建器比 Groovy 自己的动态类型构建器更具吸引力.
@@ -63,7 +63,7 @@ fun result(args: Array<String>) =
 首先, 我们要对我们想要构建的东西定义一组模型, 在这个示例中, 我们需要对 HTML 标签建模.
 这个任务很简单, 只需要定义一组对象就可以了.
 比如, `HTML` 是一个类, 负责描述 `<html>` 标签, 也就是说, 它可以定义子标签, 比如 `<head>` 和 `<body>`.
-(这个类的具体定义请参见[下文](#declarations).)
+(这个类的具体定义请参见[下文](#full-definition-of-the-comexamplehtml-package).)
 
 现在, 回忆一下为什么我们可以写这样的代码:
 
@@ -108,10 +108,10 @@ html {
 ```
 
 那么, 这个函数调用做了什么? 我们来看看上面定义的 `html` 函数体.
-首先它创建了一个 `HTML` 类的新实例, 然后它调用通过参数得到的函数, 来初始化这个 `HTML` 实例 (在我们的示例中, 这个初始化函数对 `HTML` 实例调用了 `head` 和 `body` 方法), 然后, 这个函数返回这个 `HTML` 实例. 
+首先它创建了一个 `HTML` 类的新实例, 然后它调用通过参数得到的函数, 来初始化这个 `HTML` 实例 (在我们的示例中, 这个初始化函数对 `HTML` 实例调用了 `head` 和 `body` 方法), 然后, 这个函数返回这个 `HTML` 实例.
 这正是构建器应该做的.
 
-`HTML` 类中 `head` 和 `body` 函数的定义与 `html` 函数类似. 
+`HTML` 类中 `head` 和 `body` 函数的定义与 `html` 函数类似.
 唯一的区别是, 这些函数会将自己创建的对象实例添加到自己所属的 `HTML` 实例的 `children` 集合中:
 
 ``` kotlin
@@ -133,11 +133,11 @@ fun body(init: Body.() -> Unit) : Body {
 实际上这两个函数做的事情完全相同, 因此我们可以编写一个泛型化的函数, 名为 `initTag`:
 
 ``` kotlin
-    protected fun <T : Element> initTag(tag: T, init: T.() -> Unit): T {
-        tag.init()
-        children.add(tag)
-        return tag
-    }
+protected fun <T : Element> initTag(tag: T, init: T.() -> Unit): T {
+    tag.init()
+    children.add(tag)
+    return tag
+}
 ```
 
 然后, 这两个函数就变得很简单了:
@@ -148,7 +148,7 @@ fun head(init: Head.() -> Unit) = initTag(Head(), init)
 fun body(init: Body.() -> Unit) = initTag(Body(), init)
 ```
 
-现在我们可以使用这两个函数来构建 `<head>` 和 `<body>` 标签了. 
+现在我们可以使用这两个函数来构建 `<head>` 和 `<body>` 标签了.
 
 
 还需要讨论的一个问题是, 我们如何在标签内部添加文本. 在上面的示例程序中, 我们写了这样的代码:
@@ -223,7 +223,6 @@ abstract class Tag(val name: String) : Element {
         return builder.toString()
     }
 
-
     override fun toString(): String {
         val builder = StringBuilder()
         render(builder, "")
@@ -237,17 +236,17 @@ abstract class TagWithText(name: String) : Tag(name) {
     }
 }
 
-class HTML() : TagWithText("html") {
+class HTML : TagWithText("html") {
     fun head(init: Head.() -> Unit) = initTag(Head(), init)
 
     fun body(init: Body.() -> Unit) = initTag(Body(), init)
 }
 
-class Head() : TagWithText("head") {
+class Head : TagWithText("head") {
     fun title(init: Title.() -> Unit) = initTag(Title(), init)
 }
 
-class Title() : TagWithText("title")
+class Title : TagWithText("title")
 
 abstract class BodyTag(name: String) : TagWithText(name) {
     fun b(init: B.() -> Unit) = initTag(B(), init)
@@ -259,13 +258,13 @@ abstract class BodyTag(name: String) : TagWithText(name) {
     }
 }
 
-class Body() : BodyTag("body")
-class B() : BodyTag("b")
-class P() : BodyTag("p")
-class H1() : BodyTag("h1")
+class Body : BodyTag("body")
+class B : BodyTag("b")
+class P : BodyTag("p")
+class H1 : BodyTag("h1")
 
-class A() : BodyTag("a") {
-    public var href: String
+class A : BodyTag("a") {
+    var href: String
         get() = attributes["href"]!!
         set(value) {
             attributes["href"] = value

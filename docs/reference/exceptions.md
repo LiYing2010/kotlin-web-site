@@ -2,7 +2,7 @@
 type: doc
 layout: reference
 category: "Syntax"
-title: "异常"
+title: "异常: try, catch, finally, throw, Nothing"
 ---
 
 # 异常(Exception)
@@ -37,7 +37,7 @@ finally {
 
 ### Try 是一个表达式
 
-*try*{: .keyword } 是一个表达式, 也就是说, 它可以有返回值.
+*try*{: .keyword } 是一个表达式, 也就是说, 它可以有返回值:
 
 ``` kotlin
 val a: Int? = try { parseInt(input) } catch (e: NumberFormatException) { null }
@@ -78,6 +78,39 @@ Bruce Eckel 在 [Java 需要受控异常吗?](http://www.mindview.net/Etc/Discus
 
 * [Java 的受控异常是一个错误](http://radio-weblogs.com/0122027/stories/2003/04/01/JavasCheckedExceptionsWereAMistake.html) (Rod Waldhoff)
 * [受控异常带来的问题](http://www.artima.com/intv/handcuffs.html) (Anders Hejlsberg)(译注, Borland Turbo Pascal 和 Delphi 的主要作者, 微软.Net概念的发起人之一, .Net首席架构师)
+
+## Nothing 类型
+
+在 Kotlin 中, `throw` 是一个表达式, 比如说, 你可以将它用做 Elvis 表达式的一部分:
+
+``` kotlin
+val s = person.name ?: throw IllegalArgumentException("Name required")
+```
+
+`throw` 表达式的类型是一个特殊的类型 `Nothing`.
+这个类型没有值, 它被用来标记那些永远无法执行到的代码位置.
+在你自己的代码中, 你可以用 `Nothing` 来标记一个永远不会正常返回的函数:
+
+``` kotlin
+fun fail(message: String): Nothing {
+    throw IllegalArgumentException(message)
+}
+```
+
+如果你调用这个函数, 编译器就会知道, 执行到这个调用时, 程序就会停止:
+
+``` kotlin
+val s = person.name ?: fail("Name required")
+println(s)     // 在这里可以确定地知道 's' 已被正确地初始化
+```
+
+另一种用到这个类型的情况是类型推断. 这个类型的可为 null 的变量, `Nothing?`, 只有唯一一个可能的值, 就是 `null`.
+如果对一个自动推断类型的值, 使用 `null` 来初始化, 而且又没有更多的信息可以用来推断出更加具体的类型, 编译器会将类型推断为 `Nothing?`:
+
+``` kotlin
+val x = null           // 'x' 的类型是 `Nothing?`
+val l = listOf(null)   // 'l' 的类型是 `List<Nothing?>
+```
 
 ## 与 Java 的互操作性
 

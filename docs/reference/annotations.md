@@ -76,6 +76,8 @@ annotation class Special(val why: String)
  * 其他注解;
  * 由以上数据类型构成的数组.
 
+注解的参数不能是可为 null 的类型, 因为 JVM 不支持在注解的属性中保存 `null` 值.
+
 如果一个注解被用作另一个注解的参数, 那么在它的名字之前不使用 @ 前缀:
 
 ``` kotlin
@@ -140,15 +142,15 @@ class Example {
 
 Kotlin 支持的所有注解使用目标如下:
 
-  * `file`
-  * `property` (使用这个目标的注解, 在 Java 中无法访问)
-  * `field`
-  * `get` (属性的 get 方法)
-  * `set` (属性的 set 方法)
-  * `receiver` (扩展函数或扩展属性的接受者参数)
-  * `param` (构造器的参数)
-  * `setparam` (属性 set 方法的参数)
-  * `delegate` (保存代理属性的代理对象实例的域变量)
+  * `file`;
+  * `property` (使用这个目标的注解, 在 Java 中无法访问);
+  * `field`;
+  * `get` (属性的 get 方法);
+  * `set` (属性的 set 方法);
+  * `receiver` (扩展函数或扩展属性的接受者参数);
+  * `param` (构造器的参数);
+  * `setparam` (属性 set 方法的参数);
+  * `delegate` (保存代理属性的代理对象实例的域变量).
 
 要对扩展函数的接受者参数添加注解, 请使用以下语法:
 
@@ -158,9 +160,9 @@ fun @receiver:Fancy String.myExtension() { }
 
 如果不指定注解的使用目标, 那么将会根据这个注解的 `@Target` 注解来自动选定使用目标. 如果存在多个可用的目标, 将会使用以下列表中的第一个:
 
-  * `param`
-  * `property`
-  * `field`
+  * `param`;
+  * `property`;
+  * `field`.
 
 
 ## Java 注解
@@ -184,7 +186,7 @@ class Tests {
 }
 ```
 
-由于 Java 注解中没有定义参数的顺序, 因此不可以使用通常的函数调用语法来给注解传递参数. 相反, 你需要使用命名参数语法.
+由于 Java 注解中没有定义参数的顺序, 因此不可以使用通常的函数调用语法来给注解传递参数. 相反, 你需要使用命名参数语法:
 
 ``` java
 // Java
@@ -199,7 +201,7 @@ public @interface Ann {
 @Ann(intValue = 1, stringValue = "abc") class C
 ```
 
-与 Java 一样, 有一个特殊情况就是 `value` 参数; 这个参数的值可以不使用明确的参数名来指定.
+与 Java 一样, 有一个特殊情况就是 `value` 参数; 这个参数的值可以不使用明确的参数名来指定:
 
 ``` java
 // Java
@@ -241,7 +243,7 @@ public @interface AnnWithArrayMethod {
 @AnnWithArrayMethod(names = arrayOf("abc", "foo", "bar")) class C
 ```
 
-Java 注解实例的值, 在 Kotlin 代码中可以通过属性的形式访问.
+Java 注解实例的值, 在 Kotlin 代码中可以通过属性的形式访问:
 
 ``` java
 // Java
