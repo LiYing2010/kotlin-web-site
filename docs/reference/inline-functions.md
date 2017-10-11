@@ -82,7 +82,7 @@ fun foo() {
 }
 ```
 
-这样的 return 语句(位于 Lambda 表达式内部, 但是退出包含 Lambda 表达式的函数) 成为 *非局部(non-local)* 返回. 我们在循环中经常用到这样的结构, 而循环也常常就是包含内联函数的地方:
+这样的 return 语句(位于 Lambda 表达式内部, 但是退出包含 Lambda 表达式的函数) 称为 *非局部(non-local)* 返回. 我们在循环中经常用到这样的结构, 而循环也常常就是包含内联函数的地方:
 
 ``` kotlin
 fun hasZeros(ints: List<Int>): Boolean {
