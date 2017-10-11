@@ -115,8 +115,8 @@ reference:
 
   - title: 核心库
     content:
-      - /api/latest/jvm/stdlib/index.html: 标准库(Standard Library)
-      - /api/latest/kotlin.test/index.html: 测试库(kotlin.test)
+      - /docs/api/stdlib.html: 标准库(Standard Library)
+      - /docs/api/kotlin-test.html: 测试库(kotlin.test)
 
 
   - title: 参考

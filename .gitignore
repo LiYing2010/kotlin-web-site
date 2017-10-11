@@ -23,7 +23,7 @@ build
 workspace.xml
 uiDesigner.xml
 *.css.map
-api/
+/api/
 .idea
 *.iml
 /.settings
