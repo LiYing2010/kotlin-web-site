@@ -123,7 +123,7 @@ reference:
     description: API 与语法
     content:
       - /docs/reference/keyword-reference.html: 关键字(Keyword)与操作符(Operator)
-      - /docs/reference/grammar.html: 语法
+      - /docs/grammar/grammar.html: 语法
       - /docs/reference/compatibility.html: 兼容性
 
   - title: 与 Java 的互操作性

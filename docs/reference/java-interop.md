@@ -20,8 +20,8 @@ fun demo(source: List<Int>) {
     for (item in source) {
         list.add(item)
     }
-    // 也可以对 Java 类使用 Kotlin 操作符:
-    for (i in 0..source.size() - 1) {
+    // 也可以对 Java 类使用 Kotlin 的操作符:
+    for (i in 0..source.size - 1) {
         list[i] = source[i] // 这里会调用 get 和 set 方法
     }
 }
@@ -29,7 +29,10 @@ fun demo(source: List<Int>) {
 
 ## Get 和 Set 方法
 
-符合 Java 的 Get 和 Set 方法规约的方法(无参数, 名称以 `get` 开头, 或单个参数, 名称以 `set`开头) 在 Kotlin 中会被识别为属性. 比如:
+符合 Java 的 Get 和 Set 方法规约的方法(无参数, 名称以 `get` 开头, 或单个参数, 名称以 `set` 开头) 在 Kotlin 中会被识别为属性.
+`Boolean` 类型的属性访问方法(Get 方法名称以 `is` 开头, Set 方法名称以 `set` 开头), 会被识别为属性, 其名称与 Get 方法相同.
+
+比如:
 
 ``` kotlin
 import java.util.Calendar
@@ -37,7 +40,10 @@ import java.util.Calendar
 fun calendarDemo() {
     val calendar = Calendar.getInstance()
     if (calendar.firstDayOfWeek == Calendar.SUNDAY) {  // 这里会调用 getFirstDayOfWeek()
-        calendar.firstDayOfWeek = Calendar.MONDAY       // 这里会调用 setFirstDayOfWeek()
+        calendar.firstDayOfWeek = Calendar.MONDAY      // 这里会调用 setFirstDayOfWeek()
+    }
+    if (!calendar.isLenient) {                         // 这里会调用 isLenient()
+        calendar.isLenient = true                      // 这里会调用 setLenient()
     }
 }
 ```
@@ -68,7 +74,7 @@ Java 中定义的类型在 Kotlin 中会被特别处理, 被称为 *平台数据
 ``` kotlin
 val list = ArrayList<String>() // 非 null 值 (因为是构造器方法的返回结果)
 list.add("Item")
-val size = list.size() // 非 null 值 (因为是基本类型 int)
+val size = list.size // 非 null 值 (因为是基本类型 int)
 val item = list[0] // 类型自动推断结果为平台类型 (通常的 Java 对象)
 ```
 
@@ -112,10 +118,109 @@ val notNull: String = item // 允许, 但在运行时刻可能失败
 
 完整的列表请参见 [Kotlin 编译器源代码](https://github.com/JetBrains/kotlin/blob/master/core/descriptor.loader.java/src/org/jetbrains/kotlin/load/java/JvmAnnotationNames.kt).
 
+#### 对 JSR-305 规范的支持
+
+[JSR-305 规范](https://jcp.org/en/jsr/detail?id=305) 中定义了 [`@Nonnull`](https://aalmiray.github.io/jsr-305/apidocs/javax/annotation/Nonnull.html) 注解.
+Kotlin 支持使用这个注解来标识 Java 类型可否为 null.
+
+如果 `@Nonnull(when = ...)` 的值为 `When.ALWAYS`, 那么被注解的类型会被当作不可为 null 的;
+`When.MAYBE` 和 `When.NEVER` 对应于可为 null 的类型;
+`When.UNKNOWN` 则会被认为是 [平台数据类型](#null-safety-and-platform-types).
+
+库编译时可以用到 JSR-305 规范的注解, 但对于库的使用者来说, 编译时不必依赖这些注解的 jar 文件(比如 `jsr305.jar`).
+Kotlin 编译器可以从库中读取 JSR-305 规范的注解, 而不需要这些注解存在于类路径中.
+
+从 Kotlin 1.1.50 开始, 还支持 [自定义可空限定符 (KEEP-79)](https://github.com/Kotlin/KEEP/blob/41091f1cc7045142181d8c89645059f4a15cc91a/proposals/jsr-305-custom-nullability-qualifiers.md)
+(详情请见下文).
+
+##### 类型限定符别名(Type qualifier nickname) (从 Kotlin 1.1.50 开始支持)
+
+如果一个注解, 同时标注了
+[`@TypeQualifierNickname`](https://aalmiray.github.io/jsr-305/apidocs/javax/annotation/meta/TypeQualifierNickname.html)
+注解 和 JSR-305 规范的 `@Nonnull` 注解(或者它的另一个别名, 比如 `@CheckForNull`),
+那么这个注解可以用来标注类型是否可以为 null, 其含义与 JSR-305 规范的 `@Nonnull` 注解完全相同:
+
+``` java
+@TypeQualifierNickname
+@Nonnull(when = When.ALWAYS)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface MyNonnull {
+}
+
+@TypeQualifierNickname
+@CheckForNull // 另一个 TypeQualifierNickname 的别名
+@Retention(RetentionPolicy.RUNTIME)
+public @interface MyNullable {
+}
+
+interface A {
+    @MyNullable String foo(@MyNonnull String x); // 在 Kotlin 中会被看作 `fun foo(x: String): String?`
+    String bar(List<@MyNonnull String> x);       // 在 Kotlin 中会被看作 `fun bar(x: List<String>!): String!`
+}
+```
+
+##### 类型限定符默认值(Type qualifier default) (从 Kotlin 1.1.50 开始支持)
+
+[`@TypeQualifierDefault`](https://aalmiray.github.io/jsr-305/apidocs/javax/annotation/meta/TypeQualifierDefault.html)
+用来定义一个注解, 当使用这个注解时, 可以在被标注的元素的范围内, 定义默认的可否为 null 设定.
+
+这种注解本身应该标注 `@Nonnull` (or its nickname) 注解, 并使用一个或多个 `ElementType` 值标注 `@TypeQualifierDefault(...)` 注解:
+* `ElementType.METHOD` 表示注解对象为方法的返回值;
+* `ElementType.PARAMETER` 表示注解对象为参数值;
+* `ElementType.FIELD` 表示注解对象为类的成员域变量.
+
+当一个类型没有标注可否为 null 注解时, 会使用默认的可否为 null 设定,
+Kotlin 会查找对象类型所属的最内层的元素, 要求这个元素使用了类型限定符默认值注解, 而且 `ElementType` 值与对象类型相匹配,
+然后通过类型限定符默认值注解, 得到这个默认的可否为 null 设定.
+
+```java
+@Nonnull
+@TypeQualifierDefault({ElementType.METHOD, ElementType.PARAMETER})
+public @interface NonNullApi {
+}
+
+@Nonnull(when = When.MAYBE)
+@TypeQualifierDefault({ElementType.METHOD, ElementType.PARAMETER})
+public @interface NullableApi {
+}
+
+@NullableApi
+interface A {
+    String foo(String x); // 在 Kotlin 中会被看作 fun foo(x: String?): String?
+
+    @NotNullApi // 这个注解将会覆盖接口上的可否为 null 默认设定
+    String bar(String x, @Nullable String y); // 在 Kotlin 中会被看作 fun bar(x: String, y: String?): String
+
+    // 参数 `x` 的类型为平台类型, 因为它的可否为 null 注解明确标注为 UNKNOWN:
+    String qux(@Nonnull(when = When.UNKNOWN) String x); // 在 Kotlin 中会被看作 fun baz(x: String!): String?
+}
+```
+
+另外还支持包级别的可否为 null 默认设定:
+
+```java
+// FILE: test/package-info.java
+@NonNullApi // 'test' 包内的所有声明, 默认都是非 null
+package test;
+```
+
+##### 编译器配置
+
+可以添加 `-Xjsr305` 编译器选项来配置 JSR-305 规范检查, 这个编译器选项可以使用以下设置之一:
+
+* `-Xjsr305=strict` 使得 JSR-305 注解以通常的可否为 null 注解模式工作, 也就是说, 对于被标注的类型, 如果其值不正确, 则报告错误;
+
+* `-Xjsr305=warn` 使得被标注的类型, 如果其值不正确, 只产生编译警告, 而不报告错误;
+
+* `-Xjsr305=ignore` 使编译器完全忽略 JSR-305 可否为 null 注解.
+
+对于 Kotlin 1.1.50+/1.2 版, 编译器的默认行为与 `-Xjsr305=warn` 一样.
+目前 `strict` 设定还是实验性的 (未来可能会增加更多的检查).
+
 ## 数据类型映射
 
 Kotlin 会对某些 Java 类型进行特殊处理. 这些类型会被从 Java 中原封不动地装载进来, 但被 _映射_ 为对应的 Kotlin 类型. 映射过程只会在编译时发生, 运行时的数据表达不会发生变化.
-Java 的基本数据类型会被映射为对应的 Kotlin 类型(但请注意 [平台数据类型](#platform-types) 问题):
+Java 的基本数据类型会被映射为对应的 Kotlin 类型(但请注意 [平台数据类型](#null-safety-and-platform-types) 问题):
 
 | **Java 类型** | **Kotlin 类型**  |
 |---------------|------------------|
@@ -139,14 +244,30 @@ Java 的基本数据类型会被映射为对应的 Kotlin 类型(但请注意 [�
 | `java.lang.Enum`         | `kotlin.Enum!`    |
 | `java.lang.Annotation`   | `kotlin.Annotation!`    |
 | `java.lang.Deprecated`   | `kotlin.Deprecated!`    |
-| `java.lang.Void`         | `kotlin.Nothing!`    |
 | `java.lang.CharSequence` | `kotlin.CharSequence!`   |
 | `java.lang.String`       | `kotlin.String!`   |
 | `java.lang.Number`       | `kotlin.Number!`     |
 | `java.lang.Throwable`    | `kotlin.Throwable!`    |
 {:.zebra}
 
-集合类型在 Kotlin 中可能是只读的, 也可能是内容可变的, 因此 Java 的集合会被映射为以下类型(下表中所有的 Kotlin 类型都属于 `kotlin` 包):
+Java 中的装箱的基本类型(boxed primitive type), 会被映射为 Kotlin 的可为 null 类型:
+
+| **Java 类型**           | **Kotlin 类型**  |
+|-------------------------|------------------|
+| `java.lang.Byte`        | `kotlin.Byte?`   |
+| `java.lang.Short`       | `kotlin.Short?`  |
+| `java.lang.Integer`     | `kotlin.Int?`    |
+| `java.lang.Long`        | `kotlin.Long?`   |
+| `java.lang.Character`   | `kotlin.Char?`   |
+| `java.lang.Float`       | `kotlin.Float?`  |
+| `java.lang.Double`      | `kotlin.Double?`  |
+| `java.lang.Boolean`     | `kotlin.Boolean?` |
+{:.zebra}
+
+注意, 装箱的基本类型用作类型参数时, 会被映射为平台类型:
+比如, `List<java.lang.Integer>` 在 Kotlin 中会变为 `List<Int!>`.
+
+集合类型在 Kotlin 中可能是只读的, 也可能是内容可变的, 因此 Java 的集合会被映射为以下类型(下表中所有的 Kotlin 类型都属于 `kotlin.collections` 包):
 
 | **Java 类型** | **Kotlin 只读类型**  | **Kotlin 内容可变类型** | **被装载的平台数据类型** |
 |---------------|------------------|----|----|
@@ -172,12 +293,12 @@ Java 数据的映射如下, 详情参见 [下文](java-interop.html#java-arrays)
 
 Kotlin 的泛型 与 Java 的泛型略有差异 (参见 [泛型](generics.html)). 将 Java 类型导入 Kotlin 时, 我们进行以下变换:
 
-* Java 的通配符会被变换为 Kotlin 的类型投射
-  * `Foo<? extends Bar>` 变换为 `Foo<out Bar!>!`
-  * `Foo<? super Bar>` 变换为 `Foo<in Bar!>!`
+* Java 的通配符会被变换为 Kotlin 的类型投射,
+  * `Foo<? extends Bar>` 变换为 `Foo<out Bar!>!`,
+  * `Foo<? super Bar>` 变换为 `Foo<in Bar!>!`;
 
-* Java 的原生类型(raw type) 转换为 Kotlin 的星号投射(star projection)
-  * `List` 变换为 `List<*>!`, 也就是 `List<out Any?>!`
+* Java 的原生类型(raw type) 转换为 Kotlin 的星号投射(star projection),
+  * `List` 变换为 `List<*>!`, 也就是 `List<out Any?>!`.
 
 与 Java 一样, Kotlin 的泛型信息在运行时不会保留, 也就是说, 创建对象时传递给构造器的类型参数信息, 在对象中不会保留下来, 所以, `ArrayList<Integer>()` 与 `ArrayList<Character>()` 在运行时刻是无法区分的.
 这就导致无法进行带有泛型信息的 *is*{: .keyword } 判断.
@@ -192,7 +313,7 @@ if (a is List<*>) // OK: 这里的判断不保证 List 内容的数据类型
 ## Java 数组
 
 与 Java 不同, Kotlin 中的数组是不可变的(invariant). 这就意味着, Kotlin 不允许我们将 `Array<String>` 赋值给 `Array<Any>`, 这样就可以避免发生运行时错误.
-在调用 Kotlin 方法时, 如果参数声明为父类型的数组, 那么将子类型的数组传递给这个参数, 也是禁止的, 但对于 Java 的方法, 这是允许(通过使用 `Array<(out) String>!` 形式的[平台数据类型](#platform-types)).
+在调用 Kotlin 方法时, 如果参数声明为父类型的数组, 那么将子类型的数组传递给这个参数, 也是禁止的, 但对于 Java 的方法, 这是允许(通过使用 `Array<(out) String>!` 形式的[平台数据类型](##null-safety-and-platform-types)).
 
 在 Java 平台上, 会使用基本类型构成的数组, 以避免装箱(boxing)/拆箱(unboxing)操作带来的性能损失.
 由于 Kotlin 会隐藏这些实现细节, 因此与 Java 代码交互时需要使用一个替代办法.
@@ -228,7 +349,7 @@ for (x in array) { // 不会创建迭代器(iterator)
 }
 ```
 
-即使我们使用下标来遍历数组, 也不会产生任何性能损失:
+即使我们使用下标来访问数组元素, 也不会产生任何性能损失:
 
 ``` kotlin
 for (i in array.indices) { // 不会创建迭代器(iterator)
@@ -246,12 +367,12 @@ if (i in array.indices) { // 等价于 (i >= 0 && i < array.size)
 
 ## Java 的可变长参数(Varargs)
 
-Java 类的方法声明有时会对 indices 使用可变长的参数定义(varargs).
+Java 类的方法声明有时会对 indices 使用可变长的参数定义(varargs):
 
 ``` java
 public class JavaArrayExample {
 
-    public void removeIndices(int... indices) {
+    public void removeIndicesVarArg(int... indices) {
         // 方法代码在这里...
     }
 }
@@ -260,7 +381,7 @@ public class JavaArrayExample {
 这种情况下, 为了将 `IntArray` 传递给这个参数, 需要使用展开(spread) `*` 操作符:
 
 ``` kotlin
-val javaObj = JavaArray()
+val javaObj = JavaArrayExample()
 val array = intArrayOf(0, 1, 2, 3)
 javaObj.removeIndicesVarArg(*array)
 ```
@@ -304,17 +425,17 @@ fun render(list: List<*>, to: Appendable) {
 
 ### getClass()
 
-要得到一个对象的类型信息, 我们可以使用 javaClass 扩展属性.
+要得到一个对象的 Java Class 信息, 可以使用 [类引用](reflection.html#class-references) 的 `java` 扩展属性:
+
+``` kotlin
+val fooClass = foo::class.java
+```
+
+上面的示例程序中, 使用了一个 [与对象实例绑定的类引用](reflection.html#bound-class-references-since-11), 这个功能从 Kotlin 1.1 开始支持.
+你也可以使用 `javaClass` 扩展属性:
 
 ``` kotlin
 val fooClass = foo.javaClass
-```
-
-对于类, 应该使用 Foo::class.java, 而不是 Java 中的 `Foo.class`.
-
-
-``` kotlin
-val fooClass = Foo::class.java
 ```
 
 ### clone()
@@ -360,9 +481,9 @@ if (Character.isLetter(a)) {
 
 ## Java 的反射
 
-Java 的反射在 Kotlin 类中也可以使用, 反过来也是如此. 我们在上文中讲到, 你可以使用 `instance.javaClass` 或 
-`ClassName::class.java` 得到 `java.lang.Class`, 然后通过它就可以使用 Java 的反射功能.
- 
+Java 的反射在 Kotlin 类中也可以使用, 反过来也是如此. 我们在上文中讲到, 你可以使用 `instance::class.java`, `ClassName::class.java`, 或者 `instance.javaClass`,
+得到 `java.lang.Class`, 然后通过它就可以使用 Java 的反射功能.
+
 此外还支持其他反射功能, 比如可以得到 Kotlin 属性对应的 Java get/set 方法或后端成员, 可以得到 Java 成员变量对应的 `KProperty`, 得到 `KFunction` 对应的 Java 方法或构造器, 或者反过来得到 Java 方法或构造器对应的 `KFunction`.
 
 ## SAM 转换
@@ -383,7 +504,7 @@ val executor = ThreadPoolExecutor()
 executor.execute { println("This runs in a thread pool") }
 ```
 
-如果 Java 类中有多个同名的方法, 而且方法参数都可以接受函数式接口, 那么你可以使用一个适配器函数(adapter function), 将 Lambda 表达式转换为某个具体的 SAM 类型, 然后就可以选择需要调用的方法. 编译器也会在需要的时候生成这些适配器函数.
+如果 Java 类中有多个同名的方法, 而且方法参数都可以接受函数式接口, 那么你可以使用一个适配器函数(adapter function), 将 Lambda 表达式转换为某个具体的 SAM 类型, 然后就可以选择需要调用的方法. 编译器也会在需要的时候生成这些适配器函数:
 
 ``` kotlin
 executor.execute(Runnable { println("This runs in a thread pool") })
@@ -393,7 +514,7 @@ executor.execute(Runnable { println("This runs in a thread pool") })
 
 还应当注意, 这个功能只在 Kotlin 与 Java 互操作时有效; 由于 Kotlin 本身已经有了专门的函数类型, 因此没有必要将函数自动转换为 Kotlin 接口的实现者, Kotlin 也不支持这样的转换.
 
-## 在 Kotlin 中使用 JNI(Java Native Interface) 
+## 在 Kotlin 中使用 JNI(Java Native Interface)
 
 要声明一个由本地代码(C 或者 C++)实现的函数, 你需要使用 `external` 修饰符标记这个函数:
 
