@@ -109,8 +109,8 @@ reference:
       - /docs/reference/annotations.html: 注解(Annotation)
       - /docs/reference/reflection.html: 反射(Reflection)
       - /docs/reference/type-safe-builders.html: 类型安全的构建器(Type-Safe Builder)
-      - /docs/reference/type-aliases.html: 类型别名(Type Aliases)
-      - /docs/reference/multiplatform.html: 跨平台工程(Multiplatform Projects) (预览)
+      - /docs/reference/type-aliases.html: 类型别名(Type Alias)
+      - /docs/reference/multiplatform.html: 跨平台项目(Multiplatform Projects) (预览版)
 
 
   - title: 核心库
@@ -131,7 +131,7 @@ reference:
     content:
       - /docs/reference/java-interop.html: 在 Kotlin 中调用 Java
       - /docs/reference/java-to-kotlin-interop.html: 在 Java 中调用 Kotlin
-      
+
   - title: JavaScript
     description: 在 JavaScript 开发中使用 Kotlin
     content:
