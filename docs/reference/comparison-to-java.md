@@ -5,7 +5,7 @@ category: FAQ
 title: "与 Java 比较"
 ---
 
-# 与 Java 比较
+# 与 Java 语言的比较
 
 ## Kotlin 中得到解决的一些 Java 问题
 
@@ -13,8 +13,8 @@ Java 中长期困扰的一系列问题, 在 Kotlin 得到了解决:
 
 * Null 引用 [由类型系统管理](null-safety.html).
 * [没有原生类型(raw type)](java-interop.html)
-* Kotlin 中的数组是 [类型不可变的](basic-types.html#Arrays)
-* 与 Java 中的 SAM 变换方案相反, Kotlin 中存在专门的 [函数类型(function type)](lambdas.html#function-types) 
+* Kotlin 中的数组是 [类型不可变的](basic-types.html#arrays)
+* 与 Java 中的 SAM 变换方案相反, Kotlin 中存在专门的 [函数类型(function type)](lambdas.html#function-types)
 * 不使用通配符的 [使用处类型变异(Use-site variance)](generics.html#use-site-variance-type-projections)
 * Kotlin 中不存在受控 [异常](exceptions.html)
 
@@ -44,3 +44,4 @@ Java 中长期困扰的一系列问题, 在 Kotlin 得到了解决:
 * [同伴对象(Companion object)](classes.html#companion-objects)
 * [数据类](data-classes.html)
 * [集合的接口定义区分为只读集合与可变集合](collections.html)
+* [协程](coroutines.html)

@@ -11,9 +11,9 @@ description: "This tutorial walks you through different scenarios when using Ant
 
 Kotlin 提供了 3 个 Ant Task:
 
-* kotlinc: 面向 JVM 的 Kotlin 编译器 
-* kotlin2js: 面向 JavaScript 的 Kotlin 编译器
-* withKotlin: 使用标准的 *javac* Ant Task 来编译 Kotlin 代码 
+* kotlinc: 面向 JVM 的 Kotlin 编译器;
+* kotlin2js: 面向 JavaScript 的 Kotlin 编译器;
+* withKotlin: 使用标准的 *javac* Ant Task 来编译 Kotlin 代码.
 
 这些 Task 定义在 *kotlin-ant.jar* 库文件内, 这个库文件位于 [Kotlin 编译器]({{site.data.releases.latest.url}}) 的 *lib* 文件夹内
 
@@ -110,14 +110,14 @@ Kotlin 提供了 3 个 Ant Task:
 ## 面向 JavaScript, 编译单个源代码文件夹, 使用 metaInfo 选项
 
 如果你希望将编译结果当作一个 Kotlin/JavaScript 库发布, 可以使用 `metaInfo` 选项.
-如果 `metaInfo` 设值为 `true`, 那么编译时会额外创建带二进制元数据(binary metadata)的 JS 文件. 这个文件需要与编译结果一起发布.
+如果 `metaInfo` 设值为 `true`, 那么编译时会额外创建带二进制元数据(binary metadata)的 JS 文件. 这个文件需要与编译结果一起发布:
 
 ``` xml
 <project name="Ant Task Test" default="build">
     <typedef resource="org/jetbrains/kotlin/ant/antlib.xml" classpath="${kotlin.lib}/kotlin-ant.jar"/>
 
     <target name="build">
-        <!-- 会创建 out.meta.js 文件, 其中包含二进制描述符(binary descriptor) -->
+        <!-- 会创建 out.meta.js 文件, 其中包含二进制元数据(binary metadata) -->
         <kotlin2js src="root1" output="out.js" metaInfo="true"/>
     </target>
 </project>
@@ -136,7 +136,7 @@ Kotlin 提供了 3 个 Ant Task:
 | `noStdlib` | 不要将 Kotlin 标准库包含在 classpath 内 | 否 | false |
 | `failOnError` | 如果编译过程中检测到错误, 是否让整个构建过程失败 | 否 | true |
 
-### kotlinc 的属性
+### kotlinc 独有的属性
 
 | 名称 | 说明 | 是否必须 | 默认值 |
 |------|-------------|----------|---------------|
@@ -147,16 +147,14 @@ Kotlin 提供了 3 个 Ant Task:
 | `moduleName` | 被编译的模块名称 | 否 | 编译目标的名称(如果有指定), 或工程名称 |
 
 
-### kotlin2js 的属性
+### kotlin2js 独有的属性
 
 | 名称 | 说明 | 是否必须 |
 |------|-------------|----------|
 | `output`  | 编译输出的目标文件 | 是 |
-| `library`  | 库文件(kt, dir, jar) | 否 |
+| `libraries`  | Kotlin 库文件路径 | No |
 | `outputPrefix`  | 生成 JavaScript 文件时使用的前缀 | 否 |
 | `outputSuffix` | 生成 JavaScript 文件时使用的后缀 | 否 |
 | `sourcemap`  | 是否生成 sourcemap 文件 | 否 |
 | `metaInfo`  | 是否生成带二进制描述符(binary descriptor)的元数据(metadata)文件 | 否 |
 | `main`  | 编译器是否生成对 main 函数的调用代码 | 否 |
-
-

@@ -8,27 +8,27 @@ title: "使用 Gradle"
 
 要使用 Gradle 编译 Kotlin 代码, 你需要 [设置 *kotlin-gradle* plugin](#plugin-and-versions), 将它 [应用](#targeting-the-jvm) 到你的工程, 然后 [添加 *kotlin-stdlib* 依赖](#configuring-dependencies). 在 IntelliJ IDEA 中, 在 Project action 内选择 Tools \| Kotlin \| Configure Kotlin 也可以自动完成这些操作.
 
-你还可以打开 [增量编译(incremental compilation)](#incremental-compilation) 功能, 来提高编译速度. 
-
 ## Plugin 与版本
 
-*kotlin-gradle-plugin* 可以用来编译 Kotlin 源代码和模块.
+`kotlin-gradle-plugin` 可以用来编译 Kotlin 源代码和模块.
 
-使用的 Kotlin 版本通常定义为 *kotlin_version* 属性:
+使用的 Kotlin 版本通常定义为 `kotlin_version` 属性:
 
 ``` groovy
 buildscript {
-   ext.kotlin_version = '<version to use>'
+    ext.kotlin_version = '{{ site.data.releases.latest.version }}'
 
-   repositories {
-     mavenCentral()
-   }
+    repositories {
+        mavenCentral()
+    }
 
-   dependencies {
-     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-   }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
 }
 ```
+
+通过 [Gradle plugins DSL](https://docs.gradle.org/current/userguide/plugins.html#sec:plugins_block) 使用 Kotlin Gradle plugin 1.1.1 及以上版本时, 不需要以上定义.
 
 ## 编译到 JVM 平台
 
@@ -37,6 +37,16 @@ buildscript {
 ``` groovy
 apply plugin: "kotlin"
 ```
+
+从 Kotlin 1.1.1 版开始, 也可以通过 [Gradle plugins DSL](https://docs.gradle.org/current/userguide/plugins.html#sec:plugins_block) 来使用 Kotlin plugin:
+
+```groovy
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "{{ site.data.releases.latest.version }}"
+}
+```
+
+在这段代码中, `version` 必须是写明的字面值, 不能通过其他编译脚本得到.
 
 Kotlin 源代码可以与 Java 源代码共存在同一个文件夹下, 也可以放在不同的文件夹下. 默认的约定是使用不同的文件夹:
 
@@ -73,8 +83,9 @@ sourceSets {
 }
 ```
 
-如果希望创建一个可重复使用的 JavaScript 库, 请使用 `kotlinOptions.metaInfo` 生成一个带二进制描述符(binary descriptor)的 JS 文件.
-这个文件需要与与编译结果一起发布.
+除了编译输出的 JavaScript 文件之外, plugin 默认还会创建一个带二进制描述符(binary descriptor)的 JS 文件.
+如果你在编译一个被其他 Kotlin 模块依赖的可重用的库, 那么这个文件是必须的, 而且需要与编译结果一起发布.
+这个文件的生成, 可以通过 `kotlinOptions.metaInfo` 选项来控制:
 
 ``` groovy
 compileKotlin2Js {
@@ -82,18 +93,25 @@ compileKotlin2Js {
 }
 ```
 
-
 ## 编译到 Android
 
 Android 的 Gradle 模型与通常的 Gradle 略有区别, 因此如果我们想要编译一个使用 Kotlin 语言开发的 Android 工程, 就需要使用 *kotlin-android* plugin 而不是 *kotlin* plugin:
 
 ``` groovy
 buildscript {
+    ext.kotlin_version = '{{ site.data.releases.latest.version }}'
+
     ...
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
 }
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 ```
+
+此外不要忘记配置 [对标准库的依赖](#configuring-dependencies).
 
 ### Android Studio
 
@@ -113,83 +131,102 @@ android {
 
 ## 配置依赖
 
-除了上文讲到的 kotlin-gradle-plugin 依赖之外, 你还需要添加 Kotlin 标准库的依赖:
+除了上文讲到的 `kotlin-gradle-plugin` 依赖之外, 你还需要添加 Kotlin 标准库的依赖:
 
 ``` groovy
-buildscript {
-   ext.kotlin_version = '<version to use>'
-  repositories {
-    mavenCentral()
-  }
-  dependencies {
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-  }
-}
-
-apply plugin: "kotlin" // 编译到 JavaScript 时, 应该是 apply plugin: "kotlin2js" 
-
 repositories {
-  mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-  compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib"
 }
 ```
 
-如果你的工程使用 Kotlin 的反射功能或测试功能, 那么还需要添加相应的依赖:
+如果你的编译目标平台是 JavaScript, 请改用 `compile "org.jetbrains.kotlin:kotlin-stdlib-js"`.
+
+如果你的编译目标平台是 JDK 7 或 JDK 8, 你可以使用 Kotlin 标准库的扩展版本, 其中包含了针对 JDK 新版本中新增 API 的额外的扩展函数.
+请使用以下依赖, 而不是通常的 `kotlin-stdlib`:
 
 ``` groovy
-compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
-testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+compile "org.jetbrains.kotlin:kotlin-stdlib-jre7"
+compile "org.jetbrains.kotlin:kotlin-stdlib-jre8"
 ```
+
+如果你的项目使用了 [Kotlin 反射功能](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect.full/index.html), 或测试功能, 那么还需要添加相应的依赖:
+
+``` groovy
+compile "org.jetbrains.kotlin:kotlin-reflect"
+testCompile "org.jetbrains.kotlin:kotlin-test"
+testCompile "org.jetbrains.kotlin:kotlin-test-junit"
+```
+
+从 Kotlin 1.1.2 版开始, `org.jetbrains.kotlin` 组之下的依赖项, 默认会使用从 Kotlin plugin 得到的版本号.
+你也可以使用完整的依赖项目语法, 手动指定版本号, 比如:
+`compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"`.
 
 ## 处理注解
 
-Kotlin plugin 支持 _Dagger_ 或 _DBFlow_ 之类的注解处理器. 为了让这些注解处理器与正确处理 Kotlin 类, 需要在你的 `dependencies` 块中使用 `kapt` 设置来添加对应的依赖:
-
-``` groovy
-dependencies {
-  kapt 'groupId:artifactId:version'
-}
-```
-
-如果你以前使用过 [android-apt](https://bitbucket.org/hvisser/android-apt) plugin, 请将它从你的 `build.gradle` 文件中删除, 然后将使用 `apt` 设置的地方替换为 `kapt`. 如果你的工程中包含 Java 类, `kapt` 也会正确地处理这些 Java 类. 如果你需要对 `androidTest` 或 `test` 源代码使用注解处理器, 那么与 `kapt` 配置相对应的名称应该是 `kaptAndroidTest` 和 `kaptTest`.
-
-有些注解处理库要求你在源代码中使用自动生成的类. 为了实现这一点, 你需要在 build 文件中添加一些额外的标记, 来打开 _桩(stub)代码生成_ 功能:
-
-``` groovy
-kapt {
-    generateStubs = true
-}
-```
-
-注意, 生成桩代码(stub)会使你的编译工程略微变慢, 因此这个功能默认是关闭的. 如果生成的代码只在你的代码中很少的地方使用, 你可以选择替代方案, 用 Java 写一些辅助类(helper class), 然后在你的 Kotlin 中可以 [毫无障碍地调用这些辅助类](java-interop.html).
-
-关于 `kapt` 的更多信息, 请参见 [官方 Blog](http://blog.jetbrains.com/kotlin/2015/06/better-annotation-processing-supporting-stubs-in-kapt/).
+详情请参见 [Kotlin 注解处理工具](kapt.html) (`kapt`).
 
 ## 增量编译(Incremental compilation)
 
-Kotlin 1.0.2 引入了新的 Gradle 中的增量编译模式, 但这个功能目前还是实验性的. 
+Kotlin 支持 Gradle 中的增量编译模式, 但这个功能目前还是实验性的.
 增量编译功能会监视源代码文件在两次编译之间的变更, 因此只会编译那些变更过的文件.
 
-打开增量编译功能的方式有以下几种:
+从 Kotlin 1.1.1 版开始, 增量编译模式默认是开启的.
 
-  1. 向 `gradle.properties` 或 `local.properties` 文件添加 `kotlin.incremental=true`;
+有以下几种方式可以覆盖默认的设定:
 
-  2. 向 Gradle 命令行参数添加 `-Pkotlin.incremental=true`. 注意, 这种情况下应该向所有后续的编译命令都添加这个参数(任何一次编译, 如果不带这个参数, 都会导致增量编译的缓存失效).
+  1. 在 `gradle.properties` 或 `local.properties` 文件中, 添加 `kotlin.incremental=true` 或 `kotlin.incremental=false`;
 
-增量编译功能打开之后, 你将会在编译 log 中看到以下警告信息:
+  2. 向 Gradle 命令行参数添加 `-Pkotlin.incremental=true` 或 `-Pkotlin.incremental=false`. 注意, 这种情况下应该向所有后续的编译命令都添加这个参数, 任何一次编译, 如果关闭了增量编译模式, 都会导致增量编译的缓存失效.
+
+增量编译功能打开时, 你将会在编译 log 中看到以下警告信息:
 ```
-Using experimental kotlin incremental compilation
+Using kotlin incremental compilation
 ```
 
 注意, 初次编译不会是增量编译.
 
+## 对协程的支持
+
+对 [协程](coroutines.html) 的支持是从 Kotlin 1.1 开始新增的一个实验性功能, 因此如果你在项目中使用了协程, Kotlin 编译器会报告一个警告信息.
+在你的 `build.gradle` 文件中添加以下代码, 可以关闭这个警告:
+
+``` groovy
+kotlin {
+    experimental {
+        coroutines 'enable'
+    }
+}
+```
+
+## 模块名称
+
+编译产生的 Kotlin 模块名称, 会根据项目的 `archivesBaseName` 属性来决定.
+如果项目的名称很宽泛, 比如 `lib` 或 `jvm`, 这样的名称在子项目中很常见, 该模块的 Kotlin 编译输出的文件(`*.kotlin_module`) 可能会与第三方的同名模块中发生名称冲突.
+如果要把一个项目打包为单个的文件(比如打包为 APK 文件), 模块的重名就会造成问题.
+
+为了避免这种问题, 请手动设定一个唯一的 `archivesBaseName`:
+
+``` groovy
+archivesBaseName = 'myExampleProject_lib'
+```
+
 ## 编译选项
 
-如果需要指定额外的编译选项, 请使用 Kotlin 编译任务的 `kotlinOptions` 属性. 示例如下:
+如果需要指定额外的编译选项, 请使用 Kotlin 编译任务的 `kotlinOptions` 属性.
+
+当编译的目标平台为 JVM 时, 编译产品代码的编译任务名为 `compileKotlin`, 编译测试代码的编译任务名为 `compileTestKotlin`.
+针对自定义源代码集的编译任务名, 是与源代码集名称对应的 `compile<Name>Kotlin`.
+
+Android 项目的编译任务名称, 包含 [构建变体(build variant)](https://developer.android.com/studio/build/build-variants.html) 的名称,
+完整名称是 `compile<BuildVariant>Kotlin`, 比如, `compileDebugKotlin`, `compileReleaseUnitTestKotlin`.
+
+当编译的目标平台为 JavaScript 时, 编译任务名分别是 `compileKotlin2Js` 和 `compileTestKotlin2Js`, 针对自定义源代码集的编译任务名, 是 `compile<Name>Kotlin2Js`.
+
+要对单个编译任务进行配置, 请使用它的名称. 示例如下:
 
 ``` groovy
 compileKotlin {
@@ -203,43 +240,61 @@ compileKotlin {
 }
 ```
 
+也可以对项目中的所有 Kotlin 编译任务进行配置:
+
+``` groovy
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        // ...
+    }
+}
+```
 
 Gradle 任务所支持的编译选项完整列表如下:
 
-### 'kotlin' 和 'kotlin2js' 任务支持的共通属性 
+### JVM 和 JS 任务支持的共通属性
 
 | 属性名称 | 描述 | 可以选择的值 |默认值 |
 |------|-------------|-----------------|--------------|
-| `apiVersion` | 只允许使用指定的版本的运行库中的 API | "1.0" | "1.0" |
-| `languageVersion` | 指定源代码所兼容的 Kotlin 语言版本 | "1.0" | "1.0" |
+| `apiVersion` | 只允许使用指定的版本的运行库中的 API | "1.0", "1.1" | "1.1" |
+| `languageVersion` | 指定源代码所兼容的 Kotlin 语言版本 | "1.0", "1.1" | "1.1" |
 | `suppressWarnings` | 不产生警告信息 |  | false |
 | `verbose` | 输出详细的 log 信息 |  | false |
 | `freeCompilerArgs` | 指定额外的编译参数, 可以是多个 |  | [] |
 
-### 'kotlin' 任务独有的属性
+### JVM 任务独有的属性
 
 | 属性名称 | 描述 | 可以选择的值 |默认值 |
 |------|-------------|-----------------|--------------|
-| `includeRuntime` | 将 Kotlin 运行库包含到编译结果的 .jar 文件内 |  | false |
+| `javaParameters` | 为 Java 1.8 的方法参数反射功能生成 metadata |  | false |
 | `jdkHome` | 如果 JDK home 目录路径与默认的 JAVA_HOME 值不一致, 这个参数可以指定 JDK home 目录路径, 这个路径将被添加到 classpath 内 |  |  |
-| `jvmTarget` | 指定编译输出的 JVM 字节码的版本, 只支持 1.6 | "1.6" | "1.6" |
+| `jvmTarget` | 指定编译输出的 JVM 字节码的版本 (1.6 或 1.8), 默认为 1.6 | "1.6", "1.8" | "1.6" |
 | `noJdk` | 不要将 Java 运行库包含到 classpath 内 |  | false |
 | `noReflect` | 不要将 Kotlin 的反射功能实现库包含到 classpath 内 |  | true |
 | `noStdlib` | 不要将 Kotlin 的运行库包含到 classpath 内 |  | true |
 
-### 'kotlin2js' 任务独有的属性
+### JS 任务独有的属性
 
 | 属性名称 | 描述 | 可以选择的值 |默认值 |
 |------|-------------|-----------------|--------------|
-| `kjsm` | 生成 kjsm 文件 (用于创建 JavaScript 库) |  | true |
+| `friendModulesDisabled` | 指定是否关闭内部声明的输出 |  | false |
 | `main` | 指定是否调用 main 函数 | "call", "noCall" | "call" |
-| `metaInfo` | 指定是否生成 metadata |  | true |
+| `metaInfo` | 指定是否生成带有 metadata 的 .meta.js 和 .kjsm 文件. 用于创建库 |  | true |
 | `moduleKind` | 指定编译器生成的模块类型 | "plain", "amd", "commonjs", "umd" | "plain" |
 | `noStdlib` | 不使用默认附带的 Kotlin 标准库(stdlib) |  | true |
 | `outputFile` | 指定输出文件的路径 |  |  |
-| `sourceMap` | 是否生成源代码映射文件(source map) |  | false |
+| `sourceMap` | 指定是否生成源代码映射文件(source map) |  | false |
+| `sourceMapEmbedSources` | 指定是否将源代码文件嵌入到源代码映射文件中 | "never", "always", "inlining" | "inlining" |
+| `sourceMapPrefix` | 指定源代码映射文件中的路径前缀 |  |  |
 | `target` | 指定生成的 JS 文件 的 ECMA 版本 | "v5" | "v5" |
+| `typedArrays` | 将基本类型数组转换为 JS 的有类型数组 arrays |  | false |
 
+
+## 生成文档
+
+要对 Kotlin 项目生成文档, 请使用 [Dokka](https://github.com/Kotlin/dokka);
+相关的配置方法, 请参见 [Dokka README](https://github.com/Kotlin/dokka/blob/master/README.md#using-the-gradle-plugin).
+Dokka 支持混合语言的项目, 可以将文档输出为多种格式, 包括标准的 JavaDoc 格式.
 
 ## OSGi
 
@@ -247,7 +302,7 @@ Gradle 任务所支持的编译选项完整列表如下:
 
 ## 示例
 
-[Kotlin 代码仓库](https://github.com/jetbrains/kotlin) 中包含以下示例:
+以下示例演示了 Gradle plugin 的一些可能的配置:
 
 * [Kotlin](https://github.com/JetBrains/kotlin-examples/tree/master/gradle/hello-world)
 * [Java 代码与 Kotlin 代码的混合](https://github.com/JetBrains/kotlin-examples/tree/master/gradle/mixed-java-kotlin-hello-world)
