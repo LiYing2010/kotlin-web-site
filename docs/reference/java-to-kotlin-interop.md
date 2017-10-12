@@ -11,11 +11,33 @@ title: "在 Java 中调用 Kotlin"
 
 ## 属性
 
-Property 的取值方法(getter)会被转换为 *get* 方法, 设值方法(setter)会被转换为 *set* 方法.
+Kotlin 的属性会被编译为以下 Java 元素:
+
+ * 一个取值方法, 方法名由属性名加上 `get` 前缀得到;
+ * 一个设值方法, 方法名由属性名加上 `set` 前缀得到 (只会为 `var` 属性生成设值方法);
+ * 一个私有的域变量, 名称与属性名相同 (只会为拥有后端域变量的属性生成域变量).
+
+比如, `var firstName: String` 编译后的结果等于以下 Java 声明:
+
+``` java
+private String firstName;
+
+public String getFirstName() {
+    return firstName;
+}
+
+public void setFirstName(String firstName) {
+    this.firstName = firstName;
+}
+```
+
+如果属性名以 `is` 开头, 会使用另一种映射规则: 取值方法名称会与属性名相同, 设值方法名称等于将属性名中的 `is` 替换为 `set`.
+比如, 对于 `isOpen` 属性, 取值方法名称将会是 `isOpen()`, 设值方法名称将会是 `setOpen()`.
+这个规则适用于任何数据类型的属性, 而不仅限于 `Boolean` 类型.
 
 ## 包级函数
 
-在源代码文件 `example.kt` 的 `org.foo.bar` 包内声明的所有函数和属性, 都被会放在名为 `org.foo.bar.ExampleKt` 的 Java 类之内.
+在源代码文件 `example.kt` 的 `org.foo.bar` 包内声明的所有函数和属性, 包括扩展函数, 都被会编译成为 Java 类 `org.foo.bar.ExampleKt` 的静态方法.
 
 ``` kotlin
 // example.kt
@@ -105,7 +127,7 @@ class JavaClient {
 }
 ```
 
-[延迟初始化属性](properties.html#late-initialized-properties) 也会公开为 Java 中的域. 
+[延迟初始化属性](properties.html#late-initialized-properties) 也会公开为 Java 中的域.
 域的可见度将与属性的 `lateinit` 的设值方法可见度一样.
 
 ## 静态域
@@ -117,7 +139,7 @@ class JavaClient {
  - 使用 `@JvmField` 注解;
  - 使用 `lateinit` 修饰符;
  - 使用 `const` 修饰符.
- 
+
 如果对这样的属性添加 `@JvmField` 注解, 那么它的静态后端域变量可见度将会与属性本身的可见度一样.
 
 ``` kotlin
@@ -177,8 +199,9 @@ int v = C.VERSION;
 
 ## 静态方法
 
-上文中我们提到, Kotlin 会为包级函数生成静态方法.
+上文中我们提到, Kotlin 会将包级函数编译为静态方法.
 此外, 如果你对函数添加 `@JvmStatic` 注解, Kotlin 也可以为命名对象或同伴对象中定义的函数生成静态方法.
+如果使用这个注解, 编译器既会在对象所属的类中生成静态方法, 同时也会在对象中生成实例方法.
 比如:
 
 ``` kotlin
@@ -195,6 +218,8 @@ class C {
 ``` java
 C.foo(); // 正确
 C.bar(); // 错误: 不是静态方法
+C.Companion.foo(); // 实例上的方法仍然存在
+C.Companion.bar(); // 这个方法只能通过实例来调用
 ```
 
 对命名对象也一样:
@@ -216,6 +241,16 @@ Obj.INSTANCE.foo(); // 也正确
 ```
 
 `@JvmStatic` 注解也可以用于命名对象或同伴对象的属性, 可以使得属性的取值方法和设值方法变成静态方法, 对于命名对象, 这些静态方法在命名对象之内, 对于同伴对象, 这些静态方法在包含同伴对象的类之内.
+
+## 可见度
+
+Kotlin 中的可见度会根据以下规则映射到 Java:
+
+* `private` 成员会被编译为 Java 中的 `private` 成员;
+* `private` 顶级声明会被编译为 Java 中的 包内局部声明(package-local declaration);
+* `protected` 成员在 Java 中仍然是 `protected` 不变 (注意, Java 允许从同一个包内的其他类访问 protected 成员, 但 Kotlin 不允许, 因此 Java 类中将拥有更大的访问权限);
+* `internal` 声明会被编译为 Java 中的 `public`. `internal` 类的成员名称会被混淆, 以降低在 Java 代码中意外访问到这些成员的可能性, 并以此来实现那些根据 Kotlin 的规则相互不可见, 但是其签名完全相同的函数重载;
+* `public` 在 Java 中仍然是 `public` 不变.
 
 ## KClass
 
@@ -261,26 +296,32 @@ fun getX() = 10
 
 ## 重载函数的生成
 
-通常, 如果在 Kotlin 中定义一个方法, 并指定了参数默认值, 这个方法在 Java 中只会存在带所有参数的版本. 如果你希望 Java 端的使用者看到不同参数的多个重载方法, 那么可以使用 @JvmOverloads 注解.
+通常, 如果在 Kotlin 中定义一个函数, 并指定了参数默认值, 这个方法在 Java 中只会存在带所有参数的版本. 如果你希望 Java 端的使用者看到不同参数的多个重载方法, 那么可以使用 `@JvmOverloads` 注解.
+
+这个注解也可以用于构造器, 静态方法, 等等. 但不能用于抽象方法, 包括定义在接口内的方法.
 
 ``` kotlin
-@JvmOverloads fun f(a: String, b: Int = 0, c: String = "abc") {
-    ...
+class Foo @JvmOverloads constructor(x: Int, y: Double = 0.0) {
+    @JvmOverloads fun f(a: String, b: Int = 0, c: String = "abc") {
+        ...
+    }
 }
 ```
 
-对于每个带有默认值的参数, 都会生成一个新的重载方法, 这个重载方法的签名将会删除这个参数, 以及右侧的所有参数. 上面的示例程序生成的 Java 方法如下:
+对于每个带有默认值的参数, 都会生成一个新的重载方法, 这个重载方法的签名将会删除这个参数, 以及右侧的所有参数. 上面的示例程序生成的结果如下:
 
 ``` java
-// Java
+// Constructors:
+Foo(int x, double y)
+Foo(int x)
+
+// Methods
 void f(String a, int b, String c) { }
 void f(String a, int b) { }
 void f(String a) { }
 ```
 
-这个注解也可以用于构造器, 静态方法, 等等. 但不能用于抽象方法, 包括定义在接口内的方法.
-
-注意, 在 [次级构造器](classes.html#secondary-constructors) 中介绍过, 如果一个类的构造器方法参数全部都指定了默认值, 那么会对这个类生成一个 public 的无参数构造器. 这个特性即使在没有使用 @JvmOverloads 注解时也是有效的.
+注意, 在 [次级构造器](classes.html#secondary-constructors) 中介绍过, 如果一个类的构造器方法参数全部都指定了默认值, 那么会对这个类生成一个 public 的无参数构造器. 这个特性即使在没有使用 `@JvmOverloads` 注解时也是有效的.
 
 
 ## 受控异常(Checked Exception)
@@ -341,15 +382,15 @@ fun unboxBase(box: Box<Base>): Base = box.value
 ```
 
 如果用最简单的方式转换为 Java 代码, 结果将是:
- 
+
 ``` java
 Box<Derived> boxDerived(Derived value) { ... }
 Base unboxBase(Box<Base> box) { ... }
-``` 
+```
 
-问题在于, 在 Kotlin 中我们可以这样: `unboxBase(boxDerived("s"))`, 但在 Java 中却不可以, 因为在 Java 中, `Box` 的类型参数 `T` 是 *不可变的(invariant)* , 因此 `Box<Derived>` 不是 `Box<Base>` 的子类型. 
+问题在于, 在 Kotlin 中我们可以这样: `unboxBase(boxDerived("s"))`, 但在 Java 中却不可以, 因为在 Java 中, `Box` 的类型参数 `T` 是 *不可变的(invariant)* , 因此 `Box<Derived>` 不是 `Box<Base>` 的子类型.
 为了解决 Java 端的问题, 我们必须将 `unboxBase` 函数定义成这样:
-  
+
 ``` java
 Base unboxBase(Box<? extends Base> box) { ... }  
 ```  
@@ -357,12 +398,12 @@ Base unboxBase(Box<? extends Base> box) { ... }
 这里我们使用了 Java 的 *通配符类型(wildcards type)* (`? extends Base`), 通过使用处类型变异(use-site variance)来模仿声明处的类型变异(declaration-site variance), 因为 Java 中只有使用处类型变异.
 
 为了让 Kotlin 的 API 可以在 Java 中正常使用, 如果一个类*被用作函数参数*, 那么对于定义了类型参数协变的 `Box` 类, `Box<Super>` 会生成为 Java 的 `Box<? extends Super>`(对于定义了类型参数反向协变的 `Foo` 类, 会生成为 Java 的 `Foo<? super Bar>`). 当类被用作返回值时, 编译产生的结果不会使用类型通配符, 否则 Java 端的使用者就不得不处理这些类型通配符(而且这是违反通常的 Java 编程风格的). 因此, 我们上面例子中的函数真正的输出结果是这样的:
-  
+
 ``` java
 // 返回值 - 没有类型通配符
 Box<Derived> boxDerived(Derived value) { ... }
- 
-// 参数 - 有类型通配符 
+
+// 参数 - 有类型通配符
 Base unboxBase(Box<? extends Base> box) { ... }
 ```
 
@@ -372,7 +413,7 @@ Base unboxBase(Box<? extends Base> box) { ... }
 
 ``` kotlin
 fun boxDerived(value: Derived): Box<@JvmWildcard Derived> = Box(value)
-// 将被翻译为 
+// 将被翻译为
 // Box<? extends Derived> boxDerived(Derived value) { ... }
 ```
 
@@ -387,8 +428,8 @@ fun unboxBase(box: Box<@JvmSuppressWildcards Base>): Base = box.value
 注意: `@JvmSuppressWildcards` 不仅可以用于单个的类型参数, 也可以用于整个函数声明或类声明, 这时它会使得这个函数或类之内的所有类型通配符都不产生.
 
 ### Nothing 类型的翻译
- 
-`Nothing` 类型是很特殊的, 因为它在 Java 中没有对应的概念. 所有的 Java 引用类型, 包括`java.lang.Void`, 都可以接受 `null` 作为它的值, 而 `Nothing` 甚至连 `null` 值都不能接受. 因此, 在 Java 的世界里无法准确地表达这个类型. 因此, Kotlin 会在使用 `Nothing` 类型参数的地方生成一个原生类型(raw type):
+
+[`Nothing`](exceptions.html#the-nothing-type) 类型是很特殊的, 因为它在 Java 中没有对应的概念. 所有的 Java 引用类型, 包括`java.lang.Void`, 都可以接受 `null` 作为它的值, 而 `Nothing` 甚至连 `null` 值都不能接受. 因此, 在 Java 的世界里无法准确地表达这个类型. 因此, Kotlin 会在使用 `Nothing` 类型参数的地方生成一个原生类型(raw type):
 
 ``` kotlin
 fun emptyList(): List<Nothing> = listOf()

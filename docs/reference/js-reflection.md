@@ -7,10 +7,12 @@ title: "JavaScript 中的反射功能"
 
 # JavaScript 中的反射功能
 
-当 Kotlin 代码编译为 JavaScript 时, 对任意对象, 有一个可用的属性 `jsClass`, 这个属性的值类型为 `JsClass`. 通过 `JsClass` 类型, 目前只能得到对应的(非全称限定的)类名称. 但是, `JsClass` 的实例本身是一个指向构造函数的引用.
-因此可以用来与那些需要用到构造函数引用的 JS 函数互操作.
+目前, JavaScript 还不支持完整的 Kotlin 反射 API. 这部分 API 中唯一支持的是 `::class` 语法, 可以用来引用一个对象实例的类信息, 或者引用一个指定的类型的类信息.
+`::class` 表达式的值是 [KClass](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-class/) 的一个简化版实现, 只支持 [simpleName](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-class/simple-name.html) 和 [isInstance](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-class/is-instance.html) 成员函数.
 
-还可以使用 `::class` 语法得到类的引用. 在 JavaScript 环境的 Kotlin 语言中, 目前还不支持完整的反射功能 API; 唯一可用的属性是: `.simpleName` 属性, 它返回类的名称, 以及 `.js` 属性, 它返回对应的 `JsClass` 实例.
+除此之外, 你还可以使用 [KClass.js](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.js/js.html) 来获取某个类的 [JsClass](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.js/-js-class/index.html) 实例.
+`JsClass` 的实例本身是一个指向构造函数的引用.
+因此可以用来与那些需要用到构造函数引用的 JS 函数互操作.
 
 示例:
 
@@ -20,11 +22,12 @@ class B
 class C
 
 inline fun <reified T> foo() {
-    println(jsClass<T>().name)
+    println(T::class.simpleName)
 }
 
-println(A().jsClass.name)     // prints "A"
-println(B::class.simpleName)  // prints "B"
-println(B::class.js.name)     // prints "B"
-foo<C>()                      // prints "C"
+val a = A()
+println(a::class.simpleName)  // 获取对象实例的类信息; 打印结果为 "A"
+println(B::class.simpleName)  // 获取数据类型的类信息; 打印结果为 "B"
+println(B::class.js.name)     // 打印结果为 "B"
+foo<C>()                      // 打印结果为 "C"
 ```

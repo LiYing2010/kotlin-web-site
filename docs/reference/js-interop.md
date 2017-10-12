@@ -2,98 +2,184 @@
 type: doc
 layout: reference
 category: "JavaScript"
-title: "与 JavaScript 的互操作性"
+title: "在 Kotlin 中调用 JavaScript"
 ---
 
-# 与 JavaScript 的互操作性
+# 在 Kotlin 中调用 JavaScript
 
-## JavaScript 模块(Module)
-
-从 Kotlin 1.0.4 版开始, 你可以将 Kotlin 工程编译 JS 模块(module), 支持各种常见的 JavaScript 模块系统. 以下是编译 JavaScript 模块的各种方式:
-
-1. Plain 方式. 不针对任何模块系统进行编译. As usual, 你仍然可以通过 `kotlin.modules.moduleName` 来访问模块的 `moduleName`, 或者直接访问全局命名空间内的 `moduleName` 标识符.
-   默认会使用这种方式.
-2. [异步模块定义 (Asynchronous Module Definition (AMD))](https://github.com/amdjs/amdjs-api/wiki/AMD), require.js 库使用的就是这个模块系统.
-3. [CommonJS](http://wiki.commonjs.org/wiki/Modules/1.1) 规约, 广泛使用于 node.js/npm
-   (`require` 函数和 `module.exports` 对象)
-4. 统一模块定义(Unified Module Definitions (UMD)), 这种方式同时兼容于 *AMD* 和 *CommonJS*, 而且当 *AMD* 和 *CommonJS* 都不可用时, 会以 "plain" 模式工作.
-
-在各种编译环境中, 可以分别通过以下方法来选择编译目标的模块系统:
-
-### 使用 IDEA 时
-
-打开菜单 File -> Settings, 选择 "Build, Execution, Deployment" -> "Compiler" -> "Kotlin compiler". 在 "Module kind" 项中选择适当的模块系统.
+Kotlin was designed for easy interoperation with Java platform. It sees Java classes as Kotlin classes, and
+Java sees Kotlin classes as Java classes. However, JavaScript is a dynamically-typed language, which means
+it does not check types in compile-time. You can freely talk to JavaScript from Kotlin via
+[dynamic](dynamic-type.html) types, but if you want the full power of Kotlin
+type system, you can create Kotlin headers for JavaScript libraries.
 
 
-### 使用 Maven 时
+## Inline JavaScript
 
-使用 Maven 编译时, 要选择模块系统, 你应该设置 `moduleKind` 配置属性, 也就是说, 你的 `pom.xml` 文件应该类似如下:
-
-``` xml
-<plugin>
-    <artifactId>kotlin-maven-plugin</artifactId>
-    <groupId>org.jetbrains.kotlin</groupId>
-    <version>${kotlin.version}</version>
-    <executions>
-        <execution>
-            <id>compile</id>
-            <goals>
-                <goal>js</goal>
-            </goals>
-        </execution>
-    </executions>
-    <!-- 插入以下内容 -->
-    <configuration>
-        <moduleKind>commonjs</moduleKind>
-    </configuration>
-    <!-- 插入内容到此结束 -->
-</plugin>
-```
-
-`moduleKind` 配置属性可以设置的值是: `plain`, `amd`, `commonjs`, `umd`.
-
-
-### 使用 Gradle 时
-
-使用 Gradle 编译时, 要选择模块系统, 你应该设置 `moduleKind` 属性, 也就是:
-
-    compileKotlin2Js.kotlinOptions.moduleKind = "commonjs"
-
-这个属性可以设置的值与 Maven 中类似
-
-
-### 注意
-
-我们将 `kotlin.js` 标准库作为一个单个的文件发布, 这个库本身作为 UMD 模块编译, 因此你可以在上面讲到的任何一种模块系统中使用这个库.
-
-虽然目前我们还不直接支持 WebPack 和 Browserify, 但我们在  WebPack 和 Browserify 环境中, 对 Kotlin 编译器编译产生的 `.js` 文件进行过测试, 因此 Kotlin 应该能在这些环境中正常工作.
-
-
-## @JsName 注解
-
-某些情况下 (比如, 为了支持重载(overload)), Kotlin 编译器会破坏 JavaScript 代码中生成的函数和属性的名称. 为了控制编译器生成的函数和属性名称, 你可以使用 `@JsName` 注解:
+You can inline some JavaScript code into your Kotlin code using the [js("...")](/api/latest/jvm/stdlib/kotlin.js/js.html) function.
+For example:
 
 ``` kotlin
-// Module 'kjs'
+fun jsTypeOf(o: Any): String {
+    return js("typeof o")
+}
+```
 
-class Person(val name: String) {
-    fun hello() {
-        println("Hello $name!")
+The parameter of `js` is required to be a string constant. So, the following code is incorrect:
+``` kotlin
+fun jsTypeOf(o: Any): String {
+    return js(getTypeof() + " o") // error reported here
+}
+fun getTypeof() = "typeof"
+```
+
+
+## `external` modifier
+
+To tell Kotlin that a certain declaration is written in pure JavaScript, you should mark it with `external` modifier.
+When the compiler sees such a declaration, it assumes that the implementation for the corresponding class, function or
+property is provided by the developer, and therefore does not try to generate any JavaScript code from the declaration.
+This means that you should omit bodies of `external` declarations. For example:
+
+``` kotlin
+external fun alert(message: Any?): Unit
+
+external class Node {
+    val firstChild: Node
+
+    fun append(child: Node): Node
+
+    fun removeChild(child: Node): Node
+
+    // etc
+}
+
+external val window: Window
+```
+
+Note that `external` modifier is inherited by nested declarations, i.e. in `Node` class we do not put `external`
+before member functions and properties.
+
+The `external` modifier is only allowed on package-level declarations. You can't declare an `external` member of a non-`external` class.
+
+
+### Declaring (static) members of a class
+
+In JavaScript you can define members either on a prototype or a class itself. I.e.:
+
+``` javascript
+function MyClass() {
+}
+MyClass.sharedMember = function() { /* implementation */ };
+MyClass.prototype.ownMember = function() { /* implementation */ };
+```
+
+There's no such syntax in Kotlin. However, in Kotlin we have `companion` objects. Kotlin treats companion objects
+of `external` class in a special way: instead of expecting an object, it assumes members of companion objects
+to be members of the class itself. To describe `MyClass` from the example above, you can write:
+
+``` kotlin
+external class MyClass {
+    companion object {
+        fun sharedMember()
     }
 
-    @JsName("helloWithGreeting")
-    fun hello(greeting: String) {
-        println("$greeting $name!")
+    fun ownMember()
+}
+```
+
+
+### Declaring optional parameters
+
+An external function can have optional parameters.
+How the JavaScript implementation actually computes default values for these parameters, is unknown to Kotlin,
+thus it's impossible to use the usual syntax to declare such parameters in Kotlin.
+You should use the following syntax:
+
+``` kotlin
+external fun myFunWithOptionalArgs(x: Int,
+    y: String = definedExternally,
+    z: Long = definedExternally)
+```
+
+This means you can call `myFunWithOptionalArgs` with one required argument and two optional arguments (their
+default values are calculated by some JavaScript code).
+
+
+### Extending JavaScript classes
+
+You can easily extend JavaScript classes as they were Kotlin classes. Just define an `external` class and
+extend it by non-`external` class. For example:
+
+``` kotlin
+external open class HTMLElement : Element() {
+    /* members */
+}
+
+class CustomElement : HTMLElement() {
+    fun foo() {
+        alert("bar")
     }
 }
 ```
 
-然后, 你可以在 JavaScript 中通过以下方式来使用这个类:
+There are some limitations:
 
-``` javascript
-var person = new kjs.Person("Dmitry");   // 参照到 'kjs' 模块
-person.hello();                          // 打印结果为 "Hello Dmitry!"
-person.helloWithGreeting("Servus");      // 打印结果为 "Servus Dmitry!"
+1. When a function of external base class is overloaded by signature, you can't override it in a derived class.
+2. You can't override a function with default arguments.
+
+Note that you can't extend a non-external class by external classes.
+
+
+### `external` interfaces
+
+JavaScript does not have the concept of interfaces. When a function expects its parameter to support `foo`
+and `bar` methods, you just pass objects that actually have these methods. You can use interfaces to express this
+for statically-typed Kotlin, for example:
+
+``` kotlin
+external interface HasFooAndBar {
+    fun foo()
+
+    fun bar()
+}
+
+external fun myFunction(p: HasFooAndBar)
 ```
 
-如果我们不指定 `@JsName` 注解, 那么编译器将会根据函数签名计算得到一个后缀字符串, 添加到生成的函数名末尾, 比如 `hello_61zpoe$`.
+Another use case for external interfaces is to describe settings objects. For example:
+
+``` kotlin
+external interface JQueryAjaxSettings {
+    var async: Boolean
+
+    var cache: Boolean
+
+    var complete: (JQueryXHR, String) -> Unit
+
+    // etc
+}
+
+fun JQueryAjaxSettings(): JQueryAjaxSettings = js("{}")
+
+external class JQuery {
+    companion object {
+        fun get(settings: JQueryAjaxSettings): JQueryXHR
+    }
+}
+
+fun sendQuery() {
+    JQuery.get(JQueryAjaxSettings().apply {
+        complete = { (xhr, data) ->
+            window.alert("Request complete")
+        }
+    })
+}
+```
+
+External interfaces have some restrictions:
+
+1. They can't be used on the right hand side of `is` checks.
+2. `as` cast to external interface always succeeds (and produces a warning in compile-time).
+3. They can't be passed as reified type arguments.
+4. Then can't be used in class literal expression (i.e. `I::class`).
