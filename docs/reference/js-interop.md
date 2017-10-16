@@ -7,17 +7,14 @@ title: "在 Kotlin 中调用 JavaScript"
 
 # 在 Kotlin 中调用 JavaScript
 
-Kotlin was designed for easy interoperation with Java platform. It sees Java classes as Kotlin classes, and
-Java sees Kotlin classes as Java classes. However, JavaScript is a dynamically-typed language, which means
-it does not check types in compile-time. You can freely talk to JavaScript from Kotlin via
-[dynamic](dynamic-type.html) types, but if you want the full power of Kotlin
-type system, you can create Kotlin headers for JavaScript libraries.
+Kotlin 设计时很重视与 Java 平台交互的问题. Kotlin 代码可以将 Java 类当作 Kotlin 类来使用, Java 代码也可以将 Kotlin 类当作 Java 类来使用.
+然而, JavaScript 是一种动态类型的语言, 因此它在编译时刻不做类型检查. 通过使用 [动态类型](dynamic-type.html), 在 Kotlin 中你可以自由地与 JavaScript 交互, 但如果你希望完全发挥 Kotlin 类型系统的能力, 你可以为 JavaScript 库创建 Kotlin 头文件.
 
 
-## Inline JavaScript
+## 内联 JavaScript
 
-You can inline some JavaScript code into your Kotlin code using the [js("...")](/api/latest/jvm/stdlib/kotlin.js/js.html) function.
-For example:
+使用 [js("...")](/api/latest/jvm/stdlib/kotlin.js/js.html) 函数, 你可以将 JavaScript 代码内联到你的 Kotlin 代码中.
+比如:
 
 ``` kotlin
 fun jsTypeOf(o: Any): String {
@@ -25,21 +22,20 @@ fun jsTypeOf(o: Any): String {
 }
 ```
 
-The parameter of `js` is required to be a string constant. So, the following code is incorrect:
+`js` 函数的参数必须是字符串常量. 因此, 以下代码是不正确的:
 ``` kotlin
 fun jsTypeOf(o: Any): String {
-    return js(getTypeof() + " o") // error reported here
+    return js(getTypeof() + " o") // 这里会出错
 }
 fun getTypeof() = "typeof"
 ```
 
 
-## `external` modifier
+## `external` 修饰符
 
-To tell Kotlin that a certain declaration is written in pure JavaScript, you should mark it with `external` modifier.
-When the compiler sees such a declaration, it assumes that the implementation for the corresponding class, function or
-property is provided by the developer, and therefore does not try to generate any JavaScript code from the declaration.
-This means that you should omit bodies of `external` declarations. For example:
+你可以对某个声明使用 `external` 修饰符, 来告诉 Kotlin 它是由纯 JavaScript 编写的.
+编译器看到这样的声明后, 它会假定对应的类, 函数, 或属性的实现, 会由开发者提供, 因此它不会为这个声明生成 JavaScript 代码.
+也就是说, 你应该省略 `external` 声明的 body 部. 比如:
 
 ``` kotlin
 external fun alert(message: Any?): Unit
@@ -51,32 +47,29 @@ external class Node {
 
     fun removeChild(child: Node): Node
 
-    // etc
+    // 等等
 }
 
 external val window: Window
 ```
 
-Note that `external` modifier is inherited by nested declarations, i.e. in `Node` class we do not put `external`
-before member functions and properties.
+注意, `external` 修饰符会被内嵌的声明继承下来, 也就是说, 在 `Node` 类的内部, 我们不需要在成员函数和属性之前添加 `external` 标记.
 
-The `external` modifier is only allowed on package-level declarations. You can't declare an `external` member of a non-`external` class.
+`external` 修饰符只允许用于包级声明. 对于非 `external` 的类, 不允许声明 `external` 的成员.
 
 
-### Declaring (static) members of a class
+### 声明类的(静态)成员
 
-In JavaScript you can define members either on a prototype or a class itself. I.e.:
+在 JavaScript 中, 成员函数可以定义在 prototype 上, 也可以定义在类上. 也就是:
 
 ``` javascript
 function MyClass() {
 }
-MyClass.sharedMember = function() { /* implementation */ };
-MyClass.prototype.ownMember = function() { /* implementation */ };
+MyClass.sharedMember = function() { /* 实现代码 */ };
+MyClass.prototype.ownMember = function() { /* 实现代码 */ };
 ```
 
-There's no such syntax in Kotlin. However, in Kotlin we have `companion` objects. Kotlin treats companion objects
-of `external` class in a special way: instead of expecting an object, it assumes members of companion objects
-to be members of the class itself. To describe `MyClass` from the example above, you can write:
+在 Kotlin 中没有这样的语法. 但是, 在 Kotlin 中有 `同伴`(companion) 对象. Kotlin 以特殊的方式处理 `external` 类的同伴对象: 它不是期待一个对象, 而是假设同伴对象的成员在 JavaScript 中是定义在类上的成员函数. 上例中的 `MyClass`, 在 Kotlin 中可以写为:
 
 ``` kotlin
 external class MyClass {
@@ -89,12 +82,11 @@ external class MyClass {
 ```
 
 
-### Declaring optional parameters
+### 声明可选的参数
 
-An external function can have optional parameters.
-How the JavaScript implementation actually computes default values for these parameters, is unknown to Kotlin,
-thus it's impossible to use the usual syntax to declare such parameters in Kotlin.
-You should use the following syntax:
+`external` 函数可以拥有可选的参数.
+JavaScript 实现代码中具体如何为这些可选参数计算默认值, 对 Kotlin 是不可知的, 因此在 Kotlin 中, 我们无法使用通常的语法来定义这样的参数.
+应该使用如下语法:
 
 ``` kotlin
 external fun myFunWithOptionalArgs(x: Int,
@@ -102,18 +94,16 @@ external fun myFunWithOptionalArgs(x: Int,
     z: Long = definedExternally)
 ```
 
-This means you can call `myFunWithOptionalArgs` with one required argument and two optional arguments (their
-default values are calculated by some JavaScript code).
+这样, 你就可以使用一个必须参数和两个可选参数(其默认值由某些 JavaScript 代码计算得到)来调用 `myFunWithOptionalArgs` 函数.
 
 
-### Extending JavaScript classes
+### 扩展 JavaScript 类
 
-You can easily extend JavaScript classes as they were Kotlin classes. Just define an `external` class and
-extend it by non-`external` class. For example:
+你可以很容易地扩展 JavaScript 类, 就好像它们是 Kotlin 类一样. 你只需要定义一个 `external` 类, 然后通过非 `external` 类来扩展它. 比如:
 
 ``` kotlin
 external open class HTMLElement : Element() {
-    /* members */
+    /* 成员定义 */
 }
 
 class CustomElement : HTMLElement() {
@@ -123,19 +113,18 @@ class CustomElement : HTMLElement() {
 }
 ```
 
-There are some limitations:
+但存在以下限制:
 
-1. When a function of external base class is overloaded by signature, you can't override it in a derived class.
-2. You can't override a function with default arguments.
+1. 如果 `external` 基类的函数已存在不同参数签名的重载版本, 那么你就不能在后代类中覆盖这个函数.
+2. 带默认参数的函数不能覆盖.
 
-Note that you can't extend a non-external class by external classes.
+注意, 你不能使用 `external` 类来扩展非 `external` 类.
 
 
-### `external` interfaces
+### `external` 接口
 
-JavaScript does not have the concept of interfaces. When a function expects its parameter to support `foo`
-and `bar` methods, you just pass objects that actually have these methods. You can use interfaces to express this
-for statically-typed Kotlin, for example:
+JavaScript 没有接口的概念. 如果一个函数要求它的参数支持 `foo` 和 `bar` 方法, 你只需要传递一个确实带有这些方法的对象.
+在严格检查类型的 Kotlin 语言中, 你可以使用接口来表达这种概念, 比如:
 
 ``` kotlin
 external interface HasFooAndBar {
@@ -147,7 +136,7 @@ external interface HasFooAndBar {
 external fun myFunction(p: HasFooAndBar)
 ```
 
-Another use case for external interfaces is to describe settings objects. For example:
+`external` 接口的另一种使用场景, 是用来描述配置信息对象. 比如:
 
 ``` kotlin
 external interface JQueryAjaxSettings {
@@ -157,7 +146,7 @@ external interface JQueryAjaxSettings {
 
     var complete: (JQueryXHR, String) -> Unit
 
-    // etc
+    // 等等
 }
 
 fun JQueryAjaxSettings(): JQueryAjaxSettings = js("{}")
@@ -177,9 +166,9 @@ fun sendQuery() {
 }
 ```
 
-External interfaces have some restrictions:
+`external` 接口存在一些限制:
 
-1. They can't be used on the right hand side of `is` checks.
-2. `as` cast to external interface always succeeds (and produces a warning in compile-time).
-3. They can't be passed as reified type arguments.
-4. Then can't be used in class literal expression (i.e. `I::class`).
+1. 它们不可以用在 `is` 检查语句的右侧.
+2. 使用 `as` 将对象转换为 `external` 接口, 永远会成功 (并且在编译期间产生一个警告).
+3. 它们不可以用作实体化的类型参数(reified type argument).
+4. 它们不可以用在类的字面值表达式中(也就是 `I::class`).

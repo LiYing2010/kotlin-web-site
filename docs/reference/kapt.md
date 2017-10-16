@@ -1,45 +1,21 @@
 ---
 type: doc
 layout: reference
-title: "Using kapt"
+title: "使用 kapt"
 ---
 
-# Using Kotlin annotation processing tool
+# 使用 Kotlin 注解处理工具(kapt, Kotlin annotation processing tool)
 
-Kotlin plugin 支持 _Dagger_ 或 _DBFlow_ 之类的注解处理器. 为了让这些注解处理器与正确处理 Kotlin 类, 需要在你的 `dependencies` 块中使用 `kapt` 设置来添加对应的依赖:
+Kotlin plugin 支持 _Dagger_ 或 _DBFlow_ 之类的注解处理器.
+为了让这些注解处理器与正确处理 Kotlin 类, 需要应用 `kotlin-kapt` plugin.
 
-``` groovy
-dependencies {
-  kapt 'groupId:artifactId:version'
-}
-```
-
-如果你以前使用过 [android-apt](https://bitbucket.org/hvisser/android-apt) plugin, 请将它从你的 `build.gradle` 文件中删除, 然后将使用 `apt` 设置的地方替换为 `kapt`. 如果你的工程中包含 Java 类, `kapt` 也会正确地处理这些 Java 类. 如果你需要对 `androidTest` 或 `test` 源代码使用注解处理器, 那么与 `kapt` 配置相对应的名称应该是 `kaptAndroidTest` 和 `kaptTest`.
-
-有些注解处理库要求你在源代码中使用自动生成的类. 为了实现这一点, 你需要在 build 文件中添加一些额外的标记, 来打开 _桩(stub)代码生成_ 功能:
-
-``` groovy
-kapt {
-    generateStubs = true
-}
-```
-
-注意, 生成桩代码(stub)会使你的编译工程略微变慢, 因此这个功能默认是关闭的. 如果生成的代码只在你的代码中很少的地方使用, 你可以选择替代方案, 用 Java 写一些辅助类(helper class), 然后在你的 Kotlin 中可以 [毫无障碍地调用这些辅助类](java-interop.html).
-
-关于 `kapt` 的更多信息, 请参见 [官方 Blog](http://blog.jetbrains.com/kotlin/2015/06/better-annotation-processing-supporting-stubs-in-kapt/).
-
-
-
-The Kotlin plugin supports annotation processors like _Dagger_ or _DBFlow_.
-In order for them to work with Kotlin classes, apply the `kotlin-kapt` plugin.
-
-## Gradle configuration
+## Gradle 配置
 
 ``` groovy
 apply plugin: 'kotlin-kapt'
 ```
 
-Or, starting with Kotlin 1.1.1, you can apply it using the plugins DSL:
+从 Kotlin 1.1.1 版开始, 你也可以使用 plugin DSL 语法:
 
 ``` groovy
 plugins {
@@ -47,7 +23,7 @@ plugins {
 }
 ```
 
-Then add the respective dependencies using the `kapt` configuration in your `dependencies` block:
+然后在你的 `dependencies` 块中使用 `kapt` 配置来添加对应的依赖:
 
 ``` groovy
 dependencies {
@@ -55,11 +31,15 @@ dependencies {
 }
 ```
 
-If you previously used the [android-apt](https://bitbucket.org/hvisser/android-apt) plugin, remove it from your `build.gradle` file and replace usages of the `apt` configuration with `kapt`. If your project contains Java classes, `kapt` will also take care of them.
 
-If you use annotation processors for your `androidTest` or `test` sources, the respective `kapt` configurations are named `kaptAndroidTest` and `kaptTest`. Note that `kaptAndroidTest` and `kaptTest` extends `kapt`, so you can just provide the `kapt` dependency and it will be available both for production sources and tests.
+如果你以前使用过 [android-apt](https://bitbucket.org/hvisser/android-apt) plugin, 请将它从你的 `build.gradle` 文件中删除, 然后将使用 `apt` 配置的地方替换为 `kapt`.
+如果你的工程中包含 Java 类, `kapt` 也会正确地处理这些 Java 类.
 
-Some annotation processors (such as `AutoFactory`) rely on precise types in declaration signatures. By default, Kapt replaces every unknown type (including types for the generated classes) to `NonExistentClass`, but you can change this behavior. Add the additional flag to the `build.gradle` file to enable error type inferring in stubs:
+如果你需要对 `androidTest` 或 `test` 源代码使用注解处理器, 那么与 `kapt` 配置相对应的名称应该是 `kaptAndroidTest` 和 `kaptTest`.
+注意, `kaptAndroidTest` 和 `kaptTest` 从 `kapt` 继承而来, 因此你只需要提供 `kapt` 的依赖项, 它可以同时用于产品代码和测试代码.
+
+有些注解处理库(比如 `AutoFactory`), 依赖于类型声明签名中的明确的数据类型. 默认情况下, Kapt 会将所有的未知类型替换为 `NonExistentClass`, 包括编译产生的类的类型信息,
+但是你可以修改这种行为. 在 `build.gradle` 文件中添加一个额外的标记, 就可以对桩代码中推断错误的数据类型进行修正:
 
 ``` groovy
 kapt {
@@ -67,12 +47,12 @@ kapt {
 }
 ```
 
-Note that this option is experimental and it is disabled by default.
+注意, 这个选项还处于实验阶段, 默认是关闭的.
 
 
-## Maven configuration (since Kotlin 1.1.2)
+## Maven 配置 (从 Kotlin 1.1.2 版开始支持)
 
-Add an execution of the `kapt` goal from kotlin-maven-plugin before `compile`:
+在 `compile` 之前, 执行 kotlin-maven-plugin 中的 `kapt` 目标:
 
 ```xml
 <execution>
@@ -86,7 +66,7 @@ Add an execution of the `kapt` goal from kotlin-maven-plugin before `compile`:
             <sourceDir>src/main/java</sourceDir>
         </sourceDirs>
         <annotationProcessorPaths>
-            <!-- Specify your annotation processors here. -->
+            <!-- 请在此处指定你的注解处理器. -->
             <annotationProcessorPath>
                 <groupId>com.google.dagger</groupId>
                 <artifactId>dagger-compiler</artifactId>
@@ -97,7 +77,6 @@ Add an execution of the `kapt` goal from kotlin-maven-plugin before `compile`:
 </execution>
 ```
 
-You can find a complete sample project showing the use of Kotlin, Maven and Dagger in the
-[Kotlin examples repository](https://github.com/JetBrains/kotlin-examples/tree/master/maven/dagger-maven-example).
+在 [Kotlin 示例程序库](https://github.com/JetBrains/kotlin-examples/tree/master/maven/dagger-maven-example) 中, 你可以找到一个完整的示例项目, 演示如何使用 Kotlin, Maven 和 Dagger.
 
-Please note that kapt is still not supported for IntelliJ IDEA’s own build system. Launch the build from the “Maven Projects” toolbar whenever you want to re-run the annotation processing.
+请注意, IntelliJ IDEA 自有的编译系统目前还不支持 kapt. 如果你想要重新运行注解处理过程, 请通过 “Maven Projects” 工具栏启动编译过程.

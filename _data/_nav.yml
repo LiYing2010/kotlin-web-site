@@ -140,14 +140,14 @@ reference:
        - /docs/reference/js-to-kotlin-interop.html: 在 JavaScript 中调用 Kotlin
        - /docs/reference/js-modules.html: JavaScript 模块(Module)
        - /docs/reference/js-reflection.html: JavaScript 中的反射(Reflection)
-       - /docs/reference/javascript-dce.html: JavaScript DCE
+       - /docs/reference/javascript-dce.html: JavaScript 死代码剔除工具(DCE)
 
   - title: 工具
     description:
     content:
 #      - /docs/reference/kotlin-build-tools.html: Kotlin Build Tools
       - /docs/reference/kotlin-doc.html: 为 Kotlin 代码编写文档
-      - /docs/reference/kapt.html: 使用 Kapt
+      - /docs/reference/kapt.html: 使用 Kotlin 注解处理工具(kapt)
       - /docs/reference/using-gradle.html: 使用 Gradle
       - /docs/reference/using-maven.html: 使用 Maven
       - /docs/reference/using-ant.html: 使用 Ant
