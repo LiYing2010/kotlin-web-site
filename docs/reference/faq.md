@@ -14,7 +14,7 @@ Kotlin 由 [JetBrains 公司](http://www.jetbrains.com) 开发. Kotlin 项目开
 
 ### Kotlin 的当前版本是多少?
 
-当前发布的版本是 {{ data.releases.latest.version }}, 发布日期是 {{ data.releases.latest.date }}.
+当前发布的版本是 {{ site.data.releases.latest.version }}, 发布日期是 {{ site.data.releases.latest.date }}.
 
 ### Kotlin 是免费的吗?
 
