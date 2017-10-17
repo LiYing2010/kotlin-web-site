@@ -77,7 +77,7 @@ fun main(args: Array<String>) {
 
 你可以运行上面的代码, 并查看结果. 你可以修改代码, 然后再次运行, 看看结果如何!
 
-关于这个功能的详情, 请参见 [参考文档](/docs/reference/coroutines.html) 以及 [教程](/docs/tutorials/coroutines-basic-jvm.html).
+关于这个功能的详情, 请参见 [参考文档](coroutines.html) 以及 [教程](/docs/tutorials/coroutines-basic-jvm.html).
 
 注意, 协程目前还是 **实验性功能**, 也就是说, 1.1 正式发布后, Kotlin 开发组不保证这个特性的向后兼容性(backwards compatibility).
 
@@ -403,7 +403,7 @@ fun main(args: Array<String>) {
 
 ### 对 DSL 中的隐含接受者, 控制其范围
 
-[`@DslMarker`](/api/latest/jvm/stdlib/kotlin/-dsl-marker/index.html) 注解可以限制从 DSL 上下文的外部范围(outer scope)来访问接受者.
+[`@DslMarker`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-dsl-marker/index.html) 注解可以限制从 DSL 上下文的外部范围(outer scope)来访问接受者.
 比如, 考虑一下我们经典的 [HTML 构建器的例子](type-safe-builders.html):
 
 ``` kotlin

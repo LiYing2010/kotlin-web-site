@@ -79,4 +79,4 @@ val name: String
 val ordinal: Int
 ```
 
-枚举常数值还实现了 [Comparable](/api/latest/jvm/stdlib/kotlin/-comparable/index.html) 接口, 枚举常数值之间比较时, 会使用枚举常数值在枚举类中声明的顺序作为自己的大小顺序.
+枚举常数值还实现了 [Comparable](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-comparable/index.html) 接口, 枚举常数值之间比较时, 会使用枚举常数值在枚举类中声明的顺序作为自己的大小顺序.

@@ -73,8 +73,8 @@ Kotlin/Native 目前 [正在开发中](https://blog.jetbrains.com/kotlin/tag/nat
 
 ### 有哪些编译工具支持 Kotlin?
 
-在 JVM 平台, 主流编译工具都支持 Kotlin, 包括 [Gradle](/docs/reference/using-gradle.html), [Maven](/docs/reference/using-maven.html),
-[Ant](/docs/reference/using-ant.html), 以及 [Kobalt](http://beust.com/kobalt/home/index.html). 此外还有一些针对 JavaScript 平台的编译工具.
+在 JVM 平台, 主流编译工具都支持 Kotlin, 包括 [Gradle](using-gradle.html), [Maven](using-maven.html),
+[Ant](using-ant.html), 以及 [Kobalt](http://beust.com/kobalt/home/index.html). 此外还有一些针对 JavaScript 平台的编译工具.
 
 ### Kotlin 编译输出的是什么?
 
@@ -101,7 +101,7 @@ Kotlin 主要是由 JetBrains 公司的一个工程师团队(目前 40+ 人)开�
 ### 在哪里可以得到 Kotlin 的更多信息?
 
 最好从 [这个网站](https://kotlinlang.org) 开始. 在这里, 你可以下载编译器, [在线试运行代码](https://try.kotlinlang.org), 访问各种资源,
-阅读 [参考文档](/docs/reference/index.html) 和 [教程](/docs/tutorials/index.html).
+阅读 [参考文档](index.html) 和 [教程](/docs/tutorials/index.html).
 
 ### 有关于 Kotlin 的书吗?
 

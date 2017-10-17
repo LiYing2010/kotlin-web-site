@@ -87,7 +87,7 @@ bob?.department?.head?.name
 
 这样的链式调用, 只要属性链中任何一个属性为 null, 整个表达式就会返回 *null*{: .keyword }.
 
-如果需要只对非 null 的值执行某个操作, 你可以组合使用安全调用操作符和 [`let`](/api/latest/jvm/stdlib/kotlin/let.html):
+如果需要只对非 null 的值执行某个操作, 你可以组合使用安全调用操作符和 [`let`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/let.html):
 
 ``` kotlin
 val listWithNulls: List<String?> = listOf("A", null)

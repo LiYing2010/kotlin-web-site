@@ -89,9 +89,9 @@ class Derived: Base {
 
 扩展函数 (以及 lambda 表达式) 与通常的函数一样, 也可以标记为 `suspend`. 因此我们可以创建 [面向特定领域的专有语言 (DSL)](type-safe-builders.html) 以及其他可供用户扩展的 API. 某些情况下, 库的作者需要防止使用者增加 *新方式* 来挂起协程.
 
-为了达到这个目的, 可以使用 [`@RestrictsSuspension`](/api/latest/jvm/stdlib/kotlin.coroutines.experimental/-restricts-suspension/index.html) 注解. 如果扩展函数的接受者类(或接口) `R` 标注了这个注解, 所有的挂起扩展函数都必须委托给 `R` 的成员函数, 或者 `R` 的其他扩展函数. 由于扩展函数之间的委托关系不能出现无限循环 (否则程序将会陷入死循环), 因此可以保证所有的挂起都必须通过调用 `R` 的成员函数来发生, 而 `R` 的成员函数是库作者能够完全控制的.
+为了达到这个目的, 可以使用 [`@RestrictsSuspension`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.coroutines.experimental/-restricts-suspension/index.html) 注解. 如果扩展函数的接受者类(或接口) `R` 标注了这个注解, 所有的挂起扩展函数都必须委托给 `R` 的成员函数, 或者 `R` 的其他扩展函数. 由于扩展函数之间的委托关系不能出现无限循环 (否则程序将会陷入死循环), 因此可以保证所有的挂起都必须通过调用 `R` 的成员函数来发生, 而 `R` 的成员函数是库作者能够完全控制的.
 
-在 _少数_ 情况下, 这种功能是有必要的, 比如, 如果所有的挂起都需要在库内以某种特殊的方式处理. 举例来说, 如果要通过 [`buildSequence()`](/api/latest/jvm/stdlib/kotlin.coroutines.experimental/build-sequence.html)函数 (详情参见 [下文](#generators-api-in-kotlincoroutines)) 来实现生成器, 我们需要确保协程内所有的挂起调用最终都调用到 `yield()` 或 `yieldAll()` 函数, 而不是其他任何函数. 所以 [`SequenceBuilder`](/api/latest/jvm/stdlib/kotlin.coroutines.experimental/-sequence-builder/index.html) 标注了 `@RestrictsSuspension` 注解:
+在 _少数_ 情况下, 这种功能是有必要的, 比如, 如果所有的挂起都需要在库内以某种特殊的方式处理. 举例来说, 如果要通过 [`buildSequence()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.coroutines.experimental/build-sequence.html)函数 (详情参见 [下文](#generators-api-in-kotlincoroutines)) 来实现生成器, 我们需要确保协程内所有的挂起调用最终都调用到 `yield()` 或 `yieldAll()` 函数, 而不是其他任何函数. 所以 [`SequenceBuilder`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.coroutines.experimental/-sequence-builder/index.html) 标注了 `@RestrictsSuspension` 注解:
 
 ``` kotlin
 @RestrictsSuspension
@@ -134,19 +134,19 @@ public abstract class SequenceBuilder<in T> {
 ### 底层 API: `kotlin.coroutines`
 
 底层 API 相对来说比较小, 而且, 除了用于创建更高层的库之外, 不应该使用底层 API. 它主要由两个包构成:
-- [`kotlin.coroutines.experimental`](/api/latest/jvm/stdlib/kotlin.coroutines.experimental/index.html), 包含主要的类型和基本命令, 比如:
-  - [`createCoroutine()`](/api/latest/jvm/stdlib/kotlin.coroutines.experimental/create-coroutine.html),
-  - [`startCoroutine()`](/api/latest/jvm/stdlib/kotlin.coroutines.experimental/start-coroutine.html),
-  - [`suspendCoroutine()`](/api/latest/jvm/stdlib/kotlin.coroutines.experimental/suspend-coroutine.html);
-- [`kotlin.coroutines.experimental.intrinsics`](/api/latest/jvm/stdlib/kotlin.coroutines.experimental.intrinsics/index.html) 包含更底层的内部操作, 比如 [`suspendCoroutineOrReturn`](/api/latest/jvm/stdlib/kotlin.coroutines.experimental.intrinsics/suspend-coroutine-or-return.html).
+- [`kotlin.coroutines.experimental`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.coroutines.experimental/index.html), 包含主要的类型和基本命令, 比如:
+  - [`createCoroutine()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.coroutines.experimental/create-coroutine.html),
+  - [`startCoroutine()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.coroutines.experimental/start-coroutine.html),
+  - [`suspendCoroutine()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.coroutines.experimental/suspend-coroutine.html);
+- [`kotlin.coroutines.experimental.intrinsics`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.coroutines.experimental.intrinsics/index.html) 包含更底层的内部操作, 比如 [`suspendCoroutineOrReturn`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.coroutines.experimental.intrinsics/suspend-coroutine-or-return.html).
 
 关于这些 API 的使用方法, 更多详细信息请参见 [这里](https://github.com/Kotlin/kotlin-coroutines/blob/master/kotlin-coroutines-informal.md).
 
-### `kotlin.coroutines` 包中的生成器(Generator) API 
+### `kotlin.coroutines` 包中的生成器(Generator) API
 
 `kotlin.coroutines.experimental` 包中唯一的 "应用程序层次" 的函数是:
-- [`buildSequence()`](/api/latest/jvm/stdlib/kotlin.coroutines.experimental/build-sequence.html)
-- [`buildIterator()`](/api/latest/jvm/stdlib/kotlin.coroutines.experimental/build-iterator.html)
+- [`buildSequence()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.coroutines.experimental/build-sequence.html)
+- [`buildIterator()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.coroutines.experimental/build-iterator.html)
 
 这两个函数包含在 `kotlin-stdlib` 内, 因为它们与序列的产生相关. 实际上, 这些函数 (这里我们只讨论 `buildSequence()`) 实现了 _生成器(generator)_, 也就是, 提供一种方法, 以比较低的代价构建一个延迟产生的序列:
 

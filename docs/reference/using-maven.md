@@ -36,7 +36,7 @@ Kotlin 有一个内容广泛的标准库, 可以在你的应用程序中使用. 
 如果你的编译目标平台是 JDK 7 或 JDK 8, 你可以使用 Kotlin 标准库的扩展版本, 其中包含了针对 JDK 新版本中新增 API 的额外的扩展函数.
 请使用 `kotlin-stdlib-jre7` or `kotlin-stdlib-jre8` 依赖(根据你的 JDK 版本决定), 而不是通常的 `kotlin-stdlib`.
 
-如果你的项目使用了 [Kotlin 反射功能](/api/latest/jvm/stdlib/kotlin.reflect.full/index.html), 或测试功能, 那么还需要添加相应的依赖.
+如果你的项目使用了 [Kotlin 反射功能](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect.full/index.html), 或测试功能, 那么还需要添加相应的依赖.
 反射功能库的 artifact ID 是 `kotlin-reflect`, 测试功能库的 artifact ID 是 `kotlin-test` 和 `kotlin-test-junit`.
 
 ## 编译 Kotlin 源代码

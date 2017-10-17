@@ -28,23 +28,23 @@ class Goo {}
 
 以下各个包会被默认导入到每一个 Kotlin 源代码文件:
 
-- [kotlin.*](/api/latest/jvm/stdlib/kotlin/index.html)
-- [kotlin.annotation.*](/api/latest/jvm/stdlib/kotlin.annotation/index.html)
-- [kotlin.collections.*](/api/latest/jvm/stdlib/kotlin.collections/index.html)
-- [kotlin.comparisons.*](/api/latest/jvm/stdlib/kotlin.comparisons/index.html)  (since 1.1)
-- [kotlin.io.*](/api/latest/jvm/stdlib/kotlin.io/index.html)
-- [kotlin.ranges.*](/api/latest/jvm/stdlib/kotlin.ranges/index.html)
-- [kotlin.sequences.*](/api/latest/jvm/stdlib/kotlin.sequences/index.html)
-- [kotlin.text.*](/api/latest/jvm/stdlib/kotlin.text/index.html)
+- [kotlin.*](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/index.html)
+- [kotlin.annotation.*](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.annotation/index.html)
+- [kotlin.collections.*](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/index.html)
+- [kotlin.comparisons.*](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.comparisons/index.html)  (since 1.1)
+- [kotlin.io.*](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/index.html)
+- [kotlin.ranges.*](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/index.html)
+- [kotlin.sequences.*](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.sequences/index.html)
+- [kotlin.text.*](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/index.html)
 
 根据编译的目标平台不同, 还会导入以下包:
 
 - JVM 平台:
   - java.lang.*
-  - [kotlin.jvm.*](/api/latest/jvm/stdlib/kotlin.jvm/index.html)
+  - [kotlin.jvm.*](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/index.html)
 
 - JavaScript 平台:
-  - [kotlin.js.*](/api/latest/jvm/stdlib/kotlin.js/index.html)
+  - [kotlin.js.*](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.js/index.html)
 
 ## 导入(Import)
 

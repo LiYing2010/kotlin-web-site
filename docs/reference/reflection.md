@@ -21,7 +21,7 @@ Kotlin 将函数和属性当作语言中的一等公民(first-class citizen), �
 val c = MyClass::class
 ```
 
-类引用是一个 [KClass](/api/latest/jvm/stdlib/kotlin.reflect/-k-class/index.html) 类型的值.
+类引用是一个 [KClass](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-class/index.html) 类型的值.
 
 注意, Kotlin 的类引用不是一个 Java 的类引用. 要得到 Java 的类引用, 请使用 `KClass` 对象实例的 `.java` 属性.
 
@@ -111,9 +111,9 @@ fun main(args: Array<String>) {
 }
 ```
 
-表达式 `::x` 的计算结果是一个属性对象, 类型为 `KProperty<Int>`, 通过它 `get()` 方法可以得到属性值, 通过它的 `name` 属性可以得到属性名称. 详情请参见 [`KProperty` 类的 API 文档](/api/latest/jvm/stdlib/kotlin.reflect/-k-property/index.html).
+表达式 `::x` 的计算结果是一个属性对象, 类型为 `KProperty<Int>`, 通过它 `get()` 方法可以得到属性值, 通过它的 `name` 属性可以得到属性名称. 详情请参见 [`KProperty` 类的 API 文档](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-property/index.html).
 
-对于值可变的属性, 比如, `var y = 1`, `::y` 返回的属性对象的类型为 [`KMutableProperty<Int>`](/api/latest/jvm/stdlib/kotlin.reflect/-k-mutable-property/index.html),
+对于值可变的属性, 比如, `var y = 1`, `::y` 返回的属性对象的类型为 [`KMutableProperty<Int>`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-mutable-property/index.html),
 它有一个 `set()` 方法.                     
 
 属性引用可以用在所有使用无参函数的地方:

@@ -9,9 +9,9 @@ title: "在服务器端开发中使用 Kotlin"
 
 Kotlin 非常适合于开发服务器端应用程序, 使用 Kotlin 可以编写出简洁高效的代码, 同时又可以完全兼容既有的 Java 技术栈(Java-based technology stacks), 而且其学习曲线比较平滑:
 
- * **表达能力**: Kotlin 拥有许多创造性的语言特性, 比如它支持 [类型安全的构建器(type-safe builder)](/docs/reference/type-safe-builders.html)
-   以及 [委托属性(delegated property)](/docs/reference/delegated-properties.html), 可以帮助你构造出强大而且易用的抽象层.
- * **伸缩性**: Kotlin 对 [协程(coroutine)](/docs/reference/coroutines.html) 的支持可以帮助你构建出性能强大的服务器端应用程序, 能够为巨量用户提供服务, 但只要求很低的硬件配置.
+ * **表达能力**: Kotlin 拥有许多创造性的语言特性, 比如它支持 [类型安全的构建器(type-safe builder)](type-safe-builders.html)
+   以及 [委托属性(delegated property)](delegated-properties.html), 可以帮助你构造出强大而且易用的抽象层.
+ * **伸缩性**: Kotlin 对 [协程(coroutine)](coroutines.html) 的支持可以帮助你构建出性能强大的服务器端应用程序, 能够为巨量用户提供服务, 但只要求很低的硬件配置.
  * **互操作性**: Kotlin 完全兼容于所有基于 Java 的框架(framework), 因此你既可以享受一个更加现代的语言带来的利益, 同时又可以继续使用你熟悉的技术栈.
  * **可移植性**: 对于大规模的 Java 代码库, Kotlin 语言支持平滑地, 逐步的迁移. 你可以只使用 Kotlin 来编写新代码, 同时对系统中既有的部分继续沿用旧的 Java 代码.
  * **开发工具**: 除了 IDE 的支持之外, 在 IntelliJ IDEA Ultimate 的插件中, Kotlin 还提供了针对特定框架(比如, Spring)的开发工具支持.
@@ -27,7 +27,7 @@ Kotlin 非常适合于开发服务器端应用程序, 使用 Kotlin 可以编写
 
  * [kotlinx.html](https://github.com/kotlin/kotlinx.html) 是一种 DSL, 可用于在 Web 应用程序中构建 HTML. 可用来替代传统的模板系统, 比如 JSP 和FreeMarker.
 
- * 关于数据的持久化存储, 可以选择直接的 JDBC 访问, 或者使用 JPA, 或者通过 Java 驱动程序使用 NoSQL 数据库. 对于 JPA, [kotlin-jpa 编译器插件](/docs/reference/compiler-plugins.html#kotlin-jpa-compiler-plugin) 可以使 Kotlin 编译的 class文件符合 JPA 框架的要求.
+ * 关于数据的持久化存储, 可以选择直接的 JDBC 访问, 或者使用 JPA, 或者通过 Java 驱动程序使用 NoSQL 数据库. 对于 JPA, [kotlin-jpa 编译器插件](compiler-plugins.html#kotlin-jpa-compiler-plugin) 可以使 Kotlin 编译的 class文件符合 JPA 框架的要求.
 
 ## 发布 Kotlin 服务器端应用程序
 
@@ -47,4 +47,4 @@ AWS Labs 提供了一个 [示例工程](https://github.com/awslabs/serverless-ph
 ## 下一步
 
 * [使用 Http Servlet 创建 Web 应用程序](/docs/tutorials/httpservlets.html) 以及 [使用 Spring Boot 创建 REST Web Service](/docs/tutorials/spring-boot-restful.html) 教程将向你演示如何使用 Kotlin 来创建并运行小型 Web 应用程序.
-* 关于对 Kotlin 语言的更加深入介绍, 请参加本站的 [参考文档](/docs/reference/index.html) , 以及 [Kotlin Koans](/docs/tutorials/koans.html).
+* 关于对 Kotlin 语言的更加深入介绍, 请参加本站的 [参考文档](index.html) , 以及 [Kotlin Koans](/docs/tutorials/koans.html).

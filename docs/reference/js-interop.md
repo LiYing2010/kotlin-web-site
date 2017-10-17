@@ -13,7 +13,7 @@ Kotlin 设计时很重视与 Java 平台交互的问题. Kotlin 代码可以将 
 
 ## 内联 JavaScript
 
-使用 [js("...")](/api/latest/jvm/stdlib/kotlin.js/js.html) 函数, 你可以将 JavaScript 代码内联到你的 Kotlin 代码中.
+使用 [js("...")](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.js/js.html) 函数, 你可以将 JavaScript 代码内联到你的 Kotlin 代码中.
 比如:
 
 ``` kotlin

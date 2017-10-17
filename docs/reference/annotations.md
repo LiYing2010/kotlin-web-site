@@ -16,10 +16,10 @@ annotation class Fancy
 
 注解的其他属性, 可以通过向注解类添加元注解(meta-annotation)的方法来指定:
 
-  * [`@Target`](/api/latest/jvm/stdlib/kotlin.annotation/-target/index.html) 指定这个注解可被用于哪些元素(类, 函数, 属性, 表达式, 等等.);
-  * [`@Retention`](/api/latest/jvm/stdlib/kotlin.annotation/-retention/index.html) 指定这个注解的信息是否被保存到编译后的 class 文件中, 以及在运行时是否可以通过反射访问到它(默认情况下, 这两个设定都是 true);
-  * [`@Repeatable`](/api/latest/jvm/stdlib/kotlin.annotation/-repeatable/index.html) 允许在单个元素上多次使用同一个注解;
-  * [`@MustBeDocumented`](/api/latest/jvm/stdlib/kotlin.annotation/-must-be-documented/index.html) 表示这个注解是公开 API 的一部分, 在自动产生的 API 文档的类或者函数签名中, 应该包含这个注解的信息.
+  * [`@Target`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.annotation/-target/index.html) 指定这个注解可被用于哪些元素(类, 函数, 属性, 表达式, 等等.);
+  * [`@Retention`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.annotation/-retention/index.html) 指定这个注解的信息是否被保存到编译后的 class 文件中, 以及在运行时是否可以通过反射访问到它(默认情况下, 这两个设定都是 true);
+  * [`@Repeatable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.annotation/-repeatable/index.html) 允许在单个元素上多次使用同一个注解;
+  * [`@MustBeDocumented`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.annotation/-must-be-documented/index.html) 表示这个注解是公开 API 的一部分, 在自动产生的 API 文档的类或者函数签名中, 应该包含这个注解的信息.
 
 ``` kotlin
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION,
@@ -91,7 +91,7 @@ annotation class Deprecated(
 ```
 
 如果你需要指定一个类作为注解的参数, 请使用 Kotlin 类
-(参见 [KClass](/api/latest/jvm/stdlib/kotlin.reflect/-k-class/index.html)). Kotlin 编译器会将它自动转换为 Java 类, 因此 Java 代码可以正常地访问到这个注解和它的参数.
+(参见 [KClass](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-class/index.html)). Kotlin 编译器会将它自动转换为 Java 类, 因此 Java 代码可以正常地访问到这个注解和它的参数.
 
 ``` kotlin
 
