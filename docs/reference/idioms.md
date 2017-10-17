@@ -141,16 +141,16 @@ println(files?.size ?: "empty")
 ### 当值为 null 时, 执行某个语句
 
 ``` kotlin
-val data = ...
-val email = data["email"] ?: throw IllegalStateException("Email is missing!")
-```
+val values = ...
+val email = values["email"] ?: throw IllegalStateException("Email is missing!")
+s```
 
 ### 当值不为 null 时, 执行某个语句
 
 ``` kotlin
-val data = ...
+val value = ...
 
-data?.let {
+value?.let {
     ... // 这个代码段将在 data 不为 null 时执行
 }
 ```
@@ -158,9 +158,9 @@ data?.let {
 ### 当值不为 null 时, 进行映射变换
 
 ``` kotlin
-val data = ...
+val value = ...
 
-val mapped = data?.let { transformData(it) } ?: defaultValueIfDataIsNull
+val mapped = value?.let { transformValue(it) } ?: defaultValueIfValueIsNull
 ```
 
 ### 在函数的 return 语句中使用 when 语句

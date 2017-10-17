@@ -261,6 +261,20 @@ sum : Int.(other: Int) -> Int
 val sum = fun Int.(other: Int): Int = this + other
 ```
 
+在需要使用普通函数的地方, 都可以使用非字面值的带接受者的函数, 这里的普通函数比带接受者的函数多一个 *第一个* 参数, 其类型就是接受者类型.
+反过来, 在需要使用带接受者的函数的地方, 也可以使用普通函数.
+比如, `String.(Int) -> Boolean` 函数类型, 以及 `(String, Int) -> Boolean` 函数类型, 是相互兼容的:
+
+``` kotlin
+val represents: String.(Int) -> Boolean = { other -> toIntOrNull() == other }
+println("123".represents(123)) // 结果为 true
+
+fun testOperation(op: (String, Int) -> Boolean, a: String, b: Int, c: Boolean) =
+    assert(op(a, b) == c)
+
+testOperation(represents, "100", 100, true) // 结果为 OK
+```
+
 如果接受者类型可以通过上下文自动推断得到, 那么 Lambda 表达式也可以用做带接受者的函数字面值.
 
 ``` kotlin

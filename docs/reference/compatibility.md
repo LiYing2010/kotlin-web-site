@@ -121,7 +121,7 @@ Kotlin 可以用于多种平台(JVM/Android, JavaScript, 以及即将实现的 n
 
 比如, 假定旧版本 = 1.0, 新版本 = 1.1, 你会看到以下警告信息:
 
-``` kotlin
+```
 Runtime JAR files in the classpath have the version 1.0, which is older than the API version 1.1.
 Consider using the runtime of version 1.1, or pass '-api-version 1.0' explicitly to restrict the
 available APIs to the runtime of version 1.0.
@@ -132,7 +132,7 @@ available APIs to the runtime of version 1.0.
 * 如果你期望让你的代码兼容于 1.0 版标准库, 那么应该使用 `-api-version 1.0` 参数.
 * 如果你只是升级到 Kotlin 1.1 版, 还未使用新的语法特性 (比如, 可能由于你的开发组中的其他成员还未升级), 那么可以使用 `-language-version 1.0` 参数, 这个参数会将所有的 API 和语言特性限制为使用 1.0 版.
 
-``` kotlin
+```
 Runtime JAR files in the classpath should have the same version. These files were found in the classpath:
     kotlin-reflect.jar (version 1.0)
     kotlin-stdlib.jar (version 1.1)
@@ -143,7 +143,7 @@ Some runtime JAR files in the classpath have an incompatible version. Consider r
 这段警告信息表示你依赖的库版本不一致, 比如, 标准库为 1.1 版, 而反射库为 1.0 版. 为了防止在运行时发生微妙的错误, 我们建议对所有的 Kotlin 库使用相同的版本.
 在这个例子中, 应该添加一个对反射库的依赖, 版本明确指定为 1.1.
 
-``` kotlin
+```
 Some JAR files in the classpath have the Kotlin Runtime library bundled into them.
 This may cause difficult to debug problems if there's a different version of the Kotlin Runtime library in the classpath.
 Consider removing these libraries from the classpath

@@ -118,7 +118,7 @@ val notNull: String = item // 允许, 但在运行时刻可能失败
 
 完整的列表请参见 [Kotlin 编译器源代码](https://github.com/JetBrains/kotlin/blob/master/core/descriptor.loader.java/src/org/jetbrains/kotlin/load/java/JvmAnnotationNames.kt).
 
-#### 对 JSR-305 规范的支持
+### 对 JSR-305 规范的支持
 
 [JSR-305 规范](https://jcp.org/en/jsr/detail?id=305) 中定义了 [`@Nonnull`](https://aalmiray.github.io/jsr-305/apidocs/javax/annotation/Nonnull.html) 注解.
 Kotlin 支持使用这个注解来标识 Java 类型可否为 null.
@@ -133,7 +133,7 @@ Kotlin 编译器可以从库中读取 JSR-305 规范的注解, 而不需要这�
 从 Kotlin 1.1.50 开始, 还支持 [自定义可空限定符 (KEEP-79)](https://github.com/Kotlin/KEEP/blob/41091f1cc7045142181d8c89645059f4a15cc91a/proposals/jsr-305-custom-nullability-qualifiers.md)
 (详情请见下文).
 
-##### 类型限定符别名(Type qualifier nickname) (从 Kotlin 1.1.50 开始支持)
+#### 类型限定符别名(Type qualifier nickname) (从 Kotlin 1.1.50 开始支持)
 
 如果一个注解, 同时标注了
 [`@TypeQualifierNickname`](https://aalmiray.github.io/jsr-305/apidocs/javax/annotation/meta/TypeQualifierNickname.html)
@@ -159,7 +159,7 @@ interface A {
 }
 ```
 
-##### 类型限定符默认值(Type qualifier default) (从 Kotlin 1.1.50 开始支持)
+#### 类型限定符默认值(Type qualifier default) (从 Kotlin 1.1.50 开始支持)
 
 [`@TypeQualifierDefault`](https://aalmiray.github.io/jsr-305/apidocs/javax/annotation/meta/TypeQualifierDefault.html)
 用来定义一个注解, 当使用这个注解时, 可以在被标注的元素的范围内, 定义默认的可否为 null 设定.
@@ -204,7 +204,7 @@ interface A {
 package test;
 ```
 
-##### 编译器配置
+#### 编译器配置
 
 可以添加 `-Xjsr305` 编译器选项来配置 JSR-305 规范检查, 这个编译器选项可以使用以下设置之一:
 

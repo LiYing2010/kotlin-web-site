@@ -102,19 +102,27 @@ println(strings.filter(oddLength)) // 打印结果为: "[a, abc]"
 在 Kotlin 中, 可以将属性作为一等对象来访问, 方法是使用 `::` 操作符:
 
 ``` kotlin
-var x = 1
+val x = 1
 
 fun main(args: Array<String>) {
-    println(::x.get()) // 打印结果为: "1"
-    ::x.set(2)
-    println(x)         // 打印结果为: "2"
+    println(::x.get()) // 打印结果为 "1"
+    println(::x.name)  // 打印结果为 "x"
 }
 ```
 
 表达式 `::x` 的计算结果是一个属性对象, 类型为 `KProperty<Int>`, 通过它 `get()` 方法可以得到属性值, 通过它的 `name` 属性可以得到属性名称. 详情请参见 [`KProperty` 类的 API 文档](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-property/index.html).
 
 对于值可变的属性, 比如, `var y = 1`, `::y` 返回的属性对象的类型为 [`KMutableProperty<Int>`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-mutable-property/index.html),
-它有一个 `set()` 方法.                     
+它有一个 `set()` 方法:
+
+``` kotlin
+var y = 1
+
+fun main(args: Array<String>) {
+    ::y.set(2)
+    println(y) // 打印结果为 "2"
+}
+```
 
 属性引用可以用在所有使用无参函数的地方:
 
