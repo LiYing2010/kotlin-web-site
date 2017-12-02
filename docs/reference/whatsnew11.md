@@ -23,7 +23,7 @@ title: "Kotlin 1.1 的新增特性"
 
 Kotlin 1.1 中关键性的新特性就是 *协程(coroutine)*, 这个特性可以支持 `async`/`await`, `yield` 等等类似的编程模式. Kotlin 的设计特性是, 协程的运行由库来实现, 而不是语言的一部分, 因此你不会被局限到某个特定的编程模式, 或者某个特定的并发库.
 
-一个协程实际上是一个轻量级的线程, 它可以被暂停, 然后在以后的某个时刻恢复运行. 协程的支持依赖于 [*挂起函数(suspending function)*](coroutines.html#suspending-functions): 对函数的调用有可能导致一个协程挂起(suspend), 要启动一个新的协程我们通常使用匿名的挂起函数 (也就是. 挂起 lambda 表达式).  
+一个协程实际上是一个轻量级的线程, 它可以被暂停, 然后在以后的某个时刻恢复运行. 协程的支持依赖于 [*挂起函数(suspending function)*](coroutines.html#suspending-functions): 对函数的调用有可能导致一个协程挂起(suspend), 要启动一个新的协程我们通常使用匿名的挂起函数 (也就是. 挂起 lambda 表达式).
 
 我们来看一看 `async`/`await` 函数, 它们实现在一个外部库中, [kotlinx.coroutines](https://github.com/kotlin/kotlinx.coroutines):
 
@@ -77,7 +77,7 @@ fun main(args: Array<String>) {
 
 你可以运行上面的代码, 并查看结果. 你可以修改代码, 然后再次运行, 看看结果如何!
 
-关于这个功能的详情, 请参见 [参考文档](coroutines.html) 以及 [教程](/docs/tutorials/coroutines-basic-jvm.html).
+关于这个功能的详情, 请参见 [参考文档](coroutines.html) 以及 [教程](https://kotlinlang.org/docs/tutorials/coroutines-basic-jvm.html).
 
 注意, 协程目前还是 **实验性功能**, 也就是说, 1.1 正式发布后, Kotlin 开发组不保证这个特性的向后兼容性(backwards compatibility).
 
@@ -202,7 +202,7 @@ fun main(args: Array<String>) {
     })
     // 现在的编码方式:
     println(map.mapValues { (key, value) -> "$key -> $value!" })
-//sampleEnd    
+//sampleEnd
 }
 ```
 </div>
@@ -222,7 +222,7 @@ fun main(args: Array<String>) {
 
 //sampleStart
     map.forEach { _, value -> println("$value!") }
-//sampleEnd    
+//sampleEnd
 }
 ```
 </div>
@@ -642,7 +642,7 @@ fun main(args: Array<String>) {
 ``` kotlin
 fun main(args: Array<String>) {
 
-//sampleStart    
+//sampleStart
     val map = mapOf("key" to 42)
     // 返回不可为 null 的 Int 值 42
     val value: Int = map.getValue("key")

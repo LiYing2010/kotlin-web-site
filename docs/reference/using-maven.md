@@ -253,7 +253,7 @@ java -jar target/mymodule-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 
 要支持单元测试, 还需要添加 `kotlin-test-js` 依赖项.
 
-更多详细信息, 请参见教程: [使用 Maven 编译 Kotlin 和 JavaScript 入门](/docs/tutorials/javascript/getting-started-maven/getting-started-with-maven.html).
+更多详细信息, 请参见教程: [使用 Maven 编译 Kotlin 和 JavaScript 入门](https://kotlinlang.org/docs/tutorials/javascript/getting-started-maven/getting-started-with-maven.html).
 
 ## 指定编译选项
 

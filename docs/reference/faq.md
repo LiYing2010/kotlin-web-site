@@ -67,9 +67,9 @@ Kotlin/Native 目前 [正在开发中](https://blog.jetbrains.com/kotlin/tag/nat
 
 ### 有哪些 IDE 支持 Kotlin?
 
-大多数主流 Java IDE 支持 Kotlin, 包括 [IntelliJ IDEA](/docs/tutorials/getting-started.html),
-[Android Studio](/docs/tutorials/kotlin-android.html), [Eclipse](/docs/tutorials/getting-started-eclipse.html) 以及
-[NetBeans](http://plugins.netbeans.org/plugin/68590/kotlin). 此外, 还有一个 [命令行编译器](/docs/tutorials/command-line.html), 可以用来编译并运行应用程序.
+大多数主流 Java IDE 支持 Kotlin, 包括 [IntelliJ IDEA](https://kotlinlang.org/docs/tutorials/getting-started.html),
+[Android Studio](https://kotlinlang.org/docs/tutorials/kotlin-android.html), [Eclipse](https://kotlinlang.org/docs/tutorials/getting-started-eclipse.html) 以及
+[NetBeans](http://plugins.netbeans.org/plugin/68590/kotlin). 此外, 还有一个 [命令行编译器](https://kotlinlang.org/docs/tutorials/command-line.html), 可以用来编译并运行应用程序.
 
 ### 有哪些编译工具支持 Kotlin?
 
@@ -101,7 +101,7 @@ Kotlin 主要是由 JetBrains 公司的一个工程师团队(目前 40+ 人)开�
 ### 在哪里可以得到 Kotlin 的更多信息?
 
 最好从 [这个网站](https://kotlinlang.org) 开始. 在这里, 你可以下载编译器, [在线试运行代码](https://try.kotlinlang.org), 访问各种资源,
-阅读 [参考文档](index.html) 和 [教程](/docs/tutorials/index.html).
+阅读 [参考文档](index.html) 和 [教程](https://kotlinlang.org/docs/tutorials/index.html).
 
 ### 有关于 Kotlin 的书吗?
 
@@ -137,7 +137,7 @@ Hadi Hariri 的 [O’Reilly 课程](http://shop.oreilly.com/product/063692005298
 ### 还有关于 Kotlin 的其他在线资源吗?
 
 在各种网站上有很多 [在线资源](https://kotlinlang.org/community/), 包括社区成员编写的 [Kotlin Digests](https://kotlin.link),
-一份 [通讯](http://www.kotlinweekly.net), 一个 [博客](https://talkingkotlin.com), 等等.   
+一份 [通讯](http://www.kotlinweekly.net), 一个 [博客](https://talkingkotlin.com), 等等.
 
 ### 在哪里可以得到高分辨率的 Kotlin logo?
 
