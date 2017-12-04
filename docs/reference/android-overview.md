@@ -14,7 +14,7 @@ Kotlin 非常适合于开发 Android 应用程序, 它可以将一种现代化�
   * **互操作性**: Kotlin 100% 支持与 Java 的互操作, 因此在 Kotlin 应用程序中可以使用既有的 Android 库. 这种支持也包括注解处理(annotation processing), 因此数据绑定, Dagger 都可以正常工作.
   * **大小(Footprint)**: Kotlin 的运行库非常紧凑, 而且还可以通过使用 ProGuard 来进一步缩减. 在一个 [真实的应用程序](https://blog.gouline.net/kotlin-production-tales-62b56057dc8a)中, Kotlin 运行库仅仅增加了几百个方法, 以及不到 100K 的 .apk 文件大小.
   * **编译时间**: Kotlin 支持高效率的增量编译(incremental compilation), 因此, 虽然对于全新的编译(clean build)会存在一些额外的开销, 但[增量编译通常与 Java 同样快, 甚至更快](https://medium.com/keepsafe-engineering/kotlin-vs-java-compilation-speed-e6c174b39b5d).
-  * **学习曲线**: 对于 Java 开发者, Kotlin 是非常易于学习的. Kotlin 插件中包含了 Java 代码到 Kotlin 代码的自动转换器, 可以帮助你完成最初的工作. [Kotlin Koans](/docs/tutorials/koans.html) 中有一系列的交互式练习题, 可以指导你学习 Kotlin 语言的关键特性.
+  * **学习曲线**: 对于 Java 开发者, Kotlin 是非常易于学习的. Kotlin 插件中包含了 Java 代码到 Kotlin 代码的自动转换器, 可以帮助你完成最初的工作. [Kotlin Koans](https://kotlinlang.org/docs/tutorials/koans.html) 中有一系列的交互式练习题, 可以指导你学习 Kotlin 语言的关键特性.
 
 ## 使用 Kotlin 进行 Android 开发的案例研究
 
@@ -28,13 +28,13 @@ Kotlin 非常适合于开发 Android 应用程序, 它可以将一种现代化�
 
 除 Kotlin 语言本身的特性之外, Kotlin 开发团队还提供了一系列用于 Android 的开发工具:
 
- * [Kotlin Android Extensions](/docs/tutorials/android-plugin.html) 是一个编译器扩展, 可以帮助你消除 `findViewById()` 调用, 替换为编译器生成的伪属性.
+ * [Kotlin Android Extensions](https://kotlinlang.org/docs/tutorials/android-plugin.html) 是一个编译器扩展, 可以帮助你消除 `findViewById()` 调用, 替换为编译器生成的伪属性.
  * [Anko](http://github.com/kotlin/anko) 是一个库, 针对 Android API 提供了一系列便于 Kotlin 使用的包装函数, 还提供了一种 DSL, 可以帮助你将 .xml 布局文件替换为 Kotlin 代码.
 
 ## 下一步
 
 * 下载并安装 [Android Studio 3.0 预览版](https://developer.android.com/studio/preview/index.html), 其中已包含了对 Kotlin 的支持.
-* 学习 [Android 与 Kotlin 入门](/docs/tutorials/kotlin-android.html) 教程, 创建你的第一个 Kotlin 应用程序.
-* 关于对 Kotlin 语言的更加深入介绍, 请参加本站的 [参考文档](index.html), 以及 [Kotlin Koans](/docs/tutorials/koans.html).
+* 学习 [Android 与 Kotlin 入门](https://kotlinlang.org/docs/tutorials/kotlin-android.html) 教程, 创建你的第一个 Kotlin 应用程序.
+* 关于对 Kotlin 语言的更加深入介绍, 请参加本站的 [参考文档](index.html), 以及 [Kotlin Koans](https://kotlinlang.org/docs/tutorials/koans.html).
 * 还有一个很好的学习资源是 [针对 Android 开发者的 Kotlin 教程](https://leanpub.com/kotlin-for-android-developers), 这本书会一步步地指导你使用 Kotlin 创建一个真实的 Android 应用程序.
 * 查看 Google 的 [使用 Kotlin 编写的示例工程](https://developer.android.com/samples/index.html?language=kotlin).

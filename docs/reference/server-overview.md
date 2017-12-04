@@ -15,7 +15,7 @@ Kotlin 非常适合于开发服务器端应用程序, 使用 Kotlin 可以编写
  * **互操作性**: Kotlin 完全兼容于所有基于 Java 的框架(framework), 因此你既可以享受一个更加现代的语言带来的利益, 同时又可以继续使用你熟悉的技术栈.
  * **可移植性**: 对于大规模的 Java 代码库, Kotlin 语言支持平滑地, 逐步的迁移. 你可以只使用 Kotlin 来编写新代码, 同时对系统中既有的部分继续沿用旧的 Java 代码.
  * **开发工具**: 除了 IDE 的支持之外, 在 IntelliJ IDEA Ultimate 的插件中, Kotlin 还提供了针对特定框架(比如, Spring)的开发工具支持.
- * **学习曲线**: 对于 Java 开发者, Kotlin 是非常易于学习的. Kotlin 插件中包含了 Java 代码到 Kotlin 代码的自动转换器, 可以帮助你完成最初的工作. [Kotlin Koans](/docs/tutorials/koans.html) 中有一系列的交互式练习题, 可以指导你学习 Kotlin 语言的关键特性.
+ * **学习曲线**: 对于 Java 开发者, Kotlin 是非常易于学习的. Kotlin 插件中包含了 Java 代码到 Kotlin 代码的自动转换器, 可以帮助你完成最初的工作. [Kotlin Koans](https://kotlinlang.org/docs/tutorials/koans.html) 中有一系列的交互式练习题, 可以指导你学习 Kotlin 语言的关键特性.
 
 ## Kotlin 服务器端开发的一些相关框架
 
@@ -46,5 +46,5 @@ AWS Labs 提供了一个 [示例工程](https://github.com/awslabs/serverless-ph
 
 ## 下一步
 
-* [使用 Http Servlet 创建 Web 应用程序](/docs/tutorials/httpservlets.html) 以及 [使用 Spring Boot 创建 REST Web Service](/docs/tutorials/spring-boot-restful.html) 教程将向你演示如何使用 Kotlin 来创建并运行小型 Web 应用程序.
-* 关于对 Kotlin 语言的更加深入介绍, 请参加本站的 [参考文档](index.html) , 以及 [Kotlin Koans](/docs/tutorials/koans.html).
+* [使用 Http Servlet 创建 Web 应用程序](https://kotlinlang.org/docs/tutorials/httpservlets.html) 以及 [使用 Spring Boot 创建 REST Web Service](https://kotlinlang.org/docs/tutorials/spring-boot-restful.html) 教程将向你演示如何使用 Kotlin 来创建并运行小型 Web 应用程序.
+* 关于对 Kotlin 语言的更加深入介绍, 请参加本站的 [参考文档](index.html) , 以及 [Kotlin Koans](https://kotlinlang.org/docs/tutorials/koans.html).
