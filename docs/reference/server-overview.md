@@ -27,7 +27,7 @@ Kotlin 非常适合于开发服务器端应用程序, 使用 Kotlin 可以编写
 
  * [kotlinx.html](https://github.com/kotlin/kotlinx.html) 是一种 DSL, 可用于在 Web 应用程序中构建 HTML. 可用来替代传统的模板系统, 比如 JSP 和FreeMarker.
 
- * 关于数据的持久化存储, 可以选择直接的 JDBC 访问, 或者使用 JPA, 或者通过 Java 驱动程序使用 NoSQL 数据库. 对于 JPA, [kotlin-jpa 编译器插件](compiler-plugins.html#kotlin-jpa-compiler-plugin) 可以使 Kotlin 编译的 class文件符合 JPA 框架的要求.
+ * 关于数据的持久化存储, 可以选择直接的 JDBC 访问, 或者使用 JPA, 或者通过 Java 驱动程序使用 NoSQL 数据库. 对于 JPA, [kotlin-jpa 编译器插件](compiler-plugins.html#jpa-support) 可以使 Kotlin 编译的 class文件符合 JPA 框架的要求.
 
 ## 发布 Kotlin 服务器端应用程序
 

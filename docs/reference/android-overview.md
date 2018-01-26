@@ -33,7 +33,7 @@ Kotlin 非常适合于开发 Android 应用程序, 它可以将一种现代化�
 
 ## 下一步
 
-* 下载并安装 [Android Studio 3.0 预览版](https://developer.android.com/studio/preview/index.html), 其中已包含了对 Kotlin 的支持.
+* 下载并安装 [Android Studio 3.0](https://developer.android.com/studio/index.html), 其中已包含了对 Kotlin 的支持.
 * 学习 [Android 与 Kotlin 入门](https://kotlinlang.org/docs/tutorials/kotlin-android.html) 教程, 创建你的第一个 Kotlin 应用程序.
 * 关于对 Kotlin 语言的更加深入介绍, 请参加本站的 [参考文档](index.html), 以及 [Kotlin Koans](https://kotlinlang.org/docs/tutorials/koans.html).
 * 还有一个很好的学习资源是 [针对 Android 开发者的 Kotlin 教程](https://leanpub.com/kotlin-for-android-developers), 这本书会一步步地指导你使用 Kotlin 创建一个真实的 Android 应用程序.

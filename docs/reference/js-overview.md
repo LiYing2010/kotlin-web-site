@@ -31,11 +31,13 @@ Kotlin 编译器在编译时会尝试实现以下目标:
 
 * 编写 Kotlin 代码, 用于服务器端 JavaScript
 
-    * **使用服务器端技术**. 你可以使用 Kotlin 来与服务器端 JavaScript 交互, 比如 node.js
+    * **使用服务器端技术**. 你可以使用 Kotlin 来与服务器端 JavaScript 交互, 比如 Node.js
 
-Kotlin 可以与既有的第三方库和框架共同工作, 比如 JQuery 或 ReactJS. 要使用强类型 API 的第三方框架, 你可以使用 [ts2kt](https://github.com/kotlin/ts2kt) 工具, 将 [Definitely Typed](http://definitelytyped.org/) 类型定义库中的 TypeScript 定义转换为 Kotlin. 或者, 你也可以使用 [动态类型(Dynamic Type)](dynamic-type.html) 功能来访问任何没有强类型的框架.
+Kotlin 可以与既有的第三方库和框架共同工作, 比如 jQuery 或 React. 要使用强类型 API 的第三方框架, 你可以使用 [ts2kt](https://github.com/kotlin/ts2kt) 工具, 将 [Definitely Typed](http://definitelytyped.org/) 类型定义库中的 TypeScript 定义转换为 Kotlin. 或者, 你也可以使用 [动态类型(Dynamic Type)](dynamic-type.html) 功能来访问任何没有强类型的框架.
 
-Kotlin 也兼容于 CommonJS, AMD 以及 UMD, 因此可以直接[与不同的模块系统交互](https://kotlinlang.org/docs/tutorials/javascript/working-with-modules/working-with-modules.html).
+JetBrains 专门针对 React 社区开发了几种工具: [React bindings](https://github.com/JetBrains/kotlin-wrappers), 以及 [Create React Kotlin App](https://github.com/JetBrains/create-react-kotlin-app). 其中, Create React Kotlin App 可以帮助你使用 Kotlin 来创建 React 应用程序, 而不需要编译配置.
+
+Kotlin 兼容于 CommonJS, AMD 以及 UMD, 因此可以直接[与不同的模块系统交互](https://kotlinlang.org/docs/tutorials/javascript/working-with-modules/working-with-modules.html).
 
 
 ## 使用 Kotlin 进行 JavaScript 开发入门

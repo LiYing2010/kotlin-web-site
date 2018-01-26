@@ -52,7 +52,9 @@ reference:
       - /docs/reference/server-overview.html: 在服务器端开发中使用 Kotlin
       - /docs/reference/android-overview.html: 在 Android 开发中使用 Kotlin
       - /docs/reference/js-overview.html: 在 JavaScript 开发中使用 Kotlin
+      - /docs/reference/native-overview.html: Kotlin 原生(Native)程序开发
       - /docs/reference/whatsnew11.html: 1.1 版中的新功能
+      - /docs/reference/whatsnew12.html: 1.2 版中的新功能
 
   - title: 入门
     description: 熟悉 Kotlin 的基本知识, 包括操作符, 编码规约, 以及惯用法.
@@ -110,7 +112,7 @@ reference:
       - /docs/reference/reflection.html: 反射(Reflection)
       - /docs/reference/type-safe-builders.html: 类型安全的构建器(Type-Safe Builder)
       - /docs/reference/type-aliases.html: 类型别名(Type Alias)
-      - /docs/reference/multiplatform.html: 跨平台项目(Multiplatform Projects) (预览版)
+      - /docs/reference/multiplatform.html: 跨平台项目(Multiplatform Projects)
 
 
   - title: 核心库
