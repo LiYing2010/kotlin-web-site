@@ -96,7 +96,8 @@ var setterWithAnnotation: Any? = null
 
 ### 属性的后端域变量(Backing Field)
 
-Kotlin 的类不能拥有域变量. 但是, 使用属性的自定义访问器时, 有时会需要后端域变量(backing field). 为了这种目的, Kotlin 提供了一种自动的后端域变量, 可以通过 `field` 标识符来访问:
+Kotlin 的类不能直接声明域变量. 但是, 如果属性需要一个后端域变量(Backing Field), Kotlin 会自动提供.
+在属性的取值方法或设值方法中, 使用 `field` 标识符可以引用这个后端域变量:
 
 ``` kotlin
 var counter = 0 // 初始化给定的值将直接写入后端域变量中
@@ -153,7 +154,7 @@ const val SUBSYSTEM_DEPRECATED: String = "This subsystem is deprecated"
 ```
 
 
-## 延迟初始化属性(Late-Initialized Property)
+## 延迟初始化的(Late-Initialized)属性和变量
 
 通常, 如果属性声明为非 null 数据类型, 那么属性值必须在构造器内初始化. 但是, 这种限制很多时候会带来一些不便. 比如, 属性值可以通过依赖注入来进行初始化, 或者在单元测试代码的 setup 方法中初始化. 这种情况下, 你就无法在构造器中为属性编写一段非 null 值的初始化代码, 但你仍然希望在类内参照这个属性时能够避免 null 值检查.
 
@@ -173,9 +174,23 @@ public class MyTest {
 }
 ```
 
-这个修饰符只能用于 `var` 属性, 而且只能是声明在类主体部分之内的属性(不可以是主构造器中声明的属性), 而且属性不能有自定义的取值方法和设值方法. 属性类型必须是非 null 的, 而且不能是基本类型.
+这个修饰符可以用于类主体部分之内声明的 `var` 属性, (不是主构造器中声明的属性, 而且属性没有自定义的取值方法和设值方法).
+从 Kotlin 1.2 开始, 这个修饰符也可以用于顶级(top-level)属性和局部变量.
+属性或变量的类型必须是非 null 的, 而且不能是基本类型.
 
 在一个 `lateinit` 属性被初始化之前访问它, 会抛出一个特别的异常, 这个异常将会指明被访问的属性, 以及它没有被初始化这一错误.
+
+### 检查延迟初始化的变量是否已经初始化完成(从 Kotlin 1.2 开始支持)
+
+为了检查一个 `lateinit var` 是否已经初始化完成, 可以对 [属性的引用](reflection.html#property-references) 调用 `.isInitialized`:
+
+```kotlin
+if (foo::bar.isInitialized) {
+    println(foo.bar)
+}
+```
+
+这种检查只能用于当前代码可以访问到的属性, 也就是说, 属性必须定义在当前代码的同一个类中, 或当前代码的外部类中, 或者是同一个源代码文件中的顶级属性.
 
 ## 属性的覆盖
 

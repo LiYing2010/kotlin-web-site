@@ -74,7 +74,7 @@ import bar.Bar as bBar // 可以使用新名称 bBar 来访问 'bar.Bar'
 
   * 顶级(top-level) 函数和属性;
   * [对象声明](object-declarations.html#object-declarations) 中定义的函数和属性;
-  * [枚举常数](enum-classes.html)
+  * [枚举常数](enum-classes.html).
 
 与 Java 不同, Kotlin 没有单独的 ["import static"](https://docs.oracle.com/javase/8/docs/technotes/guides/language/static-import.html) 语法; 所有这些声明都使用通常的 `import` 关键字来表达.
 

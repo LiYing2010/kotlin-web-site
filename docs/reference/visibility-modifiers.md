@@ -30,6 +30,8 @@ class Bar {}
 * 如果标记为 `internal`, 那么它将在同一个[模块(module)](#modules)内的任何位置都可以访问;
 * 对于顶级(top-level)声明, `protected` 修饰符是无效的.
 
+注意: 如果一个包中的顶级声明在另一个包中可以访问, 在使用它时, 仍然需要 [导入(import)](packages.html#imports) 它.
+
 示例:
 
 ``` kotlin

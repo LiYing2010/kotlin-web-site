@@ -66,7 +66,7 @@ fun foo() {
 
 ``` kotlin
 fun foo() {
-    ints.forEach lit@ {
+    ints.forEach lit@{
         if (it == 0) return@lit
         print(it)
     }

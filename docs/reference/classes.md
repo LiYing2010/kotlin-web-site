@@ -43,15 +43,34 @@ class Person(firstName: String) {
 }
 ```
 
-主构造器中不能包含任何代码. 初始化代码可以放在 **初始化代码段** (initializer block) 中, 初始化代码段使用 *init*{: .keyword } 关键字作为前缀:
+主构造器中不能包含任何代码. 初始化代码可以放在 **初始化代码段** (initializer block) 中, 初始化代码段使用 *init*{: .keyword } 关键字作为前缀.
+
+在类的实例初始化过程中, 初始化代码段按照它们在类主体中出现的顺序执行, 初始化代码段之间还可以插入属性的初始化代码:
+
+<div class="sample" markdown="1">
 
 ``` kotlin
-class Customer(name: String) {
+//sampleStart
+class InitOrderDemo(name: String) {
+    val firstProperty = "First property: $name".also(::println)
+
     init {
-        logger.info("Customer initialized with value ${name}")
+        println("First initializer block that prints ${name}")
+    }
+
+    val secondProperty = "Second property: ${name.length}".also(::println)
+
+    init {
+        println("Second initializer block that prints ${name.length}")
     }
 }
+//sampleEnd
+
+fun main(args: Array<String>) {
+    InitOrderDemo("hello")
+}
 ```
+</div>
 
 注意, 主构造器的参数可以在初始化代码段中使用. 也可以在类主体定义的属性初始化代码中使用:
 
@@ -102,6 +121,30 @@ class Person(val name: String) {
     }
 }
 ```
+
+注意, 初始化代码段中的代码实际上会成为主构造器的一部分. 对主构造器的委托调用, 会作为次级构造器的第一条语句来执行,
+因此所有初始化代码段中代码, 都会在次级构造器的函数体之前执行. 即使类没有定义主构造器, 也会隐含地委托调用主构造器, 因此初始化代码段仍然会被执行:
+
+<div class="sample" markdown="1">
+
+``` kotlin
+//sampleStart
+class Constructors {
+    init {
+        println("Init block")
+    }
+
+    constructor(i: Int) {
+        println("Constructor")
+    }
+}
+//sampleEnd
+
+fun main(args: Array<String>) {
+    Constructors(1)
+}
+```
+</div>
 
 如果一个非抽象类没有声明任何主构造器和次级构造器, 它将带有一个自动生成的, 无参数的主构造器. 这个构造器的可见度为 public. 如果不希望你的类带有 public 的构造器, 你需要声明一个空的构造器, 并明确设置其可见度:
 

@@ -116,7 +116,7 @@ void demo(Source<String> strs) {
 为了实现这个目的, 我们可以对 `T` 添加 **out** 修饰符:
 
 ``` kotlin
-abstract class Source<out T> {
+interface Source<out T> {
     abstract fun nextT(): T
 }
 
@@ -137,8 +137,8 @@ fun demo(strs: Source<String>) {
 除了 **out** 之外, Kotlin 还提供了另一种类型变异注解: **in**. 这个注解导致类型参数 **反向类型变异(contravariant)**: 这个类型将只能被消费, 而不能被生产. 反向类型变异的一个很好的例子是 `Comparable`:
 
 ``` kotlin
-abstract class Comparable<in T> {
-    abstract fun compareTo(other: T): Int
+interface Comparable<in T> {
+    operator fun compareTo(other: T): Int
 }
 
 fun demo(x: Comparable<Number>) {
@@ -248,6 +248,11 @@ fun <T> T.basicToString() : String {  // 扩展函数
 val l = singletonList<Int>(1)
 ```
 
+如果可以通过程序上下文推断得到, 类型参数可以省略, 因此下面的例子也可以正确运行:
+``` kotlin
+val l = singletonList(1)
+```
+
 ## 泛型约束(Generic constraint)
 
 对于一个给定的类型参数, 所允许使用的类型, 可以通过 **泛型约束(generic constraint)** 来限制.
@@ -273,9 +278,29 @@ sort(listOf(HashMap<Int, String>())) // 错误: HashMap<Int, String> 不是 Comp
 如果同一个类型参数需要指定多个上界, 这时就需要使用单独的 **where** 子句:
 
 ``` kotlin
-fun <T> cloneWhenGreater(list: List<T>, threshold: T): List<T>
-    where T : Comparable,
-          T : Cloneable {
-  return list.filter { it > threshold }.map { it.clone() }
+fun <T> copyWhenGreater(list: List<T>, threshold: T): List<String>
+    where T : CharSequence,
+          T : Comparable<T> {
+    return list.filter { it > threshold }.map { it.toString() }
 }
 ```
+
+## 类型擦除
+
+对于使用泛型声明的代码, Kotlin 只在编译期进行类型安全性检查.
+在运行期, 泛型类型的实例不保存关于其类型参数的任何信息.
+我们称之为, 类型信息 *被擦除* 了. 比如, `Foo<Bar>` 和 `Foo<Baz?>` 的实例, 其类型信息会被擦除, 只剩下 `Foo<*>`.
+
+Therefore, there is no general way to check whether an instance of a generic type was created with certain type
+arguments at runtime, and the compiler [prohibits such *is*{: .keyword }-checks](typecasts.html#type-erasure-and-generic-type-checks).
+
+Type casts to generic types with concrete type arguments, e.g. `foo as List<String>`, cannot be checked at runtime.  
+These [unchecked casts](typecasts.html#unchecked-casts) can be used when type safety is implied by the high-level
+program logic but cannot be inferred directly by the compiler. The compiler issues a warning on unchecked casts, and at
+runtime, only the non-generic part is checked (equivalent to `foo as List<*>`).
+
+The type arguments of generic function calls are also only checked at compile time. Inside the function bodies,
+the type parameters cannot be used for type checks, and type casts to type parameters (`foo as T`) are unchecked. However,
+[reified type parameters](inline-functions.html#reified-type-parameters) of inline functions are substituted by the actual
+type arguments in the inlined function body at the call sites and thus can be used for type checks and casts,
+with the same restrictions for instances of generic types as described above.
