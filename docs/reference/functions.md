@@ -13,7 +13,7 @@ Kotlin 中使用 *fun*{: .keyword } 关键字定义函数:
 
 ``` kotlin
 fun double(x: Int): Int {
-    return 2*x
+    return 2 * x
 }
 ```
 
@@ -137,7 +137,6 @@ reformat(str, wordSeparator = '_')
 fun foo(vararg strings: String) { /* ... */ }
 
 foo(strings = *arrayOf("a", "b", "c"))
-foo(strings = "a") // 对单个值不需要使用展开(spread)操作符
 ```
 
 注意, 调用 Java 函数时, 不能使用这种命名参数语法, 因为 Java 字节码并不一定保留了函数参数的名称信息.
@@ -332,7 +331,7 @@ private fun findFixPoint(): Double {
     var x = 1.0
     while (true) {
         val y = Math.cos(x)
-        if (x == y) return y
+        if (x == y) return x
         x = y
     }
 }

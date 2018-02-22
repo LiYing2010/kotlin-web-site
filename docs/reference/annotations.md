@@ -97,7 +97,7 @@ annotation class Deprecated(
 
 import kotlin.reflect.KClass
 
-annotation class Ann(val arg1: KClass<*>, val arg2: KClass<out Any?>)
+annotation class Ann(val arg1: KClass<*>, val arg2: KClass<out Any>)
 
 @Ann(String::class, Int::class) class MyClass
 ```
@@ -215,6 +215,8 @@ public @interface AnnWithValue {
 @AnnWithValue("abc") class C
 ```
 
+### 使用数组作为注解参数
+
 如果 Java 注解的 `value` 参数是数组类型, 那么在 Kotlin 中会变为 `vararg` 类型:
 
 ``` java
@@ -229,7 +231,7 @@ public @interface AnnWithArrayValue {
 @AnnWithArrayValue("abc", "foo", "bar") class C
 ```
 
-对于其他数组类型的参数, 你需要明确地使用 `arrayOf` 函数为其赋值:
+对于其他数组类型的参数, 为其赋值时你需要使用数组字面值(从 Kotlin 1.2 开始支持), 或使用 `arrayOf` 函数:
 
 ``` java
 // Java
@@ -239,9 +241,16 @@ public @interface AnnWithArrayMethod {
 ```
 
 ``` kotlin
-// Kotlin
-@AnnWithArrayMethod(names = arrayOf("abc", "foo", "bar")) class C
+// Kotlin 1.2+ 版本:
+@AnnWithArrayMethod(names = ["abc", "foo", "bar"])
+class C
+
+// Kotlin 旧版本:
+@AnnWithArrayMethod(names = arrayOf("abc", "foo", "bar"))
+class D
 ```
+
+### 访问注解实例的属性值
 
 Java 注解实例的值, 在 Kotlin 代码中可以通过属性的形式访问:
 

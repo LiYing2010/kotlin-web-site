@@ -233,3 +233,5 @@ val matches: (Regex, CharSequence) -> Boolean = Regex::matches
 val prop = "abc"::length
 println(prop.get())   // 打印结果为 "3"
 ```
+
+从 Kotlin 1.2 开始, 不再需要明确地指定 `this` 接收者: `this::foo` 可以简写为 `::foo`.

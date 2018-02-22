@@ -7,7 +7,7 @@ title: "协程(Coroutine)"
 
 # 协程(Coroutine)
 
-> 协程(Coroutine) 在 Kotlin 1.1 中仍是 *实验性功能*. 详情请参见 [下文](#experimental-status-of-coroutines)
+> 协程(Coroutine) 在 Kotlin 1.1+ 中仍是 *实验性功能*. 详情请参见 [下文](#experimental-status-of-coroutines)
 {:.note}
 
 有些 API 会启动一些长时间运行的操作(比如网络 IO, 文件 IO, CPU 或 GPU 密集的工作, 等等), 并且要求调用者等待, 直到任务完成. 协程提供一种新的方式, 可以避免线程阻塞, 改为更加廉价更加可控的操作: 协程的 *挂起(suspension)*.
@@ -116,7 +116,7 @@ public abstract class SequenceBuilder<in T> {
 
 ## 协程还处于试验性阶段
 
-协程的设计仍然处于 [试验阶段](compatibility.html#experimental-features), 也就是说在 Kotlin 发布后续的版本中可能会有变化. 在 Kotlin 1.1 中编译协程时, 默认会报告一条警告信息: *"协程" 特性还处于试验阶段*. 你可以使用 [编译参数](/docs/diagnostics/experimental-coroutines.html) 来去掉这条警告.
+协程的设计仍然处于 [试验阶段](compatibility.html#experimental-features), 也就是说在 Kotlin 发布后续的版本中可能会有变化. 在 Kotlin 1.1+ 中编译协程时, 默认会报告一条警告信息: *"协程" 特性还处于试验阶段*. 你可以使用 [编译参数](/docs/diagnostics/experimental-coroutines.html) 来去掉这条警告.
 
 由于写成还处于试验阶段, 标准库中与协程相关的 API 被放在 `kotlin.coroutines.experimental` 包下. 当设计最终确定, 试验阶段结束时, 最终的 API 将被移动到 `kotlin.coroutines` 包下, 而 `kotlin.coroutines.experimental` 包仍会被保留(可能在一个单独的 artifact 文件内) 以便保证向后兼容性.
 

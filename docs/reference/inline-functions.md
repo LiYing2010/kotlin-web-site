@@ -35,7 +35,7 @@ finally {
 为了让编译器做到这点, 我们需要使用 `inline` 修饰符标记 `lock()` 函数:
 
 ``` kotlin
-inline fun lock<T>(lock: Lock, body: () -> T): T {
+inline fun <T> lock(lock: Lock, body: () -> T): T {
     // ...
 }
 ```

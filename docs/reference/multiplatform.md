@@ -2,10 +2,10 @@
 type: doc
 layout: reference
 category: "Other"
-title: "跨平台项目 (预览版)"
+title: "跨平台项目"
 ---
 
-# 跨平台项目 (预览版)
+# 跨平台项目
 
 > 跨平台项目是 Kotlin 1.2 版中新增的实验性特性. 本文档描述的所有语言特新和工具特性, 在未来的 Kotlin 版本中都有可能发生变更.
 {:.note}
@@ -46,16 +46,15 @@ _platform_ 模块可以依赖于任何模块, 或依赖于对象平台上的任�
   * 在 _common_ 模块中, 使用 `kotlin-platform-common` plugin
   * 在 _common_ 模块中, 添加 `kotlin-stdlib-common` 依赖
   * 在针对 JVM 和 JS 的 _platform_ 模块中, 分别使用 `kotlin-platform-jvm` 和 `kotlin-platform-js` plugin
-  * 在 _platform_ 模块中, 添加对 _common_ 模块的依赖, 依赖 scope 为 `implement` (译注: 此处疑似原文有误)
+  * 在 _platform_ 模块中, 添加对 _common_ 模块的依赖, 依赖 scope 为 `expectedBy`
 
 下面的例子, 是 Kotlin 1.2-Beta 版的一个 _common_ 模块的完整的 `build.gradle` 文件:
 
 ``` groovy
 buildscript {
-    ext.kotlin_version = '1.2-Beta'
+    ext.kotlin_version = '{{ site.data.releases.latest.version }}'
 
     repositories {
-        maven { url 'http://dl.bintray.com/kotlin/kotlin-eap-1.2' }
         mavenCentral()
     }
     dependencies {
@@ -66,7 +65,6 @@ buildscript {
 apply plugin: 'kotlin-platform-common'
 
 repositories {
-    maven { url 'http://dl.bintray.com/kotlin/kotlin-eap-1.2' }
     mavenCentral()
 }
 
@@ -77,14 +75,13 @@ dependencies {
 ```
 
 下面的例子是 JVM 平台的 _platform_ 模块的完整的 `build.gradle` 文件.
-请注意 `dependencies` 部分的 `implement` 行:
+请注意 `dependencies` 部分的 `expectedBy` 行:
 
 ``` groovy
 buildscript {
-    ext.kotlin_version = '1.2-Beta'
+    ext.kotlin_version = '{{ site.data.releases.latest.version }}'
 
     repositories {
-        maven { url 'http://dl.bintray.com/kotlin/kotlin-eap-1.2' }
         mavenCentral()
     }
     dependencies {
@@ -95,13 +92,12 @@ buildscript {
 apply plugin: 'kotlin-platform-jvm'
 
 repositories {
-    maven { url 'http://dl.bintray.com/kotlin/kotlin-eap-1.2' }
     mavenCentral()
 }
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implement project(":")
+    expectedBy project(":")
     testCompile "junit:junit:4.12"
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
@@ -183,3 +179,13 @@ expect class AtomicRef<V>(value: V) {
 
 actual typealias AtomicRef<V> = java.util.concurrent.atomic.AtomicReference<V>
 ```
+
+## 跨平台测试
+
+我们可以在 common 项目中编写测试程序, 然后让这些测试程序在每一个平台项目中编译并运行.
+在 `kotlin.test` 包中提供了 4 个注解, 用来标注 common 代码中的测试程序: `@Test`, `@Ignore`,
+`@BeforeTest` 以及 `@AfterTest`.
+在 JVM 平台上, 这些注解会被映射为对应的 JUnit 4 注解, 在 JS 平台上, 从 1.1.4 开始也可以使用这些注解, 用来支持 JS 单体测试功能.
+
+要使用这些注解, 你需要在 _common_ 模块中添加对 `kotlin-test-annotations-common` 的依赖,
+在 JVM 模块添加对 `kotlin-test-junit` 的依赖, 以及在 JS 模块中添加对 `kotlin-test-js` 的依赖.
