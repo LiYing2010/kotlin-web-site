@@ -127,7 +127,7 @@ class JavaClient {
 }
 ```
 
-[延迟初始化属性](properties.html#late-initialized-properties) 也会公开为 Java 中的域.
+[延迟初始化属性](properties.html#late-initialized-properties-and-variables) 也会公开为 Java 中的域.
 域的可见度将与属性的 `lateinit` 的设值方法可见度一样.
 
 ## 静态域
@@ -157,7 +157,7 @@ Key.COMPARATOR.compare(key1, key2);
 // 这里访问的是 Key 类中的 public static final 域
 ```
 
-命名对象或同伴对象中的[延迟初始化属性](properties.html#late-initialized-properties) 对应的静态的后端域变量, 其可见度将与属性的设值方法可见度一样.
+命名对象或同伴对象中的[延迟初始化属性](properties.html#late-initialized-properties-and-variables) 对应的静态的后端域变量, 其可见度将与属性的设值方法可见度一样.
 
 ``` kotlin
 object Singleton {

@@ -149,9 +149,11 @@ dependencies {
 请使用以下依赖, 而不是通常的 `kotlin-stdlib`:
 
 ``` groovy
-compile "org.jetbrains.kotlin:kotlin-stdlib-jre7"
-compile "org.jetbrains.kotlin:kotlin-stdlib-jre8"
+compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7"
+compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 ```
+
+在 Kotlin 1.1.x 版本中, 请使用 `kotlin-stdlib-jre7` 和 `kotlin-stdlib-jre8`.
 
 如果你的项目使用了 [Kotlin 反射功能](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect.full/index.html), 或测试功能, 那么还需要添加相应的依赖:
 
@@ -191,7 +193,7 @@ Using kotlin incremental compilation
 
 ## 对协程的支持
 
-对 [协程](coroutines.html) 的支持是从 Kotlin 1.1 开始新增的一个实验性功能, 因此如果你在项目中使用了协程, Kotlin 编译器会报告一个警告信息.
+对 [协程](coroutines.html) 的支持是从 Kotlin 1.2 开始新增的一个实验性功能, 因此如果你在项目中使用了协程, Kotlin 编译器会报告一个警告信息.
 在你的 `build.gradle` 文件中添加以下代码, 可以关闭这个警告:
 
 ``` groovy

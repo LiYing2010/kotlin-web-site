@@ -15,8 +15,8 @@ Kotlin 提供了 3 个 Ant Task:
 * kotlin2js: 面向 JavaScript 的 Kotlin 编译器;
 * withKotlin: 使用标准的 *javac* Ant Task 来编译 Kotlin 代码.
 
-这些 Task 定义在 *kotlin-ant.jar* 库文件内, 这个库文件位于 [Kotlin 编译器]({{site.data.releases.latest.url}}) 的 *lib* 文件夹内
-
+这些 Task 定义在 *kotlin-ant.jar* 库文件内, 这个库文件位于 [Kotlin 编译器]({{site.data.releases.latest.url}}) 的 *lib* 文件夹内.
+需要的 Ant 版本是 1.8.2 以上.
 
 ## 面向 JVM, 编译纯 Kotlin 代码
 

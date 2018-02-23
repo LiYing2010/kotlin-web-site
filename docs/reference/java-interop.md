@@ -111,12 +111,12 @@ val notNull: String = item // 允许, 但在运行时刻可能失败
   * [JetBrain](https://www.jetbrains.com/idea/help/nullable-and-notnull-annotations.html)
 (`org.jetbrains.annotations` 包中定义的 `@Nullable` 和 `@NotNull` 注解)
   * Android (`com.android.annotations` 和 `android.support.annotations`)
-  * JSR-305 (`javax.annotation`)
+  * JSR-305 (`javax.annotation`, 详情请参见下文)
   * FindBugs (`edu.umd.cs.findbugs.annotations`)
   * Eclipse (`org.eclipse.jdt.annotation`)
   * Lombok (`lombok.NonNull`).
 
-完整的列表请参见 [Kotlin 编译器源代码](https://github.com/JetBrains/kotlin/blob/master/core/descriptor.loader.java/src/org/jetbrains/kotlin/load/java/JvmAnnotationNames.kt).
+完整的列表请参见 [Kotlin 编译器源代码](https://github.com/JetBrains/kotlin/blob/master/core/descriptors.jvm/src/org/jetbrains/kotlin/load/java/JvmAnnotationNames.kt).
 
 ### 对 JSR-305 规范的支持
 
@@ -154,8 +154,11 @@ public @interface MyNullable {
 }
 
 interface A {
-    @MyNullable String foo(@MyNonnull String x); // 在 Kotlin 中会被看作 `fun foo(x: String): String?`
-    String bar(List<@MyNonnull String> x);       // 在 Kotlin 中会被看作 `fun bar(x: List<String>!): String!`
+    @MyNullable String foo(@MyNonnull String x);
+    // Kotlin (strict 模式) 中会被看作: `fun foo(x: String): String?`
+
+    String bar(List<@MyNonnull String> x);       
+    // Kotlin (strict 模式) 中会被看作: `fun bar(x: List<String>!): String!`
 }
 ```
 
@@ -164,10 +167,11 @@ interface A {
 [`@TypeQualifierDefault`](https://aalmiray.github.io/jsr-305/apidocs/javax/annotation/meta/TypeQualifierDefault.html)
 用来定义一个注解, 当使用这个注解时, 可以在被标注的元素的范围内, 定义默认的可否为 null 设定.
 
-这种注解本身应该标注 `@Nonnull` (or its nickname) 注解, 并使用一个或多个 `ElementType` 值标注 `@TypeQualifierDefault(...)` 注解:
+这种注解本身应该标注 `@Nonnull` 注解(或者使用它的别名), 并使用一个或多个 `ElementType` 值标注 `@TypeQualifierDefault(...)` 注解:
 * `ElementType.METHOD` 表示注解对象为方法的返回值;
 * `ElementType.PARAMETER` 表示注解对象为参数值;
-* `ElementType.FIELD` 表示注解对象为类的成员域变量.
+* `ElementType.FIELD` 表示注解对象为类的成员域变量;
+* `ElementType.TYPE_USE` (从 1.1.60 版开始支持) 表示注解对象为任何类型, 包含类型参数(type argument), 类型参数上界(upper bound), 以及通配符类型(wildcard type).
 
 当一个类型没有标注可否为 null 注解时, 会使用默认的可否为 null 设定,
 Kotlin 会查找对象类型所属的最内层的元素, 要求这个元素使用了类型限定符默认值注解, 而且 `ElementType` 值与对象类型相匹配,
@@ -180,21 +184,28 @@ public @interface NonNullApi {
 }
 
 @Nonnull(when = When.MAYBE)
-@TypeQualifierDefault({ElementType.METHOD, ElementType.PARAMETER})
+@TypeQualifierDefault({ElementType.METHOD, ElementType.PARAMETER, ElementType.TYPE_USE})
 public @interface NullableApi {
 }
 
 @NullableApi
 interface A {
-    String foo(String x); // 在 Kotlin 中会被看作 fun foo(x: String?): String?
+    String foo(String x); // 在 Kotlin 中会被看作: fun foo(x: String?): String?
 
     @NotNullApi // 这个注解将会覆盖接口上的可否为 null 默认设定
-    String bar(String x, @Nullable String y); // 在 Kotlin 中会被看作 fun bar(x: String, y: String?): String
+    String bar(String x, @Nullable String y); // 在 Kotlin 中会被看作: fun bar(x: String, y: String?): String
+
+    // List<String> 的类型参数会被看作可为 null,
+    // 因为 `@NullableApi` 中包括了 `TYPE_USE` ElementType:
+    String baz(List<String> x); // 在 Kotlin 中会被看作: fun baz(List<String?>?): String?
 
     // 参数 `x` 的类型为平台类型, 因为它的可否为 null 注解明确标注为 UNKNOWN:
-    String qux(@Nonnull(when = When.UNKNOWN) String x); // 在 Kotlin 中会被看作 fun baz(x: String!): String?
+    String qux(@Nonnull(when = When.UNKNOWN) String x); // 在 Kotlin 中会被看作: fun baz(x: String!): String?
 }
 ```
+
+> 注意: 上面示例程序中的类型只在 strict 编译模式下才有效, 否则, Kotlin 会将它们识别为平台类型.
+详情请参见本章的 [`@UnderMigration` 注解](#undermigration-annotation-since-1160)小节 以及 [编译器配置](#compiler-configuration)小节.
 
 另外还支持包级别的可否为 null 默认设定:
 
@@ -204,15 +215,66 @@ interface A {
 package test;
 ```
 
+#### `@UnderMigration` 注解 (从 1.1.60 版开始有效)
+
+库的维护者可以使用 `@UnderMigration` 注解 (由独立的库文件 `kotlin-annotations-jvm` 提供),
+来定义可否为空(nullability)类型标识符的迁移状态.
+
+如果不正确地使用了被注解的类型(比如, 把一个标注了 `@MyNullable` 的类型值当作非空类型来使用), `@UnderMigration(status = ...)` 注解中的 status 值指定编译器应当如何处理:
+
+* `MigrationStatus.STRICT` 让注解象任何通常的可否为空(nullability)注解那样工作, 也就是,
+对不正确的使用报告错误, 并且影响 Kotlin 对被注解类型的识别;
+
+* 使用 `MigrationStatus.WARN`, 不正确的使用在编译时会被报告为警告, 而不是错误,
+但被注解的声明中的类型, 在 Kotlin 中会被识别为平台类型;
+
+* 此外还有 `MigrationStatus.IGNORE`, 会让编译器完全忽略可否为空(nullability)注解.
+
+库的维护者可以对类型限定符别名(Type qualifier nickname), 以及类型限定符默认值(Type qualifier default), 指定 `@UnderMigration` 的 status 值:
+
+```java
+@Nonnull(when = When.ALWAYS)
+@TypeQualifierDefault({ElementType.METHOD, ElementType.PARAMETER})
+@UnderMigration(status = MigrationStatus.WARN)
+public @interface NonNullApi {
+}
+
+// 这个类中的类型将是非空的, 但编译时只会报告警告
+// 因为对 `@NonNullApi` 添加了 `@UnderMigration(status = MigrationStatus.WARN)` 注解
+@NonNullApi
+public class Test {}
+```
+
+注意: 一个可否为空(nullability)注解的 MigrationStatus 值, 不会被它的类型限定符别名继承, 但在使用时类型限定符默认值会有效.
+
+如果一个类型限定符默认值使用了一个类型限定符别名, 而且他们都添加了 `@UnderMigration` 注解, 这时会优先使用类型限定符默认值中的 MigrationStatus.
+
 #### 编译器配置
 
-可以添加 `-Xjsr305` 编译器选项来配置 JSR-305 规范检查, 这个编译器选项可以使用以下设置之一:
+可以添加 `-Xjsr305` 编译器选项来配置 JSR-305 规范检查, 这个编译器选项可以使用以下设置之一(或者多个设置的组合):
 
-* `-Xjsr305=strict` 使得 JSR-305 注解以通常的可否为 null 注解模式工作, 也就是说, 对于被标注的类型, 如果其值不正确, 则报告错误;
+* `-Xjsr305={strict|warn|ignore}` 用来设置非 `@UnderMigration` 注解的行为.
+自定义的可否为空注解, 尤其是 `@TypeQualifierDefault`, 已经大量出现在很多知名的库中,
+当使用者升级到支持 JSR-305 Kotlin 版本时, 可能会需要平滑地迁移这些库.
+从 Kotlin 1.1.60 开始, 这个设置值影响 非 `@UnderMigration` 的注解.
 
-* `-Xjsr305=warn` 使得被标注的类型, 如果其值不正确, 只产生编译警告, 而不报告错误;
+* `-Xjsr305=under-migration:{strict|warn|ignore}` (从 1.1.60 开始支持) 用来覆盖 `@UnderMigration` 注解的行为.
+对于库的迁移状态, 库的使用者可能会存在不用的看法:
+当库的作者发布的官方迁移状态为 `WARN` 时, 库的使用者却可能希望报告编译错误, 或者反过来,
+他们也可能希望对于某些代码暂时不要报告编译错误, 直到他们完成迁移.
 
-* `-Xjsr305=ignore` 使编译器完全忽略 JSR-305 可否为 null 注解.
+* `-Xjsr305=@<fq.name>:{strict|warn|ignore}` (从 1.1.60 开始支持) 用来覆盖单个注解的行为, 这里的 `<fq.name>` 是注解的完整限定类名(fully qualified class name).
+对于不同的注解, 可以多次指定这个编译选项. 对于管理某个特定库的迁移状态, 这个编译选项非常有用.
+
+这里的 `strict`, `warn` 以及 `ignore` 值, 与 `MigrationStatus` 中对应值的意义完全相同, 而且只有 `strict` 模式会影响 Kotlin 对被注解的声明中的类型的识别.
+
+> 注意: 无论 `-Xjsr305` 编译器选项的设置如何,
+JSR-305 内置的注解 [`@Nonnull`](https://aalmiray.github.io/jsr-305/apidocs/javax/annotation/Nonnull.html), [`@Nullable`](https://aalmiray.github.io/jsr-305/apidocs/javax/annotation/Nullable.html) 以及 [`@CheckForNull`](https://aalmiray.github.io/jsr-305/apidocs/javax/annotation/CheckForNull.html)
+始终是有效的, 并且会影响 Kotlin 对被注解声明中的类型的识别.
+
+比如, 如果在编译器参数中添加 `-Xjsr305=ignore -Xjsr305=under-migration:ignore -Xjsr305=@org.library.MyNullable:warn`,
+对于被 `@org.library.MyNullable` 注解的类型, 如果存在不正确的使用, 此时编译器会报告警告,
+但对于 JSR-305 的所有注解, 则会忽略这种不正确的使用.
 
 对于 Kotlin 1.1.50+/1.2 版, 编译器的默认行为与 `-Xjsr305=warn` 一样.
 目前 `strict` 设定还是实验性的 (未来可能会增加更多的检查).
@@ -288,6 +350,9 @@ Java 数据的映射如下, 详情参见 [下文](java-interop.html#java-arrays)
 | `int[]`       | `kotlin.IntArray!` |
 | `String[]`    | `kotlin.Array<(out) String>!` |
 {:.zebra}
+
+注意: 这些 Java 类型的静态成员, 无法通过 Kotlin 类型的[同伴对象](object-declarations.html#companion-objects)直接访问.
+要访问这些静态成员, 需要使用 Java 类型的完整限定名称, 比如 `java.lang.Integer.toHexString(foo)`.
 
 ## 在 Kotlin 中使用 Java 的泛型
 
@@ -478,6 +543,9 @@ if (Character.isLetter(a)) {
     // ...
 }
 ```
+
+当一个 Java 类型[映射](#mapped-types)为一个 Kotlin 类型时,
+如果要访问其中的静态成员, 需要使用 Java 类型的完整限定名: `java.lang.Integer.bitCount(foo)`.
 
 ## Java 的反射
 

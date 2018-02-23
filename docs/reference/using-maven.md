@@ -34,7 +34,8 @@ Kotlin 有一个内容广泛的标准库, 可以在你的应用程序中使用. 
 ```
 
 如果你的编译目标平台是 JDK 7 或 JDK 8, 你可以使用 Kotlin 标准库的扩展版本, 其中包含了针对 JDK 新版本中新增 API 的额外的扩展函数.
-请使用 `kotlin-stdlib-jre7` or `kotlin-stdlib-jre8` 依赖(根据你的 JDK 版本决定), 而不是通常的 `kotlin-stdlib`.
+请使用 `kotlin-stdlib-jdk7` or `kotlin-stdlib-jdk8` 依赖(根据你的 JDK 版本决定), 而不是通常的 `kotlin-stdlib`.
+(对于 Kotlin 1.1.x 版本, 请使用 `kotlin-stdlib-jre7` 或 `kotlin-stdlib-jre8`)
 
 如果你的项目使用了 [Kotlin 反射功能](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect.full/index.html), 或测试功能, 那么还需要添加相应的依赖.
 反射功能库的 artifact ID 是 `kotlin-reflect`, 测试功能库的 artifact ID 是 `kotlin-test` 和 `kotlin-test-junit`.
@@ -158,6 +159,17 @@ Kotlin 有一个内容广泛的标准库, 可以在你的应用程序中使用. 
 
 详情请参见 [Kotlin 注解处理工具](kapt.html) (`kapt`).
 
+## Coroutines support
+
+对 [协程](coroutines.html) 的支持是从 Kotlin 1.2 开始新增的一个实验性功能, 因此如果你在项目中使用了协程, Kotlin 编译器会报告一个警告信息.
+在你的 `pom.xml` 文件中添加以下代码, 可以关闭这个警告:
+
+``` xml
+<configuration>
+    <experimentalCoroutines>enable</experimentalCoroutines>
+</configuration>
+```
+
 ## Jar 文件
 
 假如要创建一个小的 Jar 文件, 其中只包含你的模块中的代码, 那么请将以下代码添加到你的 Maven pom.xml 文件的 `build->plugins` 之下,
@@ -257,7 +269,7 @@ java -jar target/mymodule-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 
 ## 指定编译选项
 
-额外的编译器选项, 可以通过 Maven plugin 节点的 `<configuration>` 元素下的标签来设置:
+额外的编译器选项和参数, 可以通过 Maven plugin 节点的 `<configuration>` 元素下的标签来设置:
 
 ``` xml
 <plugin>
@@ -267,6 +279,10 @@ java -jar target/mymodule-0.0.1-SNAPSHOT-jar-with-dependencies.jar
     <executions>...</executions>
     <configuration>
         <nowarn>true</nowarn>  <!-- 关闭警告信息 -->
+        <args>
+            <arg>-Xjsr305=strict</arg> <!-- 对 JSR-305 注解使用 strict 模式 -->
+            ...
+        </args>
     </configuration>
 </plugin>
 ```

@@ -55,8 +55,8 @@ title: "关键字与操作符"
  * `true` 指定 [布尔类型](basic-types.html#booleans) 的 'true' 值
  * `try` [开始一个异常处理代码段](exceptions.html)
  * `typealias` 声明一个 [类型别名](type-aliases.html)
- * `val` 声明一个只读的 [属性](properties.html), 或者一个只读的 [局部变量](basic-syntax.html#defining-local-variables)
- * `var` 声明一个可变的 [属性](properties.html), 或者一个可变的 [局部变量](basic-syntax.html#defining-local-variables)
+ * `val` 声明一个只读的 [属性](properties.html), 或者一个只读的 [局部变量](basic-syntax.html#defining-variables)
+ * `var` 声明一个可变的 [属性](properties.html), 或者一个可变的 [局部变量](basic-syntax.html#defining-variables)
  * `when` 开始一个 [when 表达式](control-flow.html#when-expression) (执行其中一个分支)
  * `while` 开始一个 [while 循环](control-flow.html#while-loops) (条件判定在前的循环)
 
@@ -92,6 +92,7 @@ title: "关键字与操作符"
 
 以下符号在声明的标识符列表中用做关键字, 在其他场合可以用作标识符:
 
+ * `actual` 在 [跨平台项目](multiplatform.html) 中, 表示某个特定平台上的具体实现
  * `abstract` 将一个类或一个成员标注为 [抽象元素](classes.html#abstract-classes)
  * `annotation` 声明一个 [注解类](annotations.html)
  * `companion` 声明一个 [同伴对象](object-declarations.html#companion-objects)
@@ -99,13 +100,14 @@ title: "关键字与操作符"
  * `crossinline` 禁止 [传递给内联函数的 lambda 表达式中的非局部的返回](inline-functions.html#non-local-returns)
  * `data` 指示编译器, [为类生成常用的成员函数](data-classes.html)
  * `enum` 声明一个 [枚举类](enum-classes.html)
+ * `expect` 标注一个 [与平台相关的声明](multiplatform.html), 在各个平台模块中, 需要存在对应的具体实现.
  * `external` 标注一个声明不是由 Kotlin 语言实现的 (可以通过 [JNI](java-interop.html#using-jni-with-kotlin) 实现, 或者用 [JavaScript](js-interop.html#external-modifier) 实现)
  * `final` 禁止 [覆盖成员](classes.html#overriding-methods)
  * `infix` 允许使用 [中缀标记法](functions.html#infix-notation) 来调用函数
  * `inline` 告诉编译器 [将函数以及传递给函数的 lambda 表达式内联到函数的调用处](inline-functions.html)
  * `inner` 允许在 [嵌套内](nested-classes.html) 中引用外部类的实例
  * `internal` 将一个声明标注为 [只在当前模块中可以访问](visibility-modifiers.html)
- * `lateinit` 允许 [在构造器之外初始化非 null 的属性](properties.html#late-initialized-properties)
+ * `lateinit` 允许 [在构造器之外初始化非 null 的属性](properties.html#late-initialized-properties-and-variables)
  * `noinline` 关闭 [对传递给内联函数的 lambda 表达式的内联](inline-functions.html#noinline)
  * `open` 允许 [继承类, 或者覆盖成员](classes.html#inheritance)
  * `operator` 将函数标记为 [操作符重载, 或实现一个规约](operator-overloading.html)

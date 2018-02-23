@@ -9,16 +9,18 @@ title: "编译器插件"
 ## All-open 编译器插件
 
 Kotlin 默认会将类及其成员定义为 `final` 的, 而某些框架或库要求类为 `open`, 比如 Spring AOP, 因此导致使用这些框架或库时的不便.
-`all-open` 编译器插件可以帮助 Kotlin 满足这些框架或库的要求, 如果类添加了某个特定的注解, 插件会将这个类以及它的成员变为 `open`, 而不必明确地标记 `open` 关键字.
+*all-open* 编译器插件可以帮助 Kotlin 满足这些框架或库的要求, 如果类添加了某个特定的注解, 插件会将这个类以及它的成员变为 `open`, 而不必明确地标记 `open` 关键字.
+
 比如, 当使用 Spring 时, 你不需要所有的类都是 `open` 的, 而只需要添加了特定注解的类为 `open`, 比如 `@Configuration` 注解, 或 `@Service` 注解.
-`all-open` 插件可以指定这些注解.
+*all-open* 插件可以指定这些注解.
 
-对 all-open 插件, 我们提供 Gradle 和 Maven 的支持, 以及 IDE 支持.
-对于 Spring, 你可以使用 `kotlin-spring` 编译器插件(详情请 [参见下文](compiler-plugins.html#kotlin-spring-compiler-plugin)).
+对 *all-open* 插件, 我们提供 Gradle 和 Maven 的支持, 以及完全的 IDE 支持.
 
-### 如何使用 all-open 插件
+:point_up: 对于 Spring, 你可以使用 `kotlin-spring` 编译器插件(详情请 [参见下文](compiler-plugins.html#spring-support)).
 
-在 `build.gradle` 中应用插件:
+### 在 Gradle 中使用
+
+将插件 artifact 添加到编译脚本的依赖项目中, 然后应用插件:
 
 ``` groovy
 buildscript {
@@ -29,7 +31,8 @@ buildscript {
 
 apply plugin: "kotlin-allopen"
 ```
-或者, 如果你使用 Gradle plugin DSL 语法, 可以将它添加到 `plugins` 部分:
+
+或者, 你也可以使用 `plugins` 代码段来应用这个插件:
 
 ```groovy
 plugins {
@@ -42,6 +45,7 @@ plugins {
 ```groovy
 allOpen {
     annotation("com.my.Annotation")
+    // annotations("com.another.Annotation", "com.third.Annotation")
 }
 ```
 
@@ -57,7 +61,9 @@ annotation class MyFrameworkAnnotation
 class MyClass // 这个类将会变为 open
 ```
 
-`MyFrameworkAnnotation` 也会称为将类变为 `open` 的注解, 因为它被标注了 `com.my.Annotation` 注解.
+由于 `MyFrameworkAnnotation` 被标注了 all-open 的元注解(meta-annotation) `com.my.Annotation`, 因此它也会成为一个 all-open 注解.
+
+### 在 Maven 中使用
 
 下面是在 Maven 中使用 all-open 插件的方法:
 
@@ -90,10 +96,14 @@ class MyClass // 这个类将会变为 open
 </plugin>
 ```
 
+关于 all-open 注解工作原理的详细信息, 请参照上文的 "在 Gradle 中使用" 小节.
 
-### Kotlin-spring 编译器注解
+### Spring 支持
 
-你不需要手动指定 Spring 注解, 只需要使用 `kotlin-spring` 插件即可, 这个插件可以根据 Spring 的要求自动地配置 all-open 插件:
+如果你使用 Spring, 你可以使用 *kotlin-spring* 编译器插件, 而不必手动指定 Spring 注解.
+*kotlin-spring* 是在 *all-open* 之上的一层封装, 工作方式完全相同.
+
+与 all-open 一样, 你需要将 *kotlin-spring* 插件添加到编译脚本的依赖项目中:
 
 ``` groovy
 buildscript {
@@ -102,7 +112,7 @@ buildscript {
     }
 }
 
-apply plugin: "kotlin-spring"
+apply plugin: "kotlin-spring" // 而不是使用 "kotlin-allopen"
 ```
 
 或者使用 Gradle plugin DSL 语法:
@@ -113,28 +123,66 @@ plugins {
 }
 ```
 
-Maven 中的使用示例与前面的示例类似.
+在 Maven 中, 需要启用 `spring` 插件:
+
+```xml
+<compilerPlugins>
+    <plugin>spring</plugin>
+</compilerPlugins>
+```
 
 这个 plugin 将会指定以下注解:
 [`@Component`](http://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/stereotype/Component.html), [`@Async`](http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/scheduling/annotation/Async.html), [`@Transactional`](http://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/transaction/annotation/Transactional.html), [`@Cacheable`](http://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/cache/annotation/Cacheable.html).
-得益于元注解的支持, 使用 `@Configuration`, `@Controller`, `@RestController`, `@Service` 或 `@Repository` 标注的类, 会自动变为 `open`, 因为这些注解被标注了 `@Component` 注解.
+[`@SpringBootTest`](https://docs.spring.io/spring-boot/docs/current/api/org/springframework/boot/test/context/SpringBootTest.html).
+
+得益于元注解的支持, 使用
+[`@Configuration`](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/Configuration.html),
+[`@Controller`](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/stereotype/Controller.html),
+[`@RestController`](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/web/bind/annotation/RestController.html),
+[`@Service`](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/stereotype/Service.html)
+或
+[`@Repository`](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/stereotype/Repository.html)
+标注的类, 会自动变为 `open`, 因为这些注解被标注了
+[`@Component`](http://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/stereotype/Component.html)
+注解.
 
 当然, 你也可以在同一个工程中同时使用 `kotlin-allopen` 和 `kotlin-spring` 插件.
-注意, 如果你使用 [start.spring.io](http://start.spring.io/#!language=kotlin), 那么 `kotlin-spring` 插件默认会打开.
 
+注意, 如果你使用了 [start.spring.io](http://start.spring.io/#!language=kotlin) 服务生成的项目模板, 那么 `kotlin-spring` 插件默认会打开.
+
+### 在命令行中使用
+
+All-open 编译器插件随 Kotlin 编译器的二进制发布版一同发布.
+编译时, 你可以添加这个插件, 方法是使用 kotlinc 的 `Xplugin` 编译选项, 指定它的 JAR 文件路径:
+
+```bash
+-Xplugin=$KOTLIN_HOME/lib/allopen-compiler-plugin.jar
+```
+
+你可以直接指定 all-open 注解, 使用插件的 `annotation` 选项, 或者使用"预先设定"的 all-open 注解.
+all-open 目前唯一可用的预选设定是 `spring`.
+
+```bash
+# 插件选项的格式是: "-P plugin:<plugin id>:<key>=<value>".
+# 选项可以重复.
+
+-P plugin:org.jetbrains.kotlin.allopen:annotation=com.my.Annotation
+-P plugin:org.jetbrains.kotlin.allopen:preset=spring
+```
 
 ## No-arg 编译器插件
 
-no-arg 编译器插件会为标注了特定注解的类产生一个额外的无参数的构造器.
-自动产生的构造器是合成的(synthetic), 因此在 Java 或 Kotlin 中不能直接调用它, 但可以通过反射来调用.
-这个功能使得 Java Persistence API (JPA) 可以创建 `data` 类的实例, 即使从 Kotlin 或 Java 的角度看来, `data` 类并不存在无参数的构造器(关于 `kotlin-jpa` 插件, 请参见 [下文](compiler-plugins.html#kotlin-jpa-compiler-plugin)).
+*no-arg* 编译器插件会为标注了特定注解的类产生一个额外的无参数的构造器.
 
-### 如何使用 no-arg 插件
+自动产生的构造器是合成的(synthetic), 因此在 Java 或 Kotlin 中不能直接调用它, 但可以通过反射来调用.
+
+这个功能使得 Java Persistence API (JPA) 可以创建 `data` 类的实例, 即使从 Kotlin 或 Java 的角度看来, `data` 类并不存在 0 个参数的构造器(关于 `kotlin-jpa` 插件, 请参见 [下文](compiler-plugins.html#jpa-support)).
+
+### 在 Gradle 中使用
 
 使用方法与 all-open 插件很类似.
-你需要添加插件, 指定要对类产生无参数构造器的注解列表.
 
-在 Gradle 中使用 no-arg 插件的方法:
+你需要添加插件, 指定要对类产生无参数构造器的注解列表.
 
 ``` groovy
 buildscript {
@@ -154,7 +202,7 @@ plugins {
 }
 ```
 
-然后指定注解:
+然后指定要对类产生无参数构造器的注解列表:
 
 ```groovy
 noArg {
@@ -162,7 +210,7 @@ noArg {
 }
 ```
 
-如果你希望插件在合成的构造器中执行初始化逻辑, 可以打开 `invokeInitializers` 选项. 从 Kotlin 1.1.3-2 版开始, 这个选项默认是关闭的, 因为存在 bug: [`KT-18667`](https://youtrack.jetbrains.com/issue/KT-18667) 和 [`KT-18668`](https://youtrack.jetbrains.com/issue/KT-18668), 我们会在未来的版本中解决这些 bug:
+如果你希望插件在合成的构造器中执行初始化逻辑, 可以打开 `invokeInitializers` 选项. 从 Kotlin 1.1.3-2 版开始, 这个选项默认是关闭的, 因为存在 bug: [`KT-18667`](https://youtrack.jetbrains.com/issue/KT-18667) 和 [`KT-18668`](https://youtrack.jetbrains.com/issue/KT-18668), 我们会在未来的版本中解决这些 bug.
 
 ```groovy
 noArg {
@@ -170,7 +218,7 @@ noArg {
 }
 ```
 
-在 Maven 中使用 no-arg 插件的方法:
+### 在 Maven 中使用
 
 ``` xml
 <plugin>
@@ -201,11 +249,14 @@ noArg {
 </plugin>
 ```
 
-### Kotlin-jpa 编译器插件
+### JPA 支持
 
-这个插件会将 [`@Entity`](http://docs.oracle.com/javaee/7/api/javax/persistence/Entity.html)
-和 [`@Embeddable`](http://docs.oracle.com/javaee/7/api/javax/persistence/Embeddable.html)
-注解指定为需要为类产生无参数构造器的注解.
+与 *kotlin-spring* 类似, *kotlin-jpa* 是在 *no-arg* 之上的一层封装.
+这个插件会将
+[`@Entity`](http://docs.oracle.com/javaee/7/api/javax/persistence/Entity.html),
+[`@Embeddable`](http://docs.oracle.com/javaee/7/api/javax/persistence/Embeddable.html),
+以及 [`@MappedSuperclass`](https://docs.oracle.com/javaee/7/api/javax/persistence/MappedSuperclass.html)
+注解指定为 *no-arg* 注解.
 在 Gradle 中, 你需要添加以下代码:
 
 ``` groovy
@@ -226,4 +277,20 @@ plugins {
 }
 ```
 
-Maven 中的使用示例与前面的示例类似.
+在 Maven 中, 需要启用 `jpa` 插件:
+
+```xml
+<compilerPlugins>
+    <plugin>jpa</plugin>
+</compilerPlugins>
+```
+
+### 在命令行中使用
+
+与 *all-open* 类似, 你需要将这个插件的 JAR 文件添加到编译器的插件类路径中, 然后指定 *no-arg* 注解, 或者使用预先设定的注解:
+
+```bash
+-Xplugin=$KOTLIN_HOME/lib/noarg-compiler-plugin.jar
+-P plugin:org.jetbrains.kotlin.noarg:annotation=com.my.Annotation
+-P plugin:org.jetbrains.kotlin.noarg:preset=jpa
+```
