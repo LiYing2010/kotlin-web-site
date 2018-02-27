@@ -365,7 +365,7 @@ Kotlin 1.2 增加了一组函数, 用于 `BigInteger` 和 `BigDecimal` 类型的
 * `Int`, `Long`, `Float`, `Double`, 和 `BigInteger` 类型的 `toBigDecimal`;
 * 算数运算函数和位运算函数:
     * 二元运算符 `+`, `-`, `*`, `/`, `%`, 以及中缀函数(infix function) `and`, `or`, `xor`, `shl`, `shr`;
-    * 一元预算符 `-`, `++`, `--`, 以及 `inv` 函数.
+    * 一元运算符 `-`, `++`, `--`, 以及 `inv` 函数.
 
 ### 浮点数到位(bit)的转换
 
