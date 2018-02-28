@@ -408,7 +408,7 @@ javaObj.removeIndices(array)  // 向方法传递 int[] 参数
 
 ``` kotlin
 val array = arrayOf(1, 2, 3, 4)
-array[x] = array[x] * 2 // 编译器不会产生对 get() 和 set() 方法的调用
+array[1] = array[1] * 2 // 编译器不会产生对 get() 和 set() 方法的调用
 for (x in array) { // 不会创建迭代器(iterator)
     print(x)
 }

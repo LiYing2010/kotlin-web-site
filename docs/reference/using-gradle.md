@@ -216,6 +216,21 @@ kotlin {
 archivesBaseName = 'myExampleProject_lib'
 ```
 
+## 对 Gradle 编译缓存的支持 (从 1.2.20 版开始支持)
+
+Kotlin 插件支持 [Gradle 编译缓存](https://guides.gradle.org/using-build-cache/) (需要 Gradle 4.3 或更高版本; 对于 4.3 以下版本, 编译缓存会被禁用).
+
+kapt 注解处理任务默认不会缓存, 因为注解处理器可以运行任何代码, 这些代码可能并不一定会把编译任务的输入文件转换为输出文件, 可能会访问并修改没有被 Gradle 追踪的那些文件, 等等等等.
+如果一定要对 kapt 启用缓存功能, 可以在编译脚本中添加以下内容:
+
+``` groovy
+kapt {
+    useBuildCache = true
+}
+```
+
+如果想要对所有的 Kotlin 编译任务禁用缓存, 可以将系统属性 `kotlin.caching.enabled` 设置为 `false` (也就是使用参数 `-Dkotlin.caching.enabled=false` 来执行编译).
+
 ## 编译选项
 
 如果需要指定额外的编译选项, 请使用 Kotlin 编译任务的 `kotlinOptions` 属性.
@@ -254,15 +269,21 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
 
 Gradle 任务所支持的编译选项完整列表如下:
 
-### JVM 和 JS 任务支持的共通属性
+### JVM, JS, 和 JS DCE 任务支持的共通属性
 
 | 属性名称 | 描述 | 可以选择的值 |默认值 |
 |------|-------------|-----------------|--------------|
-| `apiVersion` | 只允许使用指定的版本的运行库中的 API | "1.0", "1.1" | "1.1" |
-| `languageVersion` | 指定源代码所兼容的 Kotlin 语言版本 | "1.0", "1.1" | "1.1" |
+| `allWarningsAsErrors` | 把警告作为错误来处理 |  | false |
 | `suppressWarnings` | 不产生警告信息 |  | false |
 | `verbose` | 输出详细的 log 信息 |  | false |
 | `freeCompilerArgs` | 指定额外的编译参数, 可以是多个 |  | [] |
+
+### JVM 和 JS 任务支持的共通属性
+
+| Name | Description | Possible values |Default value |
+|------|-------------|-----------------|--------------|
+| `apiVersion` | 只允许使用指定的版本的运行库中的 API | "1.0", "1.1", "1.2", "1.3 (实验性功能)" |  |
+| `languageVersion` | 指定源代码所兼容的 Kotlin 语言版本 | "1.0", "1.1", "1.2", "1.3 (实验性功能)" |  |
 
 ### JVM 任务独有的属性
 
@@ -286,10 +307,10 @@ Gradle 任务所支持的编译选项完整列表如下:
 | `noStdlib` | 不使用默认附带的 Kotlin 标准库(stdlib) |  | true |
 | `outputFile` | 指定输出文件的路径 |  |  |
 | `sourceMap` | 指定是否生成源代码映射文件(source map) |  | false |
-| `sourceMapEmbedSources` | 指定是否将源代码文件嵌入到源代码映射文件中 | "never", "always", "inlining" | "inlining" |
+| `sourceMapEmbedSources` | 指定是否将源代码文件嵌入到源代码映射文件中 | "never", "always", "inlining" |  |
 | `sourceMapPrefix` | 指定源代码映射文件中的路径前缀 |  |  |
 | `target` | 指定生成的 JS 文件 的 ECMA 版本 | "v5" | "v5" |
-| `typedArrays` | 将基本类型数组转换为 JS 的有类型数组 arrays |  | false |
+| `typedArrays` | 将基本类型数组转换为 JS 的有类型数组 arrays |  | true |
 
 
 ## 生成文档

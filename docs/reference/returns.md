@@ -52,48 +52,112 @@ loop@ for (i in 1..100) {
 通过标签限定的 *return*{: .keyword } 语句, 可以从一个外层函数中返回.
 最重要的使用场景是从 Lambda 表达式中返回. 回忆一下我们曾经写过以下代码:
 
+<div class="sample" markdown="1" data-min-compiler-version="1.2">
+
 ``` kotlin
+//sampleStart
 fun foo() {
-    ints.forEach {
-        if (it == 0) return  // 非局部的返回(nonlocal return), 从 lambda 表达式内直接返回到 foo() 函数的调用者
+    listOf(1, 2, 3, 4, 5).forEach {
+        if (it == 3) return // 非局部的返回(non-local return), 直接返回到 foo() 函数的调用者
         print(it)
     }
+    println("this point is unreachable")
+}
+//sampleEnd
+
+fun main(args: Array<String>) {
+    foo()
 }
 ```
+</div>
 
 这里的 *return*{: .keyword } 会从最内层的函数中返回, 也就是, 从 `foo` 函数返回. (注意, 这种非局部的返回(non-local return), 仅对传递给 [内联函数(inline function)](inline-functions.html) 的 Lambda 表达式有效.)
 如果需要从 Lambda 表达式返回, 我们必须对它标记一个标签, 然后使用这个标签来指明 *return*{: .keyword } 的目标:
 
+<div class="sample" markdown="1" data-min-compiler-version="1.2">
+
 ``` kotlin
+//sampleStart
 fun foo() {
-    ints.forEach lit@{
-        if (it == 0) return@lit
+    listOf(1, 2, 3, 4, 5).forEach lit@{
+        if (it == 3) return@lit // 局部的返回(local return), 返回到 Lambda 表达式的调用者, 也就是, 返回到 forEach 循环
         print(it)
     }
+    print(" done with explicit label")
+}
+//sampleEnd
+
+fun main(args: Array<String>) {
+    foo()
 }
 ```
+</div>
 
 这样, *return*{: .keyword } 语句就只从 Lambda 表达式中返回. 通常, 使用隐含标签会更方便一些, 隐含标签的名称与 Lambda 表达式被传递去的函数名称相同.
 
+<div class="sample" markdown="1" data-min-compiler-version="1.2">
+
 ``` kotlin
+//sampleStart
 fun foo() {
-    ints.forEach {
-        if (it == 0) return@forEach
+    listOf(1, 2, 3, 4, 5).forEach {
+        if (it == 3) return@forEach // 局部的返回(local return), 返回到 Lambda 表达式的调用者, 也就是, 返回到 forEach 循环
         print(it)
     }
+    print(" done with implicit label")
+}
+//sampleEnd
+
+fun main(args: Array<String>) {
+    foo()
 }
 ```
+</div>
 
 或者, 我们也可以使用 [匿名函数](lambdas.html#anonymous-functions) 来替代 Lambda 表达式. 匿名函数内的 *return*{: .keyword } 语句会从匿名函数内返回.
 
+<div class="sample" markdown="1" data-min-compiler-version="1.2">
+
 ``` kotlin
+//sampleStart
 fun foo() {
-    ints.forEach(fun(value: Int) {
-        if (value == 0) return  // 局部的返回(local return), 返回到匿名函数的调用者, 也就是, 返回到 forEach 循环
+    listOf(1, 2, 3, 4, 5).forEach(fun(value: Int) {
+        if (value == 3) return  // 局部的返回(local return), 返回到匿名函数的调用者, 也就是, 返回到 forEach 循环
         print(value)
     })
+    print(" done with anonymous function")
+}
+//sampleEnd
+
+fun main(args: Array<String>) {
+    foo()
 }
 ```
+</div>
+
+注意, 上面三个例子中局部返回的使用, 都与通常的循环中的 *continue*{: .keyword } 关键字的使用很类似.
+不存在与 *break*{: .keyword } 直接等价的语法, 但可以模拟出来, 方法是增加一个嵌套的 Lambda 表达式, 然后在它内部使用非局部的返回:
+
+<div class="sample" markdown="1" data-min-compiler-version="1.2">
+
+``` kotlin
+//sampleStart
+fun foo() {
+    run loop@{
+        listOf(1, 2, 3, 4, 5).forEach {
+            if (it == 3) return@loop // 非局部的返回(non-local return), 从传递给 run 函数的 Lambda 表达式中返回
+            print(it)
+        }
+    }
+    print(" done with nested loop")
+}
+//sampleEnd
+
+fun main(args: Array<String>) {
+    foo()
+}
+```
+</div>
 
 当 return 语句指定了返回值时, 源代码解析器会将这样的语句优先识别为使用标签限定的 return 语句, 也就是说:
 

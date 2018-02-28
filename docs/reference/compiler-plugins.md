@@ -16,7 +16,7 @@ Kotlin 默认会将类及其成员定义为 `final` 的, 而某些框架或库�
 
 对 *all-open* 插件, 我们提供 Gradle 和 Maven 的支持, 以及完全的 IDE 支持.
 
-:point_up: 对于 Spring, 你可以使用 `kotlin-spring` 编译器插件(详情请 [参见下文](compiler-plugins.html#spring-support)).
+注意: 对于 Spring, 你可以使用 `kotlin-spring` 编译器插件(详情请 [参见下文](compiler-plugins.html#spring-support)).
 
 ### 在 Gradle 中使用
 
@@ -293,4 +293,92 @@ plugins {
 -Xplugin=$KOTLIN_HOME/lib/noarg-compiler-plugin.jar
 -P plugin:org.jetbrains.kotlin.noarg:annotation=com.my.Annotation
 -P plugin:org.jetbrains.kotlin.noarg:preset=jpa
+```
+
+## SAM-with-receiver 编译器插件
+
+*sam-with-receiver* 编译器插件, 可以将被注解的 Java "单个抽象方法" (SAM: Single Abstract Method) 的第一个参数, 转换为 Kotlin 中的接受者.
+只有当 SAM 接口被当作 Kotlin 的 Lambda 表达式来传递时, 这个转换才起作用.
+对 SAM 方法调用适配, 以及 SAM 实例构造都是如此 (详情请参见 [SAM 转换](java-interop.html#sam-conversions)).
+
+示例如下:
+
+```java
+public @interface SamWithReceiver {}
+
+@SamWithReceiver
+public interface TaskRunner {
+    void run(Task task);
+}
+```
+
+```kotlin
+fun test(context: TaskContext) {
+    val handler = TaskHandler {
+        // 这里的 'this' 是一个 'Task' 的实例
+
+        println("$name is started")
+        context.executeTask(this)
+        println("$name is finished")
+    }
+}
+```
+
+### 在 Gradle 中使用
+
+这个插件的使用方法与 all-open 和 no-arg 插件基本相同, 区别是 sam-with-receiver 插件没有内建的默认设定, 因此你要指定需要特别处理的注解列表.
+
+```groovy
+buildscript {
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-sam-with-receiver:$kotlin_version"
+    }
+}
+
+apply plugin: "kotlin-sam-with-receiver"
+```
+
+然后指定 SAM-with-receiver 注解列表:
+
+```groovy
+samWithReceiver {
+    annotation("com.my.Annotation")
+}
+```
+
+### 在 Maven 中使用
+
+``` xml
+<plugin>
+    <artifactId>kotlin-maven-plugin</artifactId>
+    <groupId>org.jetbrains.kotlin</groupId>
+    <version>${kotlin.version}</version>
+
+    <configuration>
+        <compilerPlugins>
+            <plugin>sam-with-receiver</plugin>
+        </compilerPlugins>
+
+        <pluginOptions>
+            <option>sam-with-receiver:annotation=com.my.SamWithReceiver</option>
+        </pluginOptions>
+    </configuration>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-maven-sam-with-receiver</artifactId>
+            <version>${kotlin.version}</version>
+        </dependency>
+    </dependencies>
+</plugin>
+```
+
+### 在命令行中使用
+
+只需要将插件的 JAR 文件添加到编译器的类路径, 然后指定 sam-with-receiver 注解列表:
+
+```bash
+-Xplugin=$KOTLIN_HOME/lib/sam-with-receiver-compiler-plugin.jar
+-P plugin:org.jetbrains.kotlin.samWithReceiver:annotation=com.my.SamWithReceiver
 ```

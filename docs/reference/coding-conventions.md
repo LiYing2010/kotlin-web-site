@@ -9,9 +9,23 @@ title: 编码规约
 
 本章介绍 Kotlin 语言目前的编码风格.
 
-> 注意: 如果要按照本代码规约来配置 IntelliJ 的代码格式化规则, 请安装 Kotlin plugin 1.2.20-eap-33 或更高版本,
-> 进入菜单 Settings | Editor | Code Style | Kotlin, 点击右上方的 "Set from..." 链接,
-> 然后在菜单中选择 "Predefined style / Kotlin style guide".
+* [源代码组织](#source-code-organization)
+* [命名规约](#naming-rules)
+* [代码格式化](#formatting)
+* [文档注释](#documentation-comments)
+* [避免冗余的结构](#avoiding-redundant-constructs)
+* [各种语言特性的惯用法](#idiomatic-use-of-language-features)
+* [针对库开发的编码规约](#coding-conventions-for-libraries)
+
+### 在 IDE 中应用本编码规约
+
+如果要按照本编码规约来配置 IntelliJ 的代码格式化规则, 请安装 Kotlin plugin 1.2.20 或更高版本,
+进入菜单 Settings | Editor | Code Style | Kotlin, 点击右上方的 "Set from..." 链接,
+然后在菜单中选择 "Predefined style / Kotlin style guide".
+
+如果要验证你的代码是否已经按照本编码规约格式化完成, 可以进入代码检查的设置,
+然后启用 "Kotlin | Style issues | File is not formatted according to project settings" 检查项目.
+对于本编码规约中提到的其他问题 (比如命名规约), 相应的检查项目默认已经启用了.
 
 ## 源代码组织
 
@@ -62,9 +76,9 @@ title: 编码规约
 
 将同一个类中的同名重载方法放在一起.
 
-## 命名规则
+## 命名规约
 
-Kotlin 遵循 Java 的命名规则. 具体来说:
+Kotlin 遵循 Java 的命名规约. 具体来说:
 
 包名称总是使用小写字母, 并且不使用下划线(`org.example.myproject`).
 通常不鼓励使用多个单词的名称, 但如果的确需要, 你可以将多个单词直接连接在一起, 或者使用驼峰式大小写(`org.example.myProject`).
@@ -157,8 +171,8 @@ class C {
 
 名称应该解释清楚这个类或方法的目的是什么, 因此最好在命名时避免使用含义不清的词语(`Manager`, `Wrapper` 等等).
 
-在名称中使用缩写字母时, 如果缩写字母只包含两个字母, 请将它们全部大写 (`IOStream`);
-如果超过两个字母, 请将首字母大写, 其他字母小写 (`HttpInputStream`).
+在名称中使用缩写字母时, 如果缩写字母只包含两个字母, 请将它们全部大写 (比如 `IOStream`);
+如果超过两个字母, 请将首字母大写, 其他字母小写 (比如 `XmlFormatter`, `HttpInputStream`).
 
 
 ## 代码格式化
@@ -202,6 +216,8 @@ fun bar() {
 
 不要在 `(`, `[` 之后加入空格, 也不要在 `]`, `)` 之前加入空格.
 
+不要在 `.` 或 `?.` 前后加入空格: `foo.bar().filter { it > 2 }.joinToString()`, `foo?.bar()`
+
 在 `//` 之后加入空格: `// This is a comment`
 
 对于用来表示类型参数的尖括号, 不要在它前后加入空格: `class Map<K, V> { ... }`
@@ -240,7 +256,7 @@ class FooImpl : Foo() {
 
 ### 类头部格式化
 
-如果类只有少量参数, 可以写成单独的一行:
+如果类的主构造器只有少量参数, 可以写成单独的一行:
 
 ```kotlin
 class Person(id: Int, name: String)
@@ -404,7 +420,7 @@ fun f(x: String) =
     x.length
 ```
 
-## 属性格式化
+### 属性格式化
 
 对于简单的只读属性, 应该使用单行格式:
 
@@ -618,6 +634,28 @@ println("$name has ${children.size} children")
 
 
 ## 各种语言特性的惯用法
+
+### 数据的不可变性
+
+尽量使用不可变的数据, 而不是可变的数据.
+如果局部变量或属性的值在初始化之后不再变更, 尽量将它们声明为 `val`, 而不是 `var`.
+
+对于内容不发生变化的集合, 一定要使用不可变的集合接口(`Collection`, `List`, `Set`, `Map`) 来声明.
+当使用工厂方法创建集合类型时, 一定要尽可能使用返回不可变集合类型的函数:
+
+``` kotlin
+// 这是不好的风格: 对于内容不再变化的值, 使用了可变的集合类型
+fun validateValue(actualValue: String, allowedValues: HashSet<String>) { ... }
+
+// 这是比较好的风格: 改用了不可变的集合类型
+fun validateValue(actualValue: String, allowedValues: Set<String>) { ... }
+
+// 这是不好的风格: arrayListOf() 的返回类型为 ArrayList<T>, 这是一个可变的集合类型
+val allowedValues = arrayListOf("a", "b", "c")
+
+// 这是比较好的风格: listOf() 的返回类系为 List<T>
+val allowedValues = listOf("a", "b", "c")
+```
 
 ### 参数默认值
 

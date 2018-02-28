@@ -38,7 +38,10 @@ suspend fun doSomething(foo: Foo): Bar {
 }
 ```
 
-这种函数称为 *挂起函数(suspending function)*, 因为调用这些函数会导致协程挂起(如果这个函数调用的结果已经得到了, 库也可以决定不挂起, 继续执行). 挂起函数也可以接受参数, 可以返回值, 规则与普通的函数一样, 但挂起函数只能被协程调用, 或者被其它的挂起函数调用. 实际上, 要启动一个协程, 至少要存在一个挂起函数, 这个挂起函数通常是匿名函数(也就是说, 是一个挂起的 lambda 表达式). 我们来看一个示例程序, 一个简化版的 `async()` 函数 (来自 [`kotlinx.coroutines`](#generators-api-in-kotlincoroutines) 库):
+这种函数称为 *挂起函数(suspending function)*, 因为调用这些函数可能会导致协程挂起(如果这个函数调用的结果已经得到了, 库也可以决定不挂起, 继续执行).
+挂起函数也可以接受参数, 可以返回值, 规则与普通的函数一样, 但调用挂起函数的, 只能是协程, 或其它挂起函数, 或协程或挂起函数中内联的函数字面值(function literal).
+
+实际上, 要启动一个协程, 至少要存在一个挂起函数, 这个挂起函数通常是一个挂起的 Lambda 表达式. 我们来看一个示例程序, 一个简化版的 `async()` 函数 (来自 [`kotlinx.coroutines`](#generators-api-in-kotlincoroutines) 库):
 
 ``` kotlin
 fun <T> async(block: suspend () -> T)
@@ -67,12 +70,23 @@ async {
 
 关于 `kotlinx.coroutines` 库内的 `async/await` 函数的详细工作原理, 请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/coroutines-guide.md#composing-suspending-functions).
 
-注意, 挂起函数 `await()` 和 `doSomething()` 不能在普通的函数中调用, 比如在 `main()` 函数中:
+注意, 挂起函数 `await()` 和 `doSomething()` 不能在没有内联到挂起函数内的函数字面值中调用,
+也不能在普通的函数中调用, 比如在 `main()` 函数中:
 
 ``` kotlin
 fun main(args: Array<String>) {
     doSomething() // 错误: 在非协程的环境下调用了挂起函数
-}
+
+    async {
+        ...
+        computations.forEach { // `forEach` 是一个内联函数, Lambda 表达式会被内联到这里
+            it.await() // OK, 可以在这里调用挂起函数
+        }
+
+        thread { // `thread` 不是一个内联函数, 因此这个 Lambda 表达式不会被内联
+            doSomething() // 错误: 不能在这里调用挂起函数
+        }
+    }}
 ```
 
 还要注意, 挂起函数可以是虚函数, 当覆盖挂起函数时, 也必须指定 `suspend` 修饰符:

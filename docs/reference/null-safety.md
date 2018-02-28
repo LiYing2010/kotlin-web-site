@@ -17,8 +17,13 @@ Kotlin 的类型系统致力于从我们的代码中消除 `NullPointerException
 
 * 明确调用 `throw NullPointerException()`;
 * 使用 `!!` 操作符, 详情见后文;
-* 外部的 Java 代码导致这个异常;
-* 初始化过程中存在某些数据不一致 (在构造器中使用了未初始化的 *this*).
+* 初始化过程中存在某些数据不一致, 比如:
+  * 在构造器中可以访问到未初始化的 *this*{: .keyword }, 并且将它传递给了其他代码, 然后在其他代码中使用了这个未初始化的 *this*{: .keyword } (也就是所谓的 "leaking *this*{: .keyword }" 警告);
+  * [基类的构造器调用了 open 的成员函数](classes.html#derived-class-initialization-order), 但这个成员函数在子类中的实现使用了未初始化的状态数据;
+* Java 互操作:
+  * 试图对一个 [平台类型](java-interop.html#null-safety-and-platform-types)的 `null` 引用访问其成员函数;
+  * 用于 Java 互操作的泛型类型的可空性不正确, 比如, 一段 Java 代码可能向一个 Kotlin `MutableList<String>` 中添加一个 `null` 值, 也就是说, 对这种情况应该使用 `MutableList<String?>`;
+  * 外部 Java 代码导致的其他问题.
 
 在 Kotlin 中, 类型系统明确区分可以指向 *null*{: .keyword } 的引用 (可为 null 引用) 与不可以指向 null 的引用 (非 null 引用).
 比如, 一个通常的 `String` 类型变量不可以指向 *null*{: .keyword }:
@@ -94,6 +99,14 @@ val listWithNulls: List<String?> = listOf("A", null)
 for (item in listWithNulls) {
      item?.let { println(it) } // 打印 A, 并忽略 null 值
 }
+```
+
+在赋值运算的左侧也可以使用安全调用.
+这时, 如果链式安全调用中的任何一个接受者为 null, 赋值运算就会被跳过, 完全不会对赋值运算右侧的表达式进行计算:
+
+``` kotlin
+// 如果 `person` 或 `person.department` 为 null, 那么这个函数不会被调用:
+person?.department?.head = managersPool.getManager()
 ```
 
 ## Elvis 操作符

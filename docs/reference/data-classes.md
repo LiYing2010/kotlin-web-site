@@ -43,6 +43,43 @@ data class User(val name: String, val age: Int)
 data class User(val name: String = "", val age: Int = 0)
 ```
 
+## 在类主体部声明的属性
+
+注意, 编译器对自动生成的函数, 只使用主构造器中定义的属性.
+如果想要在自动生成的函数实现中排除某个属性, 你可以将它声明在类的主体部:
+
+```kotlin
+data class Person(val name: String) {
+    var age: Int = 0
+}
+```
+
+在 `toString()`, `equals()`, `hashCode()`, 和 `copy()` 函数的实现中, 只会使用属性 `name`, 而且只存在一个组建函数 `component1()`.
+两个 `Person` 对象可以拥有不同的年龄, 但它们会被认为值相等.
+
+<div class="sample" markdown="1" data-min-compiler-version="1.2">
+
+``` kotlin
+data class Person(val name: String) {
+    var age: Int = 0
+}
+
+fun main(args: Array<String>) {
+    //sampleStart
+    val person1 = Person("John")
+    val person2 = Person("John")
+
+    person1.age = 10
+    person2.age = 20
+    //sampleEnd
+
+    println("person1 == person2: ${person1 == person2}")
+    println("person1 with age ${person1.age}: ${person1}")
+    println("person2 with age ${person2.age}: ${person2}")
+}
+```
+</div>
+
 ## 对象复制
 
 我们经常会需要复制一个对象, 然后修改它的 _一部分_ 属性, 但保持其他属性不变.

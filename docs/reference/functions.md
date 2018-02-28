@@ -215,26 +215,54 @@ val list = asList(-1, 0, *a, 4)
 
 ### 中缀标记法(Infix notation)
 
-也可以使用中缀标记法(infix notation)来调用函数, 但需要满足以下条件:
+使用 *infix*{: .keyword } 关键字标记的函数, 也可以使用中缀标记法(infix notation)来调用(调用时省略点号和括号).
+中缀函数需要满足以下条件:
 
-* 是成员函数, 或者是[扩展函数](extensions.html);
-* 只有单个参数;
-* 使用 `infix` 关键字标记.
+* 必须是成员函数, 或者是[扩展函数](extensions.html);
+* 必须只有单个参数;
+* 参数不能是 [不定数量参数](#variable-number-of-arguments-varargs), 而且不能有 [默认值](#default-arguments).
 
 ``` kotlin
-// 为 Int 类型定义扩展函数
 infix fun Int.shl(x: Int): Int {
-...
+    // ...
 }
 
-// 使用中缀标记法调用扩展函数
-
+// 使用中缀标记法调用函数
 1 shl 2
 
 // 上面的语句等价于
-
 1.shl(2)
 ```
+
+> 中缀函数调用的优先级, 低于算数运算符, 类型转换, 以及 `rangeTo` 运算符.
+> 以下表达式是等价的:
+> * `1 shl 2 + 3` 等价于 `1 shl (2 + 3)`
+> * `0 until n * 2` 等价于 `0 until (n * 2)`
+> * `xs union ys as Set<*>` 等价于 `xs union (ys as Set<*>)`
+>
+> 另一方面, 中缀函数调用的优先级, 高于布尔值运算符 `&&` 和 `||`, `is` 和 `in` 检查, 以及其他运算符. 以下表达式是等价的:
+> * `a && b xor c` 等价于 `a && (b xor c)`
+> * `a xor b in c` 等价于 `(a xor b) in c`
+>
+> 关于运算符优先级的完整信息, 请参见 [语法参考](grammar.html#precedence).
+{:.note}
+
+注意, 中缀函数的接受者和参数都需要明确指定.
+如果使用中缀标记法调用当前接受者的一个方法, 需要明确指定 `this`; 与调用其他方法不同, 这时 `this` 不能省略.
+这是为了保证语法解析不出现歧义.
+
+```kotlin
+class MyStringCollection {
+    infix fun add(s: String) { /* ... */ }
+
+    fun build() {
+        this add "abc"   // 正确用法
+        add("abc")       // 正确用法
+        add "abc"        // 错误用法: 方法的接受者必须明确指定
+    }
+}
+```
+
 
 ## 函数的范围
 

@@ -60,6 +60,17 @@ runDceKotlinJs.keep "kotlin-js-example_main.org.jetbrains.kotlin.examples.toKeep
 
 注意, 如果你的函数有参数, 那么函数名会被混淆,因此在 keep 命令中应该使用混淆后的函数名.
 
+### 开发模式
+
+运行 DCE 会导致每次编译时都消耗一些额外的时间, 而且在开发过程中我们并不在意编译输出的结果文件大小.
+因此在开发过程中, 可以对 DCE 编译任务指定 `dceOptions.devMode` 选项, 让 DCE 工具跳过死代码剔除处理, 以便缩短编译时间.
+
+比如, 如果想要对 `main` 源代码集按照某种自定义的条件来禁用 DCE 处理, 并且对 `test` 源代码始终禁用 DCE, 那么可以在编译脚本中加入以下设置:
+
+```groovy
+runDceKotlinJs.dceOptions.devMode = isDevMode
+runDceTestKotlinJs.dceOptions.devMode = true
+```
 
 # 示例
 

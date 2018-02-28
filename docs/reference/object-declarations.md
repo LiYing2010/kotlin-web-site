@@ -99,7 +99,7 @@ fun countClicks(window: JComponent) {
 
 ## 对象声明(Object declaration)
 
-[单例模式](http://en.wikipedia.org/wiki/Singleton_pattern) 是一种非常有用的模式, Kotlin (继 Scala 之后) 可以非常便利地声明一个单例:
+[单例模式](http://en.wikipedia.org/wiki/Singleton_pattern) 在有些情况下可能是很有用的, Kotlin (继 Scala 之后) 可以非常便利地声明一个单例:
 
 ``` kotlin
 object DataProviderManager {
@@ -114,6 +114,8 @@ object DataProviderManager {
 
 这样的代码称为一个 *对象声明(object declaration)*, 在 *object*{: .keyword } 关键字之后必须指定对象名称.
 与变量声明类似, 对象声明不是一个表达式, 因此不能用在赋值语句的右侧.
+
+对象声明中的初始化处理是线程安全的(thread-safe).
 
 要引用这个对象, 我们直接使用它的名称:
 

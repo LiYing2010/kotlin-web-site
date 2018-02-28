@@ -25,6 +25,7 @@ Java 中长期困扰的一系列问题, 在 Kotlin 得到了解决:
 * [静态成员](classes.html)
 * [非私有的域(Non-private field)](properties.html)
 * [通配符类型(Wildcard-type)](generics.html)
+* [条件(三元)运算符 `a ? b : c`](control-flow.html#if-expression)
 
 ## Kotlin 中有, 而 Java 中没有的东西
 

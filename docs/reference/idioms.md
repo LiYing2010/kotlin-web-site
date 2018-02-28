@@ -143,7 +143,14 @@ println(files?.size ?: "empty")
 ``` kotlin
 val values = ...
 val email = values["email"] ?: throw IllegalStateException("Email is missing!")
-s```
+```
+
+### 从可能为空的集合中取得第一个元素
+
+``` kotlin
+val emails = ... // 可能为空
+val mainEmail = emails.firstOrNull() ?: ""
+```
 
 ### 当值不为 null 时, 执行某个语句
 
