@@ -11,12 +11,14 @@ title: "Sealed Classes"
 
 要声明一个封闭类, 需要将 `sealed` 修饰符放在类名之前. 封闭类可以有子类, 但所有的子类声明都必须定义在封闭类所在的同一个源代码文件内. (在 Kotlin 1.1 之前, 规则更加严格: 所有的子类声明都必须嵌套在封闭类的声明部分之内).
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 sealed class Expr
 data class Const(val number: Double) : Expr()
 data class Sum(val e1: Expr, val e2: Expr) : Expr()
 object NotANumber : Expr()
 ```
+</div>
 
 (上面的示例使用了 Kotlin 1.1 的新增特性: 允许数据类继承其他类, 包括继承封闭类.)
 
@@ -29,6 +31,7 @@ object NotANumber : Expr()
 使用封闭类的主要好处在于, 当使用 [`when` expression](control-flow.html#when-expression) 时, 可以验证分支语句覆盖了所有的可能情况, 因此就不必通过 `else` 分支来处理例外情况.
 但是, 这种用法只适用于将 `when` 用作表达式(使用它的返回值)的情况, 而不能用于将 `when` 用作语句的情况.
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 fun eval(expr: Expr): Double = when(expr) {
     is Const -> expr.number
@@ -37,3 +40,4 @@ fun eval(expr: Expr): Double = when(expr) {
     // 不需要 `else` 分支, 因为我们已经覆盖了所有的可能情况
 }
 ```
+</div>

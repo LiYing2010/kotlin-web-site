@@ -14,12 +14,20 @@ Kotlin 中所有的异常类都是 `Throwable` 的后代类.
 
 要抛出异常, 可以使用 *throw*{: .keyword } 表达式:
 
+<div class="sample" markdown="1" theme="idea">
 ``` kotlin
-throw MyException("Hi There!")
+
+fun main(args: Array<String>) {
+//sampleStart
+    throw Exception("Hi There!")
+//sampleEnd
+}
 ```
+</div>
 
 要捕获异常, 可以使用 *try*{: .keyword } 表达式:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 try {
     // 某些代码
@@ -31,6 +39,7 @@ finally {
     // 可选的 finally 代码段
 }
 ```
+</div>
 
 *try*{: .keyword } 表达式中可以有 0 个或多个 *catch*{: .keyword } 代码段. *finally*{: .keyword } 代码段可以省略.
 但是, *catch*{: .keyword } 或 *finally*{: .keyword } 代码段总计至少要出现一个.
@@ -39,9 +48,11 @@ finally {
 
 *try*{: .keyword } 是一个表达式, 也就是说, 它可以有返回值:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 val a: Int? = try { parseInt(input) } catch (e: NumberFormatException) { null }
 ```
+</div>
 
 *try*{: .keyword } 表达式的返回值, 要么是 *try*{: .keyword } 代码段内最后一个表达式的值, 要么是 *catch*{: .keyword } 代码段内最后一个表达式的值.
 *finally*{: .keyword } 代码段的内容不会影响 *try*{: .keyword } 表达式的结果值.
@@ -52,13 +63,16 @@ Kotlin 中不存在受控异常(checked exception). 原因有很多, 我们举�
 
 下面的例子是 JDK 中 `StringBuilder` 类所实现的一个接口:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` java
 Appendable append(CharSequence csq) throws IOException;
 ```
+</div>
 
 这个方法签名代表什么意思? 它说, 每次我想要将一个字符串追加到某个对象(比如, 一个 `StringBuilder`, 某种 log, 控制台, 等等), 我都必须要捕获 `IOException` 异常. 为什么? 因为这个对象有可能会执行 IO 操作 (比如 `Writer` 类也会实现 `Appendable` 接口)...
 因此就导致我们的程序中充满了这样的代码:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 try {
     log.append(message)
@@ -67,8 +81,9 @@ catch (IOException e) {
     // 实际上前面的代码必然是安全的
 }
 ```
+</div>
 
-这样的结果就很不好, 参见 [Effective Java](http://www.oracle.com/technetwork/java/effectivejava-136174.html), 第 65 条: *不要忽略异常*.
+这样的结果就很不好, 参见 [Effective Java, 第 3 版](http://www.oracle.com/technetwork/java/effectivejava-136174.html), 第 77 条: *不要忽略异常*.
 
 Bruce Eckel 在 [Java 需要受控异常吗?](http://www.mindview.net/Etc/Discussions/CheckedExceptions) 一文中说:
 
@@ -83,34 +98,42 @@ Bruce Eckel 在 [Java 需要受控异常吗?](http://www.mindview.net/Etc/Discus
 
 在 Kotlin 中, `throw` 是一个表达式, 比如说, 你可以将它用做 Elvis 表达式的一部分:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 val s = person.name ?: throw IllegalArgumentException("Name required")
 ```
+</div>
 
 `throw` 表达式的类型是一个特殊的类型 `Nothing`.
 这个类型没有值, 它被用来标记那些永远无法执行到的代码位置.
 在你自己的代码中, 你可以用 `Nothing` 来标记一个永远不会正常返回的函数:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 fun fail(message: String): Nothing {
     throw IllegalArgumentException(message)
 }
 ```
+</div>
 
 如果你调用这个函数, 编译器就会知道, 执行到这个调用时, 程序就会停止:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 val s = person.name ?: fail("Name required")
 println(s)     // 在这里可以确定地知道 's' 已被正确地初始化
 ```
+</div>
 
 另一种用到这个类型的情况是类型推断. 这个类型的可为 null 的变量, `Nothing?`, 只有唯一一个可能的值, 就是 `null`.
 如果对一个自动推断类型的值, 使用 `null` 来初始化, 而且又没有更多的信息可以用来推断出更加具体的类型, 编译器会将类型推断为 `Nothing?`:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 val x = null           // 'x' 的类型是 `Nothing?`
 val l = listOf(null)   // 'l' 的类型是 `List<Nothing?>
 ```
+</div>
 
 ## 与 Java 的互操作性
 

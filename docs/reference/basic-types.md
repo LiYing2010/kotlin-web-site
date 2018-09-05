@@ -44,6 +44,20 @@ Kotlin 还支持传统的浮点数值表达方式:
 * 无标识时默认为 Double 值: `123.5`, `123.5e10`
 * Float 值需要用 `f` 或 `F` 标识: `123.5f`
 
+### 在数字字面值中使用下划线 (从 Kotlin 1.1 开始支持)
+
+你可以在数字字面值中使用下划线, 提高可读性:
+
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
+``` kotlin
+val oneMillion = 1_000_000
+val creditCardNumber = 1234_5678_9012_3456L
+val socialSecurityNumber = 999_99_9999L
+val hexBytes = 0xFF_EC_DE_5E
+val bytes = 0b11010010_01101001_10010100_10010010
+```
+</div>
+
 ### 内部表达
 
 在 Java 平台中, 数值的物理存储使用 JVM 的基本类型来实现, 但当我们需要表达一个可为 null 的数值引用时(比如. `Int?`), 或者涉及到泛型时, 我们就不能使用基本类型了.
@@ -51,51 +65,80 @@ Kotlin 还支持传统的浮点数值表达方式:
 
 注意, 数值对象的装箱(box)并不一定会保持对象的同一性(identity):
 
+<div class="sample" markdown="1" theme="idea">
 ``` kotlin
-val a: Int = 10000
-print(a === a) // 打印结果为 'true'
-val boxedA: Int? = a
-val anotherBoxedA: Int? = a
-print(boxedA === anotherBoxedA) // !!!打印结果为 'false'!!!
+fun main(args: Array<String>) {
+//sampleStart
+    val a: Int = 10000
+    println(a === a) // 打印结果为 'true'
+    val boxedA: Int? = a
+    val anotherBoxedA: Int? = a
+    println(boxedA === anotherBoxedA) // !!!打印结果为 'false'!!!
+//sampleEnd
+}
 ```
+</div>
 
 但是, 装箱(box)会保持对象内容相等(equality):
 
+<div class="sample" markdown="1" theme="idea">
 ``` kotlin
-val a: Int = 10000
-print(a == a) // 打印结果为 'true'
-val boxedA: Int? = a
-val anotherBoxedA: Int? = a
-print(boxedA == anotherBoxedA) // 打印结果为 'true'
+fun main(args: Array<String>) {
+//sampleStart
+    val a: Int = 10000
+    println(a == a) // 打印结果为 'true'
+    val boxedA: Int? = a
+    val anotherBoxedA: Int? = a
+    println(boxedA == anotherBoxedA) // 打印结果为 'true'
+//sampleEnd
+}
 ```
+</div>
 
 ### 显式类型转换
 
 由于数据类型内部表达方式的差异, 较小的数据类型不会被看作较大数据类型的子类型(subtype).
 如果小数据类型是大数据类型的子类型, 那么我们将会遇到以下问题:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 // 以下为假想代码, 实际上是无法编译的:
 val a: Int? = 1 // 装箱后的 Int (java.lang.Integer)
 val b: Long? = a // 这里进行隐式类型转换, 产生一个装箱后的 Long (java.lang.Long)
-print(a == b) // 结果与你期望的相反! 这句代码打印的结果将是 "false", 因为 Long 的 equals() 方法会检查比较对象, 要求对方也是一个 Long 对象
+print(b == a) // 结果与你期望的相反! 这句代码打印的结果将是 "false", 因为 Long 的 equals() 方法会检查比较对象, 要求对方也是一个 Long 对象
 ```
+</div>
 
 这样, 不仅不能保持同一性(identity), 而且还在所有发生隐式类型转换的地方, 保持内容相等(equality)的能力也静悄悄地消失了.
 
 由于存在以上问题, Kotlin 不会将较小的数据类型隐式地转换为较大的数据类型.
 也就是说, 如果不进行显式类型转换, 我们就不能将一个 `Byte` 类型值赋给一个 `Int` 类型的变量.
 
+<div class="sample" markdown="1" theme="idea">
 ``` kotlin
-val b: Byte = 1 // 这是 OK 的, 因为编译器会对字面值进行静态检查
-val i: Int = b // 这是错误的
+fun main(args: Array<String>) {
+//sampleStart
+    val b: Byte = 1 // 这是 OK 的, 因为编译器会对字面值进行静态检查
+    val i: Int = b // 这是错误的
+//sampleEnd
+}
 ```
+</div>
 
 我们可以使用显式类型转换, 来将数值变为更大的类型
 
+<div class="sample" markdown="1" theme="idea">
 ``` kotlin
-val i: Int = b.toInt() // 这是 OK 的: 我们明确地扩大了数值的类型
+fun main(args: Array<String>) {
+    val b: Byte = 1
+//sampleStart
+    val i: Int = b.toInt() // 这是 OK 的: 我们明确地扩大了数值的类型
+    print(i)
+//sampleEnd
+}
+
 ```
+</div>
 
 所有的数值类型都支持以下类型转换方法:
 
@@ -109,9 +152,12 @@ val i: Int = b.toInt() // 这是 OK 的: 我们明确地扩大了数值的类型
 
 Kotlin 语言中缺少了隐式类型转换的能力, 这个问题其实很少会引起使用者的注意, 因为类型可以通过代码上下文自动推断出来, 而且数学运算符都进行了重载(overload), 可以适应各种数值类型的参数, 比如
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 val l = 1L + 3 // Long 类型 + Int 类型, 结果为 Long 类型
 ```
+</div>
+
 
 ### 运算符(Operation)
 
@@ -120,9 +166,11 @@ Kotlin 对数值类型支持标准的数学运算符(operation), 这些运算符
 
 对于位运算符, 没有使用特别的字符来表示, 而只是有名称的普通函数, 但调用这些函数时, 可以将函数名放在运算数的中间(即中缀表示法), 比如:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 val x = (1 shl 2) and 0x000FF000
 ```
+</div>
 
 以下是位运算符的完整列表(只适用于 `Int` 类型和 `Long` 类型):
 
@@ -158,6 +206,7 @@ val x = (1 shl 2) and 0x000FF000
 
 字符使用 `Char` 类型表达. 字符不能直接当作数值使用
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 fun check(c: Char) {
     if (c == 1) { // 错误: 类型不兼容
@@ -165,6 +214,7 @@ fun check(c: Char) {
     }
 }
 ```
+</div>
 
 字符的字面值(literal)使用单引号表达: `'1'`.
 特殊字符使用反斜线转义表达.
@@ -173,6 +223,7 @@ Kotlin 支持的转义字符包括: `\t`, `\b`, `\n`, `\r`, `\'`, `\"`, `\\` 以
 
 我们可以将字符显式地转换为 `Int` 型数值:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 fun decimalDigitValue(c: Char): Int {
     if (c !in '0'..'9')
@@ -180,6 +231,7 @@ fun decimalDigitValue(c: Char): Int {
     return c.toInt() - '0'.toInt() // 显式转换为数值
 }
 ```
+</div>
 
 与数值型一样, 当需要一个可为 null 的字符引用时, 字符会被装箱(box)为对象. 装箱操作不保持对象的同一性(identity).
 
@@ -199,6 +251,7 @@ fun decimalDigitValue(c: Char): Int {
 
 Kotlin 中的数组通过 `Array` 类表达, 这个类拥有 `get` 和 `set` 函数(这些函数通过运算符重载转换为 `[]` 运算符), 此外还有 `size` 属性, 以及其他一些有用的成员函数:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 class Array<T> private constructor() {
     val size: Int
@@ -209,16 +262,24 @@ class Array<T> private constructor() {
     // ...
 }
 ```
+</div>
 
 要创建一个数组, 我们可以使用库函数 `arrayOf()`, 并向这个函数传递一些参数来指定数组元素的值, 所以 `arrayOf(1, 2, 3)` 将创建一个数组, 其中的元素为 [1, 2, 3].
 或者, 也可以使用库函数 `arrayOfNulls()` 来创建一个指定长度的数组, 其中的元素全部为 null 值.
 
 另一种方案是使用 `Array` 构造函数, 第一个参数为数组大小, 第二个参数是另一个函数, 这个函数接受数组元素下标作为自己的输入参数, 然后返回这个下标对应的数组元素的初始值:
 
+<div class="sample" markdown="1" theme="idea">
 ``` kotlin
-// 创建一个 Array<String>, 其中的元素为 ["0", "1", "4", "9", "16"]
-val asc = Array(5, { i -> (i * i).toString() })
+fun main(args: Array<String>) {
+//sampleStart
+    // 创建一个 Array<String>, 其中的元素为 ["0", "1", "4", "9", "16"]
+    val asc = Array(5, { i -> (i * i).toString() })
+    asc.forEach { println(it) }
+//sampleEnd
+}
 ```
+</div>
 
 我们在前面提到过, `[]` 运算符可以用来调用数组的成员函数 `get()` 和 `set()`.
 
@@ -228,10 +289,12 @@ val asc = Array(5, { i -> (i * i).toString() })
 Kotlin 中也有专门的类来表达基本数据类型的数组: `ByteArray`,
 `ShortArray`, `IntArray` 等等, 这些数组可以避免数值对象装箱带来的性能损耗. 这些类与 `Array` 类之间不存在继承关系, 但它们的方法和属性是一致的. 各个基本数据类型的数组类都有对应的工厂函数:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 val x: IntArray = intArrayOf(1, 2, 3)
 x[0] = x[1] + x[2]
 ```
+</div>
 
 ## 字符串
 
@@ -239,33 +302,60 @@ x[0] = x[1] + x[2]
 字符串中的元素是字符, 可以通过下标操作符来访问: `s[i]`.
 可以使用 *for*{: .keyword } 循环来遍历字符串:
 
+<div class="sample" markdown="1" theme="idea">
 ``` kotlin
+fun main(args: Array<String>) {
+val str = "abcd"
+//sampleStart
 for (c in str) {
     println(c)
 }
+//sampleEnd
+}
 ```
+</div>
+
+你可以使用 `+` 操作符来拼接字符串. 这个操作符也可以将字符串与其他数据类型的值拼接起来, 只要表达式中的第一个元素是字符串类型:
+
+<div class="sample" markdown="1" theme="idea">
+``` kotlin
+fun main(args: Array<String>) {
+//sampleStart
+val s = "abc" + 1
+println(s + "def")
+//sampleEnd
+}
+```
+</div>
+
+注意, 大多数情况下, 字符串的拼接处理应该使用 [字符串模板](#string-templates) 或 原生字符串(raw string).
 
 ### 字符串的字面值(literal)
 
 Kotlin 中存在两种字符串字面值: 一种称为转义字符串(escaped string), 其中可以包含转义字符, 另一种成为原生字符串(raw string), 其内容可以包含换行符和任意文本. 转义字符串(escaped string) 与 Java 的字符串非常类似:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 val s = "Hello, world!\n"
 ```
+</div>
 
 转义字符使用通常的反斜线方式表示. 关于 Kotlin 支持的转义字符, 请参见上文的 [字符](#characters) 小节.
 
 原生字符串(raw string)由三重引号表示(`"""`), 其内容不转义, 可以包含换行符和任意字符:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 val text = """
     for (c in "foo")
         print(c)
 """
 ```
+</div>
 
 你可以使用 [`trimMargin()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/trim-margin.html) 函数来删除字符串的前导空白(leading whitespace):
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 val text = """
     |Tell me and I forget.
@@ -274,6 +364,7 @@ val text = """
     |(Benjamin Franklin)
     """.trimMargin()
 ```
+</div>
 
 默认情况下, 会使用 `|` 作为前导空白的标记前缀, 但你可以通过参数指定使用其它字符, 比如 `trimMargin(">")`.
 
@@ -282,23 +373,37 @@ val text = """
 字符串内可以包含模板表达式, 也就是说, 可以包含一小段代码, 这段代码会被执行, 其计算结果将被拼接为字符串内容的一部分.
 模板表达式以 $ 符号开始, $ 符号之后可以是一个简单的变量名:
 
+<div class="sample" markdown="1" theme="idea">
 ``` kotlin
+fun main(args: Array<String>) {
+//sampleStart
 val i = 10
-val s = "i = $i" // 计算结果为 "i = 10"
+println("i = $i") // 打印结果为 "i = 10"
+//sampleEnd
+}
 ```
+</div>
 
 $ 符号之后也可以是任意的表达式, 由大括号括起:
 
+<div class="sample" markdown="1" theme="idea">
 ``` kotlin
+fun main(args: Array<String>) {
+//sampleStart
 val s = "abc"
-val str = "$s.length is ${s.length}" // 计算结果为 "abc.length is 3"
+println("$s.length is ${s.length}") // 打印结果为 "abc.length is 3"
+//sampleEnd
+}
 ```
+</div>
 
 原生字符串(raw string)和转义字符串(escaped string)内都支持模板.
 由于原生字符串无法使用反斜线转义表达方式, 如果你想在字符串内表示 `$` 字符本身, 可以使用以下语法:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 val price = """
 ${'$'}9.99
 """
 ```
+</div>

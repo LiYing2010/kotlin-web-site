@@ -17,13 +17,15 @@ Kotlin 中存在 4 种可见度修饰符: `private`, `protected`, `internal` 以
 
 函数, 属性, 类, 对象, 接口, 都可以声明为"顶级的(top-level)", 也就是说, 直接声明在包之内:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 // file name: example.kt
 package foo
 
-fun baz() {}
-class Bar {}
+fun baz() { ... }
+class Bar { ... }
 ```
+</div>
 
 * 如果你不指定任何可见度修饰符, 默认会使用 `public`, 其含义是, 你声明的东西在任何位置都可以访问;
 * 如果你将声明的东西标记为 `private`, 那么它将只在同一个源代码文件内可以访问;
@@ -34,17 +36,19 @@ class Bar {}
 
 示例:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 // file name: example.kt
 package foo
 
-private fun foo() {} // 只在 example.kt 文件内可访问
+private fun foo() { ... } // 只在 example.kt 文件内可访问
 
 public var bar: Int = 5 // 这个属性在任何地方都可以访问
     private set         // 但它的设值方法只在 example.kt 文件内可以访问
 
 internal val baz = 6    // 在同一个模块(module)内可以访问
 ```
+</div>
 
 ## 类与接口
 
@@ -61,6 +65,7 @@ Java 使用者 *请注意*: 在 Kotlin 中, 外部类(outer class)不能访问�
 
 示例:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 open class Outer {
     private val a = 1
@@ -87,14 +92,17 @@ class Unrelated(o: Outer) {
     // Outer.Nested 不可访问, Nested::e 也不可访问
 }
 ```
+</div>
 
 ### 构造器
 
 要指定类的主构造器的可见度, 请使用以下语法(注意, 你需要明确添加一个 *constructor*{: .keyword } 关键字):
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 class C private constructor(a: Int) { ... }
 ```
+</div>
 
 这里构造器是 private 的. 所有构造器默认都是 `public` 的, 因此使得凡是可以访问到类的地方都可以访问到类的构造器(也就是说. 一个 `internal` 类的构造器只能在同一个模块内访问).
 

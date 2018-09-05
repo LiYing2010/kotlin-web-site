@@ -16,9 +16,11 @@ title: "相等判断"
 
 结构相等使用 `==` 操作 (以及它的相反操作 `!=`) 来判断. 按照约定, `a == b` 这样的表达式将被转换为:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 a?.equals(b) ?: (b === null)
 ```
+</div>
 
 也就是说, 如果 `a` 不为 `null`, 将会调用 `equals(Any?)` 函数, 否则(也就是 `a` 为 `null`) 将会检查 `b` 是否指向 `null`.
 

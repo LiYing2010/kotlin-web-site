@@ -32,34 +32,39 @@ Go 的 [channels](https://github.com/Kotlin/kotlinx.coroutines/blob/master/corou
 
 如果一个函数使用了 `suspend` 修饰符, 那么当我们调用这个函数时, 就会发生挂起:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
-suspend fun doSomething(foo: Foo): Bar {
-    ...
-}
+suspend fun doSomething(foo: Foo): Bar { ... }
 ```
+</div>
 
 这种函数称为 *挂起函数(suspending function)*, 因为调用这些函数可能会导致协程挂起(如果这个函数调用的结果已经得到了, 库也可以决定不挂起, 继续执行).
 挂起函数也可以接受参数, 可以返回值, 规则与普通的函数一样, 但调用挂起函数的, 只能是协程, 或其它挂起函数, 或协程或挂起函数中内联的函数字面值(function literal).
 
 实际上, 要启动一个协程, 至少要存在一个挂起函数, 这个挂起函数通常是一个挂起的 Lambda 表达式. 我们来看一个示例程序, 一个简化版的 `async()` 函数 (来自 [`kotlinx.coroutines`](#generators-api-in-kotlincoroutines) 库):
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 fun <T> async(block: suspend () -> T)
 ```
+</div>
 
 这里, `async()` 是一个普通的函数(不是挂起函数), 但是 `block` 参数时一个带 `suspend` 修饰符的函数类型: `suspend () -> T`. 因此, 向  `async()` 函数传递一个 lambda 表达式作为参数时, 这个 lambda 表达式将是一个 *挂起 lambda 表达式 (suspending lambda)*, 然后, 我们在这个 lambda 表达式内调用一个挂起函数:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 async {
     doSomething(foo)
     ...
 }
 ```
+</div>
 
 > **注意:** 挂起函数类型目前不能用作超类, 匿名的挂起函数目前还不支持.
 
 继续我们的例子, `await()` 可以是一个挂起函数(因此也可以在 `async {}` 代码段内调用), 它挂起一个协程, 直到某些计算结束, 然后返回计算结果:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 async {
     ...
@@ -67,12 +72,14 @@ async {
     ...
 }
 ```
+</div>
 
 关于 `kotlinx.coroutines` 库内的 `async/await` 函数的详细工作原理, 请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/coroutines-guide.md#composing-suspending-functions).
 
 注意, 挂起函数 `await()` 和 `doSomething()` 不能在没有内联到挂起函数内的函数字面值中调用,
 也不能在普通的函数中调用, 比如在 `main()` 函数中:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 fun main(args: Array<String>) {
     doSomething() // 错误: 在非协程的环境下调用了挂起函数
@@ -88,9 +95,11 @@ fun main(args: Array<String>) {
         }
     }}
 ```
+</div>
 
 还要注意, 挂起函数可以是虚函数, 当覆盖挂起函数时, 也必须指定 `suspend` 修饰符:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 interface Base {
     suspend fun foo()
@@ -100,6 +109,7 @@ class Derived: Base {
     override suspend fun foo() { ... }
 }
 ```
+</div>
 
 ### `@RestrictsSuspension` 注解
 
@@ -109,12 +119,12 @@ class Derived: Base {
 
 在 _少数_ 情况下, 这种功能是有必要的, 比如, 如果所有的挂起都需要在库内以某种特殊的方式处理. 举例来说, 如果要通过 [`buildSequence()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.coroutines.experimental/build-sequence.html)函数 (详情参见 [下文](#generators-api-in-kotlincoroutines)) 来实现生成器, 我们需要确保协程内所有的挂起调用最终都调用到 `yield()` 或 `yieldAll()` 函数, 而不是其他任何函数. 所以 [`SequenceBuilder`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.coroutines.experimental/-sequence-builder/index.html) 标注了 `@RestrictsSuspension` 注解:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 @RestrictsSuspension
-public abstract class SequenceBuilder<in T> {
-    ...
-}
+public abstract class SequenceBuilder<in T> { ... }
 ```
+</div>
 
 源代码请参见 [on Github](https://github.com/JetBrains/kotlin/blob/master/libraries/stdlib/src/kotlin/coroutines/experimental/SequenceBuilder.kt).   
 
@@ -166,7 +176,7 @@ public abstract class SequenceBuilder<in T> {
 
 这两个函数包含在 `kotlin-stdlib` 内, 因为它们与序列的产生相关. 实际上, 这些函数 (这里我们只讨论 `buildSequence()`) 实现了 _生成器(generator)_, 也就是, 提供一种方法, 以比较低的代价构建一个延迟产生的序列:
 
-<div class="sample" markdown="1" data-min-compiler-version="1.1">
+<div class="sample" markdown="1" theme="idea">
 
 ``` kotlin
 import kotlin.coroutines.experimental.*
@@ -200,7 +210,7 @@ fun main(args: Array<String>) {
 
 为了演示一下数列是延迟加载的, 我们在 `buildSequence()` 调用的内部打印一些 debug 信息:
 
-<div class="sample" markdown="1" data-min-compiler-version="1.1">
+<div class="sample" markdown="1" theme="idea">
 
 ``` kotlin
 import kotlin.coroutines.experimental.*
@@ -228,7 +238,7 @@ fun main(args: Array<String>) {
 
 如果要一次性产生所有值的集合(collection) (或序列), 可以使用 `yieldAll()`:
 
-<div class="sample" markdown="1" data-min-compiler-version="1.1">
+<div class="sample" markdown="1" theme="idea">
 
 ``` kotlin
 import kotlin.coroutines.experimental.*
@@ -251,7 +261,7 @@ fun main(args: Array<String>) {
 
 也可以为 `buildSequence()` 函数添加自定义的数值产生逻辑, 方法是编写 `SequenceBuilder` 类的挂起扩展函数(这个类带有 [上文](#restrictssuspension-annotation) 讨论过的 `@RestrictsSuspension` 注解):
 
-<div class="sample" markdown="1" data-min-compiler-version="1.1">
+<div class="sample" markdown="1" theme="idea">
 
 ``` kotlin
 import kotlin.coroutines.experimental.*

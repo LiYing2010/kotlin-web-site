@@ -32,7 +32,7 @@ Kotlin 提供了 3 个 Ant Task:
 </project>
 ```
 
-这里的 ${kotlin.lib} 指向 Kotlin standalone 编译器解压缩后的文件夹.
+这里的 `${kotlin.lib}` 指向 Kotlin standalone 编译器解压缩后的文件夹.
 
 ## 面向 JVM, 编译包含多个根目录的纯 Kotlin 代码
 
@@ -72,14 +72,10 @@ Kotlin 提供了 3 个 Ant Task:
 </project>
 ```
 
-要对 `<withKotlin>` 指定额外的命令行参数, 可以使用内嵌的 `<compilerArg>` 参数.
-运行 `kotlinc -help` 命令, 可以看到参数的完整列表.
 还可以通过 `moduleName` 属性来指定被编译的模块名称:
 
 ``` xml
-<withKotlin moduleName="myModule">
-    <compilerarg value="-no-stdlib"/>
-</withKotlin>
+<withKotlin moduleName="myModule"/>
 ```
 
 
@@ -158,3 +154,18 @@ Kotlin 提供了 3 个 Ant Task:
 | `sourcemap`  | 是否生成 sourcemap 文件 | 否 |
 | `metaInfo`  | 是否生成带二进制描述符(binary descriptor)的元数据(metadata)文件 | 否 |
 | `main`  | 编译器是否生成对 main 函数的调用代码 | 否 |
+
+### 指定编译参数
+
+如果需要指定自定义的编译参数, 可以使用 `<compilerarg>` 元素的 `value` 或 `line` 属性.
+这个元素可以放在 `<kotlinc>`, `<kotlin2js>`, 以及 `<withKotlin>` 任务元素之内, 示例如下:
+
+``` xml
+<kotlinc src="${test.data}/hello.kt" output="${temp}/hello.jar">
+    <compilerarg value="-Xno-inline"/>
+    <compilerarg line="-Xno-call-assertions -Xno-param-assertions"/>
+    <compilerarg value="-Xno-optimize"/>
+</kotlinc>
+```
+
+运行 `kotlinc -help` 命令, 可以看到参数的完整列表.

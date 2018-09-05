@@ -32,6 +32,7 @@ title: "Kotlin 1.2 的新增特性"
 
 在 common 代码中:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```kotlin
 // 与平台相关的 API 的预期声明:
 expect fun hello(world: String): String
@@ -47,9 +48,11 @@ expect class URL(spec: String) {
     open fun getPath(): String
 }
 ```
+</div>
 
 在 JVM 平台的代码中:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```kotlin
 actual fun hello(world: String): String =
     "Hello, $world, on the JVM platform!"
@@ -57,6 +60,7 @@ actual fun hello(world: String): String =
 // 使用特定平台中已存在的实现:
 actual typealias URL = java.net.URL
 ```
+</div>
 
 关于创建跨平台项目的详细步骤, 请参见 [相关文档](http://kotlinlang.org/docs/reference/multiplatform.html).
 
@@ -66,12 +70,14 @@ actual typealias URL = java.net.URL
 
 从 Kotlin 1.2 开始, 注解中的数组类型参数, 可以通过新的字面值语法来指定, 而不必使用 `arrayOf` 函数:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```kotlin
 @CacheConfig(cacheNames = ["books", "default"])
 public class BookRepositoryImpl {
     // ...
 }
 ```
+</div>
 
 数组的字面值语法只能用于注解的参数.
 
@@ -80,13 +86,12 @@ public class BookRepositoryImpl {
 `lateinit` 修饰符现在可以用于顶级属性和局部变量.
 比如, 当某个对象的构造器参数是一个 lambda 表达式, 而这个 lambda 表达式又引用到了另一个之后才能定义的对象, 这时就可以使用延迟初始化的局部变量:
 
-<div class="sample" markdown="1" data-min-compiler-version="1.2">
+<div class="sample" markdown="1" data-min-compiler-version="1.2" theme="idea">
 
 ```kotlin
 class Node<T>(val value: T, val next: () -> Node<T>)
 
 fun main(args: Array<String>) {
-    //sampleStart
     // 3 个节点组成的环:
     lateinit var third: Node<Int>
 
@@ -94,7 +99,6 @@ fun main(args: Array<String>) {
     val first = Node(1, next = { second })
 
     third = Node(3, next = { first })
-    //sampleEnd
 
     val nodes = generateSequence(first) { it.next() }
     println("Values in the cycle: ${nodes.take(7).joinToString { it.value.toString() }}, ...")
@@ -106,7 +110,7 @@ fun main(args: Array<String>) {
 
 现在你可以在属性引用上使用 `isInitialized`, 检查一个延迟初始化的变量是否已被初始化, :
 
-<div class="sample" markdown="1" data-min-compiler-version="1.2">
+<div class="sample" markdown="1" data-min-compiler-version="1.2" theme="idea">
 
 ```kotlin
 class Foo {
@@ -131,7 +135,7 @@ fun main(args: Array<String>) {
 
 内联函数的函数性参数, 现在允许使用默认值:
 
-<div class="sample" markdown="1" data-min-compiler-version="1.2">
+<div class="sample" markdown="1" data-min-compiler-version="1.2" theme="idea" auto-indent="false">
 
 ```kotlin
 //sampleStart
@@ -156,53 +160,53 @@ Kotlin 编译器现在可以将类型转换的相关信息用于类型推断.
 
 这个功能对于 Android 开发者尤其重要, 因为编译器能够正确地分析 Android API level 26 的泛型方法 `findViewById` 调用:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```kotlin
 val button = findViewById(R.id.button) as Button
 ```
+</div>
 
 ### 智能类型转换的功能改进
 
 如果将一个安全的方法调用(safe call)表达式赋值给一个变量, 然后对这个变量进行 null 值检查,
 这时安全方法调用的接受者对象也会被智能类型转换:
 
-<div class="sample" markdown="1" data-min-compiler-version="1.2">
+<div class="sample" markdown="1" data-min-compiler-version="1.2" theme="idea" auto-indent="false" indent="2">
 
 ```kotlin
 fun countFirst(s: Any): Int {
-    //sampleStart
-    val firstChar = (s as? CharSequence)?.firstOrNull()
-    if (firstChar != null)
-       return s.count { it == firstChar } // s: Any 类型被智能转换为 CharSequence 类型
+  //sampleStart
+  val firstChar = (s as? CharSequence)?.firstOrNull()
+  if (firstChar != null)
+    return s.count { it == firstChar } // s: Any 类型被智能转换为 CharSequence 类型
 
-    val firstItem = (s as? Iterable<*>)?.firstOrNull()
-    if (firstItem != null)
-       return s.count { it == firstItem } // s: Any 类型被智能转换为 Iterable<*> 类型
-    //sampleEnd
-
-    return -1
+  val firstItem = (s as? Iterable<*>)?.firstOrNull()
+  if (firstItem != null)
+    return s.count { it == firstItem } // s: Any 类型被智能转换为 Iterable<*> 类型
+  //sampleEnd
+  return -1
 }
 
 fun main(args: Array<String>) {
-    val string = "abacaba"
-    val countInString = countFirst(string)
-    println("called on \"$string\": $countInString")
+  val string = "abacaba"
+  val countInString = countFirst(string)
+  println("called on \"$string\": $countInString")
 
-    val list = listOf(1, 2, 3, 1, 2)
-    val countInList = countFirst(list)
-    println("called on $list: $countInList")
+  val list = listOf(1, 2, 3, 1, 2)
+  val countInList = countFirst(list)
+  println("called on $list: $countInList")
 }
 ```
 </div>
 
 此外, 如果局部变量值的修改只发生在一个 lambda 表达式之前, 那么在这个 lambda 表达式之内, 这个局部变量也可以被智能类型转换:
 
-<div class="sample" markdown="1" data-min-compiler-version="1.2">
+<div class="sample" markdown="1" data-min-compiler-version="1.2" theme="idea">
 
 ```kotlin
 fun main(args: Array<String>) {
-    val flag = args.size == 0
-
     //sampleStart
+    val flag = args.size == 0
     var x: String? = null
     if (flag) x = "Yahoo!"
 
@@ -245,9 +249,11 @@ Kotlin 1.2 修正了这个问题, 对智能类型转换的限制变得更加严�
 我们已经支持了注解中的数组参数字面值, 为了保持统一, 以命名参数的方式对 vararg 参数传递单个值 (`foo(items = i)`) 的功能已被废弃了.
 请使用展开(spread)操作符和创建数组的工厂函数:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```kotlin
 foo(items = *intArrayOf(1))
 ```
+</div>
 
 此时编译器会优化代码, 删除多余的数组创建过程, 因此不会发生性能损失.
 单个值形式的参数传递方式, 在 Kotlin 1.2 中会产生编译警告, 在 Kotlin 1.3 中将会不再支持.
@@ -282,7 +288,7 @@ Kotlin 标准库现在开始完全兼容 Java 9 的模块系统(module system), 
 滑动窗口(sliding window)和滑动平均值(sliding average)的计算 (`windowed`),
 以及对子序列项目对的处理(`zipWithNext`):
 
-<div class="sample" markdown="1" data-min-compiler-version="1.2">
+<div class="sample" markdown="1" data-min-compiler-version="1.2" theme="idea">
 
 ```kotlin
 fun main(args: Array<String>) {
@@ -312,7 +318,7 @@ fun main(args: Array<String>) {
 新增了一组扩展函数, 用于处理列表: 对 `MutableList` 增加了 `fill`, `replaceAll` 和 `shuffle`,
 对只读的 `List` 增加了 `shuffled`:
 
-<div class="sample" markdown="1" data-min-compiler-version="1.2">
+<div class="sample" markdown="1" data-min-compiler-version="1.2" theme="idea">
 
 ```kotlin
 fun main(args: Array<String>) {
@@ -442,8 +448,10 @@ Kotlin 1.2 在调用端强制执行 null 值检查, 如果接受者为 null, 会
 编译器现在提供了一个选项, 可以将所有的警告当作错误来处理.
 方法是, 在命令行使用 `-Werror` 参数, 或者在 Gradle 编译脚本中添加以下代码:
 
+<div class="sample" markdown="1" mode="groovy" theme="idea">
 ```groovy
 compileKotlin {
     kotlinOptions.allWarningsAsErrors = true
 }
 ```
+</div>

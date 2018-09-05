@@ -9,15 +9,16 @@ title: "包与导入"
 
 源代码文件的开始部分可以是包声明:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 package foo.bar
 
-fun baz() {}
-
-class Goo {}
+fun baz() { ... }
+class Goo { ... }
 
 // ...
 ```
+</div>
 
 源代码内的所有内容(比如类, 函数)全部都包含在所声明的包之内.
 因此, 上面的示例代码中, `baz()` 函数的完整名称将是 `foo.bar.baz`, `Goo` 类的完整名称将是 `foo.bar.Goo`.
@@ -53,22 +54,28 @@ import 指令的语法请参见 [语法](grammar.html#import).
 
 我们可以导入一个单独的名称, 比如
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 import foo.Bar // 导入后 Bar 就可以直接访问, 不必指定完整的限定符
 ```
+</div>
 
 也可以导入某个范围(包, 类, 对象, 等等)之内所有可访问的内容:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 import foo.* // 导入后 'foo' 内的一切都可以访问了
 ```
+</div>
 
 如果发生了名称冲突, 我们可以使用 *as*{: .keyword } 关键字, 给重名实体指定新的名称(新名称仅在当前范围内有效):
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 import foo.Bar // 导入后 Bar 可以访问了
 import bar.Bar as bBar // 可以使用新名称 bBar 来访问 'bar.Bar'
 ```
+</div>
 
 `import` 关键字不仅可以用来导入类; 还可以用来导入其他声明:
 

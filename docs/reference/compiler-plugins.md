@@ -22,6 +22,7 @@ Kotlin 默认会将类及其成员定义为 `final` 的, 而某些框架或库�
 
 将插件 artifact 添加到编译脚本的依赖项目中, 然后应用插件:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` groovy
 buildscript {
     dependencies {
@@ -31,28 +32,34 @@ buildscript {
 
 apply plugin: "kotlin-allopen"
 ```
+</div>
 
 或者, 你也可以使用 `plugins` 代码段来应用这个插件:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```groovy
 plugins {
   id "org.jetbrains.kotlin.plugin.allopen" version "{{ site.data.releases.latest.version }}"
 }
 ```
+</div>
 
 然后指定将哪些注解标注的类变为 `open`:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```groovy
 allOpen {
     annotation("com.my.Annotation")
     // annotations("com.another.Annotation", "com.third.Annotation")
 }
 ```
+</div>
 
 如果类 (或者它的任何一个超类) 标注了 `com.my.Annotation` 注解, 那么类本身, 以及它的所有成员都会变为 `open` 的.
 
 对于元注解(meta-annotation)也有效:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 @com.my.Annotation
 annotation class MyFrameworkAnnotation
@@ -60,6 +67,7 @@ annotation class MyFrameworkAnnotation
 @MyFrameworkAnnotation
 class MyClass // 这个类将会变为 open
 ```
+</div>
 
 由于 `MyFrameworkAnnotation` 被标注了 all-open 的元注解(meta-annotation) `com.my.Annotation`, 因此它也会成为一个 all-open 注解.
 
@@ -105,6 +113,7 @@ class MyClass // 这个类将会变为 open
 
 与 all-open 一样, 你需要将 *kotlin-spring* 插件添加到编译脚本的依赖项目中:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` groovy
 buildscript {
     dependencies {
@@ -114,14 +123,17 @@ buildscript {
 
 apply plugin: "kotlin-spring" // 而不是使用 "kotlin-allopen"
 ```
+</div>
 
 或者使用 Gradle plugin DSL 语法:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```groovy
 plugins {
   id "org.jetbrains.kotlin.plugin.spring" version "{{ site.data.releases.latest.version }}"
 }
 ```
+</div>
 
 在 Maven 中, 需要启用 `spring` 插件:
 
@@ -176,7 +188,7 @@ all-open 目前唯一可用的预选设定是 `spring`.
 
 自动产生的构造器是合成的(synthetic), 因此在 Java 或 Kotlin 中不能直接调用它, 但可以通过反射来调用.
 
-这个功能使得 Java Persistence API (JPA) 可以创建 `data` 类的实例, 即使从 Kotlin 或 Java 的角度看来, `data` 类并不存在 0 个参数的构造器(关于 `kotlin-jpa` 插件, 请参见 [下文](compiler-plugins.html#jpa-support)).
+这个功能使得 Java Persistence API (JPA) 可以创建一个类的实例, 即使从 Kotlin 或 Java 的角度看来, 这个类并不存在 0 个参数的构造器(关于 `kotlin-jpa` 插件, 请参见 [下文](compiler-plugins.html#jpa-support)).
 
 ### 在 Gradle 中使用
 
@@ -184,7 +196,8 @@ all-open 目前唯一可用的预选设定是 `spring`.
 
 你需要添加插件, 指定要对类产生无参数构造器的注解列表.
 
-``` groovy
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
+```groovy
 buildscript {
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-noarg:$kotlin_version"
@@ -193,30 +206,37 @@ buildscript {
 
 apply plugin: "kotlin-noarg"
 ```
+</div>
 
 或者使用 Gradle plugin DSL 语法:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```groovy
 plugins {
   id "org.jetbrains.kotlin.plugin.noarg" version "{{ site.data.releases.latest.version }}"
 }
 ```
+</div>
 
 然后指定要对类产生无参数构造器的注解列表:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```groovy
 noArg {
     annotation("com.my.Annotation")
 }
 ```
+</div>
 
 如果你希望插件在合成的构造器中执行初始化逻辑, 可以打开 `invokeInitializers` 选项. 从 Kotlin 1.1.3-2 版开始, 这个选项默认是关闭的, 因为存在 bug: [`KT-18667`](https://youtrack.jetbrains.com/issue/KT-18667) 和 [`KT-18668`](https://youtrack.jetbrains.com/issue/KT-18668), 我们会在未来的版本中解决这些 bug.
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```groovy
 noArg {
     invokeInitializers = true
 }
 ```
+</div>
 
 ### 在 Maven 中使用
 
@@ -259,6 +279,7 @@ noArg {
 注解指定为 *no-arg* 注解.
 在 Gradle 中, 你需要添加以下代码:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` groovy
 buildscript {
     dependencies {
@@ -268,14 +289,17 @@ buildscript {
 
 apply plugin: "kotlin-jpa"
 ```
+</div>
 
 或者使用 Gradle plugin DSL 语法:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```groovy
 plugins {
   id "org.jetbrains.kotlin.plugin.jpa" version "{{ site.data.releases.latest.version }}"
 }
 ```
+</div>
 
 在 Maven 中, 需要启用 `jpa` 插件:
 
@@ -303,6 +327,7 @@ plugins {
 
 示例如下:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```java
 public @interface SamWithReceiver {}
 
@@ -311,7 +336,9 @@ public interface TaskRunner {
     void run(Task task);
 }
 ```
+</div>
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```kotlin
 fun test(context: TaskContext) {
     val handler = TaskHandler {
@@ -323,11 +350,13 @@ fun test(context: TaskContext) {
     }
 }
 ```
+</div>
 
 ### 在 Gradle 中使用
 
 这个插件的使用方法与 all-open 和 no-arg 插件基本相同, 区别是 sam-with-receiver 插件没有内建的默认设定, 因此你要指定需要特别处理的注解列表.
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```groovy
 buildscript {
     dependencies {
@@ -337,14 +366,17 @@ buildscript {
 
 apply plugin: "kotlin-sam-with-receiver"
 ```
+</div>
 
 然后指定 SAM-with-receiver 注解列表:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```groovy
 samWithReceiver {
     annotation("com.my.Annotation")
 }
 ```
+</div>
 
 ### 在 Maven 中使用
 
@@ -360,7 +392,9 @@ samWithReceiver {
         </compilerPlugins>
 
         <pluginOptions>
-            <option>sam-with-receiver:annotation=com.my.SamWithReceiver</option>
+            <option>
+                sam-with-receiver:annotation=com.my.SamWithReceiver
+            </option>
         </pluginOptions>
     </configuration>
 

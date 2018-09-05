@@ -15,6 +15,7 @@ Kotlin 的 `List<out T>` 类型是一个只读的接口, 它提供的操作包�
 
 通过下面的例子, 我们可以看看 list 和 set 类型的基本用法:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 val numbers: MutableList<Int> = mutableListOf(1, 2, 3)
 val readOnlyView: List<Int> = numbers
@@ -26,33 +27,39 @@ readOnlyView.clear()    // -> 无法编译
 val strings = hashSetOf("a", "b", "c", "c")
 assert(strings.size == 3)
 ```
+</div>
 
 Kotlin 没有专门的语法用来创建 list 和 set. 你可以使用标准库中的方法, 比如 `listOf()`, `mutableListOf()`, `setOf()`, `mutableSetOf()`.
 在并不极端关注性能的情况下, 创建 map 可以使用一个简单的 [惯用法](idioms.html#read-only-map): `mapOf(a to b, c to d)`.
 
 注意, `readOnlyView` 变量指向的其实是同一个 list 实例, 因此它的内容会随着后端 list 一同变化. 如果指向 list 的只有唯一一个引用,  而且这个引用是只读的, 那么我们可以这个集合完全是不可变的. 创建一个这样的集合的简单办法如下:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 val items = listOf(1, 2, 3)
 ```
+</div>
 
 目前, `listOf` 方法是使用 array list 实现的, 但在将来, 这个方法会返回一个内存效率更高的, 完全不可变的集合类型, 以便尽量利用集合内容不可变这个前提.
 
-注意, 只读集合类型是 [协变的(covariant)](generics.html#variance). 也就是说, 假设 Rectangle 继承自 Shape, 你可以将一个 `List<Rectangle>` 类型的值赋给一个 `List<Shape>` 类型变量. 但这对于可变的集合类型是不允许的, 因为可能导致运行时错误.
+注意, 只读集合类型是 [协变的(covariant)](generics.html#variance). 也就是说, 假设 `Rectangle` 继承自 `Shape`, 你可以将一个 `List<Rectangle>` 类型的值赋给一个 `List<Shape>` 类型变量(集合类型的继承关系与元素类型的继承关系相同). 但这对于可变的集合类型是不允许的, 因为可能导致运行时错误: 你可能会将一个 `Circle` 类型的实例添加到一个 `List<Shape>` 内, 于是导致在你的程序的其他地方出现一个 `List<Rectangle>`, 其中包含一个 `Circle` 类型的实例.
 
 有时候, 你希望向调用者返回集合在某个时刻的一个快照, 而且这个快照保证不会变化:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 class Controller {
     private val _items = mutableListOf<String>()
     val items: List<String> get() = _items.toList()
 }
 ```
+</div>
 
 `toList` 扩展方法只是单纯地复制 list 内的元素, 因此, 返回的 list 内容可以确保不会变化.
 
 list 和 set 还有一些有用的扩展方法, 值得我们熟悉一下:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 val items = listOf(1, 2, 3, 4)
 items.first() == 1
@@ -64,13 +71,16 @@ rwList.requireNoNulls()        // 返回值为: [1, 2, 3]
 if (rwList.none { it > 6 }) println("No items above 6")  // 打印结果为: "No items above 6"
 val item = rwList.firstOrNull()
 ```
+</div>
 
 ... 此外还有你所期望的各种工具方法, 比如 sort, zip, fold, reduce 等等.
 
 Map 也遵循相同的模式. 可以很容易地创建和访问, 比如:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 val readWriteMap = hashMapOf("foo" to 1, "bar" to 2)
 println(readWriteMap["foo"])  // 打印结果为: "1"
 val snapshot: Map<String, Int> = HashMap(readWriteMap)
 ```
+</div>

@@ -33,14 +33,20 @@ Kotlin 允许我们对数据类型的一组预定义的操作符提供实现函�
 
 举例来说, 我们可以这样来重载负号操作符:
 
+<div class="sample" markdown="1" theme="idea">
 ``` kotlin
 data class Point(val x: Int, val y: Int)
 
 operator fun Point.unaryMinus() = Point(-x, -y)
 
 val point = Point(10, 20)
-println(-point)  // 打印结果为 "(-10, -20)"
+
+fun main(args: Array<String>) {
+   println(-point)  // 打印结果为 "Point(x=-10, y=-20)"
+}
+
 ```
+</div>
 
 ### 递增与递减操作符
 

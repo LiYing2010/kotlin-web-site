@@ -11,6 +11,7 @@ title: "基本语法"
 
 包的定义应该在源代码文件的最上方:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 package my.demo
 
@@ -18,6 +19,7 @@ import java.util.*
 
 // ...
 ```
+</div>
 
 源代码所在的目录结构不必与包结构保持一致: 源代码文件可以放置在文件系统的任意位置.
 
@@ -27,7 +29,7 @@ import java.util.*
 
 以下函数接受两个 `Int` 类型参数, 并返回 `Int` 类型结果:
 
-<div class="sample" markdown="1">
+<div class="sample" markdown="1" theme="idea">
 
 ``` kotlin
 //sampleStart
@@ -45,7 +47,7 @@ fun main(args: Array<String>) {
 
 以下函数使用表达式语句作为函数体, 返回类型由自动推断决定:
 
-<div class="sample" markdown="1">
+<div class="sample" markdown="1" theme="idea">
 
 ``` kotlin
 //sampleStart
@@ -60,7 +62,7 @@ fun main(args: Array<String>) {
 
 以下函数不返回有意义的结果:
 
-<div class="sample" markdown="1">
+<div class="sample" markdown="1" theme="idea">
 
 ``` kotlin
 //sampleStart
@@ -77,7 +79,7 @@ fun main(args: Array<String>) {
 
 返回值为 `Unit` 类型时, 可以省略:
 
-<div class="sample" markdown="1">
+<div class="sample" markdown="1" theme="idea">
 
 ``` kotlin
 //sampleStart
@@ -98,7 +100,7 @@ fun main(args: Array<String>) {
 
 一次性赋值 (只读) 的局部变量:
 
-<div class="sample" markdown="1">
+<div class="sample" markdown="1" theme="idea">
 
 ``` kotlin
 fun main(args: Array<String>) {
@@ -115,7 +117,7 @@ fun main(args: Array<String>) {
 
 值可变的变量:
 
-<div class="sample" markdown="1">
+<div class="sample" markdown="1" theme="idea">
 
 ``` kotlin
 fun main(args: Array<String>) {
@@ -130,7 +132,7 @@ fun main(args: Array<String>) {
 
 顶级(top level) 变量:
 
-<div class="sample" markdown="1">
+<div class="sample" markdown="1" theme="idea">
 ``` kotlin
 //sampleStart
 val PI = 3.14
@@ -170,7 +172,7 @@ fun main(args: Array<String>) {
 
 ## 使用字符串模板
 
-<div class="sample" markdown="1">
+<div class="sample" markdown="1" theme="idea">
 
 ``` kotlin
 fun main(args: Array<String>) {
@@ -192,7 +194,7 @@ fun main(args: Array<String>) {
 
 ## 使用条件表达式
 
-<div class="sample" markdown="1">
+<div class="sample" markdown="1" theme="idea">
 
 ``` kotlin
 //sampleStart
@@ -213,7 +215,7 @@ fun main(args: Array<String>) {
 
 以表达式的形式使用 *if*{: .keyword }:
 
-<div class="sample" markdown="1">
+<div class="sample" markdown="1" theme="idea">
 
 ``` kotlin
 //sampleStart
@@ -234,15 +236,17 @@ fun main(args: Array<String>) {
 
 当 `str` 中的字符串内容不是一个整数时, 返回 *null*{: .keyword }:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 fun parseInt(str: String): Int? {
     // ...
 }
 ```
+</div>
 
 以下示例演示如何使用一个返回值可为 null 的函数:
 
-<div class="sample" markdown="1" data-min-compiler-version="1.1">
+<div class="sample" markdown="1" theme="idea">
 
 ``` kotlin
 fun parseInt(str: String): Int? {
@@ -276,7 +280,7 @@ fun main(args: Array<String>) {
 
 或者
 
-<div class="sample" markdown="1" data-min-compiler-version="1.1">
+<div class="sample" markdown="1" theme="idea">
 
 ``` kotlin
 fun parseInt(str: String): Int? {
@@ -318,7 +322,7 @@ fun main(args: Array<String>) {
 *is*{: .keyword } 运算符可以检查一个表达式的值是不是某个类型的实例.
 如果对一个不可变的局部变量或属性进行过类型检查, 那么之后的代码就不必再对它进行显式地类型转换, 而可以直接将它当作需要的类型来使用:
 
-<div class="sample" markdown="1">
+<div class="sample" markdown="1" theme="idea">
 
 ``` kotlin
 //sampleStart
@@ -347,7 +351,7 @@ fun main(args: Array<String>) {
 
 或者
 
-<div class="sample" markdown="1">
+<div class="sample" markdown="1" theme="idea">
 
 ``` kotlin
 //sampleStart
@@ -373,7 +377,7 @@ fun main(args: Array<String>) {
 
 甚至还可以
 
-<div class="sample" markdown="1">
+<div class="sample" markdown="1" theme="idea">
 
 ``` kotlin
 //sampleStart
@@ -403,12 +407,12 @@ fun main(args: Array<String>) {
 
 ## 使用 `for` 循环
 
-<div class="sample" markdown="1">
+<div class="sample" markdown="1" theme="idea">
 
 ``` kotlin
 fun main(args: Array<String>) {
 //sampleStart
-    val items = listOf("apple", "banana", "kiwi")
+    val items = listOf("apple", "banana", "kiwifruit")
     for (item in items) {
         println(item)
     }
@@ -419,12 +423,12 @@ fun main(args: Array<String>) {
 
 或者
 
-<div class="sample" markdown="1">
+<div class="sample" markdown="1" theme="idea">
 
 ``` kotlin
 fun main(args: Array<String>) {
 //sampleStart
-    val items = listOf("apple", "banana", "kiwi")
+    val items = listOf("apple", "banana", "kiwifruit")
     for (index in items.indices) {
         println("item at $index is ${items[index]}")
     }
@@ -437,12 +441,12 @@ fun main(args: Array<String>) {
 
 ## 使用 `while` 循环
 
-<div class="sample" markdown="1">
+<div class="sample" markdown="1" theme="idea">
 
 ``` kotlin
 fun main(args: Array<String>) {
 //sampleStart
-    val items = listOf("apple", "banana", "kiwi")
+    val items = listOf("apple", "banana", "kiwifruit")
     var index = 0
     while (index < items.size) {
         println("item at $index is ${items[index]}")
@@ -457,7 +461,7 @@ fun main(args: Array<String>) {
 
 ## 使用 `when` 表达式
 
-<div class="sample" markdown="1">
+<div class="sample" markdown="1" theme="idea">
 
 ``` kotlin
 //sampleStart
@@ -487,7 +491,7 @@ fun main(args: Array<String>) {
 
 使用 *in*{: .keyword } 运算符检查一个数值是否在某个值范围(Range)之内:
 
-<div class="sample" markdown="1">
+<div class="sample" markdown="1" theme="idea">
 
 ``` kotlin
 fun main(args: Array<String>) {
@@ -504,7 +508,7 @@ fun main(args: Array<String>) {
 
 检查一个数值是否在某个值范围之外:
 
-<div class="sample" markdown="1">
+<div class="sample" markdown="1" theme="idea">
 
 ``` kotlin
 fun main(args: Array<String>) {
@@ -524,7 +528,7 @@ fun main(args: Array<String>) {
 
 在一个值范围内进行遍历迭代:
 
-<div class="sample" markdown="1">
+<div class="sample" markdown="1" theme="idea">
 
 ``` kotlin
 fun main(args: Array<String>) {
@@ -539,7 +543,7 @@ fun main(args: Array<String>) {
 
 在一个数列(progression)上进行遍历迭代:
 
-<div class="sample" markdown="1">
+<div class="sample" markdown="1" theme="idea">
 
 ``` kotlin
 fun main(args: Array<String>) {
@@ -563,11 +567,11 @@ fun main(args: Array<String>) {
 
 在一个集合上进行遍历迭代:
 
-<div class="sample" markdown="1">
+<div class="sample" markdown="1" theme="idea">
 
 ``` kotlin
 fun main(args: Array<String>) {
-    val items = listOf("apple", "banana", "kiwi")
+    val items = listOf("apple", "banana", "kiwifruit")
 //sampleStart
     for (item in items) {
         println(item)
@@ -579,11 +583,11 @@ fun main(args: Array<String>) {
 
 使用 *in*{: .keyword } 运算符检查一个集合是否包含某个对象:
 
-<div class="sample" markdown="1">
+<div class="sample" markdown="1" theme="idea">
 
 ``` kotlin
 fun main(args: Array<String>) {
-    val items = setOf("apple", "banana", "kiwi")
+    val items = setOf("apple", "banana", "kiwifruit")
 //sampleStart
     when {
         "orange" in items -> println("juicy")
@@ -596,17 +600,17 @@ fun main(args: Array<String>) {
 
 使用 Lambda 表达式, 对集合元素进行过滤和变换:
 
-<div class="sample" markdown="1">
+<div class="sample" markdown="1" theme="idea" auto-indent="false" indent="2">
 
 ``` kotlin
 fun main(args: Array<String>) {
-    val fruits = listOf("banana", "avocado", "apple", "kiwi")
 //sampleStart
-    fruits
-        .filter { it.startsWith("a") }
-        .sortedBy { it }
-        .map { it.toUpperCase() }
-        .forEach { println(it) }
+  val fruits = listOf("banana", "avocado", "apple", "kiwifruit")
+  fruits
+    .filter { it.startsWith("a") }
+    .sortedBy { it }
+    .map { it.toUpperCase() }
+    .forEach { println(it) }
 //sampleEnd
 }
 ```
@@ -616,7 +620,7 @@ fun main(args: Array<String>) {
 
 ## 创建基本的类, 及其实例:
 
-<div class="sample" markdown="1">
+<div class="sample" markdown="1" theme="idea">
 
 ``` kotlin
 fun main(args: Array<String>) {

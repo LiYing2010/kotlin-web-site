@@ -304,9 +304,9 @@ java -jar target/mymodule-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 | 名称 | Maven 属性名 | 描述 | 可以选择的值 |默认值 |
 |------|---------------|-------------|-----------------|--------------|
 | nowarn | | 不产生警告信息 | true, false | false |
-| languageVersion | kotlin.compiler.languageVersion | 指定源代码所兼容的 Kotlin 语言版本 | "1.0", "1.1" | "1.1"
-| apiVersion | kotlin.compiler.apiVersion | 只允许使用指定的版本的运行库中的 API | "1.0", "1.1" | "1.1"
-| sourceDirs | | 指定编译对象源代码文件所在的目录 | | The project source roots
+| languageVersion | kotlin.compiler.languageVersion | 指定源代码所兼容的 Kotlin 语言版本 |"1.0", "1.1", "1.2", "1.3 (实验性功能)" |
+| apiVersion | kotlin.compiler.apiVersion | 只允许使用指定的版本的运行库中的 API | "1.0", "1.1", "1.2", "1.3 (实验性功能)" |
+| sourceDirs | | 指定编译对象源代码文件所在的目录 | | 工程的源代码根路径
 | compilerPlugins | | 允许使用 [编译器插件](compiler-plugins.html)  | | []
 | pluginOptions | | 供编译器插件使用的选项 | | []
 | args | | 额外的编译器参数 | | []

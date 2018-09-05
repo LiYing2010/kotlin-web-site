@@ -37,6 +37,8 @@ _platform_ 模块可以依赖于任何模块, 或依赖于对象平台上的任�
 ## 跨平台项目的设置
 
 在目前的 Kotlin 1.2 版中, 跨平台项目必须使用 Gradle 来编译; 目前还不支持其他编译系统.
+如果你在 IDE 中开发跨平台项目, 请注意一定要打开 `Delegate IDE build/run actions to gradle` 选项, 并将 `Run tests using` 选项设置为 `Gradle Test Runner`.
+这两个选项都在以下菜单项中: _Settings > Build, execution, Deployment > Build Tools > Gradle > Runner_
 
 要在 IDE 中创建一个新的跨平台项目, 请在 New Project 对话框中选择 "Kotlin" ==> "Kotlin (Multiplatform)" 选项. IDE 会创建一个工程, 其中包含 3 个模块, 1个 _common_ 模块, 以及 2 个 _platform_ 模块, 分别针对 JVM 和 JS 平台. 要添加更多的模块, 请在 New Module 对话框中选择 "Gradle" ==> "Kotlin (Multiplatform)" 选项.
 
@@ -45,11 +47,12 @@ _platform_ 模块可以依赖于任何模块, 或依赖于对象平台上的任�
   * 将 Kotlin Gradle plugin 添加到编译脚本的 classpath 中: `classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"`
   * 在 _common_ 模块中, 使用 `kotlin-platform-common` plugin
   * 在 _common_ 模块中, 添加 `kotlin-stdlib-common` 依赖
-  * 在针对 JVM 和 JS 的 _platform_ 模块中, 分别使用 `kotlin-platform-jvm` 和 `kotlin-platform-js` plugin
+  * 在针对 JVM, Android 和 JS 的 _platform_ 模块中, 分别使用 `kotlin-platform-jvm`, `kotlin-platform-android` 和 `kotlin-platform-js` plugin
   * 在 _platform_ 模块中, 添加对 _common_ 模块的依赖, 依赖 scope 为 `expectedBy`
 
 下面的例子, 是 Kotlin 1.2-Beta 版的一个 _common_ 模块的完整的 `build.gradle` 文件:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` groovy
 buildscript {
     ext.kotlin_version = '{{ site.data.releases.latest.version }}'
@@ -73,10 +76,12 @@ dependencies {
     testCompile "org.jetbrains.kotlin:kotlin-test-common:$kotlin_version"
 }
 ```
+</div>
 
 下面的例子是 JVM 平台的 _platform_ 模块的完整的 `build.gradle` 文件.
 请注意 `dependencies` 部分的 `expectedBy` 行:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` groovy
 buildscript {
     ext.kotlin_version = '{{ site.data.releases.latest.version }}'
@@ -103,6 +108,7 @@ dependencies {
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
 }
 ```
+</div>
 
 
 ## 与平台相关的声明
@@ -116,6 +122,7 @@ Kotlin 跨平台代码的关键特性之一就是, 允许共通代码依赖到�
 通过这种机制, _common_ 模块可以定义 _预期声明(expected declaration)_, 而 _platform_ 模块则提供对应的 _实际声明(actual declaration)_.
 为了理解这种机制的工作原理, 我们先来看一个示例程序. 这段代码是一个 _common_ 模块的一部分:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 package org.jetbrains.foo
 
@@ -127,9 +134,11 @@ fun main(args: Array<String>) {
     Foo("Hello").frob()
 }
 ```
+</div>
 
 下面是对应的 JVM 模块:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 package org.jetbrains.foo
 
@@ -139,6 +148,7 @@ actual class Foo actual constructor(val bar: String) {
     }
 }
 ```
+</div>
 
 上面的示例演示了几个要点:
 
@@ -151,6 +161,7 @@ actual class Foo actual constructor(val bar: String) {
 在上面的示例中, 预期类有一个构造函数, 而且在共通代码中可以直接创建这个类的实例.
 你也可以将 `expect` 标记符用在其他声明上, 包括顶层声明, 以及注解:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 // Common
 expect fun formatString(source: String, vararg args: Any): String
@@ -163,12 +174,14 @@ actual fun formatString(source: String, vararg args: Any) =
 
 actual typealias Test = org.junit.Test
 ```
+</div>
 
 编译器会保证 _common_ 模块中的每一个预期声明, 在所有实现这个 _common_ 模块的 _platform_ 模块中, 都存在对应的实际声明, 如果缺少实际声明, 则会报告错误.
 IDE 提供了工具, 可以帮助你创建缺少的实际声明.
 
 如果你已经有了一个依赖于平台的库, 希望在共通代码中使用, 同时对其他平台则提供你自己的实现, 这时你可以为已存在的类定义一个类型别名, 以此作为实际声明:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 expect class AtomicRef<V>(value: V) {
   fun get(): V
@@ -179,6 +192,7 @@ expect class AtomicRef<V>(value: V) {
 
 actual typealias AtomicRef<V> = java.util.concurrent.atomic.AtomicReference<V>
 ```
+</div>
 
 ## 跨平台测试
 

@@ -46,12 +46,15 @@ title: "Kotlin 与 OSGi"
 
 在 Gradle 工程中引入 `kotlin-osgi-bundle`:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```groovy
 compile "org.jetbrains.kotlin:kotlin-osgi-bundle:$kotlinVersion"
 ```
+</div>
 
 通过传递依赖, 你可能会间接依赖到一些默认的 Kotlin 库, 你可以使用以下方法删除这些库:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```groovy
 dependencies {
  compile (
@@ -60,6 +63,7 @@ dependencies {
   exclude group: 'org.jetbrains.kotlin'
 }
 ```
+</div>
 
 ## FAQ
 
@@ -67,4 +71,3 @@ dependencies {
 
 虽然这是提供 OSGi 支持时最优先的方法, 但很不幸, 目前我们无法做到这一点, 原因是所谓的 ["包分裂(package split)" 问题](http://wiki.osgi.org/wiki/Split_Packages), 这个问题很难解决, 所以目前我们不打算进行这样巨大的变更. 另外还有一种 `Require-Bundle` 功能, 但也不是最好的选择, 而且并不推荐采用这种方案.
 因此我们决定为 OSGi 创建一个独立的库文件.
-

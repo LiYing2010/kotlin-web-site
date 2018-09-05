@@ -23,7 +23,7 @@ Kotlin 非常适合于开发服务器端应用程序, 使用 Kotlin 可以编写
 
  * [Vert.x](http://vertx.io), 一个创建基于 JVM 的交互式 Web 应用程序的框架, 对 Kotlin 提供了 [专门支持](https://github.com/vert-x3/vertx-lang-kotlin), 包含 [完整的文档](http://vertx.io/docs/vertx-core/kotlin/).
 
- * [Ktor](https://github.com/kotlin/ktor) 是 JetBrains 公司开发的 Kotlin 原生 Web 框架, 使用协程(coroutine)实现了高度伸缩性, 并提供了易用而且符合习惯的 API.
+ * [Ktor](https://github.com/kotlin/ktor) 是 JetBrains 公司开发的框架, 用 Kotlin 来开发 Web 应用程序, 使用协程(coroutine)实现了高度伸缩性, 并提供了易用而且符合习惯的 API.
 
  * [kotlinx.html](https://github.com/kotlin/kotlinx.html) 是一种 DSL, 可用于在 Web 应用程序中构建 HTML. 可用来替代传统的模板系统, 比如 JSP 和FreeMarker.
 

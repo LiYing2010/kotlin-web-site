@@ -16,6 +16,7 @@ title: "JavaScript 中的反射功能"
 
 示例:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 class A
 class B
@@ -31,3 +32,4 @@ println(B::class.simpleName)  // 获取数据类型的类信息; 打印结果为
 println(B::class.js.name)     // 打印结果为 "B"
 foo<C>()                      // 打印结果为 "C"
 ```
+</div>

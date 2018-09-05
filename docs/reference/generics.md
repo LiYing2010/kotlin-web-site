@@ -9,33 +9,40 @@ title: "泛型: in, out, where"
 
 与 Java 一样, Kotlin 中的类也可以有类型参数:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 class Box<T>(t: T) {
     var value = t
 }
 ```
+</div>
 
 通常, 要创建这样一个类的实例, 我们需要指定类型参数:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 val box: Box<Int> = Box<Int>(1)
 ```
+</div>
 
 但是, 如果类型参数可以通过推断得到, 比如, 通过构造器参数类型, 或通过其他手段推断得到, 此时允许省略类型参数:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 val box = Box(1) // 1 的类型为 Int, 因此编译器知道我们创建的实例是 Box<Int> 类型
 ```
+</div>
 
 ## 类型变异(Variance)
 
 Java 的类型系统中, 最微妙, 最难于理解和使用的部分之一, 就是它的通配符类型(wildcard type) (参见 [Java 泛型 FAQ](http://www.angelikalanger.com/GenericsFAQ/JavaGenericsFAQ.html)).
 Kotlin 中不存在这样的通配符类型. 它使用另外的两种东西: 声明处类型变异(declaration-site variance), 以及类型投射(type projection).
 
-首先, 我们来思考一下为什么 Java 需要那些神秘的通配符类型. 这个问题已有详细的解释, 请参见 [Effective Java](http://www.oracle.com/technetwork/java/effectivejava-136174.html), 第 28 条: *为增加 API 的灵活性, 应该使用限定范围的通配符类型(bounded wildcard)*.
+首先, 我们来思考一下为什么 Java 需要那些神秘的通配符类型. 这个问题已有详细的解释, 请参见 [Effective Java, 第 3 版](http://www.oracle.com/technetwork/java/effectivejava-136174.html), 第 31 条: *为增加 API 的灵活性, 应该使用限定范围的通配符类型(bounded wildcard)*.
 首先, Java 中的泛型类型是 **不可变的(invariant)**, 也就是说 `List<String>` **不是** `List<Object>` 的子类型.
 为什么会这样? 因为, 如果 List 不是 **不可变的(invariant)**, 那么下面的代码将可以通过编译, 然后在运行时导致一个异常, 那么 List 就并没有任何优于 Java 数组的地方了:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` java
 // Java
 List<String> strs = new ArrayList<String>();
@@ -43,36 +50,45 @@ List<Object> objs = strs; // !!! 导致后面问题的原因就在这里. Java �
 objs.add(1); // 在这里, 我们向 String 组成的 List 添加了一个 Integer 类型的元素
 String s = strs.get(0); // !!! ClassCastException: 无法将 Integer 转换为 String
 ```
+</div>
+
 由于存在这种问题, Java 禁止上面示例中的做法, 以便保证运行时刻的类型安全. 但这个原则背后存在一些隐含的影响. 比如, 我们来看看 `Collection` 接口的 `addAll()` 方法. 这个方法的签名应该是什么样的? 直觉地, 我们会将它定义为:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` java
 // Java
 interface Collection<E> ... {
   void addAll(Collection<E> items);
 }
 ```
+</div>
 
 但是, 这样的定义会导致我们无法进行下面这种非常简单的操作(尽管这种操作是绝对安全的):
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` java
 // Java
 void copyAll(Collection<Object> to, Collection<String> from) {
-  to.addAll(from); // !!! 如果 addAll 方法使用前面那种简单的定义, 这里的调用将无法通过编译:
-                   //     因为 Collection<String> 不是 Collection<Object> 的子类型
+  to.addAll(from);
+  // !!! 如果 addAll 方法使用前面那种简单的定义, 这里的调用将无法通过编译:
+  // 因为 Collection<String> 不是 Collection<Object> 的子类型
 }
 ```
+</div>
 
-(在 Java 语言中, 我们通过非常痛苦的方式才学到了这个教训, 详情请参见 [Effective Java](http://www.oracle.com/technetwork/java/effectivejava-136174.html), 第 25 条: *尽量使用 List, 而不是数组*)
+(在 Java 语言中, 我们通过非常痛苦的方式才学到了这个教训, 详情请参见 [Effective Java, 第 3 版](http://www.oracle.com/technetwork/java/effectivejava-136174.html), 第 28 条: *尽量使用 List, 而不是数组*)
 
 
 正因为上面的问题, 所以 `addAll()` 的签名定义其实是这样的:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` java
 // Java
 interface Collection<E> ... {
   void addAll(Collection<? extends E> items);
 }
 ```
+</div>
 
 这里的 **通配符类型参数(wildcard type argument)** `? extends E` 表示, 该方法接受的参数是一个集合, 集合元素的类型是 `E` *或 `E` 的某种子类型*, 而不限于 `E` 本身.
 这就意味着, 我们可以安全地从集合元素中 **读取** `E` (因为集合的元素是 `E` 的某个子类型的实例), 但 **不能写入** 到集合中去, 因为我们不知道什么样的对象实例才能与这个 `E` 的未知子类型匹配.
@@ -93,15 +109,18 @@ Joshua Bloch 将那些只能 **读取** 的对象称为 **生产者(Producer)**,
 
 假设我们有一个泛型接口 `Source<T>`, 其中不存在任何接受 `T` 作为参数的方法, 仅有返回值为 `T` 的方法:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` java
 // Java
 interface Source<T> {
   T nextT();
 }
 ```
+</div>
 
 那么, 完全可以在 `Source<Object>` 类型的变量中保存一个 `Source<String>` 类型的实例 -- 因为不存在对消费者方法的调用. 但 Java 不能理解这一点, 因此仍然禁止以下代码:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` java
 // Java
 void demo(Source<String> strs) {
@@ -109,12 +128,14 @@ void demo(Source<String> strs) {
   // ...
 }
 ```
+</div>
 
 为了解决这个问题, 我们不得不将对象类型声明为 `Source<? extends Object>`, 其实是毫无意义的, 因为我们在这样修改之后, 我们所能调用的方法与修改之前其实是完全一样的, 因此, 使用这样复杂的类型声明并未带来什么好处. 但编译器并不理解这一点.
 
 在 Kotlin 中, 我们有办法将这种情况告诉编译器. 这种技术称为 **声明处的类型变异(declaration-site variance)**: 我们可以对 Source 的 **类型参数** `T` 添加注解, 来确保 `Source<T>` 的成员函数只会 **返回** (生产) `T` 类型, 而绝不会消费 `T` 类型.
 为了实现这个目的, 我们可以对 `T` 添加 **out** 修饰符:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 interface Source<out T> {
     abstract fun nextT(): T
@@ -125,6 +146,7 @@ fun demo(strs: Source<String>) {
     // ...
 }
 ```
+</div>
 
 一般规则是: 当 `C` 类的类型参数 `T` 声明为 **out** 时, 那么在 `C` 的成员函数中, `T` 类型只允许出现在 **输出** 位置, 这样的限制带来的回报就是, `C<Base>` 可以安全地用作 `C<Derived>` 的父类型.
 
@@ -136,6 +158,7 @@ fun demo(strs: Source<String>) {
 
 除了 **out** 之外, Kotlin 还提供了另一种类型变异注解: **in**. 这个注解导致类型参数 **反向类型变异(contravariant)**: 这个类型将只能被消费, 而不能被生产. 反向类型变异的一个很好的例子是 `Comparable`:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 interface Comparable<in T> {
     operator fun compareTo(other: T): Int
@@ -147,8 +170,9 @@ fun demo(x: Comparable<Number>) {
     val y: Comparable<Double> = x // OK!
 }
 ```
+</div>
 
-我们认为 **in** 和 **out** 关键字的意义是十分明显的(同样的关键字已经在 C# 中经常使用了), 因此, 前面提到的记忆口诀也没有必要了, 为了一种崇高的理念, 我们可以将它改写一下:
+我们认为 **in** 和 **out** 关键字的意义是十分直观的(同样的关键字已经在 C# 中经常使用了), 因此, 前面提到的记忆口诀也没有必要了, 为了一种崇高的理念, 我们可以将它改写一下:
 
 **[存在主义](http://en.wikipedia.org/wiki/Existentialism) 变形法则: 消费者进去, 生产者出来\!** :-)
 
@@ -161,15 +185,18 @@ fun demo(x: Comparable<Number>) {
 将声明类型参数 T 声明为 *out*, 就可以免去使用时子类化的麻烦, 这是十分方便的. 但是有些类 **不能** 限定为仅仅只返回 `T` 类型值!
 关于这个问题, 一个很好的例子是 Array 类:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 class Array<T>(val size: Int) {
-    fun get(index: Int): T { /* ... */ }
-    fun set(index: Int, value: T) { /* ... */ }
+    fun get(index: Int): T { ... }
+    fun set(index: Int, value: T) { ... }
 }
 ```
+</div>
 
 这个类对于类型参数 `T` 既不能协变, 也不能反向协变. 这就带来很大的不便. 我们来看看下面的函数:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 fun copy(from: Array<Any>, to: Array<Any>) {
     assert(from.size == to.size)
@@ -177,34 +204,37 @@ fun copy(from: Array<Any>, to: Array<Any>) {
         to[i] = from[i]
 }
 ```
+</div>
 
 这个函数应该将元素从一个 Array 复制到另一个 Array. 我们来试试使用一下这个函数:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 val ints: Array<Int> = arrayOf(1, 2, 3)
 val any = Array<Any>(3) { "" }
 copy(ints, any) // 错误: 期待的参数类型是 (Array<Any>, Array<Any>)
 ```
+</div>
 
 在这里, 我们又遇到了熟悉的老问题: `Array<T>` 对于类型参数 `T` 是 **不可变的**, 因此 `Array<Int>` 和 `Array<Any>` 谁也不是谁的子类型. 为什么会这样? 原因与以前一样, 因为 copy 函数 **有可能** 会做一些不安全的操作, 也就是说, 这个函数可能会试图向 `from` 数组中 **写入**, 比如说, 一个 String, 这时假如我们传入的实际参数是一个 `Int` 的数组, 就会导致一个 `ClassCastException`.
 
 所以, 我们需要确保的就是 `copy()` 函数不会做这类不安全的操作. 我们希望禁止这个函数向 `from` 数组 **写入** 数据, 我们可以这样声明:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
-fun copy(from: Array<out Any>, to: Array<Any>) {
- // ...
-}
+fun copy(from: Array<out Any>, to: Array<Any>) { ... }
 ```
+</div>
 
 这种声明在 Kotlin 中称为 **类型投射(type projection)**: 我们声明的含义是, `from` 不是一个单纯的数组, 而是一个被限制(**投射**)的数组: 我们只能对这个数组调用那些返回值为类型参数 `T` 的方法, 在这个例子中, 我们只能调用 `get()` 方法. 这就是我们实现 **使用处的类型变异(use-site variance)** 的方案, 与 Java 的 `Array<? extends Object>` 相同, 但略为简单一些.
 
 你也可以使用 **in** 关键字来投射一个类型:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
-fun fill(dest: Array<in String>, value: String) {
-    // ...
-}
+fun fill(dest: Array<in String>, value: String) { ... }
 ```
+</div>
 
 `Array<in String>` 与 Java 的 `Array<? super String>` 相同, 也就是说, 你可以使用 `CharSequence` 数组, 或者 `Object` 数组作为  `fill()` 函数的参数.
 
@@ -215,9 +245,9 @@ fun fill(dest: Array<in String>, value: String) {
 
 对于这个问题, Kotlin 提供了一种语法, 称为 **星号投射(star-projection)**:
 
- - 假如类型定义为 `Foo<out T>`, 其中 `T` 是一个协变的类型参数, 上界(upper bound)为 `TUpper`, `Foo<*>` 等价于 `Foo<out TUpper>`. 它表示, 当 `T` 未知时, 你可以安全地从 `Foo<*>` 中 *读取* `TUpper` 类型的值.
+ - 假如类型定义为 `Foo<out T : TUpper>`, 其中 `T` 是一个协变的类型参数, 上界(upper bound)为 `TUpper`, `Foo<*>` 等价于 `Foo<out TUpper>`. 它表示, 当 `T` 未知时, 你可以安全地从 `Foo<*>` 中 *读取* `TUpper` 类型的值.
  - 假如类型定义为 `Foo<in T>`, 其中 `T` 是一个反向协变的类型参数, `Foo<*>` 等价于 `Foo<in Nothing>`. 它表示, 当 `T` 未知时, 你不能安全地向 `Foo<*>` *写入* 任何东西.
- - 假如类型定义为 `Foo<T>`, 其中 `T` 是一个协变的类型参数, 上界(upper bound)为 `TUpper`, 对于读取值的场合, `Foo<*>` 等价于 `Foo<out TUpper>`, 对于写入值的场合, 等价于 `Foo<in Nothing>`.
+ - 假如类型定义为 `Foo<T : TUpper>`, 其中 `T` 是一个协变的类型参数, 上界(upper bound)为 `TUpper`, 对于读取值的场合, `Foo<*>` 等价于 `Foo<out TUpper>`, 对于写入值的场合, 等价于 `Foo<in Nothing>`.
 
 如果一个泛型类型中存在多个类型参数, 那么每个类型参数都可以单独的投射.
 比如, 如果类型定义为 `interface Function<in T, out U>`, 那么可以出现以下几种星号投射:
@@ -230,8 +260,9 @@ fun fill(dest: Array<in String>, value: String) {
 
 ## 泛型函数
 
-不仅类可以有类型参数. 函数一样可以有类型参数. 类型参数放在函数名称之前:
+不仅类可以有类型参数. 函数一样可以有类型参数. 类型参数放在函数名称 **之前**:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 fun <T> singletonList(item: T): List<T> {
     // ...
@@ -241,17 +272,23 @@ fun <T> T.basicToString() : String {  // 扩展函数
     // ...
 }
 ```
+</div>
 
 调用泛型函数时, 应该在函数名称 **之后** 指定调用端类型参数:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 val l = singletonList<Int>(1)
 ```
+</div>
 
 如果可以通过程序上下文推断得到, 类型参数可以省略, 因此下面的例子也可以正确运行:
+
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 val l = singletonList(1)
 ```
+</div>
 
 ## 泛型约束(Generic constraint)
 
@@ -261,22 +298,25 @@ val l = singletonList(1)
 
 最常见的约束是 **上界(upper bound)**, 与 Java 中的 *extends* 关键字相同:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
-fun <T : Comparable<T>> sort(list: List<T>) {
-    // ...
-}
+fun <T : Comparable<T>> sort(list: List<T>) {  ... }
 ```
+</div>
 
 冒号之后指定的类型就是类型参数的 **上界(upper bound)**: 对于类型参数 `T`, 只允许使用 `Comparable<T>` 的子类型. 比如:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 sort(listOf(1, 2, 3)) // 正确: Int 是 Comparable<Int> 的子类型
 sort(listOf(HashMap<Int, String>())) // 错误: HashMap<Int, String> 不是 Comparable<HashMap<Int, String>> 的子类型
 ```
+</div>
 
 如果没有指定, 则默认使用的上界是 `Any?`. 在定义类型参数的尖括号内, 只允许定义唯一一个上界.
 如果同一个类型参数需要指定多个上界, 这时就需要使用单独的 **where** 子句:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
 ``` kotlin
 fun <T> copyWhenGreater(list: List<T>, threshold: T): List<String>
     where T : CharSequence,
@@ -284,6 +324,7 @@ fun <T> copyWhenGreater(list: List<T>, threshold: T): List<String>
     return list.filter { it > threshold }.map { it.toString() }
 }
 ```
+</div>
 
 ## 类型擦除
 
@@ -291,16 +332,11 @@ fun <T> copyWhenGreater(list: List<T>, threshold: T): List<String>
 在运行期, 泛型类型的实例不保存关于其类型参数的任何信息.
 我们称之为, 类型信息 *被擦除* 了. 比如, `Foo<Bar>` 和 `Foo<Baz?>` 的实例, 其类型信息会被擦除, 只剩下 `Foo<*>`.
 
-Therefore, there is no general way to check whether an instance of a generic type was created with certain type
-arguments at runtime, and the compiler [prohibits such *is*{: .keyword }-checks](typecasts.html#type-erasure-and-generic-type-checks).
+因此, 不存在一种通用的办法, 可以在运行期检查一个泛型类的实例是通过什么样的类型参数来创建的, 而且编译器 [禁止这样的 *is*{: .keyword } 检查](typecasts.html#type-erasure-and-generic-type-checks).
 
-Type casts to generic types with concrete type arguments, e.g. `foo as List<String>`, cannot be checked at runtime.  
-These [unchecked casts](typecasts.html#unchecked-casts) can be used when type safety is implied by the high-level
-program logic but cannot be inferred directly by the compiler. The compiler issues a warning on unchecked casts, and at
-runtime, only the non-generic part is checked (equivalent to `foo as List<*>`).
+把一种类型转换为带具体类型参数的泛型类型, 比如 `foo as List<String>`, 在运行时也无法进行类型安全性检查.
+如果类型安全性不能通过编译器直接推断得到, 但是更高层次的程序逻辑可以保证, 那么可以使用这种 [未检查的类型转换](typecasts.html#unchecked-casts).
+编译器会对未检查的类型转换报告一个警告, 在运行时, 只会针对泛型以外的部分进行类型检查 (前面的例子等价于 `foo as List<*>`).
 
-The type arguments of generic function calls are also only checked at compile time. Inside the function bodies,
-the type parameters cannot be used for type checks, and type casts to type parameters (`foo as T`) are unchecked. However,
-[reified type parameters](inline-functions.html#reified-type-parameters) of inline functions are substituted by the actual
-type arguments in the inlined function body at the call sites and thus can be used for type checks and casts,
-with the same restrictions for instances of generic types as described above.
+泛型函数调用时的类型参数同样只在编译时进行类型检查. 在函数体内部, 不能对类型参数进行类型检查, 把一种类型转换为函数的类型参数类型 (比如 `foo as T`) 同样是未检查的类型转换.
+但是, 内联函数的 [实体化的类型参数](inline-functions.html#reified-type-parameters) 会在调用处被替换为内联函数体内部的实际类型参数, 因此这时可以用类型参数来进行类型检查和类型转换, 但这里的类型检查和类型转换, 也和前面讲到的泛型类的实例一样存在同样的限制.

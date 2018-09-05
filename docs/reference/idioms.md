@@ -11,9 +11,11 @@ title: "惯用法"
 
 ### 创建 DTO 类(或者叫 POJO/POCO 类)
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 data class Customer(val name: String, val email: String)
 ```
+</div>
 
 以上代码将创建一个 `Customer` 类, 其中包含以下功能:
 
@@ -27,30 +29,39 @@ data class Customer(val name: String, val email: String)
 
 ### 对函数参数指定默认值
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 fun foo(a: Int = 0, b: String = "") { ... }
 ```
+</div>
 
 ### 过滤 List 中的元素
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 val positives = list.filter { x -> x > 0 }
 ```
+</div>
 
 甚至还可以写得更短:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 val positives = list.filter { it > 0 }
 ```
+</div>
 
 ### 在字符串内插入变量值
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 println("Name $name")
 ```
+</div>
 
 ### 类型实例检查
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 when (x) {
     is Foo -> ...
@@ -58,19 +69,23 @@ when (x) {
     else   -> ...
 }
 ```
+</div>
 
 ### 使用成对变量来遍历 Map, 这种语法也可以用来遍历 Pair 组成的 List
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 for ((k, v) in map) {
     println("$k -> $v")
 }
 ```
+</div>
 
 上例中的 `k`, `v` 可以使用任何的变量名.
 
 ### 使用数值范围
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 for (i in 1..100) { ... }  // 闭区间: 包括 100
 for (i in 1 until 100) { ... } // 半开(half-open)区间: 不包括 100
@@ -78,82 +93,104 @@ for (x in 2..10 step 2) { ... }
 for (x in 10 downTo 1) { ... }
 if (x in 1..10) { ... }
 ```
+</div>
 
 ### 只读 List
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 val list = listOf("a", "b", "c")
 ```
+</div>
 
 ### 只读 Map
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 val map = mapOf("a" to 1, "b" to 2, "c" to 3)
 ```
+</div>
 
 ### 访问 Map
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 println(map["key"])
 map["key"] = value
 ```
+</div>
 
 ### 延迟计算(Lazy)属性
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 val p: String by lazy {
     // compute the string
 }
 ```
+</div>
 
 ### 扩展函数
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 fun String.spaceToCamelCase() { ... }
 
 "Convert this to camelcase".spaceToCamelCase()
 ```
+</div>
 
 ### 创建单例(Singleton)
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 object Resource {
     val name = "Name"
 }
 ```
+</div>
 
 ### If not null 的简写表达方式
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 val files = File("Test").listFiles()
 
 println(files?.size)
 ```
+</div>
 
 ### If not null ... else 的简写表达方式
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 val files = File("Test").listFiles()
 
 println(files?.size ?: "empty")
 ```
+</div>
 
 ### 当值为 null 时, 执行某个语句
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 val values = ...
 val email = values["email"] ?: throw IllegalStateException("Email is missing!")
 ```
+</div>
 
 ### 从可能为空的集合中取得第一个元素
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 val emails = ... // 可能为空
 val mainEmail = emails.firstOrNull() ?: ""
 ```
+</div>
 
 ### 当值不为 null 时, 执行某个语句
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 val value = ...
 
@@ -161,17 +198,21 @@ value?.let {
     ... // 这个代码段将在 data 不为 null 时执行
 }
 ```
+</div>
 
 ### 当值不为 null 时, 进行映射变换
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 val value = ...
 
 val mapped = value?.let { transformValue(it) } ?: defaultValueIfValueIsNull
 ```
+</div>
 
 ### 在函数的 return 语句中使用 when 语句
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 fun transform(color: String): Int {
     return when (color) {
@@ -182,9 +223,11 @@ fun transform(color: String): Int {
     }
 }
 ```
+</div>
 
 ### 将 'try/catch' 用作一个表达式
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 fun test() {
     val result = try {
@@ -196,9 +239,11 @@ fun test() {
     // 使用 result
 }
 ```
+</div>
 
 ### 将 'if' 用作一个表达式
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 fun foo(param: Int) {
     val result = if (param == 1) {
@@ -210,32 +255,40 @@ fun foo(param: Int) {
     }
 }
 ```
+</div>
 
 ### 返回值为 `Unit` 类型的多个方法, 可以通过 Builder 风格的方式来串联调用
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 fun arrayOfMinusOnes(size: Int): IntArray {
     return IntArray(size).apply { fill(-1) }
 }
 ```
+</div>
 
 
 ### 使用单个表达式来定义一个函数
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 fun theAnswer() = 42
 ```
+</div>
 
 以上代码等价于:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 fun theAnswer(): Int {
     return 42
 }
 ```
+</div>
 
 这种用法与其他惯用法有效地结合起来, 可以编写出更简短的代码. 比如. 可以与 *when*{: .keyword }-表达式结合起来:
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 fun transform(color: String): Int = when (color) {
     "Red" -> 0
@@ -244,9 +297,11 @@ fun transform(color: String): Int = when (color) {
     else -> throw IllegalArgumentException("Invalid color param value")
 }
 ```
+</div>
 
 ### 在同一个对象实例上调用多个方法('with' 语句)
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 class Turtle {
     fun penDown()
@@ -265,18 +320,22 @@ with(myTurtle) { // 描绘一个边长 100 像素的正方形
     penUp()
 }
 ```
+</div>
 
 ### 类似 Java 7 中针对资源的 try 语句
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
 ``` kotlin
 val stream = Files.newInputStream(Paths.get("/some/file.txt"))
 stream.buffered().reader().use { reader ->
     println(reader.readText())
 }
 ```
+</div>
 
 ### 对于需要泛型类型信息的函数, 可以使用这样的简便形式
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 //  public final class Gson {
 //     ...
@@ -285,9 +344,11 @@ stream.buffered().reader().use { reader ->
 
 inline fun <reified T: Any> Gson.fromJson(json: JsonElement): T = this.fromJson(json, T::class.java)
 ```
+</div>
 
 ### 使用可为 null 的布尔值
 
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ``` kotlin
 val b: Boolean? = ...
 if (b == true) {
@@ -296,3 +357,4 @@ if (b == true) {
     // `b` 为 false 或为 null
 }
 ```
+</div>
