@@ -55,7 +55,7 @@ title: "参考文档"
 
 ## Kotlin 实战(Kotlin in Action)
 
-   <a href="https://manning.com/books/kotlin-in-action"><img src="{{ url_for('asset', path='images/Jemerov-Kotlin-MEAP-HI.png')}}" style="float: left; margin-right: 10px; margin-bottom: 10px;"></a>
+   <a href="https://manning.com/books/kotlin-in-action"><img src="/kotlin/assets/images/Jemerov-Kotlin-MEAP-HI.png" style="float: left; margin-right: 10px; margin-bottom: 10px;"></a>
 
 [Kotlin 实战(Kotlin in Action)](https://manning.com/books/kotlin-in-action) 是一本关于 Kotlin 的书, 作者是 Dmitry Jemerov 和 Svetlana Isakova,
 他们是 Kotlin 开发组的成员. 本书目前可以通过 MEAP 计划获取, 通过这种方式, 你可以在本书撰写过程中就提前阅读到各章内容, 并在本书最终完成之后得到完整版.
@@ -64,19 +64,19 @@ title: "参考文档"
 
 <h2 style="clear: left">面向 Android 的 Kotlin 手册(Kotlin for Android Developers)</h2>
 
-  <a href="https://leanpub.com/kotlin-for-android-developers"><img src="{{url_for('asset', path='images/kotlin-for-android-developers.png')}}" style="float: left; margin-right: 10px; margin-bottom: 10px;"></a>
+  <a href="https://leanpub.com/kotlin-for-android-developers"><img src="/kotlin/assets/images/kotlin-for-android-developers.png" style="float: left; margin-right: 10px; margin-bottom: 10px;"></a>
 
 [面向 Android 的 Kotlin 手册(Kotlin for Android Developers)](https://leanpub.com/kotlin-for-android-developers) 由 Antonio Leiva 撰写, 本书向你展示如何使用 Kotlin 语言从零开始创建一个 Android 应用程序.
 
 <h2 style="clear: left">使用 Kotlin 开发现代化 Web 程序(Modern Web Development with Kotlin)</h2>
 
-  <a href="https://leanpub.com/modern-web-development-with-kotlin"><img src="{{ url_for("asset", path="images/mwdwk.jpg") }}" style="float: left; margin-right: 10px; margin-bottom: 10px;"></a>
+  <a href="https://leanpub.com/modern-web-development-with-kotlin"><img src="/kotlin/assets/images/mwdwk.jpg" style="float: left; margin-right: 10px; margin-bottom: 10px;"></a>
 
 [使用 Kotlin 开发现代化 Web 程序(Modern Web Development with Kotlin)](https://leanpub.com/modern-web-development-with-kotlin) 由 Denis Kalinin 撰写, 介绍如何使用 Kotlin 进行 Web 开发. 本书包含了足够多的基本信息, 指导初学者起步, 但主要集中于 Kotlin 语言的实际应用. 具体来说, 本书会向你介绍 Web 应用程序开发的整个过程, 指导你创建一个包含大量技术内容的 Web 应用程序, 其中使用到许多流行的后端和前端技术.
 
 
 <h2 style="clear: left">Kotlin 程序开发(Programming Kotlin)</h2>
 
-  <a href="https://www.packtpub.com/application-development/programming-kotlin"><img src="{{url_for('asset', path='images/programming-kotlin.png')}}" style="float: left; margin-right: 10px; margin-bottom: 10px;"></a>
+  <a href="https://www.packtpub.com/application-development/programming-kotlin"><img src="/kotlin/assets/images/programming-kotlin.png" style="float: left; margin-right: 10px; margin-bottom: 10px;"></a>
 
 [Kotlin 程序开发(Programming Kotlin)](https://www.packtpub.com/application-development/programming-kotlin) 由 Stephen Samuel 和 Stefan Bocutiu 撰写, 介绍如何在 JVM 环境中使用 Kotlin. 本书内容包含 Kotlin 语言的各个方面, 但主要集中介绍服务器端开发. 本书的目标读者是 Java 开发者, 帮助他们学习 Kotlin 语言, 尤其是帮助他们了解 Kotlin 相对于 Java 的进步之处.

@@ -105,7 +105,7 @@ See: [Multiplatform Project: iOS and Android](/docs/tutorials/native/mpp-ios-and
 ## 如何开始
 
 <div style="display: flex; align-items: center; margin-bottom: 20px">
-    <img src="{{ url_for('asset', path='images/landing/native/book.png') }}" height="38p" width="55" style="margin-right: 10px;">
+    <img src="/kotlin/assets/images/landing/native/book.png" height="38p" width="55" style="margin-right: 10px;">
     <b>教程和文档</b>
 </div>
 
@@ -120,7 +120,7 @@ See: [Multiplatform Project: iOS and Android](/docs/tutorials/native/mpp-ios-and
 - [跨平台项目: iOS 与 Android](/docs/tutorials/native/mpp-ios-android.html)
 
 <div style="display: flex; align-items: center; margin-bottom: 10px;">
-    <img src="{{ url_for('asset', path='images/landing/native/try.png') }}" height="38p" width="55" style="margin-right: 10px;">
+    <img src="/kotlin/assets/images/landing/native/try.png" height="38p" width="55" style="margin-right: 10px;">
     <b>示例项目</b>
 </div>
 

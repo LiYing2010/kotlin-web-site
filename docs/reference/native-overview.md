@@ -7,7 +7,7 @@ title: "Kotlin 原生(Native)程序开发"
 
 # **使用Kotlin/Native 进行原生(Native)程序开发**
 
-![编译器图]({{ url_for('asset', path='images/landing/native/native_overview.png')}})
+![编译器图](/kotlin/assets/images/landing/native/native_overview.png)
 
 Kotlin/Native 是一种代码编译技术, 可以将 Kotlin 代码编译为原生二进制代码(native binary), 脱离 VM 运行.
 它包含一个基于 [LLVM](https://llvm.org/ 的后端, 用于编译 Kotlin 源代码, 以及一个原生代码实现的 Kotlin 运行库.
@@ -56,7 +56,7 @@ POSIX, gzip, OpenGL, Metal, Foundation, 以及其他许多流行的库和 Apple 
 ## 如何开始
 
 <div style="display: flex; align-items: center; margin-bottom: 20px">
-    <img src="{{ url_for('asset', path='images/landing/native/book.png') }}" height="38p" width="55" style="margin-right: 10px;">
+    <img src="/kotlin/assets/images/landing/native/book.png" height="38p" width="55" style="margin-right: 10px;">
     <b>教程和文档</b>
 </div>
 
@@ -74,7 +74,7 @@ POSIX, gzip, OpenGL, Metal, Foundation, 以及其他许多流行的库和 Apple 
 - [使用 Kotlin/Native 开发 Apple 框架](https://kotlinlang.org/docs/tutorials/native/apple-framework.html)
 
 <div style="display: flex; align-items: center; margin-bottom: 10px;">
-    <img src="{{ url_for('asset', path='images/landing/native/try.png') }}" height="38p" width="55" style="margin-right: 10px;">
+    <img src="/kotlin/assets/images/landing/native/try.png" height="38p" width="55" style="margin-right: 10px;">
     <b>示例项目</b>
 </div>
 

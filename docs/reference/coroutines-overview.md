@@ -18,7 +18,7 @@ title: "协程(Coroutine) 概述"
 ## 如何开始
 
 <div style="display: flex; align-items: center; margin-bottom: 20px">
-    <img src="{{ url_for('asset', path='images/landing/native/book.png') }}" height="38p" width="55" style="margin-right: 10px;">
+    <img src="/kotlin/assets/images/landing/native/book.png" height="38p" width="55" style="margin-right: 10px;">
     <b>教程和文档</b>
 </div>
 
@@ -36,7 +36,7 @@ title: "协程(Coroutine) 概述"
 - [异步程序开发](https://kotlinlang.org/docs/tutorials/coroutines/async-programming.html)
 
 <div style="display: flex; align-items: center; margin-bottom: 10px;">
-    <img src="{{ url_for('asset', path='images/landing/native/try.png') }}" height="38p" width="55" style="margin-right: 10px;">
+    <img src="/kotlin/assets/images/landing/native/try.png" height="38p" width="55" style="margin-right: 10px;">
     <b>示例项目</b>
 </div>
 
