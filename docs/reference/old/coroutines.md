@@ -33,7 +33,7 @@ Go 的 [channels](https://github.com/Kotlin/kotlinx.coroutines/blob/master/corou
 如果一个函数使用了 `suspend` 修饰符, 那么当我们调用这个函数时, 就会发生挂起:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 suspend fun doSomething(foo: Foo): Bar { ... }
 ```
 </div>
@@ -44,7 +44,7 @@ suspend fun doSomething(foo: Foo): Bar { ... }
 实际上, 要启动一个协程, 至少要存在一个挂起函数, 这个挂起函数通常是一个挂起的 Lambda 表达式. 我们来看一个示例程序, 一个简化版的 `async()` 函数 (来自 [`kotlinx.coroutines`](#generators-api-in-kotlincoroutines) 库):
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun <T> async(block: suspend () -> T)
 ```
 </div>
@@ -52,7 +52,7 @@ fun <T> async(block: suspend () -> T)
 这里, `async()` 是一个普通的函数(不是挂起函数), 但是 `block` 参数时一个带 `suspend` 修饰符的函数类型: `suspend () -> T`. 因此, 向  `async()` 函数传递一个 lambda 表达式作为参数时, 这个 lambda 表达式将是一个 *挂起 lambda 表达式 (suspending lambda)*, 然后, 我们在这个 lambda 表达式内调用一个挂起函数:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 async {
     doSomething(foo)
     ...
@@ -65,7 +65,7 @@ async {
 继续我们的例子, `await()` 可以是一个挂起函数(因此也可以在 `async {}` 代码段内调用), 它挂起一个协程, 直到某些计算结束, 然后返回计算结果:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 async {
     ...
     val result = computation.await()
@@ -80,7 +80,7 @@ async {
 也不能在普通的函数中调用, 比如在 `main()` 函数中:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun main(args: Array<String>) {
     doSomething() // 错误: 在非协程的环境下调用了挂起函数
 
@@ -100,7 +100,7 @@ fun main(args: Array<String>) {
 还要注意, 挂起函数可以是虚函数, 当覆盖挂起函数时, 也必须指定 `suspend` 修饰符:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 interface Base {
     suspend fun foo()
 }
@@ -120,7 +120,7 @@ class Derived: Base {
 在 _少数_ 情况下, 这种功能是有必要的, 比如, 如果所有的挂起都需要在库内以某种特殊的方式处理. 举例来说, 如果要通过 [`buildSequence()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.coroutines.experimental/build-sequence.html)函数 (详情参见 [下文](#generators-api-in-kotlincoroutines)) 来实现生成器, 我们需要确保协程内所有的挂起调用最终都调用到 `yield()` 或 `yieldAll()` 函数, 而不是其他任何函数. 所以 [`SequenceBuilder`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.coroutines.experimental/-sequence-builder/index.html) 标注了 `@RestrictsSuspension` 注解:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 @RestrictsSuspension
 public abstract class SequenceBuilder<in T> { ... }
 ```
@@ -178,7 +178,7 @@ public abstract class SequenceBuilder<in T> { ... }
 
 <div class="sample" markdown="1" theme="idea">
 
-``` kotlin
+```kotlin
 import kotlin.coroutines.experimental.*
 
 fun main(args: Array<String>) {
@@ -212,7 +212,7 @@ fun main(args: Array<String>) {
 
 <div class="sample" markdown="1" theme="idea">
 
-``` kotlin
+```kotlin
 import kotlin.coroutines.experimental.*
 
 fun main(args: Array<String>) {
@@ -240,7 +240,7 @@ fun main(args: Array<String>) {
 
 <div class="sample" markdown="1" theme="idea">
 
-``` kotlin
+```kotlin
 import kotlin.coroutines.experimental.*
 
 fun main(args: Array<String>) {
@@ -263,7 +263,7 @@ fun main(args: Array<String>) {
 
 <div class="sample" markdown="1" theme="idea">
 
-``` kotlin
+```kotlin
 import kotlin.coroutines.experimental.*
 
 //sampleStart

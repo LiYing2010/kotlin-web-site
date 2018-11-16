@@ -86,7 +86,7 @@ Kotlin 遵循 Java 的命名规约. 具体来说:
 类和对象的名称以大写字母开头, 并且使用驼峰式大小写:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 open class DeclarationProcessor { ... }
 
 object EmptyDeclarationProcessor : DeclarationProcessor() { ... }
@@ -98,7 +98,7 @@ object EmptyDeclarationProcessor : DeclarationProcessor() { ... }
 函数, 属性, 以及局部变量的名称以小写字母开头, 并且使用驼峰式大小写, 而且不使用下划线:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun processDeclarations() { ... }
 var declarationCount = ...
 ```
@@ -107,7 +107,7 @@ var declarationCount = ...
 例外情况: 用于创建类实例的工厂函数, 可以使用与它创建的类相同的名称:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 abstract class Foo { ... }
 
 class FooImpl : Foo { ... }
@@ -122,7 +122,7 @@ fun Foo(): Foo { return FooImpl(...) }
 测试代码中的方法名, 也允许使用下划线.
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 class MyTestCase {
      @Test fun `ensure everything works`() { ... }
 
@@ -136,7 +136,7 @@ class MyTestCase {
 对于常数 (标记了 `const` 的属性, 或者不存在自定义的 `get` 函数顶级的 `val` 属性, 或对象的 `val` 属性, 并且其值是深层不可变数据), 应该使用下划线分隔的大写名称:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 const val MAX_COUNT = 8
 val USER_NAME_FIELD = "UserName"
 ```
@@ -145,7 +145,7 @@ val USER_NAME_FIELD = "UserName"
 顶级属性, 或对象属性, 如果它的值是对象, 或者包含可变的数据, 那么应该使用通常的驼峰式大小写名称:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 val mutableCollection: MutableSet<String> = HashSet()
 ```
 </div>
@@ -153,7 +153,7 @@ val mutableCollection: MutableSet<String> = HashSet()
 如果属性指向单体对象, 那么可以使用与 `object` 声明相同的命名方式:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 val PersonComparator: Comparator<Person> = ...
 ```
 </div>
@@ -165,7 +165,7 @@ val PersonComparator: Comparator<Person> = ...
 如果类拥有两个属性, 它们在概念上是相同的, 但其中一个是公开 API 的一部分, 而另一个属于内部的实现细节, 此时请使用下划线作为私有属性名的前缀:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 class C {
     private val _elementList = mutableListOf<Element>()
 
@@ -195,10 +195,10 @@ class C {
 
 缩进时使用 4 个空格. 不要使用 tab.
 
-对于大括号, 请将开括号放在结构开始处的行末, 将闭括号放在单独的一行, 与它所属的结构垂直对其.
+对于大括号, 请将开括号放在结构开始处的行末, 将闭括号放在单独的一行, 与它所属的结构缩进到同样的位置.
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 if (elements != null) {
     for (element in elements) {
         // ...
@@ -259,7 +259,7 @@ fun bar() {
 在 `:` 之后, 一定要加入一个空格.
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 abstract class Foo<out T : Any> : IFoo {
     abstract fun foo(a: Int): T
 }
@@ -308,15 +308,15 @@ class Person(
 ```
 </div>
 
-如果类的父类型列表很长, 请在冒号之后换行, 并将所有的父类型名称垂直对齐:
+如果类的父类型列表很长, 请在冒号之后换行, 并将所有的父类型名称缩进到同样的位置:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
 ```kotlin
 class MyFavouriteVeryLongClassHolder :
     MyLongHolder<MyFavouriteVeryLongClass>(),
     SomeOtherInterface,
-    AndAnotherOne {
-
+    AndAnotherOne
+{
     fun foo() { ... }
 }
 ```
@@ -345,7 +345,7 @@ class MyFavouriteVeryLongClassHolder :
 如果一个声明带有多个修饰符, 修饰符一定要按照下面的顺序排列:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 public / protected / private / internal
 expect / actual
 final / open / abstract / sealed / const
@@ -368,7 +368,7 @@ data
 所有的注解要放在修饰符之前:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 @Named("Foo")
 private val foo: Foo
 ```
@@ -381,7 +381,7 @@ private val foo: Foo
 注解通常放在它修饰的声明之前, 放在单独的行中, 使用相同的缩进:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 @Target(AnnotationTarget.PROPERTY)
 annotation class JsonExclude
 ```
@@ -390,7 +390,7 @@ annotation class JsonExclude
 无参数的注解可以放在同一行中:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 @JsonExclude @JvmField
 var x: String
 ```
@@ -399,7 +399,7 @@ var x: String
 无参数的单个注解可以与它修饰的声明放在同一行中:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 @Test fun foo() { ... }
 ```
 </div>
@@ -409,7 +409,7 @@ var x: String
 文件注解放在文件注释之后(如果存在的话), 在 `package` 语句之前, 与 `package` 语句之间用空行隔开 (为了强调注解的对象是文件, 而不是包).
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 /** License, copyright and whatever */
 @file:JvmName("FooBar")
 
@@ -422,7 +422,7 @@ package foo.bar
 如果函数签名无法排列在一行之内, 请使用下面的语法:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun longMethodName(
     argument: ArgumentType = defaultValue,
     argument2: AnotherArgumentType
@@ -439,7 +439,7 @@ fun longMethodName(
 如果函数体只包含单独的一个表达式, 应当使用表达式函数体.
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun foo(): Int {     // 这是不好的风格
     return 1
 }
@@ -454,7 +454,7 @@ fun foo() = 1        // 这是好的风格
 表达式函数体放在下一行, 缩进 4 个空格.
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
-``` kotlin
+```kotlin
 fun f(x: String) =
     x.length
 ```
@@ -495,7 +495,7 @@ private val defaultCharset: Charset? =
 将条件部分的闭括号, 与主体部分的开括号一起, 放在单独一行:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
-``` kotlin
+```kotlin
 if (!component.isSyncing &&
     !hasAnyKotlinRuntimeInScope(module)
 ) {
@@ -509,7 +509,7 @@ if (!component.isSyncing &&
 将 `else`, `catch`, `finally` 关键字, 以及 do/while 循环语句的 `while` 关键字, 与它之后的开括号放在同一行中:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 if (condition) {
     // body
 } else {
@@ -527,7 +527,7 @@ try {
 在 `when` 语句中, 如果一个条件分支包含了多行语句, 应该将它与临近的条件分支用空行分隔开:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 private fun parsePropertyValue(propName: String, token: Token) {
     when (token) {
         is Token.ValueToken ->
@@ -543,7 +543,7 @@ private fun parsePropertyValue(propName: String, token: Token) {
 对于比较短的分支, 与条件部分放在同一行中, 不用大括号.
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 when (foo) {
     true -> bar() // 这是比较好的风格
     false -> { baz() } // 这是不好的风格
@@ -558,7 +558,7 @@ when (foo) {
 关系紧密的多个参数放在同一行中.
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 drawSquare(
     x = 10, y = 10,
     width = 100, height = 100,
@@ -574,7 +574,7 @@ drawSquare(
 对链式调用(chained call)换行时, 将 `.` 字符或 `?.` 操作符放在下一行, 使用单倍缩进:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
-``` kotlin
+```kotlin
 val anchor = owner
     ?.firstChild!!
     .siblings(forward = true)
@@ -590,7 +590,7 @@ val anchor = owner
 如果一个函数调用可以接受单个 Lambda 表达式作为参数, 那么 Lambda 表达式应该尽可能写到函数调用的圆括号之外.
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 list.filter { it > 10 }
 ```
 </div>
@@ -598,7 +598,7 @@ list.filter { it > 10 }
 如果为 Lambda 表达式指定标签, 请不要在标签与表达式体的开括号之间加入空格:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun foo() {
     ints.forEach lit@{
         // ...
@@ -610,7 +610,7 @@ fun foo() {
 在多行的 Lambda 表达式中声明参数名称时, 请将参数名放在第一行, 后面放箭头, 然后换行:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
-``` kotlin
+```kotlin
 appendCommaSeparated(properties) { prop ->
     val propertyValue = prop.get(obj)  // ...
 }
@@ -620,7 +620,7 @@ appendCommaSeparated(properties) { prop ->
 如果参数列表太长, 无法放在一行之内, 请将箭头放在单独的一行:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 foo {
    context: Context,
    environment: Env
@@ -635,7 +635,7 @@ foo {
 对于比较长的文档注释, 请将开头的 `/**` 放在单独的行, 后面的每一行都用星号开始:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 /**
  * 这是一段文档注释,
  * 其中包含多行.
@@ -646,7 +646,7 @@ foo {
 比较短的注释可以放在一行之内:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 /** 这是一段比较短的文档注释. */
 ```
 </div>
@@ -655,7 +655,7 @@ foo {
 只有参数或返回值需要很长的解释, 无法写在文档注释中, 这时才应该使用 `@param` 和 `@return` 标记.
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 // 不要写这样的注释:
 
 /**
@@ -684,7 +684,7 @@ fun abs(number: Int) = ...
 如果函数的返回值为 Unit 类型, 那么返回值的类型声明应当省略:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun foo() { // 此处省略了 ": Unit"
 
 }
@@ -700,7 +700,7 @@ fun foo() { // 此处省略了 ": Unit"
 向字符串模板中插入简单变量时, 不要使用大括号. 只有对比较长的表达式, 才应该使用大括号.
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 println("$name has ${children.size} children")
 ```
 </div>
@@ -717,7 +717,7 @@ println("$name has ${children.size} children")
 当使用工厂方法创建集合类型时, 一定要尽可能使用返回不可变集合类型的函数:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 // 这是不好的风格: 对于内容不再变化的值, 使用了可变的集合类型
 fun validateValue(actualValue: String, allowedValues: HashSet<String>) { ... }
 
@@ -737,7 +737,7 @@ val allowedValues = listOf("a", "b", "c")
 尽可能使用带默认值的参数来声明函数, 而不是声明多个不同参数的重载函数.
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 // 不好的风格
 fun foo() = foo("a")
 fun foo(a: String) { ... }
@@ -777,7 +777,7 @@ typealias PersonIndex = Map<String, Person>
 除非通过代码的上下文, 可以非常清楚地确定所有参数的含义, 否则此时应该使用命名参数语法.
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 drawSquare(x = 10, y = 10, width = 100, height = 100, fill = true)
 ```
 </div>
@@ -787,7 +787,7 @@ drawSquare(x = 10, y = 10, width = 100, height = 100, fill = true)
 尽量使用 `try`, `if` 以及 `when` 的表达式形式. 示例:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 return if (x) foo() else bar()
 
 return when(x) {
@@ -800,7 +800,7 @@ return when(x) {
 上面的写法比下面的代码要好:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
-``` kotlin
+```kotlin
 if (x)
     return foo()
 else
@@ -818,7 +818,7 @@ when(x) {
 对于二元的条件分支, 尽量使用 `if` 而不是 `when`. 比如, 下面的代码是不好的:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 when (x) {
     null -> ...
     else -> ...
@@ -862,7 +862,7 @@ for (i in 0 until n) { ... }  // 比较好的风格
 如果字符串内部需要缩进, 应该使用 `trimMargin` 函数:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
-``` kotlin
+```kotlin
 assertEquals(
     """
     Foo
@@ -909,7 +909,7 @@ val a = """if(a > 1) {
 示例:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 class Point(val x: Double, val y: Double) {
     companion object {
         fun fromPolar(angle: Double, radius: Double) = Point(...)
@@ -926,7 +926,7 @@ class Point(val x: Double, val y: Double) {
 对于 public 的函数或方法, 如果返回一个平台类型的表达式, 那么应该明确声明它在 Kotlin 中的类型:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun apiCall(): String = MyJavaApi.getProperty("name")
 ```
 </div>
@@ -934,7 +934,7 @@ fun apiCall(): String = MyJavaApi.getProperty("name")
 (包级或者类级的)任何属性, 如果使用平台类型的表达式进行初始化, 那么应该明确声明它在 Kotlin 中的类型:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 class Person {
     val name: String = MyJavaApi.getProperty("name")
 }
@@ -944,8 +944,8 @@ class Person {
 局部变量值, 如果使用平台类型的表达式进行初始化, 那么可以为它声明类型, 也可以省略:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
-fun main(args: Array<String>) {
+```kotlin
+fun main() {
     val name = MyJavaApi.getProperty("name")
     println(name)
 }
@@ -962,7 +962,7 @@ Kotlin 提供了一系列函数, 用来在某个指定的对象上下文中执�
     如果接受者在代码段中完全没有用到, 那么应该使用 `also` 函数.
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 // 上下文对象是 'it'
 class Baz {
     var currentBar: Bar?
@@ -993,7 +993,7 @@ class Baz {
     如果你需要从代码段中返回一个值, 那么应该使用 `with`, `let` 或 `run` 函数.
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 // 代码段的返回值是上下文对象
 class Baz {
     val foo: Bar = createBar().apply {
@@ -1016,7 +1016,7 @@ class Baz {
     否则, 应该使用 `with` 或 `also` 函数.
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 // 上下文对象可以为空
 person.email?.let { sendEmail(it) }
 

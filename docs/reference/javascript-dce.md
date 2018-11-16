@@ -26,7 +26,7 @@ title: "JavaScript 死代码剔除工具"
 要激活 DCE 工具, 请将以下内容添加到 `build.gradle`:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` groovy
+```groovy
 apply plugin: 'kotlin-dce-js'
 ```
 </div>
@@ -44,7 +44,7 @@ apply plugin: 'kotlin-dce-js'
 为了实现这个目的, 你可以在 `build.gradle` 中使用以下语法:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` groovy
+```groovy
 runDceKotlinJs.keep "declarationToKeep"[, "declarationToKeep", ...]
 ```
 </div>
@@ -59,7 +59,7 @@ moduleName.dot.separated.package.name.declarationName
 这时, 请使用以下声明:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` groovy
+```groovy
 runDceKotlinJs.keep "kotlin-js-example_main.org.jetbrains.kotlin.examples.toKeep"
 ```
 </div>

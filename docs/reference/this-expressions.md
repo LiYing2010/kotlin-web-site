@@ -22,7 +22,7 @@ title: "this 表达式"
 或有标签的 [带接受者的函数字面值](lambdas.html#function-literals-with-receiver))内的 *this*{: .keyword }, 我们使用 `this@label`, 其中的 `@label` 是一个 [标签](returns.html), 代表我们想要访问的 *this*{: .keyword } 所属的范围:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
-``` kotlin
+```kotlin
 class A { // 隐含的标签 @A
     inner class B { // 隐含的标签 @B
         fun Int.foo() { // 隐含的标签 @foo

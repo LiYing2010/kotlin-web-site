@@ -10,7 +10,7 @@ title: "包与导入"
 源代码文件的开始部分可以是包声明:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 package foo.bar
 
 fun baz() { ... }
@@ -55,7 +55,7 @@ import 指令的语法请参见 [语法](grammar.html#import).
 我们可以导入一个单独的名称, 比如
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 import foo.Bar // 导入后 Bar 就可以直接访问, 不必指定完整的限定符
 ```
 </div>
@@ -63,7 +63,7 @@ import foo.Bar // 导入后 Bar 就可以直接访问, 不必指定完整的限�
 也可以导入某个范围(包, 类, 对象, 等等)之内所有可访问的内容:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 import foo.* // 导入后 'foo' 内的一切都可以访问了
 ```
 </div>
@@ -71,7 +71,7 @@ import foo.* // 导入后 'foo' 内的一切都可以访问了
 如果发生了名称冲突, 我们可以使用 *as*{: .keyword } 关键字, 给重名实体指定新的名称(新名称仅在当前范围内有效):
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 import foo.Bar // 导入后 Bar 可以访问了
 import bar.Bar as bBar // 可以使用新名称 bBar 来访问 'bar.Bar'
 ```

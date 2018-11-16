@@ -21,10 +21,10 @@ title: "类型安全的构建器"
 我们来看看以下代码:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 import com.example.html.* // 具体的声明参见下文
 
-fun result(args: Array<String>) =
+fun result() =
     html {
         head {
             title {+"XML encoding with Kotlin"}
@@ -70,7 +70,7 @@ fun result(args: Array<String>) =
 现在, 回忆一下为什么我们可以写这样的代码:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 html {
  // ...
 }
@@ -81,7 +81,7 @@ html {
 这个函数的定义如下:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun html(init: HTML.() -> Unit): HTML {
     val html = HTML()
     html.init()
@@ -96,7 +96,7 @@ fun html(init: HTML.() -> Unit): HTML {
 接受者可以通过 *this*{: .keyword } 关键字来访问:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 html {
     this.head { ... }
     this.body { ... }
@@ -109,7 +109,7 @@ html {
 现在, *this*{: .keyword } 关键字可以省略, 通常都是如此, 省略之后我们的代码就已经非常接近一个构建器了:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 html {
     head { ... }
     body { ... }
@@ -125,7 +125,7 @@ html {
 唯一的区别是, 这些函数会将自己创建的对象实例添加到自己所属的 `HTML` 实例的 `children` 集合中:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun head(init: Head.() -> Unit) : Head {
     val head = Head()
     head.init()
@@ -145,7 +145,7 @@ fun body(init: Body.() -> Unit) : Body {
 实际上这两个函数做的事情完全相同, 因此我们可以编写一个泛型化的函数, 名为 `initTag`:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 protected fun <T : Element> initTag(tag: T, init: T.() -> Unit): T {
     tag.init()
     children.add(tag)
@@ -157,7 +157,7 @@ protected fun <T : Element> initTag(tag: T, init: T.() -> Unit): T {
 然后, 这两个函数就变得很简单了:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun head(init: Head.() -> Unit) = initTag(Head(), init)
 
 fun body(init: Body.() -> Unit) = initTag(Body(), init)
@@ -170,7 +170,7 @@ fun body(init: Body.() -> Unit) = initTag(Body(), init)
 还需要讨论的一个问题是, 我们如何在标签内部添加文本. 在上面的示例程序中, 我们写了这样的代码:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 html {
     head {
         title {+"XML encoding with Kotlin"}
@@ -185,7 +185,7 @@ html {
 这个操作符实际上是由扩展函数 `unaryPlus()` 定义的, 这个扩展函数是抽象类 `TagWithText` 的成员 (这个抽象类是 `Title` 类的祖先类):
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 operator fun String.unaryPlus() {
     children.add(TextElement(this))
 }
@@ -203,7 +203,7 @@ operator fun String.unaryPlus() {
 在 Lambda 表达式内, 我们可以调用所有隐含接受者的所有方法, 因此造成一种不正确的结果, 比如一个 `head` 之内可以嵌套另一个 `head` 标签:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 html {
     head {
         head {} // 应该禁止这样的调用
@@ -221,7 +221,7 @@ html {
 比如, 对 HTML 构建器我们可以定义一个注解 `@HTMLTagMarker`:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 @DslMarker
 annotation class HtmlTagMarker
 ```
@@ -233,7 +233,7 @@ annotation class HtmlTagMarker
 只需要对超类标注 `@HtmlTagMarker` 注解就够了, 然后 Kotlin 编译器会将所有的派生类都看作已被标注了同样的注解:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 @HtmlTagMarker
 abstract class Tag(val name: String) { ... }
 ```
@@ -251,7 +251,7 @@ class Head() : Tag("head") { ... }
 标注这个注解之后, Kotlin 编译器就可以知道哪些隐含的接受者属于相同的 DSL, 因此编译器只允许代码调用离当前位置最近的接受者的成员函数:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 html {
     head {
         head { } // 编译错误: 这是外层接受者的成员函数, 因此不允许在这里调用
@@ -264,7 +264,7 @@ html {
 注意, 如果确实需要调用外层接受者的成员函数, 仍然是可以实现的, 但这时你必须明确指定具体的接受者:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 html {
     head {
         this@html.head { } // 仍然可以调用外层接受者的成员函数
@@ -284,7 +284,7 @@ html {
 <a name='declarations'></a>
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 package com.example.html
 
 interface Element {

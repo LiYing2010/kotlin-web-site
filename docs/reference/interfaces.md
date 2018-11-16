@@ -12,7 +12,7 @@ Kotlin 中的接口与 Java 8 非常类似. 接口中可以包含抽象方法的
 接口使用 *interface*{: .keyword } 关键字来定义:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 interface MyInterface {
     fun bar()
     fun foo() {
@@ -27,7 +27,7 @@ interface MyInterface {
 类或者对象可以实现一个或多个接口:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 class Child : MyInterface {
     override fun bar() {
         // 方法体
@@ -41,7 +41,7 @@ class Child : MyInterface {
 你可以在接口中定义属性. 接口中声明的属性要么是抽象的, 要么提供访问器的自定义实现. 接口中声明的属性不能拥有后端域变量(backing field), 因此, 在接口中定义的属性访问器也不能访问属性的后端域变量.
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 interface MyInterface {
     val prop: Int // 抽象属性
 
@@ -65,7 +65,7 @@ class Child : MyInterface {
 很自然的, 类在实现这样的接口时, 只需要实现缺少的函数和属性:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 interface Named {
     val name: String
 }
@@ -91,7 +91,7 @@ data class Employee(
 当我们为一个类指定了多个超类, 可能会导致我们对同一个方法继承得到了多个实现. 比如:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 interface A {
     fun foo() { print("A") }
     fun bar()

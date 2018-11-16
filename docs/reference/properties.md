@@ -12,7 +12,7 @@ title: "属性(Property)与域(Field): 取值方法, 设值方法, 常数值, �
 Kotlin 中的类可以拥有属性. 可以使用 *var*{: .keyword } 关键字声明为可变(mutable)属性, 也可以使用 *val*{: .keyword } 关键字声明为只读属性.
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 class Address {
     var name: String = ...
     var street: String = ...
@@ -26,7 +26,7 @@ class Address {
 使用属性时, 只需要简单地通过属性名来参照它, 和使用 Java 中的域变量(field)一样:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun copyAddress(address: Address): Address {
     val result = Address() // Kotlin 中没有 'new' 关键字
     result.name = address.name // 将会调用属性的访问器方法
@@ -42,7 +42,7 @@ fun copyAddress(address: Address): Address {
 声明属性的完整语法是:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
-``` kotlin
+```kotlin
 var <propertyName>[: <PropertyType>] [= <property_initializer>]
     [<getter>]
     [<setter>]
@@ -54,7 +54,7 @@ var <propertyName>[: <PropertyType>] [= <property_initializer>]
 示例:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
-``` kotlin
+```kotlin
 var allByDefault: Int? // 错误: 需要明确指定初始化器, 此处会隐含地使用默认的取值方法和设值方法
 var initialized = 1 // 属性类型为 Int, 使用默认的取值方法和设值方法
 ```
@@ -63,7 +63,7 @@ var initialized = 1 // 属性类型为 Int, 使用默认的取值方法和设值
 只读属性声明的完整语法与可变属性有两点不同: 由 `val` 开头, 而不是 `var`, 并且不允许指定设值方法:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
-``` kotlin
+```kotlin
 val simple: Int? // 属性类型为 Int, 使用默认的取值方法, 属性值必须在构造器中初始化
 val inferredType = 1 // 属性类型为 Int, 使用默认的取值方法
 ```
@@ -72,7 +72,7 @@ val inferredType = 1 // 属性类型为 Int, 使用默认的取值方法
 我们可以编写自定义的访问方法, 与普通的函数很类似, 访问方法的位置就在属性定义体之内. 下面是一个自定义取值方法的示例:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
-``` kotlin
+```kotlin
 val isEmpty: Boolean
     get() = this.size == 0
 ```
@@ -81,7 +81,7 @@ val isEmpty: Boolean
 自定义设值方法的示例如下:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
-``` kotlin
+```kotlin
 var stringRepresentation: String
     get() = this.toString()
     set(value) {
@@ -95,7 +95,7 @@ Kotlin 的编程惯例是, 设值方法的参数名称为 `value`, 但如果你�
 从 Kotlin 1.1 开始, 如果属性类型可以通过取值方法推断得到, 那么你可以在属性的定义中省略类型声明:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 val isEmpty get() = this.size == 0  // 属性类型为 Boolean
 ```
 </div>
@@ -103,7 +103,7 @@ val isEmpty get() = this.size == 0  // 属性类型为 Boolean
 如果你需要改变属性访问方法的可见度, 或者需要对其添加注解, 但又不需要修改它的默认实现, 你可以定义这个方法, 但不定义它的实现体:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
-``` kotlin
+```kotlin
 var setterVisibility: String = "abc"
     private set // 设值方法的可见度为 private, 并使用默认实现
 
@@ -118,7 +118,7 @@ Kotlin 的类不能直接声明域变量. 但是, 如果属性需要一个后端
 在属性的取值方法或设值方法中, 使用 `field` 标识符可以引用这个后端域变量:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
-``` kotlin
+```kotlin
 var counter = 0 // 注意: 这里的初始化代码直接赋值给后端域变量
     set(value) {
         if (value >= 0) field = value
@@ -134,7 +134,7 @@ var counter = 0 // 注意: 这里的初始化代码直接赋值给后端域变�
 比如, 下面的情况不会存在后端域变量:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
-``` kotlin
+```kotlin
 val isEmpty: Boolean
     get() = this.size == 0
 ```
@@ -145,7 +145,7 @@ val isEmpty: Boolean
 如果你希望实现的功能无法通过这种 "隐含的后端域变量" 方案来解决, 你可以使用 *后端属性(backing property)* 作为替代方案:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
-``` kotlin
+```kotlin
 private var _table: Map<String, Int>? = null
 public val table: Map<String, Int>
     get() {
@@ -172,7 +172,7 @@ public val table: Map<String, Int>
 这类属性可以用在注解内:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 const val SUBSYSTEM_DEPRECATED: String = "This subsystem is deprecated"
 
 @Deprecated(SUBSYSTEM_DEPRECATED) fun foo() { ... }
@@ -187,7 +187,7 @@ const val SUBSYSTEM_DEPRECATED: String = "This subsystem is deprecated"
 要解决这个问题, 你可以为属性添加一个 `lateinit` 修饰符:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 public class MyTest {
     lateinit var subject: TestSubject
 

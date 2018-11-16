@@ -34,7 +34,9 @@ Kotlin 允许你将 Kotlin 工程编译为 JavaScript 模块(module), 支持各�
 
 使用 Maven 编译时, 要选择模块系统, 你应该设置 `moduleKind` 配置属性, 也就是说, 你的 `pom.xml` 文件应该类似如下:
 
-``` xml
+<div class="sample" markdown="1" mode="xml" auto-indent="false" theme="idea" data-highlight-only>
+
+```xml
 <plugin>
     <artifactId>kotlin-maven-plugin</artifactId>
     <groupId>org.jetbrains.kotlin</groupId>
@@ -55,6 +57,8 @@ Kotlin 允许你将 Kotlin 工程编译为 JavaScript 模块(module), 支持各�
 </plugin>
 ```
 
+</div>
+
 `moduleKind` 配置属性可以设置的值是: `plain`, `amd`, `commonjs`, `umd`.
 
 
@@ -62,10 +66,12 @@ Kotlin 允许你将 Kotlin 工程编译为 JavaScript 模块(module), 支持各�
 
 使用 Gradle 编译时, 要选择模块系统, 你应该设置 `moduleKind` 属性, 也就是:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` groovy
+<div class="sample" markdown="1" theme="idea" mode="groovy">
+
+```groovy
 compileKotlin2Js.kotlinOptions.moduleKind = "commonjs"
 ```
+
 </div>
 
 这个属性可以设置的值与 Maven 中类似.
@@ -76,19 +82,23 @@ compileKotlin2Js.kotlinOptions.moduleKind = "commonjs"
 你可以使用 `@JsModule` 注解, 告诉 Kotlin 一个 `external` 类, 包, 函数, 或属性, 是一个 JavaScript 模块.
 假设你有以下 CommonJS 模块, 名为 "hello":
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` javascript
+<div class="sample" markdown="1" theme="idea" mode="js">
+
+```javascript
 module.exports.sayHello = function(name) { alert("Hello, " + name); }
 ```
+
 </div>
 
 在 Kotlin 中你应该这样声明:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+
+```kotlin
 @JsModule("hello")
 external fun sayHello(name: String)
 ```
+
 </div>
 
 
@@ -100,7 +110,8 @@ external fun sayHello(name: String)
 编译器允许将导入的 JavaScript 包映射为 Kotlin 包, 语法如下:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+
+```kotlin
 @file:JsModule("extModule")
 package ext.jspackage.name
 
@@ -108,24 +119,28 @@ external fun foo()
 
 external class C
 ```
+
 </div>
 
 对应的 JavaScript 模块声明如下:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` javascript
+<div class="sample" markdown="1" theme="idea" mode="js">
+
+```javascript
 module.exports = {
     foo:  { /* 某些实现代码 */ },
     C:  { /* 某些实现代码 */ }
 }
 ```
+
 </div>
 
 注意: 使用 `@file:JsModule` 注解标注的源代码文件中, 不能声明非 external 的成员.
 下面的示例会发生编译期错误:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+
+```kotlin
 @file:JsModule("extModule")
 package ext.jspackage.name
 
@@ -133,6 +148,7 @@ external fun foo()
 
 fun bar() = "!" + foo() + "!" // 此处发生错误
 ```
+
 </div>
 
 ### 导入更深的包层次结构
@@ -143,8 +159,9 @@ Kotlin 也支持这样的情况, 但是你必须为导入的每一个包声明�
 
 比如, 让我们把示例修改得稍微复杂一点:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` javascript
+<div class="sample" markdown="1" theme="idea" mode="js">
+
+```javascript
 module.exports = {
     mylib: {
         pkg1: {
@@ -157,11 +174,13 @@ module.exports = {
     }
 }
 ```
+
 </div>
 
 要在 Kotlin 中导入这个模块, 你必须编写两个 Kotlin 源代码文件:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
+
 ```kotlin
 @file:JsModule("extModule")
 @file:JsQualifier("mylib.pkg1")
@@ -171,11 +190,13 @@ external fun foo()
 
 external fun bar()
 ```
+
 </div>
 
 以及
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
+
 ```kotlin
 @file:JsModule("extModule")
 @file:JsQualifier("mylib.pkg2")
@@ -183,6 +204,7 @@ package extlib.pkg2
 
 external fun baz()
 ```
+
 </div>
 
 ### `@JsNonModule` 注解
@@ -192,8 +214,9 @@ external fun baz()
 为了告诉 Kotlin, 一个标注了 `@JsModule` 注解的声明可以在非 JavaScript 模块的环境中使用, 你应该再加上 `@JsNonModule` 声明.
 比如, JavaScript 代码如下:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` javascript
+<div class="sample" markdown="1" theme="idea" mode="js">
+
+```javascript
 function topLevelSayHello(name) { alert("Hello, " + name); }
 if (module && module.exports) {
     module.exports = topLevelSayHello;
@@ -204,12 +227,14 @@ if (module && module.exports) {
 在 Kotlin 中可以这样声明:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
+
 ```kotlin
 @JsModule("hello")
 @JsNonModule
 @JsName("topLevelSayHello")
 external fun sayHello(name: String)
 ```
+
 </div>
 
 

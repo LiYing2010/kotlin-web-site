@@ -11,7 +11,7 @@ title: "值范围(Range)"
 任何可比较大小的数据类型(comparable type)都可以定义值范围, 但对于整数性的基本类型, 值范围的实现进行了特殊的优化. 下面是使用值范围的一些示例:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 if (i in 1..10) { // 等价于: 1 <= i && i <= 10
     println(i)
 }
@@ -22,12 +22,10 @@ if (i in 1..10) { // 等价于: 1 <= i && i <= 10
 编译器会负责将这些代码变换为 Java 中基于下标的 *for*{: .keyword } 循环, 不会产生不必要的性能损耗:
 
 <div class="sample" markdown="1" theme="idea">
-``` kotlin
-fun main(args: Array<String>) {
+```kotlin
+fun main() {
 //sampleStart
 for (i in 1..4) print(i)
-
-for (i in 4..1) print(i)
 //sampleEnd
 }
 ```
@@ -36,8 +34,8 @@ for (i in 4..1) print(i)
 如果你需要按反序遍历整数, 应该怎么办? 很简单. 你可以使用标准库中的 `downTo()` 函数:
 
 <div class="sample" markdown="1" theme="idea">
-``` kotlin
-fun main(args: Array<String>) {
+```kotlin
+fun main() {
 //sampleStart
 for (i in 4 downTo 1) print(i)
 //sampleEnd
@@ -48,8 +46,8 @@ for (i in 4 downTo 1) print(i)
 可不可以使用 1 以外的任意步长来遍历整数? 没问题, `step()` 函数可以帮你实现:
 
 <div class="sample" markdown="1" theme="idea">
-``` kotlin
-fun main(args: Array<String>) {
+```kotlin
+fun main() {
 //sampleStart
 for (i in 1..4 step 2) print(i)
 
@@ -62,8 +60,8 @@ for (i in 4 downTo 1 step 2) print(i)
 要创建一个不包含其末尾元素的值范围, 可以使用 `until` 函数:
 
 <div class="sample" markdown="1" theme="idea">
-``` kotlin
-fun main(args: Array<String>) {
+```kotlin
+fun main() {
 //sampleStart
 for (i in 1 until 10) {
      // i in [1, 10), 不包含 10
@@ -104,7 +102,7 @@ for (int i = first; i != last; i += step) {
 要构造一个数列, 可以使用对应的类的同伴对象中定义的 `fromClosedRange` 函数:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 IntProgression.fromClosedRange(start, end, step)
 ```
 </div>
@@ -146,7 +144,7 @@ class Int {
 `downTo()` 扩展函数可用于一对整数类型值, 下面是两个例子:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun Long.downTo(other: Int): LongProgression {
     return LongProgression.fromClosedRange(this, other.toLong(), -1L)
 }
@@ -162,7 +160,7 @@ fun Byte.downTo(other: Int): IntProgression {
 对每个 `*Progression` 类都定义了 `reversed()` 扩展函数, 所有这些函数都会返回相反的数列:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun IntProgression.reversed(): IntProgression {
     return IntProgression.fromClosedRange(last, first, -step)
 }
@@ -175,7 +173,7 @@ fun IntProgression.reversed(): IntProgression {
 步长值参数要求永远是正数, 因此这个函数不会改变数列遍历的方向:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun IntProgression.step(step: Int): IntProgression {
     if (step <= 0) throw IllegalArgumentException("Step must be positive, was: $step")
     return IntProgression.fromClosedRange(first, last, if (this.step > 0) step else -step)
@@ -191,7 +189,7 @@ fun CharProgression.step(step: Int): CharProgression {
 注意, 函数返回的数列的 `last` 值可能会与原始数列的 `last` 值不同, 这是为了保证 `(last - first) % step == 0` 原则. 下面是一个例子:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 (1..12 step 2).last == 11  // 数列中的元素为 [1, 3, 5, 7, 9, 11]
 (1..12 step 3).last == 10  // 数列中的元素为 [1, 4, 7, 10]
 (1..12 step 4).last == 9   // 数列中的元素为 [1, 5, 9]

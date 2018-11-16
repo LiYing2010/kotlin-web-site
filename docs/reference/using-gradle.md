@@ -14,8 +14,9 @@ title: "使用 Gradle"
 
 使用的 Kotlin 版本通常定义为 `kotlin_version` 属性:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` groovy
+<div class="sample" markdown="1" mode="groovy" theme="idea">
+
+```groovy
 buildscript {
     ext.kotlin_version = '{{ site.data.releases.latest.version }}'
 
@@ -28,28 +29,37 @@ buildscript {
     }
 }
 ```
+
 </div>
 
 通过 [Gradle plugins DSL](https://docs.gradle.org/current/userguide/plugins.html#sec:plugins_block), 或 [Gradle Kotlin DSL](https://github.com/gradle/kotlin-dsl), 使用 Kotlin Gradle plugin 1.1.1 及以上版本时, 不需要以上定义.
+
+## 编译 Kotlin 多平台项目
+
+关于使用 `kotlin-multiplatform` plugin 来编译 [跨平台项目](multiplatform.html) 的方法, 请参见 [使用 Gradle 编译跨平台项目](building-mpp-with-gradle.html).
 
 ## 编译到 JVM 平台
 
 要编译到 JVM 平台, 需要应用(apply) Kotlin plugin:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` groovy
+<div class="sample" markdown="1" mode="groovy" theme="idea">
+
+```groovy
 apply plugin: "kotlin"
 ```
+
 </div>
 
 从 Kotlin 1.1.1 版开始, 也可以通过 [Gradle plugins DSL](https://docs.gradle.org/current/userguide/plugins.html#sec:plugins_block) 来使用 Kotlin plugin:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
+<div class="sample" markdown="1" mode="groovy" theme="idea">
+
 ```groovy
 plugins {
     id "org.jetbrains.kotlin.jvm" version "{{ site.data.releases.latest.version }}"
 }
 ```
+
 </div>
 
 在这段代码中, `version` 必须是写明的字面值, 不能通过其他编译脚本得到.
@@ -57,16 +67,19 @@ plugins {
 如果使用 Gradle Kotlin DSL, 可以这样使用 Kotlin plugin:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
+
 ```kotlin
 plugins {
     kotlin("jvm") version "{{ site.data.releases.latest.version }}"
 }
 ```
+
 </div>
 
 Kotlin 源代码可以与 Java 源代码共存在同一个文件夹下, 也可以放在不同的文件夹下. 默认的约定是使用不同的文件夹:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
+<div class="sample" markdown="1" mode="groovy" theme="idea" auto-indent="false">
+
 ```groovy
 project
     - src
@@ -74,17 +87,20 @@ project
             - kotlin
             - java
 ```
+
 </div>
 
 如果不使用默认约定的文件夹结构, 那么需要修改相应的 *sourceSets* 属性:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
+<div class="sample" markdown="1" mode="groovy" theme="idea">
+
 ```groovy
 sourceSets {
     main.kotlin.srcDirs += 'src/main/myKotlin'
     main.java.srcDirs += 'src/main/myJava'
 }
 ```
+
 </div>
 
 如果使用 Gradle Kotlin DSL, 请用 `java.sourceSets { ... }` 来设置源代码集.
@@ -93,40 +109,47 @@ sourceSets {
 
 编译到 JavaScript 时, 需要应用(apply)另一个 plugin:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` groovy
+<div class="sample" markdown="1" mode="groovy" theme="idea">
+
+```groovy
 apply plugin: "kotlin2js"
 ```
+
 </div>
 
 这个 plugin 只能编译 Kotlin 源代码文件, 因此推荐将 Kotlin 和 Java 源代码文件放在不同的文件夹内(如果工程内包含 Java 文件的话). 与编译到 JVM 平台时一样, 如果不使用默认约定的文件夹结构, 我们需要使用 *sourceSets* 来指定文件夹目录:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` groovy
+<div class="sample" markdown="1" mode="groovy" theme="idea">
+
+```groovy
 sourceSets {
     main.kotlin.srcDirs += 'src/main/myKotlin'
 }
 ```
+
 </div>
 
 除了编译输出的 JavaScript 文件之外, plugin 默认还会创建一个带二进制描述符(binary descriptor)的 JS 文件.
 如果你在编译一个被其他 Kotlin 模块依赖的可重用的库, 那么这个文件是必须的, 而且需要与编译结果一起发布.
 这个文件的生成, 可以通过 `kotlinOptions.metaInfo` 选项来控制:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` groovy
+<div class="sample" markdown="1" mode="groovy" theme="idea">
+
+```groovy
 compileKotlin2Js {
     kotlinOptions.metaInfo = true
 }
 ```
+
 </div>
 
 ## 编译到 Android
 
 Android 的 Gradle 模型与通常的 Gradle 略有区别, 因此如果我们想要编译一个使用 Kotlin 语言开发的 Android 工程, 就需要使用 *kotlin-android* plugin 而不是 *kotlin* plugin:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` groovy
+<div class="sample" markdown="1" mode="groovy" theme="idea">
+
+```groovy
 buildscript {
     ext.kotlin_version = '{{ site.data.releases.latest.version }}'
 
@@ -139,6 +162,7 @@ buildscript {
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 ```
+
 </div>
 
 此外不要忘记配置 [对标准库的依赖](#configuring-dependencies).
@@ -147,8 +171,9 @@ apply plugin: 'kotlin-android'
 
 如果使用 Android Studio, 需要在 android 之下添加以下内容:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` groovy
+<div class="sample" markdown="1" mode="groovy" theme="idea">
+
+```groovy
 android {
   ...
 
@@ -157,6 +182,7 @@ android {
   }
 }
 ```
+
 </div>
 
 这些设置告诉 Android Studio, kotlin 目录是一个源代码根目录, 因此当工程模型装载进入 IDE 时, 就可以正确地识别这个目录. 或者, 你也可以将 Kotlin 类放在 Java 源代码目录内, 通常是 `src/main/java`.
@@ -165,8 +191,9 @@ android {
 
 除了上文讲到的 `kotlin-gradle-plugin` 依赖之外, 你还需要添加 Kotlin 标准库的依赖:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` groovy
+<div class="sample" markdown="1" mode="groovy" theme="idea">
+
+```groovy
 repositories {
     mavenCentral()
 }
@@ -175,6 +202,7 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib"
 }
 ```
+
 </div>
 
 如果你的编译目标平台是 JavaScript, 请改用 `compile "org.jetbrains.kotlin:kotlin-stdlib-js"`.
@@ -182,17 +210,20 @@ dependencies {
 如果你的编译目标平台是 JDK 7 或 JDK 8, 你可以使用 Kotlin 标准库的扩展版本, 其中包含了针对 JDK 新版本中新增 API 的额外的扩展函数.
 请使用以下依赖, 而不是通常的 `kotlin-stdlib`:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` groovy
+<div class="sample" markdown="1" mode="groovy" theme="idea">
+
+```groovy
 compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7"
 compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 ```
+
 </div>
 
 使用 Gradle Kotlin DSL 时, 相应的依赖设定如下:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+
+```kotlin
 dependencies {
     compile(kotlin("stdlib"))
     // 或者使用以下两个设置之一:
@@ -200,28 +231,33 @@ dependencies {
     compile(kotlin("stdlib-jdk8"))
 }
 ```
+
 </div>
 
 在 Kotlin 1.1.x 版本中, 请使用 `kotlin-stdlib-jre7` 和 `kotlin-stdlib-jre8`.
 
 如果你的项目使用了 [Kotlin 反射功能](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect.full/index.html), 或测试功能, 那么还需要添加相应的依赖:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
+<div class="sample" markdown="1" mode="groovy" theme="idea">
+
 ```groovy
 compile "org.jetbrains.kotlin:kotlin-reflect"
 testCompile "org.jetbrains.kotlin:kotlin-test"
 testCompile "org.jetbrains.kotlin:kotlin-test-junit"
 ```
+
 </div>
 
 如果使用 Gradle Kotlin DSL, 相应的依赖设定如下:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
+<div class="sample" markdown="1" mode="groovy" theme="idea">
+
 ```groovy
 compile(kotlin("reflect"))
 testCompile(kotlin("test"))
 testCompile(kotlin("test-junit"))
 ```
+
 </div>
 
 从 Kotlin 1.1.2 版开始, `org.jetbrains.kotlin` 组之下的依赖项, 默认会使用从 Kotlin plugin 得到的版本号.
@@ -247,54 +283,6 @@ Kotlin 支持 Gradle 中的增量编译模式, 但这个功能目前还是实验
 
 注意, 初次编译不会是增量编译.
 
-## 对协程的支持
-
-对 [协程](coroutines.html) 的支持是从 Kotlin 1.2 开始新增的一个实验性功能, 因此如果你在项目中使用了协程, Kotlin 编译器会报告一个警告信息.
-在你的 `build.gradle` 文件中添加以下代码, 可以关闭这个警告:
-
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` groovy
-kotlin {
-    experimental {
-        coroutines 'enable'
-    }
-}
-```
-</div>
-
-如果使用 Gradle Kotlin DSL, 相应的设置是:
-
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
-import org.jetbrains.kotlin.gradle.dsl.Coroutines
-// ...
-
-kotlin.experimental.coroutines = Coroutines.ENABLE
-```
-</div>
-
-## 模块名称
-
-编译产生的 Kotlin 模块名称, 会根据项目的 `archivesBaseName` 属性来决定.
-如果项目的名称很宽泛, 比如 `lib` 或 `jvm`, 这样的名称在子项目中很常见, 该模块的 Kotlin 编译输出的文件(`*.kotlin_module`) 可能会与第三方的同名模块中发生名称冲突.
-如果要把一个项目打包为单个的文件(比如打包为 APK 文件), 模块的重名就会造成问题.
-
-为了避免这种问题, 请手动设定一个唯一的 `archivesBaseName`:
-
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` groovy
-archivesBaseName = 'myExampleProject_lib'
-```
-</div>
-
-如果使用 Gradle Kotlin DSL, 相应的设置是:
-
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
-setProperty("archivesBaseName", "myExampleProject_lib")
-```
-</div>
-
 ## 对 Gradle 编译缓存的支持 (从 1.2.20 版开始支持)
 
 Kotlin 插件支持 [Gradle 编译缓存](https://guides.gradle.org/using-build-cache/) (需要 Gradle 4.3 或更高版本; 对于 4.3 以下版本, 编译缓存会被禁用).
@@ -302,12 +290,14 @@ Kotlin 插件支持 [Gradle 编译缓存](https://guides.gradle.org/using-build-
 kapt 注解处理任务默认不会缓存, 因为注解处理器可以运行任何代码, 这些代码可能并不一定会把编译任务的输入文件转换为输出文件, 可能会访问并修改没有被 Gradle 追踪的那些文件, 等等等等.
 如果一定要对 kapt 启用缓存功能, 可以在编译脚本中添加以下内容:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` groovy
+<div class="sample" markdown="1" mode="groovy" theme="idea">
+
+```groovy
 kapt {
     useBuildCache = true
 }
 ```
+
 </div>
 
 如果想要对所有的 Kotlin 编译任务禁用缓存, 可以将系统属性 `kotlin.caching.enabled` 设置为 `false` (也就是使用参数 `-Dkotlin.caching.enabled=false` 来执行编译).
@@ -326,8 +316,9 @@ Android 项目的编译任务名称, 包含 [构建变体(build variant)](https:
 
 要对单个编译任务进行配置, 请使用它的名称. 示例如下:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` groovy
+<div class="sample" markdown="1" mode="groovy" theme="idea">
+
+```groovy
 compileKotlin {
     kotlinOptions.suppressWarnings = true
 }
@@ -338,31 +329,36 @@ compileKotlin {
     }
 }
 ```
+
 </div>
 
 如果使用 Gradle Kotlin DSL, 首先要从工程的 `tasks` 得到编译任务:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+
+```kotlin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 // ...
 
-val kotlinCompile: KotlinCompile by tasks
+val compileKotlin: KotlinCompile by tasks
 
-kotlinCompile.kotlinOptions.suppressWarnings = true
+compileKotlin.kotlinOptions.suppressWarnings = true
 ```
+
 </div>
 
 编译 JavaScript 和 Common 时, 请使用相应的 `Kotlin2JsCompile` 和 `KotlinCompileCommon` 类型.
 
 也可以对项目中的所有 Kotlin 编译任务进行配置:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` groovy
+<div class="sample" markdown="1" mode="groovy" theme="idea">
+
+```groovy
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
     kotlinOptions { ... }
 }
 ```
+
 </div>
 
 Gradle 任务所支持的编译选项完整列表如下:

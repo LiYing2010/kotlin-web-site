@@ -10,7 +10,7 @@ title: "嵌套类与内部类"
 类可以嵌套在另一个类之内:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 class Outer {
     private val bar: Int = 1
     class Nested {
@@ -27,7 +27,7 @@ val demo = Outer.Nested().foo() // == 2
 类可以使用 *inner*{: .keyword } 关键字来标记, 然后就可以访问外部类(outer class)的成员. 内部类会保存一个引用, 指向外部类的对象实例:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 class Outer {
     private val bar: Int = 1
     inner class Inner {
@@ -46,7 +46,7 @@ val demo = Outer().Inner().foo() // == 1
 匿名内部类的实例使用 [对象表达式(object expression)](object-declarations.html#object-expressions) 来创建:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 window.addMouseListener(object: MouseAdapter() {
     override fun mouseClicked(e: MouseEvent) { ... }
 
@@ -58,7 +58,7 @@ window.addMouseListener(object: MouseAdapter() {
 如果这个对象是一个 Java 函数式接口的实例(也就是, 只包含唯一一个抽象方法的 Java 接口), 那么你可以使用带接口类型前缀的 Lambda 表达式来创建这个对象:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 val listener = ActionListener { println("clicked") }
 ```
 </div>

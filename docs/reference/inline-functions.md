@@ -15,7 +15,7 @@ title: "内联函数与实体化的类型参数"
 看看下面的例子:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 lock(l) { foo() }
 ```
 </div>
@@ -23,7 +23,7 @@ lock(l) { foo() }
 编译器可以直接产生下面的代码, 而不必为参数创建函数对象, 然后再调用这个参数指向的函数:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 l.lock()
 try {
     foo()
@@ -39,7 +39,7 @@ finally {
 为了让编译器做到这点, 我们需要使用 `inline` 修饰符标记 `lock()` 函数:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 inline fun <T> lock(lock: Lock, body: () -> T): T { ... }
 ```
 </div>
@@ -54,7 +54,7 @@ inline fun <T> lock(lock: Lock, body: () -> T): T { ... }
 如果一个内联函数的参数中有多个 Lambda 表达式, 而你只希望内联其中的一部分, 你可以对函数的一部分参数添加 `noinline` 标记:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 inline fun foo(inlined: () -> Unit, noinline notInlined: () -> Unit) { ... }
 ```
 </div>
@@ -69,7 +69,7 @@ inline fun foo(inlined: () -> Unit, noinline notInlined: () -> Unit) { ... }
 这就意味着, 要退出一个 Lambda 表达式, 我们必须使用一个 [标签](returns.html#return-at-labels), 无标签的 `return` 在 Lambda 表达式内是禁止使用的, 因为 Lambda 表达式不允许强制包含它的函数返回:
 
 <div class="sample" markdown="1" theme="idea">
-``` kotlin
+```kotlin
 fun ordinaryFunction(block: () -> Unit) {
     println("hi!")
 }
@@ -80,7 +80,7 @@ fun foo() {
     }
 }
 //sampleEnd
-fun main(args: Array<String>) {
+fun main() {
     foo()
 }
 ```
@@ -89,7 +89,7 @@ fun main(args: Array<String>) {
 但是, 如果 Lambda 表达式被传递去的函数是内联函数, 那么 return 语句也可以内联, 因此 return 是允许的:
 
 <div class="sample" markdown="1" theme="idea">
-``` kotlin
+```kotlin
 inline fun inlined(block: () -> Unit) {
     println("hi!")
 }
@@ -99,7 +99,7 @@ fun foo() {
     }
 }
 //sampleEnd
-fun main(args: Array<String>) {
+fun main() {
     foo()
 }
 ```
@@ -108,7 +108,7 @@ fun main(args: Array<String>) {
 这样的 return 语句(位于 Lambda 表达式内部, 但是退出包含 Lambda 表达式的函数) 称为 *非局部(non-local)* 返回. 我们在循环中经常用到这样的结构, 而循环也常常就是包含内联函数的地方:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun hasZeros(ints: List<Int>): Boolean {
     ints.forEach {
         if (it == 0) return true // 从 hasZeros 函数返回
@@ -121,7 +121,7 @@ fun hasZeros(ints: List<Int>): Boolean {
 注意, 有些内联函数可能并不在自己的函数体内直接调用传递给它的 Lambda 表达式参数, 而是通过另一个执行环境来调用, 比如通过一个局部对象, 或者一个嵌套函数. 这种情况下, 在 Lambda 表达式内, 非局部的控制流同样是禁止的. 为了标识这一点, Lambda 表达式参数需要添加 `crossinline` 修饰符:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 inline fun f(crossinline body: () -> Unit) {
     val f = object: Runnable {
         override fun run() = body()
@@ -138,7 +138,7 @@ inline fun f(crossinline body: () -> Unit) {
 有些时候我们需要访问作为参数传递来的类型:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun <T> TreeNode.findParentOfType(clazz: Class<T>): T? {
     var p = parent
     while (p != null && !clazz.isInstance(p)) {
@@ -153,7 +153,7 @@ fun <T> TreeNode.findParentOfType(clazz: Class<T>): T? {
 这里, 我们向上遍历一颗树, 然后使用反射来检查节点是不是某个特定的类型. 这些都没问题, 但这个函数的调用代码不太漂亮:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 treeNode.findParentOfType(MyTreeNode::class.java)
 ```
 </div>
@@ -161,7 +161,7 @@ treeNode.findParentOfType(MyTreeNode::class.java)
 我们真正需要的, 只是简单地将一个类型传递给这个函数, 也就是说, 象这样调用它:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 treeNode.findParentOfType<MyTreeNode>()
 ```
 </div>
@@ -169,7 +169,7 @@ treeNode.findParentOfType<MyTreeNode>()
 为了达到这个目的, 内联函数支持 *实体化的类型参数(reified type parameter)*, 使用这个功能我们可以将代码写成:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 inline fun <reified T> TreeNode.findParentOfType(): T? {
     var p = parent
     while (p != null && p !is T) {
@@ -185,7 +185,7 @@ inline fun <reified T> TreeNode.findParentOfType(): T? {
 虽然很多情况下并不需要, 但我们仍然可以对一个实体化的类型参数使用反射:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 inline fun <reified T> membersOf() = T::class.members
 
 fun main(s: Array<String>) {
@@ -207,7 +207,7 @@ fun main(s: Array<String>) {
 你可以标识单个的属性取值/设值方法:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
-``` kotlin
+```kotlin
 val foo: Foo
     inline get() = Foo()
 
@@ -220,7 +220,7 @@ var bar: Bar
 也可以标注整个属性, 等于将它的取值和设值方法都标注为 `inline`:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
-``` kotlin
+```kotlin
 inline var bar: Bar
     get() = ...
     set(v) { ... }

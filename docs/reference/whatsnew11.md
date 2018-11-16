@@ -55,7 +55,7 @@ launch(UI) {
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.1">
 
-``` kotlin
+```kotlin
 import kotlin.coroutines.experimental.*
 
 fun main(args: Array<String>) {
@@ -79,7 +79,7 @@ fun main(args: Array<String>) {
 
 你可以运行上面的代码, 并查看结果. 你可以修改代码, 然后再次运行, 看看结果如何!
 
-关于这个功能的详情, 请参见 [参考文档](coroutines.html) 以及 [教程](https://kotlinlang.org/docs/tutorials/coroutines-basic-jvm.html).
+关于这个功能的详情, 请参见 [参考文档](coroutines.html) 以及 [教程](https://kotlinlang.org/docs/tutorials/coroutines/coroutines-basic-jvm.html).
 
 注意, 协程目前还是 **实验性功能**, 也就是说, 1.1 正式发布后, Kotlin 开发组不保证这个特性的向后兼容性(backwards compatibility).
 
@@ -94,7 +94,7 @@ fun main(args: Array<String>) {
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.1">
 
-``` kotlin
+```kotlin
 //sampleStart
 typealias OscarWinners = Map<String, String>
 
@@ -136,7 +136,7 @@ fun main(args: Array<String>) {
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.1">
 
-``` kotlin
+```kotlin
 //sampleStart
 val numberRegex = "\\d+".toRegex()
 val numbers = listOf("abc", "123", "456").filter(numberRegex::matches)
@@ -161,7 +161,7 @@ Kotlin 1.1 中删除了 Kotlin 1.0 中对封闭类(sealed class)与数据类(dat
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.1">
 
-``` kotlin
+```kotlin
 //sampleStart
 sealed class Expr
 
@@ -193,7 +193,7 @@ fun main(args: Array<String>) {
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.1" auto-indent="false" indent="2">
 
-``` kotlin
+```kotlin
 fun main(args: Array<String>) {
 //sampleStart
   val map = mapOf(1 to "one", 2 to "two")
@@ -218,7 +218,7 @@ fun main(args: Array<String>) {
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.1">
 
-``` kotlin
+```kotlin
 fun main(args: Array<String>) {
     val map = mapOf(1 to "one", 2 to "two")
 
@@ -233,7 +233,7 @@ fun main(args: Array<String>) {
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.1">
 
-``` kotlin
+```kotlin
 data class Result(val value: Any, val status: String)
 
 fun getResult() = Result(42, "ok").also { println("getResult() returns $it") }
@@ -256,7 +256,7 @@ fun main(args: Array<String>) {
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.1">
 
-``` kotlin
+```kotlin
 //sampleStart
 val oneMillion = 1_000_000
 val hexBytes = 0xFF_EC_DE_5E
@@ -280,7 +280,7 @@ fun main(args: Array<String>) {
 
 <div class="sample" markdown="1" data-min-compiler-version="1.1" theme="idea">
 
-``` kotlin
+```kotlin
 //sampleStart
 data class Person(val name: String, val age: Int) {
     val isAdult get() = age >= 20 // 属性类型自动推断为 'Boolean'
@@ -302,7 +302,7 @@ fun main(args: Array<String>) {
 
 <div class="sample" markdown="1" data-min-compiler-version="1.1" theme="idea">
 
-``` kotlin
+```kotlin
 //sampleStart
 public val <T> List<T>.lastIndex: Int
     inline get() = this.size - 1
@@ -328,7 +328,7 @@ fun main(args: Array<String>) {
 
 <div class="sample" markdown="1" data-min-compiler-version="1.1" theme="idea">
 
-``` kotlin
+```kotlin
 import java.util.Random
 
 fun needAnswer() = Random().nextBoolean()
@@ -359,7 +359,7 @@ fun main(args: Array<String>) {
 比如, 如果我们希望在绑定之前检查属性名称, 我们可以编写以下代码:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 class ResourceLoader<T>(id: ResourceID<T>) {
     operator fun provideDelegate(thisRef: MyUI, prop: KProperty<*>): ReadOnlyProperty<MyUI, T> {
         checkProperty(thisRef, prop.name)
@@ -389,7 +389,7 @@ class MyUI {
 
 <div class="sample" markdown="1" data-min-compiler-version="1.1" theme="idea">
 
-``` kotlin
+```kotlin
 //sampleStart
 enum class RGB { RED, GREEN, BLUE }
 
@@ -411,7 +411,7 @@ fun main(args: Array<String>) {
 比如, 考虑一下我们经典的 [HTML 构建器的例子](type-safe-builders.html):
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 table {
     tr {
         td { + "Text" }
@@ -452,7 +452,7 @@ val port = System.getenv("PORT")?.toIntOrNull() ?: 80
 对于集合和序列来说, `onEach` 是一个小的, 但非常有用的扩展函数, 这个函数可以对集合或序列中的所有元素来执行相同的操作, 这个操作可能会带有副作用(side effect). 这个函数能够以操作链(chain of operation)的形式来使用. 对于 iterable, 这个函数类似 `forEach`, 但它最后会返回这个 iterable 实例. 对于 sequence, 这个函数会返回一个包装过的 sequence, 这个包装过的 sequence 会延迟地对每个元素执行你给定的操作.
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
-``` kotlin
+```kotlin
 inputDir.walk()
         .filter { it.isFile && it.name.endsWith(".txt") }
         .onEach { println("Moving $it to $outputDir") }
@@ -471,7 +471,7 @@ inputDir.walk()
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.1">
 
-``` kotlin
+```kotlin
 class Block {
     lateinit var content: String
 }
@@ -500,7 +500,7 @@ fun main(args: Array<String>) {
 将这个函数与 Elvis 操作符, 以及快速返回(early return)组合起来, 可以编写下面这样的代码:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 val outDirFile = File(outputDir.path).takeIf { it.exists() } ?: return false
 // 对于已经存在的 outDirFile 进行某些处理
 ```
@@ -508,7 +508,7 @@ val outDirFile = File(outputDir.path).takeIf { it.exists() } ?: return false
 
 <div class="sample" markdown="1" data-min-compiler-version="1.1" theme="idea">
 
-``` kotlin
+```kotlin
 fun main(args: Array<String>) {
     val input = "Kotlin"
     val keyword = "in"
@@ -528,7 +528,7 @@ fun main(args: Array<String>) {
 `takeUnless` 与 `takeIf` 类似, 但它使用相反的判断条件. 如果 _不_ 满足条件则返回接受者, 否则返回 `null`. 因此上面的示例可以使用 `takeUnless` 改写, 如下:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 val index = input.indexOf(keyword).takeUnless { it < 0 } ?: error("keyword not found")
 ```
 </div>
@@ -537,7 +537,7 @@ val index = input.indexOf(keyword).takeUnless { it < 0 } ?: error("keyword not f
 
 <div class="sample" markdown="1" data-min-compiler-version="1.1" theme="idea">
 
-``` kotlin
+```kotlin
 private fun testTakeUnless(string: String) {
 //sampleStart
     val result = string.takeUnless(String::isEmpty)
@@ -560,7 +560,7 @@ fun main(args: Array<String>) {
 
 <div class="sample" markdown="1" data-min-compiler-version="1.1" theme="idea">
 
-``` kotlin
+```kotlin
 fun main(args: Array<String>) {
     val words = "one two three four five six seven eight nine ten".split(' ')
 //sampleStart
@@ -581,7 +581,7 @@ fun main(args: Array<String>) {
 这两个函数可以用来简化 Map 的复制处理:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 class ImmutablePropertyBag(map: Map<String, Any>) {
     private val mapCopy = map.toMap()
 }
@@ -595,7 +595,7 @@ class ImmutablePropertyBag(map: Map<String, Any>) {
 
 <div class="sample" markdown="1" data-min-compiler-version="1.1" theme="idea">
 
-``` kotlin
+```kotlin
 fun main(args: Array<String>) {
 //sampleStart
     val map = mapOf("key" to 42)
@@ -614,7 +614,7 @@ fun main(args: Array<String>) {
 
 <div class="sample" markdown="1" data-min-compiler-version="1.1" theme="idea">
 
-``` kotlin
+```kotlin
 fun main(args: Array<String>) {
 //sampleStart
     val list1 = listOf("a", "b")
@@ -635,7 +635,7 @@ fun main(args: Array<String>) {
 
 <div class="sample" markdown="1" data-min-compiler-version="1.1" theme="idea">
 
-``` kotlin
+```kotlin
 fun main(args: Array<String>) {
 //sampleStart
     val squares = List(10) { index -> index * index }
@@ -655,7 +655,7 @@ fun main(args: Array<String>) {
 
 <div class="sample" markdown="1" data-min-compiler-version="1.1" theme="idea">
 
-``` kotlin
+```kotlin
 fun main(args: Array<String>) {
 
 //sampleStart
@@ -693,7 +693,7 @@ fun main(args: Array<String>) {
 
 <div class="sample" markdown="1" data-min-compiler-version="1.1" theme="idea">
 
-``` kotlin
+```kotlin
 fun main(args: Array<String>) {
 //sampleStart
     val array = arrayOf("a", "b", "c")
@@ -740,7 +740,7 @@ Kotlin 目前集成了 [javax.script API](https://docs.oracle.com/javase/8/docs/
 The API allows to evaluate snippets of code at runtime:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 val engine = ScriptEngineManager().getEngineByExtension("kts")!!
 engine.eval("val x = 3")
 println(engine.eval("x + 2"))  // 输出结果为: s5
@@ -773,7 +773,7 @@ JavaScript 环境生成的代码现在更容易进行静态检查了, 因此对�
 比如, 你可以这样声明 DOM 的 `Node` 类:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 external class Node {
     val firstChild: Node
 
@@ -795,7 +795,7 @@ external class Node {
 比如, 你可以这样将 JQuery 导入到 Kotlin 模块中:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 external interface JQuery {
     fun toggle(duration: Int = definedExternally): JQuery
     fun click(handler: (Event) -> Unit): JQuery
@@ -813,7 +813,7 @@ external fun jquery(selector: String): JQuery
 在你的应用程序中, 你可以这样使用这些声明:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun main(args: Array<String>) {
     jquery(".toggle-button").click {
         jquery(".toggle-panel").toggle(300)

@@ -13,17 +13,23 @@ description: "This tutorials walks you through different scenarios when using Ma
 
 可以通过 *kotlin.version* 变量来指定你希望使用的 Kotlin 版本:
 
-``` xml
+<div class="sample" markdown="1" mode="xml" auto-indent="false" theme="idea" data-highlight-only>
+
+```xml
 <properties>
     <kotlin.version>{{ site.data.releases.latest.version }}</kotlin.version>
 </properties>
 ```
 
+</div>
+
 ## 依赖
 
 Kotlin 有一个内容广泛的标准库, 可以在你的应用程序中使用. 请在 pom 文件中添加以下依赖设置:
 
-``` xml
+<div class="sample" markdown="1" mode="xml" auto-indent="false" theme="idea" data-highlight-only>
+
+```xml
 <dependencies>
     <dependency>
         <groupId>org.jetbrains.kotlin</groupId>
@@ -33,9 +39,11 @@ Kotlin 有一个内容广泛的标准库, 可以在你的应用程序中使用. 
 </dependencies>
 ```
 
+</div>
+
 如果你的编译目标平台是 JDK 7 或 JDK 8, 你可以使用 Kotlin 标准库的扩展版本, 其中包含了针对 JDK 新版本中新增 API 的额外的扩展函数.
 请使用 `kotlin-stdlib-jdk7` or `kotlin-stdlib-jdk8` 依赖(根据你的 JDK 版本决定), 而不是通常的 `kotlin-stdlib`.
-(对于 Kotlin 1.1.x 版本, 请使用 `kotlin-stdlib-jre7` 或 `kotlin-stdlib-jre8`)
+(对 `jdk` 包的依赖是 Kotlin 1.2.0 版本开始引入, 对于 Kotlin 1.1.x 版本, 请使用 `kotlin-stdlib-jre7` 或 `kotlin-stdlib-jre8`)
 
 如果你的项目使用了 [Kotlin 反射功能](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect.full/index.html), 或测试功能, 那么还需要添加相应的依赖.
 反射功能库的 artifact ID 是 `kotlin-reflect`, 测试功能库的 artifact ID 是 `kotlin-test` 和 `kotlin-test-junit`.
@@ -44,16 +52,22 @@ Kotlin 有一个内容广泛的标准库, 可以在你的应用程序中使用. 
 
 要编译 Kotlin 源代码, 请在 `<build>` 标签内指定源代码目录:
 
-``` xml
+<div class="sample" markdown="1" mode="xml" auto-indent="false" theme="idea" data-highlight-only>
+
+```xml
 <build>
     <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
     <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
 </build>
 ```
 
+</div>
+
 编译源代码时, 需要引用 Kotlin Maven 插件:
 
-``` xml
+<div class="sample" markdown="1" mode="xml" auto-indent="false" theme="idea" data-highlight-only>
+
+```xml
 <build>
     <plugins>
         <plugin>
@@ -77,12 +91,16 @@ Kotlin 有一个内容广泛的标准库, 可以在你的应用程序中使用. 
 </build>
 ```
 
+</div>
+
 ## 编译 Kotlin 和 Java 的混合源代码
 
 要编译混合源代码的应用程序, 需要在 Java 编译器之前调用 Kotlin 编译器.
 用 Maven 的术语来说就是, kotlin-maven-plugin 应该在 maven-compiler-plugin 之前运行, 也就是说, 在你的 pom.xml 文件中, kotlin plugin 要放在 maven-compiler-plugin 之前, 如下例:
 
-``` xml
+<div class="sample" markdown="1" mode="xml" auto-indent="false" theme="idea" data-highlight-only>
+
+```xml
 <build>
     <plugins>
         <plugin>
@@ -142,16 +160,23 @@ Kotlin 有一个内容广泛的标准库, 可以在你的应用程序中使用. 
     </plugins>
 </build>
 ```
+
+</div>
+
 ## 增量编译(Incremental compilation)
 
 为了提高编译速度, 你可以打开 Maven 的增量编译模式(从 Kotlin 1.1.2 版开始支持).
 方法是定义 `kotlin.compiler.incremental` 属性:
 
-``` xml
+<div class="sample" markdown="1" mode="xml" auto-indent="false" theme="idea" data-highlight-only>
+
+```xml
 <properties>
     <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
 </properties>
 ```
+
+</div>
 
 或者, 使用命令行选项 `-Dkotlin.compiler.incremental=true` 来执行你的编译任务.
 
@@ -164,18 +189,24 @@ Kotlin 有一个内容广泛的标准库, 可以在你的应用程序中使用. 
 对 [协程](coroutines.html) 的支持是从 Kotlin 1.2 开始新增的一个实验性功能, 因此如果你在项目中使用了协程, Kotlin 编译器会报告一个警告信息.
 在你的 `pom.xml` 文件中添加以下代码, 可以关闭这个警告:
 
-``` xml
+<div class="sample" markdown="1" mode="xml" auto-indent="false" theme="idea" data-highlight-only>
+
+```xml
 <configuration>
     <experimentalCoroutines>enable</experimentalCoroutines>
 </configuration>
 ```
+
+</div>
 
 ## Jar 文件
 
 假如要创建一个小的 Jar 文件, 其中只包含你的模块中的代码, 那么请将以下代码添加到你的 Maven pom.xml 文件的 `build->plugins` 之下,
 其中的 `main.class` 是一个属性, 指向 Kotlin 或 Java 的 main class:
 
-``` xml
+<div class="sample" markdown="1" mode="xml" auto-indent="false" theme="idea" data-highlight-only>
+
+```xml
 <plugin>
     <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-jar-plugin</artifactId>
@@ -191,12 +222,16 @@ Kotlin 有一个内容广泛的标准库, 可以在你的应用程序中使用. 
 </plugin>
 ```
 
+</div>
+
 ## 自包含的(Self-contained) Jar 文件
 
 要创建一个自包含的 Jar 文件, 其中包含你的模块中的代码, 以及它依赖的库文件, 那么请将以下代码添加到你的 Maven pom.xml 文件的 `build->plugins` 之下,
 其中的 `main.class` 是一个属性, 指向 Kotlin 或 Java 的 main class:
 
-``` xml
+<div class="sample" markdown="1" mode="xml" auto-indent="false" theme="idea" data-highlight-only>
+
+```xml
 <plugin>
     <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-assembly-plugin</artifactId>
@@ -221,9 +256,11 @@ Kotlin 有一个内容广泛的标准库, 可以在你的应用程序中使用. 
 </plugin>
 ```
 
+</div>
+
 编译产生的自包含的 Jar 文件, 可以直接传递给一个 JRE, 然后就可以运行你的应用程序了:
 
-``` bash
+```bash
 java -jar target/mymodule-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 ```
 
@@ -231,7 +268,9 @@ java -jar target/mymodule-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 
 为了编译到 JavaScript, 你需要将 `compile` 的目标设置为 `js` 和 `test-js`:
 
-``` xml
+<div class="sample" markdown="1" mode="xml" auto-indent="false" theme="idea" data-highlight-only>
+
+```xml
 <plugin>
     <groupId>org.jetbrains.kotlin</groupId>
     <artifactId>kotlin-maven-plugin</artifactId>
@@ -255,13 +294,19 @@ java -jar target/mymodule-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 </plugin>
 ```
 
+</div>
+
 此外还需要修改标准库的依赖项:
 
-``` xml
+<div class="sample" markdown="1" mode="xml" auto-indent="false" theme="idea" data-highlight-only>
+
+```xml
 <groupId>org.jetbrains.kotlin</groupId>
 <artifactId>kotlin-stdlib-js</artifactId>
 <version>${kotlin.version}</version>
 ```
+
+</div>
 
 要支持单元测试, 还需要添加 `kotlin-test-js` 依赖项.
 
@@ -271,7 +316,9 @@ java -jar target/mymodule-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 
 额外的编译器选项和参数, 可以通过 Maven plugin 节点的 `<configuration>` 元素下的标签来设置:
 
-``` xml
+<div class="sample" markdown="1" mode="xml" auto-indent="false" theme="idea" data-highlight-only>
+
+```xml
 <plugin>
     <artifactId>kotlin-maven-plugin</artifactId>
     <groupId>org.jetbrains.kotlin</groupId>
@@ -287,15 +334,21 @@ java -jar target/mymodule-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 </plugin>
 ```
 
+</div>
+
 很多编译器选项也可以通过属性来设置:
 
-``` xml
+<div class="sample" markdown="1" mode="xml" auto-indent="false" theme="idea" data-highlight-only>
+
+```xml
 <project ...>
     <properties>
         <kotlin.compiler.languageVersion>1.0</kotlin.compiler.languageVersion>
     </properties>
 </project>
 ```
+
+</div>
 
 支持的编译选项列表如下:
 

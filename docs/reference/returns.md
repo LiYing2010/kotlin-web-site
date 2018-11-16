@@ -16,7 +16,7 @@ Kotlin 中存在 3 种跳出程序流程的表达式:
 所有这些表达式都可以用作更大的表达式的一部分:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 val s = person.name ?: return
 ```
 </div>
@@ -30,7 +30,7 @@ Kotlin 中的任何表达式都可以用 *label*{: .keyword } 标签来标记.
 要给一个表达式标记标签, 我们只需要将标签放在它之前:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 loop@ for (i in 1..100) {
     // ...
 }
@@ -40,7 +40,7 @@ loop@ for (i in 1..100) {
 然后, 我们就可以使用标签来限定 *break*{: .keyword } 或 *continue*{: .keyword } 的跳转对象:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 loop@ for (i in 1..100) {
     for (j in 1..100) {
         if (...) break@loop
@@ -60,7 +60,7 @@ loop@ for (i in 1..100) {
 
 <div class="sample" markdown="1" theme="idea">
 
-``` kotlin
+```kotlin
 //sampleStart
 fun foo() {
     listOf(1, 2, 3, 4, 5).forEach {
@@ -71,7 +71,7 @@ fun foo() {
 }
 //sampleEnd
 
-fun main(args: Array<String>) {
+fun main() {
     foo()
 }
 ```
@@ -82,7 +82,7 @@ fun main(args: Array<String>) {
 
 <div class="sample" markdown="1" theme="idea">
 
-``` kotlin
+```kotlin
 //sampleStart
 fun foo() {
     listOf(1, 2, 3, 4, 5).forEach lit@{
@@ -93,7 +93,7 @@ fun foo() {
 }
 //sampleEnd
 
-fun main(args: Array<String>) {
+fun main() {
     foo()
 }
 ```
@@ -103,7 +103,7 @@ fun main(args: Array<String>) {
 
 <div class="sample" markdown="1" theme="idea">
 
-``` kotlin
+```kotlin
 //sampleStart
 fun foo() {
     listOf(1, 2, 3, 4, 5).forEach {
@@ -114,7 +114,7 @@ fun foo() {
 }
 //sampleEnd
 
-fun main(args: Array<String>) {
+fun main() {
     foo()
 }
 ```
@@ -124,7 +124,7 @@ fun main(args: Array<String>) {
 
 <div class="sample" markdown="1" theme="idea">
 
-``` kotlin
+```kotlin
 //sampleStart
 fun foo() {
     listOf(1, 2, 3, 4, 5).forEach(fun(value: Int) {
@@ -135,7 +135,7 @@ fun foo() {
 }
 //sampleEnd
 
-fun main(args: Array<String>) {
+fun main() {
     foo()
 }
 ```
@@ -146,7 +146,7 @@ fun main(args: Array<String>) {
 
 <div class="sample" markdown="1" theme="idea">
 
-``` kotlin
+```kotlin
 //sampleStart
 fun foo() {
     run loop@{
@@ -159,7 +159,7 @@ fun foo() {
 }
 //sampleEnd
 
-fun main(args: Array<String>) {
+fun main() {
     foo()
 }
 ```
@@ -168,7 +168,7 @@ fun main(args: Array<String>) {
 当 return 语句指定了返回值时, 源代码解析器会将这样的语句优先识别为使用标签限定的 return 语句, 也就是说:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 return@a 1
 ```
 </div>

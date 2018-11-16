@@ -22,7 +22,9 @@ Kotlin 提供了 3 个 Ant Task:
 
 如果工程内只包含 Kotlin 源代码, 这种情况下最简单的编译方法是使用 *kotlinc* Task:
 
-``` xml
+<div class="sample" markdown="1" mode="xml" auto-indent="false" theme="idea">
+
+```xml
 <project name="Ant Task Test" default="build">
     <typedef resource="org/jetbrains/kotlin/ant/antlib.xml" classpath="${kotlin.lib}/kotlin-ant.jar"/>
 
@@ -32,13 +34,17 @@ Kotlin 提供了 3 个 Ant Task:
 </project>
 ```
 
+</div>
+
 这里的 `${kotlin.lib}` 指向 Kotlin standalone 编译器解压缩后的文件夹.
 
 ## 面向 JVM, 编译包含多个根目录的纯 Kotlin 代码
 
 如果工程中包含多个源代码根目录, 可以使用 *src* 元素来定义源代码路径:
 
-``` xml
+<div class="sample" markdown="1" mode="xml" auto-indent="false" theme="idea" data-highlight-only>
+
+```xml
 <project name="Ant Task Test" default="build">
     <typedef resource="org/jetbrains/kotlin/ant/antlib.xml" classpath="${kotlin.lib}/kotlin-ant.jar"/>
 
@@ -51,11 +57,15 @@ Kotlin 提供了 3 个 Ant Task:
 </project>
 ```
 
+</div>
+
 ## 面向 JVM, 编译 Kotlin 和 Java 的混合代码
 
 如果工程包含 Kotlin 和 Java 的混合代码, 这时尽管也能够使用 *kotlinc*, 但为了避免重复指定 Task 参数, 推荐使用 *withKotlin* Task:
 
-``` xml
+<div class="sample" markdown="1" mode="xml" auto-indent="false" theme="idea" data-highlight-only>
+
+```xml
 <project name="Ant Task Test" default="build">
     <typedef resource="org/jetbrains/kotlin/ant/antlib.xml" classpath="${kotlin.lib}/kotlin-ant.jar"/>
 
@@ -72,16 +82,24 @@ Kotlin 提供了 3 个 Ant Task:
 </project>
 ```
 
+</div>
+
 还可以通过 `moduleName` 属性来指定被编译的模块名称:
 
-``` xml
+<div class="sample" markdown="1" mode="xml" auto-indent="false" theme="idea" data-highlight-only>
+
+```xml
 <withKotlin moduleName="myModule"/>
 ```
+
+</div>
 
 
 ## 面向 JavaScript, 编译单个源代码文件夹
 
-``` xml
+<div class="sample" markdown="1" mode="xml" auto-indent="false" theme="idea" data-highlight-only>
+
+```xml
 <project name="Ant Task Test" default="build">
     <typedef resource="org/jetbrains/kotlin/ant/antlib.xml" classpath="${kotlin.lib}/kotlin-ant.jar"/>
 
@@ -91,9 +109,13 @@ Kotlin 提供了 3 个 Ant Task:
 </project>
 ```
 
+</div>
+
 ## 面向 JavaScript, 使用 Prefix, PostFix 和 sourcemap 选项
 
-``` xml
+<div class="sample" markdown="1" mode="xml" auto-indent="false" theme="idea" data-highlight-only>
+
+```xml
 <project name="Ant Task Test" default="build">
     <taskdef resource="org/jetbrains/kotlin/ant/antlib.xml" classpath="${kotlin.lib}/kotlin-ant.jar"/>
 
@@ -103,12 +125,16 @@ Kotlin 提供了 3 个 Ant Task:
 </project>
 ```
 
+</div>
+
 ## 面向 JavaScript, 编译单个源代码文件夹, 使用 metaInfo 选项
 
 如果你希望将编译结果当作一个 Kotlin/JavaScript 库发布, 可以使用 `metaInfo` 选项.
 如果 `metaInfo` 设值为 `true`, 那么编译时会额外创建带二进制元数据(binary metadata)的 JS 文件. 这个文件需要与编译结果一起发布:
 
-``` xml
+<div class="sample" markdown="1" mode="xml" auto-indent="false" theme="idea" data-highlight-only>
+
+```xml
 <project name="Ant Task Test" default="build">
     <typedef resource="org/jetbrains/kotlin/ant/antlib.xml" classpath="${kotlin.lib}/kotlin-ant.jar"/>
 
@@ -118,6 +144,8 @@ Kotlin 提供了 3 个 Ant Task:
     </target>
 </project>
 ```
+
+</div>
 
 ## 参照
 
@@ -160,12 +188,16 @@ Kotlin 提供了 3 个 Ant Task:
 如果需要指定自定义的编译参数, 可以使用 `<compilerarg>` 元素的 `value` 或 `line` 属性.
 这个元素可以放在 `<kotlinc>`, `<kotlin2js>`, 以及 `<withKotlin>` 任务元素之内, 示例如下:
 
-``` xml
+<div class="sample" markdown="1" mode="xml" auto-indent="false" theme="idea" data-highlight-only>
+
+```xml
 <kotlinc src="${test.data}/hello.kt" output="${temp}/hello.jar">
     <compilerarg value="-Xno-inline"/>
     <compilerarg line="-Xno-call-assertions -Xno-param-assertions"/>
     <compilerarg value="-Xno-optimize"/>
 </kotlinc>
 ```
+
+</div>
 
 运行 `kotlinc -help` 命令, 可以看到参数的完整列表.

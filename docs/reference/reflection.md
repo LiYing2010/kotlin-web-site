@@ -18,7 +18,7 @@ Kotlin 将函数和属性当作语言中的一等公民(first-class citizen), �
 最基本的反射功能就是获取一个 Kotlin 类的运行时引用. 要得到一个静态的已知的 Kotlin 类的引用, 可以使用 _类字面值(class literal)_ 语法:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 val c = MyClass::class
 ```
 </div>
@@ -32,7 +32,7 @@ val c = MyClass::class
 `::class` 语法同样可以用于取得某个对象实例的类的引用:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 val widget: Widget = ...
 assert(widget is GoodWidget) { "Bad widget: ${widget::class.qualifiedName}" }
 ```
@@ -52,7 +52,7 @@ assert(widget is GoodWidget) { "Bad widget: ${widget::class.qualifiedName}" }
 假设我们有一个有名称的函数, 声明如下:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun isOdd(x: Int) = x % 2 != 0
 ```
 </div>
@@ -61,10 +61,10 @@ fun isOdd(x: Int) = x % 2 != 0
 为了实现这个功能, 我们使用 `::` 操作符:
 
 <div class="sample" markdown="1" theme="idea">
-``` kotlin
+```kotlin
 fun isOdd(x: Int) = x % 2 != 0
 
-fun main(args: Array<String>) {
+fun main() {
 //sampleStart
     val numbers = listOf(1, 2, 3)
     println(numbers.filter(::isOdd))
@@ -81,8 +81,8 @@ fun main(args: Array<String>) {
 比如:
 
 <div class="sample" markdown="1" theme="idea">
-``` kotlin
-fun main(args: Array<String>) {
+```kotlin
+fun main() {
     //sampleStart
     fun isOdd(x: Int) = x % 2 != 0
     fun isOdd(s: String) = s == "brillig" || s == "slithy" || s == "tove"
@@ -97,7 +97,7 @@ fun main(args: Array<String>) {
 或者, 你也可以将方法引用保存到一个明确指定了类型的变量中, 通过这种方式来提供必要的函数参数类型信息:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 val predicate: (String) -> Boolean = ::isOdd   // 指向 isOdd(x: String) 函数
 ```
 </div>
@@ -108,7 +108,7 @@ val predicate: (String) -> Boolean = ::isOdd   // 指向 isOdd(x: String) 函数
 如果想要使用带接受者的函数类型, 需要明确指定函数类型:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 val isEmptyStringList: List<String>.() -> Boolean = List::isEmpty
 ```
 </div>
@@ -118,7 +118,7 @@ val isEmptyStringList: List<String>.() -> Boolean = List::isEmpty
 我们来看看下面的函数:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun <A, B, C> compose(f: (B) -> C, g: (A) -> B): (A) -> C {
     return { x -> f(g(x)) }
 }
@@ -129,14 +129,14 @@ fun <A, B, C> compose(f: (B) -> C, g: (A) -> B): (A) -> C {
 现在, 你可以使用可以执行的函数引用来调用这个函数:
 
 <div class="sample" markdown="1" theme="idea">
-``` kotlin
+```kotlin
 fun <A, B, C> compose(f: (B) -> C, g: (A) -> B): (A) -> C {
     return { x -> f(g(x)) }
 }
 
 fun isOdd(x: Int) = x % 2 != 0
 
-fun main(args: Array<String>) {
+fun main() {
 //sampleStart
     fun length(s: String) = s.length
 
@@ -154,10 +154,10 @@ fun main(args: Array<String>) {
 在 Kotlin 中, 可以将属性作为一等对象来访问, 方法是使用 `::` 操作符:
 
 <div class="sample" markdown="1" theme="idea">
-``` kotlin
+```kotlin
 val x = 1
 
-fun main(args: Array<String>) {
+fun main() {
     println(::x.get())
     println(::x.name)
 }
@@ -170,10 +170,10 @@ fun main(args: Array<String>) {
 它有一个 `set()` 方法:
 
 <div class="sample" markdown="1" theme="idea">
-``` kotlin
+```kotlin
 var y = 1
 
-fun main(args: Array<String>) {
+fun main() {
     ::y.set(2)
     println(y)
 }
@@ -183,8 +183,8 @@ fun main(args: Array<String>) {
 属性引用可以用在所有使用单个参数函数的地方:
 
 <div class="sample" markdown="1" theme="idea">
-``` kotlin
-fun main(args: Array<String>) {
+```kotlin
+fun main() {
 //sampleStart
     val strs = listOf("a", "bc", "def")
     println(strs.map(String::length))
@@ -196,8 +196,8 @@ fun main(args: Array<String>) {
 要访问类的成员属性, 我们需要使用限定符:
 
 <div class="sample" markdown="1" theme="idea">
-``` kotlin
-fun main(args: Array<String>) {
+```kotlin
+fun main() {
 //sampleStart
     class A(val p: Int)
     val prop = A::p
@@ -210,11 +210,11 @@ fun main(args: Array<String>) {
 对于扩展属性:
 
 <div class="sample" markdown="1" theme="idea" auto-indent="false">
-``` kotlin
+```kotlin
 val String.lastChar: Char
     get() = this[length - 1]
 
-fun main(args: Array<String>) {
+fun main() {
     println(String::lastChar.get("abc"))
 }
 ```
@@ -226,12 +226,12 @@ fun main(args: Array<String>) {
 比如, 要查找一个 Kotlin 属性的后端域变量, 或者查找充当这个属性取值函数的 Java 方法, 你可以编写下面这样的代码:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 import kotlin.reflect.jvm.*
 
 class A(val p: Int)
 
-fun main(args: Array<String>) {
+fun main() {
     println(A::p.javaGetter) // 打印结果为: "public final int A.getP()"
     println(A::p.javaField)  // 打印结果为: "private final int A.p"
 }
@@ -241,7 +241,7 @@ fun main(args: Array<String>) {
 要查找与一个 Java 类相对应的 Kotlin 类, 可以使用 `.kotlin` 扩展属性:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun getKClass(o: Any): KClass<Any> = o.javaClass.kotlin
 ```
 </div>
@@ -253,7 +253,7 @@ fun getKClass(o: Any): KClass<Any> = o.javaClass.kotlin
 我们来看看下面的函数, 它接受的参数是一个函数, 这个函数参数本身没有参数, 并返回 `Foo` 类型:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 class Foo
 
 fun function(factory: () -> Foo) {
@@ -265,7 +265,7 @@ fun function(factory: () -> Foo) {
 使用 `::Foo`, 也就是 Foo 类的无参构造器的引用, 我们可以很简单地调用上面的函数:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 function(::Foo)
 ```
 </div>
@@ -277,8 +277,8 @@ function(::Foo)
 你可以引用某个具体的对象实例的方法:
 
 <div class="sample" markdown="1" theme="idea">
-``` kotlin
-fun main(args: Array<String>) {
+```kotlin
+fun main() {
 //sampleStart
     val numberRegex = "\\d+".toRegex()
     println(numberRegex.matches("29"))
@@ -295,8 +295,8 @@ fun main(args: Array<String>) {
 这样的引用可以直接调用(就像上面的示例程序中那样), 也可以用在任何使用函数类型表达式的地方:
 
 <div class="sample" markdown="1" theme="idea">
-``` kotlin
-fun main(args: Array<String>) {
+```kotlin
+fun main() {
 //sampleStart
     val numberRegex = "\\d+".toRegex()
     val strings = listOf("abc", "124", "a70")
@@ -310,7 +310,7 @@ fun main(args: Array<String>) {
 绑定到对象实例的引用与它的接受者对象实例结合在一起, 因此接受者的类型不再是它的一个参数:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 val isNumber: (CharSequence) -> Boolean = numberRegex::matches
 
 val matches: (Regex, CharSequence) -> Boolean = Regex::matches
@@ -320,8 +320,8 @@ val matches: (Regex, CharSequence) -> Boolean = Regex::matches
 同样, 属性的引用也可以与对象实例绑定:
 
 <div class="sample" markdown="1" theme="idea">
-``` kotlin
-fun main(args: Array<String>) {
+```kotlin
+fun main() {
 //sampleStart
     val prop = "abc"::length
     println(prop.get())

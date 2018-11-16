@@ -16,7 +16,7 @@ Kotlin 编译器会生成通常的 JavaScript 类, 函数, 和属性, 你可以�
 因此, 如果你将你的模块命名为 `myModule`, 在 JavaScript 中可以通过 `myModule` 对象访问到所有的声明. 比如:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun foo() = "Hello"
 ```
 </div>
@@ -24,7 +24,7 @@ fun foo() = "Hello"
 在 JavaScript 中可以这样调用:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` javascript
+```javascript
 alert(myModule.foo());
 ```
 </div>
@@ -33,7 +33,7 @@ alert(myModule.foo());
 这时不会存在一个封装对象, 所有的声明会以相应的 JavaScript 模块的形式对外公开. 比如, 在 CommonJS 中你应该这样:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` javascript
+```javascript
 alert(require('myModule').foo());
 ```
 </div>
@@ -44,7 +44,7 @@ alert(require('myModule').foo());
 Kotlin 会将它的包结构公开到 JavaScript 中, 因此, 除非你将你的声明定义在最顶层包中, 否则在 JavaScript 中就必须使用完整限定名来访问你的声明. 比如:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 package my.qualified.packagename
 
 fun foo() = "Hello"
@@ -54,7 +54,7 @@ fun foo() = "Hello"
 在 JavaScript 中应该这样访问:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` javascript
+```javascript
 alert(myModule.my.qualified.packagename.foo());
 ```
 </div>
@@ -62,11 +62,11 @@ alert(myModule.my.qualified.packagename.foo());
 
 ## @JsName 注解
 
-某些情况下 (比如, 为了支持重载(overload)), Kotlin 编译器进行混淆会对 JavaScript 代码中生成的函数和属性的名称.
+某些情况下 (比如, 为了支持重载(overload)), Kotlin 编译器会对 JavaScript 代码中生成的函数和属性的名称进行混淆.
 为了控制编译器生成的函数和属性名称, 你可以使用 `@JsName` 注解:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 // 'kjs' 模块
 class Person(val name: String) {
     fun hello() {
@@ -84,7 +84,7 @@ class Person(val name: String) {
 然后, 你可以在 JavaScript 中通过以下方式来使用这个类:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` javascript
+```javascript
 var person = new kjs.Person("Dmitry");   // 参照到 'kjs' 模块
 person.hello();                          // 打印结果为 "Hello Dmitry!"
 person.helloWithGreeting("Servus");      // 打印结果为 "Servus Dmitry!"
@@ -101,7 +101,7 @@ person.helloWithGreeting("Servus");      // 打印结果为 "Servus Dmitry!"
 下面的示例会常数一个编译期错误:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 @JsName("new C()")   // 此处发生错误
 external fun newC()
 ```
@@ -115,7 +115,7 @@ external fun newC()
 * Kotlin 在运行时无法区分数字类型(除 `kotlin.Long` 外), 也就是说, 以下代码能够正常工作:
 
   <div class="sample" markdown="1" theme="idea" data-highlight-only>
-  ``` kotlin
+  ```kotlin
   fun f() {
       val x: Int = 23
       val y: Any = x

@@ -12,7 +12,7 @@ title: "类型检查与类型转换: 'is' 与 'as'"
 我们可以使用 `is` 操作符, 在运行时检查一个对象与一个给定的类型是否一致, 或者使用与它相反的 `!is` 操作符:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 if (obj is String) {
     print(obj.length)
 }
@@ -31,7 +31,7 @@ else {
 很多情况下, 在 Kotlin 中你不必使用显式的类型转换操作, 因为编译器会对不可变值的 `is` 检查和[显式的类型转换](#unsafe-cast-operator) 进行追踪, 然后在需要的时候自动插入(安全的)类型转换:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun demo(x: Any) {
     if (x is String) {
         print(x.length) // x 被自动转换为 String 类型
@@ -43,7 +43,7 @@ fun demo(x: Any) {
 如果一个相反的类型检查导致了 return, 此时编译器足够智能, 可以判断出转换处理是安全的:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
     if (x !is String) return
     print(x.length) // x 被自动转换为 String 类型
 ```
@@ -52,7 +52,7 @@ fun demo(x: Any) {
 在 `&&` 和 `||` 操作符的右侧也是如此:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
     // 在 `||` 的右侧, x 被自动转换为 String 类型
     if (x !is String || x.length == 0) return
 
@@ -66,7 +66,7 @@ fun demo(x: Any) {
 这种 _智能类型转换(smart cast)_ 对于 [*when*{: .keyword } 表达式](control-flow.html#when-expressions) 和 [*while*{: .keyword } 循环](control-flow.html#while-loops) 同样有效:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 when (x) {
     is Int -> print(x + 1)
     is String -> print(x.length + 1)
@@ -90,7 +90,7 @@ when (x) {
 在 Kotlin 中, 不安全的类型转换使用中缀操作符 *as*{: .keyword } (参见 [操作符优先顺序](grammar.html#precedence)):
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 val x: String = y as String
 ```
 </div>
@@ -100,7 +100,7 @@ val x: String = y as String
 为了实现与 Java 相同的类型转换, 我们需要在类型转换操作符的右侧使用可为 null 的类型, 比如:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 val x: String? = y as String?
 ```
 </div>
@@ -110,7 +110,7 @@ val x: String? = y as String?
 为了避免抛出异常, 你可以使用 *安全的* 类型转换操作符 *as?*{: .keyword }, 当类型转换失败时, 它会返回 *null*{: .keyword }:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 val x: String? = y as? String
 ```
 </div>
@@ -156,7 +156,7 @@ fun handleStrings(list: List<String>) {
 
 <div class="sample" markdown="1" theme="idea">
 
-``` kotlin
+```kotlin
 //sampleStart
 inline fun <reified A, reified B> Pair<*, *>.asPairOf(): Pair<A, B>? {
     if (first !is A || second !is B) return null
@@ -171,7 +171,7 @@ val stringToList = somePair.asPairOf<String, List<*>>()
 val stringToStringList = somePair.asPairOf<String, List<String>>() // 此处破坏了类型安全型!
 //sampleEnd
 
-fun main(args: Array<String>) {
+fun main() {
     println("stringToSomething = " + stringToSomething)
     println("stringToInt = " + stringToInt)
     println("stringToList = " + stringToList)

@@ -10,13 +10,8 @@ main:
     title: Contribute
 
   try:
-    url: http://try.kotlinlang.org
+    url: https://play.kotlinlang.org
     title: Try Online
-
-  download:
-    url: /#get-kotlin
-    title: Download
-    show: false
 
 
 # Docs section navigation
@@ -53,8 +48,11 @@ reference:
       - /docs/reference/android-overview.html: 在 Android 开发中使用 Kotlin
       - /docs/reference/js-overview.html: 在 JavaScript 开发中使用 Kotlin
       - /docs/reference/native-overview.html: Kotlin 原生(Native)程序开发
+      - /docs/reference/coroutines-overview.html: 协程(Coroutine)
+      - /docs/reference/multiplatform.html: 跨平台项目(Multiplatform Projects)
       - /docs/reference/whatsnew11.html: 1.1 版中的新功能
       - /docs/reference/whatsnew12.html: 1.2 版中的新功能
+      - /docs/reference/whatsnew13.html: 1.3 版中的新功能
 
   - title: 入门
     description: 熟悉 Kotlin 的基本知识, 包括操作符, 编码规约, 以及惯用法.
@@ -85,6 +83,7 @@ reference:
       - /docs/reference/nested-classes.html: 嵌套类(Nested Class)
       - /docs/reference/enum-classes.html: 枚举类(Enum Class)
       - /docs/reference/object-declarations.html: 对象(Object)
+      - /docs/reference/inline-classes.html: 内联类(Inline Class)
       - /docs/reference/delegation.html: 委托(Delegation)
       - /docs/reference/delegated-properties.html: 委托属性(Delegated Property)
 
@@ -94,7 +93,13 @@ reference:
       - /docs/reference/functions.html: 函数(Function)
       - /docs/reference/lambdas.html: Lambda 表达式
       - /docs/reference/inline-functions.html: 内联函数(Inline Function)
-      - /docs/reference/coroutines.html: 协程(Coroutine)
+
+
+  - title: 跨平台程序开发
+    description: 在 JVM, JS, 和 Native 平台上复用代码
+    content:
+      - /docs/reference/platform-specific-declarations.html: 与平台相关的声明
+      - /docs/reference/building-mpp-with-gradle.html: 使用 Gradle 进行编译
 
   - title: 其他
     description: 其他各种知识
@@ -112,7 +117,6 @@ reference:
       - /docs/reference/reflection.html: 反射(Reflection)
       - /docs/reference/type-safe-builders.html: 类型安全的构建器(Type-Safe Builder)
       - /docs/reference/type-aliases.html: 类型别名(Type Alias)
-      - /docs/reference/multiplatform.html: 跨平台项目(Multiplatform Projects)
 
 
   - title: 核心库
@@ -126,7 +130,7 @@ reference:
     content:
       - /docs/reference/keyword-reference.html: 关键字(Keyword)与操作符(Operator)
       - /docs/grammar/grammar.html: 语法
-      - /docs/reference/compatibility.html: 兼容性
+
 
   - title: 与 Java 的互操作性
     description: 关于与 Java 互操作的相关知识.
@@ -137,12 +141,41 @@ reference:
   - title: JavaScript
     description: 在 JavaScript 开发中使用 Kotlin
     content:
-       - /docs/reference/dynamic-type.html: 动态类型(Dynamic Type)
-       - /docs/reference/js-interop.html: 在 Kotlin 中调用 JavaScript
-       - /docs/reference/js-to-kotlin-interop.html: 在 JavaScript 中调用 Kotlin
-       - /docs/reference/js-modules.html: JavaScript 模块(Module)
-       - /docs/reference/js-reflection.html: JavaScript 中的反射(Reflection)
-       - /docs/reference/javascript-dce.html: JavaScript 死代码剔除工具(DCE)
+      - /docs/reference/dynamic-type.html: 动态类型(Dynamic Type)
+      - /docs/reference/js-interop.html: 在 Kotlin 中调用 JavaScript
+      - /docs/reference/js-to-kotlin-interop.html: 在 JavaScript 中调用 Kotlin
+      - /docs/reference/js-modules.html: JavaScript 模块(Module)
+      - /docs/reference/js-reflection.html: JavaScript 中的反射(Reflection)
+      - /docs/reference/javascript-dce.html: JavaScript 死代码剔除工具(DCE)
+
+
+  - title: 原生(Native)程序开发
+    description: 使用 Kotlin/Native 开发 iOS 和 Native 程序
+    content:
+      - /docs/reference/native/concurrency.html: 并发
+      - /docs/reference/native/immutability.html: 不变性
+      - /docs/reference/native/libraries.html: Kotlin 库
+      - /docs/reference/native/platform_libs.html: 平台库
+      - /docs/reference/native/c_interop.html: 与 C 代码交互
+      - /docs/reference/native/objc_interop.html: 与 Objective-C 和 Swift 代码交互
+      - /docs/reference/native/gradle_plugin.html: Gradle 插件
+      - /docs/reference/native/debugging.html: 调试
+      - /docs/reference/native/faq.html: FAQ
+
+
+  - title: 协程(Coroutine)
+    description: Kotlin 协程库
+    content:
+      - /docs/reference/coroutines/coroutines-guide.html: 协程简介
+      - /docs/reference/coroutines/basics.html: 基本概念
+      - /docs/reference/coroutines/cancellation-and-timeouts.html: 取消与超时
+      - /docs/reference/coroutines/channels.html: 频道(Channel)
+      - /docs/reference/coroutines/composing-suspending-functions.html: 挂起函数(Suspending Function)的组合
+      - /docs/reference/coroutines/coroutine-context-and-dispatchers.html: 协程上下文与派发器(Dispatcher)
+      - /docs/reference/coroutines/exception-handling.html: 异常处理
+      - /docs/reference/coroutines/select-expression.html: 选择表达式
+      - /docs/reference/coroutines/shared-mutable-state-and-concurrency.html: 共享的可变状态与并发
+
 
   - title: 工具
     description:
@@ -155,6 +188,16 @@ reference:
       - /docs/reference/using-ant.html: 使用 Ant
       - /docs/reference/kotlin-osgi.html: Kotlin 与 OSGi
       - /docs/reference/compiler-plugins.html: 编译器插件
+      - /docs/reference/code-style-migration-guide.html: 编码规约
+
+
+  - title: Kotlin 的演化
+    description: Kotlin 语言的演化与兼容性
+    content:
+      - /docs/reference/evolution/kotlin-evolution.html: Kotlin 的演化
+      - /docs/reference/evolution/components-stability.html: 各部分组件的稳定性
+      - /docs/reference/compatibility-guide-13.html: Kotlin 1.3 兼容性指南
+
 
   - title: FAQ
     description: 你想到的问题, 可能已经回答过了, 所以请先查看相关的 FAQ.

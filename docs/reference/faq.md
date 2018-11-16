@@ -92,7 +92,10 @@ Kotlin 受到各种既有语言的启发, 比如 Java, C#, JavaScript, Scala 以
 ### 哪些公司在使用 Kotlin?
 
 使用 Kotlin 的公司非常多, 难以全部列举, 但有些大公司已经通过 blog, 通过 GitHub 库, 或通过演讲, 公开宣布使用 Kotlin, 包括
-[Square](https://medium.com/square-corner-blog/square-open-source-loves-kotlin-c57c21710a17), [Pinterest](https://www.youtube.com/watch?v=mDpnc45WwlI) 以及 [Basecamp](https://m.signalvnoise.com/how-we-made-basecamp-3s-android-app-100-kotlin-35e4e1c0ef12).
+[Square](https://medium.com/square-corner-blog/square-open-source-loves-kotlin-c57c21710a17),
+[Pinterest](https://www.youtube.com/watch?v=mDpnc45WwlI),
+[Basecamp](https://m.signalvnoise.com/how-we-made-basecamp-3s-android-app-100-kotlin-35e4e1c0ef12)
+以及 [Corda](https://docs.corda.net/releases/release-M9.2/further-notes-on-kotlin.html).
 
 ### Kotlin 的开发者是谁?
 
@@ -100,7 +103,7 @@ Kotlin 主要是由 JetBrains 公司的一个工程师团队(目前 40+ 人)开�
 
 ### 在哪里可以得到 Kotlin 的更多信息?
 
-最好从 [这个网站](https://kotlinlang.org) 开始. 在这里, 你可以下载编译器, [在线试运行代码](https://try.kotlinlang.org), 访问各种资源,
+最好从 [这个网站](https://kotlinlang.org) 开始. 在这里, 你可以下载编译器, [在线试运行代码](https://play.kotlinlang.org), 访问各种资源,
 阅读 [参考文档](index.html) 和 [教程](https://kotlinlang.org/docs/tutorials/index.html).
 
 ### 有关于 Kotlin 的书吗?
@@ -118,7 +121,7 @@ Hadi Hariri 的 [O’Reilly 课程](http://shop.oreilly.com/product/063692005298
 
 是的. Kotlin 有一个很活跃的社区. Kotlin 开发者聚集在 [Kotlin 论坛](http://discuss.kotlinlang.org),
 [StackOverflow](http://stackoverflow.com/questions/tagged/kotlin), 以及更活跃的 [Kotlin Slack](http://slack.kotlinlang.org)
-(到 2017 年 05 月, 成员接近 7000 人).
+(到 2018 年 10 月, 成员接近 20000 人).
 
 ### 有 Kotlin 开发者活动吗?
 
@@ -127,7 +130,8 @@ Hadi Hariri 的 [O’Reilly 课程](http://shop.oreilly.com/product/063692005298
 
 ### 有 Kotlin 开发者大会吗?
 
-是的. 都一次官方 [Kotlin 开发者大会](https://kotlinconf.com), 将于 2017 年 11 月 02-03 日在 San Francisco 举行.
+是的. 官方的 [Kotlin 开发者大会](https://kotlinconf.com) 由 JetBrains 公司每年举办一次.
+[2017 年](https://kotlinconf.com/2017/) 在 San-Francisco 举行, 2018 年在 Amsterdam 举行.
 在世界各地的各种开发者大会中也会涉及到 Kotlin. 你可以[在这个网站](/community/talks.html?time=upcoming) 找到即将举行的演讲列表.
 
 ### Kotlin 有上社交媒体吗?

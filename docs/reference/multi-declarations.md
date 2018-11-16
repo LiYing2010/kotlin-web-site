@@ -10,7 +10,7 @@ title: "解构声明"
 有些时候, 能够将一个对象 _解构(destructure)_ 为多个变量, 将会很方便, 比如:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 val (name, age) = person
 ```
 </div>
@@ -19,7 +19,7 @@ val (name, age) = person
 上例中我们声明了两个变量: `name` 和 `age`, 并且可以独立地使用这两个变量:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 println(name)
 println(age)
 ```
@@ -28,7 +28,7 @@ println(age)
 解构声明在编译时将被分解为以下代码:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 val name = person.component1()
 val age = person.component2()
 ```
@@ -43,7 +43,7 @@ val age = person.component2()
 解构声明还可以使用在 *for*{: .keyword } 循环中: 当我们说:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 for ((a, b) in collection) { ... }
 ```
 </div>
@@ -56,7 +56,7 @@ for ((a, b) in collection) { ... }
 在 Kotlin 中有一种紧凑的方法实现这个功能, 我们可以声明一个 [_数据类_](data-classes.html), 然后返回这个数据类的一个实例:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 data class Result(val result: Int, val status: Status)
 fun function(...): Result {
     // 计算
@@ -78,7 +78,7 @@ val (result, status) = function(...)
 遍历一个 map 的最好的方式可能就是:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 for ((key, value) in map) {
    // 使用 key 和 value 执行某种操作
 }
@@ -93,7 +93,7 @@ for ((key, value) in map) {
 Kotlin 的标准库也的确实现了这些扩展函数:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 operator fun <K, V> Map<K, V>.iterator(): Iterator<Map.Entry<K, V>> = entrySet().iterator()
 operator fun <K, V> Map.Entry<K, V>.component1() = getKey()
 operator fun <K, V> Map.Entry<K, V>.component2() = getValue()
@@ -107,7 +107,7 @@ operator fun <K, V> Map.Entry<K, V>.component2() = getValue()
 如果在解构声明中, 你不需要其中的某个变量, 你可以用下划线来代替变量名:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 val (_, status) = getResult()
 ```
 </div>
@@ -119,7 +119,7 @@ val (_, status) = getResult()
 你可以在 lambda 表达式的参数中使用解构声明语法. 如果 lambda 表达式的一个参数是 `Pair` 类型 (或 `Map.Entry` 类型, 或者任何其他类型, 只要它拥有适当的 `componentN` 函数), 就可以使用几个新的参数来代替原来的参数, 只需要将新参数包含在括号内:   
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 map.mapValues { entry -> "${entry.value}!" }
 map.mapValues { (key, value) -> "$value!" }
 ```
@@ -128,7 +128,7 @@ map.mapValues { (key, value) -> "$value!" }
 请注意声明两个参数, 与将一个参数解构为多个参数的区别:  
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 { a -> ... } // 这里是一个参数
 { a, b -> ... } // 这里是两个参数
 { (a, b) -> ... } // 这里是将一个参数解构为两个参数
@@ -139,7 +139,7 @@ map.mapValues { (key, value) -> "$value!" }
 如果解构后得到的某个参数未被使用到, 你可以用下划线代替它, 这样就不必为它编造一个变量名了:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 map.mapValues { (_, value) -> "$value!" }
 ```
 </div>
@@ -147,7 +147,7 @@ map.mapValues { (_, value) -> "$value!" }
 你可以为解构前的整个参数指定类型, 也可以为解构后的部分参数单独指定类型:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 map.mapValues { (_, value): Map.Entry<Int, String> -> "$value!" }
 
 map.mapValues { (_, value: String) -> "$value!" }

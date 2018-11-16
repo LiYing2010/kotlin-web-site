@@ -12,13 +12,15 @@ title: "基本语法"
 包的定义应该在源代码文件的最上方:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+
+```kotlin
 package my.demo
 
 import java.util.*
 
 // ...
 ```
+
 </div>
 
 源代码所在的目录结构不必与包结构保持一致: 源代码文件可以放置在文件系统的任意位置.
@@ -29,69 +31,73 @@ import java.util.*
 
 以下函数接受两个 `Int` 类型参数, 并返回 `Int` 类型结果:
 
-<div class="sample" markdown="1" theme="idea">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
-``` kotlin
+```kotlin
 //sampleStart
 fun sum(a: Int, b: Int): Int {
     return a + b
 }
 //sampleEnd
 
-fun main(args: Array<String>) {
+fun main() {
     print("sum of 3 and 5 is ")
     println(sum(3, 5))
 }
 ```
+
 </div>
 
 以下函数使用表达式语句作为函数体, 返回类型由自动推断决定:
 
-<div class="sample" markdown="1" theme="idea">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
-``` kotlin
+```kotlin
 //sampleStart
 fun sum(a: Int, b: Int) = a + b
 //sampleEnd
 
-fun main(args: Array<String>) {
+fun main() {
     println("sum of 19 and 23 is ${sum(19, 23)}")
 }
 ```
+
 </div>
 
 以下函数不返回有意义的结果:
 
-<div class="sample" markdown="1" theme="idea">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
-``` kotlin
+```kotlin
 //sampleStart
 fun printSum(a: Int, b: Int): Unit {
     println("sum of $a and $b is ${a + b}")
 }
 //sampleEnd
 
-fun main(args: Array<String>) {
+fun main() {
     printSum(-1, 8)
 }
 ```
+
 </div>
 
 返回值为 `Unit` 类型时, 可以省略:
 
-<div class="sample" markdown="1" theme="idea">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
-``` kotlin
+```kotlin
 //sampleStart
 fun printSum(a: Int, b: Int) {
     println("sum of $a and $b is ${a + b}")
 }
 //sampleEnd
 
-fun main(args: Array<String>) {
+fun main() {
     printSum(-1, 8)
 }
 ```
+
 </div>
 
 参见 [函数](functions.html).
@@ -100,10 +106,10 @@ fun main(args: Array<String>) {
 
 一次性赋值 (只读) 的局部变量:
 
-<div class="sample" markdown="1" theme="idea">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
-``` kotlin
-fun main(args: Array<String>) {
+```kotlin
+fun main() {
 //sampleStart
     val a: Int = 1  // 立即赋值
     val b = 2   // 变量类型自动推断为 `Int` 类型
@@ -113,14 +119,15 @@ fun main(args: Array<String>) {
     println("a = $a, b = $b, c = $c")
 }
 ```
+
 </div>
 
 值可变的变量:
 
-<div class="sample" markdown="1" theme="idea">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
-``` kotlin
-fun main(args: Array<String>) {
+```kotlin
+fun main() {
 //sampleStart
     var x = 5 // 变量类型自动推断为 `Int` 类型
     x += 1
@@ -128,12 +135,14 @@ fun main(args: Array<String>) {
     println("x = $x")
 }
 ```
+
 </div>
 
 顶级(top level) 变量:
 
-<div class="sample" markdown="1" theme="idea">
-``` kotlin
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+
+```kotlin
 //sampleStart
 val PI = 3.14
 var x = 0
@@ -143,13 +152,14 @@ fun incrementX() {
 }
 //sampleEnd
 
-fun main(args: Array<String>) {
+fun main() {
     println("x = $x; PI = $PI")
     incrementX()
     println("incrementX()")
     println("x = $x; PI = $PI")
 }
 ```
+
 </div>
 
 参见 [属性(Property)与域(Field)](properties.html).
@@ -159,12 +169,16 @@ fun main(args: Array<String>) {
 
 与 Java 和 JavaScript 一样, Kotlin 支持行末注释, 也支持块注释.
 
-``` kotlin
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
+
+```kotlin
 // 这是一条行末注释
 
 /* 这是一条块注释
    可以包含多行内容. */
 ```
+
+</div>
 
 与 Java 不同, Kotlin 中的块注释允许嵌套.
 
@@ -172,10 +186,10 @@ fun main(args: Array<String>) {
 
 ## 使用字符串模板
 
-<div class="sample" markdown="1" theme="idea">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
-``` kotlin
-fun main(args: Array<String>) {
+```kotlin
+fun main() {
 //sampleStart
     var a = 1
     // 在字符串模板内使用简单的变量名称
@@ -188,15 +202,16 @@ fun main(args: Array<String>) {
     println(s2)
 }
 ```
+
 </div>
 
 参见 [字符串模板](basic-types.html#string-templates).
 
 ## 使用条件表达式
 
-<div class="sample" markdown="1" theme="idea">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
-``` kotlin
+```kotlin
 //sampleStart
 fun maxOf(a: Int, b: Int): Int {
     if (a > b) {
@@ -207,25 +222,27 @@ fun maxOf(a: Int, b: Int): Int {
 }
 //sampleEnd
 
-fun main(args: Array<String>) {
+fun main() {
     println("max of 0 and 42 is ${maxOf(0, 42)}")
 }
 ```
+
 </div>
 
 以表达式的形式使用 *if*{: .keyword }:
 
-<div class="sample" markdown="1" theme="idea">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
-``` kotlin
+```kotlin
 //sampleStart
 fun maxOf(a: Int, b: Int) = if (a > b) a else b
 //sampleEnd
 
-fun main(args: Array<String>) {
+fun main() {
     println("max of 0 and 42 is ${maxOf(0, 42)}")
 }
 ```
+
 </div>
 
 参见 [*if*{: .keyword } 表达式](control-flow.html#if-expression).
@@ -237,18 +254,20 @@ fun main(args: Array<String>) {
 当 `str` 中的字符串内容不是一个整数时, 返回 *null*{: .keyword }:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+
+```kotlin
 fun parseInt(str: String): Int? {
     // ...
 }
 ```
+
 </div>
 
 以下示例演示如何使用一个返回值可为 null 的函数:
 
-<div class="sample" markdown="1" theme="idea">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
-``` kotlin
+```kotlin
 fun parseInt(str: String): Int? {
     return str.toIntOrNull()
 }
@@ -270,19 +289,20 @@ fun printProduct(arg1: String, arg2: String) {
 //sampleEnd
 
 
-fun main(args: Array<String>) {
+fun main() {
     printProduct("6", "7")
     printProduct("a", "7")
     printProduct("a", "b")
 }
 ```
+
 </div>
 
 或者
 
-<div class="sample" markdown="1" theme="idea">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
-``` kotlin
+```kotlin
 fun parseInt(str: String): Int? {
     return str.toIntOrNull()
 }
@@ -307,12 +327,13 @@ fun printProduct(arg1: String, arg2: String) {
 //sampleEnd
 }
 
-fun main(args: Array<String>) {
+fun main() {
     printProduct("6", "7")
     printProduct("a", "7")
     printProduct("99", "b")
 }
 ```
+
 </div>
 
 参见 [Null 值安全](null-safety.html).
@@ -322,9 +343,9 @@ fun main(args: Array<String>) {
 *is*{: .keyword } 运算符可以检查一个表达式的值是不是某个类型的实例.
 如果对一个不可变的局部变量或属性进行过类型检查, 那么之后的代码就不必再对它进行显式地类型转换, 而可以直接将它当作需要的类型来使用:
 
-<div class="sample" markdown="1" theme="idea">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
-``` kotlin
+```kotlin
 //sampleStart
 fun getStringLength(obj: Any): Int? {
     if (obj is String) {
@@ -338,7 +359,7 @@ fun getStringLength(obj: Any): Int? {
 //sampleEnd
 
 
-fun main(args: Array<String>) {
+fun main() {
     fun printLength(obj: Any) {
         println("'$obj' string length is ${getStringLength(obj) ?: "... err, not a string"} ")
     }
@@ -347,13 +368,14 @@ fun main(args: Array<String>) {
     printLength(listOf(Any()))
 }
 ```
+
 </div>
 
 或者
 
-<div class="sample" markdown="1" theme="idea">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
-``` kotlin
+```kotlin
 //sampleStart
 fun getStringLength(obj: Any): Int? {
     if (obj !is String) return null
@@ -364,7 +386,7 @@ fun getStringLength(obj: Any): Int? {
 //sampleEnd
 
 
-fun main(args: Array<String>) {
+fun main() {
     fun printLength(obj: Any) {
         println("'$obj' string length is ${getStringLength(obj) ?: "... err, not a string"} ")
     }
@@ -373,13 +395,14 @@ fun main(args: Array<String>) {
     printLength(listOf(Any()))
 }
 ```
+
 </div>
 
 甚至还可以
 
-<div class="sample" markdown="1" theme="idea">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
-``` kotlin
+```kotlin
 //sampleStart
 fun getStringLength(obj: Any): Int? {
     // 在 `&&` 运算符的右侧, `obj` 的类型会被自动转换为 `String`
@@ -392,7 +415,7 @@ fun getStringLength(obj: Any): Int? {
 //sampleEnd
 
 
-fun main(args: Array<String>) {
+fun main() {
     fun printLength(obj: Any) {
         println("'$obj' string length is ${getStringLength(obj) ?: "... err, is empty or not a string at all"} ")
     }
@@ -401,16 +424,17 @@ fun main(args: Array<String>) {
     printLength(1000)
 }
 ```
+
 </div>
 
 参见 [类](classes.html) 和 [类型转换](typecasts.html).
 
 ## 使用 `for` 循环
 
-<div class="sample" markdown="1" theme="idea">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
-``` kotlin
-fun main(args: Array<String>) {
+```kotlin
+fun main() {
 //sampleStart
     val items = listOf("apple", "banana", "kiwifruit")
     for (item in items) {
@@ -419,14 +443,15 @@ fun main(args: Array<String>) {
 //sampleEnd
 }
 ```
+
 </div>
 
 或者
 
-<div class="sample" markdown="1" theme="idea">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
-``` kotlin
-fun main(args: Array<String>) {
+```kotlin
+fun main() {
 //sampleStart
     val items = listOf("apple", "banana", "kiwifruit")
     for (index in items.indices) {
@@ -435,16 +460,17 @@ fun main(args: Array<String>) {
 //sampleEnd
 }
 ```
+
 </div>
 
 参见 [for 循环](control-flow.html#for-loops).
 
 ## 使用 `while` 循环
 
-<div class="sample" markdown="1" theme="idea">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
-``` kotlin
-fun main(args: Array<String>) {
+```kotlin
+fun main() {
 //sampleStart
     val items = listOf("apple", "banana", "kiwifruit")
     var index = 0
@@ -455,15 +481,16 @@ fun main(args: Array<String>) {
 //sampleEnd
 }
 ```
+
 </div>
 
 参见 [while 循环](control-flow.html#while-loops).
 
 ## 使用 `when` 表达式
 
-<div class="sample" markdown="1" theme="idea">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
-``` kotlin
+```kotlin
 //sampleStart
 fun describe(obj: Any): String =
     when (obj) {
@@ -475,7 +502,7 @@ fun describe(obj: Any): String =
     }
 //sampleEnd
 
-fun main(args: Array<String>) {
+fun main() {
     println(describe(1))
     println(describe("Hello"))
     println(describe(1000L))
@@ -483,6 +510,7 @@ fun main(args: Array<String>) {
     println(describe("other"))
 }
 ```
+
 </div>
 
 参见 [when expression](control-flow.html#when-expression).
@@ -491,10 +519,10 @@ fun main(args: Array<String>) {
 
 使用 *in*{: .keyword } 运算符检查一个数值是否在某个值范围(Range)之内:
 
-<div class="sample" markdown="1" theme="idea">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
-``` kotlin
-fun main(args: Array<String>) {
+```kotlin
+fun main() {
 //sampleStart
     val x = 10
     val y = 9
@@ -504,14 +532,15 @@ fun main(args: Array<String>) {
 //sampleEnd
 }
 ```
+
 </div>
 
 检查一个数值是否在某个值范围之外:
 
-<div class="sample" markdown="1" theme="idea">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
-``` kotlin
-fun main(args: Array<String>) {
+```kotlin
+fun main() {
 //sampleStart
     val list = listOf("a", "b", "c")
 
@@ -519,19 +548,20 @@ fun main(args: Array<String>) {
         println("-1 is out of range")
     }
     if (list.size !in list.indices) {
-        println("list size is out of valid list indices range too")
+        println("list size is out of valid list indices range, too")
     }
 //sampleEnd
 }
 ```
+
 </div>
 
 在一个值范围内进行遍历迭代:
 
-<div class="sample" markdown="1" theme="idea">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
-``` kotlin
-fun main(args: Array<String>) {
+```kotlin
+fun main() {
 //sampleStart
     for (x in 1..5) {
         print(x)
@@ -539,14 +569,15 @@ fun main(args: Array<String>) {
 //sampleEnd
 }
 ```
+
 </div>
 
 在一个数列(progression)上进行遍历迭代:
 
-<div class="sample" markdown="1" theme="idea">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
-``` kotlin
-fun main(args: Array<String>) {
+```kotlin
+fun main() {
 //sampleStart
     for (x in 1..10 step 2) {
         print(x)
@@ -558,6 +589,7 @@ fun main(args: Array<String>) {
 //sampleEnd
 }
 ```
+
 </div>
 
 
@@ -567,10 +599,10 @@ fun main(args: Array<String>) {
 
 在一个集合上进行遍历迭代:
 
-<div class="sample" markdown="1" theme="idea">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
-``` kotlin
-fun main(args: Array<String>) {
+```kotlin
+fun main() {
     val items = listOf("apple", "banana", "kiwifruit")
 //sampleStart
     for (item in items) {
@@ -579,14 +611,15 @@ fun main(args: Array<String>) {
 //sampleEnd
 }
 ```
+
 </div>
 
 使用 *in*{: .keyword } 运算符检查一个集合是否包含某个对象:
 
-<div class="sample" markdown="1" theme="idea">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
-``` kotlin
-fun main(args: Array<String>) {
+```kotlin
+fun main() {
     val items = setOf("apple", "banana", "kiwifruit")
 //sampleStart
     when {
@@ -596,14 +629,15 @@ fun main(args: Array<String>) {
 //sampleEnd
 }
 ```
+
 </div>
 
 使用 Lambda 表达式, 对集合元素进行过滤和变换:
 
 <div class="sample" markdown="1" theme="idea" auto-indent="false" indent="2">
 
-``` kotlin
-fun main(args: Array<String>) {
+```kotlin
+fun main() {
 //sampleStart
   val fruits = listOf("banana", "avocado", "apple", "kiwifruit")
   fruits
@@ -614,16 +648,17 @@ fun main(args: Array<String>) {
 //sampleEnd
 }
 ```
+
 </div>
 
 参见 [高阶函数与 Lambda 表达式](lambdas.html).
 
 ## 创建基本的类, 及其实例:
 
-<div class="sample" markdown="1" theme="idea">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
-``` kotlin
-fun main(args: Array<String>) {
+```kotlin
+fun main() {
 //sampleStart
     val rectangle = Rectangle(5.0, 2.0) // 不需要 'new' 关键字
     val triangle = Triangle(3.0, 4.0, 5.0)
@@ -660,6 +695,7 @@ class Triangle(
     }
 }
 ```
+
 </div>
 
 详情请参见 [类](classes.html) 以及 [对象和实例](object-declarations.html).

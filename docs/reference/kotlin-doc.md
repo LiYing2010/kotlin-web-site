@@ -28,7 +28,7 @@ Dokka 有 plugin 可用于 Gradle, Maven 以及 Ant 构建环境, 因此你可�
 下面的例子是使用 KDoc 对一个类标注的文档:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 /**
  * 由多个 *成员* 构成的一个组.
  *

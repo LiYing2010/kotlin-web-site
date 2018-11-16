@@ -5,201 +5,126 @@ category: "Other"
 title: "跨平台项目"
 ---
 
-# 跨平台项目
+# 跨平台程序开发
 
-> 跨平台项目是 Kotlin 1.2 版中新增的实验性特性. 本文档描述的所有语言特新和工具特性, 在未来的 Kotlin 版本中都有可能发生变更.
+> 跨平台项目是 Kotlin 1.2 和 1.3 版中新增的实验性特性. 本文档描述的所有语言特新和工具特性, 在未来的 Kotlin 版本中都有可能发生变更.
 {:.note}
 
-Kotlin 的跨平台项目允许你将相同的代码编译到多个目标平台. 目前支持的目标平台是 JVM 和 JS, 未来将会增加支持 Native App.
+Kotlin 的一个明确目标就是希望能运行在所有平台上, 但是我们认为这个能力是为了实现一个更重要的目标: 在各种不同的平台上共用代码.
+有了对各种平台的支持, 比如 JVM, Android, JavaScript, iOS, Linux, Windows, Mac, 甚至 STM32 这样的嵌入式系统, Kotlin 语言可以用来开发一个现代应用程序的任何组成部分.
+而且, 由于可以重用源代码, 可以重用程序开发者的专业能力, 我们可以不必在不同的平台上重复实现同样的功能, 而将我们的精力用于实现更重要的功能, 这是无法估量的巨大益处.
 
-## 跨平台项目的结构
+## 基本工作原理
 
-一个跨平台项目由以下 3 种模块构成:
+总体来说, 跨平台项目并不是简单地针对所有的平台编译所有的源代码.
+这种模式存在明显的限制, 而且我们认识到, 现代应用程序需要使用它所运行的平台上的独有功能.
+Kotlin 并不限制你只能访问所有 API 的一个共通子集.
+应用程序的各个部分之间都可以按照需要共用尽源代码, 同时也随时可以通过 Kotlin 语言提供的 [`expect`/`actual` 机制](platform-specific-declarations.html) 访问平台的 API.
 
-  * _common_ 模块, 其中包含不依赖于任何平台的代码, 也可以包含与平台相关的 API 声明, 但不包括其实现.
-    这些声明代码使得共通的代码依赖于具体平台上的实现代码.
-  * _platform_ 模块, 其中包含 _common_ 模块中声明的依赖于平台的 API 在具体平台上的实现代码, 以及其他依赖于平台的代码.
-    一个 _platform_ 模块永远对应于一个 _common_ 模块的具体实现.
-  * 通常的模块. 这种模块针对特定的平台, 它可以被 _platform_ 模块依赖, 也可以依赖于 _platform_ 模块.
+下面的例子是一个极简单的日志框架, 演示如何共用代码, 以及在共通代码与平台逻辑之间如何交互.
+共通代码大概是这样:
 
-_common_ 模块只能依赖于其他 _common_ 模块, 或依赖于 _common_ 库, 包括 Kotlin 标准库的 _common_ 版(`kotlin-stdlib-common`).
-_common_ 模块只包含 Kotlin 代码, 不能包含其他任何语言的代码.
-
-_platform_ 模块可以依赖于任何模块, 或依赖于对象平台上的任何库 (包括 Kotlin/JVM 平台上的 Java 库, 以及 Kotlin/JS 平台上的 JS 库).
-针对 Kotlin/JVM 平台的 _platform_ 模块还可以包含 Java 或其他 JVM 语言编写的代码.
-
-编译一个 _common_ 模块会产生一个特殊的 _metadata_ 文件, 其中包含模块内的所有声明.
-编译 _platform_ 模块则会为 _platform_ 本身的代码, 以及它实现的 _common_ 模块的代码, 生成针对目标平台的代码(JVM 字节码, 或 JS 源代码).
-
-因此, 每一个跨平台库, 都必须以一组 artifact 的形式发布 - 一个 common.jar, 其中包含共通代码的 _metadata_, 以及针对每个平台的 .jar 文件, 其中包含各个平台的实现代码的编译结果.
-
-
-## 跨平台项目的设置
-
-在目前的 Kotlin 1.2 版中, 跨平台项目必须使用 Gradle 来编译; 目前还不支持其他编译系统.
-如果你在 IDE 中开发跨平台项目, 请注意一定要打开 `Delegate IDE build/run actions to gradle` 选项, 并将 `Run tests using` 选项设置为 `Gradle Test Runner`.
-这两个选项都在以下菜单项中: _Settings > Build, execution, Deployment > Build Tools > Gradle > Runner_
-
-要在 IDE 中创建一个新的跨平台项目, 请在 New Project 对话框中选择 "Kotlin" ==> "Kotlin (Multiplatform)" 选项. IDE 会创建一个工程, 其中包含 3 个模块, 1个 _common_ 模块, 以及 2 个 _platform_ 模块, 分别针对 JVM 和 JS 平台. 要添加更多的模块, 请在 New Module 对话框中选择 "Gradle" ==> "Kotlin (Multiplatform)" 选项.
-
-如果你需要手动配置项目, 请按照以下步骤:
-
-  * 将 Kotlin Gradle plugin 添加到编译脚本的 classpath 中: `classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"`
-  * 在 _common_ 模块中, 使用 `kotlin-platform-common` plugin
-  * 在 _common_ 模块中, 添加 `kotlin-stdlib-common` 依赖
-  * 在针对 JVM, Android 和 JS 的 _platform_ 模块中, 分别使用 `kotlin-platform-jvm`, `kotlin-platform-android` 和 `kotlin-platform-js` plugin
-  * 在 _platform_ 模块中, 添加对 _common_ 模块的依赖, 依赖 scope 为 `expectedBy`
-
-下面的例子, 是 Kotlin 1.2-Beta 版的一个 _common_ 模块的完整的 `build.gradle` 文件:
-
+<div style="display:flex">
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` groovy
-buildscript {
-    ext.kotlin_version = '{{ site.data.releases.latest.version }}'
 
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
+```kotlin
+enum class LogLevel {
+    DEBUG, WARN, ERROR
 }
 
-apply plugin: 'kotlin-platform-common'
+internal expect fun writeLogMessage(message: String, logLevel: LogLevel)
 
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-common:$kotlin_version"
-    testCompile "org.jetbrains.kotlin:kotlin-test-common:$kotlin_version"
-}
+fun logDebug(message: String) = writeLogMessage(message, LogLevel.DEBUG)
+fun logWarn(message: String) = writeLogMessage(message, LogLevel.WARN)
+fun logError(message: String) = writeLogMessage(message, LogLevel.ERROR)
 ```
+
+</div>
+<div style="margin-left: 5px;white-space: pre-line; line-height: 18px; font-family: Tahoma;">
+    <div style="display:flex">├<i style="margin-left:5px">针对所有平台编译</i></div>
+    <div style="display:flex">├<i style="margin-left:5px">与平台相关的预期 API</i></div>
+    <div style="display:flex">├<i style="margin-left:5px">预期 API 可以在共通代码中使用</i></div>
+</div>
 </div>
 
-下面的例子是 JVM 平台的 _platform_ 模块的完整的 `build.gradle` 文件.
-请注意 `dependencies` 部分的 `expectedBy` 行:
+上面的代码预期各个平台的编译目标会为 `writeLogMessage` 函数提供平台相关的实现, 因此共通代码可以使用这个函数, 而不必考虑它具体如何实现.
+
+在 JVM 平台, 你可以为这个函数提供实现, 将日志写到标准输出:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` groovy
-buildscript {
-    ext.kotlin_version = '{{ site.data.releases.latest.version }}'
 
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
-}
-
-apply plugin: 'kotlin-platform-jvm'
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    expectedBy project(":")
-    testCompile "junit:junit:4.12"
-    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
-    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+```kotlin
+internal actual fun writeLogMessage(message: String, logLevel: LogLevel) {
+    println("[$logLevel]: $message")
 }
 ```
+
 </div>
 
-
-## 与平台相关的声明
-
-Kotlin 跨平台代码的关键特性之一就是, 允许共通代码依赖到与平台相关的声明.
-在其他语言中, 要实现这一点, 通常是在共通代码中创建一系列的接口, 然后在与平台相关的代码中实现这些接口.
-但是, 如果你已经有一个库在某个平台上实现了你需要的功能, 而你希望不通过额外的包装直接使用这个库的 API, 这种方式就并不理想了.
-而且, 这种方式要求以接口的形式来表达共通声明, 而这并不能满足所有可能的使用场景.
-
-作为一种替代的方案, Kotlin 提供了 _预期声明与实际声明(expected and actual declaration)_ 机制.
-通过这种机制, _common_ 模块可以定义 _预期声明(expected declaration)_, 而 _platform_ 模块则提供对应的 _实际声明(actual declaration)_.
-为了理解这种机制的工作原理, 我们先来看一个示例程序. 这段代码是一个 _common_ 模块的一部分:
+在 JavaScript 中, 可以使用的是另一套完全不同的 API, 因此你可以在这个函数的实现中使用 console:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
-package org.jetbrains.foo
 
-expect class Foo(bar: String) {
-    fun frob()
-}
-
-fun main(args: Array<String>) {
-    Foo("Hello").frob()
-}
-```
-</div>
-
-下面是对应的 JVM 模块:
-
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
-package org.jetbrains.foo
-
-actual class Foo actual constructor(val bar: String) {
-    actual fun frob() {
-        println("Frobbing the $bar")
+```kotlin
+internal actual fun writeLogMessage(message: String, logLevel: LogLevel) {
+    when (logLevel) {
+        LogLevel.DEBUG -> console.log(message)
+        LogLevel.WARN -> console.warn(message)
+        LogLevel.ERROR -> console.error(message)
     }
 }
 ```
+
 </div>
 
-上面的示例演示了几个要点:
+在 1.3 版中, 我们重构了整个跨平台项目的模型. 我们用来描述跨平台的 Gradle 项目的 [新 DSL](building-mpp-with-gradle.html) 比以前更加灵活, 我们还在继续改进它, 以使项目的配置更加直观.
 
-  * _common_ 模块中的预期声明, 以及与它对应的实际声明, 总是拥有完全相同的完整限定名(fully qualified name).
-  * 预期声明使用 `expect` 关键字进行标记; 实际声明使用 `actual` 关键字进行标记.
-  * 与预期声明中的任何一个部分对应的实际声明, 都必须标记为 `actual`.
-  * 预期声明绝不包含任何实现代码.
+## 跨平台的库
 
-注意, 预期声明并不局限于接口和接口的成员.
-在上面的示例中, 预期类有一个构造函数, 而且在共通代码中可以直接创建这个类的实例.
-你也可以将 `expect` 标记符用在其他声明上, 包括顶层声明, 以及注解:
+共通代码可能依赖与一系列的库, 用来实现各种常见任务, 比如 [HTTP](http://ktor.io/clients/http-client/multiplatform.html), [序列化](https://github.com/Kotlin/kotlinx.serialization), 以及 [管理协程](https://github.com/Kotlin/kotlinx.coroutines).
+而且, 所有的平台都提供了内容广泛的标准库.
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
-// Common
-expect fun formatString(source: String, vararg args: Any): String
+你也可以编写你自己的库, 提供共通的 API, 并在各个平台上提供不同的实现.
 
-expect annotation class Test
+## 用例
 
-// JVM
-actual fun formatString(source: String, vararg args: Any) =
-    String.format(source, args)
+### Android — iOS
 
-actual typealias Test = org.junit.Test
-```
+在不同的移动平台上共用代码, 是 Kotlin 跨平台项目的主要使用场景之一,
+现在, 为了创建移动设备上的应用程序, 我们可以在 Android 和 iOS 平台上共用一部分代码, 比如业务逻辑, 网络连接, 等等.
+
+See: [Multiplatform Project: iOS and Android](/docs/tutorials/native/mpp-ios-android.html)
+
+### Client — Server
+
+另一种使用场景是联网的应用程序, 一部分逻辑既可以用在服务器端, 也可以用在浏览器内运行的客户端, 因此代码共用也可以带来很大的益处.
+这种情况的代码共用也可以通过 Kotlin 跨平台项目来实现.
+
+[Ktor 框架](https://ktor.io/) 适合于在联网的应用程序中创建异步的服务器端程序和客户端程序.
+
+## 如何开始
+
+<div style="display: flex; align-items: center; margin-bottom: 20px">
+    <img src="{{ url_for('asset', path='images/landing/native/book.png') }}" height="38p" width="55" style="margin-right: 10px;">
+    <b>教程和文档</b>
 </div>
 
-编译器会保证 _common_ 模块中的每一个预期声明, 在所有实现这个 _common_ 模块的 _platform_ 模块中, 都存在对应的实际声明, 如果缺少实际声明, 则会报告错误.
-IDE 提供了工具, 可以帮助你创建缺少的实际声明.
+如果你是 Kotlin 新手, 请先阅读 [入门](/docs/reference/basic-syntax.html).
 
-如果你已经有了一个依赖于平台的库, 希望在共通代码中使用, 同时对其他平台则提供你自己的实现, 这时你可以为已存在的类定义一个类型别名, 以此作为实际声明:
+推荐的文档:
+- [设置跨平台项目](building-mpp-with-gradle.html#setting-up-a-multiplatform-project)
+- [与平台相关的声明](platform-specific-declarations.html)
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
-expect class AtomicRef<V>(value: V) {
-  fun get(): V
-  fun set(value: V)
-  fun getAndSet(value: V): V
-  fun compareAndSet(expect: V, update: V): Boolean
-}
+推荐的教程:
+- [跨平台的 Kotlin 库](/docs/tutorials/multiplatform-library.html)
+- [跨平台项目: iOS 与 Android](/docs/tutorials/native/mpp-ios-android.html)
 
-actual typealias AtomicRef<V> = java.util.concurrent.atomic.AtomicReference<V>
-```
+<div style="display: flex; align-items: center; margin-bottom: 10px;">
+    <img src="{{ url_for('asset', path='images/landing/native/try.png') }}" height="38p" width="55" style="margin-right: 10px;">
+    <b>示例项目</b>
 </div>
 
-## 跨平台测试
+- [KotlinConf App](https://github.com/JetBrains/kotlinconf-app)
+- [KotlinConf Spinner App](https://github.com/jetbrains/kotlinconf-spinner)
 
-我们可以在 common 项目中编写测试程序, 然后让这些测试程序在每一个平台项目中编译并运行.
-在 `kotlin.test` 包中提供了 4 个注解, 用来标注 common 代码中的测试程序: `@Test`, `@Ignore`,
-`@BeforeTest` 以及 `@AfterTest`.
-在 JVM 平台上, 这些注解会被映射为对应的 JUnit 4 注解, 在 JS 平台上, 从 1.1.4 开始也可以使用这些注解, 用来支持 JS 单体测试功能.
-
-要使用这些注解, 你需要在 _common_ 模块中添加对 `kotlin-test-annotations-common` 的依赖,
-在 JVM 模块添加对 `kotlin-test-junit` 的依赖, 以及在 JS 模块中添加对 `kotlin-test-js` 的依赖.
+更多示例请参见 [GitHub](https://github.com/JetBrains/kotlin-examples)

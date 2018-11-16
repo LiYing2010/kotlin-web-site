@@ -15,9 +15,9 @@ Kotlin 中所有的异常类都是 `Throwable` 的后代类.
 要抛出异常, 可以使用 *throw*{: .keyword } 表达式:
 
 <div class="sample" markdown="1" theme="idea">
-``` kotlin
+```kotlin
 
-fun main(args: Array<String>) {
+fun main() {
 //sampleStart
     throw Exception("Hi There!")
 //sampleEnd
@@ -28,7 +28,7 @@ fun main(args: Array<String>) {
 要捕获异常, 可以使用 *try*{: .keyword } 表达式:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 try {
     // 某些代码
 }
@@ -49,7 +49,7 @@ finally {
 *try*{: .keyword } 是一个表达式, 也就是说, 它可以有返回值:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 val a: Int? = try { parseInt(input) } catch (e: NumberFormatException) { null }
 ```
 </div>
@@ -64,7 +64,7 @@ Kotlin 中不存在受控异常(checked exception). 原因有很多, 我们举�
 下面的例子是 JDK 中 `StringBuilder` 类所实现的一个接口:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` java
+```java
 Appendable append(CharSequence csq) throws IOException;
 ```
 </div>
@@ -73,7 +73,7 @@ Appendable append(CharSequence csq) throws IOException;
 因此就导致我们的程序中充满了这样的代码:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 try {
     log.append(message)
 }
@@ -99,7 +99,7 @@ Bruce Eckel 在 [Java 需要受控异常吗?](http://www.mindview.net/Etc/Discus
 在 Kotlin 中, `throw` 是一个表达式, 比如说, 你可以将它用做 Elvis 表达式的一部分:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 val s = person.name ?: throw IllegalArgumentException("Name required")
 ```
 </div>
@@ -109,7 +109,7 @@ val s = person.name ?: throw IllegalArgumentException("Name required")
 在你自己的代码中, 你可以用 `Nothing` 来标记一个永远不会正常返回的函数:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun fail(message: String): Nothing {
     throw IllegalArgumentException(message)
 }
@@ -119,7 +119,7 @@ fun fail(message: String): Nothing {
 如果你调用这个函数, 编译器就会知道, 执行到这个调用时, 程序就会停止:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 val s = person.name ?: fail("Name required")
 println(s)     // 在这里可以确定地知道 's' 已被正确地初始化
 ```
@@ -129,7 +129,7 @@ println(s)     // 在这里可以确定地知道 's' 已被正确地初始化
 如果对一个自动推断类型的值, 使用 `null` 来初始化, 而且又没有更多的信息可以用来推断出更加具体的类型, 编译器会将类型推断为 `Nothing?`:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 val x = null           // 'x' 的类型是 `Nothing?`
 val l = listOf(null)   // 'l' 的类型是 `List<Nothing?>
 ```

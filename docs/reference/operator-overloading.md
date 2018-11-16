@@ -34,14 +34,14 @@ Kotlin 允许我们对数据类型的一组预定义的操作符提供实现函�
 举例来说, 我们可以这样来重载负号操作符:
 
 <div class="sample" markdown="1" theme="idea">
-``` kotlin
+```kotlin
 data class Point(val x: Int, val y: Int)
 
 operator fun Point.unaryMinus() = Point(-x, -y)
 
 val point = Point(10, 20)
 
-fun main(args: Array<String>) {
+fun main() {
    println(-point)  // 打印结果为 "Point(x=-10, y=-20)"
 }
 
@@ -101,7 +101,7 @@ fun main(args: Array<String>) {
 
 下面是一个 Counter 类的例子, 它从一个给定的值开始计数, 可以通过 `+` 操作符递增:
 
-``` kotlin
+```kotlin
 data class Counter(val dayIndex: Int) {
     operator fun plus(increment: Int): Counter {
         return Counter(dayIndex + increment)

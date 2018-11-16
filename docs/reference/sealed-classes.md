@@ -12,7 +12,7 @@ title: "Sealed Classes"
 要声明一个封闭类, 需要将 `sealed` 修饰符放在类名之前. 封闭类可以有子类, 但所有的子类声明都必须定义在封闭类所在的同一个源代码文件内. (在 Kotlin 1.1 之前, 规则更加严格: 所有的子类声明都必须嵌套在封闭类的声明部分之内).
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 sealed class Expr
 data class Const(val number: Double) : Expr()
 data class Sum(val e1: Expr, val e2: Expr) : Expr()
@@ -32,7 +32,7 @@ object NotANumber : Expr()
 但是, 这种用法只适用于将 `when` 用作表达式(使用它的返回值)的情况, 而不能用于将 `when` 用作语句的情况.
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun eval(expr: Expr): Double = when(expr) {
     is Const -> expr.number
     is Sum -> eval(expr.e1) + eval(expr.e2)

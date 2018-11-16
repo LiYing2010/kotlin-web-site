@@ -39,7 +39,7 @@ AWS Labs 提供了一个 [示例工程](https://github.com/awslabs/serverless-ph
 
 ## 使用 Kotlin 进行服务端开发的使用者
 
-[Corda](https://www.corda.net/2017/01/10/kotlin/) 是一个开源的分布式帐务平台, 受各大主要银行支持, 完全使用 Kotlin 语言开发.
+[Corda](https://www.corda.net/) 是一个开源的分布式帐务平台, 受各大主要银行支持, 完全使用 Kotlin 语言开发.
 
 [JetBrains Account](https://account.jetbrains.com/), 这个系统负责 JetBrains 公司所有的许可证销售和验证过程, 系统 100% 使用 Kotlin 编写, 自 2015 年起运行在生产环境中, 未发生任何严重问题.
 

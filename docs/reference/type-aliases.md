@@ -14,7 +14,7 @@ title: "类型别名 (从 Kotlin 1.1 开始支持)"
 比如, 缩短集合类型的名称通常是很吸引人的:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 typealias NodeSet = Set<Network.Node>
 
 typealias FileTable<K> = MutableMap<K, MutableList<File>>
@@ -24,7 +24,7 @@ typealias FileTable<K> = MutableMap<K, MutableList<File>>
 你也可以为函数类型指定不同的别名:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 typealias MyHandler = (Int, String, Any) -> Unit
 
 typealias Predicate<T> = (T) -> Boolean
@@ -34,7 +34,7 @@ typealias Predicate<T> = (T) -> Boolean
 你也可以为内部类和嵌套类指定新的名称:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 class A {
     inner class Inner
 }
@@ -53,12 +53,12 @@ typealias BInner = B.Inner
 因此, 在需要通常的函数类型的地方, 可以使用你定义的类型别名的变量, 反过来也是如此:
 
 <div class="sample" markdown="1" theme="idea">
-``` kotlin
+```kotlin
 typealias Predicate<T> = (T) -> Boolean
 
 fun foo(p: Predicate<Int>) = p(42)
 
-fun main(args: Array<String>) {
+fun main() {
     val f: (Int) -> Boolean = { it > 0 }
     println(foo(f)) // 打印结果为 "true"
 

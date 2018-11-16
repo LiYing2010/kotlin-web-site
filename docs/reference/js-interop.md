@@ -17,7 +17,7 @@ Kotlin 设计时很重视与 Java 平台交互的问题. Kotlin 代码可以将 
 比如:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun jsTypeOf(o: Any): String {
     return js("typeof o")
 }
@@ -27,7 +27,7 @@ fun jsTypeOf(o: Any): String {
 `js` 函数的参数必须是字符串常量. 因此, 以下代码是不正确的:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun jsTypeOf(o: Any): String {
     return js(getTypeof() + " o") // 这里会出错
 }
@@ -43,7 +43,7 @@ fun getTypeof() = "typeof"
 也就是说, 你应该省略 `external` 声明的 body 部. 比如:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 external fun alert(message: Any?): Unit
 
 external class Node {
@@ -70,7 +70,7 @@ external val window: Window
 在 JavaScript 中, 成员函数可以定义在 prototype 上, 也可以定义在类上. 也就是:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` javascript
+```javascript
 function MyClass() { ... }
 MyClass.sharedMember = function() { /* 实现代码 */ };
 MyClass.prototype.ownMember = function() { /* 实现代码 */ };
@@ -80,7 +80,7 @@ MyClass.prototype.ownMember = function() { /* 实现代码 */ };
 在 Kotlin 中没有这样的语法. 但是, 在 Kotlin 中有 `同伴`(companion) 对象. Kotlin 以特殊的方式处理 `external` 类的同伴对象: 它不是期待一个对象, 而是假设同伴对象的成员在 JavaScript 中是定义在类上的成员函数. 上例中的 `MyClass`, 在 Kotlin 中可以写为:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 external class MyClass {
     companion object {
         fun sharedMember()
@@ -99,7 +99,7 @@ JavaScript 实现代码中具体如何为这些可选参数计算默认值, 对 
 应该使用如下语法:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 external fun myFunWithOptionalArgs(x: Int,
     y: String = definedExternally,
     z: Long = definedExternally)
@@ -114,7 +114,7 @@ external fun myFunWithOptionalArgs(x: Int,
 你可以很容易地扩展 JavaScript 类, 就好像它们是 Kotlin 类一样. 你只需要定义一个 `external` 类, 然后通过非 `external` 类来扩展它. 比如:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 external open class HTMLElement : Element() {
     /* 成员定义 */
 }
@@ -141,7 +141,7 @@ JavaScript 没有接口的概念. 如果一个函数要求它的参数支持 `fo
 在严格检查类型的 Kotlin 语言中, 你可以使用接口来表达这种概念, 比如:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 external interface HasFooAndBar {
     fun foo()
 
@@ -155,7 +155,7 @@ external fun myFunction(p: HasFooAndBar)
 `external` 接口的另一种使用场景, 是用来描述配置信息对象. 比如:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
-``` kotlin
+```kotlin
 external interface JQueryAjaxSettings {
     var async: Boolean
 

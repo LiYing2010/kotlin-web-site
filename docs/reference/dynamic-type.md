@@ -13,7 +13,7 @@ title: "动态类型"
 Kotlin 虽然是一种静态类型的语言, 但它仍然可以与无类型或松散类型的环境互操作, 比如各种 JavaScript 环境. 为了为这样的使用场景提供帮助, Kotlin 提供了 `dynamic` 类型:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 val dyn: dynamic = ...
 ```
 </div>
@@ -27,7 +27,7 @@ val dyn: dynamic = ...
 `dynamic` 类型最特殊的功能是, 允许我们对 `dynamic` 类型变量访问它的 **任何** 属性, 还可以使用任意参数访问它的 **任何** 函数:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 dyn.whatever(1, "foo", dyn) // 没有在任何地方定义过 'whatever'
 dyn.whatever(*arrayOf(1, 2, 3))
 ```
@@ -41,7 +41,7 @@ dyn.whatever(*arrayOf(1, 2, 3))
 一个动态调用永远会返回一个 `dynamic` 的结果, 因此我们可以将这些调用自由地串联起来:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 dyn.foo().bar.baz()
 ```
 </div>
@@ -49,7 +49,7 @@ dyn.foo().bar.baz()
 当我们向一个动态调用传递一个 Lambda 表达式作为参数时, Lambda 表达式的所有参数类型默认都是 `dynamic`:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 dyn.foo {
     x -> x.bar() // x 是 dynamic 类型
 }

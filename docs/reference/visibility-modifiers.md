@@ -18,7 +18,7 @@ Kotlin 中存在 4 种可见度修饰符: `private`, `protected`, `internal` 以
 函数, 属性, 类, 对象, 接口, 都可以声明为"顶级的(top-level)", 也就是说, 直接声明在包之内:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 // file name: example.kt
 package foo
 
@@ -37,7 +37,7 @@ class Bar { ... }
 示例:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 // file name: example.kt
 package foo
 
@@ -66,7 +66,7 @@ Java 使用者 *请注意*: 在 Kotlin 中, 外部类(outer class)不能访问�
 示例:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 open class Outer {
     private val a = 1
     protected open val b = 2
@@ -99,7 +99,7 @@ class Unrelated(o: Outer) {
 要指定类的主构造器的可见度, 请使用以下语法(注意, 你需要明确添加一个 *constructor*{: .keyword } 关键字):
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 class C private constructor(a: Int) { ... }
 ```
 </div>
@@ -118,4 +118,4 @@ class C private constructor(a: Int) { ... }
   * 一个 IntelliJ IDEA 模块;
   * 一个 Maven 工程;
   * 一个 Gradle 源代码集(source set) (`test` 源代码集例外, 它可以访问 `main` 中的 internal 声明);
-  * 通过 <kotlinc> Ant 任务的一次调用编译的一组文件.
+  * 通过 `<kotlinc>` Ant 任务的一次调用编译的一组文件.

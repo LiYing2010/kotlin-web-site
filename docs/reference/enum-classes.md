@@ -10,7 +10,7 @@ title: "枚举类"
 枚举类最基本的用法, 就是实现类型安全的枚举值:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 enum class Direction {
     NORTH, SOUTH, WEST, EAST
 }
@@ -24,7 +24,7 @@ enum class Direction {
 由于每个枚举值都是枚举类的一个实例, 因此枚举值可以这样初始化:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 enum class Color(val rgb: Int) {
         RED(0xFF0000),
         GREEN(0x00FF00),
@@ -38,7 +38,7 @@ enum class Color(val rgb: Int) {
 枚举常数也可以定义它自己的匿名类:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 enum class ProtocolState {
     WAITING {
         override fun signal() = TALKING
@@ -64,7 +64,7 @@ enum class ProtocolState {
 
 <div class="sample" markdown="1" theme="idea">
 
-``` kotlin
+```kotlin
 import java.util.function.BinaryOperator
 import java.util.function.IntBinaryOperator
 
@@ -81,7 +81,7 @@ enum class IntArithmetics : BinaryOperator<Int>, IntBinaryOperator {
 }
 //sampleEnd
 
-fun main(args: Array<String>) {
+fun main() {
     val a = 13
     val b = 31
     for (f in IntArithmetics.values()) {
@@ -96,7 +96,7 @@ fun main(args: Array<String>) {
 与 Java 中一样, Kotlin 中的枚举类拥有编译器添加的方法, 可以列出枚举类中定义的所有枚举常数值, 可以通过枚举常数值的名称字符串得到对应的枚举常数值. 这些方法的签名如下(这里假设枚举类名称为 `EnumClass`):
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 EnumClass.valueOf(value: String): EnumClass
 EnumClass.values(): Array<EnumClass>
 ```
@@ -107,7 +107,7 @@ EnumClass.values(): Array<EnumClass>
 从 Kotlin 1.1 开始, 可以通过 `enumValues<T>()` 和 `enumValueOf<T>()` 函数, 以泛型方式取得枚举类中的常数:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 enum class RGB { RED, GREEN, BLUE }
 
 inline fun <reified T : Enum<T>> printAllValues() {
@@ -121,7 +121,7 @@ printAllValues<RGB>() // 打印结果为 RED, GREEN, BLUE
 每个枚举常数值都拥有属性, 可以取得它的名称, 以及它在枚举类中声明的顺序:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 val name: String
 val ordinal: Int
 ```

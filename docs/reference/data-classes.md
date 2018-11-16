@@ -10,9 +10,11 @@ title: "数据类"
 我们经常会创建一些类, 其主要目的是用来保存数据. 在这些类中, 某些常见的功能和工具函数经常可以由类中保存的数据内容即可自动推断得到. 在 Kotlin 中, 我们将这样的类称为 _数据类_, 通过 `data` 关键字标记:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+
+```kotlin
 data class User(val name: String, val age: Int)
 ```
+
 </div>
 
 编译器会根据主构造器中声明的全部属性, 自动推断产生以下成员函数:
@@ -42,9 +44,11 @@ data class User(val name: String, val age: Int)
 (参见 [构造器](classes.html#constructors)).
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+
+```kotlin
 data class User(val name: String = "", val age: Int = 0)
 ```
+
 </div>
 
 ## 在类主体部声明的属性
@@ -53,11 +57,13 @@ data class User(val name: String = "", val age: Int = 0)
 如果想要在自动生成的函数实现中排除某个属性, 你可以将它声明在类的主体部:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
+
 ```kotlin
 data class Person(val name: String) {
     var age: Int = 0
 }
 ```
+
 </div>
 
 在 `toString()`, `equals()`, `hashCode()`, 和 `copy()` 函数的实现中, 只会使用属性 `name`, 而且只存在一个组建函数 `component1()`.
@@ -65,11 +71,11 @@ data class Person(val name: String) {
 
 <div class="sample" markdown="1" theme="idea">
 
-``` kotlin
+```kotlin
 data class Person(val name: String) {
     var age: Int = 0
 }
-fun main(args: Array<String>) {
+fun main() {
 //sampleStart
     val person1 = Person("John")
     val person2 = Person("John")
@@ -81,6 +87,7 @@ fun main(args: Array<String>) {
     println("person2 with age ${person2.age}: ${person2}")
 }
 ```
+
 </div>
 
 ## 对象复制
@@ -89,18 +96,22 @@ fun main(args: Array<String>) {
 这就是自动生成的 `copy()` 函数所要实现的功能. 对于前面示例中的 `User` 类, 自动生成的 `copy()` 函数的实现将会是下面这样:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+
+```kotlin
 fun copy(name: String = this.name, age: Int = this.age) = User(name, age)     
 ```
+
 </div>
 
 有了这个函数, 我们可以编写下面这样的代码:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+
+```kotlin
 val jack = User(name = "Jack", age = 1)
 val olderJack = jack.copy(age = 2)
 ```
+
 </div>
 
 ## 数据类中成员数据的解构
@@ -108,11 +119,13 @@ val olderJack = jack.copy(age = 2)
 编译器会为数据类生成 _组件函数(Component function)_, 有了这些组件函数, 就可以在 [解构声明(destructuring declaration)](multi-declarations.html) 中使用数据类:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+
+```kotlin
 val jane = User("Jane", 35)
 val (name, age) = jane
 println("$name, $age years of age") // 打印结果将是 "Jane, 35 years of age"
 ```
+
 </div>
 
 ## 标准库中的数据类

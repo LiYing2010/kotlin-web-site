@@ -17,7 +17,7 @@ title: "相等判断"
 结构相等使用 `==` 操作 (以及它的相反操作 `!=`) 来判断. 按照约定, `a == b` 这样的表达式将被转换为:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 a?.equals(b) ?: (b === null)
 ```
 </div>

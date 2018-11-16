@@ -12,7 +12,7 @@ title: "函数: 中缀, 不定数量参数, 尾递归"
 Kotlin 中使用 *fun*{: .keyword } 关键字定义函数:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun double(x: Int): Int {
     return 2 * x
 }
@@ -24,7 +24,7 @@ fun double(x: Int): Int {
 函数的调用使用传统的方式:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 val result = double(2)
 ```
 </div>
@@ -32,7 +32,7 @@ val result = double(2)
 调用类的成员函数时, 使用点号标记法(dot notation):
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 Sample().foo() // 创建一个 Sample 类的实例, 然后调用这个实例的 foo 函数
 ```
 </div>
@@ -42,7 +42,7 @@ Sample().foo() // 创建一个 Sample 类的实例, 然后调用这个实例的 
 函数参数的定义使用 Pascal 标记法, 也就是, *name*: *type* 的格式. 多个参数之间使用逗号分隔. 每个参数都必须明确指定类型:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun powerOf(number: Int, exponent: Int) { ... }
 ```
 </div>
@@ -52,7 +52,7 @@ fun powerOf(number: Int, exponent: Int) { ... }
 函数参数可以指定默认值, 当参数省略时, 就会使用默认值. 与其他语言相比, 这种功能使得我们可以减少大量的 重载(overload)函数定义:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun read(b: Array<Byte>, off: Int = 0, len: Int = b.size) { ... }
 ```
 </div>
@@ -63,7 +63,7 @@ fun read(b: Array<Byte>, off: Int = 0, len: Int = b.size) { ... }
 如果要覆盖一个有默认参数值的方法, 那么必须在方法签名中省略默认参数值:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 open class A {
     open fun foo(i: Int = 10) { ... }
 }
@@ -77,7 +77,7 @@ class B : A() {
 如果有默认值的参数 A 定义在无默认值的参数 B 之前, 那么调用函数时, 必须通过 [命名参数](#named-arguments) 的方式为参数 B 指定值, 这时才能对参数 A 使用默认值:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun foo(bar: Int = 0, baz: Int) { ... }
 
 foo(baz = 1) // 这里将会使用默认参数 bar = 0
@@ -87,7 +87,7 @@ foo(baz = 1) // 这里将会使用默认参数 bar = 0
 但是, 如果最后一个参数是 [lambda 表达式](lambdas.html#lambda-expression-syntax), 并且在调用函数时在括号之外传递这个 lambda 表达式, 此时可以对默认参数不指定参数值:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun foo(bar: Int = 0, baz: Int = 1, qux: () -> Unit) { ... }
 
 foo(1) { println("hello") } // 这里将会使用默认参数 baz = 1
@@ -102,7 +102,7 @@ foo { println("hello") }    // 这里将会使用默认参数 bar = 0 和 baz = 
 比如, 对于下面这个函数:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
-``` kotlin
+```kotlin
 fun reformat(str: String,
              normalizeCase: Boolean = true,
              upperCaseFirstLetter: Boolean = true,
@@ -116,7 +116,7 @@ fun reformat(str: String,
 我们可以使用默认参数来调用它:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 reformat(str)
 ```
 </div>
@@ -124,7 +124,7 @@ reformat(str)
 但是, 如果需要使用非默认的参数值调用它, 那么代码会成为这样:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 reformat(str, true, true, false, '_')
 ```
 </div>
@@ -132,7 +132,7 @@ reformat(str, true, true, false, '_')
 如果使用命名参数, 我们的代码可读性可以变得更好一些:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 reformat(str,
     normalizeCase = true,
     upperCaseFirstLetter = true,
@@ -145,7 +145,7 @@ reformat(str,
 而且, 如果我们不需要指定所有的参数, 那么可以这样:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 reformat(str, wordSeparator = '_')
 ```
 </div>
@@ -155,7 +155,7 @@ reformat(str, wordSeparator = '_')
 可以通过 **展开(spread)** 操作符, 以命名参数的方式传递 [不定数量参数(*vararg*{: .keyword })](#variable-number-of-arguments-varargs):
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun foo(vararg strings: String) { ... }
 
 foo(strings = *arrayOf("a", "b", "c"))
@@ -169,7 +169,7 @@ foo(strings = *arrayOf("a", "b", "c"))
 如果一个函数不返回任何有意义的结果值, 那么它的返回类型为 `Unit`. `Unit` 类型只有唯一的一个值 - `Unit`. 在函数中, 不需要明确地返回这个值:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun printHello(name: String?): Unit {
     if (name != null)
         println("Hello ${name}")
@@ -183,7 +183,7 @@ fun printHello(name: String?): Unit {
 返回类型 `Unit` 的声明本身也是可选的. 上例中的代码等价于:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun printHello(name: String?) { ... }
 ```
 </div>
@@ -193,7 +193,7 @@ fun printHello(name: String?) { ... }
 如果一个函数返回单个表达式, 那么大括号可以省略, 函数体可以直接写在 **=** 之后:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun double(x: Int): Int = x * 2
 ```
 </div>
@@ -201,7 +201,7 @@ fun double(x: Int): Int = x * 2
 如果编译器可以推断出函数的返回值类型, 那么返回值的类型定义是 [可选的](#explicit-return-types):
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun double(x: Int) = x * 2
 ```
 </div>
@@ -217,7 +217,7 @@ fun double(x: Int) = x * 2
 一个函数的一个参数 (通常是参数中的最后一个) 可以标记为 `vararg`:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
-``` kotlin
+```kotlin
 fun <T> asList(vararg ts: T): List<T> {
     val result = ArrayList<T>()
     for (t in ts) // ts 是一个 Array
@@ -230,7 +230,7 @@ fun <T> asList(vararg ts: T): List<T> {
 调用时, 可以向这个函数传递不定数量的参数:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 val list = asList(1, 2, 3)
 ```
 </div>
@@ -258,7 +258,7 @@ val list = asList(-1, 0, *a, 4)
 * 参数不能是 [不定数量参数](#variable-number-of-arguments-varargs), 而且不能有 [默认值](#default-arguments).
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 infix fun Int.shl(x: Int): Int { ... }
 
 // 使用中缀标记法调用函数
@@ -310,7 +310,7 @@ class MyStringCollection {
 Kotlin 支持局部函数, 也就是, 嵌套在另一个函数内的函数:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
-``` kotlin
+```kotlin
 fun dfs(graph: Graph) {
     fun dfs(current: Vertex, visited: Set<Vertex>) {
         if (!visited.add(current)) return
@@ -326,7 +326,7 @@ fun dfs(graph: Graph) {
 局部函数可以访问外部函数中的局部变量(也就是, 闭包), 因此, 在上面的例子中, *visited* 可以定义为一个局部变量:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
-``` kotlin
+```kotlin
 fun dfs(graph: Graph) {
     val visited = HashSet<Vertex>()
     fun dfs(current: Vertex) {
@@ -345,7 +345,7 @@ fun dfs(graph: Graph) {
 成员函数是指定义在类或对象之内的函数:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 class Sample() {
     fun foo() { print("Foo") }
 }
@@ -355,7 +355,7 @@ class Sample() {
 对成员函数的调用使用点号标记法:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 Sample().foo() // 创建 Sample 类的实例, 并调用 foo 函数
 ```
 </div>
@@ -367,7 +367,7 @@ Sample().foo() // 创建 Sample 类的实例, 并调用 foo 函数
 函数可以带有泛型参数, 泛型参数通过函数名之前的尖括号来指定:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 fun <T> singletonList(item: T): List<T> { ... }
 ```
 </div>
@@ -393,7 +393,7 @@ Kotlin 支持一种称为 [尾递归(tail recursion)](https://en.wikipedia.org/w
 当一个函数标记为 `tailrec`, 并且满足要求的形式, 编译器就会对代码进行优化, 消除函数的递归调用, 产生一段基于循环实现的, 快速而且高效的代码:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
-``` kotlin
+```kotlin
 val eps = 1E-10 // 这个精度已经"足够"了, 也可以设置为更高精度: 10^-15
 
 tailrec fun findFixPoint(x: Double = 1.0): Double
@@ -404,7 +404,7 @@ tailrec fun findFixPoint(x: Double = 1.0): Double
 上面的代码计算余弦函数的不动点(fixpoint), 结果应该是一个数学上的常数. 这个函数只是简单地从 1.0 开始不断重复地调用 Math.cos 函数, 直到计算结果不再变化为止, 对于示例中给定的 `eps` 精度值, 计算结果将是 0.7390851332151611. 编译器优化产生的代码等价于下面这种传统方式编写的代码:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` kotlin
+```kotlin
 val eps = 1E-10 // 这个精度已经"足够"了, 也可以设置为更高精度: 10^-15
 
 private fun findFixPoint(): Double {

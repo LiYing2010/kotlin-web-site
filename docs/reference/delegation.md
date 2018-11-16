@@ -18,7 +18,7 @@ title: "委托"
 
 <div class="sample" markdown="1" theme="idea">
 
-``` kotlin
+```kotlin
 interface Base {
     fun print()
 }
@@ -29,11 +29,12 @@ class BaseImpl(val x: Int) : Base {
 
 class Derived(b: Base) : Base by b
 
-fun main(args: Array<String>) {
+fun main() {
     val b = BaseImpl(10)
-    Derived(b).print() // 打印结果为: 10
+    Derived(b).print()
 }
 ```
+
 </div>
 
 `Derived` 类声明的基类列表中的 *by*{: .keyword } 子句表示, `b` 将被保存在 `Derived` 的对象实例内部, 而且编译器将会生成继承自 `Base` 接口的所有方法, 并将调用转发给 `b`.
@@ -41,11 +42,11 @@ fun main(args: Array<String>) {
 ### 覆盖由委托实现的接口成员
 
 函数和属性的 [覆盖](classes.html#overriding-methods) 会如你预期的那样工作: 编译器将会使用你的 `override` 实现, 而不会使用委托对象中的实现.
-如果我们在 `Derived` 中添加一段函数覆盖 `override fun print() { print("abc") }`, 那么上面程序中调用 `print` 时的打印结果将是 "abc", 而不是 "10":
+如果我们在 `Derived` 中添加一段函数覆盖 `override fun printMessage() { print("abc") }`, 那么上面程序中调用 `print` 时的打印结果将是 "abc", 而不是 "10":
 
 <div class="sample" markdown="1" theme="idea">
 
-``` kotlin
+```kotlin
 interface Base {
     fun printMessage()
     fun printMessageLine()
@@ -60,19 +61,20 @@ class Derived(b: Base) : Base by b {
     override fun printMessage() { print("abc") }
 }
 
-fun main(args: Array<String>) {
+fun main() {
     val b = BaseImpl(10)
     Derived(b).printMessage()
     Derived(b).printMessageLine()
 }
 ```
+
 </div>
 
 注意, 使用上述方式覆盖的接口成员, 在委托对象的成员函数内无法调用. 委托对象的成员函数内, 只能访问它自己的接口方法实现:
 
 <div class="sample" markdown="1" theme="idea">
 
-``` kotlin
+```kotlin
 interface Base {
     val message: String
     fun print()
@@ -88,11 +90,12 @@ class Derived(b: Base) : Base by b {
     override val message = "Message of Derived"
 }
 
-fun main(args: Array<String>) {
+fun main() {
     val b = BaseImpl(10)
     val derived = Derived(b)
     derived.print()
     println(derived.message)
 }
 ```
+
 </div>

@@ -36,7 +36,7 @@ plugins {
 然后在你的 `dependencies` 块中使用 `kapt` 配置来添加对应的依赖:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` groovy
+```groovy
 dependencies {
     kapt 'groupId:artifactId:version'
 }
@@ -55,7 +55,7 @@ dependencies {
 可以使用 `arguments {}` 代码段来传递参数给注解处理器:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` groovy
+```groovy
 kapt {
     arguments {
         arg("key", "value")
@@ -70,7 +70,7 @@ Kapt 使用 Java 编译器来运行注解处理器.
 下面的例子是, 如何向 javac 传递任意的参数:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` groovy
+```groovy
 kapt {
     javacOptions {
         // 增加注解处理器允许的最大错误数.
@@ -87,7 +87,7 @@ kapt {
 但是你可以修改这种行为. 在 `build.gradle` 文件中添加一个额外的标记, 就可以对桩代码中推断错误的数据类型进行修正:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
-``` groovy
+```groovy
 kapt {
     correctErrorTypes = true
 }
