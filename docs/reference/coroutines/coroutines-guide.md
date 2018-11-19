@@ -2,39 +2,33 @@
 type: doc
 layout: reference
 category: "Coroutine"
-title: "协程简介"
+title: "协程指南"
 ---
 
+Kotlin 语言只在它的标准库中提供了最少量的低层 API, 让其它各种不同的库来使用协程.
+与拥有类似功能的其他语言不同, `async` 和 `await` 在 Kotlin 中不是关键字, 甚至不是标准库的一部分.
+而且, Kotlin 的 _挂起函数_ 的概念, 为异步操作提供了一种比 future 和 promis 更安全, 更不容易出错的的抽象模型.
 
+`kotlinx.coroutines` 是 JetBrain 公司开发的一个功能强大的协程功能库. 本文档将会详细介绍这个库中包含的很多高层的协程基本操作, 包括 `launch`, `async`, 等等.
 
-Kotlin, as a language, provides only minimal low-level APIs in its standard library to enable various other 
-libraries to utilize coroutines. Unlike many other languages with similar capabilities, `async` and `await`
-are not keywords in Kotlin and are not even part of its standard library. Moreover, Kotlin's concept
-of _suspending function_ provides a safer and less error-prone abstraction for asynchronous 
-operations than futures and promises.  
+本文档将会针对各种不同的主题, 通过一系列示例程序来介绍 `kotlinx.coroutines` 库的各种核心功能.
 
-`kotlinx.coroutines` is a rich library for coroutines developed by JetBrains. It contains a number of high-level 
-coroutine-enabled primitives that this guide covers, including `launch`, `async` and others. 
+为了使用协程功能, 以及本文档中的各种示例程序, 你需要添加 `kotlinx-coroutines-core` 依赖项, 详细方法请参见 [项目的 README 文件](../README.md#using-in-your-projects).
 
-This is a guide on core features of `kotlinx.coroutines` with a series of examples, divided up into different topics.
+## 章节目录
 
-In order to use coroutines as well as follow the examples in this guide, you need to add a dependency on `kotlinx-coroutines-core` module as explained 
-[in the project README ](../README.md#using-in-your-projects).
+* [基本概念](basics.md)
+* [取消与超时](cancellation-and-timeouts.md)
+* [挂起函数(Suspending Function)的组合](composing-suspending-functions.md)
+* [协程上下文与派发器(Dispatcher)](coroutine-context-and-dispatchers.md)
+* [异常处理和监视](exception-handling.md)
+* [通道(Channel) (实验性功能)](channels.md)
+* [共享的可变状态与并发](shared-mutable-state-and-concurrency.md)
+* [选择表达式 (实验性功能)](select-expression.md)
 
-## Table of contents
+## 其他参考文档
 
-* [Coroutine basics](basics.md)
-* [Cancellation and timeouts](cancellation-and-timeouts.md)
-* [Composing suspending functions](composing-suspending-functions.md)
-* [Coroutine context and dispatchers](coroutine-context-and-dispatchers.md)
-* [Exception handling and supervision](exception-handling.md)
-* [Channels (experimental)](channels.md)
-* [Shared mutable state and concurrency](shared-mutable-state-and-concurrency.md)
-* [Select expression (experimental)](select-expression.md)
-
-## Additional references
-
-* [Guide to UI programming with coroutines](../ui/coroutines-guide-ui.md)
-* [Guide to reactive streams with coroutines](../reactive/coroutines-guide-reactive.md)
-* [Coroutines design document (KEEP)](https://github.com/Kotlin/kotlin-coroutines/blob/master/kotlin-coroutines-informal.md)
-* [Full kotlinx.coroutines API reference](http://kotlin.github.io/kotlinx.coroutines)
+* [使用协程进行 UI 编程向导](https://github.com/kotlin/kotlinx.coroutines/blob/master/ui/coroutines-guide-ui.md)
+* [使用协程进行响应式流(Reactive Stream)编程向导](https://github.com/kotlin/kotlinx.coroutines/blob/master/reactive/coroutines-guide-reactive.md)
+* [协程功能设计文档 (KEEP)](https://github.com/Kotlin/kotlin-coroutines/blob/master/kotlin-coroutines-informal.md)
+* [kotlinx.coroutines API 完整参考](http://kotlin.github.io/kotlinx.coroutines)
