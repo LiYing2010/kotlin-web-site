@@ -17,14 +17,14 @@ Kotlin 语言只在它的标准库中提供了最少量的低层 API, 让其它�
 
 ## 章节目录
 
-* [基本概念](basics.md)
-* [取消与超时](cancellation-and-timeouts.md)
-* [挂起函数(Suspending Function)的组合](composing-suspending-functions.md)
-* [协程上下文与派发器(Dispatcher)](coroutine-context-and-dispatchers.md)
-* [异常处理和监视](exception-handling.md)
-* [通道(Channel) (实验性功能)](channels.md)
-* [共享的可变状态与并发](shared-mutable-state-and-concurrency.md)
-* [选择表达式 (实验性功能)](select-expression.md)
+* [基本概念](basics.html)
+* [取消与超时](cancellation-and-timeouts.html)
+* [挂起函数(Suspending Function)的组合](composing-suspending-functions.html)
+* [协程上下文与派发器(Dispatcher)](coroutine-context-and-dispatchers.html)
+* [异常处理和监视](exception-handling.html)
+* [通道(Channel) (实验性功能)](channels.html)
+* [共享的可变状态与并发](shared-mutable-state-and-concurrency.html)
+* [选择表达式 (实验性功能)](select-expression.html)
 
 ## 其他参考文档
 
