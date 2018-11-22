@@ -250,10 +250,9 @@ World!
 -->
 
 ### 作用范围(Scope)构建器
-In addition to the coroutine scope provided by different builders, it is possible to declare your own scope using
-[coroutineScope] builder. It creates new coroutine scope and does not complete until all launched children
-complete. The main difference between [runBlocking] and [coroutineScope] is that the latter does not block the current thread
-while waiting for all children to complete.
+除了各种构建器提供的协程作用范围之外, 还可以使用 [coroutineScope] 构建器来自行声明作用范围.
+这个构建器可以创建新的协程作用范围, 并等待在这个范围内启动的所有子协程运行结束.
+[runBlocking] 和 [coroutineScope] 之间的主要区别是, [coroutineScope] 在等待子协程运行时, 不会阻塞当前线程.
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
@@ -266,17 +265,17 @@ fun main() = runBlocking { // this: CoroutineScope
         println("Task from runBlocking")
     }
 
-    coroutineScope { // Creates a new coroutine scope
+    coroutineScope { // 创建新的协程作用范围
         launch {
             delay(500L)
             println("Task from nested launch")
         }
 
         delay(100L)
-        println("Task from coroutine scope") // This line will be printed before nested launch
+        println("Task from coroutine scope") // 在嵌套的 launch 之前, 这一行会打印
     }
 
-    println("Coroutine scope is over") // This line is not printed until nested launch completes
+    println("Coroutine scope is over") // 直到嵌套的 launch 运行结束后, 这一行才会打印
 }
 ```
 
@@ -293,11 +292,10 @@ Coroutine scope is over
 
 ### 抽取函数(Extract Function)的重构
 
-Let's extract the block of code inside `launch { ... }` into a separate function. When you
-perform "Extract function" refactoring on this code you get a new function with `suspend` modifier.
-That is your first _suspending function_. Suspending functions can be used inside coroutines
-just like regular functions, but their additional feature is that they can, in turn,
-use other suspending functions, like `delay` in this example, to _suspend_ execution of a coroutine.
+下面我们把 `launch { ... }` 之内的代码抽取成一个独立的函数.
+如果在 IDE 中对这段代码进行一个 "Extract function" 重构操作, 你会得到一个带 `suspend` 修饰符的新函数.
+这就是你的第一个 _挂起函数_. 在协程内部可以象使用普通函数那样使用挂起函数, 但挂起函数与普通函数的不同在于, 它们又可以使用其他挂起函数,
+比如下面的例子中, 我们使用了 `delay` 函数, 来 _挂起_ 当前协程的运行.
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
@@ -309,7 +307,7 @@ fun main() = runBlocking {
     println("Hello,")
 }
 
-// this is your first suspending function
+// 这是你的第一个挂起函数
 suspend fun doWorld() {
     delay(1000L)
     println("World!")
@@ -326,17 +324,17 @@ World!
 -->
 
 
-But what if the extracted function contains a coroutine builder which is invoked on the current scope?
-In this case `suspend` modifier on the extracted function is not enough. Making `doWorld` extension
-method on `CoroutineScope` is one of the solutions, but it may not always be applicable as it does not make API clearer.
-Idiomatic solution is to have either explicit `CoroutineScope` as a field in a class containing target function
-or implicit when outer class implements `CoroutineScope`.
-As a last resort, [CoroutineScope(coroutineContext)][CoroutineScope()] can be used, but such approach is structurally unsafe
-because you no longer have control on the scope this method is executed. Only private API can use this builder.
+但是如果抽取出来的函数包含一个协程构建器, 并且这个构建器需要在当前作用范围上调用, 那么怎么办?
+这种情况下, 对于被抽取出来的函数来说只有 `suspend` 修饰符是不够的.
+有一种解决办法是把 `doWorld` 变成 `CoroutineScope` 的扩展函数, 但这种办法有时候并不适用, 因为它会使得 API 难于理解.
+理想的解决办法是, 要么明确地把 `CoroutineScope` 作为一个类的域变量, 再让这个类包含我们抽取的函数,
+或者让外层类实现 `CoroutineScope` 接口, 于是就可以隐含的实现这个目的.
+最后一种办法就是, 可以使用 [CoroutineScope(coroutineContext)][CoroutineScope()], 但这种方法从结构上来说并不安全, 因为你不再能够控制当前方法运行时所属的作用范围.
+只有私有 API 才能够使用这个构建器.
 
 ### 协程是非常轻量的
 
-Run the following code:
+请试着运行一下这段代码:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
@@ -344,7 +342,7 @@ Run the following code:
 import kotlinx.coroutines.*
 
 fun main() = runBlocking {
-    repeat(100_000) { // launch a lot of coroutines
+    repeat(100_000) { // 启动非常多的协程
         launch {
             delay(1000L)
             print(".")
@@ -359,13 +357,13 @@ fun main() = runBlocking {
 
 <!--- TEST lines.size == 1 && lines[0] == ".".repeat(100_000) -->
 
-It launches 100K coroutines and, after a second, each coroutine prints a dot.
-Now, try that with threads. What would happen? (Most likely your code will produce some sort of out-of-memory error)
+这个例子会启动 10 万个协程, 1 秒钟之后, 每个协程打印 1 个点.
+现在试试用线程来实现同样的功能. 会发生什么结果? (你的程序很可能会发生某种内存耗尽的错误)
 
 ### 全局协程类似于守护线程(Daemon Thread)
 
-The following code launches a long-running coroutine in [GlobalScope] that prints "I'm sleeping" twice a second and then
-returns from the main function after some delay:
+下面的示例程序会在 [GlobalScope] 作用范围内启动一个长期运行的协程, 协程会每秒打印 "I'm sleeping" 2次,
+主程序等待一段时间后, 从 main 函数返回:
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
@@ -380,7 +378,7 @@ fun main() = runBlocking {
             delay(500L)
         }
     }
-    delay(1300L) // just quit after delay
+    delay(1300L) // 等待一段时间后, 主程序直接退出
 //sampleEnd    
 }
 ```
@@ -389,7 +387,7 @@ fun main() = runBlocking {
 
 > 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-basic-07.kt)
 
-You can run and see that it prints three lines and terminates:
+你可以试着运行这段程序, 看到它会打印 3 行消息, 然后就结束了:
 
 ```text
 I'm sleeping 0 ...
@@ -399,7 +397,7 @@ I'm sleeping 2 ...
 
 <!--- TEST -->
 
-Active coroutines that were launched in [GlobalScope] do not keep the process alive. They are like daemon threads.
+在 [GlobalScope] 作用范围内启动的活跃的协程, 不会保持应用程序的整个进程存活. 它们的行为就象守护线程一样.
 
 <!--- MODULE kotlinx-coroutines-core -->
 <!--- INDEX kotlinx.coroutines -->
