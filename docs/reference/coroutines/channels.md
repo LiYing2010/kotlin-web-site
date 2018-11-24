@@ -27,7 +27,7 @@ class ChannelsGuideTest {
 
 <!--- TOC -->
 
-* [通道(Channel)(实验性功能)](#channels-experimental)
+* [通道(Channel) (实验性功能)](#channels-experimental)
   * [通道的基本概念](#channel-basics)
   * [通道的关闭与迭代](#closing-and-iteration-over-channels)
   * [构建通道的生产者(Producer)](#building-channel-producers)
@@ -37,11 +37,11 @@ class ChannelsGuideTest {
   * [扇入(Fan-in)](#fan-in)
   * [带缓冲区的通道](#buffered-channels)
   * [通道是平等的](#channels-are-fair)
-  * [计数器(Ticker)通道](#ticker-channels)
+  * [定时器(Ticker)通道](#ticker-channels)
 
 <!--- END_TOC -->
 
-## 通道(Channel)(实验性功能)
+## 通道(Channel) (实验性功能)
 
 延迟产生的数据提供了一种方便的方式可以在协程之间传递单个值.
 而通道则提供了另一种方式, 可以在协程之间传递数值的流.
@@ -246,9 +246,7 @@ fun CoroutineScope.square(numbers: ReceiveChannel<Int>): ReceiveChannel<Int> = p
 Done!
 -->
 
-> All functions that create coroutines are defined as extensions on [CoroutineScope],
-so that we can rely on [structured concurrency](https://kotlinlang.org/docs/reference/coroutines/composing-suspending-functions.html#structured-concurrency-with-async) to make
-sure that we don't have lingering global coroutines in our application.
+>  所有创建协程的函数都被定义为 [CoroutineScope] 上的扩展函数, 因此我们可以依靠 [结构化的并发](composing-suspending-functions.html#structured-concurrency-with-async) 来保证应用程序中没有留下长期持续的全局协程.
 
 ### 使用管道寻找质数
 
@@ -611,11 +609,11 @@ pong Ball(hits=4)
 
 注意, 由于使用的执行器(executor)的性质, 有时通道的运行结果可能看起来不是那么平等. 详情请参见 [这个 issue](https://github.com/Kotlin/kotlinx.coroutines/issues/111).
 
-### 计数器(Ticker)通道
+### 定时器(Ticker)通道
 
-计数器(Ticker)通道是一种特别的会合通道(rendezvous channel), 每次通道中的数据耗尽之后, 它会延迟一个固定的时间, 并产生一个 `Unit`.
+定时器(Ticker)通道是一种特别的会合通道(rendezvous channel), 每次通道中的数据耗尽之后, 它会延迟一个固定的时间, 并产生一个 `Unit`.
 虽然它单独看起来好像毫无用处, 但它是一种很有用的零件, 可以创建复杂的基于时间的 [produce] 管道, 以及操作器, 执行窗口操作和其他依赖于时间的处理.
-计数器通道可以用在 [select] 中, 执行 "on tick" 动作.
+定时器通道可以用在 [select] 中, 执行 "on tick" 动作.
 
 可以使用 [ticker] 工厂函数来创建这种通道.
 使用通道的 [ReceiveChannel.cancel] 方法来指出不再需要它继续产生数据了.
@@ -629,7 +627,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
 
 fun main() = runBlocking<Unit> {
-    val tickerChannel = ticker(delayMillis = 100, initialDelayMillis = 0) // 创建计数器通道
+    val tickerChannel = ticker(delayMillis = 100, initialDelayMillis = 0) // 创建定时器通道
     var nextElement = withTimeoutOrNull(1) { tickerChannel.receive() }
     println("Initial element is available immediately: $nextElement") // 初始指定的延迟时间还未过去
 
