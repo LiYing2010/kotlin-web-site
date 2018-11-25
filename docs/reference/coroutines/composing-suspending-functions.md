@@ -39,7 +39,7 @@ class ComposingGuideTest {
 
 ## 挂起函数(Suspending Function)的组合
 
-本节介绍将挂起函数组合起来的几种不同方式.
+本章介绍将挂起函数组合起来的几种不同方式.
 
 ### 默认的连续执行
 

@@ -39,7 +39,7 @@ class CancellationTimeOutsGuideTest {
 
 ## 取消与超时
 
-本节介绍协程的取消与超时.
+本章介绍协程的取消与超时.
 
 ### 取消协程的运行
 
