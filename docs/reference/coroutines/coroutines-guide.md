@@ -13,7 +13,7 @@ Kotlin 语言只在它的标准库中提供了最少量的低层 API, 让其它�
 
 本文档将会针对各种不同的主题, 通过一系列示例程序来介绍 `kotlinx.coroutines` 库的各种核心功能.
 
-为了使用协程功能, 以及本文档中的各种示例程序, 你需要添加 `kotlinx-coroutines-core` 依赖项, 详细方法请参见 [项目的 README 文件](../README.md#using-in-your-projects).
+为了使用协程功能, 以及本文档中的各种示例程序, 你需要添加 `kotlinx-coroutines-core` 依赖项, 详细方法请参见 [项目的 README 文件](https://github.com/kotlin/kotlinx.coroutines/blob/master/README.md#using-in-your-projects).
 
 ## 章节目录
 

@@ -82,7 +82,7 @@ fun main() = runBlocking<Unit> {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-context-01.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-context-01.kt)
 
 这个示例程序的输出如下 (顺序可能略有不同):
 
@@ -134,7 +134,7 @@ fun main() = runBlocking<Unit> {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-context-02.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-context-02.kt)
 
 上面的示例程序的输出如下: 
  
@@ -181,7 +181,7 @@ fun main() = runBlocking<Unit> {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-context-03.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-context-03.kt)
 
 上面的例子中会出现 3 个协程. 主协程 (#1) -- `runBlocking` 协程, 以及另外 2 个计算延迟值的协程 `a` (#2) 和 `b` (#3). 这些协程都在 `runBlocking` 的上下文内运行, 并且都被限定在主线程中.
 这个示例程序的输出是:
@@ -229,7 +229,7 @@ fun main() {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-context-04.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-context-04.kt)
 
 上面的示例程序演示了几种技巧. 一是使用明确指定的上下文来调用 [runBlocking], 另一个技巧是使用 [withContext] 函数, 在同一个协程内切换协程的上下文, 运行结果如下, 你可以看到切换上下文的效果:
 
@@ -261,7 +261,7 @@ fun main() = runBlocking<Unit> {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-context-05.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-context-05.kt)
 
 在 [调试模式](#debugging-coroutines-and-threads) 下运行时, 这个示例程序的输出类似于:
 
@@ -313,7 +313,7 @@ fun main() = runBlocking<Unit> {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-context-06.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-context-06.kt)
 
 这个示例程序的运行结果是:
 
@@ -355,7 +355,7 @@ fun main() = runBlocking<Unit> {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-context-07.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-context-07.kt)
 
 这个示例程序的运行结果如下:
 
@@ -405,7 +405,7 @@ fun main() = runBlocking(CoroutineName("main")) {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-context-08.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-context-08.kt)
 
 使用 JVM 参数 `-Dkotlinx.coroutines.debug` 运行这个示例程序时, 输出类似于以下内容:
  
@@ -439,7 +439,7 @@ fun main() = runBlocking<Unit> {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-context-09.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-context-09.kt)
 
 使用 JVM 参数 `-Dkotlinx.coroutines.debug` 运行这个示例程序时, 输出结果是: 
 
@@ -566,7 +566,7 @@ fun main() = runBlocking<Unit> {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-context-10.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-context-10.kt)
 
 这个示例程序的输出如下:
 
@@ -613,7 +613,7 @@ fun main() = runBlocking<Unit> {
 
 </div>                                                                                       
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-context-11.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-context-11.kt)
 
 在这个示例程序中, 我们使用 [Dispatchers.Default], 在后台线程池中启动了一个新的协程, 因此协程会在线程池的另一个线程中运行, 但它还是会得到我们通过 `threadLocal.asContextElement(value = "launch")` 指定的线程局部变量的值,
 无论协程运行在哪个线程内.

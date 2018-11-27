@@ -81,7 +81,7 @@ fun main() = runBlocking {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-exceptions-01.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-exceptions-01.kt)
 
 (使用 [调试模式](coroutine-context-and-dispatchers.html#debugging-coroutines-and-threads)时), 这段代码的输出结果是:
 
@@ -131,7 +131,7 @@ fun main() = runBlocking {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-exceptions-02.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-exceptions-02.kt)
 
 这个示例程序的输出结果是:
 
@@ -176,7 +176,7 @@ fun main() = runBlocking {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-exceptions-03.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-exceptions-03.kt)
 
 这个示例程序的输出结果是:
 
@@ -230,7 +230,7 @@ fun main() = runBlocking {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-exceptions-04.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-exceptions-04.kt)
 
 这个示例程序的输出结果是:
 
@@ -287,7 +287,7 @@ fun main() = runBlocking {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-exceptions-05.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-exceptions-05.kt)
 
 > 注意: 上面的示例程序只能在支持 `suppressed` 异常的 JDK7+ 以上版本才能正常运行
 
@@ -337,7 +337,7 @@ fun main() = runBlocking {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-exceptions-06.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-exceptions-06.kt)
 
 这个示例程序的输出结果是:
 
@@ -395,7 +395,7 @@ fun main() = runBlocking {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-supervision-01.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-supervision-01.kt)
 
 这个示例程序的输出结果是:
 
@@ -442,7 +442,7 @@ fun main() = runBlocking {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-supervision-02.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-supervision-02.kt)
 
 这个示例程序的输出结果是:
 
@@ -483,7 +483,7 @@ fun main() = runBlocking {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-supervision-03.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-supervision-03.kt)
 
 这个示例程序的输出结果是:
 

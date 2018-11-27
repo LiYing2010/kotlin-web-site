@@ -71,7 +71,7 @@ fun main() = runBlocking {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-cancel-01.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-cancel-01.kt)
 
 这个示例的运行结果如下:
 
@@ -123,7 +123,7 @@ fun main() = runBlocking {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-cancel-02.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-cancel-02.kt)
 
 运行一下这个示例, 我们会看到, 即使在取消之后, 协程还是继续打印 "I'm sleeping" 信息, 直到循环 5 次之后, 协程才自己结束.
 
@@ -174,7 +174,7 @@ fun main() = runBlocking {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-cancel-03.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-cancel-03.kt)
 
 你会看到, 现在循环变得能够被取消了. [isActive] 是一个扩展属性, 在协程内部的代码中可以通过 [CoroutineScope] 对象访问到.
 
@@ -218,7 +218,7 @@ fun main() = runBlocking {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-cancel-04.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-cancel-04.kt)
 
 [join][Job.join] 和 [cancelAndJoin] 都会等待所有的结束处理执行完毕, 因此上面的示例程序会产生这样的输出:
 
@@ -271,7 +271,7 @@ fun main() = runBlocking {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-cancel-05.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-cancel-05.kt)
 
 <!--- TEST
 I'm sleeping 0 ...
@@ -308,7 +308,7 @@ fun main() = runBlocking {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-cancel-06.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-cancel-06.kt)
 
 这个例子的运行结果是:
 
@@ -351,7 +351,7 @@ fun main() = runBlocking {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-cancel-07.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-cancel-07.kt)
 
 这段代码的运行结果不会有异常发生了:
 

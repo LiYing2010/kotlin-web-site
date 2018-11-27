@@ -75,7 +75,7 @@ fun main() = runBlocking {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-channel-01.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-channel-01.kt)
 
 这段示例程序的输出是:
 
@@ -120,7 +120,7 @@ fun main() = runBlocking {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-channel-02.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-channel-02.kt)
 
 <!--- TEST
 1
@@ -161,7 +161,7 @@ fun main() = runBlocking {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-channel-03.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-channel-03.kt)
 
 <!--- TEST
 1
@@ -235,7 +235,7 @@ fun CoroutineScope.square(numbers: ReceiveChannel<Int>): ReceiveChannel<Int> = p
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-channel-04.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-channel-04.kt)
 
 <!--- TEST
 1
@@ -318,7 +318,7 @@ fun CoroutineScope.filter(numbers: ReceiveChannel<Int>, prime: Int) = produce<In
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-channel-05.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-channel-05.kt)
 
 这段示例程序的输出是:
 
@@ -414,7 +414,7 @@ fun CoroutineScope.launchProcessor(id: Int, channel: ReceiveChannel<Int>) = laun
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-channel-06.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-channel-06.kt)
 
 这个示例程序的输出可能类似如下结果, 但处理协程的 id 和实际收到的具体的整数值可能会略微不同:
 
@@ -488,7 +488,7 @@ suspend fun sendString(channel: SendChannel<String>, s: String, time: Long) {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-channel-07.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-channel-07.kt)
 
 输出结果是:
 
@@ -539,7 +539,7 @@ fun main() = runBlocking<Unit> {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-channel-08.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-channel-08.kt)
 
 使用缓冲区大小为 _4_ 的通道时, 这个示例程序会打印 "sending" _5_ 次:
 
@@ -593,7 +593,7 @@ suspend fun player(name: String, table: Channel<Ball>) {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-channel-09.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-channel-09.kt)
 
 "ping" 协程首先启动, 因此它会先接收到 ball. 虽然 "ping" 协程将 ball 送回到 table 之后, 立即再次开始接收 ball,
 但  ball 会被 "pong" 协程接收到, 因为它一直在等待:
@@ -653,7 +653,7 @@ fun main() = runBlocking<Unit> {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-channel-10.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-channel-10.kt)
 
 这个示例程序的输出结果是:
 

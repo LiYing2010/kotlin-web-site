@@ -66,7 +66,7 @@ fun main() {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-basic-01.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-basic-01.kt)
 
 你将看到以下运行结果:
 
@@ -117,7 +117,7 @@ fun main() {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-basic-02.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-basic-02.kt)
 
 <!--- TEST
 Hello,
@@ -146,7 +146,7 @@ fun main() = runBlocking<Unit> { // 启动主协程
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-basic-02b.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-basic-02b.kt)
 
 <!--- TEST
 Hello,
@@ -201,7 +201,7 @@ fun main() = runBlocking {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-basic-03.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-basic-03.kt)
 
 <!--- TEST
 Hello,
@@ -242,7 +242,7 @@ fun main() = runBlocking { // this: CoroutineScope
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-basic-03s.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-basic-03s.kt)
 
 <!--- TEST
 Hello,
@@ -281,7 +281,7 @@ fun main() = runBlocking { // this: CoroutineScope
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-basic-04.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-basic-04.kt)
 
 <!--- TEST
 Task from coroutine scope
@@ -316,7 +316,7 @@ suspend fun doWorld() {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-basic-05.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-basic-05.kt)
 
 <!--- TEST
 Hello,
@@ -353,7 +353,7 @@ fun main() = runBlocking {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-basic-06.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-basic-06.kt)
 
 <!--- TEST lines.size == 1 && lines[0] == ".".repeat(100_000) -->
 
@@ -385,7 +385,7 @@ fun main() = runBlocking {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-basic-07.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-basic-07.kt)
 
 你可以试着运行这段程序, 看到它会打印 3 行消息, 然后就结束了:
 

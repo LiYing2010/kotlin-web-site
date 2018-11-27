@@ -101,7 +101,7 @@ suspend fun doSomethingUsefulTwo(): Int {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-compose-01.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-compose-01.kt)
 
 这个示例程序的输出大致会是:
 
@@ -149,7 +149,7 @@ suspend fun doSomethingUsefulTwo(): Int {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-compose-02.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-compose-02.kt)
 
 这个示例程序的输出大致会是:
 
@@ -202,7 +202,7 @@ suspend fun doSomethingUsefulTwo(): Int {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-compose-03.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-compose-03.kt)
 
 这个示例程序的输出大致会是:
 
@@ -290,7 +290,7 @@ suspend fun doSomethingUsefulTwo(): Int {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-compose-04.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-compose-04.kt)
 
 <!--- TEST ARBITRARY_TIME
 The answer is 42
@@ -358,7 +358,7 @@ suspend fun doSomethingUsefulTwo(): Int {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-compose-05.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-compose-05.kt)
 
 上面的 main 函数的输出结果如下, 显然可以看出, 两个函数的执行仍然是并发的: 
 
@@ -405,7 +405,7 @@ suspend fun failedConcurrentSum(): Int = coroutineScope {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-compose-06.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-compose-06.kt)
 
 注意, 当一个子协程失败时, 第一个 `async`, 以及等待子协程的父协程都会被取消:
 ```text

@@ -148,7 +148,7 @@ fun main() = runBlocking<Unit> {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-select-01.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-select-01.kt)
 
 这个示例程序的输出结果是:
 
@@ -237,7 +237,7 @@ fun main() = runBlocking<Unit> {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-select-02.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-select-02.kt)
 
 这个示例程序的输出结果比较有趣, 所以我们来分析一下其中的细节:
 
@@ -323,7 +323,7 @@ fun main() = runBlocking<Unit> {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-select-03.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-select-03.kt)
 
 下面我们来看看运行结果会怎么样:
 
@@ -414,7 +414,7 @@ fun main() = runBlocking<Unit> {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-select-04.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-select-04.kt)
 
 运行结果是:
 
@@ -531,7 +531,7 @@ fun main() = runBlocking<Unit> {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-select-05.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-select-05.kt)
 
 这个示例程序的运行结果是:
 

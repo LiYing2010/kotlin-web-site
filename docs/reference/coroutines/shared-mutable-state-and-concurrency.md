@@ -108,7 +108,7 @@ fun main() = runBlocking<Unit> {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-sync-01.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-sync-01.kt)
 
 <!--- TEST LINES_START
 Completed 100000 actions in
@@ -158,7 +158,7 @@ fun main() = runBlocking<Unit> {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-sync-01b.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-sync-01b.kt)
 
 <!--- TEST LINES_START
 Completed 100000 actions in
@@ -204,7 +204,7 @@ fun main() = runBlocking<Unit> {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-sync-02.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-sync-02.kt)
 
 <!--- TEST LINES_START
 Completed 100000 actions in
@@ -256,7 +256,7 @@ fun main() = runBlocking<Unit> {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-sync-03.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-sync-03.kt)
 
 <!--- TEST ARBITRARY_TIME
 Completed 100000 actions in xxx ms
@@ -311,7 +311,7 @@ fun main() = runBlocking<Unit> {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-sync-04.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-sync-04.kt)
 
 <!--- TEST ARBITRARY_TIME
 Completed 100000 actions in xxx ms
@@ -364,7 +364,7 @@ fun main() = runBlocking<Unit> {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-sync-05.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-sync-05.kt)
 
 <!--- TEST ARBITRARY_TIME
 Completed 100000 actions in xxx ms
@@ -422,7 +422,7 @@ fun main() = runBlocking<Unit> {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-sync-06.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-sync-06.kt)
 
 <!--- TEST ARBITRARY_TIME
 Completed 100000 actions in xxx ms
@@ -532,7 +532,7 @@ fun main() = runBlocking<Unit> {
 
 </div>
 
-> 完整的代码请参见 [这里](../core/kotlinx-coroutines-core/test/guide/example-sync-07.kt)
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-sync-07.kt)
 
 <!--- TEST ARBITRARY_TIME
 Completed 100000 actions in xxx ms
