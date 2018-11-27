@@ -173,7 +173,7 @@ reference:
       - /docs/reference/coroutines/composing-suspending-functions.html: 挂起函数(Suspending Function)的组合
       - /docs/reference/coroutines/coroutine-context-and-dispatchers.html: 协程上下文与派发器(Dispatcher)
       - /docs/reference/coroutines/exception-handling.html: 异常处理
-      - /docs/reference/coroutines/select-expression.html: 选择表达式
+      - /docs/reference/coroutines/select-expression.html: 选择表达式(Select expression)
       - /docs/reference/coroutines/shared-mutable-state-and-concurrency.html: 共享的可变状态与并发
 
 
