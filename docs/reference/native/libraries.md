@@ -6,11 +6,12 @@ title: "Kotlin 库"
 ---
 
 
-# Kotlin/Native libraries
+# Kotlin/Native 库
 
-## Kotlin compiler specifics
+## Kotlin 编译器使用方法
 
-To produce a library with the Kotlin/Native compiler use the `-produce library` or `-p library` flag. For example:
+要通过 Kotlin/Native 编译器编译产生库文件, 请使用 `-produce library` 或 `-p library` 参数.
+例如:
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
@@ -20,9 +21,10 @@ $ kotlinc foo.kt -p library -o bar
 
 </div>
 
-the above command will produce a `bar.klib` with the compiled contents of `foo.kt`.
+上例的命令会编译源代码文件 `foo.kt`, 输出为库文件 `bar.klib`.
 
-To link to a library use the `-library <name>` or `-l <name>` flag. For example:
+要链接一个库, 请使用 `-library <name>` 或 `-l <name>` 参数.
+例如:
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
@@ -33,13 +35,13 @@ $ kotlinc qux.kt -l bar
 </div>
 
 
-the above command will produce a `program.kexe` out of `qux.kt` and `bar.klib`
+上例的命令会编译源代码文件 `qux.kt`, 与库文件 `bar.klib` 链接, 输出为 `program.kexe`.
 
 
-## cinterop tool specifics
+## cinterop 工具使用方法
 
-The **cinterop** tool produces `.klib` wrappers for native libraries as its main output. 
-For example, using the simple `libgit2.def` native library definition file provided in your Kotlin/Native distribution
+**cinterop** 工具会对原生的库文件生成 `.klib` 格式的包装.
+比如, 可以使用 Kotlin/Native 发布中附带的简单的 `libgit2.def` 原生库定义文件
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
@@ -49,18 +51,18 @@ $ cinterop -def  samples/gitchurn/src/main/c_interop/libgit2.def -compilerOpts -
 
 </div>
 
-we will obtain `libgit2.klib`.
+我们可以得到 `libgit2.klib` 文件.
 
-See more details in [INTEROP.md](INTEROP.md)
+详情请参见 [与 C 代码交互](c_interop.html)
 
 
-## klib utility
+## klib 工具
 
-The **klib** library management utility allows you to inspect and install the libraries.
+**klib** 库管理工具可以用来查看和安装库.
 
-The following commands are available.
+可用的命令如下.
 
-To list library contents:
+列出库的内容:
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
@@ -70,7 +72,7 @@ $ klib contents <name>
 
 </div>
 
-To inspect the bookkeeping details of the library 
+查看库的内容细节:
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
@@ -80,7 +82,7 @@ $ klib info <name>
 
 </div>
 
-To install the library to the default location use
+要把库安装到默认的位置, 可以使用:
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
@@ -90,7 +92,7 @@ $ klib install <name>
 
 </div>
 
-To remove the library from the default repository use 
+从默认的仓库中删除一个库, 可以使用:
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
@@ -100,7 +102,7 @@ $ klib remove <name>
 
 </div>
 
-All of the above commands accept an additional `-repository <directory>` argument for specifying a repository different to the default one.
+以上所有命令都可以接受一个 `-repository <directory>` 参数, 用来指定默认值以外的仓库位置.
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
@@ -111,10 +113,10 @@ $ klib <command> <name> -repository <directory>
 </div>
 
 
-## Several examples
+## 几个例子
 
-First let's create a library.
-Place the tiny library source code into `kotlinizer.kt`:
+首先我们来创建一个库.
+把我们这个小小的库的源代码放在 `kotlinizer.kt` 文件内:
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
@@ -130,7 +132,7 @@ $ kotlinc kotlinizer.kt -p library -o kotlinizer
 
 </div>
 
-The library has been created in the current directory:
+库会被创建到当前目录下:
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
@@ -141,7 +143,7 @@ kotlinizer.klib
 
 </div>
 
-Now let's check out the contents of the library:
+现在我们来看看库的内容:
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
@@ -151,7 +153,7 @@ $ klib contents kotlinizer
 
 </div>
 
-We can install `kotlinizer` to the default repository:
+我们可以将 `kotlinizer` 库安装到默认的仓库中:
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
@@ -161,7 +163,7 @@ $ klib install kotlinizer
 
 </div>
 
-Remove any traces of it from the current directory:
+然后在当前目录中删除它的一切痕迹:
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
@@ -171,7 +173,7 @@ $ rm kotlinizer.klib
 
 </div>
 
-Create a very short program and place it into a `use.kt` :
+编写一个很短的程序, 放在 `use.kt` 文件中:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
@@ -185,7 +187,7 @@ fun main(args: Array<String>) {
 
 </div>
 
-Now compile the program linking with the library we have just created:
+然后编译这个程序, 并链接我们刚才创建的库:
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
@@ -195,7 +197,7 @@ $ kotlinc use.kt -l kotlinizer -o kohello
 
 </div>
 
-And run the program:
+然后运行这个程序:
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
@@ -206,45 +208,43 @@ Hello, Kotlin world!
 
 </div>
 
-Have fun!
+祝你玩得开心!
 
-# Advanced topics
+# 高级问题
 
-## Library search sequence
+## 库的查找顺序
 
-When given a `-library foo` flag, the compiler searches the `foo` library in the following order:
+当我们指定 `-library foo` 参数时, 编译器会按照以下顺序查找 `foo` 库:
 
-    * Current compilation directory or an absolute path.
+    * 当前编译目录, 或一个绝对路径.
 
-    * All repositories specified with `-repo` flag.
+    * 通过 `-repo` 参数指定的所有仓库.
 
-    * Libraries installed in the default repository (For now the default is  `~/.konan`, however it could be changed by setting **KONAN_DATA_DIR** environment variable).
+    * 默认仓库中安装的所有库(默认仓库现在是 `~/.konan` 目录, 但可以设置 **KONAN_DATA_DIR** 环境变量来修改这个路径).
 
-    * Libraries installed in `$installation/klib` directory.
+    * `$installation/klib` 目录中安装的所有库.
 
-## The library format
+## 库文件的格式
 
-Kotlin/Native libraries are zip files containing a predefined 
-directory structure, with the following layout:
+Kotlin/Native 库是 zip 文件, 包含预定义的目录结构, 如下:
 
-**foo.klib** when unpacked as **foo/** gives us:
+**foo.klib** 解压缩到 **foo/** 后会得到以下内容:
 
 ```yaml
   - foo/
     - targets/
       - $platform/
         - kotlin/
-          - Kotlin compiled to LLVM bitcode.
+          - Kotlin 编译产生的 LLVM bitcode 文件.
         - native/
-          - Bitcode files of additional native objects.
+          - 其他原生对象的 bitcode 文件.
       - $another_platform/
-        - There can be several platform specific kotlin and native pairs.
+        - 可能存在几组平台相关的目录, 其中都包含 kotlin 和 native 目录.
     - linkdata/
-      - A set of ProtoBuf files with serialized linkage metadata.
+      - 一组 ProtoBuf 文件, 包含序列化链接元数据(serialized linkage metadata).
     - resources/
-      - General resources such as images. (Not used yet).
-    - manifest - A file in *java property* format describing the library.
+      - 一般资源文件, 比如图像文件. (暂时没有使用).
+    - manifest - 库的描述文件, 使用 *java property* 格式.
 ```
 
-An example layout can be found in `klib/stdlib` directory of your installation.
-
+在你的 Kotlin/Native 环境的 `klib/stdlib` 目录下可以找到这些库文件结构的例子.

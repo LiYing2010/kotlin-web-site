@@ -6,19 +6,18 @@ title: "调试"
 ---
 
 
-## Debugging
+## 调试
 
-Currently the Kotlin/Native compiler produces debug info compatible with the DWARF 2 specification, so modern debugger tools can
-perform the following operations:
-- breakpoints
-- stepping
-- inspection of type information
-- variable inspection
+Kotlin/Native 编译器目前输出的调试信息兼容于 DWARF 2 规范, 因此现代的调试工具可以执行以下操作:
+- 设置断点
+- 单步执行
+- 查看类型信息
+- 查看变量
 
-### Producing binaries with debug info with Kotlin/Native compiler
+### 使用 Kotlin/Native 编译器输出带调试信息的二进制文件
 
-To produce binaries with the Kotlin/Native compiler it's sufficient to use the ``-g`` option on the command line.<br/>
-_Example:_
+要让 Kotlin/Native 编译器输出带调试信息的二进制文件, 只需要在命令行添加 ``-g`` 选项.<br/>
+_示例:_
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
@@ -58,11 +57,11 @@ Process 28473 stopped
 
 </div>
 
-### Breakpoints
-Modern debuggers provide several ways to set a breakpoint, see below for a tool-by-tool breakdown:
+### 断点
+现代调试器提供了多种方法可以设置断点, 各种调试工具的具体方法请看下文:
 
 #### lldb
-- by name
+- 通过名称设置断点
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
@@ -73,8 +72,8 @@ Breakpoint 4: where = terminator.kexe`kfun:main(kotlin.Array<kotlin.String>) + 4
 
 </div>
 
- _``-n`` is optional, this flag is applied by default_
-- by location (filename, line number)
+ _``-n`` 参数是可选的, 这个参数默认会启用_
+- 通过位置 (文件名, 行号) 设置断点
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
@@ -85,7 +84,7 @@ Breakpoint 1: where = terminator.kexe`kfun:main(kotlin.Array<kotlin.String>) + 4
 
 </div>
 
-- by address
+- 通过地址设置断点
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
@@ -96,7 +95,7 @@ Breakpoint 2: address = 0x00000001000012e4
 
 </div>
 
-- by regex, you might find it useful for debugging generated artifacts, like lambda etc. (where used ``#`` symbol in name).
+- 通过正规表达式设置断点, 调试编译器生成的代码时, 你可能会发现这个功能很有用, 比如 Lambda 表达式, 等等. (因为它的名称中使用了 ``#`` 符号).
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
@@ -108,7 +107,7 @@ Breakpoint 2: address = 0x00000001000012e4
 </div>
 
 #### gdb
-- by regex
+- 通过正规表达式设置断点
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
@@ -120,7 +119,7 @@ struct ktype:kotlin.Unit &kfun:main(kotlin.Array<kotlin.String>);
 
 </div>
 
-- by name __unusable__, because ``:`` is a separator for the breakpoint by location
+- __不能__ 通过名称设置断点, 因为名称中的 ``:`` 字符, 会被看作是通过位置设置断点目录命令的一个分隔符
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
@@ -133,7 +132,7 @@ Breakpoint 1 (kfun:main(kotlin.Array<kotlin.String>)) pending
 
 </div>
 
-- by location
+- 通过位置设置断点
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
@@ -144,7 +143,7 @@ Breakpoint 2 at 0x100001704: file /Users/minamoto/ws/.git-trees/hello.kt, line 1
 
 </div>
 
-- by address
+- 通过地址设置断点
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
@@ -157,14 +156,13 @@ Breakpoint 3 at 0x100001704: file /Users/minamoto/ws/.git-trees/hello.kt, line 2
 </div>
 
 
-### Stepping
-Stepping functions works mostly the same way as for C/C++ programs
+### 单步调试
+单步调试功能的使用方法与大多数 C/C++ 程序一样.
 
-### Variable inspection
+### 查看变量
 
-Variable inspections for var variables works out of the box for primitive types.
-For non-primitive types there are custom pretty printers for lldb in
-`konan_lldb.py`:
+对于 var 变量的查看功能, 对于基本类型是直接可用的.
+对于非基本类型, 可以使用 `konan_lldb.py` 中针对 lldb 的自定义格式化工具:
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
@@ -176,7 +174,7 @@ For non-primitive types there are custom pretty printers for lldb in
      4      var p = Point(x, y)
      5      println("p = $p")
      6  }
-       
+
      7  data class Point(val x: Int, val y: Int)
 
 λ lldb ./program.kexe -o 'b main.kt:5' -o
@@ -208,15 +206,13 @@ Process 4985 launched: './program.kexe' (x86_64)
 (ObjHeader *) p = Point(x=1, y=2)
 (lldb) p p
 (ObjHeader *) $2 = Point(x=1, y=2)
-(lldb) 
+(lldb)
 ```
 
 </div>
 
-
-Getting representation of the object variable (var) could also be done using the
-built-in runtime function `Konan_DebugPrint` (this approach also works for gdb,
-using a module of command syntax):
+把对象变量转换为易于阅读的字符串表达形式, 也可以使用内建的运行期函数 `Konan_DebugPrint` 来实现
+(这个方法也适用于 gdb, 使用 command 语法中的一个模块):
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
@@ -262,8 +258,7 @@ Process 80496 launched: './program.kexe' (x86_64)
 </div>
 
 
-### Known issues
-- performance of Python bindings.
+### 已知的问题
+- Python 绑定的性能问题.
 
-_Note:_ Supporting the DWARF 2 specification means that the debugger tool recognizes Kotlin as C89, because before the DWARF 5 specification, there is no identifier for the Kotlin language type in specification.
-
+_注意:_ 支持 DWARF 2 规范就意味着调试器会把 Kotlin 程序识别为 C89, 因为在 DWARF 5 规范之前, 还没有标识符可以标识语言类型是 Kotlin.
