@@ -126,7 +126,7 @@ components.main {
 
 </div>
 
-插件使用与编译器相同的注解. test 组件默认使用与组件相同的目标平台.
+关于目标平台的名称, 编译插件使用与编译器相同的表达方式. test 组件默认使用与 main 组件相同的目标平台.
 
 输出类型也可以通过专门的属性来执行:
 
@@ -171,12 +171,13 @@ components.main {
 编译插件还会创建一些复合任务, 可以用来对某个编译类型编译所有相关的二进制文件 (比如, `assembleAllDebug`),
 或者对某个目标平台编译所有的二进制文件 (比如, `assembleAllWasm32`).
 
-另外还创建了基本的编译周期任务, 比如 `assemble`, `build`, 以及 `clean`.
+另外还创建了基本的编译环节任务, 比如 `assemble`, `build`, 以及 `clean`.
 
 ### 运行测试程序
 
-The plugin builds a test executable for all the targets specified for the `test` component. If the current host platform is
-included in this list the test running tasks are also created. To run tests, execute the standard lifecycle `check` task:
+编译插件会对 `test` 组件的所有目标平台编译产生测试用的可执行文件.
+如果当前机器的平台也是 `test` 组件的目标平台之一, 那么还会创建测试的运行任务.
+要运行测试, 你可以执行标准的编译环节 `check` 任务:
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
@@ -186,10 +187,10 @@ included in this list the test running tasks are also created. To run tests, exe
 
 </div>
 
-### Dependencies
+### 依赖项目
 
-The plugin allows you to declare dependencies on files and other projects using traditional Gradle's mechanism of
-configurations. The plugin supports Kotlin multiplatform projects allowing you to declare the `expectedBy` dependencies
+编译插件允许你使用传统的 Gradle 配置机制, 声明针对其他文件或项目的依赖.
+编译插件支持 Kotlin 跨平台项目, 允许你声明 `expectedBy` 依赖项:
 
 <div class="sample" markdown="1" theme="idea" mode="groovy">
 
@@ -204,9 +205,9 @@ dependencies {
 
 </div>
 
-It's possible to depend on a Kotlin/Native library published earlier in a maven repo. The plugin relies on Gradle's
-[metadata](https://github.com/gradle/gradle/blob/master/subprojects/docs/src/docs/design/gradle-module-metadata-specification.md)
-support so the corresponding feature must be enabled. Add the following line in your `settings.gradle`:
+我们可以依赖于已经发布到 maven 仓库的 Kotlin/Native 库.
+编译插件需要使用 Gradle 的 [metadata](https://github.com/gradle/gradle/blob/master/subprojects/docs/src/docs/design/gradle-module-metadata-specification.md) 功能, 因此这个功能需要启用.
+请将下面的设置添加到你的 `settings.gradle` 文件中:
 
 <div class="sample" markdown="1" theme="idea" mode="groovy">
 
@@ -217,7 +218,7 @@ enableFeaturePreview('GRADLE_METADATA')
 </div>
 
 
-Now you can declare a dependency on a Kotlin/Native library in the traditional `group:artifact:version` notation:
+然后, 你可以使用传统的 `group:artifact:version` 表达方式, 声明对 Kotlin/Native 库的依赖:
 
 <div class="sample" markdown="1" theme="idea" mode="groovy">
 
@@ -230,7 +231,7 @@ dependencies {
 
 </div>
 
-Dependency declaraion is also possible in the component block:
+依赖声明也可以定义在组件的代码段内:
 
 <div class="sample" markdown="1" theme="idea" mode="groovy">
 
@@ -251,9 +252,9 @@ components.test {
 </div>
 
 
-### Using cinterop
+### 使用 cinterop 工具
 
-It's possible to declare a cinterop dependency for a component:
+可以对组件声明一个 cinterop 依赖:
 
 <div class="sample" markdown="1" theme="idea" mode="groovy">
 
@@ -261,12 +262,12 @@ It's possible to declare a cinterop dependency for a component:
 components.main {
     dependencies {
         cinterop('mystdio') {
-            // src/main/c_interop/mystdio.def is used as a def file.
+            // 会使用 src/main/c_interop/mystdio.def 作为 def 文件.
 
-            // Set up compiler options
+            // 设置编译器参数
             compilerOpts '-I/my/include/path'
 
-            // It's possible to set up different options for different targets
+            // 可以对不同的编译目标平台设置不同的编译参数
             target('linux') {
                 compilerOpts '-I/linux/include/path'
             }
@@ -277,10 +278,10 @@ components.main {
 
 </div>
 
-Here an interop library will be built and added in the component dependencies.
+这样, 就会编译一个 interop 库, 然后将它添加为组件的依赖项.
 
-Often it's necessary to specify target-specific linker options for a Kotlin/Native binary using an interop. It can be
-done using the `target` script block:
+对于使用 interop 的 Kotlin/Native 库, 我们经常会需要指定一些与平台相关的链接参数.
+可以使用 `target` 代码段来实现:
 
 <div class="sample" markdown="1" theme="idea" mode="groovy">
 
@@ -294,13 +295,13 @@ components.main {
 
 </div>
 
-Also the `allTargets` block is available.
+`allTargets` 代码段也可以这样使用.
 
 <div class="sample" markdown="1" theme="idea" mode="groovy">
 
 ```groovy
 components.main {
-    // Configure all targets.
+    // 对所有目标平台进行配置.
     allTargets {
         linkerOpts '-L/path/to/libs'
     }
@@ -310,12 +311,12 @@ components.main {
 </div>
 
 
-### Publishing
+### 发布
 
-In the presence of `maven-publish` plugin the publications for all the binaries built are created. The plugin uses Gradle
-metadata to publish the artifacts so this feature must be enabled (see the [dependencies](#dependencies) section).
+当 `maven-publish` 插件存在时, 对所有二进制文件的编译任务都会创建相应的发布任务.
+这个插件使用 Gradle 的 metadata 来发布文件, 因此这个功能需要启用 (详情请参见 [依赖项目](#dependencies) 小节).
 
-Now you can publish the artifacts with the standard Gradle `publish` task:
+然后你就可以使用标准的 Gradle `publish` 任务来发布二进制文件了:
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
@@ -325,9 +326,9 @@ Now you can publish the artifacts with the standard Gradle `publish` task:
 
 </div>
 
-Only `EXECUTABLE` and `KLIBRARY` binaries are published currently.
+目前只会发布 `EXECUTABLE` 和 `KLIBRARY` 类型的二进制文件.
 
-The plugin allows you to customize the pom generated for the publication with the `pom` code block available for every component:
+发布插件允许你使用 `pom` 代码段, 自定义发布时生成的 pom 文件, 这个代码段可以在所有的组件内使用:
 
 <div class="sample" markdown="1" theme="idea" mode="groovy">
 
@@ -345,10 +346,10 @@ components.main {
 
 </div>
 
-### Serialization plugin
+### 序列化插件
 
-The plugin is shipped with a customized version of the `kotlinx.serialization` plugin. To use it you don't have to
-add new buildscript dependencies, just apply the plugins and add a dependency on the serialization library:
+这个插件随 `kotlinx.serialization` 插件的一个定制版本一起发布.
+要使用这个插件, 你不需要添加新的编译脚本依赖项, 只需要应用这个插件, 并添加对序列化库的依赖项:
 
 <div class="sample" markdown="1" theme="idea" mode="groovy">
 
@@ -363,13 +364,12 @@ dependencies {
 
 </div>
 
-The the [example project](https://github.com/ilmat192/kotlin-native-serialization-sample) for details.
+详情请参见 [示例项目](https://github.com/ilmat192/kotlin-native-serialization-sample).
 
-### DSL example
+### DSL 示例
 
-In this section a commented DSL is shown.
-See also the example projects that use this plugin, e.g.
-[Kotlinx.coroutines](https://github.com/Kotlin/kotlinx.coroutines),
+本节我们展示一个带详细注释的 DSL.
+也请参考使用这个插件的示例工程, 比如, [Kotlinx.coroutines](https://github.com/Kotlin/kotlinx.coroutines),
 [MPP http client](https://github.com/e5l/http-client-common/tree/master/samples/ios-test-application)
 
 <div class="sample" markdown="1" theme="idea" mode="groovy">
@@ -380,85 +380,85 @@ plugins {
 }
 
 sourceSets.main {
-    // Plugin uses Gradle's source directory sets here,
-    // so all the DSL methods available in SourceDirectorySet can be called here.
-    // Platform independent sources.
+    // 插件使用的 Gradle 源代码目录在这里设置,
+    // 因此这里可以调用 SourceDirectorySet 内所有可用的 DSL 方法.
+    // 独立于平台的源代码.
     kotlin.srcDirs += 'src/main/customDir'
 
-    // Linux-specific sources
+    // Linux 平台专有的源代码
     target('linux').srcDirs += 'src/main/linux'
 }
 
 components.main {
 
-    // Set up targets
+    // 设置编译的目标平台
     targets = ['linux_x64', 'macos_x64', 'mingw_x64']
 
-    // Set up output kinds
+    // 设置编译输出类型
     outputKinds = [EXECUTABLE, KLIBRARY, FRAMEWORK, DYNAMIC, STATIC]
 
-    // Specify custom entry point for executables
+    // 对可执行文件指定自定义的执行入口点
     entryPoint = "org.test.myMain"
 
-    // Target-specific options
+    // 目标平台相关的选项
     target('linux_x64') {
         linkerOpts '-L/linux/lib/path'
     }
 
-    // Targets independent options
+    // 与平台无关的选项
     allTargets {
         linkerOpts '-L/common/lib/path'
     }
 
     dependencies {
 
-        // Dependency on a published Kotlin/Native library.
+        // 依赖一个已发布的 Kotlin/Native 库.
         implementation 'org.test:mylib:1.0'
 
-        // Dependency on a project
+        // 依赖一个项目
         implementation project('library')
 
-        // Cinterop dependency
+        // Cinterop 依赖
         cinterop('interop-name') {
-            // Def-file describing the native API.
-            // The default path is src/main/c_interop/<interop-name>.def
+            // 描述原生 API 的 def 文件.
+            // 默认路径是 src/main/c_interop/<interop-name>.def
             defFile project.file("deffile.def")
 
-            // Package to place the Kotlin API generated.
+            // 存放生产的 Kotlin API 的包
             packageName 'org.sample'
 
-            // Options to be passed to compiler and linker by cinterop tool.
+            // cinterop 工具传递给编译器和链接器的选项.
             compilerOpts 'Options for native stubs compilation'
             linkerOpts 'Options for native stubs'
 
-            // Additional headers to parse.
+            // 需要解析的其他头文件.
             headers project.files('header1.h', 'header2.h')
 
-            // Directories to look for headers.
+            // 头文件的查找路径.
             includeDirs {
-                // All objects accepted by the Project.file method may be used with both options.
+                // Project.file 方法所能够接受的所有对象, 都可以用于这两个设置项.
 
-                // Directories for header search (an analogue of the -I<path> compiler option).
+                // 头文件的查找路径 (类似于编译器的 -I<path> 选项).
                 allHeaders 'path1', 'path2'
 
-                // Additional directories to search headers listed in the 'headerFilter' def-file option.
-                // -headerFilterAdditionalSearchPrefix command line option analogue.
+                // def 文件的 'headerFilter' 设置项中列出的头文件的查找路径.
+                // 类似于编译器的 -headerFilterAdditionalSearchPrefix 选项.
                 headerFilterOnly 'path1', 'path2'
             }
-            // A shortcut for includeDirs.allHeaders.
+            // includeDirs.allHeaders 设置项的一个缩写.
             includeDirs "include/directory" "another/directory"
 
-            // Pass additional command line options to the cinterop tool.
+            // 传递给 cinterop 工具的其他命令行选项.
             extraOpts '-shims', 'true'
 
-            // Additional configuration for Linux.
+            // 对 Linux 平台的其他配置.
             target('linux') {
                 compilerOpts 'Linux-specific options'
             }
         }
     }
 
-    // Additional pom settings for publication.
+    // 二进制文件发布时的其他 pom 设置.
     pom {
         withXml {
             def root = asNode()
@@ -467,7 +467,7 @@ components.main {
         }
     }
 
-    // Additional options passed to the compiler.
+    // 传递给编译器的其他选项.
     extraOpts '--time'
 }
 ```
