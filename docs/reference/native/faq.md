@@ -107,7 +107,7 @@ A: 我们会非常频繁的发布开发中的版本, 通常一周至少发布一
 
 <details>
 
-<summary>对于命令行环境, 你可以使用 gradle 来编译, 详细防范请参见 [README](https://github.com/JetBrains/kotlin-native/blob/master/README.md) (如果你遇到了错误, 可以试试运行一下 <code>./gradlew clean</code>):</summary>
+<summary>对于命令行环境, 你可以使用 gradle 来编译, 详细方法请参见 <a href="https://github.com/JetBrains/kotlin-native/blob/master/README.md">README</a> (如果你遇到了错误, 可以试试运行一下 <code>./gradlew clean</code>):</summary>
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
