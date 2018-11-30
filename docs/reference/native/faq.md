@@ -6,24 +6,21 @@ title: "FAQ"
 ---
 
 
-### Q: How do I run my program?
+### Q: 我要怎样运行我的程序?
 
-A: Define a top level function `fun main(args: Array<String>)` or just  `fun main()` if you are not interested
-in passed arguments, please ensure it's not in a package.
-Also compiler switch `-entry` could be used to make any function taking `Array<String>` or no arguments
-and return `Unit` as an entry point.
+A: 你需要定义一个顶层的函数 `fun main(args: Array<String>)`, 如果你不需要接受命令行参数, 也可以写成 `fun main()`, 请注意不要把这个函数放在包内.
+另外, 也可以使用编译器的 `-entry` 选项把任何一个函数指定为程序的入口点, 但这个函数应该接受 `Array<String>` 参数, 或者没有参数, 并且函数返回值类型应该是 `Unit`.
 
 
-### Q: What is Kotlin/Native memory management model?
+### Q: Kotlin/Native 的内存管理机制是怎样的?
 
-A: Kotlin/Native provides an automated memory management scheme, similar to what Java or Swift provides.
-The current implementation includes an automated reference counter with a cycle collector to collect cyclical
-garbage.
+A: Kotlin/Native 提供一种自动化的内存管理机制, 与 Java 和 Swift 类似.
+目前的内存管理器的实现包括, 自动的引用计数器, 以及循环收集器, 可以回收循环引用的垃圾内存.
 
 
-### Q: How do I create a shared library?
+### Q: 我要怎样创建一个共享库?
 
-A: Use the `-produce dynamic` compiler switch, or `compilations.main.outputKinds 'DYNAMIC'` in Gradle, i.e.
+A: 可以使用编译器的 `-produce dynamic` 选项, 或在 Gradle 中使用 `compilations.main.outputKinds 'DYNAMIC'` 设置, 即:
 ```groovy
 targets {
     fromPreset(presets.iosArm64, 'mylib') {
@@ -31,15 +28,14 @@ targets {
     }
 }
 ```
-It will produce a platform-specific shared object (.so on Linux, .dylib on macOS, and .dll on Windows targets) and a
-C language header, allowing the use of all public APIs available in your Kotlin/Native program from C/C++ code.
-See `samples/python_extension` for an example of using such a shared object to provide a bridge between Python and
-Kotlin/Native.
+编译器会产生各平台专有的共享库文件 (对 Linux 环境 .so 文件, 对 macOS 环境是 .dylib 文件,  对 Windows 环境是 .dll 文件),
+还会生成一个 C 语言头文件, 用来在 C/C++ 代码中访问你的 Kotlin/Native 程序中的所有 public API.
+参见 [`samples/python_extension`](https://github.com/JetBrains/kotlin-native/tree/master/samples/python_extension), 这是一个例子, 演示如何使用这样的共享库来连接 Python 程序和 Kotlin/Native 程序.
 
 
-### Q: How do I create a static library or an object file?
+### Q: 我要怎样创建静态库, 或 object 文件?
 
-A: Use the `-produce static` compiler switch, or `compilations.main.outputKinds 'STATIC'` in Gradle, i.e.
+A: 可以使用编译器的 `-produce static` 选项, 或在 Gradle 中使用 `compilations.main.outputKinds 'STATIC'` 设置, 即:
 ```groovy
 targets {
     fromPreset(presets.iosArm64, 'mylib') {
@@ -47,20 +43,18 @@ targets {
     }
 }
 ```
-It will produce a platform-specific static object (.a library format) and a C language header, allowing you to
-use all the public APIs available in your Kotlin/Native program from C/C++ code.
+编译器会产生各平台专有的 object 文件(.a 库格式), 以及一个 C 语言头文件, 用来在 C/C++ 代码中访问你的 Kotlin/Native 程序中的所有 public API.
 
 
-### Q: How do I run Kotlin/Native behind a corporate proxy?
+### Q: 我要怎样在企业的网络代理服务器之后运行 Kotlin/Native?
 
-A: As Kotlin/Native needs to download a platform specific toolchain, you need to specify
-`-Dhttp.proxyHost=xxx -Dhttp.proxyPort=xxx` as the compiler's or `gradlew` arguments,
-or set it via the `JAVA_OPTS` environment variable.
+A: 由于 Kotlin/Native 需要下载各平台相关的工具链, 因此你需要对编译器或 `gradlew` 设置 `-Dhttp.proxyHost=xxx -Dhttp.proxyPort=xxx` 选项,
+或者通过 `JAVA_OPTS` 环境变量来设置这个选项.
 
 
-### Q: How do I specify a custom Objective-C prefix/name for my Kotlin framework?
+### Q: 我要怎样为我的 Kotlin 框架指定自定义的 Objective-C 前缀?
 
-A: Use the `-module_name` compiler option or matching Gradle DSL statement, i.e.
+A: 可以使用编译器的 `-module_name` 选项, 或对应的 Gradle DSL 语句, 即:
 
 <div class="sample" markdown="1" theme="idea" mode="groovy">
 
@@ -75,10 +69,9 @@ targets {
 
 </div>
 
-### Q: How do I enable bitcode for my Kotlin framework?
+### Q: 我要怎样对我的 Kotlin 框架启用 bitcode?
 
-A: Use either `-Xembed-bitcode` or `-Xembed-bitcode-marker` compiler option
-or matching Gradle DSL statement, i.e.
+A: 可以使用编译器的 `-Xembed-bitcode` 或 `-Xembed-bitcode-marker`, 或对应的 Gradle DSL 语句, 即:.
 
 <div class="sample" markdown="1" theme="idea" mode="groovy">
 
@@ -86,37 +79,35 @@ or matching Gradle DSL statement, i.e.
 targets {
     fromPreset(presets.iosArm64, 'myapp') {
        compilations.main.outputKinds 'FRAMEWORK'
-       compilations.main.extraOpts '-Xembed-bitcode' // for release binaries
-       // or '-Xembed-bitcode-marker' for debug binaries
+       compilations.main.extraOpts '-Xembed-bitcode' // 对 release 版二进制文件请使用这个命令
+       // 对 debug 版二进制文件请使用 '-Xembed-bitcode-marker'
 }
 ```
 
-These options have nearly the same effect as clang's `-fembed-bitcode`/`-fembed-bitcode-marker`
-and swiftc's `-embed-bitcode`/`-embed-bitcode-marker`.
+这个选项的效果几乎等于 clang 的 `-fembed-bitcode`/`-fembed-bitcode-marker` 和 swiftc 的 `-embed-bitcode`/`-embed-bitcode-marker`.
 
 </div>
 
-### Q: Why do I see `InvalidMutabilityException`?
+### Q: 为什么我会遇到 `InvalidMutabilityException` 异常?
 
-A: It likely happens, because you are trying to mutate a frozen object. An object can transfer to the
-frozen state either explicitly, as objects reachable from objects on which the `kotlin.native.concurrent.freeze` is called,
-or implicitly (i.e. reachable from `enum` or global singleton object - see the next question).
+A: 这个异常发生很可能是因为, 你试图修改一个已冻结的对象值. 对象可以明确地转变为冻结状态, 对某个对象调用 `kotlin.native.concurrent.freeze` 函数,
+那么只被这个对象访问的其他所有对象子图都会被冻结, 对象也可以隐含的冻结(也就是, 它只被 `enum` 或全局单子对象访问 - 详情请参见下一个问题).
 
 
-### Q: How do I make a singleton object mutable?
+### Q: 我要怎样让一个单子对象可以被修改?
 
-A: Currently, singleton objects are immutable (i.e. frozen after creation), and it's generally considered
-good practise to have the global state immutable. If for some reason you need a mutable state inside such an
-object, use the `@konan.ThreadLocal` annotation on the object. Also the `kotlin.native.concurrent.AtomicReference` class could be
-used to store different pointers to frozen objects in a frozen object and automatically update them.
+A: 目前, 单子对象都是不可修改的(也就是, 创建后就被冻结), 而且我们认为让全局状态值不可变更, 通常是比较好的编程方式.
+如果处于某些理由, 你需要在这样的对象内包含可变更的状态值, 请在对象上使用 `@konan.ThreadLocal` 注解.
+另外, `kotlin.native.concurrent.AtomicReference` 类可以用来在被冻结的对象内, 保存指向不同的冻结对象的指针, 而且可以自动更新这些指针.
 
-### Q: How can I compile my project against the Kotlin/Native master?
+### Q: 我要怎样使用 Kotlin/Native 的 `master` 分支上的最新版本来编译我的项目?
 
-A: We release dev builds frequently, usually at least once a week. You can check the [list of available versions](https://bintray.com/jetbrains/kotlin-native-dependencies/kotlin-native-gradle-plugin). But if we recently fixed an issue and you want to check it before a release is done, you can do:
+A: 我们会非常频繁的发布开发中的版本, 通常一周至少发布一次. 你可以查看 [可用的版本列表](https://bintray.com/jetbrains/kotlin-native-dependencies/kotlin-native-gradle-plugin).
+但是如果我们最近修复了错误, 你希望在最新版发布之前就使用它, 那么你可以:
 
 <details>
-    
-<summary>For the CLI, you can compile using gradle as stated in the README (and if you get errors, you can try to do a <code>./gradlew clean</code>):</summary>
+
+<summary>对于命令行环境, 你可以使用 gradle 来编译, 详细防范请参见 [README](https://github.com/JetBrains/kotlin-native/blob/master/README.md) (如果你遇到了错误, 可以试试运行一下 <code>./gradlew clean</code>):</summary>
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
@@ -127,25 +118,24 @@ A: We release dev builds frequently, usually at least once a week. You can check
 
 </div>
 
-
-You can then set the `KONAN_HOME` env variable to the generated `dist` folder in the git repository.
+编译完成后, 在你本地的 Kotlin/Native git 仓库内会生成 `dist` 目录, 你可以设置 `KONAN_HOME` 环境变量, 让它指向这个目录.
 
 </details>
 
 <details>
-<summary>For Gradle, you can use <a href="https://docs.gradle.org/current/userguide/composite_builds.html">Gradle composite builds</a> like this:</summary>
+<summary>对于 Gradle 环境, 你可以使用 <a href="https://docs.gradle.org/current/userguide/composite_builds.html">Gradle 复合编译</a>, 如下:</summary>
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
 
 ```bash
-# Set with the path of your kotlin-native clone
+# 设置 kotlin-native 的 git 仓库 clone 到你本地后的路径
 export KONAN_REPO=$PWD/../kotlin-native
 
-# Run this once since it is costly, you can remove the `clean` task if not big changes were made from the last time you did this
+# 这个命令请只执行一次, 因为它会消耗大量时间, 如果上一次执行完毕之后没有发生大的修改, 那么你可以删除 `clean` 任务
 pushd $KONAN_REPO && git pull && ./gradlew clean dependencies:update dist distPlatformLibs && popd
 
-# In your project, you set have to the konan.home property, and include as composite the shared and gradle-plugin builds
+#在你的项目内, 你需要设置 konan.home 属性, 然后把 shared 和 gradle-plugin 作为复合编译引入进来
 ./gradlew check -Pkonan.home=$KONAN_REPO/dist --include-build $KONAN_REPO/shared --include-build $KONAN_REPO/tools/kotlin-native-gradle-plugin
 ```
 
