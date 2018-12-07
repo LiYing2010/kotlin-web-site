@@ -6,41 +6,36 @@ title: "与 C 代码交互"
 ---
 
 
-# _Kotlin/Native_ interoperability #
+# _Kotlin/Native_ 的互操作性 #
 
-## Introduction ##
+## 简介 ##
 
- _Kotlin/Native_ follows the general tradition of Kotlin to provide excellent
-existing platform software interoperability. In the case of a native platform,
-the most important interoperability target is a C library. So _Kotlin/Native_
-comes with a `cinterop` tool, which can be used to quickly generate
-everything needed to interact with an external library.
+_Kotlin/Native_ 遵循 Kotlin 的传统, 提供与既有的平台软件的优秀的互操作性.
+对于原生程序来说, 最重要的互操作性对象就是与 C 语言库.
+因此 _Kotlin/Native_ 附带了 `cinterop` 工具, 可以用来快速生成与既有的外部库交互时所需要的一切.
 
- The following workflow is expected when interacting with the native library.
-   * create a `.def` file describing what to include into bindings
-   * use the `cinterop` tool to produce Kotlin bindings
-   * run _Kotlin/Native_ compiler on an application to produce the final executable
+与原生库交互时的工作流程如下.
+   * 创建一个 `.def` 文件, 描述需要绑定(binding)的内容
+   * 使用 `cinterop` 工具生成绑定
+   * 运行 _Kotlin/Native_ 编译器, 编译应用程序, 产生最终的可执行文件
 
- The interoperability tool analyses C headers and produces a "natural" mapping of
-the types, functions, and constants into the Kotlin world. The generated stubs can be
-imported into an IDE for the purpose of code completion and navigation.
+互操作性工具会分析 C 语言头文件, 并产生一个 "自然的" 映射, 将数据类型, 函数, 常数, 引入到 Kotlin 语言的世界.
+工具生成的桩代码(stub)可以导入 IDE, 用来帮助代码自动生成, 以及代码跳转.
 
- Interoperability with Swift/Objective-C is provided too and covered in a
-separate document [OBJC_INTEROP.md](OBJC_INTEROP.md).
+此外还提供了与 Swift/Objective-C 语言的互操作功能, 详情请参见 [与 Swift/Objective-C 的交互](objc_interop.html).
 
-## Platform libraries ##
+## 平台库 ##
 
- Note that in many cases there's no need to use custom interoperability library creation mechanisms described below,
-as for APIs available on the platform standartized bindings called [platform libraries](PLATFORM_LIBS.md)
-could be used. For example, POSIX on Linux/macOS platforms, Win32 on Windows platform, or Apple frameworks
-on macOS/iOS are available this way.
+注意, 很多情况下不要用到自定义的互操作库创建机制(我们后文将会介绍),
+因为对于平台上的标准绑定中的那些 API, 可以使用 [平台库](platform_libs.html).
+比如, Linux/macOS 平台上的 POSIX, Windows 平台上的 Win32, macOS/iOS 平台上的以及 Apple 框架, 都可以通过这种方式来使用.
 
-## Simple example ##
+## 一个简单的示例 ##
 
-Install libgit2 and prepare stubs for the git library:
+首先我们安装 libgit2, 并为 git 库准备桩代码:
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
-   
+
 ```bash
 
 cd samples/gitchurn
@@ -50,7 +45,7 @@ cd samples/gitchurn
 
 </div>
 
-Compile the client:
+编译客户端代码:
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
@@ -61,7 +56,7 @@ Compile the client:
 
 </div>
 
-Run the client:
+运行客户端代码:
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
@@ -72,10 +67,10 @@ Run the client:
 </div>
 
 
-## Creating bindings for a new library ##
+## 为一个新库创建绑定 ##
 
- To create bindings for a new library, start by creating a `.def` file.
-Structurally it's a simple property file, which looks like this:
+要对一个新的库创建绑定, 首先要创建一个 `.def` 文件.
+它的结构只是一个简单的 property 文件, 大致是这个样子:
 
 <div class="sample" markdown="1" theme="idea" mode="c">
 
@@ -88,8 +83,7 @@ package = png
 </div>
 
 
-Then run the `cinterop` tool with something like this (note that for host libraries that are not included
-in the sysroot search paths, headers may be needed):
+然后运行 `cinterop` 文件, 参数大致如下 (注意, 对于主机上没有被包含到 sysroot 查找路径的那些库, 可能需要指定头文件):
 
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
@@ -100,47 +94,34 @@ cinterop -def png.def -compilerOpts -I/usr/local/include -o png
 </div>
 
 
-This command will produce a `png.klib` compiled library and
-`png-build/kotlin` directory containing Kotlin source code for the library.
+这个命令将会生成一个编译后的库, 名为 `png.klib`, 以及 `png-build/kotlin` 目录, 其中包含这个库的 Kotlin 源代码.
 
-If the behavior for a certain platform needs to be modified, you can use a format like
-`compilerOpts.osx` or `compilerOpts.linux` to provide platform-specific values
-to the options.
+如果需要修改针对某个平台的参数, 你可以使用 `compilerOpts.osx` 或 `compilerOpts.linux` 这样的格式, 来指定这个平台专用的命令行选项.
 
-Note, that the generated bindings are generally platform-specific, so if you are developing for
-multiple targets, the bindings need to be regenerated.
+注意, 生成的绑定通常是平台专有的, 因此如果你需要针对多科平台进行开发, 那么需要重新生成这些绑定.
 
-After the generation of bindings, they can be used by the IDE as a proxy view of the
-native library.
+生成绑定后, IDE 可以使用其中的信息来查看原生库.
 
-For a typical Unix library with a config script, the `compilerOpts` will likely contain
-the output of a config script with the `--cflags` flag (maybe without exact paths).
+对于一个典型的带配置脚本的 Unix 库, 使用 `--cflags` 参数运行配置脚本的输出结果, 通常可以用做 `compilerOpts`, (但可能不使用完全相同的路径).
 
-The output of a config script with `--libs` will be passed as a `-linkedArgs`  `kotlinc`
-flag value (quoted) when compiling.
+使用 `--libs` 参数运行配置脚本的输出结果, 编译时可以用作 `kotlinc` 的 `-linkedArgs` 参数值(带引号括起).
 
-### Selecting library headers
+### 选择库的头文件
 
-When library headers are imported to a C program with the `#include` directive,
-all of the headers included by these headers are also included in the program.
-So all header dependencies are included in generated stubs as well.
+使用 `#include` 指令将库的头文件导入 C 程序时, 这些头文件包含的所有其他头文件也会一起被导入.
+因此, 在生成的 stub 代码内, 也会带有所有依赖到的其他头文件.
 
-This behavior is correct but it can be very inconvenient for some libraries. So
-it is possible to specify in the `.def` file which of the included headers are to
-be imported. The separate declarations from other headers can also be imported
-in case of direct dependencies.
+这种方式通常是正确的, 但对于某些类来说可能非常不方便.
+因此可以在 `.def` 文件内指定需要导入哪些头文件.
+如果直接依赖某个头文件的话, 也可以对它单独声明.
 
-#### Filtering headers by globs
+#### 使用 glob 过滤头文件
 
-It is possible to filter headers by globs. The `headerFilter` property value
-from the `.def` file is treated as a space-separated list of globs. If the
-included header matches any of the globs, then the declarations from this header
-are included into the bindings.
+也可以使用 glob 过滤头文件. `.def` 文件内的 `headerFilter` 属性值会被看作一个空格分隔的 glob 列表.
+如果包含的头文件与任何一个 glob 匹配, 那么这个头文件中的声明就会被包含在绑定内容中.
 
-The globs are applied to the header paths relative to the appropriate include
-path elements, e.g. `time.h` or `curl/curl.h`. So if the library is usually
-included with `#include <SomeLbrary/Header.h>`, then it would probably be
-correct to filter headers with
+glob 应用于 相对于恰当的包含路径元素的头文件路径, 比如, `time.h` 或 `curl/curl.h`.
+因此, 如果通常使用 `#include <SomeLbrary/Header.h>` 指令来包含某个库, 那么应该使用下面的代码来过滤头文件:
 
 <div class="sample" markdown="1" theme="idea" mode="c">
 
@@ -150,17 +131,14 @@ headerFilter = SomeLibrary/**
 
 </div>
 
-If a `headerFilter` is not specified, then all headers are included.
+如果没有指定 `headerFilter`, 那么所有的头文件都会被引入.
 
-#### Filtering by module maps
+#### 使用模块映射过滤头文件
 
-Some libraries have proper `module.modulemap` or `module.map` files in its
-headers. For example, macOS and iOS system libraries and frameworks do.
-The [module map file](https://clang.llvm.org/docs/Modules.html#module-map-language)
-describes the correspondence between header files and modules. When the module
-maps are available, the headers from the modules that are not included directly
-can be filtered out using the experimental `excludeDependentModules` option of the
-`.def` file:
+有些库在它的头文件中带有 `module.modulemap` 或 `module.map` 文件.
+比如, macOS 和 iOS 系统库和框架就是这样.
+[模块映射文件(module map file)](https://clang.llvm.org/docs/Modules.html#module-map-language) 描述头文件与模块之间的对应关系.
+如果存在模块映射, 那么可以使用 `.def` 文件的实验性的 `excludeDependentModules` 选项, 将模块中没有直接使用的头文件过滤掉:
 
 <div class="sample" markdown="1" theme="idea" mode="c">
 
@@ -173,14 +151,12 @@ excludeDependentModules = true
 </div>
 
 
-When both `excludeDependentModules` and `headerFilter` are used, they are
-applied as an intersection.
+如果同时使用 `excludeDependentModules` 和 `headerFilter`, 那么最终起作用的将是二者的交集.
 
-### C compiler and linker options ###
+### C 编译器与链接器选项 ###
 
- Options passed to the C compiler (used to analyze headers, such as preprocessor definitions) and the linker
-(used to link final executables) can be passed in the definition file as `compilerOpts` and `linkerOpts`
-respectively. For example
+可以在定义文件中使用 `compilerOpts` 和 `linkerOpts` 来分别指定传递给 C 编译器(用于分析头文件, 比如预处理定义信息) 和链接器(用于链接最终的可执行代码) 的参数.
+比如:
 
 <div class="sample" markdown="1" theme="idea" mode="c">
 
@@ -191,7 +167,7 @@ linkerOpts = -lpng
 
 </div>
 
-Target-specific options, only applicable to the certain target can be specified as well, such as
+也可以指定某个目标平台独有的参数, 比如:
 
 <div class="sample" markdown="1" theme="idea" mode="c">
 
@@ -203,16 +179,13 @@ Target-specific options, only applicable to the certain target can be specified 
 
 </div>
 
-and so, C headers on Linux will be analyzed with `-DBAR=bar -DFOO=foo1` and on macOS with `-DBAR=bar -DFOO=foo2`.
-Note that any definition file option can have both common and the platform-specific part.
+这样, Linux 上的 C 头文件会使用 `-DBAR=bar -DFOO=foo1` 参数, macOS 上则会使用 `-DBAR=bar -DFOO=foo2` 参数.
+注意, 定义文件的任何参数, 都可以包含共用的, 以及平台独有的两部分.
 
-### Adding custom declarations ###
+### 添加自定义声明 ###
 
- Sometimes it is required to add custom C declarations to the library before
-generating bindings (e.g., for [macros](#macros)). Instead of creating an
-additional header file with these declarations, you can include them directly
-to the end of the `.def` file, after a separating line, containing only the
-separator sequence `---`:
+在生成绑定之前, 有时会需要向库添加自定义的 C 声明(比如, 对 [宏](#macros)).
+你可以将它们直接包含在 `.def` 文件尾部, 放在一个分隔行 `---` 之后, 而不需要为他们创建一个额外的头文件:
 
 <div class="sample" markdown="1" theme="idea" mode="c">
 
@@ -228,69 +201,52 @@ static inline int getErrno() {
 
 </div>
 
-Note that this part of the `.def` file is treated as part of the header file, so
-functions with the body should be declared as `static`.
-The declarations are parsed after including the files from the `headers` list.
+注意, `.def` 文件的这部分内容会被当做头文件的一部分, 因此, 带函数体的函数应该声明为 `static` 函数.
+这些声明的内容, 会在 `headers` 列表中的文件被引入之后, 再被解析.
 
-### Including static library in your klib
+### 将静态库包含到你的 klib 库中
 
-Sometimes it is more convenient to ship a static library with your product,
-rather than assume it is available within the user's environment.
-To include a static library into `.klib` use `staticLibrary` and `libraryPaths`
-clauses. For example:
+有些时候, 发布你的程序时附带上所需要的静态库, 而不是假定它在用户的环境中已经存在了, 这样会更便利一些.
+如果需要在 `.klib` 中包含静态库, 可以使用 `staticLibrary` 和 `libraryPaths` 语句.
+比如:
 
 <div class="sample" markdown="1" theme="idea" mode="c">
 
 ```c
-staticLibraries = libfoo.a 
+staticLibraries = libfoo.a
 libraryPaths = /opt/local/lib /usr/local/opt/curl/lib
 ```
 
 </div>
 
-When given the above snippet the `cinterop` tool will search `libfoo.a` in 
-`/opt/local/lib` and `/usr/local/opt/curl/lib`, and if it is found include the 
-library binary into `klib`. 
+如果指定了以上内容, 那么 `cinterop` 工具将会在 `/opt/local/lib` 和 `/usr/local/opt/curl/lib` 目录中搜索 `libfoo.a` 文件,
+如果找到这个文件, 就会把这个库包含到 `klib` 内.
 
-When using such `klib` in your program, the library is linked automatically.
+使用这样的 `klib`, 库文件会就被自动链接到你的程序内.
 
-## Using bindings ##
+## 使用绑定 ##
 
-### Basic interop types ###
+### 基本的 interop 数据类型 ###
 
-All the supported C types have corresponding representations in Kotlin:
+C 中支持的所有数据类型, 都有对应的 Kotlin 类型:
 
-*   Signed, unsigned integral, and floating point types are mapped to their
-    Kotlin counterpart with the same width.
-*   Pointers and arrays are mapped to `CPointer<T>?`.
-*   Enums can be mapped to either Kotlin enum or integral values, depending on
-    heuristics and the [definition file hints](#definition-file-hints).
-*   Structs are mapped to types having fields available via the dot notation,
-    i.e. `someStructInstance.field1`.
-*   `typedef` are represented as `typealias`.
+*   有符号整数, 无符号整数, 以及浮点类型, 会被映射为 Kotlin 中的同样类型, 并且长度相同.
+*   指针和数组映射为 `CPointer<T>?` 类型.
+*   枚举型映射为 Kotlin 的枚举型, 或整数型, 由 heuristic 以及 [定义文件中的提示](#definition-file-hints) 决定.
+*   结构体(Struct)映射为通过点号访问的域的形式, 也就是 `someStructInstance.field1` 的形式.
+*   `typedef` 映射为 `typealias`.
 
-Also, any C type has the Kotlin type representing the lvalue of this type,
-i.e., the value located in memory rather than a simple immutable self-contained
-value. Think C++ references, as a similar concept.
-For structs (and `typedef`s to structs) this representation is the main one
-and has the same name as the struct itself, for Kotlin enums it is named
-`${type}Var`, for `CPointer<T>` it is `CPointerVar<T>`, and for most other
-types it is `${type}Var`.
+此外, 任何 C 类型都有对应的 Kotlin 类型来表达这个类型的左值(lvalue), 也就是, 在内存中分配的那个值, 而不是简单的不可变的自包含值. 你可以想想 C++ 的引用, 与这个概念类似.
+对于结构体(Struct) (以及指向结构体的 `typedef`) 左值类型就是它的主要表达形式, 而且使用与结构体本身相同的名字, 对于 Kotlin 枚举类型, 左值类型名称是 `${type}Var`, 对于 `CPointer<T>`, 左值类型名称是 `CPointerVar<T>`, 对于大多数其他类型, 左值类型名称是 `${type}Var`.
 
-For types that have both representations, the one with a "lvalue" has a mutable
-`.value` property for accessing the value.
+对于兼有这两种表达形式的类型, 包含 "左值(lvalue)" 的那个类型, 带有一个可变的 `.value` 属性, 可以用来访问这个左值.
 
-#### Pointer types ####
+#### 指针类型 ####
 
-The type argument `T` of `CPointer<T>` must be one of the "lvalue" types
-described above, e.g., the C type `struct S*` is mapped to `CPointer<S>`,
-`int8_t*` is mapped to `CPointer<int_8tVar>`, and `char**` is mapped to
-`CPointer<CPointerVar<ByteVar>>`.
+`CPointer<T>` 的类型参数 `T` 必须是上面介绍的 "左值(lvalue)" 类型之一, 比如, C 类型 `struct S*` 会被映射为 `CPointer<S>`,
+`int8_t*` 会被映射为 `CPointer<int_8tVar>`, `char**` 会被映射为 `CPointer<CPointerVar<ByteVar>>`.
 
-C null pointer is represented as Kotlin's `null`, and the pointer type
-`CPointer<T>` is not nullable, but the `CPointer<T>?` is. The values of this
-type support all the Kotlin operations related to handling `null`, e.g. `?:`, `?.`,
-`!!` etc.:
+C 的空指针(null) 在 Kotlin 中表达为 `null`, 指针类型 `CPointer<T>` 是不可为空的, 而 `CPointer<T>?` 类型则是可为空的. 这种类型的值支持 Kotlin 的所有涉及 `null` 值处理的操作, 比如 `?:`, `?.`, `!!` 等等:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
@@ -300,8 +256,7 @@ val path = getenv("PATH")?.toKString() ?: ""
 
 </div>
 
-Since the arrays are also mapped to `CPointer<T>`, it supports the `[]` operator
-for accessing values by index:
+由于数组也被映射为 `CPointer<T>`, 因此这个类型也支持 `[]` 操作, 可以使用下标来访问数组中的值:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
@@ -315,16 +270,13 @@ fun shift(ptr: CPointer<BytePtr>, length: Int) {
 
 </div>
 
-The `.pointed` property for `CPointer<T>` returns the lvalue of type `T`,
-pointed by this pointer. The reverse operation is `.ptr`: it takes the lvalue
-and returns the pointer to it.
+`CPointer<T>` 的 `.pointed` 属性返回这个指针指向的那个位置的类型 `T` 的左值.
+相反的操作是 `.ptr`: 它接受一个左值, 返回一个指向它的指针.
 
-`void*` is mapped to `COpaquePointer` – the special pointer type which is the
-supertype for any other pointer type. So if the C function takes `void*`, then
-the Kotlin binding accepts any `CPointer`.
+`void*` 映射为 `COpaquePointer` – 这是一个特殊的指针类型, 它是任何其他指针类型的超类.
+因此, 如果 C 函数接受 `void*` 类型参数, 那么绑定的 Kotlin 函数就可以接受任何 `CPointer` 类型参数.
 
-Casting a pointer (including `COpaquePointer`) can be done with
-`.reinterpret<T>`, e.g.:
+可以使用 `.reinterpret<T>` 来对一个指针进行类型变换(包括 `COpaquePointer`), 例如:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
@@ -334,7 +286,7 @@ val intPtr = bytePtr.reinterpret<IntVar>()
 
 </div>
 
-or
+或者
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
@@ -344,11 +296,9 @@ val intPtr: CPointer<IntVar> = bytePtr.reinterpret()
 
 </div>
 
-As is with C, these reinterpret casts are unsafe and can potentially lead to
-subtle memory problems in the application.
+和 C 一样, 这样的类型变换是不安全的, 可能导致应用程序发生潜在的内存错误.
 
-Also there are unsafe casts between `CPointer<T>?` and `Long` available,
-provided by the `.toLong()` and `.toCPointer<T>()` extension methods:
+对于 `CPointer<T>?` 和 `Long` 也有不安全的类型变换方法, 由扩展函数 `.toLong()` 和 `.toCPointer<T>()` 实现:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
@@ -359,12 +309,11 @@ val originalPtr = longValue.toCPointer<T>()
 
 </div>
 
-Note that if the type of the result is known from the context, the type argument
-can be omitted as usual due to the type inference.
+注意, 如果结果类型可以通过上下文确定, 那么类型参数可以省略, 就象 Kotlin 中通常的类型系统一样.
 
-### Memory allocation ###
+### 内存分配 ###
 
-The native memory can be allocated using the `NativePlacement` interface, e.g.
+可以使用 `NativePlacement` 接口来分配原生内存, 比如:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
@@ -374,7 +323,7 @@ val byteVar = placement.alloc<ByteVar>()
 
 </div>
 
-or
+或者
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
@@ -384,28 +333,26 @@ val bytePtr = placement.allocArray<ByteVar>(5)
 
 </div>
 
-The most "natural" placement is in the object `nativeHeap`.
-It corresponds to allocating native memory with `malloc` and provides an additional
-`.free()` operation to free allocated memory:
+内存最 "自然" 的位置就是在 `nativeHeap` 对象内.
+这个操作就相当于使用 `malloc` 来分配原生内存, 另外还提供了 `.free()` 操作来释放已分配的内存:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
 ```kotlin
 val buffer = nativeHeap.allocArray<ByteVar>(size)
-<use buffer>
+<使用 buffer>
 nativeHeap.free(buffer)
 ```
 
 </div>
 
-However, the lifetime of allocated memory is often bound to the lexical scope.
-It is possible to define such scope with `memScoped { ... }`.
-Inside the braces, the temporary placement is available as an implicit receiver,
-so it is possible to allocate native memory with `alloc` and `allocArray`,
-and the allocated memory will be automatically freed after leaving the scope.
+然而, 分配的内存的生命周期通常会限定在一个指明的作用范围内.
+可以使用 `memScoped { ... }` 来定义这样的作用范围.
+在括号内部, 可以以隐含的接收者的形式访问到一个临时的内存分配位置,
+因此可以使用 `alloc` 和 `allocArray` 来分配原生内存,
+离开这个作用范围后, 已分配的这些内存会被自动释放.
 
-For example, the C function returning values through pointer parameters can be
-used like
+比如, 如果一个 C 函数, 使用指针参数返回值, 可以用下面这种方式来使用这个函数:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
@@ -419,27 +366,22 @@ val fileSize = memScoped {
 
 </div>
 
-### Passing pointers to bindings ###
+### 向绑定传递指针 ###
 
-Although C pointers are mapped to the `CPointer<T>` type, the C function
-pointer-typed parameters are mapped to `CValuesRef<T>`. When passing
-`CPointer<T>` as the value of such a parameter, it is passed to the C function as is.
-However, the sequence of values can be passed instead of a pointer. In this case
-the sequence is passed "by value", i.e., the C function receives the pointer to
-the temporary copy of that sequence, which is valid only until the function returns.
+尽管 C 指针被映射为 `CPointer<T>` 类型, 但 C 函数的指针型参数会被映射为 `CValuesRef<T>` 类型.
+如果向这样的参数传递 `CPointer<T>` 类型的值, 那么会原样传递给 C 函数.
+但是, 也可以直接传递值的序列, 而不是传递指针. 这种情况下, 序列会以值的形式传递(by value), 也就是说, C 函数收到一个指针, 指向这个值序列的一个临时拷贝, 这个临时拷贝只在函数返回之前存在.
 
-The `CValuesRef<T>` representation of pointer parameters is designed to support
-C array literals without explicit native memory allocation.
-To construct the immutable self-contained sequence of C values, the following
-methods are provided:
+`CValuesRef<T>` 形式表达的指针型参数是为了用来支持 C 数组字面值, 而不必明确地进行内存分配操作.
+为了构造一个不可变的自包含的 C 的值的序列, 可以使用下面这些方法:
 
-*   `${type}Array.toCValues()`, where `type` is the Kotlin primitive type
+*   `${type}Array.toCValues()`, 其中 `type` 是 Kotlin 的基本类型
 *   `Array<CPointer<T>?>.toCValues()`, `List<CPointer<T>?>.toCValues()`
-*   `cValuesOf(vararg elements: ${type})`, where `type` is a primitive or pointer
+*   `cValuesOf(vararg elements: ${type})`, 其中 `type` 是基本类型, 或指针
 
-For example:
+比如:
 
-C:
+C 代码:
 
 <div class="sample" markdown="1" theme="idea" mode="c">
 
@@ -452,7 +394,7 @@ foo(elements, 3);
 
 </div>
 
-Kotlin:
+Kotlin 代码:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
@@ -462,32 +404,29 @@ foo(cValuesOf(1, 2, 3), 3)
 
 </div>
 
-### Working with the strings ###
+### 使用字符串 ###
 
-Unlike other pointers, the parameters of type `const char*` are represented as
-a Kotlin `String`. So it is possible to pass any Kotlin string to a binding
-expecting a C string.
+与其它指针不同, `const char*` 类型参数会被表达为 Kotlin 的 `String` 类型.
+因此对于 C 中期望字符串的绑定, 可以传递 Kotlin 的任何字符串值.
 
-There are also some tools available to convert between Kotlin and C strings
-manually:
+还有一些工具, 可以用来在 Kotlin 和 C 的字符串之间进行手工转换:
 
 *   `fun CPointer<ByteVar>.toKString(): String`
 *   `val String.cstr: CValuesRef<ByteVar>`.
 
-    To get the pointer, `.cstr` should be allocated in native memory, e.g.
-    
+    要得到指针, `.cstr` 应该在原生内存中分配, 比如:
+
     <div class="sample" markdown="1" theme="idea" data-highlight-only>
-    
+
     ```
     val cString = kotlinString.cstr.getPointer(nativeHeap)
     ```
-    
+
     </div>
 
-In all cases, the C string is supposed to be encoded as UTF-8.
+在所有这些场合, C 字符串的编码都是 UTF-8.
 
-To skip automatic conversion and ensure raw pointers are used in the bindings, a `noStringConversion`
-statement in the `.def` file could be used, i.e.
+要跳过字符串的自动转换, 并确保在绑定中使用原生的指针, 可以在 `.def` 文件中使用 `noStringConversion` 语句, 也就是:
 
 <div class="sample" markdown="1" theme="idea" mode="c">
 
@@ -497,25 +436,24 @@ noStringConversion = LoadCursorA LoadCursorW
 
 </div>
 
-This way any value of type `CPointer<ByteVar>` can be passed as an argument of `const char*` type.
-If a Kotlin string should be passed, code like this could be used:
+通过这种方式, 任何 `CPointer<ByteVar>` 类型的值都可以传递给 `const char*` 类型的参数.
+如果需要传递 Kotlin 字符串, 可以使用这样的代码:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
 ```kotlin
 memScoped {
-    LoadCursorA(null, "cursor.bmp".cstr.ptr)   // for ASCII version
-    LoadCursorW(null, "cursor.bmp".wcstr.ptr)  // for Unicode version
+    LoadCursorA(null, "cursor.bmp".cstr.ptr)   // 对这个函数的 ASCII 版
+    LoadCursorW(null, "cursor.bmp".wcstr.ptr)  // 对这个函数的 Unicode 版
 }
 ```
 
 </div>
 
-### Scope-local pointers ###
+### 作用范围内的局部指针 ###
 
-It is possible to create a scope-stable pointer of C representation of `CValues<T>`
-instance using the `CValues<T>.ptr` extension property, available under `memScoped { ... }`.
-It allows using the APIs which require C pointers with a lifetime bound to a certain `MemScope`. For example:
+`memScoped { ... }` 内有一个 `CValues<T>.ptr` 扩展属性, 使用它可以创建一个指向 `CValues<T>` 的 C 指针, 这个指针被限定在一个作用范围内.
+通过它可以使用需要 C 指针的 API, 指针的生命周期限定在特定的 `MemScope` 内. 比如:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
@@ -530,28 +468,21 @@ memScoped {
 
 </div>
 
-In this example, all values passed to the C API `new_menu()` have a lifetime of the innermost `memScope`
-it belongs to. Once the control flow leaves the `memScoped` scope the C pointers become invalid.
+在这个示例程序中, 所有传递给 C API `new_menu()` 的值, 生命周期都被限定在它所属的最内层的 `memScope` 之内.
+一旦程序的执行离开了 `memScoped` 作用范围, C 指针就不再存在了.
 
-### Passing and receiving structs by value ###
+### 以值的方式传递和接收结构 ###
 
-When a C function takes or returns a struct `T` by value, the corresponding
-argument type or return type is represented as `CValue<T>`.
+如果一个 C 函数以传值的方式接受结构体 `T` 类型的参数, 或者以传值的方式返回结构体 `T` 类型的结果, 对应的参数类型或结果类型会被表达为 `CValue<T>`.
 
-`CValue<T>` is an opaque type, so the structure fields cannot be accessed with
-the appropriate Kotlin properties. It should be possible, if an API uses structures
-as handles, but if field access is required, there are the following conversion
-methods available:
+`CValue<T>` 是一个不透明(opaque)类型, 因此无法通过适当的 Kotlin 属性访问到 C 结构体的域.
+如果 API 以句柄的形式使用结构体, 那么这样是可行的, 但是如果确实需要访问结构体中的域, 那么可以使用以下转换方法:
 
-*   `fun T.readValue(): CValue<T>`. Converts (the lvalue) `T` to a `CValue<T>`.
-    So to construct the `CValue<T>`, `T` can be allocated, filled, and then
-    converted to `CValue<T>`.
+*   `fun T.readValue(): CValue<T>`. 将(左值) `T` 转换为一个 `CValue<T>`.
+    因此, 如果要构造一个 `CValue<T>`, 可以先分配 `T`, 为其中的域赋值, 然后将它转换为 `CValue<T>`.
 
-*   `CValue<T>.useContents(block: T.() -> R): R`. Temporarily places the
-    `CValue<T>` to memory, and then runs the passed lambda with this placed
-    value `T` as receiver. So to read a single field, the following code can be
-    used:
-    
+*   `CValue<T>.useContents(block: T.() -> R): R`. 将 `CValue<T>` 临时放到内存中, 然后使用放置在内存中的这个 `T` 值作为接收者, 来运行参数中指定的 Lambda 表达式. 因此, 如果要读取结构体中一个单独的域, 可以使用下面的代码:
+
     <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
     ```kotlin
@@ -561,31 +492,25 @@ methods available:
     </div>
 
 
-### Callbacks ###
+### 回调 ###
 
-To convert a Kotlin function to a pointer to a C function,
-`staticCFunction(::kotlinFunction)` can be used. It is also able to provide
-the lambda instead of a function reference. The function or lambda must not
-capture any values.
+如果要将一个 Kotlin 函数转换为一个指向 C 函数的指针, 可以使用 `staticCFunction(::kotlinFunction)`.
+也可以使用 Lambda 表达式来代替函数引用.
+这里的函数或 Lambda 表达式不能捕获任何值.
 
-Note that some function types are not supported currently. For example,
-it is not possible to get a pointer to a function that receives or returns structs
-by value.
+注意, 某些函数类型目前还不支持. 比如, 如果一个函数以传值的形式接受结构体参数, 或以传值的形式返回结构体, 那么就不能够得到指向这个函数的指针.
 
-If the callback doesn't run in the main thread, it is mandatory to init the _Kotlin/Native_
-runtime by calling `kotlin.native.initRuntimeIfNeeded()`.
+如果回调不在主线程中运行, 那么就必须通过调用 `kotlin.native.initRuntimeIfNeeded()` 来启动 _Kotlin/Native_ 运行时.
 
-#### Passing user data to callbacks ####
+#### 向回调传递用户数据 ####
 
-Often C APIs allow passing some user data to callbacks. Such data is usually
-provided by the user when configuring the callback. It is passed to some C function
-(or written to the struct) as e.g. `void*`.
-However, references to Kotlin objects can't be directly passed to C.
-So they require wrapping before configuring the callback and then unwrapping in
-the callback itself, to safely swim from Kotlin to Kotlin through the C world.
-Such wrapping is possible with `StableRef` class.
+C API 经常允许向回调传递一些用户数据. 这些数据通常由用户在设置回调时提供.
+数据使用比如 `void*` 的形式, 传递给某些 C 函数 (或写入到结构体内).
+但是, Kotlin 对象的引用无法直接传递给 C.
+因此需要在设置回调之前包装这些数据, 然后在回调函数内部将它们解开, 这样才能通过 C 函数来再两段 Kotlin 代码之间传递数据.
+这种数据包装可以使用 `StableRef` 类实现.
 
-To wrap the reference:
+要封装一个 Kotlin 对象的引用, 可以使用以下代码:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
@@ -596,9 +521,9 @@ val voidPtr = stableRef.asCPointer()
 
 </div>
 
-where the `voidPtr` is a `COpaquePointer` and can be passed to the C function.
+这里的 `voidPtr` 是一个 `COpaquePointer` 类型, 因此可以传递给 C 函数.
 
-To unwrap the reference:
+要解开这个引用, 可以使用以下代码:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
@@ -609,10 +534,9 @@ val kotlinReference = stableRef.get()
 
 </div>
 
-where `kotlinReference` is the original wrapped reference.
+这里的 `kotlinReference` 就是封装之前的 Kotlin 对象引用.
 
-The created `StableRef` should eventually be manually disposed using
-the `.dispose()` method to prevent memory leaks:
+创建 `StableRef` 后, 最终需要使用 `.dispose()` 方法手动释放, 以避免内存泄漏:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
@@ -622,17 +546,15 @@ stableRef.dispose()
 
 </div>
 
-After that it becomes invalid, so `voidPtr` can't be unwrapped anymore.
+释放后, 它就变得不可用了, 因此 `voidPtr` 也不能再次解开.
 
-See the `samples/libcurl` for more details.
+更多详情请参见 `samples/libcurl`.
 
-### Macros ###
+### 宏 ###
 
-Every C macro that expands to a constant is represented as a Kotlin property.
-Other macros are not supported. However, they can be exposed manually by
-wrapping them with supported declarations. E.g. function-like macro `FOO` can be
-exposed as function `foo` by
-[adding the custom declaration](#adding-custom-declarations) to the library:
+每个展开为常数的 C 语言宏, 都会表达为一个 Kotlin 属性.
+其他的宏都不支持. 但是, 可以将它们封装在支持的声明中, 这样就可以手动映射这些宏.
+比如, 类似于函数的宏 `FOO` 可以映射为函数 `foo`, 方法是向库 [添加自定义的声明](#adding-custom-declarations):
 
 <div class="sample" markdown="1" theme="idea" mode="c">
 
@@ -648,31 +570,23 @@ static inline int foo(int arg) {
 
 </div>
 
-### Definition file hints ###
+### 定义文件提示 ###
 
-The `.def` file supports several options for adjusting the generated bindings.
+`.def` 支持几种选项, 用来调整最终生成的绑定.
 
-*   `excludedFunctions` property value specifies a space-separated list of the names
-    of functions that should be ignored. This may be required because a function
-    declared in the C header is not generally guaranteed to be really callable, and
-    it is often hard or impossible to figure this out automatically. This option
-    can also be used to workaround a bug in the interop itself.
+*   `excludedFunctions` 属性值是一个空格分隔的列表, 表示哪些函数应该忽略.
+   有时会需要这个功能, 因为 C 头文件中的一个函数声明, 并不保证它一定可以调用, 而且常常很难, 甚至不可能自动判断. 这个选项也可以用来绕过 interop 工具本身的 bug.
 
-*   `strictEnums` and `nonStrictEnums` properties values are space-separated
-    lists of the enums that should be generated as a Kotlin enum or as integral
-    values correspondingly. If the enum is not included into any of these lists,
-    then it is generated according to the heuristics.
+*   `strictEnums` 和 `nonStrictEnums` 属性值是空格分隔的列表, 分别表示哪些枚举类型需要生成为 Kotlin 枚举类型, 哪些需要生成为整数值.
+   如果一个枚举型在这两个属性中都没有包括, 那么就根据 heuristic 来生成.
 
-*    `noStringConversion` property value is space-separated lists of the functions whose
-     `const char*` parameters shall not be autoconverted as Kotlin string
+*    `noStringConversion` 属性值是一个空格分隔的列表, 表示哪些函数的 `const char*` 参数应该不被自动转换为 Kotlin 的字符串类型.
 
-### Portability ###
+### 可移植性 ###
 
- Sometimes the C libraries have function parameters or struct fields of a
-platform-dependent type, e.g. `long` or `size_t`. Kotlin itself doesn't provide
-neither implicit integer casts nor C-style integer casts (e.g.
-`(size_t) intValue`), so to make writing portable code in such cases easier,
-the `convert` method is provided:
+有时, C 库中的函数参数, 或结构体的域使用了依赖于平台的数据类型, 比如 `long` 或 `size_t`.
+Kotlin 本身没有提供隐含的整数类型转换, 也没有提供 C 风格的整数类型转换 (比如, `(size_t) intValue`),
+因此, 在这种情况下, 为了让编写可以移植的代码变得容易一点, 提供了 `convert` 方法:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
@@ -681,14 +595,12 @@ fun ${type1}.convert<${type2}>(): ${type2}
 ```
 </div>
 
-where each of `type1` and `type2` must be an integral type, either signed or unsigned.
+这里, `type1` 和 `type2` 都必须是整数类型, 可以是有符号整数, 可以可以是无符号整数.
 
-`.convert<${type}>` has the same semantics as one of the
-`.toByte`, `.toShort`, `.toInt`, `.toLong`,
-`.toUByte`, `.toUShort`, `.toUInt` or `.toULong`
-methods, depending on `type`.
+`.convert<${type}>` 的含义等同于 `.toByte`, `.toShort`, `.toInt`, `.toLong`,
+`.toUByte`, `.toUShort`, `.toUInt` 或 `.toULong` 方法, 具体等于哪个, 取决于 `type` 的具体类型.
 
-The example of using `convert`:
+使用 `convert` 的示例如下:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
@@ -700,14 +612,13 @@ fun zeroMemory(buffer: COpaquePointer, size: Int) {
 
 </div>
 
-Also, the type parameter can be inferred automatically and so may be omitted
-in some cases.
+而且, 这个函数的类型参数可以自动推定得到, 因此很多情况下可以省略.
 
 
-### Object pinning ###
+### 对象固定 ###
 
- Kotlin objects could be pinned, i.e. their position in memory is guaranteed to be stable
-until unpinned, and pointers to such objects inner data could be passed to the C functions. For example
+Kotlin 对象可以固定(pin), 也就是, 确保它们在内存中的位置不会变化, 直到解除固定(unpin)为止,
+而且, 指向这些对象的内部数据的指针, 可以传递给 C 函数. 比如:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
@@ -721,7 +632,7 @@ fun readData(fd: Int): String {
             if (length <= 0) {
                break
             }
-            // Now `buffer` has raw data obtained from the `recv()` call.
+            // 现在 `buffer` 中包含了从 `recv()` 函数调用得到的原生数据.
         }
     }
 }
@@ -729,5 +640,4 @@ fun readData(fd: Int): String {
 
 </div>
 
-Here we use service function `usePinned`, which pins an object, executes block and unpins it on normal and
-exception paths.
+这里我们使用了服务函数 `usePinned`, 它会先固定一个对象, 然后执行一段代码, 最后无论是正常结束还是异常结束, 它都会将对象解除固定.
