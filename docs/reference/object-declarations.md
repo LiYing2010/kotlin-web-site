@@ -181,6 +181,24 @@ val x = MyClass.Companion
 ```
 </div>
 
+直接使用一个类的名称时 (而不是将它用作另一个名称前面的限定符) 会被看作是这个类的同伴对象的引用 (无论同伴对象有没有名称):
+
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
+```kotlin
+class MyClass1 {
+    companion object Named { }
+}
+
+val x = MyClass1
+
+class MyClass2 {
+    companion object { }
+}
+
+val y = MyClass2
+```
+</div>
+
 注意, 虽然同伴对象的成员看起来很像其他语言中的类的静态成员(static member), 但在运行时期, 这些成员仍然是真实对象的实例的成员, 它们与静态成员是不同的, 举例来说, 它还可以实现接口:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
@@ -194,6 +212,8 @@ class MyClass {
         override fun create(): MyClass = MyClass()
     }
 }
+
+val f: Factory<MyClass> = MyClass
 ```
 </div>
 

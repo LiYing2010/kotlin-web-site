@@ -15,46 +15,57 @@ title: "Kotlin 与 OSGi"
 
 在 Maven 工程中引入 Kotlin OSGi bundle:
 
+<div class="sample" markdown="1" mode="xml" auto-indent="false" theme="idea" data-highlight-only>
+
 ```xml
-   <dependencies>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-osgi-bundle</artifactId>
-            <version>${kotlin.version}</version>
-        </dependency>
-    </dependencies>
+<dependencies>
+    <dependency>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <artifactId>kotlin-osgi-bundle</artifactId>
+        <version>${kotlin.version}</version>
+    </dependency>
+</dependencies>
 ```
+
+</div>
 
 从外部库中删除 Kotlin 的标准库(注意, exclusion 设置中星号只在 Maven 3 中有效):
 
-```xml
-        <dependency>
-            <groupId>some.group.id</groupId>
-            <artifactId>some.library</artifactId>
-            <version>some.library.version</version>
+<div class="sample" markdown="1" mode="xml" auto-indent="false" theme="idea" data-highlight-only>
 
-            <exclusions>
-                <exclusion>
-                    <groupId>org.jetbrains.kotlin</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+```xml
+<dependency>
+    <groupId>some.group.id</groupId>
+    <artifactId>some.library</artifactId>
+    <version>some.library.version</version>
+
+    <exclusions>
+        <exclusion>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>*</artifactId>
+        </exclusion>
+    </exclusions>
+</dependency>
 ```
+
+</div>
 
 ## Gradle
 
 在 Gradle 工程中引入 `kotlin-osgi-bundle`:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
+<div class="sample" markdown="1" mode="groovy" theme="idea">
+
 ```groovy
 compile "org.jetbrains.kotlin:kotlin-osgi-bundle:$kotlinVersion"
 ```
+
 </div>
 
 通过传递依赖, 你可能会间接依赖到一些默认的 Kotlin 库, 你可以使用以下方法删除这些库:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
+<div class="sample" markdown="1" mode="groovy" theme="idea">
+
 ```groovy
 dependencies {
  compile (
@@ -63,6 +74,7 @@ dependencies {
   exclude group: 'org.jetbrains.kotlin'
 }
 ```
+
 </div>
 
 ## FAQ

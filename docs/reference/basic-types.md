@@ -490,8 +490,8 @@ val text = """
 ```kotlin
 fun main() {
 //sampleStart
-val i = 10
-println("i = $i") // 打印结果为 "i = 10"
+    val i = 10
+    println("i = $i") // 打印结果为 "i = 10"
 //sampleEnd
 }
 ```
@@ -505,8 +505,8 @@ $ 符号之后也可以是任意的表达式, 由大括号括起:
 ```kotlin
 fun main() {
 //sampleStart
-val s = "abc"
-println("$s.length is ${s.length}") // 打印结果为 "abc.length is 3"
+    val s = "abc"
+    println("$s.length is ${s.length}") // 打印结果为 "abc.length is 3"
 //sampleEnd
 }
 ```

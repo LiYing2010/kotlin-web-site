@@ -42,7 +42,7 @@ fun main() {
 ### 覆盖由委托实现的接口成员
 
 函数和属性的 [覆盖](classes.html#overriding-methods) 会如你预期的那样工作: 编译器将会使用你的 `override` 实现, 而不会使用委托对象中的实现.
-如果我们在 `Derived` 中添加一段函数覆盖 `override fun printMessage() { print("abc") }`, 那么上面程序中调用 `print` 时的打印结果将是 "abc", 而不是 "10":
+如果我们在 `Derived` 中添加一段函数覆盖 `override fun printMessage() { print("abc") }`, 那么上面程序中调用 `printMessage` 时的打印结果将是 "abc", 而不是 "10":
 
 <div class="sample" markdown="1" theme="idea">
 

@@ -69,7 +69,9 @@ val inferredType = 1 // 属性类型为 Int, 使用默认的取值方法
 ```
 </div>
 
-我们可以编写自定义的访问方法, 与普通的函数很类似, 访问方法的位置就在属性定义体之内. 下面是一个自定义取值方法的示例:
+我们可以为属性定义自定义的访问方法.
+如果我们定义一个自定义取值方法(Getter), 那么每次读取属性值时都会调用这个方法(因此我们可以用这种方式实现一个计算得到的属性).
+下面是一个自定义取值方法的示例:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
 ```kotlin
@@ -78,6 +80,7 @@ val isEmpty: Boolean
 ```
 </div>
 
+如果我们定义一个自定义设值方法(Setter), 那么每次向属性赋值时都会调用这个方法.
 自定义设值方法的示例如下:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
@@ -162,10 +165,10 @@ public val table: Map<String, Int>
 
 ## 编译期常数值
 
-如果属性值在编译期间就能确定, 则可以使用 `const` 修饰符, 将属性标记为 _编译期常数值(compile time constants)_.
+如果属性值在编译期间就能确定, 则可以使用 *const*{: .keyword } 修饰符, 将属性标记为 _编译期常数值(compile time constants)_.
 这类属性必须满足以下所有条件:
 
-  * 必须是顶级属性, 或者是一个 `object` 的成员
+  * 必须是顶级属性, 或者是一个 [*object*{: .keyword } 声明](object-declarations.html#object-declarations) 的成员, 或者是一个 [*companion object*{: .keyword }](object-declarations.html#companion-objects) 的成员.
   * 值被初始化为 `String` 类型, 或基本类型(primitive type)
   * 不存在自定义的取值方法
 

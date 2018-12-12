@@ -22,9 +22,14 @@ a?.equals(b) ?: (b === null)
 ```
 </div>
 
-也就是说, 如果 `a` 不为 `null`, 将会调用 `equals(Any?)` 函数, 否则(也就是 `a` 为 `null`) 将会检查 `b` 是否指向 `null`.
+也就是说, 如果 `a` 不为 `null`, 将会调用 `equals(Any?)` 函数, 否则(也就是如果 `a` 为 `null`) 将会检查 `b` 是否指向 `null`.
 
 注意, 当明确地与 `null` 进行比较时, 没有必要优化代码: `a == null` 将会自动转换为 `a === null`.
+
+如果需要实现自定义的相等判断, 请覆盖 [`equals(other: Any?): Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/equals.html) 函数.
+同名但参数不同的其他函数, 比如 `equals(other: Foo)`, 不会影响到使用操作符 `==` 和 `!=` 进行的相等判断.
+
+结构相等与 `Comparable<...>` 接口定义的比较操作没有关系, 因此, 只有 `equals(Any?)` 函数的自定义实现才会影响比较操作符的结果.
 
 ## 浮点数值的相等比较
 

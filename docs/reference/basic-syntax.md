@@ -104,7 +104,7 @@ fun main() {
 
 ## 定义变量
 
-一次性赋值 (只读) 的局部变量:
+只读的局部变量使用关键字 `val` 来定义, 它们只能赋值一次:
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
@@ -122,7 +122,7 @@ fun main() {
 
 </div>
 
-值可变的变量:
+可以多次赋值的变量使用关键字 `var` 来定义:
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
@@ -639,12 +639,12 @@ fun main() {
 ```kotlin
 fun main() {
 //sampleStart
-  val fruits = listOf("banana", "avocado", "apple", "kiwifruit")
-  fruits
-    .filter { it.startsWith("a") }
-    .sortedBy { it }
-    .map { it.toUpperCase() }
-    .forEach { println(it) }
+    val fruits = listOf("banana", "avocado", "apple", "kiwifruit")
+    fruits
+      .filter { it.startsWith("a") }
+      .sortedBy { it }
+      .map { it.toUpperCase() }
+      .forEach { println(it) }
 //sampleEnd
 }
 ```

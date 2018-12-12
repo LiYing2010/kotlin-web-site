@@ -189,9 +189,14 @@ class DontCreateMe private constructor () { ... }
 </div>
 
 > **注意**: 在 JVM 中, 如果主构造器的所有参数都指定了默认值, 编译器将会产生一个额外的无参数构造器, 这个无参数构造器会使用默认参数值来调用既有的构造器. 有些库(比如 Jackson 或 JPA) 会使用无参数构造器来创建对象实例, 这个特性将使得 Kotlin 比较容易与这种库协同工作.
-> <div class="sample" markdown="1" theme="idea" data-highlight-only>
-> class Customer(val customerName: String = "")
-> </div>
+
+><div class="sample" markdown="1" theme="idea" data-highlight-only>
+>
+>```kotlin
+>class Customer(val customerName: String = "")
+>```
+>
+></div>
 
 {:.info}
 
@@ -269,7 +274,8 @@ class MyView : View {
 
 ### 方法的覆盖
 
-我们在前面提到过, 我们很注意让 Kotlin 中的一切都明白无误. 而且与 Java 不同, Kotlin 要求明确地注解来标识允许被子类覆盖的成员(我们称之为 *open*), 而且也要求明确地注解来标识对超类成员的覆盖:
+我们在前面提到过, 我们很注意让 Kotlin 中的一切都明白无误. 而且与 Java 不同,
+Kotlin 要求使用明确的修饰符来标识允许被子类覆盖的成员(我们称之为 *open*), 而且也要求使用明确的修饰符来标识对超类成员的覆盖:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
@@ -285,9 +291,11 @@ class Derived() : Base() {
 
 </div>
 
-对于 `Derived.v()` 必须添加 *override*{: .keyword } 注解. 如果遗漏了这个注解, 编译器将会报告错误. 如果一个函数没有标注 *open*{: .keyword } 注解, 比如上例中的 `Base.nv()`, 那么在子类中声明一个同名同参的方法将是非法的, 无论是否添加 *override*{: .keyword } 注解, 都不可以. 在一个 final 类(比如, 一个没有添加 *open*{: .keyword } 注解的类)中, 声明 open 成员是禁止的.
+对于 `Derived.v()` 必须添加 *override*{: .keyword } 修饰符. 如果遗漏了这个修饰符, 编译器将会报告错误.
+如果一个函数没有标注 *open*{: .keyword } 修饰符, 比如上例中的 `Base.nv()`, 那么在子类中声明一个同名同参的方法将是非法的, 无论是否添加 *override*{: .keyword } 修饰符, 都不可以.
+在一个 final 类(也就是, 没有添加 *open*{: .keyword } 修饰符的类)的成员上添加 *open*{: .keyword } 修饰符, 不会发生任何效果.
 
-当一个子类成员标记了 *override*{: .keyword } 注解来覆盖父类成员时, 覆盖后的子类成员本身也将是 open 的, 也就是说, 子类成员可以被自己的子类再次覆盖. 如果你希望禁止这种再次覆盖, 可以使用 *final*{: .keyword } 关键字:
+当一个子类成员标记了 *override*{: .keyword } 修饰符来覆盖父类成员时, 覆盖后的子类成员本身也将是 open 的, 也就是说, 子类成员可以被自己的子类再次覆盖. 如果你希望禁止这种再次覆盖, 可以使用 *final*{: .keyword } 关键字:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
@@ -455,7 +463,8 @@ class C() : A(), B {
 
 ## 抽象类
 
-类本身, 或类中的部分成员, 都可以声明为 *abstract*{: .keyword } 的. 抽象成员在类中不存在具体的实现. 注意, 我们不必对抽象类或抽象成员标注 open 注解 – 因为它显然必须是 open 的.
+类本身, 或类中的部分成员, 都可以声明为 *abstract*{: .keyword } 的. 抽象成员在类中不存在具体的实现.
+注意, 我们不必对抽象类或抽象成员标注 open 修饰符 – 因为它显然必须是 open 的.
 
 我们可以使用抽象成员来覆盖一个非抽象的 open 成员:
 

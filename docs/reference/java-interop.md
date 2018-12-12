@@ -177,6 +177,9 @@ fun toSet(elements: (Mutable)Collection<String!>) : (Mutable)Set<String!> { ... 
 
 对类型参数的注解需要 Java 8 或更高版本的编译环境, 还要求可否为 null(Nullability) 注解支持 `TYPE_USE` (从版本 15 开始, `org.jetbrains.annotations` 支持 `TYPE_USE`).
 
+> 注意: 由于目前的技术限制, 对于那些通过依赖项引入的已编译过的 Java 库, IDE 不能正确识别这种类型参数上的注解.
+{:.note}
+
 ### 对 JSR-305 规范的支持
 
 [JSR-305 规范](https://jcp.org/en/jsr/detail?id=305) 中定义了 [`@Nonnull`](https://aalmiray.github.io/jsr-305/apidocs/javax/annotation/Nonnull.html) 注解.

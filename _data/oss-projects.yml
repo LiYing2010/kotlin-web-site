@@ -66,7 +66,7 @@
 - name: Stew
   description: A simple Android app for soup.io
   type: Android App
-  url: https://github.com/exviva/stew
+  link: https://github.com/exviva/stew
 
 - name: RxKotlin
   description: Kotlin Bindings for RxJava
@@ -183,6 +183,11 @@
   type: Library
   link: https://github.com/seratch/kotliquery
 
+- name: Kotlin Playground
+  description: Self-contained component to embed in websites for running Kotlin code
+  type: Library
+  link: https://github.com/JetBrains/kotlin-playground
+
 - name: Zipangu
   description: Easy to handle the information in the prefectures of Japan in Kotlin
   type: Library
@@ -262,3 +267,8 @@
   description: type-safe dimensional analysis
   type: Library
   link: https://github.com/kunalsheth/units-of-measure
+
+- name: TornadoFX
+  description: A GUI framework for Koltin based off of JavaFX
+  type: Framework
+  link: https://tornadofx.io

@@ -181,6 +181,10 @@ data class Counter(val dayIndex: Int) {
 | `a == b` | `a?.equals(b) ?: (b === null)` |
 | `a != b` | `!(a?.equals(b) ?: (b === null))` |
 
+这些操作符是通过 [`equals(other: Any?): Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/equals.html) 函数来实现的,
+可以重载这个函数, 来实现自定义的相等判断.
+同名但不同参数的任何其他函数 (比如 `equals(other: Foo)`) 都不会被调用.
+
 *注意*: `===` 和 `!==` (同一性检查) 操作符不允许重载, 因此对这两个操作符不存在约定.
 
 `==` 操作符是特殊的: 它被翻译为一个复杂的表达式, 其中包括对 `null` 值的处理.

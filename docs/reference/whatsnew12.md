@@ -33,6 +33,7 @@ title: "Kotlin 1.2 的新增特性"
 在 common 代码中:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
+
 ```kotlin
 // 与平台相关的 API 的预期声明:
 expect fun hello(world: String): String
@@ -48,11 +49,13 @@ expect class URL(spec: String) {
     open fun getPath(): String
 }
 ```
+
 </div>
 
 在 JVM 平台的代码中:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
+
 ```kotlin
 actual fun hello(world: String): String =
     "Hello, $world, on the JVM platform!"
@@ -60,6 +63,7 @@ actual fun hello(world: String): String =
 // 使用特定平台中已存在的实现:
 actual typealias URL = java.net.URL
 ```
+
 </div>
 
 关于创建跨平台项目的详细步骤, 请参见 [相关文档](http://kotlinlang.org/docs/reference/multiplatform.html).
@@ -71,12 +75,14 @@ actual typealias URL = java.net.URL
 从 Kotlin 1.2 开始, 注解中的数组类型参数, 可以通过新的字面值语法来指定, 而不必使用 `arrayOf` 函数:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
+
 ```kotlin
 @CacheConfig(cacheNames = ["books", "default"])
 public class BookRepositoryImpl {
     // ...
 }
 ```
+
 </div>
 
 数组的字面值语法只能用于注解的参数.
@@ -104,6 +110,7 @@ fun main(args: Array<String>) {
     println("Values in the cycle: ${nodes.take(7).joinToString { it.value.toString() }}, ...")
 }
 ```
+
 </div>
 
 ### 检查一个延迟初始化的变量是否已被初始化
@@ -117,11 +124,11 @@ class Foo {
     lateinit var lateinitVar: String
 
     fun initializationLogic() {
-        //sampleStart
+//sampleStart
         println("isInitialized before assignment: " + this::lateinitVar.isInitialized)
         lateinitVar = "value"
         println("isInitialized after assignment: " + this::lateinitVar.isInitialized)    
-        //sampleEnd
+//sampleEnd
     }
 }
 
@@ -129,6 +136,7 @@ fun main(args: Array<String>) {
 	Foo().initializationLogic()
 }
 ```
+
 </div>
 
 ### 内联函数(Inline function) 的函数性参数的默认值
@@ -151,6 +159,7 @@ fun main(args: Array<String>) {
     println("customStrings = $customStrings")
 }
 ```
+
 </div>
 
 ### 显式类型转换的相关信息可被用于类型推断
@@ -161,9 +170,11 @@ Kotlin 编译器现在可以将类型转换的相关信息用于类型推断.
 这个功能对于 Android 开发者尤其重要, 因为编译器能够正确地分析 Android API level 26 的泛型方法 `findViewById` 调用:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
+
 ```kotlin
 val button = findViewById(R.id.button) as Button
 ```
+
 </div>
 
 ### 智能类型转换的功能改进
@@ -175,16 +186,16 @@ val button = findViewById(R.id.button) as Button
 
 ```kotlin
 fun countFirst(s: Any): Int {
-  //sampleStart
-  val firstChar = (s as? CharSequence)?.firstOrNull()
-  if (firstChar != null)
-    return s.count { it == firstChar } // s: Any 类型被智能转换为 CharSequence 类型
+//sampleStart
+    val firstChar = (s as? CharSequence)?.firstOrNull()
+    if (firstChar != null)
+      return s.count { it == firstChar } // s: Any 类型被智能转换为 CharSequence 类型
 
-  val firstItem = (s as? Iterable<*>)?.firstOrNull()
-  if (firstItem != null)
-    return s.count { it == firstItem } // s: Any 类型被智能转换为 Iterable<*> 类型
-  //sampleEnd
-  return -1
+    val firstItem = (s as? Iterable<*>)?.firstOrNull()
+    if (firstItem != null)
+      return s.count { it == firstItem } // s: Any 类型被智能转换为 Iterable<*> 类型
+//sampleEnd
+    return -1
 }
 
 fun main(args: Array<String>) {
@@ -197,6 +208,7 @@ fun main(args: Array<String>) {
   println("called on $list: $countInList")
 }
 ```
+
 </div>
 
 此外, 如果局部变量值的修改只发生在一个 lambda 表达式之前, 那么在这个 lambda 表达式之内, 这个局部变量也可以被智能类型转换:
@@ -205,7 +217,7 @@ fun main(args: Array<String>) {
 
 ```kotlin
 fun main(args: Array<String>) {
-    //sampleStart
+//sampleStart
     val flag = args.size == 0
     var x: String? = null
     if (flag) x = "Yahoo!"
@@ -215,9 +227,10 @@ fun main(args: Array<String>) {
             println(x.length) // x 被智能转换为 String 类型
         }
     }
-    //sampleEnd
+//sampleEnd
 }
 ```
+
 </div>
 
 ### 允许将 this::foo 简写为 ::foo
@@ -250,9 +263,11 @@ Kotlin 1.2 修正了这个问题, 对智能类型转换的限制变得更加严�
 请使用展开(spread)操作符和创建数组的工厂函数:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
+
 ```kotlin
 foo(items = *intArrayOf(1))
 ```
+
 </div>
 
 此时编译器会优化代码, 删除多余的数组创建过程, 因此不会发生性能损失.
@@ -292,7 +307,7 @@ Kotlin 标准库现在开始完全兼容 Java 9 的模块系统(module system), 
 
 ```kotlin
 fun main(args: Array<String>) {
-    //sampleStart
+//sampleStart
     val items = (1..9).map { it * it }
 
     val chunkedIntoLists = items.chunked(4)
@@ -300,7 +315,7 @@ fun main(args: Array<String>) {
     val windowed = items.windowed(4)
     val slidingAverage = items.windowed(4) { it.average() }
     val pairwiseDifferences = items.zipWithNext { a, b -> b - a }
-    //sampleEnd
+//sampleEnd
 
     println("items: $items\n")
 
@@ -311,6 +326,7 @@ fun main(args: Array<String>) {
     println("pairwise differences: $pairwiseDifferences")
 }
 ```
+
 </div>
 
 ### fill, replaceAll, shuffle/shuffled
@@ -322,7 +338,7 @@ fun main(args: Array<String>) {
 
 ```kotlin
 fun main(args: Array<String>) {
-    //sampleStart
+//sampleStart
     val items = (1..5).toMutableList()
 
     items.shuffle()
@@ -333,9 +349,10 @@ fun main(args: Array<String>) {
 
     items.fill(5)
     println("Items filled with 5: $items")
-    //sampleEnd
+//sampleEnd
 }
 ```
+
 </div>
 
 ### kotlin-stdlib 中的数学运算
@@ -449,9 +466,11 @@ Kotlin 1.2 在调用端强制执行 null 值检查, 如果接受者为 null, 会
 方法是, 在命令行使用 `-Werror` 参数, 或者在 Gradle 编译脚本中添加以下代码:
 
 <div class="sample" markdown="1" mode="groovy" theme="idea">
+
 ```groovy
 compileKotlin {
     kotlinOptions.allWarningsAsErrors = true
 }
 ```
+
 </div>

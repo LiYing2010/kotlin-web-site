@@ -83,13 +83,13 @@ fun main() {
 <div class="sample" markdown="1" theme="idea">
 ```kotlin
 fun main() {
-    //sampleStart
+//sampleStart
     fun isOdd(x: Int) = x % 2 != 0
     fun isOdd(s: String) = s == "brillig" || s == "slithy" || s == "tove"
 
     val numbers = listOf(1, 2, 3)
     println(numbers.filter(::isOdd)) // 指向 isOdd(x: Int) 函数
-    //sampleEnd
+//sampleEnd
 }
 ```
 </div>
@@ -109,7 +109,7 @@ val predicate: (String) -> Boolean = ::isOdd   // 指向 isOdd(x: String) 函数
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```kotlin
-val isEmptyStringList: List<String>.() -> Boolean = List::isEmpty
+val isEmptyStringList: List<String>.() -> Boolean = List<String>::isEmpty
 ```
 </div>
 
