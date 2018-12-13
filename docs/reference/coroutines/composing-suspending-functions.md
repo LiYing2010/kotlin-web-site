@@ -6,7 +6,7 @@ title: "挂起函数(Suspending Function)的组合"
 ---
 
 
-<!--- INCLUDE .*/example-([a-z]+)-([0-9a-z]+)\.kt 
+<!--- INCLUDE .*/example-([a-z]+)-([0-9a-z]+)\.kt
 /*
  * Copyright 2016-2018 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license.
  */
@@ -22,9 +22,9 @@ package kotlinx.coroutines.guide.test
 import org.junit.Test
 
 class ComposingGuideTest {
---> 
+-->
 
-## 目录
+**目录**
 
 <!--- TOC -->
 
@@ -62,8 +62,8 @@ suspend fun doSomethingUsefulTwo(): Int {
 
 </div>
 
-如果需要 _连续地_ 调用这两个函数 -- 首先需要调用 `doSomethingUsefulOne` _然后再调用_ 
-`doSomethingUsefulTwo`, 并且计算这两个函数结果的总和, 那么我们应该怎么做呢? 
+如果需要 _连续地_ 调用这两个函数 -- 首先需要调用 `doSomethingUsefulOne` _然后再调用_
+`doSomethingUsefulTwo`, 并且计算这两个函数结果的总和, 那么我们应该怎么做呢?
 实际应用中, 我们可能需要使用第一个函数的结果来做一些判断, 决定是否需要调用第二个函数, 或者决定应该如何调用第二个函数.
 
 我们使用一个通常的连续调用, 因为在协程内的代码, 就好象通常的代码一样, 默认就是 _连续_ 的.
@@ -114,13 +114,13 @@ Completed in 2017 ms
 
 ### 使用 async 并发执行
 
-如果在 `doSomethingUsefulOne` 和 `doSomethingUsefulTwo` 的调用之间不存在依赖关系, 我们想要 _并发地_ 执行这两个函数, 以便更快得到结果, 那么应该怎么做? 这时 [async] 可以帮助我们. 
- 
+如果在 `doSomethingUsefulOne` 和 `doSomethingUsefulTwo` 的调用之间不存在依赖关系, 我们想要 _并发地_ 执行这两个函数, 以便更快得到结果, 那么应该怎么做? 这时 [async] 可以帮助我们.
+
 概念上来说, [async] 就好象 [launch] 一样. 它启动一个独立的协程, 也就是一个轻量的线程, 与其他所有协程一起并发执行. 区别在于,  `launch` 返回一个 [Job], 其中不带有结果值, 而 `async` 返回一个 [Deferred] -- 一个轻量的, 非阻塞的 future, 代表一个未来某个时刻可以得到的结果值. 你可以对一个延期值(deferred value)使用 `.await()` 来得到它最终的计算结果, 但 `Deferred` 同时也是一个 `Job`, 因此如果需要的话, 你可以取消它.
- 
+
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
- 
+
 ```kotlin
 import kotlinx.coroutines.*
 import kotlin.system.*
@@ -160,12 +160,12 @@ Completed in 1017 ms
 
 <!--- TEST ARBITRARY_TIME -->
 
-执行速度快了 2 倍, 因为我们让两个协程并发执行. 
+执行速度快了 2 倍, 因为我们让两个协程并发执行.
 注意, 协程的并发总是需要明确指定的.
 
 ### 延迟启动的(Lazily started) async
 
-将可选的 `start` 参数设置为 [CoroutineStart.LAZY], 可以让 [async] 延迟启动. 
+将可选的 `start` 参数设置为 [CoroutineStart.LAZY], 可以让 [async] 延迟启动.
 只有在通过 [await][Deferred.await] 访问协程的计算结果的时候, 或者调用 [start][Job.start] 函数的时候, 才会真正启动协程.
 试着运行一下下面的示例程序:
 
@@ -213,9 +213,9 @@ Completed in 1017 ms
 
 <!--- TEST ARBITRARY_TIME -->
 
-在上面的示例程序中, 我们定义了两个协程, 但并没有开始执行, 程序员负责决定什么时候调用 [start][Job.start] 函数来明确地启动协程的执行. 我们先启动了 `one`, 然后启动了 `two`, 然后等待两个协程分别结束. 
+在上面的示例程序中, 我们定义了两个协程, 但并没有开始执行, 程序员负责决定什么时候调用 [start][Job.start] 函数来明确地启动协程的执行. 我们先启动了 `one`, 然后启动了 `two`, 然后等待两个协程分别结束.
 
-注意, 如果我们在 `println` 内调用 [await][Deferred.await], 而省略了对各个协程的 [start][Job.start] 调用, 那么两个协程的执行结果将会是连续的, 而不是并行的, 因为 [await][Deferred.await] 会启动协程并一直等待执行结束, 这并不是我们使用延迟加载功能时期望的效果. 
+注意, 如果我们在 `println` 内调用 [await][Deferred.await], 而省略了对各个协程的 [start][Job.start] 调用, 那么两个协程的执行结果将会是连续的, 而不是并行的, 因为 [await][Deferred.await] 会启动协程并一直等待执行结束, 这并不是我们使用延迟加载功能时期望的效果.
 如果计算中使用到的值来自挂起函数的话, 可以使用 `async(start = CoroutineStart.LAZY)` 来代替标准的 `lazy` 函数.
 
 ### async 风格的函数
@@ -241,13 +241,13 @@ fun somethingUsefulTwoAsync() = GlobalScope.async {
 
 注意, 这些 `xxxAsync` 函数 **不是** _挂起_ 函数. 这些函数可以在任何地方使用.
 但是, 使用这些函数总是会隐含着异步执行(这里的意思是 _并发_)它内部的动作.
- 
+
 下面的示例程序演示在协程之外使用这类函数:  
 
 <!--- CLEAR -->
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
- 
+
 ```kotlin
 import kotlinx.coroutines.*
 import kotlin.system.*
@@ -299,7 +299,7 @@ Completed in 1085 ms
 
 > 在这个例子中展示的这种使用异步函数的编程风格只是为了演示目的, 但在其他编程语言中是一种很流行的风格. 我们 **强烈不鼓励** 在 Kotlin 协程中使用这种编程风格, 具体原因将在下文中解释.
 
-考虑一下, 如果在 `val one = somethingUsefulOneAsync()` 和 `one.await()` 表达式之间, 代码存在某种逻辑错误, 程序抛出了一个异常, 程序的操作中止了, 那么会怎么样. 
+考虑一下, 如果在 `val one = somethingUsefulOneAsync()` 和 `one.await()` 表达式之间, 代码存在某种逻辑错误, 程序抛出了一个异常, 程序的操作中止了, 那么会怎么样.
 通常来说, 一个全局的错误处理器可以捕获这个异常, 将这个错误输出到 log, 报告给开发者, 但程序仍然可以继续运行, 执行其他的操作.
 但在这里, 尽管负责启动 `somethingUsefulOneAsync` 的那部分程序其实已经中止了, 但它仍然会在后台继续运行. 如果使用结构化并发(structured concurrency)方式话, 就不会发生这种问题, 下面我们来介绍这种方式.
 
@@ -325,7 +325,7 @@ suspend fun concurrentSum(): Int = coroutineScope {
 <!--- CLEAR -->
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
- 
+
 ```kotlin
 import kotlinx.coroutines.*
 import kotlin.system.*
@@ -360,7 +360,7 @@ suspend fun doSomethingUsefulTwo(): Int {
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/core/kotlinx-coroutines-core/test/guide/example-compose-05.kt)
 
-上面的 main 函数的输出结果如下, 显然可以看出, 两个函数的执行仍然是并发的: 
+上面的 main 函数的输出结果如下, 显然可以看出, 两个函数的执行仍然是并发的:
 
 ```text
 The answer is 42
@@ -387,7 +387,7 @@ fun main() = runBlocking<Unit> {
 }
 
 suspend fun failedConcurrentSum(): Int = coroutineScope {
-    val one = async<Int> { 
+    val one = async<Int> {
         try {
             delay(Long.MAX_VALUE) // 模拟一个长时间的计算过程
             42
@@ -395,7 +395,7 @@ suspend fun failedConcurrentSum(): Int = coroutineScope {
             println("First child was cancelled")
         }
     }
-    val two = async<Int> { 
+    val two = async<Int> {
         println("Second child throws an exception")
         throw ArithmeticException()
     }
