@@ -314,7 +314,7 @@ Completed in 1085 ms
 suspend fun concurrentSum(): Int = coroutineScope {
     val one = async { doSomethingUsefulOne() }
     val two = async { doSomethingUsefulTwo() }
-     one.await() + two.await()
+    one.await() + two.await()
 }
 ```
 
@@ -342,7 +342,7 @@ fun main() = runBlocking<Unit> {
 suspend fun concurrentSum(): Int = coroutineScope {
     val one = async { doSomethingUsefulOne() }
     val two = async { doSomethingUsefulTwo() }
-     one.await() + two.await()
+    one.await() + two.await()
 }
 
 suspend fun doSomethingUsefulOne(): Int {
@@ -399,7 +399,7 @@ suspend fun failedConcurrentSum(): Int = coroutineScope {
         println("Second child throws an exception")
         throw ArithmeticException()
     }
-        one.await() + two.await()
+    one.await() + two.await()
 }
 ```
 
