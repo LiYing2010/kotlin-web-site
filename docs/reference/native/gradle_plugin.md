@@ -53,12 +53,12 @@ apply plugin: 'org.jetbrains.kotlin.platform.native'
 
 </div>
 
-默认情况下, 插件第一次运行时会下载 Kotlin/Native 编译器. 如果你已经手动下载过编译器, 你可以使用项目属性 `konan.home` 来指定编译器根路径 (比如, 在 `gradle.properties` 文件中指定).
+默认情况下, 插件第一次运行时会下载 Kotlin/Native 编译器. 如果你已经手动下载过编译器, 你可以使用项目属性 `org.jetbrains.kotlin.native.home` 来指定编译器根路径 (比如, 在 `gradle.properties` 文件中指定).
 
 <div class="sample" markdown="1" theme="idea" mode="groovy">
 
 ```groovy
-konan.home=/home/user/kotlin-native-0.8
+org.jetbrains.kotlin.native.home=/home/user/kotlin-native-0.8
 ```
 
 </div>
@@ -449,7 +449,7 @@ components.main {
             includeDirs "include/directory" "another/directory"
 
             // 传递给 cinterop 工具的其他命令行选项.
-            extraOpts '-shims', 'true'
+            extraOpts '-verbose'
 
             // 对 Linux 平台的其他配置.
             target('linux') {

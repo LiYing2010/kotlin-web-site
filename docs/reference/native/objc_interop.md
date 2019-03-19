@@ -222,8 +222,6 @@ val nsNumber = 42 as NSNumber
 ### 在 Swift/Objective-C 中继承 Kotlin 类和接口
 
 Swift/Objective-C 类和 protocol 可以继承 Kotlin 类和接口.
-目前, 实现 Kotlin protocol 的类应该继承 `NSObject`(无论直接继承还是间接继承).
-注意, 所有的 Kotlin 类都继承 `NSObject`, 因此 Kotlin 类在 Swift/Objective-C 中的子类都可以实现 Kotlin protocol.
 
 ### 在 Kotlin 中继承 Swift/Objective-C 类和接口
 

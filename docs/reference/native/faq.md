@@ -54,7 +54,7 @@ A: 由于 Kotlin/Native 需要下载各平台相关的工具链, 因此你需要
 
 ### Q: 我要怎样为我的 Kotlin 框架指定自定义的 Objective-C 前缀?
 
-A: 可以使用编译器的 `-module_name` 选项, 或对应的 Gradle DSL 语句, 即:
+A: 可以使用编译器的 `-module-name` 选项, 或对应的 Gradle DSL 语句, 即:
 
 <div class="sample" markdown="1" theme="idea" mode="groovy">
 
@@ -62,7 +62,7 @@ A: 可以使用编译器的 `-module_name` 选项, 或对应的 Gradle DSL 语�
 targets {
     fromPreset(presets.iosArm64, 'myapp') {
        compilations.main.outputKinds 'FRAMEWORK'
-       compilations.main.extraOpts '-module_name', 'TheName'
+       compilations.main.extraOpts '-module-name', 'TheName'
     }
 }
 ```
@@ -71,16 +71,21 @@ targets {
 
 ### Q: 我要怎样对我的 Kotlin 框架启用 bitcode?
 
-A: 可以使用编译器的 `-Xembed-bitcode` 或 `-Xembed-bitcode-marker`, 或对应的 Gradle DSL 语句, 即:.
+A: gradle plugin 默认会将 bitcode 添加到 iOS 编译目标中.
+ * 对于 debug 版, gradle plugin 会将 LLVM IR 数据占位器(placeholder)作为标记(marker)嵌入.
+ * 对于 release 版, gradle plugin 会将 bitcode 作为数据嵌入.
 
+或者使用编译器参数: `-Xembed-bitcode` (用于 release 版) 和 `-Xembed-bitcode-marker` (用于 debug 版)
+
+使用 Gradle DSL 的设置如下:
 <div class="sample" markdown="1" theme="idea" mode="groovy">
 
 ```groovy
 targets {
     fromPreset(presets.iosArm64, 'myapp') {
        compilations.main.outputKinds 'FRAMEWORK'
-       compilations.main.extraOpts '-Xembed-bitcode' // 对 release 版二进制文件请使用这个命令
-       // 对 debug 版二进制文件请使用 '-Xembed-bitcode-marker'
+       compilations.main.embedBitcode BitcodeEmbeddingMode.BITCODE // 对 release 版二进制文件请使用这个命令
+       // 对 debug 版二进制文件请使用 BitcodeEmbeddingMode.MARKER
 }
 ```
 
@@ -102,8 +107,7 @@ A: 目前, 单子对象都是不可修改的(也就是, 创建后就被冻结), 
 
 ### Q: 我要怎样使用 Kotlin/Native 的 `master` 分支上的最新版本来编译我的项目?
 
-A: 我们会非常频繁的发布开发中的版本, 通常一周至少发布一次. 你可以查看 [可用的版本列表](https://bintray.com/jetbrains/kotlin-native-dependencies/kotlin-native-gradle-plugin).
-但是如果我们最近修复了错误, 你希望在最新版发布之前就使用它, 那么你可以:
+A: 请使用以下任何一种方法:
 
 <details>
 
@@ -135,8 +139,8 @@ export KONAN_REPO=$PWD/../kotlin-native
 # 这个命令请只执行一次, 因为它会消耗大量时间, 如果上一次执行完毕之后没有发生大的修改, 那么你可以删除 `clean` 任务
 pushd $KONAN_REPO && git pull && ./gradlew clean dependencies:update dist distPlatformLibs && popd
 
-#在你的项目内, 你需要设置 konan.home 属性, 然后把 shared 和 gradle-plugin 作为复合编译引入进来
-./gradlew check -Pkonan.home=$KONAN_REPO/dist --include-build $KONAN_REPO/shared --include-build $KONAN_REPO/tools/kotlin-native-gradle-plugin
+#在你的项目内, 你需要设置 org.jetbrains.kotlin.native.home 属性, 然后把 shared 和 gradle-plugin 作为复合编译引入进来
+./gradlew check -Porg.jetbrains.kotlin.native.home=$KONAN_REPO/dist --include-build $KONAN_REPO/shared --include-build $KONAN_REPO/tools/kotlin-native-gradle-plugin
 ```
 
 </div>

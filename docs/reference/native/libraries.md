@@ -46,7 +46,7 @@ $ kotlinc qux.kt -l bar
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
 ```bash
-$ cinterop -def  samples/gitchurn/src/main/c_interop/libgit2.def -compilerOpts -I/usr/local/include -o libgit2
+$ cinterop -def  samples/gitchurn/src/nativeInterop/cinterop/libgit2.def -compilerOpts -I/usr/local/include -o libgit2
 ```
 
 </div>

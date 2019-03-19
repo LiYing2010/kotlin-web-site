@@ -36,7 +36,7 @@ import platform.posix.*
 ### 流行的原生库
 
 对于本机编译平台或交叉编译(cross-compilation)平台, 有很多可用的平台库.
-`Kotlin/Native` 发布版, 在可用的平台上提供了对 `OpenGL`, `SDL`, `zlib` 以及其他流行的原生库的访问能力.
+`Kotlin/Native` 发布版, 在可用的平台上提供了对 `OpenGL`, `zlib` 以及其他流行的原生库的访问能力.
 
 在 Apple 平台, 提供了 `objc` 库, 用于与 [Objective-C](https://en.wikipedia.org/wiki/Objective-C) 交互.
 
