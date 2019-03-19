@@ -38,8 +38,8 @@ Kotlin 允许你将 Kotlin 工程编译为 JavaScript 模块(module), 支持各�
 
 ```xml
 <plugin>
-    <artifactId>kotlin-maven-plugin</artifactId>
     <groupId>org.jetbrains.kotlin</groupId>
+    <artifactId>kotlin-maven-plugin</artifactId>
     <version>${kotlin.version}</version>
     <executions>
         <execution>

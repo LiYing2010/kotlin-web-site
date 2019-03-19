@@ -52,7 +52,7 @@ val demo = Outer().Inner().foo() // == 1
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
 ```kotlin
-window.addMouseListener(object: MouseAdapter() {
+window.addMouseListener(object : MouseAdapter() {
     override fun mouseClicked(e: MouseEvent) { ... }
 
     override fun mouseEntered(e: MouseEvent) { ... }

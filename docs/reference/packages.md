@@ -50,7 +50,7 @@ class Goo { ... }
 ## 导入(Import)
 
 除默认导入(Import)的内容之外, 各源代码可以包含自己独自的 import 指令.
-import 指令的语法请参见 [语法](grammar.html#import).
+import 指令的语法请参见 [语法](https://kotlinlang.org/docs/reference/grammar.html#importHeader).
 
 我们可以导入一个单独的名称, 比如
 

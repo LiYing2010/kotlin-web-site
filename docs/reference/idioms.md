@@ -299,7 +299,7 @@ fun transform(color: String): Int = when (color) {
 ```
 </div>
 
-### 在同一个对象实例上调用多个方法('with' 语句)
+### 在同一个对象实例上调用多个方法(`with` 语句)
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```kotlin
@@ -321,6 +321,7 @@ with(myTurtle) { // 描绘一个边长 100 像素的正方形
 }
 ```
 </div>
+
 
 ### 类似 Java 7 中针对资源的 try 语句
 
@@ -356,5 +357,15 @@ if (b == true) {
 } else {
     // `b` 为 false 或为 null
 }
+```
+</div>
+
+### 交换两个变量的值
+
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
+```kotlin
+var a = 1
+var b = 2
+a = b.also { b = a }
 ```
 </div>

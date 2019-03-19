@@ -302,7 +302,7 @@ fun <T> singletonList(item: T): List<T> {
     // ...
 }
 
-fun <T> T.basicToString() : String {  // 扩展函数
+fun <T> T.basicToString(): String {  // 扩展函数
     // ...
 }
 ```
@@ -370,6 +370,9 @@ fun <T> copyWhenGreater(list: List<T>, threshold: T): List<String>
 ```
 
 </div>
+
+传入的类型必须同时满足 `where` 子句中的所有条件.
+在上面的示例中, `T` 类型必须 *同时* 实现 `CharSequence` 和 `Comparable` 接口.
 
 ## 类型擦除
 

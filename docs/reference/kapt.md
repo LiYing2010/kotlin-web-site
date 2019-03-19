@@ -9,13 +9,39 @@ title: "使用 kapt"
 Kotlin 使用 *kapt* 编译器插件来支持注解处理器(参见 [JSR 269](https://jcp.org/en/jsr/detail?id=269)).
 注: kapt 是 "Kotlin annotation processing tool" 的缩写
 
-胆略地说, 你可以在你的 Kotlin 项目中使用 [Dagger](https://google.github.io/dagger/) 或 [Data Binding](https://developer.android.com/topic/libraries/data-binding/index.html) 之类的库.
+大略地说, 你可以在你的 Kotlin 项目中使用 [Dagger](https://google.github.io/dagger/) 或 [Data Binding](https://developer.android.com/topic/libraries/data-binding/index.html) 之类的库.
 
 关于如何在你的 Gradle/Maven 编译脚本中使用 *kapt* 插件, 请阅读下文.
 
 ## 在 Gradle 中使用
 
 应用 `kotlin-kapt` Gradle plugin:
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+plugins {
+    id "org.jetbrains.kotlin.kapt" version "{{ site.data.releases.latest.version }}"
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+plugins {
+    kotlin("kapt") version "{{ site.data.releases.latest.version }}"
+}
+```
+
+</div>
+</div>
+
+你也可以使用 `apply plugin` 语法:
 
 <div class="sample" markdown="1" mode="groovy" theme="idea">
 
@@ -25,21 +51,10 @@ apply plugin: 'kotlin-kapt'
 
 </div>
 
-你也可以使用 plugin DSL 语法:
-
-<div class="sample" markdown="1" mode="groovy" theme="idea">
-
-```groovy
-plugins {
-    id "org.jetbrains.kotlin.kapt" version "{{ site.data.releases.latest.version }}"
-}
-```
-
-</div>
-
 然后在你的 `dependencies` 块中使用 `kapt` 配置来添加对应的依赖:
 
-<div class="sample" markdown="1" mode="groovy" theme="idea">
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
 
 ```groovy
 dependencies {
@@ -47,6 +62,19 @@ dependencies {
 }
 ```
 
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+dependencies {
+    kapt("groupId:artifactId:version")
+}
+```
+
+</div>
 </div>
 
 
@@ -67,6 +95,22 @@ kapt {
     arguments {
         arg("key", "value")
     }
+}
+```
+
+</div>
+
+## 支持 Gradle 编译缓存 (从 1.2.20 版开始支持)
+
+kapt 注解处理任务默认情况下不会 [被 Gradle 缓存](https://guides.gradle.org/using-build-cache/).
+因为注解处理器可以运行任意代码, 并不一定只是将编译任务的输入文件转换为输出文件, 它还可能访问并修改未被 Gradle 追踪的其他文件.
+如果确实需要为 kapt 启用 Gradle 编译缓存, 请将以下代码加入到你的编译脚本中:
+
+<div class="sample" markdown="1" mode="groovy" theme="idea">
+
+```groovy
+kapt {
+    useBuildCache = true
 }
 ```
 

@@ -49,7 +49,7 @@ fun powerOf(number: Int, exponent: Int) { ... }
 
 ### 默认参数
 
-函数参数可以指定默认值, 当参数省略时, 就会使用默认值. 与其他语言相比, 这种功能使得我们可以减少大量的 重载(overload)函数定义:
+函数参数可以指定默认值, 当参数省略时, 就会使用默认值. 与其他语言相比, 这种功能使得我们可以减少大量的重载(overload)函数定义:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```kotlin
@@ -84,14 +84,16 @@ foo(baz = 1) // 这里将会使用默认参数 bar = 0
 ```
 </div>
 
-但是, 如果最后一个参数是 [lambda 表达式](lambdas.html#lambda-expression-syntax), 并且在调用函数时在括号之外传递这个 lambda 表达式, 此时可以对默认参数不指定参数值:
+如果默认参数之后的最后一个参数是 [lambda 表达式](lambdas.html#lambda-expression-syntax), 那么这个 lambda 表达式可以使用命名参数的方式传递, 也可以[在括号之外传递](lambdas.html#passing-a-lambda-to-the-last-parameter):
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```kotlin
 fun foo(bar: Int = 0, baz: Int = 1, qux: () -> Unit) { ... }
 
-foo(1) { println("hello") } // 这里将会使用默认参数 baz = 1
-foo { println("hello") }    // 这里将会使用默认参数 bar = 0 和 baz = 1
+foo(1) { println("hello") }     // 这里将会使用默认参数 baz = 1
+foo(qux = { println("hello") }) // 这里将会使用默认参数 bar = 0 和 baz = 1
+foo { println("hello") }        // 这里将会使用默认参数 bar = 0 和 baz = 1
+
 ```
 </div>
 

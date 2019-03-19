@@ -51,7 +51,7 @@ val max = if (a > b) {
 
 如果你将 *if*{: .keyword } 作为表达式来使用(比如, 将它的值作为函数的返回值, 或将它的值赋值给一个变量), 而不是用作普通的流程控制语句, 这种情况下 *if*{: .keyword } 表达式必须有 `else` 分支.
 
-参见 [*if*{: .keyword } 语法](grammar.html#if).
+参见 [*if*{: .keyword } 语法](https://kotlinlang.org/docs/reference/grammar.html#ifExpression).
 
 ## when 表达式
 
@@ -163,7 +163,7 @@ fun Request.getBody() =
 
 由 *when*{: .keyword} 引入的这个变量, 它的有效范围仅限于 *when*{: .keyword} 语句之内.
 
-参见 [*when*{: .keyword } 语法](grammar.html#when).
+参见 [*when*{: .keyword } 语法](https://kotlinlang.org/docs/reference/grammar.html#whenExpression).
 
 
 ## for 循环
@@ -253,7 +253,7 @@ fun main() {
 
 </div>
 
-参见 [*for*{: .keyword } 语法](grammar.html#for).
+参见 [*for*{: .keyword } 语法](https://kotlinlang.org/docs/reference/grammar.html#forStatement).
 
 ## while 循环
 
@@ -273,7 +273,7 @@ do {
 
 </div>
 
-参见 [*while*{: .keyword } 语法](grammar.html#while).
+参见 [*while*{: .keyword } 语法](https://kotlinlang.org/docs/reference/grammar.html#whileStatement).
 
 ## 循环的中断(break)与继续(continue)
 

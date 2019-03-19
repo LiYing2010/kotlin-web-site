@@ -65,7 +65,6 @@ fun main() {
 
 但是, 对于内联类的成员存在一些限制:
 * 内联类不能拥有 *init*{: .keyword } 代码段
-* 内联类不能拥有 *inner*{: .keyword } 类
 * 内联类的属性不能拥有 [后端域变量](properties.html#backing-fields)
     * 因此, 内联类只能拥有简单的计算属性 (不能拥有延迟初始化属性或委托属性)
 
@@ -185,8 +184,8 @@ fun main() {
     acceptString(nameInlineClass) // 错误: 需要底层类型的地方, 不能传入内联类
 
     // 反过来:
-    acceptNameTypeAlias("") // 正确: 需要类型别名的地方, 可以传入底层类型
-    acceptNameInlineClass("") // 错误: 需要内联类的地方, 不能传入底层类型
+    acceptNameTypeAlias(string) // 正确: 需要类型别名的地方, 可以传入底层类型
+    acceptNameInlineClass(string) // 错误: 需要内联类的地方, 不能传入底层类型
 }
 ```
 

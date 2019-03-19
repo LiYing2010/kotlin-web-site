@@ -527,7 +527,7 @@ Kotlin 1.3 开始在 IDE 中支持 [推荐的代码风格](coding-conventions.ht
 以前它曾是一个独立的项目, 但从 Kotlin 1.3 起, 它和其他编译器 plugin 一样, 随 Kotlin 编译器一起发布.
 主要的区别是, 你不需要手工维护 IDE 的序列化 Plugin 与你使用的 Kotlin IDE Plugin 之间的版本兼容问题: 因为现在 Kotlin IDE Plugin 已经包含了序列化功能!
 
-详情请参见 [参考文档](https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/eap13.md).
+详情请参见 [参考文档](https://github.com/Kotlin/kotlinx.serialization#current-project-status).
 
 > 注意, 虽然现在 kotlinx.serialization 与 Kotlin 编译器一起发布, 但它仍然是一个实验性功能.
 {:.note}

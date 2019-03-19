@@ -99,16 +99,16 @@ Kotlin 受到各种既有语言的启发, 比如 Java, C#, JavaScript, Scala 以
 
 ### Kotlin 的开发者是谁?
 
-Kotlin 主要是由 JetBrains 公司的一个工程师团队(目前 40+ 人)开发的. 语言设计的领导者是 [Andrey Breslav](https://twitter.com/abreslav). 除了这个核心团队之外, 在 GitHub 上还有超过 100 人的外部贡献者.
+Kotlin 主要是由 JetBrains 公司的一个工程师团队(目前 50+ 人)开发的. 语言设计的领导者是 [Andrey Breslav](https://twitter.com/abreslav). 除了这个核心团队之外, 在 GitHub 上还有超过 250 人的外部贡献者.
 
 ### 在哪里可以得到 Kotlin 的更多信息?
 
 最好从 [这个网站](https://kotlinlang.org) 开始. 在这里, 你可以下载编译器, [在线试运行代码](https://play.kotlinlang.org), 访问各种资源,
 阅读 [参考文档](index.html) 和 [教程](https://kotlinlang.org/docs/tutorials/index.html).
 
-### 有关于 Kotlin 的书吗?
+### 有关于 Kotlin 的书籍吗?
 
-关于 Kotlin, 已经有了 [很多书](/docs/books.html), 包括 Kotlin 开发组成员 Dmitry Jemerov 和 Svetlana Isakova 编写的 [Kotlin 实战(Kotlin in Action)](https://www.manning.com/books/kotlin-in-action), 以及针对 Android 开发者的 [面向 Android 的 Kotlin 手册(Kotlin for Android Developers)](https://leanpub.com/kotlin-for-android-developers).
+关于 Kotlin, 已经有了 [很多书籍](https://kotlinlang.org/docs/books.html), 包括 Kotlin 开发组成员 Dmitry Jemerov 和 Svetlana Isakova 编写的 [Kotlin 实战(Kotlin in Action)](https://www.manning.com/books/kotlin-in-action), 以及针对 Android 开发者的 [面向 Android 的 Kotlin 手册(Kotlin for Android Developers)](https://leanpub.com/kotlin-for-android-developers).
 
 ### 有关于 Kotlin 的在线课程吗?
 
@@ -125,18 +125,18 @@ Hadi Hariri 的 [O’Reilly 课程](http://shop.oreilly.com/product/063692005298
 
 ### 有 Kotlin 开发者活动吗?
 
-是的. 有很多专注于 Kotlin 的用户组, 以及聚会活动. 你可以 [在这个网站](/community/user-groups.html) 找到这类活动的列表.
-此外, 还有 Kotlin 开发者社区在世界各地组织的 [Kotlin 之夜](/community/kotlin-nights.html) 活动.
+是的. 有很多专注于 Kotlin 的用户组, 以及聚会活动. 你可以 [在这个网站](https://kotlinlang.org/user-groups/user-group-list.html) 找到这类活动的列表.
+此外, 还有 Kotlin 开发者社区在世界各地组织的 [Kotlin 之夜](https://kotlinlang.org/community/kotlin-nights.html) 活动.
 
 ### 有 Kotlin 开发者大会吗?
 
 是的. 官方的 [Kotlin 开发者大会](https://kotlinconf.com) 由 JetBrains 公司每年举办一次.
 [2017 年](https://kotlinconf.com/2017/) 在 San-Francisco 举行, 2018 年在 Amsterdam 举行.
-在世界各地的各种开发者大会中也会涉及到 Kotlin. 你可以[在这个网站](/community/talks.html?time=upcoming) 找到即将举行的演讲列表.
+在世界各地的各种开发者大会中也会涉及到 Kotlin. 你可以[在这个网站](https://kotlinlang.org/community/talks.html?time=upcoming) 找到即将举行的演讲列表.
 
-### Kotlin 有上社交媒体吗?
+### Kotlin 有社交媒体帐号吗?
 
-是的. 最活跃的 Kotlin 帐号是 [Twitter 帐号](https://twitter.com/kotlin). 此外还有一个 [Google+ 组](https://plus.google.com/communities/104597899765146112928).
+是的. 最活跃的 Kotlin 帐号是 [Twitter 帐号](https://twitter.com/kotlin).
 
 ### 还有关于 Kotlin 的其他在线资源吗?
 

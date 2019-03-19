@@ -81,7 +81,7 @@ internal actual fun writeLogMessage(message: String, logLevel: LogLevel) {
 
 ## 跨平台的库
 
-共通代码可能依赖与一系列的库, 用来实现各种常见任务, 比如 [HTTP](http://ktor.io/clients/http-client/multiplatform.html), [序列化](https://github.com/Kotlin/kotlinx.serialization), 以及 [管理协程](https://github.com/Kotlin/kotlinx.coroutines).
+共通代码可能依赖于一系列的库, 用来实现各种常见任务, 比如 [HTTP](http://ktor.io/clients/http-client/multiplatform.html), [序列化](https://github.com/Kotlin/kotlinx.serialization), 以及 [管理协程](https://github.com/Kotlin/kotlinx.coroutines).
 而且, 所有的平台都提供了内容广泛的标准库.
 
 你也可以编写你自己的库, 提供共通的 API, 并在各个平台上提供不同的实现.

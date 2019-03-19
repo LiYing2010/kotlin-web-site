@@ -88,7 +88,7 @@ val l = if (b != null) b.length else -1
 ```kotlin
 fun main() {
 //sampleStart
-val b = "Kotlin"
+val b: String? = "Kotlin"
 if (b != null && b.length > 0) {
     print("String of length ${b.length}")
 } else {
@@ -112,7 +112,7 @@ fun main() {
     val a = "Kotlin"
     val b: String? = null
     println(b?.length)
-    println(a?.length)
+    println(a?.length) // 安全调用操作符在这里是不必要的
 //sampleEnd
 }
 ```

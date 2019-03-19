@@ -35,7 +35,7 @@ data class User(val name: String, val age: Int)
 
   * 对于 `equals()`, `hashCode()` 或 `toString()` 函数, 如果在数据类的定义体中存在明确的实现, 或在超类中存在 *final*{: .keyword } 的实现, 那么这些成员函数不会自动生成, 而会使用已存在的实现;
   * 如果超类存在 *open*{: .keyword } 的 `componentN()` 函数, 并且返回一个兼容的数据类型, 那么子类中对应的函数会自动生成, 并覆盖超类中的函数. 如果超类中的函数签名不一致, 或者是 *final*{: .keyword } 的, 导致子类无法覆盖, 则会报告编译错误;
-  * 从一个已经存在参数签名相同的 `copy(...)` 函数的父类继承一个新的数据类, 这种行为在 Kotlin 1.2 中已被废弃, 在 Kotlin 1.3 中将被禁止.
+  * 从一个已经存在参数签名相同的 `copy(...)` 函数的父类继承一个新的数据类, 这种行为在 Kotlin 1.2 中已被废弃, 在 Kotlin 1.3 中已被禁止.
   * 不允许对 `componentN()` 和 `copy()` 函数提供明确的实现(译注, 这些函数必须由编译器自动生成).
 
 从 Kotlin 1.1 开始, 数据类可以继承其他类 (示例请参见 [封闭类(Sealed class)](sealed-classes.html)).

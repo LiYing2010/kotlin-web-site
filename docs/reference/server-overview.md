@@ -37,6 +37,8 @@ Kotlin 应用程序可以发布到任何支持 Java Web 应用程序的主机上
 
 AWS Labs 提供了一个 [示例工程](https://github.com/awslabs/serverless-photo-recognition) , 演示如何使用 Kotlin 来编写 [AWS Lambda](https://aws.amazon.com/lambda/) 函数.
 
+Google 云平台也提供了一系列教程, 演示如何将 Kotlin 应用程序发布到 Google 云平台上, 包括 [在 Google App Engine 上运行 Kotlin Ktor 应用程序](https://cloud.google.com/community/tutorials/kotlin-ktor-app-engine-java8) 和 [在 Google App Engine 上运行 Kotlin Spring 应用程序](https://cloud.google.com/community/tutorials/kotlin-springboot-app-engine-java8). 此外还有一篇 [向导式代码文档](https://codelabs.developers.google.com/codelabs/cloud-spring-cloud-gcp-kotlin) 介绍如何发布 Kotlin Spring 应用程序.
+
 ## 使用 Kotlin 进行服务端开发的使用者
 
 [Corda](https://www.corda.net/) 是一个开源的分布式帐务平台, 受各大主要银行支持, 完全使用 Kotlin 语言开发.

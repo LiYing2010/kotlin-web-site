@@ -83,6 +83,7 @@ reference:
       - /docs/reference/nested-classes.html: 嵌套类(Nested Class)
       - /docs/reference/enum-classes.html: 枚举类(Enum Class)
       - /docs/reference/object-declarations.html: 对象(Object)
+      - /docs/reference/type-aliases.html: 类型别名(Type Alias)
       - /docs/reference/inline-classes.html: 内联类(Inline Class)
       - /docs/reference/delegation.html: 委托(Delegation)
       - /docs/reference/delegated-properties.html: 委托属性(Delegated Property)
@@ -115,8 +116,9 @@ reference:
       - /docs/reference/exceptions.html: 异常(Exception)
       - /docs/reference/annotations.html: 注解(Annotation)
       - /docs/reference/reflection.html: 反射(Reflection)
+      - /docs/reference/scope-functions.html: 作用域函数(Scope Function)
       - /docs/reference/type-safe-builders.html: 类型安全的构建器(Type-Safe Builder)
-      - /docs/reference/type-aliases.html: 类型别名(Type Alias)
+      - /docs/reference/experimental.html: 实验性 API 标记(Experimental API Marker)
 
 
   - title: 核心库
@@ -160,6 +162,7 @@ reference:
       - /docs/reference/native/objc_interop.html: 与 Objective-C 和 Swift 代码交互
       - /docs/reference/native/gradle_plugin.html: Gradle 插件
       - /docs/reference/native/debugging.html: 调试
+      - /docs/reference/native/code_coverage.html: 代码覆盖率(Code Coverage)
       - /docs/reference/native/faq.html: FAQ
 
 

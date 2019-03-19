@@ -16,7 +16,7 @@ title: "各部分组件的稳定性"
 *   **稳定的增量发布 (Stable Incremental Releases, SIR)**: 增量发布保证完全兼容, 只进行代码优化和 bug 修正. 任何其他变化都应该通过 [功能发布](kotlin-evolution.html#feature-releases-and-incremental-releases) 来进行.
 
 <a name="fully-stable"></a>
-*   **完全稳定 (Fully Stable, FS)**: 增量发布保证完全兼容, 功能发布保证向后兼容.
+*   **完全稳定 (Fully Stable, FS)**: 增量发布保证完全兼容, 只进行代码优化和 bug 修正. 功能发布保证向后兼容.
 
 对于同一个组件, 源代码和二进制发布版可以有不同的稳定模式, 例如, 源代码可以比二进制版更早到达完全稳定状态, 或者反过来.
 

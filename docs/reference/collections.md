@@ -83,6 +83,9 @@ val item = rwList.firstOrNull()
 
 ... 此外还有你所期望的各种工具方法, 比如 sort, zip, fold, reduce 等等.
 
+需要注意的是, 针对只读集合进行某种操作并返回一个可修改的集合 (比如 `+`, `filter`, `drop`, 等等操作.),
+这时结果集合的创建过程本身不是一个原子操作(atomically), 因此, 在另一个线程中, 如果不经过适当的同步控制, 直接访问这个结果集合是不安全的.
+
 Map 也遵循相同的模式. 可以很容易地创建和访问, 比如:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>

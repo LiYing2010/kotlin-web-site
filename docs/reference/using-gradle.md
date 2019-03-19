@@ -10,26 +10,74 @@ title: "使用 Gradle"
 
 ## Plugin 与版本
 
-`kotlin-gradle-plugin` 可以用来编译 Kotlin 源代码和模块.
+要应用 Kotlin plugin, 可以使用 [the Gradle plugins DSL](https://docs.gradle.org/current/userguide/plugins.html#sec:plugins_block),
+请将下面例子中的占位符替换为某个 plugin 名称, 具体的 plugin 名称请参照本章的后续小节:
 
-使用的 Kotlin 版本通常定义为 `kotlin_version` 属性:
-
-<div class="sample" markdown="1" mode="groovy" theme="idea">
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" theme="idea" mode='groovy'>
 
 ```groovy
-buildscript {
-    ext.kotlin_version = '{{ site.data.releases.latest.version }}'
+plugins {
+    id 'org.jetbrains.kotlin.<...>' version '{{ site.data.releases.latest.version }}'
+}
+```
 
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" theme="idea" mode='kotlin' data-highlight-only>
+
+```kotlin
+plugins {
+    kotlin("<...>") version "{{ site.data.releases.latest.version }}"
+}
+```
+
+</div>
+</div>
+
+应用 Kotlin plugin 的另一种方法是, 在编译脚本的 classpath 中添加 `kotlin-gradle-plugin` 的依赖项目:
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea">
+
+``` groovy
+buildscript {
     repositories {
         mavenCentral()
     }
 
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:{{ site.data.releases.latest.version }}"
     }
 }
-```
 
+plugins {
+    id "org.jetbrains.kotlin.<...>" version "{{ site.data.releases.latest.version }}"
+}
+```
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+buildscript {
+    repositories {
+            mavenCentral()
+    }
+
+    dependencies {
+        classpath(kotlin("gradle-plugin", version = "{{ site.data.releases.latest.version }}"))
+    }
+}
+plugins {
+    kotlin("<...>")
+}
+```
+</div>
 </div>
 
 通过 [Gradle plugins DSL](https://docs.gradle.org/current/userguide/plugins.html#sec:plugins_block), 或 [Gradle Kotlin DSL](https://github.com/gradle/kotlin-dsl), 使用 Kotlin Gradle plugin 1.1.1 及以上版本时, 不需要以上定义.
@@ -40,19 +88,11 @@ buildscript {
 
 ## 编译到 JVM 平台
 
-要编译到 JVM 平台, 需要应用(apply) Kotlin plugin:
+要编译到 JVM 平台, 需要应用(apply) Kotlin JVM plugin.
+从 Kotlin 1.1.1 版开始, 可以使用 [Gradle plugins DSL](https://docs.gradle.org/current/userguide/plugins.html#sec:plugins_block) 来应用这个 plugin:
 
-<div class="sample" markdown="1" mode="groovy" theme="idea">
-
-```groovy
-apply plugin: "kotlin"
-```
-
-</div>
-
-从 Kotlin 1.1.1 版开始, 也可以通过 [Gradle plugins DSL](https://docs.gradle.org/current/userguide/plugins.html#sec:plugins_block) 来使用 Kotlin plugin:
-
-<div class="sample" markdown="1" mode="groovy" theme="idea">
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-highlight-only>
 
 ```groovy
 plugins {
@@ -61,12 +101,10 @@ plugins {
 ```
 
 </div>
+</div>
 
-在这段代码中, `version` 必须是写明的字面值, 不能通过其他编译脚本得到.
-
-如果使用 Gradle Kotlin DSL, 可以这样使用 Kotlin plugin:
-
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
 
 ```kotlin
 plugins {
@@ -75,6 +113,22 @@ plugins {
 ```
 
 </div>
+</div>
+
+在这段代码中, `version` 必须是写明的字面值, 不能通过其他编译脚本得到.
+
+另一种方法是, 也可以使用旧的 `apply plugin` 模式:
+
+<div class="sample" markdown="1" mode="groovy" theme="idea">
+
+```groovy
+apply plugin: 'kotlin'
+```
+
+</div>
+
+在 Gradle Kotlin DSL 中, 不推荐使用 `apply` 来应用 Kotlin plugin.
+详情请参见 [下文](#using-gradle-kotlin-dsl).
 
 Kotlin 源代码可以与 Java 源代码共存在同一个文件夹下, 也可以放在不同的文件夹下. 默认的约定是使用不同的文件夹:
 
@@ -92,7 +146,8 @@ project
 
 如果不使用默认约定的文件夹结构, 那么需要修改相应的 *sourceSets* 属性:
 
-<div class="sample" markdown="1" mode="groovy" theme="idea">
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
 
 ```groovy
 sourceSets {
@@ -102,6 +157,20 @@ sourceSets {
 ```
 
 </div>
+</div>
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+sourceSets["main"].java.srcDir("src/main/myJava")
+sourceSets["main"].withConvention(KotlinSourceSet::class) {    
+    kotlin.srcDir("src/main/myKotlin")
+}
+```
+
+</div>
+</div>
 
 如果使用 Gradle Kotlin DSL, 请用 `java.sourceSets { ... }` 来设置源代码集.
 
@@ -109,17 +178,51 @@ sourceSets {
 
 编译到 JavaScript 时, 需要应用(apply)另一个 plugin:
 
-<div class="sample" markdown="1" mode="groovy" theme="idea">
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-highlight-only>
 
-```groovy
-apply plugin: "kotlin2js"
+``` groovy
+plugins {
+    id 'kotlin2js' version '{{ site.data.releases.latest.version }}'
+}
 ```
 
 </div>
+</div>
 
-这个 plugin 只能编译 Kotlin 源代码文件, 因此推荐将 Kotlin 和 Java 源代码文件放在不同的文件夹内(如果工程内包含 Java 文件的话). 与编译到 JVM 平台时一样, 如果不使用默认约定的文件夹结构, 我们需要使用 *sourceSets* 来指定文件夹目录:
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
 
-<div class="sample" markdown="1" mode="groovy" theme="idea">
+```kotlin
+plugins {
+    id("kotlin2js") version "{{ site.data.releases.latest.version }}"
+}
+```
+
+</div>
+</div>
+
+注意, 使用这种方式来应用 Kotlin/JS plugin, 需要向 Gradle 设定文件(`settings.gradle`)添加以下代码:
+<div class="sample" markdown="1" mode="groovy" theme="idea" auto-indent="false">
+
+```groovy
+pluginManagement {
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id == "kotlin2js") {
+                useModule("org.jetbrains.kotlin:kotlin-gradle-plugin:${requested.version}")
+            }
+        }
+    }
+}
+```
+</div>
+
+这个 plugin 只能编译 Kotlin 源代码文件, 因此推荐将 Kotlin 和 Java 源代码文件放在不同的文件夹内(如果工程内包含 Java 文件的话).
+与编译到 JVM 平台时一样, 如果不使用默认约定的文件夹结构, 你应该使用 *sourceSets* 来指定文件夹目录:
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
 
 ```groovy
 sourceSets {
@@ -128,12 +231,26 @@ sourceSets {
 ```
 
 </div>
+</div>
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+sourceSets["main"].withConvention(KotlinSourceSet::class) {    
+    kotlin.srcDir("src/main/myKotlin")
+}
+```
+
+</div>
+</div>
 
 除了编译输出的 JavaScript 文件之外, plugin 默认还会创建一个带二进制描述符(binary descriptor)的 JS 文件.
 如果你在编译一个被其他 Kotlin 模块依赖的可重用的库, 那么这个文件是必须的, 而且需要与编译结果一起发布.
 这个文件的生成, 可以通过 `kotlinOptions.metaInfo` 选项来控制:
 
-<div class="sample" markdown="1" mode="groovy" theme="idea">
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
 
 ```groovy
 compileKotlin2Js {
@@ -142,12 +259,28 @@ compileKotlin2Js {
 ```
 
 </div>
+</div>
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+tasks {
+    "compileKotlin2Js"(Kotlin2JsCompile::class)  {
+        kotlinOptions.metaInfo = true
+    }
+}
+```
+
+</div>
+</div>
 
 ## 编译到 Android
 
 Android 的 Gradle 模型与通常的 Gradle 略有区别, 因此如果我们想要编译一个使用 Kotlin 语言开发的 Android 工程, 就需要使用 *kotlin-android* plugin 而不是 *kotlin* plugin:
 
-<div class="sample" markdown="1" mode="groovy" theme="idea">
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
 
 ```groovy
 buildscript {
@@ -156,13 +289,37 @@ buildscript {
     ...
 
     dependencies {
+        classpath 'com.android.tools.build:gradle:3.2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
+
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
 ```
 
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+buildscript {
+    dependencies {
+        classpath("com.android.tools.build:gradle:3.2.1")
+        classpath(kotlin("gradle-plugin", version = "{{ site.data.releases.latest.version }}"))
+    }
+}
+plugins {
+    id("com.android.application")
+    id("kotlin-android")
+}
+```
+
+</div>
 </div>
 
 此外不要忘记配置 [对标准库的依赖](#configuring-dependencies).
@@ -171,7 +328,8 @@ apply plugin: 'kotlin-android'
 
 如果使用 Android Studio, 需要在 android 之下添加以下内容:
 
-<div class="sample" markdown="1" mode="groovy" theme="idea">
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
 
 ```groovy
 android {
@@ -184,6 +342,21 @@ android {
 ```
 
 </div>
+</div>
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+android {
+  ...
+
+    sourceSets["main"].java.srcDir("src/main/kotlin")
+}
+```
+
+</div>
+</div>
 
 这些设置告诉 Android Studio, kotlin 目录是一个源代码根目录, 因此当工程模型装载进入 IDE 时, 就可以正确地识别这个目录. 或者, 你也可以将 Kotlin 类放在 Java 源代码目录内, 通常是 `src/main/java`.
 
@@ -191,7 +364,8 @@ android {
 
 除了上文讲到的 `kotlin-gradle-plugin` 依赖之外, 你还需要添加 Kotlin 标准库的依赖:
 
-<div class="sample" markdown="1" mode="groovy" theme="idea">
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
 
 ```groovy
 repositories {
@@ -199,108 +373,158 @@ repositories {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
 }
 ```
 
 </div>
-
-如果你的编译目标平台是 JavaScript, 请改用 `compile "org.jetbrains.kotlin:kotlin-stdlib-js"`.
-
-如果你的编译目标平台是 JDK 7 或 JDK 8, 你可以使用 Kotlin 标准库的扩展版本, 其中包含了针对 JDK 新版本中新增 API 的额外的扩展函数.
-请使用以下依赖, 而不是通常的 `kotlin-stdlib`:
-
-<div class="sample" markdown="1" mode="groovy" theme="idea">
-
-```groovy
-compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7"
-compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
-```
-
 </div>
 
-使用 Gradle Kotlin DSL 时, 相应的依赖设定如下:
-
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
 
 ```kotlin
+repositories {
+    mavenCentral()
+}
+
 dependencies {
-    compile(kotlin("stdlib"))
-    // 或者使用以下两个设置之一:
-    compile(kotlin("stdlib-jdk7"))
-    compile(kotlin("stdlib-jdk8"))
+    implementation(kotlin("stdlib"))
 }
 ```
 
+</div>
+</div>
+
+Kotlin 标准库 `kotlin-stdlib` 的编译目标是 Java 6 及以上版本.
+此外还有标准库的扩展版本, 其中添加了对 JDK 7 和 JDK 8 的一些特性的支持.
+要使用这些版本, 请添加以下依赖之一, 而不要使用标准的 `kotlin-stdlib`:
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7"
+implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+implementation(kotlin("stdlib-jdk7"))
+implementation(kotlin("stdlib-jdk8"))
+```
+
+</div>
 </div>
 
 在 Kotlin 1.1.x 版本中, 请使用 `kotlin-stdlib-jre7` 和 `kotlin-stdlib-jre8`.
 
-如果你的项目使用了 [Kotlin 反射功能](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect.full/index.html), 或测试功能, 那么还需要添加相应的依赖:
+如果你的编译目标平台是 JavaScript, 请使用 `stdlib-js` 依赖项.
 
-<div class="sample" markdown="1" mode="groovy" theme="idea">
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
 
 ```groovy
-compile "org.jetbrains.kotlin:kotlin-reflect"
-testCompile "org.jetbrains.kotlin:kotlin-test"
-testCompile "org.jetbrains.kotlin:kotlin-test-junit"
+implementation "org.jetbrains.kotlin:kotlin-stdlib-js"
 ```
 
 </div>
+</div>
 
-如果使用 Gradle Kotlin DSL, 相应的依赖设定如下:
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
 
-<div class="sample" markdown="1" mode="groovy" theme="idea">
-
-```groovy
-compile(kotlin("reflect"))
-testCompile(kotlin("test"))
-testCompile(kotlin("test-junit"))
+```kotlin
+implementation(kotlin("stdlib-js"))
 ```
 
+</div>
+</div>
+
+如果你的项目使用了 [Kotlin 反射功能](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect.full/index.html), 或测试功能, 那么还需要添加相应的依赖:
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+implementation "org.jetbrains.kotlin:kotlin-reflect"
+testImplementation "org.jetbrains.kotlin:kotlin-test"
+testImplementation "org.jetbrains.kotlin:kotlin-test-junit"
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+implementation(kotlin("reflect"))
+testImplementation(kotlin("test"))
+testImplementation(kotlin("test-junit"))
+```
+
+</div>
 </div>
 
 从 Kotlin 1.1.2 版开始, `org.jetbrains.kotlin` 组之下的依赖项, 默认会使用从 Kotlin plugin 得到的版本号.
-你也可以使用完整的依赖项目语法, 手动指定版本号, 比如: `compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"`,
-如果 Gradle Kotlin DSL 相应的设置是: `kotlin("stdlib", kotlinVersion)`.
+你也可以使用以下的依赖项完整语法, 手动指定版本号:
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+ ```groovy
+implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+ ```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+ ```kotlin
+ implementation(kotlin("stdlib", kotlinVersion))
+ ```
+
+</div>
+</div>
+
 
 ## 处理注解
 
-详情请参见 [Kotlin 注解处理工具](kapt.html) (`kapt`).
+Kotlin 通过 _Kotlin 注解处理工具_(`kapt`) 支持注解的处理.
+kapt 在 Gradle 中的使用方法请参见 [kapt 章节](kapt.html).
 
 ## 增量编译(Incremental compilation)
 
-Kotlin 支持 Gradle 中的增量编译模式, 但这个功能目前还是实验性的.
-增量编译功能会监视源代码文件在两次编译之间的变更, 因此只会编译那些变更过的文件.
+Kotlin Gradle plugin 支持增量编译模式.
+增量编译模式会监视源代码文件在两次编译之间的变更, 因此只会编译那些变更过的文件.
 
-从 Kotlin 1.1.1 版开始, 增量编译模式默认是开启的.
+增量编译模式支持 Kotlin/JVM 和 Kotlin/JS 工程.
+从 Kotlin 1.1.1 版开始, 对 Kotlin/JVM 工程默认开启, 从 1.3.20 开始, 对 Kotlin/JS 工程默认开启.
 
 有以下几种方式可以覆盖默认的设定:
 
-  1. 在 `gradle.properties` 或 `local.properties` 文件中, 添加 `kotlin.incremental=true` 或 `kotlin.incremental=false`;
+  * 修改 Gradle 配置文件: 在 `gradle.properties` 或 `local.properties` 文件中, 对于 Kotlin/JVM 工程, 添加 `kotlin.incremental=<value>`, 对 Kotlin/JS 工程, 添加 `kotlin.incremental.js=<value>`. `<value>` 是 boolean 值, 指定是否使用增量编译模式.
 
-  2. 向 Gradle 命令行参数添加 `-Pkotlin.incremental=true` 或 `-Pkotlin.incremental=false`. 注意, 这种情况下应该向所有后续的编译命令都添加这个参数, 任何一次编译, 如果关闭了增量编译模式, 都会导致增量编译的缓存失效.
+  * 修改 Gradle 命令行参数: 添加参数 `-Pkotlin.incremental` 或 `-Pkotlin.incremental.js`, 参数值为 boolean 值, 指定是否使用增量编译模式. 注意, 这种情况下应该向所有后续的编译命令都添加这个参数, 任何一次编译, 如果关闭了增量编译模式, 都会导致增量编译的缓存失效.
 
-注意, 初次编译不会是增量编译.
+注意, 上述两种方式, 初次编译都不会是增量编译.
 
 ## 对 Gradle 编译缓存的支持 (从 1.2.20 版开始支持)
 
 Kotlin 插件支持 [Gradle 编译缓存](https://guides.gradle.org/using-build-cache/) (需要 Gradle 4.3 或更高版本; 对于 4.3 以下版本, 编译缓存会被禁用).
 
-kapt 注解处理任务默认不会缓存, 因为注解处理器可以运行任何代码, 这些代码可能并不一定会把编译任务的输入文件转换为输出文件, 可能会访问并修改没有被 Gradle 追踪的那些文件, 等等等等.
-如果一定要对 kapt 启用缓存功能, 可以在编译脚本中添加以下内容:
-
-<div class="sample" markdown="1" mode="groovy" theme="idea">
-
-```groovy
-kapt {
-    useBuildCache = true
-}
-```
-
-</div>
-
 如果想要对所有的 Kotlin 编译任务禁用缓存, 可以将系统属性 `kotlin.caching.enabled` 设置为 `false` (也就是使用参数 `-Dkotlin.caching.enabled=false` 来执行编译).
+
+如果你使用 [kapt](kapt.html), 请注意, 注解处理任务默认不会缓存. 但你可以手动启用缓存功能.
+详情请参见 [kapt 章节](kapt.html#gradle-build-cache-support-since-1220).
 
 ## 编译选项
 
@@ -316,12 +540,15 @@ Android 项目的编译任务名称, 包含 [构建变体(build variant)](https:
 
 要对单个编译任务进行配置, 请使用它的名称. 示例如下:
 
-<div class="sample" markdown="1" mode="groovy" theme="idea">
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
 
 ```groovy
 compileKotlin {
     kotlinOptions.suppressWarnings = true
 }
+
+//或者
 
 compileKotlin {
     kotlinOptions {
@@ -331,10 +558,10 @@ compileKotlin {
 ```
 
 </div>
+</div>
 
-如果使用 Gradle Kotlin DSL, 首先要从工程的 `tasks` 得到编译任务:
-
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
 
 ```kotlin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -346,12 +573,16 @@ compileKotlin.kotlinOptions.suppressWarnings = true
 ```
 
 </div>
+</div>
+
+注意, 使用 Gradle Kotlin DSL 时, 你应该先从编译工程的 `tasks` 属性得到编译任务.
 
 编译 JavaScript 和 Common 时, 请使用相应的 `Kotlin2JsCompile` 和 `KotlinCompileCommon` 类型.
 
 也可以对项目中的所有 Kotlin 编译任务进行配置:
 
-<div class="sample" markdown="1" mode="groovy" theme="idea">
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
 
 ```groovy
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
@@ -359,6 +590,21 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
 }
 ```
 
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions.suppressWarnings = true
+}
+```
+
+</div>
 </div>
 
 Gradle 任务所支持的编译选项完整列表如下:
