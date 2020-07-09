@@ -1,0 +1,532 @@
+# Header navigation
+# ====================
+main:
+  content:
+    - url: /docs/reference_zh/
+      title: 学习
+
+    - url: /community/
+      title: 社区
+
+    - url: /education/
+      title: 教育
+
+    - url: https://play.kotlinlang.org
+      title: 试用
+
+
+# Docs section navigation
+# =======================
+subnav:
+  type: tab
+  content:
+    - url: /docs/
+      content:
+        - url: /docs/reference_zh/
+          title: 参考文档
+
+        - url: /docs/tutorials/
+          title: 教程
+
+        - url: /docs/books.html
+          title: 相关书籍
+    - url: /community/
+      content:
+        - url: /community/
+          urlPattern: ^\/community\/$
+          title: Overview
+
+        - url: /user-groups/user-group-list.html
+          urlPattern: /user-groups.*
+          title: User Groups
+
+        - url: /community/events.html
+          urlPattern: ^\/community\/(events\.html|kotlin-nights.*)
+          title: Events
+
+        - url: /community/talks.html
+          title: Talks & Speakers
+    - url: /education/
+      content:
+        - url: /education/
+          urlPattern: ^\/education\/$
+          title: Overview
+
+        - url: /education/why-teach-kotlin.html
+          title: Why Teach Kotlin
+
+# Reference navigation
+# ====================
+reference:
+  content:
+    - title: 关于翻译
+      description: 关于翻译
+      content:
+        - url: /docs/reference_zh/about_translation.html
+          title: 关于翻译
+
+    - title: 概述
+      description: Kotlin 概述
+      content:
+        - url: /docs/reference_zh/server-overview.html
+          title: 在服务器端开发中使用 Kotlin
+        - url: /docs/reference_zh/android-overview.html
+          title: 在 Android 开发中使用 Kotlin
+        - url: /docs/reference_zh/js-overview.html
+          title: 在 JavaScript 开发中使用 Kotlin
+        - url: /docs/reference_zh/native-overview.html
+          title: Kotlin 原生(Native)程序开发
+        - url: /docs/reference_zh/data-science-overview.html
+          title: 在数据科学(Data Science)中使用 Kotlin
+        - url: /docs/reference_zh/coroutines-overview.html
+          title: 协程(Coroutine)
+        - url: /docs/reference_zh/multiplatform.html
+          title: 跨平台项目(Multiplatform Projects)
+
+    - title: 新功能
+      description: Kotlin 各发布版本中的新功能
+      content:
+        - url: /docs/reference_zh/whatsnew13.html
+          title: 1.3 版中的新功能
+        - url: /docs/reference_zh/whatsnew12.html
+          title: 1.2 版中的新功能
+        - url: /docs/reference_zh/whatsnew11.html
+          title: 1.1 版中的新功能
+
+    - title: 入门
+      description: 熟悉 Kotlin 的基本知识, 包括操作符, 编码规约, 以及惯用法.
+      content:
+        - url: /docs/reference_zh/basic-syntax.html
+          title: 基本语法
+        - url: /docs/reference_zh/idioms.html
+          title: 惯用法
+        - url: /docs/reference_zh/coding-conventions.html
+          title: 编码规约
+
+    - title: 基础
+      description: 基础知识
+      content:
+        - url: /docs/reference_zh/basic-types.html
+          title: 基本类型
+        - url: /docs/reference_zh/packages.html
+          title: 包(Package)与导入(Import)
+        - url: /docs/reference_zh/control-flow.html
+          title: 控制流
+        - url: /docs/reference_zh/returns.html
+          title: 返回与跳转
+
+    - title: 类与对象
+      description: 关于对象
+      content:
+        - url: /docs/reference_zh/classes.html
+          title: 类与继承
+        - url: /docs/reference_zh/properties.html
+          title: 属性(Property)与域(Field)
+        - url: /docs/reference_zh/interfaces.html
+          title: 接口(Interface)
+        - url: /docs/reference_zh/visibility-modifiers.html
+          title: 可见度修饰符(Visibility Modifier)
+        - url: /docs/reference_zh/extensions.html
+          title: 扩展(Extension)
+        - url: /docs/reference_zh/data-classes.html
+          title: 数据类(Data Class)
+        - url: /docs/reference_zh/sealed-classes.html
+          title: 封闭类(Sealed Class)
+        - url: /docs/reference_zh/generics.html
+          title: 泛型(Generic)
+        - url: /docs/reference_zh/nested-classes.html
+          title: 嵌套类(Nested Class)
+        - url: /docs/reference_zh/enum-classes.html
+          title: 枚举类(Enum Class)
+        - url: /docs/reference_zh/object-declarations.html
+          title: 对象(Object)
+        - url: /docs/reference_zh/type-aliases.html
+          title: 类型别名(Type Alias)
+        - url: /docs/reference_zh/inline-classes.html
+          title: 内联类(Inline Class)
+        - url: /docs/reference_zh/delegation.html
+          title: 委托(Delegation)
+        - url: /docs/reference_zh/delegated-properties.html
+          title: 委托属性(Delegated Property)
+
+    - title: 函数与 Lambda 表达式
+      description: 关于函数
+      content:
+        - url: /docs/reference_zh/functions.html
+          title: 函数(Function)
+        - url: /docs/reference_zh/lambdas.html
+          title: Lambda 表达式
+        - url: /docs/reference_zh/inline-functions.html
+          title: 内联函数(Inline Function)
+
+    - title: 集合(Collection)
+      description: Kotlin 标准库中的集合(Collection)
+      content:
+        - url: /docs/reference_zh/collections-overview.html
+          title: 集合(Collection)概述
+        - url: /docs/reference_zh/constructing-collections.html
+          title: 创建集合
+        - url: /docs/reference_zh/iterators.html
+          title: 迭代器(Iterator)
+        - url: /docs/reference_zh/ranges.html
+          title: 值范围(Range)与数列(Progression)
+        - url: /docs/reference_zh/sequences.html
+          title: 序列(Sequence)
+        - url: /docs/reference_zh/collection-operations.html
+          title: 集合操作概述
+        - url: /docs/reference_zh/collection-transformations.html
+          title: 变换(Transformation)
+        - url: /docs/reference_zh/collection-filtering.html
+          title: 过滤(Filtering)
+        - url: /docs/reference_zh/collection-plus-minus.html
+          title: 加法(Plus)和减法(Minus)操作符
+        - url: /docs/reference_zh/collection-grouping.html
+          title: 分组(Grouping)
+        - url: /docs/reference_zh/collection-parts.html
+          title: 获取集合的一部分
+        - url: /docs/reference_zh/collection-elements.html
+          title: 获取集合的单个元素
+        - url: /docs/reference_zh/collection-ordering.html
+          title: 排序(Ordering)
+        - url: /docs/reference_zh/collection-aggregate.html
+          title: 聚合(Aggregate)操作
+        - url: /docs/reference_zh/collection-write.html
+          title: 集合写入操作
+        - url: /docs/reference_zh/list-operations.html
+          title: List 相关操作
+        - url: /docs/reference_zh/set-operations.html
+          title: Set 相关操作
+        - url: /docs/reference_zh/map-operations.html
+          title: Map 相关操作
+
+    - title: 协程(Coroutine)
+      description: Kotlin 协程库
+      content:
+        - url: /docs/reference_zh/coroutines/coroutines-guide.html
+          title: 协程指南
+        - url: /docs/reference_zh/coroutines/basics.html
+          title: 基本概念
+        - url: /docs/reference_zh/coroutines/cancellation-and-timeouts.html
+          title: 取消与超时
+        - url: /docs/reference_zh/coroutines/composing-suspending-functions.html
+          title: 挂起函数(Suspending Function)的组合
+        - url: /docs/reference_zh/coroutines/coroutine-context-and-dispatchers.html
+          title: 协程上下文与派发器(Dispatcher)
+        - url: /docs/reference_zh/coroutines/flow.html
+          title: 异步的数据流(Asynchronous Flow)
+        - url: /docs/reference_zh/coroutines/channels.html
+          title: 通道(Channel)
+        - url: /docs/reference_zh/coroutines/exception-handling.html
+          title: 异常处理与监控
+        - url: /docs/reference_zh/coroutines/shared-mutable-state-and-concurrency.html
+          title: 共享的可变状态与并发
+        - url: /docs/reference_zh/coroutines/select-expression.html
+          title: 选择表达式(Select expression)(实验性功能)
+
+    - title: 跨平台程序开发
+      description: 在 JVM, JS, 和 Native 平台上复用代码
+      content:
+        - url: /docs/reference_zh/platform-specific-declarations.html
+          title: 与平台相关的声明
+        - url: /docs/reference_zh/building-mpp-with-gradle.html
+          title: 使用 Gradle 进行编译
+        - url: /docs/reference_zh/mpp-dsl-reference.html
+          title: 跨平台程序的 Gradle DSL 参考文档
+
+
+    - title: 其他语言结构
+      description: 其他各种知识
+      content:
+        - url: /docs/reference_zh/multi-declarations.html
+          title: 解构声明(Destructuring Declaration)
+        - url: /docs/reference_zh/typecasts.html
+          title: 类型检查与类型转换
+        - url: /docs/reference_zh/this-expressions.html
+          title: this 表达式
+        - url: /docs/reference_zh/equality.html
+          title: 相等判断
+        - url: /docs/reference_zh/operator-overloading.html
+          title: 操作符重载(Operator overloading)
+        - url: /docs/reference_zh/null-safety.html
+          title: Null 值安全性
+        - url: /docs/reference_zh/exceptions.html
+          title: 异常(Exception)
+        - url: /docs/reference_zh/annotations.html
+          title: 注解(Annotation)
+        - url: /docs/reference_zh/reflection.html
+          title: 反射(Reflection)
+        - url: /docs/reference_zh/scope-functions.html
+          title: 作用域函数(Scope Function)
+        - url: /docs/reference_zh/type-safe-builders.html
+          title: 类型安全的构建器(Type-Safe Builder)
+        - url: /docs/reference_zh/opt-in-requirements.html
+          title: 明确要求使用者同意的功能(Opt-in Requirement)
+
+    - title: 核心库
+      content:
+        - url: /docs/reference_zh/api/stdlib.html
+          title: 标准库(Standard Library)
+        - url: /docs/reference_zh/api/test.html
+          title: 测试库(kotlin.test)
+
+    - title: 参考
+      description: 语法及其他信息
+      content:
+        - url: /docs/reference_zh/keyword-reference.html
+          title: 关键字(Keyword)与操作符(Operator)
+        - url: /docs/reference_zh/grammar.html
+          title: 语法
+        - url: /docs/reference_zh/code-style-migration-guide.html
+          title: 编码规约
+
+
+    - title: 与 Java 的互操作性
+      description: 关于与 Java 互操作的相关知识.
+      content:
+        - url: /docs/reference_zh/java-interop.html
+          title: 在 Kotlin 中调用 Java
+        - url: /docs/reference_zh/java-to-kotlin-interop.html
+          title: 在 Java 中调用 Kotlin
+
+    - title: JavaScript
+      description: 在 JavaScript 开发中使用 Kotlin
+      content:
+       - url: /docs/reference_zh/js-project-setup.html
+         title: 创建工程(Project)
+       - url: /docs/reference_zh/dynamic-type.html
+         title: 动态类型(Dynamic Type)
+       - url: /docs/reference_zh/js-interop.html
+         title: 在 Kotlin 中调用 JavaScript
+       - url: /docs/reference_zh/js-to-kotlin-interop.html
+         title: 在 JavaScript 中调用 Kotlin
+       - url: /docs/reference_zh/js-modules.html
+         title: JavaScript 模块(Module)
+       - url: /docs/reference_zh/js-reflection.html
+         title: JavaScript 中的反射(Reflection)
+       - url: /docs/reference_zh/javascript-dce.html
+         title: JavaScript 死代码剔除工具(DCE)
+
+    - title: 原生(Native)程序开发
+      description: 使用 Kotlin/Native 开发 iOS 和 Native 程序
+      content:
+        - url: /docs/reference_zh/native/concurrency.html
+          title: 并发
+        - url: /docs/reference_zh/native/immutability.html
+          title: 不变性
+        - url: /docs/reference_zh/native/libraries.html
+          title: Kotlin 库
+        - url: /docs/reference_zh/native/platform_libs.html
+          title: 平台库
+        - url: /docs/reference_zh/native/c_interop.html
+          title: 与 C 代码交互
+        - url: /docs/reference_zh/native/objc_interop.html
+          title: 与 Objective-C 和 Swift 代码交互
+        - url: /docs/reference_zh/native/ios_symbolication.html
+          title: 符号化(Symbolicate) iOS 崩溃报告
+        - url: /docs/reference_zh/native/cocoapods.html
+          title: 与 CocoaPods 集成
+        - url: /docs/reference_zh/native/gradle_plugin.html
+          title: Gradle 插件
+        - url: /docs/reference_zh/native/debugging.html
+          title: 调试
+        - url: /docs/reference_zh/native/faq.html
+          title: FAQ
+
+    - title: 工具
+      description:
+      content:
+        - url: /docs/reference_zh/using-gradle.html
+          title: 使用 Gradle
+        - url: /docs/reference_zh/using-maven.html
+          title: 使用 Maven
+        - url: /docs/reference_zh/using-ant.html
+          title: 使用 Ant
+        - url: /docs/reference_zh/compiler-reference.html
+          title: 编译器选项
+        - url: /docs/reference_zh/compiler-plugins.html
+          title: 编译器插件(plugin)
+        - url: /docs/reference_zh/kapt.html
+          title: 使用 Kotlin 注解处理工具(Kapt)
+        - url: /docs/reference_zh/kotlin-doc.html
+          title: 使用 Kotlin 文档生成工具(Dokka)
+        - url: /docs/reference_zh/kotlin-osgi.html
+          title: OSGi
+
+    - title: Kotlin 的演化
+      description: Kotlin 语言的演化与兼容性
+      content:
+        - url: /docs/reference_zh/evolution/kotlin-evolution.html
+          title: Kotlin 的演化
+        - url: /docs/reference_zh/evolution/components-stability.html
+          title: 各部分组件的稳定性
+        - url: /docs/reference_zh/compatibility-guide-13.html
+          title: Kotlin 1.3 兼容性指南
+
+    - title: FAQ
+      description: 你想到的问题, 可能已经回答过了, 所以请先查看相关的 FAQ.
+      content:
+        - url: /docs/reference_zh/faq.html
+          title: FAQ
+        - url: /docs/reference_zh/comparison-to-java.html
+          title: 与 Java 比较
+
+
+
+# Tutorials navigation
+# ====================
+tutorials:
+  content:
+    - title: Getting Started
+      content:
+        - url: /docs/tutorials/getting-started.html
+          title: Getting Started with Kotlin
+        - url: /docs/tutorials/jvm-get-started.html
+          title: Getting Started with IntelliJ IDEA
+        - url: /docs/tutorials/getting-started-eclipse.html
+          title: Getting Started with Eclipse
+        - url: /docs/tutorials/command-line.html
+          title: Working with the Command Line Compiler
+        - url: /docs/tutorials/quick-run.html
+          title: Running Code Snippets
+        - url: /docs/tutorials/build-tools.html
+          title: Working with Build Tools
+        - url: /docs/tutorials/koans.html
+          title: Koans
+        - url: /docs/tutorials/competitive-programming.html
+          title: Competitive Programming
+    - title: Java Interop
+      content:
+        - url: /docs/tutorials/mixing-java-kotlin-intellij.html
+          title: Mixing Java and Kotlin in one project
+    - title: JavaScript
+      content:
+        - url: /docs/tutorials/javascript/setting-up.html
+          title: Setting up a project
+        - url: /docs/tutorials/javascript/running-kotlin-js.html
+          title: Running Kotlin/JS
+        - url: /docs/tutorials/javascript/dev-server-continuous-compilation.html
+          title: Development Server and Continuous Compilation
+        - url: /docs/tutorials/javascript/using-packages-from-npm.html
+          title: Using packages from npm
+        - url: /docs/tutorials/javascript/debugging-kotlin-in-browser.html
+          title: Debugging Kotlin in the browser
+        - url: /docs/tutorials/javascript/running-tests.html
+          title: Running tests
+        - url: /docs/tutorials/javascript/browser-api-dom.html
+          title: Browser API and the DOM
+        - url: /docs/tutorials/javascript/typesafe-html-dsl.html
+          title: Typesafe HTML DSL
+        - url: /docs/tutorials/javascript/working-with-modules/working-with-modules.html
+          title: Working with Kotlin and JavaScript Modules
+        - url: /docs/tutorials/javascript/react-and-kotlin-js.html
+          title: Building Web Applications with React and Kotlin/JS
+
+    - title: Multiplatform Projects
+      content:
+        - url: /docs/tutorials/mpp/intro-to-kotlin-mpp.html
+          title: "Intro to MPP"
+        - url: /docs/tutorials/native/mpp-ios-android.html
+          title: "iOS and Android"
+        - url: /docs/tutorials/mpp/multiplatform-library.html
+          title: Multiplatform Library
+
+    - title: Native
+      content:
+        - url: /docs/tutorials/native/using-command-line-compiler.html
+          title: Hello Kotlin/Native using Command Line Compiler
+        - url: /docs/tutorials/native/using-gradle.html
+          title: Hello Kotlin/Native using Gradle
+        - url: /docs/tutorials/native/using-intellij-idea.html
+          title: Hello Kotlin/Native using IntelliJ IDEA
+        - url: /docs/tutorials/native/intro-to-kotlin-native.html
+          title: Creating an HTTP Client in Kotlin/Native
+        - url: /docs/tutorials/native/mapping-primitive-data-types-from-c.html
+          title: Mapping Primitive Data Types from C
+        - url: /docs/tutorials/native/mapping-struct-union-types-from-c.html
+          title: Mapping Struct and Union Types from C
+        - url: /docs/tutorials/native/mapping-function-pointers-from-c.html
+          title: Mapping Function Pointers from C
+        - url: /docs/tutorials/native/mapping-strings-from-c.html
+          title: Mapping Strings from C
+        - url: /docs/tutorials/native/dynamic-libraries.html
+          title: Kotlin/Native as a Dynamic Library
+        - url: /docs/tutorials/native/apple-framework.html
+          title: Kotlin/Native as an Apple Framework
+        - url: /docs/tutorials/mpp/multiplatform-library.html
+          title: Publishing a Kotlin/Native Library
+        - url: /docs/tutorials/native/curl.html
+          title: Using C Interop and libcurl for an App
+        - url: /docs/tutorials/native/mpp-ios-android.html
+          title: Building iOS and Android App
+
+    - title: Coroutines
+      content:
+        - url: /docs/tutorials/coroutines/async-programming.html
+          title: Asynchronous Programming
+        - url: /docs/tutorials/coroutines/coroutines-basic-jvm.html
+          title: Intro to Kotlin Coroutines on the JVM
+        - url: /docs/tutorials/coroutines/intro-to-coroutines-and-channels.html
+          title: Intro to Coroutines and Channels
+
+    - title: Web Development
+      content:
+        - url: /docs/tutorials/httpservlets.html
+          title: Creating Web Applications with Http Servlets
+        - url: /docs/tutorials/spring-boot-restful.html
+          title: Creating a RESTful Web Service with Spring Boot
+
+    - title: Tools
+      content:
+        - url: /docs/tutorials/kotlin-and-ci.html
+          title: Setting up Kotlin on TeamCity
+
+    - title: Education
+      content:
+        - url: /docs/tutorials/edu-tools-learner.html
+          title: Learning Kotlin with EduTools plugin
+        - url: /docs/tutorials/edu-tools-educator.html
+          title: Teaching Kotlin with EduTools plugin
+    - title: Migrating from Python
+      external:
+        path: kotlin-for-python-developers
+        nav: kotlinlang.org.yaml
+        base: /docs/tutorials/kotlin-for-py
+        branch: master
+        repo: https://github.com/Khan/kotlin-for-python-developers
+        type: tutorial
+        wrap_code_snippets: True
+        github_edit_page: README.md
+
+foundation:
+  content:
+    - url: /foundation/kotlin-foundation.html
+      title: Kotlin Foundation
+    - url: /foundation/language-committee-guidelines.html
+      title: Language Committee Guidelines
+    - url: /foundation/submitting-incompatible-changes.html
+      title: Submitting Incompatible Changes
+    - url: /foundation/guidelines.html
+      title: Kotlin Brand Usage Guidelines
+    - url: /foundation/faq.html
+      title: FAQ
+
+groups:
+  content:
+    - url: /user-groups/user-group-list.html
+      title: Kotlin User Groups List
+    - url: /user-groups/support.html
+      title: Guidelines and Support
+    - url: /user-groups/branding.html
+      title: Branding materials
+    - url: https://confluence.jetbrains.com/display/ALL/JetBrains+Open+Source+and+Community+Code+of+Conduct
+      title: Code of Conduct
+
+
+events:
+  content:
+    - url: /community/events.html
+      title: Kotlin Events
+    - url: /community/kotlin-nights/guidelines.html
+      title: Guidelines and Support
+    - url: /community/kotlin-nights/branding.html
+      title: Branding materials
