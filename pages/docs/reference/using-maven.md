@@ -79,12 +79,16 @@ The Kotlin Maven Plugin needs to be referenced to compile the sources:
             <executions>
                 <execution>
                     <id>compile</id>
-                    <goals> <goal>compile</goal> </goals>
+                    <goals>
+                        <goal>compile</goal>
+                    </goals>
                 </execution>
 
                 <execution>
                     <id>test-compile</id>
-                    <goals> <goal>test-compile</goal> </goals>
+                    <goals>
+                        <goal>test-compile</goal>
+                    </goals>
                 </execution>
             </executions>
         </plugin>
@@ -97,7 +101,8 @@ The Kotlin Maven Plugin needs to be referenced to compile the sources:
 ## Compiling Kotlin and Java sources
 
 To compile mixed code applications Kotlin compiler should be invoked before Java compiler.
-In maven terms that means kotlin-maven-plugin should be run before maven-compiler-plugin using the following method, making sure that the kotlin plugin is above the maven-compiler-plugin in your pom.xml file:
+In maven terms that means that `kotlin-maven-plugin` should run before `maven-compiler-plugin` using the following method.
+Make sure that the `kotlin` plugin comes before the `maven-compiler-plugin` in your `pom.xml` file:
 
 <div class="sample" markdown="1" mode="xml" auto-indent="false" theme="idea" data-highlight-only>
 
@@ -111,7 +116,9 @@ In maven terms that means kotlin-maven-plugin should be run before maven-compile
             <executions>
                 <execution>
                     <id>compile</id>
-                    <goals> <goal>compile</goal> </goals>
+                    <goals>
+                        <goal>compile</goal>
+                    </goals>
                     <configuration>
                         <sourceDirs>
                             <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
@@ -149,12 +156,19 @@ In maven terms that means kotlin-maven-plugin should be run before maven-compile
                 <execution>
                     <id>java-compile</id>
                     <phase>compile</phase>
-                    <goals> <goal>compile</goal> </goals>
+                    <goals>
+                        <goal>compile</goal>
+                    </goals>
                 </execution>
                 <execution>
                     <id>java-test-compile</id>
                     <phase>test-compile</phase>
-                    <goals> <goal>testCompile</goal> </goals>
+                    <goals>
+                        <goal>testCompile</goal>
+                    </goals>
+                    <configuration>
+                        <skip>${maven.test.skip}</skip>
+                    </configuration>
                 </execution>
             </executions>
         </plugin>
@@ -309,32 +323,32 @@ The following attributes are supported:
 
 | Name | Property name | Description | Possible values |Default value |
 |------|---------------|-------------|-----------------|--------------|
-| nowarn | | Generate no warnings | true, false | false |
-| languageVersion | kotlin.compiler.languageVersion | Provide source compatibility with specified language version |"1.0", "1.1", "1.2", "1.3", "1.4 (EXPERIMENTAL)" | 
-| apiVersion | kotlin.compiler.apiVersion | Allow to use declarations only from the specified version of bundled libraries | "1.0", "1.1", "1.2", "1.3", "1.4 (EXPERIMENTAL)" | 
-| sourceDirs | | The directories containing the source files to compile | | The project source roots
-| compilerPlugins | | Enabled [compiler plugins](compiler-plugins.html)  | | []
-| pluginOptions | | Options for compiler plugins  | | []
-| args | | Additional compiler arguments | | []
+| `nowarn` | | Generate no warnings | true, false | false |
+| `languageVersion` | `kotlin.compiler.languageVersion` | Provide source compatibility with the specified version of Kotlin | "1.2 (DEPRECATED)", "1.3", "1.4", "1.5 (EXPERIMENTAL)" | 
+| `apiVersion` | `kotlin.compiler.apiVersion` | Allow using declarations only from the specified version of bundled libraries | "1.2 (DEPRECATED)", "1.3", "1.4", "1.5 (EXPERIMENTAL)" | 
+| `sourceDirs` | | The directories containing the source files to compile | | The project source roots
+| `compilerPlugins` | | Enabled [compiler plugins](compiler-plugins.html)  | | []
+| `pluginOptions` | | Options for compiler plugins  | | []
+| `args` | | Additional compiler arguments | | []
 
 
 ### Attributes specific for JVM
 
 | Name | Property name | Description | Possible values |Default value |
 |------|---------------|-------------|-----------------|--------------|
-| jvmTarget | kotlin.compiler.jvmTarget | Target version of the generated JVM bytecode | "1.6", "1.8", "9", "10", "11", "12" | "1.6" |
-| jdkHome | kotlin.compiler.jdkHome |  	Path to JDK home directory to include into classpath, if differs from default JAVA_HOME | | |
+| `jvmTarget` | `kotlin.compiler.jvmTarget` | Target version of the generated JVM bytecode | "1.6", "1.8", "9", "10", "11", "12", "13", "14" | "1.6" |
+| `jdkHome` | `kotlin.compiler.jdkHome` | Include a custom JDK from the specified location into the classpath instead of the default JAVA_HOME | | |
 
 ### Attributes specific for JS
 
 | Name | Property name | Description | Possible values |Default value |
 |------|---------------|-------------|-----------------|--------------|
-| outputFile | | Output file path | | |
-| metaInfo |  | Generate .meta.js and .kjsm files with metadata. Use to create a library | true, false | true
-| sourceMap | | Generate source map | true, false | false
-| sourceMapEmbedSources | | Embed source files into source map | "never", "always", "inlining" | "inlining" |
-| sourceMapPrefix | | Prefix for paths in a source map |  |  |
-| moduleKind | | Kind of a module generated by compiler | "plain", "amd", "commonjs", "umd" | "plain"
+| `outputFile` | | Destination *.js file for the compilation result | | |
+| `metaInfo` |  | Generate .meta.js and .kjsm files with metadata. Use to create a library | true, false | true
+| `sourceMap` | | Generate source map | true, false | false
+| `sourceMapEmbedSources` | | Embed source files into source map | "never", "always", "inlining" | "inlining" |
+| `sourceMapPrefix` | | Add the specified prefix to paths in the source map |  |  |
+| `moduleKind` | | The kind of JS module generated by the compiler | "umd", "commonjs", "amd", "plain" | "umd"
 
 ## Generating documentation
 

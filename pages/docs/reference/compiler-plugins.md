@@ -153,14 +153,24 @@ plugins {
 
 </div>
 
-In Maven, enable the `spring` plugin:
+In Maven, the `spring` plugin is provided by the `kotlin-maven-allopen` plugin dependency, so to enable it:
 
 <div class="sample" markdown="1" theme="idea" mode="xml" auto-indent="false">
 
 ```xml
-<compilerPlugins>
-    <plugin>spring</plugin>
-</compilerPlugins>
+<configuration>
+    <compilerPlugins>
+        <plugin>spring</plugin>
+    </compilerPlugins>
+</configuration>
+
+<dependencies>
+    <dependency>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <artifactId>kotlin-maven-allopen</artifactId>
+        <version>${kotlin.version}</version>
+    </dependency>
+</dependencies>
 ```
 
 </div>
@@ -299,7 +309,7 @@ noArg {
 
 ### JPA support
 
-As with the *kotlin-spring* plugin, *kotlin-jpa* is a wrapped on top of *no-arg*. The plugin specifies 
+As with the *kotlin-spring* plugin wrapped on top of *all-open*, *kotlin-jpa* is wrapped on top of *no-arg*. The plugin specifies 
 [`@Entity`](http://docs.oracle.com/javaee/7/api/javax/persistence/Entity.html), [`@Embeddable`](http://docs.oracle.com/javaee/7/api/javax/persistence/Embeddable.html) and [`@MappedSuperclass`](https://docs.oracle.com/javaee/7/api/javax/persistence/MappedSuperclass.html) 
 *no-arg* annotations automatically.
 

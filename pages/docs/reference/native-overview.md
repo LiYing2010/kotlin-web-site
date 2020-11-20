@@ -5,7 +5,7 @@ category: "Introduction"
 title: "Kotlin/Native"
 ---
 
-# **Kotlin/Native for Native**
+# Kotlin/Native for Native
 
 ![Compiler Diagram]({{ url_for('asset', path='images/landing/native/native_overview.png')}})
 
@@ -59,45 +59,37 @@ are pre-imported and included as Kotlin/Native libraries into the compiler packa
 
 ## Sharing Code between Platforms
 
-[Multiplatform projects](/docs/reference/multiplatform.html) are supported between different Kotlin and
-Kotlin/Native targets.
-This is the way to share common Kotlin code between many platforms, including Android, iOS, server-side, JVM, client-side, 
-JavaScript, CSS, and native.
+[Multiplatform projects](/docs/reference/multiplatform.html) allow sharing common Kotlin code between multiple platforms, including Android, iOS, JVM, 
+JavaScript, and native. Multiplatform libraries provide required APIs for the common Kotlin code and help develop
+shared parts of a project in Kotlin code in one place and share it with all or several target platforms. 
 
-[Multiplatform libraries](/docs/reference/multiplatform.html#multiplatform-libraries)
-provide the necessary APIs for the common Kotlin code and help to develop
-shared parts of a project in Kotlin code once and share it with all of the target platforms. 
+You can use [Kotlin Multiplatform Mobile (KMM)](https://kotlinlang.org/lp/mobile/) to create multiplatform mobile applications with code shared between Android and iOS.
 
-## How to Start
+## What's next?
 
-<div style="display: flex; align-items: center; margin-bottom: 20px">
-    <img src="{{ url_for('asset', path='images/landing/native/book.png') }}" height="38p" width="55" style="margin-right: 10px;">
-    <b>Tutorials and Documentation</b>
-</div>
+New to Kotlin? Take a look at the [Getting Started](/docs/tutorials/getting-started.html) page.
 
-New to Kotlin? Take a look at the [Getting Started](/docs/reference/basic-syntax.html) page.
+### Documentation
 
-Suggested documentation pages:
+- [Kotlin Multiplatform Mobile documentation](https://kotlinlang.org/docs/mobile/home.html)
+- [Multiplatform documentation](mpp-intro.html)
 - [C interop](/docs/reference/native/c_interop.html)
 - [Swift/Objective-C interop](/docs/reference/native/objc_interop.html)
 
-Recommended tutorials:
+### Tutorials
+
 - [Hello Kotlin/Native](/docs/tutorials/native/using-command-line-compiler.html)
-- [Multiplatform Project: iOS and Android](/docs/tutorials/native/mpp-ios-android.html)
 - [Types mapping between C and Kotlin/Native](/docs/tutorials/native/mapping-primitive-data-types-from-c.html)
 - [Kotlin/Native as a Dynamic Library](/docs/tutorials/native/dynamic-libraries.html) 
 - [Kotlin/Native as an Apple Framework](/docs/tutorials/native/apple-framework.html)
 
-<div style="display: flex; align-items: center; margin-bottom: 10px;">
-    <img src="{{ url_for('asset', path='images/landing/native/try.png') }}" height="38p" width="55" style="margin-right: 10px;">
-    <b>Example Projects</b>
-</div>
+## Sample projects
 
+- [Kotlin Multiplatform Mobile samples](https://kotlinlang.org/docs/mobile/samples.html)
 - [Kotlin/Native sources and examples](https://github.com/JetBrains/kotlin-native/tree/master/samples) 
 - [KotlinConf app](https://github.com/JetBrains/kotlinconf-app) 
 - [KotlinConf Spinner app](https://github.com/jetbrains/kotlinconf-spinner)
 - [Kotlin/Native sources and examples (.tgz)](https://download.jetbrains.com/kotlin/native/kotlin-native-samples-1.0.1.tar.gz)
 - [Kotlin/Native sources and examples (.zip)](https://download.jetbrains.com/kotlin/native/kotlin-native-samples-1.0.1.zip)
 
-Even more examples are on [GitHub](https://github.com/JetBrains/kotlin-examples).
 

@@ -153,7 +153,7 @@ Kotlin types. The compiler supports several flavors of nullability annotations, 
   * Eclipse (`org.eclipse.jdt.annotation`)
   * Lombok (`lombok.NonNull`).
 
-You can find the full list in the [Kotlin compiler source code](https://github.com/JetBrains/kotlin/blob/master/core/descriptors.jvm/src/org/jetbrains/kotlin/load/java/JvmAnnotationNames.kt).
+You can find the full list in the [Kotlin compiler source code](https://github.com/JetBrains/kotlin/blob/master/core/compiler.common.jvm/src/org/jetbrains/kotlin/load/java/JvmAnnotationNames.kt).
 
 ### Annotating type parameters
 
@@ -490,8 +490,8 @@ They are not related to the `Array` class and are compiled down to Java's primit
 
 Suppose there is a Java method that accepts an int array of indices:
 
-
 <div class="sample" markdown="1" theme="idea" mode="java">
+
 ``` java
 public class JavaArrayExample {
 
@@ -706,12 +706,14 @@ To access static members of a Java type that is [mapped](#mapped-types) to a Kot
 
 Java reflection works on Kotlin classes and vice versa. As mentioned above, you can use `instance::class.java`,
 `ClassName::class.java` or `instance.javaClass` to enter Java reflection through `java.lang.Class`.
+You may also use `ClassName::class.javaObjectType` for getting primitive types wrappers.
 
 Other supported cases include acquiring a Java getter/setter method or a backing field for a Kotlin property, a `KProperty` for a Java field, a Java method or constructor for a `KFunction` and vice versa.
 
 ## SAM Conversions
 
-Just like Java 8, Kotlin supports SAM conversions. This means that Kotlin function literals can be automatically converted
+Kotlin supports SAM conversions for both Java and [Kotlin interfaces](fun-interfaces.html). 
+This support for Java means that Kotlin function literals can be automatically converted
 into implementations of Java interfaces with a single non-default method, as long as the parameter types of the interface
 method match the parameter types of the Kotlin function.
 
@@ -749,11 +751,9 @@ executor.execute(Runnable { println("This runs in a thread pool") })
 
 </div>
 
-Note that SAM conversions only work for interfaces, not for abstract classes, even if those also have just a single
+> SAM conversions only work for interfaces, not for abstract classes, even if those also have just a single
 abstract method.
-
-Also note that this feature works only for Java interop; since Kotlin has proper function types, automatic conversion
-of functions into implementations of Kotlin interfaces is unnecessary and therefore unsupported.
+{:.note}
 
 ## Using JNI with Kotlin
 
