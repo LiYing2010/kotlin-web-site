@@ -419,9 +419,9 @@ The second child is cancelled because the supervisor was cancelled
 
 #### 监控作用范围
 
-对于 *带作用范围* 的并发, 可以使用 [supervisorScope] 代替 [coroutineScope] 来实现同一目的.
+对于 *带作用范围* 的并发, 可以使用 [supervisorScope][_supervisorScope] 代替 [coroutineScope][_coroutineScope] 来实现同一目的.
 它也只向一个方向传播取消, 并且只在它自身失败的情况下取消所有的子协程.
-它在运行结束之前也会等待所有的子协程结束, 和 [coroutineScope] 一样.
+它在运行结束之前也会等待所有的子协程结束, 和 [coroutineScope][_coroutineScope] 一样.
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
@@ -470,7 +470,7 @@ Caught an assertion error
 常规任务与监控任务的另一个重要区别就是对异常的处理方式.
 每个子协程都应该通过异常处理机制自行处理它的异常.
 区别在于, 子协程的失败不会传播到父协程中.
-也就是说, 直接在 [supervisorScope] 之内启动的协程, 就象根协程一样,
+也就是说, 直接在 [supervisorScope][_supervisorScope] 之内启动的协程, 就象根协程一样,
 _会_ 使用安装在其作用范围上的 [CoroutineExceptionHandler],
 (详情请参见 [CoroutineExceptionHandler](#coroutineexceptionhandler) 小节).
 
@@ -523,8 +523,8 @@ The scope is completed
 [runBlocking]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/run-blocking.html
 [SupervisorJob()]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-supervisor-job.html
 [Job()]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-job.html
-[coroutineScope]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/coroutine-scope.html
-[supervisorScope]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/supervisor-scope.html
+[_coroutineScope]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/coroutine-scope.html
+[_supervisorScope]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/supervisor-scope.html
 <!--- INDEX kotlinx.coroutines.channels -->
 [actor]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.channels/actor.html
 [produce]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.channels/produce.html

@@ -3,13 +3,13 @@
 main:
   content:
     - url: /docs/reference_zh/
-      title: 学习
+      title: 文档
 
     - url: /community/
       title: 社区
 
     - url: /education/
-      title: 教育
+      title: 教学
 
     - url: https://play.kotlinlang.org
       title: 试用
@@ -86,12 +86,26 @@ reference:
     - title: 新功能
       description: Kotlin 各发布版本中的新功能
       content:
+        - url: /docs/reference_zh/whatsnew-plugin-20203.html
+          title: Kotlin plugin 2020.3
+        - url: /docs/reference_zh/whatsnew1420.html
+          title: Kotlin 1.4.20
+        - url: /docs/reference_zh/whatsnew14.html
+          title: Kotlin 1.4
         - url: /docs/reference_zh/whatsnew13.html
-          title: 1.3 版中的新功能
+          title: Kotlin 1.3
         - url: /docs/reference_zh/whatsnew12.html
-          title: 1.2 版中的新功能
+          title: Kotlin 1.2
         - url: /docs/reference_zh/whatsnew11.html
-          title: 1.1 版中的新功能
+          title: Kotlin 1.1
+
+    - title: 发布版本与发展路线图
+      description: Kotlin 的发布版本与发展路线图
+      content:
+        - url: /docs/reference_zh/releases.html
+          title: Kotlin 的发布版本
+        - url: /docs/reference_zh/roadmap.html
+          title: Kotlin 发展路线图
 
     - title: 入门
       description: 熟悉 Kotlin 的基本知识, 包括操作符, 编码规约, 以及惯用法.
@@ -124,6 +138,8 @@ reference:
           title: 属性(Property)与域(Field)
         - url: /docs/reference_zh/interfaces.html
           title: 接口(Interface)
+        - url: /docs/reference_zh/fun-interfaces.html
+          title: 函数式接口 (SAM Interface)
         - url: /docs/reference_zh/visibility-modifiers.html
           title: 可见度修饰符(Visibility Modifier)
         - url: /docs/reference_zh/extensions.html
@@ -224,15 +240,36 @@ reference:
           title: 选择表达式(Select expression)(实验性功能)
 
     - title: 跨平台程序开发
-      description: 在 JVM, JS, 和 Native 平台上复用代码
+      description: 在各种不同平台上复用代码
       content:
-        - url: /docs/reference_zh/platform-specific-declarations.html
-          title: 与平台相关的声明
-        - url: /docs/reference_zh/building-mpp-with-gradle.html
-          title: 使用 Gradle 进行编译
+        - url: /docs/reference_zh/mpp-intro.html
+          title: Kotlin 跨平台程序开发
+        - url: /docs/reference_zh/mpp-create-lib.html
+          title: 创建跨平台的库
+        - url: /docs/reference_zh/mpp-discover-project.html
+          title: 查看跨平台项目的结构
+        - url: /docs/reference_zh/mpp-share-on-platforms.html
+          title: 在不同的平台之间共用代码
+        - url: /docs/reference_zh/mpp-connect-to-apis.html
+          title: 连接平台相关的 API
+        - url: /docs/reference_zh/mpp-set-up-targets.html
+          title: 手动设置编译目标
+        - url: /docs/reference_zh/mpp-add-dependencies.html
+          title: 添加依赖项
+        - url: /docs/reference_zh/mpp-configure-compilations.html
+          title: 配置编译任务
+        - url: /docs/reference_zh/mpp-run-tests.html
+          title: 运行测试
+        - url: /docs/reference_zh/mpp-publish-lib.html
+          title: 发布跨平台的库
+        - url: /docs/reference_zh/mpp-build-native-binaries.html
+          title: 构建最终的原生二进制文件
+        - url: /docs/reference_zh/mpp-supported-platforms.html
+          title: 支持的平台
         - url: /docs/reference_zh/mpp-dsl-reference.html
           title: 跨平台程序的 Gradle DSL 参考文档
-
+        - url: /docs/reference_zh/migrating-multiplatform-project-to-14.html
+          title: 迁移到 Kotlin 1.4
 
     - title: 其他语言结构
       description: 其他各种知识
@@ -255,6 +292,8 @@ reference:
           title: 注解(Annotation)
         - url: /docs/reference_zh/reflection.html
           title: 反射(Reflection)
+        - url: /docs/reference_zh/serialization.html
+          title: 序列化(Serialization)
         - url: /docs/reference_zh/scope-functions.html
           title: 作用域函数(Scope Function)
         - url: /docs/reference_zh/type-safe-builders.html
@@ -305,6 +344,10 @@ reference:
          title: JavaScript 中的反射(Reflection)
        - url: /docs/reference_zh/javascript-dce.html
          title: JavaScript 死代码剔除工具(DCE)
+       - url: /docs/reference_zh/js-ir-compiler.html
+         title: IR 编译器
+       - url: /docs/reference_zh/js-external-declarations-with-dukat.html
+         title: 使用 Dukat 生成外部声明(External Declaration)
 
     - title: 原生(Native)程序开发
       description: 使用 Kotlin/Native 开发 iOS 和 Native 程序
@@ -358,9 +401,11 @@ reference:
         - url: /docs/reference_zh/evolution/kotlin-evolution.html
           title: Kotlin 的演化
         - url: /docs/reference_zh/evolution/components-stability.html
-          title: 各部分组件的稳定性
+          title: Kotlin 各组件的稳定性
         - url: /docs/reference_zh/compatibility-guide-13.html
           title: Kotlin 1.3 兼容性指南
+        - url: /docs/reference_zh/compatibility-guide-14.html
+          title: Kotlin 1.4 兼容性指南
 
     - title: FAQ
       description: 你想到的问题, 可能已经回答过了, 所以请先查看相关的 FAQ.
@@ -401,7 +446,7 @@ tutorials:
     - title: JavaScript
       content:
         - url: /docs/tutorials/javascript/setting-up.html
-          title: Setting up a project
+          title: Get started with Kotlin/JS for React
         - url: /docs/tutorials/javascript/running-kotlin-js.html
           title: Running Kotlin/JS
         - url: /docs/tutorials/javascript/dev-server-continuous-compilation.html
@@ -437,7 +482,7 @@ tutorials:
         - url: /docs/tutorials/native/using-gradle.html
           title: Hello Kotlin/Native using Gradle
         - url: /docs/tutorials/native/using-intellij-idea.html
-          title: Hello Kotlin/Native using IntelliJ IDEA
+          title: Get started with Kotlin/Native using IntelliJ IDEA
         - url: /docs/tutorials/native/intro-to-kotlin-native.html
           title: Creating an HTTP Client in Kotlin/Native
         - url: /docs/tutorials/native/mapping-primitive-data-types-from-c.html
@@ -467,6 +512,10 @@ tutorials:
           title: Intro to Kotlin Coroutines on the JVM
         - url: /docs/tutorials/coroutines/intro-to-coroutines-and-channels.html
           title: Intro to Coroutines and Channels
+        - url: /docs/tutorials/coroutines/debug-coroutines-with-idea.html
+          title: Debug coroutines using IntelliJ IDEA
+        - url: /docs/tutorials/coroutines/debug-flow-with-idea.html
+          title: Debug Kotlin Flow using IntelliJ IDEA
 
     - title: Web Development
       content:
@@ -486,16 +535,6 @@ tutorials:
           title: Learning Kotlin with EduTools plugin
         - url: /docs/tutorials/edu-tools-educator.html
           title: Teaching Kotlin with EduTools plugin
-    - title: Migrating from Python
-      external:
-        path: kotlin-for-python-developers
-        nav: kotlinlang.org.yaml
-        base: /docs/tutorials/kotlin-for-py
-        branch: master
-        repo: https://github.com/Khan/kotlin-for-python-developers
-        type: tutorial
-        wrap_code_snippets: True
-        github_edit_page: README.md
 
 foundation:
   content:

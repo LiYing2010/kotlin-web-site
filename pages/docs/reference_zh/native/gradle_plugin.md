@@ -71,7 +71,7 @@ kotlin {
 
     // 也可以在单个代码段中, 配置所有的原生编译目标.
     targets.withType(KotlinNativeTarget) {
-        // Native 编译目标 configuration.
+        // Native 编译目标配置.
     }
 }
 ```
@@ -179,7 +179,7 @@ kotlin.sourceSets {
     // 配置所有的原生平台源代码集, 将 nativeMain 用作共通源代码.
     linuxX64Main.dependsOn(nativeMain)
     macosX64Main.dependsOn(nativeMain)
-    //...
+    // ...
 }
 ```
 
@@ -265,7 +265,7 @@ kotlin {
     macosX64 {
         compilations.main.cinterops {
             mystdio {
-                // Cinterop configuration.
+                // Cinterop 配置.
             }
         }
     }

@@ -16,7 +16,7 @@ title: "在 Android 开发中使用 Kotlin"
   现在它已经无缝集成到 Android Studio 中, 并且被许多公司在 Android 应用程序开发中积极使用.
 * **在 Android Jetpack 以及许多其他库中都提供了对 Kotlin 的支持**. [KTX 扩展](https://developer.android.com/kotlin/ktx) 为既有的 Android 库添加了 Kotlin 语言特性, 比如协程(Coroutine), 扩展函数(extension function), Lambda 表达式, 以及命名参数(named parameter).
 * **与 Java 的互操作性**. 你可以在应用程序中同时使用 Kotlin 和 Java 语言, 而不必将你的代码全部迁移到 Kotlin.
-* **对跨平台(multiplatform)开发的支持**. 使用 Kotlin 不仅可以开发 Android 应用程序, 而且还可以开发 [iOS](https://www.jetbrains.com/lp/mobilecrossplatform/) 应用程序, 后端服务, 以及 Web 应用程序.
+* **对跨平台(multiplatform)开发的支持**. 使用 Kotlin 不仅可以开发 Android 应用程序, 而且还可以开发 [iOS](https://kotlinlang.org/lp/mobile/) 应用程序, 后端服务, 以及 Web 应用程序.
 因此你可以享受在多个平台之间共用代码带来的益处.
 * **代码安全性**. 代码更少, 可读性更好, 因此错误更少. Kotlin 编译器可以检查代码中的错误, 保住代码安全.
 * **易于学习**. Kotlin 非常易于学习, 尤其是对于 Java 开发者.

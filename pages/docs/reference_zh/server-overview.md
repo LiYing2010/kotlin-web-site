@@ -31,6 +31,9 @@ Kotlin 非常适合于开发服务器端应用程序, 使用 Kotlin 可以编写
  * [Micronaut](https://micronaut.io/) 是一个现代化的, 基于 JVM 的全栈框架, 用于创建模块化的, 便于测试的微服务(microservice)或无服务(serverless)应用程序.
  它带有很多内建的, 便利的功能.
 
+ * [http4k](https://http4k.org/) 是一个尺寸很小的工具包, 用于 Kotlin HTTP 应用程序, 使用纯 Kotlin 编写.
+ 这个库基于 Twitter 的 "通过函数实现你的服务器" 论文, 它将 HTTP 服务器端和客户端模型都表达为简单的 Kotlin 函数, 再将这些简单函数组合在一起.
+
  * [Javalin](https://javalin.io) 是一个用于 Kotlin 和 Java的, 非常轻量的 web 框架, 支持 WebSockets, HTTP2 以及异步请求.
 
  * 关于数据的持久化存储, 可以选择直接的 JDBC 访问, 或者使用 JPA, 或者通过 Java 驱动程序使用 NoSQL 数据库. 对于 JPA, [kotlin-jpa 编译器插件](compiler-plugins.html#jpa-support) 可以使 Kotlin 编译的 class文件符合 JPA 框架的要求.
@@ -57,3 +60,6 @@ Google 云平台也提供了一系列教程, 演示如何将 Kotlin 应用程序
 * [使用 Http Servlet 创建 Web 应用程序](/docs/tutorials/httpservlets.html) 以及 [使用 Spring Boot 创建 REST Web Service](/docs/tutorials/spring-boot-restful.html) 教程将向你演示如何使用 Kotlin 来创建并运行小型 Web 应用程序.
 * 关于对 Kotlin 语言的更加深入介绍, 请参加本站的 [参考文档](index.html) , 以及 [Kotlin Koans](/docs/tutorials/koans.html).
 * Micronaut 也提供了很多非常详细的 [向导文档](https://guides.micronaut.io/tags/kotlin.html), 解释如何使用 Kotlin 创建微服务(microservice).
+* http4k 提供了 [命令行工具(CLI)](https://toolbox.http4k.org) 来生成完整的项目,
+还提供了一个 [starter](https://start.http4k.org) 代码仓库,
+可以通过一个简单的 bash 命令来生成整个持续部署流程(CD pipeline) (使用 GitHub, Travis, 以及 Heroku).

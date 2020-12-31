@@ -5,7 +5,7 @@ category: "Introduction"
 title: "Kotlin 原生(Native)程序开发"
 ---
 
-# **使用Kotlin/Native 进行原生(Native)程序开发**
+# 使用Kotlin/Native 进行原生(Native)程序开发
 
 ![编译器图]({{ url_for('asset', path='images/landing/native/native_overview.png')}})
 
@@ -50,40 +50,37 @@ POSIX, gzip, OpenGL, Metal, Foundation, 以及其他许多流行的库和 Apple 
 
 ## 在不同的平台上共享代码
 
-通过不同的 Kotlin 和 Kotlin/Native 编译目标, 我们支持 [跨平台项目](multiplatform.html).
-这是一种在各种平台上共享 Kotlin 源代码的方式, 包括 Android, iOS, 服务器端, JVM, 客户端, JavaScript, CSS, 以及原生平台.
+通过 [跨平台项目](multiplatform.html), 可以在各种平台上共用 Kotlin 源代码,
+包括 Android, iOS, JVM, JavaScript, 以及原生平台.
+跨平台库 为共通的 Kotlin 代码提供了必要的 API, 帮助我们用 Kotlin 代码编写项目中共通的部分,
+这些代码只需要编写一次, 然后就可以在多个目标平台甚至所有的目标平台上共用.
 
-[跨平台库](multiplatform.html#multiplatform-libraries) 为共通的 Kotlin 代码提供了必要的 API, 帮助我们以 Kotlin 代码的方式编写项目中共通的部分, 这些代码只需要编写一次, 然后就可以在所有的目标平台上共用.
+你可以使用 [Kotlin 跨平台移动应用(Kotlin Multiplatform Mobile, KMM)](https://kotlinlang.org/lp/mobile/)\
+来创建跨平台移动应用, 代码可以在 Android 和 iOS 平台共用.
 
-## 如何开始
+## 下一步做什么
 
-<div style="display: flex; align-items: center; margin-bottom: 20px">
-    <img src="{{ url_for('asset', path='images/landing/native/book.png') }}" height="38p" width="55" style="margin-right: 10px;">
-    <b>教程和文档</b>
-</div>
+如果你是 Kotlin 新手, 请先阅读 [入门](getting-started.html).
 
-如果你是 Kotlin 新手, 请先阅读 [入门](basic-syntax.html).
+### 文档
 
-推荐的文档:
+- [Kotlin 跨平台移动应用(Kotlin Multiplatform Mobile) 文档](https://kotlinlang.org/docs/mobile/home.html)
+- [跨平台项目文档](mpp-intro.html)
 - [与 C 代码交互](native/c_interop.html)
 - [与 Swift/Objective-C 代码交互](native/objc_interop.html)
 
-推荐的教程:
+### 教程
+
 - [Hello Kotlin/Native](/docs/tutorials/native/using-command-line-compiler.html)
-- [跨平台项目: iOS 与 Android](/docs/tutorials/native/mpp-ios-android.html)
 - [C 与 Kotlin/Native 之间的类型映射](/docs/tutorials/native/mapping-primitive-data-types-from-c.html)
 - [使用 Kotlin/Native 开发动态链接库](/docs/tutorials/native/dynamic-libraries.html)
 - [使用 Kotlin/Native 开发 Apple 框架](/docs/tutorials/native/apple-framework.html)
 
-<div style="display: flex; align-items: center; margin-bottom: 10px;">
-    <img src="{{ url_for('asset', path='images/landing/native/try.png') }}" height="38p" width="55" style="margin-right: 10px;">
-    <b>示例项目</b>
-</div>
+## 示例项目
 
+- [Kotlin 跨平台移动应用示例](https://kotlinlang.org/docs/mobile/samples.html)
 - [Kotlin/Native 源代码与示例](https://github.com/JetBrains/kotlin-native/tree/master/samples)
 - [KotlinConf App](https://github.com/JetBrains/kotlinconf-app)
 - [KotlinConf Spinner App](https://github.com/jetbrains/kotlinconf-spinner)
 - [Kotlin/Native 源代码与示例 (.tgz)](https://download.jetbrains.com/kotlin/native/kotlin-native-samples-1.0.1.tar.gz)
 - [Kotlin/Native 源代码与示例 (.zip)](https://download.jetbrains.com/kotlin/native/kotlin-native-samples-1.0.1.zip)
-
-更多示例请参见 [GitHub](https://github.com/JetBrains/kotlin-examples).

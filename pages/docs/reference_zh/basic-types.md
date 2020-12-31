@@ -454,7 +454,8 @@ var arr = IntArray(5) { it * 1 }
 
 ## 无符号整数
 
-> 无符号类型只在 Kotlin 1.3 以上版本有效, 目前还处于 *试验性阶段*. 详情请参见 [下文](#experimental-status-of-unsigned-integers)
+> 无符号类型只在 Kotlin 1.3 以上版本有效, 目前还处于 [Beta 阶段](evolution/components-stability.html).
+  详情请参见 [下文](#beta-status-of-unsigned-integers)
 {:.note}
 
 针对无符号整数, Kotlin 引入了以下数据类型:
@@ -469,7 +470,7 @@ var arr = IntArray(5) { it * 1 }
 > 注意, 将无符号类型变为有符号类型 (或者反过来) 是一种 *二进制不兼容的* 变换
 {:.note}
 
-无符号整数的实现使用到了另一种试验性功能, 名为 [内嵌类](inline-classes.html).
+无符号整数的实现使用到了另一种未稳定发布的功能, 名为 [内嵌类](inline-classes.html).
 
 ### 为无符号整数服务的专用类
 
@@ -512,18 +513,22 @@ val a = 1UL // 字面值类型为 ULong, 即使这里未指定期待的数据类
 
 </div>
 
-### 无符号整数功能目前的状况
+### 无符号整数功能目前处于 Beta 阶段
 
-无符号整数类型功能的设计还处于实验性阶段, 也就是说, 这个功能目前还在快速变化, 并且不保证兼容性. 在 Kotlin 1.3 以上版本中使用无符号整数运算时, 编译器会提示警告信息, 表示这项功能还处于实验性阶段. 如果要去掉这些警告, 你需要明确地表示自己确定要使用无符号整数的实验性功能.
+无符号整数类型功能的设计还处于 [Beta 阶段](evolution/components-stability.html), 也就是说, 关于这个功能的兼容性, 我们会尽量努力, 但不提供保证.
+在 Kotlin 1.3 以上版本中使用无符号整数运算时, 编译器会提示警告信息, 表示这项功能还没有稳定发布.
+如果要去掉这些警告, 你需要明确地表示自己确定要使用无符号整数功能.
 
-具体的做法有两种方式: 一种会把你的 API 也变成实验性 API, 另一种不会.
+具体的做法有两种方式: 一种是在你的 API 中也要求使用者同意, 另一种不会如此.
 
-- 如果愿意把你的 API 也变成实验性 API, 可以对使用无符号整数的 API 声明添加 `@ExperimentalUnsignedTypes` 注解.
-- 如果不愿意把你的 API 变成实验性 API, 可以对你的 API 声明使用 `@OptIn(ExperimentalUnsignedTypes::class)` 注解, 或者对编译器添加 `-Xopt-in=kotlin.ExperimentalUnsignedTypes` 选项
+- 如果愿意把你的 API 也变成需要使用者同意, 可以对使用无符号整数的 API 声明添加 `@ExperimentalUnsignedTypes` 注解.
+- 如果不愿意把你的 API 变成需要使用者同意, 可以对你的 API 声明使用 `@OptIn(ExperimentalUnsignedTypes::class)` 注解,
+  或者对编译器添加 `-Xopt-in=kotlin.ExperimentalUnsignedTypes` 选项
 
-你的 API 使用者是否需要明确地表示自己确定要使用你的实验性 API, 这个选择由你来决定.但是请时刻记得, 无符号整数目前还是实验性功能, 因此由于 Kotlin 语言未来版本的变化, 使用无符号整数的 API 可能会突然崩溃.
+你的 API 使用者是否需要明确地表示自己确定要使用你的实验性 API, 这个选择由你来决定.
+但是请时刻记得, 无符号整数目前还是未稳定发布的功能, 因此由于 Kotlin 语言未来版本的变化, 使用无符号整数的 API 可能会出现错误.
 
-关于更多技术细节, 请参见实验性 API 的 [KEEP](https://github.com/Kotlin/KEEP/blob/master/proposals/experimental.md).
+关于更多技术细节, 请参见要求使用者同意 API 的 [KEEP](https://github.com/Kotlin/KEEP/blob/master/proposals/experimental.md).
 
 ### 更深入地讨论
 

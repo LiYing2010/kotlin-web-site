@@ -19,6 +19,7 @@ title: "取消与超时"
   * [使用 `finally` 语句来关闭资源](#closing-resources-with-finally)
   * [运行无法取消的代码段](#run-non-cancellable-block)
   * [超时](#timeout)
+  * [异步的超时与资源管理](#asynchronous-timeout-and-resources)
 
 <!--- END -->
 
@@ -360,6 +361,110 @@ Result is null
 ```
 
 <!--- TEST -->
+
+### 异步的超时与资源管理
+
+<!--
+  NOTE: Don't change this section name. It is being referenced to from within KDoc of withTimeout functions.
+-->
+
+[withTimeout] 中的超时事件异步于它的代码段中运行的代码, 超时事件可以在任何时刻发生, 甚至刚好在从超时的代码段中返回之前.
+如果你在代码段之内打开或获取某种资源, 而且需要在代码段之外关闭或释放这些资源, 那么请牢记这一点.
+
+比如, 我们使用 `Resource` 类模拟一个可关闭的资源, 它只是记录自己被创建了多少次,
+在创建时增加 `acquired` 计数器, 并在 `close` 函数中减少这个计数器.
+我们来运行很多个协程, 使用很短的超时设定, 在 `withTimeout` 代码段之内尝试获取这个资源,
+延迟一点时间, 然后在代码段之外释放这个资源.
+
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+
+```kotlin
+import kotlinx.coroutines.*
+
+//sampleStart
+var acquired = 0
+
+class Resource {
+    init { acquired++ } // 获取资源
+    fun close() { acquired-- } // 释放资源
+}
+
+fun main() {
+    runBlocking {
+        repeat(100_000) { // 启动 100K 个协程
+            launch {
+                val resource = withTimeout(60) { // 超时设定为 60 ms
+                    delay(50) // 延迟 50 ms
+                    Resource() // 获取资源, 然后从 withTimeout 代码段返回这个资源
+                }
+                resource.close() // 释放资源
+            }
+        }
+    }
+    // 在 runBlocking 之外, 所有的协程都已运行结束
+    println(acquired) // 输出未被释放的资源数量
+}
+//sampleEnd
+```
+
+</div>
+
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-cancel-08.kt).
+
+<!--- CLEAR -->
+
+运行上面的代码, 你会看到输出结果并不总是 0, 具体情况依赖于你的机器的时间, 你可能需要调整示例代码中的超时设置, 才能看到非 0 的结果.
+
+> 注意, 这个例子中, 从 100K 个协程中增加和减少 `acquired` 计数器是完全安全的,
+> 因为这个处理永远发生在同一个主线程内. 更多细节将在下一章, 关于协程上下文的部分中解释.
+
+这个问题的解决方法是, 可以将资源的引用保存到变量中, 而不是从 `withTimeout` 代码段直接返回资源.
+
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+
+```kotlin
+import kotlinx.coroutines.*
+
+var acquired = 0
+
+class Resource {
+    init { acquired++ } // 获取资源
+    fun close() { acquired-- } // 释放资源
+}
+
+fun main() {
+//sampleStart
+    runBlocking {
+        repeat(100_000) { // 启动 100K 个协程
+            launch {
+                var resource: Resource? = null // 这时资源还没有获取
+                try {
+                    withTimeout(60) { // 超时设定为 60 ms
+                        delay(50) // 延迟 50 ms
+                        resource = Resource() // 如果获取成功, 将资源保存到变量
+                    }
+                    // 我们可以在这里对资源进行一些其他操作
+                } finally {  
+                    resource?.close() // 如果获取成功, 释放资源
+                }
+            }
+        }
+    }
+    // 在 runBlocking 之外, 所有的协程都已运行结束
+    println(acquired) // 输出未被释放的资源数量
+//sampleEnd
+}
+```
+
+</div>
+
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-cancel-09.kt).
+
+这段示例程序永远会输出 0. 也就是说, 没有发生资源泄露.
+
+<!--- TEST
+0
+-->
 
 <!--- MODULE kotlinx-coroutines-core -->
 <!--- INDEX kotlinx.coroutines -->

@@ -8,7 +8,7 @@ title: "排序(Ordering)"
 # 集合排序(Ordering)
 
 对于一些集合类型来说, 元素的排序是非常重要的问题.
-比如, 包含相同元素的两个 list, 如果元素顺序不同, 会被认为不相等. 
+比如, 包含相同元素的两个 list, 如果元素顺序不同, 会被认为不相等.
 
 在 Kotlin 中, 对象之间的顺序可以通过几种不同的方式来定义.
 
@@ -53,7 +53,7 @@ fun main() {
 具体来说, 你可以对不可比较的对象定义顺序, 也可以对可比较的对象定义与自然顺序不同的另一种顺序.
 要对一个类型定义自定义顺序, 需要为它创建一个 [`Comparator`](/api/latest/jvm/stdlib/kotlin/-comparator/index.html).
 `Comparator` 包含 `compare()` 函数: 它的参数是同一个类的两个实例, 返回一个整数, 代表它们的比较结果.
-返回值代表的含义与上面介绍的 `compareTo()` 函数相同. 
+返回值代表的含义与上面介绍的 `compareTo()` 函数相同.
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
@@ -79,7 +79,7 @@ fun main() {
 ```kotlin
 fun main() {
 //sampleStart    
-println(listOf("aaa", "bb", "c").sortedWith(compareBy { it.length }))
+    println(listOf("aaa", "bb", "c").sortedWith(compareBy { it.length }))
 //sampleEnd
 }
 
@@ -112,7 +112,7 @@ fun main() {
 </div>
 
 ## 使用自定义顺序排序
- 
+
 如果要使用自定义顺序排序, 或者对不可比较的对象排序, 可以使用 [`sortedBy()`](/api/latest/jvm/stdlib/kotlin.collections/sorted-by.html) 和 [`sortedByDescending()`](/api/latest/jvm/stdlib/kotlin.collections/sorted-by-descending.html) 函数.
 这些函数的参数是一个选择器函数, 负责将集合元素变换为 `Comparable` 值, 然后再按照这些 `Comparable` 值的自然顺序对集合进行排序.
 
@@ -152,7 +152,7 @@ fun main() {
 
 ## 逆序集合
 
-可以按照相反的顺序访问集合, 方法是使用 [`reversed()`](/api/latest/jvm/stdlib/kotlin.collections/reversed.html) 函数. 
+可以按照相反的顺序访问集合, 方法是使用 [`reversed()`](/api/latest/jvm/stdlib/kotlin.collections/reversed.html) 函数.
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
@@ -170,7 +170,7 @@ fun main() {
 `reversed()` 函数的返回值是一个新的集合, 其中复制了原集合中的所有元素.
 因此, 如果之后改变了原元集合的内容, 不会影响到之前通过 `reversed()` 函数得到的结果.
 
-另一个逆序函数 - [`asReversed()`](/api/latest/jvm/stdlib/kotlin.collections/as-reversed.html) - 返回原 List 的一个逆序的视图(view), 因此, 如果原 List 不会改变, 那么这个函数可能比 `reversed()` 函数更轻量, 更适用. 
+另一个逆序函数 - [`asReversed()`](/api/latest/jvm/stdlib/kotlin.collections/as-reversed.html) - 返回原 List 的一个逆序的视图(view), 因此, 如果原 List 不会改变, 那么这个函数可能比 `reversed()` 函数更轻量, 更适用.
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 

@@ -2,10 +2,10 @@
 type: doc
 layout: reference
 category: "Syntax"
-title: "属性(Property)与域(Field): 取值方法, 设值方法, 常数值, 延迟初始化"
+title: "属性(Property): 取值方法, 设值方法, 常数值, 延迟初始化"
 ---
 
-# 属性(Property)与域(Field)
+# 属性(Property)
 
 ## 声明属性
 
@@ -127,7 +127,8 @@ var setterWithAnnotation: Any? = null
 
 ### 属性的后端域变量(Backing Field)
 
-Kotlin 的类不能直接声明域变量. 但是, 如果属性需要一个后端域变量(Backing Field), Kotlin 会自动提供.
+在 Kotlin 中, 只有需要将域变量(field)作为属性的一部分, 在内存中保存属性值的时候, 才会使用域变量(field).
+域变量不能直接声明. 但是, 如果属性需要一个后端域变量(Backing Field), Kotlin 会自动提供.
 在属性的取值方法或设值方法中, 使用 `field` 标识符可以引用这个后端域变量:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">

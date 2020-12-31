@@ -27,7 +27,7 @@ set 元素的顺序也可能是不可知的.
 要获取某个指定位置的元素, 可以使用 [`elementAt()`](/api/latest/jvm/stdlib/kotlin.collections/element-at.html) 函数.
 使用一个整数值参数调用这个函数, 将会获取集合在这个位置上的元素.
 集合起始元素的位置是 `0`, 最末尾元素的位置是 `(size - 1)`.
- 
+
 对于没有提供按下标访问能力的集合, 或者我们不知道集合具体类型, 因此无法判断集合是否提供按下标访问能力的情况, `elementAt()` 函数是很便利的.
 对于 `List` 的情况, 更符合习惯的方法是使用 [按下标访问操作符](list-operations.html#retrieving-elements-by-index) (`get()` 或 `[]`).
 
@@ -83,7 +83,7 @@ fun main() {
 
 [`first()`](/api/latest/jvm/stdlib/kotlin.collections/first.html) 和 [`last()`](/api/latest/jvm/stdlib/kotlin.collections/last.html) 函数还允许你使用一个指定的判定条件(predicate)来搜索集合中满足条件的元素.
 如果调用 `first()` 时指定一个判定条件来检查集合元素, 你会得到使得判定条件计算结果为 `true` 的第一个元素.
-相应的, 如果调用 `last()` 时指定一个判定条件, 会返回满足这个判定条件的最后一个元素. 
+相应的, 如果调用 `last()` 时指定一个判定条件, 会返回满足这个判定条件的最后一个元素.
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
@@ -148,6 +148,8 @@ fun main() {
 ```
 </div>
 
+对于空的集合, `random()` 函数会抛出异常. 如果想要得到 `null` 值, 请使用 [`randomOrNull()`](/api/latest/jvm/stdlib/kotlin.collections/random-or-null.html) 函数.
+
 ## 检测元素是否存在
 
 要检查集合中是否存在某个元素, 请使用 [`contains()`](/api/latest/jvm/stdlib/kotlin.collections/contains.html) 函数.
@@ -164,7 +166,7 @@ fun main() {
     val numbers = listOf("one", "two", "three", "four", "five", "six")
     println(numbers.contains("four"))
     println("zero" in numbers)
-    
+
     println(numbers.containsAll(listOf("four", "two")))
     println(numbers.containsAll(listOf("one", "zero")))
 //sampleEnd
@@ -182,7 +184,7 @@ fun main() {
     val numbers = listOf("one", "two", "three", "four", "five", "six")
     println(numbers.isEmpty())
     println(numbers.isNotEmpty())
-    
+
     val empty = emptyList<String>()
     println(empty.isEmpty())
     println(empty.isNotEmpty())
@@ -190,4 +192,3 @@ fun main() {
 }
 ```
 </div>
-

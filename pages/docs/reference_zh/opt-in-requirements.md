@@ -7,26 +7,26 @@ title: "明确要求使用者同意的功能(Opt-in Requirement)"
 
 # 明确要求使用者同意的功能(Opt-in Requirement)
 
-> 明确要求使用者同意(Opt-in Requirement) 的注解 `@RequiresOptIn` 和 `@OptIn` 目前还是 *实验性(experimental)功能*. 
+> 明确要求使用者同意(Opt-in Requirement) 的注解 `@RequiresOptIn` 和 `@OptIn` 目前还是 [实验性(experimental)功能](evolution/components-stability.html).
 > 使用方法的详情请参见 [下文](#experimental-status-of-the-opt-in-requirements).
-{:.note} 
+{:.note}
 
 > `@RequireOptIn` 和 `@OptIn` 注解从 1.3.70 版开始引入, 代替以前使用的 `@Experimental` 和 `@UseExperimental` 注解;
 > 同时, 编译器选项 `-Xopt-in` 代替了以前使用的 `-Xuse-experimental`.
-{:.note} 
+{:.note}
 
 
 Kotlin 标准库提供了一种机制, 可以要求用户明确同意使用 API 中的某些部分.
-对于某些需要使用者明确同意的情况, 库的开发者可以通过这种机制告知他们 API 的使用者, 比如, 如果一个 API 还出在实验性阶段, 未来可能发生变化. 
+对于某些需要使用者明确同意的情况, 库的开发者可以通过这种机制告知他们 API 的使用者, 比如, 如果一个 API 还出在实验性阶段, 未来可能发生变化.
 
 为了防止潜在的问题, 编译器会向这些 API 的使用者提示这些条件的警告信息, 并要求他们同意(Opt-in), 然后才能够使用 API.
 
 ## 同意使用 API
 
 如果库的作者将库中的一个 API 标记为 [_要求使用者同意(requiring opt-in)_](#requiring-opt-in-for-api),
-那么你在自己的代码中使用它时, 需要明确表示同意使用. 
+那么你在自己的代码中使用它时, 需要明确表示同意使用.
 有几种方法来同意使用这样的 API, 可以使用任何一种方法, 它们都不存在技术上的限制.
-你可以自由选择最适合你情况的方法. 
+你可以自由选择最适合你情况的方法.
 
 ### 传递式同意(Propagating opt-in)
 
@@ -119,17 +119,17 @@ fun displayDate() {
 如果想要在一个源代码文件的所有类和所有函数内使用某个要求使用者同意的 API, 可以在文件最前部, 在包声明和包导入语句之前, 添加源代码文件级别的 `@file:OptIn` 注解.
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
- 
+
  ```kotlin
  // 库的使用者代码
  @file:OptIn(MyDateTime::class)
  ```
- 
+
  </div>
 
 ### 模块范围内同意使用(Module-wide opt-in)
 
-如果你不希望在你的代码中每次使用需要同意的 API 的地方都添加标注, 那么你可以在你的整个模块级别上同意使用这些 API. 
+如果你不希望在你的代码中每次使用需要同意的 API 的地方都添加标注, 那么你可以在你的整个模块级别上同意使用这些 API.
 要在一个模块内同意使用某个 API, 可以使用参数 `-Xopt-in` 来编译模块, 并指定你所使用的 API 的要求用户同意标注的完全限定名称: `-Xopt-in=org.mylibrary.OptInAnnotation`.
 使用这个参数来编译代码, 效果等于让模块内的每一个声明都添加 `@OptIn(OptInAnnotation::class)` 注解.
 
@@ -139,7 +139,7 @@ fun displayDate() {
 <div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
 
 ```groovy
-compileKotlin {
+tasks.withType(KotlinCompile).configureEach {
     kotlinOptions {
         freeCompilerArgs += "-Xopt-in=org.mylibrary.OptInAnnotation"
     }
@@ -153,7 +153,7 @@ compileKotlin {
 <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
 
 ```kotlin
-tasks.withType<KotlinCompile>().all {
+tasks.withType<KotlinCompile>().configureEach {
     kotlinOptions.freeCompilerArgs += "-Xopt-in=org.mylibrary.OptInAnnotation"
 }
 ```
@@ -219,7 +219,7 @@ sourceSets {
 
 如果要在整个模块级别同意使用多个 API, 请对你的模块中使用到的每个要求用户同意的元素逐个添加上述参数.
 
-## 对 API 标记要求使用者同意 
+## 对 API 标记要求使用者同意
 
 ### 创建表示要求使用者同意(Opt-in requirement)的注解
 
@@ -248,7 +248,7 @@ annotation class MyDateTime
 
 请使用 `@RequiresOptIn` 注解的`level` 参数来设置你希望的严重级别.  
 
-此外, 你还可以指定一个 `message` 来提示 API 使用者关于这个 API 的特定条件. 
+此外, 你还可以指定一个 `message` 来提示 API 使用者关于这个 API 的特定条件.
 对于使用这个 API 但没有明确同意的用户, 编译器会显示提示这个警告信息.
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
@@ -283,12 +283,12 @@ fun getTime(): Time {}
 </div>
 
 
-## 实验性(experimental) API 的使用者同意要求
+## 未稳定发布的 API 对使用者同意的要求
 
-如果你对实验性状态的功能要求使用者同意, 请仔细维护你的 API, 确保不要破坏使用者的代码.
+如果你对未稳定发布的功能要求使用者同意, 请仔细维护你的 API, 确保不要破坏使用者的代码.
 
-一旦你的实验性 API 开发完成, 并以稳定模式发布之后, 请在它的声明中删除要求使用者同意的注解.
-之后, 使用者的代码就能够不受限制地使用这些 API 了. 
+一旦你的未稳定发布的 API 开发完成, 并以稳定模式发布之后, 请在它的声明中删除要求使用者同意的注解.
+之后, 使用者的代码就能够不受限制地使用这些 API 了.
 但是, 你还需要将这些注解类继续保留在模块中, 以与现有的使用者代码保持兼容.
 
 如果想要让 API 的使用者相应地更新他们的模块(从他们的代码中删除这些注解, 并重新编译), 请将注解标记为 [`@Deprecated`](/api/latest/jvm/stdlib/kotlin/-deprecated/index.html), 并在描述信息中解释原因.
@@ -305,7 +305,7 @@ annotation class ExperimentalDateTime
 
 ## 要求使用者同意功能本身的实验性状态
 
-在 Kotlin 1.3 中, 要求使用者同意机制本身还出于实验性状态.
+在 Kotlin 1.3 中, 要求使用者同意机制本身还出于[实验性状态](evolution/components-stability.html).
 也就是说, 在未来的发布版本中, 这个功能可能会发生变化, 并导致不兼容.
 
 为了让 `@OptIn` 和 `@RequiresOptIn` 注解的使用者意识到这些功能的实验性状态,

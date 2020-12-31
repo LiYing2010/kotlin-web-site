@@ -157,14 +157,25 @@ plugins {
 
 </div>
 
-在 Maven 中, 需要启用 `spring` 插件:
+在 Maven 中, `spring` 插件由 `kotlin-maven-allopen` 插件依赖项提供,
+因此如果需要启用它, 需要添加以下设定:
 
 <div class="sample" markdown="1" theme="idea" mode="xml" auto-indent="false">
 
 ```xml
-<compilerPlugins>
-    <plugin>spring</plugin>
-</compilerPlugins>
+<configuration>
+    <compilerPlugins>
+        <plugin>spring</plugin>
+    </compilerPlugins>
+</configuration>
+
+<dependencies>
+    <dependency>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <artifactId>kotlin-maven-allopen</artifactId>
+        <version>${kotlin.version}</version>
+    </dependency>
+</dependencies>
 ```
 
 </div>
@@ -326,7 +337,7 @@ noArg {
 
 ### JPA 支持
 
-与 *kotlin-spring* 类似, *kotlin-jpa* 是在 *no-arg* 之上的一层封装.
+*kotlin-spring* 是在 *all-open* 之上的封装, 与此类似, *kotlin-jpa* 是在 *no-arg* 之上的封装.
 这个插件会将
 [`@Entity`](http://docs.oracle.com/javaee/7/api/javax/persistence/Entity.html),
 [`@Embeddable`](http://docs.oracle.com/javaee/7/api/javax/persistence/Embeddable.html),
@@ -503,97 +514,5 @@ samWithReceiver {
 
 ## `Parcelable` 实现代码生成器
 
-Android 扩展插件提供了 [`Parcelable`](https://developer.android.com/reference/android/os/Parcelable) 实现代码生成器.
-
-对类添加 `@Parcelize` 注解, 然后就会自动生成 `Parcelable` 的实现代码.
-
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-
-```kotlin
-import kotlinx.android.parcel.Parcelize
-
-@Parcelize
-class User(val firstName: String, val lastName: String, val age: Int): Parcelable
-```
-</div>
-
-`@Parcelize` 注解要求所有被序列化(serialized)的属性都声明在类的主构造器之内.
-如果属性定义在类的 body 部, 并且拥有后端域变量(Backing Field), Android 扩展会对每个这样的属性提示警告信息.
-而且, 如果主构造器的一部分参数不是属性, 也不能使用 `@Parcelize` 注解.
-
-如果你的类需要更高级的序列化逻辑, 请将这些代码实现在同伴对象(Companion Object)内:
-
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-
-```kotlin
-@Parcelize
-data class User(val firstName: String, val lastName: String, val age: Int) : Parcelable {
-    private companion object : Parceler<User> {
-        override fun User.write(parcel: Parcel, flags: Int) {
-            // 自定义的数据写入代码
-        }
-
-        override fun create(parcel: Parcel): User {
-            // 自定义的数据读取代码
-        }
-    }
-}
-```
-</div>
-
-
-### 支持的类型
-
-`@Parcelize` 支持很多类型:
-
-- 基本类型 (以及对应的装箱(box)类);
-- 对象和枚举值;
-- `String`, `CharSequence`;
-- `Exception`;
-- `Size`, `SizeF`, `Bundle`, `IBinder`, `IInterface`, `FileDescriptor`;
-- `SparseArray`, `SparseIntArray`, `SparseLongArray`, `SparseBooleanArray`;
-- 所有实现了 `Serializable` 接口(是的, 也支持 `Date`) 和 `Parcelable` 接口的类;
-- 所有支持的类型组成的集合: `List` (映射为 `ArrayList`), `Set` (映射为 `LinkedHashSet`), `Map` (映射为 `LinkedHashMap`);
-    + 还支持集合的一些具体实现类: `ArrayList`, `LinkedList`, `SortedSet`, `NavigableSet`, `HashSet`, `LinkedHashSet`, `TreeSet`, `SortedMap`, `NavigableMap`, `HashMap`, `LinkedHashMap`, `TreeMap`, `ConcurrentHashMap`;
-- 所有支持的类型组成数组;
-- 所有支持的类型对应的可为 null 的类型.
-
-
-### 自定义 `Parceler`
-
-即使你的类型没有直接支持, 仍然可以对它编写一个 `Parceler` 映射对象.
-
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-
-```kotlin
-class ExternalClass(val value: Int)
-
-object ExternalClassParceler : Parceler<ExternalClass> {
-    override fun create(parcel: Parcel) = ExternalClass(parcel.readInt())
-
-    override fun ExternalClass.write(parcel: Parcel, flags: Int) {
-        parcel.writeInt(value)
-    }
-}
-```
-</div>
-
-可以通过 `@TypeParceler` 或 `@WriteWith` 注解, 使用外部的 Parceler 类:
-
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-
-```kotlin
-// 对类指定 Parceler
-@Parcelize
-@TypeParceler<ExternalClass, ExternalClassParceler>()
-class MyClass(val external: ExternalClass)
-
-// 对单个属性指定 Parceler
-@Parcelize
-class MyClass(@TypeParceler<ExternalClass, ExternalClassParceler>() val external: ExternalClass)
-
-// 对类型指定 Parceler
-@Parcelize
-class MyClass(val external: @WriteWith<ExternalClassParceler>() ExternalClass)
-```
-</div>
+`kotlin-parcelize` 编译器插件提供了一个 [`Parcelable`](https://developer.android.com/reference/android/os/Parcelable) 实现代码生成器.
+关于如何使用这个代码生成器, 请参见 [Android 文档](https://developer.android.com/kotlin/parcelize).

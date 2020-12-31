@@ -404,4 +404,4 @@ Kotlin 标准库有一个 `TODO()` 函数, 它永远会抛出一个 `NotImplemen
 fun calcTaxes(): BigDecimal = TODO("Waiting for feedback from accounting")
 ```
 
-IntelliJ IDEA 的 Kotlin 插件能够理解 `TODO()` 函数的意义, 并会在 TODO 窗口中自动添加一条 TODO 项.
+IntelliJ IDEA 的 Kotlin 插件能够理解 `TODO()` 函数的意义, 并会在 TODO 工具窗口中自动添加一条 TODO 项.

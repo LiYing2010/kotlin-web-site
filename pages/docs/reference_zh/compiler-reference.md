@@ -6,22 +6,13 @@ title: "Kotlin 编译器选项"
 
 # Kotlin 编译器选项
 
-Kotlin 的各个发布版都带有针对各种编译目标的编译器: 
+Kotlin 的各个发布版都带有针对各种编译目标的编译器:
 JVM, JavaScript, 以及 [所支持的各种平台](native-overview.html#target-platforms) 的原生二进制可执行文件(native binary).
 
 当你对你的 Kotlin 工程按下 __Compile__ 或 __Run__ 按钮时, IDE 会使用这些编译器.  
 
 你也可以从命令行手动运行 Kotlin 编译器, 详情请参见教程 [使用命令行编译器](/docs/tutorials/command-line.html).
-比如: 
 
-<div class="sample" markdown="1" mode="shell" theme="idea">
-
-```bash
-$ kotlinc hello.kt -include-runtime -d hello.jar
-```
-
-</div>
- 
 ## 编译器选项
 
 Kotlin 编译器带有很多选项, 用于控制编译过程.
@@ -32,18 +23,35 @@ Kotlin 编译器带有很多选项, 用于控制编译过程.
   __Settings | Build, Execution, Deployment | Compilers | Kotlin Compiler__
   设定窗口的
   __Additional command-line parameters__
-  文本框中输入编译器参数 
+  文本框中输入编译器参数
 - 如果使用 Gradle, 可以在 Kotlin 编译任务的 `kotlinOptions` 属性中指定编译参数.
 详情请参见 [使用 Gradle](using-gradle.html#compiler-options).
-- 如果使用 Maven, 可以在 Maven 插件的 `<configuration>` 元素中指定编译参数 . 
+- 如果使用 Maven, 可以在 Maven 插件的 `<configuration>` 元素中指定编译参数 .
 详情请参见 [使用 Maven](using-maven.html#specifying-compiler-options).
 - 如果在命令行运行编译器, 可以在调用编译器时直接添加编译参数, 或者将编译参数写在 [参数文件](#argfile) 内.
+  例如:
+
+<div class="sample" markdown="1" mode="shell" theme="idea">
+
+```bash
+$ kotlinc hello.kt -include-runtime -d hello.jar
+```
+
+</div>
+
+>**Note**: 在 Windows 上, 如果传递的编译器参数中包含分隔字符(空格, `=`, `;`, `,`),
+> 请将这些参数值使用双引号(`"`)括起.
+>```
+>$ kotlinc.bat hello.kt -include-runtime -d "My Folder\hello.jar"
+>```
+{:.note}
+
 
 ## 各平台共通选项
 
 下面是所有 Kotlin 编译器的共通选项.
 
-### `-version` 
+### `-version`
 
 显示编译器版本.
 {:.details-group}
@@ -55,7 +63,7 @@ Kotlin 编译器带有很多选项, 用于控制编译过程.
 
 ### `-Werror`
 
-将警告信息变为编译错误. 
+将警告信息变为编译错误.
 {:.details-group}
 
 ### `-verbose`
@@ -76,7 +84,7 @@ Kotlin 编译器带有很多选项, 用于控制编译过程.
 
 ### `-X`
 
-显示编译器高级选项的帮助信息, 然后退出. 这些选项目前还不稳定: 
+显示编译器高级选项的帮助信息, 然后退出. 这些选项目前还不稳定:
 选项的名称和行为都有可能变更, 并且不会有相关公告.
 {:.details-group}
 
@@ -84,13 +92,13 @@ Kotlin 编译器带有很多选项, 用于控制编译过程.
 
 对 Kotlin 编译器指定一个自定义的路径, 用来查找运行时期的库文件.
 {:.details-group}
-  
+
 ### `-P plugin:<pluginId>:<optionName>=<value>`
 
 向 Kotlin 编译器插件传递一个选项.
 相关的编译器插件, 以及它们的选项, 请参见 [编译器插件(plugin)](compiler-plugins.html).
 {:.details-group}
-  
+
 ### `-language-version <version>`
 
 与指定的 Kotlin 版本保持源代码级兼容.
@@ -131,14 +139,14 @@ hello.kt
 {:.details-group}
 
 <div class="sample" markdown="1" mode="shell" theme="idea">
-     
+
 ```
 -include-runtime -d 'My folder'
 ```
-     
+
 </div>
 
-也可以传递多个参数文件, 比如, 如果想要将编译器选项和源代码文件分开的情况. 
+也可以传递多个参数文件, 比如, 如果想要将编译器选项和源代码文件分开的情况.
 {:.details-group}
 
 <div class="sample" markdown="1" mode="shell" theme="idea">
@@ -149,7 +157,7 @@ $ kotlinc @compiler.options @classes
 
 </div>
 
-如果文件位置不在当前目录下, 请使用相对路径. 
+如果文件位置不在当前目录下, 请使用相对路径.
 {:.details-group}
 
 <div class="sample" markdown="1" mode="shell" theme="idea">
@@ -159,10 +167,10 @@ $ kotlinc @options/compiler.options hello.kt
 ```
 
 </div>
-    
+
 ## Kotlin/JVM 编译器选项
 
-针对 JVM 平台的 Kotlin 编译器将 Kotlin 源代码文件编译为 Java class 文件. 
+针对 JVM 平台的 Kotlin 编译器将 Kotlin 源代码文件编译为 Java class 文件.
 将 Kotlin 文件编译到 JVM 平台的命令行工具是 `kotlinc` 和 `kotlinc-jvm`.
 也可以使用它们来运行 Kotlin 脚本文件.
 
@@ -170,14 +178,14 @@ $ kotlinc @options/compiler.options hello.kt
 
 ### `-classpath <path>` (`-cp <path>`)
 
-在指定的路径中查找 class 文件. 
+在指定的路径中查找 class 文件.
 如果 classpath 中存在多个路径, 请使用操作系统的路径分隔符来分隔(对 Windows 系统是 **;** , 对 macOS/Linux 系统是 **:**).
 classpath 可以包含文件路径, 目录路径, ZIP 文件, 或 JAR 文件.
 {:.details-group}
 
 ### `-d <path>`
 
-将生成的 class 文件输出到指定的位置. 输出位置可以是一个目录, 一个 ZIP 文件, 或一个 JAR 文件. 
+将生成的 class 文件输出到指定的位置. 输出位置可以是一个目录, 一个 ZIP 文件, 或一个 JAR 文件.
 {:.details-group}
 
 ### `-include-runtime`
@@ -193,7 +201,7 @@ classpath 可以包含文件路径, 目录路径, ZIP 文件, 或 JAR 文件.
 
 ### `-jvm-target <version>`
 
-指定编译产生的 JVM 字节码(bytecode)版本. 可以指定的值是 `1.6`, `1.8`, `9`, `10`, `11`, `12`, 以及 `13`.
+指定编译产生的 JVM 字节码(bytecode)版本. 可以指定的值是 `1.6`, `1.8`, `9`, `10`, `11`, `12`, `13`, `14` 以及 `15`.
 默认值是 `1.6`.
 {:.details-group}
 
@@ -207,7 +215,7 @@ classpath 可以包含文件路径, 目录路径, ZIP 文件, 或 JAR 文件.
 
 对编译产生的 `.kotlin_module` 指定一个自定义的名称.
 {:.details-group}
-  
+
 ### `-no-jdk`
 
 不要自动将 Java 运行时期库文件添加到 classpath 中.
@@ -220,9 +228,9 @@ classpath 可以包含文件路径, 目录路径, ZIP 文件, 或 JAR 文件.
 
 ### `-no-stdlib`
 
-不要自动将 Kotlin/JVM 标准库文件(`kotlin-stdlib.jar`) 和 Kotlin 反射库文件(`kotlin-reflect.jar`) 添加到 classpath 中. 
+不要自动将 Kotlin/JVM 标准库文件(`kotlin-stdlib.jar`) 和 Kotlin 反射库文件(`kotlin-reflect.jar`) 添加到 classpath 中.
 {:.details-group}
-  
+
 ### `-script-templates <classnames[,]>`
 
 脚本定义的模板类. 请使用类的完全限定名称, 如果有多个, 请使用逗号(**,**) 分隔.
@@ -252,14 +260,14 @@ classpath 可以包含文件路径, 目录路径, ZIP 文件, 或 JAR 文件.
 开发 JS 库时, 请使用这个选项 .
 {:.details-group}
 
-### `-module-kind {plain|amd|commonjs|umd}`
+### `-module-kind {umd|commonjs|amd|plain}`
 
 指定编译器生成的 JS 模块类型:
 {:.details-group}
-- `plain` - 普通 JS 模块;
-- `commonjs` - [CommonJS](http://www.commonjs.org/) 模块;
-- `amd` - [异步模块定义(Asynchronous Module Definition)](https://en.wikipedia.org/wiki/Asynchronous_module_definition) 模块;
-- `umd` - [统一模块定义(Universal Module Definition)](https://github.com/umdjs/umd) 模块.
+- `umd` - [统一模块定义(Universal Module Definition)](https://github.com/umdjs/umd) 模块
+- `commonjs` - [CommonJS](http://www.commonjs.org/) 模块
+- `amd` - [异步模块定义(Asynchronous Module Definition)](https://en.wikipedia.org/wiki/Asynchronous_module_definition) 模块
+- `plain` - 普通 JS 模块
 
 关于各种 JS 模块类型, 以及它们之间的差别, 请参见 [这篇文章](https://www.davidbcalhoun.com/2014/what-is-amd-commonjs-and-umd/).
 {:.details-group}
@@ -317,12 +325,12 @@ Kotlin/Native 编译的命令行工具是 `kotlinc-native`.
 
 在生成的代码中允许运行时断言(runtime assertion).
 {:.details-group}
-    
+
 ### `-g`
 
 允许编译产生 debug 信息.
 {:.details-group}
-    
+
 ### `-generate-test-runner` (`-tr`)
 
 生成一个应用程序, 用于在工程中运行单元测试.
@@ -331,17 +339,17 @@ Kotlin/Native 编译的命令行工具是 `kotlinc-native`.
 
 生成一个应用程序, 用于在 [工作线程(worker thread)](native/concurrency.html#workers) 中运行单元测试 .
 {:.details-group}
-    
+
 ### `-generate-no-exit-test-runner` (`-trn`)
 
 生成一个应用程序, 用于运行单元测试, 但不会有明确的进程结束信息(explicit process exit).
 {:.details-group}
-    
+
 ### `-include-binary <path>` (`-ib <path>`)
 
 将外部的二进制文件打包到编译产生的 klib 文件内.
 {:.details-group}
-    
+
 ### `-library <path>` (`-l <path>`)
 
 链接指定的库文件. 关于在 Kotlin/native 工程中如何使用库, 请参见 [Kotlin/Native 库](native/libraries.html).
@@ -351,7 +359,7 @@ Kotlin/Native 编译的命令行工具是 `kotlinc-native`.
 
 指定库的版本.
 {:.details-group}
-    
+
 ### `-list-targets`
 
 列出可用的硬件目标平台(hardware target).
@@ -378,7 +386,7 @@ Kotlin/Native 编译的命令行工具是 `kotlinc-native`.
 
 不要将用户代码与编译器附带的 [默认的平台库文件](native/platform_libs.html) 链接.
 {:.details-group}
-    
+
 ### `-nomain`
 
 假定外部的库文件会提供应用程序启动时的 `main` 入口点(entry point).

@@ -55,7 +55,7 @@ val max = if (a > b) {
 
 ## when 表达式
 
-*when*{: .keyword } 替代了各种 C 风格语言中的 switch 操作符. 最简单的形式如下例:
+*when*{: .keyword } 表达式替代了各种 C 风格语言中的 switch 语句. 最简单的形式如下例:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
@@ -146,7 +146,7 @@ fun hasPrefix(x: Any) = when(x) {
 when {
     x.isOdd() -> print("x is odd")
     y.isEven() -> print("y is even")
-    else -> print("x+y is even.")
+    else -> print("x+y is odd.")
 }
 ```
 

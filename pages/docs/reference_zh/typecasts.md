@@ -86,7 +86,7 @@ when (x) {
 注意, 在类型检查语句与变量使用语句之间, 假如编译器无法确保变量不会改变, 此时智能类型转换是无效的.
 更具体地说, 必须满足以下条件时, 智能类型转换才有效:
 
-  * 局部的 *val*{: .keyword } 变量 - 永远有效, 但 [局部委托属性](delegated-properties.html#local-delegated-properties-since-11) 例外;
+  * 局部的 *val*{: .keyword } 变量 - 永远有效, 但 [局部委托属性](delegated-properties.html#local-delegated-properties) 例外;
   * *val*{: .keyword } 属性 - 如果属性是 private 的, 或 internal 的, 或者类型检查处理与属性定义出现在同一个 [模块(module)](visibility-modifiers.html#modules) 内, 那么智能类型转换是有效的. 对于 open 属性, 或存在自定义 get 方法的属性, 智能类型转换是无效的;
   * 局部的 *var*{: .keyword } 变量 - 如果在类型检查语句与变量使用语句之间, 变量没有被改变, 而且它没有被 Lambda 表达式捕获并在 Lambda 表达式内修改它, 并且它不是一个局部的委托属性, 那么智能类型转换是有效的;
   * *var*{: .keyword } 属性 - 永远无效(因为其他代码随时可能改变变量值).
@@ -114,6 +114,9 @@ val x: String = y as String
 val x: String? = y as String?
 ```
 </div>
+
+注意, "不安全的" 类型转换操作符 **不等于** Kotlin/JS 中的 [`unsafeCast<T>()`](/api/latest/jvm/stdlib/kotlin.js/unsafe-cast.html) 方法.
+`unsafeCast` 完全不会进行类型检查, 而 _类型转换操作符_ 会在转换失败时抛出 `ClassCastException` 异常.
 
 ## "安全的" (nullable) 类型转换操作
 
@@ -238,6 +241,8 @@ inline fun <reified T> List<*>.asListOfType(): List<T>? =
         null
 ```
 </div>
+
+IntelliJ IDEA 也能够自动生成 `@Suppress` 注解. 方法是在编辑器内点击灯泡图标, 或按下 Alt-Enter 快捷键, 打开 intentions 菜单, 然后点击 quick-fix 菜单项 "Change type arguments" 旁的小箭头. 在这里, 你可以选择对这个警告进行屏蔽的适用范围, 然后 IDE 会在你的源代码文件中添加对应的注解.
 
 在 JVM 平台, [数组类型](basic-types.html#arrays) (`Array<Foo>`) 保持了被擦除的数组元素类型信息,
 将某个类型向数组类型进行的转换, 可以进行部分地检查: 数组元素可否为空, 以及数组元素本身的类型参数仍然会被擦除.

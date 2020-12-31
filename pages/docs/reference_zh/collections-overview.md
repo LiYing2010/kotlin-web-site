@@ -9,15 +9,15 @@ title: "集合(Collection)概述"
 
 Kotlin 标准库提供了丰富的工具用来管理 _集合(Collection)_ – 数量可变的一组项目 (数量允许为 0), 这些集合对于解决我们的问题都非常重要, 而且使用类似的方式进行操作.
 
-对大多数编程语言来说, 集合都是共通的概念, 所以如果你已经熟悉其他编程语言(比如 Java 或 Python)的集合, 
+对大多数编程语言来说, 集合都是共通的概念, 所以如果你已经熟悉其他编程语言(比如 Java 或 Python)的集合,
 那么你可以跳过这部分关于集合的介绍, 直接阅读后面的关于集合细节的章节.
 
 集合通常包含一定数量的类型相同的对象(数量可以为 0). 集合中的对象称为 _元素(element)_ 或 _项目(item)_.
-比如, 一个系的所有学生组成一个集合, 这个集合可以用来计算他们的平均年龄. 
+比如, 一个系的所有学生组成一个集合, 这个集合可以用来计算他们的平均年龄.
 以下是 Kotlin 中的集合类型:
 
-* _List_ 是一个有顺序的集合, 通过下标来访问 – 下标是指反映元素位置的整数. 在一个 list 中相同的元素可以出现多次. list 的例子是一个句子: 它由许多单词组成, 单词的顺序很重要, 而且单词允许重复. 
-* _Set_ 是由不重复的元素构成的集合. 它表示数学上的一个集(set): 一组不重复的对象. set 元素的顺序通常不重要. 例如, 字母表就是由字母构成的 set. 
+* _List_ 是一个有顺序的集合, 通过下标来访问 – 下标是指反映元素位置的整数. 在一个 list 中相同的元素可以出现多次. list 的例子是一个句子: 它由许多单词组成, 单词的顺序很重要, 而且单词允许重复.
+* _Set_ 是由不重复的元素构成的集合. 它表示数学上的一个集(set): 一组不重复的对象. set 元素的顺序通常不重要. 例如, 字母表就是由字母构成的 set.
 * _Map_ (或者叫 _dictionary_) 是由成对的 键(key)-值(value) 构成的 set. 键(key)是不重复的, 并且每个键(key)对应一个值(value). 值(value)可以重复.
 Map 适合于存储对象之间的逻辑关联, 比如, 员工 ID 和他们职位之间的对应关系.
 
@@ -30,7 +30,7 @@ Kotlin 提供的集合操作功能, 与集合中元素的具体数据类型无�
 ## 集合类型
 
 Kotlin 标准库实现了基本的集合类型: set, list, 以及 map.
-下面的每一对接口代表一种集合类型: 
+下面的每一对接口代表一种集合类型:
 
 * 一个 _只读(read-only)_ 接口, 提供对集合元素的访问操作.
 * 一个 _可变(mutable)_ 接口, 继承对应的只读接口, 另外增加了写操作: 添加, 删除, 以及更新集合元素.
@@ -83,11 +83,11 @@ fun printAll(strings: Collection<String>) {
         for(s in strings) print("$s ")
         println()
     }
-    
+
 fun main() {
     val stringList = listOf("one", "two", "one")
     printAll(stringList)
-    
+
     val stringSet = setOf("one", "two", "three")
     printAll(stringSet)
 }
@@ -120,7 +120,7 @@ fun main() {
 ### List
 
 [`List<T>`](/api/latest/jvm/stdlib/kotlin.collections/-list/index.html) 按指定的顺序存储元素, 并使用下标来访问元素.
-下标从 0 开始 – 0 是第一个元素的下标 – 直到 `lastIndex` 为止, `lastIndex` 的值等于 `(list.size - 1)`. 
+下标从 0 开始 – 0 是第一个元素的下标 – 直到 `lastIndex` 为止, `lastIndex` 的值等于 `(list.size - 1)`.
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
@@ -138,7 +138,7 @@ fun main() {
 </div>
 
 List 中的元素 (包括 null) 允许重复: list 可以包含任意数量的相等对象, 也允许同一个对象多次出现.
-如果两个 list 的元素数量相同, 并且相同位置的元素全都 [结构相等(structurally equal)](equality.html#structural-equality), 那么这两个 list 被认为是相等的. 
+如果两个 list 的元素数量相同, 并且相同位置的元素全都 [结构相等(structurally equal)](equality.html#structural-equality), 那么这两个 list 被认为是相等的.
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
@@ -148,8 +148,8 @@ data class Person(var name: String, var age: Int)
 fun main() {
 //sampleStart
     val bob = Person("Bob", 31)
-    val people = listOf<Person>(Person("Adam", 20), bob, bob)
-    val people2 = listOf<Person>(Person("Adam", 20), Person("Bob", 31), bob)
+    val people = listOf(Person("Adam", 20), bob, bob)
+    val people2 = listOf(Person("Adam", 20), Person("Bob", 31), bob)
     println(people == people2)
     bob.age = 32
     println(people == people2)
@@ -158,7 +158,7 @@ fun main() {
 ```
 </div>
 
-[`MutableList`](/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html) 继承了 `List`, 并添加了 list 专有的写操作,
+[`MutableList<T>`](/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html) 继承了 `List`, 并添加了 list 专有的写操作,
 比如, 在指定的位置添加或删除元素.
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
@@ -186,7 +186,7 @@ fun main() {
 
 [`Set<T>`](/api/latest/jvm/stdlib/kotlin.collections/-set/index.html) 存储不重复的元素; 元素的顺序通常是无定义的. `null` 也算是不重复的元素:
 `Set` 可以只包含一个 `null`.
-如果两个 set 的元素数量相同, 并且一个 set 中的任何一个元素都在另一个 set 中存在一个相等的元素, 那么这两个 set 被看作是相等的. 
+如果两个 set 的元素数量相同, 并且一个 set 中的任何一个元素都在另一个 set 中存在一个相等的元素, 那么这两个 set 被看作是相等的.
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
@@ -216,7 +216,7 @@ fun main() {
 //sampleStart
     val numbers = setOf(1, 2, 3, 4)  // 默认实现是 LinkedHashSet
     val numbersBackwards = setOf(4, 3, 2, 1)
-    
+
     println(numbers.first() == numbersBackwards.first())
     println(numbers.first() == numbersBackwards.last())
 //sampleEnd
@@ -239,7 +239,7 @@ fun main() {
 fun main() {
 //sampleStart
     val numbersMap = mapOf("key1" to 1, "key2" to 2, "key3" to 3, "key4" to 1)
-    
+
     println("All keys: ${numbersMap.keys}")
     println("All values: ${numbersMap.values}")
     if ("key2" in numbersMap) println("Value by key \"key2\": ${numbersMap["key2"]}")    
@@ -259,7 +259,7 @@ fun main() {
 //sampleStart
     val numbersMap = mapOf("key1" to 1, "key2" to 2, "key3" to 3, "key4" to 1)    
     val anotherMap = mapOf("key2" to 2, "key1" to 1, "key4" to 1, "key3" to 3)
-    
+
     println("The maps are equal: ${numbersMap == anotherMap}")
 //sampleEnd
 }

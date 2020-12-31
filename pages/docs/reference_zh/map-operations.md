@@ -16,7 +16,7 @@ title: "Map 相关操作"
 要从 map 中取得值(value), 你需要使用键(key)作为参数调用 [`get()`](/api/latest/jvm/stdlib/kotlin.collections/-map/get.html) 函数.
 更简短的写法是 `[key]` . 如果未找到指定的键(key), 会返回 `null`.
 还有一个函数 [`getValue()`](/api/latest/jvm/stdlib/kotlin.collections/get-value.html), 它的功能略有不同: 在 map 中未找到键(key)时它会抛出异常.
-此外, 还有另外两个选择, 可以对键(key)不存在的情况进行处理: 
+此外, 还有另外两个选择, 可以对键(key)不存在的情况进行处理:
 
 * [`getOrElse()`](/api/latest/jvm/stdlib/kotlin.collections/get-or-else.html) 与 list 中的同名函数一样: 对于不存在的键(key), 值(value)由指定的 lambda 函数返回.
 * [`getOrDefault()`](/api/latest/jvm/stdlib/kotlin.collections/get-or-default.html): 如果键(key)不存在, 则返回指定的默认值(value).
@@ -98,7 +98,7 @@ fun main() {
 
 ## `加法(plus)` 和 `减法(minus)` 运算符
 
-由于 map 是通过键(key)访问的, 因此 [`加法(plus)`](/api/latest/jvm/stdlib/kotlin.collections/plus.html) (`+`) 和 [`减法(minus)`](/api/latest/jvm/stdlib/kotlin.collections/minus.html) (`-`) 运算符对 map 的工作方式与对其他集合不同. 
+由于 map 是通过键(key)访问的, 因此 [`加法(plus)`](/api/latest/jvm/stdlib/kotlin.collections/plus.html) (`+`) 和 [`减法(minus)`](/api/latest/jvm/stdlib/kotlin.collections/minus.html) (`-`) 运算符对 map 的工作方式与对其他集合不同.
 `加法(plus)` 返回一个 `Map`, 其中包含运算符两侧的所有元素: 运算符左侧是一个 `Map`, 右侧是一个 `Pair` 或者另一个 `Map`.
 如果运算符右侧的键(key)在左侧的 `Map` 中已经存在, 那么结果 map 包含的是来自右侧的条目(entry).
 
@@ -152,7 +152,7 @@ fun main() {
 
 要向 map 添加新的 键(key)-值(value) 对, 可以使用 [`put()`](/api/latest/jvm/stdlib/kotlin.collections/-mutable-map/put.html) 函数.
 向 `LinkedHashMap` (map 的默认实现类) 添加新的条目(entry)时, 它添加的位置会使它在遍历 map 时出现在最后.
-对于排序的 map, 新添加元素的位置由它的键(key)的顺序决定. 
+对于排序的 map, 新添加元素的位置由它的键(key)的顺序决定.
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
@@ -205,7 +205,7 @@ fun main() {
 也可以使用更简短的操作符形式, 向 map 添加新的条目(entry). 由两种方式:
 
 * [`加然后赋值(plusAssign)`](/api/latest/jvm/stdlib/kotlin.collections/plus-assign.html) (`+=`) 操作符.
-* `[]` 操作符, 它是 `put()` 函数的别名(alias).
+* `[]` 操作符, 它是 `set()` 函数的别名(alias).
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
@@ -213,7 +213,7 @@ fun main() {
 fun main() {
 //sampleStart
     val numbersMap = mutableMapOf("one" to 1, "two" to 2)
-    numbersMap["three"] = 3     // 会调用 numbersMap.put("three", 3)
+    numbersMap["three"] = 3     // 会调用 numbersMap.set("three", 3)
     numbersMap += mapOf("four" to 4, "five" to 5)
     println(numbersMap)
 //sampleEnd
@@ -267,7 +267,7 @@ fun main() {
 </div>
 
 
-对于可变 map, 还可以使用 [`减然后赋值(minusAssign)`](/api/latest/jvm/stdlib/kotlin.collections/minus-assign.html) (`-=`) 操作符. 
+对于可变 map, 还可以使用 [`减然后赋值(minusAssign)`](/api/latest/jvm/stdlib/kotlin.collections/minus-assign.html) (`-=`) 操作符.
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 

@@ -23,6 +23,7 @@ title: "this 表达式"
 我们使用 `this@label`, 其中的 `@label` 是一个 [标签](returns.html), 代表我们想要访问的 *this*{: .keyword } 所属的范围:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
+
 ```kotlin
 class A { // 隐含的标签 @A
     inner class B { // 隐含的标签 @B
@@ -44,6 +45,35 @@ class A { // 隐含的标签 @A
             }
         }
     }
+}
+```
+
+</div>
+
+## 隐含的 `this`
+
+在 `this` 上调用成员函数时, 可以省略 `this.` 部分.
+如果你有一个非成员函数使用了相同的名称, 那么使用时要小心, 因为某些情况下会调用到非成员函数:
+
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+
+```kotlin
+fun main() {
+//sampleStart
+    fun printLine() { println("Top-level function") }
+
+    class A {
+        fun printLine() { println("Member function") }
+
+        fun invokePrintLine(omitThis: Boolean = false)  {
+            if (omitThis) printLine()
+            else this.printLine()
+        }
+    }
+
+    A().invokePrintLine() // 这里会调用到成员函数
+    A().invokePrintLine(omitThis = true) // 这里会调用到顶级函数
+//sampleEnd()
 }
 ```
 </div>

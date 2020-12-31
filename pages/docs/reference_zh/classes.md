@@ -113,6 +113,20 @@ class Person(val firstName: String, val lastName: String, var age: Int) { /*...*
 
 </div>
 
+声明类的属性时, 可以使用 [尾随逗号(trailing comma)](coding-conventions.html#trailing-commas):
+
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
+
+```kotlin
+class Person(
+    val firstName: String,
+    val lastName: String,
+    var age: Int, // 尾随逗号(trailing comma)
+) { /*...*/ }
+```
+
+</div>
+
 与通常的属性一样, 主构造器中定义的属性可以是可变的(*var*{: .keyword }),
 也可以是只读的(*val*{: .keyword }).
 
@@ -129,7 +143,6 @@ class Customer public @Inject constructor(name: String) { /*...*/ }
 
 详情请参见 [可见度修饰符](visibility-modifiers.html#constructors).
 
-
 #### 次级构造器(secondary constructor)
 
 类还可以声明 **次级构造器** (secondary constructor), 使用 *constructor*{: .keyword } 关键字作为前缀:
@@ -138,7 +151,7 @@ class Customer public @Inject constructor(name: String) { /*...*/ }
 
 ```kotlin
 class Person {
-    var children: MutableList<Person> = mutableListOf<>()
+    var children: MutableList<Person> = mutableListOf()
     constructor(parent: Person) {
         parent.children.add(this)
     }
@@ -155,7 +168,7 @@ class Person {
 
 ```kotlin
 class Person(val name: String) {
-    var children: MutableList<Person> = mutableListOf<>()
+    var children: MutableList<Person> = mutableListOf()
     constructor(name: String, parent: Person) : this(name) {
         parent.children.add(this)
     }
@@ -404,7 +417,7 @@ open class Base(val name: String) {
 
 class Derived(
     name: String,
-    val lastName: String
+    val lastName: String,
 ) : Base(name.capitalize().also { println("Argument for Base: $it") }) {
 
     init { println("Initializing Derived") }
@@ -452,21 +465,35 @@ class FilledRectangle : Rectangle() {
 
 在内部类(inner class)的代码中, 可以使用 *super*{: .keyword } 关键字加上外部类名称限定符: `super@Outer` 来访问外部类(outer class)的超类:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
+<div class="sample" markdown="1" theme="idea">
 
 ```kotlin
-class FilledRectangle: Rectangle() {
-    fun draw() { /* ... */ }
+open class Rectangle {
+    open fun draw() { println("Drawing a rectangle") }
     val borderColor: String get() = "black"
+}
+
+//sampleStart
+class FilledRectangle: Rectangle() {
+    override fun draw() {
+    	val filler = Filler()
+        filler.drawAndFill()
+    }
 
     inner class Filler {
-        fun fill() { /* ... */ }
+        fun fill() { println("Filling") }
         fun drawAndFill() {
             super@FilledRectangle.draw() // 调用 Rectangle 的 draw() 函数实现
             fill()
             println("Drawn a filled rectangle with color ${super@FilledRectangle.borderColor}") // 使用 Rectangle 的 borderColor 属性的 get() 函数
         }
     }
+}
+//sampleEnd
+
+fun main() {
+    val fr = FilledRectangle()
+        fr.draw()
 }
 ```
 

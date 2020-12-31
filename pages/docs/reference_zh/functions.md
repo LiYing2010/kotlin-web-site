@@ -9,7 +9,7 @@ title: "函数: 中缀, 不定数量参数, 尾递归"
 
 ## 函数声明
 
-Kotlin 中使用 *fun*{: .keyword } 关键字定义函数:
+Kotlin 中使用 `fun` 关键字定义函数:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
@@ -43,28 +43,45 @@ Stream().read() // 创建一个 Stream 类的实例, 然后调用这个实例的
 
 ### 参数
 
-函数参数的定义使用 Pascal 标记法, 也就是, *name*: *type* 的格式. 多个参数之间使用逗号分隔. 每个参数都必须明确指定类型:
+函数参数的定义使用 Pascal 标记法, 也就是, *name*: *type* 的格式. 多个参数之间使用逗号分隔.
+每个参数都必须明确指定类型:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
 ```kotlin
-fun powerOf(number: Int, exponent: Int) { /*...*/ }
+fun powerOf(number: Int, exponent: Int): Int { /*...*/ }
+```
+</div>
+
+声明函数参数时, 可以使用 [尾随逗号(trailing comma)](coding-conventions.html#trailing-commas):
+
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
+
+```kotlin
+fun powerOf(
+    number: Int,
+    exponent: Int, // 尾随逗号(trailing comma)
+) { /*...*/ }
 ```
 </div>
 
 ### 默认参数
 
-函数参数可以指定默认值, 当参数省略时, 就会使用默认值.
+函数参数可以指定默认值, 如果调用函数时省略了对应的参数, 就会使用默认值.
 与其他语言相比, 这种功能使得我们可以减少大量的重载(overload)函数定义:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
 ```kotlin
-fun read(b: Array<Byte>, off: Int = 0, len: Int = b.size) { /*...*/ }
+fun read(
+    b: Array<Byte>,
+    off: Int = 0,
+    len: Int = b.size,
+) { /*...*/ }
 ```
 </div>
 
-参数默认值的定义方法是, 在参数类型之后, 添加 **=** 和默认值.
+参数默认值的定义方法是, 在参数类型之后, 添加 `=` 和默认值.
 
 子类中覆盖的方法, 总是会使用与基类中方法相同的默认参数值.
 如果要覆盖一个有默认参数值的方法, 那么必须在方法签名中省略默认参数值:
@@ -87,18 +104,26 @@ class B : A() {
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
 ```kotlin
-fun foo(bar: Int = 0, baz: Int) { /*...*/ }
+fun foo(
+    bar: Int = 0,
+    baz: Int,
+) { /*...*/ }
 
 foo(baz = 1) // 这里将会使用默认参数 bar = 0
 ```
 </div>
 
-如果默认参数之后的最后一个参数是 [lambda 表达式](lambdas.html#lambda-expression-syntax), 那么这个 lambda 表达式可以使用命名参数的方式传递, 也可以[在括号之外传递](lambdas.html#passing-a-lambda-to-the-last-parameter):
+如果默认参数之后的最后一个参数是 [lambda 表达式](lambdas.html#lambda-expression-syntax),
+那么你可以使用命名参数的方式传递这个 lambda 表达式, 也可以[在括号之外传递](lambdas.html#passing-a-lambda-to-the-last-parameter):
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
 ```kotlin
-fun foo(bar: Int = 0, baz: Int = 1, qux: () -> Unit) { /*...*/ }
+fun foo(
+    bar: Int = 0,
+    baz: Int = 1,
+    qux: () -> Unit,
+) { /*...*/ }
 
 foo(1) { println("hello") }     // 这里将会使用默认参数 baz = 1
 foo(qux = { println("hello") }) // 这里将会使用默认参数 bar = 0 和 baz = 1
@@ -108,67 +133,68 @@ foo { println("hello") }        // 这里将会使用默认参数 bar = 0 和 ba
 
 ### 命名参数
 
-调用函数时, 可以通过参数名来指定参数. 当函数参数很多, 或者存在默认参数时, 指定参数名是一种非常便利的功能.
+调用函数时, 你可以通过参数名来指定参数.
+当函数参数很多时, 将实际参数值与函数参数一一对应起来会变得很困难, 尤其是如果参数值是布尔值, 或 `null` 值,
+这种情况下, 指定参数名是一种非常便利的功能.
 
-比如, 对于下面这个函数:
+如果你在函数调用时使用命名参数, 那么可以任意改变参数的排列顺序,
+如果想要使用参数的默认值, 那么只需要省略这部分参数即可.
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
+比如, 下面的函数 `reformat()` 有 4 个参数, 都带有默认值.
+
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
 
 ```kotlin
-fun reformat(str: String,
-             normalizeCase: Boolean = true,
-             upperCaseFirstLetter: Boolean = true,
-             divideByCamelHumps: Boolean = false,
-             wordSeparator: Char = ' ') {
+fun reformat(
+    str: String,
+    normalizeCase: Boolean = true,
+    upperCaseFirstLetter: Boolean = true,
+    divideByCamelHumps: Boolean = false,
+    wordSeparator: Char = ' ',
+) {
 /*...*/
 }
 ```
+
 </div>
 
-我们可以使用默认参数来调用它:
+调用这个函数时, 不需要对所有的参数进行命名:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
 ```kotlin
-reformat(str)
-```
-</div>
-
-但是, 如果需要使用非默认的参数值调用它, 那么代码会成为这样:
-
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-
-```kotlin
-reformat(str, true, true, false, '_')
-```
-</div>
-
-如果使用命名参数, 我们的代码可读性可以变得更好一些:
-
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-
-```kotlin
-reformat(str,
-    normalizeCase = true,
-    upperCaseFirstLetter = true,
-    divideByCamelHumps = false,
-    wordSeparator = '_'
+reformat(
+    'String!',
+    false,
+    upperCaseFirstLetter = false,
+    divideByCamelHumps = true,
+    '_'
 )
 ```
+
 </div>
 
-而且, 如果我们不需要指定所有的参数, 那么可以这样:
+可以省略所有那些带有默认值的参数:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
 ```kotlin
-reformat(str, wordSeparator = '_')
+reformat('This is a long String!')
 ```
+
 </div>
 
-如果在调用函数时混合使用位置参数和命名参数, 那么所有的位置参数必须放置在第一个命名参数之前. 比如, `f(1, y = 2)` 是允许的, 但是 `f(x = 1, 2)` 是错误的.
+也可以只省略一部分带有默认值的参数. 但是, 在第一个省略的参数之后, 必须对后续的所有参数指定命名:
 
-可以通过 **展开(spread)** 操作符, 以命名参数的方式传递 [不定数量参数(*vararg*{: .keyword })](#variable-number-of-arguments-varargs):
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
+
+```kotlin
+reformat('This is a short String!', upperCaseFirstLetter = false, wordSeparator = '_')
+```
+
+</div>
+
+还可以通过 `展开(spread)` 操作符, 以命名参数的方式传递 [不定数量参数 (`vararg`)](#variable-number-of-arguments-varargs):
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
@@ -177,10 +203,11 @@ fun foo(vararg strings: String) { /*...*/ }
 
 foo(strings = *arrayOf("a", "b", "c"))
 ```
+
 </div>
 
-**对于 JVM 平台**: 调用 Java 函数时, 不能使用这种命名参数语法,
-因为 Java 字节码并不一定保留了函数参数的名称信息.
+> **对于 JVM 平台**: 不能使用这种命名参数语法调用 Java 函数, 因为 Java 字节码并不一定保留了函数参数的名称信息.
+{:.note}
 
 ### 返回值为 Unit 的函数
 
@@ -333,7 +360,7 @@ class MyStringCollection {
 
 ## 函数的范围
 
-在 Kotlin 中函数可以定义在源代码的顶级范围内(top level), 这就意味着, 你不必象在 Java, C# 或 Scala 等等语言中那样, 创建一个类来容纳这个函数,
+在 Kotlin 中, 函数可以定义在源代码的顶级范围内(top level), 这就意味着, 你不必象在 Java, C# 或 Scala 等等语言中那样, 创建一个类来容纳这个函数,
 除顶级函数之外, Kotlin 中的函数也可以定义为局部函数, 成员函数, 以及扩展函数.
 
 ### 局部函数
@@ -433,8 +460,8 @@ Kotlin 支持一种称为 [尾递归(tail recursion)](https://en.wikipedia.org/w
 ```kotlin
 val eps = 1E-10 // 这个精度已经"足够"了, 也可以设置为更高精度: 10^-15
 
-tailrec fun findFixPoint(x: Double = 1.0): Double
-        = if (Math.abs(x - Math.cos(x)) < eps) x else findFixPoint(Math.cos(x))
+tailrec fun findFixPoint(x: Double = 1.0): Double =
+    if (Math.abs(x - Math.cos(x)) < eps) x else findFixPoint(Math.cos(x))
 ```
 </div>
 

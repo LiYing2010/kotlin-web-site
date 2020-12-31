@@ -7,7 +7,7 @@ title: "List 相关操作"
 
 # List 相关操作
 
-[`List`](collections-overview.html#list) 是 Kotlin 内建集合中最常用的类型. 基于下标的元素访问, 为 list 提供了很多功能强大的操作. 
+[`List`](collections-overview.html#list) 是 Kotlin 内建集合中最常用的类型. 基于下标的元素访问, 为 list 提供了很多功能强大的操作.
 
 ## 使用下标获取元素
 
@@ -16,10 +16,10 @@ List 独有的功能是使用下标访问元素, 因此读取一个元素的最�
 这个功能通过 [`get()`](/api/latest/jvm/stdlib/kotlin.collections/-list/get.html) 函数实现, 参数是元素下标, 或者也可以使用更简短的 `[index]` 语法.
 
 如果 list 大小小于指定的下标, 会抛出一个异常.
-另外两个其他函数, 可以避免这类异常: 
+另外两个其他函数, 可以避免这类异常:
 
 * [`getOrElse()`](/api/latest/jvm/stdlib/kotlin.collections/get-or-else.html) 允许指定一个函数, 如果下标在集合中不存在, 可以通过这个函数来计算一个默认值.
-* [`getOrNull()`](/api/latest/jvm/stdlib/kotlin.collections/get-or-null.html) 返回 `null` 作为下标不存在时的默认值. 
+* [`getOrNull()`](/api/latest/jvm/stdlib/kotlin.collections/get-or-null.html) 返回 `null` 作为下标不存在时的默认值.
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
@@ -101,7 +101,7 @@ fun main() {
 
 在 list 中查找元素还有另一种方式 – [折半查找(binary search)](https://en.wikipedia.org/wiki/Binary_search_algorithm).
 这种方法的速度要比其他内建函数快很多, 但它 *要求 list 按照升序 [排序](collection-ordering.html)*, 排序方法可以是: 自然顺序, 或通过函数参数指定的其它顺序.
-否则, 这个函数的查找结果是不确定的. 
+否则, 这个函数的查找结果是不确定的.
 
 要在排序的 list 中查找一个元素, 请使用 [`binarySearch()`](/api/latest/jvm/stdlib/kotlin.collections/binary-search.html) 函数, 要查找的元素作为参数.
 如果这个元素存在, 这个函数返回它的下标; 否则, 它返回 `(-insertionPoint - 1)`, 其中的 `insertionPoint` 是为了保持 list 正确排序, 这个元素应该插入的下标.
@@ -279,6 +279,32 @@ fun main() {
 ```
 </div>
 
+如果要删除第一个和最后一个元素, 可以使用便利的函数 [`removeFirst()`](/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/remove-first.html)
+和 [`removeLast()`](/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/remove-last.html).
+注意, 对于空的 list, 这两个函数都会抛出异常.
+如果要得到 `null` 值, 请使用 [`removeFirstOrNull()`](/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/remove-first-or-null.html)
+和 [`removeLastOrNull()`](/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/remove-last-or-null.html) 函数.
+
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+
+```kotlin
+fun main() {
+//sampleStart
+    val numbers = mutableListOf(1, 2, 3, 4, 3)    
+    numbers.removeFirst()
+    numbers.removeLast()
+    println(numbers)
+
+    val empty = mutableListOf<Int>()
+    // empty.removeFirst() // 这里为抛出 NoSuchElementException 异常: List 为空.
+    empty.removeFirstOrNull() // 这里会返回 null 值
+//sampleEnd
+}
+
+```
+</div>
+
+
 ### 排序(Sorting)
 
 在 [集合排序(Ordering)](collection-ordering.html) 中, 我们介绍了按照指定顺序获取集合元素的操作.
@@ -311,7 +337,7 @@ fun main() {
     println("Sort into ascending by length: $numbers")
     numbers.sortByDescending { it.last() }
     println("Sort into descending by the last letter: $numbers")
-    
+
     numbers.sortWith(compareBy<String> { it.length }.thenBy { it })
     println("Sort by Comparator: $numbers")
 

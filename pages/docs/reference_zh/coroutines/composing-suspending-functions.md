@@ -309,7 +309,7 @@ Completed in 1085 ms
 我们沿用 [使用 async 并发执行](#concurrent-using-async) 中的示例程序,
 从中抽取一个函数, 并发地执行 `doSomethingUsefulOne` 和 `doSomethingUsefulTwo`, 并返回这两个函数结果的和.
 由于 [async] 协程构建器被定义为 [CoroutineScope] 上的扩展函数,
-因此我们使用这个函数时就需要在作用范围内存在 [CoroutineScope], [coroutineScope] 函数可以为我们提供 [CoroutineScope]:
+因此我们使用这个函数时就需要在作用范围内存在 [CoroutineScope], [coroutineScope][_coroutineScope] 函数可以为我们提供 [CoroutineScope]:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
@@ -431,5 +431,5 @@ Computation failed with ArithmeticException
 [Job.start]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-job/start.html
 [GlobalScope]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-global-scope/index.html
 [CoroutineScope]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html
-[coroutineScope]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/coroutine-scope.html
+[_coroutineScope]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/coroutine-scope.html
 <!--- END -->

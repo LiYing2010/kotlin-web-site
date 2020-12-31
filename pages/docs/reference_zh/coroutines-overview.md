@@ -30,7 +30,7 @@ title: "协程(Coroutine) 概述"
 - [频道(Channel)](coroutines/channels.html)
 - [协程上下文与派发器(Dispatcher)](coroutines/coroutine-context-and-dispatchers.html)
 - [共享的可变状态与并发](coroutines/shared-mutable-state-and-concurrency.html)
-- [异步的执行流(Asynchronous Flow)](coroutines/flow.html)
+- [异步的数据流(Asynchronous Flow)](coroutines/flow.html)
 
 推荐的教程:
 - [使用 Kotlin 开发你的第一个协程](../tutorials/coroutines/coroutines-basic-jvm.html)

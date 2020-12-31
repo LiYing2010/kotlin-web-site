@@ -388,7 +388,7 @@ class MyUI {
 
 在 `MyUI` 实例的创建过程中, 对每一个属性都会调用 `provideDelegate` 方法, 因此这个方法可以在此时进行必要的验证处理.
 
-关于这个功能的详情, 请参见 [参考文档](delegated-properties.html#providing-a-delegate-since-11).
+关于这个功能的详情, 请参见 [参考文档](delegated-properties.html#providing-a-delegate).
 
 
 ### 枚举值访问的通用方式

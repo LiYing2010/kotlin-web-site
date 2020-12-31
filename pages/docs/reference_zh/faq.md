@@ -10,7 +10,7 @@ title: FAQ
 ### 什么是 Kotlin?
 
 Kotlin 是一种开源的, 静态类型的编程语言, 针对的目标平台是 JVM, Android, JavaScript 以及 Native 应用.
-Kotlin 由 [JetBrains 公司](http://www.jetbrains.com) 开发.
+Kotlin 由 [JetBrains 公司](https://www.jetbrains.com) 开发.
 Kotlin 项目开始于 2010 年, 并在很早的阶段开源. 第一次正式发布的 1.0 版是在 2016 年 2 月.
 
 ### Kotlin 的当前版本是多少?
@@ -55,13 +55,13 @@ Kotlin 可以用来做任何类型的开发, 可以用在服务器端, 客户端
 ### 我可以使用 Kotlin 进行服务器端开发吗?
 
 是的. Kotlin 与 JVM 100% 兼容, 因此你可以使用任何既有的框架, 比如 Spring Boot, vert.x 或 JSF.
-此外还有使用 Kotlin 编写的框架, 比如 [Ktor](http://github.com/kotlin/ktor).
+此外还有使用 Kotlin 编写的框架, 比如 [Ktor](https://github.com/kotlin/ktor).
 详情请参见 [服务端端开发的相关资源](server-overview.html).
 
 ### 我可以使用 Kotlin 进行 web 开发吗?
 
 是的. 除了用于 web 后端开发之外, 你还可以使用 Kotlin/JS 来开发 web 客户端.
-Kotlin 可以使用 [DefinitelyTyped](http://definitelytyped.org) 中的定义, 为 JavaScript 共通库获取静态类型能力,
+Kotlin 可以使用 [DefinitelyTyped](https://definitelytyped.org) 中的定义, 为 JavaScript 共通库获取静态类型能力,
 而且兼容于既有的 JavaScript 模块系统, 比如 AMD 和 CommonJS.
 详情请参见 [客户端开发的相关资源](js-overview.html).
 
@@ -88,7 +88,7 @@ Kotlin/Native 目前还是 Beta 版, 但已经可以试用于流行的桌面和�
 
 在 JVM 平台, 主流编译工具都支持 Kotlin,
 包括 [Gradle](using-gradle.html), [Maven](using-maven.html), [Ant](using-ant.html),
-以及 [Kobalt](http://beust.com/kobalt/home/index.html).
+以及 [Kobalt](https://beust.com/kobalt/home/index.html).
 此外还有一些针对 JavaScript 平台的编译工具.
 
 ### Kotlin 编译输出的是什么?
@@ -100,7 +100,7 @@ Kotlin/Native 目前还是 Beta 版, 但已经可以试用于流行的桌面和�
 ### Kotlin 支持 JVM 的哪些版本?
 
 Kotlin 允许你选择运行时的 JVM 版本. 默认情况下, Kotlin/JVM 编译器产生与 Java 6 兼容的字节码.
-如果你希望利用更高版本 Java 中的优化功能, 你可以明确指定编译目标的 Java 版本, 可选的版本是从 8 到 13.
+如果你希望利用更高版本 Java 中的优化功能, 你可以明确指定编译目标的 Java 版本, 可选的版本是从 8 到 15.
 注意, 这时编译产生的字节码在低版本的 Java 环境可能无法运行.
 
 ### Kotlin 难吗?
@@ -120,7 +120,7 @@ Kotlin 受到各种既有语言的启发, 比如 Java, C#, JavaScript, Scala 以
 ### Kotlin 的开发者是谁?
 
 Kotlin 主要是由 JetBrains 公司的一个工程师团队(目前 100+ 人)开发的.
-语言设计的领导者是 [Andrey Breslav](https://twitter.com/abreslav).
+语言设计的领导者是 [Roman Elizarov](https://twitter.com/relizarov).
 除了这个核心团队之外, 在 GitHub 上还有超过 250 人的外部贡献者.
 
 ### 在哪里可以得到 Kotlin 的更多信息?
@@ -139,16 +139,16 @@ Kotlin 主要是由 JetBrains 公司的一个工程师团队(目前 100+ 人)开
 
 有一些关于 Kotlin 的课程,
 包括 Kevin Jones 的 [Pluralsight Kotlin 课程](https://www.pluralsight.com/courses/kotlin-getting-started),
-Hadi Hariri 的 [O’Reilly 课程](http://shop.oreilly.com/product/0636920052982.do),
+Hadi Hariri 的 [O’Reilly 课程](https://shop.oreilly.com/product/0636920052982.do),
 以及 Peter Sommerhoff 的 [Udemy Kotlin 课程](http://petersommerhoff.com/dev/kotlin/kotlin-beginner-tutorial/).
 
-此外, 在 YouTube 和 Vimeo 上, 还有很多 [Kotlin 演讲](http://kotlinlang.org/community/talks.html) 录像.
+此外, 在 YouTube 和 Vimeo 上, 还有很多 [Kotlin 讲座](https://kotlinlang.org/community/talks.html) 录像.
 
 ### 有 Kotlin 开发者社区吗?
 
-是的. Kotlin 有一个很活跃的社区. Kotlin 开发者聚集在 [Kotlin 论坛](http://discuss.kotlinlang.org),
-[StackOverflow](http://stackoverflow.com/questions/tagged/kotlin),
-以及更活跃的 [Kotlin Slack](http://slack.kotlinlang.org) (到 2020 年 4 月, 成员接近 30000 人).
+是的. Kotlin 有一个很活跃的社区. Kotlin 开发者聚集在 [Kotlin 论坛](https://discuss.kotlinlang.org),
+[StackOverflow](https://stackoverflow.com/questions/tagged/kotlin),
+以及更活跃的 [Kotlin Slack](https://slack.kotlinlang.org) (到 2020 年 4 月, 成员接近 30000 人).
 
 ### 有 Kotlin 开发者活动吗?
 

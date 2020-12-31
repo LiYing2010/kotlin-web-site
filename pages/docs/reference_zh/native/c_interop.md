@@ -42,7 +42,7 @@ _Kotlin/Native_ 遵循 Kotlin 的传统, 提供与既有的平台软件的优秀
 ```bash
 
 cd samples/gitchurn
-../../dist/bin/cinterop -def src/main/c_interop/libgit2.def \
+../../dist/bin/cinterop -def src/nativeInterop/cinterop/libgit2.def \
  -compiler-option -I/usr/local/include -o libgit2
 ```
 
@@ -53,7 +53,7 @@ cd samples/gitchurn
 <div class="sample" markdown="1" theme="idea" mode="shell">
 
 ```bash
-../../dist/bin/kotlinc src/main/kotlin \
+../../dist/bin/kotlinc src/gitChurnMain/kotlin \
  -library libgit2 -o GitChurn
 ```
 

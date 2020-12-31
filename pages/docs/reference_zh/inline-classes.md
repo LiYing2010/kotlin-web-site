@@ -7,7 +7,7 @@ title: "内联类"
 
 # 内联类
 
-> 内联类从 Kotlin 1.3 以后才可以使用, 而且目前还是 *实验性功能*. 详情请参见 [下文](#experimental-status-of-inline-classes)
+> 内联类从 Kotlin 1.3 以后才可以使用, 而且目前还处于 [Alpha 阶段](evolution/components-stability.html). 详情请参见 [下文](#alpha-status-of-inline-classes)
 {:.note}
 
 对于业务逻辑来说, 有些时候会需要对某些类型创建一些包装类. 但是, 这就会产生堆上的内存分配, 带来运行时的性能损失.
@@ -192,20 +192,23 @@ fun main() {
 </div>
 
 
-## 内联类功能还在实验性阶段
+## 内联类功能还在 Alpha 阶段
 
-内联类的设计目前还处于实验性阶段, 也就是说这个功能正在 *快速变化* 中, 不保证兼容性.
-在 Kotlin 1.3+ 中使用内联类时, 编译器会报告警告信息, 指出这个功能是实验性的.
+内联类的设计目前还处于 [Alpha 阶段](evolution/components-stability.html), 也就是说未来的版本不保证兼容性.
+在 Kotlin 1.3+ 中使用内联类时, 编译器会报告警告信息, 指出这个功能还没有发布为稳定版.
 
-要删除这些警告, 你需要指定 `-Xinline-classes` 编译器选项, 来允许使用这个实验性功能.
+要删除这些警告, 你需要指定 `-Xinline-classes` 编译器选项, 来允许使用这个功能.
 
 ### 在 Gradle 中启用内联类
+
 <div class="multi-language-sample" data-lang="groovy">
 <div class="sample" markdown="1" theme="idea" mode="groovy" data-lang="groovy">
 
 ```groovy
-compileKotlin {
-    kotlinOptions.freeCompilerArgs += ["-Xinline-classes"]
+kotlin {
+    sourceSets.all {
+        languageSettings.enableLanguageFeature('InlineClasses')
+    }
 }
 ```
 
@@ -216,8 +219,10 @@ compileKotlin {
 <div class="sample" markdown="1" theme="idea" mode="kotlin" data-lang="kotlin" data-highlight-only>
 
 ```kotlin
-tasks.withType<KotlinCompile> {
-    kotlinOptions.freeCompilerArgs += "-Xinline-classes"
+kotlin {
+    sourceSets.all {
+        languageSettings.enableLanguageFeature("InlineClasses")
+    }
 }
 ```
 
@@ -225,7 +230,7 @@ tasks.withType<KotlinCompile> {
 </div>
 
 详情请参见 [Gradle 中的编译器选项](using-gradle.html#compiler-options).
-关于 [跨平台项目](whatsnew13.html#multiplatform-projects) 的设置, 请参见 [使用 Gradle 编译跨平台项目](building-mpp-with-gradle.html#语言设置).
+关于 [跨平台项目](mpp-intro.html), 请参见 [跨平台项目的语言设置](mpp-dsl-reference.html#language-settings).
 
 ### 在 Maven 中启用内联类
 

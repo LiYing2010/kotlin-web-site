@@ -234,7 +234,7 @@ Kotlin/Native 库是 zip 文件, 包含预定义的目录结构, 如下:
   - foo/
     - $component_name/
       - ir/
-        - Seriaized Kotlin IR.
+        - 序列化后的 Kotlin IR.
       - targets/
         - $platform/
           - kotlin/

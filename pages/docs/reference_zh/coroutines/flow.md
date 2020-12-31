@@ -212,7 +212,7 @@ I'm not blocked 3
 
 请注意, 使用 [Flow] 的代码与前面的示例代码之间的区别如下:
 
-* [Flow] 类型的构建器函数叫做 [flow].
+* [Flow] 类型的构建器函数叫做 [flow][_flow].
 * `flow { ... }` 构建器代码段的代码可以挂起.
 * `simple` 函数不再带有 `suspend` 标识符.
 * 使用 [emit][FlowCollector.emit] 函数, 从流中 _发射(emit)_ 值.
@@ -224,7 +224,7 @@ I'm not blocked 3
 ### 数据流(Flow)是 "冷的"(cold)
 
 数据流类似于 sequence, 但它是 _"冷的"(cold)_ 流 &mdash;
-直到流中的数据被收集时, 才会执行[flow] 构建器之内的代码.
+直到流中的数据被收集时, 才会执行[flow][_flow] 构建器之内的代码.
 下面的示例程序可以演示这个特性:
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
@@ -1788,7 +1788,7 @@ Event: 3
 
 ### 检查数据流的取消
 
-为了使用方便, [flow] 构建器会对每个发射的值额外执行一个 [ensureActive] 检查, 用来检查数据流是否被取消.
+为了使用方便, [flow][_flow] 构建器会对每个发射的值额外执行一个 [ensureActive] 检查, 用来检查数据流是否被取消.
 也就是说, 如果在 `flow { ... }` 之内通过繁忙的循环代码来发射值, 这样的数据流是可以取消的:
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
@@ -1955,7 +1955,7 @@ Exception in thread "main" kotlinx.coroutines.JobCancellationException: Blocking
 [CancellationException]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-cancellation-exception/index.html
 <!--- INDEX kotlinx.coroutines.flow -->
 [Flow]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/index.html
-[flow]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flow.html
+[_flow]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flow.html
 [FlowCollector.emit]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow-collector/emit.html
 [collect]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/collect.html
 [flowOf]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flow-of.html

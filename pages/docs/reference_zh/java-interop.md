@@ -154,7 +154,7 @@ val notNull: String = item // 允许, 但在运行时刻可能失败
   * Eclipse (`org.eclipse.jdt.annotation`)
   * Lombok (`lombok.NonNull`).
 
-完整的列表请参见 [Kotlin 编译器源代码](https://github.com/JetBrains/kotlin/blob/master/core/descriptors.jvm/src/org/jetbrains/kotlin/load/java/JvmAnnotationNames.kt).
+完整的列表请参见 [Kotlin 编译器源代码](https://github.com/JetBrains/kotlin/blob/master/core/compiler.common.jvm/src/org/jetbrains/kotlin/load/java/JvmAnnotationNames.kt).
 
 ### 对类型参数添加注解
 
@@ -497,6 +497,7 @@ if (a is List<*>) // OK: 这里的判断不保证 List 内容的数据类型
 假设有一个 Java 方法, 接受一个名为 indices 的参数, 类型是 int 数组:
 
 <div class="sample" markdown="1" theme="idea" mode="java">
+
 ``` java
 public class JavaArrayExample {
 
@@ -717,6 +718,12 @@ if (Character.isLetter(a)) { ... }
 Java 的反射在 Kotlin 类中也可以使用, 反过来也是如此.
 我们在上文中讲到, 你可以使用 `instance::class.java`, `ClassName::class.java`, 或者 `instance.javaClass`,
 得到 `java.lang.Class`, 然后通过它就可以使用 Java 的反射功能.
+这里不要使用 `ClassName.javaClass`, 因为它引用的是 `ClassName` 的同伴对象的类,
+也就是 `ClassName.Companion::class.java`, 而不是 `ClassName::class.java`.
+
+对每种基本类型, 有两种不同的 Java 类, Kotlin 对这两种类都提供了取得方法,
+比如 `Int::class.java` 会返回表示基本类型本身的类实例, 对应于 Java 中的 `Integer.TYPE`.
+要取得对应的包装对象(wrapper type)的类, 请使用 `Int::class.javaObjectType`, 等于 Java 的 `Integer.class`.
 
 此外还支持其他反射功能, 比如可以得到 Kotlin 属性对应的 Java get/set 方法或后端成员,
 可以得到 Java 成员变量对应的 `KProperty`, 得到 `KFunction` 对应的 Java 方法或构造器,
@@ -724,8 +731,8 @@ Java 的反射在 Kotlin 类中也可以使用, 反过来也是如此.
 
 ## SAM 转换
 
-与 Java 8 一样, Kotlin 支持 SAM(Single Abstract Method) 转换.
-也就是说如果一个 Java 接口中仅有一个方法, 并且没有默认实现, 那么只要 Java 接口方法与 Kotlin 函数参数类型一致,
+Kotlin 支持 Java 和 [Kotlin 接口](fun-interfaces.html) 的 SAM(Single Abstract Method) 转换.
+支持 Java 的 SAM 转换就是说, 如果一个 Java 接口中仅有一个方法, 并且没有默认实现, 那么只要 Java 接口方法与 Kotlin 函数参数类型一致,
 Kotlin 的函数字面值就可以自动转换为这个接口的实现者.
 
 你可以使用这个功能来创建 SAM 接口的实例:
@@ -762,10 +769,8 @@ executor.execute(Runnable { println("This runs in a thread pool") })
 
 </div>
 
-注意, SAM 转换只对接口有效, 不能用于抽象类, 即使抽象类中仅有唯一一个抽象方法.
-
-还应当注意, 这个功能只在 Kotlin 与 Java 互操作时有效;
-由于 Kotlin 本身已经有了专门的函数类型, 因此没有必要将函数自动转换为 Kotlin 接口的实现者, Kotlin 也不支持这样的转换.
+> SAM 转换只对接口有效, 不能用于抽象类, 即使抽象类中仅有唯一一个抽象方法.
+{:.note}
 
 ## 在 Kotlin 中使用 JNI(Java Native Interface)
 
@@ -778,5 +783,19 @@ external fun foo(x: Int): Double
 ```
 
 </div>
+
+还可以将属性的取得方法和设值方法标记为 `external`:
+
+<div class="sample" markdown="1" theme="idea" data-highlight-only>
+
+```kotlin
+var myProperty: String
+	external get
+	external set
+```
+
+</div>
+
+这段代码会创建两个函数 `getMyProperty` 和 `setMyProperty`, 并且都标记为 `external`.
 
 剩下的工作与 Java 中完全相同.

@@ -11,10 +11,57 @@ title: "反射"
 Kotlin 将函数和属性当作语言中的一等公民(first-class citizen),
 而且, 通过反射获取它们的信息(也就是说, 在运行时刻得到一个函数或属性的名称和数据类型) 可以通过简单的函数式, 或交互式的编程方式实现.
 
-> 在 Java 平台上, 使用反射功能所需要的运行时组件是作为一个单独的 JAR 文件发布的(`kotlin-reflect.jar`).
-  这是为了对那些不使用反射功能的应用程序, 减少其运行库的大小.
-  如果你需要使用反射, 请注意将这个 .jar 文件添加到你的项目的 classpath 中.
+> 在 JavaScript 平台上, 目前只支持类的引用. [更多详情请参见 Kotlin/JS 中的反射功能](js-reflection.html).
 {:.note}
+
+
+## JVM 依赖项
+
+在 JVM 平台上, 使用反射功能所需要的运行时组件是一个单独的 JAR 文件 `kotlin-reflect.jar`, 它随 Kotlin 编译器一起发布.
+这样做为了对那些不使用反射功能的应用程序, 减少其运行库的大小.
+
+在 Gradle 或 Maven 项目中, 如果需要使用反射, 需要添加 `kotlin-reflect` 的依赖项:
+* 在 Gradle 项目中:
+  <div class="multi-language-sample" data-lang="groovy">
+  <div class="sample" markdown="1" theme="idea" mode="groovy" data-highlight-only>
+
+  ```groovy
+  dependencies {
+      implementation "org.jetbrains.kotlin:kotlin-reflect:{{ site.data.releases.latest.version }}"
+  }
+  ```
+
+  </div>
+  </div>
+
+  <div class="multi-language-sample" data-lang="kotlin">
+  <div class="sample" markdown="1" theme="idea" mode="kotlin" data-highlight-only>
+
+  ```kotlin
+  dependencies {
+    implementation("org.jetbrains.kotlin:kotlin-reflect:{{ site.data.releases.latest.version }}")
+  }
+  ```
+
+  </div>
+  </div>
+
+* 在 Maven 项目中:
+  <div class="sample" markdown="1" mode="xml" auto-indent="false" theme="idea" data-highlight-only>
+
+  ```xml
+  <dependencies>
+      <dependency>
+          <groupId>org.jetbrains.kotlin</groupId>
+          <artifactId>kotlin-reflect</artifactId>
+      </dependency>
+  </dependencies>
+  ```
+  </div>
+
+如果你没有使用 Gradle 或 Maven, 请注意将 `kotlin-reflect.jar` 添加到你的项目的 classpath 中.
+对于其他支持的场景(IntelliJ IDEA 项目, 使用命令行编译器, 或 Ant), 这个 jar 文件默认会加入到 classpath 中.
+在命令行编译器和 Ant 中, 你可以使用 `-no-reflect` 编译选项, 从 classpath 中删除 `kotlin-reflect.jar`.
 
 ## 类引用(Class Reference)
 
@@ -58,6 +105,7 @@ assert(widget is GoodWidget) { "Bad widget: ${widget::class.qualifiedName}" }
 假设我们有一个有名称的函数, 声明如下:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
+
 ```kotlin
 fun isOdd(x: Int) = x % 2 != 0
 ```
@@ -67,6 +115,7 @@ fun isOdd(x: Int) = x % 2 != 0
 为了实现这个功能, 我们使用 `::` 操作符:
 
 <div class="sample" markdown="1" theme="idea">
+
 ```kotlin
 fun isOdd(x: Int) = x % 2 != 0
 
@@ -88,6 +137,7 @@ fun main() {
 比如:
 
 <div class="sample" markdown="1" theme="idea">
+
 ```kotlin
 fun main() {
 //sampleStart
@@ -116,6 +166,7 @@ val predicate: (String) -> Boolean = ::isOdd   // 指向 isOdd(x: String) 函数
 如果想要使用带接受者的函数类型, 需要明确指定函数类型:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
+
 ```kotlin
 val isEmptyStringList: List<String>.() -> Boolean = List<String>::isEmpty
 ```
@@ -137,6 +188,7 @@ fun <A, B, C> compose(f: (B) -> C, g: (A) -> B): (A) -> C {
 现在, 你可以使用可以执行的函数引用来调用这个函数:
 
 <div class="sample" markdown="1" theme="idea">
+
 ```kotlin
 fun <A, B, C> compose(f: (B) -> C, g: (A) -> B): (A) -> C {
     return { x -> f(g(x)) }
@@ -162,6 +214,7 @@ fun main() {
 在 Kotlin 中, 可以将属性作为一等对象来访问, 方法是使用 `::` 操作符:
 
 <div class="sample" markdown="1" theme="idea">
+
 ```kotlin
 val x = 1
 
@@ -180,6 +233,7 @@ fun main() {
 它有一个 `set()` 方法:
 
 <div class="sample" markdown="1" theme="idea">
+
 ```kotlin
 var y = 1
 
@@ -193,6 +247,7 @@ fun main() {
 所有使用单参数函数的地方都可以使用属性引用:
 
 <div class="sample" markdown="1" theme="idea">
+
 ```kotlin
 fun main() {
 //sampleStart
@@ -220,6 +275,7 @@ fun main() {
 对于扩展属性:
 
 <div class="sample" markdown="1" theme="idea" auto-indent="false">
+
 ```kotlin
 val String.lastChar: Char
     get() = this[length - 1]
@@ -237,6 +293,7 @@ fun main() {
 比如, 要查找一个 Kotlin 属性的后端域变量, 或者查找充当这个属性取值函数的 Java 方法, 你可以编写下面这样的代码:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
+
 ```kotlin
 import kotlin.reflect.jvm.*
 
@@ -265,6 +322,7 @@ fun getKClass(o: Any): KClass<Any> = o.javaClass.kotlin
 我们来看看下面的函数, 它接受的参数是一个函数, 这个函数参数本身没有参数, 并返回 `Foo` 类型:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
+
 ```kotlin
 class Foo
 
@@ -277,6 +335,7 @@ fun function(factory: () -> Foo) {
 使用 `::Foo`, 也就是 Foo 类的无参构造器的引用, 我们可以很简单地调用上面的函数:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
+
 ```kotlin
 function(::Foo)
 ```
@@ -290,6 +349,7 @@ function(::Foo)
 你可以引用某个具体的对象实例的方法:
 
 <div class="sample" markdown="1" theme="idea">
+
 ```kotlin
 fun main() {
 //sampleStart
@@ -308,6 +368,7 @@ fun main() {
 这样的引用可以直接调用(就像上面的示例程序中那样), 也可以用在任何使用函数类型表达式的地方:
 
 <div class="sample" markdown="1" theme="idea">
+
 ```kotlin
 fun main() {
 //sampleStart
@@ -323,6 +384,7 @@ fun main() {
 绑定到对象实例的引用与它的接受者对象实例结合在一起, 因此接受者的类型不再是它的一个参数:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
+
 ```kotlin
 val isNumber: (CharSequence) -> Boolean = numberRegex::matches
 

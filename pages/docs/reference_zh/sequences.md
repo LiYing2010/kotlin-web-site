@@ -12,10 +12,10 @@ title: "序列(Sequence)"
 
 当对 `Iterable` 的处理包含多个步骤时, 会以及早计算(eager)模式执行: 每个处理步骤都会执行完毕, 并返回它的结果 – 也就是一个中间集合.
 然后再对这个中间集合执行下一个步骤.
-与此不同, 对序列的多步骤处理会尽量以延迟计算(lazy)模式执行: 只有在整个处理链的结果真正被使用到时, 才会执行相应的计算处理. 
+与此不同, 对序列的多步骤处理会尽量以延迟计算(lazy)模式执行: 只有在整个处理链的结果真正被使用到时, 才会执行相应的计算处理.
 
 操作的执行顺序也不同: `Sequence` 对每个元素执行所有的处理步骤.
-而 `Iterable` 会对整个集合执行单个处理步骤, 然后再对结果集合执行下一个处理步骤. 
+而 `Iterable` 会对整个集合执行单个处理步骤, 然后再对结果集合执行下一个处理步骤.
 
 通过这种方式, 序列可以避免生成各个处理步骤的中间结果, 因此能够提高集合多步骤处理的整体性能.
 然而, 序列的延迟计算(lazy)模式会增加一些开销, 在处理小集合, 或进行简单计算时, 这些开销可能会比较显著.
@@ -72,7 +72,7 @@ fun main() {
 ```kotlin
 fun main() {
 //sampleStart
-    val oddNumbersLessThan10 = generateSequence(1) { if (it < 10) it + 2 else null }
+    val oddNumbersLessThan10 = generateSequence(1) { if (it + 2 < 10) it + 2 else null }
     println(oddNumbersLessThan10.count())
 //sampleEnd
 }
@@ -120,7 +120,7 @@ fun main() {
 
 ## 序列处理的例子
 
-下面我们通过一个例子来看看 `Iterable` 和 `Sequence` 区别. 
+下面我们通过一个例子来看看 `Iterable` 和 `Sequence` 区别.
 
 ### 使用 `Iterable`
 
@@ -144,7 +144,7 @@ fun main() {
 </div>
 
 运行这段代码时, 你可以看到 `filter()` 和 `map()` 函数的执行顺序与它们在代码中出现的顺序相同.
-首先, 你会看到对所有元素输出 `filter:`, 然后对过滤之后剩余的元素输出 `length:`, 然后是最后两行代码的输出. 
+首先, 你会看到对所有元素输出 `filter:`, 然后对过滤之后剩余的元素输出 `length:`, 然后是最后两行代码的输出.
 下图是 list 各处理步骤的具体执行过程:
 
 ![List processing]({{ url_for('asset', path='images/reference/sequences/list-processing.png') }})

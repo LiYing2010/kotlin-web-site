@@ -21,9 +21,9 @@ title: 编码规约
 
 如果要按照本编码规约来配置 IntelliJ 的代码格式化规则, 请安装 Kotlin plugin 1.2.20 或更高版本,
 进入菜单 __Settings | Editor | Code Style | Kotlin__, 点击右上方的 __Set from...__ 链接,
-然后在菜单中选择 __Predefined style | Kotlin style guide__.
+然后在菜单中选择 __Kotlin style guide__.
 
-如果要验证你的代码是否已经按照本编码规约格式化完成, 可以进入代码检查的设置,
+如果要验证你的代码是否已经按照本编码规约格式化完成, 可以进入 __Settings | Editor | Inspections__,
 然后启用 __Kotlin | Style issues | File is not formatted according to project settings__ 检查项目.
 对于本编码规约中提到的其他问题 (比如命名规约), 相应的检查项目默认已经启用了.
 
@@ -41,7 +41,8 @@ title: 编码规约
 
 如果 Kotlin 源代码文件只包含单个类 (以及相关的顶级声明), 那么源代码文件的名称应该与类名相同, 再加上 .kt 扩展名.
 如果源代码文件包含多个类, 或者只包含顶级声明, 请选择一个能够描述文件所包含内容的名称, 用这个名称作为源代码文件名.
-文件名如果包含多个单词, 请使用[驼峰式大小写](https://en.wikipedia.org/wiki/Camel_case), 并将首字母大写 (比如, `ProcessDeclarations.kt`).
+文件名如果包含多个单词, 请使用[驼峰式大小写](https://en.wikipedia.org/wiki/Camel_case),
+将首字母大写(又叫做 Pascal 风格大小写), 比如, `ProcessDeclarations.kt`.
 
 文件的名称应该描述其中包含的代码的功能. 因此, 应该避免在文件名中使用无意义的单词, 比如 "Util".
 
@@ -139,7 +140,8 @@ class MyTestCase {
 
 ### 属性名称
 
-对于常数 (标记了 `const` 的属性, 或者不存在自定义的 `get` 函数顶级的 `val` 属性, 或对象的 `val` 属性, 并且其值是深层不可变数据), 应该使用下划线分隔的大写名称:
+对于常数 (标记了 `const` 的属性, 或者不存在自定义的 `get` 函数顶级的 `val` 属性, 或对象的 `val` 属性, 并且其值是深层不可变数据),
+应该使用下划线分隔的大写 ([吼叫式蛇形大小写](https://en.wikipedia.org/wiki/Snake_case)) 名称:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
@@ -170,7 +172,8 @@ val PersonComparator: Comparator<Person> = /*...*/
 
 </div>
 
-对于枚举常数, 可以使用下划线分隔的大写名称(`enum class Color { RED, GREEN }`), 也可以使用首字母大写的驼峰式大小写名称, 由你的具体用法来决定.
+对于枚举常数, 可以使用下划线分隔的大写名称 ([吼叫式蛇形大小写](https://en.wikipedia.org/wiki/Snake_case))
+(`enum class Color { RED, GREEN }`), 也可以使用首字母大写的驼峰式大小写名称, 由你的具体用法来决定.
 
 #### 后端属性名称
 
@@ -221,8 +224,9 @@ if (elements != null) {
 
 </div>
 
-(注意: 在 Kotlin 中, 分号是可以省略的, 因此折行很重要. 语言设计时预想使用 Java 风格的大括号,
-如果你使用不同的格式化风格, 你的代码执行时的行为可能会与你预想的不同.)
+> 在 Kotlin 中, 分号是可以省略的, 因此折行很重要. 语言设计时预想使用 Java 风格的大括号,
+> 如果你使用不同的格式化风格, 你的代码执行时的行为可能会与你预想的不同.
+{:.note}
 
 ### 水平空格
 
@@ -385,7 +389,7 @@ tailrec
 vararg
 suspend
 inner
-enum / annotation
+enum / annotation / fun // 在 `fun interface` 中, `fun` 是修饰符
 companion
 inline
 infix
@@ -466,7 +470,7 @@ package foo.bar
 ```kotlin
 fun longMethodName(
     argument: ArgumentType = defaultValue,
-    argument2: AnotherArgumentType
+    argument2: AnotherArgumentType,
 ): ReturnType {
     // body
 }
@@ -494,14 +498,14 @@ fun foo() = 1        // 这是好的风格
 
 ### 表达式体格式化
 
-如果函数体表达式太长, 无法与函数声明放在同一行之内, 那么应该将 `=` 符号放在第一行.
-表达式函数体放在下一行, 缩进 4 个空格.
+如果函数体表达式太长, 它的第一行无法与函数声明放在同一行之内, 那么应该将 `=` 符号放在第一行,
+然后表达式函数体放在下一行, 缩进 4 个空格.
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
 
 ```kotlin
-fun f(x: String) =
-    x.length
+fun f(x: String, y: String, z: String) =
+    veryLongFunctionCallWithManyWords(andLongParametersToo(), x, y, z)
 ```
 
 </div>
@@ -702,6 +706,273 @@ foo {
 
 </div>
 
+### 尾随逗号(Trailing Comma)
+
+尾随逗号是指, 在一系列元素的最末尾之后出现的逗号:
+
+<div class="sample" markdown="1" theme="idea" mode="kotlin" data-highlight-only>
+
+```kotlin
+class Person(
+    val firstName: String,
+    val lastName: String,
+    val age: Int, // 尾随逗号
+)
+```
+
+</div>
+
+使用尾随逗号可以带来下面这些益处:
+
+* 版本控制中的差分比较更加清晰 – 因为差分只会出现在真正修改过的代码行.
+* 更加易于添加元素, 或改变元素顺序 – 修改元素时不再需要添加或删除逗号.
+* 简化了代码生成工作, 比如, 对于对象的初始化代码. 最后一个元素也可以带有逗号.
+
+尾随逗号完全是可选的 – 没有尾随逗号, 你的代码仍然可以工作.
+Kotlin 编码风格向导鼓励在声明处使用尾随逗号, 在调用处则由你自己决定.
+
+要在 IntelliJ IDEA 的代码格式化工具中启用尾随逗号, 请打开 __Settings | Editor | Code Style | Kotlin__,
+选择 __Other__ 页, 然后选中 __Use trailing comma__ 选项.
+
+Kotlin 在下列情况中支持尾随逗号:
+* [枚举](#enumerations)
+* [值参数](#value-arguments)
+* [类的属性和参数](#class-properties-and-parameters)
+* [函数值参数](#function-value-parameters)
+* [带有可选类型的参数 (包括属性的 set 函数)](#parameters-with-optional-type-including-setters)
+* [下标后缀](#indexing-suffix)
+* [Lambda 表达式参数](#lambda-parameters)
+* [`when` 语句的分支条件](#when-entry)
+* [集合字面值 (在注解中)](#collection-literals-in-annotations)
+* [类型参数(Type argument)](#type-arguments)
+* [类型参数(Type parameter)](#type-parameters)
+* [解构声明](#destructuring-declarations)
+
+#### 枚举
+
+<div class="sample" markdown="1" theme="idea" mode="kotlin" data-highlight-only>
+
+```kotlin
+enum class Direction {
+    NORTH,
+    SOUTH,
+    WEST,
+    EAST, // 尾随逗号
+}
+```
+
+</div>
+
+#### 值参数
+
+<div class="sample" markdown="1" theme="idea" mode="kotlin" data-highlight-only>
+
+```kotlin
+fun shift(x: Int, y: Int) { /*...*/ }
+
+shift(
+    25,
+    20, // 尾随逗号
+)
+
+val colors = listOf(
+    "red",
+    "green",
+    "blue", // 尾随逗号
+)
+```
+
+</div>
+
+#### 类的属性和参数
+
+<div class="sample" markdown="1" theme="idea" mode="kotlin" data-highlight-only>
+
+```kotlin
+class Customer(
+    val name: String,
+    val lastName: String, // 尾随逗号
+)
+
+class Customer(
+    val name: String,
+    lastName: String, // 尾随逗号
+)
+```
+
+</div>
+
+#### 函数值参数
+
+<div class="sample" markdown="1" theme="idea" mode="kotlin" data-highlight-only>
+
+```kotlin
+fun powerOf(
+    number: Int,
+    exponent: Int, // 尾随逗号
+) { /*...*/ }
+
+constructor(
+    x: Comparable<Number>,
+    y: Iterable<Number>, // 尾随逗号
+) {}
+
+fun print(
+    vararg quantity: Int,
+    description: String, // 尾随逗号
+) {}
+```
+
+</div>
+
+#### 带有可选类型的参数 (包括属性的 set 函数)
+
+<div class="sample" markdown="1" theme="idea" mode="kotlin" data-highlight-only>
+
+```kotlin
+val sum: (Int, Int, Int) -> Int = fun(
+    x,
+    y,
+    z, // 尾随逗号
+): Int {
+    return x + y + x
+}
+println(sum(8, 8, 8))
+```
+
+</div>
+
+#### 下标后缀
+
+<div class="sample" markdown="1" theme="idea" mode="kotlin" data-highlight-only>
+
+```kotlin
+class Surface {
+    operator fun get(x: Int, y: Int) = 2 * x + 4 * y - 10
+}
+fun getZValue(mySurface: Surface, xValue: Int, yValue: Int) =
+    mySurface[
+        xValue,
+        yValue, // 尾随逗号
+    ]
+```
+
+</div>
+
+#### Lambda 表达式参数
+
+<div class="sample" markdown="1" theme="idea" mode="kotlin" data-highlight-only>
+
+```kotlin
+fun main() {
+    val x = {
+            x: Comparable<Number>,
+            y: Iterable<Number>, // 尾随逗号
+        ->
+        println("1")
+    }
+
+    println(x)
+}
+```
+
+</div>
+
+#### `when` 语句的分支条件
+
+<div class="sample" markdown="1" theme="idea" mode="kotlin" data-highlight-only>
+
+```kotlin
+fun isReferenceApplicable(myReference: KClass<*>) = when (myReference) {
+    Comparable::class,
+    Iterable::class,
+    String::class, // 尾随逗号
+        -> true
+    else -> false
+}
+```
+
+</div>
+
+#### 集合字面值 (在注解中)
+
+<div class="sample" markdown="1" theme="idea" mode="kotlin" data-highlight-only>
+
+```kotlin
+annotation class ApplicableFor(val services: Array<String>)
+
+@ApplicableFor([
+    "serializer",
+    "balancer",
+    "database",
+    "inMemoryCache", // 尾随逗号
+])
+fun run() {}
+```
+
+</div>
+
+#### 类型参数(Type argument)
+
+<div class="sample" markdown="1" theme="idea" mode="kotlin" data-highlight-only>
+
+```kotlin
+fun <T1, T2> foo() {}
+
+fun main() {
+    foo<
+            Comparable<Number>,
+            Iterable<Number>, // 尾随逗号
+            >()
+}
+```
+
+</div>
+
+#### 类型参数(Type parameter)
+
+<div class="sample" markdown="1" theme="idea" mode="kotlin" data-highlight-only>
+
+```kotlin
+class MyMap<
+        MyKey,
+        MyValue, // 尾随逗号
+        > {}
+```
+
+</div>
+
+#### 解构声明
+
+<div class="sample" markdown="1" theme="idea" mode="kotlin" data-highlight-only>
+
+```kotlin
+data class Car(val manufacturer: String, val model: String, val year: Int)
+val myCar = Car("Tesla", "Y", 2019)
+
+val (
+    manufacturer,
+    model,
+    year, // 尾随逗号
+) = myCar
+
+val cars = listOf<Car>()
+fun printMeanValue() {
+    var meanValue: Int = 0
+    for ((
+        _,
+        _,
+        year, // 尾随逗号
+    ) in cars) {
+        meanValue += year
+    }
+    println(meanValue/cars.size)
+}
+printMeanValue()
+```
+
+</div>
+
 ## 文档注释
 
 对于比较长的文档注释, 请将开头的 `/**` 放在单独的行, 后面的每一行都用星号开始:
@@ -846,6 +1117,9 @@ typealias PersonIndex = Map<String, Person>
 
 </div>
 
+如果你使用 private 或 internal 的类型别名来避免名称冲突,
+建议改为使用 [包(Package)与导入(Import)](packages.html) 中介绍的 `import … as …` 功能.
+
 ### Lambda 表达式参数
 
 在比较短, 而且没有嵌套的 Lambda 表达式, 建议使用 `it` 规约, 而不要明确声明参数.
@@ -982,7 +1256,7 @@ val a = """if(a > 1) {
 有些情况下, 无参数的函数可以与只读属性相互替代.
 虽然它们在语义上是相似的, 但从编程风格上的角度看, 存在一些规约来决定在什么时候应该使用函数, 什么时候应该使用属性.
 
-当以下条件成立时, 应该选择使用只读属性, 而不是使用函数:
+当底层算法满足以下条件时, 应该选择使用只读属性, 而不是使用函数:
 
 * 不会抛出异常
 * 计算过程消费的资源不多(或者在初次运行时缓存了计算结果)

@@ -241,13 +241,13 @@ World!
 
 ### 作用范围(Scope)构建器
 
-除了各种构建器提供的协程作用范围之外, 还可以使用 [coroutineScope] 构建器来自行声明作用范围.
+除了各种构建器提供的协程作用范围之外, 还可以使用 [coroutineScope][_coroutineScope] 构建器来自行声明作用范围.
 这个构建器可以创建一个新的协程作用范围, 并等待在这个范围内启动的所有子协程运行结束.
 
-[runBlocking] 和 [coroutineScope] 看起来很类似, 因为它们都会等待自己的代码段以及所有的子任务执行完毕.
+[runBlocking] 和 [coroutineScope][_coroutineScope] 看起来很类似, 因为它们都会等待自己的代码段以及所有的子任务执行完毕.
 主要区别是, [runBlocking] 方法为了等待任务结束, 会 _阻塞_ 当前线程,
-而 [coroutineScope] 只会挂起协程, 而低层的线程可以被用作其他用途.
-由于这种区别, [runBlocking] 是一个通常的函数, 而 [coroutineScope] 是一个挂起函数.
+而 [coroutineScope][_coroutineScope] 只会挂起协程, 而低层的线程可以被用作其他用途.
+由于这种区别, [runBlocking] 是一个通常的函数, 而 [coroutineScope][_coroutineScope] 是一个挂起函数.
 
 具体情况请看下面的示例程序:
 
@@ -288,7 +288,7 @@ Coroutine scope is over
 -->
 
 注意,  "Task from coroutine scope" 消息输出之后(这时正在等待嵌套的 launch)
-立刻就会执行并输出 "Task from runBlocking" — 即使 [coroutineScope] 还没有结束.
+立刻就会执行并输出 "Task from runBlocking" — 即使 [coroutineScope][_coroutineScope] 还没有结束.
 
 ### 抽取函数(Extract Function)的重构
 
@@ -410,6 +410,6 @@ I'm sleeping 2 ...
 [runBlocking]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/run-blocking.html
 [Job]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-job/index.html
 [Job.join]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-job/join.html
-[coroutineScope]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/coroutine-scope.html
+[_coroutineScope]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/coroutine-scope.html
 [CoroutineScope()]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope.html
 <!--- END -->

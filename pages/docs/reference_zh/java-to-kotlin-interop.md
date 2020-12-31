@@ -334,19 +334,19 @@ interface ChatBot {
 > 只有 JVM 1.8 或更高版本的编译目标平台才支持默认方法.
 {:.note}
 
-> 在 Kotlin 1.3 中, `@JvmDefault` 注解是实验性功能. 它的名称以及动作都可能改变, 代码未来可能发生不兼容.
-{:.note}
-
 从 JDK 1.8 开始, Java 中的接口可以包含 [默认方法(Default Method)](https://docs.oracle.com/javase/tutorial/java/IandI/defaultmethods.html).
-你可以为 Kotlin 接口声明一个非抽象的成员, 作为实现这个接口的 Java 类的默认方法.
-要把一个成员定义为默认方法, 需要标注 [`@JvmDefault`](/api/latest/jvm/stdlib/kotlin.jvm/-jvm-default/index.html) 注解.
+如果要把 Kotlin 接口的所有非抽象成员变为实现这些接口的 Java 类的默认方法,
+请使用编译器选项 `-Xjvm-default=all` 来编译 Kotlin 代码.
+
 下面是一个有默认方法的 Kotlin 接口的示例:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
 ```kotlin
+// 使用编译器选项 -Xjvm-default=all 编译
+
 interface Robot {
-    @JvmDefault fun move() { println("~walking~") }
+    fun move() { println("~walking~") }  // 在 Java 接口中, 这个方法将成为默认方法
     fun speak(): Unit
 }
 ```
@@ -398,53 +398,30 @@ public class BB8 implements Robot {
 ```
 </div>
 
-要让 `@JvmDefault` 注解生效, 接口必须使用 `-Xjvm-default` 参数进行编译.
-根据注解的使用方法不同, 可以为这个编译参数指定以下几种值:
+>**Note**: 在 Kotlin 1.4 之前, 要生成默认方法, 可以在方法上使用 `@JvmDefault` 注解.
+> 在 1.4 中使用编译选项 `-Xjvm-default=all` 进行编译, 结果通常等于将接口的所有的非抽象方法添加 `@JvmDefault`注解,
+> 然后再使用编译选项 `-Xjvm-default=enable` 进行编译. 但是, 有些情况下这两种办法的结果会有区别.
+> 关于 Kotlin 1.4 中默认方法生成过程的具体变化, 请参见 Kotlin blog 中的 [这篇文章](https://blog.jetbrains.com/kotlin/2020/07/kotlin-1-4-m3-generating-default-methods-in-interfaces/).
 
-* `-Xjvm-default=enabled` 适用的情况是: 如果你只对新增的方法添加了 `@JvmDefault` 注解.
-   也包括在你的 API 中增加了整个接口的情况.
-* `-Xjvm-default=compatibility` 适用的情况是: 如果你对 API 中过去就已经存在的方法添加了 `@JvmDefault` 注解.
-   这种模式有助于避免破坏代码的兼容性: 针对前一个版本编写的所有的接口实现类, 可以完全兼容于新的版本.
-   但是, compatibility 模式可能会导致编译输出的字节码大小增加, 并影响运行时的性能.
+### 默认方法的兼容模式
 
-关于兼容性问题, 更多详情请参见 `@JvmDefault` 的 [API 参考文档](/api/latest/jvm/stdlib/kotlin.jvm/-jvm-default/index.html).
+如果你的 Kotlin 接口在过去编译时没有使用新的编译选项 `-Xjvm-default=all`, 并且有客户代码正在使用这些接口,
+那么, 在你的 Kotlin 接口代码使用这个编译选项再次编译之后, 可能导致客户代码不能与新代码兼容.
 
-### 在委托(delegate)中使用
+为了避免对这种客户代码的兼容性造成破坏, 请使用 _兼容模式_ 编译你的 Kotlin 代码, 方法是添加编译选项 `-Xjvm-default=all-compatibility`.
+这种情况下, 所有使用前一个版本的代码都能够继续与新版本兼容. 但是, 兼容模式会造成编译输出的字节码增大.
 
-注意, 如果一个带有 `@JvmDefault` 方法的接口被用作一个 [委托(delegate)](delegation.html),
-那么即使在实际的委托类型中提供了自己的方法实现, 也仍然会调用方法的默认实现.
+对于新的接口不必考虑兼容性, 因为在此之前并没有客户代码使用它.
+因此可以将这些接口从兼容模式中排除, 以减少兼容模式造成的字节码开销.
+具体方法是, 对这些方法标注 `@JvmDefaultWithoutCompatibility` 注解.
+这些接口的编译方法与使用编译选项 `-Xjvm-default=all` 时相同.
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-
-```kotlin
-interface Producer {
-    @JvmDefault fun produce() {
-        println("interface method")
-    }
-}
-
-class ProducerImpl: Producer {
-    override fun produce() {
-        println("class method")
-    }
-}
-
-class DelegatedProducer(val p: Producer): Producer by p {
-}
-
-fun main() {
-    val prod = ProducerImpl()
-    DelegatedProducer(prod).produce() // 输出结果为 "interface method"
-}
-```
-</div>
-
-关于 Kotlin 中的接口委托,, 更多详情请参见 [委托(Delegation)](delegation.html).
-
+此外, 对于那些没有在公开 API 中公布的接口, 它们也没有被任何客户代码使用,
+因此在 `all-compatibility` 模式下, 你也可以使用 `@JvmDefaultWithoutCompatibility` 来标注所有这些接口.
 
 ## 可见度
 
-Kotlin 中的可见度会根据以下规则映射到 Java 中:
+Kotlin 中的可见度修饰符与 Java 的对应规则如下:
 
 * `private` 成员会被编译为 Java 中的 `private` 成员;
 * `private` 顶级声明会被编译为 Java 中的 包内局部声明(package-local declaration);
@@ -600,7 +577,7 @@ catch (IOException e) { // 错误: writeToFile() 没有声明抛出 IOException 
 </div>
 
 这时 Java 编译器会报告错误, 因为 `writeToFile()` 没有声明抛出 `IOException` 异常.
-为了解决这个问题, 我们可以在 Kotlin 中使用 [`@Throws`](/api/latest/jvm/stdlib/kotlin.jvm/-throws/index.html) 注解:
+为了解决这个问题, 我们可以在 Kotlin 中使用 [`@Throws`](/api/latest/jvm/stdlib/kotlin/-throws/index.html) 注解:
 
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 

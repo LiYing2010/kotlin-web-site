@@ -79,12 +79,16 @@ Kotlin 有一个内容广泛的标准库, 可以在你的应用程序中使用. 
             <executions>
                 <execution>
                     <id>compile</id>
-                    <goals> <goal>compile</goal> </goals>
+                    <goals>
+                        <goal>compile</goal>
+                    </goals>
                 </execution>
 
                 <execution>
                     <id>test-compile</id>
-                    <goals> <goal>test-compile</goal> </goals>
+                    <goals>
+                        <goal>test-compile</goal>
+                    </goals>
                 </execution>
             </executions>
         </plugin>
@@ -97,8 +101,8 @@ Kotlin 有一个内容广泛的标准库, 可以在你的应用程序中使用. 
 ## 编译 Kotlin 和 Java 的混合源代码
 
 要编译混合源代码的应用程序, 需要在 Java 编译器之前调用 Kotlin 编译器.
-用 Maven 的术语来说就是, kotlin-maven-plugin 应该在 maven-compiler-plugin 之前运行,
-也就是说, 在你的 pom.xml 文件中, kotlin plugin 要放在 maven-compiler-plugin 之前, 如下例:
+用 Maven 的术语来说就是, `kotlin-maven-plugin` 应该在 `maven-compiler-plugin` 之前运行.
+也就是说, 在你的 `pom.xml` 文件中, `kotlin` plugin 要放在 `maven-compiler-plugin` 之前, 如下例:
 
 <div class="sample" markdown="1" mode="xml" auto-indent="false" theme="idea" data-highlight-only>
 
@@ -112,7 +116,9 @@ Kotlin 有一个内容广泛的标准库, 可以在你的应用程序中使用. 
             <executions>
                 <execution>
                     <id>compile</id>
-                    <goals> <goal>compile</goal> </goals>
+                    <goals>
+                        <goal>compile</goal>
+                    </goals>
                     <configuration>
                         <sourceDirs>
                             <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
@@ -122,7 +128,9 @@ Kotlin 有一个内容广泛的标准库, 可以在你的应用程序中使用. 
                 </execution>
                 <execution>
                     <id>test-compile</id>
-                    <goals> <goal>test-compile</goal> </goals>
+                    <goals>
+                        <goal>test-compile</goal>
+                    </goals>
                     <configuration>
                         <sourceDirs>
                             <sourceDir>${project.basedir}/src/test/kotlin</sourceDir>
@@ -150,12 +158,19 @@ Kotlin 有一个内容广泛的标准库, 可以在你的应用程序中使用. 
                 <execution>
                     <id>java-compile</id>
                     <phase>compile</phase>
-                    <goals> <goal>compile</goal> </goals>
+                    <goals>
+                        <goal>compile</goal>
+                    </goals>
                 </execution>
                 <execution>
                     <id>java-test-compile</id>
                     <phase>test-compile</phase>
-                    <goals> <goal>testCompile</goal> </goals>
+                    <goals>
+                        <goal>testCompile</goal>
+                    </goals>
+                    <configuration>
+                        <skip>${maven.test.skip}</skip>
+                    </configuration>
                 </execution>
             </executions>
         </plugin>
@@ -182,24 +197,9 @@ Kotlin 有一个内容广泛的标准库, 可以在你的应用程序中使用. 
 
 或者, 使用命令行选项 `-Dkotlin.compiler.incremental=true` 来执行你的编译任务.
 
-## 处理注解
+## 注解处理
 
 详情请参见 [Kotlin 注解处理工具](kapt.html) (`kapt`).
-
-## Coroutines support
-
-对 [协程](coroutines.html) 的支持是从 Kotlin 1.2 开始新增的一个实验性功能, 因此如果你在项目中使用了协程, Kotlin 编译器会报告一个警告信息.
-在你的 `pom.xml` 文件中添加以下代码, 可以关闭这个警告:
-
-<div class="sample" markdown="1" mode="xml" auto-indent="false" theme="idea" data-highlight-only>
-
-```xml
-<configuration>
-    <experimentalCoroutines>enable</experimentalCoroutines>
-</configuration>
-```
-
-</div>
 
 ## Jar 文件
 
@@ -309,32 +309,32 @@ java -jar target/mymodule-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 
 |  名称 |  Maven 属性名  |    描述     |   可以选择的值    |    默认值     |
 |------|---------------|-------------|-----------------|--------------|
-| nowarn | | 不产生警告信息 | true, false | false |
-| languageVersion | kotlin.compiler.languageVersion | 指定源代码所兼容的 Kotlin 语言版本 |"1.0", "1.1", "1.2", "1.3", "1.4 (实验性功能)" |
-| apiVersion | kotlin.compiler.apiVersion | 只允许使用指定的版本的运行库中的 API | "1.0", "1.1", "1.2", "1.3", "1.4 (实验性功能)" |
-| sourceDirs | | 指定编译对象源代码文件所在的目录 | | 工程的源代码根路径
-| compilerPlugins | | 允许使用 [编译器插件](compiler-plugins.html)  | | []
-| pluginOptions | | 供编译器插件使用的选项 | | []
-| args | | 额外的编译器参数 | | []
+| `nowarn` | | 不产生警告信息 | true, false | false |
+| `languageVersion` | `kotlin.compiler.languageVersion` | 指定源代码所兼容的 Kotlin 语言版本 |"1.2" (已废弃 DEPRECATED), "1.3", "1.4", "1.5 (实验性功能)" |
+| `apiVersion` | `kotlin.compiler.apiVersion` | 只允许使用指定的版本的运行库中的 API | "1.2" (已废弃 DEPRECATED), "1.3", "1.4", "1.5 (实验性功能)" |
+| `sourceDirs` | | 指定编译对象源代码文件所在的目录 | | 工程的源代码根路径
+| `compilerPlugins` | | 允许使用 [编译器插件](compiler-plugins.html)  | | []
+| `pluginOptions` | | 供编译器插件使用的选项 | | []
+| `args` | | 额外的编译器参数 | | []
 
 
 ### JVM 独有的属性
 
 |  名称 |  Maven 属性名  |    描述     |   可以选择的值    |    默认值     |
 |------|---------------|-------------|-----------------|--------------|
-| jvmTarget | kotlin.compiler.jvmTarget | 指定编译输出的 JVM 字节码的版本 | "1.6", "1.8", "9", "10", "11", "12" | "1.6" |
-| jdkHome | kotlin.compiler.jdkHome | 如果 JDK home 目录路径与默认的 JAVA_HOME 值不一致, 这个参数可以指定 JDK home 目录路径, 这个路径将被添加到 classpath 内 | | |
+| `jvmTarget` | `kotlin.compiler.jvmTarget` | 指定编译输出的 JVM 字节码的版本 | "1.6", "1.8", "9", "10", "11", "12", "13", "14", "15" | "1.6" |
+| `jdkHome` | `kotlin.compiler.jdkHome` | 指定一个自定义的 JDK 路径, 添加到 classpath 内, 替代默认的 JAVA_HOME 值 | | |
 
 ### JS 独有的属性
 
 |  名称 |  Maven 属性名  |    描述     |   可以选择的值    |    默认值     |
 |------|---------------|-------------|-----------------|--------------|
-| outputFile | | 指定输出文件的路径 | | |
-| metaInfo |  | 指定是否生成带有 metadata 的 .meta.js 和 .kjsm 文件. 用于创建库 | true, false | true
-| sourceMap | | 指定是否生成源代码映射文件(source map) | true, false | false
-| sourceMapEmbedSources | | 指定是否将源代码文件嵌入到源代码映射文件中 | "never", "always", "inlining" | "inlining" |
-| sourceMapPrefix | | 指定源代码映射文件中的路径前缀 |  |  |
-| moduleKind | | 指定编译器生成的模块类型 | "plain", "amd", "commonjs", "umd" | "plain"
+| `outputFile` | | 指定编译输出的 *.js 文件路径 | | |
+| `metaInfo` |  | 指定是否生成带有 metadata 的 .meta.js 和 .kjsm 文件. 用于创建库 | true, false | true
+| `sourceMap` | | 指定是否生成源代码映射文件(source map) | true, false | false
+| `sourceMapEmbedSources` | | 指定是否将源代码文件嵌入到源代码映射文件中 | "never", "always", "inlining" | "inlining" |
+| `sourceMapPrefix` | | 对源代码映射文件中的路径添加前缀 |  |  |
+| `moduleKind` | | 指定编译器生成的 JS 模块类型 | "umd", "commonjs", "amd", "plain" | "umd"
 
 ## 生成文档
 
