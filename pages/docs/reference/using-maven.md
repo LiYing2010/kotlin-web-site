@@ -199,21 +199,6 @@ Alternatively, run your build with the `-Dkotlin.compiler.incremental=true` opti
 
 See the description of [Kotlin annotation processing tool](kapt.html) (`kapt`).
 
-## Coroutines support
-
-[Coroutines](coroutines.html) support is an experimental feature in Kotlin 1.2, so the Kotlin compiler reports a warning when you use coroutines in your project.
-To turn off the warning, add the following block to your `pom.xml` file:
-
-<div class="sample" markdown="1" mode="xml" auto-indent="false" theme="idea" data-highlight-only>
-
-```xml
-<configuration>
-    <experimentalCoroutines>enable</experimentalCoroutines>
-</configuration>
-```
-
-</div>
-
 ## Jar file
 
 To create a small Jar file containing just the code from your module, include the following under `build->plugins` in your Maven pom.xml file,
@@ -336,7 +321,7 @@ The following attributes are supported:
 
 | Name | Property name | Description | Possible values |Default value |
 |------|---------------|-------------|-----------------|--------------|
-| `jvmTarget` | `kotlin.compiler.jvmTarget` | Target version of the generated JVM bytecode | "1.6", "1.8", "9", "10", "11", "12", "13", "14" | "1.6" |
+| `jvmTarget` | `kotlin.compiler.jvmTarget` | Target version of the generated JVM bytecode | "1.6", "1.8", "9", "10", "11", "12", "13", "14", "15" | "1.6" |
 | `jdkHome` | `kotlin.compiler.jdkHome` | Include a custom JDK from the specified location into the classpath instead of the default JAVA_HOME | | |
 
 ### Attributes specific for JS

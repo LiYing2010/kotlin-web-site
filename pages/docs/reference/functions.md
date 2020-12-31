@@ -49,7 +49,7 @@ Each parameter must be explicitly typed:
 <div class="sample" markdown="1" theme="idea" data-highlight-only>
 
 ```kotlin
-fun powerOf(number: Int, exponent: Int) { /*...*/ }
+fun powerOf(number: Int, exponent: Int): Int { /*...*/ }
 ```
 </div>
 
@@ -362,7 +362,7 @@ class MyStringCollection {
 
 ## Function scope
 
-In Kotlin functions can be declared at top level in a file, meaning you do not need to create a class to hold a function, which you are required to do in languages such as Java, C# or Scala. In addition
+In Kotlin, functions can be declared at top level in a file, meaning you do not need to create a class to hold a function, which you are required to do in languages such as Java, C# or Scala. In addition
 to top level functions, Kotlin functions can also be declared local, as member functions and extension functions.
 
 ### Local functions
@@ -462,8 +462,8 @@ When a function is marked with the `tailrec` modifier and meets the required for
 ```kotlin
 val eps = 1E-10 // "good enough", could be 10^-15
 
-tailrec fun findFixPoint(x: Double = 1.0): Double
-        = if (Math.abs(x - Math.cos(x)) < eps) x else findFixPoint(Math.cos(x))
+tailrec fun findFixPoint(x: Double = 1.0): Double =
+    if (Math.abs(x - Math.cos(x)) < eps) x else findFixPoint(Math.cos(x))
 ```
 </div>
 

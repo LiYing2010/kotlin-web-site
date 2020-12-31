@@ -140,15 +140,15 @@ kotlin {
             defaultSourceSet {
                 dependencies {
                     def main = compilations.main
-                            // Compile against the main compilation's compile classpath and outputs:
-                            implementation(main.compileDependencyFiles + main.output.classesDirs)
+                    // Compile against the main compilation's compile classpath and outputs:
+                    implementation(main.compileDependencyFiles + main.output.classesDirs)
                     implementation kotlin('test-junit')
                     /* ... */
                 }
             }
            
             // Create a test task to run the tests produced by this compilation:
-            tasks.create('jvmIntegrationTest', Test) {
+            tasks.register('jvmIntegrationTest', Test) {
                 // Run the tests with the classpath containing the compile dependencies (including 'main'),
                 // runtime dependencies, and the outputs of this compilation:
                 classpath = compileDependencyFiles + runtimeDependencyFiles + output.allOutputs
@@ -184,7 +184,7 @@ kotlin {
                 }
                 
                 // Create a test task to run the tests produced by this compilation:
-                tasks.create<Test>("integrationTest") {
+                tasks.register<Test>("integrationTest") {
                     // Run the tests with the classpath containing the compile dependencies (including 'main'),
                     // runtime dependencies, and the outputs of this compilation:
                     classpath = compileDependencyFiles + runtimeDependencyFiles + output.allOutputs

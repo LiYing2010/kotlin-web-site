@@ -92,7 +92,7 @@ code which is compatible with module systems including AMD and CommonJS. When ta
 ### Which versions of JVM does Kotlin target?
 
 Kotlin lets you choose the version of JVM for execution. By default, the Kotlin/JVM compiler produces Java 6 compatible bytecode.
-If you want to make use of optimizations available in newer versions of Java, you can explicitly specify the target Java version from 8 to 13.
+If you want to make use of optimizations available in newer versions of Java, you can explicitly specify the target Java version from 8 to 15.
 Note that in this case the resulting bytecode might not run on lower versions. 
 
 ### Is Kotlin hard?
@@ -109,7 +109,7 @@ There are too many companies using Kotlin to list, but some more visible compani
 ### Who develops Kotlin?
 
 Kotlin is primarily developed by a team of engineers at JetBrains (current team size is 100+). The lead language designer is 
-[Andrey Breslav](https://twitter.com/abreslav). In addition to the core team, there are also over 250 external contributors on GitHub. 
+[Roman Elizarov](https://twitter.com/relizarov). In addition to the core team, there are also over 250 external contributors on GitHub. 
 
 ### Where can I learn more about Kotlin?
 
