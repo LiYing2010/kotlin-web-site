@@ -1,9 +1,10 @@
 import $ from 'jquery'
+import { throttle } from '../../util/throttle';
 import Dropdown from '../../com/dropdown'
 import NavTree from '../../com/nav-tree'
 import './api.scss'
 
-const DEFAULT_VERSION = '1.4';
+const DEFAULT_VERSION = '1.5';
 const LOCAL_STORAGE_KEY = 'targetApi';
 const PLATFORM_AVAILABILITY = {
     'jvm': '1.0',
@@ -176,7 +177,7 @@ function initializeSelects() {
       } else {
         state.platform.push(platform);
       }
-      
+
       updateState(state);
     }
   });
@@ -188,7 +189,8 @@ function initializeSelects() {
       '1.1': '1.1',
       '1.2': '1.2',
       '1.3': '1.3',
-      '1.4': '1.4'
+      '1.4': '1.4',
+      '1.5': '1.5'
     },
     selected: state.version != null ? state.version : DEFAULT_VERSION,
     onSelect: (version) => {
@@ -211,9 +213,33 @@ function initializeSections() {
   });
 }
 
+function handleApiPageScroll() {
+    // Container with float buttons should render after 800px
+    const scrollOffset = 800;
+    const $scrollTopButton = $('.scroll-button-top');
+    const $buttonsBox = $('.api-layout_button-box');
+
+    if (document.body.scrollTop > scrollOffset || document.documentElement.scrollTop > scrollOffset) {
+        $buttonsBox.addClass('api-layout_button-box_visible')
+    } else {
+        $buttonsBox.removeClass('api-layout_button-box_visible')
+    }
+
+    $scrollTopButton.on('click', function () {
+        window.scroll({
+            top: 0,
+            left: 0,
+            behavior: 'smooth'
+        });
+    });
+}
+
 $(document).ready(() => {
   fixPlatformsAvailability();
   initializeSelects();
   initializeSections();
+  handleApiPageScroll();
   new NavTree(document.querySelector('.js-side-tree-nav'));
 });
+
+window.onscroll = throttle(function() {handleApiPageScroll()}, 250);
