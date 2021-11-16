@@ -85,15 +85,8 @@ only the ones needed at startup; other properties receive their values later whe
 As an experimental feature, lazy initialization of top-level properties requires an opt-in. To use the lazy initialization
 of top-level properties, add the `-Xir-property-lazy-initialization` option when compiling the code with the JS IR compiler:
 
-<tabs>
-    
-```groovy
-tasks.withType(Kotlin2JsCompile) {
-   kotlinOptions {
-     freeCompilerArgs += "-Xir-property-lazy-initialization"
-   }
-}
-```
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 tasks.withType<Kotlin2JsCompile> {
@@ -103,6 +96,18 @@ tasks.withType<Kotlin2JsCompile> {
 }
 ```
 
+</tab>
+<tab title="Groovy" group-key="groovy">
+    
+```groovy
+tasks.withType(Kotlin2JsCompile) {
+   kotlinOptions {
+     freeCompilerArgs += "-Xir-property-lazy-initialization"
+   }
+}
+```
+
+</tab>
 </tabs>
 
 ## Preview: generation of TypeScript declaration files (d.ts)
@@ -139,7 +144,6 @@ section.
 The IR compiler backend also has some discrepancies in comparison to the default backend. When trying out the new backend,
 it's good to be mindful of these possible pitfalls.
 
-- Currently, the IR backend **does not generate source maps for Kotlin code**. You can follow the progress [on YouTrack](https://youtrack.jetbrains.com/issue/KT-39447).
 - Some **libraries that rely on specific characteristics** of the default backend, such as `kotlin-wrappers`, can display some problems. You can follow the investigation and progress [on YouTrack](https://youtrack.jetbrains.com/issue/KT-40525).
 - The IR backend **does not make Kotlin declarations available to JavaScript** by default at all. To make Kotlin declarations visible to JavaScript, they **must be** annotated with [`@JsExport`](js-to-kotlin-interop.md#jsexport-annotation).
 

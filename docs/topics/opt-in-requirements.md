@@ -20,7 +20,7 @@ requires them to opt in before using the API.
 
 ## Opt in to using API
 
-If a library author marks a declaration from a library's API as [requiring opt-in](#require-opt-in-for-api),
+If a library author marks a declaration from a library's API as _[requiring opt-in](#require-opt-in-for-api)_,
 you should give an explicit consent for using it in your code. 
 There are several ways to opt in to such APIs, all applicable without technical limitations.
 You are free to choose the way that you find best for your situation. 
@@ -28,7 +28,7 @@ You are free to choose the way that you find best for your situation.
 ### Propagating opt-in
 
 When you use an API in the code intended for third-party use (a library), you can propagate its opt-in requirement to your API as well.
-To do this, annotate your declaration with the [opt-in requirement annotation](#create-opt-in-requirement-annotations) of the API used in its body.
+To do this, annotate your declaration with the _[opt-in requirement annotation](#create-opt-in-requirement-annotations)_ of the API used in its body.
 This enables you to use API elements that require opt-in.
 
 ```kotlin
@@ -145,7 +145,17 @@ Compiling with this argument has the same effect as if every declaration in the 
 
 If you build your module with Gradle, you can add arguments like this:
 
-<tabs>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    kotlinOptions.freeCompilerArgs += "-opt-in=org.mylibrary.OptInAnnotation"
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
@@ -155,17 +165,24 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
 }
 ```
 
-```kotlin
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    kotlinOptions.freeCompilerArgs += "-opt-in=org.mylibrary.OptInAnnotation"
-}
-```
-
+</tab>
 </tabs>
 
 If your Gradle module is a multiplatform module, use the `optIn` method:
 
-<tabs>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+sourceSets {
+    all {
+        languageSettings.optIn("org.mylibrary.OptInAnnotation")
+    }
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 sourceSets {
@@ -177,14 +194,7 @@ sourceSets {
 }
 ```
 
-```kotlin
-sourceSets {
-    all {
-        languageSettings.optIn("org.mylibrary.OptInAnnotation")
-    }
-}
-```
-
+</tab>
 </tabs>
 
 For Maven, it would be:

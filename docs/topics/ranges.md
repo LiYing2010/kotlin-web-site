@@ -5,7 +5,7 @@ function from the `kotlin.ranges` package and its operator form `..`. Usually, `
 `!in` functions.
 
 ```kotlin
-if (i in 1..4) {  // equivalent of 1 <= i && i <= 4
+if (i in 1..4) { // equivalent of 1 <= i && i <= 4
     print(i)
 }
 ```
@@ -174,6 +174,17 @@ fun main() {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
+
+If you already have a progression, you can iterate it in reverse order with the `reversed` function:
+
+```kotlin
+fun main() {
+//sampleStart
+    for (i in (1..4).reversed()) print(i)
+//sampleEnd
+}
+```
+{kotlin-runnable="true"}
 
 Progressions implement `Iterable<N>`, where `N` is `Int`, `Long`, or `Char` respectively, so you can use them in various
 [collection functions](collection-operations.md) like `map`, `filter`, and other.

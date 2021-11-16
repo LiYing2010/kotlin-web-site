@@ -176,6 +176,8 @@ val emails = ... // might be empty
 val mainEmail = emails.firstOrNull() ?: ""
 ```
 
+Learn the difference between [Java and Kotlin first item getting](java-to-kotlin-collections-guide.md#get-the-first-and-the-last-items-of-a-possibly-empty-collection).
+
 ## Execute if not null
 
 ```kotlin
@@ -225,14 +227,12 @@ fun test() {
 ## if expression
 
 ```kotlin
-fun foo(param: Int) {
-    val result = if (param == 1) {
-        "one"
-    } else if (param == 2) {
-        "two"
-    } else {
-        "three"
-    }
+val y = if (x == 1) {
+    "one"
+} else if (x == 2) {
+    "two"
+} else {
+    "other"
 }
 ```
 
@@ -355,4 +355,5 @@ IntelliJ IDEA's kotlin plugin understands the semantics of `TODO()` and automati
 
 ## What’s next?
 
-Learn how to perform [typical tasks with strings in Java and Kotlin](java-to-kotlin-idioms-strings.md).
+* Solve [Advent of Code puzzles](advent-of-code.md) using the idiomatic Kotlin style
+* Learn how to perform [typical tasks with strings in Java and Kotlin](java-to-kotlin-idioms-strings.md)

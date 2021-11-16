@@ -1,5 +1,11 @@
 [//]: # (title: Using kapt)
 
+> kapt is in maintenance mode. We are keeping it up-to-date with recent Kotlin and Java releases 
+> but have no plans to implement new features. Please use the [Kotlin Symbol Processing API (KSP)](ksp-overview.md) for annotation processing.
+> [See the list of libraries supported by KSP](ksp-overview.md#supported-libraries).
+>
+{type="warning"}
+
 Annotation processors (see [JSR 269](https://jcp.org/en/jsr/detail?id=269)) are supported in Kotlin with the *kapt* compiler plugin.
 
 In a nutshell, you can use libraries such as [Dagger](https://google.github.io/dagger/) or
@@ -11,13 +17,8 @@ Please read below about how to apply the *kapt* plugin to your Gradle/Maven buil
 
 Apply the `kotlin-kapt` Gradle plugin:
 
-<tabs>
-
-```groovy
-plugins {
-    id "org.jetbrains.kotlin.kapt" version "%kotlinVersion%"
-}
-```
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 plugins {
@@ -25,6 +26,16 @@ plugins {
 }
 ```
 
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+plugins {
+    id "org.jetbrains.kotlin.kapt" version "%kotlinVersion%"
+}
+```
+
+</tab>
 </tabs>
 
 Alternatively, you can use the `apply plugin` syntax:
@@ -35,13 +46,9 @@ apply plugin: 'kotlin-kapt'
 
 Then add the respective dependencies using the `kapt` configuration in your `dependencies` block:
 
-<tabs>
 
-```groovy
-dependencies {
-    kapt 'groupId:artifactId:version'
-}
-```
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 dependencies {
@@ -49,6 +56,16 @@ dependencies {
 }
 ```
 
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+dependencies {
+    kapt 'groupId:artifactId:version'
+}
+```
+
+</tab>
 </tabs>
 
 If you previously used the [Android support](https://developer.android.com/studio/build/gradle-plugin-3-0-0-migration.html#annotationProcessor_config)
@@ -100,7 +117,7 @@ To use the Gradle worker API for parallel execution of kapt tasks, add this line
 kapt.use.worker.api=true
 ```
 
-When you use the [custom JDK home](gradle.md#setting-custom-jdk-home) feature in the Kotlin Gradle plugin,
+When you use the [custom JDK home](gradle.md#set-custom-jdk-home) feature in the Kotlin Gradle plugin,
 kapt task workers use only [process isolation mode](https://docs.gradle.org/current/userguide/worker_api.html#changing_the_isolation_mode).
 Note that the `kapt.workers.isolation` property is ignored.
 

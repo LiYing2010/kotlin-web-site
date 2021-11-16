@@ -13,10 +13,11 @@ calculate their average age.
 The  following collection types are relevant for Kotlin:
 
 * _List_ is an ordered collection with access to elements by indices – integer numbers that reflect their position. 
-Elements can occur more than once in a list. An example of a list is a sentence: it's a group of words, their order is 
-important, and they can repeat. 
+Elements can occur more than once in a list. An example of a list is a telephone number: it's a group of digits, their
+order is important, and they can repeat. 
 * _Set_ is a collection of unique elements. It reflects the mathematical abstraction of set: a group of objects without 
-repetitions. Generally, the order of set elements has no significance. For example, an alphabet is a set of letters. 
+repetitions. Generally, the order of set elements has no significance. For example, the numbers on lottery tickets form a
+set: they are unique, and their order is not important.
 * _Map_ (or _dictionary_) is a set of key-value pairs. Keys are unique, and each of them maps to exactly one value. The
  values can be duplicates. Maps are useful for storing logical connections between objects, for example, an employee's ID 
  and their position.
@@ -46,9 +47,11 @@ Although, if you try to reassign a `val` collection, you'll get a compilation er
 fun main() {
 //sampleStart
     val numbers = mutableListOf("one", "two", "three", "four")
-    numbers.add("five")   // this is OK    
+    numbers.add("five")   // this is OK
+    println(numbers)
     //numbers = mutableListOf("six", "seven")      // compilation error
 //sampleEnd
+
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
@@ -67,7 +70,11 @@ Below is a diagram of the Kotlin collection interfaces:
 
 ![Collection interfaces hierarchy](collections-diagram.png){width="500"}
 
-Let's walk through the interfaces and their implementations.
+Let's walk through the interfaces and their implementations. To learn about `Collection`, read the section below. 
+To learn about `List`, `Set`, and `Map`, you can either read the corresponding sections or watch a video 
+by Sebastian Aigner, Kotlin Developer Advocate:
+
+<video href="F8jj7e-_jFA" title="Kotlin Collections Overview"/>
 
 ### Collection
 

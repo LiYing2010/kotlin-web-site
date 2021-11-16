@@ -65,7 +65,8 @@ fun main() {
 
 To enable this feature in Kotlin 1.5.30, use language version `1.6`. You can also change the warnings to errors by enabling [progressive mode](whatsnew13.md#progressive-mode).
 
-<tabs>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlin {
@@ -78,6 +79,9 @@ kotlin {
 }
 ```
 
+</tab>
+<tab title="Groovy" group-key="groovy">
+
 ```groovy
 kotlin {
     sourceSets.all {
@@ -89,6 +93,7 @@ kotlin {
 }
 ```
 
+</tab>
 </tabs>
 
 ### Suspending functions as supertypes
@@ -108,7 +113,8 @@ class MyClass: suspend () -> Unit {
 
 Use the `-language-version 1.6` compiler option to enable the feature:
 
-<tabs>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlin {
@@ -120,6 +126,9 @@ kotlin {
 }
 ```
 
+</tab>
+<tab title="Groovy" group-key="groovy">
+
 ```groovy
 kotlin {
     sourceSets.all {
@@ -130,6 +139,7 @@ kotlin {
 }
 ```
 
+</tab>
 </tabs>
 
 The feature has the following restrictions:
@@ -410,7 +420,7 @@ Learn more about [Swift/Objective-C interoperability](native-objc-interop.md).
 
 [LLD](https://lld.llvm.org/) is a linker from the LLVM project, which we plan to start using in Kotlin/Native for MinGW targets because of its benefits over the default ld.bfd – primarily its better performance.
 
-However, the latest stable version of LLD doesn’t support direct linkage against DLL for MinGW (Windows) targets. Such linkage requires using [import libraries](​​https://stackoverflow.com/questions/3573475/how-does-the-import-library-work-details/3573527#3573527). Although they aren’t needed with Kotlin/Native 1.5.30, we’re adding a warning to inform you that such usage is incompatible with LLD that will become the default linker for MinGW in the future.
+However, the latest stable version of LLD doesn’t support direct linkage against DLL for MinGW (Windows) targets. Such linkage requires using [import libraries](https://stackoverflow.com/questions/3573475/how-does-the-import-library-work-details/3573527#3573527). Although they aren’t needed with Kotlin/Native 1.5.30, we’re adding a warning to inform you that such usage is incompatible with LLD that will become the default linker for MinGW in the future.
 
 Please share your thoughts and concerns about the transition to the LLD linker in [this YouTrack issue](https://youtrack.jetbrains.com/issue/KT-47605).
 
@@ -441,7 +451,8 @@ XCFrameworks is useful if you want to use your KMM framework for devices and sim
 
 To use XCFrameworks, update your `build.gradle(.kts)` script:
 
-<tabs>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
@@ -474,6 +485,9 @@ kotlin {
 }
 ```
 
+</tab>
+<tab title="Groovy" group-key="groovy">
+
 ```groovy
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFrameworkConfig
 
@@ -482,7 +496,7 @@ plugins {
 }
 
 kotlin {
-    def xcf = XCFrameworkConfig(project)
+    def xcf = new XCFrameworkConfig(project)
 
     ios {
         binaries.framework {
@@ -505,6 +519,7 @@ kotlin {
 }
 ```
 
+</tab>
 </tabs>
 
 When you declare XCFrameworks, these new Gradle tasks will be registered:
@@ -540,7 +555,7 @@ Previously, we published the [migration guide for the JS IR backend](js-ir-migra
 
 Kotlin 1.5.30 brings JavaScript source map generation for the Kotlin/JS IR backend. This will improve the Kotlin/JS debugging experience when the IR backend is enabled, with full debugging support that includes breakpoints, stepping, and readable stack traces with proper source references.
 
-Learn more about [how to debug Kotlin/JS in the browser or IntelliJ IDEA Ultimate](js-debugging.md).
+Learn how to [debug Kotlin/JS in the browser or IntelliJ IDEA Ultimate](js-debugging.md).
 
 ## Gradle
 
@@ -559,19 +574,20 @@ With toolchains support, Gradle can autodetect local JDKs and install missing JD
 
 The Kotlin Gradle plugin supports Java toolchains for Kotlin/JVM compilation tasks.
 A Java toolchain:
-* Sets the [`jdkHome` option](gradle.md#attributes-specific-for-jvm) available for JVM targets.
+* Sets the [`jdkHome` option](gradle.md#attributes-specific-to-jvm) available for JVM targets.
   > [The ability to set the `jdkHome` option directly has been deprecated](https://youtrack.jetbrains.com/issue/KT-46541).
   >
   {type="warning"}
 
-* Sets the [`kotlinOptions.jvmTarget`](gradle.md#attributes-specific-for-jvm) to the toolchain's JDK version if the user didn’t set the `jvmTarget` option explicitly.
+* Sets the [`kotlinOptions.jvmTarget`](gradle.md#attributes-specific-to-jvm) to the toolchain's JDK version if the user didn’t set the `jvmTarget` option explicitly.
   If the toolchain is not configured, the `jvmTarget` field uses the default value. Learn more about [JVM target compatibility](gradle.md#check-for-jvm-target-compatibility).
 
 * Affects which JDK [`kapt` workers](kapt.md#running-kapt-tasks-in-parallel) are running on.
 
 Use the following code to set a toolchain. Replace the placeholder `<MAJOR_JDK_VERSION>` with the JDK version you would like to use:
 
-<tabs>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlin {
@@ -581,6 +597,9 @@ kotlin {
 }
 ```
 
+</tab>
+<tab title="Groovy" group-key="groovy">
+
 ```groovy
 kotlin {
     jvmToolchain {
@@ -589,15 +608,12 @@ kotlin {
 }
 ```
 
-
-
+</tab>
 </tabs>
 
 Note that setting a toolchain via the `kotlin` extension will update the toolchain for Java compile tasks as well.
 
 You can set a toolchain via the `java` extension, and Kotlin compilation tasks will use it:
-
-<tabs>
 
 ```kotlin
 java {
@@ -606,16 +622,6 @@ java {
     }
 }
 ```
-
-```groovy
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>)) // “8”
-    }
-}
-```
-
-</tabs>
 
 For information about setting any JDK version for `KotlinCompile` tasks, look through the docs about [setting the JDK version with the Task DSL](gradle.md#setting-jdk-version-with-the-task-dsl).
 
@@ -625,30 +631,36 @@ For Gradle versions from 6.1 to 6.6, [use the `UsesKotlinJavaToolchain` interfac
 
 All Kotlin tasks that support setting the JDK via [`kotlinOptions`](gradle.md#compiler-options) now implement the `UsesKotlinJavaToolchain` interface. To set the JDK home, put a path to your JDK and replace the `<JDK_VERSION>` placeholder:
 
-<tabs>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 project.tasks
     .withType<UsesKotlinJavaToolchain>()
     .configureEach {
         it.kotlinJavaToolchain.jdk.use(
-            "/path/to/your/jdk",
-            JavaVersion.<JDK_VERSION>
+            "/path/to/local/jdk",
+            JavaVersion.<LOCAL_JDK_VERSION>
         )
     }
 ```
+
+
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 project.tasks
     .withType(UsesKotlinJavaToolchain.class)
     .configureEach {
         it.kotlinJavaToolchain.jdk.use(
-            '/path/to/your/jdk',
-            JavaVersion.<JDK_VERSION>
+            '/path/to/local/jdk',
+            JavaVersion.<LOCAL_JDK_VERSION>
         )
     }
 ```
 
+</tab>
 </tabs>
 
 Use the `UsesKotlinJavaToolchain` interface for Gradle versions from 6.1 to 6.6. Starting from Gradle 6.7, use the [Java toolchains](#support-for-java-toolchains) instead.
@@ -679,33 +691,42 @@ In Kotlin 1.5.30, there’s a new logic for the Kotlin daemon’s JVM arguments.
 
 * You can specify arguments in the `kotlin` extension:
 
-    <tabs>
+  <tabs group="build-script">
+    <tab title="Kotlin" group-key="kotlin">
 
     ```kotlin
     kotlin {
-        kotlinDaemonJvmArgs = listOf("-Xmx486m", "-Xms256m", "-XX:+UseG1GC")
+        kotlinDaemonJvmArgs = listOf("-Xmx486m", "-Xms256m", "-XX:+UseParallelGC")
     }
     ```
+
+    </tab>
+    <tab title="Groovy" group-key="groovy">
 
     ```groovy
     kotlin {
-        kotlinDaemonJvmArgs = ["-Xmx486m", "-Xms256m", "-XX:+UseG1GC"]
+        kotlinDaemonJvmArgs = ["-Xmx486m", "-Xms256m", "-XX:+UseParallelGC"]
     }
     ```
 
-     </tabs>
+    </tab>
+    </tabs>
 
 * You can specify arguments for a specific task:
 
-    <tabs>
+    <tabs group="build-script">
+    <tab title="Kotlin" group-key="kotlin">
 
     ```kotlin
     tasks
         .matching { it.name == "compileKotlin" && it is CompileUsingKotlinDaemon }
         .configureEach {
-            (this as CompileUsingKotlinDaemon).kotlinDaemonJvmArguments.set(listOf("-Xmx486m", "-Xms256m", "-XX:+UseG1GC"))
+            (this as CompileUsingKotlinDaemon).kotlinDaemonJvmArguments.set(listOf("-Xmx486m", "-Xms256m", "-XX:+UseParallelGC"))
         }
     ```
+
+    </tab>
+    <tab title="Groovy" group-key="groovy">
   
     ```groovy
     tasks
@@ -717,6 +738,7 @@ In Kotlin 1.5.30, there’s a new logic for the Kotlin daemon’s JVM arguments.
         }
     ```
 
+    </tab>
     </tabs>
 
     > In this case a new Kotlin daemon instance can start on task execution. Learn more about [the Kotlin daemon’s interactions with JVM arguments](gradle.md#setting-kotlin-daemon-s-jvm-arguments).
@@ -888,3 +910,15 @@ A similar function was also added to `CharSequence`:
     val mixedColor = colorsText.splitToSequence(regex)
 ```
 {kotlin-runnable="false"}
+
+## Serialization 1.3.0-RC
+
+`kotlinx.serialization` [1.3.0-RC](https://github.com/Kotlin/kotlinx.serialization/releases/tag/v1.3.0-RC) is here with 
+new JSON serialization capabilities:
+* Java IO streams serialization
+* Property-level control over default values
+* An option to exclude null values from serialization
+* Custom class discriminators in polymorphic serialization
+
+Learn more in the [changelog](https://github.com/Kotlin/kotlinx.serialization/releases/tag/v1.3.0-RC).
+<!-- and the [kotlinx.serialization 1.3.0 release blog post](TODO). -->

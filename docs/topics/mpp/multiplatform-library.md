@@ -7,7 +7,7 @@ This library converts raw data – strings and byte arrays – to the [Base64](h
 You will use different ways to implement the conversion to the Base64 format on different platforms:
 
 * For JVM – the [`java.util.Base64` class](https://docs.oracle.com/javase/8/docs/api/java/util/Base64.html).
-* For JS – the [Buffer API](https://nodejs.org/docs/latest/api/buffer.html).
+* For JS – the [`btoa()` function](https://developer.mozilla.org/docs/Web/API/WindowOrWorkerGlobalScope/btoa).
 * For Kotlin/Native – your own implementation.
 
 You will also test your code using common tests, and then publish the library to your local Maven repository.
@@ -100,20 +100,22 @@ The JS implementation will be very similar to the JVM one.
 
 1. In the `jsMain/kotlin` directory, create the `org.jetbrains.base64` package.
 2. Create the `Base64.kt` file in the new package.
-3. Provide a simple implementation of the `Base64Factory` object that delegates to the NodeJS `Buffer` API:
+3. Provide a simple implementation of the `Base64Factory` object that delegates to the `btoa()` function.
 
     ```kotlin
     package org.jetbrains.base64
-   
+    
+    import kotlinx.browser.window
+    
     actual object Base64Factory {
         actual fun createEncoder(): Base64Encoder = JsBase64Encoder
     }
     
     object JsBase64Encoder : Base64Encoder {
         override fun encode(src: ByteArray): ByteArray {
-            val buffer = js("Buffer").from(src)
-            val string = buffer.toString("base64") as String
-            return ByteArray(string.length) { string[it].toByte() }
+            val string = src.decodeToString()
+            val encodedString = window.btoa(string)
+            return encodedString.encodeToByteArray()
         }
     }
     ```
@@ -283,17 +285,8 @@ To publish your library, use the [`maven-publish` Gradle plugin](https://docs.gr
 
 1. In the `build.gradle(.kts)` file, apply the `maven-publish` plugin and specify the group and version of your library:
 
-<tabs>
-
-```groovy
-plugins {
-   id 'org.jetbrains.kotlin.multiplatform' version '%kotlinVersion%'
-   id 'maven-publish'
-}
-
-group = 'org.jetbrains.base64'
-version = '1.0.0'
-```
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 plugins {
@@ -305,6 +298,20 @@ group = "org.jetbrains.base64"
 version = "1.0.0"
 ```
 
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+plugins {
+   id 'org.jetbrains.kotlin.multiplatform' version '%kotlinVersion%'
+   id 'maven-publish'
+}
+
+group = 'org.jetbrains.base64'
+version = '1.0.0'
+```
+
+</tab>
 </tabs>
 
 2. In the Terminal, run the `publishToMavenLocal` Gradle task to publish your library to your local Maven repository:
@@ -326,24 +333,8 @@ Now you can add your library to other multiplatform projects as a dependency.
 
 Add the `mavenLocal()` repository and add a dependency on your library to the `build.gradle(.kts)` file.
 
-<tabs>
-
-```groovy
-repositories {
-   mavenCentral()
-   mavenLocal()
-}
-
-kotlin {
-   sourceSets {
-      commonMain {
-         dependencies {
-            implementation 'org.jetbrains.base64:Base64:1.0.0'
-         }
-      }
-   }
-}
-```
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 repositories {
@@ -362,6 +353,27 @@ kotlin {
 }
 ```
 
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+repositories {
+   mavenCentral()
+   mavenLocal()
+}
+
+kotlin {
+   sourceSets {
+      commonMain {
+         dependencies {
+            implementation 'org.jetbrains.base64:Base64:1.0.0'
+         }
+      }
+   }
+}
+```
+
+</tab>
 </tabs>
 
 ## Summary
@@ -375,5 +387,5 @@ In this tutorial, you:
 
 * Learn more about [publishing multiplatform libraries](mpp-publish-lib.md).
 * Learn more about [Kotlin Multiplatform](mpp-intro.md).
-* [Create your first KMM application for Android and iOS – tutorial](https://kotlinlang.org/docs/mobile/create-first-app.html).
+* [Create your first KMM application for Android and iOS – tutorial](kmm-create-first-app.md).
 * [Create a full-stack web app with Kotlin Multiplatform – hands-on tutorial](https://play.kotlinlang.org/hands-on/Full%20Stack%20Web%20App%20with%20Kotlin%20Multiplatform/01_Introduction).

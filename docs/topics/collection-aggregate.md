@@ -66,23 +66,23 @@ fun main() {
 ## Fold and reduce
 
 For more specific cases, there are the functions [`reduce()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/reduce.html) and [`fold()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/fold.html) that apply the provided operation to the collection elements sequentially and return the accumulated result.
-The operation takes two arguments:  the previously accumulated value and the collection element.
+The operation takes two arguments: the previously accumulated value and the collection element.
 
 The difference between the two functions is that `fold()` takes an initial value and uses it as the accumulated value on
 the first step, whereas the first step of `reduce()` uses the first and the second elements as operation arguments on the first step.
 
 ```kotlin
-
 fun main() {
 //sampleStart
     val numbers = listOf(5, 2, 10, 4)
 
-    val sum = numbers.reduce { sum, element -> sum + element }
-    println(sum)
+    val simpleSum = numbers.reduce { sum, element -> sum + element }
+    println(simpleSum)
     val sumDoubled = numbers.fold(0) { sum, element -> sum + element * 2 }
     println(sumDoubled)
 
-    //val sumDoubledReduce = numbers.reduce { sum, element -> sum + element * 2 } //incorrect: the first element isn't doubled in the result
+    //incorrect: the first element isn't doubled in the result
+    //val sumDoubledReduce = numbers.reduce { sum, element -> sum + element * 2 } 
     //println(sumDoubledReduce)
 //sampleEnd
 }

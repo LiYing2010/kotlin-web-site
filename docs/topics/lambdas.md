@@ -259,7 +259,7 @@ ints.filter { it > 0 } // this literal is of type '(it: Int) -> Boolean'
 
 ### Returning a value from a lambda expression
 
-You can explicitly return a value from the lambda using the [qualified return](returns.md#return-at-labels) syntax.
+You can explicitly return a value from the lambda using the [qualified return](returns.md#return-to-labels) syntax.
 Otherwise, the value of the last expression is implicitly returned.
 
 Therefore, the two following snippets are equivalent:
@@ -325,7 +325,7 @@ The return type inference for anonymous functions works just like for normal fun
 for anonymous functions with an expression body, but it has to be specified explicitly (or is assumed to be `Unit`) for anonymous
 functions with a block body.
 
-> Anonymous function parameters are always passed inside the parentheses. The shorthand syntax that allows you to leave
+> When passing anonymous functions as parameters, place them inside the parentheses. The shorthand syntax that allows you to leave
 > the function outside the parentheses works only for lambda expressions.
 >
 {type="note"}

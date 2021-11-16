@@ -9,7 +9,7 @@ Below you will find the list of the most important changes in Kotlin 1.4.0.
 
 Kotlin 1.4.0 comes with a variety of different language features and improvements. They include:
 
-* [SAM conversions for Kotlin interfaces](#sam-conversions-for-kotlin-interfaces)*
+* [SAM conversions for Kotlin interfaces](#sam-conversions-for-kotlin-interfaces)
 * [Explicit API mode for library authors](#explicit-api-mode-for-library-authors)
 * [Mixing named and positional arguments](#mixing-named-and-positional-arguments)
 * [Trailing comma](#trailing-comma)
@@ -63,21 +63,8 @@ Explicit API mode analyzes only the production sources of a module.
 
 To compile your module in the explicit API mode, add the following lines to your Gradle build script:
 
-<tabs>
-
-```groovy
-kotlin {    
-    // for strict mode
-    explicitApi() 
-    // or
-    explicitApi = 'strict'
-    
-    // for warning mode
-    explicitApiWarning()
-    // or
-    explicitApi = 'warning'
-}
-```
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlin {    
@@ -93,6 +80,24 @@ kotlin {
 }
 ```
 
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+kotlin {    
+    // for strict mode
+    explicitApi() 
+    // or
+    explicitApi = 'strict'
+    
+    // for warning mode
+    explicitApiWarning()
+    // or
+    explicitApi = 'warning'
+}
+```
+
+</tab>
 </tabs>
 
 When using the command-line compiler, switch to explicit API mode by adding  the `-Xexplicit-api` compiler option
@@ -852,7 +857,30 @@ by connecting the source sets with the `dependsOn` relation.
 
 ![Hierarchical structure](hierarchical-structure.png)
 
-<tabs>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+kotlin{
+    sourceSets {
+        val desktopMain by creating {
+            dependsOn(commonMain)
+        }
+        val linuxX64Main by getting {
+            dependsOn(desktopMain)
+        }
+        val mingwX64Main by getting {
+            dependsOn(desktopMain)
+        }
+        val macosX64Main by getting {
+            dependsOn(desktopMain)
+        }
+    }
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 kotlin {
@@ -874,25 +902,7 @@ kotlin {
 
 ```
 
-```kotlin
-kotlin{
-    sourceSets {
-        val desktopMain by creating {
-            dependsOn(commonMain)
-        }
-        val linuxX64Main by getting {
-            dependsOn(desktopMain)
-        }
-        val mingwX64Main by getting {
-            dependsOn(desktopMain)
-        }
-        val macosX64Main by getting {
-            dependsOn(desktopMain)
-        }
-    }
-}
-```
-
+</tab>
 </tabs>
 
 Thanks to the hierarchical project structure, libraries can also provide common APIs for a subset of targets. Learn more
@@ -913,7 +923,23 @@ that you can use in the shared code.
 From now on, instead of specifying dependencies on different variants of the same library in shared and platform-specific 
 source sets where it is used, you should specify a dependency only once in the shared source set.
 
-<tabs>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+kotlin {
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:%coroutinesVersion%")
+            }
+        }
+    }
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 kotlin {
@@ -927,19 +953,7 @@ kotlin {
 }
 ```
 
-```kotlin
-kotlin {
-    sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:%coroutinesVersion%")
-            }
-        }
-    }
-}
-
-```
-
+</tab>
 </tabs>
 
 Don’t use kotlinx library artifact names with suffixes specifying the platform, such as  `-common`, `-native`, or similar, 
@@ -1438,7 +1452,7 @@ stable. Libraries for other serialization formats remain experimental, along wit
 We have significantly reworked the API for JSON serialization to make it more consistent and easier to use. From now on,
 we'll continue developing the JSON serialization API in a backward-compatible manner.
 However, if you have used previous versions of it, you'll need to rewrite some of your code when migrating to 1.0.0-RC.
-To help you with this, we also offer the [Kotlin Serialization Guide](https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/serialization-guide.md) –
+To help you with this, we also offer the **[Kotlin Serialization Guide](https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/serialization-guide.md)** –
 the complete set of documentation for `kotlinx.serialization`. It will guide you through the process of using the most
 important features and it can help you address any issues that you might face.
 
@@ -1505,7 +1519,7 @@ to help you decide which suggestions to accept and which to ignore.
 ![Migration inspections](migration-inspection-wn.png)
 
 Kotlin 1.4.0 is a [feature release](kotlin-evolution.md#feature-releases-and-incremental-releases) and therefore can 
-bring incompatible changes to the language. Find the detailed list of such changes in the [Compatibility Guide for Kotlin 1.4](compatibility-guide-14.md).
+bring incompatible changes to the language. Find the detailed list of such changes in the **[Compatibility Guide for Kotlin 1.4](compatibility-guide-14.md)**.
 
 <!-- ### Migrating multiplatform projects
 

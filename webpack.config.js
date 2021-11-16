@@ -12,7 +12,7 @@ module.exports = (params = {}) => {
   const isDevServer = process.env.WEBPACK_SERVE === 'true';
   const sourcemaps = params.sourcemaps || isDevelopment;
 
-  const siteHost = 'localhost:5000';
+  const siteHost = 'localhost:8080';
   const webDemoURL = params['webdemo-url'] || 'http://kotlin-web-demo-cloud.passive.aws.intellij.net';
   const indexName = params['index-name'] || 'dev_KOTLINLANG';
 
@@ -24,7 +24,6 @@ module.exports = (params = {}) => {
       'videos': './static/js/page/videos.js',
       'grammar': './static/js/page/grammar.js',
       'community': './static/js/page/community/community.js',
-      'education': './static/js/page/education/education.js',
       'api': './static/js/page/api/api.js',
       'reference': './static/js/page/reference.js',
       'tutorial': './static/js/page/tutorial.js',
@@ -67,14 +66,11 @@ module.exports = (params = {}) => {
             {
               loader: 'css-loader',
               options: {
-                importLoaders: 2
+                importLoaders: 1
               }
             },
             {
               loader: 'resolve-url-loader'
-            },
-            {
-              loader: 'svg-transform-loader/encode-query'
             },
             {
               loader: 'postcss-loader',
@@ -114,9 +110,15 @@ module.exports = (params = {}) => {
               loader: 'svgo-loader',
               options: {
                 plugins: [
-                  {removeTitle: true},
-                  {convertPathData: false},
-                  {removeScriptElement:true}
+                  {
+                    name: 'preset-default',
+                    params: {
+                      overrides: {
+                        convertPathData: false,
+                      },
+                    },
+                  },
+                  'removeScriptElement'
                 ]
               }
             }

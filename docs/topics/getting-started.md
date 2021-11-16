@@ -8,7 +8,8 @@ Pick it up to start building powerful applications!
 ## Learn Kotlin fundamentals
 
 * If you're already familiar with one or more programming languages and want to learn Kotlin, start with these [Kotlin learning materials](learning-materials-overview.md).
-* If you are at the very beginning and Kotlin is your first programming language, you can start with reading the [Atomic Kotlin book](https://www.atomickotlin.com/atomickotlin/) or finding a Kotlin course.
+* If Kotlin is your first programming language, we recommend starting with the [Atomic Kotlin book](https://www.atomickotlin.com/atomickotlin/)
+or signing up for the free [Kotlin Basics track](https://hyperskill.org/tracks/18) on JetBrains Academy.
 
 ## Create your powerful application with Kotlin
  
@@ -43,10 +44,10 @@ Here is how you can take the first steps in developing Kotlin server-side applic
    <td width="50%">
       A lightweight framework for those who value freedom in making architectural decisions.
    <ul>
-      <li><a href="https://play.kotlinlang.org/hands-on/Creating%20HTTP%20APIs%20with%20Ktor/01_introduction">Create HTTP APIs with Ktor</a>.</li>
-      <li><a href="https://play.kotlinlang.org/hands-on/Creating%20a%20WebSocket%20Chat%20with%20Ktor/01_introduction">Create a WebSocket chat with Ktor</a>.</li>
-      <li><a href="https://play.kotlinlang.org/hands-on/Creating%20a%20website%20with%20Ktor/01_introduction">Create an interactive website with Ktor</a>.</li>
-      <li><a href="https://dev.to/kotlin/publishing-server-side-kotlin-applications-ktor-on-heroku-2ce4">Publish server-side Kotlin applications: Ktor on Heroku</a>.</li>
+      <li><a href="https://ktor.io/docs/creating-http-apis.html">Create HTTP APIs with Ktor</a>.</li>
+      <li><a href="https://ktor.io/docs/creating-web-socket-chat.html">Create a WebSocket chat with Ktor</a>.</li>
+      <li><a href="https://ktor.io/docs/creating-interactive-website.html">Create an interactive website with Ktor</a>.</li>
+      <li><a href="https://ktor.io/docs/heroku.html">Publish server-side Kotlin applications: Ktor on Heroku</a>.</li>
    </ul>
    
    </td>
@@ -75,23 +76,23 @@ If you've encountered any difficulties or problems, report an issue to our [issu
 
 Here you'll learn how to develop and improve your cross-platform mobile application using [Kotlin Multiplatform Mobile (KMM)](https://kotlinlang.org/lp/mobile/).
 
-1. **[Set up your environment for cross-platform development](https://kotlinlang.org/docs/mobile/setup.html).**
+1. **[Set up your environment for cross-platform development](kmm-setup.md).**
 
 2. **Create your first KMM application:**
 
-   * To start from scratch, [create a basic KMM application with the project wizard](https://kotlinlang.org/docs/mobile/create-first-app.html).
-   * If you have an existing Android application and want to make it cross-platform, complete the [Make your Android application work on iOS](https://kotlinlang.org/docs/mobile/integrate-in-existing-app.html) tutorial.
-   * If you prefer real-life examples, clone and play with an existing project, for example the networking and data storage project from the [hands-on tutorial](https://play.kotlinlang.org/hands-on/Networking%20and%20Data%20Storage%20with%20Kotlin%20Multiplatfrom%20Mobile/01_Introduction) or any [KMM sample](https://kotlinlang.org/docs/mobile/samples.html).
+   * To start from scratch, [create a basic KMM application with the project wizard](kmm-create-first-app.md).
+   * If you have an existing Android application and want to make it cross-platform, complete the [Make your Android application work on iOS](kmm-integrate-in-existing-app.md) tutorial.
+   * If you prefer real-life examples, clone and play with an existing project, for example the networking and data storage project from the [hands-on tutorial](https://play.kotlinlang.org/hands-on/Networking%20and%20Data%20Storage%20with%20Kotlin%20Multiplatfrom%20Mobile/01_Introduction) or any [KMM sample](kmm-samples.md).
 
-3. **Use a wide set of multiplatform libraries** to implement the required business logic only once in the shared module. Learn more about [adding dependencies](https://kotlinlang.org/docs/mobile/add-dependencies.html).
+3. **Use a wide set of multiplatform libraries** to implement the required business logic only once in the shared module. Learn more about [adding dependencies](kmm-add-dependencies.md).
    
    |Library|Details|
-   |-------|-------|
-   | Ktor |  [Docs](https://ktor.io/) and [sample](https://kotlinlang.org/docs/mobile/use-ktor-for-networking.html).| 
+   |-------|-------| 
+   | Ktor |  [Docs](https://ktor.io/docs/client.html).| 
    | Serialization |  [Docs](serialization.md) and [sample](https://play.kotlinlang.org/hands-on/Networking%20and%20Data%20Storage%20with%20Kotlin%20Multiplatfrom%20Mobile/04_Creating_a_data_model).|
-   | Coroutines |  [Docs](https://kotlinlang.org/docs/mobile/concurrency-overview.html) and [sample](https://kotlinlang.org/docs/mobile/concurrency-and-coroutines.html).|
+   | Coroutines |  [Docs](kmm-concurrency-overview.md) and [sample](kmm-concurrency-and-coroutines.md).|
    | DateTime | [Docs](https://github.com/Kotlin/kotlinx-datetime#readme).|
-   | SQLDelight | Third-party library. [Docs](https://cashapp.github.io/sqldelight/) and [sample](https://kotlinlang.org/docs/mobile/configure-sqldelight-for-data-storage.html).|
+   | SQLDelight | Third-party library. [Docs](https://cashapp.github.io/sqldelight/) and [sample](kmm-configure-sqldelight-for-data-storage.md ).|
    
    > You can also find a multiplatform library in the [community-driven list](https://libs.kmp.icerock.dev/).
    > 
@@ -99,7 +100,7 @@ Here you'll learn how to develop and improve your cross-platform mobile applicat
 
 4. **Learn more about KMM:**
    * Learn more about [Kotlin Multiplatform](mpp-intro.md).
-   * Look through [KMM samples on GitHub](https://kotlinlang.org/docs/mobile/samples.html).
+   * Look through [KMM samples on GitHub](kmm-samples.md).
    * [Create and publish a multiplatform library](mpp-create-lib.md).
    * Learn how KMM is used at [Netflix](https://netflixtechblog.com/netflix-android-and-ios-studio-apps-kotlin-multiplatform-d6d4d8d25d23), [VWWare](https://kotlinlang.org/lp/mobile/case-studies/vmware/), [Yandex](https://kotlinlang.org/lp/mobile/case-studies/yandex/), and [many other companies](https://kotlinlang.org/lp/mobile/case-studies/).
 
@@ -126,6 +127,7 @@ Here you'll learn how to develop and improve your frontend web application using
 
    * To start from scratch, [create a basic browser application with the IntelliJ IDEA project wizard](js-project-setup.md).
    * If you prefer more robust examples, complete the [Building Web Applications with React and Kotlin/JS](https://play.kotlinlang.org/hands-on/Building%20Web%20Applications%20with%20React%20and%20Kotlin%20JS/01_Introduction) hands-on tutorial. It includes a sample project that can serve as a good starting point for your own projects, and contains useful snippets and templates.
+   * Check out the list of [Kotlin/JS samples](js-samples.md) for more ideas on how to use Kotlin/JS.
 
 3. **Use libraries in your application.** Learn more about [adding dependencies](js-project-setup.md#dependencies).  
     
@@ -138,12 +140,12 @@ Here you'll learn how to develop and improve your frontend web application using
    |[KVision](https://kvision.io/) | A third-party object-oriented web framework for Kotlin/JS.|
    |[fritz2](https://www.fritz2.dev/)| A third-party lightweight, high-performance, independent library for building reactive web apps in Kotlin that are heavily dependent on coroutines and flows.|
    |[Doodle](https://nacular.github.io/doodle/) | A third-party vector-based UI framework that uses browser's capabilities to draw user interfaces.|
-   |[Compose for Web](https://jb.gg/compose-web) | Brings [Google’s Jetpack Compose UI toolkit](https://developer.android.com/jetpack/compose) to the browser. A _Technology Preview_ is currently available.|
+   |Compose for Web, a part of [Compose Multiplatform](https://www.jetbrains.com/lp/compose-mpp/) | The JetBrains framework that brings [Google's Jetpack Compose UI toolkit](https://developer.android.com/jetpack/compose) to the browser (currently with [Alpha](components-stability.md) stability).|
    |[kotlin-wrappers](https://github.com/JetBrains/kotlin-wrappers) | Provide convenient abstractions and deep integrations for one of the most popular JavaScript frameworks. Kotlin wrappers also provide support for a number of adjacent technologies like `react-redux`, `react-router`, or `styled-components`. |
 
 4. **Learn more about Kotlin for frontend web development:**
 
-   * The [new Kotlin/JS IR compiler](js-ir-compiler.md) (currently with [Alpha](components-stability.md) stability).
+   * The [new Kotlin/JS IR compiler](js-ir-compiler.md) (currently with [Beta](components-stability.md) stability).
    * [Using dependencies from npm](using-packages-from-npm.md).
    * [Using Kotlin code from JavaScript](js-to-kotlin-interop.md).
 
@@ -186,7 +188,7 @@ Here you'll learn how to develop and publish a multiplatform library:
 
    |Library|Details|
    |-------|-------|
-   | Ktor |  [Docs](https://ktor.io/learn/) and [sample](https://play.kotlinlang.org/hands-on/Full%20Stack%20Web%20App%20with%20Kotlin%20Multiplatform/03_A_Simple_API_Server).| 
+   | Ktor |  [Docs](https://ktor.io/docs/) and [sample](https://play.kotlinlang.org/hands-on/Full%20Stack%20Web%20App%20with%20Kotlin%20Multiplatform/03_A_Simple_API_Server).| 
    | Serialization |  [Docs](serialization.md) and [sample](https://play.kotlinlang.org/hands-on/Full%20Stack%20Web%20App%20with%20Kotlin%20Multiplatform/01_Introduction).|
    | Coroutines |  [Docs](coroutines-overview.md).|
    | DateTime | [Docs](https://github.com/Kotlin/kotlinx-datetime#readme).|
