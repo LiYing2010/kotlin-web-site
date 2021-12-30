@@ -1,10 +1,10 @@
 [//]: # (title: What's new in Kotlin 1.6.0)
 
-_[Release date: 15 November 2021](releases.md#release-details)_
+_[Release date: 16 November 2021](releases.md#release-details)_
 
 Kotlin 1.6.0 introduces new language features, optimizations and improvements to existing features, and a lot of improvements to the Kotlin standard library.
 
-You can also find an overview of the changes in the [release blog post](https://blog.jetbrains.com/kotlin/2021/11/kotlin-1-6-0-released/).
+You can also find an overview of the changes in the [release blog post](https://blog.jetbrains.com/kotlin/2021/11/kotlin-1-6-0-is-released/).
 
 ## Language
 
@@ -59,7 +59,7 @@ See [this YouTrack ticket](https://youtrack.jetbrains.com/issue/KT-47709) for a 
 
 ### Stable suspending functions as supertypes
 
-Kotlin 1.6.0 makes implementation of suspending functional types [Stable](components-stability.md). 
+Implementation of suspending functional types has become [Stable](components-stability.md) in Kotlin 1.6.0. 
 A preview was available [in 1.5.30](whatsnew1530.md#suspending-functions-as-supertypes).
 
 The feature can be useful when designing APIs that use Kotlin coroutines and accept suspending functional types. 
@@ -147,7 +147,6 @@ We're making multiple changes that are bringing us closer to fully stable builde
 
 Support for annotations on class type parameters looks like this:
 
-```kotlin
 ```kotlin
 @Target(AnnotationTarget.TYPE_PARAMETER)
 annotation class BoxContent
@@ -366,7 +365,7 @@ To disable downloading external components, add the following lines to your `bui
     <tab title="Kotlin" group-key="kotlin">
     
     ```kotlin
-    rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin::class.java> {
+    rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin> {
         rootProject.the<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension>().download = false // or true for default behavior
     }
     ```
@@ -389,7 +388,7 @@ To disable downloading external components, add the following lines to your `bui
     <tab title="Kotlin" group-key="kotlin">
     
     ```kotlin
-    rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin::class.java> {
+    rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin> {
         rootProject.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension>().download = false // or true for default behavior
     }
      
@@ -433,7 +432,7 @@ The new 1.6.0 version of the standard library stabilizes experimental features, 
 
 ### New readline functions
 
-Kotlin 1.6.0 offers new functions for handling standard input: `readln()` and `readlnOrNull()`.
+Kotlin 1.6.0 offers new functions for handling standard input: [`readln()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/readln.html) and [`readlnOrNull()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/readln-or-null.html).
 
 > For now, new functions are available for the JVM and Native target platforms only.
 >
@@ -448,15 +447,10 @@ We believe that eliminating the need to use `!!` when reading a line will improv
 To make the read-line operation name consistent with its `println()` counterpart, we've decided to shorten the names of new functions to 'ln'.
 
 ```kotlin
-fun main() {
-//sampleStart
-  println("What is your nickname?")
-  val nickname = readln()
-  println("Hello, $nickname!")
-//sampleEnd
-}
+println("What is your nickname?")
+val nickname = readln()
+println("Hello, $nickname!")
 ```
-{kotlin-runnable="true" kotlin-min-compiler-version="1.6"}
 
 ```kotlin
 fun main() {
@@ -507,15 +501,15 @@ You can now use [`buildMap()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotl
 without the opt-in annotation:
 
 ```kotlin
-fun main(args: Array<String>) {
+fun main() {
 //sampleStart
-   val x = listOf('b', 'c')
-   val y = buildList {
-       add('a')
-       addAll(x)
-       add('d')
-   }
-   println(y)  // [a, b, c, d]
+    val x = listOf('b', 'c')
+    val y = buildList {
+        add('a')
+        addAll(x)
+        add('d')
+    }
+    println(y)  // [a, b, c, d]
 //sampleEnd
 }
 ```
@@ -565,14 +559,14 @@ They split the string around matches of the given regex, but return the result a
 ```kotlin
 fun main() {
 //sampleStart
-  val colorsText = "green, red, brown&blue, orange, pink&green"
-  val regex = "[,\\s]+".toRegex()
-  val mixedColor = regex.splitToSequence(colorsText)
+    val colorsText = "green, red, brown&blue, orange, pink&green"
+    val regex = "[,\\s]+".toRegex()
+    val mixedColor = regex.splitToSequence(colorsText)
     // or
     // val mixedColor = colorsText.splitToSequence(regex)
-    .onEach { println(it) }
-    .firstOrNull { it.contains('&') }
-  println(mixedColor) // "brown&blue"
+        .onEach { println(it) }
+        .firstOrNull { it.contains('&') }
+    println(mixedColor) // "brown&blue"
 //sampleEnd
 }
 ```
@@ -588,11 +582,11 @@ fun main() {
 //sampleStart
     val number: Short = 0b10001
     println(number
-      .rotateRight(2)
-      .toString(radix = 2)) // 100000000000100
+        .rotateRight(2)
+        .toString(radix = 2)) // 100000000000100
     println(number
-      .rotateLeft(2)
-      .toString(radix = 2))  // 1000100
+        .rotateLeft(2)
+        .toString(radix = 2))  // 1000100
 //sampleEnd
 }
 ```
@@ -618,8 +612,8 @@ Occurrences of `${name}` or `$index` in the replacement string are substituted w
     ```kotlin
     fun main() {
     //sampleStart
-       println(Regex("(.+)").replace("Kotlin", "\$ $1")) // $ Kotlin
-       println(Regex("(.+)").replaceFirst("1.6.0", "\\ $1")) // \ 1.6.0
+        println(Regex("(.+)").replace("Kotlin", """\$ $1""")) // $ Kotlin
+        println(Regex("(.+)").replaceFirst("1.6.0", """\\ $1""")) // \ 1.6.0
     //sampleEnd
     }
     ```
@@ -633,11 +627,10 @@ Occurrences of `${name}` or `$index` in the replacement string are substituted w
 
     ```kotlin
      class WrappedText(val text: String) : Comparable<WrappedText> {
-       override fun compareTo(other: WrappedText): Int =
-           this.text compareTo other.text
+         override fun compareTo(other: WrappedText): Int =
+             this.text compareTo other.text
     }
     ```
-    {kotlin-runnable="true" kotlin-min-compiler-version="1.6"}
 
 * `Regex.replace()` in JS is now also not inline to unify its implementation across all platforms.
 * The `compareTo()` and `equals()` String functions, as well as the `isBlank()` CharSequence function now behave in JS exactly the same way they do on the JVM.
@@ -672,7 +665,23 @@ See the [collection ordering](collection-ordering.md) section for reference.
 With Kotlin 1.6.0, we're introducing Kover – a Gradle plugin for the [IntelliJ](https://github.com/JetBrains/intellij-coverage) and [JaCoCo](https://github.com/jacoco/jacoco) Kotlin code coverage agents.
 It works with all language constructs, including inline functions.
 
-Learn more about Kover on its [GitHub repository](https://github.com/Kotlin/kotlinx-kover).
+Learn more about Kover on its [GitHub repository](https://github.com/Kotlin/kotlinx-kover) or in this video:
+
+<video href="jNu5LY9HIbw" title="Kover – The Code Coverage Plugin"/>
+
+## Coroutines 1.6.0-RC
+
+`kotlinx.coroutines` [1.6.0-RC](https://github.com/Kotlin/kotlinx.coroutines/releases/tag/1.6.0-RC) is out with 
+multiple features and improvements:
+
+* Support for the [new Kotlin/Native memory manager](#preview-of-the-new-memory-manager)
+* Introduction of dispatcher _views_ API, which allows limiting parallelism without creating additional threads
+* Migrating from Java 6 to Java 8 target
+* `kotlinx-coroutines-test` with the new reworked API and multiplatform support
+* Introduction of [`CopyableThreadContextElement`](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-copyable-thread-context-element/index.html),
+  which gives coroutines a thread-safe write access to [`ThreadLocal`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/ThreadLocal.html) variables
+
+Learn more in the [changelog](https://github.com/Kotlin/kotlinx.coroutines/releases/tag/1.6.0-RC).
 
 ## Migrating to Kotlin 1.6.0
 

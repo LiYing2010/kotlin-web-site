@@ -5,7 +5,7 @@
    - /docs/mobile/security.html
    - /docs/mobile/organize-process-around-kmm.html
    - /docs/mobile/architect-kmm-app.html
-  to: /docs/kmm-overview.html
+  to: /docs/kmm-getting-started.html
 
 - from: /docs/mobile/getting-started.html
   to: /docs/kmm-getting-started.html
@@ -57,8 +57,10 @@
 - from: /docs/mobile/kmm-plugin-releases.html
   to: /docs/kmm-plugin-releases.html
 
-- from: /docs/mobile/whats-new-in-kotlin-for-kmm.html
-  to: /docs/whats-new-in-kotlin-for-kmm.html
+- from:
+   - /docs/mobile/whats-new-in-kotlin-for-kmm.html
+   - /docs/whats-new-in-kotlin-for-kmm.html
+  to: /docs/whatsnew.html
 
 - from: /docs/mobile/faq.html
   to: /docs/kmm-faq.html

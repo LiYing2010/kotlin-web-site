@@ -79,10 +79,14 @@ fun main() {
 }
 ```
 
+> The readln() function is available since [Kotlin 1.6.0](whatsnew16.md#new-readline-functions).
+>
+{type="note"}
+
 There is no need to handle the case of misformatted input in competitive programming. An input format is always precisely
 specified in competitive programming, and the actual input cannot deviate from the input specification in the problem
-statement. That's why we're using Kotlin's `readln()` function. It asserts that the input string is present and throws
-an exception otherwise. Likewise, the [String.toInt()](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/to-int.html)
+statement. That's why we're using Kotlin's [`readln()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/readln.html) function. It asserts that the input string is present and throws
+an exception otherwise. Likewise, the [`String.toInt()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/to-int.html)
 function throws an exception if the input string is not an integer.
 
 All online competitive programming events allow the use of pre-written code, so you can define your own library of 

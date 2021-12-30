@@ -13,7 +13,6 @@
 
     <toc-element toc-title="Kotlin overview">
         <toc-element id="multiplatform.md"/>
-        <toc-element id="kmm-overview.md"/>
         <toc-element id="server-overview.md" accepts-web-file-names="httpservlets.html"/>
         <toc-element id="android-overview.md"/>
         <toc-element id="js-overview.md"/>
@@ -22,28 +21,18 @@
         <toc-element id="competitive-programming.md"/>
     </toc-element>
 
-    <toc-element toc-title="What's new">
-        <toc-element toc-title="Kotlin">
-            <toc-element id="whatsnew16.md" toc-title="Kotlin 1.6.0"/>
-            <toc-element toc-title="Earlier versions">
-                <toc-element id="whatsnew1530.md" toc-title="Kotlin 1.5.30"/>
-                <toc-element id="whatsnew1520.md" toc-title="Kotlin 1.5.20"/>
-                <toc-element id="whatsnew15.md" toc-title="Kotlin 1.5.0"/>
-                <toc-element id="whatsnew1430.md" toc-title="Kotlin 1.4.30"/>
-                <toc-element id="whatsnew1420.md" toc-title="Kotlin 1.4.20"/>
-                <toc-element id="whatsnew14.md" toc-title="Kotlin 1.4.0"/>
-                <toc-element id="whatsnew13.md" toc-title="Kotlin 1.3"/>
-                <toc-element id="whatsnew12.md" toc-title="Kotlin 1.2"/>
-                <toc-element id="whatsnew11.md" toc-title="Kotlin 1.1"/>
-            </toc-element>
-        </toc-element>
-        <toc-element toc-title="Kotlin for KMM">
-            <toc-element id="whats-new-in-kotlin-for-kmm.md"/>
-        </toc-element>
-        <toc-element toc-title="Kotlin plugin">
-            <toc-element id="whatsnew-plugin-20212.md" toc-title="Kotlin plugin 2021.2"/>
-            <toc-element id="whatsnew-plugin-20211.md" toc-title="Kotlin plugin 2021.1"/>
-            <toc-element id="whatsnew-plugin-20203.md" toc-title="Kotlin plugin 2020.3"/>
+    <toc-element toc-title="What's new in Kotlin">
+        <toc-element id="whatsnew16.md" toc-title="Kotlin 1.6.0" accepts-web-file-names="whatsnew.html"/>
+        <toc-element toc-title="Earlier versions">
+            <toc-element id="whatsnew1530.md" toc-title="Kotlin 1.5.30"/>
+            <toc-element id="whatsnew1520.md" toc-title="Kotlin 1.5.20"/>
+            <toc-element id="whatsnew15.md" toc-title="Kotlin 1.5.0"/>
+            <toc-element id="whatsnew1430.md" toc-title="Kotlin 1.4.30"/>
+            <toc-element id="whatsnew1420.md" toc-title="Kotlin 1.4.20"/>
+            <toc-element id="whatsnew14.md" toc-title="Kotlin 1.4.0"/>
+            <toc-element id="whatsnew13.md" toc-title="Kotlin 1.3"/>
+            <toc-element id="whatsnew12.md" toc-title="Kotlin 1.2"/>
+            <toc-element id="whatsnew11.md" toc-title="Kotlin 1.1"/>
         </toc-element>
     </toc-element>
 
@@ -107,7 +96,7 @@
     <toc-element toc-title="Multiplatform programming">
         <toc-element id="mpp-intro.md" accepts-web-file-names="building-mpp-with-gradle.html,intro-to-kotlin-mpp.html"/>
         <toc-element toc-title="Kotlin Multiplatform Mobile (KMM)">
-            <toc-element id="kmm-getting-started.md"/>
+            <toc-element id="kmm-getting-started.md" accepts-web-file-names="kmm-overview.html"/>
             <toc-element id="kmm-setup.md"/>
             <toc-element id="kmm-create-first-app.md"/>
             <toc-element id="kmm-understand-project-structure.md"/>
@@ -216,6 +205,10 @@
             <toc-element id="native-faq.md"/>
             <toc-element id="native-app-with-c-and-libcurl.md" accepts-web-file-names="curl.html"/>
         </toc-element>
+
+        <toc-element toc-title="Scripting">
+            <toc-element id="custom-script-deps-tutorial.md"/>
+        </toc-element>
     </toc-element>
 
     <toc-element toc-title="Releases and roadmap">
@@ -303,7 +296,7 @@
             <toc-element id="ksp-reference.md" toc-title="Reference for Java annotation processor authors"/>
             <toc-element id="ksp-incremental.md" toc-title="Incremental processing"/>
             <toc-element id="ksp-multi-round.md" toc-title="Multiple round processing"/>
-            <toc-element id="ksp-faq.md" toc-title="Frequently asked questions"/>
+            <toc-element id="ksp-faq.md" toc-title="FAQ"/>
         </toc-element>
         <toc-element id="kotlin-and-ci.md" toc-title="TeamCity"/>
         <toc-element id="kotlin-doc.md" toc-title="KDoc and Dokka"/>
