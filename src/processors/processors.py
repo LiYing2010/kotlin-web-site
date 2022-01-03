@@ -5,6 +5,7 @@ replace_simple_code = False
 languageMimeTypeMap = {
     "kotlin": "text/x-kotlin",
     "java": "text/x-java",
+    "properties": "text/x-java-properties",
     "groovy": "text/x-groovy",
     "xml": "application/xml",
     "yaml": "text/x-yaml",
@@ -12,12 +13,17 @@ languageMimeTypeMap = {
     "shell": "text/x-sh",
     "swift": "text/x-swift",
     "obj-c": "text/x-objectivec",
+    "objc": "text/x-objectivec",
+    "Swift": "text/x-swift",
     "html": "application/xml",
     "javascript": "text/javascript",
     "json": "application/json",
     "js": "text/javascript",
     "c": "text/x-csrc",
-    "text": "text/plain"
+    "sql": "text/x-sql",
+    "text": "text/plain",
+    "ruby": "text/x-ruby",
+    "http_request": "text/x-sh",
 }
 
 

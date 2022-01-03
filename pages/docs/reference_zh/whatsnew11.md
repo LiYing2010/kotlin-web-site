@@ -1,10 +1,14 @@
 ---
 type: doc
 layout: reference
-title: "Kotlin 1.1 的新增特性"
+title: "Kotlin 1.1 版中的新功能"
 ---
 
-# Kotlin 1.1 的新增特性
+# Kotlin 1.1 版中的新功能
+
+本页面最终更新: 2021/10/15
+
+_发布日期: 2016/02/15_
 
 ## 目录
 
@@ -23,11 +27,12 @@ title: "Kotlin 1.1 的新增特性"
 
 Kotlin 1.1 中关键性的新特性就是 *协程(coroutine)*, 这个特性可以支持 `async`/`await`, `yield` 等等类似的编程模式. Kotlin 的设计特性是, 协程的运行由库来实现, 而不是语言的一部分, 因此你不会被局限到某个特定的编程模式, 或者某个特定的并发库.
 
-一个协程实际上是一个轻量级的线程, 它可以被暂停, 然后在以后的某个时刻恢复运行. 协程的支持依赖于 [*挂起函数(suspending function)*](coroutines.html#suspending-functions): 对函数的调用有可能导致一个协程挂起(suspend), 要启动一个新的协程我们通常使用匿名的挂起函数 (也就是. 挂起 lambda 表达式).
+一个协程实际上是一个轻量级的线程, 它可以被暂停, 然后在以后的某个时刻恢复运行.
+协程的支持依赖于 _[挂起函数(suspending function)](coroutines.html#suspending-functions)_:
+对函数的调用有可能导致一个协程挂起(suspend), 要启动一个新的协程我们通常使用匿名的挂起函数 (也就是. 挂起 lambda 表达式).
 
 我们来看一看 `async`/`await` 函数, 它们实现在一个外部库中, [kotlinx.coroutines](https://github.com/kotlin/kotlinx.coroutines):
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```kotlin
 // 在后台线程池中执行代码
 fun asyncOverlay() = async(CommonPool) {
@@ -46,41 +51,34 @@ launch(UI) {
     showImage(image)
 }
 ```
-</div>
 
 在这个例子中, `async { ... }` 启动一个协程, 然后, 当我们调用 `await()` 时, 当协程等待的操作还在执行时, 协程的执行将被挂起, 然后, 当协程等待的操作执行完毕时, 协程将会恢复执行(可能会在一个不同的线程内).
 
 `yield` 和 `yieldAll` 函数可以产生 *延迟生成的序列(lazily generated sequences)*, 标准库使用协程来支持这种功能.
 在这类序列中, 当每个元素被取得之后， 产生序列元素的代码段会被暂停, 当请求下一个元素时, 代码的执行又会回复. 示例如下:
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.1">
-
 ```kotlin
 import kotlin.coroutines.experimental.*
 
 fun main(args: Array<String>) {
-//sampleStart
-    val seq = buildSequence {
-      for (i in 1..5) {
-          // 产生 i 的平方值
-          yield(i * i)
-      }
-      // 产生一个整数值范围(Range)
-      yieldAll(26..28)
+  val seq = buildSequence {
+    for (i in 1..5) {
+        // 产生 i 的平方值
+        yield(i * i)
     }
+    // 产生一个整数值范围(Range)
+    yieldAll(26..28)
+  }
 
-    // 打印值序列
-    println(seq.toList())
-//sampleEnd
+  // 打印值序列
+  println(seq.toList())
 }
 ```
 
-</div>
-
-
 你可以运行上面的代码, 并查看结果. 你可以修改代码, 然后再次运行, 看看结果如何!
 
-关于这个功能的详情, 请参见 [参考文档](coroutines.html) 以及 [教程](/docs/tutorials/coroutines/coroutines-basic-jvm.html).
+关于这个功能的详情, 请参见 [参考文档](coroutines-overview.html)
+以及 [教程](https://play.kotlinlang.org/hands-on/Introduction%20to%20Coroutines%20and%20Channels/).
 
 注意, 协程目前还是 **实验性功能**, 也就是说, 1.1 正式发布后, Kotlin 开发组不保证这个特性的向后兼容性(backwards compatibility).
 
@@ -126,7 +124,7 @@ fun main(args: Array<String>) {
 ```
 </div>
 
-关于这个功能的详情, 请参见 [参考文档](type-aliases.html) 以及 [KEEP 文档](https://github.com/Kotlin/KEEP/blob/master/proposals/type-aliases.md).
+关于这个功能的详情, 请参见 [类型别名相关文档](type-aliases.html) 以及 [KEEP 文档](https://github.com/Kotlin/KEEP/blob/master/proposals/type-aliases.md).
 
 
 ### 与对象实例绑定的可调用的引用
@@ -150,7 +148,7 @@ fun main(args: Array<String>) {
 </div>
 
 
-关于这个功能的详情, 请参见 [参考文档](reflection.html#bound-function-and-property-references-since-11) 以及 [KEEP 文档](https://github.com/Kotlin/KEEP/blob/master/proposals/bound-callable-references.md).
+关于这个功能的详情, 请参见 [参考文档](reflection.html) 以及 [KEEP 文档](https://github.com/Kotlin/KEEP/blob/master/proposals/bound-callable-references.md).
 
 
 ### 封闭类(sealed class)与数据类(data class)
@@ -184,14 +182,14 @@ fun main(args: Array<String>) {
 ```
 </div>
 
-关于这个功能的详情, 请参见 [参考文档](sealed-classes.html),
+关于这个功能的详情, 请参见 [封闭类相关文档](sealed-classes.html),
 或参见 [封闭类(sealed class)](https://github.com/Kotlin/KEEP/blob/master/proposals/sealed-class-inheritance.md)
 以及 [数据类(data class)](https://github.com/Kotlin/KEEP/blob/master/proposals/data-class-inheritance.md) 的 KEEP 文档.
 
 
 ### 在 lambda 表达式中使用解构声明
 
-现在你可以使用 [解构声明](multi-declarations.html) 语法, 将对象解构为多个值, 然后作为参数传递给 lambda 表达式.
+现在你可以使用 [解构声明](destructuring-declarations.html) 语法, 将对象解构为多个值, 然后作为参数传递给 lambda 表达式.
 示例代码如下:
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.1" auto-indent="false" indent="2">
@@ -212,7 +210,8 @@ fun main(args: Array<String>) {
 ```
 </div>
 
-关于这个功能的详情, 请参见 [参考文档](multi-declarations.html#destructuring-in-lambdas-since-11) 以及 [KEEP 文档](https://github.com/Kotlin/KEEP/blob/master/proposals/destructuring-in-parameters.md).
+关于这个功能的详情, 请参见 [解构声明相关文档](multi-declarations.html#destructuring-in-lambdas-since-11)
+以及 [KEEP 文档](https://github.com/Kotlin/KEEP/blob/master/proposals/destructuring-in-parameters.md).
 
 
 ### 使用下划线代替未使用的参数
@@ -232,7 +231,7 @@ fun main(args: Array<String>) {
 ```
 </div>
 
-这个功能对于 [解构声明](multi-declarations.html) 同样有效:
+这个功能对于 [解构声明](destructuring-declarations.html) 同样有效:
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.1">
 
@@ -323,7 +322,8 @@ fun main(args: Array<String>) {
 
 你也可以将整个属性标记为 `inline` - 这时 `inline` 修饰符将被同时应用于取值方法和设值方法.
 
-关于这个功能的详情, 请参见 [参考文档](inline-functions.html#inline-properties) 以及 [KEEP 文档](https://github.com/Kotlin/KEEP/blob/master/proposals/inline-properties.md).
+关于这个功能的详情, 请参见 [内联函数相关文档](inline-functions.html#inline-properties)
+以及 [KEEP 文档](https://github.com/Kotlin/KEEP/blob/master/proposals/inline-properties.md).
 
 
 ### 局部的委托属性
@@ -364,8 +364,6 @@ fun main(args: Array<String>) {
 对于 [委托属性](delegated-properties.html), 现在可以使用 `provideDelegate` 操作符来拦截委托到属性的绑定.
 比如, 如果我们希望在绑定之前检查属性名称, 我们可以编写以下代码:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-
 ```kotlin
 class ResourceLoader<T>(id: ResourceID<T>) {
     operator fun provideDelegate(thisRef: MyUI, prop: KProperty<*>): ReadOnlyProperty<MyUI, T> {
@@ -383,8 +381,6 @@ class MyUI {
     val text by bindResource(ResourceID.text_id)
 }
 ```
-
-</div>
 
 在 `MyUI` 实例的创建过程中, 对每一个属性都会调用 `provideDelegate` 方法, 因此这个方法可以在此时进行必要的验证处理.
 
@@ -415,10 +411,9 @@ fun main(args: Array<String>) {
 
 ### 对 DSL 中的隐含接受者, 控制其范围
 
-[`@DslMarker`](/api/latest/jvm/stdlib/kotlin/-dsl-marker/index.html) 注解可以限制从 DSL 上下文的外部范围(outer scope)来访问接受者.
+[`@DslMarker`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-dsl-marker/index.html) 注解
+可以限制从 DSL 上下文的外部范围(outer scope)来访问接受者.
 比如, 考虑一下我们经典的 [HTML 构建器的例子](type-safe-builders.html):
-
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
 
 ```kotlin
 table {
@@ -428,16 +423,15 @@ table {
 }
 ```
 
-</div>
-
 在 Kotlin 1.0 中, 传递给 `td` 的那个 lambda 表达式中的代码, 可以访问 3 个隐含的接受者: 分别是 `table` 的接受者, `tr` 的接受者, 以及 `td` 的接受者. 这就导致你可以访问在当前上下文中毫无意义的方法 - 比如可以在 `td` 之内调用 `tr`, 因此可以在 `<td>` 之内再放置一个 `<tr>` 标记.
 
 在 Kotlin 1.1 中, 你可以限制对这些接收者的访问, 因此, 在传递给 `td` 的那个 lambda 表达式中, 只有定义在 `td` 的隐含接收者中的方法才可以被调用. 要实现这一点, 你可以定义一个注解, 并用元注解(meta-annotation) `@DslMarker` 标注这个注解, 然后将你的注解标记到 HTML tag 类的基类上.
 
-关于这个功能的详情, 请参见 [参考文档](type-safe-builders.html#scope-control-dslmarker-since-11) 以及 [KEEP 文档](https://github.com/Kotlin/KEEP/blob/master/proposals/scope-control-for-implicit-receivers.md).
+关于这个功能的详情, 请参见 [类型安全的构建器相关文档](type-safe-builders.html#scope-control-dslmarker-since-11)
+以及 [KEEP 文档](https://github.com/Kotlin/KEEP/blob/master/proposals/scope-control-for-implicit-receivers.md).
 
 
-### `rem` 操作符
+### rem 操作符
 
 `mod` 操作符现在已被废弃, 改为使用 `rem` 操作符. 关于这个变更的原因, 请参见 [这个问题](https://youtrack.jetbrains.com/issue/KT-14650).
 
@@ -448,13 +442,9 @@ table {
 对于 String 类, 新增了许多扩展函数, 用来将字符串转换为数值, 并且对不正确的数值不会抛出异常:
 `String.toIntOrNull(): Int?`, `String.toDoubleOrNull(): Double?` 等等.
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-
 ```kotlin
 val port = System.getenv("PORT")?.toIntOrNull() ?: 80
 ```
-
-</div>
 
 同样也增加了整数的转换函数, 比如 `Int.toString()`, `String.toInt()`, `String.toIntOrNull()`,
 这些函数都有带 `radix` 参数的重载版本, 这个参数可用来指定转换时使用的底数(base)(允许使用的底数为 2 到 36 之间).
@@ -466,16 +456,12 @@ val port = System.getenv("PORT")?.toIntOrNull() ?: 80
 对于 iterable, 这个函数类似 `forEach`, 但它最后会返回这个 iterable 实例.
 对于 sequence, 这个函数会返回一个包装过的 sequence, 这个包装过的 sequence 会延迟地对每个元素执行你给定的操作.
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only auto-indent="false">
-
 ```kotlin
 inputDir.walk()
         .filter { it.isFile && it.name.endsWith(".txt") }
         .onEach { println("Moving $it to $outputDir") }
         .forEach { moveFile(it, File(outputDir, it.toRelativeString(inputDir))) }
 ```
-
-</div>
 
 ### also(), takeIf() 和 takeUnless()
 
@@ -517,14 +503,10 @@ fun main(args: Array<String>) {
 `takeIf` 函数类似于 `filter`, 但适用于单个值. 这个函数首先检查接受者是否符合某些条件, 如果满足条件则返回接受者, 否则返回 `null`.
 将这个函数与 Elvis 操作符, 以及快速返回(early return)组合起来, 可以编写下面这样的代码:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-
 ```kotlin
 val outDirFile = File(outputDir.path).takeIf { it.exists() } ?: return false
 // 对于已经存在的 outDirFile 进行某些处理
 ```
-
-</div>
 
 <div class="sample" markdown="1" data-min-compiler-version="1.1" theme="idea">
 
@@ -548,13 +530,9 @@ fun main(args: Array<String>) {
 
 `takeUnless` 与 `takeIf` 类似, 但它使用相反的判断条件. 如果 _不_ 满足条件则返回接受者, 否则返回 `null`. 因此上面的示例可以使用 `takeUnless` 改写, 如下:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-
 ```kotlin
 val index = input.indexOf(keyword).takeUnless { it < 0 } ?: error("keyword not found")
 ```
-
-</div>
 
 对于可执行的方法引用而不是 lambda 表达式, 这个函数也是非常便利的:
 
@@ -604,20 +582,19 @@ fun main(args: Array<String>) {
 
 这两个函数可以用来简化 Map 的复制处理:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-
 ```kotlin
 class ImmutablePropertyBag(map: Map<String, Any>) {
     private val mapCopy = map.toMap()
 }
 ```
 
-</div>
-
 ### Map.minus(key)
 
-`plus` 操作符提供了一个方法, 可以将键-值对(key-value pair)添加到一个只读的 map, 构造出一个新的 map, 但是没有简单的办法进行相反的操作: 为了从 map 中删除一个 key, 你必须使用不那么直观的办法, 比如使用 `Map.filter()` 或 `Map.filterKeys()`.
-现在, `minus` 操作符解决了这个问题. 这个操作符有 4 个重载版本: 删除单个 key, 删除 key 的集合, 删除 key 的序列, 以及删除 key 的数组.
+`plus` 操作符提供了一个方法, 可以将键-值对(key-value pair)添加到一个只读的 map, 构造出一个新的 map,
+但是没有简单的办法进行相反的操作: 为了从 map 中删除一个 key, 你必须使用不那么直观的办法,
+比如使用 `Map.filter()` 或 `Map.filterKeys()`.
+现在, `minus` 操作符解决了这个问题.
+这个操作符有 4 个重载版本: 删除单个 key, 删除 key 的集合, 删除 key 的序列, 以及删除 key 的数组.
 
 <div class="sample" markdown="1" data-min-compiler-version="1.1" theme="idea">
 
@@ -637,7 +614,9 @@ fun main(args: Array<String>) {
 
 ### minOf() 和 maxOf()
 
-这些函数可用于在2个或3个给定的值中查找最小值和最大值, 查找对象必须是原始类型的数值, 或者是 `Comparable` 对象. 这些函数还有一个重载版本, 可以接受一个额外的 `Comparator` 实例作为参数, 如果你希望比较的对象值不是 `Comparable` 对象, 可以使用这个参数来指定如何比较.
+这些函数可用于在2个或3个给定的值中查找最小值和最大值, 查找对象必须是原始类型的数值, 或者是 `Comparable` 对象.
+这些函数还有一个重载版本, 可以接受一个额外的 `Comparator` 实例作为参数,
+如果你希望比较的对象值不是 `Comparable` 对象, 可以使用这个参数来指定如何比较.
 
 <div class="sample" markdown="1" data-min-compiler-version="1.1" theme="idea">
 
@@ -740,23 +719,19 @@ Kotlin 现在增加了编译选项, 可以编译产生 Java 8 字节码(使用�
 这个选项目前不会改变字节码的语义(具体来说, 接口内的默认方法以及 lambda 表达式的编译输出方式会与 Kotlin 1.0 中完全相同),
 但我们将来计划对这个选项做更多的改进.
 
-
 ### 对 Java 8 标准库的支持
 
 Kotlin 的标准库目前存在不同的版本, 分别支持 Java 7 和 8 中新增的 JDK API.
 如果你需要使用新的 API, 请不要使用标准的 Maven artifact `kotlin-stdlib`, 改用 `kotlin-stdlib-jre7` 和 `kotlin-stdlib-jre8`.
 这些 artifact 在 `kotlin-stdlib` 之上进行了微小的扩展, 而且会将 `kotlin-stdlib` 以传递依赖的方式引入到你的项目中.
 
-
 ### 字节码中的参数名称
 
 Kotlin 现在支持在字节码中保存参数名称. 可以使用命令行参数 `-java-parameters` 打开这个功能.
 
-
 ### 常数内联(Constant inlining)
 
 编译器现在可以将 `const val` 属性的值内联到这些属性被使用的地方.
-
 
 ### 可变的闭包变量(Mutable closure variable)
 
@@ -764,13 +739,10 @@ Kotlin 现在支持在字节码中保存参数名称. 可以使用命令行参�
 这个变化改进了性能, 但在某些罕见的使用场景下, 可能会导致新的竞争条件(race condition).
 如果你受到这个问题的影响, 那么你在访问这些变量时, 需要自行实现同步控制.
 
-
 ### 对 javax.script 的支持
 
 Kotlin 目前集成了 [javax.script API](https://docs.oracle.com/javase/8/docs/api/javax/script/package-summary.html) (JSR-223).
 The API allows to evaluate snippets of code at runtime:
-
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
 
 ```kotlin
 val engine = ScriptEngineManager().getEngineByExtension("kts")!!
@@ -778,10 +750,7 @@ engine.eval("val x = 3")
 println(engine.eval("x + 2"))  // 输出结果为: s5
 ```
 
-</div>
-
 [这里](https://github.com/JetBrains/kotlin/tree/master/libraries/examples/kotlin-jsr223-local-example) 是使用这个 API 的一个更详细的示例工程.
-
 
 ### kotlin.reflect.full
 
@@ -810,8 +779,6 @@ JavaScript 环境生成的代码现在更容易进行静态检查了, 因此对�
 与 JVM 编译对象不同, JS 编译对象允许对类和属性使用 `external` 修饰符.
 比如, 你可以这样声明 DOM 的 `Node` 类:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-
 ```kotlin
 external class Node {
     val firstChild: Node
@@ -824,8 +791,6 @@ external class Node {
 }
 ```
 
-</div>
-
 ### import 处理的改进
 
 现在你可以更加精确地指定需要从 JavaScript 模块中导入哪些声明.
@@ -834,8 +799,6 @@ external class Node {
 此外, 如果你希望导入一个声明, 无论是作为一个模块还是作为一个全局 JavaScript 对象, 你都可以使用 `@JsNonModule` 注解.
 
 比如, 你可以这样将 JQuery 导入到 Kotlin 模块中:
-
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
 
 ```kotlin
 external interface JQuery {
@@ -849,13 +812,9 @@ external interface JQuery {
 external fun jquery(selector: String): JQuery
 ```
 
-</div>
-
 在这段示例代码中, JQuery 将会导入为一个模块, 模块名称是 `jquery`. 或者, 也可以作为一个 $-对象来使用, 具体如何, 取决于 Kotlin 编译器被设置为使用哪种模块系统.
 
 在你的应用程序中, 你可以这样使用这些声明:
-
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
 
 ```kotlin
 fun main(args: Array<String>) {
@@ -864,5 +823,3 @@ fun main(args: Array<String>) {
     }
 }
 ```
-
-</div>

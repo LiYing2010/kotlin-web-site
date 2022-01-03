@@ -2,10 +2,12 @@
 type: doc
 layout: reference
 category: "Other"
-title: "类型别名 (从 Kotlin 1.1 开始支持)"
+title: "类型别名"
 ---
 
-## 类型别名 (从 Kotlin 1.1 开始支持)
+# 类型别名
+
+本页面最终更新: 2021/02/11
 
 类型别名可以为已有的类型提供替代的名称.
 如果类型名称太长, 你可以指定一个更短的名称, 然后使用新的名称.
@@ -13,27 +15,22 @@ title: "类型别名 (从 Kotlin 1.1 开始支持)"
 这个功能有助于缩短那些很长的泛型类型名称.
 比如, 缩短集合类型的名称通常是很吸引人的:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```kotlin
 typealias NodeSet = Set<Network.Node>
 
 typealias FileTable<K> = MutableMap<K, MutableList<File>>
 ```
-</div>
 
 你也可以为函数类型指定不同的别名:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```kotlin
 typealias MyHandler = (Int, String, Any) -> Unit
 
 typealias Predicate<T> = (T) -> Boolean
 ```
-</div>
 
 你也可以为内部类和嵌套类指定新的名称:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```kotlin
 class A {
     inner class Inner
@@ -45,7 +42,6 @@ class B {
 typealias AInner = A.Inner
 typealias BInner = B.Inner
 ```
-</div>
 
 类型别名不会引入新的类型.
 类型别名与它对应的真实类型完全等同.

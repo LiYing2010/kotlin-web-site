@@ -6,7 +6,7 @@ set -e -u -x
 ## Building Frontend part with cache in Docker
 
 
-NODE_IMAGE=node:9
+NODE_IMAGE=node:14
 
 docker pull $NODE_IMAGE
 

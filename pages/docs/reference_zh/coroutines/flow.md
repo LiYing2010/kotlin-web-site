@@ -5,62 +5,14 @@ category: "Coroutine"
 title: "异步的数据流(Asynchronous Flow)"
 ---
 
-<!--- TEST_NAME FlowGuideTest -->
+# 异步的数据流(Asynchronous Flow)
 
-**目录**
-
-<!--- TOC -->
-
-* [异步的数据流(Asynchronous Flow)](#asynchronous-flow)
-  * [多个值的表达](#representing-multiple-values)
-    * [序列(Sequence)](#sequences)
-    * [挂起函数(Suspending function)](#suspending-functions)
-    * [数据流(Flow)](#flows)
-  * [数据流(Flow)是 "冷的"(cold)](#flows-are-cold)
-  * [简要介绍数据流的取消](#flow-cancellation-basics)
-  * [数据流构建器](#flow-builders)
-  * [数据流的中间操作符(Intermediate flow operator)](#intermediate-flow-operators)
-    * [变换操作符(Transform operator)](#transform-operator)
-    * [限制大小操作符(Size-limiting operator)](#size-limiting-operators)
-  * [数据流的结束操作符(Terminal flow operator)](#terminal-flow-operators)
-  * [数据流的执行是顺序的(sequential)](#flows-are-sequential)
-  * [数据流的上下文(context)](#flow-context)
-    * [错误的使用 withContext 的进行数据发射](#wrong-emission-withcontext)
-    * [flowOn 操作符](#flowon-operator)
-  * [缓冲(Buffering)](#buffering)
-    * [合并(Conflation)](#conflation)
-    * [处理最后的值](#processing-the-latest-value)
-  * [多个数据流的组合](#composing-multiple-flows)
-    * [Zip](#zip)
-    * [Combine](#combine)
-  * [压平(Flatten)数据流](#flattening-flows)
-    * [flatMapConcat](#flatmapconcat)
-    * [flatMapMerge](#flatmapmerge)
-    * [flatMapLatest](#flatmaplatest)
-  * [数据流的异常](#flow-exceptions)
-    * [在收集器中使用 try/catch](#collector-try-and-catch)
-    * [一切异常都会被捕获](#everything-is-caught)
-  * [异常的透明性(transparency)](#exception-transparency)
-    * [透明捕获(Transparent catch)](#transparent-catch)
-    * [声明式异常捕捉](#catching-declaratively)
-  * [数据流的完成](#flow-completion)
-    * [命令式的 finally 代码块](#imperative-finally-block)
-    * [声明式的完成处理](#declarative-handling)
-    * [数据流的成功完成](#successful-completion)
-  * [命令式 vs 声明式](#imperative-versus-declarative)
-  * [启动数据流](#launching-flow)
-  * [检查数据流的取消](#flow-cancellation-checks)
-    * [让繁忙的循环代码变得可以取消](#making-busy-flow-cancellable)
-  * [数据流与响应式(Reactive) Stream](#flow-and-reactive-streams)
-
-<!--- END -->
-
-## 异步的数据流(Asynchronous Flow)
+本页面最终更新: 2021/07/15
 
 一个挂起函数可以异步地返回单个结果值, 但我们要如何才能返回多个异步计算的结果值?
 这就是 Kotlin 的异步数据流要解决的问题.
 
-### 多个值的表达
+## 多个值的表达
 
 在 Kotlin 中, 多个值可以使用 [集合] 表达.
 比如, 我们可以通过 `simple` 函数返回一个 [List], 其中包含 3 个数值,
@@ -79,6 +31,7 @@ fun main() {
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-01.kt).
+{:.note}
 
 这段代码的输出是:
 
@@ -90,7 +43,7 @@ fun main() {
 
 <!--- TEST -->
 
-#### 序列(Sequence)
+### 序列(Sequence)
 
 如果我们需要通过某些非常消耗 CPU 的阻塞性代码来计算这些数值(每个数值的计算消耗 100ms),
 那么我们可以使用 [Sequence] 来表达这些数值:
@@ -108,11 +61,12 @@ fun simple(): Sequence<Int> = sequence { // 序列的构建器
 fun main() {
     simple().forEach { value -> println(value) }
 }
-```  
+```
 
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-02.kt).
+{:.note}
 
 这段代码输出的数值与前面相同, 但它要在输出每个数值之前等待 100ms.
 
@@ -122,7 +76,7 @@ fun main() {
 3
 -->
 
-#### 挂起函数(Suspending function)
+### 挂起函数(Suspending function)
 
 但是, 数值的计算过程会阻塞运行这段代码的主线程.
 如果这些数值由异步代码计算, 我们可以对 `simple` 函数添加 `suspend` 标记,
@@ -143,11 +97,12 @@ fun main() = runBlocking<Unit> {
     simple().forEach { value -> println(value) }
 }
 //sampleEnd
-```  
+```
 
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-03.kt).
+{:.note}
 
 这段代码会等待 1 秒, 然后输出数值.
 
@@ -157,7 +112,7 @@ fun main() = runBlocking<Unit> {
 3
 -->
 
-#### 数据流(Flow)
+### 数据流(Flow)
 
 使用 `List<Int>` 作为结果类型, 代码我们只能一次性返回所有的结果值.
 为了表达异步计算的多个结果值构成的流(stream), 我们可以使用 [`Flow<Int>`][Flow] 类型,
@@ -189,11 +144,12 @@ fun main() = runBlocking<Unit> {
     simple().collect { value -> println(value) }
 }
 //sampleEnd
-```  
+```
 
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-04.kt).
+{:.note}
 
 这段代码会在输出每个数值之前等待 100ms, 而不会阻塞主线程.
 在主线程中运行的另一个独立的协程中, 每隔 100ms 会输出 "I'm not blocked" 消息,
@@ -219,9 +175,10 @@ I'm not blocked 3
 * 使用 [collect][collect] 函数, 从流中 _收取(collect)_ 值.
 
 > 在 `simple` 函数的 `flow { ... }` 代码段之内, 我们可以将 [delay] 替换为 `Thread.sleep`,
-  这时可以看到主线程会被阻塞.
+> 这时可以看到主线程会被阻塞.
+{:.note}
 
-### 数据流(Flow)是 "冷的"(cold)
+## 数据流(Flow)是 "冷的"(cold)
 
 数据流类似于 sequence, 但它是 _"冷的"(cold)_ 流 &mdash;
 直到流中的数据被收集时, 才会执行[flow][_flow] 构建器之内的代码.
@@ -251,11 +208,12 @@ fun main() = runBlocking<Unit> {
     flow.collect { value -> println(value) }
 }
 //sampleEnd
-```  
+```
 
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-05.kt).
+{:.note}
 
 这段代码的输出是:
 
@@ -279,7 +237,7 @@ Flow started
 `simple()` 本身会立即返回, 不会等待任何任务.
 数据流会在每次被收集的时候启动, 所以, 第二次调用 `collect` 的时候我们会再次看到 "Flow started" 消息的输出.
 
-### 简要介绍数据流的取消
+## 简要介绍数据流的取消
 
 数据流的取消使用协程通常的协作取消机制.
 和通常的机制一样, 如果数据流在一个可取消的挂起函数(比如 [delay])之内被挂起, 那么数据流的收集可以取消.
@@ -308,11 +266,12 @@ fun main() = runBlocking<Unit> {
     println("Done")
 }
 //sampleEnd
-```  
+```
 
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-06.kt).
+{:.note}
 
 注意, `simple` 函数内的数据流只发射(emit)了 2 个数值, 最终的输出结果如下:
 
@@ -328,7 +287,7 @@ Done
 
 更多详情, 请参见 [检查数据流的取消](#flow-cancellation-checks) 小节.
 
-### 数据流构建器
+## 数据流构建器
 
 前面的示例代码中使用的 `flow { ... }` 构建器是最基本的数据流构建器.
 还有其他一些构建器, 可以更简便地声明数据流:
@@ -350,11 +309,12 @@ fun main() = runBlocking<Unit> {
     (1..3).asFlow().collect { value -> println(value) }
 //sampleEnd
 }
-```  
+```
 
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-07.kt).
+{:.note}
 
 <!--- TEST
 1
@@ -362,7 +322,7 @@ fun main() = runBlocking<Unit> {
 3
 -->
 
-### 数据流的中间操作符(Intermediate flow operator)
+## 数据流的中间操作符(Intermediate flow operator)
 
 与集合(collection)和序列(sequence)一样, 数据流可以使用操作符进行变换.
 中间操作符(Intermediate operator) 应用于上游的数据流(upstream flow), 然后返回一个下游数据流(downstream flow).
@@ -393,11 +353,12 @@ fun main() = runBlocking<Unit> {
         .collect { response -> println(response) }
 }
 //sampleEnd
-```  
+```
 
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-08.kt).
+{:.note}
 
 这段代码会输出以下 3 行, 每等待 1 秒输出 1 行:
 
@@ -409,7 +370,7 @@ response 3
 
 <!--- TEST -->
 
-#### 变换操作符(Transform operator)
+### 变换操作符(Transform operator)
 
 数据流的变换操作符中, 最常用的就是 [transform].
 它可以用来实现简单的变换, 比如 [map] 和 [filter], 也可以实现更复杂的变换.
@@ -439,11 +400,12 @@ fun main() = runBlocking<Unit> {
         .collect { response -> println(response) }
 //sampleEnd
 }
-```  
+```
 
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-09.kt).
+{:.note}
 
 这段代码的输出是:
 
@@ -458,7 +420,7 @@ response 3
 
 <!--- TEST -->
 
-#### 限制大小操作符(Size-limiting operator)
+### 限制大小操作符(Size-limiting operator)
 
 限制大小(Size-limiting) 的中间操作符, 比如 [take], 在达到相应的大小限制之后, 会取消数据流的执行.
 协程的取消总是通过抛出异常来实现的, 因此, 在协程取消时,
@@ -488,11 +450,12 @@ fun main() = runBlocking<Unit> {
         .collect { value -> println(value) }
 }            
 //sampleEnd
-```  
+```
 
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-10.kt).
+{:.note}
 
 这段代码的输出清楚的表面, 在 `numbers()` 函数中, `flow { ... }` 代码体,
 会在发射第 2 个数值之后停止执行:
@@ -505,7 +468,7 @@ Finally in numbers
 
 <!--- TEST -->
 
-### 数据流的结束操作符(Terminal flow operator)
+## 数据流的结束操作符(Terminal flow operator)
 
 数据流上的结束操作符(Terminal operator)是 _挂起函数_, 它会开始收集数据流中的值.
 最基本的结束操作符是 [collect], 但还有其他结束操作符, 可以方便地实现以下功能:
@@ -530,11 +493,12 @@ fun main() = runBlocking<Unit> {
     println(sum)
 //sampleEnd     
 }
-```  
+```
 
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-11.kt).
+{:.note}
 
 最终结果是单个数值:
 
@@ -544,7 +508,7 @@ fun main() = runBlocking<Unit> {
 
 <!--- TEST -->
 
-### 数据流的执行是顺序的(sequential)
+## 数据流的执行是顺序的(sequential)
 
 数据流的每次单独的收集操作会顺序的执行, 除非使用了特殊的操作符, 比如对多个数据流进行操作.
 收集操作直接在调用结束操作符的协程内工作.
@@ -575,11 +539,12 @@ fun main() = runBlocking<Unit> {
         }    
 //sampleEnd                  
 }
-```  
+```
 
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-12.kt).
+{:.note}
 
 输出结果为:
 
@@ -597,13 +562,11 @@ Filter 5
 
 <!--- TEST -->
 
-### 数据流的上下文(context)
+## 数据流的上下文(context)
 
 数据流的收集工作总是会在调用收集函数的协程的上下文中执行.
 比如, 如果存在一个数据流 `simple`, 那么不管数据流 `simple` 的具体实现细节如何,
 以下代码总是会在这段代码中指定的上下文中执行:
-
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
 
 ```kotlin
 withContext(context) {
@@ -612,8 +575,6 @@ withContext(context) {
     }
 }
 ```
-
-</div>
 
 <!--- CLEAR -->
 
@@ -642,11 +603,12 @@ fun main() = runBlocking<Unit> {
     simple().collect { value -> log("Collected $value") }
 }            
 //sampleEnd
-```                
+```
 
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-13.kt).
+{:.note}
 
 这段代码的输出是:
 
@@ -662,7 +624,7 @@ fun main() = runBlocking<Unit> {
 由于调用 `simple().collect` 的是主线程, `simple` 的数据流的代码体也由主线程调用.
 对于快速执行的代码, 或异步执行的代码, 如果不关心执行时的上下文, 并且不阻塞调用者, 这是非常完美的默认动作.
 
-#### 错误的使用 withContext 的进行数据发射
+### 错误的使用 withContext 的进行数据发射
 
 但是, 对于长时间运行, 非常消耗 CPU 的代码, 可能需要在 [Dispatchers.Default] 上下文内执行,
 而 UI 更新代码需要在 [Dispatchers.Main] 上下文内执行.
@@ -693,11 +655,12 @@ fun main() = runBlocking<Unit> {
     simple().collect { value -> println(value) }
 }            
 //sampleEnd
-```  
+```
 
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-14.kt).
+{:.note}
 
 这段代码会产生以下异常:
 
@@ -711,7 +674,7 @@ Exception in thread "main" java.lang.IllegalStateException: Flow invariant is vi
 
 <!--- TEST EXCEPTION -->
 
-#### flowOn 操作符
+### flowOn 操作符
 
 这个异常告诉我们, 应该使用 [flowOn] 函数来切换发射数据时的上下文.
 我们在下面的示例程序中演示切换数据流上下文的正确方式,
@@ -740,11 +703,12 @@ fun main() = runBlocking<Unit> {
     }
 }            
 //sampleEnd
-```  
+```
 
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-15.kt).
+{:.note}
 
 注意 `flow { ... }` 工作在后台线程中, 而数据收集发生在主线程中:
 
@@ -762,7 +726,7 @@ fun main() = runBlocking<Unit> {
 而且发射协程在另一个线程内, 与收集协程并行执行.
 当上游数据流在它的上下文内需要切换 [CoroutineDispatcher] 时, [flowOn] 操作符为它创建了另一个协程.
 
-### 缓冲(Buffering)
+## 缓冲(Buffering)
 
 让数据流的不同部分在不同的协程中执行, 收集数据流所耗费的总时间可能会有所改进, 尤其是涉及长时间运行的异步操作的情况.
 比如, 假设 数据流 `simple` 的数据发射操作很慢, 每产生一个元素需要 100 ms;
@@ -794,11 +758,12 @@ fun main() = runBlocking<Unit> {
     println("Collected in $time ms")
 }
 //sampleEnd
-```  
+```
 
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-16.kt).
+{:.note}
 
 输出的结果类似以下内容, 整个数据流的收集过程需要大约 1200 ms (3 个数值, 每个需要 400 ms):
 
@@ -841,11 +806,12 @@ fun main() = runBlocking<Unit> {
     println("Collected in $time ms")
 //sampleEnd
 }
-```  
+```
 
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-17.kt).
+{:.note}
 
 这段代码会输出同样的数值, 但运行速度更快, 因为我们实际上创建了数据的处理管道(processing pipeline),
 只对第一个数值需要等待 100 ms, 然后对每个数值的处理花费 300 ms.
@@ -856,14 +822,14 @@ fun main() = runBlocking<Unit> {
 2
 3
 Collected in 1071 ms
-```                    
+```
 
 <!--- TEST ARBITRARY_TIME -->
 
 > 注意, [flowOn] 操作符在需要切换 [CoroutineDispatcher], 会使用相同的缓冲机制,
   但在这里, 我们明确的要求使用缓冲, 而不要切换协程执行的上下文.
 
-#### 合并(Conflation)
+### 合并(Conflation)
 
 如果一个数据流只代表操作结果(或操作状态变更)的一部分, 可能没有必要处理每一个结果值,
 而可以只处理最近的一部分结果.
@@ -897,11 +863,12 @@ fun main() = runBlocking<Unit> {
     println("Collected in $time ms")
 //sampleEnd
 }
-```  
+```
 
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-18.kt).
+{:.note}
 
 我们可以看到, 当第 1 个数值还在处理时, 第 2 个和第 3 个数值已经产生了,
 因此第 2 个数值 _被合并(conflated)_, 于是只有最近的(第 3 个数值) 被发送给了收集器:
@@ -914,7 +881,7 @@ Collected in 758 ms
 
 <!--- TEST ARBITRARY_TIME -->   
 
-#### 处理最后的值
+### 处理最后的值
 
 当数据的发射端和收集端都非常慢的时候, 合并(Conflation) 是提高处理速度的方法之一. 它的实现方法是丢弃发射的值.
 另一种方法是, 每当数据流发射新值时, 将运行缓慢(未能即使处理完成)的收集器取消, 然后重新启动收集器.
@@ -948,11 +915,12 @@ fun main() = runBlocking<Unit> {
     println("Collected in $time ms")
 //sampleEnd
 }
-```  
+```
 
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-19.kt).
+{:.note}
 
 由于 [collectLatest] 的代码体执行需要 300 ms, 而每隔 100 ms 就会发射新的值,
 所以我们会看到代码体会对每个值执行, 但只对最后一个值执行完毕:
@@ -967,11 +935,11 @@ Collected in 741 ms
 
 <!--- TEST ARBITRARY_TIME -->
 
-### 多个数据流的组合
+## 多个数据流的组合
 
 有很多种方法可以组合多个数据流.
 
-#### Zip
+### Zip
 
 就象 Kotlin 标准库中的 [Sequence.zip] 扩展函数一样,
 数据流也有一个 [zip] 操作符, 可以将两个数据流中相应的值组合在一起:
@@ -990,11 +958,12 @@ fun main() = runBlocking<Unit> {
         .collect { println(it) } // 收集最后结果, 并输出
 //sampleEnd
 }
-```  
+```
 
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-20.kt).
+{:.note}
 
 这段示例程序的输出结果是:
 
@@ -1006,7 +975,7 @@ fun main() = runBlocking<Unit> {
 
 <!--- TEST -->
 
-#### 结合(Combine)
+### 结合(Combine)
 
 如果数据流代表一个变量的最近的值, 或者一个操作的最近的结果(参见相关小节 [合并(Conflation)](#conflation)),
 那么有可能需要根据相应的数据流中最近的值进行某种计算, 而且当某个上游数据流发射新值时, 又需要重新计算.
@@ -1017,7 +986,8 @@ fun main() = runBlocking<Unit> {
 然而结果需要每 400ms 输出一次:
 
 > 在这个示例程序中, 我们使用 [onEach] 中间操作符实现每个元素的延迟,
-  让示例数据流的代码更加接近声明式风格, 而且更加简短.
+> 让示例数据流的代码更加接近声明式风格, 而且更加简短.
+{:.note}
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
@@ -1036,11 +1006,12 @@ fun main() = runBlocking<Unit> {
         }
 //sampleEnd
 }
-```  
+```
 
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-21.kt).
+{:.note}
 
 <!--- TEST ARBITRARY_TIME
 1 -> one at 437 ms from start
@@ -1067,11 +1038,12 @@ fun main() = runBlocking<Unit> {
         }
 //sampleEnd
 }
-```  
+```
 
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-22.kt).
+{:.note}
 
 我们会得到非常不同的输出结果, 每当 `nums` 或 `strs` 数据流发射一个值, 就会输出一行结果:
 
@@ -1085,12 +1057,10 @@ fun main() = runBlocking<Unit> {
 
 <!--- TEST ARBITRARY_TIME -->
 
-### 压平(Flatten)数据流
+## 压平(Flatten)数据流
 
 数据流代表异步接收的值序列, 因此很容易遇到这种的情况, 每个值触发一个请求, 得到另外一组值.
 比如, 假设我们有下面这样的函数, 它返回一个数据流, 发送 2 个字符串, 中间间隔 500ms:
-
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
 
 ```kotlin
 fun requestFlow(i: Int): Flow<String> = flow {
@@ -1100,19 +1070,13 @@ fun requestFlow(i: Int): Flow<String> = flow {
 }
 ```
 
-</div>
-
 <!--- CLEAR -->
 
 然后, 如果我们有一个数据流, 包含 3 个整数, 并对每个整数调用 `requestFlow`, 如下:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-
 ```kotlin
 (1..3).asFlow().map { requestFlow(it) }
 ```
-
-</div>
 
 <!--- CLEAR -->
 
@@ -1122,7 +1086,7 @@ fun requestFlow(i: Int): Flow<String> = flow {
 但是, 由于数据流的异步特性, 需要使用不同的 _模式(mode)_ 来进行压平(Flatten)处理,
 因此, 对于数据流, 存在一组压平(Flatten)操作符.
 
-#### flatMapConcat
+### flatMapConcat
 
 串联(Concatenate)模式由 [flatMapConcat] 和 [flattenConcat] 操作符实现.
 这两个操作符与序列的对应的操作符最类似.
@@ -1151,11 +1115,12 @@ fun main() = runBlocking<Unit> {
         }
 //sampleEnd
 }
-```  
+```
 
 </div>
 
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-23.kt).            
+> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-23.kt).
+{:.note}
 
 输出结果如下, 清楚的显示出 [flatMapConcat] 顺序执行的特性:
 
@@ -1170,7 +1135,7 @@ fun main() = runBlocking<Unit> {
 
 <!--- TEST ARBITRARY_TIME -->
 
-#### flatMapMerge
+### flatMapMerge
 
 另一种压平模式是, 同时收集所有的输入数据流, 然后将它们的值合并为单个数据流,
 因此能够尽可能快的发射最终结果值.
@@ -1200,11 +1165,12 @@ fun main() = runBlocking<Unit> {
         }
 //sampleEnd
 }
-```  
+```
 
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-24.kt).            
+{:.note}
 
 输出结果如下, 很清楚的显示出, [flatMapMerge] 是并发的:
 
@@ -1215,15 +1181,16 @@ fun main() = runBlocking<Unit> {
 1: Second at 639 ms from start
 2: Second at 732 ms from start
 3: Second at 833 ms from start
-```                                               
+```
 
 <!--- TEST ARBITRARY_TIME -->
 
 > 注意, [flatMapMerge] 对它的代码体 (上面示例程序中是 `{ requestFlow(it) }`) 的调用是顺序的,
-  但对结果数据流的收集是并发的, 最后结果等于首先顺序的执行 `map { requestFlow(it) }`,
-  然后对结果调用 [flattenMerge].
+> 但对结果数据流的收集是并发的, 最后结果等于首先顺序的执行 `map { requestFlow(it) }`,
+> 然后对结果调用 [flattenMerge].
+{:.note}
 
-#### flatMapLatest   
+### flatMapLatest
 
 在 ["处理最后的值"](#processing-the-latest-value) 小节中我们介绍过 [collectLatest] 操作符,
 与它类似, 有一个对应的 "Latest" 压平模式, 每次发射新的数据流, 对之前的数据流的收集(如果未完成)就会被取消.
@@ -1251,11 +1218,12 @@ fun main() = runBlocking<Unit> {
         }
 //sampleEnd
 }
-```  
+```
 
 </div>
 
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-25.kt).            
+> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-25.kt).        
+{:.note}    
 
 输出结果如下, 清楚的演示了 [flatMapLatest] 的工作方式:
 
@@ -1264,20 +1232,21 @@ fun main() = runBlocking<Unit> {
 2: First at 322 ms from start
 3: First at 425 ms from start
 3: Second at 931 ms from start
-```                                               
+```
 
 <!--- TEST ARBITRARY_TIME -->
 
 > 注意, [flatMapLatest] 会在得到新的值时, 取消它代码体中的所有代码 (在上面的例子中是 `{ requestFlow(it) }`).
-  在这个示例中不会产生差别, 因为 `requestFlow` 的调用是很快的, 不会发生挂起,
-  而且无法取消. 但是, 如果我们在代码体内使用挂起函数, 比如 `delay`, 就会显示出差别.
+> 在这个示例中不会产生差别, 因为 `requestFlow` 的调用是很快的, 不会发生挂起,
+> 而且无法取消. 但是, 如果我们在代码体内使用挂起函数, 比如 `delay`, 就会显示出差别.
+{:.note}
 
-### 数据流的异常
+## 数据流的异常
 
 如果发射器或操作符之内的代码抛出异常, 数据流的收集就会异常结束.
 有几种方法来处理这些异常.
 
-#### 在收集器中使用 try/catch
+### 在收集器中使用 try/catch
 
 收集器可以使用 Kotlin 的 [`try/catch`][exceptions] 代码段来处理异常:
 
@@ -1306,11 +1275,12 @@ fun main() = runBlocking<Unit> {
     }
 }            
 //sampleEnd
-```  
+```
 
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-26.kt).
+{:.note}
 
 这段代码成功地捕获在 [collect] 结束操作符中发生的异常,
 而且我们看到, 在这个异常之后, 没有发射其他值:
@@ -1325,7 +1295,7 @@ Caught java.lang.IllegalStateException: Collected 2
 
 <!--- TEST -->
 
-#### 一切异常都会被捕获
+### 一切异常都会被捕获
 
 前面的示例程序实际上会捕获任何异常, 包括发射器之内, 任何中间操作符之内, 以及结束操作符之内发生的一切异常.
 比如, 我们来修改一下代码, 将发射的值 [映射(map)][map] 为字符串,
@@ -1358,11 +1328,12 @@ fun main() = runBlocking<Unit> {
     }
 }            
 //sampleEnd
-```  
+```
 
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-27.kt).
+{:.note}
 
 这个异常仍然会被捕获, 然后收集处理会停止:
 
@@ -1375,7 +1346,7 @@ Caught java.lang.IllegalStateException: Crashed on 2
 
 <!--- TEST -->
 
-### 异常的透明性(transparency)
+## 异常的透明性(transparency)
 
 但是数据流发射器的代码要怎么样才能封装它自己的异常处理逻辑呢?
 
@@ -1417,11 +1388,12 @@ fun main() = runBlocking<Unit> {
         .collect { value -> println(value) }
 //sampleEnd
 }            
-```  
+```
 
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-28.kt).
+{:.note}
 
 这个示例程序的输出是相同的, 尽管我们没有在代码中使用 `try/catch`.
 
@@ -1432,7 +1404,7 @@ Emitting 2
 Caught java.lang.IllegalStateException: Crashed on 2
 -->
 
-#### 透明捕获(Transparent catch)
+### 透明捕获(Transparent catch)
 
 [catch] 中间操作符遵守异常透明性规则, 只捕获上游数据流中的异常
 (也就是在 `catch` 之前的所有操作符中发生的异常, 但不包含 `catch` 之后的).
@@ -1461,11 +1433,12 @@ fun main() = runBlocking<Unit> {
         }
 }            
 //sampleEnd
-```  
+```
 
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-29.kt).
+{:.note}
 
 尽管存在 `catch` 操作符, 但这段示例代码不会输出 "Caught ..." 消息:
 
@@ -1479,7 +1452,7 @@ Exception in thread "main" java.lang.IllegalStateException: Collected 2
 
 <!--- TEST EXCEPTION -->
 
-#### 声明式异常捕捉
+### 声明式异常捕捉
 
 我们能够将 [catch] 操作符的声明式特性, 与处理所有的异常的需求结合在一起,
 方法是将 [collect] 操作符的代码体移动到 [onEach] 之内, 并放在 `catch` 操作符之前.
@@ -1509,11 +1482,12 @@ fun main() = runBlocking<Unit> {
         .collect()
 //sampleEnd
 }            
-```  
+```
 
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-30.kt).
+{:.note}
 
 现在我们可以看到, 会输出 "Caught ..." 消息, 因此我们可以捕获所有的异常, 而不需要明确使用 `try/catch` 代码块:
 
@@ -1526,12 +1500,12 @@ Caught java.lang.IllegalStateException: Collected 2
 
 <!--- TEST EXCEPTION -->
 
-### 数据流的完成
+## 数据流的完成
 
 当数据流的收集完成时 (无论是正常完成, 还是异常完成), 它可能会需要执行某种操作.
 你可能以及注意到了, 可以通过两种方式实现: 命令式, 或声明式.
 
-#### 命令式的 finally 代码块
+### 命令式的 finally 代码块
 
 除了 `try`/`catch` 之外, 收集器还可以使用 `finally` 代码块, 在 `collect` 完成时执行某种操作.
 
@@ -1552,11 +1526,12 @@ fun main() = runBlocking<Unit> {
     }
 }            
 //sampleEnd
-```  
+```
 
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-31.kt).
+{:.note}
 
 这段代码会输出 `simple` 数据流产生的 3 个数值, 之后输出一个 "Done" 字符串:
 
@@ -1569,7 +1544,7 @@ Done
 
 <!--- TEST  -->
 
-#### 声明式的完成处理
+### 声明式的完成处理
 
 对于声明风格的方式, 数据流有 [onCompletion] 中间操作符, 当数据流收集完成时会调用它.
 
@@ -1594,6 +1569,7 @@ fun main() = runBlocking<Unit> {
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-32.kt).
+{:.note}
 
 <!--- TEST
 1
@@ -1629,6 +1605,7 @@ fun main() = runBlocking<Unit> {
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-33.kt).
+{:.note}
 
 如你希望的那样, 这段代码的输出是:
 
@@ -1644,7 +1621,7 @@ Caught exception
 从上面的示例我们可以看到, 异常仍然会流向下游.
 它会被发送到更远的 `onCompletion` 操作符, 也可以由使用 `catch` 操作符来处理.
 
-#### 数据流的成功完成
+### 数据流的成功完成
 
 与 [catch] 操作符的另一个不同在于, [onCompletion] 可以收到所有的异常,
 而且只有在上游数据流成功完成(没有取消, 也没有失败)的情况下, 才会收到一个 `null` 的异常 .
@@ -1672,6 +1649,7 @@ fun main() = runBlocking<Unit> {
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-34.kt).
+{:.note}
 
 我们可以看到数据流完成的 cause 不是 null, 因为数据流被下游的异常终止了:
 
@@ -1683,14 +1661,14 @@ Exception in thread "main" java.lang.IllegalStateException: Collected 2
 
 <!--- TEST EXCEPTION -->
 
-### 命令式 vs 声明式
+## 命令式 vs 声明式
 
 现在我们知道了如何收集数据流, 以及如何通过命令式和声明式方式, 处理它的完成事件和异常.
 下面自然要问, 通常应该使用哪种方式, 为什么?
 作为一个库, 我们并不具体的主张使用哪一种方式, 而是相信这两种选择都有价值,
 应该按照你自己的偏好和代码风格来进行选择.
 
-### 启动数据流
+## 启动数据流
 
 很容易使用数据流来表达从某个来源得到的异步的事件.
 这种情况下, 我们需要某种类似 `addEventListener` 函数的机制,
@@ -1717,11 +1695,12 @@ fun main() = runBlocking<Unit> {
     println("Done")
 }            
 //sampleEnd
-```  
+```
 
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-35.kt).
+{:.note}
 
 你可以看到, 这段代码的输出是:
 
@@ -1730,7 +1709,7 @@ Event: 1
 Event: 2
 Event: 3
 Done
-```    
+```
 
 <!--- TEST -->
 
@@ -1755,11 +1734,12 @@ fun main() = runBlocking<Unit> {
     println("Done")
 }
 //sampleEnd
-```  
+```
 
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-36.kt).
+{:.note}
 
 这段代码的输出是:
 
@@ -1768,7 +1748,7 @@ Done
 Event: 1
 Event: 2
 Event: 3
-```    
+```
 
 <!--- TEST -->
 
@@ -1812,11 +1792,12 @@ fun main() = runBlocking<Unit> {
     }
 }
 //sampleEnd
-```  
+```
 
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-37.kt).
+{:.note}
 
 我们得到的数值只到 3, 然后在试图发射 4 的时候发生 [CancellationException] 异常:
 
@@ -1851,11 +1832,12 @@ fun main() = runBlocking<Unit> {
     }
 }
 //sampleEnd
-```  
+```
 
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-38.kt).
+{:.note}
 
 从 1 到 5 的所有数值都会被收集, 而协程的取消只有在从 `runBlocking` 返回之前才会被检测到:
 
@@ -1890,11 +1872,12 @@ fun main() = runBlocking<Unit> {
     }
 }
 //sampleEnd
-```  
+```
 
 </div>
 
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-39.kt).
+{:.note}
 
 使用 `cancellable` 操作符之后, 收集的数值只有从 1 到 3:
 
@@ -1907,7 +1890,7 @@ Exception in thread "main" kotlinx.coroutines.JobCancellationException: Blocking
 
 <!--- TEST EXCEPTION -->
 
-### 数据流与响应式(Reactive) Stream
+## 数据流与响应式(Reactive) Stream
 
 很多开发者已经熟悉了 [响应式(Reactive) Stream](https://www.reactive-streams.org/), 或者其他响应式(Reactive)框架, 比如 RxJava 和 Project Reactor,
 对这些开发者来说, 数据流的设计看起来应该非常熟悉.
@@ -1940,6 +1923,7 @@ Exception in thread "main" kotlinx.coroutines.JobCancellationException: Blocking
 
 <!--- MODULE kotlinx-coroutines-core -->
 <!--- INDEX kotlinx.coroutines -->
+
 [delay]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/delay.html
 [withTimeoutOrNull]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/with-timeout-or-null.html
 [Dispatchers.Default]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-dispatchers/-default.html
@@ -1949,11 +1933,13 @@ Exception in thread "main" kotlinx.coroutines.JobCancellationException: Blocking
 [CoroutineScope]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html
 [runBlocking]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/run-blocking.html
 [Job]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-job/index.html
-[Job.cancel]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-job/cancel.html
+[Job.cancel]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/cancel.html
 [Job.join]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-job/join.html
 [ensureActive]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/ensure-active.html
 [CancellationException]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-cancellation-exception/index.html
+
 <!--- INDEX kotlinx.coroutines.flow -->
+
 [Flow]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/index.html
 [_flow]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flow.html
 [FlowCollector.emit]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow-collector/emit.html
@@ -1985,6 +1971,7 @@ Exception in thread "main" kotlinx.coroutines.JobCancellationException: Blocking
 [catch]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/catch.html
 [onCompletion]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/on-completion.html
 [launchIn]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/launch-in.html
-[IntRange.asFlow]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/kotlin.ranges.-int-range/as-flow.html
+[IntRange.asFlow]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/as-flow.html
 [cancellable]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/cancellable.html
+
 <!--- END -->

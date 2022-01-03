@@ -7,26 +7,35 @@ title: "内联类"
 
 # 内联类
 
-> 内联类从 Kotlin 1.3 以后才可以使用, 而且目前还处于 [Alpha 阶段](evolution/components-stability.html). 详情请参见 [下文](#alpha-status-of-inline-classes)
-{:.note}
+本页面最终更新: 2021/05/05
 
 对于业务逻辑来说, 有些时候会需要对某些类型创建一些包装类. 但是, 这就会产生堆上的内存分配, 带来运行时的性能损失.
 更坏的情况下, 如果被包装的类是基本类型, 那么性能损失会非常严重, 因为在运行时对基本类型本来可以进行极大地性能优化, 而它的包装类却不能享受这种好处.
 
-为了解决这类问题, Kotlin 引入了一种特别的类, 称为 `内联类` (inline class), 声明内联类时需要在类名称之前添加 `inline` 修饰符:
+为了解决这类问题, Kotlin 引入了一种特别的类, 称为 _内联类(inline class)_,
+内联类是 [基于值的类(value-based class)](https://github.com/Kotlin/KEEP/blob/master/notes/value-classes.md)的一个子集.
+这种类没有标识符, 只用于包含值.
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
+声明内联类时, 在类名称之前添加 `value` 修饰符:
 
 ```kotlin
-inline class Password(val value: String)
+value class Password(private val s: String)
 ```
 
-</div>
+要在 JVM 后端上声明内联类, 需要在类的定义之前使用 `value` 修饰符和 `@JvmInline` 注解:
+
+```kotlin
+// 针对 JVM 后端
+@JvmInline
+value class Password(private val s: String)
+```
+
+> 用于声明内联类的 `inline` 修饰符已被废弃.
+{:.note}
+
 
 内联类必须拥有唯一的一个属性, 并在主构造器中初始化这个属性.
 在运行期, 会使用这个唯一的属性来表达内联类的实例(关于运行期的内部表达, 请参见 [下文](#representation)):
-
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
 
 ```kotlin
 // 'Password' 类的实例不会真实存在
@@ -34,18 +43,21 @@ inline class Password(val value: String)
 val securePassword = Password("Don't try this in production")
 ```
 
-</div>
-
-这就是内联类的主要功能, 受 "内联" 这个名称的启发而来: 类中的数据被 "内联" 到使用它的地方 (类似于 [内联函数](inline-functions.html) 的内容被内联到调用它的地方).
+这就是内联类的主要功能, 受 *内联* 这个名称的启发而来: 类中的数据被 *内联* 到使用它的地方
+(类似于 [内联函数](inline-functions.html) 的内容被内联到调用它的地方).
 
 ## 成员
 
-内联类支持与通常的类相同的功能. 具体来说, 内联类可以声明属性和函数:
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+内联类支持与通常的类相同的功能.
+具体来说, 内联类可以声明属性和函数, 也可以有 `init` 代码段:
 
 ```kotlin
-inline class Name(val s: String) {
+@JvmInline
+value class Name(val s: String) {
+    init {
+        require(s.length > 0) { }
+    }
+
     val length: Int
         get() = s.length
 
@@ -61,28 +73,23 @@ fun main() {
 }
 ```
 
-</div>
-
-但是, 对于内联类的成员存在一些限制:
-* 内联类不能拥有 *init*{: .keyword } 代码段
-* 内联类的属性不能拥有 [后端域变量](properties.html#backing-fields)
-    * 因此, 内联类只能拥有简单的计算属性 (不能拥有延迟初始化属性或委托属性)
+内联类的属性不能拥有 [后端域变量](properties.html#backing-fields).
+只能拥有简单的计算属性 (不能拥有 `lateinit` 属性或委托属性)
 
 
 ## 继承
 
 内联类允许继承接口:
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
-
 ```kotlin
 interface Printable {
     fun prettyPrint(): String
 }
 
-inline class Name(val s: String) : Printable {
+@JvmInline
+value class Name(val s: String) : Printable {
     override fun prettyPrint(): String = "Let's $s!"
-}    
+}
 
 fun main() {
     val name = Name("Kotlin")
@@ -90,24 +97,23 @@ fun main() {
 }
 ```
 
-</div>
-
-禁止内联类参与类继承. 也就是说, 内联类不能继承其他类, 而且它必须是 *final*{: .keyword } 类, 不能被其他类继承.
+禁止内联类参与类继承. 也就是说, 内联类不能继承其他类, 而且它必须是 `final` 类, 不能被其他类继承.
 
 ## 内部表达
 
-在通常的代码中, Kotlin 编译器会对每个内联类保留一个 *包装*. 内联类的实例在运行期可以表达为这个包装, 也可以表达为它的底层类型.
-类似于 `Int` 可以 [表达](basic-types.html#representation) 为基本类型 `int`, 也可以表达为包装类 `Integer`.
+在通常的代码中, Kotlin 编译器会对每个内联类保留一个 *包装*.
+内联类的实例在运行期可以表达为这个包装, 也可以表达为它的底层类型.
+类似于 `Int` 可以 [表达](basic-types.html#numbers-representation-on-the-jvm) 为基本类型 `int`,
+也可以表达为包装类 `Integer`.
 
 Kotlin 编译器会优先使用底层类型而不是包装类, 这样可以产生最优化的代码, 运行时的性能也会最好.
 但是, 有些时候会需要保留包装类. 一般来说, 当内联类被用作其他类型时, 它会被装箱(box).
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-
 ```kotlin
 interface I
 
-inline class Foo(val i: Int) : I
+@JvmInline
+value class Foo(val i: Int) : I
 
 fun asInline(f: Foo) {}
 fun <T> asGeneric(x: T) {}
@@ -130,18 +136,16 @@ fun main() {
 }
 ```
 
-</div>
-
-由于内联类可以表达为底层类型和包装类两种方式, [引用相等性](equality.html#referential-equality) 对于内联类是毫无意义的, 因此禁止对内联类进行引用相等性判断操作.
+由于内联类可以表达为底层类型和包装类两种方式, [引用相等性](equality.html#referential-equality) 对于内联类是毫无意义的,
+因此禁止对内联类进行引用相等性判断操作.
 
 ### 函数名称混淆
 
 由于内联类被编译为它的底层类型, 因此可能会导致一些令人难以理解的错误, 比如, 意料不到的平台签名冲突:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-
 ```kotlin
-inline class UInt(val x: Int)
+@JvmInline
+value class UInt(val x: Int)
 
 // 在 JVM 平台上表达为 'public final void compute(int x)'
 fun compute(x: Int) { }
@@ -150,26 +154,43 @@ fun compute(x: Int) { }
 fun compute(x: UInt) { }
 ```
 
-</div>
+为了解决这种问题, 使用内联类的函数会被进行名称 *混淆*, 方法是对函数名添加一些稳定的哈希值.
+因此, `fun compute(x: UInt)` 会表达为 `public final void compute-<hashcode>(int x)`,
+然后就解决了函数名称的冲突问题.
 
-为了解决这种问题, 使用内联类的函数会被进行名称 *混淆*, 方法是对函数名添加一些稳定的哈希值. 因此, `fun compute(x: UInt)` 会表达为 `public final void compute-<hashcode>(int x)`, 然后就解决了函数名称的冲突问题.
-
-> 注意, 在 Java 中 `-` 是一个 *无效的* 符号, 也就是说从 Java 中无法调用那些使用了内联类作为参数的函数.
+> 在 Kotlin 1.4.30 中, 名称混淆机制有改变.
+> 请使用编译器参数 `-Xuse-14-inline-classes-mangling-scheme` 来强制编译器使用旧的 1.4.0 名称混淆机制, 以保证二进制兼容性.
 {:.note}
+
+### 在 Java 代码中调用
+
+你可以在 Java 代码中调用接受内联类为参数的函数. 为了实现这一点, 你需要手动禁止函数名称混淆:
+在函数声明之前添加 `@JvmName` 注解:
+
+```kotlin
+@JvmInline
+value class UInt(val x: Int)
+
+fun compute(x: Int) { }
+
+@JvmName("computeUInt")
+fun compute(x: UInt) { }
+```
 
 ## 内联类与类型别名
 
-初看起来, 内联类好像非常象 [类型别名](type-aliases.html). 确实, 它们都声明了一个新的类型, 并且在运行期都表达为各自的底层类型.
+初看起来, 内联类似乎非常象 [类型别名](type-aliases.html). 确实, 它们都声明了一个新的类型, 并且在运行期都表达为各自的底层类型.
 
 但是, 主要的差别在于, 类型别名与它的底层类型是 *赋值兼容* 的 (与同一个底层类型的另一个类型别名, 也是兼容的), 而内联类不是如此.
 
-也就是说, 内联类会生成一个真正的 _新_ 类型, 相反, 类型别名只是给既有的类型定义了一个新的名字(也就是别名):
-
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
+也就是说, 内联类会生成一个真正的 _新_ 类型,
+相反, 类型别名只是给既有的类型定义了一个新的名字(也就是别名):
 
 ```kotlin
 typealias NameTypeAlias = String
-inline class NameInlineClass(val s: String)
+
+@JvmInline
+value class NameInlineClass(val s: String)
 
 fun acceptString(s: String) {}
 fun acceptNameTypeAlias(n: NameTypeAlias) {}
@@ -188,66 +209,3 @@ fun main() {
     acceptNameInlineClass(string) // 错误: 需要内联类的地方, 不能传入底层类型
 }
 ```
-
-</div>
-
-
-## 内联类功能还在 Alpha 阶段
-
-内联类的设计目前还处于 [Alpha 阶段](evolution/components-stability.html), 也就是说未来的版本不保证兼容性.
-在 Kotlin 1.3+ 中使用内联类时, 编译器会报告警告信息, 指出这个功能还没有发布为稳定版.
-
-要删除这些警告, 你需要指定 `-Xinline-classes` 编译器选项, 来允许使用这个功能.
-
-### 在 Gradle 中启用内联类
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" theme="idea" mode="groovy" data-lang="groovy">
-
-```groovy
-kotlin {
-    sourceSets.all {
-        languageSettings.enableLanguageFeature('InlineClasses')
-    }
-}
-```
-
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" theme="idea" mode="kotlin" data-lang="kotlin" data-highlight-only>
-
-```kotlin
-kotlin {
-    sourceSets.all {
-        languageSettings.enableLanguageFeature("InlineClasses")
-    }
-}
-```
-
-</div>
-</div>
-
-详情请参见 [Gradle 中的编译器选项](using-gradle.html#compiler-options).
-关于 [跨平台项目](mpp-intro.html), 请参见 [跨平台项目的语言设置](mpp-dsl-reference.html#language-settings).
-
-### 在 Maven 中启用内联类
-
-<div class="sample" markdown="1" theme="idea" mode='xml'>
-
-```xml
-<configuration>
-    <args>
-        <arg>-Xinline-classes</arg>
-    </args>
-</configuration>
-```
-
-</div>
-
-详情请参见 [Maven 中的编译器选项](using-maven.html#specifying-compiler-options) for details.
-
-## 更深入地讨论
-
-关于更多技术细节和讨论, 请参见[关于 Kotlin 语言内联类的建议](https://github.com/Kotlin/KEEP/blob/master/proposals/inline-classes.md).

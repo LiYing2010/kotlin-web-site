@@ -7,7 +7,10 @@ title: "Kotlin 与 OSGi"
 
 # Kotlin 与 OSGi
 
-要使用 Kotlin 的 OSGi 支持功能, 你需要使用 `kotlin-osgi-bundle`, 而不是通常的 Kotlin 库文件.
+本页面最终更新: 2021/02/11
+
+要在你的项目中使用 Kotlin 的 [OSGi](https://www.osgi.org/) 支持功能,
+需要使用 `kotlin-osgi-bundle`, 而不是通常的 Kotlin 库文件.
 此外还建议你删除 `kotlin-runtime`, `kotlin-stdlib` 和 `kotlin-reflect` 依赖,
 因为 `kotlin-osgi-bundle` 已经包含了这些库的内容. 此外还需要注意不要引用外部的 Kotlin 库文件.
 大多数通常的 Kotlin 库依赖都不能用于 OSGi 环境, 因此你不应该使用它们, 要将它们从你的工程中删除.
@@ -15,8 +18,6 @@ title: "Kotlin 与 OSGi"
 ## Maven
 
 在 Maven 工程中引入 Kotlin OSGi bundle:
-
-<div class="sample" markdown="1" mode="xml" auto-indent="false" theme="idea" data-highlight-only>
 
 ```xml
 <dependencies>
@@ -28,11 +29,7 @@ title: "Kotlin 与 OSGi"
 </dependencies>
 ```
 
-</div>
-
 从外部库中删除 Kotlin 的标准库(注意, exclusion 设置中星号只在 Maven 3 中有效):
-
-<div class="sample" markdown="1" mode="xml" auto-indent="false" theme="idea" data-highlight-only>
 
 ```xml
 <dependency>
@@ -49,23 +46,15 @@ title: "Kotlin 与 OSGi"
 </dependency>
 ```
 
-</div>
-
 ## Gradle
 
 在 Gradle 工程中引入 `kotlin-osgi-bundle`:
-
-<div class="sample" markdown="1" mode="groovy" theme="idea">
 
 ```groovy
 compile "org.jetbrains.kotlin:kotlin-osgi-bundle:$kotlinVersion"
 ```
 
-</div>
-
 通过传递依赖, 你可能会间接依赖到一些默认的 Kotlin 库, 你可以使用以下方法删除这些库:
-
-<div class="sample" markdown="1" mode="groovy" theme="idea">
 
 ```groovy
 dependencies {
@@ -76,11 +65,9 @@ dependencies {
 }
 ```
 
-</div>
-
 ## FAQ
 
-#### 为什么不直接向所有的 Kotlin 库添加需要的 manifest 设值呢?
+### 为什么不直接向所有的 Kotlin 库添加需要的 manifest 设值呢?
 
 虽然这是提供 OSGi 支持时最优先的方法, 但很不幸, 目前我们无法做到这一点,
 原因是所谓的 ["包分裂(package split)" 问题](http://wiki.osgi.org/wiki/Split_Packages),

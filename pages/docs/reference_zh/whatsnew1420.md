@@ -6,37 +6,16 @@ title: "Kotlin 1.4.20 版中的新功能"
 
 # Kotlin 1.4.20 版中的新功能
 
+本页面最终更新: 2021/08/03
+
+_[发布日期: 2020/11/23](releases.html#release-details)_
+
+
 Kotlin 1.4.20 带来了很多新的实验性功能特性, 并对既有的提供了功能特性很多 bug 修正和改进,
 包括 1.4.0 中添加的那些新功能特性.
 
 关于新功能特性, 也可以阅读 [这篇 Blog](https://blog.jetbrains.com/kotlin/2020/11/kotlin-1-4-20-released/), 其中包含很多示例.
 
-[**Kotlin/JVM**](#kotlinjvm)
-- [Java 15 编译目标](#java-15-target)
-- [invokedynamic 字符串拼接](#invokedynamic-string-concatenation)
-
-[**Kotlin/JS**](#kotlinjs)
-- [Gradle DSL 的变化](#gradle-dsl-changes)
-- [新的向导模板](#new-wizard-templates)
-- [IR 编译器忽略编译错误](#ignoring-compilation-errors-with-ir-compiler)
-
-[**Kotlin/Native**](#kotlinnative)
-- [逃逸分析(Escape analysis)](#escape-analysis)
-- [性能改进与 bug 修复](#performance-improvements-and-bug-fixes)
-- [包装 Objective-C 异常(需要使用者同意)](#opt-in-wrapping-of-objective-c-exceptions)
-- [CocoaPods plugin 改进](#cocoapods-plugin-improvements)
-- [支持 Xcode 12 库](#support-for-xcode-12-libraries)
-
-[**Kotlin Multiplatform**](#kotlin-multiplatform)
-- [跨平台库发布的结构更新](#updated-structure-of-multiplatform-library-publications)
-
-[**标准库**](#standard-library)
-- [对 java.nio.file.Path 的扩展](#extensions-for-javaniofilepath)
-- [String.replace 函数性能改进](#improved-stringreplace-function-performance)
-
-[**Kotlin Android Extensions**](#kotlin-android-extensions)
-- [废弃合成视图(synthetic view)](#deprecation-of-synthetic-views)
-- [Parcelable 实现代码生成器的新 plugin](#new-plugin-for-parcelable-implementation-generator)
 
 ## Kotlin/JVM
 
@@ -51,9 +30,9 @@ Kotlin/JVM 改进的目标是为了让它跟上现代 Java 版本的功能特性
 
 ### invokedynamic 字符串拼接
 
-> `invokedynamic` 字符串拼接是 [实验性功能](evolution/components-stability.html). 这个功能随时可能抛弃或改变.
+> `invokedynamic` 字符串拼接是 [实验性功能](components-stability.html). 这个功能随时可能抛弃或改变.
 > 使用这个功能需要使用者同意(Opt-in)(详情请参见下文). 请注意, 只为评估和试验目的来使用这个功能.
-> 如果你能通过 [YouTrack](https://youtrack.jetbrains.com/issues/KT) 提交你的反馈意见, 我们深表感谢.
+> 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issues/KT) 提供你的反馈意见.
 {:.note}
 
 对于 JVM 9 以上版本的编译目标, Kotlin 1.4.20 能够将字符串拼接编译为 [动态调用(dynamic invocation)](https://docs.oracle.com/javase/7/docs/technotes/guides/vm/multiple-language-support.html#invokedynamic),
@@ -69,7 +48,6 @@ Kotlin/JVM 改进的目标是为了让它跟上现代 Java 版本的功能特性
 - `indy`: 对字符串执行 `invokedynamic` 拼接, 使用 [StringConcatFactory.makeConcat()](https://docs.oracle.com/javase/9/docs/api/java/lang/invoke/StringConcatFactory.html#makeConcat-java.lang.invoke.MethodHandles.Lookup-java.lang.String-java.lang.invoke.MethodType-).
 - `inline`: 切换回原来的拼接方法, 使用 `StringBuilder.append()`.
 
-[**回到页面顶部**](#)
 
 ## Kotlin/JS
 
@@ -91,8 +69,6 @@ Kotlin/JS 的 Gradle DSL 有了很多更新, 可以简化项目的配置和自�
 
 要对这 3 个任务默认启用 CSS 支持, 请在你的项目的 `build.gradle(.kts)` 文件中添加以下代码:
 
-<div class="sample" markdown="1" mode="groovy" theme="idea">
-
 ```groovy
 browser {
     commonWebpackConfig {
@@ -101,17 +77,14 @@ browser {
     binaries.executable()
 }
 ```
-</div>
 
-更多详情请参见 [webpack 打包(Bundling)配置](js-project-setup.html#configuring-webpack-bundling).
+更多详情请参见 [webpack 打包(Bundling)配置](js/js-project-setup.html#webpack-bundling).
 
 #### 通过 Gradle 自定义 package.json 文件
 
 要对你的 Kotlin/JS 包的管理和发布进行更加精确的控制, 现在可以通过 Gradle DSL 向项目文件 [`package.json`](https://nodejs.dev/learn/the-package-json-guide) 添加属性.
 
 要向你的 `package.json` 文件添加自定义的项目, 请在编译任务的 `packageJson` 代码段中使用 `customField` 函数:
-
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-highlight-only>
 
 ```kotlin
 kotlin {
@@ -122,15 +95,14 @@ kotlin {
     }
 }
 ```
-</div>
 
-更多详情请参见 [自定义 `package.json` 文件](js-project-setup.html#packagejson-customization).
+更多详情请参见 [自定义 `package.json` 文件](js/js-project-setup.html#package-json-customizatio).
 
 #### 可选择的 yarn 依赖项解析
 
-> 可选择的 yarn 依赖项解析是 [实验性功能](evolution/components-stability.html). 这个功能随时可能抛弃或改变.
+> 可选择的 yarn 依赖项解析是 [实验性功能](components-stability.html). 这个功能随时可能抛弃或改变.
 > 请注意, 只为评估和试验目的来使用这个功能.
-> 如果你能通过 [YouTrack](https://youtrack.jetbrains.com/issues/KT) 提交你的反馈意见, 我们深表感谢.
+> 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issues/KT) 提供你的反馈意见.
 {:.note}
 
 Kotlin 1.4.20 提供一种方法来配置 Yarn 的 [可选择的依赖项解析](https://classic.yarnpkg.com/en/docs/selective-version-resolutions/) -
@@ -140,8 +112,6 @@ Kotlin 1.4.20 提供一种方法来配置 Yarn 的 [可选择的依赖项解析]
 要对你的项目影响一个包解析的版本, 请使用 `resolution` 函数, 传入参数是包名称选择器 (与 Yarn 指定的相同),
 以及它应当解析的版本.
 
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-highlight-only>
-
 ```kotlin
 rootProject.plugins.withType<YarnPlugin> {
     rootProject.the<YarnRootExtension>().apply {
@@ -150,16 +120,15 @@ rootProject.plugins.withType<YarnPlugin> {
     }
 }
 ```
-</div>
 
 这里, 你的 _所有_ 需要 `react` 的 npm 依赖项都将得到版本 `16.0.0`,
 而 `processor` 对它的依赖项 `decamelize` 将会得到版本 `3.0.0`.
 
 #### 禁用粗粒度 workspace
 
-> 禁用粗粒度 workspace 是 [实验性功能](evolution/components-stability.html). 这个功能随时可能抛弃或改变.
+> 禁用粗粒度 workspace 是 [实验性功能](components-stability.html). 这个功能随时可能抛弃或改变.
 > 请注意, 只为评估和试验目的来使用这个功能.
-> 如果你能通过 [YouTrack](https://youtrack.jetbrains.com/issues/KT) 提交你的反馈意见, 我们深表感谢.
+> 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issues/KT) 提供你的反馈意见.
 {:.note}
 
 为了提高构建速度, Kotlin/JS Gradle plugin 只安装特定 Gradle 任务所需要的依赖项.
@@ -171,14 +140,11 @@ rootProject.plugins.withType<YarnPlugin> {
 在 Gradle 中可以通过 `YarnPlugin` 中的 `YarnRootExtension` 来使用这个功能特性.
 要使用它, 请在你的 `build.gradle.kts` 文件中添加以下代码段:
 
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-highlight-only>
-
 ```kotlin
 rootProject.plugins.withType<YarnPlugin> {
     rootProject.the<YarnRootExtension>().disableGranularWorkspaces()
 }
 ```
-</div>
 
 ### 新的向导模板
 
@@ -189,16 +155,16 @@ rootProject.plugins.withType<YarnPlugin> {
 - **Node.js 应用程序** - 一个最小的项目, 运行在 Node.js 环境内.
     它提供参数来包含实验性的 `kotlinx-nodejs` 包.
 
-更多详情参见 [通过模板创建 Kotlin/JS 应用程序](../tutorials/javascript/setting-up.html).
+更多详情参见 [通过模板创建 Kotlin/JS 应用程序](js/js-get-started.html).
 
 ### IR 编译器忽略编译错误
 
-> _忽略编译错误_ 模式是 [实验性功能](evolution/components-stability.html). 这个功能随时可能抛弃或改变.
+> _忽略编译错误_ 模式是 [实验性功能](components-stability.html). 这个功能随时可能抛弃或改变.
 > 使用这个功能需要使用者同意(Opt-in)(详情请参见下文). 请注意, 只为评估和试验目的来使用这个功能.
-> 如果你能通过 [YouTrack](https://youtrack.jetbrains.com/issues/KT) 提交你的反馈意见, 我们深表感谢.
+> 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issues/KT) 提供你的反馈意见.
 {:.note}
 
-Kotlin/JS 的 [IR 编译器](js-ir-compiler.html) 有一个新的实验性模式 - _带错误编译_ 模式.
+Kotlin/JS 的 [IR 编译器](js/js-ir-compiler.html) 有一个新的实验性模式 - _带错误编译_ 模式.
 在这种模式下, 即使你的代码包含错误也可以运行, 比如, 你可能希望试验某部分功能, 虽然整个应用程序还未完成.
 
 这个模式有两种错误宽容策略:
@@ -209,9 +175,7 @@ Kotlin/JS 的 [IR 编译器](js-ir-compiler.html) 有一个新的实验性模式
 
 要允许带错误编译, 请添加 `-Xerror-tolerance-policy=` 编译器参数, 指定上述值.
 
-更多详情请参见 [忽略编译错误](js-ir-compiler.html#ignoring-compilation-errors) with Kotlin/JS IR 编译器.
-
-[**回到页面顶部**](#)
+更多详情请参见 [忽略编译错误](js/js-ir-compiler.html#ignoring-compilation-errors) with Kotlin/JS IR 编译器.
 
 ## Kotlin/Native
 
@@ -226,9 +190,9 @@ Kotlin/JS 的 [IR 编译器](js-ir-compiler.html) 有一个新的实验性模式
 
 ### 逃逸分析(Escape analysis)
 
-> 逃逸分析机制是 [实验性功能](evolution/components-stability.html). 这个功能随时可能抛弃或改变.
+> 逃逸分析机制是 [实验性功能](components-stability.html). 这个功能随时可能抛弃或改变.
 > 请注意, 只为评估和试验目的来使用这个功能.
-> 如果你能通过 [YouTrack](https://youtrack.jetbrains.com/issues/KT) 提交你的反馈意见, 我们深表感谢.
+> 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issues/KT) 提供你的反馈意见.
 {:.note}
 
 Kotlin/Native 有了一个新的 [逃逸分析(escape analysis)](https://en.wikipedia.org/wiki/Escape_analysis) 机制的原型.
@@ -242,13 +206,13 @@ Kotlin/Native 有了一个新的 [逃逸分析(escape analysis)](https://en.wiki
 ### 性能改进与 bug 修复
 
 Kotlin/Native 的很多组件有了性能改进和 bug 修复, 包括 1.4.0 中添加的部分,
-比如, [代码共用机制](mpp-share-on-platforms.html#share-code-on-similar-platforms).
+比如, [代码共用机制](mpp/mpp-share-on-platforms.html#share-code-on-similar-platforms).
 
 ### 包装 Objective-C 异常(需要使用者同意)
 
-> Objective-C 异常包装机制是 [实验性功能](evolution/components-stability.html). 这个功能随时可能抛弃或改变.
+> Objective-C 异常包装机制是 [实验性功能](components-stability.html). 这个功能随时可能抛弃或改变.
 > 使用这个功能需要使用者同意(Opt-in)(详情请参见下文). 请注意, 只为评估和试验目的来使用这个功能.
-> 如果你能通过 [YouTrack](https://youtrack.jetbrains.com/issues/KT) 提交你的反馈意见, 我们深表感谢.
+> 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issues/KT) 提供你的反馈意见.
 {:.note}
 
 Kotlin/Native 现在可以处理 Objective-C 代码在运行期抛出的异常, 避免程序崩溃.
@@ -258,17 +222,14 @@ Kotlin/Native 现在可以处理 Objective-C 代码在运行期抛出的异常, 
 
 要启用 Objective-C 异常的包装, 请在 `cinterop` 调用中指定 `-Xforeign-exception-mode objc-wrap` 参数,
 或对 `.def` 文件添加 `foreignExceptionMode = objc-wrap` 属性.
-如果你使用 [CocoaPods 集成](native/cocoapods.html), 请在一个依赖项的 `pod {}` 构建脚本代码段中指定参数,
+如果你使用 [CocoaPods 集成](native/native-cocoapods.html), 请在一个依赖项的 `pod {}` 构建脚本代码段中指定参数,
 比如:
-
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-highlight-only>
 
 ```kotlin
 pod("foo") {
    extraOpts = listOf("-Xforeign-exception-mode”, “objc-wrap")
 }
 ```
-</div>
 
 不启用这个功能时, 默认行为仍然保持不变: 当 Objective-C 代码抛出异常时, 程序会终止.
 
@@ -287,7 +248,7 @@ CocoaPods plugin 的任务执行流程有改进. 比如, 如果你添加一个�
 
 #### DSL 扩展
 
-向你的 Kotlin 项目添加 [CocoaPods](native/cocoapods.html) 依赖项的 DSL, 有了新的功能.
+向你的 Kotlin 项目添加 [CocoaPods](native/native-cocoapods.html) 依赖项的 DSL, 有了新的功能.
 
 除了本地的 Pod 以及来自  CocoaPods 仓库的 Pod 之外, 你也可以将以下类型的库添加为依赖项:
 * 来自自定义规格仓库的库.
@@ -296,8 +257,8 @@ CocoaPods plugin 的任务执行流程有改进. 比如, 如果你添加一个�
 * 静态库.
 * 使用自定义 cinterop 参数的库.
 
-更多详情请参见 在 Kotlin 项目中 [添加 CocoaPods 依赖项](native/cocoapods.html#add-dependencies-on-pod-libraries).
-示例程序请参见 [Kotlin 使用 CocoaPods 示例](https://github.com/Kotlin/kotlin-with-cocoapods-sample).
+更多详情请参见 在 Kotlin 项目中 [添加 CocoaPods 依赖项](native/native-cocoapods.html#add-dependencies-on-pod-libraries).
+示例程序请参见 [KMM 使用 CocoaPods 示例](https://github.com/Kotlin/kmm-with-cocoapods-sample).
 
 #### 与 Xcode 集成的更新
 
@@ -308,13 +269,12 @@ CocoaPods plugin 的任务执行流程有改进. 比如, 如果你添加一个�
 
 在 IDEA 中, 集成错误现在有了详细的描述信息. 因此当你遇到 Podfile 相关的问题, 可以立即知道如何修复.
 
-更多详情请参见 [创建 Kotlin pod](native/cocoapods.html#use-a-kotlin-gradle-project-as-a-cocoapods-dependency).
+更多详情请参见 [创建 Kotlin pod](native/native-cocoapods.html#use-a-kotlin-gradle-project-as-a-cocoapods-dependency).
 
 ### 支持 Xcode 12 库
 
 对随 Xcode 12 一起发布的新库, 我们添加了支持. 现在你可以在 Kotlin 代码中使用这些库.
 
-[**回到页面顶部**](#)
 
 ## Kotlin Multiplatform
 
@@ -323,36 +283,33 @@ CocoaPods plugin 的任务执行流程有改进. 比如, 如果你添加一个�
 从 Kotlin 1.4.20 开始, 不再有单独的元数据发布. 元数据 artifact 现在包含在 _root_ 发布之内,
 它代表整个库, 并且在添加为共通源代码集的依赖项时, 会自动解析为适当的平台相关 artifact.
 
-更多详情请参见 [发布跨平台库](mpp-publish-lib.html).
+更多详情请参见 [发布跨平台库](mpp/mpp-publish-lib.html).
 
 #### 与以前版本的兼容性
 
-这样的结构变化, 破坏了使用 [层级项目结构](mpp-share-on-platforms.html#share-code-on-similar-platforms) 的项目之间的兼容性.
+这样的结构变化, 破坏了使用 [层级项目结构](mpp/mpp-share-on-platforms.html#share-code-on-similar-platforms) 的项目之间的兼容性.
 如果一个跨平台项目和它依赖的一个库都使用了层级项目结构, 那么你需要将它们同步更新到 Kotlin 1.4.20 或更高版本.
 使用 Kotlin 1.4.20 发布的库, 不能供以前版本发布的项目使用.
 
 不使用层级项目结构的项目和库仍然保持兼容.
 
-[**回到页面顶部**](#)
 
 ## 标准库
 
 Kotlin 1.4.20 的标准库提供了一些用来处理文件的新的扩展, 并改进了性能.
 
-- [对 java.nio.file.Path 的扩展](#extensions-for-javaniofilepath)
-- [String.replace 函数性能改进](#improved-stringreplace-function-performance)
+- [对 java.nio.file.Path 的扩展](#extensions-for-java-nio-file-path)
+- [String.replace 函数性能改进](#improved-string-replace-function-performance)
 
 ### 用于 java.nio.file.Path 的扩展
 
-> 用于 `java.nio.file.Path` 的扩展是 [实验性功能](evolution/components-stability.html). 这个功能随时可能抛弃或改变.
+> 用于 `java.nio.file.Path` 的扩展是 [实验性功能](components-stability.html). 这个功能随时可能抛弃或改变.
 > 使用这个功能需要使用者同意(Opt-in)(详情请参见下文). 请注意, 只为评估和试验目的来使用这个功能.
-> 如果你能通过 [YouTrack](https://youtrack.jetbrains.com/issues/KT) 提交你的反馈意见, 我们深表感谢.
+> 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issues/KT) 提供你的反馈意见.
 {:.note}
 
 标准库提供用于 `java.nio.file.Path` 的实验性的扩展.
 现在可以通过符合 Kotlin 习惯的方式来使用现代的 JVM 文件 API, 与 `kotlin.io` 包中的 `java.io.File` 扩展类似.
-
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-highlight-only>
 
 ```kotlin
 // 使用除 (/) 操作符构造路径
@@ -362,7 +319,6 @@ val subDir = baseDir / "subdirectory"
 // 列出目录中的文件
 val kotlinFiles: List<Path> = Path("/home/user").listDirectoryEntries("*.kt")
 ```
-</div>
 
 这些扩展在 `kotlin-stdlib-jdk7` 模块的 `kotlin.io.path` 包内.
 要使用这些扩展, 需要对实验性的注解 `@ExperimentalPathApi` 标注 [使用者同意(opt-in)](opt-in-requirements.html).
@@ -372,7 +328,6 @@ val kotlinFiles: List<Path> = Path("/home/user").listDirectoryEntries("*.kt")
 `String.replace()` 的新实现提高了这个函数的执行速度.
 大小写相关的版本使用一种基于 `indexOf` 的手动替换循环, 大小写无关的版本使用正规表达式匹配.
 
-[**回到页面顶部**](#)
 
 ## Kotlin Android Extensions
 

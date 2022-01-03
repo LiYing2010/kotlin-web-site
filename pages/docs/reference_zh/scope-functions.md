@@ -7,10 +7,13 @@ title: "作用域函数(Scope Function)"
 
 # 作用域函数(Scope Function)
 
+本页面最终更新: 2022/02/09
+
 Kotlin 标准库提供了一系列函数, 用来在某个指定的对象上下文中执行一段代码.
 你可以对一个对象调用这些函数, 并提供一个 [Lambda 表达式](lambdas.html), 函数会创建一个临时的作用域(scope).
 在这个作用域内, 你可以访问这个对象, 而不需要指定名称.
-这样的函数称为 _作用域函数(Scope Function)_. 有 5 个这类函数: `let`, `run`, `with`, `apply`, 以及 `also`.
+这样的函数称为 _作用域函数(Scope Function)_.
+有 5 个这类函数: `let`, `run`, `with`, `apply`, 以及 `also`.
 
 基本上, 这些函数所做的事情都是一样的: 在一个对象上执行一段代码.
 它们之间的区别在于, 在代码段内如何访问这个对象, 以及整个表达式的最终结果值是什么.
@@ -68,13 +71,46 @@ fun main() {
 具体的选择取决于你的意图, 以及在你的项目内作用域函数的使用的一致性.
 下面我们将会详细解释各个作用域函数之间的区别, 以及他们的使用惯例.
 
+## 选择作用域函数
+
+为了帮助你选择适合需要的作用域函数, 我们整理了这些函数之间关键区别的比较表格.
+
+|函数|上下文对象的引用方式|返回值|是否扩展函数|
+|---|---|---|---|
+|`let`|`it`|Lambda 表达式的结果值|是|
+|`run`|`this`|Lambda 表达式的结果值|是|
+|`run`|-|Lambda 表达式的结果值|不是: 不使用上下文对象来调用|
+|`with`|`this`|Lambda 表达式的结果值|不是: 上下文对象作为参数传递.|
+|`apply`|`this`|上下文对象本身|是|
+|`also`|`it`|上下文对象本身|是|
+
+关于不同函数之间的区别, 详情会在本章的后续小节中专门介绍.
+
+下面是根据你的需求来选择作用域函数的简短指南:
+
+* 在非 null 对象上执行 Lambda 表达式: `let`
+* 在一个局部作用域内引入变量: `let`
+* 对一个对象的属性进行设置: `apply`
+* 对一个对象的属性进行设置, 并计算结果值: `run`
+* 在需要表达式的地方执行多条语句: 非扩展函数形式的 `run`
+* 对一个对象进行一些附加处理: `also`
+* 对一个对象进行一组函数调用: `with`
+
+不同的函数的使用场景是有重叠的, 因此你可以根据你的项目或你的开发组所使用的编码规约来进行选择.
+
+尽管作用域函数可以使得代码变得更简洁, 但也要注意不要过度使用:
+可能会降低你的代码的可读性, 造成错误.
+不要在作用域函数内部再嵌套作用域函数, 对作用域函数的链式调用要特别小心:
+很容易导致开发者错误理解当前的上下文对象, 以及 `this` 或 `it` 的值.
+
 ## 作用域函数之间的区别
 
-由于所有的作用域函数都很类似, 因此理解它们之间的差别是很重要的. 它们之间主要存在两大差别:
-* 访问上下文对象的方式
+由于所有的作用域函数都很类似, 因此理解它们之间的差别是很重要的.
+它们之间主要存在两大差别:
+* 访问上下文对象的方式.
 * 返回值.
 
-### 访问上下文对象: 使用 `this` 或 使用 `it`
+### 访问上下文对象: 使用 this 或 使用 it
 
 在作用域函数的 Lambda 表达式内部, 可以通过一个简短的引用来访问上下文对象, 而不需要使用它的变量名.
 每个作用域函数都会使用两种方法之一来引用上下文对象:
@@ -89,13 +125,13 @@ fun main() {
     val str = "Hello"
     // 使用 this
     str.run {
-        println("The receiver string length: $length")
-        //println("The receiver string length: ${this.length}") // 这种写法的功能与上面一样
+        println("The string's length: $length")
+        //println("The string's length: ${this.length}") // 这种写法的功能与上面一样
     }
 
     // 使用 it
     str.let {
-        println("The receiver string's length is ${it.length}")
+        println("The string's length is ${it.length}")
     }
 }
 ```
@@ -108,7 +144,8 @@ fun main() {
 因此, 在这些函数的 Lambda 表达式内, 可以向通常的类函数一样访问到上下文对象.
 大多数情况下, 访问接受者对象的成员时, 可以省略 `this` 关键字, 代码可以更简短.
 另一方面, 如果省略了 `this`, 阅读代码时会很难区分哪些是接受者的成员, 哪些是外部对象和函数.
-因此, 把上下文对象作为接受者(`this`)的方式, 建议用于那些主要对上下文对象成员进行操作的 Lambda 表达式: 调用上下文对象的函数, 或对其属性赋值.
+因此, 把上下文对象作为接受者(`this`)的方式,
+建议用于那些主要对上下文对象成员进行操作的 Lambda 表达式: 调用上下文对象的函数, 或对其属性赋值.
 
 <div class="sample" markdown="1" theme="idea">
 
@@ -155,6 +192,7 @@ fun main() {
     }
 
     val i = getRandomInt()
+    println(i)
 //sampleEnd
 }
 ```
@@ -181,6 +219,7 @@ fun main() {
     }
 
     val i = getRandomInt()
+    println(i)
 //sampleEnd
 }
 ```
@@ -198,7 +237,8 @@ fun main() {
 #### 返回上下文对象
 
 `apply` 和 `also` 的返回值是作用域对象本身.
-因此它们可以作为 _旁路(side step)_ 成为链式调用的一部分: 你可以在这些函数之后对同一个对象继续调用其他函数.
+因此它们可以作为 _旁路(side step)_ 成为链式调用的一部分:
+你可以在这些函数之后对同一个对象继续调用其他函数.
 
 <div class="sample" markdown="1" theme="idea">
 
@@ -250,7 +290,8 @@ fun main() {
 #### 返回 Lambda 表达式的结果值
 
 `let`, `run`, 和 `with` 函数返回 Lambda 表达式的结果值.
-因此, 如果需要将 Lambda 表达式结果赋值给一个变量, 或者对 Lambda 表达式结果进行链式操作, 等等, 你可以使用这些函数.
+因此, 如果需要将 Lambda 表达式结果赋值给一个变量,
+或者对 Lambda 表达式结果进行链式操作, 等等, 你可以使用这些函数.
 
 <div class="sample" markdown="1" theme="idea">
 
@@ -294,7 +335,7 @@ fun main() {
 为了帮助你选择适当的作用域函数, 下面我们对各个函数进行详细介绍, 并提供一些使用建议.
 技术上来讲, 很多情况下各个函数是可以互换的, 因此这里的示例只演示常见的使用风格.
 
-### `let` 函数
+### let 函数
 
 **上下文对象** 通过参数 (`it`) 访问. **返回值** 是 Lambda 表达式的结果值.
 
@@ -333,7 +374,8 @@ fun main() {
 
 </div>
 
-如果 Lambda 表达式的代码段只包含唯一的一个函数调用, 而且使用 `it` 作为这个函数的参数, 那么可以使用方法引用 (`::`) 来代替 Lambda 表达式:
+如果 Lambda 表达式的代码段只包含唯一的一个函数调用, 而且使用 `it` 作为这个函数的参数,
+那么可以使用方法引用 (`::`) 来代替 Lambda 表达式:
 
 <div class="sample" markdown="1" theme="idea">
 
@@ -349,7 +391,8 @@ fun main() {
 </div>
 
 `let` 经常用来对非 null 值执行一段代码.
-如果要对可为 null 的对象进行操作, 请使用 null 值安全的调用操作符 `?.`, 然后再通过 `let` 函数, 在 Lambda 表达式内执行这段操作.
+如果要对可为 null 的对象进行操作, 请使用 [null 值安全的调用操作符 `?.`](null-safety.html#safe-calls),
+然后再通过 `let` 函数, 在 Lambda 表达式内执行这段操作.
 
 <div class="sample" markdown="1" theme="idea">
 
@@ -372,7 +415,8 @@ fun main() {
 </div>
 
 `let` 函数的另一个使用场景是, 在一个比较小的作用域内引入局部变量, 以便提高代码的可读性.
-为了对上下文对象定义一个新的变量, 请将变量名作为 Lambda 表达式的参数, 然后就可以在 Lambda 表达式使用这个参数名, 而不是默认名称 `it`.
+为了对上下文对象定义一个新的变量, 请将变量名作为 Lambda 表达式的参数,
+然后就可以在 Lambda 表达式使用这个参数名, 而不是默认名称 `it`.
 
 <div class="sample" markdown="1" theme="idea">
 
@@ -383,7 +427,7 @@ fun main() {
     val modifiedFirstItem = numbers.first().let { firstItem ->
         println("The first item of the list is '$firstItem'")
         if (firstItem.length >= 5) firstItem else "!" + firstItem + "!"
-    }.toUpperCase()
+    }.uppercase()
     println("First item after modifications: '$modifiedFirstItem'")
 //sampleEnd
 }
@@ -391,9 +435,10 @@ fun main() {
 
 </div>
 
-### `with` 函数
+### with 函数
 
-这是一个非扩展函数: **上下文对象** 作为参数传递, 但在 Lambda 表达式内部, 它是一个接受者 (`this`). **返回值** 是 Lambda 表达式的结果值.
+这是一个非扩展函数: **上下文对象** 作为参数传递, 但在 Lambda 表达式内部, 它是一个接受者 (`this`).
+**返回值** 是 Lambda 表达式的结果值.
 
 我们推荐使用 `with` 函数, 用来在上下文对象上调用函数, 而不返回 Lambda 表达式结果值.
 在源代码中, `with` 可以被理解为 “_使用这个对象, 进行以下操作._”
@@ -433,7 +478,7 @@ fun main() {
 
 </div>
 
-### `run` 函数
+### run 函数
 
 **上下文对象** 是接受者 (`this`). **返回值** 是 Lambda 表达式的结果值.
 
@@ -487,7 +532,7 @@ fun main() {
         Regex("[$sign]?[$digits$hexDigits]+")
     }
 
-    for (match in hexNumberRegex.findAll("+1234 -FFFF not-a-number")) {
+    for (match in hexNumberRegex.findAll("+123 -FFFF !%*& 88 XYZ")) {
         println(match.value)
     }
 //sampleEnd
@@ -496,12 +541,13 @@ fun main() {
 
 </div>
 
-### `apply` 函数
+### apply 函数
 
 **上下文对象** 是接受者(`this`). **返回值** 是对象本身.
 
 如果代码段没有返回值, 并且主要操作接受者对象的成员, 那么适合使用 `apply` 函数.
-`apply` 函数的常见使用场景是对象配置. 这样的代码调用可以理解为 “_将以下赋值操作应用于这个对象._”
+`apply` 函数的常见使用场景是对象配置.
+这样的代码调用可以理解为 “_将以下赋值操作应用于这个对象._”
 
 <div class="sample" markdown="1" theme="idea">
 
@@ -523,7 +569,7 @@ fun main() {
 
 由于返回值是接受者, 因此你可以很容易地将 `apply` 函数用作链式调用的一部分, 用来实现复杂的处理.
 
-### `also` 函数
+### also 函数
 
 **上下文对象** 是 Lambda 表达式的参数 (`it`). **返回值** 是对象本身.
 
@@ -548,35 +594,7 @@ fun main() {
 
 </div>
 
-## 选择作用域函数
-
-为了帮助你选择适合需要的作用域函数, 我们整理了这些函数之间关键区别的比较表格.
-
-|函数|上下文对象的引用方式|返回值|是否扩展函数|
-|---|---|---|---|
-|`let`|`it`|Lambda 表达式的结果值|是|
-|`run`|`this`|Lambda 表达式的结果值|是|
-|`run`|-|Lambda 表达式的结果值|不是: 不使用上下文对象来调用|
-|`with`|`this`|Lambda 表达式的结果值|不是: 上下文对象作为参数传递.|
-|`apply`|`this`|上下文对象本身|是|
-|`also`|`it`|上下文对象本身|是|
-
-下面是根据你的需求来选择作用域函数的简短指南:
-
-* 在非 null 对象上执行 Lambda 表达式: `let`
-* 在一个局部作用域内引入变量: `let`
-* 对一个对象的属性进行设置: `apply`
-* 对一个对象的属性进行设置, 并计算结果值: `run`
-* 在需要表达式的地方执行多条语句: 非扩展函数形式的 `run`
-* 对一个对象进行一些附加处理: `also`
-* 对一个对象进行一组函数调用: `with`
-
-不同的函数的使用场景是有重叠的, 因此你可以根据你的项目或你的开发组所使用的编码规约来进行选择.
-
-尽管作用域函数可以使得代码变得更简洁, 但也要注意不要过度使用: 可能会降低你的代码的可读性, 造成错误.
-不要在作用域函数内部再嵌套作用域函数, 对作用域函数的链式调用要特别小心: 很容易导致开发者错误理解当前的上下文对象, 以及 `this` 或 `it` 的值.
-
-## `takeIf` 函数和 `takeUnless` 函数
+## takeIf 函数和 takeUnless 函数
 
 除作用域函数外, 标准库还提供了 `takeIf` 函数和 `takeUnless` 函数.
 这些函数允许你在链式调用中加入对象的状态检查.
@@ -613,8 +631,8 @@ fun main() {
 fun main() {
 //sampleStart
     val str = "Hello"
-    val caps = str.takeIf { it.isNotEmpty() }?.toUpperCase()
-   //val caps = str.takeIf { it.isNotEmpty() }.toUpperCase() // 这里会出现编译错误
+    val caps = str.takeIf { it.isNotEmpty() }?.uppercase()
+   //val caps = str.takeIf { it.isNotEmpty() }.uppercase() // 这里会出现编译错误
     println(caps)
 //sampleEnd
 }

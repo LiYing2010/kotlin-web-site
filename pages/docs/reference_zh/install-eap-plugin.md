@@ -1,0 +1,39 @@
+---
+type: doc
+layout: reference
+category:
+title: "安装 Kotlin EAP Plugin"
+---
+
+# 在 IntelliJ IDEA 和 Android Studio 中安装 EAP Plugin 
+
+<microformat>
+    <p>最新的 Kotlin EAP 版本: <strong>{{ site.data.releases.kotlinEapVersion }}</strong></p>
+    <p><a href="eap.html#build-details">查看 Kotlin EAP 版</a></p>
+</microformat>
+
+按照以下步骤来安装 [IntelliJ IDEA 和 Android Studio 的 Kotlin Plugin 预览版](eap.html#build-details).
+
+1. 选择 **Tools** \| **Kotlin** \| **Configure Kotlin Plugin Updates**. 
+
+   <img src="/assets/docs/images/eap/idea-kotlin-plugin-updates.png" alt="选择 Kotlin Plugin 更新" width="600"/>
+    
+3. 在 **Update channel** 列表中, 选择 **Early Access Preview *X*** 频道, 其中 *X* 是 Kotlin 最新版本.
+
+    <img src="/assets/docs/images/eap/idea-kotlin-update-channel.png" alt="选择 EAP 更新频道" width="500"/>
+
+4. 点击 **Check again**. 会出现最新的 EAP 版本.
+
+    <img src="/assets/docs/images/eap/idea-latest-kotlin-eap.png" alt="安装 EAP 版" width="500"/>
+
+5. 点击 **Install**. 
+
+如果你希望在 EAP 版安装之前已创建的项目中使用 EAP 版, 你需要 [为 EAP 版配置你的构建](configure-build-for-eap.html). 
+
+## 如果你遇到任何问题
+
+* 到 [我们的问题追踪系统, YouTrack](https://kotl.in/issue) 报告问题.
+* 到 [Kotlin Slack 的 #eap 频道](https://app.slack.com/client/T09229ZC6/C0KLZSCHF) 寻求帮助
+  ([获得邀请](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up)).
+* 回退到最新的稳定版: 在菜单 **Tools | Kotlin | Configure Kotlin Plugin Updates** 中,
+  选择 **Stable** 更新频道, 然后点击 **Install**.

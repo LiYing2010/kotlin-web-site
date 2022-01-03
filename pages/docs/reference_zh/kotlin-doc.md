@@ -2,10 +2,12 @@
 type: doc
 layout: reference
 category: "Tools"
-title: "为 Kotlin 代码编写文档"
+title: "为 Kotlin 代码编写文档: KDoc 与 Dokka"
 ---
 
-# 为 Kotlin 代码编写文档
+# 为 Kotlin 代码编写文档: KDoc 与 Dokka
+
+本页面最终更新: 2021/06/03
 
 为 Kotlin 代码编写文档使用的语言 (相当于 Java 中的 JavaDoc) 称为 **KDoc**.
 本质上, KDoc 结合了 JavaDoc 和 Markdown, 它在块标签(block tag)使用 JavaDoc 语法(但做了扩展, 以便支持 Kotlin 特有的概念),
@@ -30,7 +32,6 @@ Dokka 有 plugin 可用于 Gradle, Maven 以及 Ant 构建环境, 因此你可�
 
 下面的例子是使用 KDoc 对一个类标注的文档:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```kotlin
 /**
  * 由多个 *成员* 构成的一个组.
@@ -49,13 +50,12 @@ class Group<T>(val name: String) {
     fun add(member: T): Int { ... }
 }
 ```
-</div>
 
-## 块标签(Block Tag)
+### 块标签(Block Tag)
 
 KDoc 目前支持以下块标签:
 
-#### `@param <name>`
+### @param _name_
 
 对一个函数的参数, 或一个类, 属性, 或函数的类型参数标注文档.
 如果你希望的话, 为了更好地区分参数名与描述文本, 可以将参数名放在方括号内.
@@ -66,46 +66,46 @@ KDoc 目前支持以下块标签:
 @param[name] 描述.
 ```
 
-#### `@return`
+### @return
 
 对函数的返回值标注文档.
 
-#### `@constructor`
+### @constructor
 
 对类的主构造器(primary constructor)标注文档.
 
-#### `@receiver`
+### @receiver
 
 对扩展函数的接受者(receiver)标注文档.
 
-#### `@property <name>`
+### @property _name_
 
 对类中指定名称的属性标注文档. 这个标签可以用来标注主构造器中定义的属性,
 如果将文档放在主构造器的属性声明之前会很笨拙, 因此可以使用标签来对指定的属性标注文档.
 
-#### `@throws <class>`, `@exception <class>`
+### @throws _class_, @exception _class_
 
 对一个方法可能抛出的异常标注文档.
 由于 Kotlin 中不存在受控异常(checked exception), 因此也并不要求对所有的异常标注文档,
 但如果异常信息对类的使用者很有帮助的话, 你可以使用这个标签来标注异常信息.
 
-#### `@sample <identifier>`
+### @sample _identifier_
 
 为了演示对象元素的使用方法, 可以使用这个标签将指定名称的函数体嵌入到文档内.
 
-#### `@see <identifier>`
+### @see _identifier_
 
-这个标签会在文档的 **See Also** 部分, 添加一个指向某个类或方法的链接.
+这个标签会在文档的 **See also** 部分, 添加一个指向某个类或方法的链接.
 
-#### `@author`
+### @author
 
 标识对象元素的作者.
 
-#### `@since`
+### @since
 
 标识对象元素最初引入这个软件时的版本号.
 
-#### `@suppress`
+### @suppress
 
 将对象元素排除在文档之外. 有些元素, 不属于模块的正式 API 的一部分,
 但站在代码的角度又需要被外界访问, 对这样的元素可以使用这个标签.
@@ -116,8 +116,9 @@ KDoc 目前支持以下块标签:
 
 ## 内联标记(Inline Markup)
 
-对于内联标记(inline markup), KDoc 使用通常的 [Markdown](http://daringfireball.net/projects/markdown/syntax) 语法,
-但添加了一种缩写语法来生成指向代码内其他元素的链接.
+对于内联标记(inline markup), KDoc 使用通常的
+[Markdown](https://daringfireball.net/projects/markdown/syntax)
+语法, 但添加了一种缩写语法来生成指向代码内其他元素的链接.
 
 ### 指向元素的链接
 
@@ -148,7 +149,6 @@ KDoc 目前支持以下块标签:
 由于 Kotlin 的文档生成工具会将所有重载函数的文档放在同一个页面之内,
 因此不必明确指定某一个具体的重载函数, 链接也可以正常工作.
 
-
 ## 模块与包的文档
 
 针对模块整体的文档, 以及针对模块内包的文档, 通过单独的 Markdown 文件的形式提供,
@@ -156,11 +156,12 @@ KDoc 目前支持以下块标签:
 或者使用 Ant, Maven 以及 Gradle plugin 中的对应参数来指定.
 
 在 Markdown 文件内, 针对模块整体的文档, 以及针对各个包的文档, 分别使用各自的顶级标题来指定.
-对于模块, 标题文字必须是 "Module `<模块名>`", 对于包, 必须是 "Package `<包的完整限定名>`".
+对于模块, 标题文字必须是 **Module `<module name>`**,
+对于包, 必须是 **Package `<package qualified name>`**.
 
 下面是一个 Markdown 文件内容的示例:
 
-```
+```text
 # Module kotlin-demo
 
 本模块演示 Dokka 语法的使用方法.

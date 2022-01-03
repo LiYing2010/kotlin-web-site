@@ -7,9 +7,9 @@ title: "嵌套类与内部类"
 
 # 嵌套类(Nested Class)与内部类(Inner Class)
 
-类可以嵌套在另一个类之内:
+本页面最终更新: 2021/02/11
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
+类可以嵌套在另一个类之内:
 
 ```kotlin
 class Outer {
@@ -22,11 +22,7 @@ class Outer {
 val demo = Outer.Nested().foo() // == 2
 ```
 
-</div>
-
 你也可以对接口进行嵌套. 类和接口的所有组合都是允许的: 可以在类中嵌套接口, 在接口中嵌套类, 以及在接口中嵌套接口.
-
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
 
 ```kotlin
 interface OuterInterface {
@@ -40,13 +36,9 @@ class OuterClass {
 }
 ```
 
-</div>
-
 ## 内部类(Inner class)
 
-嵌套类可以使用 *inner*{: .keyword } 关键字来标记, 然后就可以访问它的外部类(outer class)的成员. 内部类会保存一个引用, 指向外部类的对象实例:
-
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
+嵌套类可以使用 `inner` 关键字来标记, 然后就可以访问它的外部类(outer class)的成员. 内部类会保存一个引用, 指向外部类的对象实例:
 
 ```kotlin
 class Outer {
@@ -59,15 +51,11 @@ class Outer {
 val demo = Outer().Inner().foo() // == 1
 ```
 
-</div>
-
-在内部类中使用 *this*{: .keyword } 关键字会产生歧义, 关于如何消除这种歧义, 请参见 [带限定符的 *this*{: .keyword } 表达式](this-expressions.html).
+在内部类中使用 `this` 关键字会产生歧义, 关于如何消除这种歧义, 请参见 [带限定符的 `this` 表达式](this-expressions.html).
 
 ## 匿名内部类(Anonymous inner class)
 
 匿名内部类的实例使用 [对象表达式(object expression)](object-declarations.html#object-expressions) 来创建:
-
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
 
 ```kotlin
 window.addMouseListener(object : MouseAdapter() {
@@ -78,15 +66,10 @@ window.addMouseListener(object : MouseAdapter() {
 })
 ```
 
-</div>
-
-_注意_: 对于 JVM 平台, 如果这个对象是一个 Java 函数式接口的实例(也就是, 只包含唯一一个抽象方法的 Java 接口),
-那么你可以使用带接口类型前缀的 Lambda 表达式来创建这个对象:
-
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-
-```kotlin
-val listener = ActionListener { println("clicked") }
-```
-
-</div>
+> 对于 JVM 平台, 如果这个对象是一个 Java 函数式接口的实例(也就是, 只包含唯一一个抽象方法的 Java 接口),
+> 那么你可以使用带接口类型前缀的 Lambda 表达式来创建这个对象:
+>
+>```kotlin
+> val listener = ActionListener { println("clicked") }
+> ```
+{:.note}

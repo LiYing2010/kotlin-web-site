@@ -142,7 +142,7 @@ public abstract class SequenceBuilder<in T> { ... }
 
 协程的设计仍然处于 [试验阶段](compatibility.html#experimental-features), 也就是说在 Kotlin 发布后续的版本中可能会有变化. 在 Kotlin 1.1+ 中编译协程时, 默认会报告一条警告信息: *"协程" 特性还处于试验阶段*. 你可以使用 [编译参数](/docs/diagnostics/experimental-coroutines.html) 来去掉这条警告.
 
-由于写成还处于试验阶段, 标准库中与协程相关的 API 被放在 `kotlin.coroutines.experimental` 包下. 当设计最终确定, 试验阶段结束时, 最终的 API 将被移动到 `kotlin.coroutines` 包下, 而 `kotlin.coroutines.experimental` 包仍会被保留(可能在一个单独的 artifact 文件内) 以便保证向后兼容性.
+由于协程还处于试验阶段, 标准库中与协程相关的 API 被放在 `kotlin.coroutines.experimental` 包下. 当设计最终确定, 试验阶段结束时, 最终的 API 将被移动到 `kotlin.coroutines` 包下, 而 `kotlin.coroutines.experimental` 包仍会被保留(可能在一个单独的 artifact 文件内) 以便保证向后兼容性.
 
 **重要注意事项**: 我们建议库的作者遵循以下惯例: 如果你的包向外公布基于协程的 API, 请为包名称添加 "experimental" 后缀 (比如 `com.example.experimental`), 以便保证你的库的二进制兼容性. 当最终的 API 发布后, 请遵循以下步骤:
  * 将所有的 API 复制到 `com.example` (不含 "experimental" 后缀) 包下,
