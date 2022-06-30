@@ -4,7 +4,11 @@ You can find the API definition in the [KSP GitHub repository](https://github.co
 The diagram shows an overview of how Kotlin is [modeled](https://github.com/google/ksp/tree/main/api/src/main/kotlin/com/google/devtools/ksp/symbol/)
 in KSP:
 
-![class diagram](ksp-class-diagram.svg)
+![class diagram](ksp-class-diagram.svg){thumbnail="true" width="800" thumbnail-same-file="true"}
+
+> [See the full-sized diagram](https://kotlinlang.org/docs/images/ksp-class-diagram.svg).
+>
+{type="note"}
 
 ## Type and resolution
 
@@ -38,7 +42,8 @@ If the original declaration referenced by a `KSTypeReference` is needed, it can 
 looks like this:
 
 ```kotlin
-KSTypeReference -> .resolve() -> KSType -> .declaration -> KSDeclaration
+val ksType: KSType = ksTypeReference.resolve()
+val ksDeclaration: KSDeclaration = ksType.declaration
 ```
 
 Type resolution is costly and therefore has explicit form. Some of the information obtained from resolution is already

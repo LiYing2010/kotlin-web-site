@@ -116,7 +116,7 @@ Or using the Gradle plugins DSL:
 
 ```groovy
 plugins {
-  id "org.jetbrains.kotlin.plugin.spring" version "%kotlinVersion%"
+  id "org.jetbrains.kotlin.plugin.spring" version "%kotlinSpringPluginVersion%"
 }
 ```
 
@@ -166,7 +166,7 @@ by providing the path to its JAR file using the `Xplugin` kotlinc option:
 ```
 
 You can specify all-open annotations directly, using the `annotation` plugin option, or enable the "preset".
-The only preset available now for all-open is `spring`.
+The presets available now for all-open are `spring`, `micronaut`, and `quarkus`.
 
 ```bash
 # The plugin option format is: "-P plugin:<plugin id>:<key>=<value>". 

@@ -151,23 +151,28 @@ class HelloFunctionFinderProcessor : SymbolProcessor() {
 * [Reference for Java annotation processor authors](ksp-reference.md)
 * [Incremental processing notes](ksp-incremental.md)
 * [Multiple round processing notes](ksp-multi-round.md)
+* [KSP on multiplatform projects](ksp-multiplatform.md)
+* [Running KSP from command line](ksp-command-line.md)
 * [FAQ](ksp-faq.md)
 
 ## Supported libraries
 
-The table below includes a list of popular libraries on Android and their various stages of support for KSP. If your library is missing, please feel free to submit a pull request.
+The table below includes a list of popular libraries on Android and their various stages of support for KSP.
 
 |Library|Status|Tracking issue for KSP|
 |---|---|---|
-|Room|[Experimentally supported](https://developer.android.com/jetpack/androidx/releases/room#2.3.0-beta02)|   |
+|Room|[Officially supported](https://developer.android.com/jetpack/androidx/releases/room#2.3.0-beta02)|   |
 |Moshi|[Officially supported](https://github.com/square/moshi/)|   |
 |RxHttp|[Officially supported](https://github.com/liujingxing/rxhttp)|   |
 |Kotshi|[Officially supported](https://github.com/ansman/kotshi)|   |
 |Lyricist|[Officially supported](https://github.com/adrielcafe/lyricist)|   |
 |Lich SavedState|[Officially supported](https://github.com/line/lich/tree/master/savedstate)|   |
 |gRPC Dekorator|[Officially supported](https://github.com/mottljan/grpc-dekorator)|   |
+|EasyAdapter|[Officially supported](https://github.com/AmrDeveloper/EasyAdapter)|   |
+|Koin Annotations|[Officially supported](https://github.com/InsertKoinIO/koin-annotations)|   |
 |Auto Factory|Not yet supported|[Link](https://github.com/google/auto/issues/982)|
 |Dagger|Not yet supported|[Link](https://github.com/google/dagger/issues/2349)|
 |Hilt|Not yet supported|[Link](https://issuetracker.google.com/179057202)|
 |Glide|Not yet supported|[Link](https://github.com/bumptech/glide/issues/4492)|
 |DeeplinkDispatch|[Supported via airbnb/DeepLinkDispatch#323](https://github.com/airbnb/DeepLinkDispatch/pull/323)| |
+|Micronaut|In Progress|[Link](https://github.com/micronaut-projects/micronaut-core/issues/6781)|

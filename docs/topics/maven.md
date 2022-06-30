@@ -31,7 +31,7 @@ If you're targeting JDK 7 or JDK 8, you can use extended versions of the Kotlin 
 additional extension functions for APIs added in new JDK versions. Instead of `kotlin-stdlib`, use `kotlin-stdlib-jdk7`
 or `kotlin-stdlib-jdk8`, depending on your JDK version. 
 
->For Kotlin versions older that  1.2, use `kotlin-stdlib-jre7` and `kotlin-stdlib-jre8`.
+>For Kotlin versions older than 1.2, use `kotlin-stdlib-jre7` and `kotlin-stdlib-jre8`.
 >
 {type="note"} 
 
@@ -267,8 +267,8 @@ The following attributes are supported:
 | Name | Property name | Description | Possible values |Default value |
 |------|---------------|-------------|-----------------|--------------|
 | `nowarn` | | Generate no warnings | true, false | false |
-| `languageVersion` | kotlin.compiler.languageVersion | Provide source compatibility with the specified version of Kotlin | "1.4" (DEPRECATED), "1.5", "1.6", "1.7" (EXPERIMENTAL) | 
-| `apiVersion` | kotlin.compiler.apiVersion | Allow using declarations only from the specified version of bundled libraries | "1.3" (DEPRECATED), "1.4" (DEPRECATED), "1.5", "1.6", "1.7" (EXPERIMENTAL) | 
+| `languageVersion` | kotlin.compiler.languageVersion | Provide source compatibility with the specified version of Kotlin | "1.4" (DEPRECATED), "1.5", "1.6", "1.7" | 
+| `apiVersion` | kotlin.compiler.apiVersion | Allow using declarations only from the specified version of bundled libraries | "1.3" (DEPRECATED), "1.4" (DEPRECATED), "1.5", "1.6", "1.7" | 
 | `sourceDirs` | | The directories containing the source files to compile | | The project source roots
 | `compilerPlugins` | | Enabled compiler plugins  | | []
 | `pluginOptions` | | Options for compiler plugins  | | []
@@ -278,7 +278,7 @@ The following attributes are supported:
 
 | Name | Property name | Description | Possible values |Default value |
 |------|---------------|-------------|-----------------|--------------|
-| `jvmTarget` | `kotlin.compiler.jvmTarget` | Target version of the generated JVM bytecode | "1.6" (DEPRECATED), "1.8", "9", "10", "11", "12", "13", "14", "15", "16", "17" | "%defaultJvmTargetVersion%" |
+| `jvmTarget` | `kotlin.compiler.jvmTarget` | Target version of the generated JVM bytecode | "1.8", "9", "10", ..., "18" | "%defaultJvmTargetVersion%" |
 | `jdkHome` | `kotlin.compiler.jdkHome` |  	Include a custom JDK from the specified location into the classpath instead of the default JAVA_HOME | | |
 
 ### Attributes specific to JS
@@ -294,11 +294,11 @@ The following attributes are supported:
 
 ## Generating documentation
 
-The standard JavaDoc generation plugin (`maven-javadoc-plugin`) does not support Kotlin code.
+The standard Javadoc generation plugin (`maven-javadoc-plugin`) does not support Kotlin code.
 To generate documentation for Kotlin projects, use [Dokka](https://github.com/Kotlin/dokka);
 please refer to the [Dokka README](https://github.com/Kotlin/dokka/blob/master/README.md#using-the-maven-plugin)
 for configuration instructions. Dokka supports mixed-language projects and can generate output in multiple
-formats, including standard JavaDoc.
+formats, including standard Javadoc.
 
 ## OSGi
 

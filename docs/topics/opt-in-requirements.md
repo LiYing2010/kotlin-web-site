@@ -1,15 +1,5 @@
 [//]: # (title: Opt-in requirements)
 
-> The opt-in requirement annotations `@RequiresOptIn` and `@OptIn` are [Experimental](components-stability.md). 
-> They may be dropped or changed at any time. Opt-in is required (see details below).
-> Use them only for evaluation purposes. We appreciate your feedback on it in [YouTrack](https://youtrack.jetbrains.com/issues/KT).
->
-{type="warning"}
-
-> The `-opt-in` compiler option is available since Kotlin 1.6.0. For earlier Kotlin versions, use `-Xopt-in`.
->
-{type="note"} 
-
 The Kotlin standard library provides a mechanism for requiring and giving explicit consent for using certain elements of APIs.
 This mechanism lets library developers inform users of their APIs about specific conditions that require opt-in,
 for example, if an API is in the experimental state and is likely to change in the future. 
@@ -296,17 +286,3 @@ and provide the explanation in the deprecation message.
 @RequiresOptIn
 annotation class ExperimentalDateTime
 ```
-
-## Experimental status of the opt-in requirements
-
-The opt-in requirement mechanism is currently [experimental](components-stability.md).
-This means that in future releases it may be changed in ways that make it incompatible.
-
-To make the users of annotations `@OptIn` and `@RequiresOptIn` aware of their experimental status,
-the compiler raises warnings when compiling the code with these annotations:
-
-```This class can only be used with the compiler argument '-opt-in=kotlin.RequiresOptIn'```
-
-To remove the warnings, add the compiler argument `-opt-in=kotlin.RequiresOptIn`.
-
-Learn more about recent changes to opt-in requirements in [this KEEP](https://github.com/Kotlin/KEEP/blob/d7287626dd4c40c6c89877e266044b83fca38bcd/proposals/opt-in.md).

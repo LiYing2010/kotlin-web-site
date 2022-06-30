@@ -1,16 +1,13 @@
 import React from "react";
 
-import YoutubePlayer from '@jetbrains/kotlin-web-site-ui/dist/youtubePlayer';
+import '@jetbrains/kotlin-web-site-ui/out/components/typography';
+import '@jetbrains/kotlin-web-site-ui/out/components/grid';
+import YoutubePlayer from '@jetbrains/kotlin-web-site-ui/out/components/youtube-player';
 
 import {TeachCtaBlock} from "./components/teach-cta-block";
 import {TeachTopMenu} from "./components/teach-top-menu";
 import {TeachNumbers} from "./components/teach-numbers";
 import {TeachQuotes} from "./components/teach-quotes";
-
-import '@jetbrains/kotlin-web-site-ui/dist/topMenu.css';
-import '@jetbrains/kotlin-web-site-ui/dist/typography.css';
-import '@jetbrains/kotlin-web-site-ui/dist/grid.css';
-import '@jetbrains/kotlin-web-site-ui/dist/youtubePlayer.css';
 
 import '@rescui/typography';
 
@@ -113,13 +110,15 @@ const Teach = (props) => {
         </div>
       </section>
 
-      <section className="teach-universities ktl-offset-top-xxl">
+      <section className="teach-universities ktl-offset-top-xxl ktl-with-anchor" id="kotlin-courses-around-the-world">
         <div className="ktl-container">
           <div className="teach-universities__top">
             <div className="universities-top">
               <div className="universities-top__title">
                 <h2 className="ktl-h1">
-                  Kotlin Courses Around the World
+                  <a href="#kotlin-courses-around-the-world" className="kto-anchor-link kto-anchor-link--small">
+                    Kotlin Courses Around the World
+                  </a>
                 </h2>
 
                 <p className="ktl-text-1 ktl-offset-top-l">
@@ -184,13 +183,15 @@ const Teach = (props) => {
       </section>
 
 
-      <section className="teach-resources ktl-offset-top-xxl">
+      <section className="teach-resources ktl-offset-top-xxl ktl-with-anchor" id="start-teaching-kotlin">
         <div className="ktl-container">
           <div className="teach-resources__top ktl-offset-bottom-xl">
             <img className="teach-resources__top-image"
                  src="/assets/images/ktl-component/teach/icons/education-main.png" alt="Kotlin resources"/>
             <h2 className="ktl-h1">
-              Start Teaching Kotlin<br/> with These Resources
+              <a href="#start-teaching-kotlin" className="kto-anchor-link kto-anchor-link--small">
+                Start Teaching Kotlin<br/> with These Resources
+              </a>
             </h2>
           </div>
           <ul className="teach-links">
@@ -213,7 +214,7 @@ const Teach = (props) => {
                   </a>
                 </li>
                 <li className="teach-list__item">
-                  <a href="https://hyperskill.org/tracks/18" target="_blank" rel="noopener">
+                  <a href="https://hyperskill.org/join/fromeducationtoJetSalesStat?redirect=true&next=/tracks/18" target="_blank" rel="noopener">
                     <span className="rs-link">Kotlin Basics track on JetBrains Academy</span>
                     <span>↗</span>
                   </a>

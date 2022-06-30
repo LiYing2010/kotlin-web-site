@@ -1,5 +1,10 @@
 [//]: # (title: Gradle)
 
+<microformat>
+    <p>Minimum supported Gradle version: <strong>%minGradleVersion%</strong></p>
+    <p>Minimum supported Android Gradle plugin version: <strong>%minAndroidGradleVersion%</strong></p>
+</microformat>
+
 In order to build a Kotlin project with Gradle, you should [apply the Kotlin Gradle plugin to your project](#plugin-and-versions)
 and [configure the dependencies](#configuring-dependencies).
 
@@ -34,8 +39,8 @@ The placeholder `<...>` should be replaced with the name of one of the plugins t
 
 ## Targeting multiple platforms
 
-Projects targeting [multiple platforms](mpp-supported-platforms.md), called [multiplatform projects](mpp-intro.md),
-require the `kotlin-multiplatform` plugin. [Learn more about the plugin](mpp-discover-project.md#multiplatform-plugin).
+Projects targeting [multiple platforms](multiplatform-dsl-reference.md#targets), called [multiplatform projects](multiplatform-get-started.md),
+require the `kotlin-multiplatform` plugin. [Learn more about the plugin](multiplatform-discover-project.md#multiplatform-plugin).
 
 >The `kotlin-multiplatform` plugin works with Gradle %minGradleVersion% or later.
 >
@@ -157,9 +162,8 @@ Control the behavior of this check by setting the `kotlin.jvm.target.validation.
 ### Set custom JDK home
 
 By default, Kotlin compile tasks use the current Gradle JDK. 
-If you need to change the JDK by some reason, you can set the JDK home in the following ways:
-* For Gradle 6.7 and later – with [Java toolchains](#gradle-java-toolchains-support) or the [Task DSL](#setting-jdk-version-with-the-task-dsl) to set a local JDK.
-* For earlier Gradle versions without Java toolchains (up to 6.6) – with the [`UsesKotlinJavaToolchain` interface and the Task DSL](#setting-jdk-version-with-the-task-dsl).
+If you need to change the JDK by some reason, you can set the JDK home with [Java toolchains](#gradle-java-toolchains-support) 
+or the [Task DSL](#setting-jdk-version-with-the-task-dsl) to set a local JDK.
 
 > The `jdkHome` compiler option is deprecated since Kotlin 1.5.30.
 >
@@ -181,7 +185,7 @@ Now Gradle itself can run on any JDK and still reuse the [remote build cache fea
 for tasks that depend on a major JDK version.
 
 The Kotlin Gradle plugin supports Java toolchains for Kotlin/JVM compilation tasks. JS and Native tasks don't use toolchains.
-The Kotlin compiler always uses the JDK the Gradle daemon is running on.
+The Kotlin compiler always runs on the JDK the Gradle daemon is running on.
 A Java toolchain:
 * Sets the [`jdkHome` option](#attributes-specific-to-jvm) available for JVM targets.
 * Sets the [`kotlinOptions.jvmTarget`](#attributes-specific-to-jvm) to the toolchain's JDK version
@@ -198,11 +202,10 @@ Use the following code to set a toolchain. Replace the placeholder `<MAJOR_JDK_V
 ```kotlin
 kotlin {
     jvmToolchain {
-        (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>)) // "8" 
+        languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>)) // "8" 
     }
 }
 ```
-
 
 </tab>
 <tab title="Groovy" group-key="groovy">
@@ -220,22 +223,17 @@ kotlin {
 
 Note that setting a toolchain via the `kotlin` extension will update the toolchain for Java compile tasks as well.
 
-You can set a toolchain via the `java` extension, and Kotlin compilation tasks will use it:
-
-```kotlin
-java {
-    toolchain {
-      languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>)) // "8" 
-    }
-}
-```
+> To understand which toolchain Gradle uses, run your Gradle build with the [log level `--info`](https://docs.gradle.org/current/userguide/logging.html#sec:choosing_a_log_level)
+> and find a string in the output starting with `[KOTLIN] Kotlin compilation 'jdkHome' argument:`.
+> The part after the colon will be the JDK version from the toolchain.
+>
+{type="note"}
 
 To set any JDK (even local) for the specific task, use the Task DSL.
 
 ### Setting JDK version with the Task DSL
 
-If you use the a Gradle version earlier than 6.7, there is no [Java toolchains support](#gradle-java-toolchains-support). 
-You can use the Task DSL that allows setting any JDK version for any task implementing the `UsesKotlinJavaToolchain` interface.
+The Task DSL allows setting any JDK version for any task implementing the `UsesKotlinJavaToolchain` interface.
 At the moment, these tasks are `KotlinCompile` and `KaptTask`.
 If you want Gradle to search for the major JDK version, replace the `<MAJOR_JDK_VERSION>` placeholder in your build script:
 
@@ -492,7 +490,7 @@ You can choose JUnit 5 or TestNG by calling
 [`useJUnitPlatform()`]( https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/testing/Test.html#useJUnitPlatform)
 or [`useTestNG()`](https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/testing/Test.html#useTestNG) in the
 test task of your build script.
-The following example is for an MPP project:
+The following example is for a Kotlin Multiplatform project:
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
@@ -704,6 +702,37 @@ There are several ways to switch off incremental compilation:
 
 The first build is never incremental.
 
+> Sometimes problems with incremental compilation become visible several rounds after the failure occurs. Use [build reports](#build-reports)
+> to track the history of changes and compilations. Doing so may also help you provide reproducible bug reports.
+> 
+{type="tip"}
+
+### A new approach to incremental compilation
+
+> The new approach to incremental compilation is [Experimental](components-stability.md). It may be dropped or changed at any time.
+> Opt-in is required (see the details below). We encourage you to use it only for evaluation purposes, and we would
+> appreciate your feedback in [YouTrack](https://youtrack.jetbrains.com/issues/KT).
+>
+{type="warning"}
+
+The new approach to incremental compilation supports changes made inside dependent non-Kotlin modules, includes an improved
+compilation avoidance, and is compatible with the [Gradle build cache](#gradle-build-cache-support).
+
+All these advancements decrease the number of non-incremental builds, making the overall compilation time faster. The most
+significant benefit of the new approach is expected if you use the build cache or frequently make changes in non-Kotlin
+Gradle modules.
+
+To enable this new approach, set the following option in your `gradle.properties`:
+
+```properties
+kotlin.incremental.useClasspathSnapshot=true
+```
+
+> The new approach to incremental compilation is available since Kotlin 1.7.0 for the JVM backend in the Gradle
+> build system only.
+>
+{type="note"}
+
 ## Gradle build cache support
 
 The Kotlin plugin uses the [Gradle build cache](https://docs.gradle.org/current/userguide/build_cache.html), which stores
@@ -717,8 +746,13 @@ If you use [kapt](kapt.md), note that kapt annotation processing tasks are not c
 
 ## Gradle configuration cache support
 
-> The configuration cache is available in Gradle 6.5 and later as an experimental feature.
-> You can check the [Gradle releases page](https://gradle.org/releases/) to see whether it has been promoted to stable.
+> Gradle configuration cache support has some constraints:
+> * The configuration cache is available in Gradle 6.5 and later as an experimental feature.  
+>   You can check the [Gradle releases page](https://gradle.org/releases/) to see whether it has been promoted to stable.
+> * The feature is supported only by the following Gradle plugins:
+>   * `org.jetbrains.kotlin.jvm`
+>   * `org.jetbrains.kotlin.js`
+>   * `org.jetbrains.kotlin.android`
 >
 {type="note"}
 
@@ -728,6 +762,54 @@ which speeds up the build process by reusing the results of the configuration ph
 See the [Gradle documentation](https://docs.gradle.org/current/userguide/configuration_cache.html#config_cache:usage)
 to learn how to enable the configuration cache. After you enable this feature, the Kotlin Gradle plugin will automatically
 start using it.
+
+## Build reports
+
+> Build reports are [Experimental](components-stability.md). They may be dropped or changed at any time.
+> Opt-in is required (see details below). Use them only for evaluation purposes. We appreciate your feedback on them
+> in [YouTrack](https://youtrack.jetbrains.com/issues/KT).
+>
+{type="warning"}
+
+Build reports for tracking compiler performance are available for Kotlin 1.7.0. Reports contain the durations of different
+compilation phases and reasons why compilation couldn't be incremental.
+
+Use build reports to investigate performance issues, when the compilation time is too long or when it differs for the same
+project.
+
+To enable build reports, declare where to save the build report output in `gradle.properties`:
+
+```properties
+kotlin.build.report.output=file
+```
+
+The following values and their combinations are available for the output:
+
+| Option       | Description                                                                                                                                                                                                                                                                                                                                     |
+|--------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `file`       | Saves build reports in a local file                                                                                                                                                                                                                                                                                                             |
+| `build_scan` | Saves build reports in the `custom values` section of the [build scan](https://scans.gradle.com/). Note that the Gradle Enterprise plugin limits the number of custom values and their length. In big projects, some values could be lost                                                                                                       |                                                                                                                                                                                                                                                                                                                                                                                               |
+| `http`       | Posts build reports using HTTP(S). The POST method sends metrics in the JSON format. You can see the current version of the sent data in the [Kotlin repository](https://github.com/JetBrains/kotlin/blob/master/libraries/tools/kotlin-gradle-plugin/src/common/kotlin/org/jetbrains/kotlin/gradle/plugin/statistics/CompileStatisticsData.kt) |
+
+Here's the full list of available options for `kotlin.build.report`:
+
+```properties
+# Required outputs. Any combinations are allowed
+kotlin.build.report.output=file,http,build_scan
+
+# Optional. Output directory for file-based reports. Default: build/reports/kotlin-build/
+kotlin.build.report.file.output_dir=kotlin-reports
+
+# Mandatory if http output is used. Where to post HTTP(S)-based reports
+kotlin.build.report.http.url=http://127.0.0.1:8080
+
+# Optional. User and password if the HTTP endpoint requires authentication
+kotlin.build.report.http.user=someUser
+kotlin.build.report.http.password=somePassword
+
+# Optional. Label for marking your build report (e.g. debug parameters)
+kotlin.build.report.label=some_label
+```
 
 ## Compiler options
 
@@ -815,16 +897,16 @@ Here is a complete list of options for Gradle tasks:
 
 | Name | Description | Possible values |Default value |
 |------|-------------|-----------------|--------------|
-| `apiVersion` | Restrict the use of declarations to those from the specified version of bundled libraries | "1.3" (DEPRECATED), "1.4" (DEPRECATED), "1.5", "1.6", "1.7" (EXPERIMENTAL) |  |
-| `languageVersion` | Provide source compatibility with the specified version of Kotlin | "1.4" (DEPRECATED), "1.5", "1.6", "1.7" (EXPERIMENTAL) |  |
+| `apiVersion` | Restrict the use of declarations to those from the specified version of bundled libraries | "1.3" (DEPRECATED), "1.4" (DEPRECATED), "1.5", "1.6", "1.7" |  |
+| `languageVersion` | Provide source compatibility with the specified version of Kotlin | "1.4" (DEPRECATED), "1.5", "1.6", "1.7" |  |
 
 ### Attributes specific to JVM
 
 | Name | Description | Possible values |Default value |
 |------|-------------|-----------------|--------------|
 | `javaParameters` | Generate metadata for Java 1.8 reflection on method parameters |  | false |
-| `jdkHome` | Include a custom JDK from the specified location into the classpath instead of the default JAVA_HOME. Direct setting is deprecated sinсe 1.5.30, use [other ways to set this option](#set-custom-jdk-home).  |  |  |
-| `jvmTarget` | Target version of the generated JVM bytecode | "1.6" (DEPRECATED), "1.8", "9", "10", "11", "12", "13", "14", "15", "16", "17" | "%defaultJvmTargetVersion%" |
+| `jdkHome` | Include a custom JDK from the specified location into the classpath instead of the default JAVA_HOME. Direct setting is not possible, use [other ways to set this option](#set-custom-jdk-home).  |  |  |
+| `jvmTarget` | Target version of the generated JVM bytecode | "1.8", "9", "10", ..., "18" | "%defaultJvmTargetVersion%" |
 | `noJdk` | Don't automatically include the Java runtime into the classpath |  | false |
 | `useOldBackend` | Use the [old JVM backend](whatsnew15.md#stable-jvm-ir-backend) |  | false |
 
@@ -836,7 +918,6 @@ Here is a complete list of options for Gradle tasks:
 | `main` | Define whether the `main` function should be called upon execution | "call", "noCall" | "call" |
 | `metaInfo` | Generate .meta.js and .kjsm files with metadata. Use to create a library |  | true |
 | `moduleKind` | The kind of JS module generated by the compiler | "umd", "commonjs", "amd", "plain"  | "umd" |
-| `noStdlib` | Don't automatically include the default Kotlin/JS stdlib in compilation dependencies |  | true |
 | `outputFile` | Destination *.js file for the compilation result |  | "\<buildDir>/js/packages/\<project.name>/kotlin/\<project.name>.js" |
 | `sourceMap` | Generate source map |  | true |
 | `sourceMapEmbedSources` | Embed source files into the source map | "never", "always", "inlining" |  |
@@ -849,7 +930,7 @@ Here is a complete list of options for Gradle tasks:
 To generate documentation for Kotlin projects, use [Dokka](https://github.com/Kotlin/dokka);
 please refer to the [Dokka README](https://github.com/Kotlin/dokka/blob/master/README.md#using-the-gradle-plugin)
 for configuration instructions. Dokka supports mixed-language projects and can generate output in multiple
-formats, including standard JavaDoc.
+formats, including standard Javadoc.
 
 ## OSGi
 
@@ -880,19 +961,33 @@ Each of the options in the following list overrides the ones that came before it
 * If nothing is specified, the Kotlin daemon inherits arguments from the Gradle daemon.
   For example, in the `gradle.properties` file:
 
- ```properties
+  ```properties
   org.gradle.jvmargs=-Xmx1500m -Xms=500m
   ```
 
 * If the Gradle daemon's JVM arguments have the `kotlin.daemon.jvm.options` system property – use it in the `gradle.properties` file:
 
- ```properties
-  org.gradle.jvmargs=-Dkotlin.daemon.jvm.options=-Xmx1500m -Xms=500m
+  ```properties
+  org.gradle.jvmargs=-Dkotlin.daemon.jvm.options=-Xmx1500m,Xms=500m
   ```
 
-* You can add the`kotlin.daemon.jvmargs` property in the `gradle.properties` file:
+  When passing the arguments, follow these rules:
+  * Use the minus sign `-` before the arguments `Xmx`, `XX:MaxMetaspaceSize`, and `XX:ReservedCodeCacheSize` and don't use it before all other arguments.
+  * Separate arguments with commas (`,`) _without_ spaces. Arguments that come after a space will be used for the Gradle daemon, not for the Kotlin daemon.
 
- ```properties
+  > Gradle ignores these properties if all the following conditions are satisfied:
+  > * Gradle is using JDK 1.9 or higher.
+  > * The version of Gradle is between 7.0 and 7.1.1 inclusively.
+  > * Gradle is compiling Kotlin DSL scripts.
+  > * There is no running Kotlin daemon.
+  > 
+  > To overcome this, upgrade Gradle to the version 7.2 (or higher) or use the `kotlin.daemon.jvmargs` property – see the following item.
+  >
+  {type="warning"}
+
+* You can add the `kotlin.daemon.jvmargs` property in the `gradle.properties` file:
+
+  ```properties
   kotlin.daemon.jvmargs=-Xmx1500m -Xms=500m
   ```
 
@@ -946,7 +1041,7 @@ Each of the options in the following list overrides the ones that came before it
   >
   {type="note"}
 
-#### Kotlin daemon's behavior with JVM arguments
+### Kotlin daemon's behavior with JVM arguments
 
 When configuring the Kotlin daemon's JVM arguments, note that:
 
@@ -959,3 +1054,108 @@ When configuring the Kotlin daemon's JVM arguments, note that:
   >
   {type="note"}
 * If the `Xmx` is not specified, the Kotlin daemon will inherit it from the Gradle daemon.
+
+## Defining Kotlin compiler execution strategy
+
+_Kotlin compiler execution strategy_ defines where the Kotlin compiler is executed and if incremental compilation is supported in each case.
+
+There are three compiler execution strategies:
+
+| Strategy       | Where Kotlin compiler is executed          | Incremental compilation | Other characteristics and notes                                                                                                                                                                                                                                                |
+|----------------|--------------------------------------------|-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Daemon         | Inside its own daemon process              | Yes                     | *The default and the fastest strategy*. Can be shared between different Gradle daemons and multiple parallel compilations.                                                                                                                                                     |
+| In process     | Inside the Gradle daemon process           | No                      | May share the heap with the Gradle daemon. The "In process" execution strategy is _slower_ than the "Daemon" execution strategy. Each [worker](https://docs.gradle.org/current/userguide/worker_api.html) creates a separate Kotlin compiler classloader for each compilation. |
+| Out of process | In a separate process for each compilation | No                      | The slowest execution strategy. Similar to the "In process", but additionally creates a separate Java process within a Gradle worker for each compilation.                                                                                                                     |
+
+To define a Kotlin compiler execution strategy, you can use one of the following properties:
+* The `kotlin.compiler.execution.strategy` Gradle property.
+* The `compilerExecutionStrategy` compile task property.
+* The deprecated `-Dkotlin.compiler.execution.strategy` system property, which will be removed in future releases. 
+
+The priority of properties is the following:
+* The task property `compilerExecutionStrategy` takes priority over the system property and the Gradle property `kotlin.compiler.execution.strategy`.
+* The Gradle property takes priority over the system property.
+
+The available values for `kotlin.compiler.execution.strategy` properties (both system and Gradle's) are:
+1. `daemon` (default)
+2. `in-process`
+3. `ouf-of-process`
+
+Use the Gradle property `kotlin.compiler.execution.strategy` in `gradle.properties`:
+
+```properties
+kotlin.compiler.execution.strategy=out-of-process
+```
+
+The available values for the `compilerExecutionStrategy` task property are:
+1. `org.jetbrains.kotlin.gradle.tasks.KotlinCompilerExecutionStrategy.DAEMON` (default)
+2. `org.jetbrains.kotlin.gradle.tasks.KotlinCompilerExecutionStrategy.IN_PROCESS`
+3. `org.jetbrains.kotlin.gradle.tasks.KotlinCompilerExecutionStrategy.OUT_OF_PROCESS`
+
+Use the task property `compilerExecutionStrategy` in your buildscripts:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilerExecutionStrategy
+
+// ...
+
+tasks.withType<KotlinCompile>().configureEach {
+    compilerExecutionStrategy.set(KotlinCompilerExecutionStrategy.IN_PROCESS)
+} 
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilerExecutionStrategy
+
+// ...
+
+tasks.withType(KotlinCompile)
+    .configureEach {
+         compilerExecutionStrategy.set(KotlinCompilerExecutionStrategy.IN_PROCESS)
+    }
+```
+
+</tab>
+</tabs>
+
+## Triggering configuration actions with the KotlinBasePlugin interface
+
+To trigger some configuration action whenever any Kotlin Gradle plugin (JVM, JS, Multiplatform, Native, and others) is applied, 
+use the `KotlinBasePlugin` interface that all Kotlin plugins inherit from:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+import org.jetbrains.kotlin.gradle.plugin.KotlinBasePlugin
+
+// ...
+
+project.plugins.withType<KotlinBasePlugin>() {
+// Configure your action here
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+import org.jetbrains.kotlin.gradle.plugin.KotlinBasePlugin
+
+// ...
+
+project.plugins.withType(KotlinBasePlugin.class) {
+// Configure your action here
+}
+```
+
+</tab>
+</tabs>

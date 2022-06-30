@@ -521,7 +521,7 @@ The [Duration](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.time/-duratio
 duration amounts in different time units has been promoted to [Stable](components-stability.md). In 1.6.0, the Duration API has received the following changes:
 
 * The first component of the [`toComponents()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.time/-duration/to-components.html) function that decomposes the duration into days, hours, minutes, seconds, and nanoseconds now has the `Long` type instead of `Int`.
-  Веfore, if the value didn't fit into the `Int` range, it was coerced into that range. With the `Long` type, you can decompose any value in the duration range without cutting off the values that don't fit into `Int`.
+  Before, if the value didn't fit into the `Int` range, it was coerced into that range. With the `Long` type, you can decompose any value in the duration range without cutting off the values that don't fit into `Int`.
 
 * The `DurationUnit` enum is now standalone and not a type alias of `java.util.concurrent.TimeUnit` on the JVM.
   We haven't found any convincing cases in which having `typealias DurationUnit = TimeUnit` could be useful. Also, exposing the `TimeUnit` API through a type alias might confuse `DurationUnit` users.
@@ -678,7 +678,7 @@ multiple features and improvements:
 * Introduction of dispatcher _views_ API, which allows limiting parallelism without creating additional threads
 * Migrating from Java 6 to Java 8 target
 * `kotlinx-coroutines-test` with the new reworked API and multiplatform support
-* Introduction of [`CopyableThreadContextElement`](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-copyable-thread-context-element/index.html),
+* Introduction of [`CopyableThreadContextElement`](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-copyable-thread-context-element/index.html),
   which gives coroutines a thread-safe write access to [`ThreadLocal`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/ThreadLocal.html) variables
 
 Learn more in the [changelog](https://github.com/Kotlin/kotlinx.coroutines/releases/tag/1.6.0-RC).

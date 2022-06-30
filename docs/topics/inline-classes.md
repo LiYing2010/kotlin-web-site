@@ -88,7 +88,7 @@ fun main() {
 ```
 
 It is forbidden for inline classes to participate in a class hierarchy. This means that inline classes cannot extend 
-other classes and must be `final`.
+other classes and are always `final`.
 
 ## Representation
 
@@ -200,5 +200,28 @@ fun main() {
     // And vice versa:
     acceptNameTypeAlias(string) // OK: pass underlying type instead of alias
     acceptNameInlineClass(string) // Not OK: can't pass underlying type instead of inline class
+}
+```
+
+## Inline classes and delegation
+
+Implementation by delegation to inlined value of inlined class is allowed with interfaces:
+
+```kotlin
+interface MyInterface {
+    fun bar()
+    fun foo() = "foo"
+}
+
+@JvmInline
+value class MyInterfaceWrapper(val myInterface: MyInterface) : MyInterface by myInterface
+
+fun main() {
+    val my = MyInterfaceWrapper(object : MyInterface {
+        override fun bar() {
+            // body
+        }
+    })
+    println(my.foo()) // prints "foo"
 }
 ```

@@ -1,18 +1,19 @@
 [//]: # (title: Get started with Kotlin custom scripting – tutorial)
 
-> Kotlin scripting in [Experimental](components-stability.md). It may be dropped or changed at any time.
+> Kotlin scripting is [Experimental](components-stability.md). It may be dropped or changed at any time.
 > Use it only for evaluation purposes. We appreciate your feedback on it in [YouTrack](https://kotl.in/issue).
 >
 {type="warning"}
 
-_Kotlin scripting_ is the technology that enables executing Kotlin code as scripts, without prior compilation or
+_Kotlin scripting_ is the technology that enables executing Kotlin code as scripts without prior compilation or
 packaging into executables.
 
-For an overview of Kotlin scripting with examples, see the talk [Implementing the Gradle Kotlin DSL](https://kotlinconf.com/2019/talks/video/2019/126701/)
-by Rodrigo Oliveira from KotlinConf'19 .
+For an overview of Kotlin scripting with examples, check out the talk [Implementing the Gradle Kotlin DSL](https://kotlinconf.com/2019/talks/video/2019/126701/)
+by Rodrigo Oliveira from KotlinConf'19.
 
 In this tutorial, you'll create a Kotlin scripting project that executes arbitrary Kotlin code with Maven dependencies.
-You'll be able to execute scripts like the following:
+You'll be able to execute scripts like this:
+
 
 ```kotlin
 @file:Repository("https://maven.pkg.jetbrains.space/public/p/kotlinx-html/maven")
@@ -33,59 +34,77 @@ print(
 )
 ```
 
-The specified Maven dependency (`kotlinx-html-jvm` for this example) will be resolved from the specified maven
+The specified Maven dependency (`kotlinx-html-jvm` for this example) will be resolved from the specified Maven
 repository or local cache during execution and used for the rest of the script.
-
 
 ## Project structure
 
 A minimal Kotlin custom scripting project contains two parts:
 
 * _Script definition_ – a set of parameters and configurations that define how this script type should be recognized,
-   compiled, and executed, and other aspects of the handling.
-* _Scripting host_ – an application or component that handles script compilation and execution; in other words, actually 
-   runs scripts of this type.
+  handled, compiled, and executed.
+* _Scripting host_ – an application or component that handles script compilation and execution – actually
+  running scripts of this type.
 
-According to this, it’s convenient to organize the project in two modules.
+With all of this in mind, it’s best to split the project into two modules.
 
 ## Before you start
 
 Download and install the latest version of [IntelliJ IDEA](https://www.jetbrains.com/idea/download/index.html).
 
-## Set up the project structure
+## Create a project
 
-Create a Kotlin/JVM Gradle project with two modules:
+1. In IntelliJ IDEA, select **File** | **New** | **Project**.
+2. In the panel on the left, select **New Project**.
+3. Name the new project and change its location if necessary.
 
-1. Go to **File | New | Project**.
-2. Create a new **Gradle** project with **Kotlin/JVM**. Select the **Kotlin DSL build script**
-   checkbox to write the build script in Kotlin.
+   > Select the **Create Git repository** checkbox to place the new project under version control. You will be able to do
+   > it later at any time.
+   >
+   {type="tip"}
 
-   ![Create a root project for custom Kotlin scripting](script-deps-create-root-project.png){width=800}
+4. From the **Language** list, select **Kotlin**.
+5. Select the **Gradle** build system.
+6. From the **JDK list**, select the [JDK](https://www.oracle.com/java/technologies/downloads/) that you want to use in
+   your project.
+   * If the JDK is installed on your computer, but not defined in the IDE, select **Add JDK** and specify the path to the
+     JDK home directory.
+   * If you don't have the necessary JDK on your computer, select **Download JDK**.
 
-   Now you have an empty Kotlin/JVM Gradle project where you will add the required modules: script definition and scripting host.
+7. Select the Kotlin or Gradle language for the **Gradle DSL**.
+8. Click **Create**.
 
-3. Go to **File | New | Module** and add a new **Gradle** module with **Kotlin/JVM**. Select the **Kotlin DSL build script**
-   checkbox if you want to write the build script in Kotlin. This module will be the script definition.
+![Create a root project for custom Kotlin scripting](script-deps-create-root-project.png){width=800}
 
-4. Give the module a name and select the root module as its parent.
+## Add scripting modules
+
+Now you have an empty Kotlin/JVM Gradle project. Add the required modules, script definition and scripting host:
+
+1. In IntelliJ IDEA, select **File | New | Module**.
+2. In the panel on the left, select **New Module**. This module will be the script definition.
+3. Name the new module and change its location if necessary. 
+4. From the **Language** list, select **Java**.
+5. Select the **Gradle** build system and Kotlin for the **Gradle DSL** if you want to write the build script in Kotlin.
+6. As a module's parent, select the root module.
+7. Click **Create**.
 
    ![Create script definition module](script-deps-module-definition.png){width=800}
 
-5. In the module's `build.gradle(.kts)` file, remove the `version` of the Kotlin Gradle plugin. You already have it in the
+8. In the module's `build.gradle(.kts)` file, remove the `version` of the Kotlin Gradle plugin. It is already in the
    root project's build script.
 
-6. Repeat steps 3, 4, and 5 one more time to create a module for the scripting host.
+9. Repeat previous steps one more time to create a module for the scripting host.
 
 The project should have the following structure:
 
 ![Custom scripting project structure](script-deps-project-structure.png){width=300}
 
-You can find an example of such project and more Kotlin scripting examples in the [kotlin-script-examples GitHub repository](https://github.com/Kotlin/kotlin-script-examples/tree/master/jvm/basic/jvm-maven-deps).
+You can find an example of such a project and more Kotlin scripting examples in the [kotlin-script-examples GitHub repository](https://github.com/Kotlin/kotlin-script-examples/tree/master/jvm/basic/jvm-maven-deps).
 
 ## Create a script definition
 
-First, you'll define the script type: what developers can write in scripts of this type and how it will be handled.
-In this tutorial, this includes the support for the `@Repository` and `@DependsOn` annotations in the scripts.
+First, define the script type: what developers can write in scripts of this type and how it will be handled.
+In this tutorial, this includes support for the `@Repository` and `@DependsOn` annotations in the scripts.
 
 1. In the script definition module, add the dependencies on the Kotlin scripting components in the `dependencies` block of
    `build.gradle(.kts)`. These dependencies provide the APIs you will need for the script definition:
@@ -131,11 +150,11 @@ In this tutorial, this includes the support for the `@Repository` and `@DependsO
     abstract class ScriptWithMavenDeps
     ```
 
-   This class with also serve as a reference to the script definition later.
+   This class will also serve as a reference to the script definition later.
 
 5. To make the class a script definition, mark it with the `@KotlinScript` annotation. Pass two parameters to the annotation:
-   * `fileExtension` - a string ending with `.kts` that defines a file extension for scripts of this type.
-   * `compilationConfiguration` - a Kotlin class that extends `ScriptCompilationConfiguration` and defines the compilation
+   * `fileExtension` – a string ending with `.kts` that defines a file extension for scripts of this type.
+   * `compilationConfiguration` – a Kotlin class that extends `ScriptCompilationConfiguration` and defines the compilation
      specifics for this script definition. You'll create it in the next step.
 
    ```kotlin
@@ -152,7 +171,7 @@ In this tutorial, this includes the support for the `@Repository` and `@DependsO
    ```
    
    > In this tutorial, we provide only the working code without explaining Kotlin scripting API.
-   > You can find the same code with detailed explanation comments [on GitHub](https://github.com/Kotlin/kotlin-script-examples/blob/master/jvm/basic/jvm-maven-deps/script/src/main/kotlin/org/jetbrains/kotlin/script/examples/jvm/resolve/maven/scriptDef.kt).
+   > You can find the same code with a detailed explanation [on GitHub](https://github.com/Kotlin/kotlin-script-examples/blob/master/jvm/basic/jvm-maven-deps/script/src/main/kotlin/org/jetbrains/kotlin/script/examples/jvm/resolve/maven/scriptDef.kt).
    > 
    {type="note"}
 
@@ -204,7 +223,7 @@ The next step is creating the scripting host – the component that handles the 
 
 1. In the scripting host module, add the dependencies in the `dependencies` block of `build.gradle(.kts)`:
    * Kotlin scripting components that provide the APIs you need for the scripting host
-   * The script definition module you've created previously
+   * The script definition module you created previously
 
    <tabs group="build-script">
    <tab title="Kotlin" group-key="kotlin">
@@ -233,10 +252,11 @@ The next step is creating the scripting host – the component that handles the 
    </tab>
    </tabs>
 
-2. Create the `src/main/kotlin/` directory in the module and add Kotlin source file, for example, `host.kt`.
+2. Create the `src/main/kotlin/` directory in the module and add a Kotlin source file, for example, `host.kt`.
 
 3. Define the `main` function for the application. In its body, check that it has one argument – the path to the script file –
-   and execute the script. You'll define the script execution in a separate function `evalFile` in the next step. Declare it empty for now.
+   and execute the script. You'll define the script execution in a separate function `evalFile` in the next step.
+   Declare it empty for now.
 
    `main` can look like this:
 
@@ -253,8 +273,8 @@ The next step is creating the scripting host – the component that handles the 
    ```
 
 4. Define the script evaluation function. This is where you'll use the script definition. Obtain it by calling `createJvmCompilationConfigurationFromTemplate`
-   with the script definition class as a type parameter. Then call `BasicJvmScriptingHost().eval` passing it the script code and its
-   compilation configuration. `eval` returns an instance of `ResultWithDiagnostics`, so set your function's return type to it.
+   with the script definition class as a type parameter. Then call `BasicJvmScriptingHost().eval`, passing it the script code and its
+   compilation configuration. `eval` returns an instance of `ResultWithDiagnostics`, so set it as your function's return type.
 
    ```kotlin
     fun evalFile(scriptFile: File): ResultWithDiagnostics<EvaluationResult> {
@@ -318,8 +338,8 @@ To check how your scripting host works, prepare a script to execute and a run co
 
 3. Run the created configuration.
 
-You'll see how the script is executed: it resolves the dependency on `kotlinx-html-jvm` in the specified repository and
-prints the results of calling its functions:
+You'll see how the script is executed, resolving the dependency on `kotlinx-html-jvm` in the specified repository and
+printing the results of calling its functions:
 
 ```text
 <html>

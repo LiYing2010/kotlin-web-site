@@ -106,20 +106,38 @@ kapt {
 
 ### Running kapt tasks in parallel
 
-To improve the speed of builds that use kapt, you can enable the [Gradle worker API](https://guides.gradle.org/using-the-worker-api/)
-for kapt tasks. Using the worker API lets Gradle run independent annotation processing tasks from a single project in parallel,
-which in some cases significantly decreases the execution time. 
-However, running kapt with Gradle worker API enabled can result in increased memory consumption due to parallel execution. 
-
-To use the Gradle worker API for parallel execution of kapt tasks, add this line to your `gradle.properties` file:
-
-```
-kapt.use.worker.api=true
-```
+To improve the speed of builds that use kapt, you can enable the [Gradle Worker API](https://guides.gradle.org/using-the-worker-api/)
+for kapt tasks. Using the Worker API lets Gradle run independent annotation processing tasks from a single project in parallel,
+which in some cases significantly decreases the execution time.
 
 When you use the [custom JDK home](gradle.md#set-custom-jdk-home) feature in the Kotlin Gradle plugin,
 kapt task workers use only [process isolation mode](https://docs.gradle.org/current/userguide/worker_api.html#changing_the_isolation_mode).
 Note that the `kapt.workers.isolation` property is ignored.
+
+If you want to provide additional JVM arguments for a kapt worker process, use the input `kaptProcessJvmArgs` of the `KaptWithoutKotlincTask`:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+tasks.withType<org.jetbrains.kotlin.gradle.internal.KaptWithoutKotlincTask>()
+    .configureEach {
+        kaptProcessJvmArgs.add("-Xmx512m")
+    }
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+tasks.withType(org.jetbrains.kotlin.gradle.internal.KaptWithoutKotlincTask.class)
+    .configureEach {
+         kaptProcessJvmArgs.add('-Xmx512m')
+    }
+```
+
+</tab>
+</tabs>
 
 ### Caching for annotation processors' classloaders
 
@@ -147,6 +165,69 @@ If you run into any problems with caching for annotation processors, disable cac
 ```properties
 # specify annotation processors' full names to disable caching for them
 kapt.classloaders.cache.disableForProcessors=[annotation processors full names]
+```
+
+### Measuring performance of annotation processors
+
+Get a performance statistics on the annotation processors execution using the `-Kapt-show-processor-timings` plugin option. 
+An example output:
+
+```kotlin
+Kapt Annotation Processing performance report:
+com.example.processor.TestingProcessor: total: 133 ms, init: 36 ms, 2 round(s): 97 ms, 0 ms
+com.example.processor.AnotherProcessor: total: 100 ms, init: 6 ms, 1 round(s): 93 ms
+```
+
+You can dump this report into a file with the plugin option [`-Kapt-dump-processor-timings` (`org.jetbrains.kotlin.kapt3:dumpProcessorTimings`)](https://github.com/JetBrains/kotlin/pull/4280). 
+The following command will run kapt and dump the statistics to the `ap-perf-report.file` file:
+
+```kotlin
+kotlinc -cp $MY_CLASSPATH \
+-Xplugin=kotlin-annotation-processing-SNAPSHOT.jar -P \
+plugin:org.jetbrains.kotlin.kapt3:aptMode=stubsAndApt,\
+plugin:org.jetbrains.kotlin.kapt3:apclasspath=processor/build/libs/processor.jar,\
+plugin:org.jetbrains.kotlin.kapt3:dumpProcessorTimings=ap-perf-report.file \
+-Xplugin=$JAVA_HOME/lib/tools.jar \
+-d cli-tests/out \
+-no-jdk -no-reflect -no-stdlib -verbose \
+sample/src/main/
+```
+
+### Measuring the number of files generated with annotation processors
+
+The `kotlin-kapt` Gradle plugin can report statistics on the number of generated files for each annotation processor.
+
+This is useful to track if there are unused annotation processors as a part of the build. 
+You can use the generated report to find modules that trigger unnecessary annotation processors and update the modules to prevent that.
+
+Enable the statistics in two steps:
+* Set the `showProcessorStats` flag to `true` in your `build.gradle.kts`:
+
+  ```kotlin
+  kapt {
+      showProcessorStats = true
+  }
+  ```
+
+* Set the `kapt.verbose` Gradle property to `true` in your `gradle.properties`:
+
+  ```properties
+  kapt.verbose=true
+  ```
+
+> You can also enable verbose output via the [command line option `verbose`](#using-in-cli).
+>
+> {type=”note”}
+
+The statistics will appear in the logs with the `info` level. You'll see the `Annotation processor stats:` line followed by 
+statistics on the execution time of each annotation processor. After these lines, there will be the `Generated files report:` line 
+followed by statistics on the number of generated files for each annotation processor. For example:
+
+```kotlin
+[INFO] Annotation processor stats:
+[INFO] org.mapstruct.ap.MappingProcessor: total: 290 ms, init: 1 ms, 3 round(s): 289 ms, 0 ms, 0 ms
+[INFO] Generated files report:
+[INFO] org.mapstruct.ap.MappingProcessor: total sources: 2, sources per round: 2, 0, 0
 ```
 
 ## Compile avoidance for kapt

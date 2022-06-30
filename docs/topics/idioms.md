@@ -35,7 +35,7 @@ Or alternatively, even shorter:
 val positives = list.filter { it > 0 }
 ```
 
-Learn the difference between [Java and Kotlin filtering](java-to-kotlin-idioms-strings.md#create-a-string-from-collection-items).
+Learn the difference between [Java and Kotlin filtering](java-to-kotlin-collections-guide.md#filter-elements).
 
 ## Check the presence of an element in a collection
 
@@ -104,7 +104,7 @@ for (x in 10 downTo 1) { ... }
 ## Lazy property
 
 ```kotlin
-val p: String by lazy {
+val p: String by lazy { // the value is computed only on first access
     // compute the string
 }
 ```
@@ -160,6 +160,12 @@ println(files?.size) // size is printed if files is not null
 val files = File("Test").listFiles()
 
 println(files?.size ?: "empty") // if files is null, this prints "empty"
+
+// To calculate the fallback value in a code block, use `run`
+val filesSize = files?.size ?: run { 
+    return someSize 
+}
+println(filesSize)
 ```
 
 ## Execute a statement if null

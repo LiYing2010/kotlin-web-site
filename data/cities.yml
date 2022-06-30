@@ -1,3 +1,15 @@
+- name: San Jose, Costa Rica
+  geo:
+    lat: 9.934776
+    lng: -84.084538
+- name: Krynica-Zdrój, Poland
+  geo:
+    lat: 49.413215
+    lng: 20.954021
+- name: Innopolis, Russia
+  geo:
+    lat: 55.752085
+    lng: 48.744618
 - name: Bonn, Germany
   geo:
     lat: 50.736611

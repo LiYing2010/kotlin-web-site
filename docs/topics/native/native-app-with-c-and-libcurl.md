@@ -9,7 +9,7 @@ The output will be an executable command-line app that you can run on macOS and 
 > a `.bat` file), this approach doesn't scale well for big projects with hundreds of files and libraries. In this case, it is
 > better to use the Kotlin/Native compiler with a build system, as it helps download and cache the Kotlin/Native
 > compiler binaries and libraries with transitive dependencies and run the compiler and tests. Kotlin/Native can use the
-> [Gradle](gradle.md) build system through the [`kotlin-multiplatform`](mpp-discover-project.md#multiplatform-plugin)
+> [Gradle](gradle.md) build system through the [`kotlin-multiplatform`](multiplatform-discover-project.md#multiplatform-plugin)
 > Plugin.
 >
 
@@ -19,7 +19,7 @@ The tutorial is suitable for both IntelliJ IDEA Community Edition and IntelliJ I
 ## Create a Kotlin/Native project
 
 1. In IntelliJ IDEA, select **File | New | Project**.
-2. In the panel on the left, select **Kotlin | Native Application**.
+2. In the panel on the left, select **Kotlin Multiplatform | Native Application**.
 3. Specify the name and select the folder where you'll save your application.
    ![New project. Native application in IntelliJ IDEA](native-file-new.png){width=700}
 4. Click **Next** and then **Finish**.
@@ -90,7 +90,7 @@ kotlin {
   point of the applications. These can be left as default values.
 * C interoperability is configured as an additional step in the build. By default, all the symbols from C are
   imported to the `interop` package. You may want to import the whole package in `.kt` files. Learn more about
-  [how to configure](mpp-discover-project.md#multiplatform-plugin) it.
+  [how to configure](multiplatform-discover-project.md#multiplatform-plugin) it.
 
 ## Create a definition file
 
@@ -125,8 +125,8 @@ headers. In this app, you'll need the `libcurl` library to make some HTTP calls.
     ```
 
    * `headers` is the list of header files to generate Kotlin stubs. You can add multiple files to this entry,
-   separating each with a `\` on a new line. In this case, it's only `curl.h`. The referenced files need to be relative
-   to the folder where the definition file is, or be available on the system path (in this case, it's `/usr/include/curl`).
+   separating each with a `\` on a new line. In this case, it's only `curl.h`. The referenced files need to be available
+   on the system path (in this case, it's `/usr/include/curl`).
    * `headerFilter` shows what exactly is included. In C, all the headers are also included when one file references
    another one with the `#include` directive. Sometimes it's not necessary, and you can add this parameter
    [using glob patterns](https://en.wikipedia.org/wiki/Glob_(programming)) to fine-tune things.
@@ -160,11 +160,11 @@ entry to the `build.gradle(.kts)` file:
 
 ```kotlin
 nativeTarget.apply {
-    compilations.main { // NL
-        cinterops {     // NL
-            libcurl     // NL
-        }               // NL
-    }                   // NL
+    compilations.getByName("main") {    // NL
+        cinterops {                     // NL
+            val libcurl by creating     // NL
+        }                               // NL
+    }                                   // NL
     binaries {
         executable {
             entryPoint = "main"
@@ -197,14 +197,32 @@ nativeTarget.with {
 The new lines are marked with `// NL`. First, `cinterops` is added, and then an entry for each `def` file. By default,
 the name of the file is used. You can override this with additional parameters:
 
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+val libcurl by creating {
+    defFile(project.file("src/nativeInterop/cinterop/libcurl.def"))
+    packageName("com.jetbrains.handson.http")
+    compilerOpts("-I/path")
+    includeDirs.allHeaders("path")
+}
+```     
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
 ```groovy
 libcurl {
-    defFile project.file("libcurl.def")
+    defFile project.file("src/nativeInterop/cinterop/libcurl.def")
     packageName 'com.jetbrains.handson.http'
     compilerOpts '-I/path'
     includeDirs.allHeaders("path")
 }
 ```
+
+</tab>
+</tabs>
 
 See the [Interoperability with C](native-c-interop.md) section for more details on the available options.
 

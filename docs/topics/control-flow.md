@@ -21,7 +21,7 @@ if (a > b) {
 val max = if (a > b) a else b
 ```
 
-Branches of `if` branches can be blocks. In this case, the last expression is the value of a block:
+Branches of an `if` expression can be blocks. In this case, the last expression is the value of a block:
 
 ```kotlin
 val max = if (a > b) {
@@ -155,10 +155,10 @@ You can capture *when* subject in a variable using following syntax:
 
 ```kotlin
 fun Request.getBody() =
-        when (val response = executeRequest()) {
-            is Success -> response.body
-            is HttpError -> throw HttpException(response.status)
-        }
+    when (val response = executeRequest()) {
+        is Success -> response.body
+        is HttpError -> throw HttpException(response.status)
+    }
 ```
 
 The scope of variable introduced in *when* subject is restricted to the body of this *when*.
