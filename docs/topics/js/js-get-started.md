@@ -55,8 +55,8 @@ Enter your name in the text box and accept the greetings from your application!
 2. Change the code of `div` to show your name backwards.  
    
    * Use the standard library function `reversed()` to reverse your name.
-   * Use a [string template](basic-types.md#string-templates) for your reversed 
-   name by adding a dollar sign `$` and enclosing it in curly braces – `${name.reversed()}`.
+   * Use a [string template](strings.md#string-templates) for your reversed 
+   name by adding a dollar sign `$` and enclosing it in curly braces – `${state.name.reversed()}`.
 
    ```kotlin
    div {
@@ -130,18 +130,18 @@ Enter your name in the text box and accept the greetings from your application!
 
 ## What's next?
 
-Once you have created your first application, you can go to Kotlin hands-on labs and complete long-form Kotlin/JS tutorials
+Once you have created your first application, you can complete long-form Kotlin/JS tutorials
 or check out the list of Kotlin/JS sample projects for inspiration. Both types of resources contain useful snippets and
 patterns and can serve as a nice jump-off point for your own projects.
 
-### Hands-on labs
+### Tutorials
 
-* [Building Web Applications with React and Kotlin/JS](https://play.kotlinlang.org/hands-on/Building%20Web%20Applications%20with%20React%20and%20Kotlin%20JS/01_Introduction)
+* [Build a web application with React and Kotlin/JS — tutorial](js-react.md)
 guides you through the process of building a simple web application using the React framework, shows how a type-safe Kotlin
 DSL for HTML makes it easy to build reactive DOM elements, and illustrates how to use third-party React components and
 obtain information from APIs, all while writing the whole application logic in pure Kotlin/JS.
 
-* [Building a Full Stack Web App with Kotlin Multiplatform](https://play.kotlinlang.org/hands-on/Full%20Stack%20Web%20App%20with%20Kotlin%20Multiplatform/01_Introduction)
+* [Build a full-stack web app with Kotlin Multiplatform](multiplatform-full-stack-app.md)
 teaches the concepts behind building an application that targets Kotlin/JVM and Kotlin/JS by building a client-server
 application that makes use of shared code, serialization, and other multiplatform paradigms. It also provides a brief
 introduction to working with Ktor both as a server- and client-side framework.
