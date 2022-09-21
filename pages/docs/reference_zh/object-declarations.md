@@ -7,7 +7,7 @@ title: "对象表达式,对象声明,以及同伴对象"
 
 # 对象表达式(Object Expression)与对象声明(Object Declaration)
 
-本页面最终更新: 2021/08/04
+最终更新: {{ site.data.releases.latestDocDate }}
 
 有时你需要创建一个对象, 这个对象在某个类的基础上略做修改, 但又不希望仅仅为了这一点点修改就明确地声明一个新类.
 Kotlin 对这种问题使用 _对象表达式(object expression)_ 和 _对象声明(object declaration)_ 来解决.

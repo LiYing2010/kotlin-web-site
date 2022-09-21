@@ -6,7 +6,7 @@ title: "Kotlin 编译器选项"
 
 # Kotlin 编译器选项
 
-本页面最终更新: 2021/12/01
+最终更新: {{ site.data.releases.latestDocDate }}
 
 Kotlin 的各个发布版都带有针对各种编译目标的编译器:
 JVM, JavaScript, 以及
@@ -135,6 +135,10 @@ $ kotlinc @compiler.options @classes
 $ kotlinc @options/compiler.options hello.kt
 ```
 
+### -opt-in _annotation_
+
+指定注解的全限定名称, 通过这个注解启用 [明确要求使用者同意(opt-in)](opt-in-requirements.html) API.
+
 ## Kotlin/JVM 编译器选项
 
 针对 JVM 平台的 Kotlin 编译器将 Kotlin 源代码文件编译为 Java class 文件.
@@ -162,10 +166,20 @@ classpath 可以包含文件路径, 目录路径, ZIP 文件, 或 JAR 文件.
 
 如果自定义的 JDK home 目录与默认的 `JAVA_HOME` 不用, 这个选项会将它添加到 classpath 中.
 
+### -Xjdk-release=version
+
+指定生成的 JVM 字节码的目标版本. 将类路径中的 JDK API 限制为指定的 Java 版本.
+自动设置 [`-jvm-target version`](#jvm-target-version).
+可以指定的值是 `1.8`, `9`, `10`, ..., `18`.
+默认值是 `{{ site.data.releases.defaultJvmTargetVersion }}`.
+
+> 这个选项 [不保证](https://youtrack.jetbrains.com/issue/KT-29974) 对所有的 JDK 发布版都有效.
+{:.note}
+
 ### -jvm-target _version_
 
-指定编译产生的 JVM 字节码(bytecode)版本. 可以指定的值是
-`1.6` (已废弃 DEPRECATED), `1.8`, `9`, `10`, `11`, `12`, `13`, `14` 以及 `15`.
+指定编译产生的 JVM 字节码(bytecode)版本.
+可以指定的值是 `1.8`, `9`, `10`, ..., `18`.
 默认值是 `{{ site.data.releases.defaultJvmTargetVersion }}`.
 
 ### -java-parameters
@@ -280,7 +294,7 @@ Kotlin/Native 编译的命令行工具是 `kotlinc-native`.
 ### -generate-worker-test-runner (-trw)
 
 生成一个应用程序, 用于在
-[工作线程(worker thread)](native/native-concurrency.html#workers)
+[工作线程(worker thread)](native/native-immutability.html#concurrency-in-kotlin-native)
 中运行单元测试 .
 
 ### -generate-no-exit-test-runner (-trn)

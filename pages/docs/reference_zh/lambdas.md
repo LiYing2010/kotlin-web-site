@@ -7,7 +7,7 @@ title: "高阶函数与 Lambda 表达式"
 
 # 高阶函数与 Lambda 表达式
 
-本页面最终更新: 2021/10/07
+最终更新: {{ site.data.releases.latestDocDate }}
 
 在 Kotlin 中函数是 [一级公民](https://en.wikipedia.org/wiki/First-class_function),
 也就是说, 函数可以保存在变量和数据结构中, 也可以作为参数来传递给 [高阶函数](#higher-order-functions),
@@ -307,7 +307,7 @@ strings.filter { it.length == 5 }.sortedBy { it }.map { it.uppercase() }
 如果 Lambda 表达式的某个参数未被使用, 你可以用下划线来代替参数名:
 
 ```kotlin
-map.forEach { _, value -> println("$value!") }
+map.forEach { (_, value) -> println("$value!") }
 ```
 
 ### 在 Lambda 表达式中使用解构声明

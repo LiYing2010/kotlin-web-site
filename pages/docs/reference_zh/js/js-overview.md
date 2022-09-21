@@ -7,7 +7,7 @@ title: "使用 Kotlin 进行 JavaScript 开发"
 
 # 使用 Kotlin 进行 JavaScript 开发
 
-本页面最终更新: 2021/12/07
+最终更新: {{ site.data.releases.latestDocDate }}
 
 Kotlin/JS 能够将你的 Kotlin 代码, Kotlin 标准库, 以及所有兼容的依赖项转换为 JavaScript.
 Kotlin/JS 目前的实现针对 [ES5](https://www.ecma-international.org/ecma-262/5.1/) 标准.
@@ -41,7 +41,7 @@ Kotlin/JS 的使用方式有很多.
     使用 [`kotlinx-nodejs`](https://github.com/Kotlin/kotlinx-nodejs),
     在你的 Kotlin 代码中, 你可以通过类型安全的方式直接访问 [Node.js API](https://nodejs.org/docs/latest/api/).
 
-*  **使用 Kotlin [跨平台(multiplatform)](../mpp/multiplatform.html) 项目, 与其他 Kotlin 编译目标共用代码**
+*  **使用 Kotlin [跨平台(multiplatform)](../multiplatform/multiplatform.html) 项目, 与其他 Kotlin 编译目标共用代码**
     * 使用 Kotlin `multiplatform` Gradle 插件时, 可以使用 Kotlin/JS 的所有功能.
     * 如果你的后端也使用 Kotlin 开发, 那么可以与 Kotlin/JS 编写的前端 **共用代码**, 比如数据模型, 或校验逻辑,
     因此可以 **编写和维护全栈式(full-stack) Web 应用程序**.
@@ -77,7 +77,7 @@ Kotlin/JS 还兼容最常用的模块系统: UMD, CommonJS, 以及 AMD.
 _KVision_ 是一个面向对象的 Web 框架, 可以使用 Kotlin/JS 编写应用程序, 可以通过各种现成的组件来组合成你的用户界面.
 你可以使用响应式(reactive)或命令式(imperative)编程模式来创建你的前端,
 然后使用 connector for Ktor, Spring Boot, 以及其他框架, 与你的服务端应用程序连接,
-并使用 [Kotlin 跨平台程序](../mpp/multiplatform.html) 来共用代码.
+并使用 [Kotlin 跨平台程序](../multiplatform/multiplatform.html) 来共用代码.
 
 请访问 [https://kvision.io](https://kvision.io) 查看 KVision 的文档, 教程, 和示例.
 
@@ -135,25 +135,25 @@ Kotlin 开发者 Advocate Sebastian Aigner 会向你解释 Kotlin/JS 的主要�
 如果你是 Kotlin 新手, 那么建议你首先熟悉一下 Kotlin 语言的 [基本语法](../basic-syntax.html).
 
 要开始使用 Kotlin/JS, 请参见 [创建 Kotlin/JS 工程](js-project-setup.html),
-你也可以选择一个 [动手实验室(Hands-on Lab)](#hands-on-labs-for-kotlin-js) 学习,
+你也可以完成一个 [教程](#tutorials-for-kotlin-js),
 或者学习 [Kotlin/JS 示例项目](#sample-projects-for-kotlin-js).
 其中包含了很多有用的代码片段和模式, 可以用作你自己项目的很好的起点.
 
 
-## Kotlin/JS 动手实验室(Hands-on lab)
+### Kotlin/JS 教程
 
-* [使用 React 和 Kotlin/JS 创建 Web 应用程序](https://play.kotlinlang.org/hands-on/Building%20Web%20Applications%20with%20React%20and%20Kotlin%20JS/01_Introduction)
+* [教程 - 使用 React 和 Kotlin/JS 创建 Web 应用程序](js-react.html)
 引导你使用 React 框架创建一个简单的 Web 应用程序, 演示如何使用一种面向 HTML 的类型安全的 Kotlin DSL,
 便捷地创建相应式 DOM 元素, 还展示如何使用第三方 React 组件, 以及如何通过 API 获取信息,
 整个应用程序逻辑全部使用纯 Kotlin/JS 代码编写.
 
-* [使用 Kotlin 跨平台功能创建全栈 Web 应用程序](https://play.kotlinlang.org/hands-on/Full%20Stack%20Web%20App%20with%20Kotlin%20Multiplatform/01_Introduction)
+* [使用 Kotlin Multiplatform 构建一个全栈 Web 应用程序](../multiplatform/multiplatform-full-stack-app.html)
 创建一个客户端-服务器端应用程序, 其中用到共通代码, 序列化, 以及其他跨平台范例,
 向你讲授创建面向 Kotlin/JVM 和 Kotlin/JS 平台应用程序背后的概念.
 它还简要介绍如何将 Ktor 用作服务器端框架和客户端框架.
 
 
-## Kotlin/JS 示例项目
+### Kotlin/JS 示例项目
 
 * [Spring 全栈项目: 协作工作的待办事项列表(to-do list)](https://github.com/Kotlin/full-stack-spring-collaborative-todo-list-sample)
 介绍在 JS 和 JVM 目标平台上如何使用 `kotlin-multiplatform` 创建一个用于协作工作的待办事项列表(to-do list),
@@ -170,7 +170,7 @@ Kotlin 开发者 Advocate Sebastian Aigner 会向你解释 Kotlin/JS 的主要�
 [新的 Kotlin/JS IR 编译器](js-ir-compiler.html) (目前的稳定级别为 [Beta](../components-stability.html))
 与现在的默认编译器相比, 带来了许多改进. 比如, 它通过死代码消除, 改善了生成的可执行文件的尺寸,
 而且与 JavaScript 生态系统的交互变得更加顺畅.
-通过从 Kotlin 代码生成 TypeScript 声明文件 (d.ts), 新编译器使得 “混合(hybrid)” 应用程序的开发更加容易,
+通过从 Kotlin 代码生成 TypeScript 声明文件 (d.ts), 新编译器使得 "混合(hybrid)" 应用程序的开发更加容易,
 这种应用程序可以混合 TypeScript 和 Kotlin 代码, 也可以使用 Kotlin 跨平台项目来共用代码.
 
 关于新的 Kotlin/JS IR 编译器的功能, 以及如何在项目中使用,

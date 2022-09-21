@@ -9,7 +9,7 @@ title: "Java 和 Kotlin 中的字符串"
 
 [//]: # (学习如何将 Java 字符串迁移到 Kotlin. 这篇向导讨论 Java StringBuilder, 字符串拼接, 以及字符串分割, 多行字符串, Stream, 以及其他内容)
 
-本页面最终更新: 2022/04/25
+最终更新: {{ site.data.releases.latestDocDate }}
 
 这篇向导通过示例程序演示如何在 Java 和 Kotlin 中进行通常的字符串处理.
 将会帮助你从 Java 迁移到 Kotlin, 并以 Kotlin 的方式来编写代码.
@@ -47,7 +47,7 @@ fun main() {
 </div>
 
 你可以在字符串内添加复杂表达式的值, 方法是将表达式用括号括起, 比如 `${name.length}` .
-参见 [字符串模板](../basic-types.html#string-templates) for more information.
+详情请参见 [字符串模板](../strings.html#string-templates).
 
 ## 构建一个字符串
 
@@ -241,7 +241,7 @@ System.out.println("Anonymized input: '" + replacementResult + "'");
 
 在 Kotlin 中, 你可以使用 [Regex](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/) 类,
 它可以简化正规表达式的相关操作.
-此外, 可以使用 [原生字符串(Raw String)](../basic-types.html#string-literals) 来减少反斜杠的数量,
+此外, 可以使用 [原生字符串(Raw String)](../strings.html#string-literals) 来减少反斜杠的数量,
 简化正规表达式的书写:
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.5" id="replace-occurrences-kotlin">
@@ -375,7 +375,7 @@ System.out.println(result);
 // Java
 String result = """
     Kotlin
-    Java
+       Java
     """.stripIndent();
 System.out.println(result);
 ```
@@ -398,7 +398,7 @@ fun main() {
     // Kotlin   
     val result = """
         Kotlin
-        Java 
+           Java
     """.trimIndent()
     println(result)
 //sampleEnd

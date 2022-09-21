@@ -6,7 +6,7 @@ title: "Kotlin 1.4.20 版中的新功能"
 
 # Kotlin 1.4.20 版中的新功能
 
-本页面最终更新: 2021/08/03
+最终更新: {{ site.data.releases.latestDocDate }}
 
 _[发布日期: 2020/11/23](releases.html#release-details)_
 
@@ -206,7 +206,7 @@ Kotlin/Native 有了一个新的 [逃逸分析(escape analysis)](https://en.wiki
 ### 性能改进与 bug 修复
 
 Kotlin/Native 的很多组件有了性能改进和 bug 修复, 包括 1.4.0 中添加的部分,
-比如, [代码共用机制](mpp/mpp-share-on-platforms.html#share-code-on-similar-platforms).
+比如, [代码共用机制](multiplatform/multiplatform-share-on-platforms.html#share-code-on-similar-platforms).
 
 ### 包装 Objective-C 异常(需要使用者同意)
 
@@ -227,7 +227,7 @@ Kotlin/Native 现在可以处理 Objective-C 代码在运行期抛出的异常, 
 
 ```kotlin
 pod("foo") {
-   extraOpts = listOf("-Xforeign-exception-mode”, “objc-wrap")
+    extraOpts = listOf("-Xforeign-exception-mode", "objc-wrap")
 }
 ```
 
@@ -257,19 +257,19 @@ CocoaPods plugin 的任务执行流程有改进. 比如, 如果你添加一个�
 * 静态库.
 * 使用自定义 cinterop 参数的库.
 
-更多详情请参见 在 Kotlin 项目中 [添加 CocoaPods 依赖项](native/native-cocoapods.html#add-dependencies-on-pod-libraries).
-示例程序请参见 [KMM 使用 CocoaPods 示例](https://github.com/Kotlin/kmm-with-cocoapods-sample).
+更多详情请参见 在 Kotlin 项目中 [添加 CocoaPods 依赖项](native/native-cocoapods-libraries.html).
+示例程序请参见 [Kotlin 使用 CocoaPods 示例](https://github.com/Kotlin/kmm-with-cocoapods-sample).
 
 #### 与 Xcode 集成的更新
 
 为了更好的与 Xcode 协同工作, Kotlin 要求 Podfile 的一些变化:
 
-* 如果你的 Kotlin Pod 有任何 Git, HTTP, 或 specRepo pod 的依赖项, 那么你还需要在 Podfile 中指定这些依赖项.
+* 如果你的 Kotlin Pod 有任何 Git, HTTP, 或 specRepo Pod 的依赖项, 那么你还需要在 Podfile 中指定这些依赖项.
 * 当你添加一个来自自定义 spec 的库, 那么还需要在你的  Podfile 开头, 指定 spec 的 [位置](https://guides.cocoapods.org/syntax/podfile.html#source).
 
 在 IDEA 中, 集成错误现在有了详细的描述信息. 因此当你遇到 Podfile 相关的问题, 可以立即知道如何修复.
 
-更多详情请参见 [创建 Kotlin pod](native/native-cocoapods.html#use-a-kotlin-gradle-project-as-a-cocoapods-dependency).
+更多详情请参见 [创建 Kotlin pod](native/native-cocoapods-xcode.html).
 
 ### 支持 Xcode 12 库
 
@@ -283,11 +283,11 @@ CocoaPods plugin 的任务执行流程有改进. 比如, 如果你添加一个�
 从 Kotlin 1.4.20 开始, 不再有单独的元数据发布. 元数据 artifact 现在包含在 _root_ 发布之内,
 它代表整个库, 并且在添加为共通源代码集的依赖项时, 会自动解析为适当的平台相关 artifact.
 
-更多详情请参见 [发布跨平台库](mpp/mpp-publish-lib.html).
+更多详情请参见 [发布跨平台库](multiplatform/multiplatform-publish-lib.html).
 
 #### 与以前版本的兼容性
 
-这样的结构变化, 破坏了使用 [层级项目结构](mpp/mpp-share-on-platforms.html#share-code-on-similar-platforms) 的项目之间的兼容性.
+这样的结构变化, 破坏了使用 [层级项目结构](multiplatform/multiplatform-share-on-platforms.html#share-code-on-similar-platforms) 的项目之间的兼容性.
 如果一个跨平台项目和它依赖的一个库都使用了层级项目结构, 那么你需要将它们同步更新到 Kotlin 1.4.20 或更高版本.
 使用 Kotlin 1.4.20 发布的库, 不能供以前版本发布的项目使用.
 

@@ -7,7 +7,7 @@ title: "通过构建器类型推断(Builder Type Inference)使用构建器"
 
 # 通过构建器类型推断(Builder Type Inference)使用构建器
 
-本页面最终更新: 2021/11/16
+最终更新: {{ site.data.releases.latestDocDate }}
 
 Kotlin 支持 _构建器类型推断(Builder Type Inference)_ (或者叫构建器推断),
 当你使用泛型构建器时, 这个功能可以很有用.
@@ -36,9 +36,8 @@ fun addEntryToMap(baseMap: Map<String, Number>, additionalEntry: Pair<String, In
 
 ### 启用构建器推断的要求条件
 
-> 在 Kotlin 1.6.0 以前, 对一个构建器函数启用构建器推断, 需要对构建器的 Lambda 表达式参数添加
-> [`@BuilderInference`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-builder-inference/)
-> 注解. 在 1.6.0 中, 如果你和你的构建器的使用者都使用编译器选项 `-Xenable-builder-inference`, 那么可以省略这个注解.
+> 在 Kotlin 1.7.0 以前, 对一个构建器函数启用构建器推断, 需要添加编译器选项 `-Xenable-builder-inference`.
+> 在 1.7.0 中, 这个选项会默认启用.
 {:.note}
 
 要对你自己的构建器使用构建器推断, 请确认它的声明有一个构建器 Lambda 表达式参数, 类型为带接受者的函数类型.

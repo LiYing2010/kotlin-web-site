@@ -7,7 +7,7 @@ title: "Kotlin 1.5.0 版中的新功能"
 
 # Kotlin 1.5.0 版中的新功能
 
-本页面最终更新: 2022/04/13
+最终更新: {{ site.data.releases.latestDocDate }}
 
 _[发布日期: 2021/05/05](releases.html#release-details)_
 
@@ -192,7 +192,7 @@ Kotlin 1.5.0 现在使用动态调用 (`invokedynamic`) 来编译 SAM (Single Ab
 
 ### 使用 invokedynamic 编译 Lambda 表达式
 
-> 将普通的 Kotlin Lambda 表达式编译为 invokedynamic 是 [试验性功能](components-stability.html).
+> 将普通的 Kotlin Lambda 表达式编译为 invokedynamic 是 [实验性功能](components-stability.html).
 > 它随时有可能变更或被删除.
 > 需要使用者同意(Opt-in) (详情见下文).
 > 请注意, 只为评估和试验目的来使用这个功能.
@@ -355,7 +355,7 @@ Kotlin/JS Gradle plugin 现在对浏览器编译目标使用 webpack 5 而不是
 对这些类型的操作, 以及这些类型的范围(range), 数列(progression) 也是如此.
 无符号数组及其操作还处于 Beta 版.
 
-详情请参见 [无符号整数类型](basic-types.html#unsigned-integers).
+详情请参见 [无符号整数类型](unsigned-integer-types.html).
 
 ### 用于文字大小写变换的 locale 无关 API 已成为稳定版
 
@@ -451,7 +451,7 @@ val kotlinFiles: List<Path> = Path("/home/user").listDirectoryEntries("*.kt")
   这个函数可用于所有数值类型.
 
 这些操作看起来与既有的
-[整数除法](basic-types.html#operations) and [rem()](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/rem.html)
+[整数除法](numbers.html#operations-on-numbers) and [rem()](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/rem.html)
 函数 (或 `%` 操作符) 非常类似,
 但它们对于负数的处理不同:
 * `a.floorDiv(b)` 与通常的 `/` 不同, `floorDiv` 将结果向下(向更小的整数方向)取整,
@@ -477,7 +477,7 @@ fun main() {
 
 ### 时间长度 API 的变更
 
-> 时间长度 API 是 [试验性功能](components-stability.html).
+> 时间长度 API 是 [实验性功能](components-stability.html).
 > 它随时有可能变更或被删除.
 > 请注意, 只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issues/KT) 提供你的反馈意见.
@@ -568,7 +568,7 @@ fun main() {
 现在也可以在跨平台项目中使用了,
 其中 `CharCategory` 表示一个字符在 Unicode 中的一般种类.
 
-详情请参见 [字符](basic-types.html#characters).
+详情请参见 [字符](characters.html).
 
 ### 新的集合函数 firstNotNullOf()
 

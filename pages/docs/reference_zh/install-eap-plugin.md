@@ -5,12 +5,17 @@ category:
 title: "安装 Kotlin EAP Plugin"
 ---
 
-# 在 IntelliJ IDEA 和 Android Studio 中安装 EAP Plugin 
+# 在 IntelliJ IDEA 和 Android Studio 中安装 EAP Plugin
+
+最终更新: {{ site.data.releases.latestDocDate }}
 
 <microformat>
     <p>最新的 Kotlin EAP 版本: <strong>{{ site.data.releases.kotlinEapVersion }}</strong></p>
     <p><a href="eap.html#build-details">查看 Kotlin EAP 版</a></p>
 </microformat>
+
+> 由于 Android Studios plugin 还是 (`Beta`) 版, EAP plugin 只能在 [1.6.20+ 版本](https://developer.android.com/studio/preview) 安装.
+{:.warning}
 
 按照以下步骤来安装 [IntelliJ IDEA 和 Android Studio 的 Kotlin Plugin 预览版](eap.html#build-details).
 
@@ -18,15 +23,15 @@ title: "安装 Kotlin EAP Plugin"
 
    <img src="/assets/docs/images/eap/idea-kotlin-plugin-updates.png" alt="选择 Kotlin Plugin 更新" width="600"/>
     
-3. 在 **Update channel** 列表中, 选择 **Early Access Preview *X*** 频道, 其中 *X* 是 Kotlin 最新版本.
+2. 在 **Update channel** 列表中, 选择 **Early Access Preview** 频道.
 
     <img src="/assets/docs/images/eap/idea-kotlin-update-channel.png" alt="选择 EAP 更新频道" width="500"/>
 
-4. 点击 **Check again**. 会出现最新的 EAP 版本.
+3. 点击 **Check again**. 会出现最新的 EAP 版本.
 
     <img src="/assets/docs/images/eap/idea-latest-kotlin-eap.png" alt="安装 EAP 版" width="500"/>
 
-5. 点击 **Install**. 
+4. 点击 **Install**.
 
 如果你希望在 EAP 版安装之前已创建的项目中使用 EAP 版, 你需要 [为 EAP 版配置你的构建](configure-build-for-eap.html). 
 

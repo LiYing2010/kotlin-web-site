@@ -7,14 +7,7 @@ title: "使用 Kotlin 惯用法的 Advent of Code"
 
 # 使用 Kotlin 惯用法的 Advent of Code
 
-本页面最终更新: 2021/12/01
-
-> [Advent of Code 2021](https://adventofcode.com/2021/) 即将来临!
-> JetBrains 很荣幸作为顶级赞助者之一, 支持今年的 Advent of Code.
-> 为了让你准备好参加 AoC 2021, 我们准备了一个 [介绍视频](https://www.youtube.com/watch?v=6-XSehwRgSY)
-> 和一篇 [Blog](https://blog.jetbrains.com/kotlin/2021/11/advent-of-code-2021-in-kotlin/).  
-> 请准备好出发参加 Advent of Code in Kotlin! 祝大家玩得开心, 学到新知识, 并赢得奖项!
-{:.note}
+最终更新: {{ site.data.releases.latestDocDate }}
 
 [Advent of Code](https://adventofcode.com/) 是每年 12 月举办一次的活动, 从 12 月 1 日开始到 25 日, 每天发布一道节日主题的谜题.
 经 Advent of Code 创建者 [Eric Wastl](http://was.tl/) 授权, 我们演示如何使用 Kotlin 风格的惯用法来解决这些谜题.
@@ -121,4 +114,4 @@ title: "使用 Kotlin 惯用法的 Advent of Code"
 ## 下一步做什么?
 
 * 在 [Kotlin Koans](koans.html) 中完成更多任务  
-* 通过免费的 [Kotlin 基础课程](https://hyperskill.org/tracks/18/) 创建真实工作的应用程序
+* 通过免费的 [Kotlin 基础课程](https://hyperskill.org/join/fromdocstoJetSalesStat?redirect=true&next=/tracks/18) 创建真实工作的应用程序

@@ -79,8 +79,8 @@ reference:
 
     - title: 概述
       content:
-        - url: /docs/reference_zh/mpp/multiplatform.html
-          title: 跨平台项目(Multiplatform Projects)
+        - url: /docs/reference_zh/multiplatform/multiplatform.html
+          title: 使用 Kotlin 进行跨平台开发
         - url: /docs/reference_zh/server-overview.html
           title: 使用 Kotlin 进行服务器端开发
         - url: /docs/reference_zh/android-overview.html
@@ -96,30 +96,45 @@ reference:
 
     - title: Kotlin 新功能
       content:
-        - url: /docs/reference_zh/whatsnew16.html
-          title: Kotlin 1.6.0
+        - url: /docs/reference_zh/whatsnew17.html
+          title: Kotlin 1.7.0
         - title: 早期版本
           content:
-          - url: /docs/reference_zh/whatsnew1530.html
-            title: Kotlin 1.5.30
-          - url: /docs/reference_zh/whatsnew1520.html
-            title: Kotlin 1.5.20
-          - url: /docs/reference_zh/whatsnew15.html
-            title: Kotlin 1.5.0
-          - url: /docs/reference_zh/whatsnew1430.html
-            title: Kotlin 1.4.30
-          - url: /docs/reference_zh/whatsnew1420.html
-            title: Kotlin 1.4.20
-          - url: /docs/reference_zh/whatsnew14.html
-            title: Kotlin 1.4.0
-          - url: /docs/reference_zh/whatsnew13.html
-            title: Kotlin 1.3
-          - url: /docs/reference_zh/whatsnew12.html
-            title: Kotlin 1.2
-          - url: /docs/reference_zh/whatsnew11.html
-            title: Kotlin 1.1
+            - url: /docs/reference_zh/whatsnew1620.html
+              title: Kotlin 1.6.20
+            - url: /docs/reference_zh/whatsnew16.html
+              title: Kotlin 1.6.0
+            - url: /docs/reference_zh/whatsnew1530.html
+              title: Kotlin 1.5.30
+            - url: /docs/reference_zh/whatsnew1520.html
+              title: Kotlin 1.5.20
+            - url: /docs/reference_zh/whatsnew15.html
+              title: Kotlin 1.5.0
+            - url: /docs/reference_zh/whatsnew1430.html
+              title: Kotlin 1.4.30
+            - url: /docs/reference_zh/whatsnew1420.html
+              title: Kotlin 1.4.20
+            - url: /docs/reference_zh/whatsnew14.html
+              title: Kotlin 1.4.0
+            - url: /docs/reference_zh/whatsnew13.html
+              title: Kotlin 1.3
+            - url: /docs/reference_zh/whatsnew12.html
+              title: Kotlin 1.2
+            - url: /docs/reference_zh/whatsnew11.html
+              title: Kotlin 1.1
 
-    - title: 入门
+    - title: 早期预览版(Early Access Preview)
+      content:
+        - url: /docs/reference_zh/whatsnew-eap.html
+          title: Kotlin 1.7.20-RC
+        - url: /docs/reference_zh/eap.html
+          title: 参加 Kotlin EAP 项目
+        - url: /docs/reference_zh/install-eap-plugin.html
+          title: 安装 Kotlin EAP Plugin
+        - url: /docs/reference_zh/configure-build-for-eap.html
+          title: 针对 EAP 进行编译配置
+
+    - title: 基础知识
       content:
         - url: /docs/reference_zh/basic-syntax.html
           title: 基本语法
@@ -134,8 +149,22 @@ reference:
       content:
       - title: 类型
         content:
-          - url: /docs/reference_zh/basic-types.html
-            title: 基本类型
+          - title: 基本类型
+            content:
+              - url: /docs/reference_zh/basic-types.html
+                title: 概述
+              - url: /docs/reference_zh/numbers.html
+                title: 数值类型
+              - url: /docs/reference_zh/booleans.html
+                title: 布尔(Booleans)类型
+              - url: /docs/reference_zh/characters.html
+                title: 字符
+              - url: /docs/reference_zh/strings.html
+                title: 字符串
+              - url: /docs/reference_zh/arrays.html
+                title: 数组
+              - url: /docs/reference_zh/unsigned-integer-types.html
+                title: 无符号整数类型
           - url: /docs/reference_zh/typecasts.html
             title: 类型检查与类型转换
 
@@ -225,76 +254,81 @@ reference:
 
     - title: 跨平台程序开发
       content:
-        - url: /docs/reference_zh/mpp/mpp-intro.html
-          title: Kotlin 跨平台程序开发
-
-        - title: Kotlin 跨平台移动应用程序 (KMM)
+        - title: 针对 iOS 和 Android 的 Kotlin 跨平台程序开发
           content:
-            - url: /docs/reference_zh/kmm/kmm-getting-started.html
-              title: Kotlin Multiplatform Mobile (KMM) 入门
-            - url: /docs/reference_zh/kmm/kmm-setup.html
-              title: KMM 开发环境设置
-            - url: /docs/reference_zh/kmm/kmm-create-first-app.html
-              title: 教程 - 创建你的第一个跨平台应用程序
-            - url: /docs/reference_zh/kmm/kmm-understand-project-structure.html
-              title: 理解 KMM 项目结构
-            - url: /docs/reference_zh/kmm/kmm-integrate-in-existing-app.html
+            - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-getting-started.html
+              title: Kotlin Multiplatform Mobile 入门
+            - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-setup.html
+              title: 1. 设置开发环境
+            - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-create-first-app.html
+              title: 2. 创建你的第一个跨平台应用程序
+            - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-dependencies.html
+              title: 3. 添加依赖项
+            - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-upgrade-app.html
+              title: 4. 升级你的应用程序
+            - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-wrap-up.html
+              title: 5. 完成你的项目
+            - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-understand-project-structure.html
+              title: 理解移动应用程序项目结构
+            - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-integrate-in-existing-app.html
               title: 教程 - 让你的 Android 应用程序在 iOS 上运行
-            - url: /docs/reference_zh/kmm/kmm-connect-to-platform-specific-apis.html
-              title: 连接到平台相关 API
-            - url: /docs/reference_zh/kmm/kmm-add-dependencies.html
-              title: 向 KMM 模块添加依赖项
-            - url: /docs/reference_zh/kmm/kmm-configure-sqldelight-for-data-storage.html
-              title: 配置 SQLDelight 用于数据存储
-            - url: /docs/reference_zh/kmm/kmm-use-ktor-for-networking.html
-              title: 使用 Ktor 进行网络访问
-            - url: /docs/reference_zh/kmm/kmm-publish-apps.html
-              title: 发布 KMM 应用程序
-            - title: 并发(Concurrency)程序开发
-              content:
-                - url: /docs/reference_zh/kmm/kmm-concurrency-overview.html
-                  title: 并发(Concurrency)概述
-                - url: /docs/reference_zh/kmm/kmm-concurrent-mutability.html
-                  title: 并发(Concurrency)中的可变性(Mutability)
-                - url: /docs/reference_zh/kmm/kmm-concurrency-and-coroutines.html
-                  title: 并发(Concurrency)与协程(Coroutine)
-            - url: /docs/reference_zh/kmm/kmm-samples.html
-              title: 示例程序
-            - url: /docs/reference_zh/kmm/kmm-faq.html
-              title: FAQ
-            - url: /docs/reference_zh/kmm/kmm-introduce-your-team.html
-              title: 向你的开发团队介绍 KMM
+            - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-publish-apps.html
+              title: 发布你的应用程序
 
-        - url: /docs/reference_zh/mpp/mpp-create-lib.html
-          title: 创建跨平台的库
-        - url: /docs/reference_zh/mpp/mpp-discover-project.html
-          title: 查看跨平台项目的结构
-        - url: /docs/reference_zh/mpp/mpp-share-on-platforms.html
-          title: 在不同的平台之间共用代码
-        - url: /docs/reference_zh/mpp/mpp-connect-to-apis.html
-          title: 连接平台相关的 API
-        - url: /docs/reference_zh/mpp/mpp-set-up-targets.html
-          title: 手动设置编译目标
-        - url: /docs/reference_zh/mpp/mpp-add-dependencies.html
-          title: 添加依赖项
-        - url: /docs/reference_zh/mpp/mpp-configure-compilations.html
-          title: 配置编译任务
-        - url: /docs/reference_zh/mpp/mpp-run-tests.html
+        - title: 针对其它平台的 Kotlin 跨平台程序开发
+          content:
+            - url: /docs/reference_zh/multiplatform/multiplatform-get-started.html
+              title: Kotlin 跨平台程序开发入门
+            - url: /docs/reference_zh/multiplatform/multiplatform-discover-project.html
+              title: 理解跨平台项目的结构
+            - url: /docs/reference_zh/multiplatform/multiplatform-set-up-targets.html
+              title: 手动设置编译目标
+            - url: /docs/reference_zh/multiplatform/multiplatform-full-stack-app.html
+              title: 使用 Kotlin Multiplatform 构建一个全栈 Web 应用程序
+
+        - title: 创建跨平台的库
+          content:
+            - url: /docs/reference_zh/multiplatform/multiplatform-library.html
+              title: 教程 - 创建并发布跨平台的库
+            - url: /docs/reference_zh/multiplatform/multiplatform-publish-lib.html
+              title: 发布跨平台的库
+
+        - title: 共用代码的原则
+          content:
+            - url: /docs/reference_zh/multiplatform/multiplatform-share-on-platforms.html
+              title: 在不同的平台之间共用代码
+            - url: /docs/reference_zh/multiplatform/multiplatform-connect-to-apis.html
+              title: 连接平台相关的 API
+            - url: /docs/reference_zh/multiplatform/multiplatform-hierarchy.html
+              title: 层级项目结构
+
+        - title: 添加依赖项
+          content:
+            - url: /docs/reference_zh/multiplatform/multiplatform-add-dependencies.html
+              title: 添加跨平台库依赖项
+            - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-android-dependencies.html
+              title: 为 Andorid 目标平台添加依赖项
+            - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-ios-dependencies.html
+              title: 为 iOS 目标平台添加依赖项
+
+        - url: /docs/reference_zh/multiplatform/multiplatform-run-tests.html
           title: 运行测试
-        - url: /docs/reference_zh/mpp/mpp-publish-lib.html
-          title: 发布跨平台的库
-        - url: /docs/reference_zh/mpp/multiplatform-library.html
-          title: 教程 - 创建并发布跨平台的库
-        - url: /docs/reference_zh/mpp/mpp-build-native-binaries.html
-          title: 构建最终的原生二进制文件
-        - url: /docs/reference_zh/mpp/mpp-supported-platforms.html
-          title: 支持的平台
-        - url: /docs/reference_zh/mpp/mpp-dsl-reference.html
+
+        - title: 编译 Artifact
+          content:
+            - url: /docs/reference_zh/multiplatform/multiplatform-configure-compilations.html
+              title: 配置编译任务
+            - url: /docs/reference_zh/multiplatform/multiplatform-build-native-binaries.html
+              title: 构建最终的原生二进制文件
+
+        - url: /docs/reference_zh/multiplatform/multiplatform-dsl-reference.html
           title: 跨平台程序的 Gradle DSL 参考文档
-        - url: /docs/reference_zh/mpp/migrating-multiplatform-project-to-14.html
-          title: 将跨平台项目迁移到 Kotlin 1.4.0
-        - url: /docs/reference_zh/mpp/mpp-tutorials.html
-          title: Kotlin 跨平台程序开发教程
+        - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-samples.html
+          title: 示例程序
+        - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-faq.html
+          title: FAQ
+        - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-introduce-your-team.html
+          title: 向你的开发团队介绍跨平台移动开发
 
     - title: 运行平台
       content:
@@ -373,8 +407,8 @@ reference:
                   title: 使用 Dukat 生成外部声明(External Declaration)
             - url: /docs/reference_zh/js/js-samples.html
               title: 示例程序
-            - url: /docs/reference_zh/js/js-hands-ons.html
-              title: Kotlin/JS 动手实验室(Hands-on lab)
+            - url: /docs/reference_zh/js/js-react.html
+              title: 教程 - 使用 React 和 Kotlin/JS 创建 Web 应用程序
 
         - title: 原生(Native)平台
           content:
@@ -384,16 +418,6 @@ reference:
               title: Kotlin/Native 开发入门 - 使用 Gradle
             - url: /docs/reference_zh/native/native-command-line-compiler.html
               title: Kotlin/Native 开发入门 - 使用命令行编译器
-            - url: /docs/reference_zh/native/native-concurrency.html
-              title: Kotlin/Native 中的并发
-            - url: /docs/reference_zh/native/native-immutability.html
-              title: Kotlin/Native 中的不变性(Immutability)
-            - url: /docs/reference_zh/native/native-libraries.html
-              title: Kotlin/Native 库
-            - url: /docs/reference_zh/native/native-platform-libs.html
-              title: 平台库
-            - url: /docs/reference_zh/native/native-dynamic-libraries.html
-              title: 教程 - 使用 Kotlin/Native 开发动态库
             - title: 与 C 代码交互
               content:
                 - url: /docs/reference_zh/native/native-c-interop.html
@@ -406,12 +430,40 @@ reference:
                   title: 教程 - 映射 C 语言的函数指针(Function Pointer)
                 - url: /docs/reference_zh/native/mapping-strings-from-c.html
                   title: 教程 - 映射 C 语言的字符串
-            - url: /docs/reference_zh/native/native-objc-interop.html
-              title: 与 Swift/Objective-C 代码交互
-            - url: /docs/reference_zh/native/native-cocoapods.html
-              title: 与 CocoaPods 集成
-            - url: /docs/reference_zh/native/apple-framework.html
-              title: 教程 - 使用 Kotlin/Native 开发 Apple Framework
+                - url: /docs/reference_zh/native/native-app-with-c-and-libcurl.html
+                  title: 教程 - 使用 C Interop 和 libcurl 创建应用程序
+            - title: 与 Objective-C 代码交互
+              content:
+                - url: /docs/reference_zh/native/native-objc-interop.html
+                  title: 与 Swift/Objective-C 代码交互
+                - url: /docs/reference_zh/native/apple-framework.html
+                  title: 教程 - 使用 Kotlin/Native 开发 Apple Framework
+            - title: 与 CocoaPods 集成
+              content:
+                - url: /docs/reference_zh/native/native-cocoapods.html
+                  title: CocoaPods 概述与设置
+                - url: /docs/reference_zh/native/native-cocoapods-libraries.html
+                  title: 添加 Pod 库依赖项
+                - url: /docs/reference_zh/native/native-cocoapods-xcode.html
+                  title: 将 Kotlin Gradle 项目用作 CocoaPods 依赖项
+                - url: /docs/reference_zh/native/native-cocoapods-dsl-reference.html
+                  title: CocoaPods Gradle plugin DSL 参考文档
+            - url: /docs/reference_zh/native/native-libraries.html
+              title: Kotlin/Native 库
+            - url: /docs/reference_zh/native/native-platform-libs.html
+              title: 平台库
+            - url: /docs/reference_zh/native/native-dynamic-libraries.html
+              title: 教程 - 使用 Kotlin/Native 开发动态库
+            - url: /docs/reference_zh/native/native-immutability.html
+              title: 不变性(Immutability)与并发(Concurrency)
+            - title: 使用并发
+              content:
+                - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-concurrency-overview.html
+                  title: 并发概述
+                - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-concurrent-mutability.html
+                  title: 并发中的可变性
+                - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-concurrency-and-coroutines.html
+                  title: 并发与协程
             - url: /docs/reference_zh/native/native-debugging.html
               title: 调试 Kotlin/Native 代码
             - url: /docs/reference_zh/native/native-ios-symbolication.html
@@ -420,8 +472,6 @@ reference:
               title: 改进 Kotlin/Native 编译速度
             - url: /docs/reference_zh/native/native-faq.html
               title: Kotlin/Native FAQ
-            - url: /docs/reference_zh/native/native-app-with-c-and-libcurl.html
-              title: 教程 - 使用 C Interop 和 libcurl 创建应用程序
 
         - title: 脚本(Scripting)平台
           content:
@@ -433,8 +483,8 @@ reference:
       content:
         - url: /docs/reference_zh/releases.html
           title: Kotlin 的发布版本
-        - url: /docs/reference_zh/kmm/kmm-plugin-releases.html
-          title: KMM plugin 的发布版本
+        - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-plugin-releases.html
+          title: Kotlin Multiplatform Mobile plugin 的发布版本
         - url: /docs/reference_zh/plugin-releases.html
           title: Kotlin plugin 的发布版本
         - url: /docs/reference_zh/roadmap.html
@@ -489,14 +539,14 @@ reference:
 
     - title: 官方库
       content:
-        - title: 协程(Coroutine)
+        - title: 协程(Coroutine) (kotlinx.coroutines)
           content:
             - url: /docs/reference_zh/coroutines/coroutines-guide.html
               title: 协程指南
             - url: /docs/reference_zh/coroutines/coroutines-basics.html
               title: 协程的基本概念
-            - url: https://play.kotlinlang.org/hands-on/Introduction%20to%20Coroutines%20and%20Channels/
-              title: 教程 - 协程与通道(Channel)入门
+            - url: /docs/reference_zh/coroutines/coroutines-and-channels.html
+              title: 教程 - 协程与通道(Channel)
             - url: /docs/reference_zh/coroutines/cancellation-and-timeouts.html
               title: 取消与超时
             - url: /docs/reference_zh/coroutines/composing-suspending-functions.html
@@ -519,7 +569,7 @@ reference:
               title: 教程 - 使用 IntelliJ IDEA 调试 Kotlin 数据流(Flow)
 
         - url: /docs/reference_zh/serialization.html
-          title: 序列化(Serialization)
+          title: 序列化(Serialization) (kotlinx.serialization)
         - url: https://ktor.io/
           title: Ktor
 
@@ -529,8 +579,10 @@ reference:
           title: 标准库(stdlib)
         - url: https://kotlinlang.org/api/latest/kotlin.test/
           title: 测试库(kotlin.test)
-        - url: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/
+        - url: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/
           title: 协程(kotlinx.coroutines)
+        - url: https://kotlinlang.org/api/kotlinx.serialization/kotlinx-serialization-core/
+          title: 序列化(kotlinx.serialization)
         - url: https://api.ktor.io/
           title: Ktor
 
@@ -555,16 +607,12 @@ reference:
               title: Maven
             - url: /docs/reference_zh/ant.html
               title: Ant
-        - title: IntelliJ IDEA
-          content:
-            - url: /docs/reference_zh/run-code-snippets.html
-              title: 教程 - 运行代码片段
-            - url: /docs/reference_zh/code-style-migration-guide.html
-              title: 迁移到 Kotlin 编码风格
-        - url: https://developer.android.com/studio
-          title: Android Studio
-        - url: /docs/reference_zh/eclipse.html
-          title: Eclipse IDE
+        - url: /docs/reference_zh/kotlin-ide.html
+          title: 支持 Kotlin 开发的 IDE
+        - url: /docs/reference_zh/code-style-migration-guide.html
+          title: 使用 IntelliJ IDEA 迁移到 Kotlin 编码风格
+        - url: /docs/reference_zh/run-code-snippets.html
+          title: 运行代码片段
         - title: 编译器
           content:
             - url: /docs/reference_zh/command-line.html
@@ -601,6 +649,10 @@ reference:
               title: 增量式处理(Incremental Processing)
             - url: /docs/reference_zh/ksp/ksp-multi-round.html
               title: 多轮(Multiple Round)处理
+            - url: /docs/reference_zh/ksp/ksp-multiplatform.html
+              title: 在 Kotlin Multiplatform 中使用 KSP
+            - url: /docs/reference_zh/ksp/ksp-command-line.html
+              title: 在命令行运行 KSP
             - url: /docs/reference_zh/ksp/ksp-faq.html
               title: FAQ
         - url: /docs/reference_zh/kotlin-and-ci.html
@@ -619,33 +671,25 @@ reference:
           title: 通过示例学习 Kotlin
         - url: /docs/reference_zh/koans.html
           title: Kotlin Koan
-        - url: https://hyperskill.org/tracks/18
+        - url: https://hyperskill.org/join/fromdocstoJetSalesStat?redirect=true&next=/tracks/18
           title: Kotlin 基础课程
-        - url: /docs/reference_zh/advent-of-code.html
-          title: 使用 Kotlin 惯用法的 Advent of Code
+        - url: /docs/reference_zh/kotlin-tips.html
+          title: Kotlin 小技巧
         - url: /docs/reference_zh/books.html
           title: Kotlin 书籍
+        - url: /docs/reference_zh/advent-of-code.html
+          title: Advent of Code 谜题
         - title: 使用 IDE(EduTools) 进行学习
           content:
             - url: /docs/reference_zh/edu-tools-learner.html
               title: 学习 Kotlin
             - url: /docs/reference_zh/edu-tools-educator.html
-              title: 讲授 Kotlin
+              title: 教授 Kotlin
 
     - title: 其他资源
       content:
         - url: /docs/reference_zh/faq.html
           title: FAQ
-        - title: 早期预览版(Early Access Preview)
-          content:
-            - url: /docs/reference_zh/eap.html
-              title: 参加 Kotlin EAP 项目
-            - url: /docs/reference_zh/install-eap-plugin.html
-              title: 安装 Kotlin EAP Plugin
-            - url: /docs/reference_zh/configure-build-for-eap.html
-              title: 针对 EAP 进行编译配置
-        - url: /docs/reference_zh/contribute.html
-          title: 为 Kotlin 项目贡献代码
         - title: Kotlin 的演化
           content:
             - url: /docs/reference_zh/kotlin-evolution.html
@@ -656,6 +700,8 @@ reference:
               title: Kotlin 各组件的稳定性 (1.4 版以前)
             - title: 兼容性
               content:
+                - url: /docs/reference_zh/compatibility-guide-17.html
+                  title: Kotlin 1.7 兼容性指南
                 - url: /docs/reference_zh/compatibility-guide-16.html
                   title: Kotlin 1.6 兼容性指南
                 - url: /docs/reference_zh/compatibility-guide-15.html
@@ -668,32 +714,40 @@ reference:
                   title: 兼容模式
         - title: Kotlin 基金会
           content:
-            - url: /docs/reference_zh/kotlin-foundation.html
+            - url: https://kotlinfoundation.org/
               title: Kotlin 基金会
-            - url: /docs/reference_zh/language-committee-guidelines.html
+            - url: https://kotlinfoundation.org/language-committee-guidelines/
               title: 语言委员会指南
-            - url: /docs/reference_zh/submitting-incompatible-changes.html
+            - url: https://kotlinfoundation.org/submitting-incompatible-changes/
               title: 提交不兼容的变更
-            - url: /docs/reference_zh/guidelines.html
-              title: Kotlin 品牌使用指南
-            - url: /docs/reference_zh/foundation-faq.html
+            - url: https://kotlinfoundation.org/guidelines/
+              title: Kotlin 品牌的使用
+            - url: https://kotlinfoundation.org/faq/
               title: Kotlin 基金会 FAQ
+        - title: 期刊
+          content:
+            - url: /docs/reference_zh/cross-platform-mobile-development.html
+              title: 跨平台移动应用程序开发
+            - url: /docs/reference_zh/native-and-cross-platform.html
+              title: 原生(Native)应用程序开发与跨平台(cross-platform)移动应用程序开发
+            - url: /docs/reference_zh/cross-platform-frameworks.html
+              title: 跨平台应用程序开发的 6 种最佳框架
         - url: /docs/reference_zh/security.html
           title: 安全性
         - url: /docs/reference_zh/kotlin-pdf.html
           title: Kotlin 文档 (PDF 格式)
-        - title: Kotlin 品牌资产
+        - title: 开发社区
           content:
-            - url: /docs/reference_zh/kotlin-mascot.html
-              title: Kotlin 吉祥物
-            - url: /docs/reference_zh/kotlin-logo.html
-              title: Kotlin logo
-            - url: /docs/reference_zh/kotlin-nights-branding.html
-              title: Kotlin Nights 品牌
-            - url: /docs/reference_zh/kug-branding.html
-              title: KUG 品牌
-            - url: https://kotlinlang.org/assets/kotlin-media-kit.pdf
-              title: 媒体宣传资料
+            - url: /docs/reference_zh/contribute.html
+              title: 为 Kotlin 项目贡献代码
+            - url: /docs/reference_zh/kug-guidelines.html
+              title: KUG 指南
+            - url: /docs/reference_zh/kotlin-night-guidelines.html
+              title: Kotlin Nights 指南
+        - url: /docs/reference_zh/kotlin-brand-assets.html
+          title: Kotlin 品牌资产
+        - url: https://kotlinlang.org/assets/kotlin-media-kit.pdf
+          title: 媒体宣传资料
 
 
 

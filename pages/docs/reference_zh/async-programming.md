@@ -7,7 +7,7 @@ title: "异步编程(Asynchronous Programming)技术"
 
 # 异步编程(Asynchronous Programming)技术
 
-本页面最终更新: 2021/09/14
+最终更新: {{ site.data.releases.latestDocDate }}
 
 过去几十年来, 作为开发者, 我们始终面对一个问题需要解决 - 怎么样才能让我们的应用程序不要发生阻塞.
 无论我们在开发桌面应用程序, 移动应用程序, 甚至服务器端的应用程序,

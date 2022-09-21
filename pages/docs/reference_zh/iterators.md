@@ -7,7 +7,7 @@ title: "迭代器(Iterator)"
 
 # 迭代器(Iterator)
 
-本页面最终更新: 2021/02/11
+最终更新: {{ site.data.releases.latestDocDate }}
 
 为了遍历集合中的元素, Kotlin 标准库支持常用的 _迭代器(Iterator)_ 机制 –
 迭代器可以用来按顺序访问集合元素, 而不必暴露集合的底层细节.

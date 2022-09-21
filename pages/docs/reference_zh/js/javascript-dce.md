@@ -7,7 +7,7 @@ title: "JavaScript 死代码剔除工具"
 
 # JavaScript 死代码剔除工具
 
-本页面最终更新: 2021/10/15
+最终更新: {{ site.data.releases.latestDocDate }}
 
 Kotlin/JS Gradle 插件包含一个 _[死代码剔除(Dead Code Elimination)](https://wikipedia.org/wiki/Dead_code_elimination)_ (_DCE_) 工具.
 死代码剔除通常又被称为 _摇树(Tree Shaking)_.

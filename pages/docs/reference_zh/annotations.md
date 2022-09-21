@@ -7,7 +7,7 @@ title: "注解"
 
 # 注解(Annotation)
 
-本页面最终更新: 2021/11/16
+最终更新: {{ site.data.releases.latestDocDate }}
 
 注解是用来为代码添加元数据(metadata)的一种手段.
 要声明一个注解, 需要在类之前添加 `annotation` 修饰符:
@@ -128,9 +128,6 @@ fun main(args: Array<String>) {
         processInfo(InfoMarker("default"))
 }
 ```
-
-> 对于 Kotlin/Native, 目前还不支持创建注解类的实例.
-{:.note}
 
 关于创建注解类的实例, 更多详情请参见
 [这篇 KEEP 文档](https://github.com/Kotlin/KEEP/blob/master/proposals/annotation-instantiation.md).

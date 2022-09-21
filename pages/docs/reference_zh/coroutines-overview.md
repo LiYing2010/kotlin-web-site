@@ -7,7 +7,7 @@ title: "协程(Coroutine)"
 
 # 协程(Coroutine)
 
-本页面最终更新: 2021/07/09
+最终更新: {{ site.data.releases.latestDocDate }}
 
 异步(Asynchronous)程序开发, 或者叫非阻塞(non-blocking)程序开发, 是一种软件开发的一个重要部分.
 当开发服务器端程序, 桌面程序, 或移动设备应用程序时, 不仅需要为用户提供流畅的使用体验,
@@ -39,6 +39,7 @@ Kotlin 采用一种灵活的方式解决这类问题,
 - [协程(Coroutine)与通道(Channel)简介](https://play.kotlinlang.org/hands-on/Introduction%20to%20Coroutines%20and%20Channels/01_Introduction)
 - [使用 IntelliJ IDEA 调试协程](coroutines/debug-coroutines-with-idea.html)
 - [使用 IntelliJ IDEA 调试 Kotlin 数据流(Flow)](coroutines/debug-flow-with-idea.html)
+- [在 Android 平台测试 Kotlin 协程](https://developer.android.com/kotlin/coroutines/test)
 
 
 ## 示例项目

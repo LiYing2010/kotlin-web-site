@@ -7,7 +7,7 @@ title: "Kotlin 1.5.20 版中的新功能"
 
 # Kotlin 1.5.20 版中的新功能
 
-本页面最终更新: 2021/06/24
+最终更新: {{ site.data.releases.latestDocDate }}
 
 _[发布日期: 2021/06/24](releases.html#release-details)_
 
@@ -78,12 +78,12 @@ fun kotlinFun() = with(JavaClass()) {
 
 ### 支持在包含 Kotlin 和 Java 代码的模块内调用 Lombok 生成的 Java 方法
 
-> Lombok 编译器插件是 [试验性功能](components-stability.html).
+> Lombok 编译器插件是 [实验性功能](components-stability.html).
 > 它随时有可能变更或被删除. 请注意, 只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-7112) 提供你的反馈意见.
 {:.warning}
 
-Kotlin 1.5.20 引入了 [Lombok 编译器插件](lombok.html)(试验性功能).
+Kotlin 1.5.20 引入了 [Lombok 编译器插件](lombok.html)(实验性功能).
 这个插件能够在包含 Kotlin 和 Java 代码的模块内, 生成并使用 Java 的 [Lombok](https://projectlombok.org/) 声明.
 Lombok 注解 只能用于 Java 源代码, 如果你在 Kotlin 代码中使用, 会被忽略.
 
@@ -111,7 +111,7 @@ Kotlin/Native 1.5.20 提供了新功能的预览, 以及工具的改进:
 
 ### Opt-in: 导出 KDoc 注释到生成的 Objective-C 头文件
 
-> 导出 KDoc 注释到生成的 Objective-C 头文件是 [试验性功能](components-stability.html).
+> 导出 KDoc 注释到生成的 Objective-C 头文件是 [实验性功能](components-stability.html).
 > 它随时有可能变更或被删除. 
 > 需要使用者明确同意(Opt-in) (详情请参见下文), 而且你应该只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-38600) 提供你的反馈意见.
@@ -211,12 +211,12 @@ Kotlin 1.5.20 增加了以下功能, 改进 Gradle 的使用体验:
 
 ### 在 kapt 中, 注解处理器的 classloader 缓存
 
-> 在 kapt 中, 注解处理器的 classloader 缓存是 [试验性功能](components-stability.html).
+> 在 kapt 中, 注解处理器的 classloader 缓存是 [实验性功能](components-stability.html).
 > 它随时有可能变更或被删除. 请注意, 只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-28901) 提供你的反馈意见.
 {:.warning}
 
-现在有一个新的试验性功能, 可以在 [kapt](kapt.html) 中缓存注解处理器的 classloader.
+现在有一个新的实验性功能, 可以在 [kapt](kapt.html) 中缓存注解处理器的 classloader.
 对于连续执行很多 Gradle 任务, 这个功能可以提高 kapt 的速度.
 
 要启用这个功能, 请在你的 `gradle.properties` 文件中添加以下属性:

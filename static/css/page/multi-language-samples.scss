@@ -28,7 +28,9 @@
     background-image: url(./multi-language-samples/windows.svg);
 }
 
-.multi-language-selector .language-option {
+.multi-language-selector .language-option,
+.multi-language-selector .version-option
+{
     cursor: pointer;
     display: inline-block;
     font-weight: normal;
@@ -63,7 +65,9 @@
 }
 
 .multi-language-selector .os-option.selected,
-.multi-language-selector .language-option.selected {
+.multi-language-selector .language-option.selected,
+.multi-language-selector .version-option.selected
+{
     background-color: #ebebec;
     filter: none;
     opacity: 1;

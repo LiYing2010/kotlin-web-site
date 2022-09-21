@@ -7,7 +7,7 @@ title: "教程 - 映射 C 语言的结构(Struct)和联合(Union)类型"
 
 # 教程 - 映射 C 语言的结构(Struct)和联合(Union)类型
 
-本页面最终更新: 2022/02/16
+最终更新: {{ site.data.releases.latestDocDate }}
 
 这是本系列的第 2 篇教程.
 第 1 篇教程是 [映射 C 语言的基本数据类型](mapping-primitive-data-types-from-c.html).
@@ -61,13 +61,13 @@ void union_by_pointer(MyUnion* u) {}
 尽管可以直接使用命令行, 或者通过脚本文件(比如 `.sh` 或 `.bat` 文件), 但这种方法不适合于包含几百个文件和库的大项目.
 更好的方法是使用带有构建系统的 Kotlin/Native 编译器,
 因为它会帮助你下载并缓存 Kotlin/Native 编译器二进制文件, 传递依赖的库, 并运行编译器和测试.
-Kotlin/Native 能够通过 [kotlin-multiplatform](../mpp/mpp-discover-project.html#multiplatform-plugin) plugin
+Kotlin/Native 能够通过 [kotlin-multiplatform](../multiplatform/multiplatform-discover-project.html#multiplatform-plugin) plugin
 使用 [Gradle](https://gradle.org) 构建系统.
 
 关于如何使用 Gradle 设置 IDE 兼容的项目, 请参见教程 [一个基本的 Kotlin/Native 应用程序](native-gradle.html).
 如果你想要寻找具体的步骤指南, 来开始一个新的 Kotlin/Native 项目并在 IntelliJ IDEA 中打开它, 请先阅读这篇教程.
 在本教程中, 我们关注更高级的 C 交互功能, 包括使用 Kotlin/Native,
-以及使用 Gradle 的 [跨平台](../mpp/mpp-discover-project.html#multiplatform-plugin) 构建.
+以及使用 Gradle 的 [跨平台](../multiplatform/multiplatform-discover-project.html#multiplatform-plugin) 构建.
 
 首先, 创建一个项目文件夹. 本教程中的所有路径都是基于这个文件夹的相对路径.
 有时在添加任何新文件之前, 会需要创建缺少的目录.
@@ -151,11 +151,11 @@ Gradle 推荐使用符合约定习惯的文件布局, 而不是使用额外的�
 比如, 源代码文件应该放在 `src/nativeMain/kotlin` 文件夹中.
 默认情况下, 来自 C 的所有符号会被导入到 `interop` 包,
 你可能想要在我们的 `.kt` 文件中导入整个包.
-请查看 [kotlin-multiplatform](../mpp/mpp-discover-project.html#multiplatform-plugin) plugin 文档,
+请查看 [kotlin-multiplatform](../multiplatform/multiplatform-discover-project.html#multiplatform-plugin) plugin 文档,
 学习配置它的各种方法.
 
 创建一个 `src/nativeMain/kotlin/hello.kt` 桩(stub)文件, 内容如下,
-看看 C 中的声明在 Kotlin 会成为什么:
+看看 C 中的结构和联合类型声明在 Kotlin 会成为什么:
 
 ```kotlin
 import interop.*

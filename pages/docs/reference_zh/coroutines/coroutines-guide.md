@@ -7,7 +7,7 @@ title: "协程指南"
 
 # 协程指南
 
-本页面最终更新: 2021/08/26
+最终更新: {{ site.data.releases.latestCoroutinesDocDate }}
 
 Kotlin 语言只在它的标准库中提供了最少量的低层 API, 让其它各种不同的库来使用协程.
 与拥有类似功能的其他语言不同, `async` 和 `await` 在 Kotlin 中不是关键字, 甚至不是标准库的一部分.
@@ -40,6 +40,6 @@ Kotlin 语言只在它的标准库中提供了最少量的低层 API, 让其它�
 
 * [使用协程进行 UI 编程向导](https://github.com/Kotlin/kotlinx.coroutines/blob/master/ui/coroutines-guide-ui.md)
 * [协程功能设计文档 (KEEP)](https://github.com/Kotlin/KEEP/blob/master/proposals/coroutines.md)
-* [kotlinx.coroutines API 完整参考](http://kotlin.github.io/kotlinx.coroutines)
+* [kotlinx.coroutines API 完整参考文档](https://kotlinlang.org/api/kotlinx.coroutines/)
 * [Android 中协程的最佳实践](https://developer.android.com/kotlin/coroutines/coroutines-best-practices)
 * [关于 Android 中使用 Kotlin 协程和数据流(Flow) 的更多资源](https://developer.android.com/kotlin/coroutines/additional-resources)

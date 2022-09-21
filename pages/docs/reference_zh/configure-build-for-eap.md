@@ -7,7 +7,7 @@ title: "针对 EAP 进行构建配置"
 
 # 针对 EAP 进行构建配置
 
-本页面最终更新: 2022/04/13
+最终更新: {{ site.data.releases.latestDocDate }}
 
 如果你使用 Kotlin 的 EAP 版创建新的项目, 你不需要进行任何额外的设置.
 [Kotlin Plugin](install-eap-plugin.html) 会为你配置好一切!
@@ -23,7 +23,7 @@ title: "针对 EAP 进行构建配置"
 下文解释如何在 Gradle 和 Maven 中配置你的构建:
 
 * [在 Gradle 中配置](#configure-in-gradle)
-* [在 Maven 中配置](#configure-in-maven)  
+* [在 Maven 中配置](#configure-in-maven)
 
 ## 在 Gradle 中配置
 
@@ -47,12 +47,12 @@ title: "针对 EAP 进行构建配置"
 
 ```kotlin
 plugins {
-   java
-   kotlin("multiplatform") version "KOTLIN-EAP-VERSION"
+    java
+    kotlin("multiplatform") version "KOTLIN-EAP-VERSION"
 }
 
 repositories {
-   mavenCentral()
+    mavenCentral()
 }
 ```
 
@@ -64,12 +64,12 @@ repositories {
 
 ```groovy
 plugins {
-   id 'java'
-   id 'org.jetbrains.kotlin.multiplatform' version 'KOTLIN-EAP-VERSION'
+    id 'java'
+    id 'org.jetbrains.kotlin.multiplatform' version 'KOTLIN-EAP-VERSION'
 }
 
 repositories {
-   mavenCentral()
+    mavenCentral()
 }
 ```
 

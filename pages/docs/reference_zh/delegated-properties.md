@@ -7,7 +7,7 @@ title: "委托属性"
 
 # 委托属性(Delegated Property)
 
-本页面最终更新: 2021/11/16
+最终更新: {{ site.data.releases.latestDocDate }}
 
 有许多非常具有共性的属性, 虽然你可以在每个需要这些属性的类中手工地实现它们,
 但是, 如果能够只实现一次, 然后将它放在库中, 供所有需要者重复使用, 那将会很有帮助.
@@ -343,7 +343,7 @@ val readOnly: Int by resourceDelegate()  // ReadWriteProperty as val
 var readWrite: Int by resourceDelegate()
 ```
 
-### 编译器对委托属性的翻译规则
+## 编译器对委托属性的翻译规则
 
 委托属性的底层实现是, 对每个委托属性, Kotlin 编译器会生成一个辅助属性, 并将目标属性的存取操作委托给它.
 比如, 对于属性 `prop`, 编译器会生成一个隐藏的 `prop$delegate` 属性, 然后属性 `prop` 的访问器代码会将存取操作委托给这个新增的属性:
@@ -398,7 +398,7 @@ class C<Type> {
 }
 ```
 
-### 控制属性委托的创建逻辑
+## 控制属性委托的创建逻辑
 
 通过定义一个 `provideDelegate` 操作符, 你可以控制属性委托对象的创建逻辑.
 如果在 `by` 右侧的对象中定义了名为 `provideDelegate` 的成员函数或扩展函数,

@@ -7,7 +7,7 @@ title: "聚合(Aggregate)操作"
 
 # 聚合(Aggregate)操作
 
-本页面最终更新: 2021/12/07
+最终更新: {{ site.data.releases.latestDocDate }}
 
 Kotlin 的集合包含一些函数, 用于实现常见的 _聚合(Aggregate)操作_ – 也就是根据集合内容返回单个结果的操作.
 大多数聚合操作都是大家已经熟悉的, 并与其他语言中的类似操作的工作方式相同:

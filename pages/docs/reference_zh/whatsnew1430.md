@@ -7,7 +7,7 @@ title: "Kotlin 1.4.30 版中的新功能"
 
 # Kotlin 1.4.30 版中的新功能
 
-本页面最终更新: 2021/02/03
+最终更新: {{ site.data.releases.latestDocDate }}
 
 _[发布日期: 2021/02/03](releases.html#release-details)_
 
@@ -33,13 +33,13 @@ Kotlin 1.5.0 将会发布一些新的语言功能 – 支持 JVM 记录类(Recor
 
 ### 支持 JVM 记录类(Record)
 
-> JVM 记录类(Record)功能是 [试验性功能](components-stability.html). 它随时有可能变更或被删除.
+> JVM 记录类(Record)功能是 [实验性功能](components-stability.html). 它随时有可能变更或被删除.
 > 需要明确同意使用(Opt-in)(详情请参见下文), 请注意, 只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-42430) 提供你的反馈意见.
 {:.warning}
 
 [JDK 16 版](https://openjdk.java.net/projects/jdk/16/) 中计划稳定新类型的 Java 类, 名为 [Record](https://openjdk.java.net/jeps/395).
-为了充分利用 Kotlin 的功能, 并保证与 Java 的交互能力, Kotlin 会增加对记录类的支持(试验性功能).
+为了充分利用 Kotlin 的功能, 并保证与 Java 的交互能力, Kotlin 会增加对记录类的支持(实验性功能).
 
 你可以在 Kotlin 中使用 Java 中声明的记录类, 就和其他有属性的类一样.
 不需要其他任何步骤.
@@ -60,7 +60,7 @@ data class User(val name: String, val age: Int)
 
 ### 封闭接口(Sealed Interface)
 
-> 封闭接口(Sealed Interface)是 [试验性功能](components-stability.html). 它随时有可能变更或被删除.
+> 封闭接口(Sealed Interface)是 [实验性功能](components-stability.html). 它随时有可能变更或被删除.
 > 需要明确同意使用(Opt-in)(详情请参见下文), 请注意, 只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-42433) 提供你的反馈意见.
 {:.warning}
@@ -68,7 +68,7 @@ data class User(val name: String, val age: Int)
 在 Kotlin 1.4.30 中, 我们发布了 _封闭接口(Sealed Interface)_ 的原型.
 这个功能是对封闭类的补充, 可以用来构建更加灵活的类层级关系约束.
 
-封闭接口可以用作 “internal” 接口, 不能在同一个模块之外实现.
+封闭接口可以用作 "internal" 接口, 不能在同一个模块之外实现.
 你可以利用这一点来实现很多功能, 比如, 编写穷尽式(exhaustive) `when` 表达式.
 
 ```kotlin
@@ -108,7 +108,7 @@ class Rectangle(override val vertices: List<Point>): Fillable, Polygon {
 
 ### 包范围内的封闭类(Sealed Class)层级结构
 
-> 包范围内的封闭类(Sealed Class)层级结构是 [试验性功能](components-stability.html). 它随时有可能变更或被删除.
+> 包范围内的封闭类(Sealed Class)层级结构是 [实验性功能](components-stability.html). 它随时有可能变更或被删除.
 > 需要明确同意使用(Opt-in)(详情请参见下文), 请注意, 只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [YouTrack](https://youtrack.jetbrains.com/issue/KT-42433) 提供你的反馈意见.
 {:.warning}
@@ -242,7 +242,7 @@ Kotlin/JVM 的 [基于 IR 的编译器后端](whatsnew14.html#unified-backends-a
 ### 性能改善
 
 在 1.4.30 中, Kotlin/Native 有了很多性能改善, 使得编译速度更加提升.
-比如, 在 [KMM 网络和数据存储示例项目](https://github.com/kotlin-hands-on/kmm-networking-and-data-storage/tree/final) 中,
+比如, 在 [使用 Kotlin Multiplatform Mobile 开发的网络和数据存储](https://github.com/kotlin-hands-on/kmm-networking-and-data-storage/tree/final) 示例项目中,
 重新构建框架所需要的时间从 9.5 秒 (1.4.10 版) 减少到了 4.5 秒 (1.4.30 版).
 
 ### Apple watchOS 64-bit 模拟器编译目标
@@ -258,7 +258,7 @@ Kotlin/JVM 的 [基于 IR 的编译器后端](whatsnew14.html#unified-backends-a
 
 ### 顶级属性(top-level property)的延迟初始化(Lazy initialization)
 
-> 顶级属性(top-level property)的延迟初始化(Lazy initialization)是 [试验性功能](components-stability.html). 它随时有可能变更或被删除.
+> 顶级属性(top-level property)的延迟初始化(Lazy initialization)是 [实验性功能](components-stability.html). 它随时有可能变更或被删除.
 > 需要明确同意使用(Opt-in)(详情请参见下文), 请注意, 只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-44320) 提供你的反馈意见.
 {:.warning}
@@ -289,7 +289,7 @@ Gradle 会缓存计算结果, 并在以后的构建中重用这些结果.
 
 ### 针对大写/小写文字的 Locale 无关 API 
 
-> Locale 无关 API 功能是 [试验性功能](components-stability.html). 它随时有可能变更或被删除.
+> Locale 无关 API 功能是 [实验性功能](components-stability.html). 它随时有可能变更或被删除.
 > 请注意, 只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-42437) 提供你的反馈意见.
 {:.warning}
@@ -297,7 +297,7 @@ Gradle 会缓存计算结果, 并在以后的构建中重用这些结果.
 本次发布版增加了改变字符串和字符大小写的 Locale 无关 API (实验性功能).
 现在的 `toLowerCase()`, `toUpperCase()`, `capitalize()`, `decapitalize()` API 函数是与 Locale 相关的.
 也就是说, 不同的平台 Locale 设置可能影响代码的行为.
-比如, 在 Turkish locale 中, 使用 `toUpperCase` 来转换字符串 “kotlin”, 结果会是 "KOTLİN", 而不是 "KOTLIN".
+比如, 在 Turkish locale 中, 使用 `toUpperCase` 来转换字符串 "kotlin", 结果会是 "KOTLİN", 而不是 "KOTLIN".
 
 ```kotlin
 // 使用现在的 API
@@ -333,7 +333,7 @@ Kotlin 1.4.30 提供了以下替代函数:
 
 ### 明确的 "字符到代码" 和 "字符到数值" 转换
 
-> 意义明确的 `Char` 转换 API 是 [试验性功能](components-stability.html). 它随时有可能变更或被删除.
+> 意义明确的 `Char` 转换 API 是 [实验性功能](components-stability.html). 它随时有可能变更或被删除.
 > 请注意, 只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-44333) 提供你的反馈意见.
 {:.warning}

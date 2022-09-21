@@ -7,7 +7,7 @@ title: "解构声明"
 
 # 解构声明(Destructuring Declaration)
 
-本页面最终更新: 2021/02/11
+最终更新: {{ site.data.releases.latestDocDate }}
 
 有些时候, 能够将一个对象 *解构(destructure)* 为多个变量, 将会很方便, 比如:
 

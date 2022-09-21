@@ -7,7 +7,7 @@ title: "作用域函数(Scope Function)"
 
 # 作用域函数(Scope Function)
 
-本页面最终更新: 2022/02/09
+最终更新: {{ site.data.releases.latestDocDate }}
 
 Kotlin 标准库提供了一系列函数, 用来在某个指定的对象上下文中执行一段代码.
 你可以对一个对象调用这些函数, 并提供一个 [Lambda 表达式](lambdas.html), 函数会创建一个临时的作用域(scope).
@@ -155,7 +155,7 @@ data class Person(var name: String, var age: Int = 0, var city: String = "")
 fun main() {
 //sampleStart
     val adam = Person("Adam").apply {
-        age = 20                       // 等价于 this.age = 20, 或者 adam.age = 20
+        age = 20                       // 等价于 this.age = 20
         city = "London"
     }
     println(adam)
@@ -441,7 +441,7 @@ fun main() {
 **返回值** 是 Lambda 表达式的结果值.
 
 我们推荐使用 `with` 函数, 用来在上下文对象上调用函数, 而不返回 Lambda 表达式结果值.
-在源代码中, `with` 可以被理解为 “_使用这个对象, 进行以下操作._”
+在源代码中, `with` 可以被理解为 "_使用这个对象, 进行以下操作._"
 
 <div class="sample" markdown="1" theme="idea">
 
@@ -547,7 +547,7 @@ fun main() {
 
 如果代码段没有返回值, 并且主要操作接受者对象的成员, 那么适合使用 `apply` 函数.
 `apply` 函数的常见使用场景是对象配置.
-这样的代码调用可以理解为 “_将以下赋值操作应用于这个对象._”
+这样的代码调用可以理解为 "_将以下赋值操作应用于这个对象._"
 
 <div class="sample" markdown="1" theme="idea">
 
@@ -577,7 +577,7 @@ fun main() {
 如果需要执行一些操作, 其中需要引用对象本身, 而不是它的属性或函数,
 或者如果你不希望覆盖更外层作用域(scope)中的 `this` 引用, 那么就可以使用 `also` 函数.
 
-如果在代码中看到 `also` 函数, 可以理解为 “_对这个对象还执行以下操作_”.
+如果在代码中看到 `also` 函数, 可以理解为 "_对这个对象还执行以下操作_".
 
 <div class="sample" markdown="1" theme="idea">
 

@@ -7,7 +7,7 @@ title: "调试 Kotlin/JS 代码"
 
 # 调试 Kotlin/JS 代码
 
-本页面最终更新: 2022/04/14
+最终更新: {{ site.data.releases.latestDocDate }}
 
 JavaScript [代码映射](https://www.html5rocks.com/en/tutorials/developertools/sourcemaps/)
 提供了由打包器(bundler)或极简化器(minifier)产生的极简化代码 与开发者编写的真实代码之间的对应关系.

@@ -7,7 +7,7 @@ title: "返回与跳转: break 与 continue"
 
 # 返回与跳转
 
-本页面最终更新: 2021/10/06
+最终更新: {{ site.data.releases.latestDocDate }}
 
 Kotlin 中存在 3 种跳出程序流程的表达式:
 

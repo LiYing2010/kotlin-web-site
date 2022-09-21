@@ -7,7 +7,7 @@ title: "序列(Sequence)"
 
 # 序列(Sequence)
 
-本页面最终更新: 2021/02/11
+最终更新: {{ site.data.releases.latestDocDate }}
 
 除集合之外, Kotlin 还提供了另一种容器类型 – _序列(sequence)_
 ([`Sequence<T>`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.sequences/-sequence/index.html)).
@@ -199,7 +199,7 @@ fun main() {
 </div>
 
 这段代码的输出显示, `filter()` 和 `map()` 函数在创建最终的结果 list 时才被执行.
-因此, 你首先看到的输出是 `“Lengths of..”`, 然后序列的处理才会开始.
+因此, 你首先看到的输出是 `"Lengths of.."`, 然后序列的处理才会开始.
 注意, 对于过滤之后剩余的元素, 会在过滤下一个元素之前执行 map 操作.
 当结果的元素数量到达 4 时, 处理将会停止, 因为这是 `take(4)` 能够返回的最大元素数量.
 

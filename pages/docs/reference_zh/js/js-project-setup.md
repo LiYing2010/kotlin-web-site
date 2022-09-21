@@ -7,7 +7,7 @@ title: "创建 Kotlin/JS 工程(Project)"
 
 # 创建 Kotlin JavaScript 工程(Project)
 
-本页面最终更新: 2021/11/22
+最终更新: {{ site.data.releases.latestDocDate }}
 
 Kotlin JavaScript 工程(Project) 使用 Gradle 进行编译.
 为了方便开发者管理 Kotlin JavaScript 工程, 我们提供了 `kotlin.js` Gradle 插件, 其中包括工程配置工具,
@@ -17,10 +17,10 @@ Kotlin JavaScript 工程(Project) 使用 Gradle 进行编译.
 依赖项管理和配置调整大部分可以直接在 Gradle 构建脚本文件中完成, 还可以通过选项覆盖自动生成的配置, 获得完全的控制能力.
 
 在 IntelliJ IDEA 中, 要创建一个 Kotlin JavaScript 工程, 请选择菜单 **File | New | Project**.
-然后选择 **Kotlin**, 并选择一个适合你需求的 Kotlin/JS 编译目标.
+然后选择 **Kotlin Multiplatform**, 并选择一个适合你需求的 Kotlin/JS 编译目标.
 别忘了选择构建脚本的语言: Groovy 或 Kotlin.
 
-<img src="/assets/docs/images/reference/js-project-setup/js-project-wizard.png" alt="新建工程向导" width="700"/>
+<img src="/assets/docs/images/get-started/js-new-project-1.png" alt="新建工程向导" width="700"/>
 
 或者, 你也可以对 Gradle 工程的 Gradle 编译脚本 (`build.gradle` 或 `build.gradle.kts`) 手工应用 `org.jetbrains.kotlin.js` 插件.
 
@@ -347,6 +347,22 @@ kotlin {
 ./gradlew check
 ```
 
+如果要指定你的 Node.js 测试运行器使用的环境变量
+(比如, 向你的测试代码传递外部信息, 或对包的解析进行微调),
+可以在你的构建脚本的`testTask` 代码段内使用 `environment` 函数, 参数是键-值对:
+
+```groovy
+kotlin {
+    js {
+        nodejs {
+            testTask {
+                environment("key", "value")
+            }
+        }
+    }
+}        
+```
+
 ## 配置 Karma
 
 Kotlin/JS Gradle 插件会在构建时自动生成 Karma 配置文件, 其中包括你的 `build.gradle(.kts)` 文件中的 [`kotlin.js.browser.testTask.useKarma` block](#test-task) 代码段中的设置.
@@ -377,7 +393,7 @@ kotlin.js.webpack.major.version={{ site.data.releases.webpackPreviousMajorVersio
 
 在 Gradle 编译脚本的 `kotlin.js.browser.webpackTask` 配置块中, 可以直接调整最常见的 webpack 配置:
 - `outputFileName` - webpack 的输出文件名称.
-  执行webpack 任务之后, 这个文件将生成在 `<projectDir>/build/distibution/` 文件夹内.
+  执行webpack 任务之后, 这个文件将生成在 `<projectDir>/build/distributions/` 文件夹内.
   默认值是工程名称.
 - `output.libraryTarget` - 用于 webpack 输出文件的模块系统.
   详情请参见 [Kotlin/JS 工程可用的模块系统](js-modules.html).
@@ -401,6 +417,9 @@ Kotlin/JS Gradle plugin 在构建时会自动生成一个标准的 webpack 配�
 编译你的工程时, 所有的 `.js` 配置文件都会被自动合并到 `build/js/packages/projectName/webpack.config.js` 文件内.
 比如, 如果要添加一个新的 [webpack loader](https://webpack.js.org/loaders/),
 请要把以下内容添加到 `webpack.config.d` 目录内的一个 `.js` 中:
+
+> 这种情况下, 配置对象通过全局对象 `config` 来表示. 你需要在你的脚本中修改这个对象.
+{:.note}
 
 ```groovy
 config.module.rules.push({
@@ -572,6 +591,87 @@ rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlu
 </div>
 </div>
 
+### 通过 kotlin-js-store 锁定版本
+
+> 通过 `kotlin-js-store` 锁定版本, 这个功能从 Kotlin 1.6.10 开始可用.
+{:."note"}
+
+项目根目录下的 `kotlin-js-store` 目录 由 Kotlin/JS Gradle plugin 自动生成, 存储 `yarn.lock` 文件, 这个文件用来锁定版本.
+lock 文件完全由 Yarn plugin 管理, 并在 Gradle 任务 `kotlinNpmInstall` 执行时被更新.
+
+为了遵循 [Yarn 推荐的最佳实践](https://classic.yarnpkg.com/blog/2016/11/24/lockfiles-for-all/),
+请将 `kotlin-js-store` 和其中的内容提交到你的版本管理系统.
+这样可以保证你的应用程序在所有的机器上都使用完全相同的依赖项目树来进行构建.
+
+如果需要, 你可以在构建脚本中修改目录和 lock 文件名称:
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin> {
+   rootProject.the<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension>().lockFileDirectory =
+       project.rootDir.resolve("my-kotlin-js-store")
+   rootProject.the<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension>().lockFileName = "my-yarn.lock"
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin) {
+  rootProject.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension).lockFileDirectory =
+           file("my-kotlin-js-store")
+ rootProject.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension).lockFileName = 'my-yarn.lock'
+}
+``` 
+
+</div>
+</div>
+
+> 修改 lock 文件名称, 可能会导致依赖项检查工具不再正确读取这个文件.
+{:.warning}
+
+关于 `yarn.lock`, 详情请阅读 [Yarn 官方文档](https://classic.yarnpkg.com/lang/en/docs/yarn-lock/).
+
+### 默认使用 --ignore-scripts 安装 npm 依赖项 
+
+> 默认使用 `--ignore-scripts` 安装 npm 依赖项, 这个功能从 Kotlin 1.6.10 开始可用.
+{:.note}
+
+如果 npm 包被攻击, 其中可能包含恶意代码, 为了减少执行这种恶意代码的可能性,
+Kotlin/JS Gradle plugin 在安装 npm 依赖项时默认会禁止执行
+[Life Cycle 脚本](https://docs.npmjs.com/cli/v8/using-npm/scripts#life-cycle-scripts).
+
+你可以明确的允许 Life Cycle 脚本执行, 方法是在 `build.gradle(.kts)` 中添加以下设定:
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin> { 
+  rootProject.the<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension>().ignoreScripts = false
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin) {
+  rootProject.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension).ignoreScripts = false
+}
+``` 
+
+</div>
+</div>
 
 ## 设置发布目录
 

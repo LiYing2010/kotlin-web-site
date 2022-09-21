@@ -7,7 +7,7 @@ title: "与 Swift/Objective-C 代码交互"
 
 # 与 Swift/Objective-C 的交互能力
 
-本页面最终更新: 2022/02/25
+最终更新: {{ site.data.releases.latestDocDate }}
 
 本章介绍 Kotlin/Native 与 Swift/Objective-C 的交互能力的一些细节.
 
@@ -15,14 +15,14 @@ title: "与 Swift/Objective-C 代码交互"
 
 Kotlin/Native 提供了与 Objective-C 的双向交互能力.
 Objective-C 框架和库可以在 Kotlin 代码中使用, 只需要正确地导入到编译环境中 (系统框架已经默认导入了).
-参见 [编译配置](../mpp/mpp-configure-compilations.html#configure-interop-with-native-languages).
+参见 [编译配置](../multiplatform/multiplatform-configure-compilations.html#configure-interop-with-native-languages).
 Swift 库也可以在 Kotlin 代码中使用, 只需要将它的 API 用 `@objc` 导出为 Objective-C.
 纯 Swift 模块目前还不支持.
 
 Kotlin 模块可以在 Swift/Objective-C 代码中使用, 只需要编译成一个框架
-(参见 [如何声明二进制文件](../mpp/mpp-build-native-binaries.html#declare-binaries)).
+(参见 [如何声明二进制文件](../multiplatform/multiplatform-build-native-binaries.html#declare-binaries)).
 我们提供了一个例子,
-请参见 [calculator 示例程序](https://github.com/JetBrains/kotlin/tree/master/kotlin-native/samples/calculator).
+请参见 [Kotlin Multiplatform Mobile 示例程序](https://github.com/Kotlin/kmm-basic-sample).
 
 ## 映射
 
@@ -30,31 +30,31 @@ Kotlin 模块可以在 Swift/Objective-C 代码中使用, 只需要编译成一�
 
 "->" 和 "<-" 代表单方向的对应关系.
 
-| Kotlin | Swift | Objective-C | 注意事项 |
-| ------ | ----- |------------ | ----- |
-| `class` | `class` | `@interface` | [名称翻译](#name-translation) |
-| `interface` | `protocol` | `@protocol` | |
-| `constructor`/`create` | Initializer | Initializer | [初始化器](#initializers) |
-| Property | Property | Property | [顶层函数和属性](#top-level-functions-and-properties) [设值方法(Setter)](#setters)|
-| Method | Method | Method | [顶层函数和属性](#top-level-functions-and-properties) [方法名称翻译](#method-names-translation) |
-| `suspend` -> | `completionHandler:`/ `async` | `completionHandler:` | [错误与异常](#errors-and-exceptions) [挂起函数](#suspending-functions) |
-| `@Throws fun` | `throws` | `error:(NSError**)error` | [错误与异常](#errors-and-exceptions) |
-| Extension | Extension | Category 成员 | [扩展与 Category 成员](#extensions-and-category-members) |
-| `companion` 成员 <- | Class 方法或属性 | Class 方法或属性 | |
-| `null` | `nil` | `nil` | |
-| `Singleton` | `shared` 或 `companion` 属性 | `shared` 或 `companion` 属性 | [Kotlin 单子(singleton)](#kotlin-singletons) |
-| 基本类型 | 基本类型 / `NSNumber` | | [NSNumber](#nsnumber) |
-| `Unit` 类型返回值 | `Void` | `void` | |
-| `String` | `String` | `NSString` | |
-| `String` | `NSMutableString` | `NSMutableString` | [NSMutableString](#nsmutablestring) |
-| `List` | `Array` | `NSArray` | |
-| `MutableList` | `NSMutableArray` | `NSMutableArray` | |
-| `Set` | `Set` | `NSSet` | |
-| `MutableSet` | `NSMutableSet` | `NSMutableSet` | [集合](#collections) |
-| `Map` | `Dictionary` | `NSDictionary` | |
-| `MutableMap` | `NSMutableDictionary` | `NSMutableDictionary` | [集合](#collections) |
-| Function 类型 | Function 类型 | Block pointer 类型 | [Function 类型](#function-types) |
-| 内联类(Inline class) | 不支持 | 不支持| [不支持的特性](#unsupported) |
+| Kotlin                 | Swift                         | Objective-C               | 注意事项                                                                               |
+|------------------------|-------------------------------|---------------------------|------------------------------------------------------------------------------------|
+| `class`                | `class`                       | `@interface`              | [名称翻译](#name-translation)                                                          |
+| `interface`            | `protocol`                    | `@protocol`               |                                                                                    |
+| `constructor`/`create` | Initializer                   | Initializer               | [初始化器](#initializers)                                                              |
+| Property               | Property                      | Property                  | [顶层函数和属性](#top-level-functions-and-properties) [设值方法(Setter)](#setters)            |
+| Method                 | Method                        | Method                    | [顶层函数和属性](#top-level-functions-and-properties) [方法名称翻译](#method-names-translation) |
+| `suspend` ->           | `completionHandler:`/ `async` | `completionHandler:`      | [错误与异常](#errors-and-exceptions) [挂起函数](#suspending-functions)                      |
+| `@Throws fun`          | `throws`                      | `error:(NSError**)error`  | [错误与异常](#errors-and-exceptions)                                                    |
+| Extension              | Extension                     | Category 成员               | [扩展与 Category 成员](#extensions-and-category-members)                                |
+| `companion` 成员 <-      | Class 方法或属性                   | Class 方法或属性               |                                                                                    |
+| `null`                 | `nil`                         | `nil`                     |                                                                                    |
+| `Singleton`            | `shared` 或 `companion` 属性     | `shared` 或 `companion` 属性 | [Kotlin 单子(singleton)](#kotlin-singletons)                                         |
+| 基本类型                   | 基本类型 / `NSNumber`             |                           | [NSNumber](#nsnumber)                                                              |
+| `Unit` 类型返回值           | `Void`                        | `void`                    |                                                                                    |
+| `String`               | `String`                      | `NSString`                |                                                                                    |
+| `String`               | `NSMutableString`             | `NSMutableString`         | [NSMutableString](#nsmutablestring)                                                |
+| `List`                 | `Array`                       | `NSArray`                 |                                                                                    |
+| `MutableList`          | `NSMutableArray`              | `NSMutableArray`          |                                                                                    |
+| `Set`                  | `Set`                         | `NSSet`                   |                                                                                    |
+| `MutableSet`           | `NSMutableSet`                | `NSMutableSet`            | [集合](#collections)                                                                 |
+| `Map`                  | `Dictionary`                  | `NSDictionary`            |                                                                                    |
+| `MutableMap`           | `NSMutableDictionary`         | `NSMutableDictionary`     | [集合](#collections)                                                                 |
+| Function 类型            | Function 类型                   | Block pointer 类型          | [Function 类型](#function-types)                                                     |
+| 内联类(Inline class)      | 不支持                           | 不支持                       | [不支持的特性](#unsupported)                                                             |
 
 ### 名称翻译
 
@@ -120,6 +120,10 @@ player.moveTo(LEFT, byMeters = 17)
 player.moveTo(UP, byInches = 42)
 ```
 
+`kotlin.Any` 的方法 (`equals()`, `hashCode()` 和 `toString()`),
+在 Objective-C 中被映射为方法 `isEquals:`, `hash` 和 `description`,
+在 Swift 被映射为方法 `isEquals(_:)` 和属性 `hash`, `description`.
+
 ### 错误与异常
 
 Kotlin 中不存在受控异常(Checked Exception)的概念, 所有的 Kotlin 异常都是不受控的.
@@ -144,7 +148,7 @@ Swift/Objective-C 中抛出 error 的方法, 导入 Kotlin 时不会成为抛出
 
 ### 挂起函数
 
-> 从 Swift 代码中 以 `async` 方式调用 `suspend`函数是 [试验性功能](../components-stability.html).
+> 从 Swift 代码中 以 `async` 方式调用 `suspend`函数是 [实验性功能](../components-stability.html).
 > 它随时有可能变更或被删除. 请注意, 只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-47610) 提供你的反馈意见.
 {:.warning}
@@ -398,6 +402,76 @@ Kotlin/Native 默认不会允许通过 `super(...)` 构造器来调用 Objective
 
 请参见 [与 C 代码交互](native-c-interop.html), 其中有一些示例程序,
 其中的库使用了某些 C 语言功能, 比如, 不安全的指针, 结构(struct), 等等.
+
+## 将 KDoc 注释导出到生成的 Objective-C 头文件
+
+> KDoc 注释导出到生成的 Objective-C 头文件是 [实验性功能](../components-stability.html).
+> 它随时有可能变更或被删除.
+> 需要使用者同意(Opt-in) (详情见下文), 而且你应该只为评估目的来使用这个功能.
+> 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-38600) 提供你的反馈意见.
+{:.warning}
+
+默认情况下, 在生成 Objective-C 头文件时, [KDocs](../kotlin-doc.html) 文档注释不会被翻译为头文件中对应的注释.  
+例如, 以下带 KDoc 文档的 Kotlin 代码:
+
+```kotlin
+/**
+ * Prints the sum of the arguments.
+ * Properly handles the case when the sum doesn't fit in 32-bit integer.
+ */
+fun printSum(a: Int, b: Int) = println(a.toLong() + b)
+```
+
+会生成 Objective-C 声明, 没有任何注释:
+
+```objc
++ (void)printSumA:(int32_t)a b:(int32_t)b __attribute__((swift_name("printSum(a:b:)")));
+```
+
+要启用 KDoc 注释导出功能, 请在你的 `build.gradle(.kts)` 添加以下编译器选项:
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+kotlin {
+    targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
+        compilations.get("main").kotlinOptions.freeCompilerArgs += "-Xexport-kdoc"
+    }
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+kotlin {
+    targets.withType(org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget) {
+        compilations.get("main").kotlinOptions.freeCompilerArgs += "-Xexport-kdoc"
+    }
+}
+```
+
+</div>
+</div>
+
+这样设置之后, Objective-C 头文件将包含对应的注释:
+
+```objc
+/**
+ * Prints the sum of the arguments.
+ * Properly handles the case when the sum doesn't fit in 32-bit integer.
+ */
++ (void)printSumA:(int32_t)a b:(int32_t)b __attribute__((swift_name("printSum(a:b:)")));
+```
+
+已知的限制:
+* 依赖项的文档不会导出, 除非它本身也使用 `-Xexport-kdoc` 选项来编译.
+  这个功能还是实验性功能, 因此使用这个选项编译的库可能与其他编译器版本不兼容.
+* 绝大多数 KDoc 注释会 "保持原状" 导出, 很多 KDoc 功能(例如, `@property`)不支持.
 
 ## 不支持的特性
 

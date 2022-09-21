@@ -7,7 +7,7 @@ title: "教程 - 使用 C Interop 和 libcurl 创建应用程序"
 
 # 教程 - 使用 C Interop 和 libcurl 创建应用程序
 
-本页面最终更新: 2022/04/19
+最终更新: {{ site.data.releases.latestDocDate }}
 
 本教程演示如何使用 IntelliJ IDEA 创建一个命令行应用程序.
 你将学习如何创建一个简单的 HTTP 客户端程序, 它使用 Kotlin/Native 和 `libcurl` 库, 可以作为原生程序运行在指定的平台上.
@@ -18,7 +18,7 @@ title: "教程 - 使用 C Interop 和 libcurl 创建应用程序"
 > 但这种方法不适合于包含几百个文件和库的大项目.
 > 这种情况下, 更好的方法是使用带有构建系统的 Kotlin/Native 编译器,
 > 因为它会帮助你下载并缓存 Kotlin/Native 编译器二进制文件, 传递依赖的库, 并运行编译器和测试.
-> Kotlin/Native 能够通过 [kotlin-multiplatform](../mpp/mpp-discover-project.html#multiplatform-plugin) plugin
+> Kotlin/Native 能够通过 [kotlin-multiplatform](../multiplatform/multiplatform-discover-project.html#multiplatform-plugin) plugin
 > 使用 [Gradle](../gradle.html) 构建系统.
 
 开始之前, 请安装 [IntelliJ IDEA](https://www.jetbrains.com/idea/download/index.html) 的最新版本.
@@ -27,7 +27,7 @@ title: "教程 - 使用 C Interop 和 libcurl 创建应用程序"
 ## 创建一个 Kotlin/Native 项目
 
 1. 在 IntelliJ IDEA 中, 选择 **File \| New \| Project**.
-2. 在左侧面板中, 选择 **Kotlin \| Native Application**.
+2. 在左侧面板中, 选择 **Kotlin Multiplatform \| Native Application**.
 3. 指定名称, 并选择文件夹保存你的应用程序.
    <img src="/assets/docs/images//tutorials/native/cinterop/native-file-new.png" alt="新项目. IntelliJ IDEA 中的Native 应用程序" width="700"/>
 4. 点击 **Next**, 然后点击 **Finish**.
@@ -99,7 +99,7 @@ kotlin {
 * 构建脚本定义一系列属性, 指定二进制文件如何生成, 以及应用程序的入口点. 这些可以使用默认值.
 * 与 C 的交互使用构建中的一个额外步骤来配置. 默认情况下, 来自 C 的所有符号会被导入到 `interop` 包.
   你可能想要在 `.kt` 文件中导入整个包.
-  详情请参见 [如何配置](../mpp/mpp-discover-project.html#multiplatform-plugin).
+  详情请参见 [如何配置](../multiplatform/multiplatform-discover-project.html#multiplatform-plugin).
 
 ## 创建一个定义文件
 
@@ -132,7 +132,7 @@ Kotlin/Native 带有一组预构建的 [平台库](native-platform-libs.html), �
     ```
 
    * `headers` 是需要生成 Kotlin 桩(stub)代码的头文件列表. 你可以在这里添加多个文件, 每个在新行加一个 `\` 来分隔.
-     在这个示例中, 只有 `curl.h`. 引用的文件路径需要相对于定义文件所在的文件夹, 或存在于系统路径中(在这个示例中, 是 `/usr/include/curl`).
+     在这个示例中, 只有 `curl.h`. 引用的文件路径需要存在于系统路径中(在这个示例中, 是 `/usr/include/curl`).
    * `headerFilter` 指定具体包含什么. 在 C 中, 当一个文件使用 `#include` 指令引用另一个文件时, 所有的头文件都会被包含.
      有时这些文件是不必要的, 你可以添加这个参数, [使用全局模式](https://en.wikipedia.org/wiki/Glob_(programming)) 进行细微调节.
 
@@ -162,11 +162,11 @@ Kotlin/Native 带有一组预构建的 [平台库](native-platform-libs.html), �
 
 ```kotlin
 nativeTarget.apply {
-    compilations.main { // NL
-        cinterops {     // NL
-            libcurl     // NL
-        }               // NL
-    }                   // NL
+    compilations.getByName("main") {    // NL
+        cinterops {                     // NL
+            val libcurl by creating     // NL
+        }                               // NL
+    }                                   // NL
     binaries {
         executable {
             entryPoint = "main"
@@ -202,14 +202,35 @@ nativeTarget.with {
 新加的行标注了 `// NL`. 首先, 添加 `cinterops`, 然后为每个 `def` 文件添加对应行.
 默认情况下, 使用定义文件的名称. 你可以使用额外的参数来修改设定:
 
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+val libcurl by creating {
+    defFile(project.file("src/nativeInterop/cinterop/libcurl.def"))
+    packageName("com.jetbrains.handson.http")
+    compilerOpts("-I/path")
+    includeDirs.allHeaders("path")
+}
+```  
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
 ```groovy
 libcurl {
-    defFile project.file("libcurl.def")
+    defFile project.file("src/nativeInterop/cinterop/libcurl.def")
     packageName 'com.jetbrains.handson.http'
     compilerOpts '-I/path'
     includeDirs.allHeaders("path")
 }
 ```
+
+</div>
+</div>
 
 关于可用的选项, 请参见 [与 C 代码交互](native-c-interop.html).
 
@@ -264,9 +285,3 @@ fun main(args: Array<String>) {
 
 > 你可以在 [这里](https://github.com/Kotlin/kotlin-hands-on-intro-kotlin-native) 得到完整的代码.
 {:.note}
-
-## 下一步做什么?
-
-关于使用 `libcurl` 的完整示例, 请参见 [Kotlin/Native 项目的 libcurl 示例](https://github.com/JetBrains/kotlin/tree/master/kotlin-native/samples/libcurl),
-它演示如何将代码抽象为 Kotlin 类, 以及如何显示 HTTP 头.
-它还演示如何简化常用的工作, 将它们组合为 shell 脚本或 Gradle 构建.

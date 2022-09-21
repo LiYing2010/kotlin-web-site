@@ -7,7 +7,7 @@ title: "在 JavaScript 中使用 Kotlin 代码"
 
 # 在 JavaScript 中使用 Kotlin 代码
 
-本页面最终更新: 2021/08/25
+最终更新: {{ site.data.releases.latestDocDate }}
 
 根据选择的 [JavaScript 模块](js-modules.html) 系统不同, Kotlin/JS 编译期会产生不同的输出.
 但通常 Kotlin 编译器会生成通常的 JavaScript 类, 函数, 和属性, 你可以在 JavaScript 代码中自由地使用它们.

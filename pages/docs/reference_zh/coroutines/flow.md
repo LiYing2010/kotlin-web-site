@@ -7,7 +7,7 @@ title: "异步的数据流(Asynchronous Flow)"
 
 # 异步的数据流(Asynchronous Flow)
 
-本页面最终更新: 2021/07/15
+最终更新: {{ site.data.releases.latestCoroutinesDocDate }}
 
 一个挂起函数可以异步地返回单个结果值, 但我们要如何才能返回多个异步计算的结果值?
 这就是 Kotlin 的异步数据流要解决的问题.
@@ -169,7 +169,7 @@ I'm not blocked 3
 请注意, 使用 [Flow] 的代码与前面的示例代码之间的区别如下:
 
 * [Flow] 类型的构建器函数叫做 [flow][_flow].
-* `flow { ... }` 构建器代码段的代码可以挂起.
+* `flow { ... }` 构建器代码段之内的代码可以挂起.
 * `simple` 函数不再带有 `suspend` 标识符.
 * 使用 [emit][FlowCollector.emit] 函数, 从流中 _发射(emit)_ 值.
 * 使用 [collect][collect] 函数, 从流中 _收取(collect)_ 值.
@@ -234,8 +234,8 @@ Flow started
 <!--- TEST -->
 
 `simple` 函数 (负责返回一个数据流) 不使用 `suspend` 标记符, 关键原因在这里.
-`simple()` 本身会立即返回, 不会等待任何任务.
-数据流会在每次被收集的时候启动, 所以, 第二次调用 `collect` 的时候我们会再次看到 "Flow started" 消息的输出.
+对 `simple()` 的调用本身会立即返回, 不会等待任何任务.
+数据流会在每次被收集的时候启动, 所以, 每次调用 `collect` 时我们都会再次看到 "Flow started" 消息的输出.
 
 ## 简要介绍数据流的取消
 
@@ -290,12 +290,12 @@ Done
 ## 数据流构建器
 
 前面的示例代码中使用的 `flow { ... }` 构建器是最基本的数据流构建器.
-还有其他一些构建器, 可以更简便地声明数据流:
+还有其他一些构建器可以声明数据流:
 
 * [flowOf] 构建器, 定义一个数据流, 发射一组固定的值.
 * 使用 `.asFlow()` 扩展函数, 可以将各种集合(collection)和序列(sequence)转换为数据流.
 
-因此, 从数据流输出数值 1 到 3, 可以写成如下代码:
+例如, 从数据流输出数值 1 到 3 的那段代码, 可以写成以下代码:
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
@@ -324,13 +324,13 @@ fun main() = runBlocking<Unit> {
 
 ## 数据流的中间操作符(Intermediate flow operator)
 
-与集合(collection)和序列(sequence)一样, 数据流可以使用操作符进行变换.
+数据流可以使用操作符进行变换, 与对集合(collection)和序列(sequence)进行变换的方式一样.
 中间操作符(Intermediate operator) 应用于上游的数据流(upstream flow), 然后返回一个下游数据流(downstream flow).
 与数据流一样, 这些操作符也是"冷的"(cold).
 这样的操作符调用本身不是挂起函数. 它的工作会快速结束, 返回结果是, 变换后的数据流的定义.
 
 基本的操作符的名称与 [map] 和 [filter] 类似.
-与序列的重要区别在于, 这些操作符之内的代码段可以调用挂起函数.
+与序列的操作符的一个重要区别在于, 数据流的这些操作符之内的代码段可以调用挂起函数.
 
 比如, 一个包含请求的数据流, 可以使用 [map] 操作符映射为结果值,
 即使一个请求的执行是由挂起函数实现的长时间的操作:
@@ -360,7 +360,7 @@ fun main() = runBlocking<Unit> {
 > 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-08.kt).
 {:.note}
 
-这段代码会输出以下 3 行, 每等待 1 秒输出 1 行:
+这段代码会输出以下 3 行, 各行之间等待 1 秒:
 
 ```text                                                                    
 response 1
@@ -624,7 +624,7 @@ fun main() = runBlocking<Unit> {
 由于调用 `simple().collect` 的是主线程, `simple` 的数据流的代码体也由主线程调用.
 对于快速执行的代码, 或异步执行的代码, 如果不关心执行时的上下文, 并且不阻塞调用者, 这是非常完美的默认动作.
 
-### 错误的使用 withContext 的进行数据发射
+### 使用 withContext 时的一个常见陷阱
 
 但是, 对于长时间运行, 非常消耗 CPU 的代码, 可能需要在 [Dispatchers.Default] 上下文内执行,
 而 UI 更新代码需要在 [Dispatchers.Main] 上下文内执行.
@@ -1088,7 +1088,7 @@ fun requestFlow(i: Int): Flow<String> = flow {
 
 ### flatMapConcat
 
-串联(Concatenate)模式由 [flatMapConcat] 和 [flattenConcat] 操作符实现.
+将数据流的数据流串联(Concatenate)起来的功能, 由 [flatMapConcat] 和 [flattenConcat] 操作符提供.
 这两个操作符与序列的对应的操作符最类似.
 在收集下一个值之前, 它们会等待内层的数据流完成,
 如下例所示:
@@ -1137,7 +1137,7 @@ fun main() = runBlocking<Unit> {
 
 ### flatMapMerge
 
-另一种压平模式是, 同时收集所有的输入数据流, 然后将它们的值合并为单个数据流,
+另一种压平操作是, 同时收集所有的输入数据流, 然后将它们的值合并为单个数据流,
 因此能够尽可能快的发射最终结果值.
 这个模式由 [flatMapMerge] 和 [flattenMerge] 操作符实现.
 这两个操作符都接受一个可选的 `concurrency` 参数,
@@ -1236,9 +1236,9 @@ fun main() = runBlocking<Unit> {
 
 <!--- TEST ARBITRARY_TIME -->
 
-> 注意, [flatMapLatest] 会在得到新的值时, 取消它代码体中的所有代码 (在上面的例子中是 `{ requestFlow(it) }`).
-> 在这个示例中不会产生差别, 因为 `requestFlow` 的调用是很快的, 不会发生挂起,
-> 而且无法取消. 但是, 如果我们在代码体内使用挂起函数, 比如 `delay`, 就会显示出差别.
+> 注意, 在收到新值时, [flatMapLatest] 会取消它代码体中的所有代码 (在上面的例子中是 `{ requestFlow(it) }`).
+> 在这个示例中不会产生差别, 因为 `requestFlow` 的调用是很快的, 不会发生挂起, 而且无法取消.
+> 但是, 如果我们在 `requestFlow` 代码体之内使用挂起函数, 比如 `delay`, 那么在输出中就能够看到差别.
 {:.note}
 
 ## 数据流的异常
@@ -1913,9 +1913,9 @@ Exception in thread "main" kotlinx.coroutines.JobCancellationException: Blocking
 <!-- stdlib references -->
 
 [集合]: ../collections-overview.html
-[List]: https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html
+[List]: https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/ 
 [forEach]: https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/for-each.html
-[Sequence]: https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.sequences/index.html
+[Sequence]: https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.sequences/
 [Sequence.zip]: https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.sequences/zip.html
 [Sequence.flatten]: https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.sequences/flatten.html
 [Sequence.flatMap]: https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.sequences/flat-map.html
@@ -1924,54 +1924,54 @@ Exception in thread "main" kotlinx.coroutines.JobCancellationException: Blocking
 <!--- MODULE kotlinx-coroutines-core -->
 <!--- INDEX kotlinx.coroutines -->
 
-[delay]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/delay.html
-[withTimeoutOrNull]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/with-timeout-or-null.html
-[Dispatchers.Default]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-dispatchers/-default.html
-[Dispatchers.Main]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-dispatchers/-main.html
-[withContext]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/with-context.html
-[CoroutineDispatcher]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-dispatcher/index.html
-[CoroutineScope]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html
-[runBlocking]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/run-blocking.html
-[Job]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-job/index.html
-[Job.cancel]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/cancel.html
-[Job.join]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-job/join.html
-[ensureActive]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/ensure-active.html
-[CancellationException]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-cancellation-exception/index.html
+[delay]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/delay.html
+[withTimeoutOrNull]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/with-timeout-or-null.html
+[Dispatchers.Default]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-dispatchers/-default.html
+[Dispatchers.Main]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-dispatchers/-main.html
+[withContext]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/with-context.html
+[CoroutineDispatcher]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-dispatcher/index.html
+[CoroutineScope]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html
+[runBlocking]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/run-blocking.html
+[Job]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-job/index.html
+[Job.cancel]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/cancel.html
+[Job.join]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-job/join.html
+[ensureActive]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/ensure-active.html
+[CancellationException]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-cancellation-exception/index.html
 
 <!--- INDEX kotlinx.coroutines.flow -->
 
-[Flow]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/index.html
-[_flow]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flow.html
-[FlowCollector.emit]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow-collector/emit.html
-[collect]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/collect.html
-[flowOf]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flow-of.html
-[map]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/map.html
-[filter]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/filter.html
-[transform]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/transform.html
-[take]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/take.html
-[toList]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/to-list.html
-[toSet]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/to-set.html
-[first]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/first.html
-[single]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/single.html
-[reduce]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/reduce.html
-[fold]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/fold.html
-[flowOn]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flow-on.html
-[buffer]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/buffer.html
-[conflate]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/conflate.html
-[collectLatest]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/collect-latest.html
-[zip]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/zip.html
-[combine]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/combine.html
-[onEach]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/on-each.html
-[flatMapConcat]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flat-map-concat.html
-[flattenConcat]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flatten-concat.html
-[flatMapMerge]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flat-map-merge.html
-[flattenMerge]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flatten-merge.html
-[DEFAULT_CONCURRENCY]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-d-e-f-a-u-l-t_-c-o-n-c-u-r-r-e-n-c-y.html
-[flatMapLatest]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flat-map-latest.html
-[catch]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/catch.html
-[onCompletion]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/on-completion.html
-[launchIn]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/launch-in.html
-[IntRange.asFlow]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/as-flow.html
-[cancellable]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/cancellable.html
+[Flow]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/index.html
+[_flow]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flow.html
+[FlowCollector.emit]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow-collector/emit.html
+[collect]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/collect.html
+[flowOf]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flow-of.html
+[map]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/map.html
+[filter]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/filter.html
+[transform]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/transform.html
+[take]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/take.html
+[toList]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/to-list.html
+[toSet]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/to-set.html
+[first]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/first.html
+[single]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/single.html
+[reduce]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/reduce.html
+[fold]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/fold.html
+[flowOn]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flow-on.html
+[buffer]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/buffer.html
+[conflate]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/conflate.html
+[collectLatest]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/collect-latest.html
+[zip]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/zip.html
+[combine]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/combine.html
+[onEach]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/on-each.html
+[flatMapConcat]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flat-map-concat.html
+[flattenConcat]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flatten-concat.html
+[flatMapMerge]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flat-map-merge.html
+[flattenMerge]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flatten-merge.html
+[DEFAULT_CONCURRENCY]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-d-e-f-a-u-l-t_-c-o-n-c-u-r-r-e-n-c-y.html
+[flatMapLatest]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flat-map-latest.html
+[catch]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/catch.html
+[onCompletion]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/on-completion.html
+[launchIn]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/launch-in.html
+[IntRange.asFlow]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/as-flow.html
+[cancellable]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/cancellable.html
 
 <!--- END -->

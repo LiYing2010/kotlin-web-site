@@ -7,7 +7,7 @@ title: "All-open 编译器插件"
 
 # All-open 编译器插件
 
-本页面最终更新: 2022/04/14
+最终更新: {{ site.data.releases.latestDocDate }}
 
 Kotlin 的类和成员默认都是 `final` 的, 但有些框架和库, 比如 Spring AOP, 需要类是 `open` 的, 因此造成一些不便.
 *all-open* 编译器插件会调整 Kotlin 类, 以这些框架的需求,
@@ -122,7 +122,7 @@ apply plugin: "kotlin-spring" // 不是 "kotlin-allopen"
 
 ```groovy
 plugins {
-  id "org.jetbrains.kotlin.plugin.spring" version "{{ site.data.releases.latest.version }}"
+  id "org.jetbrains.kotlin.plugin.spring" version "{{ site.data.releases.kotlinSpringPluginVersion }}"
 }
 ```
 
@@ -172,7 +172,7 @@ All-open 编译器插件的 JAR 文件 存在于 Kotlin 编译器的二进制发
 ```
 
 可以使用 `annotation` 插件选项直接指定 all-open 注解, 或者启用 "预设置(preset)".
-all-open 目前唯一可用的预设置是 `spring`.
+all-open 目前可用的预设置是 `spring`, `micronaut`, 和 `quarkus`.
 
 ```bash
 # 插件选项格式是: "-P plugin:<plugin id>:<key>=<value>". 

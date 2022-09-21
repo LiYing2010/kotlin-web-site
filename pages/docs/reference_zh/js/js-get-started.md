@@ -7,7 +7,7 @@ title: "Kotlin/JS for React 入门"
 
 # Kotlin/JS for React 入门
 
-本页面最终更新: 2022/04/21
+最终更新: {{ site.data.releases.latestDocDate }}
 
 本教程演示如何在 IntelliJ IDEA 中使用 Kotlin/JS for React 创建一个前端应用程序.
 
@@ -18,21 +18,28 @@ title: "Kotlin/JS for React 入门"
 安装 IntelliJ IDEA 后, 就可以创建你的第一个 Kotlin/JS with React 前端应用程序了.
 
 1. 在 IntelliJ IDEA 中, 选择 **File** \| **New** \| **Project**.
-2. 在左侧面板中, 选择 **Kotlin**.
+2. 在左侧面板中, 选择 **Kotlin Multiplatform**.
 3. 输入项目名称, 选择 **React Application** 作为项目模板, 然后点击 **Next**.
 
-   ![创建 react 应用程序]({{ url_for('asset', path='/docs/images/get-started/js-new-project-1.png') }})
+   <img src="/assets/docs/images/get-started/js-new-project-1.png" alt="创建 react 应用程序" width="700"/>
 
 
     你的项目默认会使用 Gradle 和 Kotlin DSL 作为构建系统.
 
-4. 选择 **Use styled-components**, 然后点击 **Finish**.
+4. 接受下一个画面中的默认配置, 并点击 **Finish**. 你的项目会打开.
+ 
 
-    ![配置前端应用程序]({{ url_for('asset', path='/docs/images/get-started/js-new-project-2.png') }})
+    <img src="/assets/docs/images/get-started/js-new-project-2.png" alt="配置前端应用程序" width="700"/>
 
+5. 打开 `build.gradle.kts` 文件, 这是根据你的配置默认创建的构建脚本.
+   它包含你的前端应用程序所需要的 [`kotlin("js")` plugin 和依赖项](js-project-setup.html).
+   请确认使用了插件的最新版本:
 
-你的项目会打开. 默认情况下, 你会看到 `build.gradle.kts` 文件, 它是项目向导根据你的配置创建的构建脚本.
-它包含你的前端应用程序所需要的 [`kotlin("js")` plugin 和依赖项](js-project-setup.html).
+   ```kotlin
+   plugins {
+       kotlin("js") version "{{ site.data.releases.latest.version }}"
+   }
+   ```
 
 ## 运行应用程序
 
@@ -48,27 +55,29 @@ title: "Kotlin/JS for React 入门"
 
 ## 更新应用程序
 
-### 反转显示你的名称
+### 反转显示你的名字
 
-1. 打开 `src/main/kotlin` 中的 `welcome.kt` 文件.  
-   `src` 目录包含 Kotlin 源代码文件和资源. `welcome.kt` 文件包含示例代码, 描绘你刚才看到的Web 页面.
+1. 打开 `src/main/kotlin` 中的 `Welcome.kt` 文件.  
+   `src` 目录包含 Kotlin 源代码文件和资源. `Welcome.kt` 文件包含示例代码, 描绘你刚才看到的Web 页面.
 
-   ![前端应用程序的源代码]({{ url_for('asset', path='/docs/images/get-started/js-welcome-kt.png') }})
+   ![前端应用程序的源代码]({{ url_for('asset', path='docs/images/get-started/js-welcome-kt.png') }})
    
-2. 修改 `styledDiv` 代码, 反转显示你的名字.  
+2. 修改 `div` 代码, 反转显示你的名字.  
    
    * 使用标准库函数 `reversed()` 反转你的名字.
-   * 使用 [字符串模板](../basic-types.html#string-templates) 表示你反转后的名字,
+   * 使用 [字符串模板](../strings.html#string-templates) 表示你反转后的名字,
      添加一个 `$` 符号, 然后将表达式包在括号内 – `${state.name.reversed()}`.
 
    ```kotlin
-   styledDiv {
-       css {
-           +WelcomeStyles.textContainer
-       }
-       +"Hello ${state.name}!"
-       +" Your name backwards is ${state.name.reversed()}!"
-   }
+   div {
+        css {
+            padding = 5.px
+            backgroundColor = rgb(8, 97, 22)
+            color = rgb(56, 246, 137)
+        }
+        +"Hello, $name"
+        +" Your name backwards is ${name.reversed()}!"
+    }
    ```
 
 3. 将你的修改保存到文件.
@@ -80,17 +89,19 @@ title: "Kotlin/JS for React 入门"
 
 ### 添加一个图片
 
-1. 打开 `src/main/kotlin` 中的 `welcome.kt` 文件.
+1. 打开 `src/main/kotlin` 中的 `Welcome.kt` 文件.
 
-2. 添加一个 `div` 容器, 其中包含一个图片子元素 `img`, 放在 `styledInput` 之后.  
+2. 添加一个 `div` 容器, 其中包含一个图片子元素 `img`, 放在 `input` 代码段之后.  
    
-   > 请确认你导入了 `react.dom.*` 和 `styled.*` 包.
+   > 按照 IDE 的建议, 导入 `react.dom.html` 包中所有需要的元素.
    {:.note}
 
    ```kotlin
    div {
-       img(src = "https://placekitten.com/408/287") {}
-   }
+        img {
+            src = "https://placekitten.com/408/287"
+        }
+    }
    ```
 
 3. 将你的修改保存到文件.
@@ -102,22 +113,20 @@ title: "Kotlin/JS for React 入门"
 
 ### 添加一个按钮来修改文字
 
-1. 打开 `src/main/kotlin` 中的 `welcome.kt` 文件.
+1. 打开 `src/main/kotlin` 中的 `Welcome.kt` 文件.
 
-2. 添加一个 `button` 元素, 并加上 `onClickFunction` 事件处理器.  
+2. 添加一个 `button` 元素, 并加上 `onClick` 事件处理器.  
    
-   > 请确认你导入了 `kotlinx.html.js.*` 包.
+   > 请确认你导入了 `react.dom.html.ReactHTML`.
    {:.note}
 
    ```kotlin
    button {
-       attrs.onClickFunction = {
-           setState(
-               WelcomeState(name = "Some name")
-           )
-       }
-       +"Change name"
-   }   
+        onClick = {
+            name = "Some name"
+        }
+        +"Change name"
+    }   
    ```
 
 3. 将你的修改保存到文件.
@@ -129,16 +138,16 @@ title: "Kotlin/JS for React 入门"
 
 ## 下一步做什么?
 
-创建过你的第一个应用程序之后, 你可以到 Kotlin 动手实验室(Hands-on lab), 完成比较长的 Kotlin/JS 教程,
+创建过你的第一个应用程序之后, 你可以完成比较长的 Kotlin/JS 教程,
 或者查看 Kotlin/JS 示例项目寻找启发. 这两种资源都包含有用的代码片段和模式, 可以用作你自己项目的一个很好的起点.
 
-### 动手实验室(Hands-on lab)
+### 教程
 
-* [使用 React 和 Kotlin/JS 创建 Web 应用程序](https://play.kotlinlang.org/hands-on/Building%20Web%20Applications%20with%20React%20and%20Kotlin%20JS/01_Introduction)
+* [教程 - 使用 React 和 Kotlin/JS 创建 Web 应用程序](js-react.html)
   指导你使用 React 框架创建一个简单的 Web 应用程序, 演示用于 HTML 的类型安全的 Kotlin DSL 如何简化 reactive DOM 元素的构建工作,
   并展示如何使用第三方 React 组件, 以及如何通过 API 获取信息 , 整个应用程序逻辑完全使用 Kotlin/JS 来编写.
 
-* [使用 Kotlin Multiplatform 创建一个全栈 Web 应用程序](https://play.kotlinlang.org/hands-on/Full%20Stack%20Web%20App%20with%20Kotlin%20Multiplatform/01_Introduction)
+* [使用 Kotlin Multiplatform 构建一个全栈 Web 应用程序](../multiplatform/multiplatform-full-stack-app.html)
   通过创建一个 Client-Server 应用程序, 教授创建针对 Kotlin/JVM 和 Kotlin/JS 的应用程序背后的概念,
   其中用到共通代码, 序列化, 以及其他跨平台范例. 它还简要介绍了如何使用 Ktor 作为 Server 端和 Client 端框架.
 

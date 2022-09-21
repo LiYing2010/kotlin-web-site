@@ -7,7 +7,7 @@ title: "函数"
 
 # 函数
 
-本页面最终更新: 2021/11/10
+最终更新: {{ site.data.releases.latestDocDate }}
 
 Kotlin 中的函数使用 `fun` 关键字定义:
 
@@ -238,7 +238,7 @@ val a = arrayOf(1, 2, 3)
 val list = asList(-1, 0, *a, 4)
 ```
 
-如果要向 `vararg` 参数传递一个 [基本类型的数组](basic-types.html#primitive-type-arrays),
+如果要向 `vararg` 参数传递一个 [基本类型的数组](arrays.html#primitive-type-arrays),
 你需要使用 `toTypedArray()` 函数, 将它转换为一个通常的(有类型的)数组:
 
 ```kotlin

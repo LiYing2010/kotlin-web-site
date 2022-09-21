@@ -7,7 +7,7 @@ title: "在 Java 中调用 Kotlin"
 
 # 在 Java 中调用 Kotlin
 
-本页面最终更新: 2021/06/29
+最终更新: {{ site.data.releases.latestDocDate }}
 
 在 Java 中可以很容易地调用 Kotlin 代码.
 比如, 在 Java 方法中可以非常自然的创建 Kotlin 类的实例, 并操作这些实例.
@@ -207,7 +207,7 @@ const val MAX = 239
 在 Java 中:
 
 ```java
-int const = Obj.CONST;
+int constant = Obj.CONST;
 int max = ExampleKt.MAX;
 int version = C.VERSION;
 ```
@@ -341,19 +341,57 @@ public class BB8 implements Robot {
 
 ### 默认方法的兼容模式
 
-如果你的 Kotlin 接口在过去编译时没有使用新的编译选项 `-Xjvm-default=all`, 并且有客户代码正在使用这些接口,
-那么, 在你的 Kotlin 接口代码使用这个编译选项再次编译之后, 可能导致客户代码不能与新代码兼容.
+如果你的 Kotlin 接口在过去编译时没有使用编译选项 `-Xjvm-default=all`, 并且有客户代码正在使用这些接口,
+那么, 在你的 Kotlin 接口代码使用这个编译选项再次编译之后, 可能导致客户代码与新代码二进制不兼容.
+为了避免对这种客户代码的兼容性造成破坏,
+请使用 `-Xjvm-default=all` 模式, 并使用
+[`@JvmDefaultWithCompatibility`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-default-with-compatibility/)
+注解标记接口.
+这样可以让你一次性的向公开 API 中的所有接口添加这个注解, 而且你不需要对新的非公开代码使用任何注解.
 
-为了避免对这种客户代码的兼容性造成破坏, 请使用 _兼容模式_ 编译你的 Kotlin 代码, 方法是添加编译选项 `-Xjvm-default=all-compatibility`.
-这种情况下, 所有使用前一个版本的代码都能够继续与新版本兼容. 但是, 兼容模式会造成编译输出的字节码增大.
+> 从 Kotlin 1.6.20 开始, 对使用 `-Xjvm-default=all` 或 `-Xjvm-default=all-compatibility` 模式编译的模块, 
+> 你可以使用默认模式 (`-Xjvm-default=disable` 编译器选项) 编译模块.
+{:.note}
 
-对于新的接口不必考虑兼容性, 因为在此之前并没有客户代码使用它.
-因此可以将这些接口从兼容模式中排除, 以减少兼容模式造成的字节码开销.
-具体方法是, 对这些方法标注 `@JvmDefaultWithoutCompatibility` 注解.
-这些接口的编译方法与使用编译选项 `-Xjvm-default=all` 时相同.
+兼容模式的详细解释:
 
-此外, 对于那些没有在公开 API 中公布的接口, 它们也没有被任何客户代码使用,
-因此在 `all-compatibility` 模式下, 你也可以使用 `@JvmDefaultWithoutCompatibility` 来标注所有这些接口.
+#### disable 模式
+
+这是默认的模式. 不会生成 JVM 默认方法, 并禁止使用 `@JvmDefault` 注解.
+
+#### all 模式
+
+对模块中所有带有函数体的接口声明生成 JVM 默认方法.
+不会对带有函数体的接口声明生成
+[`DefaultImpls`](https://blog.jetbrains.com/kotlin/2020/07/kotlin-1-4-m3-generating-default-methods-in-interfaces/)
+桩代码(stub), 在 `disable` 模式下则默认会生成.
+
+如果接口从一个 `disable` 模式下编译的接口继承了带有函数体的方法, 并且没有覆盖这个(override)方法,
+那么会对这个方法生成 `DefaultImpls` 桩代码(stub).
+
+如果某些客户代码依赖于 `DefaultImpls` 类的存在, 那么 __会破坏二进制兼容性__.
+
+> 如果使用了接口委托, 所有的接口方法都会被委托. 唯一的例外是使用被废弃的 `@JvmDefault` 注解标注的方法.
+{:.note}
+
+#### all-compatibility 模式
+
+与 `all` 模式相比, 还会在
+[`DefaultImpls`](https://blog.jetbrains.com/kotlin/2020/07/kotlin-1-4-m3-generating-default-methods-in-interfaces/)
+类中生成兼容性桩代码(stub).
+对于库和运行时的作者来说, 兼容性桩代码可以很有用,
+对于那些使用以前的库版本编译的既有的客户代码, 它可以帮助保持向后的二进制兼容性.
+`all` 和 `all-compatibility` 模式改变了库重新编译之后客户代码将要使用的  ABI 界面.
+因此, 客户代码可能会与以前的库版本不能兼容.
+这通常代表你需要适当的库版本号, 比如, 在语义化版本(SemVer)中增加主版本号.
+
+对于从 `all` 或 `all-compatibility` 模式下编译的 Kotlin 接口继承的情况,
+`DefaultImpls` 兼容性桩代码会使用标准的 JVM 运行期解析语义来调用接口的默认方法.
+
+对继承泛型接口的类, 有些情况下, 在 `disable` 模式中会生成带有特殊签名的额外的隐含方法,
+`all-compatibility` 模式对这些类会执行额外的兼容性检查:
+与 `disable` 模式不同, 如果你没有明确的覆盖这样的方法, 也没有使用 `@JvmDefaultWithoutCompatibility` 注解标注这个类,
+那么编译器会报告错误(详情请参见 [这个 YouTrack issue](https://youtrack.jetbrains.com/issue/KT-39603)).
 
 ## 可见度
 

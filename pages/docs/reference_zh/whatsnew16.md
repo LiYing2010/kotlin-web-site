@@ -7,7 +7,7 @@ title: "Kotlin 1.6.0 版中的新功能"
 
 # Kotlin 1.6.0 版中的新功能
 
-本页面最终更新: 2021/12/27
+最终更新: {{ site.data.releases.latestDocDate }}
 
 _[发布日期: 2021/11/16](releases.html#release-details)_
 
@@ -760,7 +760,7 @@ fun main() {
 * 引入了派发器 _views_ API, 可以限制并发, 而不需要创建额外的线程
 * 从 Java 6 迁移到 Java 8 编译目标
 * `kotlinx-coroutines-test`, 包括重新设计的 API 和跨平台支持
-* 引入 [`CopyableThreadContextElement`](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-copyable-thread-context-element/index.html),
+* 引入 [`CopyableThreadContextElement`](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-copyable-thread-context-element/index.html),
   允许协程以线程安全的方式写访问 [`ThreadLocal`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/ThreadLocal.html) 变量
 
 更多详情请参见 [变更列表](https://github.com/Kotlin/kotlinx.coroutines/releases/tag/1.6.0-RC).

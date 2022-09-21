@@ -6,7 +6,7 @@ title: "使用 kapt"
 
 # 使用 kapt
 
-本页面最终更新: 2022/02/25
+最终更新: {{ site.data.releases.latestDocDate }}
 
 > kapt 已进入维护模式. 我们会继续保证它兼容最新版的 Kotlin 和 Java, 但不会再实现新的功能特性.
 > 请改用 [Kotlin 符号处理(Symbol Processing) API (KSP)](ksp/ksp-overview.html) 来处理注解.
@@ -122,23 +122,44 @@ kapt {
 ### 并行运行多个 KAPT 任务
 
 为了改进使用 kapt 时的构建速度, 你可以对 kapt 任务启用
-[Gradle worker API](https://guides.gradle.org/using-the-worker-api/).
-使用 worker API 可以让 Gradle 并行运行单个项目中的多个独立的注解处理任务, 某些情况下能够显著缩短运行时间.
-但是, 使用 Gradle worker API 运行 kapt, 可能由于并行执行多个任务, 而导致内存消耗量增加.
-
-要使用 Gradle worker API 来并行运行 kapt 任务, 请在你的 `gradle.properties` 文件中添加以下内容:
-
-```
-kapt.use.worker.api=true
-```
+[Gradle Worker API](https://guides.gradle.org/using-the-worker-api/).
+使用 Worker API 可以让 Gradle 并行运行单个项目中的多个独立的注解处理任务, 某些情况下能够显著缩短运行时间.
 
 如果在 Kotlin Gradle 插件中使用了 [自定义 JDK home](gradle.html#set-custom-jdk-home) 功能,
 kapt 任务执行器只会使用 [进程隔离模式](https://docs.gradle.org/current/userguide/worker_api.html#changing_the_isolation_mode).
 注意, `kapt.workers.isolation` 属性会被忽略.
 
+如果你想要对 kapt worker 进程指定额外的 JVM 参数, 请使用 `KaptWithoutKotlincTask` 的输入参数 `kaptProcessJvmArgs`:
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+tasks.withType<org.jetbrains.kotlin.gradle.internal.KaptWithoutKotlincTask>()
+    .configureEach {
+        kaptProcessJvmArgs.add("-Xmx512m")
+    }
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+tasks.withType(org.jetbrains.kotlin.gradle.internal.KaptWithoutKotlincTask.class)
+    .configureEach {
+        kaptProcessJvmArgs.add('-Xmx512m')
+    }
+```
+
+</div>
+</div>
+
 ### 注解处理器的 classloader 缓存
 
-> 在 kapt 中, 注解处理器的 classloader 缓存是 [试验性功能](components-stability.html).
+> 在 kapt 中, 注解处理器的 classloader 缓存是 [实验性功能](components-stability.html).
 > 它随时有可能变更或被删除. 请注意, 只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-28901) 提供你的反馈意见.
 {:.warning}
@@ -160,7 +181,72 @@ kapt.include.compile.classpath=false
 
 ```properties
 # 在这里指定注解处理器的完整名称, 可以对这些处理器关闭缓存
-kapt.classloaders.cache.disableForProcessors=[annotation processors full names]
+kapt.classloaders.cache.disableForProcessors=[注解处理器的完整名称]
+```
+
+### 测量注解处理器的性能
+
+可以使用 `-Kapt-show-processor-timings` plugin 选项得到注解处理器执行时的性能统计.
+输出示例:
+
+```kotlin
+Kapt Annotation Processing performance report:
+com.example.processor.TestingProcessor: total: 133 ms, init: 36 ms, 2 round(s): 97 ms, 0 ms
+com.example.processor.AnotherProcessor: total: 100 ms, init: 6 ms, 1 round(s): 93 ms
+```
+
+你可以使用 plugin 选项
+[`-Kapt-dump-processor-timings` (`org.jetbrains.kotlin.kapt3:dumpProcessorTimings`)](https://github.com/JetBrains/kotlin/pull/4280),
+将这个报告输出到一个文件.
+以下命令将会运行 kapt, 并将统计报告输出到 `ap-perf-report.file` 文件:
+
+```kotlin
+kotlinc -cp $MY_CLASSPATH \
+-Xplugin=kotlin-annotation-processing-SNAPSHOT.jar -P \
+plugin:org.jetbrains.kotlin.kapt3:aptMode=stubsAndApt,\
+plugin:org.jetbrains.kotlin.kapt3:apclasspath=processor/build/libs/processor.jar,\
+plugin:org.jetbrains.kotlin.kapt3:dumpProcessorTimings=ap-perf-report.file \
+-Xplugin=$JAVA_HOME/lib/tools.jar \
+-d cli-tests/out \
+-no-jdk -no-reflect -no-stdlib -verbose \
+sample/src/main/
+```
+
+### 测量注解处理器生成的文件数量
+
+`kotlin-kapt` Gradle plugin 可以对每个注解处理器统计生成的文件数量.
+
+这个功能可以用于追踪构建过程中是否存在未使用的注解处理器.
+你可以使用生成的报告来寻找哪些模块触发了不必要的注解处理器, 然后更新这些模块, 不再触发这些注解处理器.
+
+使用以下步骤启用这个统计功能:
+* 在你的 `build.gradle.kts` 文件中, 将 `showProcessorStats` flag 设置为 `true`:
+
+  ```kotlin
+  kapt {
+      showProcessorStats = true
+  }
+  ```
+
+* 在你的 `gradle.properties` 文件中, 将 `kapt.verbose` Gradle 属性设置为 `true`:
+
+  ```properties
+  kapt.verbose=true
+  ```
+
+> 也可以使用 [命令行选项 `verbose`](#using-in-cli) 启用 verbose 输出.
+{:.note}
+
+统计结果将出现在日志中, 级别为 `info`.
+你将会看到 `Annotation processor stats:` 行, 之后是每个注解处理器的执行时间统计.
+再后面, 将是 `Generated files report:` 行, 之后是每个注解处理器生成的文件数量统计.
+比如:
+
+```kotlin
+[INFO] Annotation processor stats:
+[INFO] org.mapstruct.ap.MappingProcessor: total: 290 ms, init: 1 ms, 3 round(s): 289 ms, 0 ms, 0 ms
+[INFO] Generated files report:
+[INFO] org.mapstruct.ap.MappingProcessor: total sources: 2, sources per round: 2, 0, 0
 ```
 
 ## 对 KAPT 使用编译回避功能
@@ -252,7 +338,7 @@ kapt {
 ```
 
 请注意, IntelliJ IDEA 自有的编译系统目前还不支持 kapt.
-如果你想要重新运行注解处理过程, 请通过 “Maven Projects” 工具栏启动编译过程.
+如果你想要重新运行注解处理过程, 请通过 "Maven Projects" 工具栏启动编译过程.
 
 ## 在命令行中使用
 

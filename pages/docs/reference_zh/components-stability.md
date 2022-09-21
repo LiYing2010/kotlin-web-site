@@ -7,7 +7,7 @@ title: "Kotlin 各部分组件的稳定性"
 
 # Kotlin 各部分组件的稳定性
 
-本页面最终更新: 2022/02/16
+最终更新: {{ site.data.releases.latestDocDate }}
 
 Kotlin 语言和它的工具集分成很多组件, 比如针对 JVM, JS 和 Native 平台的编译器, 标准库, 大量的相关工具, 等等.
 这些组件很多已经正式发布为 **稳定(Stable)** 版本, 也就是说它们会以向后兼容的方式演化,
@@ -40,10 +40,28 @@ Kotlin 语言和它的工具集分成很多组件, 比如针对 JVM, JS 和 Nati
 <a name="stable"></a>
 **稳定(Stable)** 代表 "即使是在最保守的场景也可以使用这些功能":
   * 功能已开发完毕. 我们会继续改进它, 遵循我们严格的
-    [向后兼容(backward compatibility) 规则](language-committee-guidelines.html).
+    [向后兼容(backward compatibility) 规则](https://kotlinfoundation.org/language-committee-guidelines/).
 
 请注意, 稳定性级别并不代表组件会在什么时间发布为稳定版本. 同样, 也不代表组件在正式发布之前会发生多大的变化.
 稳定性级别只代表组件会以多快的速度发生变化, 以及将来的版本升级问题会给使用者带来多大的风险.
+
+## Kotlin 组件的 GitHub 徽章 
+
+[GitHub 上的 Kotlin 组织](https://github.com/Kotlin) 存放着很多 Kotlin 相关项目.
+有些项目我们在全职投入开发, 其他则只是业余项目.
+
+每个 Kotlin 项目都有 2 个 GitHub 徽章描述它的稳定性和支持状态:
+
+* **稳定性** 状态. 表示每个项目的演化速度, 以及用户使用它时的风险程度.
+  稳定性状态与 [Kotlin 语言特性和各组件的稳定性级别](#stability-levels-explained) 完全相符:
+    * ![Experimental stability level](https://kotl.in/badges/experimental.svg) 表示 **Experimental** 状态
+    * ![Alpha stability level](https://kotl.in/badges/alpha.svg) 表示 **Alpha** 状态
+    * ![Beta stability level](https://kotl.in/badges/beta.svg) 表示 **Beta** 状态
+    * ![Stable stability level](https://kotl.in/badges/stable.svg) 表示 **Stable** 状态
+
+* **支持** 状态. 表示我们对维护这个项目以及帮助使用者解决相关问题的保证程度.
+  对于 JetBrains 的所有产品, 支持级别是一致的.  
+  详情请参见 [JetBrains 文档](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub).
 
 ## 子组件的稳定性
 
@@ -59,6 +77,7 @@ Kotlin 语言和它的工具集分成很多组件, 比如针对 JVM, JS 和 Nati
 |**组件**|**状态**|**进入这个状态的版本**|**备注**|
 | --- | --- | --- | --- |
 Kotlin/JVM|Stable|1.0| |
+Kotlin K2 (JVM)|Alpha|1.7| |
 kotlin 标准库 (JVM)|Stable|1.0| |
 协程|Stable|1.3| |
 kotlin 反射 (JVM)|Beta|1.0| |
@@ -66,18 +85,19 @@ Kotlin/JS (基于传统后端)|Stable|1.3| |
 Kotlin/JVM (基于 IR)|Stable|1.5| |
 Kotlin/JS (基于 IR)|Beta|1.5| |
 Kotlin/Native 运行库|Beta|1.3| |
-KLib 二进制文件|Alpha|1.4| |
+Kotlin/Native 的新内存管理器|Alpha|1.6.20| |
+klib 二进制文件|Alpha|1.4| |
 跨平台项目|Alpha|1.3| |
 Kotlin/Native 与 C 代码和 Objective C 代码的交互|Beta|1.3| |
 CocoaPods 集成|Beta|1.3| |
-Android Studio 的 KMM plugin|Alpha|0.3.0|[版本与语言本身的版本不同](kmm/kmm-plugin-releases.html)
+Android Studio 的 Kotlin Multiplatform Mobile plugin|Alpha|0.3.0|[版本与语言本身的版本不同](multiplatform-mobile/multiplatform-mobile-plugin-releases.html)
 期待/实际(expect/actual) 语言功能|Beta|1.2| |
 KDoc 语法|Stable|1.0| |
 Dokka|Beta|1.6| |
-脚本的语法和语义|Alpha|1.2|
-脚本的内嵌和扩展 API|Beta|1.5
-脚本的 IDE 支持|Experimental|1.2
-CLI 脚本|Alpha|1.2
+脚本的语法和语义|Alpha|1.2| |
+脚本的内嵌和扩展 API|Beta|1.5 |
+脚本的 IDE 支持|Experimental|1.2 |
+CLI 脚本|Alpha|1.2 |
 编译器插件 API|Experimental|1.0| |
 序列化编译器插件|Stable|1.4| |
 序列化核心库|Stable|1.0.0|版本与语言本身的版本不同

@@ -7,7 +7,7 @@ title: "协程的基本概念"
 
 # 协程的基本概念
 
-本页面最终更新: 2021/09/02
+最终更新: {{ site.data.releases.latestDocDate }}
 
 本章我们介绍协程的基本概念.
 
@@ -256,12 +256,14 @@ Done
 
 ## 协程是非常轻量的
 
-请运行以下代码:
+与 JVM 线程相比, 协程消耗更少的资源.
+有些代码使用线程时会耗尽 JVM 的可用内存, 如果用协程来表达, 则不会达到资源上限.
+比如, 以下代码启动 100000 个不同的协程, 每个协程等待 5 秒, 然后打印一个点号('.'),
+但只消耗非常少的内存:
 
 ```kotlin
 import kotlinx.coroutines.*
 
-//sampleStart
 fun main() = runBlocking {
     repeat(100_000) { // 启动非常多的协程
         launch {
@@ -270,28 +272,26 @@ fun main() = runBlocking {
         }
     }
 }
-//sampleEnd
 ```
+<!-- 尽管协程比线程消耗更少的内存, 但这个示例程序还是会耗尽 playground 的堆内存; 请不要在 上运行这个示例. -->
 
 > 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-basic-06.kt).
 {:.note}
 
 <!--- TEST lines.size == 1 && lines[0] == ".".repeat(100_000) -->
 
-这个例子会启动 10 万个协程, 5 秒钟之后, 每个协程输出 1 个点.
-
-现在试试用线程来实现同样的功能
+如果你使用线程来实现同样的功能
 (删除 `runBlocking`, 将 `launch` 替换为 `thread`, 将 `delay` 替换为 `Thread.sleep`).
-会发生什么结果? (你的程序很可能会发生某种内存耗尽的错误)
+你的程序很可能会消耗太多内存, 抛出内存不足(out-of-memory)的错误.
 
 <!--- MODULE kotlinx-coroutines-core -->
 <!--- INDEX kotlinx.coroutines -->
 
-[launch]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/launch.html
-[delay]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/delay.html
-[runBlocking]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/run-blocking.html
-[CoroutineScope]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html
-[_coroutineScope]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/coroutine-scope.html
-[Job]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-job/index.html
+[launch]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/launch.html
+[delay]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/delay.html
+[runBlocking]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/run-blocking.html
+[CoroutineScope]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html
+[_coroutineScope]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/coroutine-scope.html
+[Job]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-job/index.html
 
 <!--- END -->

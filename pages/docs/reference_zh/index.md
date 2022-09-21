@@ -9,7 +9,7 @@ title: "参考文档"
 
 # **Kotlin 文档**
 
-## **最新版本: {{ site.data.releases.latest.version }}**
+## **最新稳定版本: {{ site.data.releases.latest.version }}**
 
 <div style="display: flex; width: 100%; padding: 5px">
     <div style="display: block; width: 50%; padding: 5px;">
@@ -122,9 +122,9 @@ title: "参考文档"
 
 <div style="display: flex; width: 100%; padding: 5px">
     <div style="display: block; width: 50%; padding: 5px;">
-        <a style="text-decoration: none;" href="whatsnew16.html">
-            <h3>Kotlin 1.6.0 的新功能</h3>
-            <p>最新功能: 封闭的(sealed) when 语句, 将挂起函数(Suspending Function)用作基类型(supertype), 等等</p>    
+        <a style="text-decoration: none;" href="whatsnew17.html">
+            <h3>Kotlin 1.7.0 的新功能</h3>
+            <p>最新功能: JVM 平台的 Kotlin K2 编译器 Alpha 版, 明确要求使用者同意(Opt-in Requirement)注解的稳定版, 绝对不为空(Definitely non-nullable)的类型, 构建器推断, JVM/Native/JS 平台的性能改进, 等等</p>    
         </a>
     </div>
 
@@ -137,27 +137,27 @@ title: "参考文档"
 </div>
 
 
-## **Kotlin 跨平台移动应用程序 (KMM)**
+## **Kotlin 跨平台移动应用程序**
 
 <div style="display: flex; width: 100%; padding: 5px">
     <div style="display: block; width: 33%; padding: 5px;">
-        <a style="text-decoration: none;" href="kmm/kmm-getting-started.html">
-            <h3>在 Android Studio 中使用 KMM </h3>
-            <p>一个简单的跨平台移动应用程序</p>    
+        <a style="text-decoration: none;" href="multiplatform-mobile/multiplatform-mobile-getting-started.html">
+            <h3>入门</h3>
+            <p>一些有用的链接, 帮助你学习如何使用 SDK</p>    
         </a>
     </div>
 
     <div style="display: block; width: 33%; padding: 5px;">
-        <a style="text-decoration: none;" href="kmm/kmm-plugin-releases.html">
-            <h3>KMM plugin for Android Studio 的发布版本</h3>
-            <p>KMM plugin 的功能介绍</p>    
+        <a style="text-decoration: none;" href="multiplatform-mobile/multiplatform-mobile-plugin-releases.html">
+            <h3>Android Studio 的 Plugin 发布版本</h3>
+            <p>Kotlin Multiplatform Mobile plugin 的功能介绍</p>    
         </a>
     </div>
 
     <div style="display: block; width: 33%; padding: 5px;">
         <a style="text-decoration: none;" href="https://www.youtube.com/playlist?list=PLlFc5cFwUnmy_oVc9YQzjasSNoAk4hk_C">
             <h3>Kotlin Multiplatform Multiverse</h3>
-            <p>Kotlin YouTube 频道中关于 KMM 的视频</p>    
+            <p>我们的 YouTube 频道中关于 Kotlin Multiplatform Mobile 的视频</p>    
         </a>
     </div>
 </div>
@@ -173,7 +173,7 @@ title: "参考文档"
         <a style="text-decoration: none;" href="koans.html">
             <p>Kotlin Koan</p>
         </a>
-        <a style="text-decoration: none;" href="https://hyperskill.org/tracks/18">
+        <a style="text-decoration: none;" href="https://hyperskill.org/join/fromdocstoJetSalesStat?redirect=true&amp;next=/tracks/18">
             <p>JetBrains 学院</p>
         </a>
         <a style="text-decoration: none;" href="advent-of-code.html">
@@ -216,8 +216,8 @@ title: "参考文档"
         <a style="text-decoration: none;" href="https://www.youtube.com/playlist?list=PLlFc5cFwUnmzT4cgLOGJYGnY6j0W2xoFA">
             <p>面向教育者的 Kotlin 专题</p>
         </a>
-        <a style="text-decoration: none;" href="https://www.youtube.com/playlist?list=PLlFc5cFwUnmztiekWaNlCcjfxvNQbXViP">
-            <p>Kotlin 2020 在线活动</p>
+        <a style="text-decoration: none;" href="https://www.youtube.com/playlist?list=PLlFc5cFwUnmxS9GQ0HtzUG1a7WQ2cvF6U">
+            <p>Kotlin 2021 在线活动</p>
         </a>
     </div>
 

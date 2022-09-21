@@ -1,8 +1,9 @@
 import $ from 'jquery';
 
-// Ensure preferred DSL is valid, defaulting to Groovy DSL
+// Ensure preferred DSL is valid, defaulting to Kotlin DSL
 const gradleKey = "preferred-gradle-dsl";
 const osKey = "preferred-os";
+const versionKey = "preferred-version";
 
 
 ///the order is used for presentation
@@ -14,9 +15,14 @@ const allOsNames = [
 
 ///the order is used for presentation
 const allGradleNames = [
-    "groovy",
-    "kotlin"
+  "kotlin",
+  "groovy",
 ];
+
+const allKotlinVersions = [
+  "kotlin-1-6",
+  "kotlin-1-5"
+]
 
 const sortAsListedToSet = (fullList, names) => {
   const result = [];
@@ -59,15 +65,25 @@ const loadInitialState = () => {
     return osName;
   }
 
+  function initPreferredVersion() {
+    let version = window.localStorage.getItem(versionKey) || 'nan';
+    if (allKotlinVersions.indexOf(version) === -1) {
+      version = allKotlinVersions[0];
+    }
+    return version;
+  }
+
   return {
     gradleValue: initPreferredBuildScriptLanguage(),
-    osValue: initPreferredOSLanguage()
+    osValue: initPreferredOSLanguage(),
+    versionValue: initPreferredVersion(),
   };
 };
 
-const saveState = ({osValue = '', gradleValue = ''} = {}) => {
+const saveState = ({osValue = '', gradleValue = '', versionValue = ''} = {}) => {
   if (osValue !== '') window.localStorage.setItem(osKey, osValue);
   if (gradleValue !== '') window.localStorage.setItem(gradleKey, gradleValue);
+  if (versionValue !== '') window.localStorage.setItem(versionKey, versionValue);
   return loadInitialState();
 };
 
@@ -76,7 +92,7 @@ const multiLanguageSampleClass = 'multi-language-sample';
 const dataSelectedGroupId = 'data-selector-group';
 
 const newGroup = (tabsAnchor) => {
-  const r = {tabsAnchor: null, snippets: [], gradleOptions: [], osOptions: [], gradleTabs: [], osTabs: []};
+  const r = {tabsAnchor: null, snippets: [], versionOptions: [], gradleOptions: [], osOptions: [], versionTabs: [], gradleTabs: [], osTabs: []};
   if (tabsAnchor) r.tabsAnchor = tabsAnchor;
   return r;
 };
@@ -84,15 +100,18 @@ const newGroup = (tabsAnchor) => {
 const createSnippetInfo = ($, divElement) => {
     const osValue = (divElement.getAttribute("data-os") || '').toLowerCase();
     const gradleValue = (divElement.getAttribute("data-lang") || '').toLowerCase();
+    const versionValue =  (divElement.getAttribute("data-version") || '').toLowerCase();
 
     return {
       osValue,
       gradleValue,
+      versionValue,
       updateSelected : state => {
           const selectedOs = osValue === '' || osValue === state.osValue;
           const selectedGradle = gradleValue === '' || gradleValue === state.gradleValue;
+          const selectedVersion = versionValue === '' || versionValue === state.versionValue;
 
-          if (selectedOs && selectedGradle) {
+          if (selectedOs && selectedGradle && selectedVersion) {
             divElement.classList.remove("hide")
           } else {
             divElement.classList.add("hide")
@@ -120,13 +139,18 @@ const locateCodeElements = ($) => {
 
     const info = createSnippetInfo($, divElement);
 
-    const  {osValue, gradleValue} = info;
+    const  {osValue, gradleValue, versionValue} = info;
     groupMembers.osOptions.push(osValue);
     groupMembers.gradleOptions.push(gradleValue);
+    groupMembers.versionOptions.push(versionValue);
     groupMembers.snippets.push(info);
   });
 
-  [].slice.call(document.querySelectorAll(".multi-language-span[data-os], .multi-language-span[data-lang]")).forEach((divElement, index) => {
+  [].slice.call(
+      document.querySelectorAll(
+          ".multi-language-span[data-os], .multi-language-span[data-lang], .multi-language-span[data-version]"
+      )
+  ).forEach((divElement, index) => {
     const groupMembers = newGroup();
     selectorGroups["span-" + index] = groupMembers;
 
@@ -153,6 +177,7 @@ const generateTabs = ($, selectorGroups, updateState) => {
     multiLanguageSelectorElement.classList.add("multi-language-selector");
     languageSelectorFragment.appendChild(multiLanguageSelectorElement);
 
+    // for "data-lang"
     sortAsListedToSet(allGradleNames, group.gradleOptions).forEach(opt => {
       const optionEl = document.createElement("code");
       optionEl.setAttribute("data-lang", opt);
@@ -178,6 +203,7 @@ const generateTabs = ($, selectorGroups, updateState) => {
       multiLanguageSelectorElement.appendChild(optionEl);
     });
 
+    // for "data-os"
     sortAsListedToSet(allOsNames, group.osOptions).reverse().forEach(opt => {
       const optionEl = document.createElement("code");
       optionEl.setAttribute("data-os", opt);
@@ -198,6 +224,32 @@ const generateTabs = ($, selectorGroups, updateState) => {
 
       optionEl.addEventListener("click", () => {
         updateState({osValue: opt})
+      });
+
+      multiLanguageSelectorElement.appendChild(optionEl);
+    });
+
+    // for "data-version"
+    sortAsListedToSet(allKotlinVersions, group.versionOptions).forEach(opt => {
+      const optionEl = document.createElement("code");
+      optionEl.setAttribute("data-version", opt);
+      optionEl.setAttribute("role", "button");
+
+      optionEl.classList.add("version-option");
+      optionEl.innerText = opt.charAt(0).toUpperCase() + opt.slice(1);
+
+      group.versionTabs.push({
+        updateSelected: state => {
+          if (state.versionValue === opt) {
+            optionEl.classList.add("selected");
+          } else {
+            optionEl.classList.remove("selected");
+          }
+        }
+      });
+
+      optionEl.addEventListener("click", () => {
+        updateState({versionValue: opt})
       });
 
       multiLanguageSelectorElement.appendChild(optionEl);
@@ -237,6 +289,10 @@ $(document).ready(($) => {
       group.osTabs.forEach(tab => {
         tab.updateSelected(state);
       });
+
+      group.versionTabs.forEach(tab => {
+        tab.updateSelected(state);
+      });
     }
   };
 
@@ -255,5 +311,3 @@ $(document).ready(($) => {
     }, 10);
   }
 });
-
-

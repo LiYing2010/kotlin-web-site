@@ -7,7 +7,7 @@ title: "改进 Kotlin/Native 编译速度"
 
 # 改进 Kotlin/Native 编译速度
 
-本页面最终更新: 2022/03/16
+最终更新: {{ site.data.releases.latestDocDate }}
 
 Kotlin/Native 编译器正在不断更新, 并改进它的性能.
 使用最新的 Kotlin/Native 编译器, 以及正确配置的构建环境, 对于使用 Kotlin/Native 编译目标的项目, 你可以显著的改进编译速度.
@@ -48,7 +48,8 @@ Kotlin/Native 编译器正在不断更新, 并改进它的性能.
     * `packForXcode`: 由于 iOS 各种模拟器和各种真实设备使用不同的处理器架构, 因此通常会将 Kotlin/Native 二进制文件以 universal (fat) 框架的形式发布.
       在本地开发时, 只为你正在使用的平台构建 `.framework` 会比较快.
       
-      要构建一个平台专用的框架, 请调用 [KMM 项目向导](../kmm/kmm-create-first-app.html) 创建的 `packForXcode` 任务. 
+      要构建一个平台专用的框架, 请调用 [Kotlin Multiplatform Mobile 项目向导](../multiplatform-mobile/multiplatform-mobile-create-first-app.html)
+      创建的 `packForXcode` 任务. 
       
       > 请记住, 这种情况下, 在设备和模拟器之间切换之后, 你将会需要使用 `./gradlew clean` 清除构建.
       > 详情请参见 [这个问题](https://youtrack.jetbrains.com/issue/KT-40907).
@@ -58,6 +59,11 @@ Kotlin/Native 编译器正在不断更新, 并改进它的性能.
 * **不要禁用 [Gradle daemon](https://docs.gradle.org/current/userguide/gradle_daemon.html)**, 如果没有重要的原因, 请不要这样做.
   默认情况下 [Kotlin/Native 从 Gradle daemon 启动](https://blog.jetbrains.com/kotlin/2020/03/kotlin-1-3-70-released/#kotlin-native).
   Gradle daemon 启用时, 会使用相同的 JVM 进程, 因此不必为每次编译重新最准备.
+
+* **不要使用 [transitiveExport = true](../multiplatform/multiplatform-build-native-binaries.html#export-dependencies-to-binaries)**.
+  使用传递导出(Transitive Export)很多情况下会导致死代码剔除(Dead Code Elimination)功能被关闭: 编译器必须处理很多未使用的代码.
+  这样会增加编译时间.
+  要明确使用 `export`, 来导出需要的项目和依赖项.
 
 * **使用 Gradle 的 [构建缓存](https://docs.gradle.org/current/userguide/build_cache.html)**:
     * **本地构建缓存**: 向你的 `gradle.properties` 文件添加设置 `org.gradle.caching=true`, 或者在命令行运行时添加 `--build-cache` 参数.

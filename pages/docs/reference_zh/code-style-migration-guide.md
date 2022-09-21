@@ -7,8 +7,7 @@ title: "迁移到 Kotlin 编码风格"
 
 # 迁移到 Kotlin 编码风格
 
-本页面最终更新: 2021/12/01
-
+最终更新: {{ site.data.releases.latestDocDate }}
 
 ## Kotlin 编码规约与 IntelliJ IDEA 源代码格式化
 

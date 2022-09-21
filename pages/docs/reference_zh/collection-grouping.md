@@ -7,7 +7,7 @@ title: "分组(Grouping)"
 
 # 分组(Grouping)
 
-本页面最终更新: 2021/05/05
+最终更新: {{ site.data.releases.latestDocDate }}
 
 Kotlin 标准库提供了扩展函数, 用于对集合中的元素进行分组操作.
 最基本的函数是

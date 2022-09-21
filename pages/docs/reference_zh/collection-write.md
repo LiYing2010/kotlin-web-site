@@ -7,7 +7,7 @@ title: "集合写入操作"
 
 # 集合写入操作
 
-本页面最终更新: 2021/02/11
+最终更新: {{ site.data.releases.latestDocDate }}
 
 [可变集合](collections-overview.html#collection-types) 允许执行改变集合内容的操作, 比如, 可以添加或删除元素.
 本节中, 我们会介绍所有 `MutableCollection` 都支持的共通的写入操作.

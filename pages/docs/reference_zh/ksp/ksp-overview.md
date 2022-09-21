@@ -7,7 +7,7 @@ title: "Kotlin 符号处理(Kotlin Symbol Processing) API"
 
 # Kotlin 符号处理(Kotlin Symbol Processing) API
 
-本页面最终更新: 2022/03/04
+最终更新: {{ site.data.releases.latestDocDate }}
 
 Kotlin 符号处理(Kotlin Symbol Processing, _KSP_) 是一组 API, 你可以使用它开发轻量的编译器插件.
 KSP 提供一组简化的编译器插件 API, 利用 Kotlin 的能力, 同时保持最小的学习曲线.
@@ -158,24 +158,28 @@ class HelloFunctionFinderProcessor : SymbolProcessor() {
 * [针对 Java 注解处理器开发者的参考文档](ksp-reference.html)
 * [增量式处理](ksp-incremental.html)
 * [多轮处理](ksp-multi-round.html)
+* [在跨平台项目中使用 KSP](ksp-multiplatform.html)
+* [在命令行运行 KSP](ksp-command-line.html)
 * [FAQ](ksp-faq.html)
 
 ## 支持的库
 
 下表是 Android 上的流行的库, 以及它们对 KSP 的支持情况.
-如果想要添加你的库, 欢迎提交 Pull Request.
 
 | 库                | 状态                                                                                       | 关于 KSP 的 Issue                                      |
 |------------------|------------------------------------------------------------------------------------------|-----------------------------------------------------|
-| Room             | [实验性支持](https://developer.android.com/jetpack/androidx/releases/room#2.3.0-beta02)       |                                                     |
+| Room             | [官方支持](https://developer.android.com/jetpack/androidx/releases/room#2.3.0-beta02)        |                                                     |
 | Moshi            | [官方支持](https://github.com/square/moshi/)                                                 |                                                     |
 | RxHttp           | [官方支持](https://github.com/liujingxing/rxhttp)                                            |                                                     |
 | Kotshi           | [官方支持](https://github.com/ansman/kotshi)                                                 |                                                     |
 | Lyricist         | [官方支持](https://github.com/adrielcafe/lyricist)                                           |                                                     |
 | Lich SavedState  | [官方支持](https://github.com/line/lich/tree/master/savedstate)                              |                                                     |
 | gRPC Dekorator   | [官方支持](https://github.com/mottljan/grpc-dekorator)                                       |                                                     |
+| EasyAdapter      | [官方支持](https://github.com/AmrDeveloper/EasyAdapter)                                      |                                                     |
+| Koin Annotations | [官方支持](https://github.com/InsertKoinIO/koin-annotations)                                 |                                                     |
 | Auto Factory     | 目前不支持                                                                                    | [链接](https://github.com/google/auto/issues/982)     |
 | Dagger           | 目前不支持                                                                                    | [链接](https://github.com/google/dagger/issues/2349)  |
 | Hilt             | 目前不支持                                                                                    | [链接](https://issuetracker.google.com/179057202)     |
 | Glide            | 目前不支持                                                                                    | [链接](https://github.com/bumptech/glide/issues/4492) |
 | DeeplinkDispatch | [通过 airbnb/DeepLinkDispatch#323 支持](https://github.com/airbnb/DeepLinkDispatch/pull/323) |                                                     |
+| Micronaut        | 正在开发中                                                                                    |[链接](https://github.com/micronaut-projects/micronaut-core/issues/6781)|

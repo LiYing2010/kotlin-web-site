@@ -7,7 +7,7 @@ title: "嵌套类与内部类"
 
 # 嵌套类(Nested Class)与内部类(Inner Class)
 
-本页面最终更新: 2021/02/11
+最终更新: {{ site.data.releases.latestDocDate }}
 
 类可以嵌套在另一个类之内:
 

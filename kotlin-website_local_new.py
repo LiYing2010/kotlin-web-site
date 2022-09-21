@@ -198,31 +198,31 @@ def autoversion_filter(filename):
     original.update(query=original.get('query') + '&v=' + asset_version)
     return ParseResult(**original).geturl()
 
-@app.route('/data/events.json')
-def get_events():
-    with open(path.join(data_folder, "events.xml"), encoding="UTF-8") as events_file:
-        events = xmltodict.parse(events_file.read())['events']['event']
-        return Response(json.dumps(events, cls=DateAwareEncoder), mimetype='application/json')
+# @app.route('/data/events.json')
+# def get_events():
+#     with open(path.join(data_folder, "events.xml"), encoding="UTF-8") as events_file:
+#         events = xmltodict.parse(events_file.read())['events']['event']
+#         return Response(json.dumps(events, cls=DateAwareEncoder), mimetype='application/json')
 
 
-@app.route('/data/cities.json')
-def get_cities():
-    return Response(json.dumps(site_data['cities'], cls=DateAwareEncoder), mimetype='application/json')
+# @app.route('/data/cities.json')
+# def get_cities():
+#     return Response(json.dumps(site_data['cities'], cls=DateAwareEncoder), mimetype='application/json')
 
 
-@app.route('/data/kotlinconf.json')
-def get_kotlinconf():
-    return Response(json.dumps(site_data['kotlinconf'], cls=DateAwareEncoder), mimetype='application/json')
+# @app.route('/data/kotlinconf.json')
+# def get_kotlinconf():
+#     return Response(json.dumps(site_data['kotlinconf'], cls=DateAwareEncoder), mimetype='application/json')
 
 
-@app.route('/data/universities.json')
-def get_universities():
-    return Response(json.dumps(site_data['universities'], cls=DateAwareEncoder), mimetype='application/json')
+# @app.route('/data/universities.json')
+# def get_universities():
+#     return Response(json.dumps(site_data['universities'], cls=DateAwareEncoder), mimetype='application/json')
 
 
-@app.route('/data/user-groups.json')
-def get_user_groups():
-    return Response(json.dumps(site_data['user-groups'], cls=DateAwareEncoder), mimetype='application/json')
+# @app.route('/data/user-groups.json')
+# def get_user_groups():
+#     return Response(json.dumps(site_data['user-groups'], cls=DateAwareEncoder), mimetype='application/json')
 
 
 # @app.route('/docs/reference_zh/grammar.html')
@@ -233,59 +233,59 @@ def get_user_groups():
 #     return render_template('pages/grammar.html', kotlinGrammar=grammar)
 
 
-@app.route('/docs/videos.html')
-def videos_page():
-    return render_template('pages/videos.html', videos=process_video_nav(site_data['videos']))
+# @app.route('/docs/videos.html')
+# def videos_page():
+#     return render_template('pages/videos.html', videos=process_video_nav(site_data['videos']))
 
 
-@app.route('/docs/kotlin-reference.pdf')
-def kotlin_reference_pdf():
-    # return send_file(path.join(root_folder, "assets", "kotlin-reference.pdf"))
-    return "no PDF"
+# @app.route('/docs/kotlin-reference.pdf')
+# def kotlin_reference_pdf():
+#     # return send_file(path.join(root_folder, "assets", "kotlin-reference.pdf"))
+#     return "no PDF"
 
 
-@app.route('/docs/kotlin-docs.pdf')
-def kotlin_docs_pdf():
-    # return send_file(path.join(root_folder, "assets", "kotlin-reference.pdf"))
-    return "no PDF"
+# @app.route('/docs/kotlin-docs.pdf')
+# def kotlin_docs_pdf():
+#     # return send_file(path.join(root_folder, "assets", "kotlin-reference.pdf"))
+#     return "no PDF"
 
 
-@app.route('/community/')
-def community_page():
-    return render_template('pages/community.html')
+# @app.route('/community/')
+# def community_page():
+#     return render_template('pages/community.html')
 
-@app.route('/user-groups/user-group-list.html')
-def user_group_list():
-    return render_template(
-        'pages/user-groups/user-group-list.html',
-        user_groups_data=site_data['user-groups'],
-        number_of_groups=sum(map(lambda section: len(section['groups']), site_data['user-groups'])))
+# @app.route('/user-groups/user-group-list.html')
+# def user_group_list():
+#     return render_template(
+#         'pages/user-groups/user-group-list.html',
+#         user_groups_data=site_data['user-groups'],
+#         number_of_groups=sum(map(lambda section: len(section['groups']), site_data['user-groups'])))
 
-@app.route('/education/')
-def education_page():
-    return render_template(
-        'pages/education/index.html',
-        universities_count=len(site_data['universities']),
-        countries_count=get_countries_size()
-    )
+# @app.route('/education/')
+# def education_page():
+#     return render_template(
+#         'pages/education/index.html',
+#         universities_count=len(site_data['universities']),
+#         countries_count=get_countries_size()
+#     )
 
-@app.route('/education/why-teach-kotlin.html')
-def why_teach_page():
-    return render_template('pages/education/why-teach-kotlin.html')
-
-
-@app.route('/education/courses.html')
-def education_courses():
-    return render_template('pages/education/courses.html', universities_data=get_education_courses())
+# @app.route('/education/why-teach-kotlin.html')
+# def why_teach_page():
+#     return render_template('pages/education/why-teach-kotlin.html')
 
 
-@app.route('/')
-def index_page():
-    features = get_kotlin_features()
-    return render_template('pages/index.html',
-                           is_index_page=True,
-                           features=features
-                           )
+# @app.route('/education/courses.html')
+# def education_courses():
+#     return render_template('pages/education/courses.html', universities_data=get_education_courses())
+
+
+# @app.route('/')
+# def index_page():
+#     features = get_kotlin_features()
+#     return render_template('pages/index.html',
+#                            is_index_page=True,
+#                            features=features
+#                            )
 
 def process_page(page_path):
     # get_nav() has side effect to copy and patch files from the `external` folder
@@ -453,17 +453,17 @@ def page_not_found(e):
 
 app.register_error_handler(404, page_not_found)
 
-@app.route('/api/<path:page_path>')
-def api_page(page_path):
-    # path_other, ext = path.splitext(page_path)
-    # if ext == '.html':
-    #     return process_api_page(page_path[:-5])
-    # elif path.basename(page_path) == "package-list" or ext:
-    #     return respond_with_package_list(page_path)
-    # elif not page_path.endswith('/'):
-    #     page_path += '/'
-    # return process_api_page(page_path + 'index')
-    return "no API"
+# @app.route('/api/<path:page_path>')
+# def api_page(page_path):
+#     # path_other, ext = path.splitext(page_path)
+#     # if ext == '.html':
+#     #     return process_api_page(page_path[:-5])
+#     # elif path.basename(page_path) == "package-list" or ext:
+#     #     return respond_with_package_list(page_path)
+#     # elif not page_path.endswith('/'):
+#     #     page_path += '/'
+#     # return process_api_page(page_path + 'index')
+#     return "no API"
 
 
 def process_api_page(page_path):

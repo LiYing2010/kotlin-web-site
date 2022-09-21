@@ -7,7 +7,7 @@ title: "泛型(Generic): in, out, where"
 
 # 泛型(Generic): in, out, where
 
-本页面最终更新: 2021/09/08
+最终更新: {{ site.data.releases.latestDocDate }}
 
 Kotlin 中的类也可以有类型参数, 与 Java 一样:
 
@@ -110,7 +110,8 @@ Joshua Bloch 将那些只能 _读取_ 的对象称为 _生产者(Producer)_,
 > 他还提出了下面的记忆口诀:
 >
 > PECS: 生产者(Producer)对应 Extends, 消费者(Consumer) 对应 Super
->
+{:.tip}
+
 > 如果你使用一个生产者对象, 比如, `List<? extends Foo>`, 你将无法对这个对象调用 `add()` 或 `set()` 方法,
 > 但这并不代表这个对象是 _值不变的(immutable)_:
 > 比如, 你完全可以调用 `clear()` 方法来删除 List 内的所有元素, 因为 `clear()` 方法不需要任何参数.
@@ -343,13 +344,145 @@ fun <T> copyWhenGreater(list: List<T>, threshold: T): List<String>
 在运行期, 泛型类型的实例不保存关于其类型参数的任何信息.
 我们称之为, 类型信息 _被擦除_ 了. 比如, `Foo<Bar>` 和 `Foo<Baz?>` 的实例, 其类型信息会被擦除, 只剩下 `Foo<*>`.
 
-因此, 不存在一种通用的办法, 可以在运行期检查一个泛型类的实例是通过什么样的类型参数来创建的,
-而且编译器 [禁止这样的 `is` 检查](typecasts.html#type-erasure-and-generic-type-checks).
+### 泛型的类型检查与类型转换
 
-把一种类型转换为带具体类型参数的泛型类型, 比如 `foo as List<String>`, 在运行时也无法进行类型安全性检查.
-如果类型安全性不能通过编译器直接推断得到, 但是更高层次的程序逻辑可以保证, 那么可以使用这种 [未检查的类型转换](typecasts.html#unchecked-casts).
-编译器会对未检查的类型转换报告一个警告, 在运行时, 只会针对泛型以外的部分进行类型检查 (前面的例子等价于 `foo as List<*>`).
+由于存在类型擦除的问题, 因此不存在一种通用的办法, 可以在运行期检查一个泛型类的实例是通过什么样的类型参数来创建的,
+并且编译器禁止这样的 `is` 检查, 例如 `ints is List<Int>` 或 `list is T` (T 是类型参数).
+但是, 你可以检查实例是否属于星号投射类型:
 
-泛型函数调用时的类型参数同样只在编译时进行类型检查. 在函数体内部, 不能对类型参数进行类型检查, 把一种类型转换为函数的类型参数类型 (比如 `foo as T`) 同样是未检查的类型转换.
-但是, 内联函数的 [实体化的类型参数](inline-functions.html#reified-type-parameters) 会在调用处被替换为内联函数体内部的实际类型参数,
-因此这时可以用类型参数来进行类型检查和类型转换, 但这里的类型检查和类型转换, 也和前面讲到的泛型类的实例一样存在同样的限制.
+```kotlin
+if (something is List<*>) {
+    something.forEach { println(it) } // List 中元素的类型都被识别为 `Any?`
+}
+```
+
+类似的, 如果(在编译期间)已经对一个实例的类型参数进行了静态检查,
+你可以对泛型之外的部分进行 `is` 检查, 或类型转换.
+注意, 下面的示例中省略了尖括号:
+
+```kotlin
+fun handleStrings(list: MutableList<String>) {
+    if (list is ArrayList) {
+        // `list` 会被智能转换为 `ArrayList<String>`
+    }
+}
+```
+
+对于不涉及类型参数的类型转换, 可以使用的相同语法, 但省略类型参数: `list as ArrayList`.
+
+泛型函数调用的类型参数也只在编译期进行检查. 在函数内部, 类型参数不能用来进行类型检查, 而且向类型参数的类型转换 (`foo as T`) 也不做检查.
+唯一的例外是使用 [实体化的类型参数(Reified type parameter)](inline-functions.html#reified-type-parameters) 的内联函数,
+会将它们的实际类型参数内联到每一个调用处. 因此可以对类型参数使用类型检查和转换.
+但是, 在类型检查或转换内部使用的泛型类型实例, 仍然存在上述限制.
+例如, 在类型检查 `arg is T` 中, 如果 `arg` 自身是一个泛型类型的实例, 它的类型参数仍然会被擦除.
+
+<div class="sample" markdown="1" theme="idea">
+
+```kotlin
+//sampleStart
+inline fun <reified A, reified B> Pair<*, *>.asPairOf(): Pair<A, B>? {
+    if (first !is A || second !is B) return null
+    return first as A to second as B
+}
+
+val somePair: Pair<Any?, Any?> = "items" to listOf(1, 2, 3)
+
+val stringToSomething = somePair.asPairOf<String, Any>()
+val stringToInt = somePair.asPairOf<String, Int>()
+val stringToList = somePair.asPairOf<String, List<*>>()
+val stringToStringList = somePair.asPairOf<String, List<String>>() // 这段代码能够编译, 但破坏了类型安全型!
+// 请展开示例代码查看详情
+
+//sampleEnd
+
+fun main() {
+    println("stringToSomething = " + stringToSomething)
+    println("stringToInt = " + stringToInt)
+    println("stringToList = " + stringToList)
+    println("stringToStringList = " + stringToStringList)
+    //println(stringToStringList?.second?.forEach() {it.length}) // 这里会抛出 ClassCastException 异常, 因为 list 中的元素不是字符串
+}
+```
+</div>
+
+### 未检查的类型转换
+
+将类型转换为带有实际类型参数的泛型类型, 例如 `foo as List<String>`, 在运行期也无法进行检查.
+如果不能由编译器直接推断得到类型安全, 但通过高层的程序逻辑能够保证, 那么可以使用这种未检查的类型转换.
+请看下面的示例.
+
+```kotlin
+fun readDictionary(file: File): Map<String, *> = file.inputStream().use {
+    TODO("Read a mapping of strings to arbitrary elements.")
+}
+
+// 我们把值为 `Int` 的 map 保存到了这个文件
+val intsFile = File("ints.dictionary")
+
+// 此处会出现编译警告: Unchecked cast: `Map<String, *>` to `Map<String, Int>`
+val intsDictionary: Map<String, Int> = readDictionary(intsFile) as Map<String, Int>
+```
+
+最后一行中的类型转换会出现编译警告.
+编译器无法对这个类型转换在运行期进行完整地检查, 因此不能保证 map 中的值是 `Int`.
+
+为了避免这种未检查的类型转换, 你可以重新设计你的程序结构.
+在上例中, 你可以声明 `DictionaryReader<T>` 和 `DictionaryWriter<T>` 接口,
+然后对不同的数据类型提供类型安全的实现类.
+你可以引入合理的抽象层次, 将未检查的类型转换, 从对接口的调用代码中, 移动到具体的实现类中.
+正确使用 [泛型类型变异(generic variance)](#variance) 也可能有助于解决这类问题.
+
+对于泛型函数, 使用 [实体化的类型参数(Reified type parameter)](inline-functions.html#reified-type-parameters)
+可以使得 `arg as T` 之类的类型转换变成可被检查的类型转换,
+除非 `arg` 的类型带有 *它自己的* 类型参数, 并且在运行期间被擦除了.
+
+对类型转换语句, 或这个语句所属的声明, 添加 `@Suppress("UNCHECKED_CAST")` [注解](annotations.html#annotations),
+可以屏蔽未检查的类型转换导致的编译警告:
+
+```kotlin
+inline fun <reified T> List<*>.asListOfType(): List<T>? =
+    if (all { it is T })
+        @Suppress("UNCHECKED_CAST")
+        this as List<T> else
+        null
+```
+
+> **在 JVM 平台**: [数组类型](arrays.html) (`Array<Foo>`) 保持了被擦除的数组元素类型信息,
+> 将某个类型向数组类型进行的转换, 可以进行部分地检查: 数组元素可否为空, 以及数组元素本身的类型参数仍然会被擦除.
+> 比如, 只要 `foo` 是一个数组, 并且元素类型是任意一种 `List<*>`, 无论元素可否为 null,
+> 那么 `foo as Array<List<String>?>` 转换就会成功.
+{:.note}
+
+## 对类型参数的下划线操作符
+
+可以对类型参数使用下划线操作符 `_`. 当其他类型已经明确指定时, 使用下划线操作符可以自动推断一个参数的类型:
+
+```kotlin
+abstract class SomeClass<T> {
+    abstract fun execute() : T
+}
+
+class SomeImplementation : SomeClass<String>() {
+    override fun execute(): String = "Test"
+}
+
+class OtherImplementation : SomeClass<Int>() {
+    override fun execute(): Int = 42
+}
+
+object Runner {
+    inline fun <reified S: SomeClass<T>, T> run() : T {
+        return S::class.java.getDeclaredConstructor().newInstance().execute()
+    }
+}
+
+fun main() {
+    // T 被推断为 String, 因为 SomeImplementation 继承自 SomeClass<String>
+    val s = Runner.run<SomeImplementation, _>()
+    assert(s == "Test")
+
+    // T 被推断为 Int, 因为 OtherImplementation 继承自 SomeClass<Int>
+    val n = Runner.run<OtherImplementation, _>()
+    assert(n == 42)
+}
+```

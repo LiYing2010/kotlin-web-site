@@ -7,7 +7,7 @@ title: "FAQ"
 
 # Kotlin/Native FAQ
 
-本页面最终更新: 2021/09/08
+最终更新: {{ site.data.releases.latestDocDate }}
 
 ## 我要怎样运行我的程序?
 
@@ -36,8 +36,6 @@ kotlin {
 编译器会产生各平台专有的共享库文件
 (对 Linux 环境 `.so` 文件, 对 macOS 环境是 `.dylib` 文件,  对 Windows 环境是 `.dll` 文件),
 还会生成一个 C 语言头文件, 用来在 C/C++ 代码中访问你的 Kotlin/Native 程序中的所有 public API.
-参见 [示例程序](https://github.com/JetBrains/kotlin/tree/master/kotlin-native/samples/python_extension),
-它演示如何使用这样的共享库来连接 Python 程序和 Kotlin/Native 程序.
 
 ## 我要怎样创建静态库, 或 object 文件?
 

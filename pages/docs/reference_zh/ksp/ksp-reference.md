@@ -7,7 +7,7 @@ title: "针对 Java 注解处理器开发者的参考文档"
 
 # 针对 Java 注解处理器开发者的参考文档
 
-本页面最终更新: 2022/04/05
+最终更新: {{ site.data.releases.latestDocDate }}
 
 ## 程序元素
 
@@ -330,8 +330,8 @@ if (ksTypeArgument.variance == Variance.CONTRAVARIANT) ksTypeArgument.type else 
 <td>
 
 <pre>
-KsDeclaration.annotations.any { 
-    it.annotationType.resolve()!!.declaration.quailifiedName!!.asString() == Deprecated::class.quailifiedName 
+KsDeclaration.annotations.any {
+    it.annotationType.resolve()!!.declaration.qualifiedName!!.asString() == Deprecated::class.qualifiedName
 }
 </pre>
 

@@ -7,10 +7,10 @@ title: "封闭类(Sealed Class)"
 
 # 封闭类(Sealed Class)
 
-本页面最终更新: 2022/01/10
+最终更新: {{ site.data.releases.latestDocDate }}
 
 _封闭_ 类和接口用来表示对类阶层的限制, 可以对类的继承关系进行更多的控制.
-一个封闭类的所有的直接子类在编译时刻就能够确定. 在包含封闭类的模块编译完成之后, 不可能再出现其他子类.
+一个封闭类的所有的直接子类在编译时刻就能够确定. 在定义封闭类的模块之外, 不可能再出现其他子类.
 比如, 第三方使用者不能在他们的代码中扩展你的封闭类.
 因此, 封闭类的所有实例都只能是很有限的一些类型之一, 这些可能的类型在这个类被编译时就能够确定.
 
@@ -32,7 +32,7 @@ sealed interface Error
 
 sealed class IOError(): Error
 
-class FileReadError(val f: File): IOError()
+class FileReadError(val file: File): IOError()
 class DatabaseError(val source: DataSource): IOError()
 
 object RuntimeError : Error
@@ -55,13 +55,13 @@ sealed class IOError {
 封闭类和接口的直接子类必须定义在同一个包之内. 可以是顶级位置, 也可以嵌套在任意多的其他有名称的类, 有名称的接口, 或有名称的对象之内.
 子类可以设置为任意的 [可见度](visibility-modifiers.html), 只要它们符合 Kotlin 中通常的类继承规则.
 
-封闭类的子类 必须拥有一个适当的限定名称. 不能是局部对象或匿名对象.
+封闭类的子类必须拥有一个适当的限定名称. 不能是局部对象或匿名对象.
 
 > `enum` 类不能扩展封闭类 (也不能扩展任何其他类), 但它们可以实现封闭接口.
 {:.note}
 
 这些限制不适用于非直接子类. 如果封闭的类一个直接子类没有标记为封闭,
-那么它可以按照其修饰符允许的方式任意的扩展:
+那么它可以按照其修饰符允许的方式任意扩展:
 
 ```kotlin
 sealed interface Error // 只在同一个模块的同一个包内存在实现类
@@ -72,15 +72,15 @@ open class CustomError(): Error // 可以在这个类可见的任何地方扩展
 
 ### 跨平台项目中的继承
 
-在 [跨平台项目](mpp/mpp-intro.html)中还存在一种继承限制: 封闭类的直接子类必须放在同一个源代码集(source set)内.
-这个限制适用于没有使用 [`expect` 和 `actual` 修饰符](mpp/mpp-connect-to-apis.html) 的封闭类.
+在 [跨平台项目](multiplatform/multiplatform-get-started.html)中还存在一种继承限制: 封闭类的直接子类必须放在同一个源代码集(source set)内.
+这个限制适用于没有使用 [`expect` 和 `actual` 修饰符](multiplatform/multiplatform-connect-to-apis.html) 的封闭类.
 
 如果封闭类声明为共通源代码集(common source set)中的 `expect`, 并且在平台相关的代码集内拥有 `actual` 实现类,
 那么 `expect` 和 `actual` 的版本在各自的源代码集内都可以拥有子类.
-此外, 如果你使用 [层级结构(hierarchical structure)](mpp/mpp-share-on-platforms.html#share-code-on-similar-platforms),
+此外, 如果你使用 [层级结构(hierarchical structure)](multiplatform/multiplatform-share-on-platforms.html#share-code-on-similar-platforms),
 你可以在 `expect` 和 `actual` 声明之间的任何源代码集内创建子类.
 
-更多详情请参见 [跨平台项目的层级结构(hierarchical structure)](mpp/mpp-share-on-platforms.html#share-code-on-similar-platforms).
+更多详情请参见 [跨平台项目的层级结构(hierarchical structure)](multiplatform/multiplatform-share-on-platforms.html#share-code-on-similar-platforms).
 
 ## 封闭类与 `when` 表达式
 
@@ -92,11 +92,11 @@ open class CustomError(): Error // 可以在这个类可见的任何地方扩展
 fun log(e: Error) = when(e) {
     is FileReadError -> { println("Error while reading file ${e.file}") }
     is DatabaseError -> { println("Error while reading from database ${e.source}") }
-    RuntimeError ->  { println("Runtime error") }
+    is RuntimeError ->  { println("Runtime error") }
     // 不需要 `else` 分支, 因为已经覆盖了所有的可能情况
 }
 ```
 
-> 在跨平台项目的共通代码中, 使用 [`expect`](mpp/mpp-connect-to-apis.html) 封闭类的 `when` 表达式仍然需要 `else` 分支.
+> 在跨平台项目的共通代码中, 使用 [`expect`](multiplatform/multiplatform-connect-to-apis.html) 封闭类的 `when` 表达式仍然需要 `else` 分支.
 > 这是因为在共通代码中, 无法确定各平台实现中的 `actual` 子类.
 {:.note}

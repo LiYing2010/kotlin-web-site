@@ -7,7 +7,7 @@ title: "内联类"
 
 # 内联类
 
-本页面最终更新: 2021/05/05
+最终更新: {{ site.data.releases.latestDocDate }}
 
 对于业务逻辑来说, 有些时候会需要对某些类型创建一些包装类. 但是, 这就会产生堆上的内存分配, 带来运行时的性能损失.
 更坏的情况下, 如果被包装的类是基本类型, 那么性能损失会非常严重, 因为在运行时对基本类型本来可以进行极大地性能优化, 而它的包装类却不能享受这种好处.
@@ -97,13 +97,13 @@ fun main() {
 }
 ```
 
-禁止内联类参与类继承. 也就是说, 内联类不能继承其他类, 而且它必须是 `final` 类, 不能被其他类继承.
+禁止内联类参与类继承. 也就是说, 内联类不能继承其他类, 而且它永远是 `final` 类, 不能被其他类继承.
 
 ## 内部表达
 
 在通常的代码中, Kotlin 编译器会对每个内联类保留一个 *包装*.
 内联类的实例在运行期可以表达为这个包装, 也可以表达为它的底层类型.
-类似于 `Int` 可以 [表达](basic-types.html#numbers-representation-on-the-jvm) 为基本类型 `int`,
+类似于 `Int` 可以 [表达](numbers.html#numbers-representation-on-the-jvm) 为基本类型 `int`,
 也可以表达为包装类 `Integer`.
 
 Kotlin 编译器会优先使用底层类型而不是包装类, 这样可以产生最优化的代码, 运行时的性能也会最好.
@@ -207,5 +207,28 @@ fun main() {
     // 反过来:
     acceptNameTypeAlias(string) // 正确: 需要类型别名的地方, 可以传入底层类型
     acceptNameInlineClass(string) // 错误: 需要内联类的地方, 不能传入底层类型
+}
+```
+
+## 内联类与代理
+
+对于接口, 允许将它的实现代理给内联类的内联值:
+
+```kotlin
+interface MyInterface {
+    fun bar()
+    fun foo() = "foo"
+}
+
+@JvmInline
+value class MyInterfaceWrapper(val myInterface: MyInterface) : MyInterface by myInterface
+
+fun main() {
+    val my = MyInterfaceWrapper(object : MyInterface {
+        override fun bar() {
+            // 函数体
+        }
+    })
+    println(my.foo()) // 输出为 "foo"
 }
 ```

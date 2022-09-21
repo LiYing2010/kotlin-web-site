@@ -7,7 +7,7 @@ title: "教程 - 使用 Spring Boot 创建一个有数据库的 RESTful Web 服�
 
 # 教程 - 使用 Spring Boot 创建一个有数据库的 RESTful Web 服务
 
-本页面最终更新: 2022/04/25
+最终更新: {{ site.data.releases.latestDocDate }}
 
 本教程带领你使用 Spring Boot 创建一个简单的应用程序, 并添加数据库来存储信息.
 
@@ -162,7 +162,7 @@ data class Message(val id: String?, val text: String)
    import org.springframework.data.annotation.Id
    import org.springframework.data.relational.core.mapping.Table
   
-   @Table("MESSAGES")
+   @Table("messages")
    data class Message(@Id val id: String?, val text: String)
    ```
 

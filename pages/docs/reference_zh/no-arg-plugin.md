@@ -7,7 +7,7 @@ title: "No-arg 编译器插件"
 
 # No-arg 编译器插件
 
-本页面最终更新: 2022/04/14
+最终更新: {{ site.data.releases.latestDocDate }}
 
 对带有指定注解的类, *no-arg* 编译器插件会为它生成一个额外的无参数构造器. 
 

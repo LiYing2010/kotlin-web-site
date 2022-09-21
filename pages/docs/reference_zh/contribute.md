@@ -7,7 +7,7 @@ title: "为 Kotlin 项目贡献代码"
 
 # 为 Kotlin 项目贡献代码
 
-本页面最终更新: 2021/12/01
+最终更新: {{ site.data.releases.latestDocDate }}
 
 Kotlin 是一个开源项目, 使用 [Apache 2.0 许可协议](https://github.com/JetBrains/kotlin/blob/master/license/LICENSE.txt).
 源代码, 工具, 文档, 已经本网站, 都在 [GitHub](https://github.com/jetbrains/kotlin) 维护.
