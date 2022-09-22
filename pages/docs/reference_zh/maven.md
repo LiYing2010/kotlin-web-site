@@ -6,7 +6,7 @@ title: "Maven"
 
 # Maven
 
-本页面最终更新: 2021/11/16
+最终更新: {{ site.data.releases.latestDocDate }}
 
 ## 插件与版本
 
@@ -279,8 +279,8 @@ java -jar target/mymodule-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 |  名称 |  Maven 属性名  |    描述     |   可以选择的值    |    默认值     |
 |------|---------------|-------------|-----------------|--------------|
 | `nowarn` | | 不产生警告信息 | true, false | false |
-| `languageVersion` | kotlin.compiler.languageVersion | 指定源代码所兼容的 Kotlin 语言版本 |"1.4" (已废弃 DEPRECATED), "1.5", "1.6", "1.7 (实验性功能)" |
-| `apiVersion` | kotlin.compiler.apiVersion | 只允许使用指定的版本的运行库中的 API | "1.3" (已废弃 DEPRECATED), "1.4" (已废弃 DEPRECATED), "1.5", "1.6", "1.7" (实验性功能) |
+| `languageVersion` | kotlin.compiler.languageVersion | 指定源代码所兼容的 Kotlin 语言版本 |"1.4" (已废弃 DEPRECATED), "1.5", "1.6", "1.7" |
+| `apiVersion` | kotlin.compiler.apiVersion | 只允许使用指定的版本的运行库中的 API | "1.3" (已废弃 DEPRECATED), "1.4" (已废弃 DEPRECATED), "1.5", "1.6", "1.7" |
 | `sourceDirs` | | 指定编译对象源代码文件所在的目录 | | 工程的源代码根路径
 | `compilerPlugins` | | 允许使用编译器插件 | | []
 | `pluginOptions` | | 供编译器插件使用的选项 | | []
@@ -290,7 +290,7 @@ java -jar target/mymodule-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 
 |  名称 |  Maven 属性名  |    描述     |   可以选择的值    |    默认值     |
 |------|---------------|-------------|-----------------|--------------|
-| `jvmTarget` | `kotlin.compiler.jvmTarget` | 指定编译输出的 JVM 字节码的版本 | "1.6" (已废弃 DEPRECATED), "1.8", "9", "10", "11", "12", "13", "14", "15", "16", "17" | "{{ site.data.releases.defaultJvmTargetVersion }}" |
+| `jvmTarget` | `kotlin.compiler.jvmTarget` | 指定编译输出的 JVM 字节码的版本 | "1.8", "9", "10", ..., "18" | "{{ site.data.releases.defaultJvmTargetVersion }}" |
 | `jdkHome` | `kotlin.compiler.jdkHome` | 指定一个自定义的 JDK 路径, 添加到 classpath 内, 替代默认的 JAVA_HOME 值 | | |
 
 ### JS 独有的属性
@@ -306,10 +306,10 @@ java -jar target/mymodule-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 
 ## 生成文档
 
-标准的 JavaDoc 生成 plugin (`maven-javadoc-plugin`) 不支持 Kotlin 源代码.
+标准的 Javadoc 生成 plugin (`maven-javadoc-plugin`) 不支持 Kotlin 源代码.
 要对 Kotlin 项目生成文档, 请使用 [Dokka](https://github.com/Kotlin/dokka);
 相关的配置方法, 请参见 [Dokka README](https://github.com/Kotlin/dokka/blob/master/README.md#using-the-maven-plugin).
-Dokka 支持混合语言的项目, 可以将文档输出为多种格式, 包括标准的 JavaDoc 格式.
+Dokka 支持混合语言的项目, 可以将文档输出为多种格式, 包括标准的 Javadoc 格式.
 
 ## OSGi
 

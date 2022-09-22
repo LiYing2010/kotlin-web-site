@@ -7,7 +7,7 @@ title: "示例程序"
 
 # 示例程序
 
-本页面最终更新: 2022/04/06
+最终更新: {{ site.data.releases.latestDocDate }}
 
 这里是 Kotlin/JS 示例程序的简要列表.
 

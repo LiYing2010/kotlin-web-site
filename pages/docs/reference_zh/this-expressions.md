@@ -7,7 +7,7 @@ title: "this 表达式"
 
 # this 表达式
 
-本页面最终更新: 2021/07/09
+最终更新: {{ site.data.releases.latestDocDate }}
 
 为了表示当前函数的 _接收者(receiver)_, 你可以使用 `this` 表达式:
 
@@ -36,7 +36,7 @@ class A { // 隐含的标签 @A
             val c1 = this@foo // 指向 foo() 函数的接受者, 一个 Int 值
 
             val funLit = lambda@ fun String.() {
-                val d = this // 指向 funLit 的接受者
+                val d = this // 指向 funLit 的接受者, 一个 String 值
             }
 
             val funLit2 = { s: String ->

@@ -7,7 +7,7 @@ title: "在 Kotlin/JS 平台进行测试"
 
 # 在 Kotlin/JS 平台进行测试
 
-本页面最终更新: 2022/04/14
+最终更新: {{ site.data.releases.latestDocDate }}
 
 Kotlin/JS Gradle plugin 允许你使用多种不同的测试运行器来运行测试, 测试运行器可以通过 Gradle 配置来指定.
 为了在 JavaScript 编译平台使用测试注解和功能, 请在 `build.gradle.kts` 中添加的

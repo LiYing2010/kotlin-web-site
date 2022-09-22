@@ -7,7 +7,7 @@ title: "Kotlin plugin 的发布版本"
 
 # Kotlin plugin 的发布版本
 
-本页面最终更新: 2022/01/07
+最终更新: {{ site.data.releases.latestDocDate }}
 
  [IntelliJ Kotlin plugin](https://plugins.jetbrains.com/plugin/6954-kotlin) 的发布周期与 [IntelliJ IDEA](https://www.jetbrains.com/idea/) 相同.
 为了加快新功能的测试和发布速度, plugin 和 IDEA 平台已经移动到了相同的代码库, 并同时发布.
@@ -18,12 +18,6 @@ Kotlin 和 Kotlin plugin 拥有各自不同的功能:
 * Kotlin plugin 的发布版本只包括与 IDE 相关的功能. 比如, 代码格式化和调试工具.
 
 这个变化也会影响 Kotlin plugin 的版本号. plugin 的发布版本现在使用 IntelliJ IDEA 相同的版本号.
-这会导致一些比较重要的限制:
-* Kotlin 的 EAP 版只能在 IDE 的 **稳定版** 中工作. 因此你不能在 IDEA 的 EAP 版中安装 Kotlin EAP 版.
-* Kotlin plugin 基于 Kotlin 编译器的 **前一个稳定版**. 你仍然可以更新你的项目的 Kotlin 版本, 但某些 IDE 相关的功能可能会无法使用.
-  我们正在努力稳定我们的发布过程, 使得 plugin 的下一个版本可以基于编译器的最新稳定版.
-
-关于发布周期, 更多详情请参见 [这篇博文](https://blog.jetbrains.com/kotlin/2020/10/new-release-cadence-for-kotlin-and-the-intellij-kotlin-plugin/).
 
 ## 更新到新的发布版本
 
@@ -37,10 +31,61 @@ Kotlin 和 Kotlin plugin 拥有各自不同的功能:
 下表列出了最新的 Kotlin plugin 发布版的详细信息: 
 
 <table>
-  <tr>
-    <th>发布版</th>
-    <th>主要更新</th>
-  </tr>
+<tr>
+  <th>
+    发布版
+  </th>
+  <th>
+    主要更新
+  </th>
+</tr>
+
+<tr>
+  <td>
+    <b> 2022.2 </b> <br/> 
+    发布日期: 2022/07/26
+  </td>
+  <td>
+    <li> 调试器中的数据流(Data Flow)分析功能 </li>
+    <li> 修正了编译器版本不匹配导致的本地与 CI 构建中的不一致 </li>
+    <li> IDE 性能改进 </li>
+    <br/>
+    详情请参见: 
+    <li> <a href="https://www.jetbrains.com/idea/whatsnew/2022-2/">IntelliJ IDEA 2022.2 的新功能</a> </li>
+  </td>
+</tr>
+
+<tr>
+  <td>
+    <b> 2022.1 </b> <br/> 
+    发布日期: 2022/04/12
+  </td>
+  <td>
+    <li> 调试器改进 </li> 
+    <li> IDE 性能改进 </li>
+    <li> 集成 <a href="https://github.com/Kotlin/kotlinx-kover">Kover plugin</a> </li>
+    <br/>
+    详情请参见: 
+    <li> <a href="https://www.jetbrains.com/idea/whatsnew/2022-1/">IntelliJ IDEA 2022.1 的新功能</a> </li>
+  </td>
+</tr>
+
+<tr>
+  <td>
+    <b> 2021.3 </b> <br/> 
+    发布日期: 2021/11/30  
+  </td>
+  <td>
+    <li> 更好的调试体验 </li> 
+    <li> 性能改进 </li>
+    <li> 代码编辑器的内联提示 </li>
+    <li> 新的代码重构功能, 变量查看功能(Inspection)和代码意图(Intention)功能的改进 </li>
+    <br/>
+    详情请参见: 
+    <li> <a href="https://www.jetbrains.com/idea/whatsnew/2021-3/">IntelliJ IDEA 2021.3 的新功能</a> </li>
+  </td>
+</tr>
+
 <tr>
   <td>
     <b> 2021.2 </b> <br/> 
@@ -55,6 +100,7 @@ Kotlin 和 Kotlin plugin 拥有各自不同的功能:
     <li> <a href="https://www.jetbrains.com/idea/whatsnew/2021-2/">IntelliJ IDEA 2021.2 的新功能</a> </li>
   </td>
 </tr>
+
 <tr>
   <td>
     <b> 2021.1 </b> <br/>
@@ -71,6 +117,7 @@ Kotlin 和 Kotlin plugin 拥有各自不同的功能:
     <li> <a href="https://www.jetbrains.com/idea/whatsnew/2021-1/">IntelliJ IDEA 2021.1 的新功能</a> </li>
   </td>
 </tr>
+
 <tr>
   <td>
     <b> 2020.3 </b> <br/>

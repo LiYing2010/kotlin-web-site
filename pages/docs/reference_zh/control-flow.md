@@ -7,7 +7,7 @@ title: "条件与循环"
 
 # 条件与循环
 
-本页面最终更新: 2021/11/16
+最终更新: {{ site.data.releases.latestDocDate }}
 
 ## if 表达式
 
@@ -31,7 +31,7 @@ if (a > b) {
 val max = if (a > b) a else b
 ```
 
-`if` 的分支可以是多条语句组成的代码段, 这种情况下, 代码段内最后一个表达式的值将成为整个代码段的返回值:
+`if` 表达式的分支可以是多条语句组成的代码段, 这种情况下, 代码段内最后一个表达式的值将成为整个代码段的返回值:
 
 ```kotlin
 val max = if (a > b) {
@@ -164,10 +164,10 @@ when {
 
 ```kotlin
 fun Request.getBody() =
-        when (val response = executeRequest()) {
-            is Success -> response.body
-            is HttpError -> throw HttpException(response.status)
-        }
+    when (val response = executeRequest()) {
+        is Success -> response.body
+        is HttpError -> throw HttpException(response.status)
+    }
 ```
 
 由 `when` 引入的这个变量, 它的有效范围仅限于 `when` 语句之内.

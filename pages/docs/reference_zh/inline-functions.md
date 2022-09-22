@@ -7,7 +7,7 @@ title: "内联函数(Inline Function)"
 
 # 内联函数(Inline Function)
 
-本页面最终更新: 2021/10/07
+最终更新: {{ site.data.releases.latestDocDate }}
 
 使用 [高阶函数](lambdas.html) 在运行时会带来一些不利: 每个函数都是一个对象, 而且它还要捕获一个闭包,
 闭包是指一个环境范围, 在这个范围内, 函数体内部可以访问外层变量.

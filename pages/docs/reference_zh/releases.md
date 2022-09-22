@@ -5,7 +5,7 @@ title: Kotlin 的发布版本
 
 # Kotlin 的发布版本
 
-本页面最终更新: 2022/02/25
+最终更新: {{ site.data.releases.latestDocDate }}
 
 我们的发布版本包括几种不同的类型:
 
@@ -37,7 +37,7 @@ title: Kotlin 的发布版本
 以下版本的 IntelliJ IDEA 和 Android Studio 支持 Kotlin 语言最新版本:
 * IntelliJ IDEA:
   * 最新的稳定版本 ([IntelliJ IDEA {{ site.data.releases.kotlinPluginVersion }}](https://www.jetbrains.com/idea/whatsnew/))
-  * 前一个稳定版本 ([IntelliJ IDEA {{ site.data.releases.kotlinPreviousPluginVersion }}](https://blog.jetbrains.com/idea/2020/12/intellij-idea-2020-3/))
+  * 前一个稳定版本 ([IntelliJ IDEA {{ site.data.releases.kotlinPreviousPluginVersion }}](https://www.jetbrains.com/idea/whatsnew/2022-1/))
   * [早期预览](https://www.jetbrains.com/resources/eap/) 版
 * Android Studio:
   * [最新发布版](https://developer.android.com/studio)
@@ -56,6 +56,109 @@ title: Kotlin 的发布版本
         <th>推荐的 kotlinx 库版本</th>
     </tr>
     <tr>
+        <td><strong>1.7.10</strong>
+            <p>发布日: <strong>2022/07/07</strong></p>
+            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v1.7.10" target="_blank">GitHub 发布链接</a></p>
+        </td>
+        <td>
+            <p>针对 Kotlin 1.7.0 的 Bug 修复发布版.</p>
+            <p>详情请参见 <a href="https://github.com/JetBrains/kotlin/releases/tag/v1.7.0" target="_blank">Kotlin 1.7.0</a>.</p>
+            <note>
+                对于 Android Studio Dolphin (213) 和 Android Studio Electric Eel (221),
+                Kotlin plugin 1.7.10 会在之后的 Android Studios 更新中一同发布.
+            </note>
+        </td>
+         <td>
+            <ul>
+                <li><a href="https://github.com/Kotlin/kotlinx.serialization" target="_blank">kotlinx.serialization</a> 版本: <a href="https://github.com/Kotlin/kotlinx.serialization/releases/tag/v1.3.3" target="_blank">1.3.3</a></li>
+                <li><a href="https://github.com/Kotlin/kotlinx.coroutines" target="_blank">kotlinx.coroutines</a> 版本: <a href="https://github.com/Kotlin/kotlinx.coroutines/releases/tag/1.6.3" target="_blank">1.6.3</a></li>
+                <li><a href="https://github.com/Kotlin/kotlinx.atomicfu" target="_blank">kotlinx.atomicfu</a> 版本: <a href="https://github.com/Kotlin/kotlinx.atomicfu/releases/tag/0.18.2" target="_blank">0.18.2</a></li>
+                <li><a href="https://github.com/Kotlin/kotlinx-datetime" target="_blank"><strong>kotlinx-datetime</strong></a> 版本: <a href="https://github.com/Kotlin/kotlinx-datetime/releases/tag/v0.4.0" target="_blank">0.4.0</a></li>
+                <li><a href="https://ktor.io/" target="_blank">ktor</a> 版本: <a href="https://github.com/ktorio/ktor/releases/tag/2.0.3" target="_blank">2.0.3</a></li>
+                <li><a href="https://github.com/Kotlin/kotlinx.html" target="_blank">kotlinx.html</a> 版本: <a href="https://github.com/Kotlin/kotlinx.html/releases/tag/0.7.5" target="_blank">0.7.5</a></li>
+                <li><a href="https://github.com/Kotlin/kotlinx-nodejs" target="_blank">kotlinx-nodejs</a> 版本: <a href="https://bintray.com/kotlin/kotlinx/kotlinx.nodejs/0.0.7" target="_blank">0.0.7</a></li>
+            </ul>
+            <p>通过 <code>kotlin-wrappers</code> 得到的各个库的版本(比如 <code>kotlin-react</code>), 请参见 <a href="https://github.com/JetBrains/kotlin-wrappers" target="_blank">相应的代码仓库</a>.</p>
+        </td>
+    </tr>
+    <tr>
+        <td><strong>1.7.0</strong>
+            <p>发布日: <strong>2022/06/09</strong></p>
+            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v1.7.0" target="_blank">GitHub 发布链接</a></p>
+        </td>
+        <td>
+            <p>一个新功能发布版, 包含 JVM 平台的 Kotlin K2 编译器(Alpha 版), 稳定版的语言特性, 性能改善, 以及演进变化, 比如实验性 API 进入稳定状态.</p>
+            <p>详情请参见:</p>
+            <ul>
+                <li><a href="whatsnew17.html" target="_blank">Kotlin 1.7.0 的新功能</a></li>
+                <li><a href="https://youtu.be/54WEfLKtCGk" target="_blank">YouTube 视频: Kotlin 的新功能</a></li>
+                <li><a href="compatibility-guide-17.html" target="_blank">Kotlin 1.7.0 兼容性指南</a></li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li><a href="https://github.com/Kotlin/kotlinx.serialization" target="_blank">kotlinx.serialization</a> 版本: <a href="https://github.com/Kotlin/kotlinx.serialization/releases/tag/v1.3.2" target="_blank">1.3.2</a></li>
+                <li><a href="https://github.com/Kotlin/kotlinx.coroutines" target="_blank">kotlinx.coroutines</a> 版本: <a href="https://github.com/Kotlin/kotlinx.coroutines/releases/tag/1.6.2" target="_blank">1.6.2</a></li>
+                <li><a href="https://github.com/Kotlin/kotlinx.atomicfu" target="_blank">kotlinx.atomicfu</a> 版本: <a href="https://github.com/Kotlin/kotlinx.atomicfu/releases/tag/0.17.1" target="_blank">0.17.1</a></li>
+                <li><a href="https://github.com/Kotlin/kotlinx-datetime" target="_blank"><strong>kotlinx-datetime</strong></a> 版本: <a href="https://github.com/Kotlin/kotlinx-datetime/releases/tag/v0.3.3" target="_blank">0.3.3</a></li>
+                <li><a href="https://ktor.io/" target="_blank">ktor</a> 版本: <a href="https://github.com/ktorio/ktor/releases/tag/2.0.2" target="_blank">2.0.2</a></li>
+                <li><a href="https://github.com/Kotlin/kotlinx.html" target="_blank">kotlinx.html</a> 版本: <a href="https://github.com/Kotlin/kotlinx.html/releases/tag/0.7.5" target="_blank">0.7.5</a></li>
+                <li><a href="https://github.com/Kotlin/kotlinx-nodejs" target="_blank">kotlinx-nodejs</a> 版本: <a href="https://bintray.com/kotlin/kotlinx/kotlinx.nodejs/0.0.7" target="_blank">0.0.7</a></li>
+            </ul>
+            <p>通过 <code>kotlin-wrappers</code> 得到的各个库的版本(比如 <code>kotlin-react</code>), 请参见 <a href="https://github.com/JetBrains/kotlin-wrappers" target="_blank">相应的代码仓库</a>.</p>
+        </td>
+    </tr>
+    <tr>
+        <td><strong>1.6.21</strong>
+            <p>发布日: <strong>2022/04/20</strong></p>
+            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v1.6.21" target="_blank">GitHub 发布链接</a></p>
+        </td>
+        <td>
+            <p>针对 Kotlin 1.6.20 的 Bug 修复发布版.</p>
+            <p>详情请参见 <a href="whatsnew1620.html" target="_blank">Kotlin 1.6.20</a>.</p>
+        </td>
+        <td>
+            <ul>
+                <li><a href="https://github.com/Kotlin/kotlinx.serialization" target="_blank">kotlinx.serialization</a> 版本: <a href="https://github.com/Kotlin/kotlinx.serialization/releases/tag/v1.3.2" target="_blank">1.3.2</a></li>
+                <li><a href="https://github.com/Kotlin/kotlinx.coroutines" target="_blank">kotlinx.coroutines</a> 版本: <a href="https://github.com/Kotlin/kotlinx.coroutines/releases/tag/1.6.0" target="_blank">1.6.0</a></li>
+                <li><a href="https://github.com/Kotlin/kotlinx.atomicfu" target="_blank">kotlinx.atomicfu</a> 版本: <a href="https://github.com/Kotlin/kotlinx.atomicfu/releases/tag/0.17.1" target="_blank">0.17.1</a></li>          
+                <li><a href="https://ktor.io/" target="_blank">ktor</a> 版本: <a href="https://github.com/ktorio/ktor/releases/tag/2.0.0-beta-1" target="_blank">2.0.0-beta-1</a></li>
+                <li><a href="https://github.com/Kotlin/kotlinx.html" target="_blank">kotlinx.html</a> 版本: <a href="https://github.com/Kotlin/kotlinx.html/releases/tag/0.7.5" target="_blank">0.7.5</a></li>
+                <li><a href="https://github.com/Kotlin/kotlinx-nodejs" target="_blank">kotlinx-nodejs</a> 版本: <a href="https://bintray.com/kotlin/kotlinx/kotlinx.nodejs/0.0.7" target="_blank">0.0.7</a></li>
+            </ul>
+            <p>通过 <code>kotlin-wrappers</code> 得到的各个库的版本(比如 <code>kotlin-react</code>), 请参见 <a href="https://github.com/JetBrains/kotlin-wrappers" target="_blank">相应的代码仓库</a>.</p>
+        </td>
+    </tr>
+    <tr>
+        <td><strong>1.6.20</strong>
+            <p>发布日: <strong>2022/04/04</strong></p>
+            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v1.6.20" target="_blank">GitHub 发布链接</a></p>
+        </td>
+        <td>
+            <p>增量发布版, 包含各种改进, 比如:</p>
+            <ul>
+                <li>上下文接受者(Context Receiver)的原型</li>
+                <li>对函数式接口构造器的可调用引用</li>
+                <li>Kotlin/Native: 新的内存管理器的性能改善</li>
+                <li>Multiplatform: 默认使用层级项目结构(Hierarchical Project Structure)</li>
+                <li>Kotlin/JS: IR 编译器改进</li>
+                <li>Gradle: 编译器执行策略</li>
+            </ul>
+            <p>详情请参见 <a href="whatsnew1620.html" target="_blank">Kotlin 1.6.20</a>.</p>
+        </td>
+        <td>
+            <ul>
+                <li><a href="https://github.com/Kotlin/kotlinx.serialization" target="_blank">kotlinx.serialization</a> 版本: <a href="https://github.com/Kotlin/kotlinx.serialization/releases/tag/v1.3.2" target="_blank">1.3.2</a></li>
+                <li><a href="https://github.com/Kotlin/kotlinx.coroutines" target="_blank">kotlinx.coroutines</a> 版本: <a href="https://github.com/Kotlin/kotlinx.coroutines/releases/tag/1.6.0" target="_blank">1.6.0</a></li>
+                <li><a href="https://github.com/Kotlin/kotlinx.atomicfu" target="_blank">kotlinx.atomicfu</a> 版本: <a href="https://github.com/Kotlin/kotlinx.atomicfu/releases/tag/0.17.1" target="_blank">0.17.1</a></li>          
+                <li><a href="https://ktor.io/" target="_blank">ktor</a> 版本: <a href="https://github.com/ktorio/ktor/releases/tag/2.0.0-beta-1" target="_blank">2.0.0-beta-1</a></li>
+                <li><a href="https://github.com/Kotlin/kotlinx.html" target="_blank">kotlinx.html</a> 版本: <a href="https://github.com/Kotlin/kotlinx.html/releases/tag/0.7.5" target="_blank">0.7.5</a></li>
+                <li><a href="https://github.com/Kotlin/kotlinx-nodejs" target="_blank">kotlinx-nodejs</a> 版本: <a href="https://bintray.com/kotlin/kotlinx/kotlinx.nodejs/0.0.7" target="_blank">0.0.7</a></li>
+            </ul>
+            <p>通过 <code>kotlin-wrappers</code> 得到的各个库的版本(比如 <code>kotlin-react</code>), 请参见 <a href="https://github.com/JetBrains/kotlin-wrappers" target="_blank">相应的代码仓库</a>.</p>
+        </td>
+    </tr>
+    <tr>
         <td><strong>1.6.10</strong>
             <p>发布日: <strong>2021/12/14</strong></p>
             <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v1.6.10" target="_blank">GitHub 发布链接</a></p>
@@ -69,11 +172,11 @@ title: Kotlin 的发布版本
                 <li><a href="https://github.com/Kotlin/kotlinx.serialization" target="_blank">kotlinx.serialization</a> 版本: <a href="https://github.com/Kotlin/kotlinx.serialization/releases/tag/v1.3.1" target="_blank">1.3.1</a></li>
                 <li><a href="https://github.com/Kotlin/kotlinx.coroutines" target="_blank">kotlinx.coroutines</a> 版本: <a href="https://github.com/Kotlin/kotlinx.coroutines/releases/tag/1.6.0" target="_blank">1.6.0</a></li>
                 <li><a href="https://github.com/Kotlin/kotlinx.atomicfu" target="_blank">kotlinx.atomicfu</a> 版本: <a href="https://github.com/Kotlin/kotlinx.atomicfu/releases/tag/0.17.0" target="_blank">0.17.0</a></li>          
-                <li><a href="https://ktor.io/" target="_blank">ktor</a> 版本: <a href="https://github.com/ktorio/ktor/releases/tag/1.6.5" target="_blank">1.6.5</a></li>
+                <li><a href="https://ktor.io/" target="_blank"><strong>ktor</strong></a> 版本: <a href="https://github.com/ktorio/ktor/releases/tag/2.0.0-beta-1" target="_blank">2.0.0-beta-1</a></li>
                 <li><a href="https://github.com/Kotlin/kotlinx.html" target="_blank">kotlinx.html</a> 版本: <a href="https://github.com/Kotlin/kotlinx.html/releases/tag/0.7.2" target="_blank">0.7.2</a></li>
                 <li><a href="https://github.com/Kotlin/kotlinx-nodejs" target="_blank">kotlinx-nodejs</a> 版本: <a href="https://bintray.com/kotlin/kotlinx/kotlinx.nodejs/0.0.7" target="_blank">0.0.7</a></li>
             </ul>
-            <p>通过 <code>kotlin-wrappers</code> 得到的各个库的版本(比如 <code>kotlin-react</code>) 请参见 <a href="https://github.com/JetBrains/kotlin-wrappers" target="_blank">相应的代码仓库</a>.</p>
+            <p>通过 <code>kotlin-wrappers</code> 得到的各个库的版本(比如 <code>kotlin-react</code>), 请参见 <a href="https://github.com/JetBrains/kotlin-wrappers" target="_blank">相应的代码仓库</a>.</p>
         </td>
     </tr>
     <tr>
@@ -87,7 +190,7 @@ title: Kotlin 的发布版本
             <ul>
                 <li><a href="https://blog.jetbrains.com/kotlin/2021/11/kotlin-1-6-0-is-released/" target="_blank">关于新版本发布的 Blog</a></li>
                 <li><a href="whatsnew16.html" target="_blank">Kotlin 1.6.0 的新功能</a></li>
-                <li><a href="compatibility-guide-16.html" target="_blank">兼容性指南</a></li>
+                <li><a href="compatibility-guide-16.html" target="_blank">Kotlin 1.6.0 兼容性指南</a></li>
             </ul>
         </td>
         <td>
@@ -99,7 +202,7 @@ title: Kotlin 的发布版本
                 <li><a href="https://github.com/Kotlin/kotlinx.html" target="_blank">kotlinx.html</a> 版本: <a href="https://github.com/Kotlin/kotlinx.html/releases/tag/0.7.2" target="_blank">0.7.2</a></li>
                 <li><a href="https://github.com/Kotlin/kotlinx-nodejs" target="_blank">kotlinx-nodejs</a> 版本: <a href="https://bintray.com/kotlin/kotlinx/kotlinx.nodejs/0.0.7" target="_blank">0.0.7</a></li>
             </ul>
-            <p>通过 <code>kotlin-wrappers</code> 得到的各个库的版本(比如 <code>kotlin-react</code>) 请参见 <a href="https://github.com/JetBrains/kotlin-wrappers" target="_blank">相应的代码仓库</a>.</p>
+            <p>通过 <code>kotlin-wrappers</code> 得到的各个库的版本(比如 <code>kotlin-react</code>), 请参见 <a href="https://github.com/JetBrains/kotlin-wrappers" target="_blank">相应的代码仓库</a>.</p>
         </td>
     </tr>
     <tr>
@@ -120,7 +223,7 @@ title: Kotlin 的发布版本
                 <li><a href="https://github.com/Kotlin/kotlinx.html" target="_blank">kotlinx.html</a> 版本: <a href="https://github.com/Kotlin/kotlinx.html/releases/tag/0.7.2" target="_blank">0.7.2</a></li>
                 <li><a href="https://github.com/Kotlin/kotlinx-nodejs" target="_blank">kotlinx-nodejs</a> 版本: <a href="https://bintray.com/kotlin/kotlinx/kotlinx.nodejs/0.0.7" target="_blank">0.0.7</a></li>
             </ul>
-            <p>通过 <code>kotlin-wrappers</code> 得到的各个库的版本(比如 <code>kotlin-react</code>) 请参见 <a href="https://github.com/JetBrains/kotlin-wrappers" target="_blank">相应的代码仓库</a>.</p>
+            <p>通过 <code>kotlin-wrappers</code> 得到的各个库的版本(比如 <code>kotlin-react</code>), 请参见 <a href="https://github.com/JetBrains/kotlin-wrappers" target="_blank">相应的代码仓库</a>.</p>
         </td>
     </tr>
     <tr>
@@ -141,7 +244,7 @@ title: Kotlin 的发布版本
                 <li><a href="https://github.com/Kotlin/kotlinx.html" target="_blank">kotlinx.html</a> 版本: <a href="https://github.com/Kotlin/kotlinx.html/releases/tag/0.7.2" target="_blank">0.7.2</a></li>
                 <li><a href="https://github.com/Kotlin/kotlinx-nodejs" target="_blank">kotlinx-nodejs</a> 版本: <a href="https://bintray.com/kotlin/kotlinx/kotlinx.nodejs/0.0.7" target="_blank">0.0.7</a></li>
             </ul>
-            <p>通过 <code>kotlin-wrappers</code> 得到的各个库的版本(比如 <code>kotlin-react</code>) 请参见 <a href="https://github.com/JetBrains/kotlin-wrappers" target="_blank">相应的代码仓库</a>.</p>
+            <p>通过 <code>kotlin-wrappers</code> 得到的各个库的版本(比如 <code>kotlin-react</code>), 请参见 <a href="https://github.com/JetBrains/kotlin-wrappers" target="_blank">相应的代码仓库</a>.</p>
         </td>
     </tr>
     <tr>
@@ -174,7 +277,7 @@ title: Kotlin 的发布版本
                 <li><a href="https://github.com/Kotlin/kotlinx.html" target="_blank">kotlinx.html</a> 版本: <a href="https://github.com/Kotlin/kotlinx.html/releases/tag/0.7.2" target="_blank">0.7.2</a></li>
                 <li><a href="https://github.com/Kotlin/kotlinx-nodejs" target="_blank">kotlinx-nodejs</a> 版本: <a href="https://bintray.com/kotlin/kotlinx/kotlinx.nodejs/0.0.7" target="_blank">0.0.7</a></li>
             </ul>
-            <p>通过 <code>kotlin-wrappers</code> 得到的各个库的版本(比如 <code>kotlin-react</code>) 请参见 <a href="https://github.com/JetBrains/kotlin-wrappers" target="_blank">相应的代码仓库</a>.</p>
+            <p>通过 <code>kotlin-wrappers</code> 得到的各个库的版本(比如 <code>kotlin-react</code>), 请参见 <a href="https://github.com/JetBrains/kotlin-wrappers" target="_blank">相应的代码仓库</a>.</p>
         </td>
     </tr>
     <tr>
@@ -262,7 +365,7 @@ title: Kotlin 的发布版本
             <ul>
                 <li><a href="https://blog.jetbrains.com/kotlin/2021/04/kotlin-1-5-0-released/" target="_blank">关于新版本发布的 Blog</a></li>
                 <li><a href="whatsnew15.html" target="_blank">Kotlin 1.5.0 的新功能</a></li>
-                <li><a href="compatibility-guide-15.html" target="_blank">Compatibility Guide</a></li>
+                <li><a href="compatibility-guide-15.html" target="_blank">Kotlin 1.5.0 兼容性指南</a></li>
             </ul>
         </td>
         <td>
@@ -381,7 +484,7 @@ title: Kotlin 的发布版本
             <ul>
                 <li>支持新的 JVM 功能特性, 比如通过 <code>invokedynamic</code> 拼接字符串</li>
                 <li>对 KMM 项目改进性能和异常处理</li>
-                <li>对 JDK 路径的扩展: <code>Path(“dir”) / “file.txt”</code></li>
+                <li>对 JDK 路径的扩展: <code>Path("dir") / "file.txt"</code></li>
             </ul>
             <p>详情请参见:</p>
             <ul>
@@ -433,7 +536,7 @@ title: Kotlin 的发布版本
             <ul>
                 <li><a href="https://blog.jetbrains.com/kotlin/2020/08/kotlin-1-4-released-with-a-focus-on-quality-and-performance/" target="_blank">关于新版本发布的 Blog</a></li>
                 <li><a href="whatsnew14.html" target="_blank">Kotlin 1.4.0 的新功能</a></li>
-                <li><a href="compatibility-guide-14.html" target="_blank">兼容性指南</a></li>
+                <li><a href="compatibility-guide-14.html" target="_blank">Kotlin 1.4.0 兼容性指南</a></li>
                 <li><a href="whatsnew14.html#migrating-to-kotlin-140" target="_blank">迁移到 Kotlin 1.4.0</a></li>
             </ul>
          </td>
@@ -482,5 +585,5 @@ title: Kotlin 的发布版本
     </tr>    
 </table>
 
-> 在 JVM 平台, 你通常可以使用库的 ?? 版本(此处原文疑似有误), 而不是推荐的版本.
+> 在 JVM 平台, 你通常可以使用库的版本(此处原文疑似有误), 而不是推荐的版本.
 {:.note}

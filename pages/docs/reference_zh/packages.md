@@ -7,7 +7,7 @@ title: "包与导入"
 
 # 包与导入
 
-本页面最终更新: 2021/06/01
+最终更新: {{ site.data.releases.latestDocDate }}
 
 源代码文件的开始部分可以是包声明:
 

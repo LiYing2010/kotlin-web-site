@@ -7,7 +7,7 @@ title: "Null 值安全性"
 
 # Null 值安全性
 
-本页面最终更新: 2021/07/08
+最终更新: {{ site.data.releases.latestDocDate }}
 
 ## 可为 null 的类型与不可为 null 的类型
 

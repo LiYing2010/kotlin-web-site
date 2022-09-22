@@ -7,7 +7,7 @@ title: "反射"
 
 # 反射
 
-本页面最终更新: 2021/12/07
+最终更新: {{ site.data.releases.latestDocDate }}
 
 _反射_ 是语言与库中的一组功能, 允许你在运行时刻获取程序本身的信息.
 函数和属性在 Kotlin 是语言中的一等公民(first-class citizen),

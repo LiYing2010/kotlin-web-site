@@ -6,7 +6,7 @@ title: "Ant"
 
 # Ant
 
-本页面最终更新: 2021/02/11
+最终更新: {{ site.data.releases.latestDocDate }}
 
 ## 安装 Ant Task
 

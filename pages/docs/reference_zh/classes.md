@@ -7,7 +7,7 @@ title: "类"
 
 # 类
 
-本页面最终更新: 2021/11/29
+最终更新: {{ site.data.releases.latestDocDate }}
 
 Kotlin 中的类使用 `class` 关键字定义:
 
@@ -173,7 +173,7 @@ fun main() {
 如果不希望你的类带有 public 的构造器, 可以声明一个空的构造器, 并明确设置其可见度:
 
 ```kotlin
-class DontCreateMe private constructor () { /*...*/ }
+class DontCreateMe private constructor() { /*...*/ }
 ```
 
 > 在 JVM 中, 如果主构造器的所有参数都指定了默认值,

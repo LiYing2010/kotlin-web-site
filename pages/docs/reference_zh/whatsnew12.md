@@ -6,7 +6,7 @@ title: "Kotlin 1.2 版中的新功能"
 
 # Kotlin 1.2 版中的新功能
 
-本页面最终更新: 2021/10/04
+最终更新: {{ site.data.releases.latestDocDate }}
 
 _发布日期: 2017/11/28_
 
@@ -63,7 +63,7 @@ actual fun hello(world: String): String =
 actual typealias URL = java.net.URL
 ```
 
-关于创建跨平台项目的详细步骤, 请参见 [跨平台程序开发相关文档](mpp/multiplatform.html).
+关于创建跨平台项目的详细步骤, 请参见 [跨平台程序开发相关文档](multiplatform/multiplatform.html).
 
 ## 语言层的其他特性
 
@@ -410,7 +410,7 @@ Kotlin 1.2 增加了一组函数, 用于 `BigInteger` 和 `BigDecimal` 类型的
 这个选项可能会影响你的应用程序的整体性能;
 如果你在多个类之间共享了复杂的状态信息, 并且在类的初始化过程中更新这些状态信息, 只有在这种情况下, 你才需要使用这个编译选项.
 
-另一种“手工”的变通办法是, 把带有控制流的子表达式的值保存到变量中, 然后使用这些变量, 而不是在构造函数调用的参数中直接计算这些表达式.
+另一种"手工"的变通办法是, 把带有控制流的子表达式的值保存到变量中, 然后使用这些变量, 而不是在构造函数调用的参数中直接计算这些表达式.
 这种做法的效果类似于 `-Xnormalize-constructor-calls=enable` 选项.
 
 ### Java 默认方法(default method)调用

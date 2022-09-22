@@ -6,7 +6,7 @@ title: "Kotlin 1.4 版中的新功能"
 
 # Kotlin 1.4 版中的新功能
 
-本页面最终更新: 2021/10/15
+最终更新: {{ site.data.releases.latestDocDate }}
 
 _[发布日期: 2020/08/17](releases.html#release-details)_
 
@@ -309,7 +309,7 @@ fun test(xs: List<Int>) {
 使用新的灵活的 Kotlin 项目向导, 可以非常简便的创建并配置不同类型的 Kotlin 项目,
 包括 跨平台 项目, 没有 UI 的帮助是很难配置的.
 
-![Kotlin 项目向导 – 跨平台项目]({{ url_for('asset', path='docs/images/whatsnew/mpp-project-1-wn.png') }})
+![Kotlin 项目向导 – 跨平台项目]({{ url_for('asset', path='docs/images/whatsnew/multiplatform-project-1-wn.png') }})
 
 新的 Kotlin 项目向导既简单又灵活:
 
@@ -323,7 +323,7 @@ fun test(xs: List<Int>) {
 4. *添加/删除这个项目模板支持的模块和编译目标*.
 5. *配置模块和编译目标的设置*, 比如, 目标 JVM 版本, 目标模板, 以及测试框架.
 
-![Kotlin 项目向导 - 配置 编译目标]({{ url_for('asset', path='docs/images/whatsnew/mpp-project-2-wn.png') }})
+![Kotlin 项目向导 - 配置 编译目标]({{ url_for('asset', path='docs/images/whatsnew/multiplatform-project-2-wn.png') }})
 
 将来, 我们还会添加更多配置选项和模板, 让 Kotlin 项目向导更加灵活.
 
@@ -818,12 +818,12 @@ Kotlin/Native 完成了很多性能改进, 提高了开发速度, 也提高了�
 
 在以前的版本中, 只要你的项目集成了依赖项管理器 CocoaPods,
 你的项目与 iOS, macOS, watchOS, 或 tvOS 相关的部分就只能在 Xcode 中构建,
-这部分将与你的跨平台项目的其它部分分离. 其他部分可以在 Intellij IDEA 中构建.
+这部分将与你的跨平台项目的其它部分分离. 其他部分可以在 IntelliJ IDEA 中构建.
 
 而且, 每次你添加一个保存在 CocoaPods (Pod 库) 中的 Objective-C 库的依赖项,
 你都必须从 IntelliJ IDEA 切换到 Xcode, 调用 `pod install`, 然后在 Xcode 中执行构建.
 
-现在, 你可以直接在 Intellij IDEA 中管理 Pod 依赖项, 同时又能在编码时享受它提供的好处, 比如代码高亮度和自动完成.
+现在, 你可以直接在 IntelliJ IDEA 中管理 Pod 依赖项, 同时又能在编码时享受它提供的好处, 比如代码高亮度和自动完成.
 你还可以使用 Gradle 构建整个 Kotlin 项目, 不再需要切换到 Xcode.
 这就意味着, 只有在需要编写 Swift/Objective-C 代码时, 或需要在模拟器或设备上运行你的应用程序时, 才需要切换到 Xcode.
 
@@ -836,7 +836,7 @@ Kotlin/Native 完成了很多性能改进, 提高了开发速度, 也提高了�
 完成初始配置时, 以及添加新依赖项到 `cocoapods` 时, 只需要在 IntelliJ IDEA 中重新导入项目.
 新依赖项会添加自动. 不需要额外的操作步骤.
 
-[关于如何添加依赖项, 请阅读这篇文档](native/native-cocoapods.html).
+[关于如何添加依赖项, 请阅读这篇文档](native/native-cocoapods-libraries.html).
 
 
 ## Kotlin Multiplatform
@@ -846,7 +846,7 @@ Kotlin/Native 完成了很多性能改进, 提高了开发速度, 也提高了�
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issues/KT) 提供你的反馈意见.
 {:.note}
 
-[Kotlin Multiplatform](mpp/multiplatform.html) 可以减少对 [不同的平台](mpp/mpp-supported-platforms.html) 编写和维护相同代码的时间,
+[Kotlin Multiplatform](multiplatform/multiplatform.html) 可以减少对 [不同的平台](multiplatform/multiplatform-dsl-reference.html#targets) 编写和维护相同代码的时间,
 又能同时保持原生程序开发的灵活性便利. 我们一直在努力开发各种跨平台的新功能特性和改进:
 
 * [使用层级项目结构在多个编译目标中共用代码](#sharing-code-in-several-targets-with-the-hierarchical-project-structure)
@@ -858,16 +858,16 @@ Kotlin/Native 完成了很多性能改进, 提高了开发速度, 也提高了�
 
 ### 使用层级项目结构在多个编译目标中共用代码
 
-使用新的层级项目结构, 在一个 [跨平台项目](mpp/mpp-discover-project.html) 中,
-你可以在 [多个平台](mpp/mpp-supported-platforms.html) 间共用代码.
+使用新的层级项目结构, 在一个 [跨平台项目](multiplatform/multiplatform-discover-project.html) 中,
+你可以在 [多个平台](multiplatform/multiplatform-dsl-reference.html#targets) 间共用代码.
 
 在以前的版本中, 添加到跨平台项目的代码, 可以放在平台相关的源代码集中, 只限于一个编译目标使用, 不能被其他任何平台重用,
 也可以放在共通源代码集中, 比如 `commonMain` 或 `commonTest`, 被项目中的所有平台共用.
 在共通源代码集中, 你只能通过使用
-[`expect` 声明(需要对应的平台相关的 `actual` 实现)](mpp/mpp-connect-to-apis.html) 来调用平台相关的 API.
+[`expect` 声明(需要对应的平台相关的 `actual` 实现)](multiplatform/multiplatform-connect-to-apis.html) 来调用平台相关的 API.
 
-通过这种机制很容易实现 [在所有的平台上共用代码](mpp/mpp-share-on-platforms.html#share-code-on-all-platforms),
-但不容易 [只在一部分编译目标中共用代码](mpp/mpp-share-on-platforms.html#share-code-on-similar-platforms),
+通过这种机制很容易实现 [在所有的平台上共用代码](multiplatform/multiplatform-share-on-platforms.html#share-code-on-all-platforms),
+但不容易 [只在一部分编译目标中共用代码](multiplatform/multiplatform-share-on-platforms.html#share-code-on-similar-platforms),
 尤其是对于那些类似的编译目标, 本来可能重用很多共通逻辑和第三方 API.
 
 比如, 在一个针对 iOS 平台的典型的跨平台项目中, 有 2 个 iOS 相关的编译目标: 一个针对 iOS ARM64 设备, 另一个针对 x64 模拟器.
@@ -877,12 +877,12 @@ Kotlin/Native 完成了很多性能改进, 提高了开发速度, 也提高了�
 显然, 在这样的设置中, 我们需要有 *对 2 个 iOS 编译目标的共用的源代码集*,
 其中包含 Kotlin/Native 代码, 并且仍然能够直接调用那些对于 iOS 设备和模拟器共通的 API.
 
-<img class="img-responsive" src="{{ url_for('asset', path='docs/images/mpp/iosmain-hierarchy.png') }}" alt="对于 iOS 编译目标的代码共用" width="300"/>
+<img class="img-responsive" src="{{ url_for('asset', path='docs/images/multiplatform/iosmain-hierarchy.png') }}" alt="对于 iOS 编译目标的代码共用" width="300"/>
 
-现在你可以通过 [层级项目结构](mpp/mpp-share-on-platforms.html#share-code-on-similar-platforms) 来实现这样的代码共用,
+现在你可以通过 [层级项目结构](multiplatform/multiplatform-share-on-platforms.html#share-code-on-similar-platforms) 来实现这样的代码共用,
 它能够通过使用源代码集合的编译目标, 来推断和适用各个源代码集中可用的 API 和语言功能特性.
 
-对于共通的编译目标组合, 你可以使用 [编译目标的简写(shortcut)](mpp/mpp-share-on-platforms.html#use-target-shortcuts) 创建层级结构.
+对于共通的编译目标组合, 你可以使用 [编译目标的简写(shortcut)](multiplatform/multiplatform-share-on-platforms.html#use-target-shortcuts) 创建层级结构.
 
 
 比如, 可以通过 `ios()` 简写, 创建上面例子中的 2 个 iOS 编译目标以及共用的源代码集:
@@ -894,9 +894,9 @@ kotlin {
 ```
 
 关于编译目标的其他组合, 请使用 `dependsOn` 关系连接源代码集,
-来 [手动创建层级结构](mpp-share-on-platforms.html#configure-the-hierarchical-structure-manually).
+来 [手动创建层级结构](multiplatform/multiplatform-share-on-platforms.html#configure-the-hierarchical-structure-manually).
 
-![层级结构]({{ url_for('asset', path='docs/images/mpp/hierarchical-structure.png') }})
+![层级结构]({{ url_for('asset', path='docs/images/multiplatform/hierarchical-structure.png') }})
 
 <div class="multi-language-sample" data-lang="groovy">
 <div class="sample" markdown="1" theme="idea" mode="groovy" data-highlight-only>
@@ -950,16 +950,16 @@ kotlin{
 </div>
 
 有了层级项目结构的帮助, 库也可以对一部分编译目标提供共通的 API.
-更多详情请参见 [在库中共用代码](mpp/mpp-share-on-platforms.html#share-code-in-libraries).
+更多详情请参见 [在库中共用代码](multiplatform/multiplatform-share-on-platforms.html#share-code-in-libraries).
 
 ### 在层级结构中使用原生库
 
-在几个原生编译目标间共用的源代码集中, 可以使用平台依赖的库, 比如 `Foundation`, `UIKit`, 和 `posix`.
+在几个原生编译目标间共用的源代码集中, 可以使用平台依赖的库, 比如 `Foundation`, `UIKit`, 和 `POSIX`.
 这个功能可以帮助你共用更多的原生代码, 不受平台相关依赖项的限制.
 
 不需要额外的步骤 – 所有事情都会自动完成. IntelliJ IDEA 会帮助你发现可以在共用代码中使用的共通声明.
 
-更多详情请参见 [使用平台依赖的库](mpp/mpp-share-on-platforms.html#use-native-libraries-in-the-hierarchical-structure).
+更多详情请参见 [使用平台依赖的库](multiplatform/multiplatform-share-on-platforms.html#use-native-libraries-in-the-hierarchical-structure).
 
 ### 依赖项只需要指定一次
 
@@ -974,7 +974,7 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:{{ site.data.releases_zh.latest.coroutines.version }}'
+                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:{{ site.data.releases.latest.coroutines.version }}'
             }
         }
     }
@@ -992,7 +992,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:{{ site.data.releases_zh.latest.coroutines.version }}")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:{{ site.data.releases.latest.coroutines.version }}")
             }
         }
     }
@@ -1485,7 +1485,7 @@ fun main() {
 Kotlin 1.4.0 对标准库的默认 artifact 添加了 `module-info.java` 模块信息.
 因此你可以使用在 [jlink tool](https://docs.oracle.com/en/java/javase/11/tools/jlink.html) 中使用它们,
 这个工具会生成自定义的 Java 运行时可执行文件, 其中只包含 你的 App 所需要的平台模块.
-以前, 你可能已经用 Kotlin 标准库 artifact 使用过 jlink, 但那时你需要使用分离的 artifact – 带有 “modular” 分类的那个 –
+以前, 你可能已经用 Kotlin 标准库 artifact 使用过 jlink, 但那时你需要使用分离的 artifact – 带有 "modular" 分类的那个 –
 而且整个设置也不直观.
 在 Android 中, 必须使用 Android Gradle plugin 版本 3.2 或更高版本, 这个版本可以正确处理带有模块信息的 jar 文件.
 
@@ -1604,4 +1604,4 @@ Kotlin 1.4.0 是一个 [功能性发布版(Feature Release)](kotlin-evolution.ht
 <!-- ### 迁移跨平台项目
 
 为了帮助你在既有的项目中开始使用 [Kotlin multiplatform](#kotlin-multiplatform) 的新功能特性,
-我们发布了 [跨平台项目的迁移指南](migrating-multiplatform-project-to-14.html). -->
+我们发布了 [跨平台项目的迁移指南](multiplatform/multiplatform-hierarchy.html). -->

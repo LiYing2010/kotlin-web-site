@@ -7,7 +7,7 @@ title: "Kotlin/Native 开发入门 - 使用命令行编译器"
 
 # Kotlin/Native 开发入门 - 使用命令行编译器
 
-本页面最终更新: 2022/04/06
+最终更新: {{ site.data.releases.latestDocDate }}
 
 ## 获取编译器
 

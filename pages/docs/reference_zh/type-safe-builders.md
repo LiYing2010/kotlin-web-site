@@ -7,7 +7,7 @@ title: "类型安全的构建器"
 
 # 类型安全的构建器(Type-Safe Builder)
 
-本页面最终更新: 2021/12/29
+最终更新: {{ site.data.releases.latestDocDate }}
 
 通过将恰当命名的函数用做构建器, 结合 [带接受者的函数字面值](lambdas.html#function-literals-with-receiver),
 我们可以在 Kotlin 中创建出类型安全的, 静态类型的构建器.
@@ -17,7 +17,6 @@ title: "类型安全的构建器"
 比如, 构建器的一些应用场景包括:
 
 * 使用 Kotlin 代码来生成标记式语言, 比如 [HTML](https://github.com/Kotlin/kotlinx.html) 或 XML
-* 以程序方式构建 UI 组件布局: [Anko](https://github.com/Kotlin/anko/wiki/Anko-Layouts)
 * 为 Web 服务器配置路由: [Ktor](https://ktor.io/docs/routing.html)
 
 我们来看看以下代码:

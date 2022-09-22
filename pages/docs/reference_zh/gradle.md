@@ -6,7 +6,12 @@ title: "Gradle"
 
 # Gradle
 
-本页面最终更新: 2022/02/25
+最终更新: {{ site.data.releases.latestDocDate }}
+
+支持的 Gradle 最低版本: **{{ site.data.releases.minGradleVersion }}**
+
+支持的 Android Gradle plugin 最低版本: **{{ site.data.releases.minAndroidGradleVersion }}**
+
 
 要使用 Gradle 编译一个 Kotlin 项目, 你需要 [在你的项目中应用 Kotlin Gradle plugin](#plugin-and-versions),
 然后 [配置依赖项](#configuring-dependencies).
@@ -47,9 +52,9 @@ plugins {
 
 ## 编译到多个目标平台
 
-编译到 [多个目标平台](mpp-supported-platforms.html) 的项目, 称为 [跨平台项目](mpp-intro.html),
+编译到 [多个目标平台](multiplatform/multiplatform-dsl-reference.html#targets) 的项目, 称为 [跨平台项目](multiplatform/multiplatform-get-started.html),
 需要使用 `kotlin-multiplatform` 插件.
-详情请阅读 [关于 `kotlin-multiplatform` 插件](mpp-discover-project.html#multiplatform-plugin).
+详情请阅读 [关于 `kotlin-multiplatform` 插件](multiplatform/multiplatform-discover-project.html#multiplatform-plugin).
 
 > `kotlin-multiplatform` 插件要求 Gradle {{ site.data.releases.minGradleVersion }} 或更高版本.
 {:.note}
@@ -173,16 +178,54 @@ sourceSets {
 而 `compileJava` 任务设置为 (或 [继承得到](https://docs.gradle.org/current/userguide/java_plugin.html#sec:java-extension)) `targetCompatibility=15`.
 
 要对这个兼容性检查进行配置, 可以在 `build.gradle` 文件中设置 `kotlin.jvm.target.validation.mode` 属性为以下几个值:
+ 
 * `warning` – 默认值; Kotlin Gradle plugin 会输出警告信息.
 * `error` – plugin 会认为构建失败.
 * `ignore` – plugin 会跳过检查, 不输出任何警告信息.
 
+### 关联编译器任务
+
+你可以将编译任务 _关联_ 在一起, 方法是在编译任务之间设置关联关系, 一个编译需要使用另一个编译的输出.
+关联编译器任务会在编译任务之间建立 `internal` 的可见度.
+
+Kotlin 编译器会默认的关联某些编译, 比如每个编译目标的 `test` 和 `main` 编译.
+如果你需要表达你的某个自定义编译 与其它编译相关联, 请创建你自己的关联编译.
+
+要让 IDE 支持关联编译任务, 在源代码集之间推断可见度, 请向你的 `build.gradle(.kts)` 添加以下代码:
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+val integrationTestCompilation = kotlin.target.compilations.create("integrationTest") {
+    associateWith(kotlin.target.compilations.getByName("main"))
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+integrationTestCompilation {
+    kotlin.target.compilations.create("integrationTest") {
+        associateWith(kotlin.target.compilations.getByName("main"))
+    }
+}
+```
+
+</div>
+</div>
+
+在这个例子中, `integrationTest` 编译任务关联到 `main` 编译任务, 可以在功能测试(集成测试)代码中访问 `internal` 对象.
+
 ### 设置自定义的 JDK home 路径
 
 Kotlin 编译任务默认使用当前 Gradle 的 JDK.
-如果出于某些原因需要更换 JDK, 你可以设置 JDK home:
-* 对于 Gradle 6.7 或更高版本 – 可以使用 [Java 工具链](#gradle-java-toolchains-support) 或 [Task DSL](#setting-jdk-version-with-the-task-dsl) 设置本地 JDK.
-* 对于没有 Java 工具链的更早版本 Gradle (6.6 或以下) – 可以使用 [`UsesKotlinJavaToolchain` 接口和 Task DSL](#setting-jdk-version-with-the-task-dsl).
+如果出于某些原因需要更换 JDK, 你可以设置 JDK home, 
+方法是使用 [Java 工具链](#gradle-java-toolchains-support) 或 [Task DSL](#setting-jdk-version-with-the-task-dsl) 设置本地 JDK.
 
 > 从 Kotlin 1.5.30 开始, `jdkHome` 编译器选项已被废弃.
 {:.warning}
@@ -202,13 +245,14 @@ Gradle 6.7 引入了 [Java 工具链支持](https://docs.gradle.org/current/user
 目前 Gradle 自身能够在任何 JDK 上运行, 而且还对依赖于主要 JDK 版本的任务重用 [远程构建缓存功能](#gradle-build-cache-support).
 
 Kotlin Gradle plugin 对 Kotlin/JVM 编译任务支持 Java 工具链. JS 和 Native 任务则不会使用工具链.
-Kotlin 编译器永远会使用运行 Gradle daemon 的 JDK.
+Kotlin 编译器永远会在运行 Gradle daemon 的 JDK 上运行.
 Java 工具链会:
 * 对 JVM 编译目标设置 [`jdkHome` 选项](#attributes-specific-to-jvm).
 * 如果用户没有明确设置 `jvmTarget` 选项,
   则将 [`kotlinOptions.jvmTarget`](#attributes-specific-to-jvm) 设置为工具链的 JDK 版本.
   如果用户没有配置工具链, 那么 `jvmTarget` 会使用默认值.
   详情请参见 [JVM 编译目标兼容性](#check-for-jvm-target-compatibility-of-related-compile-tasks).
+* 设置由任何 Java compile, test 和 javadoc 任务使用的工具链.
 * 影响 [`kapt` 任务执行器](kapt.html#running-kapt-tasks-in-parallel) 使用哪个 JDK.
 
 可以使用以下代码来设置工具链. 请将占位符 `<MAJOR_JDK_VERSION>` 替换为你想要使用的 JDK 版本:
@@ -219,7 +263,7 @@ Java 工具链会:
 ```kotlin
 kotlin {
     jvmToolchain {
-        (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>)) // "8"
+        languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>)) // "8"
     }
 }
 ```
@@ -243,22 +287,17 @@ kotlin {
 
 注意, 使用 `kotlin` 扩展设置工具链也会改变 Java 编译任务的工具链.
 
-也可以通过 `java` 扩展设置工具链, Kotlin 编译任务也会使用它:
-
-```kotlin
-java {
-    toolchain {
-      languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>)) // "8"
-    }
-}
-```
+> 要确认 Gradle 使用哪个工具链, 可以使用
+> [log level `--info`](https://docs.gradle.org/current/userguide/logging.html#sec:choosing_a_log_level)
+> 参数运行你的 Gradle 构建, 然后在输出中查找以 `[KOTLIN] Kotlin compilation 'jdkHome' argument:` 开头的字符串.
+> 冒号之后的部分就是工具链使用的 JDK 版本.
+{:.note}
 
 要对特定的任务设置任何 JDK (即使是本地的), 请使用 Task DSL.
 
 ### 使用 Task DSL 设置 JDK 版本
 
-如果使用 Gradle 6.7 以前的版本, 那么就没有 [Java 工具链支持](#gradle-java-toolchains-support) 功能.
-你可以使用 Task DSL, 对任何实现了 `UsesKotlinJavaToolchain` 接口的任务, 设置任意的 JDK 版本.
+Task DSL 可以对任何实现了 `UsesKotlinJavaToolchain` 接口的任务, 设置任意的 JDK 版本.
 目前, 这些任务只有 `KotlinCompile` 和 `KaptTask`.
 如果希望 Gradle 搜索主要的 JDK 版本, 请在你的构建脚本中替换 `<MAJOR_JDK_VERSION>` 占位符:
 
@@ -533,7 +572,7 @@ kotlin {
 [`useJUnitPlatform()`]( https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/testing/Test.html#useJUnitPlatform)
 或
 [`useTestNG()`](https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/testing/Test.html#useTestNG).
-下面是一个跨平台(MPP) 项目的示例:
+下面是一个 Kotlin Multiplatform 项目的示例:
 
 <div class="multi-language-sample" data-lang="kotlin">
 <div class="sample" markdown="1" theme="idea" mode='kotlin' data-highlight-only>
@@ -761,6 +800,33 @@ Kotlin Gradle plugin 支持增量编译模式.
 
 初次编译不会是增量编译.
 
+> 有时增量编译的问题会在错误发生之后再经过多轮才报告给使用者.
+> 请使用 [构建报告](#build-reports) 来追踪变更历史和编译历史. 这样做可能有助于提供可重现的 bug 报告.
+{:.tip}
+
+### 增量编译的新方案
+
+> 增量编译的新方案是 [实验性功能](components-stability.html).
+> 它随时有可能变更或被删除.
+> 需要使用者同意(Opt-in) (详情见下文). 我们建议你只为评估目的来使用这个功能,
+> 并且希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issues/KT) 提供你的反馈意见.
+{:.warning}
+
+增量编译的新方案, 支持发生在依赖的非 Kotlin 模块内的变更,
+包括改进过的编译回避, 并且与 [Gradle 构建缓存](#gradle-build-cache-support) 兼容.
+
+这些新功能可以减少非增量式构建的次数, 让整体的编译时间更加快速.
+如果你使用构建缓存, 或者在非 Kotlin Gradle 模块中频繁进行修改, 那么新方案可以带来显著的改进.
+
+要启用这个新方案, 请在你的 `gradle.properties` 中设置以下选项:
+
+```properties
+kotlin.incremental.useClasspathSnapshot=true
+```
+
+> 增量编译的新方案从 Kotlin 1.7.0 开始可用, 而且只能用于 JVM 后端和 Gradle 构建系统.
+{:.note}
+
 ## 对 Gradle 编译缓存的支持
 
 Kotlin 插件支持 [Gradle 编译缓存](https://docs.gradle.org/current/userguide/build_cache.html),
@@ -774,8 +840,13 @@ Kotlin 插件支持 [Gradle 编译缓存](https://docs.gradle.org/current/usergu
 
 ## Gradle 配置缓存支持
 
-> 配置缓存功能是一个实验性功能, 从 Gradle 6.5 或更高版本开始支持.
-> 请到 [Gradle 发布页面](https://gradle.org/releases/) 查看这个功能是否被提升到稳定状态.
+> Gradle 配置缓存支持存在一些限制:
+> * 配置缓存功能是一个实验性功能, 从 Gradle 6.5 或更高版本开始支持.  
+>   请到 [Gradle 发布页面](https://gradle.org/releases/) 查看这个功能是否被提升到稳定状态.
+> * 这个功能只被以下 Gradle plugin 支持:
+>   * `org.jetbrains.kotlin.jvm`
+>   * `org.jetbrains.kotlin.js`
+>   * `org.jetbrains.kotlin.android`
 {:.note}
 
 Kotlin plugin 使用 [Gradle 配置缓存](https://docs.gradle.org/current/userguide/configuration_cache.html),
@@ -784,6 +855,53 @@ Kotlin plugin 使用 [Gradle 配置缓存](https://docs.gradle.org/current/userg
 关于如何启用配置缓存, 请参见
 [Gradle 文档](https://docs.gradle.org/current/userguide/configuration_cache.html#config_cache:usage).
 启用这个功能之后, Kotlin Gradle plugin 会自动开始使用它.
+
+## 构建报告
+
+> 构建报告是 [实验性功能](components-stability.html).
+> 它随时有可能变更或被删除.
+> 需要使用者同意(Opt-in) (详情见下文). 请注意, 只为评估目的来使用这个功能.
+> 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issues/KT) 提供你的反馈意见.
+{:.warning}
+
+从 Kotlin 1.7.0 开始, 可以输出用于追踪编译器性能的构建报告.
+报告包括不同编译阶段的持续时间, 以及为什么不能进行增量编译的原因.
+
+如果编译时间太长, 或对于相同的项目出现了不同的编译时间, 可以使用构建报告来调查性能问题.
+
+要启用构建报告, 请在 `gradle.properties` 中指定构建报告输出的保存位置:
+
+```properties
+kotlin.build.report.output=file
+```
+
+以下各个值的组合可以用于输出:
+
+| 选项           | 含义                                                                                                                                                                                                                                                                   |
+|--------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `file`       | 将构建报告保存到本地文件                                                                                                                                                                                                                                                         |
+| `build_scan` | 将构建报告保存到 [build scan](https://scans.gradle.com/) 的 `custom values` 小节. 注意, Gradle Enterprise plugin 会限制 custom values 的数量和长度. 在很大的项目中, 有些值可能会丢失.                                                                                                                     |                                                                                                                                                                                                                                                                                                                                                                                               |
+| `http`       | 通过 HTTP(S) 提交构建报告. 使用 POST 方法传送 JSON 格式的测量结果. 你可以在 [Kotlin 代码仓库](https://github.com/JetBrains/kotlin/blob/master/libraries/tools/kotlin-gradle-plugin/src/common/kotlin/org/jetbrains/kotlin/gradle/plugin/statistics/CompileStatisticsData.kt) 中看到传送的数据的当前版本. |
+
+下面是 `kotlin.build.report` 的所有选项完整列表:
+
+```properties
+# 需要的报告输出格式. 可以任意组合
+kotlin.build.report.output=file,http,build_scan
+
+# 可选项. 文件格式的报告的输出目录. 默认值是: build/reports/kotlin-build/
+kotlin.build.report.file.output_dir=kotlin-reports
+
+# 如果使用 http 输出, 则必须设置. 基于 HTTP(S) 的报告的 POST 地址
+kotlin.build.report.http.url=http://127.0.0.1:8080
+
+# 可选项. 如果 HTTP endpoint 要求身份验证, 通过这个设置指定用户名和密码 
+kotlin.build.report.http.user=someUser
+kotlin.build.report.http.password=somePassword
+
+# 可选项. 用来标记你的构建报告的标签 (比如 debug parameters)
+kotlin.build.report.label=some_label
+```
 
 ## 编译选项
 
@@ -881,42 +999,41 @@ Gradle 任务所支持的选项完整列表如下:
 
 ### JVM 和 JS 任务支持的共通属性
 
-| Name | Description | Possible values |Default value |
-|------|-------------|-----------------|--------------|
-| `apiVersion` | 只允许使用指定的版本的运行库中的 API | "1.3" (已废弃 DEPRECATED), "1.4" (已废弃 DEPRECATED), "1.5", "1.6", "1.7" (实验性功能) |  |
-| `languageVersion` | 指定源代码所兼容的 Kotlin 版本 | "1.4" (已废弃 DEPRECATED), "1.5", "1.6", "1.7" (实验性功能) |  |
+| Name              | Description           | Possible values                                                     |Default value |
+|-------------------|-----------------------|---------------------------------------------------------------------|--------------|
+| `apiVersion`      | 只允许使用指定的版本的运行库中的 API  | "1.3" (已废弃 DEPRECATED), "1.4" (已废弃 DEPRECATED), "1.5", "1.6", "1.7" |  |
+| `languageVersion` | 指定源代码所兼容的 Kotlin 版本  | "1.4" (已废弃 DEPRECATED), "1.5", "1.6", "1.7"                         |  |
 
 ### JVM 任务独有的属性
 
-| 属性名称 | 描述 | 可以选择的值 |默认值 |
-|------|-------------|-----------------|--------------|
-| `javaParameters` | 为 Java 1.8 的方法参数反射功能生成 metadata |  | false |
-| `jdkHome` | 将指定路径中的 JDK 添加到 classpath 内, 不使用默认的 JAVA_HOME. 从 1.5.30 开始, 这个选项的直接使用已被废弃, 请使用 [其他方法设置这个选项](#set-custom-jdk-home).  |  |  |
-| `jvmTarget` | 指定编译输出的 JVM 字节码的版本 | "1.6" (已废弃 DEPRECATED), "1.8", "9", "10", "11", "12", "13", "14", "15", "16", "17" | "{{ site.data.releases.defaultJvmTargetVersion }}" |
-| `noJdk` | 不要自动将 Java 运行库包含到 classpath 内 |  | false |
-| `useOldBackend` | 使用 [旧的 JVM 后端](whatsnew15.html#stable-jvm-ir-backend) |  | false |
+| 属性名称             | 描述                                                                                                     | 可以选择的值 |默认值 |
+|------------------|--------------------------------------------------------------------------------------------------------|-----------------|--------------|
+| `javaParameters` | 为 Java 1.8 的方法参数反射功能生成 metadata                                                                        |  | false |
+| `jdkHome`        | 将指定路径中的 JDK 添加到 classpath 内, 不使用默认的 JAVA_HOME. 这个选项不能直接使用, 请使用 [其他方法设置这个选项](#set-custom-jdk-home). |  |  |
+| `jvmTarget`      | 指定编译输出的 JVM 字节码的版本                                                                                     | "1.8", "9", "10", ..., "18" | "{{ site.data.releases.defaultJvmTargetVersion }}" |
+| `noJdk`          | 不要自动将 Java 运行库包含到 classpath 内                                                                          |  | false |
+| `useOldBackend`  | 使用 [旧的 JVM 后端](whatsnew15.html#stable-jvm-ir-backend)                                                  |  | false |
 
 ### JS 任务独有的属性
 
-| 属性名称 | 描述 | 可以选择的值 |默认值 |
-|------|-------------|-----------------|--------------|
-| `friendModulesDisabled` | 指定是否关闭内部声明的输出 |  | false |
-| `main` | 指定执行时是否调用 main 函数 | "call", "noCall" | "call" |
-| `metaInfo` | 指定是否生成带有 metadata 的 .meta.js 和 .kjsm 文件. 用于创建库 |  | true |
-| `moduleKind` | 指定编译器生成的 JS 模块类型 | "umd", "commonjs", "amd", "plain"  | "umd" |
-| `noStdlib` | 不要自动将 Kotlin/JS 标准库添加到编译依赖项中 |  | true |
-| `outputFile` | 指定编译结果输出的 *.js 文件 |  | "\<buildDir>/js/packages/\<project.name>/kotlin/\<project.name>.js" |
-| `sourceMap` | 指定是否生成源代码映射文件(source map) |  | true |
-| `sourceMapEmbedSources` | 指定是否将源代码文件嵌入到源代码映射文件中 | "never", "always", "inlining" |  |
-| `sourceMapPrefix` | 对源代码映射文件中的路径添加一个指定的前缀 |  |  |
-| `target` | 指定生成的 JS 文件 的 ECMA 版本 | "v5" | "v5" |
-| `typedArrays` | 将基本类型数组转换为 JS 的有类型数组 arrays |  | true |
+| 属性名称                    | 描述                                             | 可以选择的值 |默认值 |
+|-------------------------|------------------------------------------------|-----------------|--------------|
+| `friendModulesDisabled` | 指定是否关闭内部声明的输出                                  |  | false |
+| `main`                  | 指定执行时是否调用 main 函数                              | "call", "noCall" | "call" |
+| `metaInfo`              | 指定是否生成带有 metadata 的 .meta.js 和 .kjsm 文件. 用于创建库 |  | true |
+| `moduleKind`            | 指定编译器生成的 JS 模块类型                               | "umd", "commonjs", "amd", "plain"  | "umd" |
+| `outputFile`            | 指定编译结果输出的 *.js 文件                              |  | "\<buildDir>/js/packages/\<project.name>/kotlin/\<project.name>.js" |
+| `sourceMap`             | 指定是否生成源代码映射文件(source map)                      |  | true |
+| `sourceMapEmbedSources` | 指定是否将源代码文件嵌入到源代码映射文件中                          | "never", "always", "inlining" |  |
+| `sourceMapPrefix`       | 对源代码映射文件中的路径添加一个指定的前缀                          |  |  |
+| `target`                | 指定生成的 JS 文件 的 ECMA 版本                          | "v5" | "v5" |
+| `typedArrays`           | 将基本类型数组转换为 JS 的有类型数组 arrays                    |  | true |
 
 ## 生成文档
 
 要对 Kotlin 项目生成文档, 请使用 [Dokka](https://github.com/Kotlin/dokka);
 相关的配置方法, 请参见 [Dokka README](https://github.com/Kotlin/dokka/blob/master/README.md#using-the-gradle-plugin).
-Dokka 支持混合语言的项目, 可以将文档输出为多种格式, 包括标准的 JavaDoc 格式.
+Dokka 支持混合语言的项目, 可以将文档输出为多种格式, 包括标准的 Javadoc 格式.
 
 ## OSGi
 
@@ -947,19 +1064,32 @@ Kotlin daemon 使用与 Gradle daemon 相同的 JDK.
 * 如果不做任何设定, Kotlin daemon 会从 Gradle daemon 继承 JVM 参数.
   比如, 在 `gradle.properties` 文件中:
 
- ```properties
+  ```properties
   org.gradle.jvmargs=-Xmx1500m -Xms=500m
   ```
 
 * 如果 Gradle daemon 的 JVM 参数包含 `kotlin.daemon.jvm.options` 系统属性 – 请在 `gradle.properties` 文件中指定:
 
- ```properties
+  ```properties
   org.gradle.jvmargs=-Dkotlin.daemon.jvm.options=-Xmx1500m -Xms=500m
   ```
 
+  传递参数时, 要遵守以下规则:
+  * 在参数 `Xmx`, `XX:MaxMetaspaceSize`, 和 `XX:ReservedCodeCacheSize` 之前要使用减号 `-`, 在其它参数之前不要使用.
+  * 参数之间的分隔使用逗号 (`,`), _不带空格_. 空格之后的参数会被 Gradle daemon 使用, 而不是被 Kotlin daemon 使用.
+
+  > 如果满足以下所有条件, Gradle 会忽略这些属性:
+  > * Gradle 使用 JDK 1.9 或更高版本.
+  > * Gradle 版本在 7.0(含) 和 7.1.1(含) 之间.
+  > * Gradle 正在编译 Kotlin DSL 脚本.
+  > * 没有正在运行的 Kotlin daemon .
+  >
+  > 要解决这个问题, 请升级 Gradle 到 7.2 (或更高版本), 或者使用 `kotlin.daemon.jvmargs` 属性 – 参见以下章节.
+  {:.warning}
+
 * 你可以在 `gradle.properties` 文件中添加 `kotlin.daemon.jvmargs` 属性:
 
- ```properties
+  ```properties
   kotlin.daemon.jvmargs=-Xmx1500m -Xms=500m
   ```
 
@@ -1018,7 +1148,7 @@ Kotlin daemon 使用与 Gradle daemon 相同的 JDK.
   > 这种情况下, 会在任务执行时启动一个新的 Kotlin daemon 实例. 更多详情请参见 [指定 JVM 参数时 Kotlin daemon 的行为](#kotlin-daemon-s-behavior-with-jvm-arguments).
   {:.note}
 
-#### 指定 JVM 参数时 Kotlin daemon 的行为
+### 指定 JVM 参数时 Kotlin daemon 的行为
 
 配置 Kotlin daemon 的 JVM 参数时, 请注意:
 
@@ -1033,3 +1163,114 @@ Kotlin daemon 使用与 Gradle daemon 相同的 JDK.
   > 那么即使另一个任务要求的 JVM 参数不同, 也仍会重用这个 daemon, 而不是启动一个新的实例.
   {:.note}
 * 如果 `Xmx` 参数未指定, Kotlin daemon 会从 Gradle daemon 继承.
+
+## 定义 Kotlin 编译器执行策略
+
+_Kotlin 编译器执行策略_ 定义 Kotlin 编译器在哪里执行, 以及各种情况下是否支持增量编译.
+
+有 3 种编译器执行策略:
+
+| 策略       | Kotlin 编译器在哪里执行          | 增量编译 | 其它特征, 以及注意事项                                                                                                                                                                 |
+|----------------|--------------------------|------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Daemon         | 在 Kotlin 自己的 daemon 进程之内 | 是    | *这是默认的, 而且是最快的策略*. 可以在不同的 Gradle daemon, 以及多个并行编译之间共用.                                                                                              |
+| In process     | 在 Gradle daemon 进程之内     | 否    | 可以与 Gradle daemon 共用 heap. "In process" 执行策略比 "Daemon" 执行策略 _更慢_. 每个 [worker](https://docs.gradle.org/current/userguide/worker_api.html) 会为每个编译创建单独的 Kotlin 编译器 classloader. |
+| Out of process | 对每个编译都在单独的进程内            | 否   | 这是最慢的执行策略. 与 "In process" 类似, 但还会为每个编译在 Gradle worker 内创建单独的 Java 进程.                                                                                                |
+
+要定义一个 Kotlin 编译器执行策略, 你可以使用以下属性之一:
+* Gradle 属性 `kotlin.compiler.execution.strategy`.
+* Compile Task 属性 `compilerExecutionStrategy`.
+* System 属性 `-Dkotlin.compiler.execution.strategy`, 这个属性已废弃, 以后的发布版本中会被删除.
+
+这些属性的优先顺序是:
+* Task 属性 `compilerExecutionStrategy` 优先级高于 System 属性和 Gradle 属性 `kotlin.compiler.execution.strategy`.
+* Gradle 属性优先级高于 System 属性.
+
+对于 System 属性和 Gradle 属性相同, `kotlin.compiler.execution.strategy` 属性可以使用的值是:
+1. `daemon` (默认值)
+2. `in-process`
+3. `out-of-process`
+
+在 `gradle.properties` 中使用 Gradle 属性 `kotlin.compiler.execution.strategy`:
+
+```properties
+kotlin.compiler.execution.strategy=out-of-process
+```
+
+Task 属性 `compilerExecutionStrategy` 可以使用的值是:
+1. `org.jetbrains.kotlin.gradle.tasks.KotlinCompilerExecutionStrategy.DAEMON` (默认值)
+2. `org.jetbrains.kotlin.gradle.tasks.KotlinCompilerExecutionStrategy.IN_PROCESS`
+3. `org.jetbrains.kotlin.gradle.tasks.KotlinCompilerExecutionStrategy.OUT_OF_PROCESS`
+
+在你的构建脚本中使用 Task 属性 `compilerExecutionStrategy`:
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilerExecutionStrategy
+
+// ...
+
+tasks.withType<KotlinCompile>().configureEach {
+    compilerExecutionStrategy.set(KotlinCompilerExecutionStrategy.IN_PROCESS)
+} 
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilerExecutionStrategy
+
+// ...
+
+tasks.withType(KotlinCompile)
+    .configureEach {
+         compilerExecutionStrategy.set(KotlinCompilerExecutionStrategy.IN_PROCESS)
+    }
+```
+
+</div>
+</div>
+
+## 使用 KotlinBasePlugin 接口触发配置动作
+
+当任何 Kotlin Gradle plugin (JVM, JS, Multiplatform, Native, 等等) 被适用时, 要触发某些配置动作,
+可以使用 `KotlinBasePlugin` 接口, 所有的 Kotlin plugin 都继承了这个接口:
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+import org.jetbrains.kotlin.gradle.plugin.KotlinBasePlugin
+
+// ...
+
+project.plugins.withType<KotlinBasePlugin>() {
+    // 在这里配置你的动作
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+import org.jetbrains.kotlin.gradle.plugin.KotlinBasePlugin
+
+// ...
+
+project.plugins.withType(KotlinBasePlugin.class) {
+    // 在这里配置你的动作
+}
+```
+
+</div>
+</div>

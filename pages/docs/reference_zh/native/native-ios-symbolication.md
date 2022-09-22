@@ -7,7 +7,7 @@ title: "符号化(Symbolicate) iOS 崩溃报告(Crash Report)"
 
 # 符号化(Symbolicate) iOS 崩溃报告
 
-本页面最终更新: 2021/09/08
+最终更新: {{ site.data.releases.latestDocDate }}
 
 要对 iOS 应用程序的崩溃进行调试, 有时需要分析崩溃报告.
 关于崩溃报告的详情, 请参见

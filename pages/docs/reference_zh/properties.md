@@ -7,7 +7,7 @@ title: "属性(Property)"
 
 # 属性(Property)
 
-本页面最终更新: 2022/01/14
+最终更新: {{ site.data.releases.latestDocDate }}
 
 ## 声明属性
 
@@ -71,7 +71,7 @@ val inferredType = 1 // 属性类型为 Int, 使用默认的取值方法
 ```kotlin
 //sampleStart
 class Rectangle(val width: Int, val height: Int) {
-    val area: Int
+    val area: Int // 属性类型是可选的, 因为可以从取值方法的返回类型推断得到
         get() = this.width * this.height
 }
 //sampleEnd
@@ -168,7 +168,9 @@ public val table: Map<String, Int>
 * 值必须初始化为 `String` 类型, 或基本类型(primitive type)
 * 不存在自定义的取值方法
 
-这类属性可以用在注解内:
+编译器会对常数的使用进行内联(inline), 将对常数的引用替换为常数的实际值. 但是, 常数对应的域变量不会被删除, 因此可以通过使用 [反射](reflection.html) 与它进行交互.
+
+这类属性也可以用在注解内:
 
 ```kotlin
 const val SUBSYSTEM_DEPRECATED: String = "This subsystem is deprecated"

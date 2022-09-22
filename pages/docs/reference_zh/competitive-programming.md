@@ -7,7 +7,7 @@ title: "在编程竞赛(Competitive Programming)中使用 Kotlin"
 
 # 在编程竞赛(Competitive Programming)中使用 Kotlin
 
-本页面最终更新: 2021/12/14
+最终更新: {{ site.data.releases.latestDocDate }}
 
 本教程针对的读者是以前未使用过 Kotlin 的编程竞赛参加者, 以及以前未参加过编程竞赛的 Kotlin 开发者.
 对这两种情况, 我们假设读者已经具备相应的编程技能.
@@ -35,13 +35,13 @@ title: "在编程竞赛(Competitive Programming)中使用 Kotlin"
 它要求实现题干部分描述的一个简单算法.
 
 我们来解决这个问题, 首先创建一个任意名称的 Kotlin 源代码文件. `A.kt` 也可以.
-第一步, 我们需要实现题干部分指定的一个函数, 如下:
+首先, 你需要实现题干部分指定的一个函数, 如下:
 
 我们的函数 f(x) 如下: 我们对 x 加 1, 然后, 如果结果数字的末尾存在至少 1 个 0, 我们删除这个 0.
 
 Kotlin 是一种注重实践、无固定成见的语言, 既支持命令式(imperative), 也支持函数式(function programming)编程风格,
 并不强迫开发者使用哪一种.
-我们可以用函数式编程风格来实现函数 `f`, 使用 Kotlin 的 [尾递归(tail recursion)](functions.html#tail-recursive-functions) 功能:
+你可以用函数式编程风格来实现函数 `f`, 使用 Kotlin 的 [尾递归(tail recursion)](functions.html#tail-recursive-functions) 功能:
 
 ```kotlin
 tailrec fun removeZeroes(x: Int): Int =
@@ -50,7 +50,7 @@ tailrec fun removeZeroes(x: Int): Int =
 fun f(x: Int) = removeZeroes(x + 1)
 ```
 
-或者, 我们也可以为函数 `f` 编写命令式(imperative)的实现,
+或者, 你也可以为函数 `f` 编写命令式(imperative)的实现,
 使用传统的 [while 循环](control-flow.html), 和可变的变量,
 在 Kotlin 中表达为 [var](basic-syntax.html#variables):
 
@@ -65,15 +65,18 @@ fun f(x: Int): Int {
 在 Kotlin 中, 由于普遍使用类型推断(type-inference), 很多地方的类型声明是可选的,
 但在编译时刻, 每一个声明仍然具有一个确定的静态类型.
 
-现在, 只需要编写 main 函数, 读取输入, 以及实现题目要求的算法的其他部分 &mdash;
+现在, 只需要编写 main 函数, 读取输入, 以及实现题目要求的算法的其他部分 —
 通过标准输入给定的初始整数 `n`, 对它反复执行函数 `f`, 计算产生的不同的整数的个数.
 
-默认, Kotlin 运行在 JVM 平台, 能够之间访问大量而且高效的库,
+默认, Kotlin 运行在 JVM 平台, 能够直接访问大量而且高效的库,
 包括通用的集合与数据结构, 比如动态大小的数组 (`ArrayList`),
 基于 hash 的 map 和 set (`HashMap`/`HashSet`),
-基于树(tree) 的有序 map 和 set (`TreeMap`/`TreeSet`), 等等.
+基于树(tree) 的有序 map 和 set (`TreeMap`/`TreeSet`).
 我们使用整数的 hash set 来追踪执行函数 `f` 时已经到达过的数值,
 这个问题的简单的命令式编程风格的版本可以编写如下:
+
+<div class="multi-language-sample" data-version="kotlin-1-6" data-title="Kotlin 1.6.0 及以后版本">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-highlight-only>
 
 ```kotlin
 fun main() {
@@ -84,25 +87,88 @@ fun main() {
 }
 ```
 
-> readln() 函数 从 [Kotlin 1.6.0](whatsnew16.html#new-readline-functions) 版开始可用.
-{:.note}
+</div>
 
+<p>
 在编程竞赛中不需要处理输入错误的情况. 编程竞赛中的输入格式永远是正确的, 实际的输入不会与题目中描述的不同.
-因此我们使用 Kotlin 的 [`readln()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/readln.html) 函数.
+因此你可以使用 Kotlin 的
+<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/readln.html"><code>readln()</code></a>
+函数.
 它假定输入字符串存在, 否则会抛出异常.
-类似的, 如果输入字符串不是整数, [`String.toInt()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/to-int.html)
+类似的, 如果输入字符串不是整数,
+<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/to-int.html"><code>String.toInt()</code></a>
 函数会抛出异常.
+</p>
+
+</div>
+
+<div class="multi-language-sample" data-version="kotlin-1-5" data-title="旧版本">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-highlight-only>
+
+```kotlin
+fun main() {
+    var n = readLine()!!.toInt() // 从标准输入读取整数
+    val reached = HashSet<Int>() // 可变的 hash set
+    while (reached.add(n)) n = f(n) // 反复执行函数 f
+    println(reached.size) // 将答案打印到标准输出
+}
+```
+
+</div>
+
+<p>
+注意, 在
+<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/read-line.html">readLine()</a>
+函数调用之后使用了 Kotlin 的
+<a href="null-safety.html#the-operator">null 判断操作符</a>
+<code>!!</code>.
+Kotlin 的  <code>readLine()</code> 函数定义是返回一个
+<a href="null-safety.html#nullable-types-and-non-null-types">可为 null 的类型</a>
+<code>String?</code>, 并在输入结束时返回 <code>null</code>,
+因此要求开发者处理没有输入的情况.
+</p>
+
+<p>
+在编程竞赛中, 没有必要处理输入格式不正确的情况.
+输入格式总是会明确指定, 而且实际输入不会违反题目描述中指定的输入格式.
+这就是 null 判断操作符 <code>`!!`</code> 的含义 — 它假定输入字符串总是存在, 否则抛出一个异常.
+<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/to-int.html">String.toInt()</a>
+也与此类似.
+</p>
+
+</div>
 
 所有的在线编程竞赛都允许使用预先编写的代码, 因此你可以定义自己的工具函数库,
 让你的解题代码更加简短, 容易阅读, 也容易编写.
 然后可以使用这些代码作为解题答案的模板.
 比如, 在编程竞赛中可以定义下面的辅助函数, 来读取输入:
 
+<div class="multi-language-sample" data-version="kotlin-1-6" data-title="Kotlin 1.6.0 及以后版本">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-highlight-only>
+
 ```kotlin
 private fun readInt() = readln().toInt()
-private fun readStr() = readln().toString()
-// 以及你的解答中需要用到的其他类型
+private fun readStr() = readln()
+// 对你的解答中需要用到的其他类型, 编写类似函数
 ```
+
+</div>
+
+</div>
+
+
+<div class="multi-language-sample" data-version="kotlin-1-5" data-title="旧版本">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-highlight-only>
+
+```kotlin
+private fun readInt() = readLine()!!.toInt()
+private fun readStr() = readLine()!!
+// 对你的解答中需要用到的其他类型, 编写类似函数
+```
+
+</div>
+</div>
+
 
 注意这里使用了 `private` [可见度修饰符](visibility-modifiers.html).
 虽然可见度修饰符的概念与编程竞赛无关,
@@ -114,6 +180,9 @@ private fun readStr() = readln().toString()
 让代码变成自顶向下的线性结构, 以及从左向右的数据变换管道.
 比如, [问题 B: 长数(Long Number)](https://codeforces.com/contest/1157/problem/B)
 要求实现一个贪婪算法, 这个算法可以通过这种风格来实现, 完全不需要使用可变的变量:
+
+<div class="multi-language-sample" data-version="kotlin-1-6" data-title="Kotlin 1.6.0 及以后版本">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-highlight-only>
 
 ```kotlin
 fun main() {
@@ -137,6 +206,40 @@ fun main() {
 }
 ```
 
+</div>
+
+</div>
+
+
+<div class="multi-language-sample" data-version="kotlin-1-5" data-title="旧版本">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-highlight-only>
+
+```kotlin
+fun main() {
+    // 读取输入
+    val n = readLine()!!.toInt()
+    val s = readLine()!!
+    val fl = readLine()!!.split(" ").map { it.toInt() }
+    // 定语局部函数 f
+    fun f(c: Char) = '0' + fl[c - '1']
+    // 贪婪查找第一个和最后一个下标
+    val i = s.indexOfFirst { c -> f(c) > c }
+        .takeIf { it >= 0 } ?: s.length
+    val j = s.withIndex().indexOfFirst { (j, c) -> j > i && f(c) < c }
+        .takeIf { it >= 0 } ?: s.length
+    // 组合答案, 并输出
+    val ans =
+        s.substring(0, i) +
+        s.substring(i, j).map { c -> f(c) }.joinToString("") +
+        s.substring(j)
+    println(ans)
+}
+```
+
+</div>
+</div>
+
+
 在这段密集的代码中, 除了集合的变换之外, 你还看到很多 Kotlin 的便利功能, 比如局部函数,
 以及 [elvis 操作符](null-safety.html#elvis-operator) `?:`,
 它可以将 [惯用法](idioms.html) "如果值为正, 则使用这个值, 否则使用字符串长度",
@@ -145,27 +248,68 @@ fun main() {
 
 在编程竞赛中, 为了让这种读取输入的任务更加简洁, 你可以定义下面这些辅助性的输入读取函数:
 
+<div class="multi-language-sample" data-version="kotlin-1-6" data-title="Kotlin 1.6.0 及以后版本">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-highlight-only>
+
 ```kotlin
 private fun readInt() = readln().toInt() // 读取单个整数
 private fun readStrings() = readln().split(" ") // 读取多个字符串
 private fun readInts() = readStrings().map { it.toInt() } // 读取多个整数
 ```
 
-通过这些辅助函数, 读取输入的那部分代码可以变得更简单, 可以与题目描述的输入规格逐行对应:
+</div>
+
+</div>
+
+
+<div class="multi-language-sample" data-version="kotlin-1-5" data-title="旧版本">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-highlight-only>
 
 ```kotlin
-    // 读取输入
-    val n = readInt()
-    val s = readln()
-    val fl = readInts()
+private fun readLn() = readLine()!! // 读取字符串行
+private fun readInt() = readLn().toInt() // 读取单个整数
+private fun readStrings() = readLn().split(" ") // 读取多个字符串
+private fun readInts() = readStrings().map { it.toInt() } // 读取多个整数
 ```
 
+</div>
+</div>
+
+通过这些辅助函数, 读取输入的那部分代码可以变得更简单, 可以与题目描述的输入规格逐行对应:
+
+<div class="multi-language-sample" data-version="kotlin-1-6" data-title="Kotlin 1.6.0 及以后版本">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-highlight-only>
+
+```kotlin
+// 读取输入
+val n = readInt()
+val s = readln()
+val fl = readInts()
+```
+
+</div>
+
+</div>
+
+
+<div class="multi-language-sample" data-version="kotlin-1-5" data-title="旧版本">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-highlight-only>
+
+```kotlin
+// 读取输入
+val n = readInt()
+val s = readLn()
+val fl = readInts()
+```
+
+</div>
+</div>
+
 注意, 在编程竞赛中为变量取的名字, 经常会比实际工作中要短, 因为代码只编写一次, 之后就不再维护了.
-但是, 这些变量名仍然遵守一些规则以便于记忆 &mdash;
+但是, 这些变量名仍然遵守一些规则, 以便于记忆 —
 `a` 表示数组, `i`, `j`, 等等表示下标, `r`, 和 `c` 表述表中的行和列数, `x` 和 `y` 表示座标, 等等.
-It is easier to keep the same names for input data as it is given in the problem statement.
-However, more complex problems require more code which leads to using longer self-explanatory
-variable and function names.
+对输入数据使用与题目描述中相同的名称会比较简单.
+但是, 更加复杂的问题要求更多的代码, 因此需要变量和函数的名称更长, 而且含义清晰.
 
 ## 更多提示和技巧
 
@@ -187,7 +331,7 @@ Kotlin 被设计为能够与 JVM 的库良好交互, 因此在 Kotlin 中使用�
 这样的输入, 使用简单的 Kotlin 函数 `split(" ").map { it.toInt() }` 就可以解决.
 
 在 Kotlin 中输出通常使用简单的 [println(...)](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/println.html) 调用,
-并使用 Kotlin 的 [字符串模板](basic-types.html#string-templates).
+并使用 Kotlin 的 [字符串模板](strings.html#string-templates).
 但是, 如果输出包含 10<sup>5</sup> 行以上时, 一定要注意.
 调用这样多次的 `println` 会非常的慢, 因为在 Kotlin 中标准输出会在每一行之后自动刷出.
 要从数组或列表输出大量行内容, 更快的方式是使用 [joinToString()](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/join-to-string.html) 函数, 用 `"\n"` 作为分隔符, 比如:

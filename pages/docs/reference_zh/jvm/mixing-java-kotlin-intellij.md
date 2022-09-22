@@ -7,11 +7,11 @@ title: "教程 - 在同一个项目中混合使用 Java 和 Kotlin"
 
 # 教程 - 在同一个项目中混合使用 Java 和 Kotlin
 
-本页面最终更新: 2021/12/01
+最终更新: {{ site.data.releases.latestDocDate }}
 
 Kotlin 对 Java 的交互功能提供了一级支持, 现代化的 IDE 还使得这个功能更加便利.
 本教程中, 你将会学习在 IntelliJ IDEA 如何在同一个项目内同时使用 Kotlin 和 Java 代码.
-关于在 IntelliJ IDEA 中如何启动一个新的 Kotlin 项目, 请参见 [Kotlin/JVM 入门](jvm-get-started.html).
+关于在 IntelliJ IDEA 中如何启动一个新的 Kotlin 项目, 请参见 [IntelliJ IDEA 中使用 Kotlin 入门](jvm-get-started.html).
 
 ## 向既有的 Kotlin 项目添加 Java 源代码
 
@@ -63,15 +63,11 @@ println(customer.placeOrder())
 
 <img src="/assets/docs/images/tutorials/mixing-java-kotlin-intellij/new-kotlin-file.png" alt="添加新的 Kotlin 类" width="400"/>
 
-如果这是你第一次向这个项目添加 Kotlin 文件, IntelliJ IDEA 会提示你添加需要的 Kotlin 运行时库.
-对于 Java 项目, 请将 Kotlin 运行时库配置为一个 **Kotlin Java Module**.
+如果这是你第一次向这个项目添加 Kotlin 文件, IntelliJ IDEA 会自动添加需要的 Kotlin 运行时库.
 
-下一步是决定要配置哪个模块 (如果项目存在多个模块),
-以及是将运行时库添加到项目, 还是使用由当前 Kotlin plugin 提供的库.
+<img src="/assets/docs/images/tutorials/mixing-java-kotlin-intellij/bundling-kotlin-option.png" alt="绑定 Kotlin 运行时库" width="350"/>
 
-<img src="/assets/docs/images/tutorials/mixing-java-kotlin-intellij/bundling-kotlin-option.png" alt="绑定 Kotlin 运行时库" width="600"/>
-
-你也可以从菜单 **Tools** | **Kotlin** | **Configure Kotlin in Project** 手动打开 Kotlin 运行时库配置.
+你也可以从菜单 **Tools** \| **Kotlin** \| **Configure Kotlin in Project** 手动打开 Kotlin 运行时库配置.
 
 ## 使用 J2K 将既有的 Java 文件转换为 Kotlin
 

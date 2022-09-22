@@ -7,7 +7,7 @@ title: "在 Kotlin 中使用 JavaScript 代码"
 
 # 在 Kotlin 中使用 JavaScript 代码
 
-本页面最终更新: 2021/02/11
+最终更新: {{ site.data.releases.latestDocDate }}
 
 Kotlin 设计时最优先重视与 Java 平台交互的问题:
 Kotlin 代码可以将 Java 类当作 Kotlin 类来使用, Java 代码也可以将 Kotlin 类当作 Java 类来使用.

@@ -7,7 +7,7 @@ title: "值范围(Range)与数列(Progression)"
 
 # 值范围(Range)与数列(Progression)
 
-本页面最终更新: 2021/02/11
+最终更新: {{ site.data.releases.latestDocDate }}
 
 在 Kotlin 中可以非常便利的创建值范围, 方法是使用 `kotlin.ranges` 包中的
 [`rangeTo()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/range-to.html)
@@ -20,7 +20,7 @@ title: "值范围(Range)与数列(Progression)"
 fun main() {
     val i = 1
 //sampleStart
-    if (i in 1..4) { // 等价于: 1 <= i && i <= 4
+    if (i in 1..4) { // 等价于: i >= 1 && i <= 4
         print(i)
     }
 //sampleEnd
@@ -96,7 +96,7 @@ fun main() {
 
 fun main() {
 //sampleStart
-    for (i in 1 until 10) {       // i in [1, 10), 不包含 10
+    for (i in 1 until 10) {       // i 从 1 到 10, 不包含 10
         print(i)
     }
 //sampleEnd
@@ -220,7 +220,7 @@ fun main() {
 ```
 </div>
 
-如果你已经有了一个数列, 你可以使用 `reversed` 函数反向遍历:
+如果你已经有了一个数列, 你可以使用 [`reversed`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/reversed.html) 函数反向遍历:
 
 <div class="sample" markdown="1" theme="idea">
 

@@ -7,7 +7,7 @@ title: "使用 Dukat 生成外部声明(External Declaration)"
 
 # 使用 Dukat 生成外部声明(External Declaration)
 
-本页面最终更新: 2021/09/08
+最终更新: {{ site.data.releases.latestDocDate }}
 
 > Dukat 目前还在 [实验性阶段](/docs/reference_zh/components-stability.html).
 > 如果遇到任何问题, 请到报告到 Dukat 的 [问题管理系统](https://github.com/kotlin/dukat/issues).

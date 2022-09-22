@@ -7,22 +7,20 @@ title: "KSP 示例程序"
 
 # KSP 示例程序
 
-本页面最终更新: 2022/04/14
+最终更新: {{ site.data.releases.latestDocDate }}
 
 ## 得到所有成员函数
 
 ```kotlin
-fun KSClassDeclaration.getDeclaredFunctions(): List<KSFunctionDeclaration> {
-    return this.declarations.filterIsInstance<KSFunctionDeclaration>()
-}
+fun KSClassDeclaration.getDeclaredFunctions(): List<KSFunctionDeclaration> =
+    declarations.filterIsInstance<KSFunctionDeclaration>()
 ```
 
 ## 检查一个类或函数是否为 local
 
 ```kotlin
-fun KSDeclaration.isLocal(): Boolean {
-    return this.parentDeclaration != null && this.parentDeclaration !is KSClassDeclaration
-}
+fun KSDeclaration.isLocal(): Boolean =
+    parentDeclaration != null && parentDeclaration !is KSClassDeclaration
 ```
 
 ## 查找类型别名指向的实际的类或接口声明
@@ -44,12 +42,11 @@ fun KSTypeAlias.findActualType(): KSClassDeclaration {
 // @file:kotlin.Suppress("Example1", "Example2")
 fun KSFile.suppressedNames(): List<String> {
     val ignoredNames = mutableListOf<String>()
-    annotations.forEach {
-        if (it.shortName.asString() == "Suppress" && it.annotationType.resolve()?.declaration?.qualifiedName?.asString() == "kotlin.Suppress") {
-            it.arguments.forEach {
-                (it.value as List<String>).forEach { ignoredNames.add(it) }
-            }
-        }
+    annotations.filter {
+        it.shortName.asString() == "Suppress" && it.annotationType.resolve()?.declaration?.qualifiedName?.asString() == "kotlin.Suppress"
+    }.forEach {
+        val argValues: List<String> = it.arguments.flatMap { it.value }
+        ignoredNames.addAll(argValues)
     }
     return ignoredNames
 }

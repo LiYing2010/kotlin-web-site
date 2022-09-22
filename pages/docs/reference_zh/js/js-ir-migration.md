@@ -7,7 +7,7 @@ title: "将 Kotlin/JS 项目迁移到 IR 编译器"
 
 # 将 Kotlin/JS 项目迁移到 IR 编译器
 
-本页面最终更新: 2022/04/04
+最终更新: {{ site.data.releases.latestDocDate }}
 
 > Kotlin/JS IR 编译器目前是 [Beta 版](../components-stability.html). 已经接近稳定版, 但未来可能需要一些迁移步骤.
 > 我们会尽量减少你需要进行的变更.
@@ -62,11 +62,13 @@ external interface CustomComponentState : State {
 ## 将外部接口的属性转换为 var
 
 **问题**: 在 Kotlin/JS 代码中, 外部接口的属性不能为只读(`val`)属性, 因为这些属性的赋值,
-只能在使用 `js()` 或 `jsObject()` (来自 [`kotlin-wrappers`](https://github.com/JetBrains/kotlin-wrappers) 的帮助函数)
+只能在使用 `js()` 或 `jso()` (来自 [`kotlin-wrappers`](https://github.com/JetBrains/kotlin-wrappers) 的帮助函数)
 创建对象之后:
 
 ```kotlin
-val myState = js("{}") as CustomComponentState
+import kotlinx.js.jso
+
+val myState = jso<CustomComponentState>()
 myState.name = "name"
 ```
 
@@ -83,50 +85,6 @@ external interface CustomComponentState : State {
 // 替换为
 external interface CustomComponentState : State {
    var name: String
-}
-```
-
-## 将外部接口中的 boolean 属性标记为 nullable 
-
-**问题**: JavaScript 将 boolean 变量的 `null` 值或未定义的值当作 `false` 处理.
-因此, 在表达式中可以使用未定义值的 boolean 属性. 在 JavaScript 中这是正确的, 但在 Kotlin 中不可以.
-
-```kotlin
-external interface ComponentProps: Props {
-   var isInitialized: Boolean
-   var visible: Boolean
-}
-```
-
-```kotlin
-val props = js("{}") as ComponentProps
-props.isInitialized = true
-// visible 值没有初始化 - 在 JS 中这是正确的 – 代表它是 false
-```
-
-如果你想要在 Kotlin 中覆盖的函数内(比如, 一个 React `button`), 使用这样的属性, 将会发生 `ClassCastException` 异常:
-
-```kotlin
-button {
-   attrs {
-       autoFocus = props.visible // 这里会发生 ClassCastException 异常
-   }
-}
-```
-
-**解决方案**: 将外部接口的所有 `Boolean` 属性标记为 nullable (`Boolean?`):
-
-```kotlin
-// 替换以下代码
-external interface ComponentProps: Props {
-   var visible: Boolean
-}
-```
-
-```kotlin
-// 替换为
-external interface ComponentProps: Props {
-   var visible: Boolean?
 }
 ```
 
@@ -174,7 +132,7 @@ fun main() {
 }
 ```
 
-**解决方案 1**: 使用 `js()` 或 `jsObject()`
+**解决方案 1**: 使用 `js()` 或 `jso()`
   (来自 [`kotlin-wrappers`](https://github.com/JetBrains/kotlin-wrappers) 的帮助函数)
   创建单纯 JavaScript 对象:
 
@@ -190,7 +148,7 @@ val ktApp = AppPropsImpl("App1") // Kotlin 对象
 
 ```kotlin
 // 替换为
-val jsApp = js("{name: 'App1'}") as AppProps // 或使用 jsObject {} 函数
+val jsApp = js("{name: 'App1'}") as AppProps // 或使用 jso {} 函数
 ```
 
 **解决方案 2**: 使用 `kotlin.js.json()` 创建对象:
@@ -222,5 +180,55 @@ kotlin {
         }
         binaries.executable()
     }
+}
+```
+
+## 关于使用 Kotlin/JS IR 编译器时其他问题的提示 
+
+这些提示也许能够帮助你解决在使用 Kotlin/JS IR 编译器的项目中遇到的问题.
+
+### 将外部接口中的 boolean 属性标记为 nullable
+
+**问题**: 当你对外部接口中的 `Boolean` 属性调用 `toString` 时,
+你会得到 `Uncaught TypeError: Cannot read properties of undefined (reading 'toString')` 之类的错误.
+JavaScript 将 boolean 变量的 `null` 值或 `undefined` 值当作 `false` 处理.
+如果你需要对可能为 `null` 或 `undefined` 的 `Boolean` 值调用 `toString`
+(比如, 如果你的代码被 JavaScript 代码调用, 而你无法控制这些 JavaScript 代码),
+需要注意这个问题:
+
+```kotlin
+external interface SomeExternal {
+    var visible: Boolean
+}
+
+fun main() {
+    val empty: SomeExternal = js("{}")
+    println(empty.visible.toString()) // Uncaught TypeError: Cannot read properties of undefined (reading 'toString')
+}
+```
+
+如果你想要在 Kotlin 中覆盖的函数内(比如, 一个 React `button`), 使用这样的属性, 将会发生 `ClassCastException` 异常:
+
+```kotlin
+button {
+   attrs {
+       autoFocus = props.visible // 这里会发生 ClassCastException 异常
+   }
+}
+```
+
+**解决方案**: 你可以将你的外部接口的 `Boolean` 属性标记为 nullable (`Boolean?`):
+
+```kotlin
+// 替换以下代码
+external interface SomeExternal {
+  var visible: Boolean
+}
+```
+
+```kotlin
+// 替换为
+external interface SomeExternal {
+  var visible: Boolean?
 }
 ```

@@ -7,7 +7,7 @@ title: "教程 - 使用 Kotlin/Native 开发 Apple Framework"
 
 # 教程 - 使用 Kotlin/Native 开发 Apple Framework
 
-本页面最终更新: 2022/02/16
+最终更新: {{ site.data.releases.latestDocDate }}
 
 Kotlin/Native 提供了与 Objective-C/Swift 的双向交互能力. 
 Objective-C Framework 和库可以在 Kotlin 代码中使用.
@@ -61,13 +61,13 @@ fun supplyFun() : (String) -> String? = { "$it is cool!" }
 尽管可以直接使用命令行, 或者通过脚本文件(比如 `.sh` 或 `.bat` 文件), 但这种方法不适合于包含几百个文件和库的大项目.
 更好的方法是使用带有构建系统的 Kotlin/Native 编译器,
 因为它会帮助你下载并缓存 Kotlin/Native 编译器二进制文件, 传递依赖的库, 并运行编译器和测试.
-Kotlin/Native 能够通过 [kotlin-multiplatform](../mpp/mpp-discover-project.html#multiplatform-plugin) plugin
+Kotlin/Native 能够通过 [kotlin-multiplatform](../multiplatform/multiplatform-discover-project.html#multiplatform-plugin) plugin
 使用 [Gradle](https://gradle.org) 构建系统.
 
 关于如何使用 Gradle 设置 IDE 兼容的项目, 请参见教程 [一个基本的 Kotlin/Native 应用程序](native-gradle.html).
 如果你想要寻找具体的步骤指南, 来开始一个新的 Kotlin/Native 项目并在 IntelliJ IDEA 中打开它, 请先阅读这篇教程.
 在本教程中, 我们关注更高级的 C 交互功能, 包括使用 Kotlin/Native,
-以及使用 Gradle 的 [跨平台](../mpp/mpp-discover-project.html#multiplatform-plugin) 构建.
+以及使用 Gradle 的 [跨平台](../multiplatform/multiplatform-discover-project.html#multiplatform-plugin) 构建.
 
 首先, 创建一个项目文件夹. 本教程中的所有路径都是基于这个文件夹的相对路径.
 有时在添加任何新文件之前, 会需要创建缺少的目录.
@@ -137,7 +137,7 @@ wrapper {
 </div>
 
 将源代码文件移动到项目的 `src/nativeMain/kotlin` 文件夹内.
-这是使用 [kotlin-multiplatform](../mpp/mpp-discover-project.html#multiplatform-plugin) plugin 时的默认源代码路径.
+这是使用 [kotlin-multiplatform](../multiplatform/multiplatform-discover-project.html#multiplatform-plugin) plugin 时的默认源代码路径.
 使用以下代码块来配置项目, 生成一个动态库或共用库:
 
 ```kotlin
@@ -186,7 +186,7 @@ binaries {
 
 我们来看看 Kotlin 运行期声明:
 
-```obj-c
+```objc
 NS_ASSUME_NONNULL_BEGIN
 
 @interface KotlinBase : NSObject
@@ -250,7 +250,7 @@ Kotlin 类在 Objective-C 中的基类是 `KotlinBase`, 这个类继承 `NSObjec
 还有一个实例方法, 反过来抽取一个简单类型的值.
 声明大致如下:
 
-```obj-c
+```objc
 __attribute__((objc_runtime_name("Kotlin__TYPE__")))
 __attribute__((swift_name("Kotlin__TYPE__")))
 @interface Demo__TYPE__ : DemoNumber
@@ -269,7 +269,7 @@ __attribute__((swift_name("Kotlin__TYPE__")))
 我们来看到 `class` 和 `object` 如何映射到 Objective-C 和 Swift. 
 生成的 `<Framework>/Headers/Demo.h` 文件包含 `Class`, `Interface`, 和 `Object` 的明确定义:
 
-```obj-c
+```objc
 NS_ASSUME_NONNULL_BEGIN
 
 __attribute__((objc_subclassing_restricted))
@@ -307,7 +307,7 @@ __attribute__((swift_name("Clazz")))
 Kotlin 的所有全局函数, 在 Objective-C 中转换为 `DemoLibKt`, 在 Swift 中转换为 `LibKt`,
 这里 `Demo` 是 Framework 名称, 由 `kotlinc-native` 的 `-output` 参数指定.
 
-```obj-c
+```objc
 NS_ASSUME_NONNULL_BEGIN
 
 __attribute__((objc_subclassing_restricted))
@@ -339,7 +339,7 @@ Kotlin/Native 垃圾收集 会与 Objective-C/Swift 的引用计数集成.
 
 我们来在 Objective-C 中调用 Framework. 要实现这个目的, 创建 `main.m` 文件, 内容如下:
 
-```obj-c 
+```objc 
 #import <Foundation/Foundation.h>
 #import <Demo/Demo.h>
 

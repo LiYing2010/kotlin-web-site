@@ -7,7 +7,7 @@ title: "Kotlin/JS 的反射(Reflection)"
 
 # Kotlin/JS 的反射(Reflection)
 
-本页面最终更新: 2021/11/16
+最终更新: {{ site.data.releases.latestDocDate }}
 
 Kotlin/JS 只对 Kotlin [反射 API](/docs/reference_zh/reflection.html) 提供有限的支持.
 目前仅支持以下 API:

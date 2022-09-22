@@ -7,7 +7,7 @@ title: "JavaScript 模块"
 
 # JavaScript 模块(Module)
 
-本页面最终更新: 2021/09/08
+最终更新: {{ site.data.releases.latestDocDate }}
 
 你可以将你的 Kotlin 工程编译为 JavaScript 模块(module), 支持几种常见的 JavaScript 模块系统.
 目前我们支持以下几种 JavaScript 模块设置:

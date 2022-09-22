@@ -7,7 +7,7 @@ title: "序列化"
 
 # 序列化(serialization)
 
-本页面最终更新: 2021/09/17
+最终更新: {{ site.data.releases.latestDocDate }}
 
 _序列化(serialization)_ 是指将应用程序使用的数据转换为一种格式, 使它可以通过网络传输, 或保存到数据库或文件.
 相应的, _反序列化(deserialization)_ 是指相反的过程, 从外部读取数据, 将它转换为运行时对象.
@@ -75,7 +75,7 @@ _序列化(serialization)_ 是指将应用程序使用的数据转换为一种�
 开始之前, 你需要配置你的构建脚本, 使你的项目能够使用 Kotlin 序列化工具:
 
 1. 应用 Kotlin 序列化 Gradle 插件 `org.jetbrains.kotlin.plugin.serialization`
-(在 Kotlin Gradle DSL 中是 `kotlin(“plugin.serialization”)`).
+(在 Kotlin Gradle DSL 中是 `kotlin("plugin.serialization")`).
 
     <div class="multi-language-sample" data-lang="kotlin">
     <div class="sample" markdown="1" theme="idea" mode='kotlin' data-highlight-only>
@@ -102,7 +102,6 @@ _序列化(serialization)_ 是指将应用程序使用的数据转换为一种�
 
     </div>
     </div>
-
 
 2. 添加 JSON 序列化库的依赖项:
 `org.jetbrains.kotlinx:kotlinx-serialization-json:{{ site.data.releases.latest.serialization.version }}`

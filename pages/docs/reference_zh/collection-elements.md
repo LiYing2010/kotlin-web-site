@@ -7,7 +7,7 @@ title: "获取集合的单个元素"
 
 # 获取集合的单个元素
 
-本页面最终更新: 2021/05/05
+最终更新: {{ site.data.releases.latestDocDate }}
 
 Kotlin 集合提供了一组函数, 用来获取集合中的单个元素.
 本节介绍的函数同时适用于 list 和 set.

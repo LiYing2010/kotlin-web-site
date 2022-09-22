@@ -7,16 +7,16 @@ title: "排序(Ordering)"
 
 # 排序(Ordering)
 
-本页面最终更新: 2021/11/16
+最终更新: {{ site.data.releases.latestDocDate }}
 
 对于一些集合类型来说, 元素的排序是非常重要的问题.
 比如, 包含相同元素的两个 list, 如果元素顺序不同, 会被认为不相等.
 
 在 Kotlin 中, 对象之间的顺序可以通过几种不同的方式来定义.
 
-首先, 有 _自然(natural)_ 排序. 这个概念是指从
+首先, 有 _自然(natural)_ 排序. 这个概念是指
 [`Comparable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-comparable/index.html)
-接口继承的类.
+接口的实现类.
 对于这些类来说, 如果不指定其他排序方式, 则默认使用自然顺序.
 
 Kotlin 的大多数内建数据类型都是可比较大小的:
@@ -25,7 +25,7 @@ Kotlin 的大多数内建数据类型都是可比较大小的:
 * `Char` 和 `String` 使用 [字典顺序(lexicographical order)](https://en.wikipedia.org/wiki/Lexicographical_order):
   `b` 大于 `a`; `world` 大于 `hello`.
 
-对于用户自定义的类型, 想要定义自然顺序, 需要让这个类型继承 `Comparable` 接口.
+对于用户自定义的类型, 想要定义自然顺序, 需要让这个类型实现 `Comparable` 接口.
 因此需要实现 `compareTo()` 函数. `compareTo()` 函数的参数是相同类型的另一个对象, 返回结果是一个整数, 表示两个对象哪个更大:
 
 * 正的整数值表示 `compareTo()` 函数的接受者对象比参数对象大.

@@ -24,6 +24,7 @@ languageMimeTypeMap = {
     "text": "text/plain",
     "ruby": "text/x-ruby",
     "http_request": "text/x-sh",
+    "http": "text/x-sh",
 }
 
 

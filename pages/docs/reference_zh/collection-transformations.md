@@ -7,7 +7,7 @@ title: "集合变换操作"
 
 # 集合变换(Transformation)操作
 
-本页面最终更新: 2022/01/13
+最终更新: {{ site.data.releases.latestDocDate }}
 
 Kotlin 标准库提供了一组扩展函数用于集合的 _变换(Transformation)_.
 这些函数会使用指定的变换规则从原集合创建新的集合.
@@ -90,8 +90,8 @@ Kotlin 标准库中, 这个操作使用
 [`zip()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/zip.html)
 扩展函数实现.
 
-可以对一个集合或数组调用 `zip()` 函数, 参数是另一个集合或数组, 返回值是 `Pair` 对象构成的 `List`.
-接受者对象集合中的元素, 将称为这些 pair 中的第一个元素.
+可以对一个集合或数组调用 `zip()` 函数, 参数是另一个集合(或数组), 返回值是 `Pair` 对象构成的 `List`.
+接受者对象集合中的元素, 将成为这些 pair 中的第一个元素.
 
 如果两个集合的大小不同, `zip()` 返回的结果只包含较小的那个集合大小;
 较大的集合中的末尾元素不会出现在结果中.

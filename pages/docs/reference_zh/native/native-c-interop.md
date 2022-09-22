@@ -7,7 +7,7 @@ title: "与 C 代码交互"
 
 # 与 C 代码交互
 
-本页面最终更新: 2021/08/25
+最终更新: {{ site.data.releases.latestDocDate }}
 
 Kotlin/Native 遵循 Kotlin 的传统, 提供与既有的平台软件的优秀的互操作性.
 对于原生程序来说, 最重要的互操作性对象就是与 C 语言库.

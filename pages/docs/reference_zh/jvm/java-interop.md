@@ -7,7 +7,7 @@ title: "在 Kotlin 中调用 Java"
 
 # 在 Kotlin 中调用 Java 代码
 
-本页面最终更新: 2021/09/08
+最终更新: {{ site.data.releases.latestDocDate }}
 
 Kotlin 的设计过程中就考虑到了与 Java 的互操作性.
 在 Kotlin 中可以通过很自然的方式调用既有的 Java 代码, 反过来在 Java 中也可以很流畅地使用 Kotlin 代码.
@@ -438,17 +438,17 @@ Java 的基本数据类型会被映射为对应的 Kotlin 类型(但请注意 [�
 
 有些内建类虽然不是基本类型, 也会被映射为对应的 Kotlin 类型:
 
-| **Java 类型** | **Kotlin 类型**  |
-|---------------|------------------|
-| `java.lang.Object`       | `kotlin.Any!`    |
-| `java.lang.Cloneable`    | `kotlin.Cloneable!`    |
-| `java.lang.Comparable`   | `kotlin.Comparable!`    |
-| `java.lang.Enum`         | `kotlin.Enum!`    |
-| `java.lang.Annotation`   | `kotlin.Annotation!`    |
-| `java.lang.CharSequence` | `kotlin.CharSequence!`   |
-| `java.lang.String`       | `kotlin.String!`   |
-| `java.lang.Number`       | `kotlin.Number!`     |
-| `java.lang.Throwable`    | `kotlin.Throwable!`    |
+| **Java 类型**                        | **Kotlin 类型**          |
+|------------------------------------|------------------------|
+| `java.lang.Object`                 | `kotlin.Any!`          |
+| `java.lang.Cloneable`              | `kotlin.Cloneable!`    |
+| `java.lang.Comparable`             | `kotlin.Comparable!`   |
+| `java.lang.Enum`                   | `kotlin.Enum!`         |
+| `java.lang.annotation.Annotation`  | `kotlin.Annotation!`   |
+| `java.lang.CharSequence`           | `kotlin.CharSequence!` |
+| `java.lang.String`                 | `kotlin.String!`       |
+| `java.lang.Number`                 | `kotlin.Number!`       |
+| `java.lang.Throwable`              | `kotlin.Throwable!`    |
 
 Java 中的装箱的基本类型(boxed primitive type), 会被映射为 Kotlin 的可为 null 类型:
 

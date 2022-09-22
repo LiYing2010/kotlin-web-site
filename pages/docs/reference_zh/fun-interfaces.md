@@ -6,7 +6,7 @@ title: "函数式 (SAM) 接口"
 
 # 函数式 (SAM) 接口
 
-本页面最终更新: 2021/06/02
+最终更新: {{ site.data.releases.latestDocDate }}
 
 只有一个抽象方法的接口称为 _函数式接口 (Functional Interface)_, 或者叫做 _单抽象方法(SAM, Single Abstract Method) 接口_.
 函数式接口可以拥有多个非抽象的成员, 但只能拥有一个抽象成员.
@@ -74,9 +74,58 @@ fun main() {
 
 也可以使用 [对 Java 接口的 SAM 转换功能](java-interop.html#sam-conversions).
 
+## 从带构造器函数的接口 迁移到函数式接口
+
+从 1.6.20 开始, Kotlin 支持对函数式接口构造器的 [可调用的引用](reflection.html#callable-references),
+因此增加了一种源代码兼容的方式, 可以从带构造器函数的接口迁移到函数式接口.
+我们来看看以下代码:
+
+```kotlin
+interface Printer { 
+    fun print() 
+}
+
+fun Printer(block: () -> Unit): Printer = object : Printer { override fun print() = block() }
+```
+
+由于可以使用对函数式接口构造器的可调用的引用, 这段代码可以替换为函数式接口声明:
+
+```kotlin
+fun interface Printer { 
+    fun print()
+}
+```
+
+它的构造器会隐含的创建, 使用 `::Printer` 函数引用的任何代码都可以正确编译. 比如:
+
+```kotlin
+documentsStorage.addPrinter(::Printer)
+```
+
+如果要保留二进制兼容性, 可以对过去的函数 `Printer` 标记
+[`@Deprecated`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/)
+注解, 注解参数是 `DeprecationLevel.HIDDEN`:
+
+```kotlin
+@Deprecated(message = "Your message about the deprecation", level = DeprecationLevel.HIDDEN)
+fun Printer(...) {...}
+```
+
 ## 函数式接口 与 类型别名(Type Alias)
 
-函数式接口 与 [类型别名(Type Alias)](type-aliases.html) 服务于不同的目的.
+你也可以对函数类型使用 [类型别名(Type Alias)](type-aliases.html), 简单的重写上面的代码:
+
+```kotlin
+typealias IntPredicate = (i: Int) -> Boolean
+
+val isEven: IntPredicate = { it % 2 == 0 }
+
+fun main() {
+   println("Is 7 even? - ${isEven(7)}")
+}
+```
+
+但是, 函数式接口 与 [类型别名(Type Alias)](type-aliases.html) 服务于不同的目的.
 类型别名只是对已有的类型提供一个新的名称 – 它不会创建新的类型, 而函数式接口会.
 对某个特定的函数式接口, 你可以提供扩展, 但对通常的函数或函数的类型别名则不可以.
 

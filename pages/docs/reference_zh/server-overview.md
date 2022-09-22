@@ -7,7 +7,7 @@ title: "使用 Kotlin 进行服务器端开发"
 
 # 使用 Kotlin 进行服务器端开发
 
-本页面最终更新: 2021/12/07
+最终更新: {{ site.data.releases.latestDocDate }}
 
 Kotlin 非常适合于开发服务器端应用程序, 使用 Kotlin 可以编写出简洁高效的代码, 同时又可以完全兼容既有的 Java 技术栈(Java-based technology stacks), 而且其学习曲线比较平滑:
 

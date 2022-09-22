@@ -6,7 +6,7 @@ title: "Kotlin 1.1 版中的新功能"
 
 # Kotlin 1.1 版中的新功能
 
-本页面最终更新: 2021/10/15
+最终更新: {{ site.data.releases.latestDocDate }}
 
 _发布日期: 2016/02/15_
 

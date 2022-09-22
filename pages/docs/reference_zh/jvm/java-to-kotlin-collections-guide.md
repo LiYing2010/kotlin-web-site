@@ -7,7 +7,7 @@ title: "Java 和 Kotlin 中的集合(Collection)"
 
 # Java 和 Kotlin 中的集合(Collection)
 
-本页面最终更新: 2022/04/29
+最终更新: {{ site.data.releases.latestDocDate }}
 
 [//]: # (学习如何将 Java 的集合迁移到 Kotlin 集合. 这篇向导讨论 Kotlin 和 Java 中的这类数据结构, 包括 List, ArrayList, Map, Set, 等等)
 

@@ -7,7 +7,7 @@ title: "教程 - 使用 Kotlin/Native 开发动态库"
 
 # 教程 - 使用 Kotlin/Native 开发动态库
 
-本页面最终更新: 2022/05/27
+最终更新: {{ site.data.releases.latestDocDate }}
 
 通过本教程, 你将学习如何在既有的原生应用程序或库中使用 Kotlin/Native 代码.
 为了这个目的, 你需要将 Kotlin 代码编译为一个动态库, `.so`, `.dylib`, 和 `.dll`.
@@ -57,13 +57,13 @@ val globalString = "A global String"
 尽管可以直接使用命令行, 或者通过脚本文件(比如 `.sh` 或 `.bat` 文件), 但这种方法不适合于包含几百个文件和库的大项目.
 更好的方法是使用带有构建系统的 Kotlin/Native 编译器,
 因为它会帮助你下载并缓存 Kotlin/Native 编译器二进制文件, 传递依赖的库, 并运行编译器和测试.
-Kotlin/Native 能够通过 [kotlin-multiplatform](../mpp/mpp-discover-project.html#multiplatform-plugin) plugin
+Kotlin/Native 能够通过 [kotlin-multiplatform](../multiplatform/multiplatform-discover-project.html#multiplatform-plugin) plugin
 使用 [Gradle](https://gradle.org) 构建系统.
 
 关于如何使用 Gradle 设置 IDE 兼容的项目, 请参见教程 [一个基本的 Kotlin/Native 应用程序](native-gradle.html).
 如果你想要寻找具体的步骤指南, 来开始一个新的 Kotlin/Native 项目并在 IntelliJ IDEA 中打开它, 请先阅读这篇教程.
 在本教程中, 我们关注更高级的 C 交互功能, 包括使用 Kotlin/Native,
-以及使用 Gradle 的 [跨平台](../mpp/mpp-discover-project.html#multiplatform-plugin) 构建.
+以及使用 Gradle 的 [跨平台](../multiplatform/multiplatform-discover-project.html#multiplatform-plugin) 构建.
 
 首先, 创建一个项目文件夹. 本教程中的所有路径都是基于这个文件夹的相对路径.
 有时在添加任何新文件之前, 会需要创建缺少的目录.
@@ -141,7 +141,7 @@ wrapper {
 </div>
 
 将源代码文件移动到项目的 `src/nativeMain/kotlin` 文件夹中.
-这是使用 [kotlin-multiplatform](../mpp/mpp-discover-project.html#multiplatform-plugin) plugin 时的默认源代码路径.
+这是使用 [kotlin-multiplatform](../multiplatform/multiplatform-discover-project.html#multiplatform-plugin) plugin 时的默认源代码路径.
 使用以下代码块来配置项目, 生成一个动态库或共用库: 
 
 ```kotlin
@@ -441,8 +441,7 @@ cl.exe main.c libnative.lib
 
 动态库是从既有程序中使用 Kotlin 代码的主要方式.
 使用动态库, 你可以在很多平台和语言上共用你的代码,
-包括 JVM, [Python](https://github.com/JetBrains/kotlin/blob/master/kotlin-native/samples/python_extension/src/main/c/kotlin_bridge.c),
-iOS, Android, 等等.
+包括 JVM, Python, iOS, Android, 等等.
 
 Kotlin/Native 还与 Objective-C 和 Swift 紧密集成.
 详情请参见 [使用 Kotlin/Native 开发 Apple Framework](apple-framework.html) 教程.

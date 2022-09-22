@@ -7,7 +7,7 @@ title: "调试 Kotlin/Native 代码"
 
 ## 调试
 
-本页面最终更新: 2021/02/15
+最终更新: {{ site.data.releases.latestDocDate }}
 
 Kotlin/Native 编译器目前输出的调试信息兼容于 DWARF 2 规范,
 因此现代的调试工具可以执行以下操作:

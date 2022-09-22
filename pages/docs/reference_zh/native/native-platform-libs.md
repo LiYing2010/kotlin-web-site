@@ -7,14 +7,14 @@ title: "平台库"
 
 # 平台库
 
-本页面最终更新: 2021/03/23
+最终更新: {{ site.data.releases.latestDocDate }}
 
 为了实现对使用者的原生操作系统服务的访问能力, Kotlin/Native 发布版包含了一组针对各个平台预先编译好的库.
 我们称之为 **平台库**.
 
 ### POSIX 绑定
 
-对于所有基于 Unix 或 Windows 的平台 (包括 Android 和 iOS 编译平台) 我们提供了 `posix` 平台库.
+对于所有基于 Unix 或 Windows 的平台 (包括 Android 和 iOS 编译平台) 我们提供了 `POSIX` 平台库.
 其中包含对 [`POSIX` 标准](https://en.wikipedia.org/wiki/POSIX) 在各平台实现的绑定.
 
 要使用这个库, 只需要导入它:
@@ -47,8 +47,3 @@ Kotlin/Native 编译器会自动检测访问了哪些平台库, 并自动链接�
 
 另一方面, `Kotlin/Native` 发布版中的平台库仅仅只是包装并绑定到原生的库文件.
 因此原生库文件本身 (`.so`, `.a`, `.dylib`, `.dll` 等等)必须安装在机器上.
-
-## 示例
-
-Kotlin/Native 代码仓库提供了大量的示例程序, 演示平台库的使用方法.
-详情请参见 [示例程序](https://github.com/JetBrains/kotlin/tree/master/kotlin-native/samples).

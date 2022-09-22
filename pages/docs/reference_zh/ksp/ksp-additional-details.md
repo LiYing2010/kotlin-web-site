@@ -7,7 +7,7 @@ title: "KSP 如何将 Kotlin 代码组织为模型"
 
 # KSP 如何将 Kotlin 代码组织为模型
 
-本页面最终更新: 2022/04/14
+最终更新: {{ site.data.releases.latestDocDate }}
 
 可以在
 [KSP GitHub 代码仓库](https://github.com/google/ksp/tree/main/api/src/main/kotlin/com/google/devtools/ksp)
@@ -17,6 +17,9 @@ title: "KSP 如何将 Kotlin 代码组织为模型"
 :
 
 ![类图]({{ url_for('asset', path='/docs/images/ksp-class-diagram.svg') }})
+
+> [查看完整大小的图片](/assets/docs/images/ksp-class-diagram.svg).
+{:.note}
 
 ## 类型解析
 

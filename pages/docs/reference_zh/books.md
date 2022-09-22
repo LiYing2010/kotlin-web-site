@@ -7,7 +7,7 @@ title: "Kotlin 书籍"
 
 # Kotlin 书籍
 
-本页面最终更新: 2021/02/11
+最终更新: {{ site.data.releases.latestDocDate }}
 
 越来越多的作者在撰写关于学习 Kotlin 的各种语言的书籍. 我们非常感谢所有这些作者,
 并感谢他们的努力, 帮助我们增加了 Kotlin 专业开发者的数量.
@@ -24,7 +24,7 @@ title: "Kotlin 书籍"
         
         作者是 Bruce Eckel, 他还撰写过获得许多奖项的《Thinking in C++》和《Thinking in Java》, 
         以及 Svetlana Isakova, JetBrains 公司的 Kotlin 开发者 Advocate,
-        本书将语言的概念分解过小的, 易于理解的 “原子(atom)”, 以及由许多练习组成的自由课程, 这些练习可以直接在 IntelliJ IDEA 之内得到提示和解答!
+        本书将语言的概念分解过小的, 易于理解的 "原子(atom)", 以及由许多练习组成的自由课程, 这些练习可以直接在 IntelliJ IDEA 之内得到提示和解答!
     </td>
 </tr>
 

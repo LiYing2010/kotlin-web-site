@@ -7,7 +7,7 @@ title: "Kotlin 1.5.30 版中的新功能"
 
 # Kotlin 1.5.30 版中的新功能
 
-本页面最终更新: 2022/04/04
+最终更新: {{ site.data.releases.latestDocDate }}
 
 _[发布日期: 2021/08/24](releases.html#release-details)_
 
@@ -114,7 +114,7 @@ kotlin {
 
 ### 挂起函数用作超类型
 
-> 挂起函数用作超类型是 [试验性功能](components-stability.html).
+> 挂起函数用作超类型是 [实验性功能](components-stability.html).
 > 它随时有可能变更或被删除.
 > 需要使用者同意(Opt-in) (详情见下文).
 > 请注意, 只为评估和试验目的来使用这个功能.
@@ -170,9 +170,9 @@ kotlin {
 
 ### 隐含使用实验性 API 时要求使用者同意
 
-> 要求使用者同意机制是 [试验性功能](components-stability.html).
+> 要求使用者同意机制是 [实验性功能](components-stability.html).
 > 它随时有可能变更或被删除.
-> 参见 [如何明确要求使用者同意](opt-in-requirements.html#experimental-status-of-the-opt-in-requirements).
+> 参见 [如何明确要求使用者同意](opt-in-requirements.html).
 > 请注意, 只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issues/KT) 提供你的反馈意见.
 {:.warning}
@@ -211,9 +211,9 @@ fun getDate(): Date {
 
 ### 要求使用者同意注解对不同目标的使用方式的变更
 
-> 要求使用者同意机制是 [试验性功能](components-stability.html).
+> 要求使用者同意机制是 [实验性功能](components-stability.html).
 > 它随时有可能变更或被删除.
-> 参见 [如何明确要求使用者同意](opt-in-requirements.html#experimental-status-of-the-opt-in-requirements).
+> 参见 [如何明确要求使用者同意](opt-in-requirements.html).
 > 请注意, 只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issues/KT) 提供你的反馈意见.
 {:.warning}
@@ -300,7 +300,7 @@ See the [Gradle](#gradle) section for Kotlin Gradle plugin updates on the JVM pl
 
 ### 创建注解类的实例
 
-> 创建注解类的实例是 [试验性功能](components-stability.html).
+> 创建注解类的实例是 [实验性功能](components-stability.html).
 > 它随时有可能变更或被删除.
 > 需要使用者同意(Opt-in) (详情见下文).
 > 请注意, 只为评估和试验目的来使用这个功能.
@@ -352,7 +352,7 @@ Kotlin 编译器可以读取多种类型的 [可否为 null(Nullability) 注解]
 Kotlin/Native 包含以下变更和改进:
 * [支持 Apple Silicon](#apple-silicon-support)
 * [CocoaPods Gradle plugin 的 Kotlin DSL 的改进](#improved-kotlin-dsl-for-the-cocoapods-gradle-plugin)
-* [与 Swift 5.5 async/await 的交互(试验性功能)](#experimental-interoperability-with-swift-5-5-async-await)
+* [与 Swift 5.5 async/await 的交互(实验性功能)](#experimental-interoperability-with-swift-5-5-async-await)
 * [对象和伴随对象到 Swift/Objective-C 的映射的改进](#improved-swift-objective-c-mapping-for-objects-and-companion-objects)
 * [对 MinGW 编译目标废弃无导入库的 DLL 链接](#deprecation-of-linkage-against-dlls-without-import-libraries-for-mingw-targets)
 
@@ -375,9 +375,9 @@ Kotlin 1.5.30 引入了对 [Apple Silicon](https://support.apple.com/en-us/HT211
 
 注意, 在 1.5.30 中, 我们只在 `kotlin-multiplatform` Gradle plugin 中提供对 Apple Silicon 编译目标的基本的支持.
 具体来说, 在
-[`ios`, `tvos`, 和 `watchos` 编译目标简写(target shortcut)](mpp/mpp-share-on-platforms.html#use-target-shortcuts)
+[`ios`, `tvos`, 和 `watchos` 编译目标简写(target shortcut)](multiplatform/multiplatform-share-on-platforms.html#use-target-shortcuts)
 中没有包含新的模拟器编译目标.
-详情请参见, [如何通过编译目标简写使用 Apple Silicon 编译目标](mpp/mpp-share-on-platforms.html#target-shortcuts-and-arm64-apple-silicon-simulators).
+详情请参见, [如何通过编译目标简写使用 Apple Silicon 编译目标](multiplatform/multiplatform-share-on-platforms.html#target-shortcuts-and-arm64-apple-silicon-simulators).
 我们会继续改进这些新的编译目标的使用体验.
 
 ### CocoaPods Gradle plugin 的 Kotlin DSL 的改进
@@ -404,7 +404,7 @@ cocoapods {
         isStatic = false
         // 依赖项导出
         export(project(":anotherKMMModule"))
-        transitiveExport = true
+        transitiveExport = false // 这是默认设置.
         // Bitcode 内嵌
         embedBitcode(BITCODE)
     }
@@ -426,14 +426,14 @@ cocoapods {
 }
 ```
 
-这个参数不会出现 在 podspec 文件中. 当 Xcode 运行 Gradle 构建过程时, Kotlin CocoaPods Gradle plugin 会选择必要的原生构建类型.
+这个参数不会出现在 Podspec 文件中. 当 Xcode 运行 Gradle 构建过程时, Kotlin CocoaPods Gradle plugin 会选择必要的原生构建类型.
 
 > 不需要声明 `Debug` 和 `Release` 配置, 因为默认支持它们.
 {:.note}
 
-### 与 Swift 5.5 async/await 的交互(试验性功能)
+### 与 Swift 5.5 async/await 的交互(实验性功能)
 
-> 与 Swift async/await 的并发交互是 [试验性功能](components-stability.html).
+> 与 Swift async/await 的并发交互是 [实验性功能](components-stability.html).
 > 它随时有可能变更或被删除.
 > 请注意, 只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-47610) 提供你的反馈意见.
@@ -445,7 +445,7 @@ cocoapods {
 对于返回类型可为 null 的挂起函数, Kotlin/Native 编译器现在会在生成的 Objective-C 头文件中, 输出 `_Nullable_result` 属性.
 因此在 Swift 中可以将这些函数作为 `async` 函数来调用, 并且得到正确的可否为 null 结果.
 
-注意, 这个功能是试验性功能, 未来可能由于 Kotlin 和 Swift 的变化而受到影响.
+注意, 这个功能是实验性功能, 未来可能由于 Kotlin 和 Swift 的变化而受到影响.
 目前来说, 我们提供这个功能的一个预览版, 带有一些限制, 我们期待得到你的意见反馈.
 请在 [这个 YouTrack issue](https://youtrack.jetbrains.com/issue/KT-47610) 中查看这个功能目前的状态, 并留下你的反馈意见.
 
@@ -495,7 +495,7 @@ MyClass.Companion.shared
 
 ### 在共用的原生代码中可以使用自定义 `cinterop` 库
 
-Kotlin Multiplatform 提供了一个 [选项](mpp/mpp-share-on-platforms.html#use-native-libraries-in-the-hierarchical-structure),
+Kotlin Multiplatform 提供了一个 [选项](multiplatform/multiplatform-share-on-platforms.html#use-native-libraries-in-the-hierarchical-structure),
 可以在共用的源代码集中使用平台相关的 interop 库.
 在 1.5.30 之前, 这个功能只能用于随 Kotlin/Native 一同发布的 [平台库](native-platform-libs.html).
 从 1.5.30 开始, 你可以使用你自定义的 `cinterop` 库.
@@ -515,7 +515,7 @@ Apple 引入了 XCFramework 来替代通用(Universal) (fat) Framework.
 * 可以将所有的编译目标平台和处理器架构的逻辑集中在一个单独的 bundle 中.
 * 在将应用程序发布到 App Store 之前, 不必删除所有不需要的处理器架构.
 
-如果你想要对 Apple M1 上的设备和模拟器使用你的 KMM Framework, XCFramework 会很有用.
+如果你想要对 Apple M1 上的设备和模拟器使用你的 Kotlin Framework, XCFramework 会很有用.
 
 要使用 XCFramework, 请更新你的 `build.gradle(.kts)` 脚本:
 
@@ -603,7 +603,7 @@ kotlin {
 ### 对 Android artifact 的新的默认发布设置
 
 使用 `maven-publish` Gradle plugin, 你可以在构建脚本中指定 [Android 变体](https://developer.android.com/studio/build/build-variants) 名称,
-[对 Android 编译目标发布你的跨平台库](mpp-publish-lib.html#publish-an-android-library).
+[对 Android 编译目标发布你的跨平台库](multiplatform/multiplatform-publish-lib.html#publish-an-android-library).
 Kotlin Gradle plugin 会自动生成发布.
 
 在 1.5.30 之前, 生成的发布 [metadata](https://docs.gradle.org/current/userguide/publishing_gradle_module_metadata.html)
@@ -673,7 +673,7 @@ Java 工具链会:
 ```kotlin
 kotlin {
     jvmToolchain {
-        (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>)) // “8”
+        (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>)) // "8"
     }
 }
 ```
@@ -687,7 +687,7 @@ kotlin {
 ```groovy
 kotlin {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>)) // “8”
+        languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>)) // "8"
     }
 }
 ```
@@ -702,7 +702,7 @@ kotlin {
 ```kotlin
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>)) // “8”
+        languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>)) // "8"
     }
 }
 ```
@@ -853,7 +853,7 @@ Kotlin 1.5.30 包括对标准库的 `Duration` 和 `Regex` API 的改进:
 
 ### 改变了 Duration.toString() 的输出
 
-> Duration API 是 [试验性功能](components-stability.html).
+> Duration API 是 [实验性功能](components-stability.html).
 > 它随时有可能变更或被删除.
 > 请注意, 只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issues/KT) 提供你的反馈意见.
@@ -888,7 +888,7 @@ Kotlin 1.5.30 包括对标准库的 `Duration` 和 `Regex` API 的改进:
 
 ### 从字符串解析 Duration
 
-> Duration API 是 [试验性功能](components-stability.html).
+> Duration API 是 [实验性功能](components-stability.html).
 > 它随时有可能变更或被删除.
 > 请注意, 只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [这个 issue](https://github.com/Kotlin/KEEP/issues/190) 提供你的反馈意见.
@@ -957,7 +957,7 @@ fun main() {
 
 ### 在一个指定的位置匹配正规表达式
 
-> `Regex.matchAt()` 和 `Regex.matchesAt()` 函数是 [试验性功能](components-stability.html).
+> `Regex.matchAt()` 和 `Regex.matchesAt()` 函数是 [实验性功能](components-stability.html).
 > 它随时有可能变更或被删除.
 > 请注意, 只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-34021) 提供你的反馈意见.
@@ -1003,7 +1003,7 @@ fun main(){
 
 ### 使用正规表达式将字符串切分为一个序列
 
-> `Regex.splitToSequence()` 和 `CharSequence.splitToSequence(Regex)` 函数是 [试验性功能](components-stability.html).
+> `Regex.splitToSequence()` 和 `CharSequence.splitToSequence(Regex)` 函数是 [实验性功能](components-stability.html).
 > 它随时有可能变更或被删除.
 > 请注意, 只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-23351) 提供你的反馈意见.

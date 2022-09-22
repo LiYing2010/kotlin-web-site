@@ -7,7 +7,7 @@ title: "Kotlin 与 OSGi"
 
 # Kotlin 与 OSGi
 
-本页面最终更新: 2021/02/11
+最终更新: {{ site.data.releases.latestDocDate }}
 
 要在你的项目中使用 Kotlin 的 [OSGi](https://www.osgi.org/) 支持功能,
 需要使用 `kotlin-osgi-bundle`, 而不是通常的 Kotlin 库文件.

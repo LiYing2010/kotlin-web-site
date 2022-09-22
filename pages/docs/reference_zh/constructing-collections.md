@@ -7,7 +7,7 @@ title: "创建集合"
 
 # 创建集合
 
-本页面最终更新: 2021/11/16
+最终更新: {{ site.data.releases.latestDocDate }}
 
 ## 通过指定的元素创建
 
@@ -76,7 +76,7 @@ val empty = emptyList<String>()
 
 ## 使用 list 的初始化函数
 
-对于 list, 有一个构造器, 它接受的参数是 list 大小, 以及一个初始化函数,
+对于 list, 有一个类似构造器的函数, 它接受的参数是 list 大小, 以及一个初始化函数,
 这个初始化函数负责根据元素的下标计算各个元素的值.
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">

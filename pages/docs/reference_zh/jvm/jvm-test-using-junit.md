@@ -7,7 +7,7 @@ title: "教程 - 在 JVM 平台使用 JUnit 进行代码测试"
 
 # 教程 - 在 JVM 平台使用 JUnit 进行代码测试
 
-本页面最终更新: 2022/04/14
+最终更新: {{ site.data.releases.latestDocDate }}
 
 本教程将向你演示如何编写简单的单元测试, 并使用 Gradle 构建工具来运行测试.
 

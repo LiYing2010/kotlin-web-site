@@ -6,7 +6,7 @@ title: "使用 IR 编译器"
 ---
 # 使用 Kotlin/JS IR 编译器
 
-本页面最终更新: 2022/01/10
+最终更新: {{ site.data.releases.latestDocDate }}
 
 > Kotlin/JS IR 编译器目前的稳定级别是 _[Beta](/docs/reference_zh/components-stability.html)_.
 > 它已经基本稳定, 但未来可能会需要手动进行代码迁移.
@@ -25,8 +25,6 @@ Kotlin 源代码首先转换为
 从 Kotlin 1.4.0 开始, 可以通过 Kotlin/JS Gradle 插件使用 IR 编译器后端.
 要在你的项目中启用它, 需要在你的 Gradle 构建脚本中, 向 `js` 函数传递一个编译器类型参数:
 
-<!--suppress ALL -->
-
 ```groovy
 kotlin {
     js(IR) { // 或者: LEGACY, BOTH
@@ -36,13 +34,56 @@ kotlin {
 }
 ```
 
-- `IR` 对 Kotlin/JS 使用新的 IR 编译器后端.
-- `LEGACY` 使用默认的编译器后端.
-- `BOTH` 编译项目时使用新的 IR 编译器以及默认的编译器后端.
+* `IR` 对 Kotlin/JS 使用新的 IR 编译器后端.
+* `LEGACY` 使用默认的编译器后端.
+* `BOTH` 编译项目时使用新的 IR 编译器以及默认的编译器后端.
   主要用于 [编写同时兼容于两种后端的库](#authoring-libraries-for-the-ir-compiler-with-backwards-compatibility).
 
 编译器类型也可以在 `gradle.properties` 文件中通过 `kotlin.js.compiler=ir` 来设置.
 但是这个设置会被 `build.gradle(.kts)` 中的任何设置覆盖.
+
+## 顶级属性(top-level property)的延迟初始化(Lazy initialization)
+
+为了改善应用程序的启动速度, Kotlin/JS IR 编译器会对顶级属性(top-level property)进行延迟初始化(Lazy initialization).
+通过这种方式, 应用程序启动时不会初始化它的代码中的全部顶级属性.
+而只会初始化在启动阶段需要的那些顶级属性;
+其他属性的初始化会被延迟, 直到使用它们的代码真正被执行时才会生成属性值.
+
+```kotlin
+val a = run { 
+    val result = // 假设这里是一段计算密集的代码
+    println(result)
+    result 
+} // 属性值直到初次使用时才会计算
+```
+
+如果由于某些原因你需要(在应用程序启动阶段)提早初始化一个属性, 可以对它标注
+[`@EagerInitialization`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.js/-eager-initialization/)
+注解.
+
+## 对开发阶段二进制文件进行增量编译
+
+JS IR 编译器提供了 _对开发阶段二进制文件的增量编译模式_ , 可以对开发过程提高速度.
+在这种模式下, 编译器会在模型层级缓存 Gradle task `compileDevelopmentExecutableKotlinJs` 的结果.
+在后续的编译中, 对未修改的源代码文件使用缓存的编译结果, 可以使得编译更快完成, 尤其是在对代码进行少量修改的情况.
+
+要对开发阶段二进制文件启用增量编译, 请向项目的 `gradle.properties` 或 `local.properties` 文件添加以下设置:
+
+```properties
+kotlin.incremental.js.ir=true // 默认为 false
+```
+
+> 在增量编译模式中, 完整编译通常会变得更慢, 因为需要创建和生成缓存.
+{:.note}
+
+## 输出 .js 文件: 对每模块输出一个文件, 或对整个项目输出一个文件
+
+作为编译结果, JS IR 编译器对项目的每个模块输出单独的 `.js` 文件.
+你也可以选择将整个项目编译为单个 `.js` 文件, 方法是向 `gradle.properties` 添加以下设置:
+
+```properties
+kotlin.js.ir.output.granularity=whole-program // 默认为 'per-module'
+```
 
 ## 忽略编译错误
 
@@ -61,9 +102,9 @@ Kotlin/JS IR 编译器提供了一个在默认的编译器后端中没有的新�
 
 要忽略你代码中的编译错误, 可以选择两种错误宽容策略:
 - `SEMANTIC`. 编译器会接受语法正确但语义上无意义的代码.
-    比如, 将数值赋值给字符串变量 (类型不匹配).
+  比如, 将数值赋值给字符串变量 (类型不匹配).
 - `SYNTAX`. 编译器会接受任何代码, 即使包含语法错误.
-    无论你编写什么样的代码, 编译器都会尝试生成可执行的代码.
+  无论你编写什么样的代码, 编译器都会尝试生成可执行的代码.
 
 作为一个试验性的功能, 忽略编译错误需要使用者同意(Opt-in).
 要开始这个模式, 需要添加 `-Xerror-tolerance-policy={SEMANTIC|SYNTAX}` 编译器选项:
@@ -78,45 +119,24 @@ kotlin {
 }
 ```
 
-## 顶级属性(top-level property)的延迟初始化(Lazy initialization)
+## 在产品(Production)模式中对成员名称的极简化(Minification)
 
-> 顶级属性延迟初始化功能还处于 [实验阶段](/docs/reference_zh/components-stability.html).
-> 它随时有可能变更或被删除.
-> 使用这个功能需要明确要求使用者同意(详情请见下文), 而且你应该只用来进行功能评估, 不要用在你的正式产品中.
-> 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-44320) 提供你的反馈意见.
-{:.warning}
+Kotlin/JS IR 编译器会使用它的内部信息 关于 你的 Kotlin 类和函数之间的关系, 来实现更加有效的极简化(Minification), 缩短函数, 属性, 和类的名称.
+这样可以缩减打包完成的应用程序的大小.
 
-为了改善应用程序的启动速度, Kotlin/JS IR 编译器提供了一个选项, 可以对顶级属性(top-level property)进行延迟初始化(Lazy initialization).
-通过这种方式, 应用程序启动时不会初始化它的代码中的全部顶级属性.
-而只会初始化在启动阶段需要的那些顶级属性;
-其他属性的初始化会被延迟, 直到使用它们的代码真正被执行时才会生成属性值.
+当你使用 [产品(Production)](js-project-setup.html#building-executables) 模式构建你的 Kotlin/JS 应用程序时,
+会自动应用这样的极简化处理, 并默认启用.
+要关闭对成员名称的极简化处理, 请使用 `-Xir-minimized-member-names` 编译器选项:
 
-顶级属性的延迟初始化还是一种实验性功能, 因此需要明确要求使用者同意.
-要使用这个功能, 要在使用 JS IR 编译器编译代码时, 添加 `-Xir-property-lazy-initialization` 选项:
-
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
-```kotlin
-tasks.withType<Kotlin2JsCompile> {
-   kotlinOptions {
-     freeCompilerArgs += "-Xir-property-lazy-initialization"
+```
+kotlin {
+   js(IR) {
+       compilations.all {
+           compileKotlinTask.kotlinOptions.freeCompilerArgs += listOf("-Xir-minimized-member-names=false")
+       }
    }
 }
 ```
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
-```groovy
-tasks.withType(Kotlin2JsCompile) {
-   kotlinOptions {
-     freeCompilerArgs += "-Xir-property-lazy-initialization"
-   }
-}
-```
-</div>
-</div>
 
 ## 预览: 生成 TypeScript 声明文件 (d.ts)
 
@@ -137,8 +157,8 @@ Kotlin/JS IR 编译器能够从你的 Kotlin 代码生成 TypeScript 定义.
 ## IR 编译器目前的限制
 
 新的 IR 编译器后端的一个重要变化是与默认后端之间 **没有二进制兼容性**.
-对于 Kotlin/JS 来说, 两种后端之间没有兼容性意味着,
-使用新的 IR 编译器后端创建的库, 在默认后端中将无法使用, 反过来也是如此.
+使用新的 IR 编译器后端创建的库, 会使用 [`klib` 格式](../native/native-libraries.html#library-format), 在默认后端中将无法使用.
+同时, 使用旧编译器创建的库, 就是一个包含 `js` 文件的 `jar`, 也不能在 IR 后端中使用.
 
 如果你希望在你的项目中使用 IR 编译器后端, 那么需要 **将所有的 Kotlin 依赖项升级到支持这个新后端的版本**.
 JetBrains 针对 Kotlin/JS 平台, 对 Kotlin 1.4+ 版本发布的库,
@@ -149,8 +169,8 @@ JetBrains 针对 Kotlin/JS 平台, 对 Kotlin 1.4+ 版本发布的库,
 
 与默认后端相比, IR 编译器后端还存在一些差异. 试用新的后端时, 需要知道存在这些可能的问题.
 
-- 有些 **库依赖于默认后端的独有的特性**, 比如 `kotlin-wrappers`, 可能会出现一些问题. 你可以通过 [YouTrack](https://youtrack.jetbrains.com/issue/KT-40525) 跟踪这个问题的调查结果和进展.
-- 默认情况下, IR 后端 **完全不会让 Kotlin 声明在 JavaScript 中可见**. 要让 JavaScript 可以访问 Kotlin 声明, 这些声明 **必须** 添加 [`@JsExport`](js-to-kotlin-interop.html#jsexport-annotation) 注解.
+* 有些 **库依赖于默认后端的独有的特性**, 比如 `kotlin-wrappers`, 可能会出现一些问题. 你可以通过 [YouTrack](https://youtrack.jetbrains.com/issue/KT-40525) 跟踪这个问题的调查结果和进展.
+* 默认情况下, IR 后端 **完全不会让 Kotlin 声明在 JavaScript 中可见**. 要让 JavaScript 可以访问 Kotlin 声明, 这些声明 **必须** 添加 [`@JsExport`](js-to-kotlin-interop.html#jsexport-annotation) 注解.
 
 
 ## 将既有的项目迁移到 IR 编译器

@@ -7,7 +7,7 @@ title: "关键字与操作符"
 
 # 关键字(Keyword)与操作符(Operator)
 
-本页面最终更新: 2022/02/21
+最终更新: {{ site.data.releases.latestDocDate }}
 
 ## 硬关键字(Hard Keyword)
 
@@ -22,7 +22,7 @@ title: "关键字与操作符"
  * `continue` [跳转到最内层循环的下一次执行](returns.html).
  * `do` 开始一个 [do/while 循环](control-flow.html#while-loops) (条件判定在后的循环).
  * `else` 定义 [if 表达式](control-flow.html#if-expression) 的一个分支, 这个分支在条件为 false 时执行.
- * `false` 指定 [布尔类型](basic-types.html#booleans) 的 'false' 值.
+ * `false` 指定 [布尔类型](booleans.html) 的 'false' 值.
  * `for` 开始一个 [for 循环](control-flow.html#for-loops).
  * `fun` 声明一个 [函数](functions.html).
  * `if` 开始一个 [if 表达式](control-flow.html#if-expression).
@@ -58,7 +58,7 @@ title: "关键字与操作符"
      - 引用 [当前接受者](this-expressions.html).
      - [在次级构造器中调用同一个类的另一个构造器](classes.html#constructors).
  * `throw` [抛出一个异常](exceptions.html).
- * `true` 指定 [布尔类型](basic-types.html#booleans) 的 'true' 值.
+ * `true` 指定 [布尔类型](booleans.html) 的 'true' 值.
  * `try` [开始一个异常处理代码段](exceptions.html).
  * `typealias` 声明一个 [类型别名](type-aliases.html).
  * `typeof` 保留, 将来使用.
@@ -102,8 +102,8 @@ title: "关键字与操作符"
 以下符号在声明的标识符列表中用做关键字,
 在其他场合可以用作标识符:
 
- * `actual` 在 [跨平台项目](multiplatform.html) 中, 表示某个特定平台上的具体实现.
  * `abstract` 将一个类或一个成员标注为 [抽象元素](classes.html#abstract-classes).
+ * `actual` 在 [跨平台项目](multiplatform/multiplatform.html) 中, 表示某个特定平台上的具体实现.
  * `annotation` 声明一个 [注解类](annotations.html).
  * `companion` 声明一个 [同伴对象](object-declarations.html#companion-objects).
  * `const` 将一个属性标注为 [编译期常数值](properties.html#compile-time-constants).
@@ -156,7 +156,7 @@ Kotlin 支持以下操作符与特殊符号:
      - 用来指定 [参数的默认值](functions.html#default-arguments).
  * `+=`, `-=`, `*=`, `/=`, `%=` - [计算并赋值](operator-overloading.html#augmented-assignments).
  * `++`, `--` - [递增与递减操作符](operator-overloading.html#increments-and-decrements).
- * `&&`, `||`, `!` - '与', '或', '非' 逻辑运算符 (用于位运算, 使用对应的 [中缀函数](basic-types.html#operations)).
+ * `&&`, `||`, `!` - '与', '或', '非' 逻辑运算符 (用于位运算, 使用对应的 [中缀函数](numbers.html#operations-on-numbers)).
  * `==`, `!=` - [相等和不等比较操作符](operator-overloading.html#equality-and-inequality-operators)
     (对非基本类型, 会翻译为对 `equals()` 函数的调用).
  * `===`, `!==` - [引用相等比较操作符](equality.html#referential-equality).
@@ -182,7 +182,9 @@ Kotlin 支持以下操作符与特殊符号:
     - 引用一个 [外层范围的 'this' 表达式](this-expressions.html#qualified-this).
     - 引用一个 [外部类的超类](inheritance.html#calling-the-superclass-implementation).
  * `;` 用于在同一行中分隔多条语句.
- * `$` 在 [字符串模板](basic-types.html#string-templates) 中引用变量或表达式.
+ * `$` 在 [字符串模板](strings.html#string-templates) 中引用变量或表达式.
  * `_`
      - 在 [lambda 表达式](lambdas.html#underscore-for-unused-variables) 中代替未使用的参数.
      - 在 [解构声明](destructuring-declarations.html#underscore-for-unused-variables) 中代替未使用的参数.
+
+关于操作符优先顺序, 请参见 Kotlin 语法中的 [这一章节](https://kotlinlang.org/docs/reference/grammar.html#expressions) .

@@ -7,7 +7,7 @@ title: "枚举类"
 
 # 枚举类(Enum Class)
 
-本页面最终更新: 2021/07/09
+最终更新: {{ site.data.releases.latestDocDate }}
 
 枚举类最基本的使用场景, 就是实现类型安全的枚举值:
 
@@ -84,6 +84,11 @@ fun main() {
 ```
 </div>
 
+
+所有的枚举类都默认实现了 [Comparable](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-comparable/index.html) 接口.
+枚举常数值的大小顺序, 等于它在枚举类中的定义顺序.
+详情请参见 [排序(Ordering)](collection-ordering.html).
+
 ## 使用枚举常数
 
 Kotlin 中的枚举类拥有编译器添加的方法, 可以列出枚举类中定义的所有枚举常数值, 可以通过枚举常数值的名称字符串得到对应的枚举常数值.
@@ -108,12 +113,9 @@ inline fun <reified T : Enum<T>> printAllValues() {
 printAllValues<RGB>() // 打印结果为 RED, GREEN, BLUE
 ```
 
-每个枚举常数值都拥有属性, 可以取得它的名称, 以及它在枚举类中声明的顺序:
+每个枚举常数值都拥有属性, 可以取得它的名称, 以及它在枚举类中声明的顺序(从 0 开始计算):
 
 ```kotlin
 val name: String
 val ordinal: Int
 ```
-
-枚举常数值还实现了 [Comparable](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-comparable/index.html) 接口,
-枚举常数值之间比较时, 会使用枚举常数值在枚举类中声明的顺序作为自己的大小顺序.

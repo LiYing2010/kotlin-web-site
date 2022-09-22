@@ -7,7 +7,7 @@ title: "相等判断"
 
 # 相等判断
 
-本页面最终更新: 2021/03/04
+最终更新: {{ site.data.releases.latestDocDate }}
 
 在 Kotlin 中存在两种相等判断:
 
@@ -50,4 +50,4 @@ a?.equals(b) ?: (b === null)
 否则, 将会使用结构相等判定, 这种判定不遵循 IEEE 754 浮点数运算标准,
 因此 `NaN` 不等于它自己, 而且 `-0.0` 不等于 `0.0`.
 
-详情请参见: [浮点值的比较](basic-types.html#floating-point-numbers-comparison).
+详情请参见: [浮点值的比较](numbers.html#floating-point-numbers-comparison).

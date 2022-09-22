@@ -7,7 +7,7 @@ title: "取消与超时"
 
 # 取消与超时
 
-本页面最终更新: 2021/09/13
+最终更新: {{ site.data.releases.latestDocDate }}
 
 本章介绍协程的取消与超时.
 
@@ -111,6 +111,43 @@ job: I'm sleeping 4 ...
 main: Now I can quit.
 ```
 
+如果捕获一个 [CancellationException] 然后不再抛出它, 也可以观察到同样的问题:
+
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+
+```kotlin
+import kotlinx.coroutines.*
+
+fun main() = runBlocking {
+//sampleStart
+    val job = launch(Dispatchers.Default) {
+        repeat(5) { i ->
+            try {
+                // 每秒输出信息 2 次
+                println("job: I'm sleeping $i ...")
+                delay(500)
+            } catch (e: Exception) {
+                // 将异常输出到 log
+                println(e)
+            }
+        }
+    }
+    delay(1300L) // 等待一段时间
+    println("main: I'm tired of waiting!")
+    job.cancelAndJoin() // 取消 job, 并等待它结束
+    println("main: Now I can quit.")
+//sampleEnd    
+}
+```
+</div>
+
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-cancel-03.kt).
+{:.note}
+
+尽管示例中的捕获 `Exception` 是一种反模式, 但在更加微妙的情况下还是会出现这个问题, 比如在使用
+[`runCatching`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/run-catching.html)
+函数时, 它不会重新抛出 [CancellationException].
+
 ## 使计算代码能够被取消
 
 有两种方法可以让我们的计算代码变得能够被取消.
@@ -148,7 +185,7 @@ fun main() = runBlocking {
 
 </div>
 
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-cancel-03.kt).
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-cancel-04.kt).
 {:.note}
 
 你会看到, 现在循环变得能够被取消了. [isActive] 是一个扩展属性,
@@ -196,7 +233,7 @@ fun main() = runBlocking {
 
 </div>
 
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-cancel-04.kt).
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-cancel-05.kt).
 {:.note}
 
 [join][Job.join] 和 [cancelAndJoin] 都会等待所有的结束处理执行完毕,
@@ -251,7 +288,7 @@ fun main() = runBlocking {
 
 </div>
 
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-cancel-05.kt).
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-cancel-06.kt).
 {:.note}
 
 ```text
@@ -290,7 +327,7 @@ fun main() = runBlocking {
 
 </div>
 
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-cancel-06.kt).
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-cancel-07.kt).
 {:.note}
 
 这个例子的运行结果是:
@@ -335,7 +372,7 @@ fun main() = runBlocking {
 
 </div>
 
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-cancel-07.kt).
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-cancel-08.kt).
 {:.note}
 
 这段代码的运行结果不会有异常发生了:
@@ -396,14 +433,14 @@ fun main() {
 
 </div>
 
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-cancel-08.kt).
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-cancel-09.kt).
 {:.note}
 
 <!--- CLEAR -->
 
 运行上面的代码, 你会看到输出结果并不总是 0, 具体情况依赖于你的机器的时间, 你可能需要调整示例代码中的超时设置, 才能看到非 0 的结果.
 
-> 注意, 这个例子中, 从 100K 个协程中增加和减少 `acquired` 计数器是完全安全的,
+> 请注意, 这个例子中, 从 100K 个协程中增加和减少 `acquired` 计数器是完全安全的,
 > 因为这个处理永远发生在同一个主线程内. 更多细节将在下一章, 关于协程上下文的部分中解释.
 {:.note}
 
@@ -447,7 +484,7 @@ fun main() {
 
 </div>
 
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-cancel-09.kt).
+> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-cancel-10.kt).
 {:.note}
 
 这段示例程序永远会输出 0. 也就是说, 没有发生资源泄露.
@@ -459,18 +496,18 @@ fun main() {
 <!--- MODULE kotlinx-coroutines-core -->
 <!--- INDEX kotlinx.coroutines -->
 
-[launch]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/launch.html
-[Job]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-job/index.html
-[cancelAndJoin]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/cancel-and-join.html
-[Job.cancel]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/cancel.html
-[Job.join]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-job/join.html
-[CancellationException]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-cancellation-exception/index.html
-[yield]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/yield.html
-[isActive]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/is-active.html
-[CoroutineScope]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html
-[withContext]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/with-context.html
-[NonCancellable]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-non-cancellable.html
-[withTimeout]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/with-timeout.html
-[withTimeoutOrNull]: https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/with-timeout-or-null.html
+[launch]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/launch.html
+[Job]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-job/index.html
+[cancelAndJoin]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/cancel-and-join.html
+[Job.cancel]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/cancel.html
+[Job.join]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-job/join.html
+[CancellationException]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-cancellation-exception/index.html
+[yield]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/yield.html
+[isActive]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/is-active.html
+[CoroutineScope]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html
+[withContext]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/with-context.html
+[NonCancellable]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-non-cancellable/index.html
+[withTimeout]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/with-timeout.html
+[withTimeoutOrNull]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/with-timeout-or-null.html
 
 <!--- END -->

@@ -48,3 +48,4 @@ dist
 generated
 .next
 .teamcity/*.iml
+/old/

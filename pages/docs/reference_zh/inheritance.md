@@ -7,7 +7,7 @@ title: "继承"
 
 # 继承
 
-本页面最终更新: 2021/07/08
+最终更新: {{ site.data.releases.latestDocDate }}
 
 Kotlin 中所有的类都有一个共同的超类 `Any`, 如果类声明时没有指定超类, 则默认为 `Any`:
 

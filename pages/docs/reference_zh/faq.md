@@ -7,7 +7,7 @@ title: FAQ
 
 # FAQ
 
-本页面最终更新: 2022/01/11
+最终更新: {{ site.data.releases.latestDocDate }}
 
 ### 什么是 Kotlin?
 
@@ -41,9 +41,11 @@ Kotlin 在类型安全方面也更强, 比如, 它支持 非 null 类型, 可以
 ### Kotlin 与 Java 语言兼容吗?
 
 是的. Kotlin 100% 可以与 Java 语言交互, 而且重点保证你的既有代码可以与 Kotlin 正确交互.
-你可以很容易地在 Java 中调用 Kotlin 代码, 也可以反过来在 Kotlin 中调用 Java 代码.
+你可以很容易地[在 Java 中调用 Kotlin 代码](jvm/java-to-kotlin-interop.html), 也可以反过来[在 Kotlin 中调用 Java 代码](jvm/java-interop.html).
 这个能力使得采用 Kotlin 变得更容易, 更低风险.
-另外还有 IDE 中内置的 Java 到 Kotlin 源代码自动转换器, 可以大大简化既有代码的迁移工作.
+另外还有
+[IDE 中内置的 Java 到 Kotlin 源代码自动转换器](jvm/mixing-java-kotlin-intellij.html#converting-an-existing-java-file-to-kotlin-with-j2k),
+可以大大简化既有代码的迁移工作.
 
 ### 我可以用 Kotlin 来做什么?
 
@@ -56,12 +58,13 @@ JavaScript 或 JavaFX 的客户端应用程序, 以及数据科学, 这只是少
 ### 我可以使用 Kotlin 进行 Android 开发吗?
 
 是的. Kotlin 在 Android 中已受到一级支持. Android 环境中已经有几百中应用程序使用 Kotlin 开发,
-比如 Basecamp, Pinterest, 等等. 详情请参照, [Android 开发的相关资源](android-overview.html).
+比如 Basecamp, Pinterest, 等等.
+详情请参照 [Android 开发的相关资源](android-overview.html).
 
 ### 我可以使用 Kotlin 进行服务器端开发吗?
 
 是的. Kotlin 与 JVM 100% 兼容, 因此你可以使用任何既有的框架, 比如 Spring Boot, vert.x 或 JSF.
-此外还有使用 Kotlin 编写的框架, 比如 [Ktor](https://github.com/kotlin/ktor).
+此外, 还有使用 Kotlin 编写的框架, 比如 [Ktor](https://github.com/kotlin/ktor).
 详情请参见 [服务端端开发的相关资源](server-overview.html).
 
 ### 我可以使用 Kotlin 进行 web 开发吗?
@@ -84,10 +87,13 @@ Kotlin/Native 目前还是 Beta 版, 但已经可以试用于流行的桌面和�
 
 ### 有哪些 IDE 支持 Kotlin?
 
-大多数主流 Java IDE 支持 Kotlin, 包括 [IntelliJ IDEA](jvm/jvm-get-started.html),
-[Android Studio](https://developer.android.com/kotlin/get-started),
-[Eclipse](eclipse.html).
-此外, 还有一个 [命令行编译器](command-line.html), 可以用来编译并运行应用程序.
+通过 JetBrains 开发的官方 Kotlin plugin, Kotlin 完全支持 [IntelliJ IDEA](https://www.jetbrains.com/idea/download/)
+和 [Android Studio](https://developer.android.com/kotlin/get-started).
+其他 IDE 和源代码编辑器, 比如 Eclipse, Visual Studio Code, 和 Atom, 也有 Kotlin 社区支持的 plugin.
+
+你也可以试用 [Kotlin Playground](https://play.kotlinlang.org), 在你的浏览器中编写, 运行, 并共享 Kotlin 代码.
+
+此外, 还有一个 [命令行编译器](command-line.html), 可以编译并运行应用程序.
 
 ### 有哪些编译工具支持 Kotlin?
 
@@ -107,14 +113,16 @@ Kotlin/Native 目前还是 Beta 版, 但已经可以试用于流行的桌面和�
 ### Kotlin 支持 JVM 的哪些版本?
 
 Kotlin 允许你选择运行时的 JVM 版本. 默认情况下, Kotlin/JVM 编译器产生与 Java 8 兼容的字节码.
-如果你希望利用更高版本 Java 中的优化功能, 你可以明确指定编译目标的 Java 版本, 可选的版本是从 9 到 17.
+如果你希望利用更高版本 Java 中的优化功能, 你可以明确指定编译目标的 Java 版本, 可选的版本是从 9 到 18.
 注意, 这时编译产生的字节码在低版本的 Java 环境可能无法运行.
+从 [Kotlin 1.5](whatsnew15.html#new-default-jvm-target-1-8) 开始, 编译器不再产生与低于 Java 8 的版本兼容的字节码.
 
 ### Kotlin 难吗?
 
 Kotlin 受到各种既有语言的启发, 比如 Java, C#, JavaScript, Scala 以及 Groovy.
 我们努力确保 Kotlin 易于学习, 帮助开发者更容易转向 Kotlin, 可以在几天时间之内便能够读懂, 能够编写 Kotlin 代码.
 学习 Kotlin 的惯用法, 使用某些高级特性可能会花费稍微长一点的时间, 但总的来说, Kotlin 不是一种复杂的语言.
+详情请参见 [我们的学习资料](learning-materials-overview.html).
 
 ### 哪些公司在使用 Kotlin?
 
@@ -132,22 +140,22 @@ Kotlin 主要是由 JetBrains 公司的一个工程师团队(目前 100+ 人)开
 
 ### 在哪里可以得到 Kotlin 的更多信息?
 
-最好从 [这个网站](https://kotlinlang.org) 开始.
-在这里, 你可以下载编译器, [在线试运行代码](https://play.kotlinlang.org), 并访问各种资源.
+最好从 [我们的网站](https://kotlinlang.org) 开始.
+在这里, 你可以[下载编译器](command-line.html), [在线试运行代码](https://play.kotlinlang.org), 并访问各种资源.
 
-### 有关于 Kotlin 的书籍吗?
+### 是否有关于 Kotlin 的书籍?
 
 关于 Kotlin 有很多书籍. 其中一些经过我们的审核, 并推荐大家从这些书籍开始学习.
 这些书籍已经列在 [Kotlin 书籍](books.html) 页面.
 其他更多书籍, 请参见由社区维护的书籍列表, 位于 [kotlin.link](https://kotlin.link/) 网站.
 
-### 有关于 Kotlin 的在线课程吗?
+### 是否有关于 Kotlin 的在线课程?
 
-你可以通过 JetBrains 学院的 [Kotlin 基础教程](https://hyperskill.org/tracks/18) 来学习创建应用程序所需要的全部 Kotlin 基础知识.
+你可以通过 JetBrains 学院的 [Kotlin 基础教程](https://hyperskill.org/join/fromdocstoJetSalesStat?redirect=true&next=/tracks/18) 来学习创建应用程序所需要的全部 Kotlin 基础知识.
 
-A few other courses you can take:
+你还可以学习这些课程:
 * Kevin Jones 著: [Pluralsight 课程: Kotlin 入门](https://www.pluralsight.com/courses/kotlin-getting-started)
-* Hadi Hariri 著: [O’Reilly 课程: Kotlin 编程介绍](https://www.oreilly.com/library/view/introduction-to-kotlin/9781491964125/)
+* Hadi Hariri 著: [O'Reilly 课程: Kotlin 编程介绍](https://www.oreilly.com/library/view/introduction-to-kotlin/9781491964125/)
 * Peter Sommerhoff 著: [Udemy 课程: 面向初学者的 10 个 Kotlin 教程](https://petersommerhoff.com/dev/kotlin/kotlin-beginner-tutorial/)
 
 也可以通过我们的 [YouTube 频道](https://www.youtube.com/c/Kotlin) 查看其他教程和内容.
@@ -178,11 +186,11 @@ A few other courses you can take:
 [在这个网站](https://kotlinlang.org/community/talks.html?time=upcoming)
 找到即将举行的演讲列表.
 
-### Kotlin 有社交媒体帐号吗?
+### Kotlin 是否有社交媒体帐号?
 
 是的. 最活跃的 Kotlin 帐号是 [Twitter 帐号](https://twitter.com/kotlin).
 
-### 还有关于 Kotlin 的其他在线资源吗?
+### 是否有关于 Kotlin 的其他在线资源?
 
 在各种网站上有很多 [在线资源](https://kotlinlang.org/community/), 包括社区成员编写的 [Kotlin Digests](https://kotlin.link),
 一份 [通讯](http://kotlinweekly.net), 一个 [博客](https://talkingkotlin.com), 等等.
@@ -191,4 +199,4 @@ A few other courses you can take:
 
 可以在 [这个地址](https://resources.jetbrains.com/storage/products/kotlin/docs/kotlin_logos.zip) 下载 Logo.
 使用 Logo 时请注意遵守使用规则, 具体请参见压缩包中的 `guidelines.pdf` 文件包含的简单规则,
-以及 [Kotlin 商标使用指南](guidelines.html).
+以及 [Kotlin 商标使用指南](https://kotlinfoundation.org/guidelines/).

@@ -7,7 +7,7 @@ title: "KSP 快速入门"
 
 # KSP 快速入门
 
-本页面最终更新: 2022/02/24
+最终更新: {{ site.data.releases.latestDocDate }}
 
 要快速入门 KSP, 你可以创建自己的处理器, 或者参考 [示例代码](https://github.com/google/ksp/tree/main/examples/playground).
 
@@ -16,6 +16,9 @@ title: "KSP 快速入门"
 1. 创建一个空的 gradle 项目.
 2. 在根项目中指定 Kotlin plugin 版本 `{{ site.data.releases.kspSupportedKotlinVersion }}`, 供其他项目模块使用:
 
+   <div class="multi-language-sample" data-lang="kotlin">
+   <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+   
    ```kotlin
    plugins {
        kotlin("jvm") version "{{ site.data.releases.kspSupportedKotlinVersion }}" apply false
@@ -27,11 +30,35 @@ title: "KSP 快速入门"
        }
    }
    ```
+   
+   </div>
+   </div>
+   
+   <div class="multi-language-sample" data-lang="groovy">
+   <div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+   
+   ```groovy
+   plugins {
+       id 'org.jetbrains.kotlin.jvm' version '%kspSupportedKotlinVersion%' apply false
+   }
+   
+   buildscript {
+       dependencies {
+           classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:{{ site.data.releases.kspSupportedKotlinVersion }}'
+       }
+   }
+   ```
+   
+   </div>
+   </div>
 
 3. 添加一个模块, 容纳处理器.
 
 4. 在模块的构建脚本中, 使用 Kotlin plugin, 并在 `dependencies` 代码段添加 KSP API.
 
+   <div class="multi-language-sample" data-lang="kotlin">
+   <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+   
    ```kotlin
    plugins {
        kotlin("jvm")
@@ -45,6 +72,29 @@ title: "KSP 快速入门"
        implementation("com.google.devtools.ksp:symbol-processing-api:{{ site.data.releases.kspSupportedKotlinVersion }}-{{ site.data.releases.kspVersion }}")
    }
    ```
+   
+   </div>
+   </div>
+   
+   <div class="multi-language-sample" data-lang="groovy">
+   <div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+   
+   ```groovy
+   plugins {
+       id 'org.jetbrains.kotlin.jvm' version '%kotlinVersion%'
+   }
+   
+   repositories {
+       mavenCentral()
+   }
+   
+   dependencies {
+       implementation 'com.google.devtools.ksp:symbol-processing-api:{{ site.data.releases.kspSupportedKotlinVersion }}-{{ site.data.releases.kspVersion }}'
+   }
+   ```
+   
+   </div>
+   </div>
 
 5. 你需要实现
    [`com.google.devtools.ksp.processing.SymbolProcessor`](https://github.com/google/ksp/tree/main/api/src/main/kotlin/com/google/devtools/ksp/processing/SymbolProcessor.kt)  
@@ -73,6 +123,9 @@ title: "KSP 快速入门"
 
 1. 创建另一个模块, 包含一段工作程序, 用来试验你的处理器.
 
+   <div class="multi-language-sample" data-lang="kotlin">
+   <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+   
    ```kotlin
    pluginManagement { 
        repositories { 
@@ -80,9 +133,29 @@ title: "KSP 快速入门"
        }
    }
    ```
+   
+   </div>
+   </div>
+   
+   <div class="multi-language-sample" data-lang="groovy">
+   <div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+   
+   ```groovy
+   pluginManagement {
+       repositories {
+           gradlePluginPortal()
+       }
+   }
+   ```
+   
+   </div>
+   </div>
 
 2. 在模块的构建脚本中, 使用指定版本的 `com.google.devtools.ksp` plugin, 并在依赖项中添加你的处理器.
 
+   <div class="multi-language-sample" data-lang="kotlin">
+   <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+   
    ```kotlin
    plugins {
        id("com.google.devtools.ksp") version "{{ site.data.releases.kspSupportedKotlinVersion }}-{{ site.data.releases.kspVersion }}"
@@ -94,29 +167,79 @@ title: "KSP 快速入门"
        ksp(project(":test-processor"))
    }
    ```
+   
+   </div>
+   </div>
+   
+   <div class="multi-language-sample" data-lang="groovy">
+   <div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+   
+   ```groovy
+   plugins {
+       id 'com.google.devtools.ksp' version '{{ site.data.releases.kspSupportedKotlinVersion }}-{{ site.data.releases.kspVersion }}'
+   }
+   
+   dependencies {
+       implementation 'org.jetbrains.kotlin:kotlin-stdlib:{{ site.data.releases.latest.version }}'
+       implementation project(':test-processor')
+       ksp project(':test-processor')
+   }
+   ```
+   
+   </div>
+   </div>
+
 
 3. 运行 `./gradlew build`. 你可以在 `build/generated/source/ksp` 目录下看到生成的代码.
 
-下面是一个构建脚本示例, 它对工作程序使用 KSP plugin:
+   下面是一个构建脚本示例, 它对工作程序使用 KSP plugin:
 
-```kotlin
-plugins {
-    id("com.google.devtools.ksp") version "{{ site.data.releases.kspSupportedKotlinVersion }}-{{ site.data.releases.kspVersion }}"
-    kotlin("jvm") 
-}
+   <div class="multi-language-sample" data-lang="kotlin">
+   <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+   
+   ```kotlin
+   plugins {
+       id("com.google.devtools.ksp") version "{{ site.data.releases.kspSupportedKotlinVersion }}-{{ site.data.releases.kspVersion }}"
+       kotlin("jvm") 
+   }
+   
+   repositories {
+       mavenCentral()
+   }
+   
+   dependencies {
+       implementation(kotlin("stdlib-jdk8"))
+       implementation(project(":test-processor"))
+       ksp(project(":test-processor"))
+   }
+   ```
+   
+   </div>
+   </div>
+   
+   <div class="multi-language-sample" data-lang="groovy">
+   <div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+   
+   ```groovy
+   plugins {
+       id 'com.google.devtools.ksp' version '{{ site.data.releases.kspSupportedKotlinVersion }}-{{ site.data.releases.kspVersion }}'
+       id 'org.jetbrains.kotlin.jvm' version '{{ site.data.releases.latest.version }}'
+   }
+   
+   repositories {
+       mavenCentral()
+   }
+   
+   dependencies {
+       implementation 'org.jetbrains.kotlin:kotlin-stdlib:{{ site.data.releases.latest.version }}'
+       implementation project(':test-processor')
+       ksp project(':test-processor')
+   }
+   ```
+   
+   </div>
+   </div>
 
-version = "1.0-SNAPSHOT"
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-    implementation(project(":test-processor"))
-    ksp(project(":test-processor"))
-}
-```
 
 ## 向处理器传递选项
 
@@ -148,6 +271,9 @@ build/generated/ksp/main/resources/
 
 在你的 KSP 使用者模块的构建脚本中, 可能还需要配置这些目录:
 
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
 ```kotlin
 kotlin {
     sourceSets.main {
@@ -158,3 +284,75 @@ kotlin {
     }
 }
 ```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+kotlin {
+    sourceSets {
+        main.kotlin.srcDirs += 'build/generated/ksp/main/kotlin'
+        test.kotlin.srcDirs += 'build/generated/ksp/test/kotlin'
+    }
+}
+```
+
+</div>
+</div>
+
+如果你使用 IntelliJ IDEA, 并在 Gradle plugin 中使用 KSP, 那么上面的代码段会出现以下警告:
+
+```text
+Execution optimizations have been disabled for task ':publishPluginJar' to ensure correctness due to the following reasons:
+Gradle detected a problem with the following location: '../build/generated/ksp/main/kotlin'. 
+Reason: Task ':publishPluginJar' uses this output of task ':kspKotlin' without declaring an explicit or implicit dependency.
+```
+
+这种情况下, 请改为使用下面的构建脚本:
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+plugins {
+   // ...
+   idea
+}
+
+idea {
+   module {
+      // 由于 https://github.com/gradle/gradle/issues/8749, 不要使用 +=
+      sourceDirs = sourceDirs + file("build/generated/ksp/main/kotlin") // 或者 tasks["kspKotlin"].destination
+      testSourceDirs = testSourceDirs + file("build/generated/ksp/test/kotlin")
+      generatedSourceDirs = generatedSourceDirs + file("build/generated/ksp/main/kotlin") + file("build/generated/ksp/test/kotlin")
+   }
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+plugins {
+   // ...
+   id 'idea'
+}
+
+idea {
+   module {
+      // 由于 https://github.com/gradle/gradle/issues/8749, 不要使用 +=
+      sourceDirs = sourceDirs + file('build/generated/ksp/main/kotlin') // 或者 tasks["kspKotlin"].destination
+      testSourceDirs = testSourceDirs + file('build/generated/ksp/test/kotlin')
+      generatedSourceDirs = generatedSourceDirs + file('build/generated/ksp/main/kotlin') + file('build/generated/ksp/test/kotlin')
+   }
+}
+```
+
+</div>
+</div>

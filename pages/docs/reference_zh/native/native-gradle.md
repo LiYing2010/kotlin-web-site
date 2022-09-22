@@ -7,127 +7,139 @@ title: "Kotlin/Native 开发入门 - 使用 Gradle"
 
 # Kotlin/Native 开发入门 - 使用 Gradle
 
-本页面最终更新: 2022/04/07
+最终更新: {{ site.data.releases.latestDocDate }}
 
 [Gradle](https://gradle.org) 是在 Java, Android, 和其他开发环境中广泛使用的一个构建系统.
 Kotlin/Native 和 Multiplatform 的构建默认使用 Gradle.
 
-虽然大多数 IDE, 包括 [IntelliJ IDEA](https://www.jetbrains.com/idea), 都可以生成对应的 Gradle 文件,
-但我们还是来看一下如何手工创建, 以便更好的理解它的工作原理.
-如果你更希望使用 IDE, 请阅读 [使用 IntelliJ IDEA](native-get-started.html). 
+虽然大多数 IDE, 包括 [IntelliJ IDEA](https://www.jetbrains.com/idea), 都可以生成需要的 Gradle 文件,
+但本教程还是介绍如何手工创建, 以便更好的理解工作原理. 
 
-Gradle 支持 2 种构建脚本:
+开始之前, 请安装 [Gradle](https://gradle.org/install/) 的最新版本.
 
-- Groovy 脚本: `build.gradle` 文件
-- Kotlin 脚本: `build.gradle.kts` 文件
+> 如果你更希望使用 IDE, 请阅读教程 [使用 IntelliJ IDEA](native-get-started.html).
+{:.note}
 
-Groovy 语言是 Gradle 最优先支持的脚本语言, 
-它利用这种语言的动态类型能力和运行时功能.
-也可以在 Gradle 脚本中使用 Kotlin. 作为一种静态类型语言, 在需要编译和调试错误时, 它与 IDE 配合更好. 
+## 创建项目文件
 
-这 2 种语言都可以使用, 我们的示例程序会同时演示这 2 种语言中的用法.
+1. 创建一个项目目录. 在这个目录内, 创建 Gradle 构建文件 `build.gradle` 或 `build.gradle.kts`, 内容如下:
 
-## 创建项目文件 
+    <div class="multi-language-sample" data-lang="kotlin">
+    <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
 
-首先, 创建一个项目目录. 在这个目录内, 创建 Gradle 构建文件 `build.gradle` 或 `build.gradle.kts`,
-内容如下:
-
-
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
-
-```kotlin
-plugins {
-    kotlin("multiplatform") version "{{ site.data.releases.latest.version }}"
-}
-
-repositories {
-    mavenCentral()
-}
-
-kotlin {
-  macosX64("native") { // 用于 macOS 环境
-  // linuxX64("native") // 用于 Linux 环境
-  // mingwX64("native") // 用于 Windows 环境
-    binaries {
-      executable()
+    ```kotlin
+    // build.gradle.kts
+    plugins {
+        kotlin("multiplatform") version "{{ site.data.releases.latest.version }}"
     }
-  }
-}
 
-tasks.withType<Wrapper> {
-  gradleVersion = "{{ site.data.releases.gradleVersion }}"
-  distributionType = Wrapper.DistributionType.BIN
-}
-```
-
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
-
-```groovy
-plugins {
-    id 'org.jetbrains.kotlin.multiplatform' version '{{ site.data.releases.latest.version }}'
-}
-
-repositories {
-    mavenCentral()
-}
-
-kotlin {
-  macosX64('native') { // 用于 macOS 环境
-  // linuxX64('native') // 用于 Linux 环境
-  // mingwX64('native') // 用于 Windows 环境
-    binaries {
-      executable()
+    repositories {
+        mavenCentral()
     }
-  }
-}
 
-wrapper {
-  gradleVersion = '{{ site.data.releases.gradleVersion }}'
-  distributionType = 'BIN'
-}
-```
+    kotlin {
+      macosX64("native") { // 用于 macOS 环境
+      // linuxX64("native") // 用于 Linux 环境
+      // mingwX64("native") // 用于 Windows 环境
+        binaries {
+          executable()
+        }
+      }
+    }
 
-</div>
-</div>
+    tasks.withType<Wrapper> {
+      gradleVersion = "{{ site.data.releases.gradleVersion }}"
+      distributionType = Wrapper.DistributionType.BIN
+    }
+    ```
 
-然后, 在项目目录内创建一个空的 `settings.gradle` 或 `settings.gradle.kts` 文件.
+    </div>
+    </div>
 
-根据目标平台不同, 使用不同的 [函数](../mpp/mpp-supported-platforms.html) 来创建 Kotlin 编译目标,
-比如 `macosX64`, `mingwX64`, `linuxX64`, `iosX64`. 函数名称对应于编译你的代码所针对的目标平台. 
-这些函数带一个可选的参数, 指定编译目标名称, 在我们的示例中是 `"native"`. 
-指定的 _编译目标名称_ 用来生成项目中的源代码路径和任务名称.  
+    <div class="multi-language-sample" data-lang="groovy">
+    <div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
 
-根据一般约定, 所有的源代码放在 `src/<target name>[Main|Test]/kotlin` 文件夹下,
-其中 `main` 放置产品代码, `test` 放置测试代码.
-`<target name>` 对应于构建文件中指定的编译目标平台(在我们的示例中是 `native`). 
+    ```groovy
+    // build.gradle
+    plugins {
+        id 'org.jetbrains.kotlin.multiplatform' version '{{ site.data.releases.latest.version }}'
+    }
 
-创建一个文件夹 `src/nativeMain/kotlin`, 在其中放置文件 `hello.kt`, 内容如下:
+    repositories {
+        mavenCentral()
+    }
 
-```kotlin
-fun main() {
-  println("Hello Kotlin/Native!")
-}
-```
+    kotlin {
+      macosX64('native') { // 用于 macOS 环境
+      // linuxX64('native') // 用于 Linux 环境
+      // mingwX64('native') // 用于 Windows 环境
+        binaries {
+          executable()
+        }
+      }
+    }
 
-## 构建项目
+    wrapper {
+      gradleVersion = '{{ site.data.releases.gradleVersion }}'
+      distributionType = 'BIN'
+    }
+    ```
 
-在项目的根文件夹, 通过以下命令运行构建: 
+    </div>
+    </div>
 
-`gradle nativeBinaries`
+   你可以使用各种 [预定义编译目标](../multiplatform/multiplatform-dsl-reference.html#targets),
+   比如 `macosX64`, `mingwX64`, `linuxX64`, `iosX64`,
+   来定义对应的编译目标平台. 预定义的名称描述了编译你的代码所针对的目标平台.
+   这些预定义编译目标接受一个可选的参数, 表示编译目标名称, 在这个例子中是 `native`.
+   编译目标名称用来在项目中生成源代码路径和 Gradle task 名称.
 
-这个命令会创建一个文件夹 `build/bin/native`, 其中包含 2 个子文件夹 `debugExecutable` 和 `releaseExecutable`, 分别包含对应的二进制文件.
-默认情况下, 二进制文件的名称与项目文件夹相同. 
+2. 在项目目录内创建一个空的 `settings.gradle` 或 `settings.gradle.kts` 文件.
+
+3. 创建一个目录 `src/nativeMain/kotlin`, 在其中创建文件 `hello.kt`, 内容如下:
+
+    ```kotlin
+    fun main() {
+        println("Hello, Kotlin/Native!")
+    }
+    ```
+
+    根据一般约定, 所有的源代码放在 `src/<target name>[Main|Test]/kotlin` 目录下,
+    其中 `main` 放置产品代码, `test` 放置测试代码.
+    `<target name>` 对应于构建文件中指定的编译目标平台(在我们的示例中是 `native`).
+
+现在你可以构建你的项目并运行应用程序了.
+
+## 构建并运行应用程序
+
+1. 在项目的根目录, 通过以下命令运行构建:
+
+   ```bash
+   gradle nativeBinaries
+   ```
+
+    这个命令会创建 `build/bin/native` 目录, 其中包含 2 个子目录: `debugExecutable` 和 `releaseExecutable`. 分别包含对应的二进制文件.
+    默认情况下, 二进制文件的名称与项目目录相同.
+
+2. 要运行项目, 请执行以下命令:
+
+   ```bash
+   build/bin/native/debugExecutable/<project_name>.kexe
+   ```
+
+   终端会输出 "Hello, Kotlin/Native!".
 
 ## 在 IDE 中打开项目
 
-支持 Gradle 的任何 IDE 都可以打开项目.
-对于 [IntelliJ IDEA](https://www.jetbrains.com/idea), 只需要打开项目文件夹, 它会自动检测到这是一个 Kotlin/Native 项目. 
+现在你可以在支持 Gradle 的任何 IDE 中打开你的项目. 如果你使用 IntelliJ IDEA:
+
+1. 选择 **File** \| **Open...**.
+2. 选择项目目录, 并点击 **Open**.  
+   IntelliJ IDEA 会自动检测到这是一个 Kotlin/Native 项目.
+
+> 如果你的项目发生任何问题, IntelliJ IDEA 会在 **Build** 页面显示错误信息.
+{:.note}
 
 ## 下一步做什么?
 
-学习如何 [为真正的 Kotlin/Native 项目编写 Gradle 构建脚本](../mpp/mpp-dsl-reference.html).
+学习如何 [为真正的 Kotlin/Native 项目编写 Gradle 构建脚本](../multiplatform/multiplatform-dsl-reference.html).

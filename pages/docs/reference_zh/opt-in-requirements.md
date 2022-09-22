@@ -7,16 +7,7 @@ title: "明确要求使用者同意的功能(Opt-in Requirement)"
 
 # 明确要求使用者同意的功能(Opt-in Requirement)
 
-本页面最终更新: 2021/12/17
-
-> 明确要求使用者同意(Opt-in Requirement) 的注解 `@RequiresOptIn` 和 `@OptIn` 目前还是 [实验性(experimental)功能](components-stability.html).
-> 它随时有可能变更或被删除. 使用这个功能需要明确要求使用者同意(详情请见下文).
-> 而且你应该只用来进行功能评估, 不要用在你的正式产品中.
-> 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issues/KT) 提供你的反馈意见.
-{:.warning}
-
-> 从 Kotlin 1.6.0 开始支持编译器选项 `-opt-in`. 对更早的 Kotlin 版本, 请使用 `-Xopt-in`.
-{:.note}
+最终更新: {{ site.data.releases.latestDocDate }}
 
 Kotlin 标准库提供了一种机制, 可以要求用户明确同意使用 API 中的某些部分.
 对于某些需要使用者明确同意的情况, 库的开发者可以通过这种机制告知他们 API 的使用者,
@@ -319,17 +310,3 @@ fun getTime(): Time {}
 @RequiresOptIn
 annotation class ExperimentalDateTime
 ```
-
-## 要求使用者同意功能本身的实验性状态
-
-在 Kotlin 1.3 中, 要求使用者同意机制本身还出于[实验性状态](components-stability.html).
-也就是说, 在未来的发布版本中, 这个功能可能会发生变化, 并导致不兼容.
-
-为了让 `@OptIn` 和 `@RequiresOptIn` 注解的使用者意识到这些功能的实验性状态,
-对于使用这些注解的代码, 编译器会提示警告信息:
-
-```This class can only be used with the compiler argument '-opt-in=kotlin.RequiresOptIn'```
-
-如果要删除这些警告, 请添加编译选项 `-opt-in=kotlin.RequiresOptIn`.
-
-关于要求使用者同意功能的最新变更, 请参见 [KEEP](https://github.com/Kotlin/KEEP/blob/d7287626dd4c40c6c89877e266044b83fca38bcd/proposals/opt-in.md).

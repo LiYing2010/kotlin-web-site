@@ -7,7 +7,7 @@ title: "动态类型"
 
 # 动态类型(Dynamic Type)
 
-本页面最终更新: 2021/02/11
+最终更新: {{ site.data.releases.latestDocDate }}
 
 > 当编译目标平台为 JVM 时, 不支持动态类型.
 {:.note}

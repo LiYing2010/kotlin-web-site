@@ -7,7 +7,7 @@ category: "Syntax"
 
 # 操作符重载(Operator overloading)
 
-本页面最终更新: 2021/08/25
+最终更新: {{ site.data.releases.latestDocDate }}
 
 Kotlin 允许你对数据类型的一组预定义的操作符提供自定义的实现函数.
 这些操作符有预定义的表达符号(比如 `+` 或 `*`), 以及预定义的[优先顺序](grammar.html#expressions).

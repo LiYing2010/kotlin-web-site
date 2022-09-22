@@ -7,7 +7,7 @@ title: "Kotlin 命令行编译器"
 
 # Kotlin 命令行编译器
 
-本页面最终更新: 2021/12/24
+最终更新: {{ site.data.releases.latestDocDate }}
 
 每个 Kotlin 发布版都带有独立版本的编译器.
 你可以从 [GitHub Release 页面]({{ site.data.releases.latest.url }}) 下载最新版 (`kotlin-compiler-{{ site.data.releases.latest.version }}.zip`).
@@ -23,26 +23,26 @@ title: "Kotlin 命令行编译器"
 ### 手工安装
 
 将独立版本的编译器解包到一个目录, 并将 `bin` 目录添加到系统的 path 设定中(可选).
-`bin` 目录包含在 Windows, OS X, 和 Linux 上编译和运行 Kotlin 所需要的脚本.
+`bin` 目录包含在 Windows, macOS, 和 Linux 上编译和运行 Kotlin 所需要的脚本.
 
 ### SDKMAN!
 
-在基于 UNIX 的系统中, 比如 OS X, Linux, Cygwin, FreeBSD, 以及 Solaris, 安装 Kotlin 的更简单的方法是 [SDKMAN!](https://sdkman.io).
+在基于 UNIX 的系统中, 比如 macOS, Linux, Cygwin, FreeBSD, 以及 Solaris, 安装 Kotlin 的更简单的方法是 [SDKMAN!](https://sdkman.io).
 它也能用于 Bash 和 ZSH shell. 参见 [如何安装 SDKMAN!](https://sdkman.io/install).
 
 要通过 SDKMAN! 安装 Kotlin 编译器, 请在终端中运行以下命令:
 
 ```bash
-$ sdk install kotlin
+sdk install kotlin
 ```
 
 ### Homebrew
 
-另一种方法是, 在 OS X 上你可以通过 [Homebrew](https://brew.sh/) 来安装编译器.
+另一种方法是, 在 macOS 上你可以通过 [Homebrew](https://brew.sh/) 来安装编译器:
 
 ```bash
-$ brew update
-$ brew install kotlin
+brew update
+brew install kotlin
 ```
 
 ### Snap 包
@@ -50,7 +50,7 @@ $ brew install kotlin
 如果你在 Ubuntu 16.04 或更高版本上使用 [Snap](https://snapcraft.io/), 你可以通过命令行安装编译器:
 
 ```bash
-$ sudo snap install --classic kotlin
+sudo snap install --classic kotlin
 ```
 
 ## 创建并运行应用程序
@@ -66,7 +66,7 @@ $ sudo snap install --classic kotlin
 2. 使用 Kotlin 编译器编译应用程序:
 
    ```bash
-   $ kotlinc hello.kt -include-runtime -d hello.jar
+   kotlinc hello.kt -include-runtime -d hello.jar
    ```
 
    `-d` 选项指定生成的类文件的输出路径, 可以是一个目录或一个 *.jar* 文件.
@@ -75,21 +75,21 @@ $ sudo snap install --classic kotlin
    要查看所有可用的选项, 请运行
 
    ```bash
-   $ kotlinc -help
+   kotlinc -help
    ```
 
 3. 运行应用程序.
 
    ```bash
-   $ java -jar hello.jar
+   java -jar hello.jar
    ```
 
 ## 编译一个库
 
-如果你在开发库, 供使用其他 Kotlin 应用程序使用, 那么构建 *.jar* 文件时可以不包含 Kotlin 运行库.
+如果你在开发库, 供使用其他 Kotlin 应用程序使用, 那么构建 *.jar* 文件时可以不包含 Kotlin 运行库:
 
 ```bash
-$ kotlinc hello.kt -d hello.jar
+kotlinc hello.kt -d hello.jar
 ```
 
 由于这种方式编译的二进制文件依赖于 Kotlin 运行库, 当你编译的库被使用时, 你需要确保 Kotlin 运行库存在于类路径中.
@@ -97,7 +97,7 @@ $ kotlinc hello.kt -d hello.jar
 你也可以使用 `kotlin` 脚本来运行 Kotlin 编译器生成的二进制文件:
 
 ```bash
-$ kotlin -classpath hello.jar HelloKt
+kotlin -classpath hello.jar HelloKt
 ```
 
 `HelloKt` 是 Kotlin 编译器为 `hello.kt` 文件生成的 main 类名.
@@ -123,10 +123,10 @@ val folders = File(path).listFiles { file -> file.isDirectory() }
 folders?.forEach { folder -> println(folder) }
 ```
 
-要运行一个脚本, 请向编译器传递 `-script` 选项, 加上对应的脚本文件.
+要运行一个脚本, 请向编译器传递 `-script` 选项, 加上对应的脚本文件:
 
 ```bash
-$ kotlinc -script list_folders.kts -- -d <path_to_folder_to_inspect>
+kotlinc -script list_folders.kts -- -d <path_to_folder_to_inspect>
 ```
 
 Kotlin 支持脚本的自定义功能(实验性功能), 例如添加外部属性, 提供静态或动态依赖项, 等等.
@@ -138,7 +138,7 @@ Kotlin 支持脚本的自定义功能(实验性功能), 例如添加外部属性
 或者, 你也可以向编译器传递 `-script-templates` 选项, 手动指定脚本定义:
 
 ```bash
-$ kotlinc -script-templates org.example.CustomScriptDefinition -script custom.script1.kts
+kotlinc -script-templates org.example.CustomScriptDefinition -script custom.script1.kts
 ```
 
 更多详情请参见 [KEEP-75](https://github.com/Kotlin/KEEP/blob/master/proposals/scripting-support.md). 

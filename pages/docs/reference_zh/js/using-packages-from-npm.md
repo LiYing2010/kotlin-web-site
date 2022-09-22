@@ -7,7 +7,7 @@ title: "使用 npm 中的依赖项"
 
 # 使用 npm 中的依赖项
 
-本页面最终更新: 2022/04/07
+最终更新: {{ site.data.releases.latestDocDate }}
 
 在 Kotlin/JS 项目中, 所有的依赖项都可以通过 Gradle plugin 来管理. 包括 Kotlin/Multiplatform 库,
 比如`kotlinx.coroutines`, `kotlinx.serialization`, 或 `ktor-client`.

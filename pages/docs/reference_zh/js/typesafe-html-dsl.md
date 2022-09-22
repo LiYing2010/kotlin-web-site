@@ -7,7 +7,7 @@ title: "类型安全的 HTML DSL"
 
 # 类型安全的 HTML DSL
 
-本页面最终更新: 2022/04/07
+最终更新: {{ site.data.releases.latestDocDate }}
 
 [kotlinx.html 库](https://www.github.com/kotlin/kotlinx.html) 提供了使用静态类型的 HTML 构建器生成 DOM 元素的能力
 (而且除 JavaScript 之外, 它甚至能在 JVM 平台使用!)

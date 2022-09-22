@@ -7,7 +7,7 @@ title: "Kotlin 各部分组件的稳定性 (1.4 版以前)"
 
 # Kotlin 各部分组件的稳定性 (1.4 版以前)
 
-本页面最终更新: 2021/02/11
+最终更新: {{ site.data.releases.latestDocDate }}
 
 根据组件演进速度的不同, 可能存在几种不同的稳定性模式:
 <a name="moving-fast"></a>

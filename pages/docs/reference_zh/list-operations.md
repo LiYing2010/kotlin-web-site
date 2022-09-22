@@ -7,7 +7,7 @@ title: "List 相关操作"
 
 # List 相关操作
 
-本页面最终更新: 2021/02/11
+最终更新: {{ site.data.releases.latestDocDate }}
 
 [`List`](collections-overview.html#list) 是 Kotlin 内建集合中最常用的类型.
 基于下标的元素访问, 为 list 提供了很多功能强大的操作.

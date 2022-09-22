@@ -7,10 +7,10 @@ title: "为 Kotlin 代码编写文档: KDoc 与 Dokka"
 
 # 为 Kotlin 代码编写文档: KDoc 与 Dokka
 
-本页面最终更新: 2021/06/03
+最终更新: {{ site.data.releases.latestDocDate }}
 
-为 Kotlin 代码编写文档使用的语言 (相当于 Java 中的 JavaDoc) 称为 **KDoc**.
-本质上, KDoc 结合了 JavaDoc 和 Markdown, 它在块标签(block tag)使用 JavaDoc 语法(但做了扩展, 以便支持 Kotlin 特有的概念),
+为 Kotlin 代码编写文档使用的语言 (相当于 Java 中的 Javadoc) 称为 **KDoc**.
+本质上, KDoc 结合了 Javadoc 和 Markdown, 它在块标签(block tag)使用 Javadoc 语法(但做了扩展, 以便支持 Kotlin 特有的概念),
 Markdown 则用来表示内联标记(inline markup).
 
 ## 生成文档
@@ -22,7 +22,7 @@ Dokka 有 plugin 可用于 Gradle, Maven 以及 Ant 构建环境, 因此你可�
 
 ## KDoc 语法
 
-与 JavaDoc 一样, KDoc 以 `/**` 开始, 以 `*/` 结束.
+与 Javadoc 一样, KDoc 以 `/**` 开始, 以 `*/` 结束.
 文档中的每一行以星号开始, 星号本身不会被当作文档内容.
 
 按照通常的习惯, 文档的第一段(直到第一个空行之前的所有文字)是对象元素的概要说明,
@@ -135,7 +135,7 @@ KDoc 目前支持以下块标签:
 ```
 
 在链接中也可以使用带限定符的元素名称.
-注意, 与 JavaDoc 不同, 限定符的元素名称永远使用点号来分隔各个部分, 包括方法名称之前的分隔符, 也是点号:
+注意, 与 Javadoc 不同, 限定符的元素名称永远使用点号来分隔各个部分, 包括方法名称之前的分隔符, 也是点号:
 
 ```
 请使用 [kotlin.reflect.KClass.properties] 来列举一个类的属性.

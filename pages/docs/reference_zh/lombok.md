@@ -7,9 +7,9 @@ title: "Lombok 编译器插件"
 
 # Lombok 编译器插件
 
-本页面最终更新: 2022/04/14
+最终更新: {{ site.data.releases.latestDocDate }}
 
-> Lombok 编译器插件是 [试验性功能](components-stability.html).
+> Lombok 编译器插件是 [实验性功能](components-stability.html).
 > 它随时有可能变更或被删除. 请注意, 只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-7112) 提供你的反馈意见.
 {:.warning}
@@ -30,7 +30,7 @@ Lombok 编译器插件不能代替 [Lombok](https://projectlombok.org/), 但它�
 * `@With`
 * `@Value`
 
-我们还在继续改进这个插件. 关于当前的开发状态, 请参见 [Lombok 编译器插件的 README](https://github.com/JetBrains/kotlin/blob/master/plugins/lombok/lombok-compiler-plugin/README.md).
+我们还在继续改进这个插件. 关于当前的开发状态, 请参见 [Lombok 编译器插件的 README](https://github.com/JetBrains/kotlin/tree/master/plugins/lombok).
 
 目前, 我们不计划支持 `@Builder` 注解.
 但如果你 [在 YouTrack 投票支持 `@Builder`](https://youtrack.jetbrains.com/issue/KT-46959), 我们可以考虑增加这个功能.

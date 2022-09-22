@@ -7,7 +7,7 @@ title: "异常"
 
 # 异常(Exception)
 
-本页面最终更新: 2021/09/08
+最终更新: {{ site.data.releases.latestDocDate }}
 
 ## 异常类
 

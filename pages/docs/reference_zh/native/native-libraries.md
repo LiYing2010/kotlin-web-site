@@ -7,7 +7,7 @@ title: "Kotlin/Native 库"
 
 # Kotlin/Native 库
 
-本页面最终更新: 2021/03/01
+最终更新: {{ site.data.releases.latestDocDate }}
 
 ## Kotlin 编译器使用方法
 
@@ -40,7 +40,7 @@ $ cinterop -def samples/gitchurn/src/nativeInterop/cinterop/libgit2.def -compile
 
 我们可以得到 `libgit2.klib` 文件.
 
-详情请参见 [与 C 代码交互](native-c-interop.html)
+详情请参见 [与 C 代码交互](native-c-interop.html).
 
 
 ## klib 工具
@@ -182,3 +182,42 @@ Kotlin/Native 库是 zip 文件, 包含预定义的目录结构, 如下:
 ```
 
 在你的 Kotlin/Native 环境的 `klib/stdlib` 目录下可以找到这些库文件结构的例子.
+
+### 在 klib 中使用相对路径 
+
+> klib 中的相对路径功能从 Kotlin 1.6.20 开始可用.
+{:.note}
+
+源代码文件的序列化后的 IR 表达是一个 `klib` 库的[一部分](#library-format).
+其中包含文件路径, 用于生成正确的调试信息.
+默认情况下, 存储的路径是绝对路径.
+使用 `-Xklib-relative-path-base` , 你可以修改库的格式, 在 artifact 中只使用相对路径.
+要让这个功能有效, 需要向编译器选项的参数传递一个或多个源代码文件基准路径:
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).configureEach {
+  // $base 是源代码文件的基准路径
+  kotlinOptions.freeCompilerArgs += "-Xklib-relative-path-base=$base"
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+  kotlinOptions {
+    // $base 是源代码文件的基准路径
+    freeCompilerArgs += "-Xklib-relative-path-base=$base"
+  }
+}
+``` 
+
+</div>
+</div>

@@ -7,7 +7,7 @@ title: "惯用法"
 
 # 惯用法
 
-本页面最终更新: 2021/11/30
+最终更新: {{ site.data.releases.latestDocDate }}
 
 本章介绍 Kotlin 中的一些常见的习惯用法. 如果你有自己的好的经验, 可以将它贡献给我们. 你可以将你的修正提交到 git, 并创建一个 Pull Request.
 
@@ -45,7 +45,7 @@ val positives = list.filter { x -> x > 0 }
 val positives = list.filter { it > 0 }
 ```
 
-详情请参见 [Java 与 Kotlin 过滤处理的区别](jvm/java-to-kotlin-idioms-strings.html#create-a-string-from-collection-items).
+详情请参见 [Java 与 Kotlin 过滤处理的区别](jvm/java-to-kotlin-collections-guide.html#filter-elements).
 
 
 ## 在集合中检查元素是否存在
@@ -116,7 +116,7 @@ for (x in 10 downTo 1) { ... }
 ## 延迟计算(Lazy)属性
 
 ```kotlin
-val p: String by lazy {
+val p: String by lazy { // 只在第一次访问时计算属性值
     // 在这里计算字符串值
 }
 ```
@@ -173,6 +173,12 @@ println(files?.size) // 如果 files 不为 null, 这里会打印 size 值
 val files = File("Test").listFiles()
 
 println(files?.size ?: "empty") // 如果 files 为 null, 这里会打印 "empty"
+
+// 如果 files 为 null 时的 fallback 值需要通过一个代码段来计算, 可以使用 `run`
+val filesSize = files?.size ?: run {
+    return someSize
+}
+println(filesSize)
 ```
 
 ## 当值为 null 时, 执行某个语句
@@ -369,7 +375,7 @@ fun calcTaxes(): BigDecimal = TODO("Waiting for feedback from accounting")
 
 IntelliJ IDEA 的 Kotlin 插件能够理解 `TODO()` 函数的意义, 并会在 TODO 工具窗口中自动添加一条 TODO 项.
 
-## 下一步做什么
+## 下一步做什么?
 
 * 使用 Kotlin 的编程风格来解决 [Advent of Code 谜题](advent-of-code.html)
 * 学习如何执行 [Java 与 Kotlin 中的常见字符串处理任务](jvm/java-to-kotlin-idioms-strings.html)

@@ -7,7 +7,7 @@ title: "过滤(Filtering)集合"
 
 # 过滤(Filtering)集合
 
-本页面最终更新: 2021/10/15
+最终更新: {{ site.data.releases.latestDocDate }}
 
 在对集合的处理中, 过滤是最常见的任务之一.
 Kotlin 中, 过滤条件使用 _判定条件(predicate)_ 来表示 –
