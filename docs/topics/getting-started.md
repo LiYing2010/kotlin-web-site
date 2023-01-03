@@ -38,26 +38,26 @@ Here is how you can take the first steps in developing Kotlin server-side applic
    <td width="50%">
      A mature family of frameworks with an established ecosystem that is used by millions of developers worldwide.
    <br/>
-   <ul>
+   <list>
       <li><a href="jvm-spring-boot-restful.md">Create a RESTful web service with Spring Boot</a>.</li>
       <li><a href="https://spring.io/guides/tutorials/spring-boot-kotlin/">Build web applications with Spring Boot and Kotlin</a>.</li>
       <li><a href="https://spring.io/guides/tutorials/spring-webflux-kotlin-rsocket/">Use Spring Boot with Kotlin and RSocket</a>.</li>
-   </ul>
+   </list>
    </td>
    <td width="50%">
       A lightweight framework for those who value freedom in making architectural decisions.
-   <ul>
+   <list>
       <li><a href="https://ktor.io/docs/creating-http-apis.html">Create HTTP APIs with Ktor</a>.</li>
       <li><a href="https://ktor.io/docs/creating-web-socket-chat.html">Create a WebSocket chat with Ktor</a>.</li>
       <li><a href="https://ktor.io/docs/creating-interactive-website.html">Create an interactive website with Ktor</a>.</li>
       <li><a href="https://ktor.io/docs/heroku.html">Publish server-side Kotlin applications: Ktor on Heroku</a>.</li>
-   </ul>
+   </list>
    
    </td>
    </tr>
    </table>
 
-2. **Use Kotlin and third-party libraries in your application**. Learn more about [adding library and tool dependencies to your project](gradle.md#configure-dependencies).
+2. **Use Kotlin and third-party libraries in your application**. Learn more about [adding library and tool dependencies to your project](gradle-configure-project.md#configure-dependencies).
    * The [Kotlin standard library](https://kotlinlang.org/api/latest/jvm/stdlib/) offers a lot of useful things such as [collections](collections-overview.md) or [coroutines](coroutines-guide.md).
    * Take a look at the following [third-party frameworks, libs and tools for Kotlin](https://blog.jetbrains.com/kotlin/2020/11/server-side-development-with-kotlin-frameworks-and-libraries/).
 
@@ -85,17 +85,17 @@ Here you'll learn how to develop and improve your cross-platform mobile applicat
 
    * To start from scratch, [create a basic cross-platform mobile application with the project wizard](multiplatform-mobile-create-first-app.md).
    * If you have an existing Android application and want to make it cross-platform, complete the [Make your Android application work on iOS](multiplatform-mobile-integrate-in-existing-app.md) tutorial.
-   * If you prefer real-life examples, clone and play with an existing project, for example the networking and data storage project from the [hands-on tutorial](https://play.kotlinlang.org/hands-on/Networking%20and%20Data%20Storage%20with%20Kotlin%20Multiplatfrom%20Mobile/01_Introduction) or any [sample project](multiplatform-mobile-samples.md).
+   * If you prefer real-life examples, clone and play with an existing project, for example the networking and data storage project from the [Create a multiplatform app using Ktor and SQLdelight](multiplatform-mobile-ktor-sqldelight.md) tutorial or any [sample project](multiplatform-mobile-samples.md).
 
 3. **Use a wide set of multiplatform libraries** to implement the required business logic only once in the shared module. Learn more about [adding dependencies](multiplatform-add-dependencies.md).
-   
+
    |Library|Details|
    |-------|-------| 
-   | Ktor |  [Docs](https://ktor.io/docs/client.html).| 
-   | Serialization |  [Docs](serialization.md) and [sample](https://play.kotlinlang.org/hands-on/Networking%20and%20Data%20Storage%20with%20Kotlin%20Multiplatfrom%20Mobile/04_Creating_a_data_model).|
-   | Coroutines |  [Docs](multiplatform-mobile-concurrency-overview.md) and [sample](multiplatform-mobile-concurrency-and-coroutines.md).|
-   | DateTime | [Docs](https://github.com/Kotlin/kotlinx-datetime#readme).|
-   | SQLDelight | Third-party library. [Docs](https://cashapp.github.io/sqldelight/).|
+   | Ktor | [Docs](https://ktor.io/docs/client.html)| 
+   | Serialization | [Docs](serialization.md) and [sample](multiplatform-mobile-ktor-sqldelight.md#create-an-application-data-model)|
+   | Coroutines | [Docs](coroutines-guide.md) and [sample](coroutines-and-channels.md)|
+   | DateTime | [Docs](https://github.com/Kotlin/kotlinx-datetime#readme)|
+   | SQLDelight | Third-party library. [Docs](https://cashapp.github.io/sqldelight/)|
    
    > You can also find a multiplatform library in the [community-driven list](https://libs.kmp.icerock.dev/).
    > 
@@ -146,7 +146,7 @@ Here you'll learn how to develop and improve your frontend web application using
 
 3. **Learn more about Kotlin for frontend web development:**
 
-   * The [new Kotlin/JS IR compiler](js-ir-compiler.md) (currently with [Beta](components-stability.md) stability).
+   * The [new Kotlin/JS IR compiler](js-ir-compiler.md).
    * [Using dependencies from npm](using-packages-from-npm.md).
    * [Using Kotlin code from JavaScript](js-to-kotlin-interop.md).
 

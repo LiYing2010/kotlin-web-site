@@ -26,7 +26,7 @@ for string concatenation.
 To switch back to concatenation via [`StringBuilder.append()`](https://docs.oracle.com/javase/9/docs/api/java/lang/StringBuilder.html#append-java.lang.String-)
 used in previous versions, add the compiler option `-Xstring-concat=inline`.
 
-Learn how to add compiler options in [Gradle](gradle.md#compiler-options), [Maven](maven.md#specifying-compiler-options), and the [command-line compiler](compiler-reference.md#compiler-options).
+Learn how to add compiler options in [Gradle](gradle-compiler-options.md), [Maven](maven.md#specifying-compiler-options), and the [command-line compiler](compiler-reference.md#compiler-options).
 
 ### Support for JSpecify nullness annotations
 
@@ -210,7 +210,7 @@ This feature can increase the speed of kapt for consecutive Gradle runs.
 
 To enable this feature, use the following properties in your `gradle.properties` file:
 
-```properties
+```none
 # positive value will enable caching
 # use the same value as the number of modules that use kapt
 kapt.classloaders.cache.size=5

@@ -688,7 +688,7 @@ For example, if you write this Kotlin function:
 suspend fun queryData(id: Int): String = ...
 ```
 
-…then you can call it from Swift like so:
+...then you can call it from Swift like so:
 
 ```swift
 queryData(id: 17) { result, error in
@@ -967,7 +967,7 @@ addressed later.
 If you need a dependency only for a specific platform, you can still use platform-specific variants of standard and kotlinx 
 libraries with such suffixes as `-jvm` or` -js`, for example `kotlinx-coroutines-core-jvm`. 
 
-[Learn more about configuring dependencies](gradle.md#configure-dependencies).
+[Learn more about configuring dependencies](gradle-configure-project.md#configure-dependencies).
 
 ## Gradle project improvements
 
@@ -988,9 +988,9 @@ since they have the same versioning.
 
 For platform-specific source sets, the corresponding platform-specific variant of the library is used, while a common standard 
 library is added to the rest. The Kotlin Gradle plugin will select the appropriate JVM standard library depending on 
-the `kotlinOptions.jvmTarget` [compiler option](gradle.md#compiler-options) of your Gradle build script.
+the `kotlinOptions.jvmTarget` [compiler option](gradle-compiler-options.md) of your Gradle build script.
 
-[Learn how to change the default behavior](gradle.md#dependency-on-the-standard-library).
+[Learn how to change the default behavior](gradle-configure-project.md#dependency-on-the-standard-library).
 
 ### Minimum Gradle version for Kotlin projects
 
@@ -1259,7 +1259,7 @@ fun main() {
 #### ArrayDeque
 
 We've also added the `ArrayDeque` class – an implementation of a double-ended queue.
-Double-ended queue lets you can add or remove elements both at the beginning and the end of the queue in an amortized
+A double-ended queue lets you add or remove elements both at the beginning or end of the queue in an amortized
 constant time. You can use a double-ended queue by default when you need a queue or a stack in your code.
 
 ```kotlin

@@ -323,7 +323,7 @@ To run tests, execute the standard lifecycle `check` task:
 ./gradlew check
 ```
          
-To specify envirnoment variables used by your Node.js test runners (for example, to pass external information to your tests, or to fine-tune package resolution), use the `environment` function with a key-value pair inside the `testTask` block in your build script:
+To specify environment variables used by your Node.js test runners (for example, to pass external information to your tests, or to fine-tune package resolution), use the `environment` function with a key-value pair inside the `testTask` block in your build script:
          
 ```groovy
 kotlin {
@@ -360,7 +360,7 @@ If you have projects created with plugin versions earlier than 1.5.0,
 you can temporarily switch back to webpack %webpackPreviousMajorVersion% used in these versions by adding the following line
 to the project's `gradle.properties`:
 
-```properties
+```none
 kotlin.js.webpack.major.version=4
 ```
 

@@ -50,7 +50,29 @@ To enable the Kotlin K2 compiler and test it, use the following compiler option:
 -Xuse-k2
 ```
 
-You can check out the performance boost on your JVM projects and compare it with the results of the old compiler.
+You can specify it in your `build.gradle(.kts)` file:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+tasks.withType<KotlinCompile> {
+    kotlinOptions.useK2 = true
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+compileKotlin {
+    kotlinOptions.useK2 = true
+}
+```
+</tab>
+</tabs>
+
+Check out the performance boost on your JVM projects and compare it with the results of the old compiler.
 
 ### Leave your feedback on the new K2 compiler
 
@@ -190,7 +212,7 @@ fun main() {
 
 #### How to enable data objects
 
-To use data object declarations in your code, enable the `-language-version 1.8` compiler option. In a Gradle project,
+To use data object declarations in your code, enable the `-language-version 1.9` compiler option. In a Gradle project,
 you can do so by adding the following to your `build.gradle(.kts)`:
 
 <tabs group="build-script">
@@ -199,7 +221,7 @@ you can do so by adding the following to your `build.gradle(.kts)`:
 ```kotlin
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
     // ...
-    kotlinOptions.languageVersion = "1.8"
+    kotlinOptions.languageVersion = "1.9"
 }
 ```
 
@@ -209,7 +231,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
 ```groovy
 compileKotlin {
     // ...
-    kotlinOptions.languageVersion = '1.8'
+    kotlinOptions.languageVersion = '1.9'
 }
 ```
 </tab>
@@ -409,7 +431,7 @@ repeatable annotations.
 
 To use the IR backend in kapt, add the following option to your `gradle.properties` file:
 
-```properties
+```none
 kapt.use.jvm.ir=true
 ```
 
@@ -474,7 +496,7 @@ In certain cases, this restriction is no longer required, but a check of all the
 implemented. Because of this, we decided to keep it in the new memory manager while introducing an option for you to disable
 it. For this, add the following option to your `gradle.properties`:
 
-```properties
+```none
 kotlin.native.binary.objcExportSuspendFunctionLaunchThreadRestriction=none
 ```
 
@@ -569,7 +591,7 @@ kotlin {
 
 ### New method for JVM toolchain configuration
 
-This release provides the new `jvmToolchain()` method for enabling the [JVM toolchain feature](gradle.md#gradle-java-toolchains-support).
+This release provides a new `jvmToolchain()` method for enabling the [JVM toolchain feature](gradle-configure-project.md#gradle-java-toolchains-support).
 If you don't need any additional [configuration fields](https://docs.gradle.org/current/javadoc/org/gradle/jvm/toolchain/JavaToolchainSpec.html),
 such as `implementation` or `vendor`, you can use this method from the Kotlin extension:
 

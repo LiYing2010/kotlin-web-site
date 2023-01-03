@@ -1,9 +1,9 @@
 url: https://github.com/JetBrains/kotlin/releases
 
 latest:
-  version: 1.7.20
-  url: https://github.com/JetBrains/kotlin/releases/tag/v1.7.20
-  date: 2022/07/07
+  version: 1.8.0
+  url: https://github.com/JetBrains/kotlin/releases/tag/v1.8.0
+  date: 2022/12/28
 
   serialization:
     version: 1.4.0

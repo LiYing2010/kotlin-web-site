@@ -302,7 +302,7 @@ Previously, such functions were presented in Swift as `async` functions returnin
 
 To avoid breaking the existing code, we're introducing a Gradle property that makes the compiler translate `Unit`-returning suspend functions to `async` Swift with the `Void` return type:
 
-```properties
+```none
 # gradle.properties
 kotlin.native.binary.unitSuspendFunctionObjCExport=proper
 ```
@@ -393,7 +393,7 @@ Uncaught Kotlin exception: kotlin.IllegalStateException:
 
 To produce better stack traces with libbacktrace, add the following line to `gradle.properties`:
 
-```properties
+```none
 # gradle.properties
 kotlin.native.binary.sourceInfoType=libbacktrace
 ```
@@ -509,7 +509,7 @@ Starting with Kotlin 1.6.20, all your new multiplatform projects will have a hie
 
 * If you've already [turned it on manually](multiplatform-share-on-platforms.md#share-code-on-similar-platforms), you can remove the deprecated options from `gradle.properties`:
 
-  ```properties
+  ```none
   # gradle.properties
   kotlin.mpp.enableGranularSourceSetsMetadata=true
   kotlin.native.enableDependencyPropagation=false // or 'true', depending on your previous setup
@@ -519,7 +519,7 @@ Starting with Kotlin 1.6.20, all your new multiplatform projects will have a hie
 
 * You can also opt-out. To disable hierarchical structure support, set the following options in` gradle.properties`:
 
-  ```properties
+  ```none
   # gradle.properties
   kotlin.mpp.hierarchicalStructureSupport=false
   ```
@@ -583,7 +583,7 @@ Note that this improvement exclusively targets the development process (shorteni
 
 To enable incremental compilation for development binaries, add the following line to the project's `gradle.properties`:
 
-```properties
+```none
 # gradle.properties
 kotlin.incremental.js.ir=true // false by default
 ```
@@ -622,12 +622,12 @@ Starting from 1.6.20, the JS IR compiler generates separate `.js` files for proj
 
 Compiling the project into a single `.js` file is now available with the following Gradle property:
 
-```properties
+```none
 # gradle.properties
 kotlin.js.ir.output.granularity=whole-program // `per-module` is the default
 ```
 
-In previous releases, the experimental per-module mode (available via the `-Xir-per-module=true` flag) invoked `main()` functions in each module. This is inconsistent with the regular 'single .js' mode. Starting with 1.6.20,  the `main()` function will be invoked in the main module only in both cases. If you do need to run some code when a module is loaded, you can use top-local properties annotated with the `@EagerInitialization` annotation. See [Lazy initialization of top-level properties by default (IR)](#lazy-initialization-of-top-level-properties-by-default-with-ir-compiler).
+In previous releases, the experimental per-module mode (available via the `-Xir-per-module=true` flag) invoked `main()` functions in each module. This is inconsistent with the regular single `.js` mode. Starting with 1.6.20, the `main()` function will be invoked in the main module only in both cases. If you do need to run some code when a module is loaded, you can use top-level properties annotated with the `@EagerInitialization` annotation. See [Lazy initialization of top-level properties by default (IR)](#lazy-initialization-of-top-level-properties-by-default-with-ir-compiler).
 
 ### Char class optimization
 
@@ -668,7 +668,7 @@ If you are publishing a `klib` and want to use only relative paths of source fil
 <tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).configureEach {
+tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinCompile::class).configureEach {
     // $base is a base path of source files
     kotlinOptions.freeCompilerArgs += "-Xklib-relative-path-base=$base"
 }
@@ -678,7 +678,7 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).configure
 <tab title="Groovy" group-key="groovy">
 
 ```groovy
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinCompile).configureEach {
     kotlinOptions {
         // $base is a base path of source files
         freeCompilerArgs += "-Xklib-relative-path-base=$base"
@@ -807,7 +807,7 @@ Accordingly, the available values for `kotlin.compiler.execution.strategy` prope
 
 Use the Gradle property `kotlin.compiler.execution.strategy` in `gradle.properties`:
 
-```properties
+```none
 # gradle.properties
 kotlin.compiler.execution.strategy=out-of-process
 ```
@@ -818,13 +818,13 @@ The available values for the `compilerExecutionStrategy` task property are:
 2. `org.jetbrains.kotlin.gradle.tasks.KotlinCompilerExecutionStrategy.IN_PROCESS`
 3. `org.jetbrains.kotlin.gradle.tasks.KotlinCompilerExecutionStrategy.OUT_OF_PROCESS`
 
-Use the task property `compilerExecutionStrategy` in the `build.gradle.kts` buildscript:
+Use the task property `compilerExecutionStrategy` in the `build.gradle.kts` build script:
 
 ```kotlin
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilerExecutionStrategy
 
-// …
+// ...
 
 tasks.withType<KotlinCompile>().configureEach {
     compilerExecutionStrategy.set(KotlinCompilerExecutionStrategy.IN_PROCESS)
@@ -843,7 +843,7 @@ In Kotlin 1.6.20, we changed deprecation levels of the properties:
   We are going to remove the option `kapt.use.worker.api` in future releases.
 
 * We deprecated the `kotlin.experimental.coroutines` Gradle DSL option and the `kotlin.coroutines` property used in `gradle.properties`.
-  Just use _suspending functions_ or [add the `kotlinx.coroutines` dependency](gradle.md#set-a-dependency-on-a-kotlinx-library) to your `build.gradle(.kts)` file.
+  Just use _suspending functions_ or [add the `kotlinx.coroutines` dependency](gradle-configure-project.md#set-a-dependency-on-a-kotlinx-library) to your `build.gradle(.kts)` file.
   
   Learn more about coroutines in the [Coroutines guide](coroutines-guide.md).
 
@@ -853,6 +853,6 @@ In Kotlin 1.5.20, we announced [the deprecation of the build option `kotlin.para
 This option has been removed in Kotlin 1.6.20.
 
 Depending on the project, parallel compilation in the Kotlin daemon may require more memory.
-To reduce memory consumption, [increase the heap size for the Kotlin daemon](gradle.md#setting-kotlin-daemon-s-jvm-arguments).
+To reduce memory consumption, [increase the heap size for the Kotlin daemon](gradle-compilation-and-caches.md#setting-kotlin-daemon-s-jvm-arguments).
 
-Learn more about the [currently supported compiler options](gradle.md#compiler-options) in the Kotlin Gradle plugin.
+Learn more about the [currently supported compiler options](gradle-compiler-options.md) in the Kotlin Gradle plugin.

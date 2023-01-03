@@ -1,5 +1,9 @@
 [//]: # (title: What's new in Kotlin 1.7.0)
 
+<microformat>
+   <p>The IDE support for Kotlin 1.7.0 is available for IntelliJ IDEA 2021.2, 2021.3, and 2022.1.</p>
+</microformat>
+
 _[Release date: 9 June 2022](releases.md#release-details)_
 
 Kotlin 1.7.0 has been released. It unveils the Alpha version of the new Kotlin/JVM K2 compiler, stabilizes language
@@ -58,7 +62,7 @@ enable the Kotlin K2 compiler, use the following compiler option:
 -Xuse-k2
 ```
 
-Also, the K2 compiler [includes a number of bugfixes](https://youtrack.jetbrains.com/issues/KT?q=tag:%20fixed-in-frontend-ir%20sort%20by:%20Priority,%20votes,%20updated).
+Also, the K2 compiler [includes a number of bugfixes](https://youtrack.jetbrains.com/issues/KT?q=tag:%20FIR-preview-qa%20%23Resolved).
 Please note that even issues with **State: Open** from this list are in fact fixed in K2.
 
 The next Kotlin releases will improve the stability of the K2 compiler and provide more features, so stay tuned!
@@ -153,14 +157,14 @@ additional compiler configuration.
 
 Before 1.7.0, the opt-in feature itself required the argument `-opt-in=kotlin.RequiresOptIn` to avoid a warning. It no
 longer requires this; however, you can still use the compiler argument `-opt-in` to opt-in for other
-annotations, [module-wise](opt-in-requirements.md#module-wide-opt-in).
+annotations, [module-wide](opt-in-requirements.md#module-wide-opt-in).
 
 ### Stable definitely non-nullable types
 
 In Kotlin 1.7.0, definitely non-nullable types have been promoted to [Stable](components-stability.md). They provide
 better interoperability when extending generic Java classes and interfaces.
 
-You can mark a generic type parameter as definitely non-nullable at the use site with the new syntax `T & Any.` The
+You can mark a generic type parameter as definitely non-nullable at the use site with the new syntax `T & Any`. The
 syntactic form comes from the notation for [intersection types](https://en.wikipedia.org/wiki/Intersection_type) and is
 now limited to a type parameter with nullable upper bounds on the left side of `&` and a non-nullable `Any` on the right
 side:
@@ -233,7 +237,7 @@ The default target version for Kotlin/JVM compilations is `1.8`. The `1.6` targe
 
 Please migrate to JVM target 1.8 or above. Learn how to update the JVM target version for:
 
-* [Gradle](gradle.md#attributes-specific-to-jvm)
+* [Gradle](gradle-compiler-options.md#attributes-specific-to-jvm)
 * [Maven](maven.md#attributes-specific-to-jvm)
 * [The command-line compiler](compiler-reference.md#jvm-target-version)
 
@@ -275,7 +279,7 @@ in [YouTrack](https://youtrack.jetbrains.com/issue/KT-48525).
 
 Starting with Kotlin 1.7.0, the Kotlin Multiplatform Gradle plugin uses the embeddable compiler jar for Kotlin/Native by
 default. This [feature was announced in 1.6.0](whatsnew16.md#unified-compiler-plugin-abi-with-jvm-and-js-ir-backends) as
-Experimental, and now it's stable and ready to use.
+Experimental, and now it's Stable and ready to use.
 
 This improvement is very handy for library authors, as it improves the compiler plugin development experience. Before
 this release, you had to provide separate artifacts for Kotlin/Native, but now you can use the same compiler plugin
@@ -349,7 +353,7 @@ external links on the CI are forbidden.
 To override the default base URL `https://download.jetbrains.com/kotlin/native/builds`, use the following Gradle
 property:
 
-```properties
+```none
 kotlin.native.distribution.baseDownloadUrl=https://example.com
 ```
 
@@ -539,8 +543,7 @@ fun taggedFunction() {
 fun main() {
     val x = ::taggedFunction
     val foo = x as KAnnotatedElement
-    println(foo.findAnnotations<Tag>())
-    // [@Tag(name=First Tag), @Tag(name=Second Tag)]
+    println(foo.findAnnotations<Tag>()) // [@Tag(name=First Tag), @Tag(name=Second Tag)]
 }
 ```
 
@@ -605,7 +608,7 @@ functions can be used to unwrap and convert optional objects on the JVM and help
 concise.
 
 The `getOrNull()`, `getOrDefault()`, and `getOrElse()` extension functions allow you to get the value of an `Optional`
-if it's present. Otherwise, you get a default value, `null`, or a value returned by a function, respectively:
+if it's present. Otherwise, you get `null`, a default value, or a value returned by a function, respectively:
 
 ```kotlin
 val presentOptional = Optional.of("I'm here!")
@@ -747,7 +750,7 @@ improvement of greater than 80% for the changes after the cache hit.
 
 To try this new approach, set the following option in your `gradle.properties`:
 
-```properties
+```none
 kotlin.incremental.useClasspathSnapshot=true
 ```
 
@@ -784,7 +787,7 @@ Build reports come in handy when you want to investigate issues with compiler ta
 
 To enable build reports, declare where to save the build report output in `gradle.properties`:
 
-```properties
+```none
 kotlin.build.report.output=file
 ```
 
@@ -837,7 +840,7 @@ functionality.
 
 Currently, there are only two variants of the Kotlin Gradle plugin:
 
-* `main` for Gradle versions 6.7.1–6.9.2
+* `main` for Gradle versions 6.7.1–6.9.3
 * `gradle70` for Gradle versions 7.0 and higher
 
 In future Kotlin releases, we may add more.
@@ -896,7 +899,7 @@ Compile tasks have received lots of changes in this release:
 * The `AbstractCompile` task has the `sourceCompatibility` and `targetCompatibility` inputs. Since the `AbstractCompile`
   task is no longer inherited, these inputs are no longer available in Kotlin users' scripts.
 * The `SourceTask.stableSources` input is no longer available, and you should use the `sources` input. `setSource(...)`
-  methods that are still available.
+  methods are still available.
 * All compile tasks now use the `libraries` input for a list of libraries required for compilation. The `KotlinCompile`
   task still has the deprecated Kotlin property `classpath`, which will be removed in future releases.
 * Compile tasks still implement the `PatternFilterable` interface, which allows the filtering of Kotlin sources.
@@ -925,9 +928,11 @@ Enable the statistics in two steps:
   kapt {
       showProcessorStats = true
   }
+  ```
 
 * Set the `kapt.verbose` Gradle property to `true` in your `gradle.properties`:
-  ```properties
+  
+  ```none
   kapt.verbose=true
   ```
 
@@ -961,12 +966,12 @@ When using the `kotlin.compiler.execution.strategy` system property, you'll rece
 deleted in future releases. To preserve the old behavior, replace the system property with the Gradle property of the
 same name. You can do this in `gradle.properties`, for example:
 
-```properties
+```none
 kotlin.compiler.execution.strategy=out-of-process
 ```
 
 You can also use the compile task property `compilerExecutionStrategy`. Learn more about this on
-the [Gradle page](gradle.md#defining-kotlin-compiler-execution-strategy).
+the [Gradle page](gradle-compilation-and-caches.md#defining-kotlin-compiler-execution-strategy).
 
 ### Removal of deprecated options, methods, and plugins
 
@@ -994,7 +999,7 @@ We've completed the deprecation cycle for several compiler options:
 * The `kotlinOptions.jdkHome` compiler option was deprecated in 1.5.30 and has been removed in the current release.
   Gradle builds now fail if they contain this option. We encourage you to
   use [Java toolchains](whatsnew1530.md#support-for-java-toolchains), which have been supported since Kotlin 1.5.30.
-* The deprecated 'noStdlib' compiler option has also been removed. The Gradle plugin uses
+* The deprecated `noStdlib` compiler option has also been removed. The Gradle plugin uses
   the `kotlin.stdlib.default.dependency=true` property to control whether the Kotlin standard library is present.
 
 > The compiler arguments `-jdkHome` and `-no-stdlib` are still available.
@@ -1007,7 +1012,7 @@ In Kotlin 1.4.0, the `kotlin2js` and `kotlin-dce-plugin` plugins were deprecated
 release. Instead of `kotlin2js`, use the new `org.jetbrains.kotlin.js` plugin. Dead code elimination (DCE) works when
 the Kotlin/JS Gradle plugin is [properly configured](javascript-dce.md).
 
-In Kotlin 1.6.0, we changed the deprecation level of the `KotlinGradleSubplugin` class to 'ERROR'. Developers used this
+In Kotlin 1.6.0, we changed the deprecation level of the `KotlinGradleSubplugin` class to `ERROR`. Developers used this
 class for writing compiler plugins. In this
 release, [this class has been removed](https://youtrack.jetbrains.com/issue/KT-48831/). Use
 the `KotlinCompilerPluginSupportPlugin` class instead.
@@ -1020,7 +1025,7 @@ the `KotlinCompilerPluginSupportPlugin` class instead.
 
 We removed the deprecated `kotlin.experimental.coroutines` Gradle DSL option and the `kotlin.coroutines` property used
 in `gradle.properties`. Now you can just use _[suspending functions](coroutines-basics.md#extract-function-refactoring)_
-or [add the `kotlinx.coroutines` dependency](gradle.md#set-a-dependency-on-a-kotlinx-library) to your build
+or [add the `kotlinx.coroutines` dependency](gradle-configure-project.md#set-a-dependency-on-a-kotlinx-library) to your build
 script.
 
 Learn more about coroutines in the [Coroutines guide](coroutines-guide.md).

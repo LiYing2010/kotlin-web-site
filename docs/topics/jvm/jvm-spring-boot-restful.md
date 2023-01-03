@@ -91,7 +91,7 @@ containing a collection of `Message` objects:
    ```kotlin
    @RestController
    class MessageResource {
-       @GetMapping
+       @GetMapping("/")
        fun index(): List<Message> = listOf(
            Message("1", "Hello!"),
            Message("2", "Bonjour!"),
@@ -120,7 +120,7 @@ fun main(args: Array<String>) {
 
 @RestController
 class MessageResource {
-    @GetMapping
+    @GetMapping("/")
     fun index(): List<Message> = listOf(
         Message("1", "Hello!"),
         Message("2", "Bonjour!"),
@@ -161,7 +161,7 @@ before the `id` field. These annotations also require additional imports:
    import org.springframework.data.annotation.Id
    import org.springframework.data.relational.core.mapping.Table
   
-   @Table("messages")
+   @Table("MESSAGES")
    data class Message(@Id val id: String?, val text: String)
    ```
 
@@ -216,7 +216,7 @@ database query:
   
    @RestController
    class MessageResource(val service: MessageService) {
-       @GetMapping
+       @GetMapping("/")
        fun index(): List<Message> = service.findMessages()
   
        @PostMapping
@@ -252,7 +252,7 @@ the `Message` class.
 3. Open the `application.properties` file located in the `src/main/resources` folder and add the following application
 properties:
 
-   ```properties
+   ```none
    spring.datasource.driver-class-name=org.h2.Driver
    spring.datasource.url=jdbc:h2:file:./data/testdb
    spring.datasource.username=sa
@@ -334,7 +334,7 @@ curl -X GET --location "http://localhost:8080"
 Get your personal language map to help you navigate Kotlin features and track your progress in studying the language.
 We will also send you language tips and useful materials on using Kotlin with Spring.
 
-<a href="https://surveys.jetbrains.com/s3/Kotlin-tips?c=A">
+<a href="https://info.jetbrains.com/kotlin-tips.html">
    <img src="get-kotlin-language-map.png" width="700" alt="Get the Kotlin language map"/>
 </a>
 

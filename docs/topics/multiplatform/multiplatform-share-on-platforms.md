@@ -18,8 +18,9 @@ just share it in the common source set.
 
 ![Code shared for all platforms](flat-structure.png)
 
-All platform-specific source sets depend on the common source set by default. You don't need to specify any `dependsOn` 
-relations manually for default source sets, such as `jvmMain`, `macosX64Main`, and others. 
+Some dependencies for source sets are set by default. You don't need to specify any `dependsOn` relations manually:
+* For all platform-specific source sets that depend on the common source set, such as `jvmMain`, `macosX64Main`, and others. 
+* Between the `main` and `test` source sets of a particular target, such as `androidMain` and `androidTest`.
 
 If you need to access platform-specific APIs from the shared code, use the Kotlin mechanism of [expected and actual 
 declarations](multiplatform-connect-to-apis.md).
@@ -273,7 +274,7 @@ In addition to [platform libraries](native-platform-libs.md) shipped with Kotlin
 handle custom [`cinterop` libraries](native-c-interop.md) making them available in shared source sets. 
 To enable this support, specify the additional `kotlin.mpp.enableCInteropCommonization` key:
 
-```properties
+```none
 kotlin.mpp.enableCInteropCommonization=true
 ```
 

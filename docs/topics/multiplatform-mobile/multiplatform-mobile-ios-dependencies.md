@@ -47,13 +47,13 @@ have some other strong reason to do so.
     <tab title="Groovy" group-key="groovy">
 
     ```groovy
-        kotlin {
-       cocoapods {
-          //..
-          pod('AFNetworking') {
-             version = '~> 4.0.1'
-          }
-       }
+    kotlin {
+        cocoapods {
+            //..
+            pod('AFNetworking') {
+                version = '~> 4.0.1'
+            }
+        }
     }
     ```
 
@@ -64,7 +64,6 @@ have some other strong reason to do so.
     * [From the CocoaPods repository](native-cocoapods-libraries.md#from-the-cocoapods-repository)
     * [On a locally stored library](native-cocoapods-libraries.md#on-a-locally-stored-library)
     * [From a custom Git repository](native-cocoapods-libraries.md#from-a-custom-git-repository)
-    * [From an archive](native-cocoapods-libraries.md#from-a-zip-tar-or-jar-archive)
     * [From a custom Podspec repository](native-cocoapods-libraries.md#from-a-custom-podspec-repository)
     * [With custom cinterop options](native-cocoapods-libraries.md#with-custom-cinterop-options)
     * [On a static Pod library](native-cocoapods-libraries.md#on-a-static-pod-library)
@@ -106,7 +105,7 @@ and [frameworks](#add-a-framework-without-cocoapods), but the idea remains the s
     * `package` sets the name of the package these declarations should be put into.
 
    For example:
-    ```properties
+    ```none
     headers = DateTools.h
     package = DateTools
     ```
@@ -153,7 +152,7 @@ and [frameworks](#add-a-framework-without-cocoapods), but the idea remains the s
                     DateTools {
                         // Path to .def file
                         defFile("src/nativeInterop/cinterop/DateTools.def")
-                   
+
                         // Directories for header search (an analogue of the -I<path> compiler option)
                         includeDirs("include/this/directory", "path/to/another/directory")
                     }
@@ -194,8 +193,11 @@ import DateTools.*
 
 5. Provide values for these two mandatory properties:
     * `modules` – the name of the framework that should be processed by the cinterop.
-    * `package` – the name of the package these declarations should be put into. For example:
-    ```properties
+    * `package` – the name of the package these declarations should be put into.
+
+    For example:
+    
+    ```none
     modules = MyFramework
     package = MyFramework
     ```
@@ -217,9 +219,9 @@ import DateTools.*
                     // Path to .def file
                     defFile("src/nativeInterop/cinterop/DateTools.def")
 
-                   compilerOpts("-framework", "MyFramework", "-F/path/to/framework/")
-               }
-               val anotherInterop by cinterops.creating { /* ... */ }
+                    compilerOpts("-framework", "MyFramework", "-F/path/to/framework/")
+                }
+                val anotherInterop by cinterops.creating { /* ... */ }
             }
 
             binaries.all {
@@ -241,7 +243,7 @@ import DateTools.*
                     DateTools {
                         // Path to .def file
                         defFile("src/nativeInterop/cinterop/MyFramework.def")
-                   
+
                         compilerOpts("-framework", "MyFramework", "-F/path/to/framework/")
                     }
                     anotherInterop { /* ... */ }
@@ -281,7 +283,8 @@ project depends on:
 * Multiplatform libraries that don't support the hierarchical structure.
 * Third-party iOS libraries, with the exception of [platform libraries](native-platform-libs.md) supported out of the
   box.
-  This issue applies only to the shared iOS source set. The IDE will correctly support the rest of the code.
+
+This issue applies only to the shared iOS source set. The IDE will correctly support the rest of the code.
 
 > All projects created with the Kotlin Multiplatform Mobile Project Wizard support the hierarchical structure, which means this issue affects them.
 >
@@ -327,7 +330,7 @@ Alternatively, you can enable the support of platform-dependent interop librarie
 handle custom [`cinterop` libraries](native-c-interop.md) making them available in shared source sets.
 To enable this feature, add the `kotlin.mpp.enableCInteropCommonization=true` property in your `gradle.properties`:
 
-```properties
+```none
 kotlin.mpp.enableCInteropCommonization=true
 ```
 
