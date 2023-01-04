@@ -8,6 +8,7 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/external/kotlin-for-python-developers" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/kotlinx-lincheck" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/kotlinx.coroutines" vcs="Git" />
   </component>
 </project>
