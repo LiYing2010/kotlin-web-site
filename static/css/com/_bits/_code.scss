@@ -2,7 +2,9 @@
 @import 'pre';
 
 %code-block {
-    display: block;
+    display: inline-block;
+    white-space: pre;
+    min-width: 640px;
     padding: 15px 20px;
     font-family: $font-family-mono;
 }

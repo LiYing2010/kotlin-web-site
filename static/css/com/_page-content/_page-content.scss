@@ -69,6 +69,7 @@ pre {
     @extend %pre;
     margin-bottom: $vertical-rhythm-unit;
     page-break-inside: avoid;
+    overflow: auto;
 }
 
 // code
