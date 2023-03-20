@@ -22,3 +22,40 @@
     font-weight: bold;
 }
 
+.toc-node-title {
+    font-size: 22px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.toc-node {
+    font-size: 18px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-right: 32px;
+}
+
+.toc-node-h1 {
+    padding-left: 16px;
+}
+
+.toc-node-h2 {
+    padding-left: 16px;
+}
+
+.toc-node-h3 {
+    padding-left: 32px;
+}
+
+.toc-node-h4 {
+    padding-left: 48px;
+}
+
+.toc-item {
+    text-decoration: none;
+    color: #19191c;
+}
+
+a.toc-item:hover {
+    background-color: #EEEEEE;
+}

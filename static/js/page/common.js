@@ -8,6 +8,7 @@ import CodeMirror from '../com/codemirror/CodeMirror';
 import './code-blocks';
 import '../com/head-banner';
 import {initComponents} from '../ktl-component';
+import './table-of-contents';
 
 function trackEvent(event) {
   window.dataLayer = window.dataLayer || [];

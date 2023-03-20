@@ -8,6 +8,11 @@
     padding-top: 40px;
     padding-bottom: 40px;
     flex: 1 0 auto;
+    width: 100%;
+
+    .side-tree-nav {
+        padding-left: 20px;
+    }
 }
 
 .global-layout {

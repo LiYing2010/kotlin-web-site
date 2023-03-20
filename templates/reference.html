@@ -15,19 +15,25 @@
 
       {# ==================== BEGIN ==================== #}
       {# for Chinese Translation #}
-      <aside class="g-3">
+      <aside class="g-2">
         <div class="js-side-tree-nav">
           {{ side_tree_nav(nav.reference.content) }}
         </div>
       </aside>
       {# ===================== END ===================== #}
 
-      <article role="main" class="page-content g-9"{%- if site.contenteditable -%} contenteditable="true"{%- endif -%}>
+      <article role="main" class="page-content g-8"{%- if site.contenteditable -%} contenteditable="true"{%- endif -%}>
             {% include 'inc/edit-on-github-link.html' %}
 
             {% block page_content %}
                 {{ page.html | safe }}
             {% endblock %}
         </article>
+
+      <aside class="g-2">
+        <div>
+          <ul id="tableOfContents"></ul>
+        </div>
+      </aside>
     </div>
 {% endblock %}
