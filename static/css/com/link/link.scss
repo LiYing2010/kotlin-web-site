@@ -1,0 +1,19 @@
+.link-external {
+  text-decoration: none;
+
+  &::after {
+    margin-left: 4px;
+    font-size: 6px;
+    font-weight: 400;
+    content: "\2197";
+  }
+}
+
+.page-content {
+  .typo-link {
+    text-decoration: none;
+    border-bottom: 1px solid #D1D1D2;
+
+    color: rgba(25, 25, 28, 0.7);
+  }
+}
