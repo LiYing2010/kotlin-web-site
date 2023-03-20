@@ -297,6 +297,14 @@ kotlin {
 }
 ```
 
+Alternatively, you can add test targets for browsers in the `gradle.properties` file:
+
+```text
+kotlin.js.browser.karma.browsers=firefox,safari
+```
+
+This approach allows you to define a list of browsers for all modules, and then add specific browsers in the build scripts of particular modules. 
+
 Please note that the Kotlin/JS Gradle plugin does not automatically install these browsers for you, but only uses those
 that are available in its execution environment. If you are executing Kotlin/JS tests on a continuous integration server,
 for example, make sure that the browsers you want to test against are installed.
@@ -439,31 +447,91 @@ used settings are available directly from the `build.gradle(.kts)` file.
 To turn on CSS support in your project, set the `cssSupport.enabled` option in the Gradle build file in the `commonWebpackConfig`
 block. This configuration is also enabled by default when creating a new project using the wizard.
 
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+browser {
+    commonWebpackConfig {
+        cssSupport {
+            enabled.set(true)
+        }
+    }
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
 ```groovy
 browser {
     commonWebpackConfig {
-        cssSupport.enabled = true
+        cssSupport {
+            it.enabled.set(true)
+        }
     }
-    binaries.executable()
 }
 ```
+
+</tab>
+</tabs>
 
 Alternatively, you can add CSS support independently for `webpackTask`, `runTask`, and `testTask`.
 
-```groovy
-webpackTask {
-   cssSupport.enabled = true
-}
-runTask {
-   cssSupport.enabled = true
-}
-testTask {
-   useKarma {
-      // . . .
-      webpackConfig.cssSupport.enabled = true
-   }
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+browser {
+    webpackTask {
+        cssSupport {
+            enabled.set(true)
+        }
+    }
+    runTask {
+        cssSupport {
+            enabled.set(true)
+        }
+    }
+    testTask {
+        useKarma {
+            // . . .
+            webpackConfig.cssSupport {
+                enabled.set(true)
+            }
+        }
+    }
 }
 ```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+browser {
+    webpackTask {
+        cssSupport {
+            it.enabled.set(true)
+        }
+    }
+    runTask {
+        cssSupport {
+            it.enabled.set(true)
+        }
+    }
+    testTask {
+        useKarma {
+            // . . .
+            webpackConfig.cssSupport {
+                it.enabled.set(true)
+            }
+        }
+    }
+}
+```
+
+</tab>
+</tabs>
 
 Activating CSS support in your project helps prevent common errors that occur when trying to use style sheets from
 an unconfigured project, such as `Module parse failed: Unexpected character '@' (14:0)`.
@@ -586,9 +654,9 @@ If needed, you can change both directory and lockfile names in the build script:
 
 ```kotlin
 rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin> {
-   rootProject.the<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension>().lockFileDirectory =
-       project.rootDir.resolve("my-kotlin-js-store")
-   rootProject.the<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension>().lockFileName = "my-yarn.lock"
+    rootProject.the<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension>().lockFileDirectory =
+        project.rootDir.resolve("my-kotlin-js-store")
+    rootProject.the<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension>().lockFileName = "my-yarn.lock"
 }
 ```
 
@@ -597,9 +665,9 @@ rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlu
 
 ```groovy
 rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin) {
-  rootProject.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension).lockFileDirectory =
-           file("my-kotlin-js-store")
- rootProject.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension).lockFileName = 'my-yarn.lock'
+    rootProject.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension).lockFileDirectory =
+        file("my-kotlin-js-store")
+    rootProject.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension).lockFileName = 'my-yarn.lock'
 }
 ``` 
 
@@ -611,6 +679,57 @@ rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlu
 {type="warning"}
 
 To learn more about `yarn.lock`, please visit the [official Yarn documentation](https://classic.yarnpkg.com/lang/en/docs/yarn-lock/).
+
+### Reporting that yarn.lock has been updated
+
+Kotlin/JS provides Gradle settings that could notify you if the `yarn.lock` file has been updated.
+You can use these settings when you want to be notified if `yarn.lock` has been changed silently
+during the CI build process:
+
+* `YarnLockMismatchReport`, which specifies how changes to the `yarn.lock` file are reported. You can use one of the
+  following values:
+    * `FAIL` fails the corresponding Gradle task. This is the default.
+    * `WARNING` writes the information about changes in the warning log.
+    * `NONE` disables reporting.
+* `reportNewYarnLock`, which reports about the recently created `yarn.lock` file explicitly. By default, this option is
+  disabled: it's a common practice to generate a new `yarn.lock` file at the first start. You can use this option to
+  ensure that the file has been committed to your repository.
+* `yarnLockAutoReplace`, which replaces `yarn.lock` automatically every time the Gradle task is run.
+
+To use these options, update your build script file `build.gradle(.kts)` as follows:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockMismatchReport
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
+
+rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin::class.java) {
+    rootProject.the<YarnRootExtension>().yarnLockMismatchReport =
+        YarnLockMismatchReport.WARNING // NONE | FAIL
+    rootProject.the<YarnRootExtension>().reportNewYarnLock = false // true
+    rootProject.the<YarnRootExtension>().yarnLockAutoReplace = false // true
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockMismatchReport
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
+
+rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin) {
+    rootProject.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension).yarnLockMismatchReport =
+        YarnLockMismatchReport.WARNING // NONE | FAIL
+    rootProject.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension).reportNewYarnLock = false // true
+    rootProject.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension).yarnLockAutoReplace = false // true
+}
+```
+
+</tab>
+</tabs>
 
 ### Installing npm dependencies with --ignore-scripts by default
 
@@ -629,7 +748,7 @@ You can explicitly enable lifecycle scripts execution by adding the following li
 
 ```kotlin
 rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin> { 
-  rootProject.the<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension>().ignoreScripts = false
+    rootProject.the<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension>().ignoreScripts = false
 }
 ```
 
@@ -638,7 +757,7 @@ rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlu
 
 ```groovy
 rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin) {
-  rootProject.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension).ignoreScripts = false
+    rootProject.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension).ignoreScripts = false
 }
 ``` 
 
@@ -697,7 +816,7 @@ the corresponding `.js` and `.d.ts` files, use the `moduleName` option:
 
 ```groovy
 js {
-   moduleName = "myModuleName"
+    moduleName = "myModuleName"
 }
 ```
 
@@ -729,10 +848,10 @@ kotlin {
 
 When you build the project, this code will add the following block to the `package.json` file:
 
-```
+```json
 "hello": {
-  "one": 1,
-  "two": 2
+    "one": 1,
+    "two": 2
 }
 ```
 

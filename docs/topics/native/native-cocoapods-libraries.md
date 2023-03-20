@@ -1,7 +1,7 @@
 [//]: # (title: Add dependencies on a Pod library)
 
-To add dependencies between a Kotlin project and a Pod library, you should [complete the initial configuration](native-cocoapods.md#set-up-an-environment-to-work-with-cocoapods).
-This allows you to add dependencies on different types of Pod libraries.
+To add dependencies between a Kotlin project and a Pod library, [complete the initial configuration](native-cocoapods.md#set-up-an-environment-to-work-with-cocoapods).
+You can then add dependencies on different types of Pod libraries.
 
 When you add a new dependency and re-import the project in IntelliJ IDEA, the new dependency will be added automatically.
 No additional steps are required.
@@ -164,18 +164,6 @@ import cocoapods.AFNetworking.*
 
 3. Re-import the project.
 
-> To work correctly with Xcode, you should specify the path to the Podspec in your Podfile.
-> For example:
->
-> ```ruby
-> target 'ios-app' do
->     # ... other pod dependencies ...
->     pod 'JSONModel', :path => '../cocoapods/kmm-with-cocoapods-sample/kotlin-library/build/cocoapods/externalSources/git/JSONModel'
-> end
-> ```
->
-{type="note"}
-
 To use these dependencies from the Kotlin code, import the packages `cocoapods.<library-name>`.
 
 ```kotlin
@@ -216,16 +204,6 @@ import cocoapods.CocoaLumberjack.*
 > For example,
 > ```ruby
 > source 'https://github.com/Kotlin/kotlin-cocoapods-spec.git'
-> ```
->
-> You should also specify the path to the Podspec in your Podfile.
-> For example:
->
-> ```ruby
-> target 'ios-app' do
->     # ... other pod dependencies ...
->     pod 'podspecWithFilesExample', :path => '../cocoapods/kmm-with-cocoapods-sample/pod_dependency'
-> end
 > ```
 >
 {type="note"}

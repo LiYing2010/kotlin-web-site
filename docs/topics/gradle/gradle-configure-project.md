@@ -138,9 +138,9 @@ the `compileJava` task has (or [inherits](https://docs.gradle.org/current/usergu
 Configure the behavior of this check by setting the `kotlin.jvm.target.validation.mode` property in the `build.gradle`
 file to:
 
-* `error` – the plugin will fail the build; the default value for projects on Gradle 8.0+.
-* `warning` – the Kotlin Gradle plugin will print a warning message; the default value for projects on Gradle less than 8.0.
-* `ignore` – the plugin will skip the check and won't produce any messages.
+* `error` – the plugin fails the build; the default value for projects on Gradle 8.0+.
+* `warning` – the plugin prints a warning message; the default value for projects on Gradle less than 8.0.
+* `ignore` – the plugin skips the check and doesn't produce any messages.
 
 To avoid JVM target incompatibility, [configure a toolchain](#gradle-java-toolchains-support) or align JVM versions manually.
 
@@ -190,9 +190,13 @@ to solve this issue.
 
 ### Gradle Java toolchains support
 
-> A warning for Android users. Gradle Java toolchain support [is available](https://issuetracker.google.com/issues/194113162) only from the Android Gradle plugin 7.4.0.
-> Nevertheless, because of [this issue](https://issuetracker.google.com/issues/260059413), it does not set 'targetCompatibility' to be equal to the toolchain's JDK.
-> You need to configure it manually via `compileOptions`. Replace the placeholder `<MAJOR_JDK_VERSION>` with the JDK version you would like to use:
+> A warning for Android users. To use Gradle toolchain support, use the Android Gradle plugin (AGP) version 8.1.0-alpha09 or higher. 
+> 
+> Gradle Java toolchain support [is available](https://issuetracker.google.com/issues/194113162) only from AGP 7.4.0.
+> Nevertheless, because of [this issue](https://issuetracker.google.com/issues/260059413), AGP did not set `targetCompatibility` 
+> to be equal to the toolchain's JDK until the version 8.1.0-alpha09.
+> If you use versions less than 8.1.0-alpha09, you need to configure `targetCompatibility` manually via `compileOptions`. 
+> Replace the placeholder `<MAJOR_JDK_VERSION>` with the JDK version you would like to use:
 >
 > ```kotlin
 > android {
@@ -233,10 +237,12 @@ Use the following code to set a toolchain. Replace the placeholder `<MAJOR_JDK_V
 ```kotlin
 kotlin {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>)) // "8"
+        languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>))
     }
     // Or shorter:
-    jvmToolchain(<MAJOR_JDK_VERSION>) // "8"
+    jvmToolchain(<MAJOR_JDK_VERSION>)
+    // For example:
+    jvmToolchain(8)
 }
 ```
 
@@ -246,10 +252,12 @@ kotlin {
 ```groovy
 kotlin {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>)) // "8"
+        languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>))
     }
     // Or shorter:
-    jvmToolchain(<MAJOR_JDK_VERSION>) // "8"
+    jvmToolchain(<MAJOR_JDK_VERSION>)
+    // For example:
+    jvmToolchain(8)
 }
 ```
 
@@ -266,7 +274,7 @@ You can set a toolchain via the `java` extension, and Kotlin compilation tasks w
 ```kotlin
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>)) // "8" 
+        languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>)) 
     }
 }
 ```
@@ -277,7 +285,7 @@ java {
 ```groovy
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>)) // "8" 
+        languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>)) 
     }
 }
 ```
@@ -305,7 +313,7 @@ If you want Gradle to search for the major JDK version, replace the `<MAJOR_JDK_
 ```kotlin
 val service = project.extensions.getByType<JavaToolchainService>()
 val customLauncher = service.launcherFor {
-    it.languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>)) // "8"
+    languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>))
 }
 project.tasks.withType<UsesKotlinJavaToolchain>().configureEach {
     kotlinJavaToolchain.toolchain.use(customLauncher)
@@ -318,7 +326,7 @@ project.tasks.withType<UsesKotlinJavaToolchain>().configureEach {
 ```groovy
 JavaToolchainService service = project.getExtensions().getByType(JavaToolchainService.class)
 Provider<JavaLauncher> customLauncher = service.launcherFor {
-    it.languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>)) // "8"
+    it.languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>))
 }
 tasks.withType(UsesKotlinJavaToolchain::class).configureEach { task ->
     task.kotlinJavaToolchain.toolchain.use(customLauncher)
@@ -601,11 +609,11 @@ kotlin.stdlib.default.dependency=false
 If you explicitly write the Kotlin version 1.8.0 or higher in your dependencies, for example: 
 `implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.0")`, then the Kotlin Gradle Plugin uses this Kotlin version 
 for transitive `kotlin-stdlib-jdk7` and `kotlin-stdlib-jdk8` dependencies. This is for avoiding class duplication from 
-different stdlib versions.[Learn more about [merging `kotlin-stdlib-jdk7` and `kotlin-stdlib-jdk8` into `kotlin-stdlib`](whatsnew18.md#updated-jvm-compilation-target). 
+different stdlib versions. [Learn more about [merging `kotlin-stdlib-jdk7` and `kotlin-stdlib-jdk8` into `kotlin-stdlib`](whatsnew18.md#updated-jvm-compilation-target). 
 You can disable this behavior with the `kotlin.stdlib.jdk.variants.version.alignment` Gradle property:
 
 ```none
- `kotlin.stdlib.jdk.variants.version.alignment=false`
+kotlin.stdlib.jdk.variants.version.alignment=false
 ```
 
 ##### Other ways to align versions {initial-collapse-state="collapsed"}

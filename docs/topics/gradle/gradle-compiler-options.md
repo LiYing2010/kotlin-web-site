@@ -22,20 +22,18 @@ For example:
 <tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
-compileKotlin.compilerOptions.freeCompilerArgs.add("-Xexport-kdoc")
+tasks.named("compileKotlin", org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask::class.java) {
+    compilerOptions {
+        freeCompilerArgs.add("-Xexport-kdoc")
+    }
+}
 ```
 
 </tab>
 <tab title="Groovy" group-key="groovy">
 
 ```groovy
-compileKotlin {
-    compilerOptions.freeCompilerArgs.add("-Xexport-kdoc")
-}
-
-//or
-
-compileKotlin {
+tasks.named('compileKotlin', org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask.class) {
     compilerOptions {
         freeCompilerArgs.add("-Xexport-kdoc")
     }
@@ -93,19 +91,26 @@ It is also possible to configure all of the Kotlin compilation tasks in the proj
 <tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<*>>().configureEach {
-    compilerOptions { /*...*/ }
-}
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
+// ...
+
+val compileKotlin = tasks.named<KotlinCompilationTask<*>>("compileKotlin")
+
+compileKotlin.compilerOptions { /*...*/ }
 ```
 
 </tab>
 <tab title="Groovy" group-key="groovy">
 
 ```groovy
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask).configureEach {
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
+// ...
+
+tasks.named('compileKotlin', KotlinCompilationTask) {
     compilerOptions { /*...*/ }
 }
 ```
+
 </tab>
 </tabs>
 
@@ -181,8 +186,8 @@ tasks.named('compileKotlin', KotlinCompilationTask) {
 
 | Name | Description | Possible values |Default value |
 |------|-------------|-----------------|--------------|
-| `apiVersion` | Restrict the use of declarations to those from the specified version of bundled libraries | "1.3" (DEPRECATED), "1.4" (DEPRECATED), "1.5", "1.6", "1.7", "1.8", "1.9" |  |
-| `languageVersion` | Provide source compatibility with the specified version of Kotlin | "1.4" (DEPRECATED), "1.5", "1.6", "1.7", "1.8", "1.9" |  |
+| `apiVersion` | Restrict the use of declarations to those from the specified version of bundled libraries | "1.3" (DEPRECATED), "1.4" (DEPRECATED), "1.5", "1.6", "1.7", "1.8", "1.9" (EXPERIMENTAL) |  |
+| `languageVersion` | Provide source compatibility with the specified version of Kotlin | "1.3" (DEPRECATED), "1.4" (DEPRECATED), "1.5", "1.6", "1.7", "1.8", "1.9" (EXPERIMENTAL) |  |
 
 Also, see [Types for compiler options](#types-for-compiler-options).
 

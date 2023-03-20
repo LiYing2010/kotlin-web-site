@@ -177,3 +177,36 @@ a, a:hover  {
   width: 100%;
   height: 100%;
 }
+
+.kotlin-banner-section_first {
+  display: block;
+  padding-bottom: var(--xxl-space);
+}
+
+#try-kotlin-examples {
+  padding-top: 0;
+  padding-bottom: var(--xxxl-space);
+}
+
+#kotlin-values-examples {
+  display: none;
+  padding-top: 0;
+  padding-bottom: var(--xxxl-space);
+}
+
+.experiment2-kotlin-values {
+  &__variant-1 {
+    /** by default **/
+
+  }
+
+  &__variant-2 {
+    #try-kotlin-examples {
+      display: none;
+    }
+
+    #kotlin-values-examples {
+      display: block;
+    }
+  }
+}
