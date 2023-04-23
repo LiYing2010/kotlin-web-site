@@ -7,6 +7,8 @@ title: "KUG 指南"
 
 # KUG 指南
 
+最终更新: {{ site.data.releases.latestDocDate }}
+
 Kotlin User Group, 简称 KUG, 是一个专注于 Kotlin 的开发社区, 你可以在这里与其他志趣相投的人分享你的 Kotlin 编程经验.
 
 要成为 KUG, 你的开发社区需要满足每个 KUG 都必须的特定的条件. 包括:
@@ -25,7 +27,7 @@ Kotlin User Group, 简称 KUG, 是一个专注于 Kotlin 的开发社区, 你可
 
 * 为了提升团体的团结性, 防止沟通不畅, 我们推荐每个城市只限存在 1 个 KUG.
   请查看 [KUG 列表](https://kotlinlang.org/community/user-groups), 确认在你的地区是否已有 KUG 存在.
-* 使用官方的 KUG logo 和品牌. 请查看 [品牌指南](kotlin-brand-assets.html#kotlin-user-group-brand-assets).
+* 使用官方的 KUG Logo 和品牌. 请查看 [品牌指南](kotlin-brand-assets.html#kotlin-user-group-brand-assets).
 * 让你的用户组保持活跃. 定期举办聚会, 至少每 3 个月 1 次.
 * 至少提前 2 周公布你的 KUG 聚会计划. 公告应该包含演讲题目和演讲者姓名的列表, 以及地点, 时间, 以及关于这个活动的其他任何重要信息.
 * KUG 活动应该免费, 或者, 如果你需要支付活动经费, 参加费应该限制在 10 美元以内.
@@ -43,7 +45,7 @@ Kotlin User Group, 简称 KUG, 是一个专注于 Kotlin 的开发社区, 你可
 * Kotlin 网站的特别访问权限.
 * JetBrains 产品的免费 License, 供聚会时抽奖发送.
 * Kotlin 活动和促销时的优先支持.
-* 帮助你的活动招募演讲者.
+* 帮助你的活动招募 Kotlin 演讲者.
 
 ## JetBrains 对其它技术社区的支持
 

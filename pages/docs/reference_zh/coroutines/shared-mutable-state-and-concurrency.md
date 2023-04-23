@@ -7,7 +7,7 @@ title: "共享的可变状态与并发"
 
 # 共享的可变状态值与并发
 
-最终更新: {{ site.data.releases.latestCoroutinesDocDate }}
+最终更新: {{ site.data.releases.latestDocDate }}
 
 <!--- TEST_NAME SharedStateGuideTest -->
 
@@ -142,7 +142,7 @@ Completed 100000 actions in
 Counter =
 -->
 
-代码运行变慢了, 但最终我们还是得不到 "Counter = 100000",
+代码运行变慢了, 但我们还是不能总是得到 "Counter = 100000" 的最后结果,
 因为 volatile 变量保证线性的(linearizable) (意思就是 "原子性(atomic)") 读和写操作,
 但不能保证更大的操作(在我们的例子中, 就是加 1 操作)的原子性.
 

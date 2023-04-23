@@ -2,10 +2,10 @@
 type: doc
 layout: reference
 category:
-title: "教程 - 使用 Spring Boot 创建一个有数据库的 RESTful Web 服务"
+title: "教程 - 使用 Spring Boot 创建有数据库的 RESTful Web 服务"
 ---
 
-# 教程 - 使用 Spring Boot 创建一个有数据库的 RESTful Web 服务
+# 教程 - 使用 Spring Boot 创建有数据库的 RESTful Web 服务
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
@@ -34,7 +34,7 @@ title: "教程 - 使用 Spring Boot 创建一个有数据库的 RESTful Web 服�
 > 你可以也使用 [IntelliJ IDEA 和 Spring Boot plugin](https://www.jetbrains.com/help/idea/spring-boot.html) 创建一个新的项目
 {:.note}
 
-1. 打开 [Spring Initializr](https://start.spring.io/#!type=gradle-project&language=kotlin&platformVersion=2.6.0&packaging=jar&jvmVersion=11&groupId=com.example&artifactId=demo&name=demo&description=Demo%20project%20for%20Spring%20Boot&packageName=demo&dependencies=web,data-jdbc,h2). 这个链接会打开一个页面, 其中已经预填好了这个教程的项目设置.
+1. 打开 [Spring Initializr](https://start.spring.io/#!type=gradle-project&language=kotlin&platformVersion=2.7.3&packaging=jar&jvmVersion=11&groupId=com.example&artifactId=demo&name=demo&description=Demo%20project%20for%20Spring%20Boot&packageName=demo&dependencies=web,data-jdbc,h2). 这个链接会打开一个页面, 其中已经预填好了这个教程的项目设置.
    这个项目使用 **Gradle**, **Kotlin**, **Spring Web**, **Spring Data JDBC**, 和 **H2 Database**:
 
    <img src="/assets/docs/images/tutorials/spring-boot-restful/spring-boot-create-project-with-initializr.png" alt="使用 Spring Initializr 创建一个新的项目" width="800"/>
@@ -94,7 +94,7 @@ fun main(args: Array<String>) {
    ```kotlin
    @RestController
    class MessageResource {
-       @GetMapping
+       @GetMapping("/")
        fun index(): List<Message> = listOf(
            Message("1", "Hello!"),
            Message("2", "Bonjour!"),
@@ -123,7 +123,7 @@ fun main(args: Array<String>) {
 
 @RestController
 class MessageResource {
-    @GetMapping
+    @GetMapping("/")
     fun index(): List<Message> = listOf(
         Message("1", "Hello!"),
         Message("2", "Bonjour!"),
@@ -149,7 +149,7 @@ data class Message(val id: String?, val text: String)
 
    你会看到一个页面, 其中包含 JSON 格式的一组消息:
 
-   ![应用程序输出]({{ url_for('asset', path='/docs/images/tutorials/spring-boot-restful/spring-boot-output.png') }})
+   ![应用程序输出]({{ url_for('asset', path='docs/images/tutorials/spring-boot-restful/spring-boot-output.png') }})
 
 ## 添加数据库支持
 
@@ -162,7 +162,7 @@ data class Message(val id: String?, val text: String)
    import org.springframework.data.annotation.Id
    import org.springframework.data.relational.core.mapping.Table
   
-   @Table("messages")
+   @Table("MESSAGES")
    data class Message(@Id val id: String?, val text: String)
    ```
 
@@ -216,10 +216,10 @@ data class Message(val id: String?, val text: String)
   
    @RestController
    class MessageResource(val service: MessageService) {
-       @GetMapping
+       @GetMapping("/")
        fun index(): List<Message> = service.findMessages()
   
-       @PostMapping
+       @PostMapping("/")
        fun post(@RequestBody message: Message) {
            service.post(message)
        }
@@ -249,13 +249,13 @@ data class Message(val id: String?, val text: String)
 
 3. 打开 `src/main/resources` 文件夹内的 `application.properties` 文件, 添加以下应用程序属性:
 
-   ```properties
+   ```none
    spring.datasource.driver-class-name=org.h2.Driver
    spring.datasource.url=jdbc:h2:file:./data/testdb
    spring.datasource.username=sa
    spring.datasource.password=password
-   spring.datasource.schema=classpath:sql/schema.sql
-   spring.datasource.initialization-mode=always
+   spring.sql.init.schema-locations=classpath:sql/schema.sql
+   spring.sql.init.mode=always
    ```
 
    这些设置会为 Spring Boot 应用程序启用数据库.
@@ -303,12 +303,12 @@ data class Message(val id: String?, val text: String)
 3. 执行所有的 POST 请求. 使用请求声明侧栏中的绿色 **Run** 图标.
    这些请求会将消息写入到数据库.
 
-   ![运行 HTTP POST 请求]({{ url_for('asset', path='/docs/images/tutorials/spring-boot-restful/spring-boot-run-http-request.png') }})
+   ![运行 HTTP POST 请求]({{ url_for('asset', path='docs/images/tutorials/spring-boot-restful/spring-boot-run-http-request.png') }})
    ![]()
 
 4. 执行 GET 请求, 并在 **Run** 工具窗口中查看结果:
 
-   ![运行 HTTP GET 请求]({{ url_for('asset', path='/docs/images/tutorials/spring-boot-restful/spring-boot-output-2.png') }})
+   ![运行 HTTP GET 请求]({{ url_for('asset', path='docs/images/tutorials/spring-boot-restful/spring-boot-output-2.png') }})
 
 ### 执行请求的其它方式
 
@@ -324,7 +324,19 @@ curl -X POST --location "http://localhost:8080" -H "Content-Type: application/js
 curl -X GET --location "http://localhost:8080"
 ```
 
-## 下一步做什么?
+## 下一步
+
+得到你个人的语言导航地图, 它可以帮助你浏览 Kotlin 的功能特性, 并追踪你学习语言的进度.
+我们还会向你发送语言小提示, 以及与 Spring 一起使用 Kotlin 的有用资料.
+
+<a href="https://info.jetbrains.com/kotlin-tips.html">
+   <img src="/assets/docs/images/spring-boot/get-kotlin-language-map.png" alt="得到 Kotlin 语言导航地图" width="700"/>
+</a>
+
+> 在这个页面中, 需要提供你的 EMail 地址, 然后才能收到这些资料.
+{:.note}
+
+### 参考资料
 
 关于更多教程, 请查看 Spring 网站:
 

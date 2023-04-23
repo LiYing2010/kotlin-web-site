@@ -17,6 +17,21 @@ Kotlin/JS 目前的实现针对 [ES5](https://www.ecma-international.org/ecma-26
 其中包含了很多必要的功能, 比如控制你的应用程序的打包(Bundling), 通过 npm 直接添加 JavaScript 依赖项, 等等.
 关于具体的选项, 详情请参见 [Kotlin/JS 项目设置](js-project-setup.html).
 
+## Kotlin/JS IR 编译器
+
+[Kotlin/JS IR 编译器](js-ir-compiler.html) 与旧的默认编译器相比, 带来了许多改进.
+比如, 它通过死代码消除, 改善了生成的可执行文件的尺寸,
+而且与 JavaScript 生态系统的交互变得更加顺畅.
+
+> 从 Kotlin 1.8.0 开始, 旧的编译器已被废弃.
+{:.note}
+
+通过从 Kotlin 代码生成 TypeScript 声明文件 (`d.ts`), IR 编译器使得 "混合(hybrid)" 应用程序的开发更加容易,
+这种应用程序可以混合 TypeScript 和 Kotlin 代码, 也可以使用 Kotlin 跨平台项目来共用代码.
+
+关于 Kotlin/JS IR 编译器的功能, 以及如何在项目中使用,
+更多详情请参见 [Kotlin/JS IR 编译器文档](js-ir-compiler.html) 以及 [迁移向导](js-ir-migration.html).
+
 ## Kotlin/JS 使用场景
 
 Kotlin/JS 的使用方式有很多.
@@ -79,7 +94,7 @@ _KVision_ 是一个面向对象的 Web 框架, 可以使用 Kotlin/JS 编写应�
 然后使用 connector for Ktor, Spring Boot, 以及其他框架, 与你的服务端应用程序连接,
 并使用 [Kotlin 跨平台程序](../multiplatform/multiplatform.html) 来共用代码.
 
-请访问 [https://kvision.io](https://kvision.io) 查看 KVision 的文档, 教程, 和示例.
+请 [访问 KVision 网站](https://kvision.io), 查看 KVision 的文档, 教程, 和示例.
 
 关于框架的更新和讨论, 请加入 [Kotlin Slack](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up) 的
 [#kvision](https://kotlinlang.slack.com/messages/kvision)
@@ -91,7 +106,7 @@ _fritz2_ 是一个独立的框架, 用于构建响应式(reactive) Web 用户界
 它提供了自己的类型安全的 DSL 来构建和渲染 HTML 元素, 它使用 Kotlin 的协程(Coroutine)和数据流(Flow)来表达 UI 组件及其数据绑定.
 它提供了状态管理, 校验, 路由, 以及很多其他功能, 并与 Kotlin 跨平台项目集成.
 
-请访问 [https://www.fritz2.dev](https://www.fritz2.dev) 查看 fritz2 的文档, 教程, 和示例.
+请 [访问 fritz2 网站](https://www.fritz2.dev), 查看 fritz2 的文档, 教程, 和示例.
 
 关于框架的更新和讨论, 请加入 [Kotlin Slack](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up) 的
 [#fritz2](https://kotlinlang.slack.com/messages/fritz2)
@@ -103,7 +118,7 @@ _Doodle_ 是一个用于 Kotlin/JS 的基于矢量的(vector-based) UI 框架.
 Doodle 应用程序使用浏览器的图形功能来描绘用户界面, 而不是依赖于 DOM, CSS, 和 Javascript.
 使用这种方法, Doodle 使你能够精确描绘任何 UI 元素, 矢量图形, 梯度(gradient), 以及定制的可视化图形.
 
-请访问 [https://nacular.github.io/doodle/](https://nacular.github.io/doodle/) 查看 Doodle 的文档, 教程, 和示例.
+请 [访问 Doodle 网站](https://nacular.github.io/doodle/), 查看 Doodle 的文档, 教程, 和示例.
 
 关于框架的更新和讨论, 请加入 [Kotlin Slack](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up) 的
 [#doodle](https://kotlinlang.slack.com/messages/doodle)
@@ -164,17 +179,6 @@ Kotlin 开发者 Advocate Sebastian Aigner 会向你解释 Kotlin/JS 的主要�
 * [全栈的演示项目](https://github.com/Kotlin/full-stack-web-jetbrains-night-sample)
 指导你如何构建一个应用程序, 接受用户生成的贴文和评论.
 项目中的所有的数据都由 fakeJSON 和 JSON Placeholder 服务提供.
-
-## 新的 Kotlin/JS IR 编译器
-
-[新的 Kotlin/JS IR 编译器](js-ir-compiler.html) (目前的稳定级别为 [Beta](../components-stability.html))
-与现在的默认编译器相比, 带来了许多改进. 比如, 它通过死代码消除, 改善了生成的可执行文件的尺寸,
-而且与 JavaScript 生态系统的交互变得更加顺畅.
-通过从 Kotlin 代码生成 TypeScript 声明文件 (d.ts), 新编译器使得 "混合(hybrid)" 应用程序的开发更加容易,
-这种应用程序可以混合 TypeScript 和 Kotlin 代码, 也可以使用 Kotlin 跨平台项目来共用代码.
-
-关于新的 Kotlin/JS IR 编译器的功能, 以及如何在项目中使用,
-更多详情请参见 [Kotlin/JS IR 编译器文档](js-ir-compiler.html) 以及 [迁移向导](js-ir-migration.html).
 
 ## 加入 Kotlin/JS 开发者社区
 

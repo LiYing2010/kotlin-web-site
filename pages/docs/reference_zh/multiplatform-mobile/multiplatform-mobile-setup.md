@@ -61,84 +61,74 @@ title: "设置开发环境"
 我们推荐你安装最新的稳定版本, 以保证兼容性和更好的性能.
 
 <table>
-   <tr>
-      <td>工具</td>
-      <td>注释</td>
-   </tr>
-   <tr>
-      <td>
-         <a href="https://developer.android.com/studio">Android Studio</a>
-      </td>
-      <td>
-         你将使用 Android Studio 来创建你的跨平台应用程序, 并在模拟设备或硬件设备上运行这些应用程序.
-      </td>
+    <tr>
+        <td>工具</td>
+        <td>注释</td>
     </tr>
     <tr>
-      <td>
-         <a href="https://apps.apple.com/us/app/xcode/id497799835">Xcode</a>
-      </td>
-      <td>
-         大多数情况下, Xcode 会在后台工作. 你将使用它在你的 iOS 应用程序中添加 Swift 或 Objective-C 代码.
-      </td>
-   </tr>
-   <tr>
-      <td>
-         <a href="https://www.oracle.com/java/technologies/javase-downloads.html">JDK</a>
-      </td>
-      <td>
-         <p>
-            要检查是否已安装 JDK, 请在 Android Studio 的 terminal 窗口, 或你的命令行工具中, 运行以下命令: <br/>
-         </p>
-         <p>
-            <code style="block" lang="bash">java -version</code>
-         </p>
-      </td>
-   </tr>
-   <tr>
-      <td>
-         <a href="multiplatform-mobile-plugin-releases.md">Kotlin Multiplatform Mobile plugin</a>
-      </td>
-      <td>
-         在 Android Studio 中, 选择菜单 <strong>Settings/Preferences | Plugins</strong>,
-         在 <strong>Marketplace</strong> 中搜索 <i>Kotlin Multiplatform Mobile</i>, 并安装它.
-      </td>
-   </tr>
-   <tr>
-      <td>
-         <a href="plugin-releases.md#update-to-a-new-release">Kotlin plugin</a>
-      </td>
-      <td>
-         <p>
-            Kotlin plugin 随 Android Studio 的每个版本一起发布. 但是, 还需要将它更新到最新版本, 以免发生兼容性问题.
-        </p> 
-         <p>
-            要更新 Kotlin plugin, 请在 Android Studio 的欢迎画面,
-            选择 <strong>Plugins | Installed</strong>. 点击 Kotlin 旁边的 <strong>Update</strong> 按钮.
-            你也可以通过菜单 <strong>Tools | Kotlin | Configure Kotlin Plugin Updates</strong> 检查 Kotlin 版本.
-         </p>
-         <p>
-            Kotlin plugin 的版本应该与 Kotlin Multiplatform Mobile plugin 兼容.
-            详情请参见 <a href="multiplatform-mobile-plugin-releases.html#release-details">兼容版本列表</a>.
-         </p>
-      </td>
-   </tr>
-   <tr>
-      <td>
-         <a href="https://cocoapods.org/">CocoaPods</a>
-      </td>
-      <td>
-         <p>
-            CocoaPods 是添加 iOS 依赖项的便利工具, 在后面的步骤中你会用到这些依赖项.
-            CocoaPods 基于 Ruby 构建, 你可以使用 macOS 中默认的 Ruby 环境来安装它.
-         </p>
-         <p>
-            在 Android Studio 的 terminal 窗口, 或你的命令行工具中, 运行以下命令:
-         </p>
-         <p>
-            <code style="block" lang="ruby">$sudo gem install cocoapods</code>
-         </p>
-      </td>
-   </tr>
+        <td>
+            <a href="https://developer.android.com/studio">Android Studio</a>
+        </td>
+        <td>
+            你将使用 Android Studio 来创建你的跨平台应用程序, 并在模拟设备或硬件设备上运行这些应用程序.
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="https://apps.apple.com/us/app/xcode/id497799835">Xcode</a>
+        </td>
+        <td>
+            <p>大多数情况下, Xcode 会在后台工作. 你将使用它在你的 iOS 应用程序中添加 Swift 或 Objective-C 代码.</p>
+            <note>
+                <p>
+                    我们通常推荐使用所有工具的最新稳定版.
+                    但是, Kotlin/Native 有时还不支持 Xcode 的最新版.
+                    如果你遇到这种情况, <a href="https://developer.apple.com/download/all/?q=Xcode">请安装一个旧版本的 Xcode</a>.
+                </p>
+            </note>   
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="https://www.oracle.com/java/technologies/javase-downloads.html">JDK</a>
+        </td>
+        <td>
+            <p>
+                要检查是否已安装 JDK, 请在 Android Studio 的 terminal 窗口, 或你的命令行工具中, 运行以下命令: <br/>
+            </p>
+            <p>
+                <code style="block" lang="bash">java -version</code>
+            </p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="multiplatform-mobile-plugin-releases.html">Kotlin Multiplatform Mobile plugin</a>
+        </td>
+        <td>
+            在 Android Studio 中, 选择菜单 <strong>Settings/Preferences | Plugins</strong>,
+            在 <strong>Marketplace</strong> 中搜索 <i>Kotlin Multiplatform Mobile</i>, 并安装它.
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="../releases.html#update-to-a-new-release">Kotlin plugin</a>
+        </td>
+        <td>
+            <p>
+                Kotlin plugin 随 Android Studio 的每个版本一起发布. 但是, 还需要将它更新到最新版本, 以免发生兼容性问题.
+            </p> 
+            <p>
+                要更新 Kotlin plugin, 请在 Android Studio 的欢迎画面,
+                选择 <strong>Plugins | Installed</strong>. 点击 Kotlin 旁边的 <strong>Update</strong> 按钮.
+                你也可以通过菜单 <strong>Tools | Kotlin | Configure Kotlin Plugin Updates</strong> 检查 Kotlin 版本.
+            </p>
+            <p>
+                Kotlin plugin 的版本应该与 Kotlin Multiplatform Mobile plugin 兼容.
+                详情请参见 <a href="multiplatform-mobile-plugin-releases.html#release-details">兼容版本列表</a>.
+            </p>
+        </td>
+    </tr>
 </table>
 
 ## 检查你的环境
@@ -168,6 +158,10 @@ title: "设置开发环境"
    * 修正所有失败的检查项目 (`[x]`). 你可以在 `*` 符号之后找到问题的详细描述, 以及可能的解决方案.
    * 检查警告项目 (`[!]`) 和成功消息 (`[v]`). 这些信息也可能包含有用的信息和提示.
 
+   > 你可以忽略 KDoctor 关于 CocoaPods 安装的警告.
+   > 在你的第一个项目中, 你将会使用不同的 iOS framework distribution 选项.
+   {:.tip}
+
 ## 可能的问题与解决方案
 
 ### Android Studio
@@ -186,6 +180,10 @@ title: "设置开发环境"
 
 - 请确认你安装了 Xcode. 你可以从它的 <a href="https://developer.apple.com/xcode/">官方网站</a> 下载.
 - 在一个单独的窗口启动 Xcode, 接受它的许可协议, 并让它执行一些必要的初始化任务.
+- `Error: can't grab Xcode schemes`.
+  如果你遇到类似这样的错误, 请在 Xcode 中, 选择 **Settings/Preferences | Locations**.
+  然后在 **Command Line Tools** 栏, 选择你的 Xcode.
+  <img src="/assets/docs/images/multiplatform-mobile/xcode-schemes.png" alt="Xcode schemes" width="500"/>
 
 ### Kotlin 的各种 plugin
 
@@ -203,36 +201,18 @@ title: "设置开发环境"
   要更新版本, 请在 Android Studio 的欢迎画面, 选择 <strong>Plugins | Installed</strong>. 点击 Kotlin 旁边的 <strong>Update</strong>.
 - 你也可以通过菜单 <strong>Tools | Kotlin | Configure Kotlin Plugin Updates</strong> 检查 Kotlin 版本.
 
-### CocoaPods
-
-请确认你安装了 <a href="https://guides.cocoapods.org/using/getting-started.html#installation">CocoaPods 依赖项管理器</a>.
-
-> 我们推荐使用最新的 Kotlin 版本. 如果你目前的版本低于 1.7.0, 在继续工作之前, 你将需要另外安装 <a href="https://github.com/square/cocoapods-generate#installation">`cocoapods-generate` plugin</a>.
-{:.note}
-
-如果你的设备上没有安装 Ruby, 或你在安装或使用 CocoaPods 时遇到的问题, 请参考以下指南:
-
-- <a href="https://www.ruby-lang.org/en/documentation/installation/">安装 Ruby</a>.
-  你可以使用 Homebrew, RVM, 或其它包管理器安装 Ruby.
-- <a href="https://rubygems.org/pages/download">下载 RubyGems</a>,
-  一个 Ruby 的包管理框架.
-
-如果你安装了 Ruby 3.0.0 或更高版本, 你可能遇到 `cocoapods-generate` 的兼容性错误. 这种情况下, 请降低 Ruby 版本.
-
 ### Command line
 
 请确认你安装了所有必须的工具:
 
 - <code>command not found: brew</code> — <a href="https://brew.sh/">安装 Homebrew</a>.
 - <code>command not found: java</code> — <a href="https://www.oracle.com/java/technologies/javase-downloads.html">安装 Java</a>.
-- <p><code>command not found: gem</code> — Ruby 1.9 或更高版本会内部包含 RubyGems. 在 macOS 环境中 Ruby 应该默认可用.</p>
-  <p>如果你没有 Ruby, 请遵循 <a href="https://www.ruby-lang.org/en/documentation/installation/">这篇向导</a> 安装它.
-  关于 RubyGems 包管理框架, 你可以从它的 <a href="https://rubygems.org/pages/download/">官方网站</a> 下载.</p>
-
 
 ## 下一步
 
-开发环境设置完成后, 你就可以开始 [创建你的第一个跨平台移动应用程序](multiplatform-mobile-create-first-app.html).
+在本教程的下一部分, 你将创建你的第一个跨平台移动应用程序.
+
+**[进入下一部分](multiplatform-mobile-create-first-app.html)**
 
 ## 获取帮助
 

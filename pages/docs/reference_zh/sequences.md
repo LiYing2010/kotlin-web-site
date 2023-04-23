@@ -9,8 +9,9 @@ title: "序列(Sequence)"
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
-除集合之外, Kotlin 还提供了另一种容器类型 – _序列(sequence)_
+除集合之外, Kotlin 还提供了另一种类型 – _序列(sequence)_
 ([`Sequence<T>`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.sequences/-sequence/index.html)).
+与集合(Collection)不同, 序列并不包含元素, 而是在迭代时生成元素.
 序列提供的函数和
 [`Iterable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-iterable/index.html)
 一样, 但对多步骤的集合处理提供另一种实现方式.

@@ -299,6 +299,15 @@ fun foo(ann: Ann) {
 }
 ```
 
+### 不生成 JVM 1.8+ 注解目标(Target)的能力
+
+如果一个 Kotlin 注解的 Kotlin 注解目标(Target)中包含 `TYPE`,
+那么映射的 Java 注解目标会包含 `java.lang.annotation.ElementType.TYPE_USE`.
+同样的, Kotlin 注解目标 `TYPE_PARAMETER` 会映射为 Java 注解目标 `java.lang.annotation.ElementType.TYPE_PARAMETER`.
+对于 API 级别低于 26 的 Android 用户来说, 这会造成问题, 因为在 API 中不存在这些注解目标.
+
+要避免生成 `TYPE_USE` 和 `TYPE_PARAMETER` 注解目标, 请使用新的编译器参数 `-Xno-new-java-annotation-targets`.
+
 ## 可重复注解
 
 就象 [在 Java 中](https://docs.oracle.com/javase/tutorial/java/annotations/repeating.html) 一样, Kotlin 也有可重复注解,

@@ -23,31 +23,115 @@ Kotlin/Native 提供了与 [CocoaPods 依赖管理器](https://cocoapods.org/) �
 
 ## 设置 CocoaPods 环境
 
-安装 [CocoaPods 依赖项管理器](https://cocoapods.org/):
+使用你选择的安装工具, 安装 [CocoaPods 依赖项管理器](https://cocoapods.org/):
 
-```ruby
+### RVM
+
+1. 如果你还没有, 请先安装 [RVM (Ruby 版本管理器)](https://rvm.io/rvm/install).
+2. 安装 Ruby. 你可以选择特定的版本:
+
+    ```bash
+    rvm install ruby 3.0.0
+    ```
+
+3. 安装 CocoaPods:
+
+    ```bash
+    sudo gem install -n /usr/local/bin cocoapods
+    ```
+
+### Rbenv
+
+1. 如果你还没有, 请先从 GitHub 安装 [rbenv](https://github.com/rbenv/rbenv#installation).
+2. 安装 Ruby. 你可以选择特定的版本:
+
+    ```bash
+    rbenv install 3.0.0
+    ```
+3. 对某个目录设置局部的 Ruby 版本, 或对整个机器设置全局的 Ruby 版本:
+
+    ```bash
+    rbenv global 3.0.0
+    ```
+
+4. 安装 CocoaPods:
+
+    ```bash
+    sudo gem install cocoapods
+    ```
+
+### 默认的 Ruby
+
+> 这种安装方法不能用于使用 Apple M 芯片的设备. 请使用其他工具来设置 CocoaPods 工作环境.
+{:.note}
+
+你可以使用 macOS 上默认的 Ruby 来安装 CocoaPods 依赖管理器:
+
+```bash
 sudo gem install cocoapods
 ```
 
-* 如果你使用 Kotlin 1.7.0 以前的版本, 请安装 [`cocoapods-generate`](https://github.com/square/cocoapods-generate) 插件:
+### Homebrew
 
-  ```ruby
-  sudo gem install cocoapods-generate
+> 使用 Homebrew 安装 CocoaPods 可能出现兼容性问题.
+>
+> 在安装 CocoaPods 时, Homebrew 也会安装与 Xcode 联合工作时所需要的 [Xcodeproj](https://github.com/CocoaPods/Xcodeproj) gem.
+> 但是, 它不能通过 Homebrew 来更新, 而且, 如果安装的 Xcodeproj 还不支持最新的 Xcode 版本, 那么你会在安装 Pod 时出现错误.
+> 如果发生这样的情况, 请试用其他工具来安装 CocoaPods.
+{:.warning}
+
+1. 如果你还没有, 请先安装 [Homebrew](https://brew.sh/).
+2. 安装 Ruby. 你可以选择特定的版本:
+
+    ```bash
+    brew install ruby@3.0
+    ```
+
+3. 向 `.zshrc` 配置文件添加 `PATH` 的 export 命令:
+
+   ```bash
+   echo 'export PATH="/opt/homebrew/opt/ruby/bin:$PATH"' >> /.zshrc
+   ```
+
+4. 从这个文件运行 export 命令:
+
+    ```bash
+    source .zshrc
+    ```
+
+5. 安装 CocoaPods:
+
+    ```bash
+    sudo gem install -n /usr/local/bin cocoapods
+    ```
+
+### 如果你使用 Kotlin 1.7.0 以前的版本
+如果你目前的 Kotlin 版本低于 1.7.0, 那么还需要安装 [`cocoapods-generate`](https://github.com/square/cocoapods-generate) 插件:
+
+  ```bash
+  sudo gem install -n /usr/local/bin cocoapods-generate
   ```
 
-  > `cocoapods-generate` 不能安装在 Ruby 3 或更高的版本上.
+  > 请注意, `cocoapods-generate` 不能安装在 Ruby 3.0.0 或更高版本上.
+  > 如果你使用的是 Ruby 3.0.0 或更高版本, 请降级 Ruby, 或将 Kotlin 升级到 1.7.0 或更高版本.
   {:.note}
 
-* 如果你在安装过程中遇到任何问题, 请遵照 [CocoaPods 安装指南官方文档](https://guides.cocoapods.org/using/getting-started.html#getting-started).
+如果你在安装过程中遇到问题, 请参见 [可能发生的问题与解决方案](#possible-issues-and-solutions) 小节.
 
 ## 添加并配置 Kotlin CocoaPods Gradle plugin
+
+如果你的环境已经正确设置, 你可以 [创建一个新的 Kotlin Multiplatform 项目](../multiplatform-mobile/multiplatform-mobile-create-first-app.html),
+并在 iOS framework distribution 选项中, 选择 **CocoaPods Dependency Manager**.
+插件会为你自动生成项目.
+
+如果想要手动配置你的项目:
 
 1. 在你的项目的 `build.gradle(.kts)` 文件中, 应用 CocoaPods 插件和 Kotlin Multiplatform 插件:
 
     ```kotlin
     plugins {
-       kotlin("multiplatform") version "{{ site.data.releases.latest.version }}"
-       kotlin("native.cocoapods") version "{{ site.data.releases.latest.version }}"
+        kotlin("multiplatform") version "{{ site.data.releases.latest.version }}"
+        kotlin("native.cocoapods") version "{{ site.data.releases.latest.version }}"
     }
     ```
 
@@ -77,7 +161,7 @@ sudo gem install cocoapods
                 baseName = "MyFramework"
 
                 // 可选属性
-                // 是否支持动态框架
+                // 指定框架的链接类型. 默认为 dynamic. 
                 isStatic = false
                 // 导出依赖项
                 export(project(":anotherKMMModule"))
@@ -145,6 +229,26 @@ sudo gem install cocoapods
 
 ## 可能发生的问题与解决方案
 
+### CocoaPods 安装
+
+#### Ruby 安装
+
+CocoaPods 是基于 Ruby 开发的, 你可以使用 macOS 上默认可用的 Ruby 环境来安装它.
+Ruby 1.9 或更高版本带有一个内建的 RubyGems 包管理框架, 可以帮助你安装
+[CocoaPods 依赖管理器](https://guides.cocoapods.org/using/getting-started.html#installation).
+
+如果你在安装或使用 CocoaPods 时遇到问题,
+请参照 [这篇向导文档](https://www.ruby-lang.org/en/documentation/installation/) 来安装 Ruby,
+或参照 [RubyGems 网站](https://rubygems.org/pages/download/) 来安装 RubyGems 框架.
+
+#### 版本兼容性
+
+我们推荐使用最新的 Kotlin 版本. 如果你目前的版本低于 1.7.0, 你还需要安装
+[`cocoapods-generate`](https://github.com/square/cocoapods-generate#installation") 插件.
+
+但是, `cocoapods-generate` 不兼容 Ruby 3.0.0 或更高版本.
+这种情况下, 请降级 Ruby, 或升级 Kotlin 到 1.7.0 或更高版本.
+
 ### 找不到模块
 
 你可能遇到 `module 'SomeSDK' not found` 错误, 这是 [与 C 代码交互](native-c-interop.html) 相关的问题.
@@ -152,11 +256,7 @@ sudo gem install cocoapods
 
 #### 指定框架名称
 
-1. 在下载的 Pod 目录中找到 `module.modulemap` 文件:
-
-    ```text
-    [shared_module_name]/build/cocoapods/synthetic/IOS/Pods/[pod_name]
-    ```
+1. 在下载的 Pod 目录  `[shared_module_name]/build/cocoapods/synthetic/IOS/Pods/...` 中找到 `module.modulemap` 文件:
 
 2. 检查模块内的框架名称, 比如 `AppsFlyerLib {}`. 如果框架名称与 Pod 名称不匹配, 请明确指定它:
 

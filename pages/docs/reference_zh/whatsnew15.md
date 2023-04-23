@@ -56,7 +56,7 @@ sealed interface Polygon
 ```kotlin
 fun draw(polygon: Polygon) = when (polygon) {
    is Rectangle -> // ...
-   is Triangle -> // …
+   is Triangle -> // ...
    // 这里不需要 else 分支 - 上面已经覆盖了所有可能的实现
 }
 
@@ -171,7 +171,7 @@ Kotlin/JVM 编译的默认目标版本现在是 `1.8`. 目标版本 `1.6` 已被
 
 如果你需要针对 JVM 1.6 进行构建, 你仍然可以切换到这个目标版本. 具体方法是:
 
-* [在 Gradle 中切换版本](gradle.html#attributes-specific-to-jvm)
+* [在 Gradle 中切换版本](gradle/gradle-compiler-options.html#attributes-specific-to-jvm)
 * [在 Maven 中切换版本](maven.html#attributes-specific-to-jvm)
 * [在命令行编译器中切换版本](compiler-reference.html#jvm-target-version)
 
@@ -187,7 +187,7 @@ Kotlin 1.5.0 现在使用动态调用 (`invokedynamic`) 来编译 SAM (Single Ab
 
 要回退到旧的基于匿名类生成的实现方式, 可以添加编译器选项 `-Xsam-conversions=class`.
 
-详情请参见, 如何在 [Gradle](gradle.html#compiler-options), [Maven](maven.html#specifying-compiler-options),
+详情请参见, 如何在 [Gradle](gradle/gradle-compiler-options.html), [Maven](maven.html#specifying-compiler-options),
 以及 [命令行编译器](compiler-reference.html#compiler-options) 中添加编译器选项.
 
 ### 使用 invokedynamic 编译 Lambda 表达式
@@ -214,7 +214,7 @@ of a functional 接口) 编译为动态调用(`invokedynamic`).
 要试用这个功能, 请添加 `-Xlambdas=indy` 编译器选项.
 如果你能够在这个 [YouTrack ticket](https://youtrack.jetbrains.com/issue/KT-45375) 中提供你的反馈意见, 我们十分感谢.
 
-详情请参见, 如何在 [Gradle](gradle.html#compiler-options), [Maven](maven.html#specifying-compiler-options),
+详情请参见, 如何在 [Gradle](gradle/gradle-compiler-options.html), [Maven](maven.html#specifying-compiler-options),
 以及 [命令行编译器](compiler-reference.html#compiler-options) 中添加编译器选项.
 
 ### 废弃 @JvmDefault 和旧的 Xjvm-default 模式
@@ -497,8 +497,6 @@ Kotlin 中有一个实验性的 [Duration](https://kotlinlang.org/api/latest/jvm
   旧的扩展属性, 比如 `Int.seconds` 现在已废弃.
 
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.5">
-
 ```kotlin
 import kotlin.time.Duration
 import kotlin.time.ExperimentalTime
@@ -511,8 +509,6 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
 
 ### 在跨平台代码中可以使用新的 API 来得到字符种类
 
@@ -637,7 +633,7 @@ Gradle plugin 会对每个测试源代码集推断出对应的平台依赖项:
 
 既有的, 带有明确指定依赖项的 kotlin-test 设置, 在 Gradle 中和在 Maven 中都可以继续使用.
 
-详情请参见 [设置测试库的依赖项](gradle.html#set-dependencies-on-test-libraries).
+详情请参见 [设置测试库的依赖项](gradle/gradle-configure-project.html#set-dependencies-on-test-libraries).
 
 ### 对 Kotlin/JVM 源代码集自动选择测试框架
 
@@ -682,7 +678,7 @@ kotlin {
 </div>
 
 你可以在 test task 中调用
-[`useJUnitPlatform()`]( https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/testing/Test.html#useJUnitPlatform)
+[`useJUnitPlatform()`](https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/testing/Test.html#useJUnitPlatform)
 或 [`useTestNG()`](https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/testing/Test.html#useTestNG)
 来选择 JUnit 5 或 TestNG:
 
@@ -700,7 +696,7 @@ tasks {
 
 你可以向项目的 `gradle.properties` 添加 `kotlin.test.infer.jvm.variant=false`, 来禁用测试框架的自动选择.
 
-详情请参见 [设置测试库的依赖项](gradle.html#set-dependencies-on-test-libraries).
+详情请参见 [设置测试库的依赖项](gradle/gradle-configure-project.html#set-dependencies-on-test-libraries).
 
 ### 断言函数的更新
 

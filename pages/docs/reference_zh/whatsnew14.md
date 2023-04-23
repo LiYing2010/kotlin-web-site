@@ -730,7 +730,7 @@ Kotlin/JS IR 编译器后端改进了与 JavaScript & TypeScript 的交互能力
 suspend fun queryData(id: Int): String = ...
 ```
 
-…那么可以从 Swift 代码中调用它, 如下:
+...那么可以从 Swift 代码中调用它, 如下:
 
 ```swift
 queryData(id: 17) { result, error in
@@ -1014,7 +1014,7 @@ kotlin {
 如果你只对一个特定的平台需要某个依赖项, 你仍然可以使用标准库和 kotlinx 库的平台相关的, 带后缀 `-jvm` 或 `-js` 的变体,
 比如 `kotlinx-coroutines-core-jvm`.
 
-[关于配置依赖项, 请阅读这篇文档](using-gradle.html#configuring-dependencies).
+[关于配置依赖项, 请阅读这篇文档](gradle/gradle-configure-project.html#configure-dependencies).
 
 
 ## Gradle 项目的改进
@@ -1036,10 +1036,10 @@ kotlin {
 因为它们使用相同的版本号发布.
 
 对于平台相关的源代码集, 会使用标准库在对应的平台上的变体, 对其他源代码集会添加共通标准库.
-Kotlin Gradle plugin 会根据你的 Gradle build 脚本中的 `kotlinOptions.jvmTarget` [编译器选项](gradle.html#compiler-options),
+Kotlin Gradle plugin 会根据你的 Gradle build 脚本中的 `kotlinOptions.jvmTarget` [编译器选项](gradle/gradle-compiler-options.html),
 来选择适当的 JVM 标准库.
 
-[关于如何改变默认行为, 请阅读这篇文档](gradle.html#dependency-on-the-standard-library).
+[关于如何改变默认行为, 请阅读这篇文档](gradle/gradle-configure-project.html#dependency-on-the-standard-library).
 
 ### Kotlin 项目需要的 Gradle 最低版本
 
@@ -1072,7 +1072,7 @@ Kotlin Gradle plugin 会根据你的 Gradle build 脚本中的 `kotlinOptions.jv
   由于每次加载都需要执行 Gradle 配置过程, 因此对大的 Gradle 项目可能消耗大量资源.
 
   目前这些加载仅限于 `build.gradle.kts` 和 `settings.gradle.kts` 文件 (请投票支持相关的 [issue](https://github.com/gradle/gradle/issues/12640)).
-  如果要对 `init.gradle.kts` 或适用的 [脚本 plugin](https://docs.gradle.org/current/userguide/plugins.html#sec:script_plugins) 启用语法高亮,
+  如果要对 `init.gradle.kts` 或应用的 [脚本 plugin](https://docs.gradle.org/current/userguide/plugins.html#sec:script_plugins) 启用语法高亮,
   请使用旧机制 – 将它们添加到独立脚本. 对这个脚本的配置会在你需要它的时候单独加载.
   你也可以对这个脚本启用自动重加载 .
 

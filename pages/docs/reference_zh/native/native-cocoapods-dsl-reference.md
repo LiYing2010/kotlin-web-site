@@ -5,69 +5,71 @@ category: "Native"
 title: "CocoaPods Gradle plugin DSL 参考文档"
 ---
 
-# CocoaPods Gradle plugin DSL reference
+# CocoaPods Gradle plugin DSL 参考文档
 
-Kotlin CocoaPods Gradle plugin is a tool for creating Podspec files. These files are necessary to integrate your Kotlin
-project with the [CocoaPods dependency manager](https://cocoapods.org/).
+最终更新: {{ site.data.releases.latestDocDate }}
 
-This reference contains the complete list of blocks, functions, and properties for the Kotlin CocoaPods Gradle plugin that
-you can use when working with the [CocoaPods integration](native-cocoapods.md).
+Kotlin CocoaPods Gradle plugin 是一个用来创建 Podspec 文件的工具.
+将你的 Kotlin 项目与 [CocoaPods 依赖项 管理器](https://cocoapods.org/) 集成时, 会需要这些文件.
 
-* Learn how to [set up the environment](native-cocoapods.md#set-up-the-environment-to-work-with-cocoapods) and
-[configure the Kotlin CocoaPods Gradle plugin](native-cocoapods.md#add-and-configure-kotlin-cocoapods-gradle-plugin).
-* Depending on your project and purposes, you can add dependencies between [a Kotlin project and a Pod library](native-cocoapods-libraries.md)
-as well as [a Kotlin Gradle project and an Xcode project](native-cocoapods-xcode.md).
+本文档将会介绍, 使用 [CocoaPods 集成](native-cocoapods.html) 时,
+你可以使用的 Kotlin CocoaPods Gradle plugin 的所有代码段, 函数, 属性.
 
-## Enable the plugin
+* 学习如何 [设置开发环境](native-cocoapods.html#set-up-an-environment-to-work-with-cocoapods) 并
+[配置 Kotlin CocoaPods Gradle plugin](native-cocoapods.html#add-and-configure-kotlin-cocoapods-gradle-plugin).
+* 根据你的项目和目的不同, 你可以添加 [Kotlin 项目与 Pod 库](native-cocoapods-libraries.html) 之间的依赖项,
+  也可以添加 [Kotlin Gradle 项目与 Xcode 项目](native-cocoapods-xcode.html) 之间的依赖项.
 
-To apply the CocoaPods plugin, add the following lines to the `build.gradle(.kts)` file:
+## 启用 plugin
+
+要启用 CocoaPods plugin, 请在 `build.gradle(.kts)` 文件添加以下代码:
 
 ```kotlin
 plugins {
-   kotlin("multiplatform") version "%kotlinVersion%"
-   kotlin("native.cocoapods") version "%kotlinVersion%"
+   kotlin("multiplatform") version "{{ site.data.releases.latest.version }}"
+   kotlin("native.cocoapods") version "{{ site.data.releases.latest.version }}"
 }
 ```
 
-The plugin versions match the [Kotlin release versions](releases.md). The latest stable version is %kotlinVersion%.
+plugin 版本与 [Kotlin 发布版本](../releases.html) 相同. 最新的稳定版本是 {{ site.data.releases.latest.version }}.
 
-## `cocoapods` block
+## `cocoapods` 代码段
 
-The `cocoapods` block is the top-level block for the CocoaPods configuration. It contains general information on the Pod,
-including required information like the Pod version, summary, and homepage, as well as optional features.
+`cocoapods` 代码段是用于 CocoaPods 配置的的最顶层代码段.
+它包含 Pod 的一般信息, 包括必须信息, 例如 Pod 版本, 概述, homepage, 以及可选的功能特性.
 
-You can use the following blocks, functions, and properties inside it:
+在这个代码段内部, 你可以使用以下代码段, 函数, 和属性:
 
-| **Name**                              | **Description**                                                                                                                                                                                                                  | 
-|---------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `version`                             | The version of the Pod. If this is not specified, a Gradle project version is used. If none of these properties are configured, you'll get an error.                                                                             |
-| `summary`                             | A required description of the Pod built from this project.                                                                                                                                                                       |
-| `homepage`                            | A required link to the homepage of the Pod built from this project.                                                                                                                                                              |
-| `authors`                             | Specifies authors of the Pod built from this project.                                                                                                                                                                            |
-| `podfile`                             | Configures the existing `Podfile` file.                                                                                                                                                                                          |
-| `noPodspec()`                         | Sets up the plugin not to produce a Podspec file for the `cocoapods` section.                                                                                                                                                    |
-| `useLibraries()`                      | Sets up `cocoapods-generate` to produce `xcodeproj` compatible with static libraries.                                                                                                                                            |
-| `name`                                | The name of the Pod built from this project. If not provided, the project name is used.                                                                                                                                          |
-| `license`                             | The license of the Pod built from this project, its type, and the text.                                                                                                                                                          |
-| `framework`                           | The framework block configures the framework produced by the plugin.                                                                                                                                                             |
-| `source`                              | The location of the Pod built from this project.                                                                                                                                                                                 |
-| `extraSpecAttributes`                 | Configures other Podspec attributes like `libraries` or `vendored_frameworks`.                                                                                                                                                   |
-| `xcodeConfigurationToNativeBuildType` | Maps custom Xcode configuration to NativeBuildType: "Debug" to `NativeBuildType.DEBUG` and "Release" to `NativeBuildType.RELEASE`.                                                                                               |
-| `publishDir`                          | Configures the output directory for Pod publishing.                                                                                                                                                                              |
-| `pods`                                | Returns a list of Pod dependencies.                                                                                                                                                                                              |
-| `pod()`                               | Adds a CocoaPods dependency to the Pod built from this project.                                                                                                                                                                  |
-| `specRepos`                           | Adds a specification repository using `url()`. This is necessary when a private Pod is used as a dependency. See the [CocoaPods documentation](https://guides.cocoapods.org/making/private-cocoapods.html) for more information. |
+| **名称**     | **描述**     | 
+|-------------|------------------------------------------------------------------------------------|
+| `version`   | Pod 版本. 如果不指定, 会使用 Gradle 项目的版本. 如果 Gradle 项目的版本也没有设置, 会发生错误. |
+| `summary`   | 通过这个项目构建得到的 Pod 的描述信息, 必须指定. |
+| `homepage`  | 通过这个项目构建得到的 Pod 的 homepage 链接, 必须指定. |
+| `authors`   | 通过这个项目构建得到的 Pod 的作者. |
+| `podfile`   | 配置已有的 `Podfile` 文件. |
+| `noPodspec()`   | 设置 plugin 不要为 `cocoapods` 小节生成 Podspec 文件. |
+| `useLibraries()`| 设置 `cocoapods-generate` 生成与静态库兼容的 `xcodeproj`. |
+| `name`      | 通过这个项目构建得到的 Pod 的名称. 如果不指定, 会使用项目的名称. |
+| `license`   | 通过这个项目构建得到的 Pod 的许可协议类型, 以及文字. |
+| `framework` | framework 代码段对 plugin 生成的框架进行配置. |
+| `source`    | 通过这个项目构建得到的 Pod 的位置. |
+| `extraSpecAttributes` | 配置其他 Podspec 属性, 例如 `libraries` 或 `vendored_frameworks`. |
+| `xcodeConfigurationToNativeBuildType` | 将自定义的 Xcode 配置映射到 NativeBuildType: "Debug" 映射为 `NativeBuildType.DEBUG`, "Release" 映射为 `NativeBuildType.RELEASE`. |
+| `publishDir`| 配置 Pod 发布时的输出目录. |
+| `pods`      | 返回 Pod 依赖项列表. |
+| `pod()`     | 向通过这个项目构建得到的 Pod 添加一个 CocoaPods 依赖项. |
+| `specRepos` | 添加一个使用 `url()` 的特定的仓库. 当使用私有 Pod 作为依赖项时, 需要这样的设置. 详情请参见 [CocoaPods 文档](https://guides.cocoapods.org/making/private-cocoapods.html). |
 
-### Targets
+### 编译目标
 
 * `ios`
 * `osx`
 * `tvos`
 * `watchos`
 
-For each target, use the `deploymentTarget` property to specify the minimum target version for the Pod library.
+对每个编译目标, 可以使用 `deploymentTarget` 属性来对 Pod 库指定编译目标最低版本.
 
-When applied, CocoaPods adds both `debug` and `release` frameworks as output binaries for all of the targets.
+指定这个属性后, CocoaPods 会对所有的编译目标添加 `debug` 和 `release` 框架, 作为输出的二进制文件.
 
 ```kotlin
 kotlin {
@@ -94,19 +96,18 @@ kotlin {
 }
 ```
 
-### `framework()` block
+### `framework()` 代码段
 
-The `framework` block is nested inside `cocoapods` and configures the framework properties of the Pod built from the project.
+`framework` 代码段嵌套在 `cocoapods` 代码段内, 用来配置通过项目构建的 Pod 的框架属性.
 
-> Note that `baseName` is a required field.
->
-{type="note"}
+> 注意, `baseName` 是必须指定的项目.
+{:.note}
 
-| **Name**           | **Description**                                                                         | 
-|--------------------|-----------------------------------------------------------------------------------------|
-| `baseName`         | A required framework name. Use this property instead of the deprecated `frameworkName`. |
-| `isStatic`         | Enables dynamic framework support.                                                      |
-| `transitiveExport` | Enables dependency export.                                                              |                                                      
+| **名称**           | **描述**                                      | 
+|--------------------|----------------------------------------------|
+| `baseName`         | 框架名称, 必须指定. `frameworkName` 已被废弃, 请改为使用这个属性. |
+| `isStatic`         | 定义框架的链接类型. 默认为 dynamic. |
+| `transitiveExport` | 启用依赖项导出. |
 
 ```kotlin
 kotlin {
@@ -121,20 +122,19 @@ kotlin {
 }
 ```
 
-## `pod()` function
+## `pod()` 函数
 
-The `pod()` function call adds a CocoaPods dependency to the Pod built from this project. Each dependency requires
-a separate function call.
+`pod()` 函数调用会对通过这个项目构建得到的 Pod 添加一个 CocoaPods 依赖项.
+每个依赖项都需要一个单独的 `pod()` 函数调用.
 
-You can specify the name of a Pod library in the function parameters and additional parameter values, like the `version` and
-`source` of the library, in its configuration block.
+在函数参数中, 你可以指定一个 Pod 库的名称. 在这个函数的配置代码段中, 还可以指定其他参数, 例如库的 `version` 和 `source`.
 
-| **Name**      | **Description**                                                                                                                                                                                                                                                                                                                                                          | 
-|---------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `version`     | The library version. To use the latest version of the library, omit the parameter.                                                                                                                                                                                                                                                                                       |
-| `source`      | Configures the Pod from: <list><ul><li>The Git repository using `git()`. In the block after `git()`, you can specify `commit` to use a specific commit, `tag` to use a specific tag, and `branch` to use a specific branch from the repository</li><li>The local repository using `path()`</li><li>An archived (tar, jar, zip) Pod folder using `url()`</li></ul></list> |
-| `packageName` | Specifies the package name.                                                                                                                                                                                                                                                                                                                                              |
-| `extraOpts`   | Specifies the list of options for a Pod library. For example, specific flags: <code style="block" lang="Kotlin">extraOpts = listOf("-compiler-option")</code>.                                                                                                                                                                                                           |
+| **名称**       | **描述**                                | 
+|---------------|-----------------------------------------|
+| `version`     | 库的版本. 要使用库的最新版本, 请省略这个参数. |
+| `source`      | 可以使用以下几种方式来配置 Pod: <br/> 通过 `git()` 函数, 使用 Git 仓库中的 Pod. 在 `git()` 之后的代码段中, 你可以指定 `commit` 来使用特定的 commit, 可以指定 `tag` 来使用特定的 tag, 可以指定 `branch` 来使用 特定的 branch <br/> 通过 `path()` 函数, 使用本地仓库中的 Pod <br/> 通过 `url()` 函数, 使用打包的(tar, jar, zip) Pod 文件夹 |
+| `packageName` | 指定包名称. |
+| `extraOpts`   | 为 Pod 库指定选项列表. 例如, 特定的参数: <code style="block" lang="Kotlin">extraOpts = listOf("-compiler-option")</code>. |
 
 ```kotlin
 kotlin {

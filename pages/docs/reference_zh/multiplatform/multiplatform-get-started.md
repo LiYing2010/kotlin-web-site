@@ -10,10 +10,11 @@ title: "Kotlin 跨平台程序开发入门"
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
-> 跨平台项目处于 [Alpha](../components-stability.html) 阶段. 在未来的 Kotlin 版本中, 语言特性和工具可能会发生变化.
+> Kotlin Multiplatform 处于 [Beta](../components-stability.html) 阶段.
+> 已经基本稳定, 但将来可能会需要手工迁移你的代码. 我们会尽力减少你需要修改的代码量.
 {:.note}
 
-支持跨平台程序开发是f Kotlin 的关键益处之一.
+支持跨平台程序开发是 Kotlin 的关键益处之一.
 它可以减少对 [不同的平台](multiplatform-dsl-reference.html#targets) 编写和维护相同的代码从头开始, 
 同时又保持原生程序开发的灵活性和益处.
 

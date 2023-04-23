@@ -26,9 +26,8 @@ title: 编码规约
 
 ### 验证你的代码是否符合代码规则
 
-1. 进入设置界面 **Settings/Preferences \| Editor \| Inspections \| Kotlin**.
-2. 打开 **Kotlin \| Style issues**.
-3. 选中检查项 **File is not formatted according to project settings**.
+1. 进入设置界面 **Settings/Preferences \| Editor \| Inspections \| General**.
+2. 选中检查项 **Incorrect formatting**.
 对于本编码规约中提到的其他问题 (比如命名规约), 相应的检查项目默认已经启用了.
 
 ## 源代码组织
@@ -878,7 +877,7 @@ typealias PersonIndex = Map<String, Person>
 ```
 
 如果你使用 private 或 internal 的类型别名来避免名称冲突,
-建议改为使用 [包(Package)与导入(Import)](packages.html) 中介绍的 `import … as …` 功能.
+建议改为使用 [包(Package)与导入(Import)](packages.html) 中介绍的 `import ... as ...` 功能.
 
 ### Lambda 表达式参数
 

@@ -74,7 +74,7 @@ data class Person(val name: String, val age: Int)
 
 对生成的 JVM 字节码, JVM 记录类要求的编译目标为 `16` 或更高版本.
 
-要明确指定字节码版本, 请在 [Gradle](../gradle.html#attributes-specific-to-jvm)
+要明确指定字节码版本, 请在 [Gradle](../gradle/gradle-compiler-options.html#attributes-specific-to-jvm)
 或 [Maven](../maven.html#attributes-specific-to-jvm)中, 使用 `jvmTarget` 编译器选项.
 
 ## 更多讨论

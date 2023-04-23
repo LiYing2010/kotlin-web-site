@@ -70,7 +70,7 @@ can find some ideas, but feel free to experiment!
 
 **Do**
 * Use high-quality images. Download [the file](https://drive.google.com/file/d/1fJrVCSXTuD9tcVy2BMlmx0B-rxAsdvtN)
-  that contains them.
+that contains them.
 
 **Don't**
 * Change the proportions

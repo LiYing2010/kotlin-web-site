@@ -62,4 +62,7 @@ Java 中长期困扰的一系列问题, 在 Kotlin 得到了解决:
 
 ## 下一步做什么?
 
-学习如何处理 [在 Java 和 Kotlin 使用字符串的常见情况](java-to-kotlin-idioms-strings.html).
+学习:
+* 如何执行 [Java 与 Kotlin 中常见的字符串处理任务](java-to-kotlin-idioms-strings.html).
+* 如何执行 [Java 与 Kotlin 中常见的集合(Collection)处理任务](java-to-kotlin-collections-guide.html).
+* 如何 [在 Java 与 Kotlin 中处理可空性(Nullability)](java-to-kotlin-nullability-guide.html).

@@ -1,0 +1,123 @@
+---
+type: doc
+layout: reference
+category: "Gradle"
+title: "Gradle 与 Kotlin/JVM 入门"
+---
+
+# Gradle 与 Kotlin/JVM 入门
+
+最终更新: {{ site.data.releases.latestDocDate }}
+
+本教程演示如何使用 IntelliJ IDEA 和 Gradle 来创建一个控制台应用程序.
+
+开始之前, 首先请下载病安装最新版本的 [IntelliJ IDEA](https://www.jetbrains.com/idea/download/index.html).
+
+## 创建项目
+
+1. 在 IntelliJ IDEA 中, 选择 **File** \| **New** \| **Project**.
+2. 在左侧面板中, 选择 **New Project**.
+3. 输入新项目的名称, 如果需要的话, 修改它的位置.
+
+   > 选择 **Create Git repository** 选项, 可以将新项目添加到版本管理系统.
+   > 你也可以在创建项目之后再做.
+   {:.tip}
+
+4. 在 **Language** 选项中, 选择 **Kotlin**.
+
+   <img src="/assets/docs/images/gradle/jvm-new-gradle-project.png" alt="创建一个控制台应用程序" width="700"/>
+
+5. 选择 **Gradle** 构建系统.
+6. 在 **JDK list** 选项中, 选择你的项目希望使用的 [JDK](https://www.oracle.com/java/technologies/downloads/).
+    * 如果在你的计算机上已经安装了 JDK, 但在 IDE 中没有定义它, 请选择 **Add JDK**, 并指定 JDK home 目录的路径.
+    * 如果在你的计算机上还没有安装需要的 JDK, 请选择 **Download JDK**.
+
+7. 在 **Gradle DSL** 选项中, 选择 **Kotlin**.
+8. 选中 **Add sample code** 选项, 创建一个文件, 其中包含一个 `"Hello World!"` 示例程序.
+9. 点击 **Create**.
+
+这样你就成功的创建了 Gradle 项目.
+
+## 查看构建脚本
+
+打开 `build.gradle.kts` 文件. 这是 Gradle 的 Kotlin 构建脚本, 包含 Kotlin 相关的 artifact 以及应用程序需要的其他部分:
+
+```kotlin
+ // 下文中的 `KotlinCompile` task 需要这个 import
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+plugins {
+    kotlin("jvm") version "{{ site.data.releases.latest.version }}" // 使用的 Kotlin 版本
+    application // Application plugin. 参见下文的 1️⃣
+}
+
+group = "org.example" // 公司名, 比如, `org.jetbrains`
+version = "1.0-SNAPSHOT" // 构建后的 artifact 的版本 
+
+repositories { // 依赖项的下载源仓库. 参见 2️⃣
+    mavenCentral() // Maven Central Repository. 参见 3️⃣
+}
+
+dependencies { // 你想要使用的所有库. 参见 4️⃣
+   // 复制你在仓库中找到的依赖项名称 
+   testImplementation(kotlin("test")) // Kotlin test 库
+}
+
+tasks.test { // 参见 5️⃣
+    useJUnitPlatform() // 用于测试的 JUnitPlatform. 参见 6️⃣
+}
+
+kotlin { // 扩展, 用于简化设置
+   jvmToolchain(8) // 生成的 JVM bytecode 的目标版本. 参见 7️⃣
+}
+
+application {
+    mainClass.set("MainKt") // 应用程序的 main class 
+}
+```
+
+* 1️⃣ [Application plugin](https://docs.gradle.org/current/userguide/application_plugin.html)
+  支持构建 Java CLI 应用程序.
+* 2️⃣ 参见 [依赖项的下载源仓库](https://docs.gradle.org/current/userguide/declaring_repositories.html).
+* 3️⃣ [Maven Central Repository](https://search.maven.org/).
+  也可以使用 [Google 的 Maven repository](https://maven.google.com/web/index.html),
+  或你的公司的私有仓库.
+* 4️⃣ 参见 [声明依赖项](https://docs.gradle.org/current/userguide/declaring_dependencies.html).
+* 5️⃣ 参见 [构建任务(Task)](https://docs.gradle.org/current/dsl/org.gradle.api.Task.html).
+* 6️⃣ [用于测试的 JUnitPlatform](https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/testing/Test.html#useJUnitPlatform).
+* 7️⃣ 参见 [设置 Java 工具链](gradle-configure-project.html#gradle-java-toolchains-support).
+
+你可以看到, Gradle 构建文件中还添加了几个 Kotlin 相关的 artifact:
+
+1. 在 `plugins` 代码段中, 有 `kotlin("jvm")` artifact – 这个 plugin 定义项目中使用的 Kotlin 版本.
+
+2. 在 `dependencies` 内, 有 `testImplementation(kotlin("test"))`. 
+   详情请参见 [设置测试库的依赖项](gradle-configure-project.html#set-dependencies-on-test-libraries).
+
+3. 在依赖项之后, 有 `KotlinCompile` 任务的配置代码段.
+   在这里你可以向编译器添加额外的参数, 来开启或禁用 Kotlin 的各种功能特性.
+
+## 运行应用程序
+
+打开 `src/main/kotlin` 目录中的 `Main.kt` 文件 .  
+`src` 目录包含 Kotlin 源代码文件和资源. `Main.kt` 文件包含示例代码, 打印输出 `Hello World!`.
+
+<img src="/assets/docs/images/gradle/jvm-main-kt-initial-gradle.png" alt="Main.kt 中的 main fun" width="700"/>
+
+运行应用程序的最简单的方法是, 点击编辑器侧栏中的绿色 **Run** 图标, 然后选择 **Run 'MainKt'**.
+
+<img src="/assets/docs/images/gradle/jvm-run-app-gradle.png" alt="运行一个控制台应用程序" width="350"/>
+
+你可以在 **Run** 工具窗口看到结果.
+
+<img src="/assets/docs/images/gradle/jvm-output-gradle.png" alt="Kotlin 程序运行的输出结果" width="600"/>
+
+恭喜! 你成功的运行了你的第一个 Kotlin 应用程序.
+
+## 下一步做什么?
+
+学习:
+* [Gradle 构建文件属性](https://docs.gradle.org/current/dsl/org.gradle.api.Project.html#N14E9A).
+* [针对不同的平台, 设置库的依赖项](gradle-configure-project.html).
+* [编译器选项, 以及如何传递编译器选项](gradle-compiler-options.html).
+* [增量编译, 缓存, 构建报告, 以及 Kotlin Daemon](gradle-compilation-and-caches.html).

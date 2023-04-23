@@ -230,7 +230,7 @@ Kotlin 1.5.30 现在使用新的规则. 对于编译期无法处理的使用场�
 ### 对递归泛型类型的类型推断的改进
 
 在 Kotlin 和 Java 中, 你可以定义一个递归泛型类型, 在它的类型参数中引用它自身.
-在 Kotlin 1.5.30 中, 如果一个类型参数是递归泛型, 那么 Kotlin 编译器可以只根据对应的类型参数的上界(upper bound)推断出这个类型参数.
+在 Kotlin 1.5.30 中, 如果一个类型参数是递归泛型, 那么 Kotlin 编译器可以只根据对应的类型参数的上界(Upper Bound)推断出这个类型参数.
 因此, 可以使用递归泛型类型, 创建出 Java 中经常用来创建构建器 API 的很多模式.
 
 ```kotlin
@@ -501,7 +501,7 @@ Kotlin Multiplatform 提供了一个 [选项](multiplatform/multiplatform-share-
 从 1.5.30 开始, 你可以使用你自定义的 `cinterop` 库.
 要启用这个功能, 请在你的 `gradle.properties` 中添加 `kotlin.mpp.enableCInteropCommonization=true` 属性:
 
-```properties
+```none
 kotlin.mpp.enableGranularSourceSetsMetadata=true
 kotlin.native.enableDependencyPropagation=false
 kotlin.mpp.enableCInteropCommonization=true
@@ -652,16 +652,16 @@ Gradle 6.7 引入了 [支持 Java 工具链](https://docs.gradle.org/current/use
 * 使用未发布的语言版本编译和测试代码.
 
 通过工具链支持, Gradle 可以自动检测本地的 JDK, 并安装 Gradle 构建所需要但缺失的 JDK.
-现在 Gradle 自身可以在任何 JDK 上运行, 而且还能够重用 [构建缓存功能](gradle.html#gradle-build-cache-support).
+现在 Gradle 自身可以在任何 JDK 上运行, 而且还能够重用 [构建缓存功能](gradle/gradle-compilation-and-caches.html#gradle-build-cache-support).
 
 Kotlin Gradle plugin 对 Kotlin/JVM 编译任务支持 Java 工具链.
 Java 工具链会:
-* 为 JVM 编译目标设置可用的 [`jdkHome` 选项](gradle.html#attributes-specific-to-jvm).
+* 为 JVM 编译目标设置可用的 [`jdkHome` 选项](gradle/gradle-compiler-options.html#attributes-specific-to-jvm).
   > [直接设置 `jdkHome` 选项的功能已废弃](https://youtrack.jetbrains.com/issue/KT-46541).
   {:.warning}
 
-* 如果使用者没有明确设置 `jvmTarget` 选项, 会将 [`kotlinOptions.jvmTarget`](gradle.html#attributes-specific-to-jvm) 设置为工具链的 JDK 版本.
-  如果工具链没有配置, `jvmTarget` 域会使用默认值. 详情请参见 [JVM 编译目标兼容性](gradle.html#check-for-jvm-target-compatibility-of-related-compile-tasks).
+* 如果使用者没有明确设置 `jvmTarget` 选项, 会将 [`kotlinOptions.jvmTarget`](gradle/gradle-compiler-options.html#attributes-specific-to-jvm) 设置为工具链的 JDK 版本.
+  如果工具链没有配置, `jvmTarget` 域会使用默认值. 详情请参见 [JVM 编译目标兼容性](gradle/gradle-configure-project.html#check-for-jvm-target-compatibility-of-related-compile-tasks).
 
 * 影响 [`kapt` worker](kapt.html#running-kapt-tasks-in-parallel) 运行在哪个 JDK 上.
 
@@ -707,13 +707,13 @@ java {
 }
 ```
 
-关于为 `KotlinCompile` 任务设置 JDK 版本, 请参见 [使用 Task DSL 设置 JDK 版本](gradle.html#setting-jdk-version-with-the-task-dsl).
+关于为 `KotlinCompile` 任务设置 JDK 版本, 请参见 [使用 Task DSL 设置 JDK 版本](gradle/gradle-configure-project.html#setting-jdk-version-with-the-task-dsl).
 
 对于 Gradle 版本 6.1 到 6.6, 请 [使用 `UsesKotlinJavaToolchain` 接口来设置 JDK Home](#ability-to-specify-jdk-home-with-useskotlinjavatoolchain-interface).
 
 ### 使用 UsesKotlinJavaToolchain 接口指定 JDK Home
 
-所有支持通过 [`kotlinOptions`](gradle.html#compiler-options) 设置 JDK 的 Kotlin 任务,
+所有支持通过 [`kotlinOptions`](gradle/gradle-compiler-options.html) 设置 JDK 的 Kotlin 任务,
 现在都实现 `UsesKotlinJavaToolchain` 接口.
 要设置 JDK Home, 请设置你的 JDK 路径, 并替换 `<JDK_VERSION>` 部分:
 
@@ -763,19 +763,19 @@ project.tasks
 
 * 如果没有指定任何参数, Kotlin Daemon 会从 Gradle Daemon 继承参数(和以前一样). 比如, 在 `gradle.properties` 文件中:
 
-    ```properties
+    ```none
     org.gradle.jvmargs=-Xmx1500m -Xms=500m
     ```
 
 * 如果 Gradle Daemon 的 JVM 参数包含 `kotlin.daemon.jvm.options` 系统属性, 和以前一样使用它:
 
-    ```properties
+    ```none
     org.gradle.jvmargs=-Dkotlin.daemon.jvm.options=-Xmx1500m -Xms=500m
     ```
 
 * 在 `gradle.properties` 文件中你可以添加 `kotlin.daemon.jvmargs` 属性:
 
-    ```properties
+    ```none
     kotlin.daemon.jvmargs=-Xmx1500m -Xms=500m
     ```
 
@@ -838,10 +838,10 @@ project.tasks
     </div>
 
     > 在这种情况中, 在任务执行时可以启动一个新的 Kotlin Daemon 实例.
-    > 详情请参见 [Kotlin Daemon 与 JVM 参数的交互](gradle.html#setting-kotlin-daemon-s-jvm-arguments).
+    > 详情请参见 [Kotlin Daemon 与 JVM 参数的交互](gradle/gradle-compilation-and-caches.html#setting-kotlin-daemon-s-jvm-arguments).
     {:.note}
 
-关于 Kotlin Daemon, 详情请参见 [Kotlin Daemon 以及它在 Gradle 中的使用](gradle.html#kotlin-daemon-and-using-it-with-gradle).
+关于 Kotlin Daemon, 详情请参见 [Kotlin Daemon 以及它在 Gradle 中的使用](gradle/gradle-compilation-and-caches.html#the-kotlin-daemon-and-how-to-use-it-with-gradle).
 
 ## 标准库
 

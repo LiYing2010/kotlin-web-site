@@ -7,7 +7,7 @@ title: "通道(Channel)"
 
 # 通道(Channel)
 
-最终更新: {{ site.data.releases.latestCoroutinesDocDate }}
+最终更新: {{ site.data.releases.latestDocDate }}
 
 <!--- TEST_NAME ChannelsGuideTest -->
 

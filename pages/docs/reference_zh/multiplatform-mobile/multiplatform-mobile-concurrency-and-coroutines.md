@@ -8,6 +8,10 @@ title: "并发(Concurrency)与协程(Coroutine)"
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
+> 本章描述的是旧的内存管理器的功能特性.
+> 从 Kotlin 1.7.20 开始会默认启用新的内存管理器, 详情请参见 [Kotlin/Native 内存管理](../native/native-memory-manager.html).
+{:.note}
+
 在移动平台上工作时, 你可能需要编写同时运行的多线程代码.
 为了这个目的, 你可以使用 [标准的](#coroutines) `kotlinx.coroutines` 库, 或它的 [多线程版本](#multithreaded-coroutines),
 以及 [替代方案](#alternatives-to-kotlinx-coroutines).

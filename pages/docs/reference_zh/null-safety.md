@@ -161,6 +161,31 @@ fun main() {
 person?.department?.head = managersPool.getManager()
 ```
 
+## 可为 null 的接受者
+
+可以对 [可为 null 的接受者](extensions.html#nullable-receiver) 定义扩展函数.
+通过这种方式, 你可以指定 null 值的行为, 而不必在每次调用时都进行 null 检查.
+
+例如,
+[`toString()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/to-string.html)
+函数, 定义在可为 null 的接受者上. 它返回字符串 "null" (而不是一个 `null` 值).
+在某些情况下会很有用, 比如, 在输出日志时:
+
+```kotlin
+val person: Person? = null
+logger.debug(person.toString()) // 日志会输出 "null", 不会抛出异常
+```
+
+如果你希望你的 `toString()` 调用返回可为 null 的字符串, 请使用 [安全调用操作符 `?.`](#safe-calls):
+
+```kotlin
+var timestamp: Instant? = null
+val isoTimestamp = timestamp?.toString() // 返回 String? 对象, 这里的结果是 `null`
+if (isoTimestamp == null) {
+   // 处理 timestamp 是 `null` 的情况
+}
+```
+
 ## Elvis 操作符
 
 假设你有一个可为 null 的引用 `b`, 你可以说,

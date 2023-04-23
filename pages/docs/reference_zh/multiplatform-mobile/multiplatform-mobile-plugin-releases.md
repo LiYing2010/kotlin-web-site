@@ -1,14 +1,14 @@
 ---
 type: doc
 layout: reference
-title: "Kotlin Multiplatform Mobile plugin 的发布版本"
+title: "Kotlin Multiplatform Mobile Plugin 的发布版本"
 ---
 
-# Kotlin Multiplatform Mobile plugin 的发布版本
+# Kotlin Multiplatform Mobile Plugin 的发布版本
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
-由于 Kotlin Multiplatform Mobile 已经进入 [Alpha 版](../kotlin-evolution.html),
+由于 Kotlin Multiplatform Mobile 已经进入 [Beta 版](../kotlin-evolution.html),
 我们正在努力开发对应的
 [Android Studio plugin](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform-mobile)
 的稳定版, 我们会不断发布新的版本, 包含新的功能, 改进, 和 bug 修正. 
@@ -47,6 +47,77 @@ title: "Kotlin Multiplatform Mobile plugin 的发布版本"
         兼容的 Kotlin 版本
     </th>
 </tr>
+<tr>
+    <td>
+        <b> 0.5.2 </b> <br/>
+        发布日期: 2023/01/30
+    </td>
+    <td>
+        <li>
+            <a href="https://youtrack.jetbrains.com/issue/KT-55988">修正了 Kotlin/Native 调试器的一个问题 (Spotlight 索引缓慢)</a>.
+        </li>
+        <li>
+            <a href="https://youtrack.jetbrains.com/issue/KT-24450">修正了多模块项目中的 Kotlin/Native 调试器</a>.
+        </li>
+        <li>
+            <a href="https://youtrack.jetbrains.com/issue/KT-55274">针对 Android Studio Giraffe 2022.3.1 Canary 的新构建版本</a>.
+        </li>
+        <li>
+            <a href="https://youtrack.jetbrains.com/issue/KT-55204">对 iOS App 构建添加了 provisioning 标记</a>.
+        </li>
+        <li>
+            <a href="https://youtrack.jetbrains.com/issue/KT-55402">在生成的 iOS 项目中, 对 **Framework Search Paths** 选项添加了继承的路径</a>.
+        </li>
+    </td>
+    <td>
+        <li>
+            <a href="../releases.html#release-details">Kotlin Plugin 的任何版本</a>.
+        </li>
+    </td>
+</tr>
+<tr>
+    <td>
+        <b> 0.5.1 </b> <br/>
+        发布日期: 2022/11/30
+    </td>
+    <td>
+        <li>
+            <a href="https://youtrack.jetbrains.com/issue/KTIJ-23790">新项目生成时的修正: 删除不需要的 "app" 目录</a>.
+        </li>
+    </td>
+    <td>
+        <li>
+            <a href="../releases.html#release-details">Kotlin 1.7.0—*</a>
+        </li>
+    </td>
+</tr>
+
+<tr>
+    <td>
+        <b> 0.5.0 </b> <br/>
+        发布日期: 2022/11/22
+    </td>
+    <td>
+        <li>
+            <a href="https://youtrack.jetbrains.com/issue/KT-54086">修改 iOS framework distribution 的默认选项: 现在是 <strong>Regular framework</strong></a>.
+        </li>
+        <li>
+            <a href="https://youtrack.jetbrains.com/issue/KT-53991">在生成的 Android 项目中, 将 <code>MyApplicationTheme</code> 移动到单独的文件</a>.
+        </li>
+        <li>
+            <a href="https://youtrack.jetbrains.com/issue/KT-54658">修改了生成的 Android 项目</a>.
+        </li>
+        <li>
+            <a href="https://youtrack.jetbrains.com/issue/KTIJ-23707">修正了新建项目的目录被意外删除的问题</a>.
+        </li>
+    </td>
+    <td>
+        <li>
+            <a href="../releases.html#release-details">Kotlin 1.7.0—*</a>
+        </li>
+    </td>
+</tr>
+
 <tr>
     <td>
         <b> 0.3.4 </b> <br/>

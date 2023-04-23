@@ -15,7 +15,7 @@ title: "关于翻译"
 
 中文翻译版
 
-网址: [http://kotlin.liying-cn.net/docs/reference_zh/](http://kotlin.liying-cn.net/docs/reference_zh/)
+网址: [https://kotlin.liying-cn.net/docs/reference_zh/](https://kotlin.liying-cn.net/docs/reference_zh/)
 
 代码库: [https://github.com/LiYing2010/kotlin-web-site](https://github.com/LiYing2010/kotlin-web-site)
 
@@ -25,6 +25,7 @@ title: "关于翻译"
 
 
 ### 更新历史
+* 2023 年 04 月: 第 13 次更新
 * 2022 年 09 月: 第 12 次更新
 * 2022 年 01 月: 第 11 次更新
 * 2020 年 12 月: 第 10 次更新

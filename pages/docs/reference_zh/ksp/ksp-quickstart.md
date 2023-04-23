@@ -39,7 +39,7 @@ title: "KSP 快速入门"
    
    ```groovy
    plugins {
-       id 'org.jetbrains.kotlin.jvm' version '%kspSupportedKotlinVersion%' apply false
+       id 'org.jetbrains.kotlin.jvm' version '{{ site.data.releases.kspSupportedKotlinVersion }}' apply false
    }
    
    buildscript {
@@ -81,7 +81,7 @@ title: "KSP 快速入门"
    
    ```groovy
    plugins {
-       id 'org.jetbrains.kotlin.jvm' version '%kotlinVersion%'
+       id 'org.jetbrains.kotlin.jvm' version '{{ site.data.releases.latest.version }}'
    }
    
    repositories {
@@ -167,28 +167,27 @@ title: "KSP 快速入门"
        ksp(project(":test-processor"))
    }
    ```
-   
+
    </div>
    </div>
    
    <div class="multi-language-sample" data-lang="groovy">
    <div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
-   
+
    ```groovy
    plugins {
        id 'com.google.devtools.ksp' version '{{ site.data.releases.kspSupportedKotlinVersion }}-{{ site.data.releases.kspVersion }}'
    }
-   
+
    dependencies {
        implementation 'org.jetbrains.kotlin:kotlin-stdlib:{{ site.data.releases.latest.version }}'
        implementation project(':test-processor')
        ksp project(':test-processor')
    }
    ```
-   
-   </div>
-   </div>
 
+   </div>
+   </div>
 
 3. 运行 `./gradlew build`. 你可以在 `build/generated/source/ksp` 目录下看到生成的代码.
 
@@ -245,15 +244,19 @@ title: "KSP 快速入门"
 
 在 gradle 构建脚本中指定 `SymbolProcessorEnvironment.options` 中的处理器选项:
 
-```properties
+```none
 ksp {
-  arg("option1", "value1")
-  arg("option2", "value2")
-  ...
+    arg("option1", "value1")
+    arg("option2", "value2")
+    ...
 }
 ```
 
-## 让 IDE 感知生成的 代码
+## 让 IDE 感知生成的代码
+
+> 从 KSP 1.8.0-1.0.9 开始, 生成的源代码文件会自动进行注册.
+> 如果你在使用 KSP 1.0.9 或更高版本, 但不需要让 IDE 感知生成的资源, 那么可以跳过这一章节.
+{:.note}
 
 默认情况下, IntelliJ IDEA 或其他 IDE 不知道生成的代码. 因此 IDE 会将生成的符号标记为无法解析.
 要让 IDE 能够理解生成的符号, 请将以下路径标记为生成的源代码根目录:
@@ -318,17 +321,17 @@ Reason: Task ':publishPluginJar' uses this output of task ':kspKotlin' without d
 
 ```kotlin
 plugins {
-   // ...
-   idea
+    // ...
+    idea
 }
 
 idea {
-   module {
-      // 由于 https://github.com/gradle/gradle/issues/8749, 不要使用 +=
-      sourceDirs = sourceDirs + file("build/generated/ksp/main/kotlin") // 或者 tasks["kspKotlin"].destination
-      testSourceDirs = testSourceDirs + file("build/generated/ksp/test/kotlin")
-      generatedSourceDirs = generatedSourceDirs + file("build/generated/ksp/main/kotlin") + file("build/generated/ksp/test/kotlin")
-   }
+    module {
+        // 由于 https://github.com/gradle/gradle/issues/8749, 不要使用 +=
+        sourceDirs = sourceDirs + file("build/generated/ksp/main/kotlin") // 或者 tasks["kspKotlin"].destination
+        testSourceDirs = testSourceDirs + file("build/generated/ksp/test/kotlin")
+        generatedSourceDirs = generatedSourceDirs + file("build/generated/ksp/main/kotlin") + file("build/generated/ksp/test/kotlin")
+    }
 }
 ```
 
@@ -340,17 +343,17 @@ idea {
 
 ```groovy
 plugins {
-   // ...
-   id 'idea'
+    // ...
+    id 'idea'
 }
 
 idea {
-   module {
-      // 由于 https://github.com/gradle/gradle/issues/8749, 不要使用 +=
-      sourceDirs = sourceDirs + file('build/generated/ksp/main/kotlin') // 或者 tasks["kspKotlin"].destination
-      testSourceDirs = testSourceDirs + file('build/generated/ksp/test/kotlin')
-      generatedSourceDirs = generatedSourceDirs + file('build/generated/ksp/main/kotlin') + file('build/generated/ksp/test/kotlin')
-   }
+    module {
+        // 由于 https://github.com/gradle/gradle/issues/8749, 不要使用 +=
+        sourceDirs = sourceDirs + file('build/generated/ksp/main/kotlin') // 或者 tasks["kspKotlin"].destination
+        testSourceDirs = testSourceDirs + file('build/generated/ksp/test/kotlin')
+        generatedSourceDirs = generatedSourceDirs + file('build/generated/ksp/main/kotlin') + file('build/generated/ksp/test/kotlin')
+    }
 }
 ```
 

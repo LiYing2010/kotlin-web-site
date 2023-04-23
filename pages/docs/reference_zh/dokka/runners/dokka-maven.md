@@ -1,0 +1,623 @@
+---
+type: doc
+layout: reference
+category: dokka
+title: "Maven"
+---
+
+# Maven
+
+最终更新: {{ site.data.releases.latestDocDate }}
+
+要为基于 Maven 的项目生成文档, 你可以使用 Maven plugin for Dokka.
+
+> 与 [Gradle plugin for Dokka](dokka-gradle.html) 相比, Maven plugin 只包括基本的功能, 不支持多模块构建.
+{:.note}
+
+你可以访问我们的
+[Maven 示例](https://github.com/Kotlin/dokka/tree/{{ site.data.releases.dokkaVersion }}/examples/maven) 项目,
+实际接触一下 Dokka, 看看它如何对 Maven 项目进行配置.
+
+## 应用 Dokka
+
+要应用 Dokka, 你需要在你的 POM 文件的 `plugins` 部分添加 `dokka-maven-plugin`:
+
+```xml
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.jetbrains.dokka</groupId>
+            <artifactId>dokka-maven-plugin</artifactId>
+            <version>{{ site.data.releases.dokkaVersion }}</version>
+            <executions>
+                <execution>
+                    <phase>pre-site</phase>
+                    <goals>
+                        <goal>dokka</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+</build>
+```
+
+## 生成文档
+
+Maven plugin 提供了以下 goal:
+
+| **Goal**      | **描述**                                                             |
+|---------------|--------------------------------------------------------------------|
+| `dokka:dokka` | 通过应用的 Dokka plugin 生成文档. 默认使用 [HTML](../formats/dokka-html.html) 格式. |
+
+### 试验性功能
+
+| **Goal**           | **描述**                                                                               |
+|--------------------|--------------------------------------------------------------------------------------|
+| `dokka:javadoc`    | 生成文档, 使用 [Javadoc](../formats/dokka-javadoc.html) 格式.                                |
+| `dokka:javadocJar` | 生成包含文档的 `javadoc.jar` 文件, 使用 [Javadoc](../formats/dokka-javadoc.html) 格式. |
+
+### 其他输出格式
+
+Maven plugin for Dokka 默认使用 [HTML](../formats/dokka-html.html) 输出格式构建文档.
+
+其他所有输出格式都以 [Dokka plugin](../dokka-plugins.html) 的形式实现.
+要使用你需要的格式来生成文档, 你需要在配置中以 Dokka plugin 的形式添加这种格式.
+
+例如, 要使用试验性的 [GFM](../formats/dokka-markdown.html#gfm) 格式, 你需要添加 `gfm-plugin` artifact:
+
+```xml
+<plugin>
+    <groupId>org.jetbrains.dokka</groupId>
+    <artifactId>dokka-maven-plugin</artifactId>
+    ...
+    <configuration>
+        <dokkaPlugins>
+            <plugin>
+                <groupId>org.jetbrains.dokka</groupId>
+                <artifactId>gfm-plugin</artifactId>
+                <version>{{ site.data.releases.dokkaVersion }}</version>
+            </plugin>
+        </dokkaPlugins>
+    </configuration>
+</plugin>
+```
+
+使用这个配置, 运行 `dokka:dokka` goal 会生成 GFM 格式的文档.
+
+关于 Dokka plugin, 更多详情请参见 [Dokka plugin](../dokka-plugins.html).
+
+## 构建 javadoc.jar
+
+如果你想要将你的库发布到仓库, 你可能需要提供一个 `javadoc.jar` 文件, 其中包含你的库的 API 参考文档.
+
+例如, 如果你想要发布到 [Maven Central](https://central.sonatype.org/),
+你 [必须](https://central.sonatype.org/publish/requirements/) 和你的项目一起提供一个 `javadoc.jar`.
+但是, 并不是所有的仓库都有这样的规则.
+
+与 [Gradle plugin for Dokka](dokka-gradle.html#build-javadoc-jar) 不同, Maven plugin 包括直接可以使用的 `dokka:javadocJar` goal.
+默认情况下, 它使用 [Javadoc](../formats/dokka-javadoc.html) 输出格式, 在`target` 文件夹生成文档.
+
+如果你对内建的 goal 不满意, 或者想要自定义输出
+(例如, 你想要使用 [HTML](dokka-html.html) 格式而不是 Javadoc 来生成文档),
+可以使用以下配置添加 Maven JAR plugin:
+
+```xml
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-jar-plugin</artifactId>
+    <version>3.3.0</version>
+    <executions>
+        <execution>
+            <goals>
+                <goal>test-jar</goal>
+            </goals>
+        </execution>
+        <execution>
+            <id>dokka-jar</id>
+            <phase>package</phase>
+            <goals>
+                <goal>jar</goal>
+            </goals>
+            <configuration>
+                <classifier>dokka</classifier>
+                <classesDirectory>${project.build.directory}/dokka</classesDirectory>
+                <skipIfEmpty>true</skipIfEmpty>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+```
+
+文档, 以及包含文档的 `.jar` 包, 现在通过运行 `dokka:dokka` 和 `jar:jar@dokka-jar` goal 来生成:
+
+```bash
+mvn dokka:dokka jar:jar@dokka-jar
+```
+
+> 如果你将你的库发布到 Maven Central, 你可以使用 [javadoc.io](https://javadoc.io/) 之类的服务,
+> 免费托管你的库的 API 文档, 而且不需要任何设置. 它直接从 `javadoc.jar` 得到文档页面.
+> 它可以很好的显示 HTML 格式文档, 参见 [这个示例](https://javadoc.io/doc/com.trib3/server/latest/index.html).
+{:.tip}
+
+## 配置示例
+
+Maven 的 plugin 配置代码库可以用来配置 Dokka.
+
+下面是一个基本配置的示例, 它只修改你的文档的输出位置:
+
+```xml
+<plugin>
+    <groupId>org.jetbrains.dokka</groupId>
+    <artifactId>dokka-maven-plugin</artifactId>
+    ...
+    <configuration>
+        <outputDir>${project.basedir}/target/documentation/dokka</outputDir>
+    </configuration>
+</plugin>
+```
+
+## 配置选项
+
+Dokka 有很多配置选项, 可以用来定制你和你的读者的体验.
+
+下面是对每个配置小节的一些示例和详细解释.
+在本章的最后, 你还可以看到一个示例, 它使用了 [所有的配置选项](#complete-configuration).
+
+### 一般配置
+
+```xml
+<plugin>
+    <groupId>org.jetbrains.dokka</groupId>
+    <artifactId>dokka-maven-plugin</artifactId>
+    <!--  ...  -->
+    <configuration>
+        <skip>false</skip>
+        <moduleName>${project.artifactId}</moduleName>
+        <outputDir>${project.basedir}/target/documentation</outputDir>
+        <failOnWarning>false</failOnWarning>
+        <suppressObviousFunctions>true</suppressObviousFunctions>
+        <suppressInheritedMembers>false</suppressInheritedMembers>
+        <offlineMode>false</offlineMode>
+        <sourceDirectories>
+            <dir>${project.basedir}/src</dir>
+        </sourceDirectories>
+        <documentedVisibilities>
+            <visibility>PUBLIC</visibility>
+            <visibility>PROTECTED</visibility>
+        </documentedVisibilities>
+        <reportUndocumented>false</reportUndocumented>
+        <skipDeprecated>false</skipDeprecated>
+        <skipEmptyPackages>true</skipEmptyPackages>
+        <suppressedFiles>
+            <file>/path/to/dir</file>
+            <file>/path/to/file</file>
+        </suppressedFiles>
+        <jdkVersion>8</jdkVersion>
+        <languageVersion>1.7</languageVersion>
+        <apiVersion>1.7</apiVersion>
+        <noStdlibLink>false</noStdlibLink>
+        <noJdkLink>false</noJdkLink>
+        <includes>
+            <include>packages.md</include>
+            <include>extra.md</include>
+        </includes>
+        <classpath>${project.compileClasspathElements}</classpath>
+        <samples>
+            <dir>${project.basedir}/samples</dir>
+        </samples>
+        <sourceLinks>
+            <!-- 参见其它章节 -->
+        </sourceLinks>
+        <externalDocumentationLinks>
+            <!-- 参见其它章节 -->
+        </externalDocumentationLinks>
+        <perPackageOptions>
+            <!-- 参见其它章节 -->
+        </perPackageOptions>
+    </configuration>
+</plugin>
+```
+
+#### skip
+是否跳过文档生成.
+
+默认值: `false`
+
+#### moduleName
+用来引用项目/模块的显示名称. 这个名称会用于目录, 导航, 日志, 等等.
+
+默认值: `{project.artifactId}`
+
+#### outputDir
+
+文档生成的目录, 无论哪种格式.
+
+默认值: `{project.basedir}/target/dokka`
+
+#### failOnWarning
+
+如果 Dokka 输出警告或错误, 是否让文档生成任务失败.
+进程首先会等待所有的错误和警告输出完毕.
+
+这个设置可以与 `reportUndocumented` 选项配合工作.
+
+默认值: `false`
+
+#### suppressObviousFunctions
+
+是否禁止输出那些显而易见的函数.
+
+满足以下条件的函数, 会被认为是显而易见的函数:
+- 继承自 `kotlin.Any`, `Kotlin.Enum`, `java.lang.Object` 或 `java.lang.Enum`,
+  例如 `equals`, `hashCode`, `toString`.
+- 合成(由编译器生成的)函数, 而且没有任何文档,
+  例如 `dataClass.componentN` 或 `dataClass.copy`.
+
+默认值: `true`
+
+#### suppressInheritedMembers
+
+是否禁止输出在指定的类中继承得到的而且没有显式覆盖的成员.
+
+注意: 这个选项可以禁止输出 `equals`/`hashCode`/`toString` 之类的函数, 
+但不能禁止输出 `dataClass.componentN` 和 `dataClass.copy` 之类的合成函数.
+对合成函数, 请使用 `suppressObviousFunctions` 选项.
+
+默认值: `false`
+
+#### offlineMode
+
+是否通过你的网络来解析远程的文件/链接.
+
+包括用来生成外部文档链接的包列表. 
+例如, 可以让来自标准库的类成为文档中可以点击的链接. 
+
+将这个选项设置为 `true`, 某些情况下可以显著提高构建速度, 但也会降低文档质量和用户体验.
+例如, 可以不解析来自你的依赖项的类/成员的链接, 包括标准库.
+
+注意: 你可以将已取得的文件缓存到本地, 并通过本地路径提供给 Dokka.
+参见 `externalDocumentationLinks` 小节.
+
+默认值: `false`
+
+#### sourceDirectories
+
+需要分析并生成文档的源代码根目录.
+允许的输入是目录和单独的 `.kt` / `.java` 文件.
+
+默认值: `{project.compileSourceRoots}`
+
+#### documentedVisibilities
+
+这个选项设置需要生成文档的可见度修饰符.
+
+如果你想要对 `protected`/`internal`/`private` 声明生成文档,
+以及如果你想要排除 `public` 声明, 只为 internal API 生成文档,
+这个选项会很有用.
+
+可以对每个包为单位进行配置.
+
+默认值: `PUBLIC`
+
+#### reportUndocumented
+
+是否对可见的、无文档的声明输出警告,
+这是指经过 `documentedVisibilities` 和其他过滤器过滤之后, 需要输出文档, 但没有 KDocs 的声明.
+
+这个设置可以与 `failOnWarning` 选项配合工作.
+
+这个设置可以在包级覆盖.
+
+默认值: `false`
+
+#### skipDeprecated
+
+是否对标注了 `@Deprecated` 注解的声明生成文档.
+
+这个设置可以在包级覆盖.
+
+默认值: `false`
+
+#### skipEmptyPackages
+
+是否跳过经各种过滤器过滤之后不包含可见声明的包.
+
+例如, 如果 `skipDeprecated` 设置为 `true`, 而且你的包中只包含已废弃的声明, 那么这个包会被认为是空的.
+
+默认值: `true`
+
+#### suppressedFiles
+
+需要禁止输出的目录或单独的文件, 意思是说, 对于来自这些目录和文件的声明, 不会生成文档.
+
+#### jdkVersion
+
+在为 Java 类型生成外部文档链接时使用的 JDK 版本.
+
+例如, 如果你在某些 public 声明的签名中使用了 `java.util.UUID`,
+而且这个选项设置为 `8`, Dokka 会为它生成一个指向
+[JDK 8 Javadoc](https://docs.oracle.com/javase/8/docs/api/java/util/UUID.html)
+的外部文档链接.
+
+默认值: JDK 8
+
+#### languageVersion
+
+设置代码分析和 [@sample](../../kotlin-doc.html#sample-identifier) 环境时使用的 [Kotlin 语言版本](../../compatibility-modes.html).
+
+默认情况下, 会使用 Dokka 的内嵌编译器所能够使用的最新的语言版本.
+
+#### apiVersion
+
+设置代码分析和 [@sample](../../kotlin-doc.html#sample-identifier) 环境时使用的 [Kotlin API 版本](../../compatibility-modes.html).
+
+默认情况下, 从 `languageVersion` 推断得到.
+
+#### noStdlibLink
+
+是否生成指向 Kotlin 标准库的 API 参考文档的外部文档链接.
+
+注意: 当 `noStdLibLink` 设置为 `false` 时, **会** 生成链接.
+
+默认值: `false`
+
+#### noJdkLink
+是否生成指向 JDK 的 Javadoc 的外部文档链接.
+
+JDK Javadoc 版本会通过 `jdkVersion` 选项决定.
+
+注意: 当 `noJdkLink` 设置为 `false` 时, **会** 生成链接.
+
+默认值: `false`
+
+#### includes
+
+包含 [模块和包文档](../dokka-module-and-package-docs.html) 的 Markdown 文件列表.
+
+指定的文件的内容会被解析, 并嵌入到文档内, 作为模块和包的描述文档.
+
+#### classpath
+
+用于代码分析和交互式示例的类路径.
+
+如果来自依赖项的某些类型无法自动的解析/查找, 这个选项会很有用.
+这个选项可以接受 `.jar` 和 `.klib` 文件.
+
+默认值: `{project.compileClasspathElements}`
+
+#### samples
+
+目录或文件的列表, 其中包含通过 [@sample KDoc tag](../../kotlin-doc.html#sample-identifier) 引用的示例函数.
+
+### 源代码链接配置
+
+`sourceLinks` 配置块可以用来为每个签名添加 `source` 链接, 链接地址是带有特定代码行的 `url`. (代码行可以通过 `lineSuffix` 进行配置).
+
+这样可以帮助读者找到每个声明的源代码.
+
+例如, 请参见 `kotlinx.coroutines` 中
+[`count()`](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/count.html)
+函数的文档.
+
+```xml
+<plugin>
+    <groupId>org.jetbrains.dokka</groupId>
+    <artifactId>dokka-maven-plugin</artifactId>
+    <!--  ...  -->
+    <configuration>
+        <sourceLinks>
+            <link>
+                <path>${project.basedir}/src</path>
+                <url>https://github.com/kotlin/dokka/tree/master/src</url>
+                <lineSuffix>#L</lineSuffix>
+            </link>
+        </sourceLinks>
+    </configuration>
+</plugin>
+```
+
+#### path
+本地源代码目录的路径. 必须是从当前模块根目录开始的相对路径.
+
+#### url
+可以由文档读者访问的源代码托管服务 URL, 例如 GitHub, GitLab, Bitbucket, 等等.
+这个 URL 用来生成声明的源代码链接.
+
+#### lineSuffix
+
+向 URL 添加的源代码行数后缀. 这样可以帮助读者, 不仅能够导航到文件, 而且是声明所在的确定的行数.
+
+行数本身会添加到后缀之后. 例如, 如果这个选项设置为 `#L`, 行数是 10, 那么最后的 URL 后缀会是 `#L10`.
+
+各种常用的源代码托管服务的行数后缀是:
+- GitHub: `#L`
+- GitLab: `#L`
+- Bitbucket: `#lines-`
+
+
+### 外部文档链接配置
+
+`externalDocumentationLinks` 配置块可以创建链接, 指向你的依赖项的外部文档.
+
+例如, 如果你使用来自 `kotlinx.serialization` 的类型, 默认情况下, 在你的文档中这些类型不是可点击的链接, 因为无法解析这些类型.
+但是, 由于 `kotlinx.serialization` 的 API 参考文档是使用 Dokka 构建的, 而且
+[发布到了 kotlinlang.org](https://kotlinlang.org/api/kotlinx.serialization/),
+因此你可以对它配置外部文档链接.
+然后就可以让 Dokka 对来自这个库的类型生成链接, 让它们成功的解析, 并在文档中成为可点击的链接.
+
+默认情况下, 已经配置了对 Kotlin 标准库和 JDK 的外部文档链接.
+
+```xml
+<plugin>
+    <groupId>org.jetbrains.dokka</groupId>
+    <artifactId>dokka-maven-plugin</artifactId>
+    <!--  ...  -->
+    <configuration>
+        <externalDocumentationLinks>
+            <link>
+                <url>https://kotlinlang.org/api/kotlinx.serialization/</url>
+                <packageListUrl>file:/${project.basedir}/serialization.package.list</packageListUrl>
+            </link>
+        </externalDocumentationLinks>
+    </configuration>
+</plugin>
+```
+
+#### url
+链接到的文档的根 URL. 最末尾 **必须** 包含斜线.
+
+Dokka 会尽量对给定的 URL 自动寻找 `package-list`, 并将声明链接到一起.
+
+如果自动解析失败, 或者如果你想要使用本地缓存的文件, 请考虑设置 `packageListUrl` 选项.
+
+#### packageListUrl
+`package-list` 的确切位置. 这是对 Dokka 自动解析的一个替代手段.
+
+包列表包含关于文档和项目自身的信息, 例如模块和包的名称.
+
+也可以使用本地缓存的文件, 以避免发生网络访问.
+
+
+### 包选项
+
+`perPackageOptions` 配置块可以对指定的包设置一些选项, 包通过 `matchingRegex` 来匹配.
+
+```xml
+<plugin>
+    <groupId>org.jetbrains.dokka</groupId>
+    <artifactId>dokka-maven-plugin</artifactId>
+    <!--  ...  -->
+    <configuration>
+        <perPackageOptions>
+            <packageOptions>
+                <matchingRegex>.*api.*</matchingRegex>
+                <suppress>false</suppress>
+                <reportUndocumented>false</reportUndocumented>
+                <skipDeprecated>false</skipDeprecated>
+                <documentedVisibilities>
+                    <visibility>PUBLIC</visibility>
+                    <visibility>PRIVATE</visibility>
+                    <visibility>PROTECTED</visibility>
+                    <visibility>INTERNAL</visibility>
+                    <visibility>PACKAGE</visibility>
+                </documentedVisibilities>
+            </packageOptions>
+        </perPackageOptions>
+    </configuration>
+</plugin>
+```
+
+#### matchingRegex
+用来匹配包的正规表达式.
+
+默认值: `.*`
+
+#### suppress
+在生成文档时, 是否应该跳过这个包.
+
+默认值: `false`
+
+#### documentedVisibilities
+应该生成文档的可见度标识符集合.
+
+如果你想要对这个包内的 `protected`/`internal`/`private` 声明生成文档,
+以及如果你想要排除 `public` 声明, 只为 internal API 生成文档,
+这个选项可以很有用. 
+
+默认值: `PUBLIC`
+
+#### skipDeprecated
+是否对标注了 `@Deprecated` 注解的声明生成文档.
+
+这个选项可以在项目/模块级设置.
+
+默认值: `false`
+
+#### reportUndocumented
+
+是否对可见的、无文档的声明输出警告,
+这是指经过 `documentedVisibilities` 和其他过滤器过滤之后, 需要输出文档, 但没有 KDocs 的声明.
+
+这个设置可以与 `failOnWarning` 选项配合工作.
+
+默认值: `false`
+
+### 完整的配置
+
+下面的例子中, 你可以看到同时使用了所有的配置选项.
+
+```xml
+<plugin>
+    <groupId>org.jetbrains.dokka</groupId>
+    <artifactId>dokka-maven-plugin</artifactId>
+    <!--  ...  -->
+    <configuration>
+        <skip>false</skip>
+        <moduleName>${project.artifactId}</moduleName>
+        <outputDir>${project.basedir}/target/documentation</outputDir>
+        <failOnWarning>false</failOnWarning>
+        <suppressObviousFunctions>true</suppressObviousFunctions>
+        <suppressInheritedMembers>false</suppressInheritedMembers>
+        <offlineMode>false</offlineMode>
+        <sourceDirectories>
+            <dir>${project.basedir}/src</dir>
+        </sourceDirectories>
+        <documentedVisibilities>
+            <visibility>PUBLIC</visibility>
+            <visibility>PRIVATE</visibility>
+            <visibility>PROTECTED</visibility>
+            <visibility>INTERNAL</visibility>
+            <visibility>PACKAGE</visibility>
+        </documentedVisibilities>
+        <reportUndocumented>false</reportUndocumented>
+        <skipDeprecated>false</skipDeprecated>
+        <skipEmptyPackages>true</skipEmptyPackages>
+        <suppressedFiles>
+            <file>/path/to/dir</file>
+            <file>/path/to/file</file>
+        </suppressedFiles>
+        <jdkVersion>8</jdkVersion>
+        <languageVersion>1.7</languageVersion>
+        <apiVersion>1.7</apiVersion>
+        <noStdlibLink>false</noStdlibLink>
+        <noJdkLink>false</noJdkLink>
+        <includes>
+            <include>packages.md</include>
+            <include>extra.md</include>
+        </includes>
+        <classpath>${project.compileClasspathElements}</classpath>
+        <samples>
+            <dir>${project.basedir}/samples</dir>
+        </samples>
+        <sourceLinks>
+            <link>
+                <path>${project.basedir}/src</path>
+                <url>https://github.com/kotlin/dokka/tree/master/src</url>
+                <lineSuffix>#L</lineSuffix>
+            </link>
+        </sourceLinks>
+        <externalDocumentationLinks>
+            <link>
+                <url>https://kotlinlang.org/api/latest/jvm/stdlib/</url>
+                <packageListUrl>file:/${project.basedir}/stdlib.package.list</packageListUrl>
+            </link>
+        </externalDocumentationLinks>
+        <perPackageOptions>
+            <packageOptions>
+                <matchingRegex>.*api.*</matchingRegex>
+                <suppress>false</suppress>
+                <reportUndocumented>false</reportUndocumented>
+                <skipDeprecated>false</skipDeprecated>
+                <documentedVisibilities>
+                    <visibility>PUBLIC</visibility>
+                    <visibility>PRIVATE</visibility>
+                    <visibility>PROTECTED</visibility>
+                    <visibility>INTERNAL</visibility>
+                    <visibility>PACKAGE</visibility>
+                </documentedVisibilities>
+            </packageOptions>
+        </perPackageOptions>
+    </configuration>
+</plugin>
+```

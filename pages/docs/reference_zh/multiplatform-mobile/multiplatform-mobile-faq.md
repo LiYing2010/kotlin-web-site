@@ -48,7 +48,7 @@ Kotlin/Native 主要设计用于将代码编译到不适合或无法使用虚拟
 
 共用代码使用 Kotlin 编写, 对 Android 使用 Kotlin/JVM 编译为 JVM 字节码, 对 iOS 使用 Kotlin/Native 编译为原生二进制文件.
 通过 Kotlin Multiplatform Mobile 将这两种平台无缝的集成在一起.
-![Kotlin/Native 与 Kotlin/JVM 二进制文件]({{ url_for('asset', path='/docs/images/multiplatform-mobile/kotlin-native-and-jvm-binaries.png') }})
+![Kotlin/Native 与 Kotlin/JVM 二进制文件]({{ url_for('asset', path='docs/images/multiplatform-mobile/kotlin-native-and-jvm-binaries.png') }})
 
 ### 相关技术的开发计划是什么?
 
@@ -56,9 +56,9 @@ Kotlin Multiplatform Mobile 是 [Kotlin 发展路线图](../roadmap.html) 中的
 要查看我们目前正在开发哪些功能, 请参见 [发展路线图细节](../roadmap.html#roadmap-details). 
 最近的大部分变更反应在 **Kotlin Multiplatform** 和 **Kotlin/Native** 小节.
 
-下面的视频介绍我们关于 Kotlin Multiplatform Mobile 的下一阶段开发计划 – 它将升级到 [Beta版](../components-stability.html): 
+下面的视频介绍 Kotlin Multiplatform Mobile 的当前状态, 以及我们的开发计划:
 
-<iframe width="560" height="360" src="https://www.youtube.com/embed/LE-Dy9XCLxk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="360" src="https://www.youtube.com/embed/CngKDGBlFxk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ### 我能在 Microsoft Windows 或 Linux 上运行 iOS 应用程序吗?
 
@@ -71,7 +71,7 @@ Kotlin Multiplatform Mobile 是 [Kotlin 发展路线图](../roadmap.html) 中的
 ### 我在哪里能够得到完整的示例程序?
 
 * [示例程序列表](multiplatform-mobile-samples.html)
-* 几个 [动手实验室(hands-on)教程](https://play.kotlinlang.org/hands-on/overview)
+* [教程 - 使用 Ktor 和 SQLDelight 创建跨平台应用程序](multiplatform-mobile-ktor-sqldelight.html)
 
 ### 我应该在哪个 IDE 中开发我的跨平台应用程序?
 
@@ -85,14 +85,11 @@ Android Studio 可以使用 [Kotlin Multiplatform Mobile plugin](#what-is-the-ko
 但是, 如果对你来说出于某些理由不使用 Android Studio, 也有其它的选择: 你可以使用 [IntelliJ IDEA](https://www.jetbrains.com/idea/download).
 IntelliJ IDEA 也可以通过项目向导创建跨平台移动应用程序, 但你不能通过 IDE 启动 iOS 应用程序.
 
-### 在 Kotlin Multiplatform Mobil 项目中我应该怎样编写并发代码?
+### 在 Kotlin Multiplatform Mobile 项目中我应该怎样编写并发代码?
 
-你可以通过我们的文档, 学习如何使用 [并发](multiplatform-mobile-concurrency-overview.html).
-
-在跨平台移动项目中编写并发代码, 看起来可能并不容易, 因为在 Kotlin/JVM 和 Kotlin/Native 中使用了不同的内存管理机制.
-Kotlin/Native 目前的机制存在某些 [限制](../native/native-immutability.html#concurrency-in-kotlin-native).
-新的 Kotlin/Native 内存管理模型已经列入了 [发展路线图](https://blog.jetbrains.com/kotlin/2020/07/kotlin-native-memory-management-roadmap),
-开发组正在为此工作中.
+通过使用新的 [Kotlin/Native 内存管理器](../native/native-memory-manager.html), 在你的跨平台移动项目中可以很容易的编写并发代码,  
+这个新的内存管理器消除了以前的限制, 并统一了在 Kotlin/JVM 和 Kotlin/Native 上的行为.
+从 Kotlin 1.7.20 开始, 已经默认启用了新的内存管理器.
 
 ### 我要怎样提高我的 Kotlin Multiplatform 模型在 iOS 上的编译速度?
 请参见 [改善 Kotlin/Native 编译速度的技巧](../native/native-improving-compilation-time.html).
@@ -103,8 +100,8 @@ Kotlin Multiplatform Mobile 支持以下平台的开发:
 
 * Android 应用程序和库
 * [Android NDK](https://developer.android.com/ndk) (ARM64 和 ARM32)
-* Apple iOS 设备 (ARM64 和 ARM32) 和模拟器
-* Apple watchOS 设备 (ARM64 和 ARM32) 和模拟器
+* Apple iOS 设备和模拟器
+* Apple watchOS 设备和模拟器
 
 [Kotlin Multiplatform](../multiplatform/multiplatform.html) 技术还支持 [其他平台](../multiplatform/multiplatform-dsl-reference.html#targets),
 包括 JavaScript, Linux, Windows, 以及 WebAssembly.

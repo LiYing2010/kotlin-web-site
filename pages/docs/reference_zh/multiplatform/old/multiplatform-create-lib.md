@@ -6,7 +6,7 @@ title: "创建跨平台的库"
 
 # 创建跨平台的库
 
-本页面最终更新: 2022/02/28
+最终更新: {{ site.data.releases.latestDocDate }}
 
 本节介绍如何创建跨平台的库. 也可以参阅 [完整的教程](../tutorials/mpp/multiplatform-library.html),
 介绍如何创建跨平台的库, 测试它, 并发布到 Maven.
@@ -15,7 +15,7 @@ title: "创建跨平台的库"
 2. 在左侧面板, 选择 **Kotlin**.
 3. 输入项目名称, 然后在 **Multiplatform** 中选择 **Library** 作为项目模板.
 
-    ![选择项目模板]({{ url_for('asset', path='/docs/images/mpp/mpp-project-1.png') }})
+    ![选择项目模板]({{ url_for('asset', path='docs/images/mpp/mpp-project-1.png') }})
 
 4. 选择 Gradle DSL – Kotlin 或 Groovy.
 5. 点击 **Next**.
@@ -26,14 +26,14 @@ title: "创建跨平台的库"
 
 7. 对目标设定进行配置, 比如 JVM 编译目标版本, 以及测试框架.
 
-    ![配置项目]({{ url_for('asset', path='/docs/images/mpp/mpp-project-2.png') }})
+    ![配置项目]({{ url_for('asset', path='docs/images/mpp/mpp-project-2.png') }})
 
 8. 如果需要, 指定模块之间的依赖关系:
     *   跨平台与 Android 模块
     *   跨平台与 iOS 模块
     *   JVM 模块
 
-    ![添加模块依赖项]({{ url_for('asset', path='/docs/images/mpp/mpp-project-3.png') }})
+    ![添加模块依赖项]({{ url_for('asset', path='docs/images/mpp/mpp-project-3.png') }})
 
 9. 点击 **Finish**.
 

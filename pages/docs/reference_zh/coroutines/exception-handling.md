@@ -7,7 +7,7 @@ title: "协程的异常处理"
 
 # 协程的异常处理
 
-最终更新: {{ site.data.releases.latestCoroutinesDocDate }}
+最终更新: {{ site.data.releases.latestDocDate }}
 
 <!--- TEST_NAME ExceptionsGuideTest -->
 

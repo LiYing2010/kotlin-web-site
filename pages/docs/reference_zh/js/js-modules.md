@@ -61,7 +61,7 @@ Webpack 提供了 CommonJS 的两种不同的 "风格(flavor)": `commonjs` 和 `
 
 ```kotlin
 tasks.named<KotlinJsCompile>("compileKotlinJs").configure {
-    kotlinOptions.moduleKind = "commonjs"
+    compilerOptions.moduleKind.set(org.jetbrains.kotlin.gradle.dsl.JsModuleKind.MODULE_COMMONJS)
 }
 ```
 
@@ -72,7 +72,7 @@ tasks.named<KotlinJsCompile>("compileKotlinJs").configure {
 <div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
 
 ```groovy
-compileKotlinJs.kotlinOptions.moduleKind = "commonjs"
+compileKotlinJs.compilerOptions.moduleKind = org.jetbrains.kotlin.gradle.dsl.JsModuleKind.MODULE_COMMONJS
 ```
 
 </div>
@@ -83,7 +83,7 @@ compileKotlinJs.kotlinOptions.moduleKind = "commonjs"
 
 > 这种方法与修改 `webpackTask.output.libraryTarget` 不同.
 > 库的输出目标设定, 改变的是 _webpack 库文件生成_ 的输出(在你的代码经过 Kotlin 编译之后).
-> `kotlinOptions.moduleKind` 改变的则是 _Kotlin 编译器_ 的输出.
+> `compilerOptions.moduleKind` 改变的则是 _Kotlin 编译器_ 的输出.
 {:.note}  
 
 在 Kotlin Gradle DSL 中, 设置 CommonJS 模块类型可以简写为:

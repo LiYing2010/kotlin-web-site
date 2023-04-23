@@ -7,7 +7,7 @@ title: "教程 - 使用 IntelliJ IDEA 调试协程"
 
 # 教程 - 使用 IntelliJ IDEA 调试协程
 
-最终更新: {{ site.data.releases.latestCoroutinesDocDate }}
+最终更新: {{ site.data.releases.latestDocDate }}
 
 本教程演示如何创建 Kotlin 协程, 并使用 IntelliJ IDEA 调试这些协程.
 
@@ -113,3 +113,16 @@ title: "教程 - 使用 IntelliJ IDEA 调试协程"
     * 第 3 个协程正在计算 `b` 的值 – 它的状态为 **RUNNING**.
 
 使用 IntelliJ IDEA 调试器, 你可以深入挖掘各个协程的信息, 调试你的代码.
+
+### 被优化的变量
+
+如果你使用 `suspend` 函数, 那么在调试器中, 你可能会在变量名称旁边看到 "was optimized out" 文字:
+
+![变量 "a" 被优化了]({{ url_for('asset', path='docs/images/coroutines/variable-optimised-out.png') }})
+
+这段文字的意思是说, 变量的生存时间变短了, 而且变量已经不再存在了.
+如果变量被优化, 调试代码会变得困难, 因为你看不到变量值.
+你可以使用 `-Xdebug` 编译器选项禁止这种优化.
+
+> __绝对不要在产品(Production)模式中使用这个选项__: `-Xdebug` 可能 [导致内存泄露](https://youtrack.jetbrains.com/issue/KT-48678/Coroutine-debugger-disable-was-optimised-out-compiler-feature#focus=Comments-27-6015585.0-0).
+{:.warning}

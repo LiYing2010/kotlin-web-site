@@ -113,7 +113,7 @@ Kotlin/Native 目前还是 Beta 版, 但已经可以试用于流行的桌面和�
 ### Kotlin 支持 JVM 的哪些版本?
 
 Kotlin 允许你选择运行时的 JVM 版本. 默认情况下, Kotlin/JVM 编译器产生与 Java 8 兼容的字节码.
-如果你希望利用更高版本 Java 中的优化功能, 你可以明确指定编译目标的 Java 版本, 可选的版本是从 9 到 18.
+如果你希望利用更高版本 Java 中的优化功能, 你可以明确指定编译目标的 Java 版本, 可选的版本是从 9 到 19.
 注意, 这时编译产生的字节码在低版本的 Java 环境可能无法运行.
 从 [Kotlin 1.5](whatsnew15.html#new-default-jvm-target-1-8) 开始, 编译器不再产生与低于 Java 8 的版本兼容的字节码.
 
@@ -151,7 +151,7 @@ Kotlin 主要是由 JetBrains 公司的一个工程师团队(目前 100+ 人)开
 
 ### 是否有关于 Kotlin 的在线课程?
 
-你可以通过 JetBrains 学院的 [Kotlin 基础教程](https://hyperskill.org/join/fromdocstoJetSalesStat?redirect=true&next=/tracks/18) 来学习创建应用程序所需要的全部 Kotlin 基础知识.
+你可以通过 JetBrains Academy 的 [Kotlin 基础教程](https://hyperskill.org/join/fromdocstoJetSalesStat?redirect=true&next=/tracks/18) 来学习创建应用程序所需要的全部 Kotlin 基础知识.
 
 你还可以学习这些课程:
 * Kevin Jones 著: [Pluralsight 课程: Kotlin 入门](https://www.pluralsight.com/courses/kotlin-getting-started)
@@ -195,7 +195,7 @@ Kotlin 主要是由 JetBrains 公司的一个工程师团队(目前 100+ 人)开
 在各种网站上有很多 [在线资源](https://kotlinlang.org/community/), 包括社区成员编写的 [Kotlin Digests](https://kotlin.link),
 一份 [通讯](http://kotlinweekly.net), 一个 [博客](https://talkingkotlin.com), 等等.
 
-### 在哪里可以得到高分辨率的 Kotlin logo?
+### 在哪里可以得到高分辨率的 Kotlin Logo?
 
 可以在 [这个地址](https://resources.jetbrains.com/storage/products/kotlin/docs/kotlin_logos.zip) 下载 Logo.
 使用 Logo 时请注意遵守使用规则, 具体请参见压缩包中的 `guidelines.pdf` 文件包含的简单规则,

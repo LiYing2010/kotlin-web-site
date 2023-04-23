@@ -7,121 +7,130 @@ title: "Kotlin 品牌资产"
 
 # Kotlin 品牌资产
 
+最终更新: {{ site.data.releases.latestDocDate }}
+
 ## Kotlin Logo
 
-Our logo consists of a mark and a typeface. The full-color version is the main one and should be used in the vast majority of cases.
+我们的 Logo 包括一个标志和一个字体. 主 Logo 是全彩色版本, 大多数情况下应该使用这个版本.
 
-[Download all versions](https://resources.jetbrains.com/storage/products/kotlin/docs/kotlin_logos.zip){:.typo-float-right.kto-button.kto-button_size_m.kto-button_mode_outline}
+[下载所有版本](https://resources.jetbrains.com/storage/products/kotlin/docs/kotlin_logos.zip){:.typo-float-right.kto-button.kto-button_size_m.kto-button_mode_outline}
 
-![Kotlin logo](kotlin-logo.png){width=700}
+<img src="/assets/docs/images/brand-assets/kotlin-logo.png" alt="Kotlin Logo" width="700"/>
 
-Our logo and mark have a protective field. Please position the logo so that other design elements do not come into the box. The minimum size of the protective field is half the height of the mark.
+我们的 Logo 和标志中包含保护区域. 请将 Logo 摆放在适当位置, 不要让其它图像元素遮挡保护区域.
+保护区域的最小尺寸是标志高度的一半.
 
-![Kotlin logo proportions](kotlin-logo-guidelines.png){width=700}
+<img src="/assets/docs/images/brand-assets/kotlin-logo-guidelines.png" alt="Kotlin Logo 的尺寸" width="700"/>
 
-Pay special attention to the following restrictions concerning the use of the logo:
+使用 Logo 时请特别注意以下限制事项:
 
-* Do not separate the mark from the text. Do not swap elements.
-* Do not change the transparency of the logo.
-* Do not outline the logo.
-* Do not repaint the logo in third-party colors.
-* Do not change the text.
-* Do not set the logo against a complex background. Do not place the logo in front of a bright background.
+* 不要将标志与文字分离. 不要交换画面元素位置.
+* 不要修改 Logo 的透明度.
+* 不要突出 Logo 轮廓.
+* 不要使用其他颜色重新绘制 Logo.
+* 不要修改文字.
+* 不要将 Logo 放在复杂的背景上. 不要将 Logo 放在亮色背景上.
 
-## Kotlin User Group brand assets
+## Kotlin 用户组品牌资产
 
-We provide Kotlin user groups with a logo that is specifically designed to be recognizable and convey a reference to Kotlin.
+我们为 Kotlin 用户组提供特别定制的 Logo, 这个 Logo 易于辨认, 而且与 Kotlin 相关联.
 
-* The official Kotlin logo is associated with the language itself. It should not be used otherwise in different scopes, as this could cause confusion. The same applies to its close derivatives.
-* User groups logo also means that the opinions and actions of the community are independent of the Kotlin team.
-* Your opinions don't have to agree with ours, and we think this is the most beneficial model for a creative and strong community.
+* 官方的 Kotlin Logo 代表 Kotlin 语言本身. 它不应该使用在其它范围, 以免发生混淆. 它的相近的派生物也是如此.
+* 用户组 Logo 也代表社区的观点和活动独立于 Kotlin 开发组.
+* 你的观点不一定要与我们相同, 对于有创造力的、强大的社区, 我们认为这是最好的模式.
 
-[Download all assets](https://drive.google.com/drive/folders/0B3Zi34svOj1RZ2sxZExhblRJc1k){:.typo-float-right.kto-button.kto-button_size_m.kto-button_mode_outline}
+[下载所有版本](https://drive.google.com/drive/folders/0B3Zi34svOj1RZ2sxZExhblRJc1k){:.typo-float-right.kto-button.kto-button_size_m.kto-button_mode_outline}
 
-### Style for user groups
+### 用户组风格
 
-Since the launch of the Kotlin community support program at the beginning of 2017, the number of user groups has multiplied, with around 2-4 new user groups joining us every month. Please check out the complete list of groups in the **Kotlin User Groups** section to find one in your area.
+自从 2017 年初 Kotlin 社区支持计划启动以来, 用户组的数量已经增长了很多倍, 每个月大约有 2 到 4 个新的用户组加入.
+请在 **Kotlin 用户组** 小节查看用户组的完整列表, 找找你所在地区的用户组.
 
-We provide new Kotlin user groups with a user group logo and a profile picture.
+我们向新的 Kotlin 用户组提供用户组 Logo, 以及 Profile 图片.
 
-![Branding image](kotlin-user-group-logo.png){width=700}
+<img src="/assets/docs/images/brand-assets/user-group/kotlin-user-group-logo.png" alt="品牌图片" width="700"/>
 
-There are two main reasons why we are doing it:
+我们这样做的主要原因有 2 点:
 
-* Firstly, we received numerous requests from the community asking for special Kotlin style branded materials to help them be recognized as officially dedicated user groups.
-* Secondly, we wanted to provide a distinct style for the user group and community content to make it clear which Kotlin-related materials are from the official team and which are created by the community.
+* 首先, 我们从社区收到很多请求, 要求特别的 Kotlin 风格品牌素材, 帮助他们标识自己是正式的专门用户组.
+* 其次, 我们希望为用户组提供独特的风格, 以及社区内容, 以便明确区分哪些 Kotlin 相关的素材是来自官方开发组, 哪些是由社区自行创建的.
 
-### Create the logo of your user group
+### 创建你的用户组的 Logo
 
-To create a logo of your users group:
-1. Copy the Kotlin user group [logo file](https://docs.google.com/drawings/d/1IcJp8Z2jAwEliXrHB-l9RNK_2LrqGTkNuPPtjrW1iIU/edit) to your Google drive (you have to be signed in to your Google account).
-2. Replace the **Your City** text with the name of your user group.
-3. Download the picture and use it for the user group materials.
+要为你的用户组创建一个 Logo, 请执行以下步骤:
+1. 将 Kotlin 用户组的 [Logo 文件](https://docs.google.com/drawings/d/1IcJp8Z2jAwEliXrHB-l9RNK_2LrqGTkNuPPtjrW1iIU/edit)
+   复制到你的 Google Drive (你需要登录到你的 Google 帐号).
+2. 将 **Your City** 文字替换为你的用户组名称.
+3. 下载图片, 将它用作用户组素材.
 
-![Belarusian Kotlin User Group sample](kotlin-user-group-avatar.png){width=300}
+<img src="/assets/docs/images/brand-assets/user-group/kotlin-user-group-avatar.png" alt="Belarusian Kotlin 用户组示例" width="300"/>
 
-*Belarusian Kotlin User Group Profile Picture sample*
+*Belarusian Kotlin 用户组 Profile 图片示例*
 
-You can download a [set of graphics](https://drive.google.com/drive/folders/0B3Zi34svOj1RZ2sxZExhblRJc1k) including vector graphics and samples of cover pictures for social networks.
+你可以下载 [一组图片](https://drive.google.com/drive/folders/0B3Zi34svOj1RZ2sxZExhblRJc1k),
+包括矢量图, 以及用于社交网络的封面图片示例.
 
-### Create your group's profile picture for different platforms
+### 为你的用户组在不同的平台创建 Profile 图片
 
-To create your group's profile picture:
-1. Make a copy of the Kotlin user group profile [picture file](https://docs.google.com/drawings/d/1buhwccmllb7wFS0OIAub0WC4DIuSHRiDpjEQhB4tkPs/edit) to your Google Drive (you have to be signed in to your Google account).
-2. Add a shortened name of the user group's location (up to 4 capital symbols according to our default sample).
-3. Download the picture and use it for your profiles on Facebook, Twitter, or any other platform.
+要创建你的用户组的 Profile 图片, 请执行以下步骤:
+1. 将 Kotlin 用户组的 Profile [图片 file](https://docs.google.com/drawings/d/1buhwccmllb7wFS0OIAub0WC4DIuSHRiDpjEQhB4tkPs/edit)
+   复制到你的 Google Drive (你需要登录到你的 Google 帐号).
+2. 添加一个用户组位置的缩略名称(按照我们的默认示例, 最多 4 个首字母).
+3. 下载图片, 在 Facebook, Twitter, 或任何其他平台, 将它用作你的 Profile.
 
-### Create meetup.com cover photo
+### 创建 meetup.com 封面照片
 
-To create a cover photo with a group's logo for meetup.com:
-1. Make a copy of the [picture file](https://drive.google.com/file/d/1g_0Plf_do6vrXvy1R-Hx430vfV2CPVKN/view) to your Google
-   Drive (you have to be signed in to your Google account).
-2. Add a shortened name of the user group's location to the logo on the right upper corner of the picture. If you want to replace the general pattern with a custom picture, click on
-   the background pattern-picture, choose 'Replace Image', then 'Upload from Computer' or any other source.
-3. Download the picture and use it for your profile on [meetup.com](https://meetup.com).
+要为 meetup.com 创建一个带用户组 Logo 的封面照片, 请执行以下步骤:
+1. 将 [图片文件](https://drive.google.com/file/d/1g_0Plf_do6vrXvy1R-Hx430vfV2CPVKN/view)
+   复制到你的 Google Drive (你需要登录到你的 Google 帐号).
+2. 在 Logo 图片的右上角添加一个用户组位置的缩略名称. 如果你想要用自定义的图片来替换通常的模式,
+   请点击模式图片的背景, 选择 'Replace Image', 然后 'Upload from Computer', 或使用其他来源.
+3. 下载图片, 将它用作你在 [meetup.com](https://meetup.com) 上的 Profile.
 
-![User Group examples](kotlin-user-group.png){width=700}
+<img src="/assets/docs/images/brand-assets/user-group/kotlin-user-group.png" alt="用户组示例" width="700"/>
 
-## Kotlin Night brand assets
+## Kotlin Night 品牌资产
 
-JetBrains provides branding and materials for Kotlin Night events. Our team will prepare digital assets for the event promotion and ship your merchandise pack containing stickers and t-shirts. Check out what we have to make your Kotlin Night fun!
+JetBrains 为 Kotlin Night 活动提供品牌和素材. 我们的开发组会为活动的宣传准备数字资产, 并发送你的商品包, 包括贴纸和 T-恤.
+请阅读相关文档, 看看我们能够如何让你的 Kotlin Night 活动更加有趣!
 
-[Download all assets](https://drive.google.com/drive/folders/1wTJ-PiO6VvbY6XdACGLsWZ_N8KHI0Nvr){:.typo-float-right.kto-button.kto-button_size_m.kto-button_mode_outline}
+[下载所有资产](https://drive.google.com/drive/folders/1wTJ-PiO6VvbY6XdACGLsWZ_N8KHI0Nvr){:.typo-float-right.kto-button.kto-button_size_m.kto-button_mode_outline}
 
-### Social media
+### 社交媒体
 
-Stickers can be used to brand any media necessary for a Kotlin Night. Just stick them on anything you can get your hands on. It's fun!
+贴纸可以帖到任何对 Kotlin Night 活动需要的媒体. 你能够帖的地方全部都贴上吧. 很好玩!
 
-![Cover/Logo](kotlin-night-cover.svg){width=700}
+<img src="/assets/docs/images/brand-assets/kotlin-night-branding/kotlin-night-cover.svg" alt="Cover/Logo" width="700"/>
 
-![Cover Social](kotlin-night-fb.svg){width=700}
+<img src="/assets/docs/images/brand-assets/kotlin-night-branding/kotlin-night-fb.svg" alt="Cover Social" width="700"/>
 
-### Branding stickers
+### 品牌贴纸
 
-Stickers can be used to brand assets for a Kotlin Night. Just stick them on anything you can get your hands on. It is funny!
+贴纸可以用作 Kotlin Night 的品牌资产. 你能够帖的地方全部都贴上吧. 很好玩!
 
-![Stickers](kotlin-night-stickers.svg){width=700}
+<img src="/assets/docs/images/brand-assets/kotlin-night-branding/kotlin-night-stickers.svg" alt="贴纸" width="700"/>
 
 <!-- ![Stickers usage](kotlin-night-stickers-usage.svg){width=700} -->
 
 ### Press-wall
 
-You can decorate a press wall with stickers for unforgettable event pictures.
+你可以在你的宣传墙装饰上贴纸或难忘的活动照片.
 
-![Press Wall](kotlin-night-press-wall.svg){width=700}
+<img src="/assets/docs/images/brand-assets/kotlin-night-branding/kotlin-night-press-wall.svg" alt="宣传墙" width="700"/>
 
-### Sticky badges
+### 贴纸徽章
 
-Use stickers as badges for the attendees and boost networking at the event!
+可以把贴纸用作出席者的徽章, 在活动上鼓励大家相互交流!
 
-### Board for stickers
+### 贴纸板
 
-Or you can provide a board where your guests can paste stickers with their impressions, feedback, and wishes.
+或者你也可以提供一面贴纸板, 让你的来宾能够贴上贴纸, 写下他们的感想, 反馈, 以及希望.
 
-![board pack](kotlin-night-board.svg){width=700}
+<img src="/assets/docs/images/brand-assets/kotlin-night-branding/kotlin-night-board.svg" alt="贴纸板" width="700"/>
 
-### T-shirts
+### T-恤
 
-Guests of the event are offered to paste stickers on the board with their impressions of the meeting. What does it mean for you?
+活动的来宾能够在贴纸板帖上贴纸, 写下他们对聚会的感想.
+对你来说意味着什么呢?
 
-![Sticker pack](kotlin-night-t-shirt.svg){width=700}
+<img src="/assets/docs/images/brand-assets/kotlin-night-branding/kotlin-night-t-shirt.svg" alt="T-恤" width="700"/>

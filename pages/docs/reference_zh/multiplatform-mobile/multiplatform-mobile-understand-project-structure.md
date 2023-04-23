@@ -75,7 +75,7 @@ Xcode 使用它自己的构建系统; 因此, iOS 应用程序项目没有通过
 
 ```kotlin
 plugins {
-    kotlin("multiplatform") version "%kotlinVersion%"
+    kotlin("multiplatform") version "{{ site.data.releases.latest.version }}"
     // ..
 }
 
@@ -93,7 +93,7 @@ kotlin {
 
 ```groovy
 plugins {
-    id 'org.jetbrains.kotlin.multiplatform' version '%kotlinVersion%'
+    id 'org.jetbrains.kotlin.multiplatform' version '{{ site.data.releases.latest.version }}'
     //..
 }
 

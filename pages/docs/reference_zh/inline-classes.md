@@ -139,6 +139,21 @@ fun main() {
 由于内联类可以表达为底层类型和包装类两种方式, [引用相等性](equality.html#referential-equality) 对于内联类是毫无意义的,
 因此禁止对内联类进行引用相等性判断操作.
 
+内联类也可以使用泛型类型参数作为底层类型. 这种情况下, 编译器将它映射为 `Any?`,
+或者更一般的说, 映射为类型参数的上界(Upper Bound).
+
+```kotlin
+@JvmInline
+value class UserId<T>(val value: T)
+
+fun compute(s: UserId<String>) {} // 编译器生成的代码是 fun compute-<hashcode>(s: Any?)
+```
+
+> 泛型的内联类是 [实验性功能](components-stability.html).
+> 它随时有可能变更或被删除.
+> 需要通过 `-language-version 1.8` 编译器参数进行使用者同意(Opt-in).
+{:.warning}
+
 ### 函数名称混淆
 
 由于内联类被编译为它的底层类型, 因此可能会导致一些令人难以理解的错误, 比如, 意料不到的平台签名冲突:

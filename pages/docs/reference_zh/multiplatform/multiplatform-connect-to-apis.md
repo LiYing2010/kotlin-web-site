@@ -15,10 +15,10 @@ title: "连接平台相关的 API"
 
 如果你正在开发跨平台应用程序, 需要访问某个实现了你所需要功能的平台相关 API,
 (比如, [生成 UUID](#generate-a-uuid))
-请使用 Kotlin 的 _预期声明与实际声明(expected and actual declarations)_ 机制.
+请使用 Kotlin 的 _预期声明与实际声明(Expected and Actual Declarations)_ 机制.
 
-通过这个机制, 由共通源代码集定义一个 _预期声明(expected declaration)_,
-各个平台的源代码集需要提供与预期声明对应的 _实际声明(actual declaration)_.
+通过这个机制, 由共通源代码集定义一个 _预期声明(Expected Declaration)_,
+各个平台的源代码集需要提供与预期声明对应的 _实际声明(Actual Declaration)_.
 这种机制适用于大多数 Kotlin 声明, 比如函数, 类, 接口, 枚举, 属性, 以及注解.
 
 <img src="/assets/docs/images/multiplatform/expect-actual.png" alt="共用模块与平台相关模块中的预期声明与实际声明" width="700"/>

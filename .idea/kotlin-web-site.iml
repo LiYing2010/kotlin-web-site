@@ -97,7 +97,8 @@
       <method />
     </configuration>
   </component>
-  <component name="NewModuleRootManager">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/_assets" />
       <excludeFolder url="file://$MODULE_DIR$/_site" />

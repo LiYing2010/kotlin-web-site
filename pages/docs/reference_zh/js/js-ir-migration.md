@@ -9,11 +9,7 @@ title: "将 Kotlin/JS 项目迁移到 IR 编译器"
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
-> Kotlin/JS IR 编译器目前是 [Beta 版](../components-stability.html). 已经接近稳定版, 但未来可能需要一些迁移步骤.
-> 我们会尽量减少你需要进行的变更.
-{:.warning}
-
-我们将会使用 [基于 IR 的编译器](js-ir-compiler.html) 替代现在的 Kotlin/JS 编译器,
+我们已经用 [基于 IR 的编译器](js-ir-compiler.html) 替代了现有的 Kotlin/JS 编译器,
 原因是为了在所有的平台上统一 Kotlin 的行为, 以及能够实现新的 JS 专有的优化, 还有其他一些原因.
 关于两种编译器的内部区别, 请参见 Sebastian Aigner 的 Blog
 [将我们的 Kotlin/JS 应用程序迁移到新的 IR 编译器](https://dev.to/kotlin/migrating-our-kotlin-js-app-to-the-new-ir-compiler-3o6i).

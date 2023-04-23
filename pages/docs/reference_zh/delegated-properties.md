@@ -330,22 +330,27 @@ class ResourceDelegate(private var resource: Resource = Resource()) {
 因此在需要 `ReadOnlyProperty` 的地方, 你也可以使用 `ReadWriteProperty`.
 
 ```kotlin
-fun resourceDelegate(): ReadWriteProperty<Any?, Int> =
-    object : ReadWriteProperty<Any?, Int> {
-        var curValue = 0
-        override fun getValue(thisRef: Any?, property: KProperty<*>): Int = curValue
-        override fun setValue(thisRef: Any?, property: KProperty<*>, value: Int) {
-            curValue = value
-        }
+fun resourceDelegate(resource: Resource = Resource()): ReadWriteProperty<Any?, Resource> =
+  object : ReadWriteProperty<Any?, Resource> {
+    var curValue = resource
+    override fun getValue(thisRef: Any?, property: KProperty<*>): Resource = curValue
+    override fun setValue(thisRef: Any?, property: KProperty<*>, value: Resource) {
+      curValue = value
     }
+  }
 
-val readOnly: Int by resourceDelegate()  // ReadWriteProperty as val
-var readWrite: Int by resourceDelegate()
+val readOnlyResource: Resource by resourceDelegate()  // 此处 ReadWriteProperty 被转换为 val
+var readWriteResource: Resource by resourceDelegate()
 ```
 
 ## 编译器对委托属性的翻译规则
 
-委托属性的底层实现是, 对每个委托属性, Kotlin 编译器会生成一个辅助属性, 并将目标属性的存取操作委托给它.
+委托属性的底层实现是, 对某些类型的委托属性, Kotlin 编译器会生成辅助属性, 并将目标属性的存取操作委托给这些辅助属性.
+
+> 为了优化的目的, 编译器 [对有些情况 _不会_ 生成辅助属性](#optimized-cases-for-delegated-properties).
+> 关于优化, 详情请参见 [委托到另一个属性](#translation-rules-when-delegating-to-another-property) 中的示例.
+{:.note}
+
 比如, 对于属性 `prop`, 编译器会生成一个隐藏的 `prop$delegate` 属性, 然后属性 `prop` 的访问器代码会将存取操作委托给这个新增的属性:
 
 ```kotlin
@@ -364,6 +369,48 @@ class C {
 
 Kotlin 编译器通过参数来提供关于 `prop` 属性的所有必须信息: 第一个参数 `this` 指向外层类 `C` 的实例,
 第二个参数 `this::prop` 是一个反射对象, 类型为 `KProperty`, 它将描述 `prop` 属性本身.
+
+### 对委托属性优化的场景
+
+如果委托属性是以下几种情况, 域成员 `$delegate` 会被省略:
+* 属性的引用:
+
+  ```kotlin
+  class C<Type> {
+      private var impl: Type = ...
+      var prop: Type by ::impl
+  }
+  ```
+
+* 命名对象
+
+  ```kotlin
+  object NamedObject {
+      operator fun getValue(thisRef: Any?, property: KProperty<*>): String = ...
+  }
+
+  val s: String by NamedObject
+  ```
+
+* 同一模块内, 带有后端域和默认的 getter 的 final `val` 属性:
+
+  ```kotlin
+  val impl: ReadOnlyProperty<Any?, String> = ...
+
+  class A {
+      val s: String by impl
+  }
+  ```
+
+* 常数表达式, 枚举值(Enum Entry), `this`, `null`. 以下是 `this` 的例子:
+
+  ```kotlin
+  class A {
+      operator fun getValue(thisRef: Any?, property: KProperty<*>) ...
+ 
+      val s by this
+  }
+  ```
 
 ### 委托到另一个属性时的翻译规则
 

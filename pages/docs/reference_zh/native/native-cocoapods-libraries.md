@@ -9,15 +9,15 @@ title: "添加 Pod 库依赖项"
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
-要添加 Kotlin 项目对 Pod 库的依赖项, 首先应该 [完成初始配置](native-cocoapods.html#set-up-the-environment-to-work-with-cocoapods).
-然后就可以添加各种类型的 Pod 库依赖项.
+要添加 Kotlin 项目对 Pod 库的依赖项, 需要 [完成初始配置](native-cocoapods.html#set-up-an-environment-to-work-with-cocoapods).
+然后你就可以添加各种类型的 Pod 库依赖项.
 
 添加新的依赖项, 并在 IntelliJ IDEA 并重新导入项目之后, 新的依赖项会被自动添加进来.
 不需要其他步骤.
 
 要让你的 Kotlin 项目与 Xcode 协同工作, 应该 [修改项目的 Podfile 文件](native-cocoapods.html#update-podfile-for-xcode).
 
-Kotlin 项目需要在 `build.gradle.kts` (`build.gradle`) 中调用 `pod()` 函数来添加 Pod 依赖项.
+Kotlin 项目需要在 `build.gradle(.kts)` 中调用 `pod()` 函数来添加 Pod 依赖项.
 每个依赖项都需要单独调用这个函数.
 可以在函数的配置代码中对依赖项指定参数.
 
@@ -114,7 +114,7 @@ import cocoapods.subspec_dependency.*
 import cocoapods.AFNetworking.*
 ```
 
-## 从 Git 仓库添加 Pod 库依赖项
+## 从自定义的 Git 仓库添加 Pod 库依赖项
 
 1. 在 `pod()` 函数内指定 Pod 库名称.
 
@@ -166,70 +166,12 @@ import cocoapods.AFNetworking.*
 
 3. 重新导入项目.
 
-> 要与 Xcode 正确的协同工作, 需要在你的 Podfile 文件中指定 Podspec 路径.
-> 例如:
->
-> ```ruby
-> target 'ios-app' do
->     # ... 其他 pod 依赖项 ...
->    pod 'JSONModel', :path => '../cocoapods/kmm-with-cocoapods-sample/kotlin-library/build/cocoapods/externalSources/git/JSONModel'
-> end
-> ```
-{:.note}
-
 要在 Kotlin 代码中使用这些依赖项, 需要导入 `cocoapods.<library-name>` 包.
 
 ```kotlin
 import cocoapods.AFNetworking.*
 import cocoapods.JSONModel.*
 import cocoapods.CocoaLumberjack.*
-```
-
-## 从 zip, tar, 或 jar archive 文件添加 Pod 库依赖项
-
-1. 在 `pod()` 函数内指定 Pod 库名称.
-
-   在配置代码段中, 指定文件路径: 在 `source` 参数中, 使用 `url()` 函数, 参数是任意 HTTP 地址.
-
-   此外, 你还可以指定布尔值的 `flatten` 参数, 作为 `url()` 函数的第二个参数.
-   这个参数表示所有 Pod 文件是否存在于 archive 文件的根目录中.
-
-2. 指定 Pod 库的部署目标(deployment target)最小版本.
-
-    ```kotlin
-    kotlin {
-        ios()
-
-        cocoapods {
-            summary = "CocoaPods test library"
-            homepage = "https://github.com/JetBrains/kotlin"
-
-            ios.deploymentTarget = "13.5"
-
-            pod("pod_dependency") {
-                source = url("https://github.com/Kotlin/kmm-with-cocoapods-sample/raw/cocoapods-zip/cocoapodSourcesZip.zip", flatten = true)
-            }
-        }
-    }
-    ```
-
-3. 重新导入项目.
-
-> 要与 Xcode 正确的协同工作, 需要在你的 Podfile 文件中指定 Podspec 路径.
-> 例如:
->
-> ```ruby
-> target 'ios-app' do
->     # ... 其他 pod 依赖项 ...
->    pod 'podspecWithFilesExample', :path => '../cocoapods/kmm-with-cocoapods-sample/pod_dependency'
-> end
-> ```
-{:.note}
-
-要在 Kotlin 代码中使用这些依赖项, 需要导入 `cocoapods.<library-name>` 包.
-
-```kotlin
-import cocoapods.pod_dependency.*
 ```
 
 ## 从自定义 Podspec 仓库添加 Pod 库依赖项
@@ -264,16 +206,6 @@ import cocoapods.pod_dependency.*
 > 例如:
 > ```ruby
 > source 'https://github.com/Kotlin/kotlin-cocoapods-spec.git'
-> ```
->
-> 还需要在 Podfile 文件中指定 Podspec 的路径.
-> 例如:
->
-> ```ruby
-> target 'ios-app' do
->     # ... 其他 pod 依赖项 ...
->    pod 'podspecWithFilesExample', :path => '../cocoapods/kmm-with-cocoapods-sample/pod_dependency'
-> end
 > ```
 {:.note}
 

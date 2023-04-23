@@ -122,9 +122,16 @@ title: "参考文档"
 
 <div style="display: flex; width: 100%; padding: 5px">
     <div style="display: block; width: 50%; padding: 5px;">
-        <a style="text-decoration: none;" href="whatsnew17.html">
-            <h3>Kotlin 1.7.0 的新功能</h3>
-            <p>最新功能: JVM 平台的 Kotlin K2 编译器 Alpha 版, 明确要求使用者同意(Opt-in Requirement)注解的稳定版, 绝对不为空(Definitely non-nullable)的类型, 构建器推断, JVM/Native/JS 平台的性能改进, 等等</p>    
+        <a style="text-decoration: none;" href="whatsnew18.html">
+            <h3>Kotlin 1.8.0 的新功能</h3>
+            <p>
+                最新功能:
+                kotlin-reflect 的性能改善,
+                JVM 平台的新功能: 目录内容的递归复制或递归删除 (实验性功能),
+                `kotlin-stdlib-jdk7` 和 `kotlin-stdlib-jdk8` 合并到 `kotlin-stdlib`,
+                Objective-C/Swift 交互能力改进,
+                等等
+            </p>    
         </a>
     </div>
 
@@ -174,7 +181,7 @@ title: "参考文档"
             <p>Kotlin Koan</p>
         </a>
         <a style="text-decoration: none;" href="https://hyperskill.org/join/fromdocstoJetSalesStat?redirect=true&amp;next=/tracks/18">
-            <p>JetBrains 学院</p>
+            <p>JetBrains Academy</p>
         </a>
         <a style="text-decoration: none;" href="advent-of-code.html">
             <p>Advent of Code</p>
@@ -183,7 +190,7 @@ title: "参考文档"
             <p>动手实验室(Hands-on lab)</p>
         </a>
         <a style="text-decoration: none;" href="edu-tools-learner.html">
-            <p>IntelliJ IDEA 中的 EduTools</p>
+            <p>IntelliJ IDEA 中的 JetBrains Academy</p>
         </a>
         <a style="text-decoration: none;" href="books.html">
             <p>书籍</p>

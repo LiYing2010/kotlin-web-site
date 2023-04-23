@@ -33,6 +33,9 @@ val oneLong = 1L // Long 类型
 val oneByte: Byte = 1
 ```
 
+> 除整数类型外, Kotlin 还提供了无符号整数类型. 详情请参见 [无符号整数类型](unsigned-integer-types.html).
+{:.tip}
+
 ## 浮点类型
 
 对于实数数值, Kotlin 提供了符合 [IEEE 754 标准](https://en.wikipedia.org/wiki/IEEE_754) 的浮点类型 `Float` 和 `Double`.
@@ -88,7 +91,7 @@ fun main() {
 对于整数值, 有以下几种类型的字面值常数:
 
 * 10进制数: `123`
-  * Long 类型需要大写的 `L` 来标识: `123L`
+* Long 类型需要大写的 `L` 来标识: `123L`
 * 16进制数: `0x0F`
 * 2进制数: `0b00001011`
 

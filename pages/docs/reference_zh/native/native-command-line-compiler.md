@@ -13,9 +13,8 @@ title: "Kotlin/Native 开发入门 - 使用命令行编译器"
 
 Kotlin/Native 编译器可以运行于 macOS, Linux, 以及 Windows 环境. 它是一个命令行工具, 作为 Kotlin 的一部分发布,
 可以在 [GitHub 发布页面]({{site.data.releases.latest.url}}) 下载. 
-它支持不同的编译目标, 包括 iOS (arm32, arm64, x86_64 模拟器), Windows (mingw32 和 x86_64),
-Linux (x86_64, arm64, MIPS), macOS (x86_64), Raspberry PI, STM32, WASM.
-[请在这里查看编译目标的完整列表](native-overview.html). 
+它支持不同的编译目标, 包括 Linux, macOS, iOS, 等等.
+参见 [所有支持的编译目标完整列表](native-target-support.html). 
 尽管跨平台编译是可能的, 也就是说可以在某个平台上针对另一个平台进行编译, 
 但在这个 Kotlin case 中, 我们只在相同的平台上编译.  
 

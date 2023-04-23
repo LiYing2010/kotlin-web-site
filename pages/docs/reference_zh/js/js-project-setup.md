@@ -317,10 +317,18 @@ kotlin {
             }
         }
         binaries.executable()
-        // . . .
+        // ...
     }
 }
 ```
+
+或者你也可以在 `gradle.properties` 文件中添加测试的目标浏览器:
+
+```text
+kotlin.js.browser.karma.browsers=firefox,safari
+```
+
+通过这种方法, 你可以为所有的模块定义一组浏览器, 然后在某些模块的构建脚本中添加特定的浏览器.
 
 请注意, Kotlin/JS Gradle 插件不会为你自动安装这些浏览器, 而只是使用那些在它的运行环境中可用的浏览器.
 比如说, 如果在一个持续集成服务器上运行 Kotlin/JS 测试, 请注意确保安装了你需要测试的浏览器.
@@ -336,7 +344,7 @@ kotlin {
             }
         }
         binaries.executable()
-        // . . .
+        // ...
     }
 }
 ```
@@ -349,7 +357,7 @@ kotlin {
 
 如果要指定你的 Node.js 测试运行器使用的环境变量
 (比如, 向你的测试代码传递外部信息, 或对包的解析进行微调),
-可以在你的构建脚本的`testTask` 代码段内使用 `environment` 函数, 参数是键-值对:
+可以在你的构建脚本的 `testTask` 代码段内使用 `environment` 函数, 参数是键-值对:
 
 ```groovy
 kotlin {
@@ -385,7 +393,7 @@ Kotlin/JS plugin 使用 webpack {{ site.data.releases.webpackMajorVersion }}.
 那么可以在你的项目的 `gradle.properties` 文件中添加以下设置,
 临时切换回这些版本使用的 webpack {{ site.data.releases.webpackPreviousMajorVersion }}:
 
-```properties
+```none
 kotlin.js.webpack.major.version={{ site.data.releases.webpackPreviousMajorVersion }}
 ```
 
@@ -463,31 +471,97 @@ Kotlin/JS Gradle 创建还支持 webpack 的
 设置 `cssSupport.enabled` 选项.
 通过 IDE 向导创建新工程时, 这个配置也会默认启用.
 
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+browser {
+    commonWebpackConfig {
+        cssSupport {
+            enabled.set(true)
+        }
+    }
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
 ```groovy
 browser {
     commonWebpackConfig {
-        cssSupport.enabled = true
+        cssSupport {
+            it.enabled.set(true)
+        }
     }
-    binaries.executable()
 }
 ```
+
+</div>
+</div>
 
 或者, 也可以单独对 `webpackTask`, `runTask`, 和 `testTask` 添加 CSS 支持.
 
-```groovy
-webpackTask {
-   cssSupport.enabled = true
-}
-runTask {
-   cssSupport.enabled = true
-}
-testTask {
-   useKarma {
-      // . . .
-      webpackConfig.cssSupport.enabled = true
-   }
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+browser {
+    webpackTask {
+        cssSupport {
+            enabled.set(true)
+        }
+    }
+    runTask {
+        cssSupport {
+            enabled.set(true)
+        }
+    }
+    testTask {
+        useKarma {
+            // ...
+            webpackConfig.cssSupport {
+                enabled.set(true)
+            }
+        }
+    }
 }
 ```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+browser {
+    webpackTask {
+        cssSupport {
+            it.enabled.set(true)
+        }
+    }
+    runTask {
+        cssSupport {
+            it.enabled.set(true)
+        }
+    }
+    testTask {
+        useKarma {
+            // ...
+            webpackConfig.cssSupport {
+                it.enabled.set(true)
+            }
+        }
+    }
+}
+```
+
+</div>
+</div>
 
 对你的项目打开 CSS 支持, 有助于防止在未配置的项目中使用样式表时发生的常见错误, 比如 `Module parse failed: Unexpected character '@' (14:0)`.
 
@@ -594,7 +668,7 @@ rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlu
 ### 通过 kotlin-js-store 锁定版本
 
 > 通过 `kotlin-js-store` 锁定版本, 这个功能从 Kotlin 1.6.10 开始可用.
-{:."note"}
+{:.note}
 
 项目根目录下的 `kotlin-js-store` 目录 由 Kotlin/JS Gradle plugin 自动生成, 存储 `yarn.lock` 文件, 这个文件用来锁定版本.
 lock 文件完全由 Yarn plugin 管理, 并在 Gradle 任务 `kotlinNpmInstall` 执行时被更新.
@@ -610,9 +684,9 @@ lock 文件完全由 Yarn plugin 管理, 并在 Gradle 任务 `kotlinNpmInstall`
 
 ```kotlin
 rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin> {
-   rootProject.the<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension>().lockFileDirectory =
-       project.rootDir.resolve("my-kotlin-js-store")
-   rootProject.the<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension>().lockFileName = "my-yarn.lock"
+    rootProject.the<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension>().lockFileDirectory =
+        project.rootDir.resolve("my-kotlin-js-store")
+    rootProject.the<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension>().lockFileName = "my-yarn.lock"
 }
 ```
 
@@ -624,9 +698,9 @@ rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlu
 
 ```groovy
 rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin) {
-  rootProject.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension).lockFileDirectory =
-           file("my-kotlin-js-store")
- rootProject.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension).lockFileName = 'my-yarn.lock'
+    rootProject.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension).lockFileDirectory =
+        file("my-kotlin-js-store")
+    rootProject.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension).lockFileName = 'my-yarn.lock'
 }
 ``` 
 
@@ -637,6 +711,59 @@ rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlu
 {:.warning}
 
 关于 `yarn.lock`, 详情请阅读 [Yarn 官方文档](https://classic.yarnpkg.com/lang/en/docs/yarn-lock/).
+
+### 报告 yarn.lock 的变更
+
+Kotlin/JS 提供了 Gradle 设置, 可以通知你 `yarn.lock` 文件是否发生变更.
+如果你想要在 CI 构建过程中 `yarn.lock` 发生变更时收到通知, 你可以使用这些设置:
+
+* `YarnLockMismatchReport`, 指定对 `yarn.lock` 文件的变更如何进行报告.
+  你可以使用以下值之一:
+  * `FAIL` 让对应的 Gradle task 失败. 这是默认设置.
+  * `WARNING` 将变更信息写入警告日志.
+  * `NONE` 禁用报告.
+* `reportNewYarnLock`, 会明确的对最近创建的 `yarn.lock` 文件进行报告.
+  默认情况下, 这个选项是禁用的: 常见的做法是在最开始生成一个新的 `yarn.lock` 文件.
+  你可以使用这个选项, 来确保 `yarn.lock` 文件已经提交到了你的代码仓库.
+* `yarnLockAutoReplace`, 会在 Gradle task 每次运行时自动替换 `yarn.lock`.
+
+要使用这些选项, 请对你的构建脚本文件 `build.gradle(.kts)` 进行如下更新:
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockMismatchReport
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
+
+rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin::class.java) {
+    rootProject.the<YarnRootExtension>().yarnLockMismatchReport =
+        YarnLockMismatchReport.WARNING // NONE | FAIL
+    rootProject.the<YarnRootExtension>().reportNewYarnLock = false // true
+    rootProject.the<YarnRootExtension>().yarnLockAutoReplace = false // true
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockMismatchReport
+import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
+
+rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin) {
+    rootProject.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension).yarnLockMismatchReport =
+        YarnLockMismatchReport.WARNING // NONE | FAIL
+    rootProject.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension).reportNewYarnLock = false // true
+    rootProject.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension).yarnLockAutoReplace = false // true
+}
+```
+
+</div>
+</div>
 
 ### 默认使用 --ignore-scripts 安装 npm 依赖项 
 
@@ -654,7 +781,7 @@ Kotlin/JS Gradle plugin 在安装 npm 依赖项时默认会禁止执行
 
 ```kotlin
 rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin> { 
-  rootProject.the<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension>().ignoreScripts = false
+    rootProject.the<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension>().ignoreScripts = false
 }
 ```
 
@@ -666,7 +793,7 @@ rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlu
 
 ```groovy
 rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin) {
-  rootProject.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension).ignoreScripts = false
+    rootProject.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension).ignoreScripts = false
 }
 ``` 
 
@@ -692,7 +819,7 @@ kotlin {
             }
         }
         binaries.executable()
-        // . . .
+        // ...
     }
 }
 ```
@@ -712,7 +839,7 @@ kotlin {
             }
         }
         binaries.executable()
-        // . . .
+        // ...
     }
 }
 ```
@@ -727,7 +854,7 @@ kotlin {
 
 ```groovy
 js {
-   moduleName = "myModuleName"
+    moduleName = "myModuleName"
 }
 ```
 
@@ -760,10 +887,10 @@ kotlin {
 
 构建工程时, 这段代码将会向 `package.json` 文件添加以下内容:
 
-```
+```json
 "hello": {
-  "one": 1,
-  "two": 2
+    "one": 1,
+    "two": 2
 }
 ```
 

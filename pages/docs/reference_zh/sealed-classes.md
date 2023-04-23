@@ -85,8 +85,7 @@ open class CustomError(): Error // 可以在这个类可见的任何地方扩展
 ## 封闭类与 `when` 表达式
 
 封闭类的主要好处是体现在 [`when`](control-flow.html#when-expression) 表达式中的使用场景.
-如果能够确保 `when` 的分支已经覆盖了所有可能的情况, 你可以不必添加 `else` 分支.
-但是, 这种用法只适用于将 `when` 用作表达式(使用它的返回值)的情况, 而不是用作语句的情况:
+如果能够确保 `when` 的分支已经覆盖了所有可能的情况, 你可以不必添加 `else` 分支:
 
 ```kotlin
 fun log(e: Error) = when(e) {

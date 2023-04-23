@@ -147,8 +147,8 @@ Kotlin 的  <code>readLine()</code> 函数定义是返回一个
 <div class="sample" markdown="1" mode="kotlin" theme="idea" data-highlight-only>
 
 ```kotlin
-private fun readInt() = readln().toInt()
-private fun readStr() = readln()
+private fun readStr() = readln() // 读取单个字符串行
+private fun readInt() = readStr().toInt() // 读取单个整数
 // 对你的解答中需要用到的其他类型, 编写类似函数
 ```
 
@@ -161,8 +161,8 @@ private fun readStr() = readln()
 <div class="sample" markdown="1" mode="kotlin" theme="idea" data-highlight-only>
 
 ```kotlin
-private fun readInt() = readLine()!!.toInt()
-private fun readStr() = readLine()!!
+private fun readStr() = readLine()!! // 读取单个字符串行
+private fun readInt() = readStr().toInt() // 读取单个整数
 // 对你的解答中需要用到的其他类型, 编写类似函数
 ```
 
@@ -252,8 +252,9 @@ fun main() {
 <div class="sample" markdown="1" mode="kotlin" theme="idea" data-highlight-only>
 
 ```kotlin
-private fun readInt() = readln().toInt() // 读取单个整数
-private fun readStrings() = readln().split(" ") // 读取多个字符串
+private fun readStr() = readln() // 读取单个字符串行
+private fun readInt() = readStr().toInt() // 读取单个整数
+private fun readStrings() = readStr().split(" ") // 读取多个字符串
 private fun readInts() = readStrings().map { it.toInt() } // 读取多个整数
 ```
 
@@ -266,9 +267,9 @@ private fun readInts() = readStrings().map { it.toInt() } // 读取多个整数
 <div class="sample" markdown="1" mode="kotlin" theme="idea" data-highlight-only>
 
 ```kotlin
-private fun readLn() = readLine()!! // 读取字符串行
-private fun readInt() = readLn().toInt() // 读取单个整数
-private fun readStrings() = readLn().split(" ") // 读取多个字符串
+private fun readStr() = readLine()!! // 读取单个字符串行
+private fun readInt() = readStr().toInt() // 读取单个整数
+private fun readStrings() = readStr().split(" ") // 读取多个字符串
 private fun readInts() = readStrings().map { it.toInt() } // 读取多个整数
 ```
 
@@ -277,33 +278,12 @@ private fun readInts() = readStrings().map { it.toInt() } // 读取多个整数
 
 通过这些辅助函数, 读取输入的那部分代码可以变得更简单, 可以与题目描述的输入规格逐行对应:
 
-<div class="multi-language-sample" data-version="kotlin-1-6" data-title="Kotlin 1.6.0 及以后版本">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-highlight-only>
-
 ```kotlin
 // 读取输入
 val n = readInt()
-val s = readln()
+val s = readStr()
 val fl = readInts()
 ```
-
-</div>
-
-</div>
-
-
-<div class="multi-language-sample" data-version="kotlin-1-5" data-title="旧版本">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-highlight-only>
-
-```kotlin
-// 读取输入
-val n = readInt()
-val s = readLn()
-val fl = readInts()
-```
-
-</div>
-</div>
 
 注意, 在编程竞赛中为变量取的名字, 经常会比实际工作中要短, 因为代码只编写一次, 之后就不再维护了.
 但是, 这些变量名仍然遵守一些规则, 以便于记忆 —

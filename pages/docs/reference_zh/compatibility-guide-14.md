@@ -27,7 +27,6 @@ _[保证语言的现代化](kotlin-evolution.html)_ 以及 _[语言版本升级�
 请记住, 这些兼容性定义只针对纯 Kotlin 程序.
 从其他语言(比如, Java)的观点来看 Kotlin 代码的兼容性如何, 本文档不予讨论.
 
-
 ## 语言与标准库
 
 ### `ConcurrentHashMap` 的 `in` 中缀操作符的不正常行为

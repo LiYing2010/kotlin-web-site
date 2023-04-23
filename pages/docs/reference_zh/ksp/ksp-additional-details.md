@@ -16,7 +16,7 @@ title: "KSP 如何将 Kotlin 代码组织为模型"
 [模型结构](https://github.com/google/ksp/tree/main/api/src/main/kotlin/com/google/devtools/ksp/symbol/)
 :
 
-![类图]({{ url_for('asset', path='/docs/images/ksp-class-diagram.svg') }})
+![类图]({{ url_for('asset', path='docs/images/ksp-class-diagram.svg') }})
 
 > [查看完整大小的图片](/assets/docs/images/ksp-class-diagram.svg).
 {:.note}

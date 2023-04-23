@@ -7,6 +7,8 @@ title: "Kotlin 1.6 兼容性指南"
 
 # Kotlin 1.6 兼容性指南
 
+最终更新: {{ site.data.releases.latestDocDate }}
+
 _[Keeping the Language Modern](kotlin-evolution.md)_ and _[Comfortable Updates](kotlin-evolution.md)_ are among the fundamental principles in
 Kotlin Language Design. The former says that constructs which obstruct language evolution should be removed, and the
 latter says that this removal should be well-communicated beforehand to make code migration as smooth as possible.
@@ -159,7 +161,7 @@ perspective
 > - 1.6.0: raise this warning to an error,
 >   `-XXLanguage:-ProhibitJvmFieldOnOverrideFromInterfaceInPrimaryConstructor` can be used to temporarily disable the error reporting
 
-### Deprecate the `enabled` and the `compatibility` modes of the compiler option -Xjvm-default
+### Deprecate the `enable` and the `compatibility` modes of the compiler option -Xjvm-default
 
 > **Issue**: [KT-46329](https://youtrack.jetbrains.com/issue/KT-46329)
 >
@@ -167,11 +169,11 @@ perspective
 >
 > **Incompatible change type**: source
 >
-> **Short summary**: Kotlin 1.6.20 will warn about the usage of `enabled` and `compatibility` modes of the `-Xjvm-default` compiler option
+> **Short summary**: Kotlin 1.6.20 will warn about the usage of `enable` and `compatibility` modes of the `-Xjvm-default` compiler option
 >
 > **Deprecation cycle**:
 >
-> - 1.6.20: introduce a warning on the `enabled` and `compatibility` modes of the `-Xjvm-default` compiler option
+> - 1.6.20: introduce a warning on the `enable` and `compatibility` modes of the `-Xjvm-default` compiler option
 > - \>= 1.8.0: raise this warning to an error
 
 ### Prohibit super calls from public-abi inline functions

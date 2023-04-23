@@ -101,4 +101,4 @@ fun main() {
 
 </div>
 
-更多信息请参见 [委托属性](delegated-properties.md).
+更多信息请参见 [委托属性](delegated-properties.html).

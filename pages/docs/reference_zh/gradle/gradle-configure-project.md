@@ -1,0 +1,1074 @@
+---
+type: doc
+layout: reference
+category: "Gradle"
+title: "配置 Gradle 项目"
+---
+
+# 配置 Gradle 项目
+
+最终更新: {{ site.data.releases.latestDocDate }}
+
+要 [Gradle](https://docs.gradle.org/current/userguide/getting_started.html) 使用来构建 Kotlin 项目,
+你需要向你的构建脚本文件 `build.gradle(.kts)` 添加 [Kotlin Gradle plugin](#apply-the-plugin),  
+并在构建脚本文件中 [配置项目的依赖项](#configure-dependencies).
+
+> 关于构建脚本, 更多内容请参见 [查看构建脚本](get-started-with-jvm-gradle-project.html#explore-the-build-script) 小节.
+{:.note}
+
+## 应用(Apply) Kotlin Gradle Plugin
+
+要应用(Apply) Kotlin Gradle plugin, 请使用 Gradle plugin DSL 的
+[`plugins` 代码段](https://docs.gradle.org/current/userguide/plugins.html#sec:plugins_block):
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+// 请将 `<...>` 替换为 plugin 名称 
+plugins {
+    kotlin("<...>") version "{{ site.data.releases.latest.version }}"
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+// 请将 `<...>` 替换为 plugin 名称
+plugins {
+    id 'org.jetbrains.kotlin.<...>' version '{{ site.data.releases.latest.version }}'
+}
+```
+
+</div>
+</div>
+
+配置你的项目时, 请检查 Kotlin Gradle plugin 是否兼容于你的 Gradle 版本. 
+下表是, Kotlin **完全支持** 的 Gradle 和 Android Gradle plugin 最低和最高版本:
+
+| Kotlin 版本 | Gradle 最低和最高版本 | Android Gradle plugin 最低和最高版本 |
+|------------|---------------------|------------------------------------|
+| 1.8.0 | {{ site.data.releases.minGradleVersion }} – {{ site.data.releases.maxGradleVersion }} | {{ site.data.releases.minAndroidGradleVersion }} – {{ site.data.releases.maxAndroidGradleVersion }} |
+| 1.7.20| 6.7.1 – 7.1.1 | 3.6.4 – 7.0.4 |
+
+> Gradle 和 AGP 最新版本通常可以无问题的使用.
+{:.note}
+
+例如, Kotlin Gradle plugin 和 `kotlin-multiplatform` plugin {{ site.data.releases.latest.version }}
+最低需要 Gradle 版本 {{ site.data.releases.minGradleVersion }} 才能编译你的项目.
+
+类似的, 完全支持的最高版本是 {{ site.data.releases.maxGradleVersion }}.
+这个版本不包含已废弃的 Gradle 方法和属性, 并且支持目前所有的 Gradle 功能特性.
+
+## 编译到 JVM 平台
+
+要编译到 JVM 平台, 需要应用 Kotlin JVM plugin.
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+plugins {
+    kotlin("jvm") version "{{ site.data.releases.latest.version }}"
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "{{ site.data.releases.latest.version }}"
+}
+```
+
+</div>
+</div>
+
+在这段代码中, `version` 必须是写明的字面值, 不能通过其他编译脚本得到.
+
+### Kotlin 源代码与 Java 源代码
+
+Kotlin 源代码与 Java 源代码可以保存在相同的文件夹下, 也可以放在不同的文件夹下.
+默认的约定是使用不同的文件夹:
+
+```text
+project
+    - src
+        - main (root)
+            - kotlin
+            - java
+```
+
+如果不使用默认约定的文件夹结构, 那么需要修改相应的 `sourceSets` 属性:
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+sourceSets.main {
+    java.srcDirs("src/main/myJava", "src/main/myKotlin")
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+sourceSets {
+    main.kotlin.srcDirs += 'src/main/myKotlin'
+    main.java.srcDirs += 'src/main/myJava'
+}
+```
+
+</div>
+</div>
+
+### 对相关联的编译任务检查 JVM 编译目标的兼容性
+
+在构建模块中, 你可能会有多个相互关联的编译任务, 比如:
+* `compileKotlin` 与 `compileJava`
+* `compileTestKotlin` 与 `compileTestJava`
+
+> `main` 与 `test` 源代码集的编译任务之间没有关联.
+{:.note}
+
+对于这种相互关联的编译任务, Kotlin Gradle plugin 会检查 JVM 编译目标的兼容性.
+`kotlin` 扩展或任务中的 [`jvmTarget` 属性](gradle-compiler-options.md#attributes-specific-to-jvm)
+和 `java` 扩展或任务中的 [`targetCompatibility`](https://docs.gradle.org/current/userguide/java_plugin.html#sec:java-extension)
+如果设置为不同的值, 会导致 JVM 编译目标不兼容.
+例如:
+`compileKotlin` 任务设置为 `jvmTarget=1.8`,
+而 `compileJava` 任务设置为
+(或 [继承得到](https://docs.gradle.org/current/userguide/java_plugin.html#sec:java-extension))
+`targetCompatibility=15`.
+
+要对这个兼容性检查进行配置, 可以在 `build.gradle` 文件中, 将 `kotlin.jvm.target.validation.mode` 属性设置为以下几个值:
+
+* `error` – plugin 会让构建失败; 对于 Gradle 8.0 以上版本, 这是项目的默认值.
+* `warning` – plugin 会输出警告信息; 对于低于 Gradle 8.0 的版本, 这是项目的默认值.
+* `ignore` – plugin 会跳过检查, 不输出任何警告信息.
+
+要避免 JVM 编译目标不兼容, 需要 [配置工具链](#gradle-java-toolchains-support), 或手动对齐(Align) JVM 版本.
+
+#### 如果不检查编译目标的兼容性, 会发生什么问题 
+
+有两种方式对 Kotlin 和 Java 源代码集手动设置 JVM 编译目标:
+* 隐含设定, 通过 [设置 Java 工具链](#gradle-java-toolchains-support) 来设置.
+* 明确设定, 通过设置 `kotlin` 扩展或任务中的 `jvmTarget` 属性, 以及`java` 扩展或任务中的 `targetCompatibility`.
+
+如果你做以下设置, 就会发生 JVM 编译目标不兼容:
+* 对 `jvmTarget` 和 `targetCompatibility` 明确设置不同的版本.
+* 使用默认配置, 但你的 JDK 不等于 `1.8`.
+
+如果在你的构建脚本中只有 Kotlin JVM plugin, 并且没有额外设置 JVM 编译目标, 我们来看看这时的默认 JVM 编译目标设置:
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+plugins {
+    kotlin("jvm") version "{{ site.data.releases.latest.version }}"
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "{{ site.data.releases.latest.version }}"
+}
+```
+
+</div>
+</div>
+
+构建脚本中没有 `jvmTarget` 值的明确信息, 因此它的默认值为 `null`, 编译器将这个设置翻译为默认值 `1.8`.
+`targetCompatibility` 等于当前的 Gradle JDK 版本, 也就是你的 JDK 版本 (除非你使用
+[Java 工具链策略](gradle-configure-project.md#gradle-java-toolchains-support)).
+假设 JDK 版本是 `11`.
+你发布的库文件会 [声明兼容](https://docs.gradle.org/current/userguide/publishing_gradle_module_metadata.html) 
+于 JDK 11 以上版本: `org.gradle.jvm.version=11`, 实际上是错误的.
+在你的主项目中, 会需要使用 Java 11 才能添加这个库, 尽管它的字节码版本其实是 `1.8`.
+请 [配置工具链](gradle-configure-project.md#gradle-java-toolchains-support) 来解决这个问题.
+
+### Gradle Java 工具链支持
+
+> 给 Android 使用者的警告. 要使用 Gradle 工具链支持, 需要使用 Android Gradle plugin (AGP) 的 8.1.0-alpha09 或更高版本.
+>
+> Gradle Java 工具链支持只在 AGP 7.4.0 以上版本 [可用](https://issuetracker.google.com/issues/194113162).
+> 但是, 由于 [这个问题](https://issuetracker.google.com/issues/260059413),
+> AGP 8.1.0-alpha09 以前的版本没有将 `targetCompatibility` 设置为等于工具链的 JDK.
+> 如果你在使用低于 8.1.0-alpha09 的版本, 你需要通过 `compileOptions` 来手动配置 `targetCompatibility`.
+> 请将占位符 `<MAJOR_JDK_VERSION>` 替换为你想要使用的 JDK 版本:
+>
+> ```kotlin
+> android {
+>     compileOptions {
+>         sourceCompatibility = <MAJOR_JDK_VERSION>
+>         targetCompatibility = <MAJOR_JDK_VERSION>
+>     }
+> }
+> ```
+{:.warning} 
+
+Gradle 6.7 引入了 [Java 工具链支持](https://docs.gradle.org/current/userguide/toolchains.html).
+通过这个功能, 你可以:
+* 使用与 Gradle 不同的 JDK 和 JRE 来运行编译, 测试, 以及可执行程序.
+* 使用还未发布的语言版本编译和测试代码.
+
+通过工具链支持, Gradle 能够自动查找本地的 JDK, 还能安装 Gradle 运行构建时需要的 JDK.
+目前 Gradle 自身能够在任何 JDK 上运行, 而且还对依赖于主要 JDK 版本的任务重用 [远程构建缓存功能](gradle-compilation-and-caches.html#gradle-build-cache-support).
+
+Kotlin Gradle plugin 对 Kotlin/JVM 编译任务支持 Java 工具链. JS 和 Native 任务则不会使用工具链.
+Kotlin 编译器永远会在运行 Gradle daemon 的 JDK 上运行.
+Java 工具链会:
+* 为 JVM 编译目标设置 [`-jdk-home` 选项](../compiler-reference.html#jdk-home-path).
+* 如果用户没有明确设置 `jvmTarget` 选项,
+  则将 [`compilerOptions.jvmTarget`](gradle-compiler-options.html#attributes-specific-to-jvm) 设置为工具链的 JDK 版本.
+  如果用户没有配置工具链, 那么 `jvmTarget` 会使用默认值.
+  详情请参见 [JVM 编译目标兼容性](#check-for-jvm-target-compatibility-of-related-compile-tasks).
+* 设置由任何 Java compile, test 和 javadoc 任务使用的工具链.
+* 影响 [`kapt` 任务执行器](../kapt.html#running-kapt-tasks-in-parallel) 使用哪个 JDK.
+
+可以使用以下代码来设置工具链. 请将占位符 `<MAJOR_JDK_VERSION>` 替换为你想要使用的 JDK 版本:
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>))
+    }
+    // 或者使用更简短的写法:
+    jvmToolchain(<MAJOR_JDK_VERSION>)
+    // 例如:
+    jvmToolchain(8)
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>))
+    }
+    // 或者使用更简短的写法:
+    jvmToolchain(<MAJOR_JDK_VERSION>)
+    // 例如:
+    jvmToolchain(8)
+}
+```
+
+</div>
+</div>
+
+注意, 如果使用 `kotlin` 扩展设置工具链, 也会改变 Java 编译任务的工具链.
+
+你可以通过 `java` 扩展设置工具链, Kotlin 编译任务会使用这个设置:
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>)) 
+    }
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>)) 
+    }
+}
+```
+
+</div>
+</div>
+
+> 要确认 Gradle 使用哪个工具链, 请使用
+> [log 级别 `--info`](https://docs.gradle.org/current/userguide/logging.html#sec:choosing_a_log_level)
+> 来运行你的 Gradle 构建, 并在输出中查找 `[KOTLIN] Kotlin compilation 'jdkHome' argument:` 开头的字符串.
+> 冒号之后的部分就是工具链使用的 JDK 版本.
+{:.note}
+
+要为特定的 Task 设置任意的 JDK (甚至本地 JDK), 请使用 Task DSL.
+
+### 使用 Task DSL 设置 JDK 版本
+
+Task DSL 可以对任何实现了 `UsesKotlinJavaToolchain` 接口的任务, 设置任意的 JDK 版本.
+目前, 这些任务只有 `KotlinCompile` 和 `KaptTask`.
+如果希望 Gradle 搜索主要的 JDK 版本, 请在你的构建脚本中替换 `<MAJOR_JDK_VERSION>` 占位符:
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+val service = project.extensions.getByType<JavaToolchainService>()
+val customLauncher = service.launcherFor {
+    languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>))
+}
+project.tasks.withType<UsesKotlinJavaToolchain>().configureEach {
+    kotlinJavaToolchain.toolchain.use(customLauncher)
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+JavaToolchainService service = project.getExtensions().getByType(JavaToolchainService.class)
+Provider<JavaLauncher> customLauncher = service.launcherFor {
+    it.languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>))
+}
+tasks.withType(UsesKotlinJavaToolchain::class).configureEach { task ->
+    task.kotlinJavaToolchain.toolchain.use(customLauncher)
+}
+```
+
+</div>
+</div>
+
+或者你特也可以指定你的本地 JDK 路径, 然后使用这个 JDK 版本替换 `<LOCAL_JDK_VERSION>` 占位符:
+
+```kotlin
+tasks.withType<UsesKotlinJavaToolchain>().configureEach {
+    kotlinJavaToolchain.jdk.use(
+        "/path/to/local/jdk", // 这里设置你的 JDK 路径
+        JavaVersion.<LOCAL_JDK_VERSION> // 例如, JavaVersion.17
+    )
+}
+```
+
+### 关联编译器任务
+
+你可以将编译任务 _关联(Associate)_ 在一起, 方法是在编译任务之间设置关联关系, 一个编译需要使用另一个编译的输出.
+关联编译器任务会在编译任务之间建立 `internal` 的可见度.
+
+Kotlin 编译器会默认的关联某些编译任务, 比如每个编译目标的 `test` 和 `main` 编译任务.
+如果你需要表达你的某个自定义编译任务与其它编译任务相关联, 请创建你自己的编译任务关联.
+
+要让 IDE 支持关联编译任务, 在源代码集之间推断可见度, 请向你的 `build.gradle(.kts)` 添加以下代码:
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+val integrationTestCompilation = kotlin.target.compilations.create("integrationTest") {
+    associateWith(kotlin.target.compilations.getByName("main"))
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+integrationTestCompilation {
+    kotlin.target.compilations.create("integrationTest") {
+        associateWith(kotlin.target.compilations.getByName("main"))
+    }
+}
+```
+
+</div>
+</div>
+
+在这个例子中, `integrationTest` 编译任务关联到 `main` 编译任务, 可以在功能测试(集成测试)代码中访问 `internal` 对象.
+
+## 编译到多个目标平台
+
+编译到 [多个目标平台](../multiplatform/multiplatform-dsl-reference.html#targets) 的项目,
+称为 [跨平台项目](../multiplatform/multiplatform-get-started.html),
+需要使用 `kotlin-multiplatform` 插件.
+详情请参见 [关于 `kotlin-multiplatform` 插件](../multiplatform/multiplatform-discover-project.html#multiplatform-plugin).
+
+> `kotlin-multiplatform` 插件要求 Gradle {{ site.data.releases.minGradleVersion }} 或更高版本.
+{:.note}
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+plugins {
+    kotlin("multiplatform") version "{{ site.data.releases.latest.version }}"
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+plugins {
+    id 'org.jetbrains.kotlin.multiplatform' version '{{ site.data.releases.latest.version }}'
+}
+```
+
+</div>
+</div>
+
+## 编译到 Android 平台
+
+建议使用 Android Studio 来创建 Android 应用程序.
+详情请参见 [如何使用 Android Gradle plugin](https://developer.android.com/studio/releases/gradle-plugin).
+
+## 编译到 JavaScript
+
+如果编译的目标平台只有 JavaScript, 请使用 `kotlin-js` 插件.
+详情请阅读 [相关文档](../js/js-project-setup.html):
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+plugins {
+    kotlin("js") version "{{ site.data.releases.latest.version }}"
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+plugins {
+    id 'org.jetbrains.kotlin.js' version '{{ site.data.releases.latest.version }}'
+}
+```
+
+</div>
+</div>
+
+### JavaScript 项目的 Kotlin 源代码与 Java 源代码
+
+这个 plugin 只能编译 Kotlin 源代码文件, 因此推荐将 Kotlin 和 Java 源代码文件放在不同的文件夹内(如果工程内包含 Java 文件的话).
+如果不将源代码分开存放, 请在 `sourceSets` 代码段中指定源代码文件夹 block:
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+kotlin {
+    sourceSets["main"].apply {    
+        kotlin.srcDir("src/main/myKotlin") 
+    }
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+kotlin {
+    sourceSets {
+        main.kotlin.srcDirs += 'src/main/myKotlin'
+    }
+}
+```
+
+</div>
+</div>
+
+## 使用 KotlinBasePlugin 接口触发配置动作
+
+当任何 Kotlin Gradle plugin (JVM, JS, Multiplatform, Native, 等等) 被适用时, 要触发某些配置动作,
+可以使用 `KotlinBasePlugin` 接口, 所有的 Kotlin plugin 都继承了这个接口:
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+import org.jetbrains.kotlin.gradle.plugin.KotlinBasePlugin
+
+// ...
+
+project.plugins.withType<KotlinBasePlugin>() {
+    // 在这里配置你的动作
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+import org.jetbrains.kotlin.gradle.plugin.KotlinBasePlugin
+
+// ...
+
+project.plugins.withType(KotlinBasePlugin.class) {
+    // 在这里配置你的动作
+}
+```
+
+</div>
+</div>
+
+## 配置依赖项
+
+如果要添加一个库的依赖, 需要在 source set DSL 中的 `dependencies` 代码段内,
+设置必要 [类型](#dependency-types) 的依赖项 (比如, `implementation`).
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+kotlin {
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation("com.example:my-library:1.0")
+            }
+        }
+    }
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+kotlin {
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation 'com.example:my-library:1.0'
+            }
+        }
+    }
+}
+```
+
+</div>
+</div>
+
+或者, 你也可以 [在最顶层设置依赖项](#set-dependencies-at-top-level).
+
+### 依赖项的类型
+
+请根据你的需要选择依赖项的类型.
+
+<table>
+    <tr>
+        <th>类型</th>
+        <th>解释</th>
+        <th>使用场景</th>
+    </tr>
+    <tr>
+        <td><code>api</code></td>
+        <td>编译期和运行期都会使用, 并导出给库的使用者.</td>
+        <td>如果在当前模块的公开 API 中使用了一个依赖项中的任何类型, 请使用 <code>api</code> 依赖项.
+        </td>
+    </tr>
+    <tr>
+        <td><code>implementation</code></td>
+        <td>对当前模块的编译期和运行期都会使用, 如果其他模块使用 `implementation` 依赖本模块,
+            那么对于其他模块的编译, 这个依赖项不会导出</td>
+        <td>
+            <p>对于模块的内部逻辑所需要的依赖项, 请使用这种类型.</p>
+            <p>如果一个模块是一个终端应用程序(endpoint application), 而且不对外公布(publish),
+              那么请使用 <code>implementation</code> 依赖项而不是 <code>api</code> 依赖项.</p>
+        </td>
+    </tr>
+    <tr>
+        <td><code>compileOnly</code></td>
+        <td>只用来编译当前模块, 在运行期不可用, 在编译其他模块时也不可用.</td>
+        <td>如果 API 在运行时存在第三方的实现, 那么可以使用这种依赖项.</td>
+    </tr>
+    <tr>
+        <td><code>runtimeOnly</code></td>
+        <td>运行时可用, 但在任何模块的编译期都不可用.</td>
+        <td></td>
+    </tr>
+</table>
+
+### 对标准库的依赖项
+
+对每个源代码集(Source Set), 会自动添加对标准库 (`stdlib`) 的依赖项.
+使用的标准库版本与 Kotlin Gradle plugin 版本相同.
+
+对于与平台相关的源代码集, 会使用针对这个平台的标准库, 同时, 对其他源代码集会添加共通的标准库.
+Kotlin Gradle plugin 会根据你的 Gradle 构建脚本的 `compilerOptions.jvmTarget` [编译器选项](gradle-compiler-options.html) 设置,
+选择适当的 JVM 标准库. 
+
+如果明确的声明一个标准库依赖项(比如, 如果你需要使用不同的版本), Kotlin Gradle plugin 不会覆盖你的设置, 也不会添加第二个标准库.
+
+如果你完全不需要标准库, 那么可以在 `gradle.properties` 文件中添加选项来关闭它:
+
+```none
+kotlin.stdlib.default.dependency=false
+```
+
+#### 传递依赖项的版本对齐
+
+如果你在依赖项中明确指定了 Kotlin 版本为 1.8.0 或更高, 例如: 
+`implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.0")`,
+那么 Kotlin Gradle Plugin 会对传递依赖项 `kotlin-stdlib-jdk7` 和 `kotlin-stdlib-jdk8` 使用这个 Kotlin 版本.
+这是为了避免不同版本的 stdlib 出现重复的类.
+详情请参见 [`kotlin-stdlib-jdk7` 与 `kotlin-stdlib-jdk8` 合并到 `kotlin-stdlib`](../whatsnew18.html#updated-jvm-compilation-target). 
+你可以使用 Gradle 属性 `kotlin.stdlib.jdk.variants.version.alignment` 来禁用这个动作:
+
+```none
+kotlin.stdlib.jdk.variants.version.alignment=false
+```
+
+##### 版本对齐的另一种方法
+
+* 如果版本对齐出现了问题, 可以使用 Kotlin [BOM](https://docs.gradle.org/current/userguide/platforms.html#sub:bom_import) 对齐所有依赖项的版本.
+  在你的构建脚本中声明对 `kotlin-bom` 的平台依赖项:
+
+  <div class="multi-language-sample" data-lang="kotlin">
+  <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+  ```kotlin
+  implementation(platform("org.jetbrains.kotlin:kotlin-bom:{{ site.data.releases.latest.version }}"))
+  ```
+  
+  </div>
+  </div>
+  
+  <div class="multi-language-sample" data-lang="groovy">
+  <div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+  ```groovy
+  implementation platform('org.jetbrains.kotlin:kotlin-bom:{{ site.data.releases.latest.version }}')
+  ```
+  
+  </div>
+  </div>
+
+* 如果你的 `gradle.properties` 文件中没有明确设置: `kotlin.stdlib.default.dependency=false`,
+  但你的某个依赖项传递依赖到某个旧的 Kotlin stdlib 版本, 例如, `kotlin-stdlib-jdk7:1.7.20`, 
+  而另一个依赖项传递依赖到 `kotlin-stdlib:1.8+` –
+  这种情况下, 你可以对这些传递以来的库指定 `{{ site.data.releases.latest.version }}` 版本:
+
+  <div class="multi-language-sample" data-lang="kotlin">
+  <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+  ```kotlin
+  dependencies {
+      constraints {
+          add("implementation", "org.jetbrains.kotlin:kotlin-stdlib-jdk7") {
+              version {
+                  require("{{ site.data.releases.latest.version }}")
+              }
+          }
+          add("implementation", "org.jetbrains.kotlin:kotlin-stdlib-jdk8") {
+              version {
+                  require("{{ site.data.releases.latest.version }}")
+              }
+          }
+      }
+  }
+  ```
+  
+  </div>
+  </div>
+  
+  <div class="multi-language-sample" data-lang="groovy">
+  <div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+  ```groovy
+  dependencies {
+      constraints {
+          add("implementation", "org.jetbrains.kotlin:kotlin-stdlib-jdk7") {
+              version {
+                  require("{{ site.data.releases.latest.version }}")
+              }
+          }
+          add("implementation", "org.jetbrains.kotlin:kotlin-stdlib-jdk8") {
+              version {
+                  require("{{ site.data.releases.latest.version }}")
+              }
+          }
+      }
+  }
+  ```
+  
+  </div>
+  </div>
+  
+* 如果你使用 Kotlin 版本 `{{ site.data.releases.latest.version }}`: `implementation("org.jetbrains.kotlin:kotlin-stdlib:{{ site.data.releases.latest.version }}")`,
+  并且使用了旧版本的 (低于 `1.8.0`) Kotlin Gradle plugin – 请更新 Kotlin Gradle plugin:
+
+  <div class="multi-language-sample" data-lang="kotlin">
+  <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+  ```kotlin
+  // 请将 `<...>` 替换为 plugin 名称
+  plugins {
+      kotlin("<...>") version "{{ site.data.releases.latest.version }}"
+  }
+  ```
+  
+  </div>
+  </div>
+  
+  <div class="multi-language-sample" data-lang="groovy">
+  <div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+  ```groovy
+  // 请将 `<...>` 替换为 plugin 名称
+  plugins {
+      id "org.jetbrains.kotlin.<...>" version "{{ site.data.releases.latest.version }}"
+  }
+  ```
+  
+  </div>
+  </div>
+
+* 如果你明确使用旧版本 (低于 `1.8.0`) 的 `kotlin-stdlib-jdk7`/`kotlin-stdlib-jdk8`, 例如, 
+  `implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:SOME_OLD_KOTLIN_VERSION")`,
+  并且某个依赖项传递依赖到 `kotlin-stdlib:1.8+`,
+  [请将你的 `kotlin-stdlib-jdk<7/8>:SOME_OLD_KOTLIN_VERSION`
+   替换为
+  `kotlin-stdlib-jdk*:{{ site.data.releases.latest.version }}`](../whatsnew18.html#updated-jvm-compilation-target),
+  或者在传递依赖它的库中
+  [排除(exclude)](https://docs.gradle.org/current/userguide/dependency_downgrade_and_exclude.html#sec:excluding-transitive-deps) 
+  `kotlin-stdlib:1.8+`:
+
+  <div class="multi-language-sample" data-lang="kotlin">
+  <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+  ```kotlin
+  dependencies {
+      implementation("com.example:lib:1.0") {
+          exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib")
+      }
+  }
+  ```
+  
+  </div>
+  </div>
+  
+  <div class="multi-language-sample" data-lang="groovy">
+  <div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+  ```groovy
+  dependencies {
+       implementation("com.example:lib:1.0") {
+        exclude group: "org.jetbrains.kotlin", module: "kotlin-stdlib"
+    }
+  }
+  ```
+  
+  </div>
+  </div>
+
+### 设置对测试库的依赖项
+
+对于支持的所有平台, Kotlin 项目的测试可以使用
+[`kotlin.test`](https://kotlinlang.org/api/latest/kotlin.test/) API.
+对 `commonTest` 源代码集添加 `kotlin-test` 依赖项,
+然后 Gradle plugin 会为每个测试源代码集推断出对应的测试库依赖项:
+* 对共通源代码集, 会添加 `kotlin-test-common` 和 `kotlin-test-annotations-common` 依赖项
+* 对 JVM 源代码集, 会添加 `kotlin-test-junit` 依赖项
+* 对 Kotlin/JS 源代码集, 会添加 `kotlin-test-js` 依赖项
+
+Kotlin/Native 编译目标已经内建了 `kotlin.test` API 的实现, 不需要额外的测试依赖项.
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+kotlin {
+    sourceSets {
+        val commonTest by getting {
+            dependencies {
+                implementation(kotlin("test")) // 这个设置会自动引入对应平台的所有依赖项
+            }
+        }
+    }
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+kotlin {
+    sourceSets {
+        commonTest {
+            dependencies {
+                implementation kotlin("test") // 这个设置会自动引入对应平台的所有依赖项
+            }
+        }
+    }
+}
+```
+
+</div>
+</div>
+
+> 对 Kotlin 模块的依赖项, 可以使用简写, 比如, 对 "org.jetbrains.kotlin:kotlin-test" 的依赖项可以简写为 kotlin("test").
+{:.note}
+
+你也可以在任何共通源代码集或平台相关的源代码集中使用 `kotlin-test` 依赖项.
+
+对于 Kotlin/JVM, Gradle 默认使用 JUnit 4. 因此, `kotlin("test")` 依赖项会解析为 JUnit 4 的变体,
+名为 `kotlin-test-junit`.
+
+也可以选择使用 JUnit 5 或 TestNG, 方法是在构建脚本的测试任务中调用
+[`useJUnitPlatform()`]( https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/testing/Test.html#useJUnitPlatform)
+或
+[`useTestNG()`](https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/testing/Test.html#useTestNG).
+下面是一个 Kotlin Multiplatform 项目的示例:
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+kotlin {
+    jvm {
+        testRuns["test"].executionTask.configure {
+            useJUnitPlatform()
+        }
+    }
+    sourceSets {
+        val commonTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+            }
+        }
+    }
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+kotlin {
+    jvm {
+        testRuns["test"].executionTask.configure {
+            useJUnitPlatform()
+        }
+    }
+    sourceSets {
+        commonTest {
+            dependencies {
+                implementation kotlin("test")
+            }
+        }
+    }
+}
+```
+
+</div>
+</div>
+
+下面是一个 JVM 项目的示例:
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+dependencies {
+    testImplementation(kotlin("test"))
+}
+
+tasks {
+    test {
+        useTestNG()
+    }
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+dependencies {
+    testImplementation 'org.jetbrains.kotlin:kotlin-test'
+}
+
+test {
+    useTestNG()
+}
+```
+
+</div>
+</div>
+
+参见 [在 JVM 平台上如何使用 JUnit 测试代码](../jvm/jvm-test-using-junit.html).
+
+如果需要使用不同的 JVM 测试框架, 可以在项目的 `gradle.properties` 文件添加 `kotlin.test.infer.jvm.variant=false`, 关闭测试框架的自动选择.
+然后, 再将需要的测试框架添加为 Gradle 依赖项.
+
+如果你在构建脚本中明确使用了 `kotlin("test")` 的变体, 而且项目的构建脚本出现兼容性冲突问题, 不再正常工作,
+请参见 [兼容性指南中的这个问题](../compatibility-guide-15.html#do-not-mix-several-jvm-variants-of-kotlin-test-in-a-single-project).
+
+### 设置对 kotlinx 库的依赖项
+
+如果使用 kotlinx 库, 并且需要与平台相关的依赖项, 那么可以通过 `-jvm` 或 `-js` 之类的后缀,
+来指定与平台相关的库版本, 例如, `kotlinx-coroutines-core-jvm`.
+也可以使用库的基本 artifact 名(base artifact name) – `kotlinx-coroutines-core`.
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+kotlin {
+    sourceSets {
+        val jvmMain by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:{{ site.data.releases.latest.coroutines.version }}")
+            }
+        }
+    }
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+kotlin {
+    sourceSets {
+        jvmMain {
+            dependencies {
+                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:{{ site.data.releases.latest.coroutines.version }}'
+            }
+        }
+    }
+}
+```
+
+</div>
+</div>
+
+如果使用跨平台的库, 并且需要依赖共用代码, 那么只需要在共用源代码集中一次性设置依赖项.
+请使用库的基本 artifact 名(base artifact name), 例如 `kotlinx-coroutines-core` 或 `ktor-client-core`.
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+kotlin {
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:{{ site.data.releases.latest.coroutines.version }}")
+            }
+        }
+    }
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+kotlin {
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:{{ site.data.releases.latest.coroutines.version }}'
+            }
+        }
+    }
+}
+```
+
+</div>
+</div>
+
+### 在最顶层设置依赖项
+
+另一种做法是, 可以在最顶层指定依赖项, 方法是使用 `<sourceSetName><DependencyType>` 格式的配置名称.
+对于某些 Gradle 内建的依赖项, 比如 `gradleApi()`, `localGroovy()`, 或 `gradleTestKit()`, 这种方法会很有用,
+这些依赖项在 Source Set 依赖项 DSL 中是不能使用的.
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+dependencies {
+    "commonMainImplementation"("com.example:my-library:1.0")
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+dependencies {
+    commonMainImplementation 'com.example:my-library:1.0'
+}
+```
+
+</div>
+</div>
+
+## 下一步做什么?
+
+学习:
+* [编译器选项, 以及如何传递编译器选项](gradle-compiler-options.html).
+* [增量编译, 缓存, 构建报告, 以及 Kotlin Daemon](gradle-compilation-and-caches.html).
+* [Gradle 基本概念与详细信息](https://docs.gradle.org/current/userguide/getting_started.html).
+* [对 Gradle plugin 变体的支持](gradle-plugin-variants.html).

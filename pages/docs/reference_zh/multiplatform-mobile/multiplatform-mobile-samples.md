@@ -10,10 +10,11 @@ title: "示例程序"
 
 这里是 Kotlin Multiplatform Mobile 示例程序的简要列表.
 
-你有没有这个列表中未列出的优秀的示例程序?  
-请 [创建一个 Pull Request](https://github.com/JetBrains/kotlin-web-site/edit/master/docs/topics/multiplatform-mobile/multiplatform-mobile-samples.md),
-分享给我们!
-你可以参考这个 [PR 示例](https://github.com/JetBrains/kotlin-web-site/pull/2723).
+> 你可以在 GitHub 找到更多示例项目, 参见 [`kotlin-multiplatform-mobile` topic](https://github.com/topics/kotlin-multiplatform-mobile).
+>
+> 如果你想要将你的 Multiplatform Mobile 项目添加到这个 topic, 帮助社区,
+> 请按照 [GitHub 文档](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/classifying-your-repository-with-topics#adding-topics-to-your-repository) 中的指示进行.
+{:.tip}
 
 <table>
 <tr>
@@ -37,9 +38,6 @@ title: "示例程序"
     </td>
     <td>
         测试
-    </td>
-    <td>
-        JS 编译目标
     </td>
     <td>
         功能特性
@@ -74,14 +72,11 @@ title: "示例程序"
         -
     </td>
     <td>
-        -
-    </td>
-    <td>
-        <ul>
+        <list>
             <li>
                 <code>expect</code>/<code>actual</code> 声明
             </li>
-        </ul>
+        </list>
     </td>
 </tr>
 
@@ -121,292 +116,14 @@ title: "示例程序"
         -
     </td>
     <td>
-        -
-    </td>
-    <td>
-        <ul>
+        <list>
             <li>
                 Redux, 用于共享 UI 状态
             </li>
             <li>
                 发布到 Google Play 和 App Store
             </li>
-        </ul>
-    </td>
-</tr>
-
-<tr>
-    <td>
-        <strong>
-            <a href="https://github.com/touchlab/KaMPKit">KaMPKit</a>
-        </strong>
-    </td>
-    <td>
-        模块, <br/>
-        网络, <br/>
-        数据存储, <br/>
-        视图模型(ViewModel)
-    </td>
-    <td>
-        Koin, SQLDelight, Ktor, DateTime, multiplatform-settings, Kermit
-    </td>
-    <td>
-        Jetpack Compose, SwiftUI
-    </td>
-    <td>
-        CocoaPods
-    </td>
-    <td>
-        -
-    </td>
-    <td>
-        ✅
-    </td>
-    <td>
-        -
-    </td>
-    <td>
-        -
-    </td>
-</tr>
-
-<tr>
-    <td>
-        <strong>
-            <a href="https://github.com/icerockdev/moko-template">
-                moko-template
-            </a>
-        </strong>
-    </td>
-    <td>
-        模块, <br/>
-        网络, <br/>
-        数据存储, <br/>
-        视图模型(ViewModel)
-    </td>
-    <td>
-        Moko Libraries, <br/>
-        Ktor, <br/>
-        multiplatform-settings
-    </td>
-    <td>
-        -
-    </td>
-    <td>
-        CocoaPods
-    </td>
-    <td>
-        -
-    </td>
-    <td>
-        ✅
-    </td>
-    <td>
-        -
-    </td>
-    <td>
-        <ul>
-            <li>
-                模块化架构
-            </li>
-            <li>
-                共用功能: 资源管理, 运行期权限访问, 媒体访问, UI 列表管理
-            </li>
-            <li>
-                通过 OpenAPI 生成网络层.
-            </li>
-        </ul>
-    </td>
-</tr>
-
-<tr>
-    <td>
-        <strong>
-            <a href="https://github.com/joreilly/PeopleInSpace">
-                PeopleInSpace
-            </a>
-        </strong>
-    </td>
-    <td>
-        模块, <br/>
-        网络, <br/>
-        数据存储
-    </td>
-    <td>
-        Koin, <br/>
-        SQLDelight, <br/>
-        Ktor
-    </td>
-    <td>
-        Jetpack Compose, <br/>
-        SwiftUI
-    </td>
-    <td>
-        CocoaPods, <br/>
-        Swift Packages
-    </td>
-    <td>
-        -
-    </td>
-    <td>
-        ✅
-    </td>
-    <td>
-        ✅
-    </td>
-    <td>
-        <ul>编译目标:
-            <li>
-                Android Wear OS
-            </li>
-            <li>
-                iOS
-            </li>
-            <li>
-                watchOS
-            </li>
-            <li>
-                macOS Desktop (Compose for Desktop)
-            </li>
-            <li>
-                Web (Compose for Web)
-            </li>
-            <li>
-                Web (Kotlin/JS + React Wrapper)
-            </li>
-            <li>
-                JVM
-            </li>
-        </ul>
-    </td>
-</tr>
-
-<tr>
-    <td>
-        <strong>
-            <a href="https://gitlab.com/terrakok/gitlab-client">
-                GitFox SDK
-            </a>
-        </strong>
-    </td>
-    <td>
-        模块, <br/>
-        网络, <br/>
-        交互(Interactor)
-    </td>
-    <td>
-        Ktor
-    </td>
-    <td>
-        XML, <br/>
-        UIKit
-    </td>
-    <td>
-        Xcode build phases
-    </td>
-    <td>
-        -
-    </td>
-    <td>
-        -
-    </td>
-    <td>
-        ✅
-    </td>
-    <td>
-        <ul>
-            <li>
-                集成到 Flutter App
-            </li>
-        </ul>
-    </td>
-</tr>
-
-<tr>
-    <td>
-        <strong>
-            <a href="https://github.com/dbaroncelli/D-KMP-sample">
-                D-KMP-sample
-            </a>
-        </strong>
-    </td>
-    <td>
-        网络, <br/>
-        数据存储, <br/>
-        视图模型(ViewModel), <br/>
-        导航(Navigation)
-    </td>
-    <td>
-        SQLDelight, <br/>
-        Ktor, <br/>
-        DateTime, <br/>
-        multiplatform-settings
-    </td>
-    <td>
-        Jetpack Compose, <br/>
-        SwiftUI
-    </td>
-    <td>
-        Xcode build phases
-    </td>
-    <td>
-        -
-    </td>
-    <td>
-        ✅
-    </td>
-    <td>
-        ✅
-    </td>
-    <td>
-        <ul>
-            <li>
-                实现 MVI 模式和单项数据流
-            </li>
-            <li>
-                使用 Kotlin 的 StateFlow 触发 UI 层重组
-            </li>
-        </ul>
-    </td>
-</tr>
-
-<tr>
-    <td>
-        <strong>
-            <a href="https://github.com/mitchtabian/Food2Fork-KMM">
-                Food2Fork Recipe App
-            </a>
-        </strong>
-    </td>
-    <td>
-        模块, <br/>
-        网络, <br/>
-        数据存储, <br/>
-        交互(Interactor)
-    </td>
-    <td>
-        SQLDelight, <br/>
-        Ktor, <br/>
-        DateTime
-    </td>
-    <td>
-        Jetpack Compose, <br/>
-        SwiftUI
-    </td>
-    <td>
-        CocoaPods
-    </td>
-    <td>
-        -
-    </td>
-    <td>
-        -
-    </td>
-    <td>
-        -
-    </td>
-    <td>
-        -
+        </list>
     </td>
 </tr>
 
@@ -440,64 +157,13 @@ title: "示例程序"
         -
     </td>
     <td>
-        -
-    </td>
-    <td>
-        <ul>
+        <list>
             <li>
                 <a href="https://www.youtube.com/watch?v=_Q62iJoNOfg%26list=PLlFc5cFwUnmy_oVc9YQzjasSNoAk4hk_C%26index=2">
                     视频教程
                 </a>
             </li>
-        </ul>
-    </td>
-</tr>
-
-<tr>
-    <td>
-        <strong>
-            <a href="https://github.com/CurrencyConverterCalculator/CCC">
-                Currency Converter Calculator
-            </a>
-        </strong>
-    </td>
-    <td>
-        模块, <br/>
-        网络, <br/>
-        数据存储, <br/>
-        算法, <br/>
-        视图模型(ViewModel)
-    </td>
-    <td>
-        Ktor, <br/>
-        SQLDelight, <br/>
-        koin, <br/>
-        moko-resources, <br/>
-        kotlinx.datetime, <br/>
-        multiplatform-settings
-    </td>
-    <td>
-        XML, <br/>
-        SwiftUI
-    </td>
-    <td>
-        CocoaPods
-    </td>
-    <td>
-        ✅
-    </td>
-    <td>
-        ✅
-    </td>
-    <td>
-        -
-    </td>
-    <td>
-        <ul>
-            <li>
-                与后端共用逻辑
-            </li>
-        </ul>
+        </list>
     </td>
 </tr>
 
@@ -536,10 +202,7 @@ title: "示例程序"
         ✅
     </td>
     <td>
-        ✅
-    </td>
-    <td>
-        <ul>
+        <list>
             <li>
                 共用了 99% 的代码
             </li>
@@ -550,34 +213,20 @@ title: "示例程序"
                 使用 <a href="https://www.jetbrains.com/lp/compose-mpp/">Compose Multiplatform</a>,
                 实现在 Android, Desktop 和 Web 平台共用 UI
             </li>
-        </ul>
+        </list>
     </td>
 </tr>
 
 <tr>
     <td>
         <strong>
-            <a href="https://github.com/fededri/kmm-demo">
-                kmm-arch-demo
+            <a href="https://github.com/KaterinaPetrova/mpp-sample-lib">
+                mpp-sample-lib
             </a>
         </strong>
     </td>
     <td>
-        模块, <br/>
-        网络, <br/>
-        视图模型(ViewModel), <br/>
-        UI 状态
-    </td>
-    <td>
-        Ktor, <br/>
-        kotlinx.serialization
-    </td>
-    <td>
-        XML, <br/>
-        SwiftUI
-    </td>
-    <td>
-        CocoaPods
+        算法
     </td>
     <td>
         -
@@ -587,46 +236,6 @@ title: "示例程序"
     </td>
     <td>
         -
-    </td>
-    <td>
-        <ul>
-            <li>
-                使用 <a href="https://github.com/fededri/Arch">Arch</a>,
-                一个 Kotlin Multiplatform Mobile 库, 它基于 Spotify 的 Mobius 库,
-                但使用 SharedFlow, StateFlow 以及 coroutines, 而不是 RxJava
-            </li>
-        </ul>
-    </td>
-</tr>
-
-<tr>
-    <td>
-        <strong>
-            <a href="https://github.com/xorum-io/codeforces_watcher">
-                Codeforces WatchR
-            </a>
-        </strong>
-    </td>
-    <td>
-        模块, <br/>
-        网络, <br/>
-        数据存储, <br/>
-        UI 状态
-    </td>
-    <td>
-        SQLDelight, <br/>
-        Ktor, <br/>
-        kotlinx.serialization
-    </td>
-    <td>
-        XML, <br/>
-        UIKit
-    </td>
-    <td>
-        CocoaPods
-    </td>
-    <td>
-        ✅
     </td>
     <td>
         ✅
@@ -635,24 +244,19 @@ title: "示例程序"
         -
     </td>
     <td>
-        <ul>
+        <list>
             <li>
-                使用 Redux (<a href="https://github.com/xorum-io/ReKamp">ReKamp</a>)
-                实现 UI 状态共用
+                演示如何创建跨平台的库
+                (<a href="https://dev.to/kathrinpetrova/series/11926">教程</a>)
             </li>
-            <li>
-                发布到 Google Play 和 App Store
-            </li>
-        </ul>
+        </list>
     </td>
 </tr>
 
 <tr>
     <td>
         <strong>
-            <a href="https://github.com/MartinRajniak/CatViewerDemo">
-                CatViewerDemo
-            </a>
+            <a href="https://github.com/touchlab/KaMPKit">KaMPKit</a>
         </strong>
     </td>
     <td>
@@ -662,19 +266,16 @@ title: "示例程序"
         视图模型(ViewModel)
     </td>
     <td>
-        Ktor, <br/>
-        multiplatform-settings, <br/>
-        kotlinx.serialization
+        Koin, SQLDelight, Ktor, DateTime, multiplatform-settings, Kermit
     </td>
     <td>
-        Jetpack Compose, <br/>
-        SwiftUI
+        Jetpack Compose, SwiftUI
     </td>
     <td>
-        Xcode build phases
+        CocoaPods
     </td>
     <td>
-        ✅
+        -
     </td>
     <td>
         ✅
@@ -682,32 +283,13 @@ title: "示例程序"
     <td>
         -
     </td>
-    <td>
-        <ul>
-            <li>
-                Android 架构
-            </li>
-            <li>
-                分页(Pagination)
-            </li>
-            <li>
-                可在 M1 平台运行
-            </li>
-            <li>
-                GitHubActions CI
-            </li>
-            <li>
-                Cats 🐈
-            </li>
-        </ul>
-    </td>
 </tr>
 
 <tr>
     <td>
         <strong>
-            <a href="https://github.com/mutualmobile/praxiskmm">
-                Praxis KMM
+            <a href="https://github.com/joreilly/PeopleInSpace">
+                PeopleInSpace
             </a>
         </strong>
     </td>
@@ -717,22 +299,17 @@ title: "示例程序"
         数据存储
     </td>
     <td>
-        kotlinx.serialization, <br/>
-        Ktor, <br/>
         Koin, <br/>
-        SQLDelight
+        SQLDelight, <br/>
+        Ktor
     </td>
     <td>
         Jetpack Compose, <br/>
-        SwiftUI, <br/>
-        ReactJS
+        SwiftUI
     </td>
     <td>
         CocoaPods, <br/>
         Swift Packages
-    </td>
-    <td>
-        ✅
     </td>
     <td>
         -
@@ -741,27 +318,112 @@ title: "示例程序"
         ✅
     </td>
     <td>
-        <ul>
-        编译目标:
-            <li>
-                iOS
-            </li>
-            <li>
-                Android
-            </li>
+        <p>目标平台:</p>
+        <list>
             <li>
                 Android Wear OS
+            </li>
+            <li>
+                iOS
             </li>
             <li>
                 watchOS
             </li>
             <li>
-                macOS Desktop (Swift UI)
+                macOS Desktop (Compose for Desktop)
+            </li>
+            <li>
+                Web (Compose for Web)
             </li>
             <li>
                 Web (Kotlin/JS + React Wrapper)
             </li>
-        </ul>
+            <li>
+                JVM
+            </li>
+        </list>
+    </td>
+</tr>
+
+<tr>
+    <td>
+        <strong>
+            <a href="https://github.com/dbaroncelli/D-KMP-sample">
+                D-KMP-sample
+            </a>
+        </strong>
+    </td>
+    <td>
+        网络, <br/>
+        数据存储, <br/>
+        视图模型(ViewModel), <br/>
+        导航(Navigation)
+    </td>
+    <td>
+        SQLDelight, <br/>
+        Ktor, <br/>
+        DateTime, <br/>
+        multiplatform-settings
+    </td>
+    <td>
+        Jetpack Compose, <br/>
+        SwiftUI
+    </td>
+    <td>
+        Xcode build phases
+    </td>
+    <td>
+        -
+    </td>
+    <td>
+        ✅
+    </td>
+    <td>
+        <list>
+            <li>
+                实现 MVI 模式和单项数据流
+            </li>
+            <li>
+                使用 Kotlin 的 StateFlow 触发 UI 层重组
+            </li>
+        </list>
+    </td>
+</tr>
+
+<tr>
+    <td>
+        <strong>
+            <a href="https://github.com/mitchtabian/Food2Fork-KMM">
+                Food2Fork Recipe App
+            </a>
+        </strong>
+    </td>
+    <td>
+        模块, <br/>
+        网络, <br/>
+        数据存储, <br/>
+        交互(Interactor)
+    </td>
+    <td>
+        SQLDelight, <br/>
+        Ktor, <br/>
+        DateTime
+    </td>
+    <td>
+        Jetpack Compose, <br/>
+        SwiftUI
+    </td>
+    <td>
+        CocoaPods
+    </td>
+    <td>
+        -
+    </td>
+    <td>
+        -
+    </td>
+    <td>
+        -
     </td>
 </tr>
 
@@ -797,14 +459,11 @@ title: "示例程序"
         -
     </td>
     <td>
-        -
-    </td>
-    <td>
-        <ul>
+        <list>
             <li>
                 使用 <a href="https://realm.io/">Realm</a> 实现数据表现
             </li>
-        </ul>
+        </list>
     </td>
 </tr>
 
@@ -845,10 +504,7 @@ title: "示例程序"
         -
     </td>
     <td>
-        ✅
-    </td>
-    <td>
-        <ul>
+        <list>
             <li>
                 模块化架构
             </li>
@@ -858,97 +514,8 @@ title: "示例程序"
             <li>
                 共用视图模型(ViewModel)
             </li>
-        </ul>
+        </list>
     </td>
 </tr>
 
-<tr>
-    <td>
-        <strong>
-            <a href="https://github.com/halcyonmobile/MultiplatformPlayground">
-                MultiplatformPlayground
-            </a>
-        </strong>
-    </td>
-    <td>
-        视图模型(ViewModel), <br/>
-        网络, <br/>
-        数据存储
-    </td>
-    <td>
-        SQLDelight, <br/>
-        Ktor, <br/>
-        Koin, <br/>
-        kotlinx.serialization, <br/>
-        moko-resources
-    </td>
-    <td>
-        Jetpack Compose, <br/>
-        SwiftUI
-    </td>
-    <td>
-        CocoaPods
-    </td>
-    <td>
-        ✅
-    </td>
-    <td>
-        只支持 Android
-    </td>
-    <td>
-        ✅
-    </td>
-    <td>
-        <ul>
-            <li>
-                共用文件上传
-            </li>
-            <li>
-                多模块设置
-            </li>
-            <li>
-                在后端与移动端/前端平台 (macOS, iOS, Android) 之间共用代码
-            </li>
-        </ul>
-    </td>
-</tr>
-
-<tr>
-    <td>
-        <strong>
-            <a href="https://github.com/KaterinaPetrova/mpp-sample-lib">
-                mpp-sample-lib
-            </a>
-        </strong>
-    </td>
-    <td>
-        算法
-    </td>
-    <td>
-        -
-    </td>
-    <td>
-        -
-    </td>
-    <td>
-        -
-    </td>
-    <td>
-        ✅
-    </td>
-    <td>
-        -
-    </td>
-    <td>
-        ✅
-    </td>
-    <td>
-        <ul>
-            <li>
-                演示如何创建跨平台的库
-                (<a href="https://dev.to/kathrinpetrova/series/11926">教程</a>)
-            </li>
-        </ul>
-    </td>
-</tr>
 </table>

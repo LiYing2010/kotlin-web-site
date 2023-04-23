@@ -36,7 +36,7 @@ Kotlin 采用一种灵活的方式解决这类问题,
 ### 教程
 
 - [异步程序开发](async-programming.html)
-- [协程(Coroutine)与通道(Channel)简介](https://play.kotlinlang.org/hands-on/Introduction%20to%20Coroutines%20and%20Channels/01_Introduction)
+- [协程(Coroutine)与通道(Channel)简介](coroutines/coroutines-and-channels.html)
 - [使用 IntelliJ IDEA 调试协程](coroutines/debug-coroutines-with-idea.html)
 - [使用 IntelliJ IDEA 调试 Kotlin 数据流(Flow)](coroutines/debug-flow-with-idea.html)
 - [在 Android 平台测试 Kotlin 协程](https://developer.android.com/kotlin/coroutines/test)

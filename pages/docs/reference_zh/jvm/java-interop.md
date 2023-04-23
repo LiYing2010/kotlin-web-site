@@ -2,7 +2,7 @@
 type: doc
 layout: reference
 category: "Java Interop"
-title: "在 Kotlin 中调用 Java"
+title: "在 Kotlin 中调用 Java 代码"
 ---
 
 # 在 Kotlin 中调用 Java 代码
@@ -91,7 +91,7 @@ val item = list[0] // 类型自动推断结果为平台类型 (通常的 Java �
 也可能是 Kotlin 编译时为防止 null 值错误而产生的断言, 在运行时导致失败:
 
 ```kotlin
-item.substring(1) // 编译时允许这样的调用, 但在运行时如果 item == null 则可能抛出异常
+item.substring(1) // 编译时允许这样的调用, 但在运行时如果 item == null 则会抛出异常
 ```
 
 平台数据类型是 *无法指示的(non-denotable)*, 也就是说你不能在语言中明确指出这样的类型.
@@ -197,7 +197,7 @@ fun main() {
 }
 ```
 
-`Derived` 的上界(upper bound) 被设置为 `Base<String?>`, 而不是 `Base<String>`.
+`Derived` 的上界(Upper Bound) 被设置为 `Base<String?>`, 而不是 `Base<String>`.
 
 更多详情请参考 [在 Kotlin 中使用 Java 的泛型](java-interop.html#java-generics-in-kotlin).
 
@@ -302,7 +302,7 @@ interface A {
 * `ElementType.PARAMETER` 表示注解对象为参数值
 * `ElementType.FIELD` 表示注解对象为类的成员域变量
 * `ElementType.TYPE_USE` 表示注解对象为任何类型,
-  包含类型参数(type argument), 类型参数上界(upper bound), 以及通配符类型(wildcard type)
+  包含类型参数(type argument), 类型参数上界(Upper Bound), 以及通配符类型(wildcard type)
 
 
 当一个类型没有标注可否为 null 注解时, 会使用默认的可否为 null 设定,

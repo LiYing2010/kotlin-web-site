@@ -16,7 +16,7 @@ Kotlin 默认支持对 JVM, JS, Android, Linux, Windows, macOS 以及 iOS, watch
 跨平台测试程序可以使用 [`kotlin.test` API](https://kotlinlang.org/api/latest/kotlin.test/).
 当你 [创建跨平台项目](multiplatform-library.html) 时, 对共通源代码集和平台相关的源代码集, 项目创建向导会自动添加测试库依赖项.
 
-如果创建项目时没有使用项目创建向导, 你也可以 [手动添加依赖项](../gradle.html#set-dependencies-on-test-libraries).
+如果创建项目时没有使用项目创建向导, 你也可以 [手动添加依赖项](../gradle/gradle-configure-project.html#set-dependencies-on-test-libraries).
 
 ## 对一个或多个编译目标运行测试
 

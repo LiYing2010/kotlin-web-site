@@ -36,7 +36,8 @@ Kotlin/Native 编译器正在不断更新, 并改进它的性能.
 * **增大 [Gradle heap 尺寸](https://docs.gradle.org/current/userguide/performance.html#adjust_the_daemons_heap_size)**.
   向 `gradle.properties` 添加 `org.gradle.jvmargs=-Xmx3g` 设置.
   如果你使用 [并行构建](https://docs.gradle.org/current/userguide/performance.html#parallel_execution) 功能,
-  你可能需要将 heap 设置得更大, 或者使用 `org.gradle.parallel.threads` 选择正确的线程数量.
+  你可能需要使用 `org.gradle.workers.max` 属性或 `--max-workers` 命令行选项, 来选择正确的 worker 数量.
+  默认值是 CPU 的处理器个数.
 
 * **只构建你需要的二进制文件**. 除非你真的需要这样, 否则不要运行构建整个项目的 Gradle 任务, 比如 `build` 或 `assemble`.
   这样的任务会多次构建相同的代码, 增加编译时间.

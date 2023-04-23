@@ -7,9 +7,9 @@ title: "协程指南"
 
 # 协程指南
 
-最终更新: {{ site.data.releases.latestCoroutinesDocDate }}
+最终更新: {{ site.data.releases.latestDocDate }}
 
-Kotlin 语言只在它的标准库中提供了最少量的低层 API, 让其它各种不同的库来使用协程.
+Kotlin 只在它的标准库中提供了最少量的低层 API, 让其它库来使用协程.
 与拥有类似功能的其他语言不同, `async` 和 `await` 在 Kotlin 中不是关键字, 甚至不是标准库的一部分.
 而且, Kotlin 的 _挂起函数_ 的概念, 为异步操作提供了一种比 future 和 promise 更安全, 更不容易出错的的抽象模型.
 

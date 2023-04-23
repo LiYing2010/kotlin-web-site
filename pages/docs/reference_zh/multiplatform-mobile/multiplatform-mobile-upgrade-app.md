@@ -56,8 +56,9 @@ title: "升级你的应用程序"
 网络请求和数据序列化是在 Kotlin Multiplatform 项目中 [最常见的情况](https://kotlinlang.org/lp/mobile/).
 在你的第一个应用程序中学习如何实现这些功能, 然后在完成这个系列教程之后, 你就可以在未来的项目中使用这些功能了.
 
-更新后的应用程序将会通过互联网, 从一个 [SpaceX 公开 API](https://docs.spacexdata.com/?version=latest) 接收数据,
-并显示 SpaceX 火箭的最后一次成功发射日期.
+更新后的应用程序将会通过互联网, 从一个
+[SpaceX API](https://github.com/r-spacex/SpaceX-API/tree/master/docs#rspacex-api-docs)
+接收数据, 并显示 SpaceX 火箭的最后一次成功发射日期.
 
 ## 添加更多依赖项
 
@@ -80,7 +81,7 @@ sourceSets {
     val commonMain by getting {
         dependencies {
             // ...
-           implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:{{ site.data.releases.latest.coroutines.version }}")
         }
     }
 }
@@ -88,8 +89,10 @@ sourceSets {
 
 Multiplatform Gradle plugin 会自动将 `kotlinx.coroutines` 的平台相关 (iOS 和 Android) 库添加为一个依赖项.
 
-你还会使用新的 Kotlin/Native 内存管理器, 这个内存管理器很快将会成为默认选项.
-请在 `build.gradle.kts` 文件的最后添加以下内容:
+#### 如果你在使用 Kotlin 1.7.20 以前的版本
+
+如果你在使用 Kotlin 1.7.20 或更高版本, 那么你已经拥有了新的 Kotlin/Native 内存管理器, 它会默认启用.
+否则, 请在 `build.gradle.kts` 文件的最后添加以下内容:
 
 ```kotlin
 kotlin.targets.withType(org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget::class.java) {
@@ -101,16 +104,16 @@ kotlin.targets.withType(org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarge
 
 ### kotlinx.serialization
 
-对于 `kotlinx.serilization`, 你需要构建系统要求的 plugin.
+对于 `kotlinx.serialization`, 你需要构建系统要求的 plugin.
 Kotlin serialization plugin 随 Kotlin 编译器一起发布, IntelliJ IDEA plugin 捆绑在 Kotlin plugin 之内.
 
 你可以使用 Gradle plugin DSL, 和 Kotlin plugin 一起设置 serialization plugin,
-方法是在共用模块内的 `build.gradle` 文件的最开头, 向 `plugins` 代码段添加以下内容:
+方法是在共用模块内的 `build.gradle.kts` 文件的最开头, 向现有的 `plugins` 代码段添加以下内容:
 
 ```kotlin
 plugins {
-    // 
-    kotlin("plugin.serialization") version "1.6.21"
+    //
+    kotlin("plugin.serialization") version "{{ site.data.releases.latest.version }}"
 }
 ```
 
@@ -127,7 +130,7 @@ plugins {
 * 在平台源代码集(`ktor-client-android`, `ktor-client-darwin`) 中, 通过添加对应的 artifact 的依赖项, 提供平台引擎.
 
 ```kotlin
-val ktorVersion = "2.0.2"
+val ktorVersion = "{{ site.data.releases.ktorVersion }}"
 
 sourceSets {
     val commonMain by getting {
@@ -152,10 +155,13 @@ sourceSets {
 }
 ```
 
+在通知信息中点击 **Sync Now**, 同步 Gradle 文件.
+
 ## 创建 API 请求
 
-你需要 [SpaceX 公开 API](https://docs.spacexdata.com/?version=latest) 来取得数据,
-还需要单个方法, 从 **v4/launches** Endpoint 得到所有发射数据的列表.
+你需要使用
+[SpaceX API](https://github.com/r-spacex/SpaceX-API/tree/master/docs#rspacex-api-docs)
+来取得数据, 还需要单个方法, 从 **v4/launches** Endpoint 得到所有发射数据的列表.
 
 ### 添加数据模型
 
@@ -193,6 +199,8 @@ data class RocketLaunch (
     import kotlinx.serialization.json.Json
     
     class Greeting {
+        private val platform: Platform = getPlatform()
+
         private val httpClient = HttpClient {
             install(ContentNegotiation) {
                 json(Json {
@@ -211,15 +219,19 @@ data class RocketLaunch (
 2. 在 `greeting()` 函数中, 调用 `httpClient.get()` 方法, 获取关于火箭发射的信息, 并找到最后一次发射:
 
     ```kotlin
+    import io.ktor.client.call.*
+    import io.ktor.client.request.*
+
     class Greeting {
         // ...
         @Throws(Exception::class)
         suspend fun greeting(): String {
-            val rockets: List<RocketLaunch> = httpClient.get("https://api.spacexdata.com/v4/launches").body()
+            val rockets: List<RocketLaunch> =
+                httpClient.get("https://api.spacexdata.com/v4/launches").body()
             val lastSuccessLaunch = rockets.last { it.launchSuccess == true }
-            return "Guess what it is! > ${Platform().platform.reversed()}!" +
-                "\nThere are only ${daysUntilNewYear()} left until New Year! 🎅🏼 " +
-                "\nThe last successful launch was ${lastSuccessLaunch.launchDateUTC} 🚀"
+            return "Guess what it is! > ${platform.name.reversed()}!" +
+                    "\nThere are only ${daysUntilNewYear()} left until New Year! 🎆" +
+                    "\nThe last successful launch was ${lastSuccessLaunch.launchDateUTC} 🚀"
         }
     }
     ```
@@ -233,7 +245,7 @@ data class RocketLaunch (
 要访问互联网, Android 应用程序需要适当的权限. 由于所有的网络请求都由共用模块发起,
 因此可以在共用模块的 Manifest 中添加互联网访问权限.
 
-更新你的 `shared/src/androidMain/AndroidManifest.xml` 文件, 如下:
+更新你的 `androidApp/src/main/AndroidManifest.xml` 文件, 如下:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
@@ -257,46 +269,46 @@ data class RocketLaunch (
     ```kotlin
     dependencies {
         // ..
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.2")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:{{ site.data.releases.latest.coroutines.version }}")
     }
     ```
 
-2. 在 `androidApp/src/main` 目录中, 更新 `MainActivity` 类, 替换以前的实现:
+2. 在通知信息中点击 **Sync Now**, 同步 Gradle 文件.
+3. 在 `androidApp/src/main/java` 目录中, 找到 `MainActivity.kt` 文件, 更新下面的类, 替换以前的实现:
 
-    ```kotlin
-    import kotlinx.coroutines.MainScope
-    import kotlinx.coroutines.cancel
-    import kotlinx.coroutines.launch
-    
-    class MainActivity : AppCompatActivity() {
-        private val scope = MainScope()
-    
-        override fun onDestroy() {
-            super.onDestroy()
-            scope.cancel()
-        }
+   ```kotlin
+   import androidx.compose.runtime.*
+   import kotlinx.coroutines.launch
+   
+   class MainActivity : ComponentActivity() {
+       override fun onCreate(savedInstanceState: Bundle?) {
+           super.onCreate(savedInstanceState)
+           setContent {
+               MyApplicationTheme {
+                   Surface(
+                       modifier = Modifier.fillMaxSize(),
+                       color = MaterialTheme.colors.background
+                   ) {
+                       val scope = rememberCoroutineScope()
+                       var text by remember { mutableStateOf("Loading") }
+                       LaunchedEffect(true) {
+                           scope.launch {
+                               text = try {
+                                   Greeting().greeting()
+                               } catch (e: Exception) {
+                                   e.localizedMessage ?: "error"
+                               }
+                           }
+                       }
+                       GreetingView(text)
+                   }
+               }
+           }
+       }
+   }
+   ```
 
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-            setContentView(R.layout.activity_main)
-    
-            val tv: TextView = findViewById(R.id.text_view)
-            tv.text = "Loading..."
-    
-            scope.launch {
-                kotlin.runCatching {
-                    Greeting().greeting()
-                }.onSuccess {
-                    tv.text = it
-                }.onFailure {
-                    tv.text = it.localizedMessage
-                }
-            }
-        }
-    }
-    ```
-
-   `greeting()` 函数现在会在主 `CoroutineScope` 中启动的协程之内调用.
+   `greeting()` 函数现在会在 `LaunchedEffect` 之内的一个协程内调用, 以免每次状态变化时都调用它.
 
 ### iOS 应用程序
 
@@ -307,11 +319,15 @@ data class RocketLaunch (
 共用模块已经连接到了 iOS 项目 — Android Studio plugin 向导已经完成了所有的配置.
 共用模块已经导入, 并在 `ContentView.swift` 中通过 `import shared` 来使用.
 
+> 如果你看到错误提示说无法找到共用模块, 请运行应用程序.
+{:.tip}
+
 1. 启动你的 Xcode 应用程序, 并选择 **Open a project or file**.
-2. 找到你的项目, 例如 KotlinMultiplatformSandbox, 并选择 `iosApp` 文件夹. 点击 **Open**.
-3. 在 `iosApp/iosApp.swift` 中, 为你的应用程序更新入口点:
+2. 找到你的项目, 例如 **KotlinMultiplatformSandbox**, 并选择 `iosApp` 文件夹. 点击 **Open**.
+3. 在 `iosApp/iOSApp.swift` 中, 为你的应用程序更新入口点:
    
    ```swift
+   @main
    struct iOSApp: App {
        var body: some Scene {
            WindowGroup {
@@ -346,8 +362,8 @@ data class RocketLaunch (
     ```
 
    * `ViewModel` 声明为 `ContentView` 的扩展, 因为它们紧密相关联.
-   * [Combine 框架](https://developer.apple.com/documentation/combine) 会将视图模型 (ContentView.ViewModel)
-   和视图 (ContentView) 连接起来.
+   * [Combine 框架](https://developer.apple.com/documentation/combine) 会将视图模型 (`ContentView.ViewModel`)
+   与视图 (`ContentView`) 连接起来.
    * `ContentView.ViewModel` 声明为一个 `ObservableObject`.
    * 对 `text` 属性使用了 `@Published` 包装器.
    * `@ObservedObject` 属性包装器用来订阅(subscribe) 视图模型.
@@ -379,23 +395,25 @@ data class RocketLaunch (
    * `greeting()` 函数标记了 `@Throws(Exception::class)` 注解.
      因此任何异常, 只要是 `Exception` 类或其子类的实例, 都会被转换为 `NSError`, 因此你可以在 `completionHandler` 中处理这些异常.
    * 在 Swift 代码中调用 Kotlin `suspend` 函数时, completion handler 可能会在主线程之外的线程中调用 –
-     参见 [新内存管理器的迁移向导](https://github.com/JetBrains/kotlin/blob/master/kotlin-native/NEW_MM.md#new-memory-manager-migration-guide).
+     参见 Kotlin/Native 内存管理器中的 [iOS 集成](../native/native-ios-integration.html#completion-handlers).
      所以需要使用 `DispatchQueue.main.async` 来更新 `text` 属性.
 
-6. 从 Android Studio 运行 iOS 和 Android 应用程序, 确认你的应用程序的逻辑保持了同步:
+6. 在 Android Studio 中再次运行 **androidApp** 和 **iosApp** 配置, 确认你的应用程序的逻辑保持了同步:
 
-   <img src="/assets/docs/images/multiplatform-mobile/multiplatform-mobile-upgrade.png" alt="最终结果" width="500"/>
+   <img src="/assets/docs/images/multiplatform-mobile/create-first-app/multiplatform-mobile-upgrade.png" alt="最终结果" width="500"/>
 
 
 ## 下一步
 
-现在可以 [完成你的项目](multiplatform-mobile-wrap-up.html), 然后看看下一步学习什么.
+在本教程的最后部分, 你将完成你的项目, 然后看看下一步学习什么.
+
+**[进入下一部分](multiplatform-mobile-wrap-up.html)**
 
 ### 参考资料
 
 * 查看 [组合挂起函数](../coroutines/composing-suspending-functions.html) 的各种不同方式.
 * 学习 [与 Objective-C 框架和库的交互能力](../native/native-objc-interop.html).
-* 完成教程 [网络与数据存储](https://play.kotlinlang.org/hands-on/Networking%20and%20Data%20Storage%20with%20Kotlin%20Multiplatfrom%20Mobile/01_Introduction).
+* 完成教程 [网络与数据存储](multiplatform-mobile-ktor-sqldelight.html).
 
 ## 获取帮助
 

@@ -32,10 +32,10 @@ title: "示例程序"
       <td>Spring, React, ktor-client-js, Rsocket, kotlinx:kotlinx-serialization-json</td>
       <td>使用 Kotlin/JS, Spring, 和 RSocket 编写的协作 to-do list</td>
       <td>
-        <ul>
+        <list>
           <li>RSocket</li>
           <li>使用 Spring 和 React 开发的全栈 Web 应用程序</li>
-        </ul>
+        </list>
       </td>
       <td>✅</td>
       <td>跨平台全栈应用程序</td>
@@ -49,10 +49,10 @@ title: "示例程序"
       <td>React, Redux</td>
       <td>React Redux to-do list 示例项目的 Kotlin/JS 的实现(翻译) </td>
       <td>
-        <ul>
+        <list>
           <li>Kotlin 组件使用 RingUI</li>
           <li>状态管理使用 Redux</li>
-        </ul>
+        </list>
       </td>
       <td>✅</td>
       <td>前端 Web 应用程序</td>
@@ -66,11 +66,11 @@ title: "示例程序"
       <td>kotlin-react, kotlinx-serialization, kotlinx-coroutines, Ktor (client, server)</td>
       <td>包括用户生成的帖子和评论. 所有数据都使用 fakeJSON 和 JSON Placeholder 服务产生的模拟数据</td>
       <td>
-        <ul>
+        <list>
           <li>expect/actual 声明</li>
           <li>modular 架构</li>
           <li>npm 依赖项</li>
-        </ul>
+        </list>
       </td>
       <td>✅</td>
       <td>跨平台全栈应用程序</td>

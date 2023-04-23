@@ -13,7 +13,7 @@ title: "添加跨平台库依赖项"
 
 要在一个库中添加依赖项, 需要更新你的项目的 `shared` 目录中的 `build.gradle(.kts)` 文件.
 在 [`dependencies`](multiplatform-dsl-reference.html#dependencies) 代码段内,
-设置必要 [类型](../gradle.html#dependency-types) 的依赖项 (比如, `implementation`):
+设置必要 [类型](../gradle/gradle-configure-project.html#dependency-types) 的依赖项 (比如, `implementation`):
 
 <div class="multi-language-sample" data-lang="kotlin">
 <div class="sample" markdown="1" theme="idea" mode="kotlin" data-highlight-only>
@@ -51,7 +51,7 @@ kotlin {
 </div>
 </div>
 
-或者, 你也可以 [在最顶层设置依赖项](../gradle.html#set-dependencies-at-the-top-level).
+或者, 你也可以 [在最顶层设置依赖项](../gradle/gradle-configure-project.html#set-dependencies-at-the-top-level).
 
 ## 对 Kotlin 库的依赖项
 
@@ -62,16 +62,17 @@ kotlin {
 
 对于与平台相关的源代码集, 会使用针对这个平台的标准库, 同时, 对其他源代码集会添加共通的标准库.
 Kotlin Gradle plugin 会根据你的 Gradle 构建脚本的
-`kotlinOptions.jvmTarget` [编译器选项](../gradle.html#compiler-options) 设置, 选择适当的 JVM 标准库.
+`compilerOptions.jvmTarget` [编译器选项](../gradle/gradle-compiler-options.html) 设置,
+选择适当的 JVM 标准库.
 
-详情请查看 [如何改变默认设置](../gradle.html#dependency-on-the-standard-library).
+详情请参见 [如何改变默认设置](../gradle/gradle-configure-project.html#dependency-on-the-standard-library).
 
 ### 测试库
 
 跨平台的测试程序可以使用 [`kotlin.test` API](https://kotlinlang.org/api/latest/kotlin.test/).
 当你 [创建跨平台项目](multiplatform-library.html) 时, 对共通源代码集和平台相关的源代码集, 项目创建向导会自动添加测试库依赖项.
 
-如果创建项目时没有使用项目创建向导, 你也可以 [手动添加依赖项](../gradle.html#set-dependencies-on-test-libraries).
+如果创建项目时没有使用项目创建向导, 你也可以 [手动添加依赖项](../gradle/gradle-configure-project.html#set-dependencies-on-test-libraries).
 
 ## kotlinx 库
 

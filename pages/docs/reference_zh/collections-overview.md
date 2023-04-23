@@ -209,7 +209,7 @@ fun main() {
 但是, 它们之间存在一个重要的区别: 数组的大小是在初始化时固定的, 而且永远不能改变;
 而 list 没有预定的大小; list 的大小可以通过写操作来改变: 添加, 更新, 或删除元素.
 
-在 Kotlin 中, `List` 的默认实现是
+在 Kotlin 中, `MutableList` 的默认实现是
 [`ArrayList`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-array-list/index.html),
 你可以把它看作是一个可以改变大小的数组.
 
@@ -239,7 +239,7 @@ fun main() {
 [`MutableSet`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-set/index.html)
 继承自 `Set`, 并添加了继承自 `MutableCollection` 的写操作.
 
-`Set` 的默认实现是
+`MutableSet` 的默认实现是
 [`LinkedHashSet`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-linked-hash-set/index.html)
 – 它会保留元素插入的顺序.
 因此, 依赖于元素顺序的那些函数, 比如 `first()` 或 `last()`, 在这些 set 上会返回可预测的结果.
@@ -323,7 +323,7 @@ fun main() {
 ```
 </div>
 
-`Map` 默认实现是
+`MutableMap` 的默认实现是
 [`LinkedHashMap`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-linked-hash-map/index.html)
 – 它会在遍历 map 元素时使用元素插入时的顺序.
 与此相反, 另一个替代实现 –

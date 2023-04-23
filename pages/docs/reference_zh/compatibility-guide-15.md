@@ -7,6 +7,8 @@ title: "Kotlin 1.5 兼容性指南"
 
 # Kotlin 1.5 兼容性指南
 
+最终更新: {{ site.data.releases.latestDocDate }}
+
 _[Keeping the Language Modern](kotlin-evolution.md)_ and _[Comfortable Updates](kotlin-evolution.md)_ are among the fundamental
 principles in Kotlin Language Design. The former says that constructs which obstruct language evolution should be removed,
 and the latter says that this removal should be well-communicated beforehand to make code migration as smooth as possible.

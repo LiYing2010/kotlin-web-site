@@ -7,7 +7,7 @@ title: "Kotlin/Native 开发入门 - 使用 IntelliJ IDEA"
 
 # Kotlin/Native 开发入门 - 使用 IntelliJ IDEA
 
-本页面最终更新: 2022/04/19
+最终更新: {{ site.data.releases.latestDocDate }}
 
 本教程演示如何使用 IntelliJ IDEA 创建一个 Kotlin/Native 应用程序.
 
@@ -178,11 +178,6 @@ IntelliJ IDEA 会自动对项目执行增量构建(Incremental Build).
 
 ## 下一步做什么?
 
-创建过你的第一个应用程序之后, 你可以到 Kotlin 动手实验室(Hands-on lab), 完成比较长的 Kotlin/Native 教程. 
-
-对于 Kotlin/Native, 动手实验室目前包括以下教程:
-
-* [学习 Kotlin/Native 中的并发模型](https://play.kotlinlang.org/hands-on/Kotlin%20Native%20Concurrency/00_Introduction):
-  演示如何构建一个命令行应用程序, 在多线程环境中使用有状态的数据.
-* [使用 C Interop 和 libcurl 创建应用程序](native-app-with-c-and-libcurl.html):
-  演示如何创建一个 native HTTP 客户端, 以及如何与 C 代码库交互.
+创建过你的第一个应用程序之后, 你可以完成我们的 Kotlin/Native 长教程,
+[使用 C Interop 和 libcurl 创建应用程序](native-app-with-c-and-libcurl.html),
+这个教程将会演示如何创建一个 native HTTP 客户端, 以及如何与 C 代码库交互.

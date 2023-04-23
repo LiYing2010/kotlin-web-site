@@ -197,7 +197,7 @@ Kotlin 1.6.20 废弃了编译器选项 `-Xjvm-default` 的 `compatibility` 和 `
 * `N` 是你想要使用的线程数量. 这个值不要大于你的 CPU 核数; 否则, 线程间的上下文切换会导致并行编译不会发生更多效果 
 * `0` 对每个 CPU 核, 使用单独的线程
 
-[Gradle](gradle.html) 可以并行运行 task, 但如果从 Gradle 的观点来看, 一个项目(或一个项目的主要部分)只是一个很大的 task,
+[Gradle](gradle/gradle.html) 可以并行运行 task, 但如果从 Gradle 的观点来看, 一个项目(或一个项目的主要部分)只是一个很大的 task,
 那么这种类型的并行带来的帮助不大.
 如果你有非常大的单一模块, 请使用并行编译来提高编译速度.
 如果你的项目包含很多小模块, 并且由 Gradle 并行的构建, 添加另一层的并行, 可能由于上下文切换反而导致性能损失.
@@ -330,7 +330,7 @@ Kotlin/Native 1.6.20 继续更新了它的新组件. 我们进一步改善了 Ko
 
 为了避免破坏已有的代码, 我们引入一个 Gradle 属性, 让编译器将返回 `Unit` 的挂起函数, 翻译为 Swift 中的 `Void` 返回类型的 `async` 函数:
 
-```properties
+```none
 # gradle.properties
 kotlin.native.binary.unitSuspendFunctionObjCExport=proper
 ```
@@ -418,7 +418,7 @@ Uncaught Kotlin exception: kotlin.IllegalStateException:
 
 要使用 libbacktrace 输出更好的栈追踪信息, 请在 `gradle.properties` 中添加以下内容:
 
-```properties
+```none
 # gradle.properties
 kotlin.native.binary.sourceInfoType=libbacktrace
 ```
@@ -540,7 +540,7 @@ Kotlin 工具链会提供正确的默认依赖项, 比如 Kotlin/Native 标准�
 * 如果你已经进行了 [手工转换](multiplatform/multiplatform-share-on-platforms.html#share-code-on-similar-platforms),
   你可以从 `gradle.properties` 中删除废弃的选项:
   
-  ```properties
+  ```none
   # gradle.properties
   kotlin.mpp.enableGranularSourceSetsMetadata=true
   kotlin.native.enableDependencyPropagation=false // 或 'true', 取决于你以前的设置
@@ -549,9 +549,9 @@ Kotlin 工具链会提供正确的默认依赖项, 比如 Kotlin/Native 标准�
 * 对于 Kotlin 1.6.20, 我们建议使用 [Android Studio 2021.1.1](https://developer.android.com/studio) (Bumblebee) 或更高版本,
   以获得最好的开发体验.
 
-* 你可以也选择性禁用(opt-out)这个功能. 要禁用层级结构支持, 请在 ` gradle.properties` 中设置以下选项:
+* 你可以也选择性禁用(opt-out)这个功能. 要禁用层级结构支持, 请在 `gradle.properties` 中设置以下选项:
 
-  ```properties
+  ```none
   # gradle.properties
   kotlin.mpp.hierarchicalStructureSupport=false
   ```
@@ -619,9 +619,9 @@ kotlin {
 
 要对开发阶段二进制文件启用增量编译, 请向项目的 `gradle.properties` 文件添加以下内容:
 
-```properties
+```none
 # gradle.properties
-kotlin.incremental.js.ir=true // 默认为 false 
+kotlin.incremental.js.ir=true // 默认为 false
 ```
 
 在我们的测试项目中, 新模式让增量编译的速度提高了 30%. 但是, 这个模式下的完整构建变得更慢, 因为需要创建和生成缓存.
@@ -661,15 +661,15 @@ val a = run {
 
 编译项目为单个的 `.js` 文件, 现在可以通过以下 Gradle 属性来使用:
 
-```properties
+```none
 # gradle.properties
 kotlin.js.ir.output.granularity=whole-program // 默认值为 `per-module`
 ```
 
 在以前的版本中, 实验性的 per-module 模式 (可以通过 `-Xir-per-module=true` 选项启用)会在每个模块中调用 `main()` 函数.
-这种行为与通常的 `single .js` 模式不一致.
+这种行为与通常的单独 `.js` 模式不一致.
 从 1.6.20 开始, 对这两种情况, `main()` 函数都只会在 main 模块中调用. 如果你确实需要在模块装载时运行某些代码,
-你可以使用 top-local 属性, 并标注 `@EagerInitialization` 注解.
+你可以使用顶级属性(Top-Level Property), 并标注 `@EagerInitialization` 注解.
 参见 [默认对顶级属性(Top-Level Property)延迟初始化(Lazy initialization) (IR)](#lazy-initialization-of-top-level-properties-by-default-with-ir-compiler).
 
 ### Char 类优化
@@ -717,7 +717,7 @@ Kotlin 1.6.20 包含了一些功能, 改进你的代码的安全性:
 <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
 
 ```kotlin
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).configureEach {
+tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinCompile::class).configureEach {
     // $base 是源代码文件的基准路径
     kotlinOptions.freeCompilerArgs += "-Xklib-relative-path-base=$base"
 }
@@ -730,7 +730,7 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).configure
 <div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
 
 ```groovy
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinCompile).configureEach {
     kotlinOptions {
         // $base 是源代码文件的基准路径
         freeCompilerArgs += "-Xklib-relative-path-base=$base"
@@ -866,7 +866,7 @@ Kotlin 1.6.20 引入一个相同名称的 Gradle 属性, `kotlin.compiler.execut
 
 在 `gradle.properties` 中, 使用 Gradle 属性 `kotlin.compiler.execution.strategy`:
 
-```properties
+```none
 # gradle.properties
 kotlin.compiler.execution.strategy=out-of-process
 ```
@@ -880,7 +880,7 @@ kotlin.compiler.execution.strategy=out-of-process
 在 `build.gradle.kts` 构建脚本中, 使用 task 属性 `compilerExecutionStrategy`:
 
 ```kotlin
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilerExecutionStrategy
 
 // ...
@@ -903,7 +903,7 @@ tasks.withType<KotlinCompile>().configureEach {
   我们将会在未来的发布版中删除选项 `kapt.use.worker.api`.
 
 * 我们废弃了在 `gradle.properties` 中使用的 Gradle DSL 选项 `kotlin.experimental.coroutines` 和属性 `kotlin.coroutines`.
-  请直接使用 _挂起函数_, 或向你的 `build.gradle(.kts)` 文件 [添加 `kotlinx.coroutines` 依赖项](gradle.html#set-a-dependency-on-a-kotlinx-library).
+  请直接使用 _挂起函数_, 或向你的 `build.gradle(.kts)` 文件 [添加 `kotlinx.coroutines` 依赖项](gradle/gradle-configure-project.html#set-a-dependency-on-a-kotlinx-library).
 
   关于协程, 详情请参见 [协程指南](coroutines/coroutines-guide.html).
 
@@ -913,6 +913,6 @@ tasks.withType<KotlinCompile>().configureEach {
 在 Kotlin 1.6.20 中, 这个选项已被删除.
 
 根据项目不同, 在 Kotlin daemon 中的并行编译可能需要更多的内存.
-为了减少内存消耗, 请 [对 Kotlin daemon 增加 heap 大小](gradle.html#setting-kotlin-daemon-s-jvm-arguments).
+为了减少内存消耗, 请 [对 Kotlin daemon 增加 heap 大小](gradle/gradle-compilation-and-caches.html#setting-kotlin-daemon-s-jvm-arguments).
 
-详情请参见, 在 Kotlin Gradle plugin 中 [目前支持的编译器选项](gradle.html#compiler-options).
+详情请参见, 在 Kotlin Gradle plugin 中 [目前支持的编译器选项](gradle/gradle-compiler-options.html).

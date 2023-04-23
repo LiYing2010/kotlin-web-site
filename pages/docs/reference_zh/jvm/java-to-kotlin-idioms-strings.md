@@ -109,7 +109,7 @@ String invertedOddNumbers = numbers
         .filter(it -> it % 2 != 0)
         .map(it -> -it)
         .map(Object::toString)
-        .collect(Collectors.joining(", "));
+        .collect(Collectors.joining("; "));
 System.out.println(invertedOddNumbers);
 ```
 
@@ -127,13 +127,16 @@ fun main() {
     val numbers = listOf(1, 2, 3, 4, 5, 6)
     val invertedOddNumbers = numbers
         .filter { it % 2 != 0 }
-        .joinToString{ "${-it}" }
+        .joinToString(separator = ";") {"${-it}"}
     println(invertedOddNumbers)
 //sampleEnd
 }
 ```
 
 </div>
+
+> 在 Java 中, 如果想要在分隔符与后续元素之间插入空格, 你需要在分隔符中明确的加入空格.
+{:.note}
 
 详情请参见 [joinToString()](../collection-transformations.html#string-representation) 的使用方法.
 
@@ -184,17 +187,17 @@ fun getName(): String =
 ## 替换一个字符串的最首字符和最末字符
 
 在 Java 中, 你可以使用
-[replaceFirst()](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#replaceFirst(java.lang.String,java.lang.String)) 
-和 [replaceAll()](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#replaceAll(java.lang.String,java.lang.String))
+[replaceAll()](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#replaceAll(java.lang.String,java.lang.String))
 函数.
-在这里 `replaceAll()` 函数接受正规表达式 `##$`, 它定义一个以 `##` 结尾的字符串:
+在这里 `replaceAll()` 函数接受正规表达式 `^##` 与 `##$`,
+分别定义以 `##` 开始和以 `##` 结束的字符串:
 
 <div class="sample" markdown="1" mode="java" theme="idea" data-lang="java" data-highlight-only id="replace-characters-java">
 
 ```java
 // Java
 String input = "##place##holder##";
-String result = input.replaceFirst("##", "").replaceAll("##$", "");
+String result = input.replaceAll("^##|##$", "");
 System.out.println(result);
 ```
 
@@ -376,7 +379,7 @@ System.out.println(result);
 String result = """
     Kotlin
        Java
-    """.stripIndent();
+    """;
 System.out.println(result);
 ```
 
@@ -389,6 +392,7 @@ System.out.println(result);
 
 在 Kotlin 中, 你可以对引号放在新行的字符串进行格式化, 输出中不会存在额外的空行.
 每行的最左侧字符标识这一行的起始.
+与 Java 的区别是, Java 会自动删除缩进字符, 而在 Kotlin 中你需要明确的删除:
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.5" id="join-strings-kotlin">
 
@@ -409,6 +413,8 @@ fun main() {
 
 输出结果是:
 <img src="/assets/docs/images/kotlin-multiline-output.png" alt="Kotlin 的多行字符串输出" width="700"/>
+
+如果要输出额外的空行, 你需要在你的多行字符串中明确的添加这个空行.
 
 在 Kotlin 中, 你也可以使用 [trimMargin()](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/trim-margin.html) 函数
 修改缩进:

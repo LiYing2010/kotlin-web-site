@@ -191,14 +191,10 @@ Kotlin 包含很多组件(Kotlin/JVM, JS, Native, 各种库, 等等), 关于各�
 为了给你留下更多的代码迁移时间, 除最新的稳定版之外, 我们还
 [支持](compatibility-modes.html) 使用语言和 API 的前 3 个旧版本.
 
-在新版本的编译器中使用旧版本的 kotlin-stdlib 或 kotlin-reflect, 但不指定兼容性标记,
-这样的用法是不推荐的, 而且这种情况下编译器会报告
-[警告](compatibility-modes.html#binary-compatibility-warnings).
-
 活跃维护中的代码库可以尽快升级到 bug 修复后的版本, 而不必等待整个升级周期完成.
 目前, 这样的项目可以启用 `-progressive` 选项, 这样即使在增量发布的版本中, 也可以让这些 bug 修复有效.
 
-所有这些标记都可以在命令行中使用, 也可以在 [Gradle](gradle.html#compiler-options)
+所有这些标记都可以在命令行中使用, 也可以在 [Gradle](gradle/gradle-compiler-options.html)
 和 [Maven](maven.html#specifying-compiler-options) 中使用.
 
 ### 二进制格式的演化

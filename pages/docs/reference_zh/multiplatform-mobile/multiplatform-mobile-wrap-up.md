@@ -64,20 +64,21 @@ title: "完成你的项目"
    </tr>
    <tr>
    <td>
-     <ul>
+     <list>
         <li><a href="../multiplatform/multiplatform-run-tests.html">向你的 Kotlin Multiplatform 项目添加测试</a></li>
         <li><a href="multiplatform-mobile-publish-apps.html">将你的移动应用程序发布到 App Store</a></li>
         <li><a href="multiplatform-mobile-introduce-your-team.html">向你的开发团队介绍跨平台移动开发</a></li>
-     </ul>
+        <li><a href="https://github.com/terrakok/kmm-awesome">一些有用的工具和库</a></li>
+     </list>
    </td>
     <td>
-     <ul>
+     <list>
         <li><a href="multiplatform-mobile-understand-project-structure.html">Kotlin Multiplatform Mobile 项目结构</a></li>
         <li><a href="../native/native-objc-interop.html">与 Objective-C 框架和库交互</a></li>
         <li><a href="../multiplatform/multiplatform-add-dependencies.html">添加跨平台库依赖项</a></li>        
         <li><a href="multiplatform-mobile-android-dependencies.html">添加 Android 依赖项</a></li>
         <li><a href="multiplatform-mobile-ios-dependencies.html">添加 iOS 依赖项</a></li>
-     </ul>
+     </list>
    </td>
    </tr>
 </table>
@@ -89,20 +90,20 @@ title: "完成你的项目"
    </tr>
    <tr>
    <td>
-     <ul>
+     <list>
         <li><a href="multiplatform-mobile-integrate-in-existing-app.html">让你的 Android 应用程序跨平台运行</a></li>
-        <li><a href="https://play.kotlinlang.org/hands-on/Networking%20and%20Data%20Storage%20with%20Kotlin%20Multiplatfrom%20Mobile/">Kotlin Multiplatform 实际动手教程: 网络与数据存储</a></li>
+        <li><a href="multiplatform-mobile-ktor-sqldelight.html">使用 Ktor 和 SQLDelight 创建跨平台应用程序</a></li>
         <li><a href="../multiplatform/multiplatform-full-stack-app.html">使用 Kotlin Multiplatform 创建一个全栈 Web 应用程序 </a></li>
         <li><a href="multiplatform-mobile-samples.html">示例项目列表</a></li>
-     </ul>
+     </list>
    </td>
     <td>
-     <ul>
+     <list>
         <li><a href="https://kotlinlang.slack.com/archives/C3PQML5NU">加入 Kotlin Slack 的 #multiplatform 频道</a></li>
         <li><a href="https://stackoverflow.com/questions/tagged/kotlin-multiplatform">订阅 Stack Overflow 的 "kotlin-multiplatform" 标签</a></li>        
         <li><a href="https://www.youtube.com/playlist?list=PLlFc5cFwUnmy_oVc9YQzjasSNoAk4hk_C">订阅 Kotlin YouTube 频道</a></li>
         <li><a href="https://youtrack.jetbrains.com/newIssue?project=KT">向我们的问题追踪系统报告问题</a></li>
-     </ul>
+     </list>
    </td>
    </tr>
 </table>

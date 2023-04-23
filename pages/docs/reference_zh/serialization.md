@@ -62,7 +62,7 @@ _序列化(serialization)_ 是指将应用程序使用的数据转换为一种�
 * [HOCON](https://github.com/lightbend/config/blob/master/HOCON.md):
   [`kotlinx-serialization-hocon`](https://github.com/Kotlin/kotlinx.serialization/blob/master/formats/README.md#hocon) (只限于 JVM 平台)
 
-注意, 除 JSON 序列化(`kotlinx-serialization-core`)之外, 其他所有库都处于[实验状态](components-stability.html),
+注意, 除 JSON 序列化(`kotlinx-serialization-json`)之外, 其他所有库都处于[实验状态](components-stability.html),
 也就是说, 它们的 API 可能会发生变化, 不另行通知.
 
 此外还有社区维护的库, 支持更多序列化格式, 比如 [YAML](https://yaml.org/) 或 [Apache Avro](https://avro.apache.org/).

@@ -32,7 +32,7 @@ Kotlin 支持与 Objective-C 依赖项交互, 也支持 Swift 依赖项, 但要�
 
 ### 使用 CocoaPods
 
-1. 执行 [CocoaPods 集成的初始设置](../native/native-cocoapods.html#set-up-the-environment-to-work-with-cocoapods).
+1. 执行 [CocoaPods 集成的初始设置](../native/native-cocoapods.html#set-up-an-environment-to-work-with-cocoapods).
 2. 在你的项目的 `build.gradle.kts` (`build.gradle`) 文件中加入 `pod()` 函数调用, 添加 CocoaPods 仓库中的你想要使用的 Pod 库的依赖项.
 
     <div class="multi-language-sample" data-lang="kotlin">
@@ -73,7 +73,6 @@ Kotlin 支持与 Objective-C 依赖项交互, 也支持 Swift 依赖项, 但要�
     * [使用 CocoaPods 仓库](../native/native-cocoapods-libraries.html#from-the-cocoapods-repository)
     * [使用本地存储的库](../native/native-cocoapods-libraries.html#on-a-locally-stored-library)
     * [使用自定义的 Git 仓库](../native/native-cocoapods-libraries.html#from-a-custom-git-repository)
-    * [使用包文件(archive)](../native/native-cocoapods-libraries.html#from-a-zip-tar-or-jar-archive)
     * [使用自定义的 Podspec 仓库](../native/native-cocoapods-libraries.html#from-a-custom-podspec-repository)
     * [使用自定义的 cinterop 选项](../native/native-cocoapods-libraries.html#with-custom-cinterop-options)
     * [使用静态 Pod 库](../native/native-cocoapods-libraries.html#on-a-static-pod-library)
@@ -113,7 +112,7 @@ import cocoapods.AFNetworking.*
     * `package` 设置这些声明应该放置的包名称.
 
    比如:
-    ```properties
+    ```none
     headers = DateTools.h
     package = DateTools
     ```
@@ -163,7 +162,7 @@ import cocoapods.AFNetworking.*
                     DateTools {
                         // .def 文件路径
                         defFile("src/nativeInterop/cinterop/DateTools.def")
-                   
+
                         // 头文件查找目录 (类似于 -I<path> 编译器选项)
                         includeDirs("include/this/directory", "path/to/another/directory")
                     }
@@ -206,7 +205,8 @@ import DateTools.*
     * `package` – 这些声明应该放置的包名称.
 
    比如:
-    ```properties
+
+    ```none
     modules = MyFramework
     package = MyFramework
     ```
@@ -228,9 +228,9 @@ import DateTools.*
                     // .def 文件路径
                     defFile("src/nativeInterop/cinterop/DateTools.def")
 
-                   compilerOpts("-framework", "MyFramework", "-F/path/to/framework/")
-               }
-               val anotherInterop by cinterops.creating { /* ... */ }
+                    compilerOpts("-framework", "MyFramework", "-F/path/to/framework/")
+                }
+                val anotherInterop by cinterops.creating { /* ... */ }
             }
 
             binaries.all {
@@ -255,7 +255,7 @@ import DateTools.*
                     DateTools {
                         // .def 文件路径
                         defFile("src/nativeInterop/cinterop/MyFramework.def")
-                   
+
                         compilerOpts("-framework", "MyFramework", "-F/path/to/framework/")
                     }
                     anotherInterop { /* ... */ }
@@ -341,7 +341,7 @@ if (System.getenv("SDK_NAME")?.startsWith("iphoneos")) {
 这种方法也可以用于自定义的 [`cinterop` 库](../native/native-c-interop.html), 使得它们在共用源代码集中可以使用.
 要启用这个功能, 请在你的 `gradle.properties` 文件中添加 `kotlin.mpp.enableCInteropCommonization=true` 属性:
 
-```properties
+```none
 kotlin.mpp.enableCInteropCommonization=true
 ```
 

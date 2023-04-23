@@ -24,6 +24,24 @@ Kotlin 模块可以在 Swift/Objective-C 代码中使用, 只需要编译成一�
 我们提供了一个例子,
 请参见 [Kotlin Multiplatform Mobile 示例程序](https://github.com/Kotlin/kmm-basic-sample).
 
+### 隐藏 Kotlin 声明
+
+如果你不希望将 Kotlin 声明导出到 Objective-C 和 Swift, 请使用专门的注解:
+
+* `@HiddenFromObjC` 注解对 Objective-C 和 Swift 隐藏 Kotlin 声明.
+  这个注解会禁止一个函数或属性导出到 Objective-C, 让你的 Kotlin 代码对 Objective-C/Swift 更加友好.
+* `@ShouldRefineInSwift` 可以将一个 Kotlin 声明替换为 Swift 编写的一个封装(Wrapper).
+  这个注解会在生成的 Objective-C API 中, 将一个函数或属性标记为 `swift_private`.
+  这样的声明会带有 `__` 前缀, 使得它们在 Swift 中不可见.
+
+  你仍然可以在 Swift 代码中使用这些声明, 来创建 Swift 友好的 API, 但在 Xcode 的代码自动完成功能中, 不会显示这些声明.
+
+  关于如何在 Swift 中润色(Refine) Objective-C 声明,
+  详情请参见 [Apple 官方文档](https://developer.apple.com/documentation/swift/improving-objective-c-api-declarations-for-swift).
+
+> 使用这些注解需要 [使用者同意(Opt-in)](../opt-in-requirements.html).
+{:.note}
+
 ## 映射
 
 下表展示了 Kotlin 中的各种概念与 Swift/Objective-C 的对应关系.
@@ -68,8 +86,26 @@ Kotlin 类和接口导入 Objective-C 时会加上名称前缀.
 前缀由框架名称决定.
 
 Objective-C 不支持框架内的包. 因此如果同一个框架内的不同包下存在同名的 Kotlin 类, Kotlin 编译器会对类重命名.
-这个算法还未稳定, 在不同的 Kotlin 发布版中可能发生变化.
-作为替代手段, 你可以将框架内发生名称冲突的 Kotlin 类重命名.
+这个算法还未稳定, 在不同的 Kotlin 发布版中可能发生变化. 作为替代手段, 你可以将框架内发生名称冲突的 Kotlin 类重命名.
+
+如果要避免对 Kotlin 声明的重新命名, 请使用 `@ObjCName` 注解.
+这个注解会指示 Kotlin 编译器对类, 接口, 以及其他 Kotlin 元素使用自定义的 Objective-C 和 Swift 名称:
+
+```kotlin
+@ObjCName(swiftName = "MySwiftArray")
+class MyKotlinArray {
+    @ObjCName("index")
+    fun indexOf(@ObjCName("of") element: String): Int = TODO()
+}
+
+
+// ObjCName 注解的使用示例
+let array = MySwiftArray()
+let index = array.index(of: "element")
+```
+
+> 使用这个注解需要 [使用者同意(Opt-in)](../opt-in-requirements.html).
+{:.note}
 
 ### 初始化器(initializer)
 
@@ -113,7 +149,7 @@ MyLibraryUtilsKt.foo()
 [player moveTo:UP byInches:42]
 ```
 
-在 Kotlin 中应该这样调用:
+在 Kotlin 中, 应该这样调用:
 
 ```kotlin
 player.moveTo(LEFT, byMeters = 17)
@@ -123,6 +159,12 @@ player.moveTo(UP, byInches = 42)
 `kotlin.Any` 的方法 (`equals()`, `hashCode()` 和 `toString()`),
 在 Objective-C 中被映射为方法 `isEquals:`, `hash` 和 `description`,
 在 Swift 被映射为方法 `isEquals(_:)` 和属性 `hash`, `description`.
+
+你可以在 Swift 或 Objective-C 中指定一个更加符合使用习惯的名称, 而不是对 Kotlin 声明自动重命名.
+请使用 `@ObjCName` 注解, 指示 Kotlin 编译器对方法或参数使用自定义的 Objective-C 和 Swift 名称.
+
+> 使用这个注解需要 [使用者同意(Opt-in)](../opt-in-requirements.html).
+{:.note}
 
 ### 错误与异常
 
@@ -247,7 +289,7 @@ Swift/Objective-C 的集合也会以同样的方式映射为 Kotlin 的集合类
 ### Function 类型
 
 Kotlin 的函数类型对象 (比如 Lambda 表达式) 会被转换为 Swift 函数 或 Objective-C 代码段(block).
-但是在翻译函数和函数类型时, 对于参数类型和返回值类型的映射方法存在区别.
+但是, 在翻译函数和函数类型时, 对于参数类型和返回值类型的映射方法存在区别.
 对于函数类型, 基本类型映射为它们的装箱类.
 Kotlin 的 `Unit` 返回值类型在 Swift/Objective-C 中会被表达为对应的 `Unit` 单子.
 这个单子的值可以象其他任何 Kotlin `object` 一样, 通过相同的方式得到(参见上表中的单子).
@@ -337,10 +379,10 @@ let variOutAny : GenVarOut<BaseData> = variOut as! GenVarOut<BaseData>
 
 #### 类型约束
 
-在 Kotlin 中, 你可以对泛型类型指定上界(upper bound).
+在 Kotlin 中, 你可以对泛型类型指定上界(Upper Bound).
 Objective-C 也支持这种功能, 但不能用于更复杂的情况,
 而且在 Kotlin - Objective-C 交互中, 目前也不支持.
-例外是, 上界(upper bound)指定为非-null, 会使得 Objective-C 方法/属性变为非-null.
+例外是, 上界(Upper Bound)指定为非-null, 会使得 Objective-C 方法/属性变为非-null.
 
 #### 关闭泛型功能
 
@@ -348,7 +390,7 @@ Objective-C 也支持这种功能, 但不能用于更复杂的情况,
 
 ```kotlin
 binaries.framework {
-     freeCompilerArgs += "-Xno-objc-generics"
+    freeCompilerArgs += "-Xno-objc-generics"
 }
 ```
 
@@ -436,7 +478,7 @@ fun printSum(a: Int, b: Int) = println(a.toLong() + b)
 ```kotlin
 kotlin {
     targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
-        compilations.get("main").kotlinOptions.freeCompilerArgs += "-Xexport-kdoc"
+        compilations.get("main").compilerOptions.options.freeCompilerArgs.add("-Xexport-kdoc")
     }
 }
 ```
@@ -450,7 +492,7 @@ kotlin {
 ```groovy
 kotlin {
     targets.withType(org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget) {
-        compilations.get("main").kotlinOptions.freeCompilerArgs += "-Xexport-kdoc"
+        compilations.get("main").compilerOptions.options.freeCompilerArgs.add("-Xexport-kdoc")
     }
 }
 ```

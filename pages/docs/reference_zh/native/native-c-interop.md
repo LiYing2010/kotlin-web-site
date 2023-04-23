@@ -102,17 +102,36 @@ cinterop -def png.def -compiler-option -I/usr/local/include -o png
 
 #### 使用 glob 过滤头文件
 
-也可以使用 glob 过滤头文件. `.def` 文件内的 `headerFilter` 属性值会被看作一个空格分隔的 glob 列表.
-如果包含的头文件与任何一个 glob 匹配, 那么这个头文件中的声明就会被包含在绑定内容中.
+也可以使用 `.def` 文件内的过滤属性作为 glob 来过滤头文件. 
+这些属性值会被看作一个空格分隔的 glob 列表.
 
-glob 应用于 相对于恰当的包含路径元素的头文件路径, 比如, `time.h` 或 `curl/curl.h`.
-因此, 如果通常使用 `#include <SomeLibrary/Header.h>` 指令来包含某个库, 那么应该使用下面的代码来过滤头文件:
+* 要包含头文件中的声明, 请使用 `headerFilter` 属性.
+  如果包含的头文件与任何一个 glob 匹配, 那么头文件的声明就会被包含在绑定内容中.
 
-```c
-headerFilter = SomeLibrary/**
-```
+  glob 应用于相对于恰当的包含路径元素的头文件路径, 例如, `time.h` 或 `curl/curl.h`.
+  因此, 如果通常使用 `#include <SomeLibrary/Header.h>` 指令来包含某个库,
+  那么应该使用下面的过滤设置来过滤头文件:
 
-如果没有指定 `headerFilter`, 那么所有的头文件都会被引入.
+  ```none
+  headerFilter = SomeLibrary/**
+  ```
+
+  如果没有指定 `headerFilter`, 那么会包含所有的头文件.
+  但是, 我们鼓励使用 `headerFilter`, 并尽量精确的指定 glob. 这种情况下, 生成的库只包含必须的声明.
+  在你的开发环境中升级 Kotlin 或工具时, 可以避免很多问题的发生.
+
+* 要排除某个头文件, 请使用 `excludeFilter` 属性.
+
+  这样可以删除多余的或有问题的头文件, 并优化编译过程,
+  因为指定的头文件中的声明不会被包含在绑定内容中.
+
+  ```none
+  excludeFilter = SomeLibrary/time.h
+  ```
+
+> 如果同一个头文件由 `headerFilter` 指定为包含, 同时又由 `excludeFilter` 指定为排除, 那么后一个设定的优先级更高.
+> 指定的头文件不会被包含在绑定内容中.
+{:.note}
 
 #### 使用模块映射过滤头文件
 

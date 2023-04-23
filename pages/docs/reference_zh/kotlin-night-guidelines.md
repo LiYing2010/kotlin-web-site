@@ -2,52 +2,56 @@
 type: doc
 layout: reference
 category:
-title: "Kotlin Nights 指南"
+title: "Kotlin Night 指南"
 ---
 
-# Kotlin Nights 指南
+# Kotlin Night 指南
 
-Kotlin Night is a meetup that includes 3-4 talks on Kotlin or related technologies.
+最终更新: {{ site.data.releases.latestDocDate }}
 
-> For Kotlin Night brand assets, see [Kotlin brand assets documentation](kotlin-brand-assets.md#kotlin-night-brand-assets).
->
-{type="note"}
+Kotlin Night 是一种聚会, 包含 3 到 4 次关于 Kotlin 或相关技术的演讲.
 
-## Event guidelines
+> 关于 Kotlin Night 的品牌资产, 请参见 [Kotlin 品牌资产文档](kotlin-brand-assets.html#kotlin-night-brand-assets).
+{:.note}
 
-* Please use the [branding materials](kotlin-brand-assets.md#kotlin-night-brand-assets) we've provided. Having all events and materials in the same style will help keep the Kotlin Night experience consistent.
-* Kotlin Night should be a free event. A minimal fee can be charged to cover expenses, but it should remain a non-profit event.
-* The event should be announced publicly and open for all people to attend without any kind of discrimination.
-* If you publish the contents of the talks online after the event, they must be free and accessible to everyone, without any sign-up or registration procedures.
-* Recordings are optional but recommended, and they should also be made available. If you decide to record the talks, we suggest having a plan to ensure the quality is good.
-* The talks should primarily be about Kotlin and should not focus on marketing or sales.
-* The event can serve food and drinks optionally.
+## 活动指南
 
-## Event requirements
+* 请使用我们提供的 [品牌素材](kotlin-brand-assets.html#kotlin-night-brand-assets).
+  所有活动和素材使用相同的风格, 将会有助于让 Kotlin Night 的体验保持统一.
+* Kotlin Night 应该是免费的活动. 可以收取最低费用来应付必须的开支, 但应该是非营利的活动.
+* 活动应该公开宣布, 并且允许任何人参加, 没有任何歧视性的限制.
+* 如果你在活动之后将演讲内容发布到网上, 那么必须免费, 可供任何人访问, 而且不需要帐号注册.
+* 不要求录像, 但建议如此, 而且录像视频也应该可以供任何人访问. 如果你决定录下演讲的视频, 我们建议提前最好计划, 以确保视频质量.
+* 演讲内容应该主要是关于 Kotlin, 不应该集中于产品营销或推广.
+* 活动也可以提供食品和饮料.
 
-JetBrains is excited to support your Kotlin Night event. Because we want all events to provide the same high-quality experience, we need organizers to ensure that some basic requirements are met for the event to receive JetBrains support. As an organizer, you are responsible for the following aspects of the event:
+## 活动要求
 
-1. The location and everything required to host the event, including booking a comfortable venue. Please make sure that:
-    * All the participants are aware of the exact date, place, and starting time of the event, along with the event
-      schedule and program.
-    * There is enough space as well as food and beverages, if you provide them, for everyone.
-    * You have a plan with your speakers. This includes a schedule, topics, abstracts for the talks, and any necessary equipment for the presentations.
-2. Content and speakers
-    * Feel free to invite presenters from your local community, from neighboring countries, or even from all over the globe. You don't have to have any JetBrains representatives or speakers at your event. However, we are always happy to hear about more Kotlin Nights, so feel free to notify us.
-3. Announcements and promotion
-    * Announce your event at least three weeks before the date of a meetup.
-    * Include the schedule, topics, abstracts, and speaker bios in the announcement.
-    * Spread the word on social media.
-4. Providing event material to JetBrains after the event
-    * We would be glad to announce your event at [kotlinlang.org](https://kotlinlang.org/community/talks.html), and we would appreciate it if you provided slides and video materials for a follow-up posting.
+JetBrains 非常愿意支持你的 Kotlin Night 活动.
+由于我们希望所有的活动都能达到相同的高质量体验, 我们需要组织者满足一些基本的活动要求, 然后才能得到 JetBrains 的支持.
+作为组织者, 你需要对活动的以下方面负责:
 
-## JetBrains support
+1. 关于活动的举办场地以及其它需求, 包括预约一个舒适的场地. 请确保做到:
+    * 所有参加者都知道确切的活动日期, 地点, 开始时间, 以及活动的日程安排.
+    * 有足够的空间, 如果你提供食品和饮料的话, 要足够所有人食用.
+    * 要提前计划好演讲者. 包括日程, 演讲主题, 演讲内容摘要, 以及演示用的必要设备.
+2. 内容与演讲者
+    * 完全可以从你的当地社区, 从你的临近国家, 甚至可以从全世界任何地方, 邀请演讲者. 你不必邀请 JetBrains 公司的代表或演讲者出席你的活动.
+      但是, 我们很乐意听取关于 Kotlin Night 活动的信息, 因此请通知我们.
+3. 宣传和推广
+    * 在你的活动开始至少 3 周以前宣布.
+    * 要在公告中包含日程, 主题, 演讲内容摘要, 以及演讲者简介.
+    * 在社交媒体上扩散消息.
+4. 在活动之后, 将活动素材提供给 JetBrains 
+    * 我们很乐意在 [kotlinlang.org](https://kotlinlang.org/community/talks.html) 宣布你的活动,
+      如果你能够向我们提供演示文稿和视频素材, 用于后续报道, 我们会非常感谢.
 
-JetBrains provides support with:
+## JetBrains 支持
 
-* Access to Kotlin Night Branding, which includes the name and logos
-* Merchandise, such as stickers and t-shirts for speakers and small souvenirs for attendees
-* A listing for the event on the Kotlin Talks page
-* Help to reach out to speakers to take part in the event, if necessary
-* Help to find a location if possible (via contacts, etc.), as well as help to identify possible partnerships with
-  local businesses
+JetBrains 提供以下支持:
+
+* 使用 Kotlin Night Branding, 包括名称和 Logo
+* 向演讲者提供小商品, 例如贴纸和 T-恤, 以及向出席者提供小纪念品  
+* 在 Kotlin Talks 页面宣布活动列表 
+* 如果需要的话, 可以帮助联系演讲者参加你的活动 
+* 如果可能的话, 可以帮助寻找活动场地(通过我们的关系公司, 等等.), 还可以帮助在当地的商业公司中寻找可能的合作伙伴

@@ -42,6 +42,20 @@ Kotlin 和 Kotlin plugin 拥有各自不同的功能:
 
 <tr>
   <td>
+    <b> 2022.3 </b> <br/>
+    发布日期: 2022/11/30
+  </td>
+  <td>
+    <li> 支持 Kotlin 1.7.20 的功能特性 </li>
+    <li> 针对 Kotlin 的 IDE 性能改进 </li>
+    <br/>
+    详情请参见: 
+    <li> <a href="https://www.jetbrains.com/idea/whatsnew/2022-3/">IntelliJ IDEA 2022.3 的新功能</a> </li>
+  </td>
+</tr>
+
+<tr>
+  <td>
     <b> 2022.2 </b> <br/> 
     发布日期: 2022/07/26
   </td>

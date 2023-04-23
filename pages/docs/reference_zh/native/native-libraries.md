@@ -198,10 +198,13 @@ Kotlin/Native 库是 zip 文件, 包含预定义的目录结构, 如下:
 <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
 
 ```kotlin
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).configureEach {
-  // $base 是源代码文件的基准路径
-  kotlinOptions.freeCompilerArgs += "-Xklib-relative-path-base=$base"
-}
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
+// ...
+
+val compileKotlin = tasks.named<KotlinCompilationTask<*>>("compileKotlin")
+
+// $base 是源代码文件的基准路径
+compileKotlin.compilerOptions.freeCompilerArgs.add("-Xklib-relative-path-base=$base")
 ```
 
 </div>
@@ -211,13 +214,16 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).configure
 <div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
 
 ```groovy
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
-  kotlinOptions {
-    // $base 是源代码文件的基准路径
-    freeCompilerArgs += "-Xklib-relative-path-base=$base"
-  }
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
+// ...
+
+tasks.named('compileKotlin', KotlinCompilationTask) {
+    compilerOptions {
+        // $base 是源代码文件的基准路径
+        freeCompilerArgs.add("-Xklib-relative-path-base=$base")
+    }
 }
-``` 
+```
 
 </div>
 </div>

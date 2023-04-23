@@ -78,7 +78,7 @@ IDE 可以从草稿和工作簿自动运行代码. 要在你停止输入代码�
 * 以任意顺序添加你自己的类, 函数, 以及顶层声明.
 * 在 `main()` 的函数体之内编写可执行的部分.
 
-与通常的 Kotlin 项目一样, Playground 中的 `main` 函数可以有 `args` 参数, 也可以完全没有参数.
+与通常的 Kotlin 项目一样, Playground 中的 `main()` 函数可以有 `args` 参数, 也可以完全没有参数.
 要在执行时传递程序参数, 请在 **Program arguments** 栏写入这些参数.
 
 <img src="/assets/docs/images/run-code-snippets/playground-completion.png" alt="Playground: 代码自动完成" width="700"/>
@@ -89,7 +89,7 @@ Playground 会对代码高亮显示, 并为你输入的代码显示自动完成�
 
 Playground 提供几种方法来定制执行环境:
 * 多个 Kotlin 版本, 包括可用的 [未来版本的预览版](eap.html).
-* 用来运行代码的多个后端: JVM, JS (旧编译器或 [IR 编译器](js-ir-compiler.md), 或 Canvas), 或 JUnit.
+* 用来运行代码的多个后端: JVM, JS (旧编译器或 [IR 编译器](js/js-ir-compiler.html), 或 Canvas), 或 JUnit.
 
 <img src="/assets/docs/images/run-code-snippets/playground-env-setup.png" alt="Playground: 环境设置" width="700"/>
 

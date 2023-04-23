@@ -15,11 +15,13 @@ title: "教程 - 让你的 Android 应用程序在 iOS 上运行"
 它包含单个画面, 用来输入一个用户名和密码.
 认证信息验证并保存到一个内存数据库中.
 
-如果你不熟悉 Kotlin Multiplatform Mobile, 你可以先学习如何 [从头创建并配置一个跨平台移动应用程序](multiplatform-mobile-create-first-app.html).
+> 如果你不熟悉 Kotlin Multiplatform Mobile, 
+> 你可以先学习如何 [从头创建并配置一个跨平台移动应用程序](multiplatform-mobile-create-first-app.html).
+{:.tip}
 
 ## 准备开发环境
 
-1. 安装 Android Studio 4.2 或 Android Studio 2020.3.1 Canary 8 或更高版本, 以及 macOS 上的 [其他跨平台移动开发工具](multiplatform-mobile-setup.html).
+1. [安装所有需要的工具, 并更新到最新版本](multiplatform-mobile-setup.html).
 
    > 你需要一台运行 macOS 的 Mac 机器来完成本教程中的某些步骤, 包括编写 iOS 相关代码, 以及运行 iOS 应用程序.  
    > 这些步骤不能在其他操作系统上进行, 比如 Microsoft Windows. 这是由于 Apple 的要求.
@@ -31,8 +33,9 @@ title: "教程 - 让你的 Android 应用程序在 iOS 上运行"
    https://github.com/Kotlin/kmm-integration-sample
    ```
 
-   `master` 分支包含项目的初始状态 — 一个简单的 Android 应用程序.
-   要查看包含 iOS 应用程序和共用模块的最终状态, 请切换到 `final` 分支.
+   > `master` 分支包含项目的初始状态 — 一个简单的 Android 应用程序.
+   > 要查看包含 iOS 应用程序和共用模块的最终状态, 请切换到 `final` 分支.
+   {:.tip}
 
 3. 切换到 **Project** 视图.
 
@@ -45,13 +48,9 @@ title: "教程 - 让你的 Android 应用程序在 iOS 上运行"
 要让你的代码跨平台运行:
 
 1. [决定哪些代码需要跨平台运行](#decide-what-code-to-make-cross-platform).
-
 2. [为跨平台代码创建一个共用模块](#create-a-shared-module-for-cross-platform-code).
-
 3. [向你的 Android 应用程序添加对共用模块的依赖项](#add-a-dependency-on-the-shared-module-to-your-android-application).
-
 4. [让业务逻辑跨平台运行](#make-the-business-logic-cross-platform).
-
 5. [在 Android 上运行你的跨平台应用程序](#run-your-cross-platform-application-on-android).
 
 ### 决定哪些代码需要跨平台运行
@@ -74,13 +73,11 @@ Kotlin Multiplatform Mobile plugin 提供了一个专门的向导来创建这样
 之后你将会将这个模块连接到你的既有的 Android 应用程序和你未来的 iOS 应用程序.
 
 1. 在 Android Studio 中, 点击 **File** \| **New** \| **New Module**.
-
 2. 在模板列表中, 选择 **Kotlin Multiplatform Shared Module**, 输入模块名称 `shared`,
 并在 iOS 框架发布选项列表中选择 **Regular framework**.
 将共用模块连接到 iOS 应用程序需要这一步.
 
    ![Kotlin Multiplatform 共用模块]({{ url_for('asset', path='docs/images/multiplatform-mobile/integrate-in-existing-app/multiplatform-mobile-module-wizard.png') }})
-
 
 3. 点击 **Finish**.
 
@@ -103,7 +100,7 @@ Kotlin Multiplatform Mobile plugin 提供了一个专门的向导来创建这样
     }
     ```
 
-3. 在警告信息中点击 **Sync Now**, 同步 Gradle 文件.
+3. 在通知信息中点击 **Sync Now**, 同步 Gradle 文件.
 
    ![同步 Gradle 文件]({{ url_for('asset', path='docs/images/multiplatform-mobile/integrate-in-existing-app/gradle-sync.png') }})
 
@@ -113,10 +110,9 @@ Kotlin Multiplatform Mobile plugin 提供了一个专门的向导来创建这样
 
     ```kotlin
     override fun onCreate(savedInstanceState: Bundle?) {
-       super.onCreate(savedInstanceState)
+        super.onCreate(savedInstanceState)
 
-       Log.i("Login Activity", "Hello from shared module: " + (Greeting().greeting()))
-   
+        Log.i("Login Activity", "Hello from shared module: " + (Greeting().greeting()))
     }
     ```
 
@@ -176,8 +172,8 @@ Kotlin Multiplatform Mobile plugin 提供了一个专门的向导来创建这样
     private fun isEmailValid(email: String) = emailRegex.matches(email)
     
     companion object {
-       private val emailRegex = 
-           ("[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
+        private val emailRegex = 
+            ("[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
                 "\\@" +
                 "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
                 "(" +
@@ -234,7 +230,13 @@ val fakeUser = LoggedInUser(java.util.UUID.randomUUID().toString(), "Jane Doe")
     actual fun randomUUID(): String = NSUUID().UUIDString()
     ```
 
-对于 Android 和 iOS, Kotlin 将会使用不同的平台相关实现.
+5. 剩下的工作是, 在 `shared/src/commonMain` 目录的 `LoginDataSource.kt` 文件中明确的导入 `randomUUID`:
+
+   ```kotlin
+   import com.jetbrains.simplelogin.shared.randomUUID
+   ```
+
+   对于 Android 和 iOS, Kotlin 将会使用不同的平台相关实现.
 
 ### 在 Android 上运行你的跨平台应用程序
 
@@ -247,24 +249,19 @@ val fakeUser = LoggedInUser(java.util.UUID.randomUUID().toString(), "Jane Doe")
 当你的 Android 应用程序能够跨平台运行之后, 你可以创建一个 iOS 应用程序, 在这个 iOS 应用程序中重用共通的业务逻辑.
 
 1. [在 Xcode 中创建一个 iOS 项目](#create-an-ios-project-in-xcode).
-
 2. [将框架连接到你的 iOS 项目](#connect-the-framework-to-your-ios-project).
-
 3. [在 Swift 中使用共用模块](#use-the-shared-module-from-swift).
 
 ### 在 Xcode 中创建一个 iOS 项目
 
 1. 在 中 Xcode, 点击 **File** \| **New** \| **Project**.
-
 2. 为 iOS App 选择一个模板, 并点击 **Next**.
 
    <img src="/assets/docs/images/multiplatform-mobile/integrate-in-existing-app/ios-project-wizard-1.png" alt="iOS 项目模板" width="700"/>
 
-
 3. 在产品名称中输入 **simpleLoginIOS**, 并点击 **Next**.
 
    <img src="/assets/docs/images/multiplatform-mobile/integrate-in-existing-app/ios-project-wizard-2.png" alt="iOS 项目设置" width="700"/>
-
 
 4. 选择保存你的跨平台应用程序的目录, 比如, `kmm-integration-sample`.
 
@@ -327,7 +324,7 @@ val fakeUser = LoggedInUser(java.util.UUID.randomUUID().toString(), "Jane Doe")
 
 ### 在 Swift 中使用共用模块
 
-1. 在 Xcode 中, 打开 `ContentView.swift` 文件, 并导入 `shared` 模块.
+1. 在 Xcode 中, 打开 `ContentView.swift` 文件, 并导入 `shared` 模块:
 
    ```swift
    import shared
@@ -382,13 +379,13 @@ val fakeUser = LoggedInUser(java.util.UUID.randomUUID().toString(), "Jane Doe")
 
    class LoginDataValidator {
    //...
-      fun checkPassword(password: String): Result {
-          return when {
-              password.length < 5 -> Result.Error("Password must be >5 characters")
-              password.lowercase() == "password" -> Result.Error("Password shouldn't be \"password\"")
-              else -> Result.Success
-          }
-      }
+       fun checkPassword(password: String): Result {
+           return when {
+               password.length < 5 -> Result.Error("Password must be >5 characters")
+               password.lowercase() == "password" -> Result.Error("Password shouldn't be \"password\"")
+               else -> Result.Success
+           }
+       }
    //...
    }
    ```
@@ -399,7 +396,7 @@ val fakeUser = LoggedInUser(java.util.UUID.randomUUID().toString(), "Jane Doe")
     xcodeproj=iosApp/SimpleLoginIOS.xcodeproj
     ```
 
-3. 在警告中点击 **Sync Now**, 同步 Gradle 文件.
+3. 在通知信息中点击 **Sync Now**, 同步 Gradle 文件.
 
    ![同步 Gradle 文件]({{ url_for('asset', path='docs/images/multiplatform-mobile/integrate-in-existing-app/gradle-sync.png') }})
 
@@ -418,7 +415,7 @@ val fakeUser = LoggedInUser(java.util.UUID.randomUUID().toString(), "Jane Doe")
 你已经共用了你的应用程序的业务逻辑, 但你还可以共用你的应用程序的其他层.
 比如, `ViewModel` 类代码在
 [Android 应用程序](https://github.com/Kotlin/kmm-integration-sample/blob/final/app/src/main/java/com/jetbrains/simplelogin/androidapp/ui/login/LoginViewModel.kt)
-和 [iOS 应用程序](https://github.com/Kotlin/kmm-integration-sample/blob/final/iosApp/SimpleLoginIOS/ContentView.swift#L91)
+和 [iOS 应用程序](https://github.com/Kotlin/kmm-integration-sample/blob/final/iosApp/SimpleLoginIOS/ContentView.swift#L84)
 中几乎是相同的,
 因此如果你的移动应用程序使用相同的表现层, 你可以共用它.
 
@@ -429,7 +426,6 @@ val fakeUser = LoggedInUser(java.util.UUID.randomUUID().toString(), "Jane Doe")
 * [添加跨平台库的依赖项](../multiplatform/multiplatform-add-dependencies.html)
 * [添加 Android 依赖项](multiplatform-mobile-android-dependencies.html)
 * [添加 iOS 依赖项](multiplatform-mobile-ios-dependencies.html)
-* [学习并发](multiplatform-mobile-concurrency-overview.html)
 
 也可以学习以下社区资源:
 

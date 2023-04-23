@@ -377,5 +377,7 @@ IntelliJ IDEA 的 Kotlin 插件能够理解 `TODO()` 函数的意义, 并会在 
 
 ## 下一步做什么?
 
-* 使用 Kotlin 的编程风格来解决 [Advent of Code 谜题](advent-of-code.html)
-* 学习如何执行 [Java 与 Kotlin 中的常见字符串处理任务](jvm/java-to-kotlin-idioms-strings.html)
+* 使用 Kotlin 的编程风格来解决 [Advent of Code 谜题](advent-of-code.html).
+* 学习如何执行 [Java 与 Kotlin 中常见的字符串处理任务](jvm/java-to-kotlin-idioms-strings.html).
+* 学习如何执行 [Java 与 Kotlin 中常见的集合(Collection)处理任务](jvm/java-to-kotlin-collections-guide.html).
+* 学习如何 [在 Java 与 Kotlin 中处理可空性(Nullability)](jvm/java-to-kotlin-nullability-guide.html).

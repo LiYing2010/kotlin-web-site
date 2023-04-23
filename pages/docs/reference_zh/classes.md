@@ -140,7 +140,7 @@ class Person(val name: String) {
 ```
 
 初始化代码段中的代码实际上会成为主构造器的一部分.
-对主构造器的委托调用, 会作为次级构造器的第一条语句来执行,
+在访问次级构造器的第一条语句时, 会执行对主构造器的委托调用,
 因此所有初始化代码段中的代码, 以及属性初始化代码, 都会在次级构造器的函数体之前执行.
 
 即使类没有定义主构造器, 也会隐含地委托调用主构造器, 因此初始化代码段仍然会被执行:
@@ -183,8 +183,7 @@ class DontCreateMe private constructor() { /*...*/ }
 > ```kotlin
 > class Customer(val customerName: String = "")
 > ```
->
-{:.info}
+{:.note}
 
 ## 创建类的实例
 
@@ -197,11 +196,11 @@ val customer = Customer("Joe Smith")
 ```
 
 > Kotlin 没有 `new` 关键字.
-{:.info}
+{:.note}
 
 关于嵌套类, 内部类, 以及匿名内部类的实例创建过程, 请参见[嵌套类(Nested Class)](nested-classes.html).
 
-### 类成员
+## 类成员
 
 类中可以包含以下内容:
 

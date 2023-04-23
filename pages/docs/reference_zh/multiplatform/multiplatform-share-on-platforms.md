@@ -6,7 +6,7 @@ title: "在不同的平台之间共用代码"
 
 # 在不同的平台之间共用代码
 
-本页面最终更新: 2022/02/28
+最终更新: {{ site.data.releases.latestDocDate }}
 
 通过 Kotlin Multiplatform, 你可以使用 Kotlin 提供的以下机制共用代码:
 
@@ -26,8 +26,9 @@ title: "在不同的平台之间共用代码"
 
 ![所有平台上共用的代码]({{ url_for('asset', path='docs/images/multiplatform/flat-structure.png') }})
 
-平台相关的源代码集默认会依赖于共通源代码集.
-对默认源代码集, 比如 `jvmMain`, `macosX64Main` 等等, 不需要手动指定任何 `dependsOn` 关系.
+源代码集之间一些依赖关系会默认设置. 对于以下源代码集, 你不需要手动指定任何 `dependsOn` 关系:
+* 所有平台相关的源代码集会默认依赖于共通源代码集, 比如 `jvmMain`, `macosX64Main`, 等等.
+* 某个特定编译目标的 `main` 与 `test` 源代码集之间会默认依赖, 比如 `androidMain` 与 `androidTest`.
 
 如果在共用的代码中需要访问平台相关的 API, 可以使用 Kotlin 的 [预期声明与实际声明(expected and actual declaration)](multiplatform-connect-to-apis.html) 机制.
 
@@ -289,7 +290,7 @@ kotlin {
 这个方法也可以处理自定义的 [`cinterop` 库](../native/native-c-interop.html), 使得在共用的源代码集中可以使用这些库.
 要打开这个功能, 请添加 `kotlin.mpp.enableCInteropCommonization` 设置:
 
-```properties
+```none
 kotlin.mpp.enableCInteropCommonization=true
 ```
 

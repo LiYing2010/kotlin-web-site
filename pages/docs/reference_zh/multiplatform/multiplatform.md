@@ -11,13 +11,12 @@ title: "Kotlin Multiplatform"
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
-> 跨平台项目还在 [Alpha](/docs/reference_zh/components-stability.html) 状态.
-它的语言特性和工具, 在未来的 Kotlin 版本中都有可能发生变更.
->
+> Kotlin Multiplatform 还在 [Beta](/docs/reference_zh/components-stability.html) 状态.
+> 已经接近稳定, 但未来可能会需要一些迁移步骤. 我们会尽力减少你需要进行的修改工作.
 {:.note}
 
-支持跨平台程序开发是 Kotlin 的重要益处之一.
-它可以减少对 [不同的平台](multiplatform-dsl-reference.html#targets) 编写和维护重复代码所耗费的时间,
+Kotlin Multiplatform 技术的设计目的是为了简化跨平台项目的开发工作.
+它可以减少对 [不同的平台](#kotlin-multiplatform-use-cases) 编写和维护重复代码所耗费的时间,
 同时又保持了原生程序开发的灵活性和其他益处.
 
 ## Kotlin Multiplatform 使用场景
@@ -28,9 +27,9 @@ title: "Kotlin Multiplatform"
 通过 Kotlin Multiplatform Mobile, 你可以创建跨平台的移动应用程序,
 在 Android 和 iOS 平台上共用代码, 比如业务逻辑, 网络连接, 等等.
 
-请参见 [Kotlin Multiplatform Mobile 入门](https://kotlinlang.org/lp/mobile/) 文档,
-以及 [Kotlin Multiplatform 动手教程: 网络与数据存储](https://play.kotlinlang.org/hands-on/Networking%20and%20Data%20Storage%20with%20Kotlin%20Multiplatfrom%20Mobile/01_Introduction),
-在这个教程中你将创建一个运行于 Android 和 iOS 的应用程序, 其中包括对这两个平台共用代码的模块.
+请参见 [Kotlin Multiplatform Mobile 入门](../multiplatform-mobile/multiplatform-mobile-getting-started.html) 文档,
+以及 [使用 Ktor 和 SQLDelight 创建跨平台应用程序](../multiplatform-mobile/multiplatform-mobile-ktor-sqldelight.html) 教程,
+在这个教程中你将创建运行于 Android 和 iOS 的应用程序, 其中包括对这两个平台共用代码的模块.
 
 ### 全栈(Full-Stack) Web 应用程序
 
@@ -77,7 +76,6 @@ Kotlin Multiplatform 也可以帮助库的开发者. 你可以为 JVM, JS, 和 N
 
 * [在你的项目中使用的所有平台上共用代码](multiplatform-share-on-platforms.html#share-code-on-all-platforms).
 通过这种方式, 可以共用那些适用于所有平台的共通业务逻辑.
-
 * [在你的项目中使用的一部分(但不是所有)平台上共用代码](multiplatform-share-on-platforms.html#share-code-on-similar-platforms).
 如果你的代码能够在一部分类似的平台上共用, 可以使用这种方法:
 
@@ -88,8 +86,8 @@ Kotlin Multiplatform 也可以帮助库的开发者. 你可以为 JVM, JS, 和 N
 
 ## 入门学习
 
-* 如果你想要针对 JVM, JavaScript, 和其他平台创建应用程序或库, 请参见 [我们的示例和教程](multiplatform-share-on-platforms.html)
 * 如果你想要使用共通代码创建 iOS 和 Android 应用程序, 请参见 [Kotlin Multiplatform Mobile 入门](../multiplatform-mobile/multiplatform-mobile-getting-started.html)
+* 如果你想要针对其他平台创建应用程序或库, 请参见 [共用代码的原则与示例](multiplatform-share-on-platforms.html)
 
 > 如果你是 Kotlin 新手, 请先阅读 [Kotlin 入门](../getting-started.html)
 {:.tip}

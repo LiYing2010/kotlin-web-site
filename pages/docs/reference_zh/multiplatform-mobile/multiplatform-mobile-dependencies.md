@@ -91,44 +91,52 @@ title: "向你的项目添加依赖项"
        sourceSets {
            val commonMain by getting {
                dependencies {
-                   implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.3")
+                   implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
                }
            } 
        }
    }
    ```
 
-3. 在 `shared/src/commonMain/kotlin` 目录中, 创建新的 `NewYear.kt` 文件,
+3. 在通知信息中点击 **Sync Now**, 同步 Gradle 文件.
+
+   ![同步 Gradle 文件]({{ url_for('asset', path='docs/images/multiplatform-mobile/integrate-in-existing-app/gradle-sync.png') }})
+
+4. 在 `shared/src/commonMain/kotlin` 目录中, 创建新的 `NewYear.kt` 文件,
    在其中添加一个函数, 使用 `date-time` 库提供的日期运算, 计算从今天到新年的天数:
    
    ```kotlin
    import kotlinx.datetime.*
    
    fun daysUntilNewYear(): Int {
-       val today = Clock.System.todayAt(TimeZone.currentSystemDefault())
+       val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
        val closestNewYear = LocalDate(today.year + 1, 1, 1)
        return today.daysUntil(closestNewYear)
    }
    ```
 
-4. 在 `Greeting.kt` 文件中, 更新 `greeting()` 函数, 查看结果:
-    
+5. 在 `Greeting.kt` 文件中, 更新 `greeting()` 函数, 查看结果:
+
     ```kotlin
     class Greeting {
+        private val platform: Platform = getPlatform()
+
         fun greeting(): String {
-            return "Guess what it is! > ${Platform().platform.reversed()}!" +
-            "\nThere are only ${daysUntilNewYear()} left until New Year! 🎅🏼 "
+            return "Guess what it is! > ${platform.name.reversed()}!" +
+            "\nThere are only ${daysUntilNewYear()} days left until New Year! 🎆"
         }
     }
     ```
 
-5. 在 Android 和 iOS 平台运行更新后的应用程序, 查看结果:
+6. 要查看结果, 请在 Android Studio 中再次运行你的 **androidApp** 和 **iosApp** 配置:
 
 <img src="/assets/docs/images/multiplatform-mobile/create-first-app/first-multiplatform-project-3.png" alt="使用外部依赖项, 更新后的跨平台移动应用程序" width="500"/>
 
 ## 下一步
 
-[向你的项目添加更多的依赖项和更多的复杂逻辑](multiplatform-mobile-upgrade-app.html).
+在本教程的下一部分, 你将会向你的项目添加更多的依赖项和更多的复杂逻辑.
+
+**[进入下一部分](multiplatform-mobile-upgrade-app.html)**
 
 ### 参考资料
 

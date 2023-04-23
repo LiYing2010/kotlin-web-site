@@ -18,7 +18,7 @@ title: "Kotlin 入门"
 
 * 如果你已经熟悉一种或多种编程语言, 并且想要学习 Kotlin, 请从 [Kotlin 学习资料](learning-materials-overview.html) 开始阅读.
 * 如果 Kotlin 是你学习的第一种编程语言, 我们建议从书籍 [Atomic Kotlin](https://www.atomickotlin.com/atomickotlin/) 开始阅读,
-  或在 JetBrains 学院参加免费的 [Kotlin 基础课程](https://hyperskill.org/join/fromdocstoJetSalesStat?redirect=true&next=/tracks/18).
+  或在 JetBrains Academy 参加免费的 [Kotlin 基础课程](https://hyperskill.org/join/fromdocstoJetSalesStat?redirect=true&next=/tracks/18).
 
 ## 安装 Kotlin
 
@@ -56,7 +56,7 @@ Kotlin 包含在 [IntelliJ IDEA](https://www.jetbrains.com/idea/download/) 和 [
      一个成熟的框架群, 包含复杂的生态系统, 全世界数百万开发者广泛使用.
    <br/>
    <ul>
-      <li><a href="jvm/jvm-spring-boot-restful.html">使用 Spring Boot 创建 RESTful Web 服务</a></li>
+      <li><a href="jvm/jvm-get-started-spring-boot.html">使用 Spring Boot 创建 RESTful Web 服务</a></li>
       <li><a href="https://spring.io/guides/tutorials/spring-boot-kotlin/">使用 Spring Boot 和 Kotlin 创建 Web 应用程序</a></li>
       <li><a href="https://spring.io/guides/tutorials/spring-webflux-kotlin-rsocket/">使用 Spring Boot, Kotlin 协程(Coroutine) 和 RSocket</a></li>
    </ul>
@@ -74,7 +74,7 @@ Kotlin 包含在 [IntelliJ IDEA](https://www.jetbrains.com/idea/download/) 和 [
    </tr>
    </table>
 
-2. **在你的应用程序中使用 Kotlin 和第三方库**. 详情请参见 [向你的项目添加库和工具依赖项](gradle.html#configuring-dependencies).
+2. **在你的应用程序中使用 Kotlin 和第三方库**. 详情请参见 [向你的项目添加库和工具依赖项](gradle/gradle-configure-project.html#configure-dependencies).
    * [Kotlin 标准库](https://kotlinlang.org/api/latest/jvm/stdlib/) 提供了大量有用的功能, 比如 [集合(Collection)](collections-overview.html) 和 [协程(Coroutine)](coroutines/coroutines-guide.html).
    * 请参见 [用于 Kotlin 的第三方框架, 库, 和工具](https://blog.jetbrains.com/kotlin/2020/11/server-side-development-with-kotlin-frameworks-and-libraries/).
 
@@ -116,18 +116,18 @@ Kotlin 包含在 [IntelliJ IDEA](https://www.jetbrains.com/idea/download/) 和 [
    * 要从零开始创建, 可以 [使用 IntelliJ IDEA 的项目向导创建一个基本的跨平台移动应用程序](multiplatform-mobile/multiplatform-mobile-create-first-app.html).
    * 如果你有已经存在的 Android 应用程序, 并且希望将它变为跨平台应用程序, 请阅读教程 [让你的 Android 应用程序在 iOS 上运行](multiplatform-mobile/multiplatform-mobile-integrate-in-existing-app.html).
    * 如果你想看看比较真实的示例程序, 请 clone 并查看既有的项目,
-   比如 [实际动手(hands-on)教程](https://play.kotlinlang.org/hands-on/Networking%20and%20Data%20Storage%20with%20Kotlin%20Multiplatfrom%20Mobile/01_Introduction) 中的网络和数据存储项目,
-   或者 [示例项目](multiplatform-mobile/multiplatform-mobile-samples.html) 中的示例.
+   比如 [使用 Ktor 和 SQLDelight 创建跨平台应用程序](multiplatform-mobile/multiplatform-mobile-ktor-sqldelight.html) 教程
+   或者 [示例项目](multiplatform-mobile/multiplatform-mobile-samples.html) 中的网络和数据存储项目.
 
 3. **使用大量的跨平台库** 在共用模块中实现需要的业务逻辑. 详情请参见 [添加依赖项](multiplatform/multiplatform-add-dependencies.html).
 
-   | 库              |详情|
-----------------|-------|-------|
-   | Ktor           |  [文档](https://ktor.io/docs/client.html).|
-   | 序列化            |  [文档](serialization.html) 与 [示例](https://play.kotlinlang.org/hands-on/Networking%20and%20Data%20Storage%20with%20Kotlin%20Multiplatfrom%20Mobile/04_Creating_a_data_model).|
-   | 协程(Coroutine)  | [文档](multiplatform-mobile/multiplatform-mobile-concurrency-overview.html) 与 [示例](multiplatform-mobile/multiplatform-mobile-concurrency-and-coroutines.html).|
-   | 日期与时间          | [文档](https://github.com/Kotlin/kotlinx-datetime#readme).|
-   | SQLDelight     | 第三方库. [文档](https://cashapp.github.io/sqldelight/).|
+   | 库             | 详情  |
+   |----------------|-------|-----|
+   | Ktor           | [文档](https://ktor.io/docs/client.html)|
+   | 序列化          | [文档](serialization.html) 与 [示例](multiplatform-mobile/multiplatform-mobile-ktor-sqldelight.html#create-an-application-data-model) |
+   | 协程(Coroutine) | [文档](coroutines/coroutines-guide.html) 与 [示例](coroutines/coroutines-and-channels.html) |
+   | 日期与时间       | [文档](https://github.com/Kotlin/kotlinx-datetime#readme) |
+   | SQLDelight     | 第三方库. [文档](https://cashapp.github.io/sqldelight/) |
 
    > 在 [社区开发的库列表](https://libs.kmp.icerock.dev/) 中还能找到其他跨平台库.
    >
@@ -191,7 +191,7 @@ Kotlin 提供了一种功能, 可以将你的 Kotlin 代码, Kotlin 标准库, �
 
 3. **关于 Kotlin 前端 Web 开发的更多资料:**
 
-   * [新的 Kotlin/JS IR 编译器](js/js-ir-compiler.html) (目前的稳定性是 [Beta](components-stability.html) 阶段).
+   * [新的 Kotlin/JS IR 编译器](js/js-ir-compiler.html).
    * [使用 npm 中的依赖项](js/using-packages-from-npm.html).
    * [在 JavaScript 中使用 Kotlin 代码](js/js-to-kotlin-interop.html).
 

@@ -9,6 +9,10 @@ title: "Kotlin 1.7.0 版中的新功能"
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
+<microformat>
+   <p>IDE 从 IntelliJ IDEA 2021.2, 2021.3, 和 2022.1 开始支持 Kotlin 1.7.0.</p>
+</microformat>
+
 _[发布日期: 2022/06/09](releases.html#release-details)_
 
 Kotlin 1.7.0 已经发布了. 它公布了新的 Kotlin/JVM K2 编译器的 Alpha 版,
@@ -56,7 +60,7 @@ Kotlin 1.7.0 已经发布了. 它公布了新的 Kotlin/JVM K2 编译器的 Alph
 | Space         | 1.2 KLOC/s       | 2.8 KLOC/s         | ~ 2.3倍 |
 
 > 这里的 KLOC/s 性能数字表示编译器每秒处理的千行代码数.
-> {:.tip}
+{:.tip}
 
 你可以在你的 JVM 项目中查看性能提升, 并与旧编译器的结果进行比较.
 要启用 Kotlin K2 编译器, 请使用以下编译器选项:
@@ -65,7 +69,7 @@ Kotlin 1.7.0 已经发布了. 它公布了新的 Kotlin/JVM K2 编译器的 Alph
 -Xuse-k2
 ```
 
-此外, K2 编译器还 [包括很多 bug 修正](https://youtrack.jetbrains.com/issues/KT?q=tag:%20fixed-in-frontend-ir%20sort%20by:%20Priority,%20votes,%20updated).
+此外, K2 编译器还 [包括很多 bug 修正](https://youtrack.jetbrains.com/issues/KT?q=tag:%20FIR-preview-qa%20%23Resolved).
 请注意, 就连这个列表中的状态为 **State: Open** 的问题, 在 K2 中事实上也被修正了.
 
 Kotlin 的下一个发布版本将会改进 K2 编译器的稳定性, 并提供更多功能, 敬请期待!
@@ -138,7 +142,7 @@ fun main() {
 ```
 
 > 你可以在参数列表中的任何位置使用下划线操作符来推断一个类型参数.
-{:."note"}
+{:.note}
 
 ### 构建器推断的稳定版
 
@@ -236,7 +240,7 @@ Kotlin 1.7.0 添加了新的编译器选项, `-Xjdk-release`.
 请迁移到 JVM 编译目标 1.8 或更高版本.
 关于如何更新 JVM 编译目标版本, 请参见:
 
-* [Gradle](gradle.html#attributes-specific-to-jvm)
+* [Gradle](gradle/gradle-compiler-options.html#attributes-specific-to-jvm)
 * [Maven](maven.html#attributes-specific-to-jvm)
 * [命令行编译器](compiler-reference.html#jvm-target-version)
 
@@ -331,7 +335,7 @@ Kotlin 1.7.0 修正了这个问题, 现在这样的情况会导致程序终止.
 现在设置与 CocoaPods 的集成变得更加简单, 而且我们解决了 `cocoapods-generate` 不能在 Ruby 3 和更高版本上安装的问题.
 现在还支持最新的 Ruby 版本, 它在 Apple M1 上工作得更好.
 
-关于如何设置环境, 请参见 [设置与 CocoaPods 的集成](native/native-cocoapods.html#set-up-the-environment-to-work-with-cocoapods).
+关于如何设置环境, 请参见 [设置与 CocoaPods 的集成](native/native-cocoapods.html#set-up-an-environment-to-work-with-cocoapods).
 
 ### 修改 Kotlin/Native 编译器的下载 URL
 
@@ -340,7 +344,7 @@ Kotlin 1.7.0 修正了这个问题, 现在这样的情况会导致程序终止.
 
 默认的起始 URL 是 `https://download.jetbrains.com/kotlin/native/builds`, 如果要修改, 请使用以下 Gradle 属性:
 
-```properties
+```none
 kotlin.native.distribution.baseDownloadUrl=https://example.com
 ```
 
@@ -729,7 +733,7 @@ fun dateReplace() {
 
 要试用这个新方案, 请在你的 `gradle.properties` 中设置以下选项:
 
-```properties
+```none
 kotlin.incremental.useClasspathSnapshot=true
 ```
 
@@ -766,7 +770,7 @@ Kotlin 1.7.0 引入了构建报告功能, 帮助追踪编译器的性能.
 
 要启用构建报告, 请在 `gradle.properties` 中声明构建报告输出的保存位置:
 
-```properties
+```none
 kotlin.build.report.output=file
 ```
 
@@ -818,7 +822,7 @@ Gradle 7.0 为 Gradle plugin 作者引入了一个新功能
 
 目前, Kotlin Gradle plugin 只有 2 个变体:
 
-* `main` 用于 Gradle 版本 6.7.1–6.9.2
+* `main` 用于 Gradle 版本 6.7.1–6.9.3
 * `gradle70` 用于 Gradle 版本 7.0 以及更高版本
 
 在未来的 Kotlin 发布版中, 我们可能会添加更多变体.
@@ -876,7 +880,7 @@ plugins {
 * `AbstractCompile` 任务拥有 `sourceCompatibility` 和 `targetCompatibility` 输入.
   由于不再继承 `AbstractCompile` 任务, 在 Kotlin 用户的脚本中不再能够使用这些输入.
 * `SourceTask.stableSources` 输入不再可用, 你应该使用 `sources` 输入.
-  `setSource(...)`  方法仍然可以使用.
+  `setSource(...)` 方法仍然可以使用.
 * 对于编译所需要的库列表, 所有的编译任务现在使用 `libraries` 输入.
   `KotlinCompile` 任务仍然拥有已废弃的 Kotlin 属性 `classpath`, 将在未来的发布版本中删除.
 * 编译任务仍然实现 `PatternFilterable` 接口, 可以过滤 Kotlin 源代码.
@@ -906,7 +910,8 @@ plugins {
   ```
 
 * 在你的 `gradle.properties` 中, 将 `kapt.verbose` Gradle 属性设置为 `true` :
-  ```properties
+
+  ```none
   kapt.verbose=true
   ```
 
@@ -937,12 +942,12 @@ Kotlin 1.6.20 中引入了 [新的属性来定义 Kotlin 编译器的执行策�
 这个属性将在将来的发布版中删除. 如果要保留旧的行为, 请将系统属性替换为相同名称的 Gradle 属性.
 你在 `gradle.properties` 中可以这样做, 比如:
 
-```properties
+```none
 kotlin.compiler.execution.strategy=out-of-process
 ```
 
 你也可以使用编译任务属性 `compilerExecutionStrategy`.
-详情请参见 [Gradle 章节](gradle.html#defining-kotlin-compiler-execution-strategy).
+详情请参见 [Gradle 章节](gradle/gradle-compilation-and-caches.html#defining-kotlin-compiler-execution-strategy).
 
 ### 删除了废弃的选项, 方法, 和 plugin
 
@@ -994,7 +999,7 @@ sourceSets {
 
 我们删除了废弃的 Gradle DSL 选项 `kotlin.experimental.coroutines` 和 `gradle.properties` 中使用的属性 `kotlin.coroutines`.
 现在你可以直接使用 _[suspending 函数](coroutines/coroutines-basics.html#extract-function-refactoring)_
-或向你的构建脚本 [添加 `kotlinx.coroutines` 依赖项](gradle.html#set-a-dependency-on-a-kotlinx-library).
+或向你的构建脚本 [添加 `kotlinx.coroutines` 依赖项](gradle/gradle-configure-project.html#set-a-dependency-on-a-kotlinx-library).
 
 关于协程, 详情请参见 [协程指南](coroutines/coroutines-guide.html).
 

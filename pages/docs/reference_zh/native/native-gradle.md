@@ -88,7 +88,7 @@ Kotlin/Native 和 Multiplatform 的构建默认使用 Gradle.
     </div>
     </div>
 
-   你可以使用各种 [预定义编译目标](../multiplatform/multiplatform-dsl-reference.html#targets),
+   你可以使用各种 [预定义编译目标](native-target-support.html),
    比如 `macosX64`, `mingwX64`, `linuxX64`, `iosX64`,
    来定义对应的编译目标平台. 预定义的名称描述了编译你的代码所针对的目标平台.
    这些预定义编译目标接受一个可选的参数, 表示编译目标名称, 在这个例子中是 `native`.

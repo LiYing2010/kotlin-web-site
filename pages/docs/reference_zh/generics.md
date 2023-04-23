@@ -261,11 +261,11 @@ fun fill(dest: Array<in String>, value: String) { ... }
 
 对于这个问题, Kotlin 提供了一种语法, 称为 _星号投射(star-projection)_:
 
-- 假如类型定义为 `Foo<out T : TUpper>`, 其中 `T` 是一个协变的类型参数, 上界(upper bound)为 `TUpper`, `Foo<*>` 等价于 `Foo<out TUpper>`.
+- 假如类型定义为 `Foo<out T : TUpper>`, 其中 `T` 是一个协变的类型参数, 上界(Upper Bound)为 `TUpper`, `Foo<*>` 等价于 `Foo<out TUpper>`.
   它表示, 当 `T` 未知时, 你可以安全地从 `Foo<*>` 中 _读取_ `TUpper` 类型的值.
 - 假如类型定义为 `Foo<in T>`, 其中 `T` 是一个反向协变的类型参数, `Foo<*>` 等价于 `Foo<in Nothing>`.
   它表示, 当 `T` 未知时, 你不能安全地向 `Foo<*>` _写入_ 任何东西.
-- 假如类型定义为 `Foo<T : TUpper>`, 其中 `T` 是一个协变的类型参数, 上界(upper bound)为 `TUpper`,
+- 假如类型定义为 `Foo<T : TUpper>`, 其中 `T` 是一个协变的类型参数, 上界(Upper Bound)为 `TUpper`,
   对于读取值的场合, `Foo<*>` 等价于 `Foo<out TUpper>`, 对于写入值的场合, 等价于 `Foo<in Nothing>`.
 
 如果一个泛型类型中存在多个类型参数, 那么每个类型参数都可以单独的投射.
@@ -308,15 +308,15 @@ val l = singletonList(1)
 
 对于一个给定的类型参数, 所允许使用的类型, 可以通过 _泛型约束(generic constraint)_ 来限制.
 
-### 上界(Upper bound)
+### 上界(Upper Bound)
 
-最常见的约束是 _上界(upper bound)_, 对应于 Java 中的 _extends_ 关键字:
+最常见的约束是 _上界(Upper Bound)_, 对应于 Java 中的 _extends_ 关键字:
 
 ```kotlin
 fun <T : Comparable<T>> sort(list: List<T>) {  ... }
 ```
 
-冒号之后指定的类型就是类型参数的 _上界(upper bound)_:
+冒号之后指定的类型就是类型参数的 _上界(Upper Bound)_:
 表示对类型参数 `T`, 只允许使用 `Comparable<T>` 的子类型. 比如:
 
 ```kotlin

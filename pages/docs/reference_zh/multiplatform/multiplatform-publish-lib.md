@@ -8,8 +8,10 @@ title: "发布跨平台的库"
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
-你可以使用 [`maven-publish` Gradle plugin](https://docs.gradle.org/current/userguide/publishing_maven.html), 将跨平台的库发布到 Maven 仓库.
-只需要指定库的 group, version, 以及需要发布到的 [仓库](https://docs.gradle.org/current/userguide/publishing_maven.html#publishing_maven:repositories).
+你可以使用 [`maven-publish` Gradle plugin](https://docs.gradle.org/current/userguide/publishing_maven.html),
+将跨平台的库发布到本地的 Maven 仓库.
+只需要指定库的 group, version, 以及需要发布到的
+[仓库](https://docs.gradle.org/current/userguide/publishing_maven.html#publishing_maven:repositories).
 plugin 会自动创建发布任务.
 
 ```kotlin
@@ -30,7 +32,11 @@ publishing {
 }
 ```
 
-请学习 [教程 - 创建并发布跨平台的库](multiplatform-library.html) 来获取一些实际经验.
+要获取实际经验, 以及学习如何将跨平台的库发布到外部的 Maven Central 仓库,
+请参见教程 [创建并发布跨平台的库](multiplatform-library.html).
+
+> 你也可以将跨平台的库发布到 GitHub 仓库. 详情请参见 GitHub 文档 [GitHub packages](https://docs.github.com/en/packages).
+{:.tip}
 
 ## 发布的结构
 

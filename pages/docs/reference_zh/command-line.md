@@ -10,7 +10,7 @@ title: "Kotlin 命令行编译器"
 最终更新: {{ site.data.releases.latestDocDate }}
 
 每个 Kotlin 发布版都带有独立版本的编译器.
-你可以从 [GitHub Release 页面]({{ site.data.releases.latest.url }}) 下载最新版 (`kotlin-compiler-{{ site.data.releases.latest.version }}.zip`).
+你可以手动下载最新版本, 也可以使用包管理器下载.
 
 > 要使用 Kotlin, 安装命令行编译器并不是必须的. 编写 Kotlin 应用程序的通常方式是使用 IDE -
 > [IntelliJ IDEA](https://www.jetbrains.com/idea/) 或 [Android Studio](https://developer.android.com/studio).
@@ -22,8 +22,9 @@ title: "Kotlin 命令行编译器"
 
 ### 手工安装
 
-将独立版本的编译器解包到一个目录, 并将 `bin` 目录添加到系统的 path 设定中(可选).
-`bin` 目录包含在 Windows, macOS, 和 Linux 上编译和运行 Kotlin 所需要的脚本.
+1. 从 [GitHub Release 页面]({{ site.data.releases.latest.url }}) 下载最新版 (`kotlin-compiler-{{ site.data.releases.latest.version }}.zip`) .
+2. 将独立版本的编译器解包到一个目录, 并将 `bin` 目录添加到系统的 path 设定中(可选).
+   `bin` 目录包含在 Windows, macOS, 和 Linux 上编译和运行 Kotlin 所需要的脚本.
 
 ### SDKMAN!
 

@@ -8,6 +8,10 @@ title: "构建最终的原生二进制文件"
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
+> 本章描述的是构建原生二进制文件的旧方式. 请参见新的、实验性的 [Kotlin/Native DSL](multiplatform-native-artifacts.html),
+> 这种方式更加高效, 而且更加易用.
+{:.note}
+
 Kotlin/Native 编译目标默认会被编译输出为 `*.klib` 库文件,
 这种库文件可以被 Kotlin/Native 用作依赖项, 但它不能执行, 也不能被用作一个原生的库.
 
@@ -228,6 +232,10 @@ binaries.findExecutable('foo', DEBUG)
 
 ## 将依赖项目导出到二进制文件
 
+> 你也可以使用 [新的 Kotlin/Native DSL](multiplatform-native-artifacts.html#libraries-and-frameworks)
+> 来将依赖项目导出到二进制文件.
+{:.tip}
+
 编译 Objective-C 框架, 或原生库(共享库或静态库)时, 经常会出现一种需要, 不仅要打包当前项目的类文件, 同时还要打包它的依赖项的类.
 我们可以用 `export` 方法, 指定需要导出哪些依赖项到二进制文件中.
 
@@ -294,7 +302,7 @@ kotlin {
 比如, 你用 Kotlin 实现了几个模块, 并且想要在 Swift 中访问这些模块.
 在一个 Swift 应用程序中无法使用多个 Kotlin/Native 框架, 但你可以创建一个 umbrella 框架, 把所有这些模块都导出到这个框架.
 
-> 只能导出对应的源代码集的 [`api` 依赖项](../gradle.html#dependency-types).
+> 只能导出对应的源代码集的 [`api` 依赖项](../gradle/gradle-configure-project.html#dependency-types).
 {:.note}
 
 当你导出一个依赖项, 它的所有 API 到会包含框架 API 中.
@@ -348,6 +356,10 @@ binaries {
 
 ## 构建通用框架(Universal Framework)
 
+> 你也可以使用 [新的 Kotlin/Native DSL](multiplatform-native-artifacts.html#fat-frameworks)
+> 来构建通用(fat)框架.
+{:.tip}
+
 默认情况下, Kotlin/Native 编译产生的 Objective-C 框架只支持单个平台.
 但是, 使用 [`lipo` 工具程序](https://llvm.org/docs/CommandGuide/llvm-lipo.html),
 可以将多个框架合并为单个通用的(fat) 二进制文件.
@@ -365,9 +377,9 @@ import org.jetbrains.kotlin.gradle.tasks.FatFrameworkTask
 
 kotlin {
     // 创建并配置编译目标.
-    val ios32 = iosArm32("ios32")
-    val ios64 = iosArm64("ios64")
-    configure(listOf(ios32, ios64)) {
+    val ios32 = watchosArm32("watchos32")
+    val ios64 = watchosArm64("watchos64")
+    configure(listOf(watchos32, watchos64)) {
         binaries.framework {
             baseName = "my_framework"
         }
@@ -399,9 +411,9 @@ import org.jetbrains.kotlin.gradle.tasks.FatFrameworkTask
 kotlin {
     // 创建并配置编译目标.
     targets {
-        iosArm32("ios32")
-        iosArm64("ios64")
-        configure([ios32, ios64]) {
+        watchosArm32("watchos32")
+        watchosArm64("watchos64")
+        configure([watchos32, watchos64]) {
             binaries.framework {
                 baseName = "my_framework"
             }
@@ -427,6 +439,10 @@ kotlin {
 
 ## 构建 XCFramework
 
+> 你也可以使用 [新的 Kotlin/Native DSL](multiplatform-native-artifacts.html#xcframeworks)
+> 来构建 XCFrameworks.
+{:.tip}
+
 所有的 Kotlin 跨平台项目都可以使用 XCFramework 作为输出, 将用于所有目标平台和架构的逻辑收集在单个 bundle 之内.
 与 [单个通用的(fat)框架](#build-universal-frameworks) 不同,
 在将应用程序发布到 App Store 之前, 你不需要删除所有不必要的架构.
@@ -443,21 +459,10 @@ plugins {
 
 kotlin {
     val xcf = XCFramework()
+    val iosTargets = listOf(iosX64(), iosArm64(), iosSimulatorArm64())
 
-    ios {
-        binaries.framework {
-            baseName = "shared"
-            xcf.add(this)
-        }
-    }
-    watchos {
-        binaries.framework {
-            baseName = "shared"
-            xcf.add(this)
-        }
-    }
-    tvos {
-        binaries.framework {
+    iosTargets.forEach {
+        it.binaries.framework {
             baseName = "shared"
             xcf.add(this)
         }
@@ -480,22 +485,11 @@ plugins {
 
 kotlin {
     def xcf = new XCFrameworkConfig(project)
+    def iosTargets = [iosX64(), iosArm64(), iosSimulatorArm64()]
 
-    ios {
-        binaries.framework {
-            baseName = "shared"
-            xcf.add(it)
-        }
-    }
-    watchos {
-        binaries.framework {
-            baseName = "shared"
-            xcf.add(it)
-        }
-    }
-    tvos {
-        binaries.framework {
-            baseName = "shared"
+    iosTargets.forEach {
+        it.binaries.framework {
+            baseName = 'shared'
             xcf.add(it)
         }
     }
@@ -522,3 +516,26 @@ kotlin {
 > 如果 Kotlin 框架使用不同的 Kotlin 版本构建, 那么不推荐发布这些框架到公共仓库.
 > 这样做可能导致在最终使用者的项目中发生冲突.
 {:.warning}
+
+## 定制 Info.plist 文件
+
+输出框架时, Kotlin/Native 编译器会生成信息属性列表文件, `Info.plist`.
+你可以使用相应的二进制选项来定制其中的属性:
+
+| 属性                           | 二进制                     |
+|------------------------------|----------------------------|
+| `CFBundleIdentifier`         | `bundleId`                 |
+| `CFBundleShortVersionString` | `bundleShortVersionString` |
+| `CFBundleVersion`            | `bundleVersion`            |
+
+要启用这个功能, 请对指定的框架使用 `-Xbinary=$option=$value` 编译器选项,
+或通过 Gradle DSL 设置 `binaryOption("option", "value")`:
+
+```kotlin
+binaries {
+    framework {
+        binaryOption("bundleId", "com.example.app")
+        binaryOption("bundleVersion", "2")
+    }
+}
+```

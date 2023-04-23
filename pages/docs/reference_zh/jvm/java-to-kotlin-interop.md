@@ -2,10 +2,10 @@
 type: doc
 layout: reference
 category: "Java Interop"
-title: "在 Java 中调用 Kotlin"
+title: "在 Java 中调用 Kotlin 代码"
 ---
 
-# 在 Java 中调用 Kotlin
+# 在 Java 中调用 Kotlin 代码
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
@@ -384,6 +384,9 @@ public class BB8 implements Robot {
 `all` 和 `all-compatibility` 模式改变了库重新编译之后客户代码将要使用的  ABI 界面.
 因此, 客户代码可能会与以前的库版本不能兼容.
 这通常代表你需要适当的库版本号, 比如, 在语义化版本(SemVer)中增加主版本号.
+
+编译器使用 `@Deprecated` 注解来生成 `DefaultImpls` 的所有成员: 你不应该在 Java 代码中使用这些成员,
+因为编译器生成这些它们只是为了保持兼容性的目的.
 
 对于从 `all` 或 `all-compatibility` 模式下编译的 Kotlin 接口继承的情况,
 `DefaultImpls` 兼容性桩代码会使用标准的 JVM 运行期解析语义来调用接口的默认方法.

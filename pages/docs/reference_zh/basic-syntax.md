@@ -12,7 +12,7 @@ title: "基本语法"
 本章会通过示例程序向你介绍 Kotlin 的一系列基本语法元素.
 在各节的末尾, 你可以找到各个专题详细信息的页面链接.
 
-你也可以通过 JetBrains 学院的免费 [Kotlin 基础课程](https://hyperskill.org/join/fromdocstoJetSalesStat?redirect=true&next=/tracks/18) 学习 Kotlin 的全部基本知识.
+你也可以通过 JetBrains Academy 的免费 [Kotlin 基础课程](https://hyperskill.org/join/fromdocstoJetSalesStat?redirect=true&next=/tracks/18) 学习 Kotlin 的全部基本知识.
 
 ## 包的定义与导入
 

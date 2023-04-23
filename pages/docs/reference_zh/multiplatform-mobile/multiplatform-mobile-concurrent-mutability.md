@@ -8,6 +8,10 @@ title: "并发(Concurrency)中的可变性(Mutability)"
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
+> 本章描述的是旧的内存管理器的功能特性.
+> 从 Kotlin 1.7.20 开始会默认启用新的内存管理器, 详情请参见 [Kotlin/Native 内存管理](../native/native-memory-manager.html).
+{:.note}
+
 在 iOS 上进行开发时, [Kotlin/Native 的状态和并发模型](multiplatform-mobile-concurrency-overview.html)
 有 [2 条简单的规则](multiplatform-mobile-concurrency-overview.html#rules-for-state-sharing).
 
@@ -160,7 +164,7 @@ Atomic 允许在任何线程中改变状态.
 概念上来看, 大致如下: 一个线程向状态处理器(State Worker) push 一个冻结的状态, 处理器将它保存到可变的状态容器中.
 之后, 另一个线程调度工作, 读取这个状态.
 
-![线程隔离的状态]({{ url_for('asset', path='/docs/images/kmm/isolated-state.animated.gif') }})
+![线程隔离的状态]({{ url_for('asset', path='docs/images/multiplatform-mobile/isolated-state.animated.gif') }})
 
 线程隔离的状态实现起来略微复杂, 有库提供了这种功能.
 

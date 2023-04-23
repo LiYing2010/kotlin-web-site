@@ -151,13 +151,13 @@ binaries {
 除 macOS `X64` 之外, Kotlin/Native 还支持 macos `arm64` 和 iOS `arm32`, `arm64` 以及 `X64` 编译目标.
 你可以将 `macosX64` 替换为下表中对应的函数:
 
-| 编译目标平台/设备         | Gradle 函数 |
-|------------------------|-----------------|
-| macOS x86_64           | `macosX64()`    | 
-| macOS ARM 64           | `macosArm64()`  | 
-| iOS ARM 32             | `iosArm32()`    | 
-| iOS ARM 64             | `iosArm64()`    | 
-| iOS Simulator (x86_64) | `iosX64()`      |
+| 编译目标平台/设备         | Gradle 函数          |
+|------------------------|----------------------|
+| macOS x86_64           | `macosX64()`         | 
+| macOS ARM 64           | `macosArm64()`       | 
+| iOS ARM 64             | `iosArm64()`         | 
+| iOS Simulator (x86_64) | `iosX64()`           |
+| iOS Simulator (arm64)  | `iosSimulatorArm64`  |
 
 可以 [在 IDE 中](native-get-started.html) 运行 `linkNative` Gradle task 来构建库, 或执行以下控制台命令:
 

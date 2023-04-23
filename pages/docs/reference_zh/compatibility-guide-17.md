@@ -7,6 +7,8 @@ title: "Kotlin 1.7 兼容性指南"
 
 # Kotlin 1.7 兼容性指南
 
+最终更新: {{ site.data.releases.latestDocDate }}
+
 _[Keeping the Language Modern](kotlin-evolution.md)_ and _[Comfortable Updates](kotlin-evolution.md)_ are among the fundamental principles in
 Kotlin Language Design. The former says that constructs which obstruct language evolution should be removed, and the
 latter says that this removal should be well-communicated beforehand to make code migration as smooth as possible.
@@ -197,7 +199,7 @@ perspective
 >   `-Xuse-old-backend` can be used to temporarily revert to the pre-1.5.30 fix behavior
 > - \>= 1.7.20: fix the downcast behavior in other affected cases
 
-### Deprecate the `enabled` and the `compatibility` modes of the compiler option -Xjvm-default
+### Deprecate the `enable` and the `compatibility` modes of the compiler option -Xjvm-default
 
 > **Issue**: [KT-46329](https://youtrack.jetbrains.com/issue/KT-46329)
 >
@@ -205,11 +207,11 @@ perspective
 >
 > **Incompatible change type**: source
 >
-> **Short summary**: Kotlin 1.6.20 warns about the usage of `enabled` and `compatibility` modes of the `-Xjvm-default` compiler option
+> **Short summary**: Kotlin 1.6.20 warns about the usage of `enable` and `compatibility` modes of the `-Xjvm-default` compiler option
 >
 > **Deprecation cycle**:
 >
-> - 1.6.20: introduce a warning on the `enabled` and `compatibility` modes of the `-Xjvm-default` compiler option
+> - 1.6.20: introduce a warning on the `enable` and `compatibility` modes of the `-Xjvm-default` compiler option
 > - \>= 1.8.0: raise this warning to an error
 
 ### Prohibit calls to functions named `suspend` with a trailing lambda
@@ -423,7 +425,7 @@ perspective
 > **Incompatible change type**: source
 >
 > **Short summary**: deprecate the `kotlin.compiler.execution.strategy` system property used to choose a compiler execution strategy. 
-> `use the Gradle property `kotlin.compiler.execution.strategy` or the compile task property `compilerExecutionStrategy` instead
+> Use the Gradle property `kotlin.compiler.execution.strategy` or the compile task property `compilerExecutionStrategy` instead
 >
 > **Deprecation cycle:**
 >
@@ -439,7 +441,7 @@ perspective
 > **Incompatible change type**: source
 >
 > **Short summary**: remove the `kotlinOptions.jdkHome` compiler option used to include a custom JDK from the specified location 
-> into the classpath instead of the default `JAVA_HOME`. Use [Java toolchains](gradle.md#gradle-java-toolchains-support) instead
+> into the classpath instead of the default `JAVA_HOME`. Use [Java toolchains](gradle-configure-project.md#gradle-java-toolchains-support) instead
 >
 > **Deprecation cycle:**
 >

@@ -14,9 +14,6 @@ title: "安装 Kotlin EAP Plugin"
     <p><a href="eap.html#build-details">查看 Kotlin EAP 版</a></p>
 </microformat>
 
-> 由于 Android Studios plugin 还是 (`Beta`) 版, EAP plugin 只能在 [1.6.20+ 版本](https://developer.android.com/studio/preview) 安装.
-{:.warning}
-
 按照以下步骤来安装 [IntelliJ IDEA 和 Android Studio 的 Kotlin Plugin 预览版](eap.html#build-details).
 
 1. 选择 **Tools** \| **Kotlin** \| **Configure Kotlin Plugin Updates**. 

@@ -9,7 +9,7 @@ title: "参加 Kotlin EAP 项目"
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
-你可以参加 参加 Kotlin 早期预览(EAP) 项目, 试用 Kotlin 还未发布的最新功能.
+你可以参加 Kotlin 早期预览(EAP) 项目, 试用 Kotlin 还未发布的最新功能.
 
 在每个功能发布版 (_1.x_) 和增量发布版 (_1.x.y_)之前, 我们会发布少量的 Beta (_Beta_) 和 Release Candidate (_RC_) 版本. 
 
@@ -33,99 +33,30 @@ title: "参加 Kotlin EAP 项目"
 如果你已经安装了 EAP 版, 并希望在之前创建的项目中使用, 
 请参见 [如何针对 EAP 版配置你的构建](configure-build-for-eap.html). 
 
+## EAP 版能够如何帮助你更加高效的使用 Kotlin
+
+* **为使用稳定发布版做好准备**.
+
+  如果你在开发一个复杂的多模块项目, 参加 EAP 可以让你采用稳定发布版时的使用经验更加流畅.
+  越早更新到稳定发布版, 你就可以越快从它的性能改进和新的语言特性中获益.
+
+  巨大而且复杂的项目的迁移工作可能需要耗费一些时间, 不仅因为项目的规模, 而且因为 Kotlin 开发组可能还没有考虑到某些特定的使用场景.
+  通过参加 EAP, 并持续的测试 Kotlin 的新版本, 对于你的特定的使用场景, 你可以快速向我们提供反馈意见.
+  因此可以帮助我们尽可能多的追查问题, 并保证当稳定版正式发布时, 你能够安全的更新.
+  [请参见 Slack 通过测试 Android, Kotlin, 以及 Gradle 的发布前预览版本带来的益处](https://slack.engineering/shadow-jobs/).
+
+* **保证使用最新版本的库**.
+
+  如果你是库的开发者, 更新到新的 Kotlin 版本是极其重要的.
+  如果你使用旧的版本, 可能导致你的使用者无法在他们的项目中更新 Kotlin 版本.
+  如果使用 EAP 版本, 那么在稳定版发布时, 你可以几乎立即在你的库中支持最新的 Kotlin 版本,
+  因此可以让你的使用者更加满意, 也让你的库获得更多使用者.
+
+* **分享使用经验**.
+
+  如果你是一个 Kotlin 爱好者, 并且喜欢创作教育性的内容来向 Kotlin 生态系统做贡献,
+  那么试用 Kotlin EAP 中的新功能特性, 你就有机会第一个向 Kotlin 社区分享新的酷炫功能的使用经验.
+
 ## EAP 版本
 
-<table>
-    <tr>
-        <th>版本信息</th>
-        <th>主要内容</th>
-    </tr>
-    <tr>
-        <td><strong>1.7.20-RC</strong>
-            <p>发布日期: <strong>{{ site.data.releases.kotlinEapReleaseDate }}</strong></p>
-            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v1.7.20-RC" target="_blank">GitHub 发布页面</a></p>
-        </td>
-        <td>
-            <ul>
-                <li>
-                    K2 编译器:
-                        支持 <code>all-open</code>, <code>no-arg</code>, SAM-with-receiver, Lombok, Parcelize, AtomicFU, 以及 <code>jvm-abi-gen</code> 编译器插件
-                </li>
-                <li>
-                    语言:
-                        用于值范围(Range)的<code>..&lt;</code> (<code>rangeUntil</code>) 操作符(实验性功能), 值范围不包含上界值,
-                        废弃了变量类型推断为一个空交叉类型(Intersection Type)的情况,
-                        对潜在的空交叉类型(Intersection Type)报告警告,
-                        改进了源代码根目录中的脚本处理
-                </li>
-                <li>
-                    Kotlin/JVM:
-                        泛型内联类(实验性功能),
-                        对委托属性的更多优化
-                </li>
-                <li>
-                    Kotlin/Native:
-                        默认启用新的内存管理器 (废弃了冻结 API, 以及能够从 Swift 在非主线程上运行 Kotlin <code>suspend</code> 函数),
-                        对生成的框架可定制 bundle 标识符,
-                        改善了为 Objective-C 头文件生成的文档
-                </li>
-                <li>
-                    Kotlin/JS IR:
-                        改善了使用增量编译时初次构建的速度,
-                        更快的生成 klib
-                </li>
-                <li>
-                    Gradle:
-                        简化了 JVM 工具链的配置方法,
-                        修正了废弃的功能,
-                        以及保证与 Gradle 7.1 的兼容性
-                </li>
-            </ul>
-            <p>详情请参见 <a href ="whatsnew-eap.html">EAP 版中的新功能</a> 或 <a href="https://github.com/JetBrains/kotlin/releases/tag/v1.7.20-RC">更新日志</a>.</p>
-        </td>
-    </tr>
-    <tr>
-        <td><strong>1.7.20-Beta</strong>
-            <p>发布日期: <strong>2022/08/01</strong></p>
-            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v1.7.20-Beta" target="_blank">GitHub 发布页面</a></p>
-        </td>
-        <td>
-            <ul>
-                <li>
-                    K2 编译器:
-                        支持 <code>all-open</code>, <code>no-arg</code>, Parcelize, AtomicFU, 以及 <code>jvm-abi-gen</code> 编译器插件
-                </li>
-                <li>
-                    语言:
-                        用于值范围(Range)的<code>..&lt;</code> (<code>rangeUntil</code>) 操作符(实验性功能), 值范围不包含上界值,
-                        废弃了变量类型推断为一个空交叉类型(Intersection Type)的情况,
-                        对潜在的空交叉类型(Intersection Type)报告警告,
-                        改进了源代码根目录中的脚本处理
-                </li>
-                <li>
-                    Kotlin/JVM:
-                        泛型内联类(实验性功能),
-                        对委托属性的更多优化
-                </li>
-                <li>
-                    Kotlin/Native:
-                        默认启用新的内存管理器 (废弃了冻结 API, 以及能够从 Swift 在非主线程上运行 Kotlin <code>suspend</code> 函数),
-                        对生成的框架可定制 bundle 标识符,
-                        改善了为 Objective-C 头文件生成的文档
-                </li>
-                <li>
-                    Kotlin/JS IR:
-                        改善了使用增量编译时初次构建的速度,
-                        更快的生成 klib
-                </li>
-                <li>
-                    Gradle:
-                        简化了 JVM 工具链的配置方法,
-                        修正了废弃的功能,
-                        以及保证与 Gradle 7.1 的兼容性
-                </li>
-            </ul>
-            <p>详情请参见 <a href ="whatsnew-eap.html">EAP 版中的新功能</a> or <a href="https://github.com/JetBrains/kotlin/releases/tag/v1.7.20-Beta">更新日志</a>.</p>
-        </td>
-    </tr>
-</table>
+_目前没有预览版._

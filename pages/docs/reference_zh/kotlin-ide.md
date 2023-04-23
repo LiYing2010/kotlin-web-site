@@ -6,17 +6,18 @@ title: "支持 Kotlin 开发的 IDE"
 ---
 
 # 支持 Kotlin 开发的 IDE
-[//]: # (description: JetBrains provides Kotlin plugin support for IntelliJ IDEA and Android Studio.)
+[//]: # (description: JetBrains provides Kotlin plugin support for IntelliJ IDEA and Android Studio. Eclipse has the community supported Kotlin plugin.)
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
-JetBrains 为 2 种集成开发环境(IDE)提供了官方的 Kotlin plugin: [IntelliJ IDEA](#intellij-idea) 和 [Android Studio](#android-studio).
+JetBrains 为 2 种集成开发环境(IDE)提供了官方的 Kotlin plugin:
+[IntelliJ IDEA](#intellij-idea) 和 [Android Studio](#android-studio).
 
-其他 IDE 和源代码编辑器, 比如 Eclipse, Visual Studio Code, 和 Atom, 也有 Kotlin 社区支持的 plugin.
+其他 IDE 和源代码编辑器, 比如 [Eclipse](#eclipse), Visual Studio Code, 和 Atom, 也有 Kotlin 社区支持的 plugin.
 
 ## IntelliJ IDEA
 
-[IntelliJ IDEA](https://www.jetbrains.com/idea/download/) 是一个用于 JVM 语言的集成开发环境(IDE), 它致力于最大限度的提高开发者的生产效率.
+[IntelliJ IDEA](https://www.jetbrains.com/idea/download/) 是一个用于 JVM 语言的 IDE, 它致力于最大限度的提高开发者的生产效率.
 它替你你完成日常重复的任务, 提供智能代码完成, 静态代码分析, 以及重构等功能, 让你的精力集中到软件开发的美好的一面,
 不仅生产率高, 而且使用体验很愉快.
 
@@ -26,23 +27,37 @@ Kotlin plugin 包含在 IntelliJ IDEA 的每个发布版内.
 
 ## Android Studio
 
-[Android Studio](https://developer.android.com/studio) 是用于 Android App 开发的官方集成开发环境 (IDE), 它基于 [IntelliJ IDEA](https://www.jetbrains.com/idea/). 
+[Android Studio](https://developer.android.com/studio) 是用于 Android App 开发的官方 IDE,
+它基于 [IntelliJ IDEA](https://www.jetbrains.com/idea/). 
 在 IntelliJ 强大的代码编辑器和开发工具的基础之上, Android Studio 还提供了更多功能, 在 Android App 的开发过程中提高你的生产效率.
 
 Kotlin plugin 包含在 Android Studio 的每个发布版内.
 
 关于 Android Studio, 详情请参见 [官方文档](https://developer.android.com/studio/intro).
 
+## Eclipse
+
+[Eclipse](https://eclipseide.org/release/) 是一个用于各种编程语言开发应用程序的 IDE, 包括 Kotlin.
+Eclipse 也有 Kotlin plugin: 最初由 JetBrains 开发, 现在 Kotlin plugin 由 Kotlin 社区贡献者维护.
+
+你可以 [从 Eclipse Marketplace 手动安装 Kotlin plugin](https://marketplace.eclipse.org/content/kotlin-plugin-eclipse).
+
+Kotlin 开发组管理 Kotlin plugin for Eclipse 的开发和贡献过程.
+如果你想要贡献内容给这个 plugin, 请向
+[Kotlin for Eclipse 的 GitHub 代码仓库](https://github.com/Kotlin/kotlin-eclipse)
+提交 pull request.
+
 ## 与 Kotlin 语言各版本的兼容性
 
 对于 IntelliJ IDEA 和 Android Studio, Kotlin plugin 包含在 IDE 的各个发布版之内.
 新的 Kotlin 版本发布之后, 这些 IDE 会自动建议更新 Kotlin 到最新的版本.
-关于各个 IDE 支持的最新的语言版本, 请参见 [Kotlin 的发布版本](releases.html#ide-support)
+关于各个 IDE 支持的最新的语言版本, 请参见 [Kotlin 的发布版本](releases.html#ide-support).
 
 ## 对其他 IDE 的支持
 
 JetBrains 没有为其他 IDE 提供 Kotlin plugin.
-但是, 其他 IDE 和源代码编辑器, 比如 Eclipse, Visual Studio Code, 和 Atom, 也有它们自己的, 由 Kotlin 社区开发的 Kotlin plugin.
+但是, 其他 IDE 和源代码编辑器, 比如 Eclipse, Visual Studio Code, 和 Atom,
+也有它们自己的, 由 Kotlin 社区维护的 Kotlin plugin.
 
 你可以使用任何文本编辑器来编写 Kotlin 代码, 但没有 IDE 相关的功能: 代码格式化, 调试工具, 等等.
 要在文本编辑器中使用 Kotlin, 你可以从

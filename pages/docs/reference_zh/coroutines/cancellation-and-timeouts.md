@@ -396,9 +396,9 @@ Result is null
 如果你在代码段之内打开或获取某种资源, 而且需要在代码段之外关闭或释放这些资源, 那么请牢记这一点.
 
 比如, 我们使用 `Resource` 类模拟一个可关闭的资源, 它只是记录自己被创建了多少次,
-在创建时增加 `acquired` 计数器, 并在 `close` 函数中减少这个计数器.
-我们来运行很多个协程, 使用很短的超时设定, 在 `withTimeout` 代码段之内尝试获取这个资源,
-延迟一点时间, 然后在代码段之外释放这个资源.
+在创建时增加 `acquired` 计数器, 并在 `close` 函数中减少计数器.
+现在我们来创建很多个协程, 每个协程在 `withTimeout` 代码段的末尾创建一个 `Resource`,  然后在代码段之外释放资源.
+我们添加一个小的延迟, 因此更可能在 `withTimeout` 代码段结束之后发生超时, 导致资源泄露.
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
@@ -415,7 +415,7 @@ class Resource {
 
 fun main() {
     runBlocking {
-        repeat(100_000) { // 启动 100K 个协程
+        repeat(10_000) { // 启动 10K 个协程
             launch {
                 val resource = withTimeout(60) { // 超时设定为 60 ms
                     delay(50) // 延迟 50 ms
@@ -438,13 +438,15 @@ fun main() {
 
 <!--- CLEAR -->
 
-运行上面的代码, 你会看到输出结果并不总是 0, 具体情况依赖于你的机器的时间, 你可能需要调整示例代码中的超时设置, 才能看到非 0 的结果.
+运行上面的代码, 你会看到输出结果并不总是 0, 具体情况依赖于你的机器的时间.
+你可能需要调整示例代码中的超时设置, 才能看到非 0 的结果.
 
-> 请注意, 这个例子中, 从 100K 个协程中增加和减少 `acquired` 计数器是完全安全的,
-> 因为这个处理永远发生在同一个主线程内. 更多细节将在下一章, 关于协程上下文的部分中解释.
+> 请注意, 这个例子中, 从 100K 个协程中增加和减少 `acquired` 计数器, 完全是线程安全的,
+> 因为这个处理永远发生在 `runBlocking` 所使用的同一个线程内.
+> 更多细节将在下一章, 关于协程上下文的部分中解释.
 {:.note}
 
-这个问题的解决方法是, 可以将资源的引用保存到变量中, 而不是从 `withTimeout` 代码段直接返回资源.
+这个问题的解决方法是, 可以将资源的引用保存到一个变量中, 而不是从 `withTimeout` 代码段直接返回资源.
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
@@ -461,7 +463,7 @@ class Resource {
 fun main() {
 //sampleStart
     runBlocking {
-        repeat(100_000) { // 启动 100K 个协程
+        repeat(10_000) { // 启动 10K 个协程
             launch {
                 var resource: Resource? = null // 这时资源还没有获取
                 try {

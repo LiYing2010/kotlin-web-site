@@ -19,21 +19,26 @@ title: "Lombok 编译器插件"
 
 Lombok 编译器插件不能代替 [Lombok](https://projectlombok.org/), 但它能够在 Java/Kotlin 混合代码的模块中帮助 Lombok 正确工作.
 因此, 使用这个插件时, 你还是需要象通常那样配置 Lombok.
-详情请参见 [如何让插件使用 Lombok 的配置](#using-the-lombok-configuration-file).
+详情请参见 [如何配置 Lombok 编译器插件](#using-the-lombok-configuration-file).
 
 ## 支持的注解
 
 插件支持以下注解:
 * `@Getter`, `@Setter`
+* `@Builder`
 * `@NoArgsConstructor`, `@RequiredArgsConstructor`, 和 `@AllArgsConstructor`
 * `@Data`
 * `@With`
 * `@Value`
 
-我们还在继续改进这个插件. 关于当前的开发状态, 请参见 [Lombok 编译器插件的 README](https://github.com/JetBrains/kotlin/tree/master/plugins/lombok).
+我们还在继续改进这个插件. 关于当前的开发状态, 请参见
+[Lombok 编译器插件的 README 文件](https://github.com/JetBrains/kotlin/tree/master/plugins/lombok).
 
-目前, 我们不计划支持 `@Builder` 注解.
-但如果你 [在 YouTrack 投票支持 `@Builder`](https://youtrack.jetbrains.com/issue/KT-46959), 我们可以考虑增加这个功能.
+目前, 我们没有支持 `@SuperBuilder` 和 `@Tolerate` 注解的计划.
+但如果你在 YouTrack 投票支持
+[@SuperBuilder](https://youtrack.jetbrains.com/issue/KT-53563/Kotlin-Lombok-Support-SuperBuilder)
+和 [@Tolerate](https://youtrack.jetbrains.com/issue/KT-53564/Kotlin-Lombok-Support-Tolerate)
+, 我们可以考虑增加这个功能.
 
 > 如果在 Kotlin 代码中使用 Lombok 注解, Kotlin 编译器会忽略这些注解.
 {:.note}
@@ -72,9 +77,10 @@ plugins {
 
 ### 使用 Lombok 配置文件
 
-如果需要使用 [Lombok 配置文件](https://projectlombok.org/features/configuration) `lombok.config`,
-请将它的路径提供给插件. 路径应该是从模块目录开始的相对路径. 
-请向你的 `build.gradle(.kts)` 文件添加以下代码:
+如果要使用 [Lombok 配置文件](https://projectlombok.org/features/configuration) `lombok.config`,
+你需要设置文件路径, 让插件能够找到它.
+路径必须是从模块目录开始的相对路径. 
+例如, 向你的 `build.gradle(.kts)` 文件添加以下代码:
 
 <div class="multi-language-sample" data-lang="kotlin">
 <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
@@ -174,8 +180,26 @@ kapt {
 </plugin>    
 ```
 
-如果注解处理器 不依赖于 Lombok 生成的代码, Lombok 编译器插件可以和 [kapt](kapt.html) 一起正确工作.
+如果注解处理器不依赖于 Lombok 生成的代码, Lombok 编译器插件可以和 [kapt](kapt.html) 一起正确工作.
 
 请参见同时使用 kapt 和 Lombok 编译器插件的测试用示例项目:
 * 使用 [Gradle](https://github.com/JetBrains/kotlin/tree/master/libraries/tools/kotlin-gradle-plugin-integration-tests/src/test/resources/testProject/lombokProject/yeskapt).
 * 使用 [Maven](https://github.com/kotlin-hands-on/kotlin-lombok-examples/tree/master/kotlin_lombok_maven/yeskapt)
+
+## 命令行编译器
+
+在 Kotlin 编译器的二进制文件发布版中可以找到 Lombok 编译器插件的 JAR 文件.
+你可以使用 kotlinc 的 `Xplugin` 选项, 指定插件的 JAR 文件路径来加载这个插件:
+
+```bash
+-Xplugin=$KOTLIN_HOME/lib/lombok-compiler-plugin.jar
+```
+
+如果你想要使用 `lombok.config` 文件, 请将以下代码中的 `<PATH_TO_CONFIG_FILE>` 替换为你的 `lombok.config` 文件的路径:
+
+```bash
+# 插件选项的格式是: "-P plugin:<plugin id>:<key>=<value>". 
+# 选项可以重复.
+
+-P plugin:org.jetbrains.kotlin.lombok:config=<PATH_TO_CONFIG_FILE>
+```

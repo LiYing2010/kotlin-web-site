@@ -36,7 +36,7 @@ Kotlin 1.5.20 在 JVM 9+ 以上的目标平台, 将字符串拼接编译为 [动
 要切换回以前版本中使用的 [`StringBuilder.append()`](https://docs.oracle.com/javase/9/docs/api/java/lang/StringBuilder.html#append-java.lang.String-)
 拼接模式, 请添加编译器选项 `-Xstring-concat=inline`.
 
-关于如何添加编译器选项, 请参见 [Gradle](gradle.html#compiler-options), [Maven](maven.html#specifying-compiler-options), 和 [命令行编译器](compiler-reference.html#compiler-options) 文档.
+关于如何添加编译器选项, 请参见 [Gradle](gradle/gradle-compiler-options.html), [Maven](maven.html#specifying-compiler-options), 和 [命令行编译器](compiler-reference.html#compiler-options) 文档.
 
 ### 支持 JSpecify 的可否为 null 注解
 
@@ -221,7 +221,7 @@ Kotlin 1.5.20 增加了以下功能, 改进 Gradle 的使用体验:
 
 要启用这个功能, 请在你的 `gradle.properties` 文件中添加以下属性:
 
-```properties
+```none
 # 正数值会启用缓存功能
 # 请在这里指定与使用 kapt 的模块数相同的数字
 kapt.classloaders.cache.size=5

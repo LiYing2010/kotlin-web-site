@@ -9,12 +9,13 @@ title: "Kotlin Multiplatform Mobile 入门"
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
-> Kotlin Multiplatform Mobile 目前是 [Alpha 版](../components-stability.html). 在未来的 Kotlin 版本中, 语言特性和工具都可能发生变化.
+> Kotlin Multiplatform Mobile 目前是 [Beta 版](../components-stability.html).
+> 已经接近稳定, 但未来可能会需要一些迁移步骤.
 > 
-> * 关于在即将发布的 Beta 中进行的变更, 请参见最新的
->   [Kotlin Multiplatform Mobile Beta 版开发路线图](https://blog.jetbrains.com/kotlin/2022/05/kotlin-multiplatform-mobile-beta-roadmap-update/).
+> * 关于 Kotlin Multiplatform Mobile 技术的当前状态与未来的开发计划,
+>   请参见 Blog [Kotlin Multiplatform Mobile Beta 版](https://blog.jetbrains.com/kotlin/2022/10/kmm-beta).
 > * 也可以参见
->   [各公司](https://kotlinlang.org/lp/mobile/case-studies/)
+>   [各公司](https://kotlinlang.org/lp/mobile/case-studies)
 >   如何使用 Kotlin 进行跨平台应用程序开发.
 {:.note}
 
@@ -22,7 +23,7 @@ Kotlin Multiplatform Mobile (KMM) 是一组 SDK, 用于简化跨平台移动应�
 你可以在 iOS 和 Android 应用程序之间共用共通的代码, 只在需要的时候编写平台相关的代码.
 比如, 实现原生的 UI, 或者使用平台相关的 API.
 
-> 也可以观看这个 [介绍视频](https://www.youtube.com/watch?v=GcqFhoUuNNI),
+> 也可以观看这个 [介绍视频](https://www.youtube.com/watch?v=mdN6P6RI__k),
 > 这个视频概要介绍 Kotlin Multiplatform Mobile 是什么, 以及在你的项目中如何使用.
 {:.tip}
 
@@ -60,7 +61,9 @@ Kotlin Multiplatform Mobile (KMM) 是一组 SDK, 用于简化跨平台移动应�
 
 ## 下一步
 
-要进行 Kotlin Multiplatform Mobile 开发, 请从 [设置开发环境](multiplatform-mobile-setup.html) 开始.
+要进行 Kotlin Multiplatform Mobile 开发, 请从设置开发环境开始.
+
+**[进入下一部分](multiplatform-mobile-setup.html)**
 
 ### 参见
 

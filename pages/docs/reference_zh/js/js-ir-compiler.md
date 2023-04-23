@@ -8,11 +8,6 @@ title: "使用 IR 编译器"
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
-> Kotlin/JS IR 编译器目前的稳定级别是 _[Beta](/docs/reference_zh/components-stability.html)_.
-> 它已经基本稳定, 但未来可能会需要手动进行代码迁移.
-> 我们会尽力减少开发者进行的代码变更.
-{:.warning}
-
 Kotlin/JS IR 编译器后端是 Kotlin/JS 的主要创新方向, 并为以后的技术发展探索道路.
 
 Kotlin/JS IR 编译器后端不是从 Kotlin 源代码直接生成 JavaScript 代码, 而是使用一种新方案.
@@ -67,10 +62,11 @@ JS IR 编译器提供了 _对开发阶段二进制文件的增量编译模式_ ,
 在这种模式下, 编译器会在模型层级缓存 Gradle task `compileDevelopmentExecutableKotlinJs` 的结果.
 在后续的编译中, 对未修改的源代码文件使用缓存的编译结果, 可以使得编译更快完成, 尤其是在对代码进行少量修改的情况.
 
-要对开发阶段二进制文件启用增量编译, 请向项目的 `gradle.properties` 或 `local.properties` 文件添加以下设置:
+增量编译是默认启用的.
+如果要对开发阶段二进制文件禁用增量编译, 请向项目的 `gradle.properties` 或 `local.properties` 文件添加以下设置:
 
-```properties
-kotlin.incremental.js.ir=true // 默认为 false
+```none
+kotlin.incremental.js.ir=false // 默认为 true
 ```
 
 > 在增量编译模式中, 完整编译通常会变得更慢, 因为需要创建和生成缓存.
@@ -81,7 +77,7 @@ kotlin.incremental.js.ir=true // 默认为 false
 作为编译结果, JS IR 编译器对项目的每个模块输出单独的 `.js` 文件.
 你也可以选择将整个项目编译为单个 `.js` 文件, 方法是向 `gradle.properties` 添加以下设置:
 
-```properties
+```none
 kotlin.js.ir.output.granularity=whole-program // 默认为 'per-module'
 ```
 
@@ -111,11 +107,13 @@ Kotlin/JS IR 编译器提供了一个在默认的编译器后端中没有的新�
 
 ```kotlin
 kotlin {
-   js(IR) {
-       compilations.all {
-           compileKotlinTask.kotlinOptions.freeCompilerArgs += listOf("-Xerror-tolerance-policy=SYNTAX")
-       }
-   }
+    js(IR) {
+        compilations.all {
+            compileTaskProvider.configure {
+                compilerOptions.freeCompilerArgs.add("-Xerror-tolerance-policy=SYNTAX")
+            }
+        }
+    }
 }
 ```
 
@@ -128,13 +126,15 @@ Kotlin/JS IR 编译器会使用它的内部信息 关于 你的 Kotlin 类和函
 会自动应用这样的极简化处理, 并默认启用.
 要关闭对成员名称的极简化处理, 请使用 `-Xir-minimized-member-names` 编译器选项:
 
-```
+```kotlin
 kotlin {
-   js(IR) {
-       compilations.all {
-           compileKotlinTask.kotlinOptions.freeCompilerArgs += listOf("-Xir-minimized-member-names=false")
-       }
-   }
+    js(IR) {
+        compilations.all {
+            compileTaskProvider.configure {
+                compilerOptions.freeCompilerArgs.add("-Xir-minimized-member-names=false")
+            }
+        }
+    }
 }
 ```
 

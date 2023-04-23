@@ -7,7 +7,7 @@ title: "教程 - 使用 IntelliJ IDEA 调试 Kotlin 数据流(Flow)"
 
 # 教程 - 使用 IntelliJ IDEA 调试 Kotlin 数据流(Flow)
 
-最终更新: {{ site.data.releases.latestCoroutinesDocDate }}
+最终更新: {{ site.data.releases.latestDocDate }}
 
 本教程演示如何创建 Kotlin 数据流(Flow), 并使用 IntelliJ IDEA 调试它.
 
@@ -128,6 +128,19 @@ title: "教程 - 使用 IntelliJ IDEA 调试 Kotlin 数据流(Flow)"
     现在数据流发射第 2 个值.
 
     ![调试协程]({{ url_for('asset', path='docs/images/coroutines/flow-debug-2.png') }})
+
+### 被优化的变量
+
+如果你使用 `suspend` 函数, 那么在调试器中, 你可能会在变量名称旁边看到 "was optimized out" 文字:
+
+![变量 "a" 被优化了]({{ url_for('asset', path='docs/images/coroutines/variable-optimised-out.png') }})
+
+这段文字的意思是说, 变量的生存时间变短了, 而且变量已经不再存在了.
+如果变量被优化, 调试代码会变得困难, 因为你看不到变量值.
+你可以使用 `-Xdebug` 编译器选项禁止这种优化.
+
+> __绝对不要在产品(Production)模式中使用这个选项__: `-Xdebug` 可能 [导致内存泄露](https://youtrack.jetbrains.com/issue/KT-48678/Coroutine-debugger-disable-was-optimised-out-compiler-feature#focus=Comments-27-6015585.0-0).
+{:.warning}
 
 ## 添加一个并发运行的协程
 

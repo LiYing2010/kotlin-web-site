@@ -68,7 +68,7 @@ import org.example.* // 导入后 'org.example' 内的一切都可以访问了
 
 ```kotlin
 import org.example.Message // 导入后 Message 可以访问了
-import org.test.Message as testMessage // 可以使用新名称 testMessage 来访问 'org.test.Message'
+import org.test.Message as TestMessage // 可以使用新名称 TestMessage 来访问 'org.test.Message'
 ```
 
 `import` 关键字不仅可以用来导入类; 还可以用来导入其他声明:

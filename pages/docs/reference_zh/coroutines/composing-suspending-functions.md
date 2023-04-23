@@ -7,7 +7,7 @@ title: "挂起函数(Suspending Function)的组合"
 
 # 挂起函数(Suspending Function)的组合
 
-最终更新: {{ site.data.releases.latestCoroutinesDocDate }}
+最终更新: {{ site.data.releases.latestDocDate }}
 
 本章介绍将挂起函数组合起来的几种不同方式.
 

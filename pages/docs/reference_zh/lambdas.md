@@ -257,7 +257,7 @@ val sum = { x: Int, y: Int -> x + y }
 val product = items.fold(1) { acc, e -> acc * e }
 ```
 
-这种语法又称为 *尾缀 Lambda 表达式(trailing lambda)*.
+这种语法又称为 *尾缀 Lambda 表达式(Trailing Lambda)*.
 
 如果 Lambda 表达式是函数调用时的唯一一个参数, 括号可以完全省略:
 
@@ -296,7 +296,7 @@ ints.filter {
 ```
 
 使用这个规约, 再加上 [在括号之外传递 Lambda 表达式作为函数调用的参数](#passing-trailing-lambdas),
-我们可以编写 [LINQ 风格](https://docs.microsoft.com/en-us/previous-versions/dotnet/articles/bb308959(v=msdn.10)) 的程序:
+我们可以编写 [LINQ 风格](https://learn.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/) 的程序:
 
 ```kotlin
 strings.filter { it.length == 5 }.sortedBy { it }.map { it.uppercase() }

@@ -7,7 +7,7 @@ title: "异步的数据流(Asynchronous Flow)"
 
 # 异步的数据流(Asynchronous Flow)
 
-最终更新: {{ site.data.releases.latestCoroutinesDocDate }}
+最终更新: {{ site.data.releases.latestDocDate }}
 
 一个挂起函数可以异步地返回单个结果值, 但我们要如何才能返回多个异步计算的结果值?
 这就是 Kotlin 的异步数据流要解决的问题.
@@ -295,7 +295,7 @@ Done
 * [flowOf] 构建器, 定义一个数据流, 发射一组固定的值.
 * 使用 `.asFlow()` 扩展函数, 可以将各种集合(collection)和序列(sequence)转换为数据流.
 
-例如, 从数据流输出数值 1 到 3 的那段代码, 可以写成以下代码:
+例如, 从数据流输出数值 1 到 3 的那段代码, 可以重写为以下代码:
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 

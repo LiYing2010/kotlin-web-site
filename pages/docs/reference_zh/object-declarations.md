@@ -186,6 +186,51 @@ object DefaultListener : MouseAdapter() {
 > 但可以嵌套在另一个对象声明之内, 或者嵌套在另一个非内部类(non-inner class)之内.
 {:.note}
 
+### 数据对象
+
+> 数据对象声明是一个 [实验性功能](components-stability.html).
+> 它随时有可能变更或被删除.
+> 需要通过 [编译器选项](gradle/gradle-compiler-options.html) `compilerOptions.languageVersion.set(KotlinVersion.KOTLIN_1_9)` 进行使用者同意(Opt-in).
+{:.note}
+
+如果在 Kotlin 中打印一个普通的 `object` 声明, 你会注意到它的字符串表达包含对象的名称和 hash 值:
+
+```kotlin
+object MyObject
+
+fun main() {
+    println(MyObject) // 输出结果为: MyObject@1f32e575
+}
+```
+
+和 [数据类](data-classes.html) 一样, 你可以使用 `data` 修饰符标记你的 `object` 声明,
+得到更好格式化的字符串表达, 而不必手动编写它的 `toString` 函数实现:
+
+```kotlin
+data object MyObject
+
+fun main() {
+    println(MyObject) // 输出结果为: MyObject
+}
+```
+
+[封闭类(Sealed Class)层级结构](sealed-classes.html) 很适合使用 `data object` 声明,
+你可以维持对象与其他数据类的一致性:
+
+```kotlin
+sealed class ReadResult {
+    data class Number(val value: Int): ReadResult()
+    data class Text(val value: String): ReadResult()
+    data object EndOfFile: ReadResult()
+}
+
+fun main() {
+    println(ReadResult.Number(1)) // 输出结果为: Number(value=1)
+    println(ReadResult.Text("Foo")) // 输出结果为: Text(value=Foo)
+    println(ReadResult.EndOfFile) // 输出结果为: EndOfFile
+}
+```
+
 ### 同伴对象(Companion Object)
 
 一个类内部的对象声明, 可以使用 `companion` 关键字标记为同伴对象:

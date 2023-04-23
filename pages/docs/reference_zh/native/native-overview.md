@@ -30,7 +30,7 @@ Kotlin/Native 支持以下平台:
 > 以及它的命令行工具.
 {:.note}
 
-[支持的所有目标平台请参见此处](../multiplatform/multiplatform-dsl-reference.html#targets).
+[请参见所有支持的目标平台](../native/native-target-support.html).
 
 
 ## 互操作性

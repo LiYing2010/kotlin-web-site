@@ -78,7 +78,7 @@ fun main(args: Array<String>) {
 你可以运行上面的代码, 并查看结果. 你可以修改代码, 然后再次运行, 看看结果如何!
 
 关于这个功能的详情, 请参见 [参考文档](coroutines-overview.html)
-以及 [教程](https://play.kotlinlang.org/hands-on/Introduction%20to%20Coroutines%20and%20Channels/).
+以及 [教程](coroutines/coroutines-and-channels.html).
 
 注意, 协程目前还是 **实验性功能**, 也就是说, 1.1 正式发布后, Kotlin 开发组不保证这个特性的向后兼容性(backwards compatibility).
 

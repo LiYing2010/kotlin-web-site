@@ -48,6 +48,7 @@ a?.equals(b) ?: (b === null)
 那么相等判断将使用 [IEEE 754 浮点数运算标准](https://en.wikipedia.org/wiki/IEEE_754).
 
 否则, 将会使用结构相等判定, 这种判定不遵循 IEEE 754 浮点数运算标准,
-因此 `NaN` 不等于它自己, 而且 `-0.0` 不等于 `0.0`.
+因此 `NaN` 不等于它自己, `NaN` 被认为大于任何其他元素, 包括 `POSITIVE_INFINITY`,
+而且 `-0.0` 不等于 `0.0`.
 
 详情请参见: [浮点值的比较](numbers.html#floating-point-numbers-comparison).

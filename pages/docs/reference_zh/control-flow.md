@@ -15,21 +15,38 @@ title: "条件与循环"
 因此, Kotlin 中没有三元运算符(`条件 ? then 分支返回值 : else 分支返回值`),
 因为简单的 `if` 表达式完全可以实现同样的任务.
 
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.5">
+
 ```kotlin
-var max = a
-if (a < b) max = b
+fun main() {
+    val a = 2
+    val b = 3
 
-// 使用 else 分支的方式
-var max: Int
-if (a > b) {
-    max = a
-} else {
-    max = b
+    //sampleStart
+    var max = a
+    if (a < b) max = b
+
+    // 使用 else 分支的方式
+    if (a > b) {
+        max = a
+    } else {
+        max = b
+    }
+
+    // if 作为表达式使用
+    max = if (a > b) a else b
+
+    // 在表达式中也可以使用 `else if`:
+    val maxLimit = 1
+    val maxOrLimit = if (maxLimit > a) maxLimit else if (a > b) a else b
+
+    //sampleEnd
+    println("max is $max")
+    println("maxOrLimit is $maxOrLimit")
 }
-
-// if 作为表达式使用
-val max = if (a > b) a else b
 ```
+
+</div>
 
 `if` 表达式的分支可以是多条语句组成的代码段, 这种情况下, 代码段内最后一个表达式的值将成为整个代码段的返回值:
 
@@ -87,7 +104,7 @@ val numericValue = when (getRandomBit()) {
 ```
 
 在 `when` _语句_ 中, 对于以下情况, `else` 分支是必须的:
-* `when` 的判断对象是 `Boolean`, [枚举(`enum`)类](enum-classes.md), 或 [封闭(`sealed`)类](sealed-classes.md) 类型,
+* `when` 的判断对象是 `Boolean`, [枚举(`enum`)类](enum-classes.html), 或 [封闭(`sealed`)类](sealed-classes.html) 类型,
  或它们的 nullable 类型.
 * `when` 的分支没有覆盖所有可能的情况.
 

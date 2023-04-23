@@ -1,10 +1,10 @@
 ---
 type: doc
 layout: reference
-title: "使用 kapt"
+title: "kapt 编译器插件"
 ---
 
-# 使用 kapt
+# kapt 编译器插件
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
@@ -13,8 +13,8 @@ title: "使用 kapt"
 > 详情请参见 [KSP 支持的注解库列表](ksp/ksp-overview.html#supported-libraries).
 {:.warning}
 
-Kotlin 使用 *kapt* 编译器插件来支持注解处理器(参见 [JSR 269](https://jcp.org/en/jsr/detail?id=269)).
-注: kapt 是 "Kotlin annotation processing tool" 的缩写
+Kotlin 使用 _kapt_ 编译器插件来支持注解处理器(参见 [JSR 269](https://jcp.org/en/jsr/detail?id=269)).
+译注: kapt 是 "Kotlin annotation processing tool" 的缩写
 
 简单地说, 你可以在 Kotlin 项目中使用
 [Dagger](https://google.github.io/dagger/)
@@ -26,72 +26,76 @@ Kotlin 使用 *kapt* 编译器插件来支持注解处理器(参见 [JSR 269](ht
 
 ## 在 Gradle 中使用
 
-应用 `kotlin-kapt` Gradle plugin:
+执行以下步骤:
+1. 应用 `kotlin-kapt` Gradle plugin:
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+   <div class="multi-language-sample" data-lang="kotlin">
+   <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
 
-```kotlin
-plugins {
-    kotlin("kapt") version "{{ site.data.releases.latest.version }}"
-}
-```
+   ```kotlin
+   plugins {
+       kotlin("kapt") version "{{ site.data.releases.latest.version }}"
+   }
+   ```
 
-</div>
-</div>
+   </div>
+   </div>
 
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+   <div class="multi-language-sample" data-lang="groovy">
+   <div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
 
-```groovy
-plugins {
-    id "org.jetbrains.kotlin.kapt" version "{{ site.data.releases.latest.version }}"
-}
-```
+   ```groovy
+   plugins {
+       id "org.jetbrains.kotlin.kapt" version "{{ site.data.releases.latest.version }}"
+   }
+   ```
 
-</div>
-</div>
+   </div>
+   </div>
 
-你也可以使用 `apply plugin` 语法:
+2. 在你的 `dependencies` 块中使用 `kapt` 配置来添加对应的依赖:
 
-```groovy
-apply plugin: 'kotlin-kapt'
-```
+   <div class="multi-language-sample" data-lang="kotlin">
+   <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
 
-然后在你的 `dependencies` 块中使用 `kapt` 配置来添加对应的依赖:
+   ```kotlin
+   dependencies {
+       kapt("groupId:artifactId:version")
+   }
+   ```
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+   </div>
+   </div>
 
-```kotlin
-dependencies {
-    kapt("groupId:artifactId:version")
-}
-```
+   <div class="multi-language-sample" data-lang="groovy">
+   <div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
 
-</div>
-</div>
+   ```groovy
+   dependencies {
+       kapt 'groupId:artifactId:version'
+   }
+   ```
 
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+   </div>
+   </div>
 
-```groovy
-dependencies {
-    kapt 'groupId:artifactId:version'
-}
-```
+3. 如果你以前对注解处理器使用过
+   [Android support](https://developer.android.com/studio/build/gradle-plugin-3-0-0-migration.html#annotationProcessor_config),
+   请将使用 `annotationProcessor` 配置的地方替换为 `kapt`. 如果你的工程中包含 Java 类, `kapt` 也会正确地处理这些 Java 类.
 
-</div>
-</div>
+   如果你需要对 `androidTest` 或 `test` 源代码使用注解处理器,
+   那么与 `kapt` 配置相对应的名称应该是 `kaptAndroidTest` 和 `kaptTest`.
+   注意, `kaptAndroidTest` 和 `kaptTest` 从 `kapt` 继承而来,
+   因此你只需要提供 `kapt` 的依赖项, 它可以同时用于产品代码和测试代码.
 
-如果你以前对注解处理器使用过
-[Android support](https://developer.android.com/studio/build/gradle-plugin-3-0-0-migration.html#annotationProcessor_config),
-请将使用 `annotationProcessor` 配置的地方替换为 `kapt`. 如果你的工程中包含 Java 类, `kapt` 也会正确地处理这些 Java 类.
+4. 如果要对 kapt 使用最新的 Kotlin 功能特性, 例如, [可重复注解](annotations.html#repeatable-annotations),
+   请在你的 `gradle.properties` 文件中使用以下选项, 启用对 
+   [IR 后端](https://blog.jetbrains.com/kotlin/2021/02/the-jvm-backend-is-in-beta-let-s-make-it-stable-together/)
+   的支持:
 
-如果你需要对 `androidTest` 或 `test` 源代码使用注解处理器,
-那么与 `kapt` 配置相对应的名称应该是 `kaptAndroidTest` 和 `kaptTest`.
-注意, `kaptAndroidTest` 和 `kaptTest` 从 `kapt` 继承而来,
-因此你只需要提供 `kapt` 的依赖项, 它可以同时用于产品代码和测试代码.
+   ```none
+   kapt.use.jvm.ir=true
+   ```
 
 ## 注解处理器的参数
 
@@ -125,7 +129,7 @@ kapt {
 [Gradle Worker API](https://guides.gradle.org/using-the-worker-api/).
 使用 Worker API 可以让 Gradle 并行运行单个项目中的多个独立的注解处理任务, 某些情况下能够显著缩短运行时间.
 
-如果在 Kotlin Gradle 插件中使用了 [自定义 JDK home](gradle.html#set-custom-jdk-home) 功能,
+如果在 Kotlin Gradle 插件中使用了 [自定义 JDK home](gradle/gradle-configure-project.html#gradle-java-toolchains-support) 功能,
 kapt 任务执行器只会使用 [进程隔离模式](https://docs.gradle.org/current/userguide/worker_api.html#changing_the_isolation_mode).
 注意, `kapt.workers.isolation` 属性会被忽略.
 
@@ -168,7 +172,7 @@ tasks.withType(org.jetbrains.kotlin.gradle.internal.KaptWithoutKotlincTask.class
 
 要启用这个功能, 可以在你的 `gradle.properties` 文件中使用以下属性:
 
-```properties
+```none
 # 正数值会启用缓存功能
 # 请在这里指定与使用 kapt 的模块数相同的数字
 kapt.classloaders.cache.size=5
@@ -179,7 +183,7 @@ kapt.include.compile.classpath=false
 
 如果你遇到与注解处理器缓存相关的问题, 可以对这些处理器关闭缓存:
 
-```properties
+```none
 # 在这里指定注解处理器的完整名称, 可以对这些处理器关闭缓存
 kapt.classloaders.cache.disableForProcessors=[注解处理器的完整名称]
 ```
@@ -189,7 +193,7 @@ kapt.classloaders.cache.disableForProcessors=[注解处理器的完整名称]
 可以使用 `-Kapt-show-processor-timings` plugin 选项得到注解处理器执行时的性能统计.
 输出示例:
 
-```kotlin
+```text
 Kapt Annotation Processing performance report:
 com.example.processor.TestingProcessor: total: 133 ms, init: 36 ms, 2 round(s): 97 ms, 0 ms
 com.example.processor.AnotherProcessor: total: 100 ms, init: 6 ms, 1 round(s): 93 ms
@@ -200,7 +204,7 @@ com.example.processor.AnotherProcessor: total: 100 ms, init: 6 ms, 1 round(s): 9
 将这个报告输出到一个文件.
 以下命令将会运行 kapt, 并将统计报告输出到 `ap-perf-report.file` 文件:
 
-```kotlin
+```bash
 kotlinc -cp $MY_CLASSPATH \
 -Xplugin=kotlin-annotation-processing-SNAPSHOT.jar -P \
 plugin:org.jetbrains.kotlin.kapt3:aptMode=stubsAndApt,\
@@ -230,7 +234,7 @@ sample/src/main/
 
 * 在你的 `gradle.properties` 文件中, 将 `kapt.verbose` Gradle 属性设置为 `true`:
 
-  ```properties
+  ```none
   kapt.verbose=true
   ```
 
@@ -242,7 +246,7 @@ sample/src/main/
 再后面, 将是 `Generated files report:` 行, 之后是每个注解处理器生成的文件数量统计.
 比如:
 
-```kotlin
+```text
 [INFO] Annotation processor stats:
 [INFO] org.mapstruct.ap.MappingProcessor: total: 290 ms, init: 1 ms, 3 round(s): 289 ms, 0 ms, 0 ms
 [INFO] Generated files report:
@@ -265,7 +269,7 @@ sample/src/main/
 * 对 `kapt*` 配置手工添加注解处理器依赖项目, 具体方法参见 [上文](#using-in-gradle).
 * 不要在编译类路径中查找注解处理器, 方法是在你的 `gradle.properties` 文件中添加以下代码:
 
-```
+```none
 kapt.include.compile.classpath=false
 ```
 
@@ -276,12 +280,12 @@ kapt 支持增量式(Incremental)注解处理, 这个功能默认启用.
 
 要关闭增量式注解处理, 请在你的 `gradle.properties` 文件添加以下代码:
 
-```
+```none
 kapt.incremental.apt=false
 ```
 
 注意, 增量式注解处理同时还需要启用
-[增量式编译(Incremental Compilation)](gradle.html#incremental-compilation).
+[增量式编译(Incremental Compilation)](gradle/gradle-compilation-and-caches.html#incremental-compilation).
 
 ## Java 编译器选项
 

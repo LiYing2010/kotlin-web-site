@@ -121,16 +121,16 @@ interface SymbolProcessor {
 ```kotlin
 class HelloFunctionFinderProcessor : SymbolProcessor() {
     // ...
-    val functions = mutableListOf<String>()
+    val functions = mutableListOf<KSClassDeclaration>()
     val visitor = FindFunctionsVisitor()
 
     override fun process(resolver: Resolver) {
-        resolver.getAllFiles().map { it.accept(visitor, Unit) }
+        resolver.getAllFiles().forEach { it.accept(visitor, Unit) }
     }
 
     inner class FindFunctionsVisitor : KSVisitorVoid() {
         override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit) {
-            classDeclaration.getDeclaredFunctions().map { it.accept(this, Unit) }
+            classDeclaration.getDeclaredFunctions().forEach { it.accept(this, Unit) }
         }
 
         override fun visitFunctionDeclaration(function: KSFunctionDeclaration, data: Unit) {
@@ -138,7 +138,7 @@ class HelloFunctionFinderProcessor : SymbolProcessor() {
         }
 
         override fun visitFile(file: KSFile, data: Unit) {
-            file.declarations.map { it.accept(this, Unit) }
+            file.declarations.forEach { it.accept(this, Unit) }
         }
     }
     // ...
@@ -166,20 +166,23 @@ class HelloFunctionFinderProcessor : SymbolProcessor() {
 
 下表是 Android 上的流行的库, 以及它们对 KSP 的支持情况.
 
-| 库                | 状态                                                                                       | 关于 KSP 的 Issue                                      |
-|------------------|------------------------------------------------------------------------------------------|-----------------------------------------------------|
-| Room             | [官方支持](https://developer.android.com/jetpack/androidx/releases/room#2.3.0-beta02)        |                                                     |
-| Moshi            | [官方支持](https://github.com/square/moshi/)                                                 |                                                     |
-| RxHttp           | [官方支持](https://github.com/liujingxing/rxhttp)                                            |                                                     |
-| Kotshi           | [官方支持](https://github.com/ansman/kotshi)                                                 |                                                     |
-| Lyricist         | [官方支持](https://github.com/adrielcafe/lyricist)                                           |                                                     |
-| Lich SavedState  | [官方支持](https://github.com/line/lich/tree/master/savedstate)                              |                                                     |
-| gRPC Dekorator   | [官方支持](https://github.com/mottljan/grpc-dekorator)                                       |                                                     |
-| EasyAdapter      | [官方支持](https://github.com/AmrDeveloper/EasyAdapter)                                      |                                                     |
-| Koin Annotations | [官方支持](https://github.com/InsertKoinIO/koin-annotations)                                 |                                                     |
-| Auto Factory     | 目前不支持                                                                                    | [链接](https://github.com/google/auto/issues/982)     |
-| Dagger           | 目前不支持                                                                                    | [链接](https://github.com/google/dagger/issues/2349)  |
-| Hilt             | 目前不支持                                                                                    | [链接](https://issuetracker.google.com/179057202)     |
-| Glide            | 目前不支持                                                                                    | [链接](https://github.com/bumptech/glide/issues/4492) |
-| DeeplinkDispatch | [通过 airbnb/DeepLinkDispatch#323 支持](https://github.com/airbnb/DeepLinkDispatch/pull/323) |                                                     |
-| Micronaut        | 正在开发中                                                                                    |[链接](https://github.com/micronaut-projects/micronaut-core/issues/6781)|
+| 库                | 状态                                                                                       | 关于 KSP 的 Issue |
+|------------------|------------------------------------------------------------------------------------------|------------------|
+| Room             | [官方支持](https://developer.android.com/jetpack/androidx/releases/room#2.3.0-beta02)        |   |
+| Moshi            | [官方支持](https://github.com/square/moshi/)                                                 |   |
+| RxHttp           | [官方支持](https://github.com/liujingxing/rxhttp)                                            |   |
+| Kotshi           | [官方支持](https://github.com/ansman/kotshi)                                                 |   |
+| Lyricist         | [官方支持](https://github.com/adrielcafe/lyricist)                                           |   |
+| Lich SavedState  | [官方支持](https://github.com/line/lich/tree/master/savedstate)                              |   |
+| gRPC Dekorator   | [官方支持](https://github.com/mottljan/grpc-dekorator)                                       |   |
+| EasyAdapter      | [官方支持](https://github.com/AmrDeveloper/EasyAdapter)                                      |   |
+| Koin Annotations | [官方支持](https://github.com/InsertKoinIO/koin-annotations)                                 |   |
+| Auto Factory     | 目前不支持                                                                                   | [链接](https://github.com/google/auto/issues/982)     |
+| Dagger           | 目前不支持                                                                                   | [链接](https://github.com/google/dagger/issues/2349)  |
+| Hilt             | 目前不支持                                                                                   | [链接](https://issuetracker.google.com/179057202)     |
+| Glide            | [官方支持](https://github.com/bumptech/glide)                                                |   |
+| DeeplinkDispatch | [通过 airbnb/DeepLinkDispatch#323 支持](https://github.com/airbnb/DeepLinkDispatch/pull/323) |   |
+| Micronaut        | 正在开发中                                                                                   |[链接](https://github.com/micronaut-projects/micronaut-core/issues/6781)|
+| Epoxy            | [官方支持](https://github.com/airbnb/epoxy)                                                  | |
+| Paris            | [官方支持](https://github.com/airbnb/paris)                                                  | |
+| Auto Dagger      | [官方支持](https://github.com/ansman/auto-dagger)                                            | |

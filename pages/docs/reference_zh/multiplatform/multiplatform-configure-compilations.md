@@ -27,7 +27,9 @@ Kotlin 跨平台项目使用编译任务来生成 artifact.
 * [对单个编译目标的编译任务](#configure-compilations-for-one-target): 因为一个编译目标可以有多个编译任务.
 * [对一个指定的编译任务](#configure-one-compilation).
 
-请参见对所有编译目标或特定编译目标可用的 [编译任务参数列表](multiplatform-dsl-reference.html#compilation-parameters) 和 [编译器选项](using-gradle.html#compiler-options).
+请参见对所有编译目标或特定编译目标可用的
+[编译任务参数列表](multiplatform-dsl-reference.html#compilation-parameters)
+和 [编译器选项](../gradle/gradle-compiler-options.html).
 
 ## 配置所有编译任务
 
@@ -35,8 +37,8 @@ Kotlin 跨平台项目使用编译任务来生成 artifact.
 kotlin {
     targets.all {
         compilations.all {
-            kotlinOptions {
-                allWarningsAsErrors = true
+            compilerOptions.configure {
+                allWarningsAsErrors.set(true)
             }
         }
     }
@@ -51,9 +53,9 @@ kotlin {
 ```kotlin
 kotlin {
     targets.jvm.compilations.all {
-        kotlinOptions {
-            sourceMap = true
-            metaInfo = true
+        compilerOptions.configure {
+            sourceMap.set(true)
+            metaInfo.set(true)
         }
     }
 }
@@ -68,9 +70,9 @@ kotlin {
 ```groovy
 kotlin {
     jvm().compilations.all {
-        kotlinOptions {
-            sourceMap = true
-            metaInfo = true
+        compilerOptions.configure {
+            sourceMap.set(true)
+            metaInfo.set(true)
         }
     }
 }
@@ -88,8 +90,8 @@ kotlin {
 kotlin {
     jvm {
         val main by compilations.getting {
-            kotlinOptions {
-                jvmTarget = "1.8"
+            compilerOptions.configure {
+                jvmTarget.set(JvmTarget.JVM_1_8)
             }
         }
     }
@@ -105,8 +107,8 @@ kotlin {
 ```groovy
 kotlin {
     jvm().compilations.main {
-        kotlinOptions {
-            jvmTarget = "1.8"
+        compilerOptions.configure {
+            jvmTarget.set(JvmTarget.JVM_1_8)
         }
     }
 }
@@ -203,7 +205,7 @@ kotlin {
 
 [使用项目向导创建项目](multiplatform-library.html) 时, Java 源代码会包含在 JVM 编译任务内.
 
-在构建脚本中, 以下代码会适用 Gradle `java` plugin, 并配置编译目标, 使其与 `java` plugin 协作:
+在构建脚本中, 以下代码会应用 Gradle `java` plugin, 并配置编译目标, 使其与 `java` plugin 协作:
 
 ```kotlin
 kotlin {

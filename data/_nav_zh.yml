@@ -77,7 +77,7 @@ reference:
         - url: /docs/reference_zh/getting-started.html
           title: Kotlin 入门
 
-    - title: 概述
+    - title: Kotlin 概述
       content:
         - url: /docs/reference_zh/multiplatform/multiplatform.html
           title: 使用 Kotlin 进行跨平台开发
@@ -96,10 +96,16 @@ reference:
 
     - title: Kotlin 新功能
       content:
-        - url: /docs/reference_zh/whatsnew17.html
-          title: Kotlin 1.7.0
+        - url: /docs/reference_zh/whatsnew18.html
+          title: Kotlin 1.8.0
+        - url: /docs/reference_zh/whatsnew-eap.html
+          title: Kotlin 1.8.20-RC
         - title: 早期版本
           content:
+            - url: /docs/reference_zh/whatsnew1720.html
+              title: Kotlin 1.7.20
+            - url: /docs/reference_zh/whatsnew17.html
+              title: Kotlin 1.7.0
             - url: /docs/reference_zh/whatsnew1620.html
               title: Kotlin 1.6.20
             - url: /docs/reference_zh/whatsnew16.html
@@ -123,16 +129,12 @@ reference:
             - url: /docs/reference_zh/whatsnew11.html
               title: Kotlin 1.1
 
-    - title: 早期预览版(Early Access Preview)
+    - title: 发布版本与发展路线图
       content:
-        - url: /docs/reference_zh/whatsnew-eap.html
-          title: Kotlin 1.7.20-RC
-        - url: /docs/reference_zh/eap.html
-          title: 参加 Kotlin EAP 项目
-        - url: /docs/reference_zh/install-eap-plugin.html
-          title: 安装 Kotlin EAP Plugin
-        - url: /docs/reference_zh/configure-build-for-eap.html
-          title: 针对 EAP 进行编译配置
+        - url: /docs/reference_zh/releases.html
+          title: Kotlin 的发布版本
+        - url: /docs/reference_zh/roadmap.html
+          title: Kotlin 发展路线图
 
     - title: 基础知识
       content:
@@ -155,6 +157,8 @@ reference:
                 title: 概述
               - url: /docs/reference_zh/numbers.html
                 title: 数值类型
+              - url: /docs/reference_zh/unsigned-integer-types.html
+                title: 无符号整数类型
               - url: /docs/reference_zh/booleans.html
                 title: 布尔(Booleans)类型
               - url: /docs/reference_zh/characters.html
@@ -163,8 +167,6 @@ reference:
                 title: 字符串
               - url: /docs/reference_zh/arrays.html
                 title: 数组
-              - url: /docs/reference_zh/unsigned-integer-types.html
-                title: 无符号整数类型
           - url: /docs/reference_zh/typecasts.html
             title: 类型检查与类型转换
 
@@ -274,6 +276,8 @@ reference:
               title: 教程 - 让你的 Android 应用程序在 iOS 上运行
             - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-publish-apps.html
               title: 发布你的应用程序
+            - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-ktor-sqldelight.html
+              title: 教程 - 使用 Ktor 和 SQLDelight 创建跨平台应用程序
 
         - title: 针对其它平台的 Kotlin 跨平台程序开发
           content:
@@ -284,7 +288,7 @@ reference:
             - url: /docs/reference_zh/multiplatform/multiplatform-set-up-targets.html
               title: 手动设置编译目标
             - url: /docs/reference_zh/multiplatform/multiplatform-full-stack-app.html
-              title: 使用 Kotlin Multiplatform 构建一个全栈 Web 应用程序
+              title: 使用 Kotlin Multiplatform 构建全栈 Web 应用程序
 
         - title: 创建跨平台的库
           content:
@@ -318,6 +322,8 @@ reference:
           content:
             - url: /docs/reference_zh/multiplatform/multiplatform-configure-compilations.html
               title: 配置编译任务
+            - url: /docs/reference_zh/multiplatform/multiplatform-native-artifacts.html
+              title: "[实验性 DSL] 构建最终的原生二进制文件"
             - url: /docs/reference_zh/multiplatform/multiplatform-build-native-binaries.html
               title: 构建最终的原生二进制文件
 
@@ -329,6 +335,10 @@ reference:
           title: FAQ
         - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-introduce-your-team.html
           title: 向你的开发团队介绍跨平台移动开发
+        - url: /docs/reference_zh/multiplatform/multiplatform-compatibility-guide.html
+          title: 兼容性指南
+        - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-plugin-releases.html
+          title: Kotlin Multiplatform Mobile Plugin 的发布版本
 
     - title: 运行平台
       content:
@@ -344,14 +354,24 @@ reference:
               title: 在 Java 中调用 Kotlin
             - title: Spring
               content:
-                - url: /docs/reference_zh/jvm/jvm-spring-boot-restful.html
-                  title: 教程 - 使用 Spring Boot 创建一个有数据库的 RESTful Web 服务
+                - title: 使用 Spring Boot 创建有数据库的 RESTful Web 服务
+                  content:
+                  - url: /docs/reference_zh/jvm/jvm-get-started-spring-boot.html
+                    title: Spring Boot 和 Kotlin 入门
+                  - url: /docs/reference_zh/jvm/jvm-create-project-with-spring-boot.html
+                    title: 创建 Spring Boot 项目
+                  - url: /docs/reference_zh/jvm/jvm-spring-boot-add-data-class.html
+                    title: 使用数据类升级你的项目
+                  - url: /docs/reference_zh/jvm/jvm-spring-boot-add-db-support.html
+                    title: 为 Spring Boot 项目添加数据库支持
+                  - url: /docs/reference_zh/jvm/jvm-spring-boot-using-crudrepository.html
+                    title: 使用 Spring Data CrudRepository
                 - url: https://docs.spring.io/spring-framework/docs/current/reference/html/languages.html#languages
                   title: Spring Framework 关于 Kotlin 的文档
                 - url: https://spring.io/guides/tutorials/spring-boot-kotlin/
-                  title: 教程 - 使用 Spring Boot 和 Kotlin 创建一个 Web 应用程序
+                  title: 教程 - 使用 Spring Boot 和 Kotlin 创建 Web 应用程序
                 - url: https://spring.io/guides/tutorials/spring-webflux-kotlin-rsocket/
-                  title: 教程 - 使用 Kotlin 协程(Coroutine) 和 RSocket 创建一个聊天应用程序
+                  title: 教程 - 使用 Kotlin 协程(Coroutine) 和 RSocket 创建聊天应用程序
             - url: /docs/reference_zh/jvm/jvm-test-using-junit.html
               title: 教程 - 在 JVM 平台使用 JUnit 进行代码测试
             - url: /docs/reference_zh/jvm/mixing-java-kotlin-intellij.html
@@ -364,6 +384,8 @@ reference:
                   title: 字符串
                 - url: /docs/reference_zh/jvm/java-to-kotlin-collections-guide.html
                   title: 集合(Collection)
+                - url: /docs/reference_zh/jvm/java-to-kotlin-nullability-guide.html
+                  title: 可空性(Nullability)
 
         - title: JavaScript 平台
           content:
@@ -454,18 +476,29 @@ reference:
               title: 平台库
             - url: /docs/reference_zh/native/native-dynamic-libraries.html
               title: 教程 - 使用 Kotlin/Native 开发动态库
-            - url: /docs/reference_zh/native/native-immutability.html
-              title: 不变性(Immutability)与并发(Concurrency)
-            - title: 使用并发
+            - title: 内存管理
               content:
-                - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-concurrency-overview.html
-                  title: 并发概述
-                - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-concurrent-mutability.html
-                  title: 并发中的可变性
-                - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-concurrency-and-coroutines.html
-                  title: 并发与协程
+                - url: /docs/reference_zh/native/native-memory-manager.html
+                  title: Kotlin/Native 内存管理
+                - url: /docs/reference_zh/native/native-ios-integration.html
+                  title: 与 iOS 集成
+                - url: /docs/reference_zh/native/native-migration-guide.html
+                  title: 迁移指南
+                - title: 旧的内存管理器
+                  content:
+                    - url: /docs/reference_zh/native/native-immutability.html
+                      title: 不变性(Immutability)与并发(Concurrency)
+                    - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-concurrency-overview.html
+                      title: 并发概述
+                    - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-concurrent-mutability.html
+                      title: 并发中的可变性
+                    - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-concurrency-and-coroutines.html
+                      title: 并发与协程
+
             - url: /docs/reference_zh/native/native-debugging.html
               title: 调试 Kotlin/Native 代码
+            - url: /docs/reference_zh/native/native-target-support.html
+              title: 支持的目标平台
             - url: /docs/reference_zh/native/native-ios-symbolication.html
               title: 符号化(Symbolicate) iOS 崩溃报告(Crash Report)
             - url: /docs/reference_zh/native/native-improving-compilation-time.html
@@ -477,18 +510,6 @@ reference:
           content:
             - url: /docs/reference_zh/scripting/custom-script-deps-tutorial.html
               title: 教程 - Kotlin 自定义脚本(Custom Scripting) 入门
-
-
-    - title: 发布版本与发展路线图
-      content:
-        - url: /docs/reference_zh/releases.html
-          title: Kotlin 的发布版本
-        - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-plugin-releases.html
-          title: Kotlin Multiplatform Mobile plugin 的发布版本
-        - url: /docs/reference_zh/plugin-releases.html
-          title: Kotlin plugin 的发布版本
-        - url: /docs/reference_zh/roadmap.html
-          title: Kotlin 发展路线图
 
 
     - title: 标准库
@@ -570,6 +591,26 @@ reference:
 
         - url: /docs/reference_zh/serialization.html
           title: 序列化(Serialization) (kotlinx.serialization)
+
+        - title: Lincheck (kotlinx.lincheck)
+          content:
+            - url: /docs/reference_zh/lincheck/lincheck-guide.html
+              title: Lincheck 指南
+            - url: /docs/reference_zh/lincheck/introduction.html
+              title: 使用 Lincheck 编写你的第一个测试
+            - url: /docs/reference_zh/lincheck/testing-strategies.html
+              title: 测试策略
+            - url: /docs/reference_zh/lincheck/operation-arguments.html
+              title: 操作参数
+            - url: /docs/reference_zh/lincheck/modular-testing.html
+              title: 模块化测试
+            - url: /docs/reference_zh/lincheck/constraints.html
+              title: 数据结构约束
+            - url: /docs/reference_zh/lincheck/progress-guarantees.html
+              title: 进度保证
+            - url: /docs/reference_zh/lincheck/sequential-specification.html
+              title: 顺序规格
+
         - url: https://ktor.io/
           title: Ktor
 
@@ -583,6 +624,8 @@ reference:
           title: 协程(kotlinx.coroutines)
         - url: https://kotlinlang.org/api/kotlinx.serialization/kotlinx-serialization-core/
           title: 序列化(kotlinx.serialization)
+        - url: https://kotlinlang.org/api/kotlinx-datetime/
+          title: 日期与时间(kotlinx-datetime)
         - url: https://api.ktor.io/
           title: Ktor
 
@@ -599,27 +642,76 @@ reference:
 
     - title: 工具
       content:
-        - title: 编译工具
+        - title: 构建工具
           content:
-            - url: /docs/reference_zh/gradle.html
-              title: Gradle
+            - title: Gradle
+              content:
+              - url: /docs/reference_zh/gradle/gradle.html
+                title: 概述
+              - url: /docs/reference_zh/gradle/get-started-with-jvm-gradle-project.html
+                title: 教程 - Gradle 入门
+              - url: /docs/reference_zh/gradle/gradle-configure-project.html
+                title: 配置 Gradle 项目
+              - url: /docs/reference_zh/gradle/gradle-compiler-options.html
+                title: KGP 中的编译器选项
+              - url: /docs/reference_zh/gradle/gradle-compilation-and-caches.html
+                title: KGP 中的编译与缓存
+              - url: /docs/reference_zh/gradle/gradle-plugin-variants.html
+                title: 对 Gradle plugin 变体的支持
+
             - url: /docs/reference_zh/maven.html
               title: Maven
             - url: /docs/reference_zh/ant.html
               title: Ant
+        - title: Dokka
+          content:
+          - url: /docs/reference_zh/dokka/dokka-introduction.html
+            title: 介绍
+          - url: /docs/reference_zh/dokka/dokka-get-started.html
+            title: Dokka 入门
+          - title: 运行 Dokka
+            content:
+            - url: /docs/reference_zh/dokka/runners/dokka-gradle.html
+              title: Gradle
+            - url: /docs/reference_zh/dokka/runners/dokka-maven.html
+              title: Maven
+            - url: /docs/reference_zh/dokka/runners/dokka-cli.html
+              title: CLI
+          - title: 输出格式
+            content:
+            - url: /docs/reference_zh/dokka/formats/dokka-html.html
+              title: HTML
+            - url: /docs/reference_zh/dokka/formats/dokka-markdown.html
+              title: Markdown
+            - url: /docs/reference_zh/dokka/formats/dokka-javadoc.html
+              title: Javadoc
+          - url: /docs/reference_zh/dokka/dokka-plugins.html
+            title: Dokka Plugin
+          - url: /docs/reference_zh/dokka/dokka-module-and-package-docs.html
+            title: 模块文档
         - url: /docs/reference_zh/kotlin-ide.html
           title: 支持 Kotlin 开发的 IDE
         - url: /docs/reference_zh/code-style-migration-guide.html
           title: 使用 IntelliJ IDEA 迁移到 Kotlin 编码风格
         - url: /docs/reference_zh/run-code-snippets.html
           title: 运行代码片段
+        - url: /docs/reference_zh/kotlin-and-ci.html
+          title: TeamCity
+        - url: /docs/reference_zh/kotlin-doc.html
+          title: KDoc
+        - url: /docs/reference_zh/kotlin-osgi.html
+          title: OSGi
+
+
+    - title: 编译器与 Plugin
+      content:
         - title: 编译器
           content:
             - url: /docs/reference_zh/command-line.html
               title: 命令行编译器
             - url: /docs/reference_zh/compiler-reference.html
               title: 编译器选项
-        - title: 编译器插件
+        - title: 编译器 Plugin
           content:
             - url: /docs/reference_zh/all-open-plugin.html
               title: All-open
@@ -655,12 +747,6 @@ reference:
               title: 在命令行运行 KSP
             - url: /docs/reference_zh/ksp/ksp-faq.html
               title: FAQ
-        - url: /docs/reference_zh/kotlin-and-ci.html
-          title: TeamCity
-        - url: /docs/reference_zh/kotlin-doc.html
-          title: KDoc 与 Dokka
-        - url: /docs/reference_zh/kotlin-osgi.html
-          title: OSGi
 
 
     - title: 学习资料
@@ -679,12 +765,23 @@ reference:
           title: Kotlin 书籍
         - url: /docs/reference_zh/advent-of-code.html
           title: Advent of Code 谜题
-        - title: 使用 IDE(EduTools) 进行学习
+        - title: 在 IDE 中学习(JetBrains Academy)
           content:
             - url: /docs/reference_zh/edu-tools-learner.html
               title: 学习 Kotlin
             - url: /docs/reference_zh/edu-tools-educator.html
               title: 教授 Kotlin
+
+
+    - title: 早期预览版(EAP, Early Access Preview)
+      content:
+        - url: /docs/reference_zh/eap.html
+          title: 参加 Kotlin EAP 项目
+        - url: /docs/reference_zh/install-eap-plugin.html
+          title: 安装 Kotlin EAP Plugin
+        - url: /docs/reference_zh/configure-build-for-eap.html
+          title: 针对 EAP 进行编译配置
+
 
     - title: 其他资源
       content:
@@ -700,6 +797,10 @@ reference:
               title: Kotlin 各组件的稳定性 (1.4 版以前)
             - title: 兼容性
               content:
+                - url: /docs/reference_zh/compatibility-guide-18.html
+                  title: Kotlin 1.8 兼容性指南
+                - url: /docs/reference_zh/compatibility-guide-1720.html
+                  title: Kotlin 1.7.20 兼容性指南
                 - url: /docs/reference_zh/compatibility-guide-17.html
                   title: Kotlin 1.7 兼容性指南
                 - url: /docs/reference_zh/compatibility-guide-16.html
@@ -727,11 +828,11 @@ reference:
         - title: 期刊
           content:
             - url: /docs/reference_zh/cross-platform-mobile-development.html
-              title: 跨平台移动应用程序开发
+              title: 跨平台移动 App 开发
             - url: /docs/reference_zh/native-and-cross-platform.html
-              title: 原生(Native)应用程序开发与跨平台(cross-platform)移动应用程序开发
+              title: 原生(Native) App 开发与跨平台(cross-platform)移动 App 开发
             - url: /docs/reference_zh/cross-platform-frameworks.html
-              title: 跨平台应用程序开发的 6 种最佳框架
+              title: 跨平台 App 开发最流行的 6 种框架
         - url: /docs/reference_zh/security.html
           title: 安全性
         - url: /docs/reference_zh/kotlin-pdf.html
@@ -743,7 +844,9 @@ reference:
             - url: /docs/reference_zh/kug-guidelines.html
               title: KUG 指南
             - url: /docs/reference_zh/kotlin-night-guidelines.html
-              title: Kotlin Nights 指南
+              title: Kotlin Night 指南
+#        - url: /docs/reference_zh/gsoc-2023.html
+#          title: Google Summer of Code with Kotlin
         - url: /docs/reference_zh/kotlin-brand-assets.html
           title: Kotlin 品牌资产
         - url: https://kotlinlang.org/assets/kotlin-media-kit.pdf

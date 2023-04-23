@@ -10,126 +10,157 @@ title: "原生(Native)应用程序开发与跨平台(cross-platform)移动应用
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
-People spend much of their waking time on their mobile devices. They also [spend 4.8 hours per day on mobile applications](https://www.data.ai/en/insights/market-data/state-of-mobile-2022/), which makes them attractive to all kinds of businesses.
+人们醒着的时间大量用在他们的移动设备上. 他们还 [每天在移动应用程序上花费 4.8 小时](https://www.data.ai/en/insights/market-data/state-of-mobile-2022/),
+因此移动平台对任何商业类型都非常具有吸引力.
 
-Mobile app development is constantly evolving, with new technologies and frameworks emerging every year. With various solutions on the market, it's often difficult to choose between them. You might have heard about the long-standing "native versus cross-platform" debate.
+移动 App 开发技术还在持续进化中, 每年都会出现新的技术和框架. 由于市场上存在许多解决方案, 因此经常会难以作出选择.
+你可能已经听说过 "原生 vs 跨平台" 的长期争论.
 
-There are many factors to consider before building an app, such as development cost, time, and app functionality. This is especially true if you want to target both Android and iOS audiences. It may be challenging to decide which mobile development approach will be the best for your particular project. To help you choose between native and cross-platform app development, we've created a list of six essential things to keep in mind.
+在创建一个 App 之前有很多因素需要考虑, 例如开发成本, 时间, 以及 App 的功能.
+如果你想要同时针对 Android 和 iOS 用户, 那么这些因素尤其重要. 对你的某个项目来说, 使用哪种移动开发策略才是最好的, 可能会很难决定.
+为了帮助你在原生和跨平台 App 开发之间进行选择, 我们创建了一个列表, 包括值得注意的 6 个基本因素.
 
-## What is native mobile app development?
+## 什么是原生移动 App 开发?
 
-Native mobile development means that you build an app for a particular mobile operating system – in most cases Android or iOS. While working on native applications, developers use specific programming languages and tools. For example, you can create a native Android application with Kotlin or Java, or build an app for iOS with Objective-C or Swift.
+原生移动开发意思是说, 你针对某个移动操作系统来创建一个 App – 大多数情况下是 Android 或 iOS.
+开发原生应用程序时, 开发者会使用特定的编程语言和工具.
+例如, 你可以使用 Kotlin 或 Java创建一个原生 Android 应用程序, 或者使用 Objective-C 或 Swift 创建一个 iOS App.
 
-Here are the core benefits and limitations.
+下面是原生移动 App 的主要优势和不利点.
 
-| **Benefits**                                                                                                                                                                                                                                                                                                            | **Limitations**                                                                                                                                                                                                  |
-|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **High performance.** The core programming language and APIs used to build native apps make them fast and responsive.                                                                                                                                                                                                   | **High cost.** Native app development requires two separate teams with different sets of skills, which adds to the time and cost of the development process.                                                     |
-| **Intuitive user experience.** Mobile engineers develop native apps using native SDKs, which makes the UI look consistent. The interfaces of native apps are designed to work well with a specific platform, which makes them feel like an integrated part of the device and provides a more intuitive user experience. | **Big development team.** Managing large teams of multiple specialists can be challenging. The more people you have working on one project, the greater the effort required for communication and collaboration. |
-| **Access to the full feature set of a particular device.** Native apps built for a particular operating system have direct access to the device's hardware, such as camera, microphone, and GPS location support.                                                                                                       | **More errors in code.** More lines of code can leave more room for bugs.                                                                                                                                        |
-| |**Risks of having different logic on Android and iOS apps.** With native app development, the code written for one mobile platform cannot be tailored to another platform. For instance, Android and iOS apps might show different prices for the same item because of a mistake in the way the discount is calculated.|
+| **优势**                                                                                                            | **不利点**                                                                                                                                 |
+|-------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
+| **高性能.** 用来创建原生 App 使用的核心编程语言和 API 使得这些 App 快速而且反应灵敏.                                                             | **高成本.** 原生 App 开发需要 2 组独立的开发队伍, 分别具备不同的技能, 因此增加了开发过程的时间和成本.                                                                            |
+| **用户体验直观.** 移动开发工程师使用原生 SDK 来开发原生 App, 因此 UI 风格一致. 原生 App 的界面被设计得更加适应于在特定的平台, 因此它们感觉象与设备融合在一起的一部分, 而且提供更加直观的用户体验. | **开发团队大.** 管理很多专业人士组成的大团队可能会非常困难. 为一个项目工作的人越多, 为沟通和协作而耗费的精力就越多.                                                                         |
+| **能够使用特定设备的全部功能.** 针对特定操作系统创建的原生 App 能够直接访问设备的硬件, 例如摄像头, 麦克风, 以及 GPS 定位功能.                                | **代码中的错误更多.** 更多行数的代码意味着更多 bug 存在的风险.                                                                                                   |
+|                                                                                                                   | **在 Android 和 iOS App 中存在业务逻辑差异的风险.** 使用原生 App 开发方案, 针对一个移动平台编写的代码无法在另一个平台上使用. 例如, 由于折扣计算方式的错误, Android 和 iOS App 可能对同一个商品显出不同的价格. |
 
-## What is cross-platform app development?
+## 什么是跨平台 App 开发?
 
-Cross-platform app development, also called multiplatform development, is the process of building mobile apps that are compatible with several operating systems. Instead of creating separate applications for iOS and Android, mobile engineers can share some or all of the source code between multiple platforms. This way, the applications will work the same on both iOS and Android.
+跨平台 App 开发, 也叫做多平台开发, 意思是说创建兼容多个操作系统的移动 App.
+移动开发工程师能够在多个平台之间共用一部分, 甚至全部的源代码, 而不是为 iOS 和 Android 创建不同的应用程序.
+通过这种方式, 应用程序在 iOS 和 Android 的工作结果是一样的.
 
-There are various open-source frameworks for [cross-platform mobile app development](cross-platform-mobile-development.md) available today. Some of the most popular are Flutter, React Native, and Kotlin Multiplatform Mobile. Below are some of the key pros and cons.
+现在已经有了很多用于 [跨平台移动 App 开发](cross-platform-mobile-development.html) 的开源框架.
+其中最流行的一些是 Flutter, React Native, 以及 Kotlin Multiplatform Mobile.
+下面是这种方式的主要优势和不利点.
 
-|**Benefits**|**Limitations**|
-| ---- | --- |
-|**Shareable code.** Developers create a single codebase without the need to write new code for each OS.|**Performance issues.** Some developers argue that the performance of multiplatform applications is low compared to native apps.|
-|**Faster development.** You don't need to write or test as much code, which can help you accelerate the development process.|**Difficult to access native features of mobile devices.** Building a cross-platform app that needs to access platform-specific APIs requires more effort.|
-|**Cost-effectiveness.** The cross-platform solution can be a good option to consider for startups and companies with smaller budgets because it allows them to reduce development costs.|**Limited UI consistency.** With cross-platform development frameworks that allow you to share the UI, applications may look and feel less native.|
-|**New work opportunities.** You can attract new talent to your team with modern cross-platform technologies in a product's tech stack. Many developers want to tackle new challenges at work, which is why new technologies and tasks tend to increase developers' motivation and enjoyment while working.|**Challenging hiring process.** It can be harder to find professionals who can build multiplatform apps, compared to native app developers. For example, while writing this article, we found about 2,400 Android developer jobs versus 348 Flutter developer vacancies on Glassdoor. However, this situation may change as cross-platform technologies continually evolve and attract more mobile engineers.|
-|**Shared logic.** Because this approach involves using a single codebase, you can be sure that you have the same application logic on different platforms.| |  
+| **优势**                                                                                                     | **不利点**                                                                                                                                                                         |
+|------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **代码共用.** 开发者可以创建单一的代码库, 不必为每个 OS 编写新代码.                                                                   | **性能问题.** 有些开发者 认为多平台应用程序与原生 App 相比性能比较低.                                                                                                                                       |
+| **开发更快速.** 你不需要编写或测试更多代码, 因此可以帮助你加快开发速度.                                                                   | **难于使用移动设备的原生功能.** 创建一个需要访问平台专有 API 的跨平台 App, 需要耗费更多精力.                                                                                                                         |
+| **低成本.** 对于初创企业和预算有限的公司, 跨平台解决方案是一个很好的选择, 因为可以降低开发成本.                                                      | **UI 一致性不佳.** 使用跨平台开发框架使得你可以共用 UI, 应用程序的外观和使用体验可能不太象原生程序.                                                                                                                       |
+| **新的工作机会.** 在你的产品技术栈中包含现代化的跨平台技术, 可以吸引新的人才加入你的团队. 很多开发者想要在工作中探索新的挑战, 所以新的技术和任务有助于提升开发者的热情, 并让他们在工作时感到更加有趣. | **招聘困难.** 与原生 App 开发者相比, 找到能够创建多平台 App 的专家可能更加困难. 例如, 撰写本文时, 我们在 Glassdoor 上找到大约 2,400 个 Android 开发者职位, 而 Flutter 开发者职位只有 348 个. 但是, 随着跨平台技术的持续进步, 并吸引更多的移动开发工程师, 这样的情况可能会发生改变. |
+| **共用业务逻辑.** 由于这个方案使用单一的代码库, 你可以确保在不同的平台的应用程序逻辑是完全相同的.                                                     |                                                                                                                                                                                 |
 
-These are just a few of the key advantages of cross-platform app development. You can learn more about its benefits and use cases from global companies in our article about [cross-platform mobile development](cross-platform-mobile-development.md). As for the challenges of the approach – we'll discuss those in the following section.
+这只是跨平台 App 开发的优势中很少的一部分. 关于它的优势, 以及在全球各大公司的使用场景, 请参见我们关于 [跨平台移动开发](cross-platform-mobile-development.html) 的文章.
+关于这个方案的问题 – 我们在下面的章节中进行讨论.
 
-### Debugging some popular myths about cross-platform app development 
+### 关于跨平台 App 开发的一些常见的误解
 
-Multiplatform technology is constantly evolving. Some cross-platform development frameworks like [Kotlin Multiplatform Mobile](https://kotlinlang.org/lp/mobile/) provide the benefits of building both cross-platform and native apps and remove the limitations that are commonly associated with the approach.
+跨平台技术一直在持续演进. 有些跨平台开发框架, 例如
+[Kotlin Multiplatform Mobile](https://kotlinlang.org/lp/mobile/)
+提供了构建跨平台和原生 App 两种方案的优势, 解决了跨平台方案的一些常见限制.
 
-#### 1. Cross-platform apps provide poorer performance than native apps.
+#### 1. 跨平台 App 的性能低于原生 App.
 
-Poor performance was long considered to be one of the main disadvantages of multiplatform applications. However, the performance and quality of your product largely depend on the tools you use to build the app. The latest cross-platform frameworks provide all the tools necessary to develop apps with a native-like user experience.
+性能低下长期被认为是多平台应用程序的主要劣势. 但是, 你的产品的性能和质量 很大程度上依赖于你用来构建 App 的工具.
+最新的跨平台框架提供了开发出类似于原生程序一样的用户体验的 App 所需要的所有工具.
 
-By using different compiler backends, [Kotlin](multiplatform.md#code-sharing-between-platforms) is compiled to platform formats – JVM bytecode for Android and native binaries for iOS. As a result, the performance of your shared code is the same as if you write them natively.
+通过使用不同的编译器后端, [Kotlin](multiplatform/multiplatform.html#code-sharing-between-platforms) 代码被编译为平台格式
+– 在 Android 平台是 JVM 字节码, 在 iOS 平台是原生二进制代码.
+因此, 你的共用代码的性能, 和你使用原生代码编写它们是一样的.
 
-#### 2. Cross-platform frameworks are unsafe.
+#### 2. 跨平台框架不安全.
 
-There's a common misconception that native apps are much more secure and reliable. However, modern cross-platform development tools allow developers to build safe apps that guarantee reliable data protection. Mobile engineers just need to [take additional measures to make their apps secure](https://appstronauts.co/blog/are-cross-platform-apps-as-fast-and-secure-as-native-apps/#:~:text=Unsecurity%20of%20cross%2Dplatform%20apps,a%20cross%2Dplatform%20app%27s%20code.).
+有一个常见的误解是, 原生 App 更加安全更加可靠. 但是, 现代化的跨平台开发工具可以帮助开发者创建安全的 App, 提供可靠的数据保护.
+移动开发工程师只需要 [添加额外的指标来提升他们的 App 的安全性](https://appstronauts.co/blog/are-cross-platform-apps-as-fast-and-secure-as-native-apps/#:~:text=Unsecurity%20of%20cross%2Dplatform%20apps,a%20cross%2Dplatform%20app%27s%20code.).
 
-#### 3. Cross-platform apps don't have access to all native functions of mobile devices.
+#### 3. 跨平台 App 不能访问移动设备的全部原生功能.
 
-It is true that not all cross-platform frameworks allow you to build apps with full access to the device's features. Nevertheless, some modern multiplatform frameworks can help you overcome this challenge. For example, Kotlin Multiplatform Mobile gives easy access to Android and iOS SDKs. It provides a [Kotlin mechanism of expected and actual declarations](multiplatform-connect-to-apis.md) to help you access the device's capabilities and features.  
+的确, 并不是所有的跨平台框架都能允许你创建 App 来访问设备的全部功能. 但是, 有些现代化的多平台框架能够帮助你解决这个问题.
+例如, Kotlin Multiplatform Mobile 可以很容易的访问 Android 和 iOS SDK.
+它提供了一个 [Kotlin 预期声明与实际声明(expected and actual declarations) 机制](multiplatform/multiplatform-connect-to-apis.html),
+可以帮助你访问设备的功能特性.  
 
-#### 4. It can often be difficult to manage cross-platform projects.
+#### 4. 管理跨平台项目很困难.
 
-In fact, it's the opposite. Cross-platform solutions help you more effectively manage resources. Your development teams can learn how to write and reuse shared code. Android and iOS developers can achieve high efficiency and transparency by interacting and sharing knowledge.
+实际上, 恰恰相反. 跨平台解决方案能够帮助你更加有效的管理资源. 你的开发团队可以学习如何编写和复用共用的代码.
+Android 和 iOS 开发者通过互相沟通和分享知识, 可以达到很高的效率和高度的信息透明.
 
-## Six key aspects to help you choose between cross-platform app development and the native approach
+## 帮助你在跨平台 App 开发和原生方案之间作出选择的 6 个关键因素
 
-Now, let's take a look at important factors you need to consider when choosing between native and cross-platform solutions for mobile app development.
+下面, 我们来看看你为移动 App 开发选择原生和跨平台解决方案时需要考虑的一些重要因素.
 
-#### 1. The type and purpose of your future app
+#### 1. 你未来的 App 的类型和目的
 
-One of the first steps is understanding what app you will be building, including its features and purpose. A complex application with many features will require a lot of programming, especially if it's something new that doesn't have any existing templates.
+第一步应该是理解你要创建什么样的 App, 包括它的功能和目的. 一个带有很多功能的复杂的应用程序需要很多编程工作, 尤其是如果它是一个全新的 App、没有太多现成的模板可以借鉴.
 
-How crucial is the user interface of your app? Are you looking for outstanding visuals or is the UI less important? Will it require any specific hardware functionality and access to camera and GPS location support? You need to make sure the mobile development approach you choose provides the necessary tools to build the app you need and provide a great user experience.
+你的 App 的用户界面有多重要? 你想要非常漂亮的视觉效果吗, 或者 UI 并不重要? 它是否需要任何特定的硬件功能, 是否需要访问摄像头和 GPS 定位功能?
+你需要确保你选择的移动开发策略提供了必要的工具来构建你需要的 App, 而且提供了很好的用户体验.
 
-#### 2. Your team's experience in programming languages and tools
+#### 2. 你的团队在编程语言和工具方面的经验
 
-The developers on your team should have enough experience and expertise to work with particular frameworks. Pay close attention to what programming skills and languages the development tools require.
+你团队中的开发者需要具有足够的经验和专业技能来使用某个特定的框架. 需要仔细考虑开发工具需要什么样的编程技能和编程语言.
 
-For example, developers need to know Objective-C or Swift to create native apps for iOS, and they need to know Kotlin or Java for Android. The cross-platform framework Flutter requires knowledge of Dart. If you use Kotlin Multiplatform Mobile, Kotlin syntax is easy for iOS developers to learn because it follows concepts similar to Swift.
+例如, 开发者需要懂得 Objective-C 或 Swift 才能创建 iOS 的原生 App, 需要懂得 Kotlin 或 Java 才能创建 Android 的原生 App.
+跨平台框架 Flutter 需要懂得 Dart 知识.
+如果你使用 Kotlin Multiplatform Mobile, 对 iOS 开发者来说 Kotlin 语法是很容易学习的, 因为它遵循与 Swift 相似的概念.
 
-#### 3. Long-term viability
+#### 3. 各种技术在未来是否能够长期存在
 
-When choosing between different approaches and frameworks, you need to be confident that the platform vendor will continue supporting it over the long term. You can dig into the details about the provider, the size of their community, and adoption by global companies. For example, Kotlin Multiplatform Mobile was developed by JetBrains, Flutter by Google, and React Native by Facebook. 
+选择不同的方案和框架时, 你需要确信平台供应商能够在未来长期支持它. 你可以挖掘供应商的细节, 他们的开发社区规模, 被全球各大公司采用的程度.
+例如, Kotlin Multiplatform Mobile 的开发者是 JetBrains, Flutter 的开发者是 Google, React Native 的开发者是 Facebook. 
 
-#### 4. Development cost and your budget
+#### 4. 开发成本和你的预算
 
-As mentioned above, different mobile development solutions and tools come with different expenses. Depending on how flexible your budget is, you can choose the right solution for your project.
+上面提到过, 不同的移动开发解决方案和工具会带来不同的开支. 根据你的预算灵活度, 你可以为你的项目选择适当的解决方案.
 
-#### 5. Adoption in the industry 
+#### 5. 业内采用的广泛度 
 
-You can always find out what other experts in the tech community are saying about different approaches. Reddit, StackOverflow, and Google Trends are a few good resources. Just take a look at search trends for the following two terms: "native mobile development" versus "cross-platform mobile development". Many users are still interested in learning about native app development, but it also seems like the cross-platform approach is gaining popularity.
+你总是能够找到技术社区的其他专家们对各种不同方案的意见. Reddit, StackOverflow, 以及 Google Trends 是几个不错的消息源.
+请看看以下两个词语的搜索趋势: "原生移动开发" vs "跨平台移动开发".
+很多用户仍然对学习原生 App 开发感兴趣, 但似乎跨平台方案正在获得更多关注.
 
-![Native mobile development in Google Trends](native-mobile-development.png){width=700}
+<img src="/assets/docs/images/native-mobile-development.png" alt="原生移动开发的 Google 搜索趋势" width="700"/>
 
-![Cross-platform mobile development in Google Trends](cross-platform-mobile-development.png){width=700}
+<img src="/assets/docs/images/cross-platform-mobile-development.png" alt="跨平台移动开发的 Google 搜索趋势" width="700"/>
 
-If a technology is widely used by professionals, it has a strong ecosystem, many libraries, and best practices from the tech community, which makes development faster.
+如果一种技术被专业人士广泛使用, 它会拥有一个很强的生态环境, 大量的库, 以及技术社区的最佳实践, 这些都可以让你的开发工作更加快速.
 
-#### 6. Visibility and learning resources
+#### 6. 流行度与学习资源
 
-If you're considering trying cross-platform app development, one of the factors you should consider is how easy it is to find learning materials for the different multiplatform frameworks. Check their official documentation, books, and courses. Be sure they provide a [product roadmap](https://blog.jetbrains.com/kotlin/2022/06/what-to-expect-from-the-kotlin-team-in-202223/) with long-term plans.   
+如果你在考虑试用跨平台 App 开发, 你需要考虑的一个因素是, 找到各个多平台框架的学习资料的难易程度.
+请查看它们的官方文档, 书籍, 以及课程.
+请确认它们提供了带有长期计划的 [产品路线图](https://blog.jetbrains.com/kotlin/2022/06/what-to-expect-from-the-kotlin-team-in-202223/).
 
-## When should you choose cross-platform app development?
+## 什么情况下你应该选择跨平台 App 开发?
 
-Cross-platform solutions for mobile app development will save you time and effort when building applications for both Android and iOS.
+在针对 Android 和 iOS 构建应用程序时, 为移动 App 开发的跨平台解决方案可以节省你的时间和工作.
 
-In a nutshell, you should to opt for cross-platform solutions if:
+简单的说, 对于下面的情况, 你应该选择跨平台解决方案:
 
-* You need to build an app for both Android and iOS.
-* You want to optimize development time.
-* You want to have a single codebase for the app logic while keeping full control over UI elements. Not all cross-platform frameworks allow you to do this, but some, like Kotlin Multiplatform Mobile, provide this capability.
-* You're eager to embrace a modern technology that continues to evolve.
+* 你需要创建一个同时运行于 Android 和 iOS 的 App.
+* 你想要节约开发时间.
+* 你想要对 App 的业务逻辑只保持单一的代码库, 同时又能够完全控制它们的 UI 元素.
+  并不是所有的跨平台框架都允许你实现这样的功能, 但是有一些框架, 例如 Kotlin Multiplatform Mobile, 提供了这样的能力.
+* 你热切希望采用持续演进中的现代化技术.
 
-> Share the logic of your iOS and Android apps. See [Kotlin Multiplatform Mobile](multiplatform-mobile-getting-started.md) in action.
->
-{type="note"}
+> 请在你的 iOS 和 Android App 中共用业务逻辑.
+> 参见 [Kotlin Multiplatform Mobile](multiplatform-mobile/multiplatform-mobile-getting-started.html) 中的实际例子.
+{:.note}
 
-## When should you choose native app development?
+## 什么情况下你应该选择跨平台原生 App 开发?
 
-There may be a few specific cases when it makes sense to choose native mobile development. You should choose this approach if:
+对少数集中情况, 选择原生移动开发会更加合适. 对于下面的情况, 你应该选择这个方案:
 
-* Your app is targeting one specific audience – either Android or iOS.
-* The user interface is critical to your future application. However, even if you take the native approach, you can try using multiplatform mobile app development solutions that allow you to share app logic, but not the UI, for your project.
-* Your team is equipped with highly skilled Android and iOS developers, but you don't have time to introduce new technologies.
+* 你的 App 只针对某一种用户 – Android 或 iOS.
+* 用户界面对你的应用程序非常重要. 但是, 即使你采用原生方案, 你也可以尝试使用多平台移动 App 开发方案, 它可以允许你对你的项目共用 App 的业务逻辑, 但不共用 UI.
+* 你的团队拥有极高技能的 Android 和 iOS 开发者, 但你没有时间来学习新的技术.
 
-### Takeaways
+### 结束语
 
-Keep in mind all the aspects described above, your project's goals, and the end user. Whether you're better off with native or cross-platform development depends on your unique needs. Each solution has its strengths and weaknesses. 
+请关注上面介绍的各种因素, 你的项目的目标, 以及最终用户. 无论你喜欢原生开发还是跨平台开发, 都取决于你独特的需求.
+每个解决方案都有它的长处, 也有它的弱点. 
 
-Nevertheless, keep an eye on what happens in the community. Knowing the latest mobile development trends will help you make the best choice for your project.
+无论如何, 需要关注技术社区正在发生什么事. 知道最新的移动开发趋势, 可以帮助你为你的项目作出最好的选择.

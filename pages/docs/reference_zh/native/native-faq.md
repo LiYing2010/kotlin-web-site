@@ -13,13 +13,14 @@ title: "FAQ"
 
 你需要定义一个顶层的函数 `fun main(args: Array<String>)`,
 如果你不需要接受命令行参数, 也可以写成 `fun main()`, 请注意不要把这个函数放在包内.
-另外, 也可以使用编译器的 `-entry` 选项把任何一个函数指定为程序的入口点,
+另外, 也可以使用编译器的 `-entry` 选项, 把任何一个函数指定为程序的入口点,
 但这个函数应该接受 `Array<String>` 参数, 或者没有参数, 并且函数返回值类型应该是 `Unit`.
 
 ## Kotlin/Native 的内存管理机制是怎样的?
 
-Kotlin/Native 提供一种自动化的内存管理机制, 与 Java 和 Swift 类似.
-目前的内存管理器的实现包括, 自动的引用计数器, 以及循环收集器, 可以回收循环引用的垃圾内存.
+Kotlin/Native 使用一种自动化的内存管理机制, 与 Java 和 Swift 类似.
+
+详情请参见 [Kotlin/Native 内存管理器](native-memory-manager.html)
 
 ## 我要怎样创建一个共享库?
 
@@ -140,12 +141,20 @@ kotlin {
 
 ## 为什么我会遇到 `InvalidMutabilityException` 异常?
 
+> 这个问题只会在旧的内存管理器中发生.
+> 从 Kotlin 1.7.20 开始会默认启用新的内存管理器, 详情请参见 [Kotlin/Native 内存管理](native-memory-manager.html).
+{:.note}
+
 这个异常发生很可能是因为, 你试图修改一个已冻结的对象值.
 对象可以明确地转变为冻结状态, 对某个对象调用 `kotlin.native.concurrent.freeze` 函数,
 那么只被这个对象访问的其他所有对象子图都会被冻结, 对象也可以隐含的冻结
 (也就是, 它只被 `enum` 或全局单子对象访问 - 详情请参见下一个问题).
 
-## 我要怎样让一个单子对象可以被修改?
+## 我要怎样让一个单子对象(Singleton Object)可以被修改?
+
+> 这个问题只会在旧的内存管理器中发生.
+> 从 Kotlin 1.7.20 开始会默认启用新的内存管理器, 详情请参见 [Kotlin/Native 内存管理](native-memory-manager.html).
+{:.note}
 
 目前, 单子对象都是不可修改的(也就是, 创建后就被冻结), 而且我们认为让全局状态值不可变更, 通常是比较好的编程方式.
 如果处于某些理由, 你需要在这样的对象内包含可变更的状态值, 请在对象上使用 `@konan.ThreadLocal` 注解.

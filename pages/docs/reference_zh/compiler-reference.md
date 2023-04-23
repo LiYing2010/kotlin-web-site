@@ -13,10 +13,12 @@ JVM, JavaScript, 以及
 [所支持的各种平台](native-overview.html#target-platforms)
 的原生二进制可执行文件(native binary).
 
-当你对你的 Kotlin 工程按下 __Compile__ 或 __Run__ 按钮时, IDE 会使用这些编译器.  
+这些编译器会在以下情况下使用:
+* 当你对你的 Kotlin 工程按下 __Compile__ 或 __Run__ 按钮时, 由 IDE 使用.
+* 当你在控制台或在 IDE 内调用 `gradle build` 命令时, 由 Gradle 使用.
+* 当你在控制台或在 IDE 内调用 `mvn compile` 或 `mvn test-compile`, 由 Maven 使用.
 
 你也可以从命令行手动运行 Kotlin 编译器, 详情请参见教程 [使用命令行编译器](command-line.html).
-
 
 ## 编译器选项
 
@@ -29,8 +31,8 @@ Kotlin 编译器带有很多选项, 用于控制编译过程.
   设定窗口的
   **Additional command line parameters**
   文本框中输入编译器参数
-* 如果使用 Gradle, 可以在 Kotlin 编译任务的 `kotlinOptions` 属性中指定编译参数.
-  详情请参见 [Gradle](using-gradle.html#compiler-options).
+* 如果使用 Gradle, 可以在 Kotlin 编译任务的 `compilerOptions` 属性中指定编译参数.
+  详情请参见 [Gradle 编译器选项](gradle/gradle-compiler-options.html#how-to-define-options).
 * 如果使用 Maven, 可以在 Maven 插件的 `<configuration>` 元素中指定编译参数 .
   详情请参见 [Maven](using-maven.html#specifying-compiler-options).
 * 如果在命令行运行编译器, 可以在调用编译器时直接添加编译参数, 或者将编译参数写在 [参数文件](#argfile) 内.
@@ -170,7 +172,7 @@ classpath 可以包含文件路径, 目录路径, ZIP 文件, 或 JAR 文件.
 
 指定生成的 JVM 字节码的目标版本. 将类路径中的 JDK API 限制为指定的 Java 版本.
 自动设置 [`-jvm-target version`](#jvm-target-version).
-可以指定的值是 `1.8`, `9`, `10`, ..., `18`.
+可以指定的值是 `1.8`, `9`, `10`, ..., `19`.
 默认值是 `{{ site.data.releases.defaultJvmTargetVersion }}`.
 
 > 这个选项 [不保证](https://youtrack.jetbrains.com/issue/KT-29974) 对所有的 JDK 发布版都有效.
@@ -179,7 +181,7 @@ classpath 可以包含文件路径, 目录路径, ZIP 文件, 或 JAR 文件.
 ### -jvm-target _version_
 
 指定编译产生的 JVM 字节码(bytecode)版本.
-可以指定的值是 `1.8`, `9`, `10`, ..., `18`.
+可以指定的值是 `1.8`, `9`, `10`, ..., `19`.
 默认值是 `{{ site.data.releases.defaultJvmTargetVersion }}`.
 
 ### -java-parameters

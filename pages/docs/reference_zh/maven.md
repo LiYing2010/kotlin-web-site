@@ -35,12 +35,9 @@ Kotlin 有一个内容广泛的标准库, 可以在你的应用程序中使用.
 </dependencies>
 ```
 
-如果你的编译目标平台是 JDK 7 或 JDK 8, 你可以使用 Kotlin 标准库的扩展版本,
-其中包含了针对 JDK 新版本中新增 API 的额外的扩展函数.
-请使用 `kotlin-stdlib-jdk7` or `kotlin-stdlib-jdk8` 依赖(根据你的 JDK 版本决定),
-而不是通常的 `kotlin-stdlib`.
-
-> 对于 Kotlin 1.2 以前的版本, 请使用 `kotlin-stdlib-jre7` 和 `kotlin-stdlib-jre8`.
+> 如果你的编译目标平台是 JDK 7 或 8
+> * 对于 Kotlin 1.8 以前版本, 请使用 `kotlin-stdlib-jdk7` 或 `kotlin-stdlib-jdk8`.
+> * 对于 Kotlin 1.2 以前版本, 请使用 `kotlin-stdlib-jre7` 或 `kotlin-stdlib-jre8`.
 {:.note}
 
 如果你的项目使用了
@@ -279,8 +276,8 @@ java -jar target/mymodule-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 |  名称 |  Maven 属性名  |    描述     |   可以选择的值    |    默认值     |
 |------|---------------|-------------|-----------------|--------------|
 | `nowarn` | | 不产生警告信息 | true, false | false |
-| `languageVersion` | kotlin.compiler.languageVersion | 指定源代码所兼容的 Kotlin 语言版本 |"1.4" (已废弃 DEPRECATED), "1.5", "1.6", "1.7" |
-| `apiVersion` | kotlin.compiler.apiVersion | 只允许使用指定的版本的运行库中的 API | "1.3" (已废弃 DEPRECATED), "1.4" (已废弃 DEPRECATED), "1.5", "1.6", "1.7" |
+| `languageVersion` | kotlin.compiler.languageVersion | 指定源代码所兼容的 Kotlin 语言版本 | "1.3" (已废弃 DEPRECATED), "1.4" (已废弃 DEPRECATED), "1.5", "1.6", "1.7", "1.8", "1.9" (实验性功能) |
+| `apiVersion` | kotlin.compiler.apiVersion | 只允许使用指定的版本的运行库中的 API | "1.3" (已废弃 DEPRECATED), "1.4" (已废弃 DEPRECATED), "1.5", "1.6", "1.7", "1.8", "1.9" (实验性功能) |
 | `sourceDirs` | | 指定编译对象源代码文件所在的目录 | | 工程的源代码根路径
 | `compilerPlugins` | | 允许使用编译器插件 | | []
 | `pluginOptions` | | 供编译器插件使用的选项 | | []
@@ -290,7 +287,7 @@ java -jar target/mymodule-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 
 |  名称 |  Maven 属性名  |    描述     |   可以选择的值    |    默认值     |
 |------|---------------|-------------|-----------------|--------------|
-| `jvmTarget` | `kotlin.compiler.jvmTarget` | 指定编译输出的 JVM 字节码的版本 | "1.8", "9", "10", ..., "18" | "{{ site.data.releases.defaultJvmTargetVersion }}" |
+| `jvmTarget` | `kotlin.compiler.jvmTarget` | 指定编译输出的 JVM 字节码的版本 | "1.8", "9", "10", ..., "19" | "{{ site.data.releases.defaultJvmTargetVersion }}" |
 | `jdkHome` | `kotlin.compiler.jdkHome` | 指定一个自定义的 JDK 路径, 添加到 classpath 内, 替代默认的 JAVA_HOME 值 | | |
 
 ### JS 独有的属性
@@ -303,6 +300,25 @@ java -jar target/mymodule-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 | `sourceMapEmbedSources` | | 指定是否将源代码文件嵌入到源代码映射文件中 | "never", "always", "inlining" | "inlining" |
 | `sourceMapPrefix` | | 对源代码映射文件中的路径添加前缀 |  |  |
 | `moduleKind` | | 指定编译器生成的 JS 模块类型 | "umd", "commonjs", "amd", "plain" | "umd"
+
+## 使用 BOM
+
+要使用 Kotlin [Bill of Materials (BOM)](https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#bill-of-materials-bom-poms),
+请添加 [`kotlin-bom`](https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-bom) 的依赖项:
+
+```xml
+<dependencyManagement>
+  <dependencies>  
+    <dependency>
+      <groupId>org.jetbrains.kotlin</groupId>
+      <artifactId>kotlin-bom</artifactId>
+      <version>{{ site.data.releases.latest.version }}</version>
+      <type>pom</type>
+      <scope>import</scope>
+    </dependency>
+  </dependencies>
+</dependencyManagement>
+```
 
 ## 生成文档
 

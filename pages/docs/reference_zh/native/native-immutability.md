@@ -9,6 +9,10 @@ title: "Kotlin/Native 中的不变性(Immutability)与并发(Concurrency)"
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
+> 本章描述的是旧的内存管理器的功能特性.
+> 从 Kotlin 1.7.20 开始会默认启用新的内存管理器, 详情请参见 [Kotlin/Native 内存管理](native-memory-manager.html).
+{:.note}
+
 Kotlin/Native 实现了严格的可变性检查, 以确保重要的不变性(invariant)机制,
 也就是, 对象在任何时刻, 要么是不可变的,
 要么只能从单个线程访问 (`要么是不共享的可变对象, 要么是共享的不可变对象`).

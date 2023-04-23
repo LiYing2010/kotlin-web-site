@@ -117,7 +117,7 @@ Kotlin 1.5.30 对 JVM 平台 [引入了](whatsnew1530.html#instantiation-of-anno
 
 ### 改进了对递归泛型类型的类型推断
 
-Kotlin 1.5.30 改进了对递归泛型类型的类型推断, 能够根据对应的类型参数的上界(upper bound)来推断类型参数.
+Kotlin 1.5.30 改进了对递归泛型类型的类型推断, 能够根据对应的类型参数的上界(Upper Bound)来推断类型参数.
 这个功能可以通过编译器选项启用. 在 1.6.0 和之后的版本中, 这个功能默认启用.
 
 ```kotlin
@@ -457,7 +457,7 @@ Kotlin/JS 现在有一个 [用于关闭 Node.js 和 Yarn 下载的选项](#optio
 我们删除了 `kotlin.useFallbackCompilerSearch` 构建选项, 以及 `noReflect` 和 `includeRuntime` 编译器选项.
 `useIR` 编译器选项已被隐藏, 而且将在未来的发布版中删除.
 
-更多详情请参见 Kotlin Gradle plugin [目前支持的编译器选项](gradle.html#compiler-options).
+更多详情请参见 Kotlin Gradle plugin [目前支持的编译器选项](gradle/gradle-compiler-options.html).
 
 ## 标准库
 

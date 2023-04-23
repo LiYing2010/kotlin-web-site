@@ -56,20 +56,26 @@ title: "创建你的第一个跨平台应用程序"
 ## 从模板创建项目
 
 > 你也可以观看由 Kotlin 产品市场经理 Ekaterina Petrova 创建的 [本教程的视频版本](https://www.youtube.com/watch?v=GcqFhoUuNNI).
-> {:.tip}
+{:.tip}
 
 1. 在 Android Studio 中, 选择 **File \| New \| New Project**.
 2. 在项目模板列表中选择 **Kotlin Multiplatform App**, 并点击 **Next**.
 
-    ![跨平台移动项目模板]({{ url_for('asset', path='docs/images/multiplatform-mobile/create-first-app/multiplatform-mobile-project-wizard-1.png') }})
- 
+    <img src="/assets/docs/images/multiplatform-mobile/create-first-app/multiplatform-mobile-project-wizard-1.png" alt="跨平台移动项目模板" width="700"/>
+
 3. 为你的第 1 个 应用程序指定名称, 并点击 **Next**.  
 
-    ![跨平台移动项目 - 一般设置]({{ url_for('asset', path='docs/images/multiplatform-mobile/create-first-app/multiplatform-mobile-project-wizard-2.png') }})
+    <img src="/assets/docs/images/multiplatform-mobile/create-first-app/multiplatform-mobile-project-wizard-2.png" alt="跨平台移动项目 - 一般设置" width="700"/>
 
-4. 在 **iOS framework distribution** 列表中, 选择 **Regular framework**.
+4. 在 **iOS framework distribution** 列表中, 选择 **Regular framework** 选项.
 
-    ![跨平台移动项目 - 追加设置]({{ url_for('asset', path='docs/images/multiplatform-mobile/create-first-app/multiplatform-mobile-project-wizard-3.png') }})
+    <img src="/assets/docs/images/multiplatform-mobile/create-first-app/multiplatform-mobile-project-wizard-3.png" alt="跨平台移动项目 - 追加设置" width="700"/>
+
+   > 我们推荐对你的第一个项目使用 Regular framework, 因为这个选项不要求第三方工具, 并且安装过程中的问题较少.
+   >
+   > 对于更加复杂的项目, 你可能需要 CocoaPods 依赖项管理器, 来帮助处理库的依赖项.
+   > 关于 CocoaPods 及其环境设置, 详情请参见 [CocoaPods 概述与设置](../native/native-cocoapods.html).
+   {:.tip}
 
 5. 对应用程序和共用目录的名称使用默认设置. 点击 **Finish**.
 
@@ -124,21 +130,24 @@ _源代码集_ 是一个 Gradle 概念, 它表示逻辑上组合在一起的一�
 
 学习如何 [配置 Android Emulator, 并在不同的模拟设备上运行你的应用程序](https://developer.android.com/studio/run/emulator#runningapp).
     
-#### 运行 在 上 a 真实的 Android 设备
+#### 在真实的 Android 上设备运行
 
-学习如何 [配置 and connect a hardware 设备 and 运行 你的 应用程序 在 上 it](https://developer.android.com/studio/run/device).
+学习如何 [配置并连接到一个硬件设备, 并在这个设备上并运行你的应用程序](https://developer.android.com/studio/run/device).
 
 ### 在 iOS 上运行你的应用程序
 
-* 在运行配置列表中, 选择 **iosApp**, 然后点击 **Run**.  
+1. 在另一个窗口中启动 Xcode. 初次启动时, 你可能还需要接受它的许可协议, 并允许它执行一些必要的初始化工作.
+2. 在 Android Studio 中, 在运行配置列表中选择 **iosApp**, 然后点击 **Run**.
+
+   如果你的运行配置列表中还没有 iOS 配置, 请添加一个 [新的 iOS 模拟设备](#run-on-a-new-ios-simulated-device).
 
     <img src="/assets/docs/images/multiplatform-mobile/create-first-app/run-ios.png" alt="在 iOS 上运行跨平台 App" width="450"/>
 
     <img src="/assets/docs/images/multiplatform-mobile/create-first-app/first-multiplatform-project-on-ios-1.png" alt="在 iOS 上的第 1 个 移动跨平台 App" width="300"/>
 
-#### 在不同的 iPhone 模拟设备上运行
+#### 在新的 iOS 模拟设备上运行
 
-如果你想要在另一个模拟设备上运行你的应用程序, 你可以添加新的运行配置.
+如果你想要在一个模拟设备上运行你的应用程序, 你可以添加新的运行配置.
 
 1. 在运行配置列表中, 点击 **Edit Configurations**.
 
@@ -150,17 +159,21 @@ _源代码集_ 是一个 Gradle 概念, 它表示逻辑上组合在一起的一�
 
 3. 为你的运行配置命名.
 
-4. 在 **Execution target** 列表中选择一个模拟设备, 然后点击 **OK**.
+4. 选中 **Xcode 项目文件**. 具体做法是, 导航到你的项目, 比如 **KotlinMultiplatformSandbox**,
+   打开 `iosApp` 文件夹, 并选中 `.xcodeproj` 文件.
+
+5. 在 **Execution target** 列表中, 选择一个模拟设备, 然后点击 **OK**.
 
     ![使用 iOS 模拟器的新的运行配置]({{ url_for('asset', path='docs/images/multiplatform-mobile/create-first-app/ios-new-simulator.png') }})
     
-5. 点击 **Run**, 在新的模拟设备上运行你的应用程序.
+6. 点击 **Run**, 在新的模拟设备上运行你的应用程序.
     
-#### 在一个真实的 iPhone 设备上运行
+#### 在一个真实的 iOS 设备上运行
 
-1. [将一个真实的 iPhone 设备连接到 Xcode](https://developer.apple.com/documentation/xcode/running_your_app_in_the_simulator_or_on_a_device).
-2. 在 **Execution target** 列表中选择 iPhone, [创建一个运行配置](#run-on-a-different-iphone-simulated-device).
-3. 点击 **Run**, 在 iPhone 设备上运行你的应用程序.
+1. 将一个真实的 iPhone 设备连接到 Xcode.
+2. 对你的 App 进行代码签名(Code Sign). 详情请参见 [Apple 官方文档](https://developer.apple.com/documentation/xcode/running-your-app-in-simulator-or-on-a-device/).
+3. 在 **Execution target** 列表中选择 iPhone, [创建一个运行配置](#run-on-a-new-ios-simulated-device).
+4. 点击 **Run**, 在 iPhone 设备上运行你的应用程序.
 
 > 如果你的构建失败, 请使用 [这个 issue](https://youtrack.jetbrains.com/issue/KT-40907) 中的变通方法.
 {:.note}
@@ -173,27 +186,31 @@ _源代码集_ 是一个 Gradle 概念, 它表示逻辑上组合在一起的一�
    ![共用的 Kotlin 文件]({{ url_for('asset', path='docs/images/multiplatform-mobile/create-first-app/common-kotlin-file.png') }})
     
 2. 更新共用代码, 使用在所有平台上都能工作的 Kotlin 翻转字符串标准库函数
-   `[reversed()](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/reversed.html)`:
+   [`reversed()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/reversed.html):
 
     ```kotlin
     class Greeting {
+        private val platform: Platform = getPlatform()
+
         fun greeting(): String {
-            return "Guess what it is! > ${Platform().platform.reversed()}!"
+            return "Guess what it is! > ${platform.name.reversed()}!"
         }
     }
     ```
 
-3. 在 Android 上运行更新后的应用程序.
+3. 再次运行 **androidApp** 配置, 在 Android 虚拟设备上查看更新后的应用程序.
 
     <img src="/assets/docs/images/multiplatform-mobile/create-first-app/first-multiplatform-project-on-android-2.png" alt="在 Android 上运行更新后的跨平台移动 App" width="300"/>
 
-4. 在 iOS 上运行更新后的应用程序.  
+4. 在 Android Studio 中, 切换到 **iosApp**, 再次运行它, 在 iOS 虚拟设备上查看更新后的应用程序.  
 
     <img src="/assets/docs/images/multiplatform-mobile/create-first-app/first-multiplatform-project-on-ios-2.png" alt="在 iOS 上运行更新后的跨平台移动 App" width="300"/>
     
 ## 下一步
 
-[学习依赖项, 并向你的项目添加一个第三方库](multiplatform-mobile-dependencies.html) 来扩展它的功能.
+在本教程的下一部分, 你将会学习依赖项, 并向你的项目添加一个第三方库, 来扩展它的功能.
+
+**[进入下一部分](multiplatform-mobile-dependencies.html)**
 
 ### 参见
 

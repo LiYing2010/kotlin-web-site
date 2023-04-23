@@ -7,7 +7,7 @@ title: "选择表达式(Select expression)"
 
 # 选择表达式(Select expression) (实验性功能)
 
-最终更新: {{ site.data.releases.latestCoroutinesDocDate }}
+最终更新: {{ site.data.releases.latestDocDate }}
 
 <!--- TEST_NAME SelectGuideTest -->
 
@@ -19,23 +19,23 @@ title: "选择表达式(Select expression)"
 
 ## 从通道中选择
 
-假设我们有两个 string 值的生产者: `fizz` 和 `buzz`. 其中 `fizz` 每 300ms 产生一个 "Fizz" 字符串:
+假设我们有两个 string 值的生产者: `fizz` 和 `buzz`. 其中 `fizz` 每 500ms 产生一个 "Fizz" 字符串:
 
 ```kotlin
 fun CoroutineScope.fizz() = produce<String> {
-    while (true) { // 每 300ms 发送一个 "Fizz"
-        delay(300)
+    while (true) { // 每 500ms 发送一个 "Fizz"
+        delay(500)
         send("Fizz")
     }
 }
 ```
 
-`buzz` 每 500ms 产生一个 "Buzz!" 字符串:
+`buzz` 每 1000ms 产生一个 "Buzz!" 字符串:
 
 ```kotlin
 fun CoroutineScope.buzz() = produce<String> {
-    while (true) { // 每 500ms 发生一个 "Buzz!"
-        delay(500)
+    while (true) { // 每 1000ms 发生一个 "Buzz!"
+        delay(1000)
         send("Buzz!")
     }
 }
@@ -69,15 +69,15 @@ import kotlinx.coroutines.channels.*
 import kotlinx.coroutines.selects.*
 
 fun CoroutineScope.fizz() = produce<String> {
-    while (true) { // 每 300ms 发送一个 "Fizz"
-        delay(300)
+    while (true) { // 每 500ms 发送一个 "Fizz"
+        delay(500)
         send("Fizz")
     }
 }
 
 fun CoroutineScope.buzz() = produce<String> {
-    while (true) { // 每 500ms 发生一个 "Buzz!"
-        delay(500)
+    while (true) { // 每 1000ms 发生一个 "Buzz!"
+        delay(1000)
         send("Buzz!")
     }
 }
@@ -119,7 +119,7 @@ fizz -> 'Fizz'
 fizz -> 'Fizz'
 buzz -> 'Buzz!'
 fizz -> 'Fizz'
-buzz -> 'Buzz!'
+buzz -> 'Fizz!'
 ```
 
 <!--- TEST -->

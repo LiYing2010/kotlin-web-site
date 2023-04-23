@@ -6,7 +6,7 @@ title: "Kotlin 跨平台程序开发"
 
 # Kotlin 跨平台程序开发
 
-本页面最终更新: 2021/09/13
+最终更新: {{ site.data.releases.latestDocDate }}
 
 > 跨平台项目目前处于 [Alpha](/docs/reference_zh/components-stability.html) 阶段.
 > 语言功能和相关工具在未来的 Kotlin 版本中都可能发生变化.
@@ -22,13 +22,13 @@ title: "Kotlin 跨平台程序开发"
 *   [在你的项目中使用的所有平台上共用代码](mpp-share-on-platforms.html#share-code-on-all-platforms).
 通过这种方式, 可以共用那些适用于所有平台的共通业务逻辑.
 
-    ![对所有平台共用代码]({{ url_for('asset', path='/docs/images/mpp/flat-structure.png') }})
+    ![对所有平台共用代码]({{ url_for('asset', path='docs/images/mpp/flat-structure.png') }})
 
 *   [在你的项目中使用的一部分(但不是所有)平台上共用代码](mpp-share-on-platforms.html#share-code-on-similar-platforms).
 可以通过一种阶层结构, 在相似的平台上共用很大部分代码. 你可以对编译目标的共通组合使用 [编译目标的简写](mpp-share-on-platforms.html#use-target-shortcuts),
 或者 [手动创建层级结构](mpp-share-on-platforms.html#configure-the-hierarchical-structure-manually).
 
-    ![层级结构]({{ url_for('asset', path='/docs/images/mpp/hierarchical-structure.png') }})
+    ![层级结构]({{ url_for('asset', path='docs/images/mpp/hierarchical-structure.png') }})
 
 如果需要在共用代码中访问平台相关的 API, 可以使用 Kotlin [预期声明与实际声明(expected and actual declaration)](mpp-connect-to-apis.html) 机制.
 

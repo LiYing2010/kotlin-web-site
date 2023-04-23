@@ -3,6 +3,7 @@ import re
 replace_simple_code = False
 
 languageMimeTypeMap = {
+    "none": "text/plain",
     "kotlin": "text/x-kotlin",
     "java": "text/x-java",
     "properties": "text/x-java-properties",

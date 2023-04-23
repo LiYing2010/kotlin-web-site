@@ -1,0 +1,144 @@
+---
+type: doc
+layout: reference
+category:
+title: "使用 Spring Data CrudRepository 进行数据库访问"
+---
+
+# 使用 Spring Data CrudRepository 进行数据库访问
+[//]: # (title: Use Spring Data CrudRepository for database access)
+[//]: # (description: Work with Spring Data interface in a Spring Boot project written in Kotlin.)
+
+最终更新: {{ site.data.releases.latestDocDate }}
+
+<table style="border-style: solid; border-color: 252528">
+    <tr style="border: none">
+        <td>
+            这是 <strong>Spring Boot 和 Kotlin 入门</strong> 教程的最后部分.
+            开始这一部分之前, 请确认你已经完成了前面的步骤:
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <div style="display: block">
+            <div style="vertical-align: middle; display: inline-flex">
+                <img src="/assets/docs/images/icons/icon-1-done.svg" alt="第 1 步" width="20"/> &nbsp;
+                <a href="jvm-create-project-with-spring-boot.html">使用 Kotlin 创建 Spring Boot 项目</a>
+            </div>
+            <br/>
+
+            <div style="vertical-align: middle; display: inline-flex">
+                <img src="/assets/docs/images/icons/icon-2-done.svg" alt="第 2 步" width="20"/> &nbsp;
+                <a href="jvm-spring-boot-add-data-class.html">向 Spring Boot 项目添加数据类</a>
+            </div>
+            <br/>
+    
+            <div style="vertical-align: middle; display: inline-flex">
+                <img src="/assets/docs/images/icons/icon-3-done.svg" alt="第 3 步" width="20"/> &nbsp;
+                <a href="jvm-spring-boot-add-db-support.html">为 Spring Boot 项目添加数据库支持</a>
+            </div>
+            <br/>
+    
+            <div style="vertical-align: middle; display: inline-flex">
+                <img src="/assets/docs/images/icons/icon-4-todo.svg" alt="第 4 步" width="20"/> &nbsp;
+                <strong>使用 Spring Data CrudRepository 进行数据库访问</strong>
+            </div>
+        </div>
+        </td>
+    </tr>
+</table>
+
+在这一章中, 你将会迁移服务层, 使用 [Spring Data](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/CrudRepository.html) `CrudRepository`
+进行数据库访问, 而不是原来的 `JdbcTemplate` .
+
+_CrudRepository_ 是一个 Spring Data 接口, 可以指定类型的仓库进行通常的 [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) 操作.
+它提供了一些现成的方法来操作数据库.
+
+## 更新你的应用程序
+
+首先, 你需要调整 `Message` 类, 来配合 `CrudRepository` API:
+
+1. 向 `Message` 类添加 `@Table` 注解, 声明它与数据库表的映射关系.  
+   在 `id` 属性之前添加 `@Id` 注解.
+
+   > 这些注解也需要额外的 import.
+   {:.note}
+
+    ```kotlin
+    import org.springframework.data.annotation.Id
+    import org.springframework.data.relational.core.mapping.Table
+    
+    @Table("MESSAGES")
+    data class Message(@Id var id: String?, val text: String)
+    ```
+    
+   除了添加这些注解之外, 你还需要让 `id` 成为可变属性 (`var`), 因为在将新对象插入到数据库时 `CrudRepository` 需要如此.
+
+2. 为`CrudRepository` 声明一个接口, 它负责操作 `Message` 数据类:
+
+    ```kotlin
+    import org.springframework.data.repository.CrudRepository
+    
+    interface MessageRepository : CrudRepository<Message, String>
+    ```
+
+3. 更新 `MessageService` 类. 它现在调用 `MessageRepository`, 而不是执行 SQL 查询:
+
+    ```kotlin
+    @Service
+    class MessageService(val db: MessageRepository) {
+        fun findMessages(): List<Message> = db.findAll().toList()
+    
+        fun findMessageById(id: String): List<Message> = db.findById(id).toList()
+    
+        fun save(message: Message) {
+            db.save(message)
+        }
+    
+        fun <T : Any> Optional<out T>.toList(): List<T> =
+            if (isPresent) listOf(get()) else emptyList()
+    }
+    ```
+
+   ### 扩展函数
+
+   `CrudRepository` 接口中 `findById()` 函数的返回类型是 `Optional` 类的实例. 但是, 从代码统一的角度来说, 返回一个包含单个 message 的 `List` 会更加方便.
+   要做到这一点, 如果 `Optional` 中有值, 你需要解包这个值, 并返回一个包含这个值的 List.
+   这部分功能可以实现为 `Optional` 类型的一个 [扩展函数](../extensions.html#extension-functions).
+
+   在上面的代码中, `Optional<out T>.toList()`, `toList()` 是 `Optional` 的扩展函数.
+   使用扩展函数, 你可以向任何类添加额外的函数, 当你想要扩展某些库中的类的功能时, 这样会非常有用.
+
+   ### CrudRepository save() 函数
+
+   [这个函数的工作方式](https://docs.spring.io/spring-data/jdbc/docs/current/reference/html/#jdbc.entity-persistence) 假定新的对象在数据库中没有 id.
+   因此, 对 insertion 操作, id **需要为 null**.
+
+   如果 id 不是 *null*, `CrudRepository` 假定对象在数据库中已经存在, 并且这是一个 *update* 操作, 而不是 *insert* 操作.
+   在 insert 操作之后, `id` 会由数据库生成, 并反过来赋值给 `Message` 实例. 这就是 `id` 属性需要使用 `var` 关键字来声明的原因.
+
+4. 更新 messages 表定义, 对 insert 的对象生成 id. 由于 `id` 是一个字符串, 你可以使用 `RANDOM_UUID()` 函数来生成默认的 id 值:
+
+    ```sql
+    CREATE TABLE messages (
+       id                     VARCHAR(60)  DEFAULT RANDOM_UUID() PRIMARY KEY,
+       text                   VARCHAR      NOT NULL
+       );
+    ```
+
+## 运行应用程序
+
+应用程序可以在此运行了.
+通过将 `JdbcTemplate` 替换为 `CrudRepository`, 功能并没有变更, 因此应用程序应该和以前相同的方式运行.
+
+## 下一步
+
+得到你个人的语言导航地图, 它可以帮助你浏览 Kotlin 的功能特性, 并追踪你学习语言的进度.
+我们还会向你发送语言小提示, 以及与 Spring 一起使用 Kotlin 的有用资料.
+
+<a href="https://info.jetbrains.com/kotlin-tips.html">
+   <img src="/assets/docs/images/spring-boot/get-kotlin-language-map.png" alt="得到 Kotlin 语言导航地图" width="700"/>
+</a>
+
+> 在这个页面中, 需要提供你的 EMail 地址, 然后才能收到这些资料.
+{:.note}

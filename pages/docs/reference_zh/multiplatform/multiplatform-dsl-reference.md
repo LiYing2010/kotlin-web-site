@@ -85,112 +85,27 @@ Kotlin 对每个平台提供了预设置的编译目标(Target Preset). 参见 [
         <td><code>js</code></td>
         <td>
             <p>选择执行环境:</p>
-            <ul>
+            <list>
                 <li><code>browser {}</code> 用于运行在浏览器内的应用程序.</li>
                 <li><code>nodejs {}</code> 运行在 Node.js 上的应用程序.</li>
-            </ul>
+            </list>
             <p>更多详情请参见 <a href="../js/js-project-setup.html#execution-environments">创建 Kotlin JavaScript 项目</a>.</p>
+        </td>
+    </tr>
+    <tr>
+        <td>Kotlin/Native</td>
+        <td></td>
+        <td>
+            <p>对 macOS, Linux, 和 Windows 主机, 目前支持的编译目标请参见 <a href="../native/native-target-support.html">Kotlin/Native 支持的目标平台</a>.</p>
         </td>
     </tr>
     <tr>
         <td>Android 应用程序和库</td>
         <td><code>android</code></td>
         <td>
-            <p>手动应用 Android Gradle plugin  – <code>com.android.application</code> 或 <code>com.android.library</code>.</p>
+            <p>手动应用 Android Gradle plugin: <code>com.android.application</code> 或 <code>com.android.library</code>.</p>
             <p>对每个 Gradle 子项目, 只能创建一个 Android 编译目标.</p>
         </td>
-    </tr>
-    <tr>
-        <td>Android NDK</td>
-        <td>
-           <ul>
-               <li><code>androidNativeArm32</code> — ARM (ARM32) 平台上的 <a href="https://developer.android.com/ndk" target="_blank">Android NDK</a></li>
-               <li><code>androidNativeArm64</code> — ARM64 平台上的 <a href="https://developer.android.com/ndk" target="_blank">Android NDK</a></li>
-               <li><code>androidNativeX86</code> — x86 平台上的 <a href="https://developer.android.com/ndk" target="_blank">Android NDK</a></li>
-               <li><code>androidNativeX64</code> — x86_64 平台上的 <a href="https://developer.android.com/ndk" target="_blank">Android NDK</a></li>
-           </ul>
-        </td>
-        <td>
-            <p>64 位编译目标需要在 Linux 或 macOS 主机上构建.</p>
-            <p>32 位编译目标可以在任何支持的主机上构建.</p>
-        </td>
-    </tr>
-    <tr>
-        <td>iOS</td>
-        <td>
-            <ul>
-               <li><code>iosArm32</code> — ARM (ARM32) 平台上的 Apple iOS (Apple iPhone 5 及之前版本)</li>
-               <li><code>iosArm64</code> — ARM64 平台上的 Apple iOS (Apple iPhone 5s 及之后版本)</li>
-               <li><code>iosX64</code> — x86_64 平台上的 Apple iOS 模拟器</li>
-               <li><code>iosSimulatorArm64</code> — Apple Silicon 平台上的 Apple iOS 模拟器</li>
-            </ul>
-        </td>
-        <td>需要在安装了 <a href="https://apps.apple.com/us/app/xcode/id497799835">Xcode</a> 及其命令行工具的 macOS 主机上构建.</td>
-    </tr>
-    <tr>
-        <td>watchOS</td>
-        <td>
-            <ul>
-               <li><code>watchosArm32</code> — ARM (ARM32) 平台上的 Apple watchOS (Apple Watch Series 3 及之前版本)</li>
-               <li><code>watchosArm64</code> — ARM64_32 平台上的 Apple watchOS (Apple Watch Series 4 及之后版本)</li>
-               <li><code>watchosX86</code> — x86_64 平台上的 Apple watchOS 32-bit 模拟器 (watchOS 6.3 及之前版本)</li>
-               <li><code>watchosX64</code> — x86_64 平台上的 Apple watchOS 64-bit 模拟器 (watchOS 7.0 及之后版本)</li>
-               <li><code>watchosSimulatorArm64</code> — Apple Silicon 平台上的 Apple watchOS 模拟器</li>
-            </ul>
-        </td>
-        <td>需要在安装了 <a href="https://apps.apple.com/us/app/xcode/id497799835">Xcode</a> 及其命令行工具的 macOS 主机上构建.</td>
-    </tr>
-    <tr>
-        <td>tvOS</td>
-        <td>
-            <ul>
-               <li><code>tvosArm64</code> — ARM64 平台上的 Apple tvOS (Apple TV 第 4 代及之后版本)</li>
-               <li><code>tvosX64</code> — x86_64 平台上的 Apple tvOS 模拟器</li>
-               <li><code>tvosSimulatorArm64</code> — Apple Silicon 平台上的 Apple tvOS 模拟器</li>
-            </ul>
-        </td>
-        <td>需要在安装了 <a href="https://apps.apple.com/us/app/xcode/id497799835">Xcode</a> 及其命令行工具的 macOS 主机上构建.</td>
-    </tr>
-    <tr>
-        <td>macOS</td>
-        <td>
-            <ul>
-               <li><code>macosX64</code> — x86_64 平台上的 Apple macOS</li>
-               <li><code>macosArm64</code> — Apple Silicon 平台上的 Apple macOS</li>
-            </ul>
-        </td>
-        <td>需要在安装了 <a href="https://apps.apple.com/us/app/xcode/id497799835">Xcode</a> 及其命令行工具的 macOS 主机上构建.</td>
-    </tr>
-    <tr>
-        <td>Linux</td>
-        <td>
-            <ul>
-               <li><code>linuxArm64</code> — ARM64 平台上的 Linux, 例如, Raspberry Pi</li>
-               <li><code>linuxArm32Hfp</code> — 硬浮点(Hard-Float) ARM (ARM32) 平台上的 Linux</li>
-               <li><code>linuxMips32</code> — MIPS 平台上的 Linux</li>
-               <li><code>linuxMipsel32</code> — 小端序(Little-Endian) MIPS (mipsel) 平台上的 Linux</li>
-               <li><code>linuxX64</code> — x86_64 平台上的 Linux</li>
-            </ul>
-        </td>
-        <td>
-            <p>Linux MIPS 编译目标 (<code>linuxMips32</code> 和 <code>linuxMipsel32</code>) 需要在 Linux 主机上构建.</p>
-            <p>其他 Linux 编译目标可以在任何支持的主机上构建.</p>
-        </td>
-    </tr>
-    <tr>
-        <td>Windows</td>
-        <td>
-            <ul>
-               <li><code>mingwX64</code> — 64 位 Microsoft Windows</li>
-               <li><code>mingwX86</code> — 32 位 Microsoft Windows</li>
-            </ul>
-        </td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>WebAssembly</td>
-        <td><code>wasm32</code></td>
-        <td></td>
     </tr>
 </table>
 
@@ -279,7 +194,7 @@ kotlin {
         }
         distribution {
             directory = File("$projectDir/customdir/")
-        }        
+        }
     }
 }
 ```
@@ -532,8 +447,8 @@ kotlin {
 
 详情请参见 [针对 Android 的编译](multiplatform-configure-compilations.html#compilation-for-android).
 
->`kotlin` 代码块之内的 `android` 配置, 不会替代任何 Android 项目的编译配置.
-关于如何为 Android 项目编写编译脚本, 详情请参见 [Android 开发文档](https://developer.android.com/studio/build).
+> `kotlin` 代码块之内的 `android` 配置, 不会替代任何 Android 项目的编译配置.
+> 关于如何为 Android 项目编写编译脚本, 详情请参见 [Android 开发文档](https://developer.android.com/studio/build).
 {:.note}
 
 ## 源代码集(Source set)
@@ -627,13 +542,13 @@ kotlin {
 
 源代码集的配置保存在相应的 `sourceSets` 代码块之内. 一个源代码集包含以下参数:
 
-| **名称**             | **解释**                                                                                  |
-|--------------------|-----------------------------------------------------------------------------------------|
-| `kotlin.srcDir`    | 源代码集目录之内的 Kotlin 源代码文件位置.                                                               |
-| `resources.srcDir` | 源代码集目录之内的资源文件位置.                                                                        |
+| **名称**             | **解释**                            |
+|--------------------|--------------------------------------|
+| `kotlin.srcDir`    | 源代码集目录之内的 Kotlin 源代码文件位置. |
+| `resources.srcDir` | 源代码集目录之内的资源文件位置. |
 | `dependsOn`        | [关联到另一个源代码集](multiplatform-share-on-platforms.html#configure-the-hierarchical-structure-manually) |
-| `dependencies`     | 源代码集的 [依赖项目](#dependencies) .                                                           |
-| `languageSettings` | 用于这个源代码集的 [语言设置](#language-settings).                             |
+| `dependencies`     | 源代码集的 [依赖项目](#dependencies). |
+| `languageSettings` | 用于这个源代码集的 [语言设置](#language-settings). |
 
 <div class="multi-language-sample" data-lang="kotlin">
 <div class="sample" markdown="1" theme="idea" mode='kotlin' data-highlight-only>
@@ -668,7 +583,7 @@ kotlin {
 
             dependencies {
                 /* ... */
-            }           
+            }
         }
     }
 }
@@ -794,18 +709,18 @@ kotlin {
 
 一个编译任务可以包含以下参数:
 
-|**名称**|**解释**|
-| --- | --- |
-|`defaultSourceSet`|编译任务的默认源代码集.|
-|`kotlinSourceSets`|源代码集, 参与这个编译任务.|
-|`allKotlinSourceSets`|源代码集, 参与这个编译任务, 以及通过 `dependsOn()` 关联的所有其他编译任务.|
-|`kotlinOptions`|应用于这个编译任务的编译器选项. 关于所有可用的选项, 请参见 [编译选项](../gradle.html#compiler-options).|
-|`compileKotlinTask`|编译 Kotlin 源代码的 Gradle 任务.|
-|`compileKotlinTaskName`|`compileKotlinTask` 的名称.|
-|`compileAllTaskName`|编译这个编译任务中所有源代码的Gradle 任务的名称.|
-|`output`|编译任务的输出.|
-|`compileDependencyFiles`|这个编译任务的编译时刻依赖项目文件(classpath).|
-|`runtimeDependencyFiles`|这个编译任务的运行时刻依赖项目文件(classpath).|
+| **名称**                   | **解释**             |
+|--------------------------|-----------------------|
+| `defaultSourceSet`       | 编译任务的默认源代码集. |
+| `kotlinSourceSets`       | 源代码集, 参与这个编译任务. |
+| `allKotlinSourceSets`    | 源代码集, 参与这个编译任务, 以及通过 `dependsOn()` 关联的所有其他编译任务. |
+| `compilerOptions`        | 应用于这个编译任务的编译器选项. 关于所有可用的选项, 请参见 [编译选项](../gradle.html#compiler-options). |
+| `compileKotlinTask`      | 编译 Kotlin 源代码的 Gradle 任务. |
+| `compileKotlinTaskName`  | `compileKotlinTask` 的名称. |
+| `compileAllTaskName`     | 编译这个编译任务中所有源代码的Gradle 任务的名称. |
+| `output`                 | 编译任务的输出. |
+| `compileDependencyFiles` | 这个编译任务的编译时刻依赖项目文件(classpath). |
+| `runtimeDependencyFiles` | 这个编译任务的运行时刻依赖项目文件(classpath). |
 
 <div class="multi-language-sample" data-lang="kotlin">
 <div class="sample" markdown="1" theme="idea" mode='kotlin' data-highlight-only>
@@ -814,9 +729,9 @@ kotlin {
 kotlin {
     jvm {
         val main by compilations.getting {
-            kotlinOptions {
+            compilerOptions.configure {
                 // 为 'main' 编译任务设置 Kotlin 编译器选项:
-                jvmTarget = "1.8"
+                jvmTarget.set(JvmTarget.JVM_1_8)
             }
 
             compileKotlinTask // 得到编译 Kotlin 源代码的 Gradle 任务 'compileKotlinJvm'
@@ -829,8 +744,8 @@ kotlin {
     // 对所有编译目标的所有编译任务的设置:
     targets.all {
         compilations.all {
-            kotlinOptions {
-                allWarningsAsErrors = true
+            compilerOptions.configure {
+                allWarningsAsErrors.set(true)
             }
         }
     }
@@ -846,9 +761,9 @@ kotlin {
 ```groovy
 kotlin {
     jvm {
-        compilations.main.kotlinOptions {
+        compilations.main.compilerOptions.configure {
             // 为 'main' 编译任务设置 Kotlin 编译器选项:
-            jvmTarget = "1.8"
+            jvmTarget.set(JvmTarget.JVM_1_8)
         }
 
         compilations.main.compileKotlinTask // 得到编译 Kotlin 源代码的 Gradle 任务 'compileKotlinJvm'
@@ -859,8 +774,8 @@ kotlin {
     // 对所有编译目标的所有编译任务的设置:
     targets.all {
         compilations.all {
-            kotlinOptions {
-                allWarningsAsErrors = true
+            compilerOptions.configure {
+                allWarningsAsError.set(true)
             }
         }
     }
@@ -874,16 +789,16 @@ kotlin {
 
 源代码集的 `dependencies` 代码块包含这个源代码集的依赖项目.
 
-详情请参见 [配置依赖项](../gradle.html#configuring-dependencies).
+详情请参见 [配置依赖项](../gradle/gradle-configure-project.html).
 
 有 4 种类型的依赖项目:
 
-|**名称**|**解释**|
-| --- | --- |
-|`api`|当前模块的 API 中使用的依赖项目.|
-|`implementation`|当前模块中使用的依赖项目, 但不向外暴露.|
-|`compileOnly`|只在当前模块的编译任务中使用的依赖项目.|
-|`runtimeOnly`|运行时刻的依赖项目, 但在任何模块的编译任务中都不可见.|
+| **名称**           | **解释**                    |
+|------------------|------------------------------|
+| `api`            | 当前模块的 API 中使用的依赖项目. |
+| `implementation` | 当前模块中使用的依赖项目, 但不向外暴露. |
+| `compileOnly`    | 只在当前模块的编译任务中使用的依赖项目. |
+| `runtimeOnly`    | 运行时刻的依赖项目, 但在任何模块的编译任务中都不可见. |
 
 <div class="multi-language-sample" data-lang="kotlin">
 <div class="sample" markdown="1" theme="idea" mode='kotlin' data-highlight-only>
@@ -981,8 +896,8 @@ dependencies {
 kotlin {
     sourceSets.all {
         languageSettings.apply {
-            languageVersion = "1.7" // 可选的值: "1.4", "1.5", "1.6", "1.7"
-            apiVersion = "1.7" // 可选的值: "1.3", "1.4", "1.5", "1.6", "1.7"
+            languageVersion = "1.8" // 可选的值: "1.4", "1.5", "1.6", "1.7", "1.8", "1.9"
+            apiVersion = "1.8" // 可选的值: "1.3", "1.4", "1.5", "1.6", "1.7", "1.8", "1.9"
             enableLanguageFeature("InlineClasses") // 这里请使用语言特性的名称
             optIn("kotlin.ExperimentalUnsignedTypes") // 这里请使用注解的完全限定名称
             progressiveMode = true // 默认值为 false
@@ -1001,8 +916,8 @@ kotlin {
 kotlin {
     sourceSets.all {
         languageSettings {
-            languageVersion = '1.7' // 可选的值: '1.4', '1.5', '1.6', '1.7'
-            apiVersion = '1.7' // 可选的值: '1.3', '1.4', '1.5', '1.6', '1.7'
+            languageVersion = '1.8' // 可选的值: '1.4', '1.5', '1.6', '1.7', '1.8', '1.9'
+            apiVersion = '1.8' // 可选的值: '1.3', '1.4', '1.5', '1.6', '1.7', '1.8', '1.9'
             enableLanguageFeature('InlineClasses') // 这里请使用语言特性的名称
             optIn('kotlin.ExperimentalUnsignedTypes') // 这里请使用注解的完全限定名称
             progressiveMode = true // 默认值为 false

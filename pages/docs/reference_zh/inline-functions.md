@@ -175,7 +175,7 @@ inline fun <reified T> TreeNode.findParentOfType(): T? {
 }
 ```
 
-什么的代码给类型参数添加了 `reified` 修饰符, 使得它可以在函数内部访问, 就好象它是一个普通的类一样.
+上面的代码给类型参数添加了 `reified` 修饰符, 使得它可以在函数内部访问, 就好象它是一个普通的类一样.
 由于函数是内联的, 因此不必使用反射, 而且通常的操作符都可以使用, 比如 `!is` 和 `as`.
 此外, 你可以通过上面提到那种方式来调用这个函数: `myTree.findParentOfType<MyTreeNodeType>()`.
 

@@ -170,7 +170,7 @@ binaries {
 - Windows: `libnative_api.h`, `libnative_symbols.def` 和 `libnative.dll`
 
 Kotlin/Native 编译器对所有平台生成 `.h` 文件时, 使用相同的规则.  
-我们来看看我们的 Kotlin 库的 C API. 
+我们来看看我们的 Kotlin 库的 C API.
 
 ## 生成的头文件
 

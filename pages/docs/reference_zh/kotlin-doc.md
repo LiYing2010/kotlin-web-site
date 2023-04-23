@@ -2,10 +2,10 @@
 type: doc
 layout: reference
 category: "Tools"
-title: "为 Kotlin 代码编写文档: KDoc 与 Dokka"
+title: "为 Kotlin 代码编写文档: KDoc"
 ---
 
-# 为 Kotlin 代码编写文档: KDoc 与 Dokka
+# 为 Kotlin 代码编写文档: KDoc
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
@@ -13,12 +13,9 @@ title: "为 Kotlin 代码编写文档: KDoc 与 Dokka"
 本质上, KDoc 结合了 Javadoc 和 Markdown, 它在块标签(block tag)使用 Javadoc 语法(但做了扩展, 以便支持 Kotlin 特有的概念),
 Markdown 则用来表示内联标记(inline markup).
 
-## 生成文档
-
-Kotlin 的文档生成工具叫做 [Dokka](https://github.com/Kotlin/dokka). 关于它的使用方法请阅读
-[Dokka README](https://github.com/Kotlin/dokka/blob/master/README.md).
-
-Dokka 有 plugin 可用于 Gradle, Maven 以及 Ant 构建环境, 因此你可以将 Kotlin 代码的文档生成集成到你的构建过程之内.
+> Kotlin 的文档引擎: Dokka, 它能够理解 KDoc, 而且可以用来生成各种不同格式的文档.
+> 详情请参见我们的 [Dokka 文档](dokka/dokka-introduction.html).
+{:.note}
 
 ## KDoc 语法
 
@@ -131,7 +128,7 @@ KDoc 目前支持以下块标签:
 如果你希望对链接指定一个标签, 请使用 Markdown 参照风格(reference-style)语法:
 
 ```
-请使用 [这个方法][foo] 来实现这个目的.
+请使用 [这个方法](foo) 来实现这个目的.
 ```
 
 在链接中也可以使用带限定符的元素名称.
@@ -149,32 +146,6 @@ KDoc 目前支持以下块标签:
 由于 Kotlin 的文档生成工具会将所有重载函数的文档放在同一个页面之内,
 因此不必明确指定某一个具体的重载函数, 链接也可以正常工作.
 
-## 模块与包的文档
+## 下一步做什么?
 
-针对模块整体的文档, 以及针对模块内包的文档, 通过单独的 Markdown 文件的形式提供,
-文件路径需要传递给 Dokka, 可以使用命令行参数 `-include` 来指定,
-或者使用 Ant, Maven 以及 Gradle plugin 中的对应参数来指定.
-
-在 Markdown 文件内, 针对模块整体的文档, 以及针对各个包的文档, 分别使用各自的顶级标题来指定.
-对于模块, 标题文字必须是 **Module `<module name>`**,
-对于包, 必须是 **Package `<package qualified name>`**.
-
-下面是一个 Markdown 文件内容的示例:
-
-```text
-# Module kotlin-demo
-
-本模块演示 Dokka 语法的使用方法.
-
-# Package org.jetbrains.kotlin.demo
-
-包含各种有用的东西.
-
-## 2 级标题
-
-这个标题之后的文字也是 `org.jetbrains.kotlin.demo` 包的文档的一部分
-
-# Package org.jetbrains.kotlin.demo2
-
-另一个包中的有用的东西.
-```
+学习如何使用 Kotlin 的文档生成工具: [Dokka](dokka/dokka-introduction.html).

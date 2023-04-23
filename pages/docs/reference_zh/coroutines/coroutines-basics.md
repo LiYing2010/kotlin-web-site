@@ -63,7 +63,7 @@ World!
 IDE 会在 `runBlocking` 的开括号之后会提示 `this: CoroutineScope`.
 
 如果你在这段代码中删除或者忘记了 `runBlocking`, 那么会在 [launch] 调用处发生错误,
-因为 `launch` 声明在 [CoroutineScope] 之内:
+因为 `launch` 声明在 [CoroutineScope] 上:
 
 ```text
 Unresolved reference: launch

@@ -9,6 +9,10 @@ title: "并发(Concurrency)概述"
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
+> 本章描述的是旧的内存管理器的功能特性.
+> 从 Kotlin 1.7.20 开始会默认启用新的内存管理器, 详情请参见 [Kotlin/Native 内存管理](../native/native-memory-manager.html).
+{:.note}
+
 当你的开发经验从 Android 扩展到 Kotlin Multiplatform Mobile 时, 你在 iOS 中将会遇到不同的状态和并发模型.
 这是一种 Kotlin/Native 模型, 可以将 Kotlin 代码编译为脱离虚拟机运行的原生的二进制, 比如, 能够在 iOS 上运行. 
 
@@ -93,7 +97,7 @@ val sd = SomeData(MoreData("abc", 10.0), 0)
 sd.freeze()
 ```
 
-![冻结状态]({{ url_for('asset', path='/docs/images/kmm/freezing-state.animated.gif') }})
+![冻结状态]({{ url_for('asset', path='docs/images/multiplatform-mobile/freezing-state.animated.gif') }})
 
 * `freeze()` 是一个单向的操作. 你不能 _解冻(Unfreeze)_ 一个对象.
 * `freeze()` 不能在共用的 Kotlin 代码中使用, 但有些库为在共用的代码中使用它提供了预期声明和实际声明.
@@ -174,7 +178,6 @@ val hello = "Hello" // 只有主线程可以访问这个属性
 
 Kotlin/Native 的并发规则会要求对架构设计进行某些调整, 但通过库的帮助, 以及应用最佳实践, 日常开发基本不受影响.
 实际上, 遵守 Kotlin/Native 规则的跨平台代码将会使得跨平台移动应用程序中的并发更加安全.
-你可以在 [这个动手实验室教程](https://play.kotlinlang.org/hands-on/Kotlin%20Native%20Concurrency/) 中尝试 Kotlin/Native 并发模型.
 
 在 Kotlin 跨平台应用程序中, 你的 Android 和 iOS 编译目标将存在不同的状态规则.
 有些开发组, 通常开发更大的应用程序, 对非常特定的功能共用代码, 经常会在主机平台中管理并发. 

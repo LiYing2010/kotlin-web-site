@@ -17,6 +17,9 @@ const allOsNames = [
 const allGradleNames = [
   "kotlin",
   "groovy",
+  "gradle",
+  "maven",
+  "cli",
 ];
 
 const allKotlinVersions = [

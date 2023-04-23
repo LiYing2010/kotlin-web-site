@@ -122,7 +122,7 @@ apply plugin: "kotlin-spring" // 不是 "kotlin-allopen"
 
 ```groovy
 plugins {
-  id "org.jetbrains.kotlin.plugin.spring" version "{{ site.data.releases.kotlinSpringPluginVersion }}"
+    id "org.jetbrains.kotlin.plugin.spring" version "{{ site.data.releases.latest.version }}"
 }
 ```
 

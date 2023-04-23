@@ -118,7 +118,7 @@ _集合_ 是一组可变数量(可以为 0)的元素, 解决问题时起到重�
 ```java
 // Java
 // 这个 List 是可变的!
-public List<Customer> getCustomers() { … }
+public List<Customer> getCustomers() { ... }
 ```
 
 也有部分可变的集合:

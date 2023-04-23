@@ -9,7 +9,8 @@ title: "将 Kotlin Gradle 项目用作 CocoaPods 依赖项"
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
-你可以将带有 native 编译目标的 Kotlin Multiplatform 项目, 用作 CocoaPods 的依赖项.
+要将带有 native 编译目标的 Kotlin Multiplatform 项目用作 CocoaPods 的依赖项,
+需要 [完成初始配置](native-cocoapods.html#set-up-an-environment-to-work-with-cocoapods).
 你可以在 Xcode 项目的 Podfile 中, 通过它的名称和生成的 Podspec 文件的目录路径来包含这样的依赖项.
 
 依赖项将会与项目一起自动构建(以及重构建).

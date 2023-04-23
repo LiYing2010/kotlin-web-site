@@ -37,24 +37,25 @@ title: "Kotlin/JVM 入门"
 7. 启用 **Add sample code** 选项, 创建文件, 其中包含 `"Hello World!"` 示例程序.
 8. 点击 **Create**.
 
+  > 如果你选择了 Gradle 构建系统, 那么在你的项目中会有一个构建脚本文件: `build.gradle(.kts)`.
+  > 其中包含 `kotlin("jvm")` 插件, 以及你的控制台应用程序需要的依赖项目. 请确认使用了插件的最新版本:
+  >
+  > ```kotlin
+  > plugins {
+  >     kotlin("jvm") version "{{ site.data.releases.latest.version }}"
+  >     application
+  > }
+  > ```
+  {:.note}
+
 ## 创建应用程序
 
-1. 如果你选择了 Gradle 构建系统, 那么在你的项目中会有 `build.gradle(.kts)` 构建脚本文件.
-   其中包含 `kotlin("jvm")` 插件, 以及你的控制台应用程序需要的依赖项目. 请确认使用了插件的最新版本:
+1. 打开 `src/main/kotlin` 中的 `Main.kt` 文件.
+   `src` 目录包含 Kotlin 源代码文件和资源文件. `Main.kt` 文件包含示例代码, 它会输出 `Hello World!`.
 
-   ```kotlin
-   plugins {
-       kotlin("jvm") version "{{ site.data.releases.latest.version }}"
-       application
-   }
-   ```
+   <img src="/assets/docs/images/get-started/jvm-main-kt-initial.png" alt="包括 main 函数的 Main.kt 文件" width="700"/>
 
-2. 打开 `src/main/kotlin` 中的 `main.kt` 文件.
-   `src` 目录包含 Kotlin 源代码文件和资源文件. `main.kt` 文件包含示例代码, 它会输出 `Hello World!`.
-
-   <img src="/assets/docs/images/get-started/jvm-main-kt-initial.png" alt="包括 main 函数的 main.kt 文件" width="700"/>
-
-3. 修改代码, 让它询问你的名字, 然后只对你说 `Hello`, 而不是对整个世界:
+2. 修改代码, 让它询问你的名字, 然后只对你说 `Hello`, 而不是对整个世界:
 
    * 使用关键字 `val` 引入一个局部变量 `name`. 它会得到你输入的名字 –
      [`readln()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/readln.html).
@@ -96,7 +97,7 @@ title: "Kotlin/JVM 入门"
 创建了这个应用程序之后, 你可以开始更加深入的学习 Kotlin 语法:
 
 * 从 [Kotlin 示例程序](https://play.kotlinlang.org/byExample/overview) 添加示例代码
-* 在 IDEA 中安装 [EduTools plugin](https://plugins.jetbrains.com/plugin/10081-edutools),
+* 在 IDEA 中安装 [JetBrains Academy Plugin](https://plugins.jetbrains.com/plugin/10081-jetbrains-academy),
   并完成
-  [Kotlin Koan 课程](https://plugins.jetbrains.com/plugin/10081-edutools/docs/learner-start-guide.html?section=Kotlin%20Koans)
+  [Kotlin Koan 课程](https://plugins.jetbrains.com/plugin/10081-jetbrains-academy/docs/learner-start-guide.html?section=Kotlin%20Koans)
   中的练习
