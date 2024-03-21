@@ -36,6 +36,11 @@ fun main() {
     val numbersIterator = numbers.iterator()
     while (numbersIterator.hasNext()) {
         println(numbersIterator.next())
+        // 输出结果为
+        // one
+        // two
+        // three
+        // four
     }
 //sampleEnd
 }
@@ -55,6 +60,11 @@ fun main() {
     val numbers = listOf("one", "two", "three", "four")
     for (item in numbers) {
         println(item)
+        // 输出结果为
+        // one
+        // two
+        // three
+        // four
     }
 //sampleEnd
 }
@@ -73,6 +83,11 @@ fun main() {
     val numbers = listOf("one", "two", "three", "four")
     numbers.forEach {
         println(it)
+        // 输出结果为
+        // one
+        // two
+        // three
+        // four
     }
 //sampleEnd
 }
@@ -106,9 +121,15 @@ fun main() {
     val listIterator = numbers.listIterator()
     while (listIterator.hasNext()) listIterator.next()
     println("Iterating backwards:")
+    // 反向遍历:
     while (listIterator.hasPrevious()) {
         print("Index: ${listIterator.previousIndex()}")
         println(", value: ${listIterator.previous()}")
+        // 输出结果为
+        // Index: 3, value: four
+        // Index: 2, value: three
+        // Index: 1, value: two
+        // Index: 0, value: one
     }
 //sampleEnd
 }
@@ -135,8 +156,10 @@ fun main() {
     val mutableIterator = numbers.iterator()
 
     mutableIterator.next()
-    mutableIterator.remove()    
+    mutableIterator.remove()
     println("After removal: $numbers")
+    // 输出结果为
+    // After removal: [two, three, four]
 //sampleEnd
 }
 ```
@@ -144,7 +167,10 @@ fun main() {
 
 对于可变的 list, 可以使用
 [`MutableListIterator`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list-iterator/index.html).
-除了删除元素之外, 这个迭代器还可以在遍历 list 的过程中添加元素, 或替换元素.
+除了删除元素之外, 这个迭代器还可以在遍历 list 的过程中,
+使用 [`add()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list-iterator/add.html)
+和 [`set()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list-iterator/set.html) 函数,
+添加或替换元素.
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
@@ -157,9 +183,12 @@ fun main() {
 
     mutableListIterator.next()
     mutableListIterator.add("two")
-    mutableListIterator.next()
-    mutableListIterator.set("three")   
     println(numbers)
+    // 输出结果为 [one, two, four, four]
+    mutableListIterator.next()
+    mutableListIterator.set("three")
+    println(numbers)
+    // 输出结果为 [one, two, three, four]
 //sampleEnd
 }
 ```

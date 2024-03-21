@@ -38,14 +38,33 @@ fun test(context: TaskContext) {
 
 ## Gradle
 
-使用方法与 [all-open](all-open-plugin.html)插件 和 [no-arg](no-arg-plugin.html)插件相同,
+使用方法与 [all-open](all-open-plugin.html) 插件和 [no-arg](no-arg-plugin.html) 插件相同,
 区别是 sam-with-receiver 没有任何预定义, 因此你需要自己指定需要特别处理的注解.
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+plugins {
+    kotlin("plugin.sam.with.receiver") version "{{ site.data.releases.latest.version }}"
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
 
 ```groovy
 plugins {
-    id("org.jetbrains.kotlin.plugin.sam.with.receiver") version "{{ site.data.releases.latest.version }}"
+    id "org.jetbrains.kotlin.plugin.sam.with.receiver" version "{{ site.data.releases.latest.version }}"
 }
 ```
+
+</div>
+</div>
+
 
 然后指定需要特别处理的 SAM-with-receiver 注解:
 

@@ -30,7 +30,7 @@ Kotlin 为 `all-open` 插件提供了 Gradle 和 Maven 支持, 并带有完整�
 
 ```kotlin
 plugins {
-    id("org.jetbrains.kotlin.plugin.allopen") version "{{ site.data.releases.latest.version }}"
+    kotlin("plugin.allopen") version "{{ site.data.releases.latest.version }}"
 }
 ```
 

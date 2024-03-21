@@ -122,7 +122,7 @@ reference:
         - url: /docs/reference_zh/whatsnew19.html
           title: Kotlin 1.9.0
         - url: /docs/reference_zh/whatsnew-eap.html
-          title: Kotlin 2.0.0-Beta4
+          title: Kotlin 2.0.0-Beta5
         - title: 早期版本
           content:
             - url: /docs/reference_zh/whatsnew1820.html

@@ -64,14 +64,15 @@ title: "参加 Kotlin EAP 项目"
         <th>重要功能</th>
     </tr>
     <tr>
-        <td><strong>2.0.0-Beta4</strong>
-            <p>发布日期: <strong>2024/02/13</strong></p>
+        <td><strong>2.0.0-Beta5</strong>
+            <p>发布日期: <strong>2024/03/20</strong></p>
             <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v2.0.0-Beta4" target="_blank">GitHub 上的 Release 页面</a></p>
         </td>
         <td>
             <p>Kotlin K2 编译器的稳定发布版.</p>
             <p>包括 Gradle 构建工具的改进.</p>
-            <p>更多详情, 请参见 <a href="https://github.com/JetBrains/kotlin/releases/tag/v2.0.0-Beta4">changelog</a> 或 <a href="whatsnew-eap.html">Kotlin 2.0.0-Beta4 中的新功能</a>.</p>
+            <p>Kotlin/Wasm 与 JavaScript 交互能力的改进.</p>
+            <p>更多详情, 请参见 <a href="https://github.com/JetBrains/kotlin/releases/tag/v2.0.0-Beta5">changelog</a> 或 <a href="whatsnew-eap.html">Kotlin 2.0.0-Beta5 中的新功能</a>.</p>
         </td>
     </tr>
 </table>

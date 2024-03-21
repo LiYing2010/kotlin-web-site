@@ -64,7 +64,8 @@ Flutter 拥有遍及全世界、相对活跃的用户社区, 并被很多开发�
 
 **编程语言:** JavaScript.
 
-**移动应用程序示例:** Skype, Bloomberg, Shopify, [Facebook 和 Instagram](https://itcraftapps.com/blog/7-react-native-myths-vs-reality/#facebook-instagram-in-react-native) 中的很多小模块.
+**移动应用程序示例:** React Native 被应用于 Microsoft 公司的 Office, Skype, 以及 Xbox Game Pass; Meta 公司的 Facebook, Desktop Messenger, 以及 Oculus.
+更多案例请参见 [React Native 案例展示](https://reactnative.dev/showcase).
 
 **主要功能特性:**
 

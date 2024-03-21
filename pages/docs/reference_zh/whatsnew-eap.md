@@ -2,10 +2,10 @@
 type: doc
 layout: reference
 category:
-title: "Kotlin 2.0.0-Beta4 版中的新功能"
+title: "Kotlin 2.0.0-Beta5 版中的新功能"
 ---
 
-# Kotlin 2.0.0-Beta4 版中的新功能
+# Kotlin 2.0.0-Beta5 版中的新功能
 
 最终更新: {{ site.data.releases.latestDocDate }}
 

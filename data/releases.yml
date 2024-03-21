@@ -11,10 +11,10 @@ latest:
   coroutines:
     version: 1.7.3
 
-latestDocDate: 2024/03/13
+latestDocDate: 2024/03/21
 
-kotlinEapVersion: 2.0.0-Beta4
-kotlinEapReleaseDate: 2024/02/13
+kotlinEapVersion: 2.0.0-Beta5
+kotlinEapReleaseDate: 2024/03/20
 
 coroutinesEapVersion: 1.7.3
 
@@ -45,7 +45,7 @@ dateTimeVersion: 0.4.0
 
 foojayResolver: 0.5.0
 
-lincheckVersion: 2.26
+lincheckVersion: 2.28
 jctoolsVersion: 3.3.0
 
 lombokVersion: 1.18.22

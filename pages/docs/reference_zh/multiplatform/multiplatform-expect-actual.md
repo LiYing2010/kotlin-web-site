@@ -494,8 +494,8 @@ actual enum class Department { IT, HR, Sales, Marketing }
 fun matchOnDepartment(dept: Department) {
     when (dept) {
         Department.IT -> println("The IT Department")
-        Department.HR -> println("The IT Department")
-        Department.Sales -> println("The IT Department")
+        Department.HR -> println("The HR Department")
+        Department.Sales -> println("The Sales Department")
         else -> println("Some other department")
     }
 }
