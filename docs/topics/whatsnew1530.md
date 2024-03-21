@@ -1,6 +1,6 @@
 [//]: # (title: What's new in Kotlin 1.5.30)
 
-_[Release date: 24 August 2021](releases.md#release-details)_
+_[Released: 24 August 2021](releases.md#release-details)_
 
 Kotlin 1.5.30 offers language updates including previews of future changes, various improvements in platform support and tooling, and new standard library functions.
 
@@ -321,14 +321,14 @@ We've also introduced new targets that make Kotlin code run natively on Apple si
 
 They are available on both Intel-based and Apple silicon hosts. All existing targets are available on Apple silicon hosts as well.
 
-Note that in 1.5.30 we provide only basic support for Apple silicon targets in the `kotlin-multiplatform` Gradle plugin. Particularly, the new simulator targets aren't included in the [`ios`, `tvos`, and `watchos` target shortcuts](multiplatform-share-on-platforms.md#use-target-shortcuts). Learn how to [use Apple silicon targets with the target shortcuts](multiplatform-share-on-platforms.md#target-shortcuts-and-arm64-apple-silicon-simulators).
+Note that in 1.5.30 we provide only basic support for Apple silicon targets in the `kotlin-multiplatform` Gradle plugin. Particularly, the new simulator targets aren't included in the `ios`, `tvos`, and `watchos` target shortcuts.
 We will keep working to improve the user experience with the new targets.
 
 ### Improved Kotlin DSL for the CocoaPods Gradle plugin
 
 #### New parameters for Kotlin/Native frameworks
 
-Kotlin 1.5.30 introduces the improved CocoaPods Gradle plugin DSL for Kotlin/Native frameworks. In addition to the name of the framework, you can specify other parameters in the pod configuration:
+Kotlin 1.5.30 introduces the improved CocoaPods Gradle plugin DSL for Kotlin/Native frameworks. In addition to the name of the framework, you can specify other parameters in the Pod configuration:
 * Specify the dynamic or static version of the framework
 * Enable export dependencies explicitly
 * Enable Bitcode embedding
@@ -433,7 +433,7 @@ Please share your thoughts and concerns about the transition to the LLD linker i
 
 ### Ability to use custom `cinterop` libraries in shared native code
 
-Kotlin Multiplatform gives you an [option](multiplatform-share-on-platforms.md#use-native-libraries-in-the-hierarchical-structure) to use platform-dependent interop libraries in shared source sets. Before 1.5.30, this worked only with [platform libraries](native-platform-libs.md) shipped with Kotlin/Native distribution. Starting from 1.5.30, you can use it with your custom `cinterop` libraries. To enable this feature, add the `kotlin.mpp.enableCInteropCommonization=true` property in your `gradle.properties`:
+Kotlin Multiplatform gives you an [option](multiplatform-share-on-platforms.md#connect-platform-specific-libraries) to use platform-dependent interop libraries in shared source sets. Before 1.5.30, this worked only with [platform libraries](native-platform-libs.md) shipped with Kotlin/Native distribution. Starting from 1.5.30, you can use it with your custom `cinterop` libraries. To enable this feature, add the `kotlin.mpp.enableCInteropCommonization=true` property in your `gradle.properties`:
 
 ```none
 kotlin.mpp.enableGranularSourceSetsMetadata=true
@@ -582,7 +582,7 @@ A Java toolchain:
 * Sets the [`kotlinOptions.jvmTarget`](gradle-compiler-options.md#attributes-specific-to-jvm) to the toolchain's JDK version if the user didn't set the `jvmTarget` option explicitly.
   If the toolchain is not configured, the `jvmTarget` field uses the default value. Learn more about [JVM target compatibility](gradle-configure-project.md#check-for-jvm-target-compatibility-of-related-compile-tasks).
 
-* Affects which JDK [`kapt` workers](kapt.md#running-kapt-tasks-in-parallel) are running on.
+* Affects which JDK [`kapt` workers](kapt.md#run-kapt-tasks-in-parallel) are running on.
 
 Use the following code to set a toolchain. Replace the placeholder `<MAJOR_JDK_VERSION>` with the JDK version you would like to use:
 
@@ -623,7 +623,7 @@ java {
 }
 ```
 
-For information about setting any JDK version for `KotlinCompile` tasks, look through the docs about [setting the JDK version with the Task DSL](gradle-configure-project.md#setting-jdk-version-with-the-task-dsl).
+For information about setting any JDK version for `KotlinCompile` tasks, look through the docs about [setting the JDK version with the Task DSL](gradle-configure-project.md#set-jdk-version-with-the-task-dsl).
 
 For Gradle versions from 6.1 to 6.6, [use the `UsesKotlinJavaToolchain` interface to set the JDK home](#ability-to-specify-jdk-home-with-useskotlinjavatoolchain-interface).
 
@@ -665,7 +665,7 @@ project.tasks
 
 Use the `UsesKotlinJavaToolchain` interface for Gradle versions from 6.1 to 6.6. Starting from Gradle 6.7, use the [Java toolchains](#support-for-java-toolchains) instead.
 
-When using this feature, note that [kapt task workers](kapt.md#running-kapt-tasks-in-parallel) will only use [process isolation mode](https://docs.gradle.org/current/userguide/worker_api.html#changing_the_isolation_mode), and the `kapt.workers.isolation` property will be ignored.
+When using this feature, note that [kapt task workers](kapt.md#run-kapt-tasks-in-parallel) will only use [process isolation mode](https://docs.gradle.org/current/userguide/worker_api.html#changing_the_isolation_mode), and the `kapt.workers.isolation` property will be ignored.
 
 ### Easier way to explicitly specify Kotlin daemon JVM arguments
 

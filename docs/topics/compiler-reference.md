@@ -22,7 +22,7 @@ There are several ways to set the compiler options and their values (_compiler a
 * If you're using Gradle, specify the compiler arguments in the `compilerOptions` property of the Kotlin compilation task.
 For details, see [Gradle compiler options](gradle-compiler-options.md#how-to-define-options).
 * If you're using Maven, specify the compiler arguments in the `<configuration>` element of the Maven plugin node. 
-For details, see [Maven](maven.md#specifying-compiler-options).
+For details, see [Maven](maven.md#specify-compiler-options).
 * If you run a command-line compiler, add the compiler arguments directly to the utility call or write them into an [argfile](#argfile).
 
 For example: 
@@ -162,7 +162,7 @@ Use a custom JDK home directory to include into the classpath if it differs from
 
 Specify the target version of the generated JVM bytecode. Limit the API of the JDK in the classpath to the specified Java version. 
 Automatically sets [`-jvm-target version`](#jvm-target-version).
-Possible values are `1.8`, `9`, `10`, ..., `19`. The default value is `%defaultJvmTargetVersion%`.
+Possible values are `1.8`, `9`, `10`, ..., `21`. The default value is `%defaultJvmTargetVersion%`.
 
 > This option is [not guaranteed](https://youtrack.jetbrains.com/issue/KT-29974) to be effective for each JDK distribution.
 >
@@ -170,7 +170,7 @@ Possible values are `1.8`, `9`, `10`, ..., `19`. The default value is `%defaultJ
 
 ### -jvm-target _version_
 
-Specify the target version of the generated JVM bytecode. Possible values are `1.8`, `9`, `10`, ..., `19`.
+Specify the target version of the generated JVM bytecode. Possible values are `1.8`, `9`, `10`, ..., `21`.
 The default value is `%defaultJvmTargetVersion%`.
 
 ### -java-parameters
@@ -257,6 +257,17 @@ Use the specified paths as base directories. Base directories are used for calcu
 
 Embed source files into the source map.
 
+### -source-map-names-policy _{simple-names|fully-qualified-names|no}_
+
+Add variable and function names that you declared in Kotlin code into the source map.
+
+| Setting | Description | Example output |
+|---|---|---|
+| `simple-names` | Variable names and simple function names are added. (Default) | `main` |
+| `fully-qualified-names` | Variable names and fully qualified function names are added. | `com.example.kjs.playground.main` |
+| `no` | No variable or function names are added. | N/A |
+
+
 ### -source-map-prefix
 
 Add the specified prefix to paths in the source map.
@@ -279,10 +290,6 @@ Enable emitting debug information.
 ### -generate-test-runner (-tr)
 
 Produce an application for running unit tests from the project.
-
-### -generate-worker-test-runner (-trw)
-
-Produce an application for running unit tests in a [worker thread](native-immutability.md#concurrency-in-kotlin-native).
 
 ### -generate-no-exit-test-runner (-trn)
 

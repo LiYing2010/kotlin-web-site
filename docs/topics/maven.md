@@ -1,10 +1,12 @@
 [//]: # (title: Maven)
 
-## Plugin and versions
+Maven is a build system that you can use to build and manage any Java-based project.
 
-The *kotlin-maven-plugin* compiles Kotlin sources and modules. Currently, only Maven v3 is supported.
+## Configure and enable the plugin
 
-Define the version of Kotlin you want to use via a *kotlin.version* property:
+The `kotlin-maven-plugin` compiles Kotlin sources and modules. Currently, only Maven v3 is supported.
+
+In your `pom.xml` file, define the version of Kotlin you want to use in the `kotlin.version` property:
 
 ```xml
 <properties>
@@ -12,10 +14,50 @@ Define the version of Kotlin you want to use via a *kotlin.version* property:
 </properties>
 ```
 
-## Dependencies
+To enable `kotlin-maven-plugin`, update your `pom.xml` file:
+
+```xml
+<plugins>
+    <plugin>
+        <artifactId>kotlin-maven-plugin</artifactId>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <version>%kotlinVersion%</version>
+    </plugin>
+</plugins>
+```
+
+### Use JDK 17
+
+To use JDK 17, in your `.mvn/jvm.config` file, add:
+
+```none
+--add-opens=java.base/java.lang=ALL-UNNAMED
+--add-opens=java.base/java.io=ALL-UNNAMED
+```
+
+## Declare repositories
+
+By default, the `mavenCentral` repository is available for all Maven projects. To access artifacts in other repositories,
+specify the ID and URL of each repository in the `<repositories>` element:
+
+```xml
+<repositories>
+    <repository>
+        <id>spring-repo</id>
+        <url>https://repo.spring.io/release</url>
+    </repository>
+</repositories>
+```
+
+> If you declare `mavenLocal()` as a repository in a Gradle project, you may experience problems when switching 
+> between Gradle and Maven projects. For more information, see [Declare repositories](gradle-configure-project.md#declare-repositories).
+>
+{type="note"}
+
+## Set dependencies
 
 Kotlin has an extensive standard library that can be used in your applications.
-To use the standard library in your project, add the following dependency in the pom file:
+To use the standard library in your project, add the following dependency to your `pom.xml` file:
 
 ```xml
 <dependencies>
@@ -79,10 +121,22 @@ The Kotlin Maven Plugin needs to be referenced to compile the sources:
 </build>
 ```
 
+Starting from Kotlin 1.8.20, you can replace the whole `<executions>` element above with `<extensions>true</extensions>`. 
+Enabling extensions automatically adds the `compile`, `test-compile`, `kapt`, and `test-kapt` executions to your build, 
+bound to their appropriate [lifecycle phases](https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html). 
+If you need to configure an execution, you need to specify its ID. You can find an example of this in the next section.
+
+> If several build plugins overwrite the default lifecycle and you have also enabled the `extensions` option, the last plugin in 
+> the `<build>` section has priority in terms of lifecycle settings. All earlier changes to lifecycle settings are ignored.
+> 
+{type="note"}
+
+<!-- The following header is used in the Mari link service. If you wish to change it here, change the link there too -->
+
 ## Compile Kotlin and Java sources
 
 To compile projects that include Kotlin and Java source code, invoke the Kotlin compiler before the Java compiler.
-In maven terms that means that `kotlin-maven-plugin` should be run before `maven-compiler-plugin` using the following method,
+In Maven terms it means that `kotlin-maven-plugin` should be run before `maven-compiler-plugin` using the following method,
 making sure that the `kotlin` plugin comes before the `maven-compiler-plugin` in your `pom.xml` file:
 
 ```xml
@@ -92,11 +146,14 @@ making sure that the `kotlin` plugin comes before the `maven-compiler-plugin` in
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-maven-plugin</artifactId>
             <version>${kotlin.version}</version>
+            <extensions>true</extensions> <!-- You can set this option 
+            to automatically take information about lifecycles -->
             <executions>
                 <execution>
                     <id>compile</id>
                     <goals>
-                        <goal>compile</goal>
+                        <goal>compile</goal> <!-- You can skip the <goals> element 
+                        if you enable extensions for the plugin -->
                     </goals>
                     <configuration>
                         <sourceDirs>
@@ -107,7 +164,10 @@ making sure that the `kotlin` plugin comes before the `maven-compiler-plugin` in
                 </execution>
                 <execution>
                     <id>test-compile</id>
-                    <goals> <goal>test-compile</goal> </goals>
+                    <goals> 
+                        <goal>test-compile</goal> <!-- You can skip the <goals> element 
+                    if you enable extensions for the plugin -->
+                    </goals>
                     <configuration>
                         <sourceDirs>
                             <sourceDir>${project.basedir}/src/test/kotlin</sourceDir>
@@ -122,12 +182,12 @@ making sure that the `kotlin` plugin comes before the `maven-compiler-plugin` in
             <artifactId>maven-compiler-plugin</artifactId>
             <version>3.5.1</version>
             <executions>
-                <!-- Replacing default-compile as it is treated specially by maven -->
+                <!-- Replacing default-compile as it is treated specially by Maven -->
                 <execution>
                     <id>default-compile</id>
                     <phase>none</phase>
                 </execution>
-                <!-- Replacing default-testCompile as it is treated specially by maven -->
+                <!-- Replacing default-testCompile as it is treated specially by Maven -->
                 <execution>
                     <id>default-testCompile</id>
                     <phase>none</phase>
@@ -152,10 +212,9 @@ making sure that the `kotlin` plugin comes before the `maven-compiler-plugin` in
 </build>
 ```
 
-## Incremental compilation
+## Enable incremental compilation
 
-To make your builds faster, you can enable incremental compilation for Maven by defining the
-`kotlin.compiler.incremental` property:
+To make your builds faster, you can enable incremental compilation by adding the `kotlin.compiler.incremental` property:
 
 ```xml
 <properties>
@@ -165,14 +224,14 @@ To make your builds faster, you can enable incremental compilation for Maven by 
 
 Alternatively, run your build with the `-Dkotlin.compiler.incremental=true` option.
 
-## Annotation processing
+## Configure annotation processing
 
-See the description of [Kotlin annotation processing tool](kapt.md) (`kapt`).
+See [`kapt` – Using in Maven](kapt.md#use-in-maven).
 
-## Jar file
+## Create JAR file
 
-To create a small Jar file containing just the code from your module, include the following under `build->plugins`
-in your Maven pom.xml file, where `main.class` is defined as a property and points to the main Kotlin or Java class:
+To create a small JAR file containing just the code from your module, include the following under `build->plugins`
+in your Maven `pom.xml` file, where `main.class` is defined as a property and points to the main Kotlin or Java class:
 
 ```xml
 <plugin>
@@ -190,10 +249,10 @@ in your Maven pom.xml file, where `main.class` is defined as a property and poin
 </plugin>
 ```
 
-## Self-contained Jar file
+## Create a self-contained JAR file
 
-To create a self-contained Jar file containing the code from your module along with dependencies, include the following
-under `build->plugins` in your Maven pom.xml file, where `main.class` is defined as a property and points to
+To create a self-contained JAR file containing the code from your module along with its dependencies, include the following
+under `build->plugins` in your Maven `pom.xml` file, where `main.class` is defined as a property and points to
 the main Kotlin or Java class:
 
 ```xml
@@ -221,13 +280,13 @@ the main Kotlin or Java class:
 </plugin>
 ```
 
-This self-contained jar file can be passed directly to a JRE to run your application:
+This self-contained JAR file can be passed directly to a JRE to run your application:
 
 ``` bash
 java -jar target/mymodule-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 ```
 
-## Specifying compiler options
+## Specify compiler options
 
 Additional options and arguments for the compiler can be specified as tags under the `<configuration>` element of the
 Maven plugin node:
@@ -237,6 +296,7 @@ Maven plugin node:
     <groupId>org.jetbrains.kotlin</groupId>
     <artifactId>kotlin-maven-plugin</artifactId>
     <version>${kotlin.version}</version>
+    <extensions>true</extensions> <!-- If you want to enable automatic addition of executions to your build -->
     <executions>...</executions>
     <configuration>
         <nowarn>true</nowarn>  <!-- Disable warnings -->
@@ -253,70 +313,53 @@ Many of the options can also be configured through properties:
 ```xml
 <project ...>
     <properties>
-        <kotlin.compiler.languageVersion>1.0</kotlin.compiler.languageVersion>
+        <kotlin.compiler.languageVersion>1.9</kotlin.compiler.languageVersion>
     </properties>
 </project>
 ```
 
 The following attributes are supported:
 
-### Attributes common to JVM and JS
-
-| Name | Property name | Description | Possible values | Default value |
-|------|---------------|-------------|-----------------|---------------|
-| `nowarn` | | Generate no warnings | true, false | false |
-| `languageVersion` | kotlin.compiler.languageVersion | Provide source compatibility with the specified version of Kotlin | "1.3" (DEPRECATED), "1.4" (DEPRECATED), "1.5", "1.6", "1.7", "1.8", "1.9" (EXPERIMENTAL) | 
-| `apiVersion` | kotlin.compiler.apiVersion | Allow using declarations only from the specified version of bundled libraries | "1.3" (DEPRECATED), "1.4" (DEPRECATED), "1.5", "1.6", "1.7", "1.8", "1.9" (EXPERIMENTAL) | 
-| `sourceDirs` | | The directories containing the source files to compile | | The project source roots
-| `compilerPlugins` | | Enabled compiler plugins  | | []
-| `pluginOptions` | | Options for compiler plugins  | | []
-| `args` | | Additional compiler arguments | | []
-
 ### Attributes specific to JVM
 
-| Name | Property name | Description | Possible values |Default value |
-|------|---------------|-------------|-----------------|--------------|
-| `jvmTarget` | `kotlin.compiler.jvmTarget` | Target version of the generated JVM bytecode | "1.8", "9", "10", ..., "19" | "%defaultJvmTargetVersion%" |
-| `jdkHome` | `kotlin.compiler.jdkHome` |  	Include a custom JDK from the specified location into the classpath instead of the default JAVA_HOME | | |
+| Name              | Property name                   | Description                                                                                          | Possible values                                                                                                              | Default value               |
+|-------------------|---------------------------------|------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|-----------------------------|
+| `nowarn`          |                                 | Generate no warnings                                                                                 | true, false                                                                                                                  | false                       |
+| `languageVersion` | kotlin.compiler.languageVersion | Provide source compatibility with the specified version of Kotlin                                    | "1.3" (DEPRECATED), "1.4" (DEPRECATED), "1.5", "1.6", "1.7", "1.8", "1.9", "1.9", "2.0" (EXPERIMENTAL), "2.1" (EXPERIMENTAL) |                             |
+| `apiVersion`      | kotlin.compiler.apiVersion      | Allow using declarations only from the specified version of bundled libraries                        | "1.3" (DEPRECATED), "1.4" (DEPRECATED), "1.5", "1.6", "1.7", "1.8", "1.9", "1.9", "2.0" (EXPERIMENTAL), "2.1" (EXPERIMENTAL) |                             |
+| `sourceDirs`      |                                 | The directories containing the source files to compile                                               |                                                                                                                              | The project source roots    |
+| `compilerPlugins` |                                 | Enabled compiler plugins                                                                             |                                                                                                                              | []                          |
+| `pluginOptions`   |                                 | Options for compiler plugins                                                                         |                                                                                                                              | []                          |
+| `args`            |                                 | Additional compiler arguments                                                                        |                                                                                                                              | []                          |
+| `jvmTarget`       | `kotlin.compiler.jvmTarget`     | Target version of the generated JVM bytecode                                                         | "1.8", "9", "10", ..., "21"                                                                                                  | "%defaultJvmTargetVersion%" |
+| `jdkHome`         | `kotlin.compiler.jdkHome`       | Include a custom JDK from the specified location into the classpath instead of the default JAVA_HOME |                                                                                                                              |                             |
 
-### Attributes specific to JS
-
-| Name | Property name | Description | Possible values |Default value |
-|------|---------------|-------------|-----------------|--------------|
-| `outputFile` | | Destination *.js file for the compilation result | | |
-| `metaInfo` |  | Generate .meta.js and .kjsm files with metadata. Use to create a library | true, false | true
-| `sourceMap` | | Generate source map | true, false | false
-| `sourceMapEmbedSources` | | Embed source files into source map | "never", "always", "inlining" | "inlining" |
-| `sourceMapPrefix` | | Add the specified prefix to paths in the source map |  |  |
-| `moduleKind` | | The kind of JS module generated by the compiler | "umd", "commonjs", "amd", "plain" | "umd"
-
-## Using BOM
+## Use BOM
 
 To use a Kotlin [Bill of Materials (BOM)](https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#bill-of-materials-bom-poms), 
 write a dependency on [`kotlin-bom`](https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-bom):
 
 ```xml
 <dependencyManagement>
-  <dependencies>  
-    <dependency>
-      <groupId>org.jetbrains.kotlin</groupId>
-      <artifactId>kotlin-bom</artifactId>
-      <version>%kotlinVersion%</version>
-      <type>pom</type>
-      <scope>import</scope>
-    </dependency>
-  </dependencies>
+    <dependencies>  
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-bom</artifactId>
+            <version>%kotlinVersion%</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
 </dependencyManagement>
 ```
 
-## Generating documentation
+## Generate documentation
 
-The standard Javadoc generation plugin (`maven-javadoc-plugin`) does not support Kotlin code.
-To generate documentation for Kotlin projects, use [Dokka](https://github.com/Kotlin/dokka);
-please refer to the [Dokka README](https://github.com/Kotlin/dokka/blob/master/README.md#using-the-maven-plugin)
-for configuration instructions. Dokka supports mixed-language projects and can generate output in multiple
-formats, including standard Javadoc.
+The standard Javadoc generation plugin (`maven-javadoc-plugin`) doesn't support Kotlin code. To generate documentation 
+for Kotlin projects, use [Dokka](https://github.com/Kotlin/dokka). Dokka supports mixed-language projects and can 
+generate output in multiple formats, including standard Javadoc. For more information about how to configure Dokka in
+your Maven project, see [Maven](dokka-maven.md).
 
-## OSGi
+## Enable OSGi support
 
-For OSGi support see the [Kotlin OSGi page](kotlin-osgi.md).
+[Learn how to enable OSGi support in your Maven project](kotlin-osgi.md#maven).

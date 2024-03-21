@@ -99,6 +99,7 @@ For the *prefix* forms `++a` and `--a` resolution works the same way, and the ef
 | `a / b` | `a.div(b)` |
 | `a % b` | `a.rem(b)` |
 | `a..b ` | `a.rangeTo(b)` |
+| `a..<b ` | `a.rangeUntil(b)` |
 
 For the operations in this table, the compiler just resolves the expression in the *Translated to* column.
 
@@ -196,6 +197,7 @@ The `==` operation is special: it is translated to a complex expression that scr
 All comparisons are translated into calls to `compareTo`, that is required to return `Int`.
 
 ### Property delegation operators
+
 `provideDelegate`, `getValue` and `setValue` operator functions are described
 in [Delegated properties](delegated-properties.md).
 

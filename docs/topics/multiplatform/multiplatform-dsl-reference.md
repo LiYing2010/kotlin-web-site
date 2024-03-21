@@ -1,9 +1,5 @@
 [//]: # (title: Multiplatform Gradle DSL reference)
 
-> Multiplatform projects are in [Alpha](components-stability.md). Language features and tooling may change in future Kotlin versions.
->
-{type="note"}
-
 The Kotlin Multiplatform Gradle plugin is a tool for creating [Kotlin Multiplatform](multiplatform.md) projects.
 Here we provide a reference of its contents; use it as a reminder when writing Gradle build scripts
 for Kotlin Multiplatform projects. Learn the [concepts of Kotlin Multiplatform projects, how to create and configure them](multiplatform-get-started.md).
@@ -516,19 +512,19 @@ kotlin {
 </tabs>
 
 Note that a newly created source set isn't connected to other ones. To use it in the project's compilations,
-[connect it with other source sets](multiplatform-share-on-platforms.md#configure-the-hierarchical-structure-manually).
+[connect it with other source sets](multiplatform-hierarchy.md#manual-configuration).
 
 ### Source set parameters
 
 Configurations of source sets are stored inside the corresponding blocks of `sourceSets`. A source set has the following parameters:
 
-| **Name**           | **Description**                                                                                                          | 
-|--------------------|--------------------------------------------------------------------------------------------------------------------------|
-| `kotlin.srcDir`    | Location of Kotlin source files inside the source set directory.                                                         |
-| `resources.srcDir` | Location of resources inside the source set directory.                                                                   |
-| `dependsOn`        | [Connection with another source set](multiplatform-share-on-platforms.md#configure-the-hierarchical-structure-manually). |
-| `dependencies`     | [Dependencies](#dependencies) of the source set.                                                                         |
-| `languageSettings` | [Language settings](#language-settings) applied to the source set.                                                       |
+| **Name**           | **Description**                                                                        | 
+|--------------------|----------------------------------------------------------------------------------------|
+| `kotlin.srcDir`    | Location of Kotlin source files inside the source set directory.                       |
+| `resources.srcDir` | Location of resources inside the source set directory.                                 |
+| `dependsOn`        | [Connection with another source set](multiplatform-hierarchy.md#manual-configuration). |
+| `dependencies`     | [Dependencies](#dependencies) of the source set.                                       |
+| `languageSettings` | [Language settings](#language-settings) applied to the source set.                     |
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
@@ -779,9 +775,9 @@ kotlin {
                 api("com.example:foo-metadata:1.0")
             }
         }
-        val jvm6Main by getting {
+        val jvmMain by getting {
             dependencies {
-                implementation("com.example:foo-jvm6:1.0")
+                implementation("com.example:foo-jvm:1.0")
             }
         }
     }
@@ -799,9 +795,9 @@ kotlin {
                 api 'com.example:foo-metadata:1.0'
             }
         }
-        jvm6Main {
+        jvmMain {
             dependencies {
-                implementation 'com.example:foo-jvm6:1.0'
+                implementation 'com.example:foo-jvm:1.0'
             }
         }
     }
@@ -811,7 +807,8 @@ kotlin {
 </tab>
 </tabs>
 
-Additionally, source sets can depend on each other and form a hierarchy. In this case, the [dependsOn()](#source-set-parameters) relation is used.
+Additionally, source sets can depend on each other and form a hierarchy.
+In this case, the [`dependsOn()`](#source-set-parameters) relation is used.
 
 Source set dependencies can also be declared in the top-level `dependencies` block of the build script.
 In this case, their declarations follow the pattern `<sourceSetName><DependencyKind>`, for example, `commonMainApi`.

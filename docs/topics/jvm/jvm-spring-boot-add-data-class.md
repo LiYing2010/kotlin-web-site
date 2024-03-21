@@ -36,7 +36,7 @@ It requires changing the `MessageController` class to respond with a JSON docume
           </p>
        </def>
        <def title="Nullable types – String?">
-          <p>Kotlin provides <a href="null-safety.md#nullable-types-and-non-null-types">built-in support for nullable types</a>. In Kotlin, the type system distinguishes between references that can hold <code>null</code> (<i>nullable references</i>) and those that cannot (<i>non-nullable references</i>).<br/>
+          <p>Kotlin provides <a href="null-safety.md#nullable-types-and-non-nullable-types">built-in support for nullable types</a>. In Kotlin, the type system distinguishes between references that can hold <code>null</code> (<i>nullable references</i>) and those that cannot (<i>non-nullable references</i>).<br/>
           For example, a regular variable of type <code>String</code> cannot hold <code>null</code>. To allow nulls, you can declare a variable as a nullable string by writing <code>String?</code>.
           </p>
           <p>The <code>id</code> property of the <code>Message</code> class is declared as a nullable type this time.
@@ -98,7 +98,7 @@ The response from `MessageController` will now be a JSON document containing a c
 Here is a complete code of the `DemoApplication.kt`:
 
 ```kotlin
-package demo
+package com.example.demo
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -148,16 +148,3 @@ The Spring application is ready to run:
 In the next part of the tutorial, you'll add and configure a database to your project, and make HTTP requests.
 
 **[Proceed to the next chapter](jvm-spring-boot-add-db-support.md)**
-
-### Get the Kotlin language map
-
-Get your personal language map to help you navigate Kotlin features and track your progress in studying the language.
-We will also send you language tips and useful materials on using Kotlin with Spring.
-
-<a href="https://info.jetbrains.com/kotlin-tips.html">
-   <img src="get-kotlin-language-map.png" width="700" alt="Get the Kotlin language map"/>
-</a>
-
-> You will need to share your email address on the next page to receive the materials.
->
-{type="note"}

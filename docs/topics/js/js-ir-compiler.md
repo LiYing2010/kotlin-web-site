@@ -10,7 +10,7 @@ which is subsequently compiled into JavaScript. For Kotlin/JS, this enables aggr
 on pain points that were present in the previous compiler, such as generated code size (through dead code elimination),
 and JavaScript and TypeScript ecosystem interoperability, to name some examples.
 
-The IR compiler backend is available starting with Kotlin 1.4.0 through the Kotlin/JS Gradle plugin. To enable it in your
+The IR compiler backend is available starting with Kotlin 1.4.0 through the Kotlin Multiplatform Gradle plugin. To enable it in your
 project, pass a compiler type to the `js` function in your Gradle build script:
 
 ```groovy
@@ -23,8 +23,12 @@ kotlin {
 ```
 
 * `IR` uses the new IR compiler backend for Kotlin/JS.
-* `LEGACY` uses the default compiler backend.
+* `LEGACY` uses the old compiler backend.
 * `BOTH` compiles your project with the new IR compiler as well as the default compiler backend. Use this mode for [authoring libraries compatible with both backends](#authoring-libraries-for-the-ir-compiler-with-backwards-compatibility).
+
+> The old compiler backend has been deprecated since Kotlin 1.8.0. Starting with Kotlin 1.9.0, using compiler types `LEGACY` or `BOTH` leads to an error.
+>
+{type="warning"}
 
 The compiler type can also be set in the `gradle.properties` file, with the key `kotlin.js.compiler=ir`.
 This behaviour is overwritten by any settings in the `build.gradle(.kts)`, however.
@@ -100,13 +104,13 @@ To enable this mode, add the `-Xerror-tolerance-policy={SEMANTIC|SYNTAX}` compil
 
 ```kotlin
 kotlin {
-   js(IR) {
-       compilations.all {
-           compileTaskProvider.configure {
-               compilerOptions.freeCompilerArgs.add("-Xerror-tolerance-policy=SYNTAX")
-           }
-       }
-   }
+    js(IR) {
+        compilations.all {
+            compileTaskProvider.configure {
+                compilerOptions.freeCompilerArgs.add("-Xerror-tolerance-policy=SYNTAX")
+            }
+        }
+    }
 }
 ```
 
@@ -118,13 +122,13 @@ This type of minification is automatically applied when you build your Kotlin/JS
 
 ```kotlin
 kotlin {
-   js(IR) {
-       compilations.all {
-           compileTaskProvider.configure {
-               compilerOptions.freeCompilerArgs.add("-Xir-minimized-member-names=false")
-           }
-       }
-   }
+    js(IR) {
+        compilations.all {
+            compileTaskProvider.configure {
+                compilerOptions.freeCompilerArgs.add("-Xir-minimized-member-names=false")
+            }
+        }
+    }
 }
 ```
 
@@ -139,10 +143,26 @@ The Kotlin/JS IR compiler is capable of generating TypeScript definitions from y
 used by JavaScript tools and IDEs when working on hybrid apps to provide autocompletion, support static analyzers, and
 make it easier to include Kotlin code in JavaScript and TypeScript projects.
 
-Top-level declarations marked with [`@JsExport`](js-to-kotlin-interop.md#jsexport-annotation) in a project that produces
-executable files (`binaries.executable()`) will get a `.d.ts` file generated, which contains the TypeScript definitions
-for the exported Kotlin declarations.
-These declarations can be found in `build/js/packages/<package_name>/kotlin` alongside the corresponding
+If your project produces executable files (`binaries.executable()`), the Kotlin/JS IR compiler collects 
+any top-level declarations marked with [`@JsExport`](js-to-kotlin-interop.md#jsexport-annotation) and automatically 
+generates TypeScript definitions in a `.d.ts` file.
+
+If you want to generate TypeScript definitions, you have to explicitly configure this in your Gradle build file. 
+Add `generateTypeScriptDefinitions()` to your `build.gradle.kts` file in the [`js` section](js-project-setup.md#execution-environments). 
+For example:
+
+```kotlin
+kotlin {
+   js {
+       binaries.executable()
+       browser {
+       }
+       generateTypeScriptDefinitions()
+   }
+}
+```
+
+The definitions can be found in `build/js/packages/<package_name>/kotlin` alongside the corresponding
 un-webpacked JavaScript code.
 
 ## Current limitations of the IR compiler

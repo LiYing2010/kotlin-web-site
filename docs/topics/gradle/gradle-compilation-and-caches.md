@@ -33,28 +33,106 @@ Note: Any build with incremental compilation disabled invalidates incremental ca
 
 ### A new approach to incremental compilation
 
-> The new approach to incremental compilation is [Experimental](components-stability.md). It may be dropped or changed at any time.
-> Opt-in is required (see the details below). We encourage you to use it only for evaluation purposes, and we would
-> appreciate your feedback in [YouTrack](https://youtrack.jetbrains.com/issues/KT).
->
-{type="warning"}
-
 The new approach to incremental compilation is available since Kotlin 1.7.0 for the JVM backend in the Gradle build system only. 
-This approach supports changes made inside dependent non-Kotlin modules, includes an improved
-compilation avoidance, and is compatible with the [Gradle build cache](#gradle-build-cache-support).
+Starting from Kotlin 1.8.20, this is enabled by default. This approach supports changes made inside dependent non-Kotlin modules, 
+includes an improved compilation avoidance, and is compatible with the [Gradle build cache](#gradle-build-cache-support).
 
 All of these enhancements decrease the number of non-incremental builds, making the overall compilation time faster. 
 You will receive the most benefit if you use the build cache, or, frequently make changes in non-Kotlin
 Gradle modules.
 
-To enable this new approach, set the following option in your `gradle.properties`:
+To opt out from this new approach, set the following option in your `gradle.properties`:
 
 ```none
-kotlin.incremental.useClasspathSnapshot=true
+kotlin.incremental.useClasspathSnapshot=false
 ```
+
+We would appreciate your feedback on this feature in [YouTrack](https://youtrack.jetbrains.com/issue/KT-49682).
 
 Learn how the new approach to incremental compilation is implemented under the hood in
 [this blog post](https://blog.jetbrains.com/kotlin/2022/07/a-new-approach-to-incremental-compilation-in-kotlin/).
+
+### Precise backup of compilation tasks' outputs
+
+> Precise backup of compilation tasks' outputs is [Experimental](components-stability.md#stability-levels-explained).
+> We would appreciate your feedback on it in [YouTrack](https://kotl.in/issue/experimental-ic-optimizations).
+>
+{type="warning"}
+
+Starting with Kotlin 1.8.20, you can enable precise backup, whereby only those classes that Kotlin recompiles in 
+the incremental compilation are backed up. Both full and precise backups help to run builds incrementally again 
+after compilation errors. A precise backup takes less build time compared to a full backup. 
+A full backup may take **noticeably** more build time in large projects or if many tasks are creating backups, 
+especially if a project is located on a slow HDD.
+
+Enable this optimization by adding the `kotlin.compiler.preciseCompilationResultsBackup` Gradle property to 
+the `gradle.properties` file:
+
+```none
+kotlin.compiler.preciseCompilationResultsBackup=true
+```
+
+#### Example of using precise backup at JetBrains {initial-collapse-state="collapsed"}
+
+In the following charts, you can see examples of using precise backup compared to full backup:
+
+<img src="comparison-of-full-and-precise-backups.png" alt="Comparison of full and precise backups" width="700"/>
+
+The first and second charts show how using precise backup in a Kotlin project affects building the Kotlin Gradle plugin:
+
+1. After making a small [ABI](https://en.wikipedia.org/wiki/Application_binary_interface) change: adding a new public method to a module that lots of modules depend on.
+2. After making a small non-ABI change: adding a private function to a module that no other modules depend on.
+   
+The third chart shows how precise backup in the [Space](https://www.jetbrains.com/space/) project affects building a web 
+frontend after a small non-ABI change: adding a private function to a Kotlin/JS module that lots of modules depend on.
+
+These measurements were performed on a computer with an Apple M1 Max CPU; different computers will yield slightly 
+different results. The factors affecting performance include but are not limited to:
+
+* How warm the [Kotlin daemon](#the-kotlin-daemon-and-how-to-use-it-with-gradle) 
+  and the [Gradle daemon](https://docs.gradle.org/current/userguide/gradle_daemon.html) are.
+* How fast or slow the disk is.
+* The CPU model and how busy it is.
+* Which modules are affected by the changes and how big these modules are.
+* Whether the changes are ABI or non-ABI.
+
+#### Evaluating optimizations with build reports {initial-collapse-state="collapsed"}
+
+To estimate the impact of the optimization on your computer for your project and your scenarios, you can use 
+[Kotlin build reports](#build-reports). Enable reports in text file format by adding the following property 
+to your `gradle.properties` file:
+
+```
+kotlin.build.report.output=file
+```
+
+Here is an example of a relevant part of the report **before** enabling precise backup:
+
+```
+Task ':kotlin-gradle-plugin:compileCommonKotlin' finished in 0.59 s
+<...>
+Time metrics:
+ Total Gradle task time: 0.59 s
+ Task action before worker execution: 0.24 s
+  Backup output: 0.22 s // Pay attention to this number 
+<...>
+```
+
+And here is an example of a relevant part of the report **after** enabling precise backup:
+
+```
+Task ':kotlin-gradle-plugin:compileCommonKotlin' finished in 0.46 s
+<...>
+Time metrics:
+ Total Gradle task time: 0.46 s
+ Task action before worker execution: 0.07 s
+  Backup output: 0.05 s // The time has reduced
+ Run compilation in Gradle worker: 0.32 s
+  Clear jar cache: 0.00 s
+  Precise backup output: 0.00 s // Related to precise backup
+  Cleaning up the backup stash: 0.00 s // Related to precise backup
+<...>
+```
 
 ## Gradle build cache support
 
@@ -64,23 +142,10 @@ the build outputs for reuse in future builds.
 To disable caching for all Kotlin tasks, set the system property `kotlin.caching.enabled` to `false`
 (run the build with the argument `-Dkotlin.caching.enabled=false`).
 
-If you use [kapt](kapt.md), note that kapt annotation processing tasks are not cached by default. However, you can
-[enable caching for them manually](kapt.md#gradle-build-cache-support).
-
 ## Gradle configuration cache support
 
-> Gradle configuration cache support has some constraints:
-> * The configuration cache is available in Gradle 6.5 and later as an experimental feature.  
-    >   You can check the [Gradle releases page](https://gradle.org/releases/) to see whether it has been promoted to stable.
-> * The feature is supported only by the following Gradle plugins:
-    >   * `org.jetbrains.kotlin.jvm`
->   * `org.jetbrains.kotlin.js`
->   * `org.jetbrains.kotlin.android`
->
-{type="note"}
-
 The Kotlin plugin uses the [Gradle configuration cache](https://docs.gradle.org/current/userguide/configuration_cache.html),
-which speeds up the build process by reusing the results of the configuration phase.
+which speeds up the build process by reusing the results of the configuration phase for subsequent builds.
 
 See the [Gradle documentation](https://docs.gradle.org/current/userguide/configuration_cache.html#config_cache:usage)
 to learn how to enable the configuration cache. After you enable this feature, the Kotlin Gradle plugin automatically
@@ -213,6 +278,26 @@ When configuring the Kotlin daemon's JVM arguments, note that:
   {type="note"}
 * If the `Xmx` argument is not specified, the Kotlin daemon will inherit it from the Gradle daemon.
 
+## The new Kotlin compiler
+
+The new Kotlin K2 compiler is in [Beta](components-stability.md#stability-levels-explained).
+It has basic support for Kotlin JVM, Native, Wasm, and JS projects.
+
+The new compiler aims to speed up the development of new language features, unify all of the platforms Kotlin supports,
+bring performance improvements, and provide an API for compiler extensions.
+
+The K2 compiler will become the default starting with Kotlin 2.0. To try it in your projects now and check the performance,
+use the `kotlin.experimental.tryK2=true` Gradle property or run the following command:
+
+```shell
+./gradlew assemble -Pkotlin.experimental.tryK2=true
+```
+
+This Gradle property automatically sets the default language version to 2.0 and updates the [build report](#build-reports)
+with the number of Kotlin tasks compiled using the K2 compiler compared to the current compiler.
+
+Learn more about the stabilization of the K2 compiler in our [Kotlin blog](https://blog.jetbrains.com/kotlin/2023/02/k2-kotlin-2-0/)
+
 ## Defining Kotlin compiler execution strategy
 
 _Kotlin compiler execution strategy_ defines where the Kotlin compiler is executed and if incremental compilation is supported in each case.
@@ -340,22 +425,23 @@ If there is insufficient memory to run the compilation, you can see a message ab
 >
 {type="warning"}
 
-Build reports for tracking compiler performance are available starting from Kotlin 1.7.0. Reports contain the durations 
-of different compilation phases and reasons why compilation couldn't be incremental.
-
+Build reports contain the durations of different compilation phases and any reasons why compilation couldn't be incremental.
 Use build reports to investigate performance issues when the compilation time is too long or when it differs for the same
 project.
 
-Kotlin build reports help examine problems more efficiently than [Gradle build scans](https://scans.gradle.com/). 
-Lots of engineers use them to investigate build performance, but the unit of granularity in Gradle scans is a single Gradle task.
+Kotlin build reports help you to investigate problems with build performance more efficiently than with [Gradle build scans](https://scans.gradle.com/)
+that have a single Gradle task as the unit of granularity.
 
 There are two common cases that analyzing build reports for long-running compilations can help you resolve:
 * The build wasn't incremental. Analyze the reasons and fix underlying problems.
 * The build was incremental but took too much time. Try reorganizing source files — split big files,
   save separate classes in different files, refactor large classes, declare top-level functions in different files, and so on.
 
+Build reports also show the Kotlin version used in the project. In addition, starting with Kotlin 1.9.0,
+you can see whether the current or the [K2 compiler](#the-new-kotlin-compiler) was used to compile the code in your [Gradle build scans](https://scans.gradle.com/).
+
 Learn [how to read build reports](https://blog.jetbrains.com/kotlin/2022/06/introducing-kotlin-build-reports/#how_to_read_build_reports) 
-and [how JetBrains uses build reports](https://blog.jetbrains.com/kotlin/2022/06/introducing-kotlin-build-reports/#how_we_use_build_reports_in_jetbrains).
+and about [how JetBrains uses build reports](https://blog.jetbrains.com/kotlin/2022/06/introducing-kotlin-build-reports/#how_we_use_build_reports_in_jetbrains).
 
 ### Enabling build reports
 
@@ -374,7 +460,7 @@ The following values and their combinations are available for the output:
 | `build_scan`  | Saves build reports in the `custom values` section of the [build scan](https://scans.gradle.com/). Note that the Gradle Enterprise plugin limits the number of custom values and their length. In big projects, some values could be lost                                                                                                                                                                                                                                                                   |                                                                                                                                                                                                                                                                                                                                                                                               |
 | `http`        | Posts build reports using HTTP(S). The POST method sends metrics in JSON format. You can see the current version of the sent data in the [Kotlin repository](https://github.com/JetBrains/kotlin/blob/master/libraries/tools/kotlin-gradle-plugin/src/common/kotlin/org/jetbrains/kotlin/gradle/plugin/statistics/CompileStatisticsData.kt). You can find samples of HTTP endpoints in [this blog post](https://blog.jetbrains.com/kotlin/2022/06/introducing-kotlin-build-reports/#enable_build_reports)   |
 
-Here's the full list of available options for `kotlin.build.report`:
+Here's a list of available options for `kotlin.build.report`:
 
 ```none
 # Required outputs. Any combination is allowed
@@ -387,15 +473,26 @@ kotlin.build.report.single_file=some_filename
 # Optional. Output directory for file-based reports. Default: build/reports/kotlin-build/
 kotlin.build.report.file.output_dir=kotlin-reports
 
-# Mandatory if HTTP output is used. Where to post HTTP(S)-based reports
+# Optional. Label for marking your build report (for example, debug parameters)
+kotlin.build.report.label=some_label
+```
+
+Options, applicable only to HTTP:
+
+```none
+# Mandatory. Where to post HTTP(S)-based reports
 kotlin.build.report.http.url=http://127.0.0.1:8080
 
 # Optional. User and password if the HTTP endpoint requires authentication
 kotlin.build.report.http.user=someUser
 kotlin.build.report.http.password=somePassword
 
-# Optional. Label for marking your build report (for example, debug parameters)
-kotlin.build.report.label=some_label
+# Optional. Add a Git branch name of a build to a build report
+kotlin.build.report.http.include_git_branch.name=true|false
+
+# Optional. Add compiler arguments to a build report
+# If a project contains many modules, its compiler arguments in the report can be very heavy and not that helpful
+kotlin.build.report.include_compiler_arguments=true|false
 ```
 
 ### Limit of custom values
@@ -433,5 +530,5 @@ your `gradle.properties`.
 ## What's next?
 
 Learn more about:
-* [Gradle basics and specifics](https://docs.gradle.org/current/userguide/getting_started.html).
+* [Gradle basics and specifics](https://docs.gradle.org/current/userguide/userguide.html).
 * [Support for Gradle plugin variants](gradle-plugin-variants.md).

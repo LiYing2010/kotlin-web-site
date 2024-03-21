@@ -274,14 +274,9 @@ def why_teach_page():
 def education_courses():
     return render_template('pages/education/courses.html', universities_data=get_education_courses())
 
-
 @app.route('/')
-def index_page():
-    features = get_kotlin_features()
-    return render_template('pages/index.html',
-                           is_index_page=True,
-                           features=features
-                           )
+def next_index_page():
+    return send_file(path.join(root_folder, 'out', 'index.html'))
 
 def process_page(page_path):
     # get_nav() has side effect to copy and patch files from the `external` folder
@@ -393,7 +388,7 @@ def page(page_path):
 
 @app.route('/404.html')
 def page_404():
-    return render_template('pages/404.html')
+    return send_file(path.join(root_folder, 'out', '404.html'))
 
 
 @freezer.register_generator
@@ -448,7 +443,7 @@ def generate_redirect_pages():
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('pages/404.html'), 404
+    return send_file(path.join(root_folder, 'out', '404.html')), 404
 
 
 app.register_error_handler(404, page_not_found)

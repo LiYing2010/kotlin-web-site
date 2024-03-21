@@ -1,0 +1,30 @@
+[
+  {
+    "title": "Learn IDE Code Refactoring in Kotlin for Enhanced Code Quality",
+    "date": "Wed, 17 Jan 2024 11:36:34 +0000",
+    "link": "https://blog.jetbrains.com/education/2024/01/17/learn-ide-code-refactoring/",
+    "image": "latest-news/news-0.png",
+    "description": "Do you know what your code smells like? If you aren’t sure, you would probably benefit from learning how to assess code smell with our new course, Introduction to IDE Code Refactoring in Kotlin. The course teaches you how to use your IDE to format and reshape your code to become more readable and less [&#8230;]"
+  },
+  {
+    "title": "Results of Google Summer of Code With Kotlin",
+    "date": "Wed, 10 Jan 2024 17:44:47 +0000",
+    "link": "https://blog.jetbrains.com/kotlin/2024/01/google-summer-of-code-with-kotlin-results/",
+    "image": "latest-news/news-1.png",
+    "description": "2023 marked Kotlin&#8217;s first-ever participation in Google Summer of Code (GSoC), a global online program focused on bringing new contributors into open-source development. Contributors worked on 12-week programming projects with the Kotlin Foundation under the guidance of mentors from JetBrains, Google, and Gradle, and gained experience on real-world projects. We would like to share the [&#8230;]"
+  },
+  {
+    "title": "Amper Update – December 2023",
+    "date": "Thu, 21 Dec 2023 11:42:47 +0000",
+    "link": "https://blog.jetbrains.com/amper/2023/12/amper-update-december-2023/",
+    "image": "latest-news/news-2.png",
+    "description": "Last month JetBrains introduced Amper, a tool to improve the project configuration user experience. It offers concise, declarative configuration with sensible defaults for common use cases and carefully considered extension points. Since then, we’ve received a lot of feedback from the community and have continued our development work as well. In this post, we’ll recap [&#8230;]"
+  },
+  {
+    "title": "Kandy: the new Kotlin plotting library by JetBrains",
+    "date": "Thu, 14 Dec 2023 15:58:36 +0000",
+    "link": "https://blog.jetbrains.com/kotlin/2023/12/kandy-the-new-kotlin-plotting-library-by-jetbrains/",
+    "image": "latest-news/news-3.png",
+    "description": "We are excited to introduce Kandy, a new Kotlin plotting library by JetBrains. It provides a new, powerful DSL for creating charts of various kinds. The first public preview version is ready for you to try, and we welcome any feedback and comments you may have. Kandy Documentation How does it look and feel? Why [&#8230;]"
+  }
+]

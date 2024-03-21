@@ -2,13 +2,15 @@ package builds.kotlinlang.buidTypes
 
 import builds.apiReferences.kotlinx.coroutines.KotlinxCoroutinesBuildApiReference
 import builds.apiReferences.kotlinx.datetime.KotlinxDatetimeBuildApiReference
+import builds.apiReferences.kotlinx.metadataJvm.KotlinxMetadataJvmBuildApiReference
 import builds.apiReferences.kotlinx.serialization.KotlinxSerializationBuildApiReference
 import builds.kotlinlang.templates.DockerImageBuilder
 import jetbrains.buildServer.configs.kotlin.*
 import jetbrains.buildServer.configs.kotlin.buildSteps.ScriptBuildStep
 import jetbrains.buildServer.configs.kotlin.buildSteps.script
+import jetbrains.buildServer.configs.kotlin.triggers.finishBuildTrigger
 
-const val kotlinWebsiteSetup = "/kotlin-website-setup.sh"
+private const val kotlinWebsiteSetup = "/kotlin-website-setup.sh"
 
 object BuildSitePages : BuildType({
   name = "Build site pages"
@@ -23,6 +25,14 @@ object BuildSitePages : BuildType({
   vcs {
     root(vcsRoots.KotlinLangOrg)
     cleanCheckout = true
+  }
+
+  triggers {
+    finishBuildTrigger {
+      buildType = FetchBlogNews.id?.value ?: error("Invalid FetchBlogNews ID")
+      branchFilter = "+:<default>"
+      successfulOnly = true
+    }
   }
 
   steps {
@@ -53,15 +63,15 @@ object BuildSitePages : BuildType({
     script {
       name = "Override with external source"
       scriptContent = """
-                cp -fR _webhelp/reference/* build/docs/
-                #cp -fR _webhelp/mobile build/docs/
-                mv build dist
-                cp -fR spec dist/
-                cp -fR _assets dist/
-                cp -fR out dist/
-                cp -fR out/_next dist/_next/
-                cp -fR libs/* dist/api/
-            """.trimIndent()
+        cp -fR _webhelp/reference/* build/docs/
+        #cp -fR _webhelp/mobile build/docs/
+        mv build dist
+        cp -fR spec dist/
+        cp -fR _assets dist/
+        cp -fR out/* dist/
+        cp -fR out/_next dist/_next/
+        cp -fR libs/* dist/api/
+      """.trimIndent()
       dockerImage = "alpine"
     }
 
@@ -124,6 +134,7 @@ object BuildSitePages : BuildType({
                 """.trimIndent()
       }
     }
+
     dependency(BuildReferenceDocs) {
       snapshot {
         onDependencyFailure = FailureAction.FAIL_TO_START
@@ -156,6 +167,17 @@ object BuildSitePages : BuildType({
       }
     }
 
+    dependency(KotlinxMetadataJvmBuildApiReference) {
+      snapshot {
+          reuseBuilds = ReuseBuilds.NO
+          onDependencyFailure = FailureAction.FAIL_TO_START
+      }
+
+      artifacts {
+          artifactRules = "+:pages.zip!** => libs/kotlinx-metadata-jvm/"
+      }
+    }
+
     dependency(KotlinxSerializationBuildApiReference) {
       snapshot {
         reuseBuilds = ReuseBuilds.NO
@@ -167,7 +189,7 @@ object BuildSitePages : BuildType({
       }
     }
 
-    artifacts(AbsoluteId("Kotlin_KotlinRelease_180_LibraryReferenceDocs")) {
+    artifacts(AbsoluteId("Kotlin_KotlinRelease_1920_LibraryReferenceLegacyDocs")) {
       buildRule = tag("publish", """
                 +:<default>
                 +:*

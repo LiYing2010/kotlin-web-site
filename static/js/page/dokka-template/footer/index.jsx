@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import GlobalFooter from '@jetbrains/kotlin-web-site-ui/out/components/footer';
+import GlobalFooter from '@jetbrains/kotlin-web-site-ui/out/components/footer-compact';
 import { ThemeProvider } from '@rescui/ui-contexts';
 import './index.scss';
 

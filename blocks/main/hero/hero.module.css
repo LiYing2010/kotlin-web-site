@@ -1,0 +1,163 @@
+@import "@jetbrains/kotlin-web-site-ui/out/components/breakpoints/media.pcss";
+
+.heroSection {
+    background: #19191C;
+    padding: 48px 0;
+    overflow: hidden;
+
+    @media (--ktl-ts-min) {
+        padding: 72px 0;
+    }
+
+    @media (--ktl-ds-min) {
+        padding: 96px 0;
+    }
+}
+
+.heroText {
+    margin: 0;
+    font-size: 72px;
+    line-height: 72px;
+    @media (--ktl-ts) {
+        text-align: center;
+    }
+
+    @media (--ktl-ts-min) {
+        margin-left: -4px;
+    }
+
+    @media screen and (--ktl-tm) and (orientation: landscape) {
+        text-align: center;
+    }
+}
+
+.subtitle {
+    opacity: 0.5;
+    margin: 0;
+
+    @media (--ktl-ts) {
+        text-align: center;
+        margin-bottom: 24px;
+    }
+
+    @media screen and (--ktl-tm) and (orientation: landscape) {
+        text-align: center;
+        margin-bottom: 24px;
+    }
+}
+
+.grid {
+    display: block;
+    position: relative;
+    @media (--ktl-ts-min) {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    @media screen and (--ktl-tm) and (orientation: landscape) {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+.content {
+    @media (--ktl-ts-min) and (--ktl-tl) {
+        flex-shrink: 0;
+    }
+}
+
+.imageMobile {
+    display: none;
+    @media (--ktl-ts) {
+        display: block;
+        width: 100%;
+        max-width: 260px;
+        margin: 0 auto;
+        height: auto;
+    }
+
+    @media screen and (--ktl-tm) and (orientation: landscape) {
+        display: block;
+        width: 100%;
+        max-width: 260px;
+        margin: 0 auto;
+        height: auto;
+    }
+}
+
+.imageDesktop {
+    display: block;
+    @media (--ktl-ts) {
+        display: none;
+        width: 100%;
+    }
+    @media screen and (--ktl-tm) and (orientation: landscape) {
+        display: none;
+        width: 100%;
+    }
+}
+
+.info {
+    margin-top: 96px;
+    display: flex;
+
+    @media (--ktl-ts) {
+        display: block;
+        text-align: center;
+        margin-top: 24px;
+    }
+
+    @media screen and (--ktl-tm) and (orientation: landscape) {
+        text-align: center;
+        margin-top: 24px;
+        display: block;
+    }
+}
+
+.developer {
+    display: flex;
+    align-items: center;
+    margin-left: 24px;
+    padding-left: 24px;
+    border-left: 1px solid rgba(255, 255, 255, 0.20);
+
+    @media (--ktl-ts) {
+        box-sizing: border-box;
+        justify-content: center;
+        width: 100%;
+        border: 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.20);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.20);
+        padding: 24px 0;
+        margin-left: 0;
+        margin-top: 72px;
+    }
+
+    @media screen and (--ktl-tm) and (orientation: landscape) {
+        box-sizing: border-box;
+        justify-content: center;
+        width: 100%;
+        border: 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.20);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.20);
+        padding: 24px 0;
+        margin-left: 0;
+        margin-top: 72px;
+    }
+}
+
+.developerLogo {
+    margin-right: 12px;
+    height: 52px;
+    width: 52px;
+}
+
+.getStartedButton {
+    background: #7F52FF !important;
+
+    &:hover {
+        background: rgba(127, 82, 255, 0.8) !important;
+    }
+}

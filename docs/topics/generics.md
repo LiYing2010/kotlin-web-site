@@ -26,22 +26,30 @@ val box = Box(1) // 1 has type Int, so the compiler figures out that it is Box<I
 One of the trickiest aspects of Java's type system is the wildcard types (see [Java Generics FAQ](http://www.angelikalanger.com/GenericsFAQ/JavaGenericsFAQ.html)).
 Kotlin doesn't have these. Instead, Kotlin has declaration-site variance and type projections.
 
-Let's think about why Java needs these mysterious wildcards. The problem is explained well in 
-[Effective Java, 3rd Edition](http://www.oracle.com/technetwork/java/effectivejava-136174.html), 
-Item 31: _Use bounded wildcards to increase API flexibility_.
-First, generic types in Java are _invariant_, meaning that `List<String>` is _not_ a subtype of `List<Object>`.
-If `List` were not _invariant_, it would have been no better than Java's arrays, as the following code would have 
-compiled but caused an exception at runtime:
+
+### Variance and wildcards in Java
+
+Let's think about why Java needs these mysterious wildcards. First, generic types in Java are _invariant_,
+meaning that `List<String>` is _not_ a subtype of `List<Object>`. If `List` were not _invariant_, it would
+have been no better than Java's arrays, as the following code would have compiled but caused an exception at runtime:
 
 ```java
 // Java
 List<String> strs = new ArrayList<String>();
-List<Object> objs = strs; // !!! A compile-time error here saves us from a runtime exception later.
-objs.add(1); // Put an Integer into a list of Strings
-String s = strs.get(0); // !!! ClassCastException: Cannot cast Integer to String
+
+// Java reports a type mismatch here at compile-time.
+List<Object> objs = strs;
+
+// What if it didn't?
+// We would be able to put an Integer into a list of Strings.
+objs.add(1);
+
+// And then at runtime, Java would throw
+// a ClassCastException: Integer cannot be cast to String
+String s = strs.get(0); 
 ```
 
-Java prohibits such things in order to guarantee run-time safety. But this has implications. For example,
+Java prohibits such things to guarantee runtime safety. But this has implications. For example,
 consider the `addAll()` method from the `Collection` interface. What's the signature of this method? Intuitively,
 you'd write it this way:
 
@@ -56,15 +64,13 @@ But then, you would not be able to do the following (which is perfectly safe):
 
 ```java
 // Java
+
+// The following would not compile with the naive declaration of addAll:
+// Collection<String> is not a subtype of Collection<Object>
 void copyAll(Collection<Object> to, Collection<String> from) {
     to.addAll(from);
-    // !!! Would not compile with the naive declaration of addAll:
-    // Collection<String> is not a subtype of Collection<Object>
 }
 ```
-
-(In Java, you probably learned this the hard way, see [Effective Java, 3rd Edition](http://www.oracle.com/technetwork/java/effectivejava-136174.html), 
-Item 28: _Prefer lists to arrays_)
 
 That's why the actual signature of `addAll()` is the following:
 
@@ -85,26 +91,25 @@ In other words, the wildcard with an _extends_\-bound (_upper_ bound) makes the 
 The key to understanding why this works is rather simple: if you can only _take_ items from a collection,
 then using a collection of `String`s and reading `Object`s from it is fine. Conversely, if you can only _put_ items
 into the collection, it's okay to take a collection of `Object`s and put `String`s into it: in Java there is
-`List<? super String>`, a _supertype_ of `List<Object>`.
+`List<? super String>`, which accepts `String`s or any of its supertypes.
 
 The latter is called _contravariance_, and you can only call methods that take `String` as an argument on `List<? super String>`
 (for example, you can call `add(String)` or `set(int, String)`).  If you call something that returns `T` in `List<T>`,
 you don't get a `String`, but rather an `Object`.
 
-Joshua Bloch gives the name _Producers_ to objects you only _read from_ and _Consumers_ to those you only _write to_. He recommends:
+Joshua Bloch, in his book [Effective Java, 3rd Edition](http://www.oracle.com/technetwork/java/effectivejava-136174.html), explains the problem well
+(Item 31: "Use bounded wildcards to increase API flexibility"). He gives the name _Producers_ to objects you only
+_read from_ and _Consumers_ to those you only _write to_. He recommends:
 
->"For maximum flexibility, use wildcard types on input parameters that represent producers or consumers",
-> and proposes the following mnemonic:
->
->_PECS stands for Producer-Extends, Consumer-Super._
->
-{type="tip"}
+>"For maximum flexibility, use wildcard types on input parameters that represent producers or consumers."
+
+He then proposes the following mnemonic: _PECS_ stands for _Producer-Extends, Consumer-Super._
 
 > If you use a producer-object, say, `List<? extends Foo>`, you are not allowed to call `add()` or `set()` on this object,
 > but this does not mean that it is _immutable_: for example, nothing prevents you from calling `clear()`
 > to remove all the items from the list, since `clear()` does not take any parameters at all.
 >
->The only thing guaranteed by wildcards (or other types of variance) is _type safety_. Immutability is a completely different story.
+> The only thing guaranteed by wildcards (or other types of variance) is _type safety_. Immutability is a completely different story.
 >
 {type="note"}
 
@@ -322,6 +327,41 @@ fun <T> copyWhenGreater(list: List<T>, threshold: T): List<String>
 The passed type must satisfy all conditions of the `where` clause simultaneously. In the above example, the `T` type
 must implement _both_ `CharSequence` and `Comparable`.
 
+## Definitely non-nullable types
+
+To make interoperability with generic Java classes and interfaces easier, Kotlin supports declaring a generic type parameter
+as **definitely non-nullable**. 
+
+To declare a generic type `T` as definitely non-nullable, declare the type with `& Any`. For example: `T & Any`.
+
+A definitely non-nullable type must have a nullable [upper bound](#upper-bounds).
+
+The most common use case for declaring definitely non-nullable types is when you want to override a Java method that 
+contains `@NotNull` as an argument. For example, consider the `load()` method:
+
+```java
+import org.jetbrains.annotations.*;
+
+public interface Game<T> {
+    public T save(T x) {}
+    @NotNull
+    public T load(@NotNull T x) {}
+}
+```
+
+To override the `load()` method in Kotlin successfully, you need `T1` to be declared as definitely non-nullable:
+
+```kotlin
+interface ArcadeGame<T1> : Game<T1> {
+    override fun save(x: T1): T1
+    // T1 is definitely non-nullable
+    override fun load(x: T1 & Any): T1 & Any
+}
+```
+
+When working only with Kotlin, it's unlikely that you will need to declare definitely non-nullable types explicitly because 
+Kotlin's type inference takes care of this for you.
+
 ## Type erasure
 
 The type safety checks that Kotlin performs for generic declaration usages are done at compile time.
@@ -355,7 +395,7 @@ fun handleStrings(list: MutableList<String>) {
 
 The same syntax but with the type arguments omitted can be used for casts that do not take type arguments into account: `list as ArrayList`.
 
-The type arguments of a generic function calls are also only checked at compile time. Inside the function bodies,
+The type arguments of generic function calls are also only checked at compile time. Inside the function bodies,
 the type parameters cannot be used for type checks, and type casts to type parameters (`foo as T`) are unchecked.
 The only exclusion is inline functions with [reified type parameters](inline-functions.md#reified-type-parameters),
 which have their actual type arguments inlined at each call site. This enables type checks and casts for the type parameters.

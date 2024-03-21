@@ -27,16 +27,18 @@ class MessageService(val db: JdbcTemplate) {
         Message(response.getString("id"), response.getString("text"))
     }
 
-    fun save(message: Message){
-        db.update("insert into messages values ( ?, ? )",
-           message.id, message.text)
+    fun save(message: Message) {
+        db.update(
+            "insert into messages values ( ?, ? )",
+            message.id, message.text
+        )
     }
 }
 ```
 
 <deflist collapsible="true">
    <def title="Constructor argument and dependency injection – (val db: JdbcTemplate)">
-      <p>A class in Kotlin can have a primary constructor and one or more <a href="classes.md#secondary-constructors">secondary constructors</a>.
+      <p>A class in Kotlin has a primary constructor. It can also have one or more <a href="classes.md#secondary-constructors">secondary constructors</a>.
       The <i>primary constructor</i> is a part of the class header, and it goes after the class name and optional type parameters. In our case, the constructor is <code>(val db: JdbcTemplate)</code>.</p>
       <p><code>val db: JdbcTemplate</code> is the constructor's argument:</p>
       <code style="block" lang="kotlin">
@@ -74,6 +76,9 @@ class MessageService(val db: JdbcTemplate) {
 Update `MessageController` to use the new `MessageService` class:
 
 ```kotlin
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.PostMapping
+
 @RestController
 class MessageController(val service: MessageService) {
     @GetMapping("/")
@@ -106,16 +111,20 @@ It would not be correct to store the `null` as an `id` value in the database tho
 Update your code to generate a new value when the `id` is `null` while storing the messages in the database:
 
 ```kotlin
+import java.util.UUID
+
 @Service
 class MessageService(val db: JdbcTemplate) {
     fun findMessages(): List<Message> = db.query("select * from messages") { response, _ ->
         Message(response.getString("id"), response.getString("text"))
     }
 
-    fun save(message: Message){
+    fun save(message: Message) {
         val id = message.id ?: UUID.randomUUID().toString()
-        db.update("insert into messages values ( ?, ? )",
-                  id, message.text)
+        db.update(
+            "insert into messages values ( ?, ? )",
+            id, message.text
+        )
     } 
 }
 ```
@@ -166,7 +175,7 @@ Configure the database in the application:
 You should use an HTTP client to work with previously created endpoints. In IntelliJ IDEA, use the embedded HTTP client:
 
 1. Run the application. Once the application is up and running, you can execute POST requests to store messages in the database.
-   Create the `requests.http` file and add the following HTTP requests:
+   Create the `requests.http` file in the `src/main/resources` folder and add the following HTTP requests:
 
    ```http request
    ### Post "Hello!"
@@ -245,19 +254,24 @@ Extend the functionality of the application to retrieve the individual messages 
     
         fun save(message: Message) {
             val id = message.id ?: UUID.randomUUID().toString()
-            db.update("insert into messages values ( ?, ? )", 
-                      id, message.text)
+            db.update(
+                "insert into messages values ( ?, ? )", 
+                id, message.text
+            )
         }
     }
     ```
    
-    > The `query()` function that is used to fetch the message by its id is a [Kotlin extension function](extensions.md#extension-functions) provided by the Spring Framework and requires an additional import as in the code above.
+    > The `.query()` function that is used to fetch the message by its id is a [Kotlin extension function](extensions.md#extension-functions)
+    > provided by the Spring Framework. It requires an additional import `import org.springframework.jdbc.core.query` as demonstrated in the code above.
     >
-    {type="note"}
+    {type="warning"}
 
 2. Add the new `index(...)` function with the `id` parameter to the `MessageController` class:
 
     ```kotlin
+    import org.springframework.web.bind.annotation.*
+    
     @RestController
     class MessageController(val service: MessageService) {
         @GetMapping("/")
@@ -288,6 +302,66 @@ Extend the functionality of the application to retrieve the individual messages 
         <p>The second parameter for the <code>query()</code> function is declared as a <i>variable argument</i> (<code>vararg</code>). In Kotlin, the position of the variable arguments parameter is not required to be the last in the parameters list.</p>
     </def>
     </deflist>
+
+Here is a complete code of the `DemoApplication.kt`:
+
+```kotlin
+package com.example.demo
+
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
+import org.springframework.stereotype.Service
+import org.springframework.jdbc.core.JdbcTemplate
+import java.util.UUID
+import org.springframework.jdbc.core.query
+import org.springframework.web.bind.annotation.*
+
+
+@SpringBootApplication
+class DemoApplication
+
+fun main(args: Array<String>) {
+    runApplication<DemoApplication>(*args)
+}
+
+@RestController
+class MessageController(val service: MessageService) {
+    @GetMapping("/")
+    fun index(): List<Message> = service.findMessages()
+
+    @GetMapping("/{id}")
+    fun index(@PathVariable id: String): List<Message> =
+        service.findMessageById(id)
+
+    @PostMapping("/")
+    fun post(@RequestBody message: Message) {
+        service.save(message)
+    }
+}
+
+data class Message(val id: String?, val text: String)
+
+@Service
+class MessageService(val db: JdbcTemplate) {
+
+    fun findMessages(): List<Message> = db.query("select * from messages") { response, _ ->
+        Message(response.getString("id"), response.getString("text"))
+    }
+
+    fun findMessageById(id: String): List<Message> = db.query("select * from messages where id = ?", id) { response, _ ->
+        Message(response.getString("id"), response.getString("text"))
+    }
+
+    fun save(message: Message) {
+        val id = message.id ?: UUID.randomUUID().toString()
+        db.update(
+            "insert into messages values ( ?, ? )",
+            id, message.text
+        )
+    }
+}
+```
+{initial-collapse-state="collapsed"}
 
 ## Run the application
 
@@ -324,16 +398,3 @@ The Spring application is ready to run:
 The final step shows you how to use more popular connection to database using Spring Data. 
 
 **[Proceed to the next chapter](jvm-spring-boot-using-crudrepository.md)**
-
-### Get the Kotlin language map 
-
-Get your personal language map to help you navigate Kotlin features and track your progress in studying the language.
-We will also send you language tips and useful materials on using Kotlin with Spring.
-
-<a href="https://info.jetbrains.com/kotlin-tips.html">
-   <img src="get-kotlin-language-map.png" width="700" alt="Get the Kotlin language map"/>
-</a>
-
-> You will need to share your email address on the next page to receive the materials.
->
-{type="note"}

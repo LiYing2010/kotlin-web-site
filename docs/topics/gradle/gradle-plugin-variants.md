@@ -19,9 +19,11 @@ Currently, there are the following variants of the Kotlin Gradle plugin:
 | `gradle70`     | 7.0                           |
 | `gradle71`     | 7.1-7.4                       |
 | `gradle75`     | 7.5                           |
-| `gradle76`     | 7.6 and higher                |
+| `gradle76`     | 7.6                           |
+| `gradle80`     | 8.0                           |
+| `gradle81`     | 8.1.1 and higher              |
 
-In future Kotlin releases, more variants will probably be added.
+In future Kotlin releases, more variants will be added.
 
 To check which variant your build uses, enable
 the [`--info` log level](https://docs.gradle.org/current/userguide/logging.html#sec:choosing_a_log_level) and find a
@@ -44,8 +46,8 @@ If you use a custom Gradle configuration:
 <tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
-configurations.register("customConfiguraton") {
-    ...
+configurations.register("customConfiguration") {
+    // ...
 }
 ```
 
@@ -53,8 +55,8 @@ configurations.register("customConfiguraton") {
 <tab title="Groovy" group-key="groovy">
 
 ```groovy
-configurations.register("customConfiguraton") {
-    ...
+configurations.register("customConfiguration") {
+    // ...
 }
 ```
 
@@ -94,17 +96,17 @@ configurations {
     customConfiguration {
         attributes {
             attribute(
-                    Usage.USAGE_ATTRIBUTE,
-                    project.objects.named(Usage.class, Usage.JAVA_RUNTIME)
+                Usage.USAGE_ATTRIBUTE,
+                project.objects.named(Usage.class, Usage.JAVA_RUNTIME)
             )
             attribute(
-                    Category.CATEGORY_ATTRIBUTE,
-                    project.objects.named(Category.class, Category.LIBRARY)
+                Category.CATEGORY_ATTRIBUTE,
+                project.objects.named(Category.class, Category.LIBRARY)
             )
             // If you want to depend on a specific KGP variant:
             attribute(
-                 GradlePluginApiVersion.GRADLE_PLUGIN_API_VERSION_ATTRIBUTE,
-                 project.objects.named("7.0")
+                GradlePluginApiVersion.GRADLE_PLUGIN_API_VERSION_ATTRIBUTE,
+                project.objects.named("7.0")
             )
         }
     }
@@ -119,17 +121,17 @@ configurations {
     customConfiguration {
         attributes {
             attribute(
-                    Usage.USAGE_ATTRIBUTE,
-                    project.objects.named(Usage, Usage.JAVA_RUNTIME)
+                Usage.USAGE_ATTRIBUTE,
+                project.objects.named(Usage, Usage.JAVA_RUNTIME)
             )
             attribute(
-                    Category.CATEGORY_ATTRIBUTE,
-                    project.objects.named(Category, Category.LIBRARY)
+                Category.CATEGORY_ATTRIBUTE,
+                project.objects.named(Category, Category.LIBRARY)
             )
             // If you want to depend on a specific KGP variant:
             attribute(
-                    GradlePluginApiVersion.GRADLE_PLUGIN_API_VERSION_ATTRIBUTE,
-                    project.objects.named('7.0')
+                GradlePluginApiVersion.GRADLE_PLUGIN_API_VERSION_ATTRIBUTE,
+                project.objects.named('7.0')
             )
         }
     }
@@ -141,8 +143,8 @@ configurations {
 
 Otherwise, you will receive an error similar to this:
 
-```
- > Could not resolve all files for configuration ':customConfiguraton'.
+```none
+ > Could not resolve all files for configuration ':customConfiguration'.
       > Could not resolve org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.0.
         Required by:
             project :
@@ -156,4 +158,4 @@ Otherwise, you will receive an error similar to this:
 
 ## What's next?
 
-Learn more about [Gradle basics and specifics](https://docs.gradle.org/current/userguide/getting_started.html).
+Learn more about [Gradle basics and specifics](https://docs.gradle.org/current/userguide/userguide.html).

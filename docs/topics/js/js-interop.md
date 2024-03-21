@@ -8,9 +8,6 @@ talk to JavaScript from Kotlin via [dynamic](dynamic-type.md) types. If you want
 system, you can create external declarations for JavaScript libraries which will be understood by the Kotlin compiler and
 the surrounding tooling.
 
-An experimental tool to automatically create Kotlin external declarations for npm dependencies which provide type definitions
-(TypeScript / `d.ts`) called [Dukat](js-external-declarations-with-dukat.md) is also available.
-
 ## Inline JavaScript
 
 You can inline some JavaScript code into your Kotlin code using the [`js()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.js/js.html) function.
@@ -117,7 +114,7 @@ open external class Foo {
     fun stop()
 }
 
-class Bar: Foo() {
+class Bar : Foo() {
     override fun run() {
         window.alert("Running!")
     }
@@ -214,3 +211,40 @@ function usingAsOperator(s) {
     return typeof (tmp$ = s) === 'string' ? tmp$ : throwCCE();
 }
 ```
+
+## Equality
+
+Kotlin/JS has particular semantics for equality checks compared to other platforms. 
+
+In Kotlin/JS, the Kotlin [referential equality](equality.md#referential-equality) operator (`===`) always translates to the JavaScript
+[strict equality](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Strict_equality) operator (`===`). 
+
+The JavaScript `===` operator checks not only that two values are equal but also that
+the types of these two values are equal:
+
+ ```kotlin
+fun main() {
+    val name = "kotlin"
+    val value1 = name.substring(0, 1)
+    val value2 = name.substring(0, 1)
+
+    println(if (value1 === value2) "yes" else "no")
+    // Prints 'yes' on Kotlin/JS
+    // Prints 'no' on other platforms
+}
+ ```
+
+Also, in Kotlin/JS, the [`Byte`, `Short`, `Int`, `Float`, and `Double`](js-to-kotlin-interop.md#kotlin-types-in-javascript) numeric types 
+are all represented with the `Number` JavaScript type in runtime. Therefore, the values of these five types are indistinguishable:
+
+ ```kotlin
+fun main() {
+    println(1.0 as Any === 1 as Any)
+    // Prints 'true' on Kotlin/JS
+    // Prints 'false' on other platforms
+}
+ ```
+
+> For more information about equality in Kotlin, see the [Equality](equality.md) documentation.
+> 
+{type="tip"}

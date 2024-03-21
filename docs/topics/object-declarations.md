@@ -26,8 +26,9 @@ fun main() {
         // object expressions extend Any, so `override` is required on `toString()`
         override fun toString() = "$hello $world"
     }
-//sampleEnd
+
     print(helloWorld)
+//sampleEnd
 }
 ```
 {kotlin-runnable="true"}
@@ -92,7 +93,7 @@ interface A {
 interface B
 
 class C {
-    // The return type is Any. x is not accessible
+    // The return type is Any; x is not accessible
     fun getObject() = object {
         val x: String = "x"
     }
@@ -179,11 +180,7 @@ object DefaultListener : MouseAdapter() {
 
 ### Data objects
 
-> Data object declarations is an [Experimental](components-stability.md) feature. It may be dropped or changed at any time. Opt-in is required with the `compilerOptions.languageVersion.set(KotlinVersion.KOTLIN_1_9)` [compiler option](https://kotlinlang.org/docs/gradle.html#compiler-options).
-> 
-{type="note"}
-
-When printing a plain `object` declaration in Kotlin, you'll notice that its string representation contains both its name and the hash of the object:
+When printing a plain `object` declaration in Kotlin, the string representation contains both its name and the hash of the object:
 
 ```kotlin
 object MyObject
@@ -193,31 +190,97 @@ fun main() {
 }
 ```
 
-Just like [data classes](data-classes.md), you can mark your `object` declaration with the `data` modifier to get a nicely formatted string representation without having to manually provide an implementation for its `toString` function:
+Just like [data classes](data-classes.md), you can mark an `object` declaration with the `data` modifier. 
+This instructs the compiler to generate a number of functions for your object:
 
+* `toString()` returns the name of the data object
+* `equals()`/`hashCode()` pair
+
+  > You can't provide a custom `equals` or `hashCode` implementation for a `data object`.
+  >
+  {type="note"}
+
+The `toString()` function of a data object returns the name of the object:
 ```kotlin
-data object MyObject
-
-fun main() {
-    println(MyObject) // MyObject
-}
-```
-
-[Sealed class hierarchies](sealed-classes.md) are a particularly good fit for `data object` declarations, since they allow you to maintain symmetry with any data classes you might have defined alongside the object:
-
-```kotlin
-sealed class ReadResult {
-    data class Number(val value: Int): ReadResult()
-    data class Text(val value: String): ReadResult()
-    data object EndOfFile: ReadResult()
+data object MyDataObject {
+    val x: Int = 3
 }
 
 fun main() {
-    println(ReadResult.Number(1)) // Number(value=1)
-    println(ReadResult.Text("Foo")) // Text(value=Foo)
-    println(ReadResult.EndOfFile) // EndOfFile
+    println(MyDataObject) // MyDataObject
 }
 ```
+
+The `equals()` function for a `data object` ensures that all objects that have the type of your `data object` are considered equal.
+In most cases, you will only have a single instance of your data object at runtime (after all, a `data object` declares a singleton).
+However, in the edge case where another object of the same type is generated at runtime (for example, by using platform 
+reflection with `java.lang.reflect` or a JVM serialization library that uses this API under the hood), this ensures that 
+the objects are treated as being equal.
+
+> Make sure that you only compare `data objects` structurally (using the `==` operator) and never by reference (using the `===` operator).
+> This helps you to avoid pitfalls when more than one instance of a data object exists at runtime.
+>
+{type="warning"}
+
+```kotlin
+import java.lang.reflect.Constructor
+
+data object MySingleton
+
+fun main() {
+    val evilTwin = createInstanceViaReflection()
+
+    println(MySingleton) // MySingleton
+    println(evilTwin) // MySingleton
+
+    // Even when a library forcefully creates a second instance of MySingleton, its `equals` method returns true:
+    println(MySingleton == evilTwin) // true
+
+    // Do not compare data objects via ===.
+    println(MySingleton === evilTwin) // false
+}
+
+fun createInstanceViaReflection(): MySingleton {
+    // Kotlin reflection does not permit the instantiation of data objects.
+    // This creates a new MySingleton instance "by force" (i.e. Java platform reflection)
+    // Don't do this yourself!
+    return (MySingleton.javaClass.declaredConstructors[0].apply { isAccessible = true } as Constructor<MySingleton>).newInstance()
+}
+```
+
+The generated `hashCode()` function has behavior that is consistent with the `equals()` function, so that all runtime 
+instances of a `data object` have the same hash code.
+
+#### Differences between data objects and data classes
+
+While `data object` and `data class` declarations are often used together and have some similarities, there are some 
+functions that are not generated for a `data object`:
+
+* No `copy()` function. Because a `data object` declaration is intended to be used as singleton objects, no `copy()` 
+  function is generated. The singleton pattern restricts the instantiation of a class to a single instance, which would 
+  be violated by allowing copies of the instance to be created.
+* No `componentN()` function. Unlike a `data class`, a `data object` does not have any data properties. 
+  Since attempting to destructure such an object without data properties would not make sense, no `componentN()` functions are generated.
+
+#### Using data objects with sealed hierarchies
+
+Data object declarations are particularly useful for sealed hierarchies like 
+[sealed classes or sealed interfaces](sealed-classes.md), since they allow you to maintain symmetry with any data classes 
+you may have defined alongside the object. In this example, declaring `EndOfFile` as a `data object` instead of a plain `object` 
+means that it will get the `toString()` function without the need to override it manually:
+
+```kotlin
+sealed interface ReadResult
+data class Number(val number: Int) : ReadResult
+data class Text(val text: String) : ReadResult
+data object EndOfFile : ReadResult
+
+fun main() {
+  println(Number(7)) // Number(number=7)
+  println(EndOfFile) // EndOfFile
+}
+```
+{kotlin-runnable="true" id="data-objects-sealed-hierarchies"}
 
 ### Companion objects
 

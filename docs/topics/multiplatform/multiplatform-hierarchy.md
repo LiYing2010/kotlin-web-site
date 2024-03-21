@@ -1,111 +1,331 @@
 [//]: # (title: Hierarchical project structure)
 
-With Kotlin 1.6.20, every new multiplatform project comes with a hierarchical project structure. This means that source
-sets form a hierarchy for sharing the common code among several targets. It opens up a variety of opportunities,
-including using platform-dependent libraries in common source sets and the ability to share code when creating multiplatform
-libraries.
+Kotlin Multiplatform projects support hierarchical source set structures.
+This means you can arrange a hierarchy of intermediate source sets for sharing the common code among some, but not all,
+[supported targets](multiplatform-dsl-reference.md#targets). Using intermediate source sets helps you to:
 
-To get a default hierarchical project structure in your
-projects, [update to the latest release](releases.md#update-to-a-new-release). If you need to keep using an earlier version
-than 1.6.20, you can still enable this feature manually. For this, add the following to your `gradle.properties`:
+* Provide a specific API for some targets. For example, a library can add native-specific APIs in an
+  intermediate source set for Kotlin/Native targets but not for Kotlin/JVM ones.
+* Consume a specific API for some targets. For example, you can benefit from a rich API that the Kotlin Multiplatform
+  library provides for some targets that form an intermediate source set.
+* Use platform-dependent libraries in your project. For example, you can access iOS-specific dependencies from
+  the intermediate iOS source set.
 
-```none
-kotlin.mpp.enableGranularSourceSetsMetadata=true
-kotlin.native.enableDependencyPropagation=false
-```
+The Kotlin toolchain ensures that each source set has access only to the API that is available for all targets to which
+that source set compiles. This prevents cases like using a Windows-specific API and then compiling it to macOS,
+resulting in linkage errors or undefined behavior at runtime.
 
-## For multiplatform project authors
+The recommended way to set up the source set hierarchy is to use the [default hierarchy template](#default-hierarchy-template).
+The template covers the most popular cases. If you have a more advanced project, you can [configure it manually](#manual-configuration).
+This is a more low-level approach: it's more flexible but requires more effort and knowledge.
 
-With the new hierarchical project structure support, you can share code among some, but not
-all, [targets](multiplatform-dsl-reference.md#targets) in a multiplatform project.
+## Default hierarchy template
 
-You can also use platform-dependent libraries, such as `UIKit` and `POSIX`, in source sets shared among several native
-targets. One popular case is having access to iOS-specific dependencies like `Foundation` when sharing code across all
-iOS targets. The new structure helps you share more native code without being limited by platform-specific dependencies.
+Starting with Kotlin 1.9.20, the Kotlin Gradle plugin has a built-in default [hierarchy template](#see-the-full-hierarchy-template).
+It contains predefined intermediate source sets for some popular use cases.
+The plugin sets up those source sets automatically based on the targets specified in your project.
 
-By using the hierarchical structure along with platform-dependent libraries in shared source sets, you can eliminate the
-need to use workarounds to get IDE support for sharing source sets among several native targets, for
-example `iosArm64` and `iosX64`:
+Consider the following example:
 
-```kotlin
-// workaround 1: select iOS target platform depending on the Xcode environment variables
-kotlin {
-    val iOSTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget =
-        if (System.getenv("SDK_NAME")?.startsWith("iphoneos") == true)
-            ::iosArm64
-        else
-            ::iosX64
-
-    iOSTarget("ios")
-}
-```
-{initial-collapse-state="collapsed"}
-
-```bash
-# workaround 2: make symbolic links to use one source set for two targets
-ln -s iosMain iosArm64Main && ln -s iosMain iosX64Main
-```
-{initial-collapse-state="collapsed"}
-
-Instead of doing this, you can create a hierarchical structure
-with [target shortcuts](multiplatform-share-on-platforms.md#use-target-shortcuts)
-available for typical multi-target scenarios, or you can manually declare and connect the source sets. For example, you
-can create two iOS targets and a shared source set with the `ios()` shortcut:
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlin {
-    ios() // iOS device and simulator targets; iosMain and iosTest source sets
+    androidTarget()
+    iosArm64()
+    iosSimulatorArm64()
 }
 ```
 
-The Kotlin toolchain will provide the correct default dependencies and locate the API surface area available in the shared
-code. This prevents cases like the use of a macOS-specific function in code shared for Windows.
+</tab>
+<tab title="Groovy" group-key="groovy">
 
-## For library authors
-
-A hierarchical project structure allows for reusing code in similar targets, as well as publishing and consuming libraries
-with granular APIs targeting similar platforms.
-
-The Kotlin toolchain will automatically figure out the API available in the consumer source set while checking for
-unsafe usages, like using an API meant for the JVM in JS code.
-
-* Libraries published with the new hierarchical project structure are only compatible with projects that already have a hierarchical
-  project structure. To enable compatibility with non-hierarchical projects, add the following to
-  the `gradle.properties` file in your library project:
-
-  ```none
-  kotlin.mpp.enableCompatibilityMetadataVariant=true
-  ```
-
- > In this case, only source code from the `commonMain` source set is compiled with the legacy metadata compiler. If you
- > use platform-specific code in `commonMain`, its compilation to the legacy format will fail.
- >
- {type="warning"}
-
-* Libraries published without the hierarchical project structure can't be used in a shared native source set. For
-  example, users with `ios()` shortcuts in their `build.gradle.(kts)` files won't be able to use your library in their
-  iOS-shared code.
-
-See [Compatibility](#compatibility) for more details.
-
-## Compatibility
-
-Compatibility between multiplatform projects and libraries is determined as follows:
-
-| Library with hierarchical project structure | Project with hierarchical project structure | Compatibility                                                                   |
-|---------------------------------------------|---------------------------------------------|---------------------------------------------------------------------------------|
-| Yes                                         | Yes                                         | ✅                                                                               |
-| Yes                                         | No                                          | Need to enable with `enableCompatibilityMetadataVariant` in the library project |
-| No                                          | Yes                                         | Library can't be used in a shared native source set                             |
-| No                                          | No                                          | ✅                                                                               |
-
-## How to opt-out
-
-To disable hierarchical structure support, set the following option to `false` in your `gradle.properties`:
-
-```none
-kotlin.mpp.hierarchicalStructureSupport=false
+```groovy
+kotlin {
+    androidTarget()
+    iosArm64()
+    iosSimulatorArm64()
+}
 ```
 
-As for the `kotlin.mpp.enableCompatibilityMetadataVariant` option that enables compatibility of libraries published with
-the hierarchical project structure and non-hierarchical projects – it's disabled by default. No additional steps are required.
+</tab>
+</tabs>
+
+When you declare the targets `androidTarget`, `iosArm64`, and `iosSimulatorArm64` in your code, the Kotlin Gradle plugin finds
+suitable shared source sets from the template and creates them for you. The resulting hierarchy looks like this:
+
+![An example of using the default hierarchy template](default-hierarchy-example.svg){thumbnail="true" width="350" thumbnail-same-file="true"}
+
+Green source sets are actually created and present in the project, while gray ones from the default template are
+ignored. The Kotlin Gradle plugin hasn't created the `watchos` source set, for example, because there
+are no watchOS targets in the project.
+
+If you add a watchOS target, like `watchosArm64`, the `watchos` source set is created, and the code
+from the `apple`, `native`, and `common` source sets is compiled to `watchosArm64` as well.
+
+The Kotlin Gradle plugin creates type-safe accessors for all of the source sets from the default hierarchy template,
+so you can reference them without `by getting` or `by creating` constructions compared to the [manual configuration](#manual-configuration):
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+kotlin {
+    androidTarget()
+    iosArm64()
+    iosSimulatorArm64()
+
+    sourceSets {
+        iosMain.dependencies {
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:%coroutinesVersion%")
+        }
+    }
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```kotlin
+kotlin {
+    androidTarget()
+    iosArm64()
+    iosSimulatorArm64()
+
+    sourceSets {
+        iosMain {
+            dependencies {
+                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:%coroutinesVersion%'
+            }
+        }
+    }
+}
+```
+
+</tab>
+</tabs>
+
+> In this example, the `apple` and `native` source sets compile only to the `iosArm64` and `iosSimulatorArm64` targets.
+> Despite their names, they have access to the full iOS API.
+> This can be counter-intuitive for source sets like `native`, as you might expect that only APIs available on all
+> native targets are accessible in this source set. This behavior may change in the future.
+>
+{type="note"}
+
+### Additional configuration
+
+You might need to make adjustments to the default hierarchy template. If you have previously introduced intermediate sources
+[manually](#manual-configuration) with `dependsOn` calls, it cancels the use of the default
+hierarchy template and leads to this warning:
+
+```none
+The Default Kotlin Hierarchy Template was not applied to '<project-name>':
+Explicit .dependsOn() edges were configured for the following source sets:
+[<... names of the source sets with manually configured dependsOn-edges...>]
+
+Consider removing dependsOn-calls or disabling the default template by adding
+    'kotlin.mpp.applyDefaultHierarchyTemplate=false'
+to your gradle.properties
+
+Learn more about hierarchy templates: https://kotl.in/hierarchy-template
+```
+
+To solve this issue, configure your project by doing one of the following:
+
+* [Replace your manual configuration with the default hierarchy template](#replacing-a-manual-configuration)
+* [Create additional source sets in the default hierarchy template](#creating-additional-source-sets)
+* [Modify the source sets created by the default hierarchy template](#modifying-source-sets)
+
+#### Replacing a manual configuration
+
+**Case**. All of your intermediate source sets are currently covered by the default hierarchy template.
+
+**Solution**. Remove all manual `dependsOn()` calls and source sets with `by creating` constructions.
+To check the list of all default source sets, see the [full hierarchy template](#see-the-full-hierarchy-template).
+
+#### Creating additional source sets
+
+**Case**. You want to add source sets that the default hierarchy template doesn't provide yet,
+for example, one between a macOS and a JVM target.
+
+**Solution**:
+
+1. Reapply the template by explicitly calling `applyDefaultHierarchyTemplate()`.
+2. Configure additional source sets [manually](#manual-configuration) using `dependsOn()`:
+
+    <tabs group="build-script">
+    <tab title="Kotlin" group-key="kotlin">
+
+    ```kotlin
+    kotlin {
+        jvm()
+        macosArm64()
+        iosArm64()
+        iosSimulatorArm64()
+    
+        // Apply the default hierarchy again. It'll create, for example, the iosMain source set:
+        applyDefaultHierarchyTemplate()
+    
+        sourceSets {
+            // Create an additional jvmAndMacos source set:
+            val jvmAndMacos by creating {
+                dependsOn(commonMain.get())
+            }
+    
+            macosArm64Main.get().dependsOn(jvmAndMacos)
+            jvmMain.get().dependsOn(jvmAndMacos)
+        }
+    }
+    ```
+
+    </tab>
+    <tab title="Groovy" group-key="groovy">
+
+    ```groovy
+    kotlin {
+        jvm()
+        macosArm64()
+        iosArm64()
+        iosSimulatorArm64()
+    
+        // Apply the default hierarchy again. It'll create, for example, the iosMain source set:
+        applyDefaultHierarchyTemplate()
+    
+        sourceSets {
+            // Create an additional jvmAndMacos source set:
+            jvmAndMacos {
+                dependsOn(commonMain.get())
+            }
+            macosArm64Main {
+                dependsOn(jvmAndMacos.get())
+            }
+            jvmMain {
+                dependsOn(jvmAndMacos.get())
+            }
+        } 
+    }
+    ```
+
+    </tab>
+    </tabs>
+
+#### Modifying source sets
+
+**Case**. You already have the source sets with the exact same names as those generated by the template, but shared among
+different sets of targets in your project. For example, a `nativeMain` source set is shared only among the desktop-specific
+targets: `linuxX64`, `mingwX64`, and `macosX64`.
+
+**Solution**. There's currently no way to modify the default `dependsOn` relations among the template's source sets.
+It's also important that the implementation and the meaning of source sets, for example,
+`nativeMain`, are the same in all projects.
+
+However, you still can do one of the following:
+
+* Find different source sets for your purposes, either in the default hierarchy template or ones that have been manually created.
+* Opt out of the template completely by adding `kotlin.mpp.applyDefaultHierarchyTemplate=false`
+  to your `gradle.properties` file and manually configure all source sets.
+
+> We're currently working on an API to create your own hierarchy templates. This will be useful for projects
+> whose hierarchy configurations differ significantly from the default template.
+>
+> This API is not ready yet, but if you're eager to try it,
+> look into the `applyHierarchyTemplate {}` block and the declaration of `KotlinHierarchyTemplate.default` as an example.
+> Keep in mind that this API is still in development. It might not be tested and can change in further releases.
+>
+{type="tip"}
+
+#### See the full hierarchy template {initial-collapse-state="collapsed"}
+
+When you declare the targets to which your project compiles,
+the plugin picks the shared source sets based on the specified targets from the template and creates them in your project.
+
+![Default hierarchy template](full-template-hierarchy.svg)
+
+> This example only shows the production part of the project, omitting the `Main` suffix
+> (for example, using `common` instead of `commonMain`). However, everything is the same for `*Test` sources as well.
+>
+{type="tip"}
+
+## Manual configuration
+
+You can manually introduce an intermediate source in the source set structure.
+It will hold the shared code for several targets.
+
+For example, here’s what to do if you want to share code among native Linux,
+Windows, and macOS targets (`linuxX64`, `mingwX64`, and `macosX64`):
+
+![Manually configured hierarchical structure](manual-hierarchical-structure.png)
+
+1. Add the intermediate source set `desktopMain`, which holds the shared logic for these targets.
+2. Specify the source set hierarchy using the `dependsOn` relation.
+
+The resulting hierarchical structure will look like this:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+kotlin {
+    linuxX64()
+    mingwX64()
+    macosX64()
+
+    sourceSets {
+        val desktopMain by creating {
+            dependsOn(commonMain.get())
+        }
+
+        linuxX64Main.get().dependsOn(desktopMain)
+        mingwX64Main.get().dependsOn(desktopMain)
+        macosX64Main.get().dependsOn(desktopMain)
+    }
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+kotlin {
+    linuxX64()
+    mingwX64()
+    macosX64()
+
+    sourceSets {
+        desktopMain {
+            dependsOn(commonMain.get())
+        }
+        linuxX64Main {
+            dependsOn(desktopMain)
+        }
+        mingwX64Main {
+            dependsOn(desktopMain)
+        }
+        macosX64Main {
+            dependsOn(desktopMain)
+        }
+    }
+}
+```
+
+</tab>
+</tabs>
+
+You can have a shared source set for the following combinations of targets:
+
+* JVM or Android + JS + Native
+* JVM or Android + Native
+* JS + Native
+* JVM or Android + JS
+* Native
+
+Kotlin doesn't currently support sharing a source set for these combinations:
+
+* Several JVM targets
+* JVM + Android targets
+* Several JS targets
+
+If you need to access platform-specific APIs from a shared native source set, IntelliJ IDEA will help you detect common
+declarations that you can use in the shared native code.
+For other cases, use the Kotlin mechanism of [expected and actual declarations](multiplatform-expect-actual.md).

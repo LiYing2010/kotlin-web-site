@@ -42,8 +42,8 @@ version of the library, you can just omit this parameter altogether.
             summary = "CocoaPods test library"
             homepage = "https://github.com/JetBrains/kotlin"
 
-            pod("AFNetworking") {
-                version = "~> 4.0.1"
+            pod("FirebaseAuth") {
+                version = "10.16.0"
             }
         }
     }
@@ -51,10 +51,10 @@ version of the library, you can just omit this parameter altogether.
 
 3. Re-import the project.
 
-To use these dependencies from the Kotlin code, import the packages `cocoapods.<library-name>`.
+To use these dependencies from the Kotlin code, import the packages `cocoapods.<library-name>`:
 
 ```kotlin
-import cocoapods.AFNetworking.*
+import cocoapods.FirebaseAuth.*
 ```
 
 ## On a locally stored library
@@ -89,8 +89,8 @@ import cocoapods.AFNetworking.*
                 version = "1.0"
                 source = path(project.file("../subspec_dependency"))
             }
-            pod("AFNetworking") {
-                version = "~> 4.0.1"
+            pod("FirebaseAuth") {
+                version = "10.16.0"
             }
         }
     }
@@ -103,12 +103,12 @@ import cocoapods.AFNetworking.*
 
 3. Re-import the project.
 
-To use these dependencies from the Kotlin code, import the packages `cocoapods.<library-name>`.
+To use these dependencies from the Kotlin code, import the packages `cocoapods.<library-name>`:
 
 ```kotlin
 import cocoapods.pod_dependency.*
 import cocoapods.subspec_dependency.*
-import cocoapods.AFNetworking.*
+import cocoapods.FirebaseAuth.*
 ```
 
 ## From a custom Git repository
@@ -141,9 +141,9 @@ import cocoapods.AFNetworking.*
 
             ios.deploymentTarget = "13.5"
 
-            pod("AFNetworking") {
-                source = git("https://github.com/AFNetworking/AFNetworking") {
-                    tag = "4.0.0"
+            pod("FirebaseAuth") {
+                source = git("https://github.com/firebase/firebase-ios-sdk") {
+                    tag = "10.16.0"
                 }
             }
 
@@ -164,10 +164,10 @@ import cocoapods.AFNetworking.*
 
 3. Re-import the project.
 
-To use these dependencies from the Kotlin code, import the packages `cocoapods.<library-name>`.
+To use these dependencies from the Kotlin code, import the packages `cocoapods.<library-name>`:
 
 ```kotlin
-import cocoapods.AFNetworking.*
+import cocoapods.Alamofire.*
 import cocoapods.JSONModel.*
 import cocoapods.CocoaLumberjack.*
 ```
@@ -208,7 +208,7 @@ import cocoapods.CocoaLumberjack.*
 >
 {type="note"}
 
-To use these dependencies from the Kotlin code, import the packages `cocoapods.<library-name>`.
+To use these dependencies from the Kotlin code, import the packages `cocoapods.<library-name>`:
 
 ```kotlin
 import cocoapods.example.*
@@ -219,8 +219,9 @@ import cocoapods.example.*
 1. Specify the name of a Pod library in the `pod()` function.
 
    In the configuration block, specify the cinterop options:
-    * `extraOpts` – to specify the list of options for a Pod library. For example, specific flags: `extraOpts = listOf("-compiler-option")`
-    * `packageName` – to specify the package name. If you specify this, you can import the library using the package name: `import <packageName>`.
+   * `extraOpts` – to specify the list of options for a Pod library. For example, specific flags: `extraOpts = listOf("-compiler-option")`.
+   * `packageName` – to specify the package name. If you specify this, you can import the library using the package name:
+     `import <packageName>`.
 
 2. Specify the minimum deployment target version for the Pod library.
 
@@ -234,8 +235,6 @@ import cocoapods.example.*
 
             ios.deploymentTarget = "13.5"
 
-            useLibraries()
-
             pod("YandexMapKit") {
                 packageName = "YandexMK"
             }
@@ -245,49 +244,70 @@ import cocoapods.example.*
 
 3. Re-import the project.
 
-To use these dependencies from the Kotlin code, import the packages `cocoapods.<library-name>`.
-
+To use these dependencies from the Kotlin code, import the packages `cocoapods.<library-name>`:
+   
 ```kotlin
 import cocoapods.YandexMapKit.*
 ```
-
+   
 If you use the `packageName` parameter, you can import the library using the package name `import <packageName>`:
-
+   
 ```kotlin
 import YandexMK.YMKPoint
 import YandexMK.YMKDistance
 ```
 
-## On a static Pod library
+### Support for Objective-C headers with @import directives
 
-1. Specify the name of the library using the `pod()` function.
+> This feature is [Experimental](components-stability.md#stability-levels-explained).
+> It may be dropped or changed at any time. Use it only for evaluation purposes.
+> We'd appreciate your feedback on it in [YouTrack](https://kotl.in/issue).
+>
+{type="warning"}
 
-2. Call the `useLibraries()` function – it enables a special flag for static libraries.
+Some Objective-C libraries, specifically those that serve as wrappers for Swift libraries,
+have `@import` directives in their headers. By default, cinterop doesn't provide support for these directives.
 
-3. Specify the minimum deployment target version for the Pod library.
-
-    ```kotlin
-    kotlin {
-        ios()
-
-        cocoapods {
-            summary = "CocoaPods test library"
-            homepage = "https://github.com/JetBrains/kotlin"
-
-            ios.deploymentTarget = "13.5"
-
-            pod("YandexMapKit") {
-                version = "~> 3.2"
-            }
-            useLibraries()
-        }
-    }
-    ```
-
-4. Re-import the project.
-
-To use these dependencies from the Kotlin code, import the packages `cocoapods.<library-name>`.
+To enable support for `@import` directives, specify the `-fmodules` option in the configuration block of the `pod()` function:
 
 ```kotlin
-import cocoapods.YandexMapKit.*
+kotlin {
+    ios()
+
+    cocoapods {
+        summary = "CocoaPods test library"
+        homepage = "https://github.com/JetBrains/kotlin"
+
+        ios.deploymentTarget = "13.5"
+
+        pod("PodName") {
+            extraOpts = listOf("-compiler-option", "-fmodules")
+        }
+    }
+}
 ```
+
+### Share Kotlin cinterop between dependent Pods
+
+If you add multiple dependencies on Pods using the `pod()` function, you might encounter issues when
+there are dependencies between APIs of your Pods.
+
+To make the code compile in such cases, use the `useInteropBindingFrom()` function.
+It utilizes the cinterop binding generated for another Pod while building a binding for the new Pod.
+
+You should declare the dependent Pod before setting up the dependency:
+
+```kotlin
+// The cinterop of pod("WebImage"):
+fun loadImage(): WebImage
+
+// The cinterop of pod("Info"):
+fun printImageInfo(image: WebImage)
+
+// Your code:
+printImageInfo(loadImage())
+```
+
+If you haven't configured the correct dependencies between cinterops in this case,
+the code would be invalid because the `WebImage` type would be sourced from different cinterop files and, consequently,
+different packages.

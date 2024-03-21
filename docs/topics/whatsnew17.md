@@ -4,7 +4,7 @@
    <p>The IDE support for Kotlin 1.7.0 is available for IntelliJ IDEA 2021.2, 2021.3, and 2022.1.</p>
 </microformat>
 
-_[Release date: 9 June 2022](releases.md#release-details)_
+_[Released: 9 June 2022](releases.md#release-details)_
 
 Kotlin 1.7.0 has been released. It unveils the Alpha version of the new Kotlin/JVM K2 compiler, stabilizes language
 features, and brings performance improvements for the JVM, JS, and Native platforms.
@@ -67,7 +67,7 @@ Please note that even issues with **State: Open** from this list are in fact fix
 
 The next Kotlin releases will improve the stability of the K2 compiler and provide more features, so stay tuned!
 
-If you face any performance issues with the Kotlin K2 compiler, please [report them to our issue tracker](https://youtrack.jetbrains.com/newIssue?project=KT&c=Type%20Performance%20Problem&c=Subsystems%20Frontend.%20IR).
+If you face any performance issues with the Kotlin K2 compiler, please [report them to our issue tracker](https://kotl.in/issue).
 
 ## Language
 
@@ -192,7 +192,7 @@ in [this KEEP](https://github.com/Kotlin/KEEP/blob/c72601cf35c1e95a541bb4b230edb
 
 This release brings performance improvements for the Kotlin/JVM compiler and a new compiler option. Additionally,
 callable references to functional interface constructors have become Stable. Note that since 1.7.0, the default target
-version for Kotlin/JVM compilations is now `1.8`.
+version for Kotlin/JVM compilations is `1.8`.
 
 * [Compiler performance optimizations](#compiler-performance-optimizations)
 * [New compiler option `-Xjdk-release`](#new-compiler-option-xjdk-release)
@@ -336,7 +336,7 @@ Starting with Kotlin 1.7.0, you no longer need to install the `cocoapods-generat
 CocoaPods in your projects.
 
 Previously, you needed to install both the CocoaPods dependency manager and the `cocoapods-generate` plugin to use
-CocoaPods, for example, to handle [iOS dependencies](multiplatform-mobile-ios-dependencies.md#with-cocoapods) in
+CocoaPods, for example, to handle [iOS dependencies](multiplatform-ios-dependencies.md#with-cocoapods) in
 Kotlin Multiplatform Mobile projects.
 
 Now setting up the CocoaPods integration is easier, and we've resolved the issue when `cocoapods-generate` couldn't be
@@ -936,7 +936,7 @@ Enable the statistics in two steps:
   kapt.verbose=true
   ```
 
-> You can also enable verbose output via the [command line option `verbose`](kapt.md#using-in-cli).
+> You can also enable verbose output via the [command line option `verbose`](kapt.md#use-in-cli).
 >
 {type="note"}
 

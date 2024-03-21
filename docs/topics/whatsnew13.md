@@ -1,6 +1,6 @@
 [//]: # (title: What's new in Kotlin 1.3)
 
-_Release date: 29 October 2018_
+_Released: 29 October 2018_
 
 ## Coroutines release
 
@@ -74,7 +74,7 @@ fun foo(s: String?) {
 }
 ```
 
-* Improving the variable initialization analysis in the presence of high-order functions:
+* Improving the variable initialization analysis in the presence of higher-order functions:
 
 ```kotlin
 fun synchronize(lock: Any?, block: () -> Unit) {

@@ -8,7 +8,7 @@ There are five of them: [`let`](https://kotlinlang.org/api/latest/jvm/stdlib/kot
 , and [`also`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/also.html).
 
 Basically, these functions all perform the same action: execute a block of code on an object. What's different is how 
-this object becomes available inside the block and what is the result of the whole expression.
+this object becomes available inside the block and what the result of the whole expression is.
 
 Here's a typical example of how to use a scope function:
 
@@ -75,7 +75,7 @@ Detailed information about these functions is provided in the dedicated sections
 
 Here is a short guide for choosing scope functions depending on the intended purpose:
 
-* Executing a lambda on non-null objects: `let`
+* Executing a lambda on non-nullable objects: `let`
 * Introducing an expression as a variable in local scope: `let`
 * Object configuration: `apply`
 * Object configuration and computing the result: `run`
@@ -152,7 +152,7 @@ In turn, `let` and `also` reference the context object as a lambda [argument](la
 the argument name is not specified, the object is accessed by the implicit default name `it`. `it` is shorter than 
 `this` and expressions with `it` are usually easier to read. 
 
-However, when calling the object's functions or properties you don't have the object available implicitly like `this`. 
+However, when calling the object's functions or properties, you don't have the object available implicitly like `this`. 
 Hence, accessing the context object via `it` is better when the object is mostly used as an argument in function calls. 
 `it` is also better if you use multiple variables in the code block.
 
@@ -464,7 +464,7 @@ fun main() {
 
 You can also invoke `run` as a non-extension function. The non-extension variant of `run` has no context object, but it
 still returns the lambda result. Non-extension `run` lets you execute a block of several statements where an expression 
-is required.
+is required. In code, non-extension `run` can be read as "_run the code block and compute the result._"
 
 ```kotlin
 fun main() {

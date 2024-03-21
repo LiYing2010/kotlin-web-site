@@ -30,9 +30,19 @@ object BuildJsAssets: BuildType({
         
         NODE_ENV=production yarn run build
       """.trimIndent()
-      dockerImage = "node:14"
+      dockerImage = "node:18"
       dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux
       dockerPull = true
+    }
+  }
+
+  dependencies {
+    artifacts(FetchBlogNews) {
+      buildRule = lastSuccessful(branch = "+:<default>")
+      artifactRules = """
+        +:latest-news.zip!** => latest-news/
+      """.trimIndent()
+      cleanDestination = true
     }
   }
 })

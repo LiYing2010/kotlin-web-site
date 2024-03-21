@@ -1,6 +1,6 @@
 [//]: # (title: What's new in Kotlin 1.5.0)
 
-_[Release date: 5 May 2021](releases.md#release-details)_
+_[Released: 5 May 2021](releases.md#release-details)_
 
 Kotlin 1.5.0 introduces new language features, stable IR-based JVM compiler backend, performance improvements,
 and evolutionary changes such as stabilizing experimental features and deprecating outdated ones.
@@ -75,7 +75,7 @@ Direct subclasses may be top-level or nested inside any number of other named cl
 
 The subclasses of a sealed class must have a name that is properly qualified – they cannot be local or anonymous objects.
 
-[Learn more about sealed class hierarchies](sealed-classes.md#location-of-direct-subclasses).
+[Learn more about sealed class hierarchies](sealed-classes.md#inheritance).
 
 ### Inline classes
 
@@ -180,7 +180,7 @@ which improves the JVM startup performance.
 
 To roll back to the old implementation scheme based on anonymous class generation, add the compiler option `-Xsam-conversions=class`.
 
-Learn how to add compiler options in [Gradle](gradle-compiler-options.md), [Maven](maven.md#specifying-compiler-options), and the [command-line compiler](compiler-reference.md#compiler-options).
+Learn how to add compiler options in [Gradle](gradle-compiler-options.md), [Maven](maven.md#specify-compiler-options), and the [command-line compiler](compiler-reference.md#compiler-options).
 
 ### Lambdas via invokedynamic
 
@@ -202,7 +202,7 @@ lambda compilation:
 To try this feature, add the `-Xlambdas=indy` compiler option. We would be grateful if you could share your feedback on it using
 this [YouTrack ticket](https://youtrack.jetbrains.com/issue/KT-45375).
 
-Learn how to add compiler options in [Gradle](gradle-compiler-options.md), [Maven](maven.md#specifying-compiler-options), and [command-line compiler](compiler-reference.md#compiler-options).
+Learn how to add compiler options in [Gradle](gradle-compiler-options.md), [Maven](maven.md#specify-compiler-options), and [command-line compiler](compiler-reference.md#compiler-options).
 
 ### Deprecation of @JvmDefault and old Xjvm-default modes
 
