@@ -374,10 +374,7 @@ Kotlin 1.5.30 引入了对 [Apple Silicon](https://support.apple.com/en-us/HT211
 这些编译目标可以用于 Intel 和 Apple Silicon 的主机. 所有既有的编译目标也可以在 Apple Silicon 主机上使用.
 
 注意, 在 1.5.30 中, 我们只在 `kotlin-multiplatform` Gradle plugin 中提供对 Apple Silicon 编译目标的基本的支持.
-具体来说, 在
-[`ios`, `tvos`, 和 `watchos` 编译目标简写(target shortcut)](multiplatform/multiplatform-share-on-platforms.html#use-target-shortcuts)
-中没有包含新的模拟器编译目标.
-详情请参见, [如何通过编译目标简写使用 Apple Silicon 编译目标](multiplatform/multiplatform-share-on-platforms.html#target-shortcuts-and-arm64-apple-silicon-simulators).
+具体来说, 在 `ios`, `tvos`, 和 `watchos` 编译目标简写(target shortcut) 中没有包含新的模拟器编译目标.
 我们会继续改进这些新的编译目标的使用体验.
 
 ### CocoaPods Gradle plugin 的 Kotlin DSL 的改进
@@ -385,7 +382,7 @@ Kotlin 1.5.30 引入了对 [Apple Silicon](https://support.apple.com/en-us/HT211
 #### Kotlin/Native Framework 的新参数
 
 Kotlin 1.5.30 带来了 CocoaPods Gradle plugin DSL 关于 Kotlin/Native Framework 的改进.
-除了 Framework 名称之外, 你还可以在 pod 配置中指定其他参数:
+除了 Framework 名称之外, 你还可以在 Pod 配置中指定其他参数:
 * 指定 Framework 的动态或静态版本
 * 明确启用导出依赖项
 * 启用 Bitcode 内嵌
@@ -495,7 +492,7 @@ MyClass.Companion.shared
 
 ### 在共用的原生代码中可以使用自定义 `cinterop` 库
 
-Kotlin Multiplatform 提供了一个 [选项](multiplatform/multiplatform-share-on-platforms.html#use-native-libraries-in-the-hierarchical-structure),
+Kotlin Multiplatform 提供了一个 [选项](multiplatform/multiplatform-share-on-platforms.html#connect-platform-specific-libraries),
 可以在共用的源代码集中使用平台相关的 interop 库.
 在 1.5.30 之前, 这个功能只能用于随 Kotlin/Native 一同发布的 [平台库](native-platform-libs.html).
 从 1.5.30 开始, 你可以使用你自定义的 `cinterop` 库.
@@ -663,7 +660,7 @@ Java 工具链会:
 * 如果使用者没有明确设置 `jvmTarget` 选项, 会将 [`kotlinOptions.jvmTarget`](gradle/gradle-compiler-options.html#attributes-specific-to-jvm) 设置为工具链的 JDK 版本.
   如果工具链没有配置, `jvmTarget` 域会使用默认值. 详情请参见 [JVM 编译目标兼容性](gradle/gradle-configure-project.html#check-for-jvm-target-compatibility-of-related-compile-tasks).
 
-* 影响 [`kapt` worker](kapt.html#running-kapt-tasks-in-parallel) 运行在哪个 JDK 上.
+* 影响 [`kapt` worker](kapt.html#run-kapt-tasks-in-parallel) 运行在哪个 JDK 上.
 
 可以使用以下代码来设置一个工具链. 请将 `<MAJOR_JDK_VERSION>` 替换为你想要使用的 JDK 版本:
 
@@ -707,7 +704,7 @@ java {
 }
 ```
 
-关于为 `KotlinCompile` 任务设置 JDK 版本, 请参见 [使用 Task DSL 设置 JDK 版本](gradle/gradle-configure-project.html#setting-jdk-version-with-the-task-dsl).
+关于为 `KotlinCompile` 任务设置 JDK 版本, 请参见 [使用 Task DSL 设置 JDK 版本](gradle/gradle-configure-project.html#set-jdk-version-with-the-task-dsl).
 
 对于 Gradle 版本 6.1 到 6.6, 请 [使用 `UsesKotlinJavaToolchain` 接口来设置 JDK Home](#ability-to-specify-jdk-home-with-useskotlinjavatoolchain-interface).
 
@@ -754,7 +751,7 @@ project.tasks
 对 Gradle 6.1 到 6.6 版本, 请使用 `UsesKotlinJavaToolchain` 接口.
 从 Gradle 6.7 开始, 请改为使用 [Java 工具链](#support-for-java-toolchains).
 
-使用这个功能时, 请注意, [kapt 任务 worker](kapt.html#running-kapt-tasks-in-parallel) 只使用 [进程隔离模式](https://docs.gradle.org/current/userguide/worker_api.html#changing_the_isolation_mode), `kapt.workers.isolation` 属性将被忽略.
+使用这个功能时, 请注意, [kapt 任务 worker](kapt.html#run-kapt-tasks-in-parallel) 只使用 [进程隔离模式](https://docs.gradle.org/current/userguide/worker_api.html#changing_the_isolation_mode), `kapt.workers.isolation` 属性将被忽略.
 
 ### 用更简单的方式明确指定 Kotlin Daemon 的 JVM 参数
 

@@ -57,7 +57,7 @@ Kotlin/Native 提供了与 [CocoaPods 依赖管理器](https://cocoapods.org/) �
 4. 安装 CocoaPods:
 
     ```bash
-    sudo gem install cocoapods
+    sudo gem install -n /usr/local/bin cocoapods
     ```
 
 ### 默认的 Ruby
@@ -81,28 +81,11 @@ sudo gem install cocoapods
 {:.warning}
 
 1. 如果你还没有, 请先安装 [Homebrew](https://brew.sh/).
-2. 安装 Ruby. 你可以选择特定的版本:
+ 
+2. 安装 CocoaPods:
 
     ```bash
-    brew install ruby@3.0
-    ```
-
-3. 向 `.zshrc` 配置文件添加 `PATH` 的 export 命令:
-
-   ```bash
-   echo 'export PATH="/opt/homebrew/opt/ruby/bin:$PATH"' >> /.zshrc
-   ```
-
-4. 从这个文件运行 export 命令:
-
-    ```bash
-    source .zshrc
-    ```
-
-5. 安装 CocoaPods:
-
-    ```bash
-    sudo gem install -n /usr/local/bin cocoapods
+    brew install cocoapods
     ```
 
 ### 如果你使用 Kotlin 1.7.0 以前的版本
@@ -120,7 +103,7 @@ sudo gem install cocoapods
 
 ## 添加并配置 Kotlin CocoaPods Gradle plugin
 
-如果你的环境已经正确设置, 你可以 [创建一个新的 Kotlin Multiplatform 项目](../multiplatform-mobile/multiplatform-mobile-create-first-app.html),
+如果你的环境已经正确设置, 你可以 [创建一个新的 Kotlin Multiplatform 项目](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-create-first-app.html),
 并在 iOS framework distribution 选项中, 选择 **CocoaPods Dependency Manager**.
 插件会为你自动生成项目.
 
@@ -224,9 +207,6 @@ sudo gem install cocoapods
 
 如果不对 Podfile 文件进行这些修改, `podInstall` 任务将会失败, CocoaPods plugin 会在 log 中显示错误消息.
 
-请参见 [示例项目](https://github.com/Kotlin/kmm-with-cocoapods-sample) 的 `withXcproject` branch,
-其中包含如何与 Xcode 集成的示例, 它使用一个既有的 Xcode 项目, 名为 `kotlin-cocoapods-xcproj`.
-
 ## 可能发生的问题与解决方案
 
 ### CocoaPods 安装
@@ -261,26 +241,40 @@ Ruby 1.9 或更高版本带有一个内建的 RubyGems 包管理框架, 可以�
 2. 检查模块内的框架名称, 比如 `AppsFlyerLib {}`. 如果框架名称与 Pod 名称不匹配, 请明确指定它:
 
     ```kotlin
-    pod("AFNetworking") {
+    pod("FirebaseAuth") {
         moduleName = "AppsFlyerLib"
     }
     ```
 
-#### 检查定义文件
+#### 指定头文件
 
 如果在生成的 `.def` 文件中 Pod 没有包含 `.modulemap` 文件, 比如 `pod("NearbyMessages")`,
-请将带头文件的模块替换为指定 main 头文件:
+请明确的指定 main 头文件:
 
 ```kotlin
-tasks.named<org.jetbrains.kotlin.gradle.tasks.DefFileTask>("generateDefNearbyMessages").configure {
-    doLast {
-        outputFile.writeText("""
-            language = Objective-C
-            headers = GNSMessages.h
-        """.trimIndent())
-    }
+pod("NearbyMessages") {
+    version = "1.1.1"
+    headers = "GNSMessages.h"
 }
 ```
 
 详情请参见 [CocoaPods 文档](https://guides.cocoapods.org/).
 如果尝试过以上方法后, 仍然发生这个错误, 请到 [YouTrack](https://youtrack.jetbrains.com/newissue?project=kt) 报告问题.
+
+### 同步错误
+
+你可能会遇到 `rsync error: some files could not be transferred` 错误.
+这是一个 [已知的问题](https://github.com/CocoaPods/CocoaPods/issues/11946),
+如果 Xcode 中的应用程序编译目标启用了用户脚本的沙箱功能(sandboxing), 就会发生这个错误.
+
+要解决这个问题:
+
+1. 在应用程序目标设定中禁用用户脚本的沙箱功能:
+
+   <img src="/assets/docs/images/multiplatform/disable-sandboxing-cocoapods.png" alt="禁用 CocoaPods 沙箱功能" width="700"/>
+
+2. 停止可能已经启用了沙箱功能的 Gradle daemon 进程:
+
+    ```shell
+    ./gradlew --stop
+    ```

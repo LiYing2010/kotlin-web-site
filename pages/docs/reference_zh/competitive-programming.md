@@ -123,7 +123,7 @@ fun main() {
 <a href="null-safety.html#the-operator">null 判断操作符</a>
 <code>!!</code>.
 Kotlin 的  <code>readLine()</code> 函数定义是返回一个
-<a href="null-safety.html#nullable-types-and-non-null-types">可为 null 的类型</a>
+<a href="null-safety.html#nullable-types-and-non-nullable-types">可为 null 的类型</a>
 <code>String?</code>, 并在输入结束时返回 <code>null</code>,
 因此要求开发者处理没有输入的情况.
 </p>

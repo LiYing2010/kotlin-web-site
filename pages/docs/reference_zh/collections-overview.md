@@ -15,7 +15,7 @@ Kotlin 标准库提供了丰富的工具用来管理 _集合(Collection)_ – �
 对大多数编程语言来说, 集合都是共通的概念, 所以如果你已经熟悉其他编程语言(比如 Java 或 Python)的集合,
 那么你可以跳过这部分关于集合的介绍, 直接阅读后面的关于集合细节的章节.
 
-集合通常包含一定数量的类型相同的对象(数量可以为 0). 集合中的对象称为 _元素(element)_ 或 _项目(item)_.
+集合通常包含一定数量的某个相同类型(及其子类型)的对象. 集合中的对象称为 _元素(element)_ 或 _项目(item)_.
 比如, 一个系的所有学生组成一个集合, 这个集合可以用来计算他们的平均年龄.
 
 以下是 Kotlin 中的集合类型:
@@ -38,6 +38,9 @@ Kotlin 提供的集合操作功能, 与集合中元素的具体数据类型无�
 集合接口和相关的函数存放在 `kotlin.collections` 包之下.
 下面我们大致介绍其中的内容.
 
+> 数组不是集合(Collection)类型. 详情请参见 [数组](arrays.html).
+{:.note}
+
 ## 集合类型
 
 Kotlin 标准库实现了基本的集合类型: set, list, 以及 map.
@@ -47,9 +50,12 @@ Kotlin 标准库实现了基本的集合类型: set, list, 以及 map.
 * 一个 _可变(mutable)_ 接口, 继承对应的只读接口,
   另外增加了写操作: 添加, 删除, 以及更新集合元素.
 
-注意, 修改一个可变集合的内容, 并不要求集合变量本身声明为 [`var`](basic-syntax.html#variables):
-写操作修改的只是可变集合对象中存储的元素, 集合对象仍然是同一个对象, 因此指向它的引用仍然保持不变.
-但是, 如果你想要对 `val` 类型的集合重新赋值, 会发生编译错误.
+注意, 内容可变的集合, 并不要求集合变量声明为 [`var`](basic-syntax.html#variables).
+即使可变集合赋值给 `val`, 仍然可以对它进行写操作.
+将可变集合复制给 `val` 的好处是, 你可以保证指向这个可变集合的引用不会被修改.
+随着时间的流逝, 你的代码规模会逐渐增长, 并变得更加复杂, 防止无意的修改引用会变得更加重要.
+尽可能的使用 `val`, 有助于编写更加安全和健壮的代码.
+如果你想要对 `val` 类型的集合重新赋值, 会发生编译错误:
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
@@ -329,3 +335,31 @@ fun main() {
 与此相反, 另一个替代实现 –
 [`HashMap`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-hash-map/index.html)
 – 对元素顺序不做任何保证.
+
+### ArrayDeque
+
+[`ArrayDeque<T>`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-array-deque/) 是双向队列(double-ended queue)的一个实现,
+对这种双向队列, 从前端或尾端都可以添加或删除元素.
+因此, 在 Kotlin 中 `ArrayDeque` 可以同时充当 Stack 和 Queue 数据结构的角色.
+在它内部的实现中, `ArrayDeque` 使用了一个可以变更大小的数组, 在需要的时候, 会自动调整数组大小:
+
+<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.4">
+
+```kotlin
+fun main() {
+    val deque = ArrayDeque(listOf(1, 2, 3))
+
+    deque.addFirst(0)
+    deque.addLast(4)
+    println(deque) // 输出结果为 [0, 1, 2, 3, 4]
+  
+    println(deque.first()) // 输出结果为 0
+    println(deque.last()) // 输出结果为 4
+
+    deque.removeFirst()
+    deque.removeLast()
+    println(deque) // 输出结果为 [1, 2, 3]
+}
+```
+
+</div>

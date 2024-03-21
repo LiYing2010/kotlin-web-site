@@ -13,8 +13,8 @@ Kotlin 符号处理(Kotlin Symbol Processing, _KSP_) 是一组 API, 你可以使
 KSP 提供一组简化的编译器插件 API, 利用 Kotlin 的能力, 同时保持最小的学习曲线.
 与 [kapt](../kapt.html) 相比, 使用 KSP 的注解处理器运行速度可以快 2 倍.
 
-关于 KSP 与 kapt 与比较, 详情请参见 [为什么需要 KSP](ksp-why-ksp.html).
-要开始编写 KSP 处理器, 请参见 [KSP 快速入门](ksp-quickstart.html).
+* 关于 KSP 与 kapt 与比较, 详情请参见 [为什么需要 KSP](ksp-why-ksp.html).
+* 要开始编写 KSP 处理器, 请参见 [KSP 快速入门](ksp-quickstart.html).
 
 ## 概述
 
@@ -164,25 +164,27 @@ class HelloFunctionFinderProcessor : SymbolProcessor() {
 
 ## 支持的库
 
-下表是 Android 上的流行的库, 以及它们对 KSP 的支持情况.
+下面是 Android 上的流行的库, 以及它们对 KSP 的支持情况:
 
-| 库                | 状态                                                                                       | 关于 KSP 的 Issue |
-|------------------|------------------------------------------------------------------------------------------|------------------|
-| Room             | [官方支持](https://developer.android.com/jetpack/androidx/releases/room#2.3.0-beta02)        |   |
-| Moshi            | [官方支持](https://github.com/square/moshi/)                                                 |   |
-| RxHttp           | [官方支持](https://github.com/liujingxing/rxhttp)                                            |   |
-| Kotshi           | [官方支持](https://github.com/ansman/kotshi)                                                 |   |
-| Lyricist         | [官方支持](https://github.com/adrielcafe/lyricist)                                           |   |
-| Lich SavedState  | [官方支持](https://github.com/line/lich/tree/master/savedstate)                              |   |
-| gRPC Dekorator   | [官方支持](https://github.com/mottljan/grpc-dekorator)                                       |   |
-| EasyAdapter      | [官方支持](https://github.com/AmrDeveloper/EasyAdapter)                                      |   |
-| Koin Annotations | [官方支持](https://github.com/InsertKoinIO/koin-annotations)                                 |   |
-| Auto Factory     | 目前不支持                                                                                   | [链接](https://github.com/google/auto/issues/982)     |
-| Dagger           | 目前不支持                                                                                   | [链接](https://github.com/google/dagger/issues/2349)  |
-| Hilt             | 目前不支持                                                                                   | [链接](https://issuetracker.google.com/179057202)     |
-| Glide            | [官方支持](https://github.com/bumptech/glide)                                                |   |
-| DeeplinkDispatch | [通过 airbnb/DeepLinkDispatch#323 支持](https://github.com/airbnb/DeepLinkDispatch/pull/323) |   |
-| Micronaut        | 正在开发中                                                                                   |[链接](https://github.com/micronaut-projects/micronaut-core/issues/6781)|
-| Epoxy            | [官方支持](https://github.com/airbnb/epoxy)                                                  | |
-| Paris            | [官方支持](https://github.com/airbnb/paris)                                                  | |
-| Auto Dagger      | [官方支持](https://github.com/ansman/auto-dagger)                                            | |
+| 库                | 状态                                                                                       |
+|------------------|------------------------------------------------------------------------------------------|
+| Room             | [官方支持](https://developer.android.com/jetpack/androidx/releases/room#2.3.0-beta02)        |
+| Moshi            | [官方支持](https://github.com/square/moshi/)                                                 |
+| RxHttp           | [官方支持](https://github.com/liujingxing/rxhttp)                                            |
+| Kotshi           | [官方支持](https://github.com/ansman/kotshi)                                                 |
+| Lyricist         | [官方支持](https://github.com/adrielcafe/lyricist)                                           |
+| Lich SavedState  | [官方支持](https://github.com/line/lich/tree/master/savedstate)                              |
+| gRPC Dekorator   | [官方支持](https://github.com/mottljan/grpc-dekorator)                                       |
+| EasyAdapter      | [官方支持](https://github.com/AmrDeveloper/EasyAdapter)                                      |
+| Koin Annotations | [官方支持](https://github.com/InsertKoinIO/koin-annotations)                                 |
+| Glide            | [官方支持](https://github.com/bumptech/glide)                                                | 
+| Micronaut        | [官方支持](https://micronaut.io/2023/07/14/micronaut-framework-4-0-0-released/)              |
+| Epoxy            | [官方支持](https://github.com/airbnb/epoxy)                                                  |
+| Paris            | [官方支持](https://github.com/airbnb/paris)                                                  |
+| Auto Dagger      | [官方支持](https://github.com/ansman/auto-dagger)                                            |
+| SealedX          | [官方支持](https://github.com/skydoves/sealedx)                                              |
+| DeeplinkDispatch | [通过 airbnb/DeepLinkDispatch#323 支持](https://github.com/airbnb/DeepLinkDispatch/pull/323) |
+| Dagger           | [Alpha](https://dagger.dev/dev-guide/ksp)                                                |
+| Motif            | [Alpha](https://github.com/uber/motif)                                                   |
+| Hilt             | [开发中](https://dagger.dev/dev-guide/ksp)                                                  |
+| Auto Factory     | [目前不支持](https://github.com/google/auto/issues/982)                                       |

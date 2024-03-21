@@ -31,7 +31,7 @@ _反射_ 是语言与库中的一组功能, 允许你在运行时刻获取程序
 <div class="sample" markdown="1" theme="idea" mode="groovy" data-highlight-only>
 ```kotlin
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-reflect:{{site.data.releases.latest.version}}")
+    implementation(kotlin("reflect"))
 }
 ```
 </div>
@@ -209,13 +209,13 @@ fun main() {
 ```
 </div>
 
-表达式 `::x` 的计算结果是一个属性对象, 类型为 `KProperty<Int>`.
+表达式 `::x` 的计算结果是一个属性对象, 类型为 `KProperty0<Int>`.
 你可以通过它的 `get()` 方法得到属性值, 或者通过它的 `name` 属性得到属性名称.
 详情请参见
 [`KProperty` 类的 API 文档](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-property/index.html).
 
 对于值可变的属性, 比如, `var y = 1`, `::y` 返回的属性对象的类型为
-[`KMutableProperty<Int>`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-mutable-property/index.html),
+[`KMutableProperty0<Int>`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-mutable-property/index.html),
 它有一个 `set()` 方法:
 
 <div class="sample" markdown="1" theme="idea">

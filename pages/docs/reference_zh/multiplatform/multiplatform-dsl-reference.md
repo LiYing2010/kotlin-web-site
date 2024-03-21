@@ -8,11 +8,7 @@ title: "跨平台程序的 Gradle DSL 参考文档"
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
-> 跨平台项目还处于 [Alpha](../components-stability.html) 阶段.
-它的语言特性和工具在未来的 Kotlin 版本中可能发生变化.
-{:.note}
-
-Kotlin 跨平台 Gradle 插件, 是一个用来创建 [Kotlin Multiplatform](multiplatform.html) 项目的工具.
+Kotlin Multiplatform Gradle plugin, 是一个用来创建 [Kotlin Multiplatform](multiplatform.html) 项目的工具.
 本章我们提供关于它的参考文档; 当你为 Kotlin Multiplatform 项目编写 Gradle 编译脚本时可以参考本文档.
 详情请参见 [关于 Kotlin Multiplatform 项目的基本概念, 如何创建和配置跨平台项目](multiplatform-get-started.html).
 
@@ -536,19 +532,19 @@ kotlin {
 </div>
 
 注意, 新创建的源代码集不会关联到其他源代码集. 如果要在项目的编译任务中使用这个源代码集,
-[请将它关联到其他源代码集](multiplatform-share-on-platforms.html#configure-the-hierarchical-structure-manually).
+[请将它关联到其他源代码集](multiplatform-hierarchy.html#manual-configuration).
 
 ### 源代码集的参数
 
 源代码集的配置保存在相应的 `sourceSets` 代码块之内. 一个源代码集包含以下参数:
 
-| **名称**             | **解释**                            |
-|--------------------|--------------------------------------|
-| `kotlin.srcDir`    | 源代码集目录之内的 Kotlin 源代码文件位置. |
-| `resources.srcDir` | 源代码集目录之内的资源文件位置. |
-| `dependsOn`        | [关联到另一个源代码集](multiplatform-share-on-platforms.html#configure-the-hierarchical-structure-manually) |
-| `dependencies`     | 源代码集的 [依赖项目](#dependencies). |
-| `languageSettings` | 用于这个源代码集的 [语言设置](#language-settings). |
+| **名称**             | **解释**                                                           |
+|--------------------|------------------------------------------------------------------|
+| `kotlin.srcDir`    | 源代码集目录之内的 Kotlin 源代码文件位置.                                        |
+| `resources.srcDir` | 源代码集目录之内的资源文件位置.                                                 |
+| `dependsOn`        | [关联到另一个源代码集](multiplatform-hierarchy.html#manual-configuration)  |
+| `dependencies`     | 源代码集的 [依赖项目](#dependencies).                                     |
+| `languageSettings` | 用于这个源代码集的 [语言设置](#language-settings).                            |
 
 <div class="multi-language-sample" data-lang="kotlin">
 <div class="sample" markdown="1" theme="idea" mode='kotlin' data-highlight-only>
@@ -803,7 +799,7 @@ kotlin {
 <div class="multi-language-sample" data-lang="kotlin">
 <div class="sample" markdown="1" theme="idea" mode='kotlin' data-highlight-only>
 
-```groovy
+```kotlin
 kotlin {
     sourceSets {
         val commonMain by getting {
@@ -811,9 +807,9 @@ kotlin {
                 api("com.example:foo-metadata:1.0")
             }
         }
-        val jvm6Main by getting {
+        val jvmMain by getting {
             dependencies {
-                implementation("com.example:foo-jvm6:1.0")
+                implementation("com.example:foo-jvm:1.0")
             }
         }
     }
@@ -834,9 +830,9 @@ kotlin {
                 api 'com.example:foo-metadata:1.0'
             }
         }
-        jvm6Main {
+        jvmMain {
             dependencies {
-                implementation 'com.example:foo-jvm6:1.0'
+                implementation 'com.example:foo-jvm:1.0'
             }
         }
     }
@@ -846,7 +842,7 @@ kotlin {
 </div>
 </div>
 
-除此之外, 源代码集之间还可以相互依赖, 形成一种层级结构. 这种情况下, 应该使用 [dependsOn()](#source-set-parameters) 关系.
+除此之外, 源代码集之间还可以相互依赖, 形成一种层级结构. 这种情况下, 应该使用 [`dependsOn()`](#source-set-parameters) 关系.
 
 在编译脚本的最顶层 `dependencies` 代码块中, 也可以声明源代码集的依赖项目.
 这种情况下, 依赖项目声明需要使用 `<sourceSetName><DependencyKind>` 格式, 比如, `commonMainApi`.

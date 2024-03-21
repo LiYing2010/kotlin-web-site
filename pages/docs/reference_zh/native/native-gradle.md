@@ -22,7 +22,7 @@ Kotlin/Native 和 Multiplatform 的构建默认使用 Gradle.
 
 ## 创建项目文件
 
-1. 创建一个项目目录. 在这个目录内, 创建 Gradle 构建文件 `build.gradle` 或 `build.gradle.kts`, 内容如下:
+1. 创建一个项目目录. 在这个目录内, 创建 Gradle 构建文件 `build.gradle(.kts)`, 内容如下:
 
     <div class="multi-language-sample" data-lang="kotlin">
     <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>

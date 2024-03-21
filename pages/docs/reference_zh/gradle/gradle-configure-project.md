@@ -9,7 +9,7 @@ title: "配置 Gradle 项目"
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
-要 [Gradle](https://docs.gradle.org/current/userguide/getting_started.html) 使用来构建 Kotlin 项目,
+要 [Gradle](https://docs.gradle.org/current/userguide/userguide.html) 使用来构建 Kotlin 项目,
 你需要向你的构建脚本文件 `build.gradle(.kts)` 添加 [Kotlin Gradle plugin](#apply-the-plugin),  
 并在构建脚本文件中 [配置项目的依赖项](#configure-dependencies).
 
@@ -19,7 +19,7 @@ title: "配置 Gradle 项目"
 ## 应用(Apply) Kotlin Gradle Plugin
 
 要应用(Apply) Kotlin Gradle plugin, 请使用 Gradle plugin DSL 的
-[`plugins` 代码段](https://docs.gradle.org/current/userguide/plugins.html#sec:plugins_block):
+[`plugins{}` 代码段](https://docs.gradle.org/current/userguide/plugins.html#sec:plugins_block):
 
 <div class="multi-language-sample" data-lang="kotlin">
 <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
@@ -47,15 +47,23 @@ plugins {
 </div>
 </div>
 
-配置你的项目时, 请检查 Kotlin Gradle plugin 是否兼容于你的 Gradle 版本. 
-下表是, Kotlin **完全支持** 的 Gradle 和 Android Gradle plugin 最低和最高版本:
+> Kotlin Gradle plugin (KGP) 和 Kotlin 的版本号一致.
+{:.note}
 
-| Kotlin 版本 | Gradle 最低和最高版本 | Android Gradle plugin 最低和最高版本 |
-|------------|---------------------|------------------------------------|
-| 1.8.0 | {{ site.data.releases.minGradleVersion }} – {{ site.data.releases.maxGradleVersion }} | {{ site.data.releases.minAndroidGradleVersion }} – {{ site.data.releases.maxAndroidGradleVersion }} |
-| 1.7.20| 6.7.1 – 7.1.1 | 3.6.4 – 7.0.4 |
+配置你的项目时, 请检查 Kotlin Gradle plugin (KGP) 是否兼容于你的 Gradle 版本.
+下表是, Kotlin **完全支持** 的 Gradle 和 Android Gradle plugin (AGP) 最低和最高版本:
 
-> Gradle 和 AGP 最新版本通常可以无问题的使用.
+| KGP 版本        | Gradle 最低和最高版本           | AGP 最低和最高版本                            |
+|---------------|---------------------------------------|-----------------------------------------------------|
+| 1.9.20        | {{ site.data.releases.minGradleVersion }}–{{ site.data.releases.maxGradleVersion }} | {{ site.data.releases.minAndroidGradleVersion }}–{{ site.data.releases.maxAndroidGradleVersion }} |
+| 1.9.0–1.9.10  | 6.8.3–7.6.0                           | 4.2.2–7.4.0                                         |
+| 1.8.20–1.8.22 | 6.8.3–7.6.0                           | 4.1.3–7.4.0                                         |      
+| 1.8.0–1.8.11  | 6.8.3–7.3.3                           | 4.1.3–7.2.1                                         |   
+| 1.7.20–1.7.22 | 6.7.1–7.1.1                           | 3.6.4–7.0.4                                         |
+| 1.7.0–1.7.10  | 6.7.1–7.0.2                           | 3.4.3–7.0.2                                         |
+| 1.6.20–1.6.21 | 6.1.1–7.0.2                           | 3.4.3–7.0.2                                         |
+
+> 你也可以使用最新版本之前的 Gradle 和 AGP 版本, 但如果你这样做, 请注意, 你可能会遇到弃用警告, 或者某些新功能可能无法正常工作.
 {:.note}
 
 例如, Kotlin Gradle plugin 和 `kotlin-multiplatform` plugin {{ site.data.releases.latest.version }}
@@ -96,8 +104,9 @@ plugins {
 
 ### Kotlin 源代码与 Java 源代码
 
-Kotlin 源代码与 Java 源代码可以保存在相同的文件夹下, 也可以放在不同的文件夹下.
-默认的约定是使用不同的文件夹:
+Kotlin 源代码与 Java 源代码可以保存在相同的目录下, 也可以放在不同的目录下.
+
+默认的约定是使用不同的目录:
 
 ```text
 project
@@ -106,6 +115,11 @@ project
             - kotlin
             - java
 ```
+
+> 不要将 Java 的 `.java` 文件放在 `src/*/kotlin` 目录中, 因为这样的 `.java` 文件不会被编译.
+>
+> 你应该改为放在 `src/main/java` 目录中.
+{:.warning}
 
 如果不使用默认约定的文件夹结构, 那么需要修改相应的 `sourceSets` 属性:
 
@@ -153,15 +167,41 @@ sourceSets {
 (或 [继承得到](https://docs.gradle.org/current/userguide/java_plugin.html#sec:java-extension))
 `targetCompatibility=15`.
 
-要对这个兼容性检查进行配置, 可以在 `build.gradle` 文件中, 将 `kotlin.jvm.target.validation.mode` 属性设置为以下几个值:
+要对整个项目的这个兼容性检查进行配置, 可以在 `build.gradle(.kts)` 文件中, 将 `kotlin.jvm.target.validation.mode` 属性设置为以下几个值:
 
 * `error` – plugin 会让构建失败; 对于 Gradle 8.0 以上版本, 这是项目的默认值.
 * `warning` – plugin 会输出警告信息; 对于低于 Gradle 8.0 的版本, 这是项目的默认值.
 * `ignore` – plugin 会跳过检查, 不输出任何警告信息.
 
+你也可以在你的 `build.gradle(.kts)` 文件中对各个编译任务单独进行配置:
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile>().configureEach {
+    jvmTargetValidationMode.set(org.jetbrains.kotlin.gradle.dsl.jvm.JvmTargetValidationMode.WARNING)
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile.class).configureEach {
+    jvmTargetValidationMode = org.jetbrains.kotlin.gradle.dsl.jvm.JvmTargetValidationMode.WARNING
+}
+```
+
+</div>
+</div>
+
 要避免 JVM 编译目标不兼容, 需要 [配置工具链](#gradle-java-toolchains-support), 或手动对齐(Align) JVM 版本.
 
-#### 如果不检查编译目标的兼容性, 会发生什么问题 
+#### 如果编译目标之间不兼容, 会发生什么问题 
 
 有两种方式对 Kotlin 和 Java 源代码集手动设置 JVM 编译目标:
 * 隐含设定, 通过 [设置 Java 工具链](#gradle-java-toolchains-support) 来设置.
@@ -200,10 +240,12 @@ plugins {
 构建脚本中没有 `jvmTarget` 值的明确信息, 因此它的默认值为 `null`, 编译器将这个设置翻译为默认值 `1.8`.
 `targetCompatibility` 等于当前的 Gradle JDK 版本, 也就是你的 JDK 版本 (除非你使用
 [Java 工具链策略](gradle-configure-project.md#gradle-java-toolchains-support)).
-假设 JDK 版本是 `11`.
-你发布的库文件会 [声明兼容](https://docs.gradle.org/current/userguide/publishing_gradle_module_metadata.html) 
-于 JDK 11 以上版本: `org.gradle.jvm.version=11`, 实际上是错误的.
-在你的主项目中, 会需要使用 Java 11 才能添加这个库, 尽管它的字节码版本其实是 `1.8`.
+假设你的 JDK 版本是 `{{ site.data.releases.jvmLTSVersionSupportedByKotlin }}`,
+你发布的库文件会 [声明它兼容](https://docs.gradle.org/current/userguide/publishing_gradle_module_metadata.html) 
+于 JDK {{ site.data.releases.jvmLTSVersionSupportedByKotlin }} 以上版本:
+`org.gradle.jvm.version={{ site.data.releases.jvmLTSVersionSupportedByKotlin }}`, 实际上是错误的.
+这种情况下, 在你的主项目中, 会需要使用 Java {{ site.data.releases.jvmLTSVersionSupportedByKotlin }} 才能添加这个库,
+尽管它的字节码版本其实是 `1.8`.
 请 [配置工具链](gradle-configure-project.md#gradle-java-toolchains-support) 来解决这个问题.
 
 ### Gradle Java 工具链支持
@@ -243,7 +285,7 @@ Java 工具链会:
   如果用户没有配置工具链, 那么 `jvmTarget` 会使用默认值.
   详情请参见 [JVM 编译目标兼容性](#check-for-jvm-target-compatibility-of-related-compile-tasks).
 * 设置由任何 Java compile, test 和 javadoc 任务使用的工具链.
-* 影响 [`kapt` 任务执行器](../kapt.html#running-kapt-tasks-in-parallel) 使用哪个 JDK.
+* 影响 [`kapt` 任务执行器](../kapt.html##run-kapt-tasks-in-parallel) 使用哪个 JDK.
 
 可以使用以下代码来设置工具链. 请将占位符 `<MAJOR_JDK_VERSION>` 替换为你想要使用的 JDK 版本:
 
@@ -258,7 +300,7 @@ kotlin {
     // 或者使用更简短的写法:
     jvmToolchain(<MAJOR_JDK_VERSION>)
     // 例如:
-    jvmToolchain(8)
+    jvmToolchain({{ site.data.releases.jvmLTSVersionSupportedByKotlin }})
 }
 ```
 
@@ -276,7 +318,7 @@ kotlin {
     // 或者使用更简短的写法:
     jvmToolchain(<MAJOR_JDK_VERSION>)
     // 例如:
-    jvmToolchain(8)
+    jvmToolchain({{ site.data.releases.jvmLTSVersionSupportedByKotlin }})
 }
 ```
 
@@ -315,13 +357,45 @@ java {
 </div>
 </div>
 
+如果你使用 Gradle 8.0.2 或更高版本, 你还需要添加一个 [工具链解析器 plugin](https://docs.gradle.org/current/userguide/toolchains.html#sub:download_repositories).
+这种 plugin 会管理从哪个仓库下载工具链. 例如, 向你的 `settings.gradle(.kts)` 文件添加以下 plugin:
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version("{{ site.data.releases.foojayResolver }}")
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '{{ site.data.releases.foojayResolver }}'
+}
+```
+
+</div>
+</div>
+
+关于与你的 Gradle 版本对应的 `foojay-resolver-convention` 版本,
+请参见 [Gradle 网站](https://docs.gradle.org/current/userguide/toolchains.html#sub:download_repositories).
+
 > 要确认 Gradle 使用哪个工具链, 请使用
 > [log 级别 `--info`](https://docs.gradle.org/current/userguide/logging.html#sec:choosing_a_log_level)
 > 来运行你的 Gradle 构建, 并在输出中查找 `[KOTLIN] Kotlin compilation 'jdkHome' argument:` 开头的字符串.
 > 冒号之后的部分就是工具链使用的 JDK 版本.
 {:.note}
 
-要为特定的 Task 设置任意的 JDK (甚至本地 JDK), 请使用 Task DSL.
+要为特定的 Task 设置任意的 JDK (甚至本地 JDK), 请使用 [Task DSL](#set-jdk-version-with-the-task-dsl).
+
+详情请参见 [Kotlin plugin 中对 Gradle JVM 工具链的支持](https://blog.jetbrains.com/kotlin/2021/11/gradle-jvm-toolchain-support-in-the-kotlin-plugin/).
 
 ### 使用 Task DSL 设置 JDK 版本
 
@@ -410,12 +484,91 @@ integrationTestCompilation {
 
 在这个例子中, `integrationTest` 编译任务关联到 `main` 编译任务, 可以在功能测试(集成测试)代码中访问 `internal` 对象.
 
+### Java Modules (JPMS) 启用时的配置
+
+要让 Kotlin Gradle plugin 与 [Java 模块(Module)](https://www.oracle.com/corporate/features/understanding-java-9-modules.html) 共通工作,
+请向你的构建脚本添加以下内容, 并将其中的 `YOUR_MODULE_NAME` 替换为你的 JPMS 模块的引用, 例如,
+`org.company.module`:
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+// 如果你使用的 Gradle 版本低于 7.0, 请添加以下 3 行
+java {
+    modularity.inferModulePath.set(true)
+}
+
+tasks.named("compileJava", JavaCompile::class.java) {
+    options.compilerArgumentProviders.add(CommandLineArgumentProvider {
+        // 将编译后的 Kotlin 类提供给 to javac – 需要这样做才能让 Java/Kotlin 混合源代码正常工作
+        listOf("--patch-module", "YOUR_MODULE_NAME=${sourceSets["main"].output.asPath}")
+    })
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+// 如果你使用的 Gradle 版本低于 7.0, 请添加以下 3 行
+java {
+    modularity.inferModulePath = true
+}
+
+tasks.named("compileJava", JavaCompile.class) {
+    options.compilerArgumentProviders.add(new CommandLineArgumentProvider() {
+        @Override
+        Iterable<String> asArguments() {
+            // Provide compiled Kotlin classes to javac – 需要这样做才能让 Java/Kotlin 混合源代码正常工作
+            return ["--patch-module", "YOUR_MODULE_NAME=${sourceSets["main"].output.asPath}"]
+        }
+    })
+}
+```
+
+</div>
+</div>
+
+> 和通常一样, 请将 `module-info.java` 文件放在 `src/main/java` 目录内.
+>
+> 对于模块, Kotlin 文件中的包名称应该等于 `module-info.java` 中的包名称,
+> 否则会出现构建错误 "package is empty or does not exist".
+{:.note}
+
+更多详情请参见:
+* [为 Java 模块系统构建模块](https://docs.gradle.org/current/userguide/java_library_plugin.html#sec:java_library_modular)
+* [使用 Java 模块系统构建应用程序](https://docs.gradle.org/current/userguide/application_plugin.html#sec:application_modular)
+* ["module" 在 Kotlin 中的意义](../visibility-modifiers.html#modules)
+
+### 其他细节
+
+详情请参见 [Kotlin/JVM](../jvm/jvm-get-started.html).
+
+#### Kotlin/JVM 编译任务的延迟创建
+
+从 Kotlin 1.8.20 开始, Kotlin Gradle plugin 在试运行(dry run)时会注册所有的编译任务, 但不对它们进行配置.
+
+#### 如果编译任务的输出目录不是默认位置
+
+如果你覆盖了 Kotlin/JVM `KotlinJvmCompile`/`KotlinCompile` 编译任务的 `destinationDirectory` 位置, 请更新你的构建脚本.
+在你的 JAR 文件中, 除 `sourceSets.main.outputs` 之外, 你需要明确添加 `sourceSets.main.kotlin.classesDirectories`:
+
+```kotlin
+tasks.jar(type: Jar) {
+    from sourceSets.main.outputs
+    from sourceSets.main.kotlin.classesDirectories
+}
+```
+
 ## 编译到多个目标平台
 
 编译到 [多个目标平台](../multiplatform/multiplatform-dsl-reference.html#targets) 的项目,
 称为 [跨平台项目](../multiplatform/multiplatform-get-started.html),
 需要使用 `kotlin-multiplatform` 插件.
-详情请参见 [关于 `kotlin-multiplatform` 插件](../multiplatform/multiplatform-discover-project.html#multiplatform-plugin).
 
 > `kotlin-multiplatform` 插件要求 Gradle {{ site.data.releases.minGradleVersion }} 或更高版本.
 {:.note}
@@ -444,6 +597,9 @@ plugins {
 </div>
 </div>
 
+详情请参见 [在不同的平台使用 Kotlin Multiplatform](../multiplatform/multiplatform-get-started.html) 和
+[在 iOS 和 Android 平台使用 Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-getting-started.html).
+
 ## 编译到 Android 平台
 
 建议使用 Android Studio 来创建 Android 应用程序.
@@ -451,15 +607,15 @@ plugins {
 
 ## 编译到 JavaScript
 
-如果编译的目标平台只有 JavaScript, 请使用 `kotlin-js` 插件.
-详情请阅读 [相关文档](../js/js-project-setup.html):
+如果编译目标平台为 JavaScript, 也可以使用 `kotlin-multiplatform` 插件.
+详情请阅读 [如何设置 Kotlin/JS 项目](../js/js-project-setup.html):
 
 <div class="multi-language-sample" data-lang="kotlin">
 <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
 
 ```kotlin
 plugins {
-    kotlin("js") version "{{ site.data.releases.latest.version }}"
+    kotlin("multiplatform") version "{{ site.data.releases.latest.version }}"
 }
 ```
 
@@ -471,7 +627,7 @@ plugins {
 
 ```groovy
 plugins {
-    id 'org.jetbrains.kotlin.js' version '{{ site.data.releases.latest.version }}'
+    id 'org.jetbrains.kotlin.multiplatform' version '{{ site.data.releases.latest.version }}'
 }
 ```
 
@@ -481,7 +637,7 @@ plugins {
 ### JavaScript 项目的 Kotlin 源代码与 Java 源代码
 
 这个 plugin 只能编译 Kotlin 源代码文件, 因此推荐将 Kotlin 和 Java 源代码文件放在不同的文件夹内(如果工程内包含 Java 文件的话).
-如果不将源代码分开存放, 请在 `sourceSets` 代码段中指定源代码文件夹 block:
+如果不将源代码分开存放, 请在 `sourceSets{}` 代码段中指定源代码文件夹:
 
 <div class="multi-language-sample" data-lang="kotlin">
 <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
@@ -550,7 +706,7 @@ project.plugins.withType(KotlinBasePlugin.class) {
 
 ## 配置依赖项
 
-如果要添加一个库的依赖, 需要在 source set DSL 中的 `dependencies` 代码段内,
+如果要添加一个库的依赖, 需要在 source set DSL 中的 `dependencies{}` 代码段内,
 设置必要 [类型](#dependency-types) 的依赖项 (比如, `implementation`).
 
 <div class="multi-language-sample" data-lang="kotlin">
@@ -640,7 +796,7 @@ Kotlin Gradle plugin 会根据你的 Gradle 构建脚本的 `compilerOptions.jvm
 
 如果明确的声明一个标准库依赖项(比如, 如果你需要使用不同的版本), Kotlin Gradle plugin 不会覆盖你的设置, 也不会添加第二个标准库.
 
-如果你完全不需要标准库, 那么可以在 `gradle.properties` 文件中添加选项来关闭它:
+如果你完全不需要标准库, 可以在你的 `gradle.properties` 文件中添加以下 Gradle 属性:
 
 ```none
 kotlin.stdlib.default.dependency=false
@@ -648,12 +804,15 @@ kotlin.stdlib.default.dependency=false
 
 #### 传递依赖项的版本对齐
 
-如果你在依赖项中明确指定了 Kotlin 版本为 1.8.0 或更高, 例如: 
+从 Kotlin 标准库 1.9.20 版开始, Gradle 使用包含在标准库中的元数据(metadata),
+来自动对齐传递依赖项 `kotlin-stdlib-jdk7` 和 `kotlin-stdlib-jdk8` 的版本.
+
+如果你添加了 Kotlin 标准库版本 1.8.0 到 1.9.10 之间的依赖项, 例如: 
 `implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.0")`,
 那么 Kotlin Gradle Plugin 会对传递依赖项 `kotlin-stdlib-jdk7` 和 `kotlin-stdlib-jdk8` 使用这个 Kotlin 版本.
-这是为了避免不同版本的 stdlib 出现重复的类.
+这样会避免标准库的不同版本出现重复的类.
 详情请参见 [`kotlin-stdlib-jdk7` 与 `kotlin-stdlib-jdk8` 合并到 `kotlin-stdlib`](../whatsnew18.html#updated-jvm-compilation-target). 
-你可以使用 Gradle 属性 `kotlin.stdlib.jdk.variants.version.alignment` 来禁用这个动作:
+你可以在你的 `gradle.properties` 文件中使用 Gradle 属性 `kotlin.stdlib.jdk.variants.version.alignment` 来禁用这个动作:
 
 ```none
 kotlin.stdlib.jdk.variants.version.alignment=false
@@ -661,7 +820,7 @@ kotlin.stdlib.jdk.variants.version.alignment=false
 
 ##### 版本对齐的另一种方法
 
-* 如果版本对齐出现了问题, 可以使用 Kotlin [BOM](https://docs.gradle.org/current/userguide/platforms.html#sub:bom_import) 对齐所有依赖项的版本.
+* 如果版本对齐出现了问题, 你可以使用 Kotlin [BOM](https://docs.gradle.org/current/userguide/platforms.html#sub:bom_import) 来对齐所有依赖项的版本.
   在你的构建脚本中声明对 `kotlin-bom` 的平台依赖项:
 
   <div class="multi-language-sample" data-lang="kotlin">
@@ -684,10 +843,8 @@ kotlin.stdlib.jdk.variants.version.alignment=false
   </div>
   </div>
 
-* 如果你的 `gradle.properties` 文件中没有明确设置: `kotlin.stdlib.default.dependency=false`,
-  但你的某个依赖项传递依赖到某个旧的 Kotlin stdlib 版本, 例如, `kotlin-stdlib-jdk7:1.7.20`, 
-  而另一个依赖项传递依赖到 `kotlin-stdlib:1.8+` –
-  这种情况下, 你可以对这些传递以来的库指定 `{{ site.data.releases.latest.version }}` 版本:
+* 如果你没有添加某个版本的标准库的依赖项, 但你有两个不同的依赖项, 分别带来 Kotlin 标准库不同旧版本的传递依赖,
+  那么你可以对这些传递依赖的库明确指定 `{{ site.data.releases.latest.version }}` 版本:
 
   <div class="multi-language-sample" data-lang="kotlin">
   <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
@@ -734,16 +891,16 @@ kotlin.stdlib.jdk.variants.version.alignment=false
   
   </div>
   </div>
-  
-* 如果你使用 Kotlin 版本 `{{ site.data.releases.latest.version }}`: `implementation("org.jetbrains.kotlin:kotlin-stdlib:{{ site.data.releases.latest.version }}")`,
-  并且使用了旧版本的 (低于 `1.8.0`) Kotlin Gradle plugin – 请更新 Kotlin Gradle plugin:
+
+* 如果你添加了 Kotlin 标准库 `{{ site.data.releases.latest.version }}` 的依赖项: `implementation("org.jetbrains.kotlin:kotlin-stdlib:{{ site.data.releases.latest.version }}")`,
+  并且使用了旧版本的 (低于 `1.8.0`) Kotlin Gradle plugin, 请更新 Kotlin Gradle plugin, 保持与标准库的版本一致:
 
   <div class="multi-language-sample" data-lang="kotlin">
   <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
 
   ```kotlin
-  // 请将 `<...>` 替换为 plugin 名称
   plugins {
+      // 请将 `<...>` 替换为 plugin 名称
       kotlin("<...>") version "{{ site.data.releases.latest.version }}"
   }
   ```
@@ -755,8 +912,8 @@ kotlin.stdlib.jdk.variants.version.alignment=false
   <div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
 
   ```groovy
-  // 请将 `<...>` 替换为 plugin 名称
   plugins {
+      // 请将 `<...>` 替换为 plugin 名称
       id "org.jetbrains.kotlin.<...>" version "{{ site.data.releases.latest.version }}"
   }
   ```
@@ -764,7 +921,7 @@ kotlin.stdlib.jdk.variants.version.alignment=false
   </div>
   </div>
 
-* 如果你明确使用旧版本 (低于 `1.8.0`) 的 `kotlin-stdlib-jdk7`/`kotlin-stdlib-jdk8`, 例如, 
+* 如果你使用旧版本 (低于 `1.8.0`) 的 `kotlin-stdlib-jdk7`/`kotlin-stdlib-jdk8`, 例如, 
   `implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:SOME_OLD_KOTLIN_VERSION")`,
   并且某个依赖项传递依赖到 `kotlin-stdlib:1.8+`,
   [请将你的 `kotlin-stdlib-jdk<7/8>:SOME_OLD_KOTLIN_VERSION`
@@ -956,7 +1113,7 @@ test {
 
 ### 设置对 kotlinx 库的依赖项
 
-如果使用 kotlinx 库, 并且需要与平台相关的依赖项, 那么可以通过 `-jvm` 或 `-js` 之类的后缀,
+如果使用 [`kotlinx` 库](https://github.com/Kotlin/kotlinx.coroutines), 并且需要与平台相关的依赖项, 那么可以通过 `-jvm` 或 `-js` 之类的后缀,
 来指定与平台相关的库版本, 例如, `kotlinx-coroutines-core-jvm`.
 也可以使用库的基本 artifact 名(base artifact name) – `kotlinx-coroutines-core`.
 
@@ -1065,10 +1222,81 @@ dependencies {
 </div>
 </div>
 
+## 声明仓库
+
+你可以声明一个可公开访问的仓库, 使用它的 open source 依赖项.
+请在 `repositories{}` 代码段中, 设置仓库的名称:
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+repositories {
+    mavenCentral()
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+repositories {
+    mavenCentral()
+}
+```
+
+</div>
+</div>
+
+常用的仓库是 [Maven Central](https://central.sonatype.com/) 和 [Google's Maven repository](https://maven.google.com/web/index.html).
+
+> 如果你同时也在使用 Maven 项目, 我们建议不要将 `mavenLocal()` 添加为仓库,
+> 因为在 Gradle 和 Maven 项目间切换时, 你可能遇到问题.
+> 如果你一定需要添加 `mavenLocal()` 仓库, 请在你的 `repositories{}` 代码段中, 将它添加为最后一个仓库.
+> 更多详情请参见 [使用 mavenLocal() 的情况](https://docs.gradle.org/current/userguide/declaring_repositories.html#sec:case-for-maven-local).
+{:.warning}
+
+如果你需要在多个子项目中声明相同的仓库, 请在你的 `settings.gradle(.kts)` 文件中,
+在 `dependencyResolutionManagement{}` 代码段中集中声明仓库:
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+    }
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+    }
+}
+```
+
+</div>
+</div>
+
+在子项目中声明的任何仓库, 都会覆盖集中声明的仓库.
+关于如何控制这种行为, 有什么解决办法, 详情请参见 [Gradle 的文档](https://docs.gradle.org/current/userguide/declaring_repositories.html#sub:centralized-repository-declaration).
+
 ## 下一步做什么?
 
 学习:
 * [编译器选项, 以及如何传递编译器选项](gradle-compiler-options.html).
 * [增量编译, 缓存, 构建报告, 以及 Kotlin Daemon](gradle-compilation-and-caches.html).
-* [Gradle 基本概念与详细信息](https://docs.gradle.org/current/userguide/getting_started.html).
+* [Gradle 基本概念与详细信息](https://docs.gradle.org/current/userguide/userguide.html).
 * [对 Gradle plugin 变体的支持](gradle-plugin-variants.html).

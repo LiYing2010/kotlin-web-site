@@ -42,7 +42,7 @@ title: "模块文档"
 
 ## 包 org.jetbrains.kotlin.demo 的二级标题
 
-这个标题之后的内容也是 org.jetbrains.kotlin.demo 的文档的一部分
+这个标题之后的内容也是 `org.jetbrains.kotlin.demo` 的文档的一部分
 
 # Package org.jetbrains.kotlin.demo2
 
@@ -54,7 +54,7 @@ title: "模块文档"
 这个标题之后的内容也是 `org.jetbrains.kotlin.demo2` 的文档的一部分
 ```
 
-使用 Gradle 的示例项目, 可以参见 [Dokka Gradle 示例](https://github.com/Kotlin/dokka/tree/master/examples/gradle/dokka-gradle-example).
+使用 Gradle 的示例项目, 可以参见 [Dokka Gradle 示例](https://github.com/Kotlin/dokka/tree/{{ site.data.releases.dokkaVersion }}/examples/gradle/dokka-gradle-example).
 
 ## 向 Dokka 传递文件
 

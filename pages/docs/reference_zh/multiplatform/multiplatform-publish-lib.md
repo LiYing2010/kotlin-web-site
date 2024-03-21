@@ -10,7 +10,7 @@ title: "发布跨平台的库"
 
 你可以使用 [`maven-publish` Gradle plugin](https://docs.gradle.org/current/userguide/publishing_maven.html),
 将跨平台的库发布到本地的 Maven 仓库.
-只需要指定库的 group, version, 以及需要发布到的
+只需要在 `shared/build.gradle.kts` 文件中, 指定库的 group, version, 以及需要发布到的
 [仓库](https://docs.gradle.org/current/userguide/publishing_maven.html#publishing_maven:repositories).
 plugin 会自动创建发布任务.
 
@@ -31,9 +31,6 @@ publishing {
     }
 }
 ```
-
-要获取实际经验, 以及学习如何将跨平台的库发布到外部的 Maven Central 仓库,
-请参见教程 [创建并发布跨平台的库](multiplatform-library.html).
 
 > 你也可以将跨平台的库发布到 GitHub 仓库. 详情请参见 GitHub 文档 [GitHub packages](https://docs.github.com/en/packages).
 {:.tip}
@@ -57,16 +54,25 @@ Android 编译目标除外, 因为它需要 [更多步骤来配置发布任务](
 如果仓库要求, `kotlinMultiplatform` 发布还可能会需要源代码和文档的 artifact.
 这种情况下, 请在 publication 内使用 [`artifact(...)`](https://docs.gradle.org/current/javadoc/org/gradle/api/publish/maven/MavenPublication.html#artifact-java.lang.Object-) 添加这些需要的 artifact.
 
-## 避免重复发布
+## 对主机的要求
 
-为了避免重复发布那些可以在多个平台上编译的模块(比如 JVM 和 JS),
-对这些模块, 请将发布任务配置为有条件执行.
+除 Apple 平台的编译目标之外, Kotlin/Native 支持交叉编译(cross-compilation), 可以在任何主机上生成需要的 artifact.
 
-你可以在构建脚本中检测平台, 引入一个标记, 比如 `isMainHost`, 并对主编译目标平台将这个标记设置为 `true`.
-或者, 也可以从外部代码中传入这个标记, 比如, 从 CI 配置中传入.
+为了避免发布期间发生问题:
+* 如果你的项目的编译目标包含 Apple 操作系统, 请只从 Apple 主机发布.
+* 只从一个主机发布所有的 artifact, 以免在仓库中重复发布.
 
-下面是一个简化的示例, 它确保只有收到 `isMainHost=true` 时才会将发布的库上传到仓库.
-也就是说, 对于能够从多个平台发布的库, 实际上只会发布一次 – 从 main host.
+  例如, Maven Central, 明确禁止重复发布, 并会让发布过程失败. <!-- TBD: add the actual error -->
+
+### 如果你使用 Kotlin 1.7.0 或更早版本
+
+在 1.7.20 之前, Kotlin/Native 编译器不支持全部的交叉编译(cross-compilation)选项.
+如果你使用更早的版本, 你可能需要从多个主机发布跨平台项目:
+使用 Windows 主机编译 Windows 编译目标, 使用 Linux 主机编译 Linux 编译目标, 等等.
+这可能会导致那些交叉编译的模块被重复发布.
+要避免这个问题, 最直接的方法是, 升级到比较新的 Kotlin 版本, 如上文描述的那样, 从单个主机进行发布.
+
+如果无法升级, 请在 `shared/build.gradle(.kts)` 文件中为每个编译目标指定一个 main host, 并检查这个标记:
 
 <div class="multi-language-sample" data-lang="kotlin">
 <div class="sample" markdown="1" theme="idea" mode="kotlin" data-highlight-only>
@@ -77,15 +83,17 @@ kotlin {
     js()
     mingwX64()
     linuxX64()
+
     val publicationsFromMainHost =
         listOf(jvm(), js()).map { it.name } + "kotlinMultiplatform"
+
     publishing {
         publications {
             matching { it.name in publicationsFromMainHost }.all {
                 val targetPublication = this@all
                 tasks.withType<AbstractPublishToMaven>()
-                        .matching { it.publication == targetPublication }
-                        .configureEach { onlyIf { findProperty("isMainHost") == "true" } }
+                    .matching { it.publication == targetPublication }
+                    .configureEach { onlyIf { findProperty("isMainHost") == "true" } }
             }
         }
     }
@@ -104,14 +112,16 @@ kotlin {
     js()
     mingwX64()
     linuxX64()
+
     def publicationsFromMainHost =
         [jvm(), js()].collect { it.name } + "kotlinMultiplatform"
+
     publishing {
         publications {
             matching { it.name in publicationsFromMainHost }.all { targetPublication ->
                 tasks.withType(AbstractPublishToMaven)
-                        .matching { it.publication == targetPublication }
-                        .configureEach { onlyIf { findProperty("isMainHost") == "true" } }
+                    .matching { it.publication == targetPublication }
+                    .configureEach { onlyIf { findProperty("isMainHost") == "true" } }
             }
         }
     }
@@ -121,8 +131,6 @@ kotlin {
 </div>
 </div>
 
-默认情况下, 每个发布都包含一个源代码 JAR, 其中包括这个编译目标的 main 编译任务使用到的源代码.
-
 ## 发布 Android 库
 
 要发布一个 Android 库, 需要一些额外的配置.
@@ -130,7 +138,7 @@ kotlin {
 默认情况下, 没有任何 Android 库的 artifact 会发布.
 要发布一组
 [Android 编译变体(variant)](https://developer.android.com/studio/build/build-variants)
-生成的 artifact, 需要在 Android 编译目标的代码段内指定编译变体名称:
+生成的 artifact, 需要在 `shared/build.gradle.kts` 文件的 Android 编译目标代码段内指定编译变体名称  :
 
 ```kotlin
 kotlin {
@@ -142,7 +150,7 @@ kotlin {
 ```
 
 上面的示例适用于没有 [产品风格(Product Flavor)](https://developer.android.com/studio/build/build-variants#product-flavors) 的 Android 库.
-对于存在产品风格(Product Flavor)的库, 编译变体名称还需要包含产品风格名称, 比如 `fooBarDebug` 或 `fooBazRelease`.
+对于存在产品风格(Product Flavor)的库, 编译变体名称还需要包含产品风格名称, 比如 `fooBarDebug` 或 `fooBarRelease`.
 
 默认的发布设置如下:
 * 如果发布的编译变体是相同的构建类型 (比如, 都是 `release` 或 `debug`),
@@ -157,7 +165,7 @@ kotlin {
 
 也可以将各个编译变体以产品风格为单位分组发布, 使得不同的编译类型的输出文件可以放在同一个模块内,
 编译类型成为 artifact 中的一个分类符 (release 编译类型的结果发布时仍然不带分类符).
-这种发布模式默认是关闭的, 如果要启用, 请使用以下设置:
+这种发布模式默认是关闭的, 如果要启用, 请在 `shared/build.gradle.kts` 文件中使用以下设置:
 
 ```kotlin
 kotlin {
@@ -170,3 +178,45 @@ kotlin {
 > 如果不同的编译变体存在不同的依赖项, 那么不推荐以产品风格为单位分组发布编译变体,
 > 因为它们的依赖项会组合在一起, 成为一个庞大的依赖项列表.
 {:.note}
+
+## 禁用源代码的发布
+
+Kotlin Multiplatform Gradle plugin 默认会对所有指定的编译目标发布源代码.
+但是, 你可以在 `shared/build.gradle.kts` 文件中使用 `withSourcesJar()` API 配置并禁用源代码发布:
+
+* 对所有的编译目标禁用源代码发布:
+
+  ```kotlin
+  kotlin {
+      withSourcesJar(publish = false)
+
+      jvm()
+      linuxX64()
+  }
+  ```
+
+* 只对指定的编译目标禁用源代码发布:
+
+  ```kotlin
+  kotlin {
+       // 只对 JVM 禁用源代码发布:
+      jvm {
+          withSourcesJar(publish = false)
+      }
+      linuxX64()
+  }
+  ```
+
+* 对指定的编译目标之外的所有编译目标禁用源代码发布:
+
+  ```kotlin
+  kotlin {
+      // 对 JVM 之外的所有编译目标禁用源代码发布:
+      withSourcesJar(publish = false)
+
+      jvm {
+          withSourcesJar(publish = true)
+      }
+      linuxX64()
+  }
+  ```

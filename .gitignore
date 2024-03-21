@@ -39,6 +39,7 @@ google-credentials.json
 .env
 pages/api/
 external/
+assets/docs/
 assets/externals
 pages/docs/tutorials/kotlin-for-py/
 _teamcity

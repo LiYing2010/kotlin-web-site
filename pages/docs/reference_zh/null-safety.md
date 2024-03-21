@@ -248,3 +248,8 @@ val aInt: Int? = a as? Int
 val nullableList: List<Int?> = listOf(1, 2, null, 4)
 val intList: List<Int> = nullableList.filterNotNull()
 ```
+
+## 下一步做什么?
+
+* 学习 [在 Java 和 Kotlin 中如何处理可空性(nullability)](jvm/java-to-kotlin-nullability-guide.html).
+* 学习 [确定不含 null 值的泛型](generics.html#definitely-non-nullable-types).

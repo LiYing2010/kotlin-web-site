@@ -14,7 +14,7 @@ title: "平台库"
 
 ### POSIX 绑定
 
-对于所有基于 Unix 或 Windows 的平台 (包括 Android 和 iOS 编译平台) 我们提供了 `POSIX` 平台库.
+对于所有基于 Unix 或 Windows 的平台 (包括 Android 和 iOS 编译平台) 我们提供了 POSIX 平台库.
 其中包含对 [`POSIX` 标准](https://en.wikipedia.org/wiki/POSIX) 在各平台实现的绑定.
 
 要使用这个库, 只需要导入它:
@@ -29,7 +29,7 @@ import platform.posix.*
 
 唯一不能使用这个库的平台是 [WebAssembly](https://en.wikipedia.org/wiki/WebAssembly).
 
-注意, `platform.posix` 的内容在各个平台是不同的, 因为各个平台的 `POSIX` 具体实现也是略微不同的.
+注意, `platform.posix` 的内容在各个平台是不同的, 因为各个平台的 POSIX 具体实现也是略微不同的.
 
 ### 流行的原生库
 

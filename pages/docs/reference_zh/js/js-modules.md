@@ -19,12 +19,12 @@ title: "JavaScript 模块"
 - [异步模块定义 (Asynchronous Module Definition (AMD))](https://github.com/amdjs/amdjs-api/wiki/AMD),
   [RequireJS](https://requirejs.org/) 库使用的就是这个模块系统.
 - [CommonJS](http://wiki.commonjs.org/wiki/Modules/1.1),
-  广泛使用于 Node.js/npm (`require` 函数和 `module.exports` 对象)
+  广泛使用于 Node.js/npm (`require` 函数和 `module.exports` 对象).
 - Plain 方式. 不针对任何模块系统进行编译. 你仍然可以在全局命名空间内通过模块的名称来访问这个模块.
 
 ## 针对浏览器平台
 
-如果你的开发目标平台是浏览器, 并且希望使用 UMD 之外的模块系统,
+如果你期望在 Web 浏览器环境中运行你的代码, 并且希望使用 UMD 之外的模块系统,
 那么可以在 `webpackTask` 配置代码段内指定希望的模块类型:
 
 ```groovy
@@ -41,26 +41,26 @@ kotlin {
 
 ```
 
-Webpack 提供了 CommonJS 的两种不同的 "风格(flavor)": `commonjs` 和 `commonjs2`,
+Webpack 提供了 CommonJS 的两种不同的风格: `commonjs` 和 `commonjs2`,
 这个设置会影响你的声明导出的方式.
-大多数情况下, 你可能希望使用 `commonjs2`, 它会在生成的 JavaScript 库中添加 `module.exports` 语法,
-也可以选择 "纯(pure)" 的 `commonjs` 选项, 它的实现完全遵照 CommonJS 规则.
-关于 `commonjs` 和 `commonjs2` 的区别, 更多详情请参见 [这里](https://github.com/webpack/webpack/issues/1114).
+大多数情况下, 你可能希望使用 `commonjs2`, 它会在生成的 JavaScript 库中添加 `module.exports` 语法.
+或者你也可以选择 `commonjs` 选项, 它严格遵照 CommonJS 标准.
+关于 `commonjs` 和 `commonjs2` 的区别, 更多详情请参见 [Webpack 代码仓库](https://github.com/webpack/webpack/issues/1114).
 
 ## JavaScript 库文件和 Node.js 文件
 
-如果你在创建供 JavaScript 使用的库, 或者 Node.js 文件,
+如果你在创建供 JavaScript 或 Node.js 环境使用的库,
 并且希望使用不同的模块系统, 那么编译指令略有不同.
 
 ### 选择编译目标的模块系统
 
-要选择模块类型, 请在 Gradle 构建脚本中设置编译器选项 `moduleKind`.
+要选择目标模块系统, 请在 Gradle 构建脚本中设置编译器选项 `moduleKind`:
 
 <div class="multi-language-sample" data-lang="kotlin">
 <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
 
 ```kotlin
-tasks.named<KotlinJsCompile>("compileKotlinJs").configure {
+tasks.withType<org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrLink> {
     compilerOptions.moduleKind.set(org.jetbrains.kotlin.gradle.dsl.JsModuleKind.MODULE_COMMONJS)
 }
 ```
@@ -91,8 +91,8 @@ compileKotlinJs.compilerOptions.moduleKind = org.jetbrains.kotlin.gradle.dsl.JsM
 ```kotlin
 kotlin {
     js {
-         useCommonJs()
-         // . . .
+        useCommonJs()
+        // ...
     }
 }
 ```
@@ -103,7 +103,7 @@ kotlin {
 假设你有以下 CommonJS 模块, 名为 "hello":
 
 ```javascript
-module.exports.sayHello = function(name) { alert("Hello, " + name); }
+module.exports.sayHello = function (name) { alert("Hello, " + name); }
 ```
 
 在 Kotlin 中你应该这样声明:
@@ -122,6 +122,7 @@ external fun sayHello(name: String)
 
 ```kotlin
 @file:JsModule("extModule")
+
 package ext.jspackage.name
 
 external fun foo()
@@ -133,8 +134,8 @@ external class C
 
 ```javascript
 module.exports = {
-    foo:  { /* 某些实现代码 */ },
-    C:  { /* 某些实现代码 */ }
+    foo: { /* 某些实现代码 */ },
+    C: { /* 某些实现代码 */ }
 }
 ```
 
@@ -143,6 +144,7 @@ module.exports = {
 
 ```kotlin
 @file:JsModule("extModule")
+
 package ext.jspackage.name
 
 external fun foo()
@@ -162,11 +164,11 @@ Kotlin 也支持这样的情况, 但是你必须为导入的每一个包声明�
 module.exports = {
     mylib: {
         pkg1: {
-            foo: function() { /* 某些实现代码 */ },
-            bar: function() { /* 某些实现代码 */ }
+            foo: function () { /* 某些实现代码 */ },
+            bar: function () { /* 某些实现代码 */ }
         },
         pkg2: {
-            baz: function() { /* 某些实现代码 */ }
+            baz: function () { /* 某些实现代码 */ }
         }
     }
 }
@@ -177,6 +179,7 @@ module.exports = {
 ```kotlin
 @file:JsModule("extModule")
 @file:JsQualifier("mylib.pkg1")
+
 package extlib.pkg1
 
 external fun foo()
@@ -189,6 +192,7 @@ external fun bar()
 ```kotlin
 @file:JsModule("extModule")
 @file:JsQualifier("mylib.pkg2")
+
 package extlib.pkg2
 
 external fun baz()
@@ -204,7 +208,8 @@ external fun baz()
 比如, 对于下面的 JavaScript 代码:
 
 ```javascript
-function topLevelSayHello(name) { alert("Hello, " + name); }
+function topLevelSayHello (name) { alert("Hello, " + name); }
+
 if (module && module.exports) {
     module.exports = topLevelSayHello;
 }
@@ -224,4 +229,4 @@ external fun sayHello(name: String)
 Kotlin 将 Kotlin/JS 标准库作为一个单个的文件发布, 这个库本身编译为一个 UMD 模块,
 因此你可以在上面讲到的任何一种模块系统中使用这个库.
 对于 Kotlin/JS 的大多数使用场景, 推荐通过 Gradle 依赖项 `kotlin-stdlib-js` 来使用它,
-另外, 在 NPM 中也可以通过 [`kotlin`](https://www.npmjs.com/package/kotlin) 包来使用.
+在 NPM 中也可以通过 [`kotlin`](https://www.npmjs.com/package/kotlin) 包来使用.

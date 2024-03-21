@@ -9,7 +9,7 @@ title: "JavaScript 死代码剔除工具"
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
-Kotlin/JS Gradle 插件包含一个 _[死代码剔除(Dead Code Elimination)](https://wikipedia.org/wiki/Dead_code_elimination)_ (_DCE_) 工具.
+Kotlin Multiplatform Gradle 插件包含一个 _[死代码剔除(Dead Code Elimination)](https://wikipedia.org/wiki/Dead_code_elimination)_ (_DCE_) 工具.
 死代码剔除通常又被称为 _摇树(Tree Shaking)_.
 它可以删除未被使用的属性, 函数, 以及类, 减少最终编译输出结果的 JavaScript 代码大小.
 
@@ -21,7 +21,7 @@ Kotlin/JS Gradle 插件包含一个 _[死代码剔除(Dead Code Elimination)](ht
   所有这些功能输出为 JavaScript 文件总计需要 1.3 MB.
   而一个简单的 "Hello, world" 应用程序只需要控制台相关函数, 整个文件只有几 KB.
 
-构建 **产品版(production) bundle** 时, Kotlin/JS Gradle 插件会自动处理 DCE,
+构建 **产品版(production) bundle** 时, Kotlin Multiplatform Gradle 插件会自动处理 DCE,
 比如, 使用 `browserProductionWebpack` 任务.
 **开发版(development) bundle** 的构建任务(比如 `browserDevelopmentWebpack`) 不会包含 DCE.
 

@@ -18,88 +18,57 @@ title: "教程 - 使用 C Interop 和 libcurl 创建应用程序"
 > 但这种方法不适合于包含几百个文件和库的大项目.
 > 这种情况下, 更好的方法是使用带有构建系统的 Kotlin/Native 编译器,
 > 因为它会帮助你下载并缓存 Kotlin/Native 编译器二进制文件, 传递依赖的库, 并运行编译器和测试.
-> Kotlin/Native 能够通过 [kotlin-multiplatform](../multiplatform/multiplatform-discover-project.html#multiplatform-plugin) plugin
+> Kotlin/Native 能够通过 [kotlin-multiplatform](../gradle/gradle-configure-project.html#targeting-multiple-platforms) plugin
 > 使用 [Gradle](../gradle.html) 构建系统.
 
-开始之前, 请安装 [IntelliJ IDEA](https://www.jetbrains.com/idea/download/index.html) 的最新版本.
-本教程适用于 IntelliJ IDEA Community 版 和 IntelliJ IDEA Ultimate 版.
+## 开始前的准备工作
 
-## 创建一个 Kotlin/Native 项目
+1. 下载并安装最新版本的 [IntelliJ IDEA](https://www.jetbrains.com/idea/) 和 [Kotlin plugin](../releases.html).
+2. 在 IntelliJ IDEA 中选择菜单 **File** | **New** | **Project from Version Control**,
+   克隆 [项目模板](https://github.com/Kotlin/kmp-native-wizard).
 
-1. 在 IntelliJ IDEA 中, 选择 **File \| New \| Project**.
-2. 在左侧面板中, 选择 **Kotlin Multiplatform \| Native Application**.
-3. 指定名称, 并选择文件夹保存你的应用程序.
-   <img src="/assets/docs/images//tutorials/native/cinterop/native-file-new.png" alt="新项目. IntelliJ IDEA 中的Native 应用程序" width="700"/>
-4. 点击 **Next**, 然后点击 **Finish**.
+3. 查看项目结构:
 
-IntelliJ IDEA 将会创建一个新项目, 包含你开始开发需要的文件和文件夹.
-注意, 使用 Kotlin/Native 编写的一个应用程序, 如果代码不包含平台相关的需求, 那么可以编译到不同的平台.
-你的代码放在一个名为 `NativeMain` 的文件夹中, 以及对应的 `NativeTest`.
-在教程中, 请保持文件夹结构不变.
+   <img src="/assets/docs/images//tutorials/native/cinterop/native-project-structure.png" alt="Native 应用程序项目结构" width="700"/>
 
-<img src="/assets/docs/images//tutorials/native/cinterop/native-project-structure.png" alt="Native 应用程序项目结构" width="700"/>
+   模板创建的项目带有你开始工作时所需要的文件和文件夹. 请注意, 如果代码中不包含与特定平台相关的需求,
+   那么使用 Kotlin/Native 编写的应用程序可以编译到不同的平台.
+   你的代码放在 `nativeMain` 目录中, 此外还有对应的 `nativeTest` 目录.
+   在这个教程中, 请不要修改这些文件夹结构.
 
-和你的新的项目一起, 还生成了一个 `build.gradle(.kts)` 文件. 请特别注意构建文件中的以下内容:
+4. 打开构建脚本文件 `build.gradle.kts`, 其中包含项目的设定.
+   请特别注意构建脚本文件中的以下内容:
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
-
-```kotlin
-kotlin {
-    val hostOs = System.getProperty("os.name")
-    val isMingwX64 = hostOs.startsWith("Windows")
-    val nativeTarget = when {
-        hostOs == "Mac OS X" -> macosX64("native")
-        hostOs == "Linux" -> linuxX64("native")
-        isMingwX64 -> mingwX64("native")
-        else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
-    }
-
-    nativeTarget.apply {
-        binaries {
-            executable {
-                entryPoint = "main"
+    ```kotlin
+    kotlin {
+        val hostOs = System.getProperty("os.name")
+        val isArm64 = System.getProperty("os.arch") == "aarch64"
+        val isMingwX64 = hostOs.startsWith("Windows")
+        val nativeTarget = when {
+            hostOs == "Mac OS X" && isArm64 -> macosArm64("native")
+            hostOs == "Mac OS X" && !isArm64 -> macosX64("native")
+            hostOs == "Linux" && isArm64 -> linuxArm64("native")
+            hostOs == "Linux" && !isArm64 -> linuxX64("native")
+            isMingwX64 -> mingwX64("native")
+            else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
+        }
+    
+        nativeTarget.apply {
+            binaries {
+                executable {
+                    entryPoint = "main"
+                }
             }
         }
     }
-}
-```
+    ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
-
-```groovy
-kotlin {
-    def hostOs = System.getProperty("os.name")
-    def isMingwX64 = hostOs.startsWith("Windows")
-    def nativeTarget
-        if (hostOs == "Mac OS X") nativeTarget = macosX64('native')
-        else if (hostOs == "Linux") nativeTarget = linuxX64("native")
-        else if (isMingwX64) nativeTarget = mingwX64("native")
-        else throw new FileNotFoundException("Host OS is not supported in Kotlin/Native.")
-
-    nativeTarget.with {
-        binaries {
-            executable {
-                entryPoint = 'main'
-            }
-        }
-    }
-}
-```
-
-</div>
-</div>
-
-* 针对 macOS, Linux, 和 Windows 的编译目标分别通过 `macOSX64`, `linuxX64`, 和 `mingwX64` 定义.
-  关于所有支持的平台, 请参见 [Kotlin 原生(Native)程序开发](native-overview.html#target-platforms).
-* 构建脚本定义一系列属性, 指定二进制文件如何生成, 以及应用程序的入口点. 这些可以使用默认值.
-* 与 C 的交互使用构建中的一个额外步骤来配置. 默认情况下, 来自 C 的所有符号会被导入到 `interop` 包.
-  你可能想要在 `.kt` 文件中导入整个包.
-  详情请参见 [如何配置](../multiplatform/multiplatform-discover-project.html#multiplatform-plugin).
+   * 针对 macOS, Linux, 和 Windows 的编译目标分别通过 `macosX64`, `macosArm64`, `linuxX64`, `linuxArm64`, 和 `mingwX64` 定义.
+     关于所有支持的平台, 请参见 [支持的平台](native-target-support.html).
+   * 构建脚本定义一系列属性, 指定二进制文件如何生成, 以及应用程序的入口点. 这些可以使用默认值.
+   * 与 C 的交互使用构建中的一个额外步骤来配置. 默认情况下, 来自 C 的所有符号会被导入到 `interop` 包.
+     你可能想要在 `.kt` 文件中导入整个包.
+     详情请参见 [如何配置](../gradle/gradle-configure-project.html#targeting-multiple-platforms).
 
 ## 创建一个定义文件
 
@@ -118,7 +87,7 @@ Kotlin/Native 带有一组预构建的 [平台库](native-platform-libs.html), �
 
 1. 选择 `src` 文件夹, 使用 **File \| New \| Directory** 创建一个新目录.
 2. 将新目录命名为 **nativeInterop/cinterop**. 这是头文件位置的默认约定, 
-   如果你使用不同的位置, 也可以在 `build.gradle` 文件中修改这个设置.
+   如果你使用不同的位置, 也可以在 `build.gradle.kts` 文件中修改这个设置.
 3. 选择新建的子文件夹, 使用 **File \| New \| File** 创建一个新的 `libcurl.def` 文件.
 4. 将你的文件内容更新为以下代码:
 
@@ -155,10 +124,7 @@ Kotlin/Native 带有一组预构建的 [平台库](native-platform-libs.html), �
 
 ## 向构建过程添加与 C 的交互 
 
-要使用头文件, 需要确保在构建过程中生成了它们. 要做到这一点, 请向 `build.gradle(.kts)` 文件添加以下内容:
-
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+要使用头文件, 需要确保在构建过程中生成了它们. 要做到这一点, 请向 `build.gradle.kts` 文件添加以下内容:
 
 ```kotlin
 nativeTarget.apply {
@@ -175,35 +141,8 @@ nativeTarget.apply {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
-
-```groovy
-nativeTarget.with {
-    compilations.main { // NL
-        cinterops {     // NL
-            libcurl     // NL
-        }               // NL
-    }                   // NL
-    binaries {
-        executable {
-            entryPoint = 'main'
-        }
-    }
-}
-```
-
-</div>
-</div>
-
 新加的行标注了 `// NL`. 首先, 添加 `cinterops`, 然后为每个 `def` 文件添加对应行.
 默认情况下, 使用定义文件的名称. 你可以使用额外的参数来修改设定:
-
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
 
 ```kotlin
 val libcurl by creating {
@@ -212,25 +151,7 @@ val libcurl by creating {
     compilerOpts("-I/path")
     includeDirs.allHeaders("path")
 }
-```  
-
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
-
-```groovy
-libcurl {
-    defFile project.file("src/nativeInterop/cinterop/libcurl.def")
-    packageName 'com.jetbrains.handson.http'
-    compilerOpts '-I/path'
-    includeDirs.allHeaders("path")
-}
 ```
-
-</div>
-</div>
 
 关于可用的选项, 请参见 [与 C 代码交互](native-c-interop.html).
 
@@ -245,6 +166,7 @@ libcurl {
 import kotlinx.cinterop.*
 import libcurl.*
 
+@OptIn(ExperimentalForeignApi::class)
 fun main(args: Array<String>) {
     val curl = curl_easy_init()
     if (curl != null) {
@@ -266,7 +188,7 @@ fun main(args: Array<String>) {
 
 ## 编译并运行应用程序
 
-1. 编译应用程序. 方法是在终端运行以下命令:
+1. 编译应用程序. 方法是, Gradle 运行的 task 中调用 `runDebugExecutableNative`, 或者在终端运行以下命令:
 
     ```bash
     ./gradlew runDebugExecutableNative

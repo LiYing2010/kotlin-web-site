@@ -8,7 +8,7 @@ title: "连接平台相关的 API"
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
-> `expect`/`actual` 功能处于 [Beta](../components-stability.html) 阶段.
+> `expect`/`actual` 功能处于 [Beta](../../components-stability.html) 阶段.
 > 这个功能已经基本稳定, 但将来可能需要进行一些手动的源代码迁移工作.
 > 我们会尽力减少你需要进行的代码变更.
 {:.warning}
@@ -21,7 +21,7 @@ title: "连接平台相关的 API"
 各个平台的源代码集需要提供与预期声明对应的 _实际声明(Actual Declaration)_.
 这种机制适用于大多数 Kotlin 声明, 比如函数, 类, 接口, 枚举, 属性, 以及注解.
 
-<img src="/assets/docs/images/multiplatform/expect-actual.png" alt="共用模块与平台相关模块中的预期声明与实际声明" width="700"/>
+<img src="/assets/docs/images/multiplatform/old/expect-actual.png" alt="共用模块与平台相关模块中的预期声明与实际声明" width="700"/>
 
 编译器会保证, 共通模块中每个标记 `expect` 关键字的声明, 在所有的平台模块中都存在对应的标记 `actual` 关键字的声明.
 IDE 提供了工具帮助你创建缺少的实际声明.
@@ -29,22 +29,22 @@ IDE 提供了工具帮助你创建缺少的实际声明.
 > 请只对存在平台相关依赖项的 Kotlin 声明使用预期声明和实际声明.
 > 应该在共用模块中实现尽量多的功能, 虽然这样会耗费更多时间.
 >
-> 请不要滥用预期声明和实际声明 – 有些情况下, 使用 [接口](../interfaces.html) 可能是更好的选择,
+> 请不要滥用预期声明和实际声明 – 有些情况下, 使用 [接口](../../interfaces.html) 可能是更好的选择,
 > 因为它更加灵活, 而且更易于测试.
 {:.note}
 
-详情请参见 [添加平台相关库的依赖项](multiplatform-add-dependencies.html).
+详情请参见 [添加平台相关库的依赖项](../multiplatform-add-dependencies.html).
 
 ## 示例
 
 为了简单起见, 以下示例使用简化的编译目标名称, 比如 iOS 和 Android.
-但是, 在你的 Gradle 构建文件中, 你需要使用 [支持的编译目标](multiplatform-dsl-reference.html#targets) 中的一个确切的编译目标名称.
+但是, 在你的 Gradle 构建文件中, 你需要使用 [支持的编译目标](../multiplatform-dsl-reference.html#targets) 中的一个确切的编译目标名称.
 
 #### 生成 UUID
 
 假设你正在使用 Kotlin Multiplatform Mobile 开发 iOS 和 Android 应用程序, 你想要生成 Universally Unique Identifier (UUID):
 
-<img src="/assets/docs/images/multiplatform-mobile/expect-actual-example.png" alt="用于得到 UUID 的预期声明与实际声明" width="700"/>
+<img src="/assets/docs/images/multiplatform/old/expect-actual-example.png" alt="用于得到 UUID 的预期声明与实际声明" width="700"/>
 
 为了达到这个目的, 请在共通模块中使用 `expect` 关键字声明预期函数 `randomUUID()`.
 这里不要包括任何实现代码.

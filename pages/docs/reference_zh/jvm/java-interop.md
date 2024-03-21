@@ -33,8 +33,8 @@ fun demo(source: List<Int>) {
 
 ## Get 和 Set 方法
 
-符合 Java 的 Get 和 Set 方法规约的方法
-(无参数, 名称以 `get` 开头, 或单个参数, 名称以 `set` 开头) 在 Kotlin 中会被识别为属性.
+符合 Java 的 Get 和 Set 方法规约的方法(无参数, 名称以 `get` 开头, 或单个参数, 名称以 `set` 开头) 在 Kotlin 中会被识别为属性.
+这些属性也被称为 _合成属性(Synthetic Property)_.
 `Boolean` 类型的属性访问方法(Get 方法名称以 `is` 开头, Set 方法名称以 `set` 开头),
 会被识别为属性, 其名称与 Get 方法相同.
 
@@ -52,8 +52,93 @@ fun calendarDemo() {
 }
 ```
 
+上面的 `calendar.firstDayOfWeek` 就是合成属性的一个例子.
+
 注意, 如果 Java 类中只有 set 方法, 那么在 Kotlin 中不会被识别为属性,
 因为 Kotlin 不支持只写(set-only) 的属性.
+
+## Java 合成属性(Synthetic Property)的引用
+
+> 这个功能是 [实验性功能](../components-stability.html#stability-levels-explained).
+> 它随时有可能变更或被删除.
+> 我们建议你只为评估和试验目的来使用这个功能..
+{:.warning}
+
+从 Kotlin 1.8.20 开始, 你可以创建 Java 合成属性的引用. 考虑下面的 Java 代码:
+
+```java
+public class Person {
+    private String name;
+    private int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+}
+```
+
+Kotlin 允许你使用 `person.age`, 其中 `age` 是一个合成属性. 现在, 你也可以创建 `Person::age` 和 `person::age` 的引用.
+对 `name` 属性也是如此.
+
+```kotlin
+val persons = listOf(Person("Jack", 11), Person("Sofie", 12), Person("Peter", 11))
+    Persons
+         // 调用 Java 合成属性的引用:
+        .sortedBy(Person::age)
+         // 通过 Kotlin 属性语法调用 Java 的 get 方法:
+        .forEach { person -> println(person.name) }
+}
+```
+
+### 如何启动用 Java 合成属性的引用
+
+要启用这个功能, 请设置 `-language-version 2.1` 编译器选项.
+在 Gradle 项目中, 你可以在你的 `build.gradle(.kts)` 文件中添加以下设置:
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+tasks
+    .withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<*>>()
+    .configureEach {
+        compilerOptions
+            .languageVersion
+            .set(
+                org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_1
+            )
+    }
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+tasks
+    .withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask.class)
+    .configureEach {
+        compilerOptions.languageVersion
+            = org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_1
+}
+```
+
+</div>
+</div>
+
+> 在 Kotlin 1.9.0 以前的版本中, 要启用这个功能, 你必须设置 `-language-version 1.9` 编译器选项.
+{:.note}
 
 ## 返回值为 void 的方法
 

@@ -12,7 +12,7 @@ title: 编码规约
 对任何编程语言来说, 都需要一种广为人知, 并且易于遵守的编码规约.
 这里我们对使用 Kotlin 的项目, 给出一些编码规约和代码组织的指导原则.
 
-### 在 IDE 中配置代码规则
+## 在 IDE 中配置代码规则
 
 最流行的2个 Kotlin IDE - [IntelliJ IDEA](https://www.jetbrains.com/idea/) 和 [Android Studio](https://developer.android.com/studio/)
 对代码规则提供了强大的支持.
@@ -47,10 +47,52 @@ title: 编码规约
 如果 Kotlin 源代码文件只包含单个类或接口 (以及相关的顶级声明), 那么源代码文件的名称应该与类名相同, 再加上 `.kt` 扩展名.
 这个规则适用于所有类型的类和接口.
 如果源代码文件包含多个类, 或者只包含顶级声明, 请选择一个能够描述文件所包含内容的名称, 用这个名称作为源代码文件名.
-文件名如果包含多个单词, 请使用[驼峰式大小写](https://en.wikipedia.org/wiki/Camel_case),
+文件名如果包含多个单词, 请使用 [驼峰式大小写](https://en.wikipedia.org/wiki/Camel_case),
 将首字母大写(又叫做 Pascal 风格大小写), 比如, `ProcessDeclarations.kt`.
 
 文件的名称应该描述其中包含的代码的功能. 因此, 应该避免在文件名中使用无意义的单词, 比如 `Util`.
+
+#### 跨平台项目
+
+在跨平台项目中, 在平台相关源代码集中, 带有顶级(top-level)声明的文件应该带有后缀, 后缀关联到源代码集名称.
+例如:
+
+* **jvm**Main/kotlin/Platform.**jvm**.kt
+* **android**Main/kotlin/Platform.**android**.kt
+* **ios**Main/kotlin/Platform.**ios**.kt
+
+对于 common 源代码集, 带有顶级声明的文件不应该带有后缀.
+例如, `commonMain/kotlin/Platform.kt`.
+
+##### 技术细节
+
+我们推荐在跨平台项目中遵循这样的文件命名风格, 是因为 JVM 的限制: 它不允许存在顶层成员 (函数, 属性).
+
+为了解决这个问题, Kotlin JVM 编译器会创建封装类(wrapper class), (也就是所谓的 "File Facade"),
+通过这些封装类来包含顶层成员的声明. File Facade 拥有一个根据文件名称得到的内部名称.
+
+而且, JVM 不允许多个类使用相同的完全限定名 (FQN).
+这可能会导致 Kotlin 项目在 JVM 上无法编译:
+
+```none
+root
+|- commonMain/kotlin/myPackage/Platform.kt // 包含 'fun count() { }'
+|- jvmMain/kotlin/myPackage/Platform.kt // 包含 'fun multiply() { }'
+```
+
+这时, 两个 `Platform.kt` 文件属于相同的包, 因此 Kotlin JVM 编译器生成两个 File Facade, 它们的 FQN 都是 `myPackage.PlatformKt`.
+因此发生 "Duplicate JVM classes" 错误.
+
+避免这个错误的最简单的方法是, 遵照上面所说的规约, 将某个文件改名.
+这样的命名规约可以帮助避免名称冲突, 同时保持代码的可读性.
+
+> 在两种情况下, 上面的命名规约可以省略, 但我们仍然建议遵循这种命名规约:
+>
+> * 非 JVM 平台 对重复的 File Facade 不会发生错误. 但是, 这种命名规约可以帮助你保持文件名称的一致性.
+> * 在 JVM 平台上, 如果源代码文件不包含顶层声明, 就不会生成File Facade, 因此你不会遇到名称冲突的问题.
+> 
+>   但是, 只要一次简单的代码重构, 或代码添加一个顶层函数, 就可以造成 "Duplicate JVM classes" 错误, 这种命名规约可以帮助你避免这样的情况.
+{:.tip}
 
 ### 源代码文件的组织
 
@@ -124,7 +166,7 @@ fun Foo(): Foo { return FooImpl() }
 ### 测试方法名称
 
 在测试代码中 (而且**只有**在测试代码中), 可以使用由反引号括起的, 带空格的方法名.
-注意, 这样的方法名目前在 Android 运行环境下不支持.
+注意, 对于 Android 运行环境, 这样的方法名只在 API level 30 才开始支持.
 测试代码中的方法名, 也允许使用下划线.
 
 ```kotlin
@@ -965,11 +1007,11 @@ when (x) {
 
 ### 在数值范围上循环
 
-如果数值范围是一个开区间(不包含其末尾元素), 那么应该使用 `until` 函数进行循环:
+对于终端开放(open-ended)的值范围(不包含其末尾元素), 那么应该使用 `..<` 操作符进行循环:
 
 ```kotlin
 for (i in 0..n - 1) { /*...*/ }  // 不好的风格
-for (i in 0 until n) { /*...*/ }  // 比较好的风格
+for (i in 0..<n) { /*...*/ }  // 比较好的风格
 ```
 
 ### 字符串
@@ -986,27 +1028,27 @@ for (i in 0 until n) { /*...*/ }  // 比较好的风格
 ```kotlin
 fun main() {
 //sampleStart
-   println("""
-    Not
-    trimmed
-    text
-    """
-   )
+    println("""
+        Not
+        trimmed
+        text
+        """
+    )
 
-   println("""
-    Trimmed
-    text
-    """.trimIndent()
-   )
+    println("""
+        Trimmed
+        text
+        """.trimIndent()
+    )
 
-   println()
+    println()
 
-   val a = """Trimmed to margin text:
-          |if(a > 1) {
-          |    return a
-          |}""".trimMargin()
+    val a = """Trimmed to margin text:
+            |if(a > 1) {
+            |    return a
+            |}""".trimMargin()
 
-   println(a)
+    println(a)
 //sampleEnd
 }
 ```
@@ -1093,3 +1135,5 @@ Kotlin 提供了一组函数, 用来在某个指定的对象上下文中执行�
  * 始终明确指定函数的返回类型, 以及属性类型 (以免修改实现代码时, 不小心改变了返回类型)
  * 对所有的 public 成员编写 [KDoc](kotlin-doc.html) 文档注释 (这是为了对库生成文档),
    例外情况是, 方法或属性的覆盖不需要提供新的注释
+
+关于为你的库编写 API 时的最佳实践, 以及需要考虑的问题, 请参见 [库开发者指南](api-guidelines/jvm-api-guidelines-introduction.html).

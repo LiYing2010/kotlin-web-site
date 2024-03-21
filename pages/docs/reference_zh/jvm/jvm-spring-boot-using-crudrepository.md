@@ -85,6 +85,8 @@ _CrudRepository_ 是一个 Spring Data 接口, 可以指定类型的仓库进行
 3. 更新 `MessageService` 类. 它现在调用 `MessageRepository`, 而不是执行 SQL 查询:
 
     ```kotlin
+    import java.util.*
+
     @Service
     class MessageService(val db: MessageRepository) {
         fun findMessages(): List<Message> = db.findAll().toList()
@@ -106,7 +108,7 @@ _CrudRepository_ 是一个 Spring Data 接口, 可以指定类型的仓库进行
    要做到这一点, 如果 `Optional` 中有值, 你需要解包这个值, 并返回一个包含这个值的 List.
    这部分功能可以实现为 `Optional` 类型的一个 [扩展函数](../extensions.html#extension-functions).
 
-   在上面的代码中, `Optional<out T>.toList()`, `toList()` 是 `Optional` 的扩展函数.
+   在上面的代码中, `Optional<out T>.toList()`, `.toList()` 是 `Optional` 的扩展函数.
    使用扩展函数, 你可以向任何类添加额外的函数, 当你想要扩展某些库中的类的功能时, 这样会非常有用.
 
    ### CrudRepository save() 函数
@@ -120,25 +122,96 @@ _CrudRepository_ 是一个 Spring Data 接口, 可以指定类型的仓库进行
 4. 更新 messages 表定义, 对 insert 的对象生成 id. 由于 `id` 是一个字符串, 你可以使用 `RANDOM_UUID()` 函数来生成默认的 id 值:
 
     ```sql
-    CREATE TABLE messages (
-       id                     VARCHAR(60)  DEFAULT RANDOM_UUID() PRIMARY KEY,
-       text                   VARCHAR      NOT NULL
-       );
+    CREATE TABLE IF NOT EXISTS messages (
+        id      VARCHAR(60)  DEFAULT RANDOM_UUID() PRIMARY KEY,
+        text    VARCHAR      NOT NULL
+    );
     ```
+
+5. 更新 `src/main/resources` 文件夹中的 `application.properties` 文件内的数据库名称:
+
+   ```none
+   spring.datasource.driver-class-name=org.h2.Driver
+   spring.datasource.url=jdbc:h2:file:./data/testdb2
+   spring.datasource.username=name
+   spring.datasource.password=password
+   spring.sql.init.schema-locations=classpath:schema.sql
+   spring.sql.init.mode=always
+   ```
+
+下面是 `DemoApplication.kt` 的完整代码:
+
+```kotlin
+package com.example.demo
+
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
+import org.springframework.data.annotation.Id
+import org.springframework.data.relational.core.mapping.Table
+import org.springframework.data.repository.CrudRepository
+import org.springframework.stereotype.Service
+import org.springframework.web.bind.annotation.*
+import java.util.*
+
+
+@SpringBootApplication
+class DemoApplication
+
+fun main(args: Array<String>) {
+    runApplication<DemoApplication>(*args)
+}
+
+@RestController
+class MessageController(val service: MessageService) {
+    @GetMapping("/")
+    fun index(): List<Message> = service.findMessages()
+
+    @GetMapping("/{id}")
+    fun index(@PathVariable id: String): List<Message> =
+        service.findMessageById(id)
+
+    @PostMapping("/")
+    fun post(@RequestBody message: Message) {
+        service.save(message)
+    }
+}
+
+interface MessageRepository : CrudRepository<Message, String>
+
+@Table("MESSAGES")
+data class Message(@Id var id: String?, val text: String)
+
+@Service
+class MessageService(val db: MessageRepository) {
+    fun findMessages(): List<Message> = db.findAll().toList()
+
+    fun findMessageById(id: String): List<Message> = db.findById(id).toList()
+
+    fun save(message: Message) {
+        db.save(message)
+    }
+
+    fun <T : Any> Optional<out T>.toList(): List<T> =
+        if (isPresent) listOf(get()) else emptyList()
+}
+```
 
 ## 运行应用程序
 
 应用程序可以在此运行了.
 通过将 `JdbcTemplate` 替换为 `CrudRepository`, 功能并没有变更, 因此应用程序应该和以前相同的方式运行.
 
-## 下一步
+## 下一步做什么
 
-得到你个人的语言导航地图, 它可以帮助你浏览 Kotlin 的功能特性, 并追踪你学习语言的进度.
-我们还会向你发送语言小提示, 以及与 Spring 一起使用 Kotlin 的有用资料.
+得到你个人的语言导航地图, 它可以帮助你浏览 Kotlin 的功能特性, 并追踪你学习语言的进度:
 
-<a href="https://info.jetbrains.com/kotlin-tips.html">
+<a href="https://resources.jetbrains.com/storage/products/kotlin/docs/Kotlin_Language_Features_Map.pdf">
    <img src="/assets/docs/images/spring-boot/get-kotlin-language-map.png" alt="得到 Kotlin 语言导航地图" width="700"/>
 </a>
 
-> 在这个页面中, 需要提供你的 EMail 地址, 然后才能收到这些资料.
-{:.note}
+* 学习如何 [在 Kotlin 中调用 Java 代码](java-interop.html) 和 [在 Java 中调用 Kotlin 代码](java-to-kotlin-interop.html).
+* 学习如何使用 [Java 到 Kotlin 转换器](mixing-java-kotlin-intellij.html#converting-an-existing-java-file-to-kotlin-with-j2k) 将既有的 Java 代码转换为 Kotlin.
+* 阅读我们的 Java 代码向 Kotlin 迁移指南:
+   * [Java 和 Kotlin 中的字符串](java-to-kotlin-idioms-strings.html).
+   * [Java 和 Kotlin 中的集合(Collection)](java-to-kotlin-collections-guide.html).
+   * [Java 和 Kotlin 中的可空性(Nullability)](java-to-kotlin-nullability-guide.html).

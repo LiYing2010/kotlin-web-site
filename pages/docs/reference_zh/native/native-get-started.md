@@ -14,25 +14,12 @@ title: "Kotlin/Native 开发入门 - 使用 IntelliJ IDEA"
 开始之前, 首先请安装 [IntelliJ IDEA](https://www.jetbrains.com/idea/download/index.html) 的最新版.
 本教程适用于 IntelliJ IDEA Community 版和 Ultimate 版.
 
-## 在 IntelliJ IDEA 中创建一个新的 Kotlin/Native 项目
+## 开始前的准备工作
 
-1. 在 IntelliJ IDEA 中, 选择 **File** \| **New** \| **Project**.
-2. 在左侧面板中, 选择 **Kotlin Multiplatform**.
-3. 输入项目名称, 选择 **Native Application** 作为项目模板, 并点击 **Next**.
-
-   <img src="/assets/docs/images/get-started/native-new-project-intellij-1.png" alt="创建 native 应用程序" width="700"/>
-
-   你的项目默认会使用 Gradle 和 Kotlin DSL 作为构建系统.
-   > Kotlin/Native 不支持 Maven 和 IntelliJ IDEA native 构建器.
-   {:.note}
-
-4. 接受下一个画面中的默认配置, 并点击 **Finish**. 你的项目会打开.
-
-   <img src="/assets/docs/images/get-started/native-new-project-intellij-2.png" alt="配置 native 应用程序" width="700"/>
-
-   默认情况下, 向导会创建必要的 `Main.kt` 文件， 其中的代码是向标准输出打印 "Hello, Kotlin/Native!".
- 
-5. 打开 `build.gradle.kts` 文件, 这是构建脚本, 其中包含项目设置.
+1. 下载并安装最新版本的 [IntelliJ IDEA](https://www.jetbrains.com/idea/) 和 [Kotlin plugin](../releases.html).
+2. 在 IntelliJ IDEA 中选择菜单 **File** | **New** | **Project from Version Control**,
+   克隆 [项目模板](https://github.com/Kotlin/kmp-native-wizard).
+3. 打开 `build.gradle.kts` 文件, 这是构建脚本, 其中包含项目设置.
    要创建 Kotlin/Native 应用程序, 你需要安装 Kotlin Multiplatform Gradle plugin.
    请确认使用了 plugin 的最新版本:
 
@@ -48,17 +35,13 @@ title: "Kotlin/Native 开发入门 - 使用 IntelliJ IDEA"
 
 ## 构建并运行应用程序
 
-1. 点击屏幕顶部运行配置旁边的 **Build Project**:
+点击屏幕顶部运行配置旁边的 **Run**, 启动应用程序:
 
-   <img src="/assets/docs/images/get-started/native-run-app.png" alt="构建应用程序" width="600"/>
+<img src="/assets/docs/images/get-started/native-run-app.png" alt="运行应用程序" width="500"/>
 
-2. 在 IntelliJ IDEA 的 terminal 窗口, 或你的命令行工具中, 运行以下命令:
+IntelliJ IDEA 会打开 **Run** tab, 并显示输出:
 
-   ```bash
-   build/bin/native/debugExecutable/<your_app_name>.kexe
-   ```
-
-   IntelliJ IDEA 会输出 "Hello, Kotlin/Native!".
+<img src="/assets/docs/images/get-started/native-output-1.png" alt="应用程序的输出" width="700"/>
 
 你可以 [配置 IntelliJ IDEA](https://www.jetbrains.com/help/idea/compiling-applications.html#auto-build),
 让它自动构建你的项目:
@@ -92,7 +75,23 @@ IntelliJ IDEA 会自动对项目执行增量构建(Incremental Build).
    }
    ```
 
-3. 删除空白字符, 计算字母数量:
+3. 在 `build.gradle.kts` 文件中, 指定 `System.in` 作为运行项目时的输入:
+   ```kotlin
+   kotlin {
+       // ...
+       nativeTarget.apply {
+           binaries {
+               executable {
+                   entryPoint = "main"
+                   runTask?.standardInput = System.`in`
+               }
+           }
+       }
+       // ...
+   }
+   ```
+
+4. 删除空白字符, 计算字母数量:
    * 使用
      [`replace()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/replace.html) 函数
      删除名字中的空白字符 .
@@ -115,20 +114,14 @@ IntelliJ IDEA 会自动对项目执行增量构建(Incremental Build).
    }
    ```
 
-4. 保存变更, 在 IntelliJ IDEA 的 terminal 窗口, 或你的命令行工具中, 运行以下命令:
+5. 保存变更, 运行应用程序.
+6. 输入你的名字, 查看结果:
 
-   ```bash
-   build/bin/native/debugExecutable/<your_app_name>.kexe
-   ```
-
-5. 输入你的名字, 查看结果:
-
-   ![应用程序输出]({{ url_for('asset', path='docs/images/get-started/native-output-2.png') }})
+   <img src="/assets/docs/images/get-started/native-output-2.png" alt="应用程序的输出" width="700"/>
 
 ### 计算你的名字中的不重复的字母数量
 
 1. 打开 `src/nativeMain/kotlin` 中的 `Main.kt` 文件.
-
 2. 为 `String` 声明新的 [扩展函数](../extensions.html#extension-functions) `countDistinctCharacters()`:
 
    * 使用
@@ -166,15 +159,10 @@ IntelliJ IDEA 会自动对项目执行增量构建(Incremental Build).
    }
    ```
 
-4. 保存变更, 在 IntelliJ IDEA 的 terminal 窗口, 或你的命令行工具中, 运行以下命令:
-
-   ```bash
-   build/bin/native/debugExecutable/<your_app_name>.kexe
-   ```
-
+4. 保存变更, 运行应用程序.
 5. 输入你的名字, 查看结果:
 
-   ![应用程序输出]({{ url_for('asset', path='docs/images/get-started/native-output-3.png') }})
+   <img src="/assets/docs/images/get-started/native-output-3.png" alt="应用程序的输出" width="700"/>
 
 ## 下一步做什么?
 

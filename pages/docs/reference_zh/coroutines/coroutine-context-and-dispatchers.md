@@ -232,7 +232,7 @@ fun main() = runBlocking<Unit> {
 
 请使用 JVM 参数 `-Dkotlinx.coroutines.debug` 运行下面的示例程序 (参见 [debug](#debugging-coroutines-and-threads)):
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -252,10 +252,9 @@ fun main() {
             }
         }
     }
-//sampleEnd    
+//sampleEnd
 }
 ```
-
 </div>
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-04.kt).

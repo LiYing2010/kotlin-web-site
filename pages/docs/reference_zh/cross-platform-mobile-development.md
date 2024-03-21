@@ -9,13 +9,13 @@ title: "跨平台移动应用程序开发"
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
-[//]: # (description: Cross-platform mobile development helps you save much time and effort. See why many developers have already switched to technology that is cost efficient.)
+[//]: # (description: Cross-platform mobile development helps you save a lot of time and effort. See why many developers have already switched to this cost-efficient technology.)
 
-目前, 很多公司面临一种挑战, 需要为多个平台创建移动 App, 尤其是 Android 和 iOS. 
+目前, 很多公司面临一种挑战, 需要为多个平台创建移动 App, 尤其是 Android 和 iOS.
 这导致了跨平台移动开发解决方案成为最流行的软件开发趋势之一.
 
-根据 Statista 的统计, 在 2021 年第 1 季度, Google Play Store 有 348 万移动 App, App Store 有 222 万 App,
-Android 和 iOS 现在已经占有 [全世界移动操作系统市场的 99%](https://gs.statcounter.com/os-market-share/mobile/worldwide).
+根据 Statista 的统计, 在 2022 年第 3 季度, Google Play Store 有 355 万移动 App, App Store 有 160 万 App,
+Android 和 iOS 合计现在已经占有 [全世界移动操作系统市场的 99%](https://gs.statcounter.com/os-market-share/mobile/worldwide).
 
 你如何才能创建一个移动 App, 得到 Android 和 iOS 用户?
 在本文中, 你将会看到为什么越来越多的移动开发工程师选择跨平台的, 或者叫做多平台的, 移动开发方案.
@@ -46,13 +46,13 @@ Android 和 iOS 现在已经占有 [全世界移动操作系统市场的 99%](ht
 Web 应用程序不需要分别打包和发布, 而且可以在线发布.
 可以通过你的计算机, 智能手机, 以及平板上的浏览器来访问, 不需要通过 Google Play 或 App Store 来安装.
 
-缺点是, 使用者不能利用他们设备上的全部功能, 例如, 通讯录, 日历, 电话, 以及其他资源, 因此导致用户体验比较差.
+缺点是, 使用者在使用 App 时不能利用他们设备上的全部功能, 例如, 通讯录, 日历, 电话, 以及其他资源, 因此导致用户体验比较差.
 从 App 性能来说, 原生 App 是最好的.
 
 #### 3. 跨平台 App
 
 前面提到过, 多平台 App 会在不同的移动平台上以相同的方式运行.
-跨平台框架允许你为开发这样的 App 编写可共用的代码.
+跨平台框架允许你为开发这类 App 编写可共用的代码.
 
 这种方案有很多优点, 例如在时间和成本方面都有很高效率. 我们会早后面的章节详细介绍跨平台移动开发的优点和弱点.
 
@@ -77,15 +77,18 @@ Web 应用程序不需要分别打包和发布, 而且可以在线发布.
 有些专家仍然偏向于原生移动开发, 而不是多平台解决方案, 他们认为原生 App 更好的性能和更好的用户体验, 是它最重要的优点.
 
 但是, 很多现代化的业务需要减少发布上市的时间, 以及每个平台开发的成本, 还要同时提供 Android 和 iOS 版本.
-这就是 [Kotlin Multiplatform Mobile](https://kotlinlang.org/lp/mobile/)
-之类的跨平台开发框架能够帮助你的地方,
+这就是 [Kotlin Multiplatform (KMP)](https://kotlinlang.org/lp/multiplatform/)
+之类的跨平台开发技术能够帮助你的地方,
 正如 Netflix 的资深软件工程师 David Henry 和 Mel Yahya, [注意到](https://netflixtechblog.com/netflix-android-and-ios-studio-apps-kotlin-multiplatform-d6d4d8d25d23):
 
 > 由于网络连接质量不佳的可能性很高, 这就导致我们倾向于移动解决方案, 以便实现更健壮的客户端持久化存储和离线支持.
 > 对于快速生产发布的需求, 导致我们尝试多平台架构.
-> 现在我们正在更进一步, 使用 Kotlin Multiplatform, 用 Kotlin 来一次性编写平台无关的业务逻辑, 
+> 现在我们正在更进一步, 使用 Kotlin Multiplatform, 用 Kotlin 来一次性编写平台无关的业务逻辑,
 > 然后将其编译为 Kotlin 库, 供 Android 使用, 以及原生的 Universal 框架, 供 iOS 使用.
 {:.tip}
+
+> [Kotlin Multiplatform 入门](https://www.jetbrains.com/kotlin-multiplatform/)
+{:.note}
 
 ## 跨平台移动开发是否适合你?
 
@@ -100,9 +103,13 @@ Web 应用程序不需要分别打包和发布, 而且可以在线发布.
 通过跨平台编程, 移动开发工程师不需要为每个操作系统编写新的代码. 使用单一的代码库让开发者可以减少在重复工作上耗费的时间,
 例如 API 调用, 数据存储, 数据序列化, 以及分析实现.
 
-在我们 2021 年第 3 到第 4 季度的 Kotlin Multiplatform 调查中, 我们询问 Kotlin 社区, 他们能够在不同的平台上共用哪些部分的代码.
+Kotlin Multiplatform 这样的技术让你能够只需要一次实现你的应用程序的数据, 业务, 以及表现层.
+或者, 你可以逐渐的采用 KMP: 选择一小块频繁变化, 经常会不同步的逻辑, 例如数据校验, 过滤, 或排序;
+让它跨平台; 然后将它以微型库的形式连接到你的项目.
 
-<img src="/assets/docs/images/survey-results-q1-q2-22.png" alt="Kotlin Multiplatform Mobile 用户能够在不同平台上共用的代码" width="700"/>
+在 JetBrains, 我们定期进行 Kotlin Multiplatform 调查, 询问我们的社区成员, 他们在不同平台之间共用哪些部分的代码.
+
+<img src="/assets/docs/images/survey-results-q1-q2-22.png" alt="Kotlin Multiplatform 用户能够在不同平台上共用的代码" width="700"/>
 
 #### 2. 节省时间
 
@@ -117,9 +124,10 @@ Web 应用程序不需要分别打包和发布, 而且可以在线发布.
 #### 4. 对开发者更有吸引力的工作机会
 
 很多移动开发工程师将现代化的跨平台技术看作产品的技术栈中有吸引力的元素.
-开发者可能会厌烦于那些重复的日常任务, 例如 JSON 解析.
+开发者可能会对那些重复的日常任务感到厌烦, 例如 JSON 解析.
 但是, 新的技术和任务能够给他们带来对工作任务的激情, 积极性, 以及乐趣.
-这就意味着, 采用现代化的技术栈, 实际上能够让你的移动开发团队更容易招募到开发者.
+通过这样的方式, 采用现代化的技术栈,
+实际上能够让你更容易为你的移动开发团队配备人员, 并使他们更长时间的保持参与和热情.
 
 #### 5. 获得更多用户的机会
 
@@ -134,38 +142,35 @@ Web 应用程序不需要分别打包和发布, 而且可以在线发布.
 
 ### 跨平台开发策略的难点
 
-所有的解决方案都有自己的局限性. 使用跨平台编程方案, 你可能会遇到什么问题?
-技术社区的有些人认为, 多平台开发仍然无法解决性能方面的问题.
-而且, 项目主管可能担心, 他们对于优化开发过程的努力, 可能对应用程序的用户体验产生不利的影响.
-但是, 由于技术的进步, 跨平台解决方案正在变得更加稳定, 更加适用, 更加灵活.
+所有的解决方案都有自己的局限性.
+技术社区的有些人认为, 跨平台开发仍然面临性能方面的问题.
+而且, 项目主管可能担心, 如果他们集中努力优化开发过程, 可能对应用程序的用户体验产生不利的影响.
 
-在我们的
-[2021 年第 1 到第 2 季度 Kotlin Multiplatform 调查](https://blog.jetbrains.com/kotlin/2021/10/multiplatform-survey-q1-q2-2021/)
-中, 我们询问了调查参与者, 在采用了 Kotlin Multiplatform Mobile 之后, 他们是否满意他们的 App 的质量.
-他们被问到, 是否满意于他们的 App 的性能, 二进制文件大小, 以及外观表现, 98.3% 的被调查者给出了正面的回答.
+但是, 随着底层技术的进步, 跨平台解决方案正在变得更加 [稳定](https://blog.jetbrains.com/kotlin/2023/11/kotlin-multiplatform-stable/), 更加适用, 更加灵活.
 
-<img src="/assets/docs/images/survey-results-q1-q2-21.png" alt="采用 Kotlin Multiplatform Mobile 之后, 使用者是否满意他们的 App 的质量?" width="700"/>
+这里是关于框架使用情况的两次 Kotlin Multiplatform 用户调查的结果, 这 2 次调查相隔 6 个月:
 
-另一个担心是是否能够无缝的支持应用程序的原生功能.
-然而, 如果你要创建的多平台 App, 需要访问平台相关的 API, 你可以使用 Kotlin 的
-[预期声明与实际声明(Expected and Actual Declarations)](multiplatform/multiplatform-connect-to-apis.html).
-这个功能允许你在共同代码中定义你 "预期" 在多个平台上调用相同的函数, 并提供 "实际" 实现,
+<img src="/assets/docs/images/kmp-survey-results-2023.png" alt="Kotlin Multiplatform 使用状况调查结果" width="700"/>
+
+另一个普遍担心的问题是, 跨平台开发无法无缝支持平台的原生功能.
+然而, 使用 Kotlin Multiplatform, 你可以使用 Kotlin 的
+[预期声明与实际声明(Expected and Actual Declarations)](multiplatform/multiplatform-expect-actual.html),
+让你的跨平台应用程序能够访问平台相关的 API
+预期声明与实际声明允许你在共同代码中定义你 "预期" 在多个平台上能够调用的相同的函数, 并提供 "实际" 实现,
 通过 Kotlin 与 Java 和 Objective-C/Swift 的交互能力, 这些实际实现可以利用任何平台相关的库.
 
-这些问题导致一个疑问, 最终用户是否会注意到原生 App 与跨平台 App 之间的不同 ?
-
-由于现代化的多平台框架一直在持续进步, 它们不断的增强能力, 让移动开发工程师能够创建出类似于原生 App 的使用体验.
+由于现代化的跨平台框架一直在持续进步, 它们不断的增强能力, 让移动开发工程师能够创建出类似于原生 App 的使用体验.
 如果一个应用程序编写得足够好, 使用者将不会注意到区别.
 但是, 你的产品的质量会严重依赖于你选择的跨平台 App 开发工具.
 
 ## 最流行的跨平台解决方案
 
-[最流行的跨平台框架](cross-platform-frameworks.html) 包括 Flutter, React Native, 以及 Kotlin Multiplatform Mobile.
+[最流行的跨平台框架](cross-platform-frameworks.html) 包括 Flutter, React Native, 以及 Kotlin Multiplatform.
 这些框架的每一种都有它的长处. 取决于你使用的工具, 你的开发过程和成果会很不一样.
 
 ### Flutter
 
-Flutter 是一个跨平台开发框架, 由 Google 创建, 使用 Dart 编程语言. Flutter 支持原生功能, 例如定位服务, 摄像头功能, 以及硬盘访问.
+Flutter 由 Google 创建, 是一个跨平台开发框架, 使用 Dart 编程语言. Flutter 支持原生功能, 例如定位服务, 摄像头功能, 以及硬盘访问.
 如果你需要创建某个 Flutter 不支持的 App 功能, 你可以使用
 [Platform Channel 技术](https://brightmarbles.io/blog/platform-channel-in-flutter-benefits-and-limitations/),
 编写平台相关的代码.
@@ -176,8 +181,8 @@ Flutter 是一个跨平台开发框架, 由 Google 创建, 使用 Dart 编程语
 对于以下情况, 这个框架可能是最好的选择:
 
 * 你想要在你的 App 之间共用 UI 组件, 但你希望你的应用程序看起来接近原生 App.
-* App 工作时会产生很重的 CPU/GPU 负载.
-* 你需要开发 MVP 应用程序.
+* App 工作时会产生很重的 CPU/GPU 负载, 而且需要性能优化.
+* 你需要开发 MVP(Minimum Viable Product, 最简可行产品) 应用程序.
 
 使用 Flutter 构建的最流行的 App 包括 Google Ads, Alibaba 公司的 Xianyu, eBay Motors, 以及 Hamilton.
 
@@ -197,31 +202,29 @@ React Native 能够访问几种第三方 UI 库, 其中包含可以立即使用�
 
 使用 React Native 构建的 App 包括 Facebook, Instagram, Skype, 以及 Uber Eats.
 
-### Kotlin Multiplatform Mobile
+### Kotlin Multiplatform
 
-Kotlin Multiplatform Mobile 是由 JetBrains 提供的一个跨平台移动开发 SDK.
-它允许你使用共通的逻辑来创建 Android 和 iOS App.
+Kotlin Multiplatform 是由 JetBrains 提供的开源技术, 它允许开发者跨平台共用代码, 同时又保留原生编程的优点.
 它的关键优点包括:
 
-* 与既有项目平滑集成.
-* 对 UI 的完全控制, 还可以使用最新的 UI 框架, 例如 SwiftUI 和 Jetpack Compose.
-* 易于使用 Android 和 iOS SDK, 没有任何限制.
+* 能够在 Android, iOS, Web, Desktop, 以及 Server 端重用代码, 同时, 如果需要, 也可以保持原生代码.
+* 与既有项目平滑集成. 你可以使用平台相关的 API, 充分利用原生开发和跨平台开发.
+* 完全的代码共用灵活性, 能够共用逻辑和 UI,
+  这要归功于 [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/), 由 JetBrains 创建的一个现代化的声明式跨平台 UI 框架.
+* 如果你已经在 Android 开发中使用了 Kotlin, 那么不需要向你的代码库引入新的语言.
+  你可以继续沿用你的 Kotlin 代码和技能, 因此与其他技术相比, 迁移到 Kotlin Multiplatform 的风险更低.
 
-> 在你的 iOS 和 Android App 中共用逻辑. 参见 [Kotlin Multiplatform Mobile 入门](multiplatform-mobile/multiplatform-mobile-getting-started.html).
+> [Kotlin Multiplatform 入门](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-getting-started.html).
 {:.note}
 
-全世界的公司和初创企业都已经在使用 Kotlin Multiplatform Mobile 来优化并加速他们的移动开发.
+McDonald's, Netflix, 9GAG, VMware, Cash App, Philips, 以及其他很多公司都已经在利用 Kotlin Multiplatform 的逐步集成能力, 以及它比较低的采用风险.
+其中一些公司选择共用他们既有的 Kotlin 代码的关键部分, 来增强应用程序稳定性.
+另一些公司的目标是, 在不影响应用程序质量的情况下最大化代码的重用,
+并在移动, 桌面, Web, 以及 TV 平台, 共用所有的应用程序逻辑, 同时在每个平台保留原生 UI.
 从采用了这种方案的公司的成功故事来看, 它的优势是很明显的.
 
-* 获奖的 to-do list App Todoist 的开发团队, 开始使用 Kotlin Multiplatform Mobile 来对多个平台同步他们的 App 的排序逻辑,
-  通过这种方式, 他们结合了创建跨平台和原生 App 的优势.
-  关于他们的更多经验, 请观看这个 [视频](https://www.youtube.com/watch?v=z-o9MqN86eE).
-* 通过引入 Kotlin Multiplatform Mobile, Philips 能够 [更快的实现新功能](https://kotlinlang.org/lp/mobile/case-studies/philips),
-  而且增强了他们的 Android 和 iOS 开发者之间的互动.
-* Shopify 通过使用 Kotlin Multiplatform Mobile [共用了高达 95% 的代码](https://shopify.engineering/managing-native-code-react-native),
-  因此带来了显著的业绩改善. 类似的, 初创公司 Down Dog 使用 Kotlin Multiplatform Mobile
-  [加快了 App 开发速度](https://kotlinlang.org/lp/mobile/case-studies/down-dog),
-  因为他们在所有平台上最大限度的共用代码: JVM, Native, 以及 JS.
+> 查看所有的 [全球公司和初创企业使用 Kotlin Multiplatform 的案例](https://www.jetbrains.com/help/kotlin-multiplatform-dev/case-studies.html)
+{:.note}
 
 ## 结论
 

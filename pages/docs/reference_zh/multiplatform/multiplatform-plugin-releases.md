@@ -8,9 +8,7 @@ title: "Kotlin Multiplatform Mobile Plugin 的发布版本"
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
-由于 Kotlin Multiplatform Mobile 已经进入 [Beta 版](../kotlin-evolution.html),
-我们正在努力开发对应的
-[Android Studio plugin](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform-mobile)
+我们正在努力开发 [Kotlin Multiplatform Mobile plugin for Android Studio](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform-mobile)
 的稳定版, 我们会不断发布新的版本, 包含新的功能, 改进, 和 bug 修正. 
 
 请确认你安装了最新版的 Kotlin Multiplatform Mobile plugin!
@@ -46,6 +44,143 @@ title: "Kotlin Multiplatform Mobile Plugin 的发布版本"
     <th>
         兼容的 Kotlin 版本
     </th>
+</tr>
+<tr>
+    <td>
+        <b> 0.8.2 </b> <br/>
+        发布日期: 2024/01/25
+    </td>
+    <td>
+        <li>
+            支持新的 Canary 版 Android Studio Jellyfish.
+        </li>
+        <li>
+            在共用模块中添加 <code>sourceCompatibility</code> 和 <code>targetCompatibility</code> 声明.
+        </li>
+    </td>
+    <td>
+        <li>
+            <a href="../releases.html#release-details">Kotlin plugin 的任何版本</a>
+        </li>
+    </td>
+</tr>
+<tr>
+    <td>
+        <b> 0.8.1 </b> <br/>
+        发布日期: 2023/11/09
+    </td>
+    <td>
+        <li>
+            Kotlin 更新到 1.9.20.
+        </li>
+        <li>
+            Jetpack Compose 更新到 1.5.4.
+        </li>
+        <li>
+            默认启用 Gradle 构建和配置的缓存.
+        </li>
+        <li>
+            对新的 Kotlin 版本重构了构建配置.
+        </li>
+        <li>
+            iOS framework 默认为静态模式.
+        </li>
+        <li>
+            修正了 iOS 设备上使用 Xcode 15 时的一个问题.
+        </li>
+    </td>
+    <td>
+        <li>
+            <a href="../releases.html#release-details">Kotlin Plugin 的任何版本</a>
+        </li>
+    </td>
+</tr>
+<tr>
+    <td>
+        <b> 0.8.0 </b> <br/>
+        发布日期: 2023/10/05
+    </td>
+    <td>
+        <li>
+            <a href="https://youtrack.jetbrains.com/issue/KT-60169">KT-60169</a> 迁移到 Gradle 版本目录.
+        </li>
+        <li>
+            <a href="https://youtrack.jetbrains.com/issue/KT-59269">KT-59269</a> <code>android</code> 重命名为 <code>androidTarget</code>.
+        </li>
+        <li>
+            <a href="https://youtrack.jetbrains.com/issue/KT-59269">KT-59269</a> 更新了 Kotlin 和其他依赖项的版本.
+        </li>
+        <li>
+            <a href="https://youtrack.jetbrains.com/issue/KTIJ-26773">KTIJ-26773</a> 重构, 使用 <code>-destination</code> 参数, 代替 <code>-sdk</code> 和 <code>-arch</code>.
+        </li>
+        <li>
+            <a href="https://youtrack.jetbrains.com/issue/KTIJ-25839">KTIJ-25839</a> 重构了生成的文件名.
+        </li>
+        <li>
+            <a href="https://youtrack.jetbrains.com/issue/KTIJ-27058">KTIJ-27058</a> 添加了 JVM 构建目标配置.
+        </li>
+        <li>
+            <a href="https://youtrack.jetbrains.com/issue/KTIJ-27160">KTIJ-27160</a> 支持 Xcode 15.0.
+        </li>
+        <li>
+            <a href="https://youtrack.jetbrains.com/issue/KTIJ-27158">KTIJ-27158</a> 将新的模块向导移动到实验状态.
+        </li>
+    </td>
+    <td>
+        <li>
+            <a href="../releases.html#release-details">Kotlin Plugin 的任何版本</a>
+        </li>
+    </td>
+</tr>
+<tr>
+    <td>
+        <b> 0.6.0 </b> <br/>
+        发布日期: 2023/05/24
+    </td>
+    <td>
+        <li>
+            支持新的 Canary Android Studio Hedgehog.
+        </li>
+        <li>
+            更新 Kotlin, Gradle, 以及 Multiplatform 项目中库的版本.
+        </li>
+        <li>
+            在 Multiplatform 项目中使用了新的 <a href="../whatsnew1820.html#new-approach-to-source-set-hierarchy"><code>targetHierarchy.default()</code></a>.
+        </li>
+        <li>
+            在 Multiplatform 项目中, 对平台特定的文件使用源代码集名称后缀.
+        </li>
+    </td>
+    <td>
+        <li>
+            <a href="../releases.html#release-details">Kotlin Plugin 的任何版本</a>
+        </li>
+    </td>
+</tr>
+<tr>
+    <td>
+        <b> 0.5.3 </b> <br/>
+        发布日期: 2023/04/12
+    </td>
+    <td>
+        <li>
+            更新了 Kotlin 和 Compose 的版本.
+        </li>
+        <li>
+            修正了 Xcode 项目 scheme 解析的一个问题.
+        </li>
+        <li>
+            添加了 scheme 的 product 类型检查.
+        </li>
+        <li>
+            如果 <code>iosApp</code> scheme 存在, 默认选中.
+        </li>
+    </td>
+    <td>
+        <li>
+            <a href="../releases.html#release-details">Kotlin Plugin 的任何版本</a>
+        </li>
+    </td>
 </tr>
 <tr>
     <td>
@@ -134,7 +269,7 @@ title: "Kotlin Multiplatform Mobile Plugin 的发布版本"
             <a href="https://youtrack.jetbrains.com/issue/KTIJ-22633">在 Android manifest 中删除包名称</a>.
         </li>
         <li>
-            <a href="https://youtrack.jetbrains.com/issue/KT-53703">对 Xcode 项目更新 `.gitignore`</a>.
+            <a href="https://youtrack.jetbrains.com/issue/KT-53703">对 Xcode 项目更新 <code>.gitignore</code></a>.
         </li>
         <li>
             <a href="https://youtrack.jetbrains.com/issue/KT-53928">更新向导项目, 更好的演示 expect/actual 功能</a>.
@@ -152,7 +287,7 @@ title: "Kotlin Multiplatform Mobile Plugin 的发布版本"
             <a href="https://youtrack.jetbrains.com/issue/KTIJ-21781">修正 M1 上的 Apple 运行配置的问题</a>.
         </li>
         <li>
-            <a href="https://youtrack.jetbrains.com/issue/KTIJ-22037">修正 Windows OS 上 `local.properties` 的问题</a>.
+            <a href="https://youtrack.jetbrains.com/issue/KTIJ-22037">修正 Windows OS 上 <code>local.properties</code> 的问题</a>.
         </li>
         <li>
             <a href="https://youtrack.jetbrains.com/issue/KT-53976">修正 Android Studio Canary 版中 Kotlin/Native 调试器的问题</a>.
@@ -235,7 +370,7 @@ title: "Kotlin Multiplatform Mobile Plugin 的发布版本"
     <td>
         <li> <a href="https://youtrack.jetbrains.com/issue/KTIJ-19367">新的 Kotlin Multiplatform Library 向导</a>. </li>
         <li> 支持 Kotlin 跨平台库的新发布类型: <a href="../multiplatform/multiplatform-build-native-binaries.html#build-xcframeworks">XCFramework</a>. </li>
-        <li> 对新跨平台移动项目启用 <a href="../multiplatform/multiplatform-share-on-platforms.html#configure-the-hierarchical-structure-manually">层级项目结构</a>. </li>
+        <li> 对新跨平台移动项目启用 <a href="../multiplatform/multiplatform-hierarchy.html#manual-configuration">层级项目结构</a>. </li>
         <li> 支持 <a href="https://youtrack.jetbrains.com/issue/KT-46861">iOS 编译目标的明确声明</a>. </li>
         <li> <a href="https://youtrack.jetbrains.com/issue/KT-48614">在非 Mac 机器上启用 Kotlin Multiplatform Mobile plugin 向导</a>. </li>
         <li> <a href="https://youtrack.jetbrains.com/issue/KT-47923">在 Kotlin Multiplatform 模块向导中支持子文件夹</a>. </li>

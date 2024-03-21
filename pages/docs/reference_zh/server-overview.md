@@ -22,32 +22,41 @@ Kotlin 非常适合于开发服务器端应用程序, 使用 Kotlin 可以编写
 
 ## Kotlin 服务器端开发的一些相关框架
 
- * [Spring](https://spring.io) 从 5.0 版本开始,
-  使用 Kotlin 的语言特性实现了 [更加简洁的 API](https://spring.io/blog/2017/01/04/introducing-kotlin-support-in-spring-framework-5-0).
-  [在线工程生成器](https://start.spring.io/#!language=kotlin) 可以帮助你使用 Kotlin 语言快速生成新的工程.
+下面是 Kotlin 服务器端框架的一些例子:
 
- * [Vert.x](https://vertx.io), 一个创建基于 JVM 的交互式 Web 应用程序的框架,
-  对 Kotlin 提供了 [专门支持](https://github.com/vert-x3/vertx-lang-kotlin),
-  包含 [完整的文档](https://vertx.io/docs/vertx-core/kotlin/).
+* [Spring](https://spring.io) 从 5.0 版本开始,
+ 使用 Kotlin 的语言特性实现了 [更加简洁的 API](https://spring.io/blog/2017/01/04/introducing-kotlin-support-in-spring-framework-5-0).
+ [在线工程生成器](https://start.spring.io/#!language=kotlin) 可以帮助你使用 Kotlin 语言快速生成新的工程.
 
- * [Ktor](https://github.com/kotlin/ktor) 是 JetBrains 公司开发的框架,
-  用 Kotlin 来开发 Web 应用程序, 使用协程(coroutine)实现了高度伸缩性, 并提供了易用而且符合习惯的 API.
+* [Ktor](https://github.com/kotlin/ktor) 是 JetBrains 公司开发的框架,
+ 用 Kotlin 来开发 Web 应用程序, 使用协程(coroutine)实现了高度伸缩性, 并提供了易用而且符合习惯的 API.
 
- * [kotlinx.html](https://github.com/kotlin/kotlinx.html) 是一种 DSL, 可用于在 Web 应用程序中构建 HTML.
-  可用来替代传统的模板系统, 比如 JSP 和FreeMarker.
+* [Quarkus](https://quarkus.io/guides/kotlin)
+  对使用 Kotlin 提供了一级支持. 这个框架是开源的, 由 Red Hat 维护.
+  Quarkus 是为 Kubernetes 全新构建的, 并利用数百种精选的库, 提供了一个整合的全栈框架.
 
- * [Micronaut](https://micronaut.io/) 是一个现代化的, 基于 JVM 的全栈框架, 用于创建模块化的,
-  便于测试的微服务(microservice)或无服务(serverless)应用程序.
-  它带有很多内建的, 便利的功能.
+* [Vert.x](https://vertx.io), 一个创建基于 JVM 的交互式 Web 应用程序的框架,
+ 对 Kotlin 提供了 [专门支持](https://github.com/vert-x3/vertx-lang-kotlin),
+ 包含 [完整的文档](https://vertx.io/docs/vertx-core/kotlin/).
 
- * [http4k](https://http4k.org/) 是一个尺寸很小的工具包, 用于 Kotlin HTTP 应用程序, 使用纯 Kotlin 编写.
-  这个库基于 Twitter 的 "通过函数实现你的服务器" 论文, 它将 HTTP 服务器端和客户端模型都表达为简单的 Kotlin 函数, 再将这些简单函数组合在一起.
+* [kotlinx.html](https://github.com/kotlin/kotlinx.html) 是一种 DSL, 可用于在 Web 应用程序中构建 HTML.
+ 可用来替代传统的模板系统, 比如 JSP 和FreeMarker.
 
- * [Javalin](https://javalin.io) 是一个用于 Kotlin 和 Java的, 非常轻量的 web 框架,
-  支持 WebSockets, HTTP2 以及异步请求.
+* [Micronaut](https://micronaut.io/) 是一个现代化的, 基于 JVM 的全栈框架, 用于创建模块化的,
+ 便于测试的微服务(microservice)或无服务(serverless)应用程序.
+ 它带有很多内建的, 便利的功能.
 
- * 关于数据的持久化存储, 可以选择直接的 JDBC 访问, 或者使用 JPA, 或者通过 Java 驱动程序使用 NoSQL 数据库.
-  对于 JPA, [kotlin-jpa 编译器插件](no-arg-plugin.html#jpa-support) 可以使 Kotlin 编译的 class文件符合 JPA 框架的要求.
+* [http4k](https://http4k.org/) 是一个尺寸很小的工具包, 用于 Kotlin HTTP 应用程序, 使用纯 Kotlin 编写.
+ 这个库基于 Twitter 的 "通过函数实现你的服务器" 论文, 它将 HTTP 服务器端和客户端模型都表达为简单的 Kotlin 函数, 再将这些简单函数组合在一起.
+
+* [Javalin](https://javalin.io) 是一个用于 Kotlin 和 Java的, 非常轻量的 web 框架,
+ 支持 WebSockets, HTTP2 以及异步请求.
+
+* 关于数据的持久化存储, 可以选择直接的 JDBC 访问, 或者使用 JPA, 或者通过 Java 驱动程序使用 NoSQL 数据库.
+ 对于 JPA, [kotlin-jpa 编译器插件](no-arg-plugin.html#jpa-support) 可以使 Kotlin 编译的 class文件符合 JPA 框架的要求.
+
+> 你可以在 [https://kotlin.link/](https://kotlin.link/resources) 找到更多框架.
+{:.note}
 
 ## 发布 Kotlin 服务器端应用程序
 

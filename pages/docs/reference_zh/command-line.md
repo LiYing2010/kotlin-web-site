@@ -22,9 +22,14 @@ title: "Kotlin 命令行编译器"
 
 ### 手工安装
 
+手动安装 Kotlin 编译器的步骤:
+
 1. 从 [GitHub Release 页面]({{ site.data.releases.latest.url }}) 下载最新版 (`kotlin-compiler-{{ site.data.releases.latest.version }}.zip`) .
 2. 将独立版本的编译器解包到一个目录, 并将 `bin` 目录添加到系统的 path 设定中(可选).
    `bin` 目录包含在 Windows, macOS, 和 Linux 上编译和运行 Kotlin 所需要的脚本.
+
+> 对于想要使用命令行编译器的 Windows 用户, 我们推荐使用手动安装的方法.
+{:.note}
 
 ### SDKMAN!
 

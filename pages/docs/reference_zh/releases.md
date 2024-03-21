@@ -24,6 +24,10 @@ title: Kotlin 的发布版本
 
 ## 更新到新的发布版
 
+> 从 IntelliJ IDEA 2023.3 和 Android Studio Iguana (2023.2.1) Canary 15 开始, Kotlin plugin 会自动更新.
+> 你只需要在你的项目中更新 Kotlin 版本.
+{:.note}
+
 新的发布版发布之后, IntelliJ IDEA 和 Android Studio 会建议你升级.
 如果你接受建议, IDE 会自动将 Kotlin 插件更新到最新版本.
 在 **Tools** | **Kotlin** | **Configure Kotlin Plugin Updates** 菜单中, 你可以选择 Kotlin 版本.
@@ -59,6 +63,113 @@ title: Kotlin 的发布版本
         <th>主要内容</th>
     </tr>
     <tr>
+        <td><strong>1.9.23</strong>
+            <p>发布日期: <strong>2024/03/07</strong></p>
+            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v1.9.23" target="_blank">GitHub 发布链接</a></p>
+        </td>
+        <td>
+            <p>针对 Kotlin 1.9.20, 1.9.21, 和 1.9.22 的 Bug 修复发布版.</p>
+            <p>关于 Kotlin 1.9.20, 请参见 <a href="whatsnew1920.html" target="_blank">Kotlin 1.9.20 版中的新功能</a>.</p>
+        </td>
+    </tr>
+    <tr>
+        <td><strong>1.9.22</strong>
+            <p>发布日期: <strong>2023/12/21</strong></p>
+            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v1.9.22" target="_blank">GitHub 发布链接</a></p>
+        </td>
+        <td>
+            <p>针对 Kotlin 1.9.20 和 1.9.21 的 Bug 修复发布版.</p>
+            <p>关于 Kotlin 1.9.20, 请参见 <a href="whatsnew1920.html" target="_blank">Kotlin 1.9.20 版中的新功能</a>.</p>
+        </td>
+    </tr>
+    <tr>
+        <td><strong>1.9.21</strong>
+            <p>发布日期: <strong>2023/11/23</strong></p>
+            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v1.9.21" target="_blank">GitHub 发布链接</a></p>
+        </td>
+        <td>
+            <p>针对 Kotlin 1.9.20 的 Bug 修复发布版.</p>
+            <p>关于 Kotlin 1.9.20, 请参见 <a href="whatsnew1920.html" target="_blank">Kotlin 1.9.20 版中的新功能</a>.</p>
+        </td>
+    </tr>
+    <tr>
+        <td><strong>1.9.20</strong>
+            <p>发布日期: <strong>2023/11/01</strong></p>
+            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v1.9.20" target="_blank">GitHub 发布链接</a></p>
+        </td>
+        <td>
+            <p>一个新功能发布版, 包括 Kotlin K2 编译器的 Beta 版, 和 Kotlin Multiplatform 的稳定版.</p>
+            <p>详情请参见:</p>
+            <list>
+                <li><a href="whatsnew1920.html" target="_blank">Kotlin 1.9.20 版中的新功能</a></li>
+            </list>
+        </td>
+    </tr>
+    <tr>
+        <td><strong>1.9.10</strong>
+            <p>发布日期: <strong>2023/08/23</strong></p>
+            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v1.9.10" target="_blank">GitHub 发布链接</a></p>
+        </td>
+        <td>
+            <p>针对 Kotlin 1.9.0 的 Bug 修复发布版.</p>
+            <p>关于 Kotlin 1.9.0, 请参见 <a href="whatsnew19.html" target="_blank">Kotlin 1.9.0 版中的新功能</a>.</p>
+            <note>对于 Android Studio 的 Giraffe 和 Hedgehog 版, Kotlin plugin 1.9.10 会在之后的 Android Studio 更新中发布.</note>
+        </td>
+    </tr>
+    <tr>
+        <td><strong>1.9.0</strong>
+            <p>发布日期: <strong>2023/07/06</strong></p>
+            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v1.9.0" target="_blank">GitHub 发布链接</a></p>
+        </td>
+        <td>
+            <p>一个新功能发布版, 包括 Kotlin K2 编译器的更新, 新的枚举类值函数, 用于终端开放(open-ended)的值范围的新的操作符,
+              Kotlin Multiplatform 中的 Gradle 配置缓存功能的预览版,
+              Kotlin Multiplatform 中支持的 Android target 的变更,
+              Kotlin/Native 中自定义内存分配器功能的预览版.</p>
+            <p>详情请参见:</p>
+            <list>
+                <li><a href="whatsnew19.html" target="_blank">Kotlin 1.9.0 版中的新功能</a></li>
+                <li><a href="https://www.youtube.com/embed/fvwTZc-dxsM" target="_blank">YouTube 视频: Kotlin 的新功能</a></li>
+            </list>
+        </td>
+    </tr>
+    <tr>
+        <td><strong>1.8.22</strong>
+            <p>发布日期: <strong>2023/06/08</strong></p>
+            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v1.8.22" target="_blank">GitHub 发布链接</a></p>
+        </td>
+        <td>
+            <p>针对 Kotlin 1.8.20 的 Bug 修复发布版.</p>
+            <p>关于 Kotlin 1.8.20, 请参见 <a href="whatsnew1820.html" target="_blank">Kotlin 1.8.20 版中的新功能</a>.</p>
+        </td>
+    </tr>
+    <tr>
+        <td><strong>1.8.21</strong>
+            <p>发布日期: <strong>2023/04/25</strong></p>
+            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v1.8.21" target="_blank">GitHub 发布链接</a></p>
+        </td>
+        <td>
+            <p>针对 Kotlin 1.8.20 的 Bug 修复发布版.</p>
+            <p>关于 Kotlin 1.8.20, 请参见 <a href="whatsnew1820.html" target="_blank">Kotlin 1.8.20 版中的新功能</a>.</p>
+            <note>对于 Android Studio 的 Flamingo 和 Giraffe 版, Kotlin plugin 1.8.21 会在之后的 Android Studio 更新中发布.</note>
+        </td>
+    </tr>
+    <tr>
+        <td><strong>1.8.20</strong>
+            <p>发布日期: <strong>2023/04/03</strong></p>
+            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v1.8.20" target="_blank">GitHub 发布链接</a></p>
+        </td>
+        <td>
+            <p>一个新功能发布版, 包括 Kotlin K2 编译器的更新, 标准库中的 AutoCloseable 接口和 Base64 编码,
+              默认启用新的 JVM 增量编译, 新的 Kotlin/Wasm 编译器后端.</p>
+            <p>详情请参见:</p>
+            <list>
+                <li><a href="whatsnew1820.html" target="_blank">Kotlin 1.8.20 版中的新功能</a></li>
+                <li><a href="https://youtu.be/R1JpkpPzyBU" target="_blank">YouTube 视频: Kotlin 的新功能</a></li>
+            </list>
+        </td>
+    </tr>
+    <tr>
         <td><strong>1.8.10</strong>
             <p>发布日期: <strong>2023/02/02</strong></p>
             <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v1.8.10" target="_blank">GitHub 发布链接</a></p>
@@ -66,7 +177,7 @@ title: Kotlin 的发布版本
         <td>
             <p>针对 Kotlin 1.8.0 的 Bug 修复发布版.</p>
             <p>详情请参见 <a href="https://github.com/JetBrains/kotlin/releases/tag/v1.8.0" target="_blank">Kotlin 1.8.0</a>.</p>
-            <note>对于 Android Studio 的 Electric Eel 和 Flamingo 版, Kotlin plugin 1.8.10 会在之后的 Android Studios 更新中发布.</note>
+            <note>对于 Android Studio 的 Electric Eel 和 Flamingo 版, Kotlin plugin 1.8.10 会在之后的 Android Studio 更新中发布.</note>
         </td>
     </tr>
     <tr>
@@ -97,8 +208,8 @@ title: Kotlin 的发布版本
             <p>针对 Kotlin 1.7.20 的 Bug 修复发布版.</p>
             <p>关于 Kotlin 1.7.20, 请参见 <a href="whatsnew1720.html" target="_blank">Kotlin 1.7.20 版中的新功能</a>.</p>
             <note>
-              对于 Android Studio 的 Dolphin, Electric Eel, 以及 Flamingo 版, 
-              Kotlin plugin 1.7.21 会在之后的 Android Studios 更新中发布.
+              对于 Android Studio 的 Dolphin, Electric Eel, 以及 Flamingo 版,
+              Kotlin plugin 1.7.21 会在之后的 Android Studio 更新中发布.
             </note>
         </td>
     </tr>
@@ -130,7 +241,7 @@ title: Kotlin 的发布版本
             <p>详情请参见 <a href="https://github.com/JetBrains/kotlin/releases/tag/v1.7.0" target="_blank">Kotlin 1.7.0</a>.</p>
             <note>
                 对于 Android Studio Dolphin (213) 和 Android Studio Electric Eel (221),
-                Kotlin plugin 1.7.10 会在之后的 Android Studios 更新中一同发布.
+                Kotlin plugin 1.7.10 会在之后的 Android Studio 更新中发布.
             </note>
         </td>
     </tr>

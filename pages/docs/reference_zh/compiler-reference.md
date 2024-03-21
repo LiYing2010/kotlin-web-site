@@ -34,7 +34,7 @@ Kotlin 编译器带有很多选项, 用于控制编译过程.
 * 如果使用 Gradle, 可以在 Kotlin 编译任务的 `compilerOptions` 属性中指定编译参数.
   详情请参见 [Gradle 编译器选项](gradle/gradle-compiler-options.html#how-to-define-options).
 * 如果使用 Maven, 可以在 Maven 插件的 `<configuration>` 元素中指定编译参数 .
-  详情请参见 [Maven](using-maven.html#specifying-compiler-options).
+  详情请参见 [Maven](using-maven.html#specify-compiler-options).
 * 如果在命令行运行编译器, 可以在调用编译器时直接添加编译参数, 或者将编译参数写在 [参数文件](#argfile) 内.
 
 例如:
@@ -172,7 +172,7 @@ classpath 可以包含文件路径, 目录路径, ZIP 文件, 或 JAR 文件.
 
 指定生成的 JVM 字节码的目标版本. 将类路径中的 JDK API 限制为指定的 Java 版本.
 自动设置 [`-jvm-target version`](#jvm-target-version).
-可以指定的值是 `1.8`, `9`, `10`, ..., `19`.
+可以指定的值是 `1.8`, `9`, `10`, ..., `21`.
 默认值是 `{{ site.data.releases.defaultJvmTargetVersion }}`.
 
 > 这个选项 [不保证](https://youtrack.jetbrains.com/issue/KT-29974) 对所有的 JDK 发布版都有效.
@@ -181,7 +181,7 @@ classpath 可以包含文件路径, 目录路径, ZIP 文件, 或 JAR 文件.
 ### -jvm-target _version_
 
 指定编译产生的 JVM 字节码(bytecode)版本.
-可以指定的值是 `1.8`, `9`, `10`, ..., `19`.
+可以指定的值是 `1.8`, `9`, `10`, ..., `21`.
 默认值是 `{{ site.data.releases.defaultJvmTargetVersion }}`.
 
 ### -java-parameters
@@ -268,6 +268,16 @@ classpath 可以包含文件路径, 目录路径, ZIP 文件, 或 JAR 文件.
 
 是否将源代码文件嵌入到源代码映射文件(source map)中.
 
+### -source-map-names-policy _{simple-names|fully-qualified-names|no}_
+
+将你在 Kotlin 代码中声明的变量和函数名称添加到源代码映射文件(source map)中.
+
+| 设置                      | 说明                    | 输出示例                              |
+|-------------------------|-----------------------|-----------------------------------|
+| `simple-names`          | 添加变量名称和函数的简单名称. (默认值) | `main`                            |
+| `fully-qualified-names` | 添加变量名称和函数完全限定名称.      | `com.example.kjs.playground.main` |
+| `no`                    | 不添加变量名称和函数名称.         | 无                                 |
+
 ### -source-map-prefix
 
 向源代码映射文件(source map)中的路径添加指定的前缀.
@@ -292,12 +302,6 @@ Kotlin/Native 编译的命令行工具是 `kotlinc-native`.
 ### -generate-test-runner (-tr)
 
 生成一个应用程序, 用于在工程中运行单元测试.
-
-### -generate-worker-test-runner (-trw)
-
-生成一个应用程序, 用于在
-[工作线程(worker thread)](native/native-immutability.html#concurrency-in-kotlin-native)
-中运行单元测试 .
 
 ### -generate-no-exit-test-runner (-trn)
 

@@ -8,7 +8,7 @@ title: "为 Kotlin Multiplatform 设置编译目标"
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
-可以在 [使用项目向导创建项目](multiplatform-library.html) 时添加编译目标.
+可以在使用 [项目向导](https://kmp.jetbrains.com/) 创建项目时添加编译目标.
 如果之后再需要添加编译目标, 可以使用对 [支持的平台](multiplatform-dsl-reference.html#targets) 预设置的编译目标来手工添加.
 
 更多详情请参见 [编译目标的额外设置](multiplatform-dsl-reference.html#common-target-configuration).

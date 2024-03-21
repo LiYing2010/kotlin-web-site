@@ -184,7 +184,7 @@ fun printHello(name: String?) { ... }
 
 ### 单表达式函数(Single-expression function)
 
-如果一个函数返回单个表达式, 那么大括号可以省略, 函数体可以直接写在 `=` 之后:
+如果函数体只包含单个表达式, 那么大括号可以省略, 函数体可以直接写在 `=` 之后:
 
 ```kotlin
 fun double(x: Int): Int = x * 2

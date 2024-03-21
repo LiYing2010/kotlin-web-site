@@ -8,7 +8,7 @@ title: "添加 iOS 依赖项"
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
-在 Kotlin Multiplatform Mobile 项目中, Apple SDK 依赖项(比如 Foundation 或 Core Bluetooth) 可以作为一组预构建的库来使用.
+在 Kotlin Multiplatform 项目中, Apple SDK 依赖项(比如 Foundation 或 Core Bluetooth) 可以作为一组预构建的库来使用.
 不需要额外的配置.
 
 你也可以在你的 iOS 源代码集中重用 iOS 生态系统中的其它库和框架.
@@ -17,23 +17,13 @@ Kotlin 支持与 Objective-C 依赖项交互, 也支持 Swift 依赖项, 但要�
 
 也支持与 CocoaPods 依赖项管理器的集成, 但有相同的限制 – 你不能使用纯 Swift 的 pod.
 
-我们推荐在 Kotlin Multiplatform Mobile 项目中 [使用 CocoaPods](#with-cocoapods) 来管理 iOS 依赖项.
+我们推荐在 Kotlin Multiplatform 项目中 [使用 CocoaPods](#with-cocoapods) 来管理 iOS 依赖项.
 如果你想要精密调节交互过程细节, 或者有某些很重要的原因, 只有这些情况才需要 [手动管理依赖项](#without-cocoapods).
-
-> 在支持 [层级结构](../multiplatform/multiplatform-share-on-platforms.html#share-code-on-similar-platforms) 的跨平台项目中,
-> 比如使用了 `ios()` [编译目标简写](../multiplatform/multiplatform-share-on-platforms.html#use-target-shortcuts),
-> 如果使用第三方 iOS 库, 那么对于那些共用的 iOS 源代码集, 你将无法使用 IDE 功能, 比如代码完成和高亮显示.
->
-> 这是一个 [已知的问题](https://youtrack.jetbrains.com/issue/KT-40975), 我们正在解决. 目前, 你可以使用 [这个变通办法](#workaround-to-enable-ide-support-for-the-shared-ios-source-set).
->
-> 对于系统默认支持的 [平台库](../native/native-platform-libs.html), 不存在这个问题.
->
-{:.note}
 
 ### 使用 CocoaPods
 
 1. 执行 [CocoaPods 集成的初始设置](../native/native-cocoapods.html#set-up-an-environment-to-work-with-cocoapods).
-2. 在你的项目的 `build.gradle.kts` (`build.gradle`) 文件中加入 `pod()` 函数调用, 添加 CocoaPods 仓库中的你想要使用的 Pod 库的依赖项.
+2. 在你的项目的 `build.gradle(.kts)` 文件中加入 `pod()` 函数调用, 添加 CocoaPods 仓库中的你想要使用的 Pod 库的依赖项.
 
     <div class="multi-language-sample" data-lang="kotlin">
     <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
@@ -42,8 +32,8 @@ Kotlin 支持与 Objective-C 依赖项交互, 也支持 Swift 依赖项, 但要�
     kotlin {
         cocoapods {
             //..
-            pod("AFNetworking") {
-                version = "~> 4.0.1"
+            pod("FirebaseAuth") {
+                version = "10.16.0"
             }
         }
     }
@@ -59,8 +49,8 @@ Kotlin 支持与 Objective-C 依赖项交互, 也支持 Swift 依赖项, 但要�
     kotlin {
         cocoapods {
             //..
-            pod('AFNetworking') {
-                version = '~> 4.0.1'
+            pod('FirebaseAuth') {
+                version = '10.16.0'
             }
         }
     }
@@ -75,14 +65,13 @@ Kotlin 支持与 Objective-C 依赖项交互, 也支持 Swift 依赖项, 但要�
     * [使用自定义的 Git 仓库](../native/native-cocoapods-libraries.html#from-a-custom-git-repository)
     * [使用自定义的 Podspec 仓库](../native/native-cocoapods-libraries.html#from-a-custom-podspec-repository)
     * [使用自定义的 cinterop 选项](../native/native-cocoapods-libraries.html#with-custom-cinterop-options)
-    * [使用静态 Pod 库](../native/native-cocoapods-libraries.html#on-a-static-pod-library)
 
 3. 重新导入项目.
 
 要在你的 Kotlin 代码中使用依赖项, 请导入包 `cocoapods.<library-name>`. 在上面的示例中中, 应该是:
 
 ```kotlin
-import cocoapods.AFNetworking.*
+import cocoapods.FirebaseAuth.*
 ```
 
 ### 不使用 CocoaPods
@@ -285,75 +274,10 @@ import MyFramework.*
 详情请参见 [与 Objective-C 和 Swift 交互](../native/native-objc-interop.html)
 以及 [在 Gradle 中配置 cinterop](../multiplatform/multiplatform-dsl-reference.html#cinterops).
 
-### 对共用的 iOS 源代码集启用 IDE 支持的变通方法
-
-由于一个 [已知的问题](https://youtrack.jetbrains.com/issue/KT-40975),
-在一个支持 [层级结构](../multiplatform/multiplatform-share-on-platforms.html#share-code-on-similar-platforms) 的跨平台项目中,
-如果你的项目依赖于以下库, 那么对于共用的 iOS 源代码集, 你将无法使用 IDE 功能, 比如代码完成和高亮显示:
-
-* 不支持层级结构的跨平台库.
-* 除默认支持的[平台库](../native/native-platform-libs.html)之外的第三方 iOS 库.
-
-这个问题只影响共用的 iOS 源代码集. IDE 仍然能够正确支持其它代码.
-
-> 通过 Kotlin Multiplatform Mobile Project Wizard 创建的所有项目都支持层级结构, 因此会受这个问题影响.
-{:.note}
-
-在这些情况中, 要启用 IDE 支持, 你可以使用变通办法, 向你的项目的 `shared` 目录中的 `build.gradle.(kts)` 文件添加以下代码:
-
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
-
-```kotlin
-val iosTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget =
-    if (System.getenv("SDK_NAME")?.startsWith("iphoneos") == true)
-        ::iosArm64
-    else
-        ::iosX64
-
-iosTarget("ios")
-```
-
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
-
-```groovy
-def iosTarget
-if (System.getenv("SDK_NAME")?.startsWith("iphoneos")) {
-    iosTarget = kotlin.&iosArm64
-} else {
-    iosTarget = kotlin.&iosX64
-}
-```
-
-</div>
-</div>
-
-在这个代码示例中, iOS 编译目标的配置依赖于环境变量 `SDK_NAME`, 它由 Xcode 管理.
-对于每个构建, 你只有唯一的 iOS 编译目标, 名为 `ios`, 使用 `iosMain` 源代码集.
-将不会存在 `iosMain`, `iosArm64`, 和 `iosX64` 源代码集之间的层级结构.
-
-另一种办法是, 你可以启用在共用源代码集中的平台相关交互库(platform-dependent interop library)支持功能.
-除 Kotlin/Native 自带的 [平台库](../native/native-platform-libs.html) 之外,
-这种方法也可以用于自定义的 [`cinterop` 库](../native/native-c-interop.html), 使得它们在共用源代码集中可以使用.
-要启用这个功能, 请在你的 `gradle.properties` 文件中添加 `kotlin.mpp.enableCInteropCommonization=true` 属性:
-
-```none
-kotlin.mpp.enableCInteropCommonization=true
-```
-
-> 这是一个临时的变通方法. 如果你是库的作者, 我们建议你尽快 [启用层级结构](../multiplatform/multiplatform-hierarchy.html).
->
-> 通过这个变通方法, Kotlin 跨平台工具只对当前构建中唯一一个活跃的原生编译目标来分析你的代码.
-> 在对所有编译目标的完全构建中, 这可能会导致各种错误, 而且如果你的项目还包含 iOS 之外的其他原生编译目标, 那么更可能发生错误.
-{:.note}
-
 ## 下一步做什么?
 
 查看跨平台项目中添加依赖项的其他资料, 并学习以下内容:  
 
+* [连接到平台相关的库](multiplatform-share-on-platforms.html#connect-platform-specific-libraries)
 * [添加对跨平台库或其他跨平台项目的依赖项](../multiplatform/multiplatform-add-dependencies.html)
-* [添加 Android 依赖项](multiplatform-mobile-android-dependencies.html)
+* [添加 Android 依赖项](multiplatform-android-dependencies.html)

@@ -10,40 +10,62 @@ title: "All-open 编译器插件"
 最终更新: {{ site.data.releases.latestDocDate }}
 
 Kotlin 的类和成员默认都是 `final` 的, 但有些框架和库, 比如 Spring AOP, 需要类是 `open` 的, 因此造成一些不便.
-*all-open* 编译器插件会调整 Kotlin 类, 以这些框架的需求,
+`all-open` 编译器插件会调整 Kotlin 类, 以这些框架的需求,
 它会将标记了特定注解的类及其成员变为 open , 而不需要在代码中明确标记 `open` 关键字.
 
 比如, 当你使用 Spring 时, 你不需要所有的类都变为 open, 只需要标注了特定注解的类, 比如 `@Configuration` 或 `@Service`.
-*All-open* 允许指定这样的注解.
+`all-open` 插件允许你指定这样的注解.
 
-我们为 *all-open* 插件提供了 Gradle 和 Maven 支持, 并带有完整的 IDE 集成.
+Kotlin 为 `all-open` 插件提供了 Gradle 和 Maven 支持, 并带有完整的 IDE 集成.
 
-> 对于 Spring, 你可以使用 `kotlin-spring` 编译器插件 ([详情见下文](#spring-support)).
+> 对于 Spring, 你可以使用 [`kotlin-spring` 编译器插件](#spring-support).
 {:.note}
 
 ## Gradle
 
-向构建脚本的依赖项添加插件的库文件, 并启用插件:
+在你的 `build.gradle(.kts)` 文件中添加插件:
 
-```groovy
-buildscript {
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-allopen:{{ site.data.releases.latest.version }}"
-    }
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+plugins {
+    id("org.jetbrains.kotlin.plugin.allopen") version "{{ site.data.releases.latest.version }}"
 }
-
-apply plugin: "kotlin-allopen"
 ```
 
-或者, 你也可以使用 `plugins` 代码段启用这个插件:
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
 
 ```groovy
 plugins {
-  id "org.jetbrains.kotlin.plugin.allopen" version "{{ site.data.releases.latest.version }}"
+    id "org.jetbrains.kotlin.plugin.allopen" version "{{ site.data.releases.latest.version }}"
 }
 ```
 
+</div>
+</div>
+
 然后指定需要将类变为 open 的注解:
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+allOpen {
+    annotation("com.my.Annotation")
+    // annotations("com.another.Annotation", "com.third.Annotation")
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
 
 ```groovy
 allOpen {
@@ -51,6 +73,9 @@ allOpen {
     // annotations("com.another.Annotation", "com.third.Annotation")
 }
 ```
+
+</div>
+</div>
 
 如果类 (或它的任何超类) 标注了 `com.my.Annotation` 注解, 那么类本身和它的成员都会变为 open.
 
@@ -68,7 +93,7 @@ class MyClass // all-open 插件也会将这个类变为 open
 
 ## Maven
 
-下面是 all-open 在 Maven 中的使用方法:
+在你的 `pom.xml` 文件中添加插件:
 
 ```xml
 <plugin>
@@ -99,26 +124,29 @@ class MyClass // all-open 插件也会将这个类变为 open
 </plugin>
 ```
 
-关于 all-open 注解的工作方式, 详情请参见 [Gradle](#gradle) 小节.
+关于 all-open 注解的工作方式, 详情请参见 [Gradle 小节](#gradle).
 
 ## Spring 支持
 
-如果你使用 Spring, 你可以启用 *kotlin-spring* 编译器插件, 而不必手动指定 Spring 注解.
-kotlin-spring 是对 all-open 的一个上层封装, 它的工作方式完全相同.
+如果你使用 Spring, 你可以启用 `kotlin-spring` 编译器插件, 而不必手动指定 Spring 注解.
+`kotlin-spring` 是对 `all-open` 的一个上层封装, 它的工作方式完全相同.
 
-和 all-open 一样, 在构建脚本的依赖项中添加插件:
+在你的 `build.gradle(.kts)` 文件中添加 `spring` 插件:
 
-```groovy
-buildscript {
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-allopen:{{ site.data.releases.latest.version }}"
-    }
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+plugins {
+    id("org.jetbrains.kotlin.plugin.spring") version "{{ site.data.releases.latest.version }}"
 }
-
-apply plugin: "kotlin-spring" // 不是 "kotlin-allopen"
 ```
 
-或者使用 Gradle plugins DSL:
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
 
 ```groovy
 plugins {
@@ -126,7 +154,10 @@ plugins {
 }
 ```
 
-在 Maven 中, `spring` 插件由 `kotlin-maven-allopen` 插件依赖项提供, 因此要这样启用它:
+</div>
+</div>
+
+在 Maven 中, `spring` 插件由 `kotlin-maven-allopen` 插件依赖项提供, 因此在你的`pom.xml` 文件中要这样启用它:
 
 ```xml
 <compilerPlugins>
@@ -159,20 +190,20 @@ plugins {
  
 当然, 你也可以在同一个项目内同时使用 `kotlin-allopen` 和 `kotlin-spring`.
 
-注意, 如果你使用了由 [start.spring.io](https://start.spring.io/#!language=kotlin) 服务生成的项目模板,
-`kotlin-spring` 插件默认会被启用.
+> 如果你使用 [start.spring.io](https://start.spring.io/#!language=kotlin) 服务生成项目模板,
+> `kotlin-spring` 插件默认会被启用.
+{:.note}
 
 ## 命令行编译器
 
 All-open 编译器插件的 JAR 文件 存在于 Kotlin 编译器的二进制发布包中.
-你可以使用 `Xplugin` kotlinc 选项指定它的 JAR 文件路径, 来添加这个插件:
+你可以使用 `-Xplugin` kotlinc 选项指定它的 JAR 文件路径, 来添加这个插件:
 
 ```bash
 -Xplugin=$KOTLIN_HOME/lib/allopen-compiler-plugin.jar
 ```
 
-可以使用 `annotation` 插件选项直接指定 all-open 注解, 或者启用 "预设置(preset)".
-all-open 目前可用的预设置是 `spring`, `micronaut`, 和 `quarkus`.
+可以使用 `annotation` 插件选项直接指定 all-open 注解, 或者启用 _预设置(preset)_:
 
 ```bash
 # 插件选项格式是: "-P plugin:<plugin id>:<key>=<value>". 
@@ -181,3 +212,5 @@ all-open 目前可用的预设置是 `spring`, `micronaut`, 和 `quarkus`.
 -P plugin:org.jetbrains.kotlin.allopen:annotation=com.my.Annotation
 -P plugin:org.jetbrains.kotlin.allopen:preset=spring
 ```
+
+`all-open` 插件可以使用的预设置是: `spring`, `micronaut`, 和 `quarkus`.

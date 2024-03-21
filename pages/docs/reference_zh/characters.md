@@ -12,6 +12,9 @@ title: "字符"
 字符使用 `Char` 类型表达.
 字符的字面值(literal)使用单引号表达: `'1'`.
 
+> 在 JVM 平台, 字符保存为基本类型(Primitive Type): `char`, 表示一个 16 位的 Unicode 字符.
+{:.note}
+
 特殊字符使用反斜线转义表达.
 Kotlin 支持的转义字符包括:
 
@@ -46,6 +49,6 @@ fun main() {
 如果字符的值是数字, 可以使用 [`digitToInt()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/digit-to-int.html)
 函数显式转换为 `Int` 值.
 
-> **在 JVM 平台**: 与 [数值类型](numbers.html#numbers-representation-on-the-jvm) 一样, 当需要一个可为 null 的字符引用时, 字符会被装箱(box)为对象.
+> 在 JVM 平台, 当需要一个可为 null 的字符引用时, 字符会被装箱(box)为 Java 类, 与 [数值类型](numbers.html#numbers-representation-on-the-jvm) 一样.
 > 装箱操作不保持对象的同一性(identity).
 {:.note}

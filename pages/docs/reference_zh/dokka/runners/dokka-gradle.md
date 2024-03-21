@@ -77,8 +77,8 @@ subprojects {
 
 如果你不确定在哪里应用 Dokka, 请参见 [配置示例](#configuration-examples).
 
-> Dokka 内部会使用 [Kotlin Gradle plugin](../../gradle/gradle-configure-project.html#apply-the-plugin) 
-> 来对需要生成文档的 [源代码集](../../multiplatform/multiplatform-discover-project.html#source-sets) 进行自动配置.  
+> Dokka 内部会使用 [Kotlin Gradle plugin](../../gradle/gradle-configure-project.html#apply-the-plugin)
+> 来对需要生成文档的 [源代码集](../../multiplatform/multiplatform-discover-project.html#source-sets) 进行自动配置.
 > 请确认应用了 Kotlin Gradle Plugin, 或手动的 [配置了源代码集](#source-set-configuration).
 {:.note}
 
@@ -105,9 +105,9 @@ Gradle plugin for Dokka 默认带有
 
 对简单的单项目应用程序和库, 请使用以下 task 来构建文档:
 
-| **Task**       | **描述**                               |
-|----------------|--------------------------------------|
-| `dokkaHtml`    | 使用 [HTML](../formats/dokka-html.html) 格式生成文档. |
+| **Task**    | **描述**                                        |
+|-------------|-----------------------------------------------|
+| `dokkaHtml` | 使用 [HTML](../formats/dokka-html.html) 格式生成文档. |
 
 #### 实验性的格式
 
@@ -132,15 +132,15 @@ Gradle plugin for Dokka 默认带有
 
 Dokka 对 **父** 项目 自动创建以下 task:
 
-| **Task**                 | **描述**                                          |
-|--------------------------|-------------------------------------------------|
-| `dokkaHtmlMultiModule`   | 使用 [HTML](../formats/dokka-html.html) 输出格式生成多模块文档. |
+| **Task**               | **描述**                                             |
+|------------------------|----------------------------------------------------|
+| `dokkaHtmlMultiModule` | 使用 [HTML](../formats/dokka-html.html) 输出格式生成多模块文档. |
 
 #### 实验性的格式 (MultiModule)
 
-| **Task**                 | **描述**                                                                                      |
-|--------------------------|---------------------------------------------------------------------------------------------|
-| `dokkaGfmMultiModule`    | 使用 [GitHub 风格的 Markdown](../formats/dokka-markdown.html#gfm) 输出格式生成多模块文档.              |
+| **Task**                 | **描述**                                                                       |
+|--------------------------|------------------------------------------------------------------------------|
+| `dokkaGfmMultiModule`    | 使用 [GitHub 风格的 Markdown](../formats/dokka-markdown.html#gfm) 输出格式生成多模块文档.    |
 | `dokkaJekyllMultiModule` | 使用 [Jekyll 兼容的 Markdown](../formats/dokka-markdown.html#jekyll) 输出格式生成多模块文档. |
 
 > [Javadoc](../formats/dokka-javadoc.html) 输出格式没有 `MultiModule` task, 但可以改为使用 [`Collector`](#collector-tasks) task.
@@ -166,7 +166,7 @@ parentProject
 
 <img src="/assets/docs/images/dokka/dokkaHtmlMultiModule-example.png" alt="dokkaHtmlMultiModule task 的输出画面截图" width="600"/>
 
-更多详情, 请参见我们的 [多模块项目示例](https://github.com/Kotlin/dokka/tree/master/examples/gradle/dokka-multimodule-example).
+更多详情, 请参见我们的 [多模块项目示例](https://github.com/Kotlin/dokka/tree/{{ site.data.releases.dokkaVersion }}/examples/gradle/dokka-multimodule-example).
 
 #### Collector task
 
@@ -199,7 +199,7 @@ parentProject
 
 <img src="/assets/docs/images/dokka/dokkaHtmlCollector-example.png" alt="dokkaHtmlCollector task 的输出画面截图" width="706"/>
 
-更多详情, 请参见我们的 [多模块项目示例](https://github.com/Kotlin/dokka/tree/master/examples/gradle/dokka-multimodule-example).
+更多详情, 请参见我们的 [多模块项目示例](https://github.com/Kotlin/dokka/tree/{{ site.data.releases.dokkaVersion }}/examples/gradle/dokka-multimodule-example).
 
 #### Partial task
 
@@ -209,9 +209,9 @@ parentProject
 
 但是, 你可以 [配置](#subproject-configuration) `Partial` task, 为你的子项目定制 Dokka.
 
-> `Partial` task 生成的输出包含 未解析的 HTML 模板和引用, 
->  因此在父项目的 [`MultiModule`](#multimodule-tasks) task 进行后续处理之前,
->  这些文档还不能直接使用.
+> `Partial` task 生成的输出包含未解析的 HTML 模板和引用, 
+> 因此在父项目的 [`MultiModule`](#multimodule-tasks) task 进行后续处理之前,
+> 这些文档还不能直接使用.
 {:.warning}
 
 > 如果你只想对单个子项目生成文档, 请使用 [单项目 task](#single-project-builds).
@@ -390,11 +390,11 @@ plugins {
 }
 
 tasks.dokkaHtml {
-    outputDirectory.set(buildDir.resolve("documentation/html"))
+    outputDirectory.set(layout.buildDirectory.dir("documentation/html"))
 }
 
 tasks.dokkaGfm {
-    outputDirectory.set(buildDir.resolve("documentation/markdown"))
+    outputDirectory.set(layout.buildDirectory.dir("documentation/markdown"))
 }
 ```
 
@@ -486,8 +486,8 @@ plugins {
 tasks.withType(DokkaTask.class) {
     dokkaSourceSets.configureEach {
         documentedVisibilities.set([
-                DokkaConfiguration.Visibility.PUBLIC,
-                DokkaConfiguration.Visibility.PROTECTED
+                Visibility.PUBLIC,
+                Visibility.PROTECTED
         ])
 
         perPackageOption {
@@ -583,7 +583,7 @@ subprojects {
 
     // 只配置 HTML task
     tasks.dokkaHtmlPartial {
-        outputDirectory.set(buildDir.resolve("docs/partial"))
+        outputDirectory.set(layout.buildDirectory.dir("docs/partial"))
     }
 
     // 配置所有格式
@@ -649,7 +649,7 @@ apply(plugin = "org.jetbrains.dokka")
 
 // 只配置 subproject-A.
 tasks.dokkaHtmlPartial {
-    outputDirectory.set(buildDir.resolve("docs/partial"))
+    outputDirectory.set(layout.buildDirectory.dir("docs/partial"))
 }
 ```
 
@@ -742,20 +742,20 @@ Dokka 有很多配置选项, 可以用来定制你和你的读者的体验.
 ```kotlin
 import org.jetbrains.dokka.gradle.DokkaTask
 
-// 注意: 要配置多项目构建, 你需要配置子项目的 Partial task. 
-//      参见本文档的 "配置示例" 小节. 
+// 注意: 要配置多项目构建, 你需要配置子项目的 Partial task.
+//      参见本文档的 "配置示例" 小节.
 tasks.withType<DokkaTask>().configureEach {
     moduleName.set(project.name)
     moduleVersion.set(project.version.toString())
-    outputDirectory.set(buildDir.resolve("dokka/$name"))
+    outputDirectory.set(layout.buildDirectory.dir("dokka/$name"))
     failOnWarning.set(false)
     suppressObviousFunctions.set(true)
     suppressInheritedMembers.set(false)
     offlineMode.set(false)
-    
-    // ..
+
+    // ...
     // 参见本文档的 "源代码集配置" 小节
-    // ..
+    // ...
 }
 ```
 
@@ -779,9 +779,9 @@ tasks.withType(DokkaTask.class) {
     suppressInheritedMembers.set(false)
     offlineMode.set(false)
 
-    // ..
+    // ...
     // 参见本文档的 "源代码集配置" 小节
-    // ..
+    // ...
 }
 ```
 
@@ -871,9 +871,9 @@ import java.net.URL
 // 注意: 要配置多项目构建, 你需要配置子项目的 Partial task. 
 //      参见本文档的 "配置示例" 小节. 
 tasks.withType<DokkaTask>().configureEach {
-    // ..
+    // ...
     // 参见本文档的 "一般配置" 小节
-    // ..
+    // ...
 
     dokkaSourceSets {
         // 专属于 'linux' 源代码集的配置
@@ -930,10 +930,10 @@ import java.net.URL
 // 注意: 要配置多项目构建, 你需要配置子项目的 Partial task. 
 //      参见本文档的 "配置示例" 小节. 
 tasks.withType(DokkaTask.class) {
-    // ..
+    // ...
     // 参见本文档的 "一般配置" 小节
-    // ..
-    
+    // ...
+
     dokkaSourceSets {
         // 专属于 'linux' 源代码集的配置
         named("linux") {
@@ -1074,7 +1074,7 @@ tasks.withType(DokkaTask.class) {
 
 是否生成指向 Kotlin 标准库的 API 参考文档的外部文档链接.
 
-注意: 当 `noStdLibLink` 设置为 `false` 时, **会** 生成链接..
+注意: 当 `noStdLibLink` 设置为 `false` 时, **会** 生成链接.
 
 默认值: `false`
 
@@ -1157,15 +1157,15 @@ import java.net.URL
 // 注意: 要配置多项目构建, 你需要配置子项目的 Partial task. 
 //      参见本文档的 "配置示例" 小节. 
 tasks.withType<DokkaTask>().configureEach {
-    // ..
+    // ...
     // 参见本文档的 "一般配置" 小节
-    // ..
-    
+    // ...
+
     dokkaSourceSets.configureEach {
-        // ..
+        // ...
         // 参见本文档的 "源代码集配置" 小节
-        // ..
-        
+        // ...
+
         sourceLink {
             localDirectory.set(projectDir.resolve("src"))
             remoteUrl.set(URL("https://github.com/kotlin/dokka/tree/master/src"))
@@ -1188,15 +1188,15 @@ import java.net.URL
 // 注意: 要配置多项目构建, 你需要配置子项目的 Partial task. 
 //      参见本文档的 "配置示例" 小节. 
 tasks.withType(DokkaTask.class) {
-    // ..
+    // ...
     // 参见本文档的 "一般配置" 小节
-    // ..
-    
+    // ...
+
     dokkaSourceSets.configureEach {
-        // ..
+        // ...
         // 参见本文档的 "源代码集配置" 小节
-        // ..
-        
+        // ...
+
         sourceLink {
             localDirectory.set(file("src"))
             remoteUrl.set(new URL("https://github.com/kotlin/dokka/tree/master/src"))
@@ -1247,15 +1247,15 @@ import org.jetbrains.dokka.gradle.DokkaTask
 // 注意: 要配置多项目构建, 你需要配置子项目的 Partial task. 
 //      参见本文档的 "配置示例" 小节. 
 tasks.withType<DokkaTask>().configureEach {
-    // ..
+    // ...
     // 参见本文档的 "一般配置" 小节
-    // ..
-    
+    // ...
+
     dokkaSourceSets.configureEach {
-        // ..
+        // ...
         // 参见本文档的 "源代码集配置" 小节
-        // ..
-        
+        // ...
+
         perPackageOption {
             matchingRegex.set(".*api.*")
             suppress.set(false)
@@ -1280,15 +1280,15 @@ import org.jetbrains.dokka.gradle.DokkaTask
 // 注意: 要配置多项目构建, 你需要配置子项目的 Partial task. 
 //      参见本文档的 "配置示例" 小节. 
 tasks.withType(DokkaTask.class) {
-    // ..
+    // ...
     // 参见本文档的 "一般配置" 小节
-    // ..
-    
+    // ...
+
     dokkaSourceSets.configureEach {
-        // ..
+        // ...
         // 参见本文档的 "源代码集配置" 小节
-        // ..
-        
+        // ...
+
         perPackageOption {
             matchingRegex.set(".*api.*")
             suppress.set(false)
@@ -1369,15 +1369,15 @@ import java.net.URL
 // 注意: 要配置多项目构建, 你需要配置子项目的 Partial task. 
 //      参见本文档的 "配置示例" 小节. 
 tasks.withType<DokkaTask>().configureEach {
-    // ..
+    // ...
     // 参见本文档的 "一般配置" 小节
-    // ..
-    
+    // ...
+
     dokkaSourceSets.configureEach {
-        // ..
+        // ...
         // 参见本文档的 "源代码集配置" 小节
-        // ..
-        
+        // ...
+
         externalDocumentationLink {
             url.set(URL("https://kotlinlang.org/api/kotlinx.serialization/"))
             packageListUrl.set(
@@ -1401,15 +1401,15 @@ import java.net.URL
 // 注意: 要配置多项目构建, 你需要配置子项目的 Partial task. 
 //      参见本文档的 "配置示例" 小节. 
 tasks.withType(DokkaTask.class) {
-    // ..
+    // ...
     // 参见本文档的 "一般配置" 小节
-    // ..
-    
+    // ...
+
     dokkaSourceSets.configureEach {
-        // ..
+        // ...
         // 参见本文档的 "源代码集配置" 小节
-        // ..
-        
+        // ...
+
         externalDocumentationLink {
             url.set(new URL("https://kotlinlang.org/api/kotlinx.serialization/"))
             packageListUrl.set(
@@ -1452,12 +1452,12 @@ import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.dokka.Platform
 import java.net.URL
 
-// 注意: 要配置多项目构建, 你需要配置子项目的 Partial task. 
-//      参见本文档的 "配置示例" 小节. 
+// 注意: 要配置多项目构建, 你需要配置子项目的 Partial task.
+//      参见本文档的 "配置示例" 小节.
 tasks.withType<DokkaTask>().configureEach {
     moduleName.set(project.name)
     moduleVersion.set(project.version.toString())
-    outputDirectory.set(buildDir.resolve("dokka/$name"))
+    outputDirectory.set(layout.buildDirectory.dir("dokka/$name"))
     failOnWarning.set(false)
     suppressObviousFunctions.set(true)
     suppressInheritedMembers.set(false)

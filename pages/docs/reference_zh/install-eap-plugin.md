@@ -14,7 +14,11 @@ title: "安装 Kotlin EAP Plugin"
     <p><a href="eap.html#build-details">查看 Kotlin EAP 版</a></p>
 </microformat>
 
-按照以下步骤来安装 [IntelliJ IDEA 和 Android Studio 的 Kotlin Plugin 预览版](eap.html#build-details).
+> 从 IntelliJ IDEA 2023.3 和 Android Studio Iguana (2023.2.1) Canary 15 开始, 不再需要单独设置 Kotlin plugin.
+> 你只需要在你的构建脚本中 [修改 Kotlin 版本](configure-build-for-eap.html).
+{:.note}
+
+请按照以下步骤来安装 IntelliJ IDEA 和 Android Studio 的 Kotlin Plugin 预览版.
 
 1. 选择 **Tools** \| **Kotlin** \| **Configure Kotlin Plugin Updates**. 
 
@@ -27,6 +31,11 @@ title: "安装 Kotlin EAP Plugin"
 3. 点击 **Check again**. 会出现最新的 EAP 版本.
 
     <img src="/assets/docs/images/eap/idea-latest-kotlin-eap.png" alt="安装 EAP 版" width="500"/>
+
+   > 如果 Kotlin EAP plugin 找不到最新的 EAP 版本, 请检查你使用的是不是
+   > [IntelliJ IDEA](https://www.jetbrains.com/help/idea/update.html) 或 [Android Studio](https://developer.android.com/studio/intro/update)
+   > 的最新版本.
+   {:.note}
 
 4. 点击 **Install**.
 

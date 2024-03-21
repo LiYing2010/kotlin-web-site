@@ -208,7 +208,7 @@ java -jar dokka-cli-{{ site.data.releases.dokkaVersion }}.jar \
 
 下表包括所有可以使用的配置选项, 以及它们的用途.
 
-| **选项**  | **描述**                                                                                                                                                               |
+| **选项**                                  | **描述**                                                                                                                                                               |
 |-----------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `customAssets`                          | 要与文档绑定到一起的图片资源的路径列表. 图片资源可以使用任意的文件扩展名. 更多详情请参见 [自定义资源](#customize-assets).                                                                                           |
 | `customStyleSheets`                     | 要与文档绑定到一起并在显示时使用的 `.css` 样式表的路径列表. 更多详情请参见 [自定义样式表](#customize-styles).                                                                                              |
@@ -230,15 +230,14 @@ java -jar dokka-cli-{{ site.data.releases.dokkaVersion }}.jar \
 
 可以通过提供相同名称的文件来覆盖 Dokka 的默认样式表:
 
-| **样式表名称**           | **描述**                                         |
-|----------------------|------------------------------------------------|
-| `style.css`          | 主样式表, 包含在所有页面中使用的大部分样式                         |
-| `logo-styles.css`    | 页头 logo 样式                                     |
-| `prism.css`          | 用于 [PrismJS](https://prismjs.com/) 语法高亮度显示器的样式 |
-| `jetbrains-mono.css` | 字体样式                                          |
+| **样式表名称**         | **描述**                                         |
+|-------------------|------------------------------------------------|
+| `style.css`       | 主样式表, 包含在所有页面中使用的大部分样式                         |
+| `logo-styles.css` | 页头 logo 样式                                     |
+| `prism.css`       | 用于 [PrismJS](https://prismjs.com/) 语法高亮度显示器的样式 |
 
 Dokka 所有样式表的源代码, 请参见
-[GitHub](https://github.com/Kotlin/dokka/tree/{{ site.data.releases.dokkaVersion }}/plugins/base/src/main/resources/dokka/styles).
+[GitHub](https://github.com/Kotlin/dokka/tree/{{ site.data.releases.dokkaVersion }}/dokka-subprojects/plugin-base/src/main/resources/dokka/styles).
 
 ### 自定义资源
 
@@ -250,7 +249,7 @@ Dokka 所有样式表的源代码, 请参见
 最重要的是 `logo-icon.svg`, 它是用于页头的图片. 其他主要是图标.
 
 Dokka 使用的所有图片, 请参见
-[GitHub](https://github.com/Kotlin/dokka/tree/{{ site.data.releases.dokkaVersion }}/plugins/base/src/main/resources/dokka/images).
+[GitHub](https://github.com/Kotlin/dokka/tree/{{ site.data.releases.dokkaVersion }}/dokka-subprojects/plugin-base/src/main/resources/dokka/images).
 
 ### 修改 logo
 
@@ -274,17 +273,17 @@ Dokka 提供了修改用于生成文档页面的 [FreeMarker](https://freemarker
 
 Dokka 使用以下模板:
 
-| **模板**                      | **描述**                                                                   |
-|-----------------------------------|--------------------------------------------------------------------------|
-| `base.ftl`                        | 定义显示的所有页面的通常设计.                                                          |
-| `includes/header.ft`              | 页头, 默认包含 logo, 版本, 源代码集选择器, 浅色/深色主题切换, 以及搜索.                             |
-| `includes/footer.ft`              | 页脚, 包含 `footerMessage` [配置选项](#configuration), 以及版权信息.                   |
-| `includes/page_metadata.ft`       | 在 `<head>` 容器内使用的元数据.                                                    |
-| `includes/source_set_selector.ft` | 页头中的 [源代码集](../../multiplatform/multiplatform-discover-project.html#source-sets) 选择器. |
+| **模板**                             | **描述**                                                                                |
+|------------------------------------|---------------------------------------------------------------------------------------|
+| `base.ftl`                         | 定义显示的所有页面的通常设计.                                                                       |
+| `includes/header.ftl`              | 页头, 默认包含 logo, 版本, 源代码集选择器, 浅色/深色主题切换, 以及搜索.                                          |
+| `includes/footer.ftl`              | 页脚, 包含 `footerMessage` [配置选项](#configuration), 以及版权信息.                                |
+| `includes/page_metadata.ftl`       | 在 `<head>` 容器内使用的元数据.                                                                 |
+| `includes/source_set_selector.ftl` | 页头中的 [源代码集](../../multiplatform/multiplatform-discover-project.html#source-sets) 选择器. |
 
 基础模板是 `base.ftl`, 它引入(include)其它所有模板.
 Dokka 所有模板的源代码请参见
-[GitHub](https://github.com/Kotlin/dokka/tree/{{ site.data.releases.dokkaVersion }}/plugins/base/src/main/resources/dokka/templates).
+[GitHub](https://github.com/Kotlin/dokka/tree/{{ site.data.releases.dokkaVersion }}/dokka-subprojects/plugin-base/src/main/resources/dokka/templates).
 
 你可以使用 `templatesDir` [配置选项](#configuration) 覆盖任何一个模板.
 Dokka 会在指定的目录搜索指定的模板名称. 如果无法找到用户定义的模板, 它会使用默认模板.
@@ -293,13 +292,13 @@ Dokka 会在指定的目录搜索指定的模板名称. 如果无法找到用户
 
 下表是在所有模板内可以使用的变量:
 
-| **变量**       | **描述**                                                                                                                                                |
-|-----------|------------|
-| `${pageName}`      | 页面名称      |
-| `${footerMessage}` | `footerMessage` [配置选项](#configuration) 设置的文字       |
+| **变量**             | **描述**                                                                                                                                                |
+|--------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `${pageName}`      | 页面名称                                                                                                                                                  |
+| `${footerMessage}` | `footerMessage` [配置选项](#configuration) 设置的文字                                                                                                          |
 | `${sourceSets}`    | 用于对跨平台页面的 [源代码集](../../multiplatform/multiplatform-discover-project.html#source-sets) List, 可为 null. List 中的每个元素包含 `name`, `platform`, 和 `filter` 属性. |
-| `${projectName}`   | 项目名称. 只能在 `template_cmd` 命令内使用.       |
-| `${pathToRoot}`    | 从当前页面到根的路径. 可以用于定位资源, 只能在 `template_cmd` 命令内使用.      |
+| `${projectName}`   | 项目名称. 只能在 `template_cmd` 命令内使用.                                                                                                                       |
+| `${pathToRoot}`    | 从当前页面到根的路径. 可以用于定位资源, 只能在 `template_cmd` 命令内使用.                                                                                                       |
 
 变量 `projectName` 和 `pathToRoot` 只能在 `template_cmd` 命令内使用,
 因为它们需要更多的上下文信息, 因此需要在更晚的阶段由 [MultiModule](../runners/dokka-gradle.html#multi-project-builds) task 解析:
@@ -314,8 +313,8 @@ Dokka 会在指定的目录搜索指定的模板名称. 如果无法找到用户
 
 你也可以使用下面这些由 Dokka 定义的 [命令](https://freemarker.apache.org/docs/ref_directive_userDefined.html):
 
-| **变量**    | **描述**                                                                                                               |
-|-----------------|----------------------------------------------------------------------------------------------------------------------|
-| `<@content/>`   | 主页面内容.                                                                                                               |
-| `<@resources/>` | 资源, 例如脚本和样式表.                                                                                                        |
-| `<@version/>`   | 从配置得到的模块版本. 如果应用了 [versioning plugin](https://github.com/Kotlin/dokka/tree/master/plugins/versioning), 它会被替换为一个版本导航器. |
+| **变量**          | **描述**                                                                                                                                                                |
+|-----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `<@content/>`   | 主页面内容.                                                                                                                                                                |
+| `<@resources/>` | 资源, 例如脚本和样式表.                                                                                                                                                         |
+| `<@version/>`   | 从配置得到的模块版本. 如果应用了 [versioning plugin](https://github.com/Kotlin/dokka/tree/{{ site.data.releases.dokkaVersion }}/dokka-subprojects/plugin-versioning), 它会被替换为一个版本导航器. |

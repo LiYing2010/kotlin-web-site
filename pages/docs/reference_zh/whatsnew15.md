@@ -81,7 +81,7 @@ class FilledRectangle: Polygon, Fillable
 
 一个封闭类的子类必须拥有正确限定的名称 – 不能是局部对象或匿名对象.
 
-详情请参见, [封闭类的层级结构](sealed-classes.html#location-of-direct-subclasses).
+详情请参见, [封闭类的层级结构](sealed-classes.html#inheritance).
 
 ### 内联类(Inline Class)
 
@@ -187,7 +187,7 @@ Kotlin 1.5.0 现在使用动态调用 (`invokedynamic`) 来编译 SAM (Single Ab
 
 要回退到旧的基于匿名类生成的实现方式, 可以添加编译器选项 `-Xsam-conversions=class`.
 
-详情请参见, 如何在 [Gradle](gradle/gradle-compiler-options.html), [Maven](maven.html#specifying-compiler-options),
+详情请参见, 如何在 [Gradle](gradle/gradle-compiler-options.html), [Maven](maven.html#specify-compiler-options),
 以及 [命令行编译器](compiler-reference.html#compiler-options) 中添加编译器选项.
 
 ### 使用 invokedynamic 编译 Lambda 表达式
@@ -214,7 +214,7 @@ of a functional 接口) 编译为动态调用(`invokedynamic`).
 要试用这个功能, 请添加 `-Xlambdas=indy` 编译器选项.
 如果你能够在这个 [YouTrack ticket](https://youtrack.jetbrains.com/issue/KT-45375) 中提供你的反馈意见, 我们十分感谢.
 
-详情请参见, 如何在 [Gradle](gradle/gradle-compiler-options.html), [Maven](maven.html#specifying-compiler-options),
+详情请参见, 如何在 [Gradle](gradle/gradle-compiler-options.html), [Maven](maven.html#specify-compiler-options),
 以及 [命令行编译器](compiler-reference.html#compiler-options) 中添加编译器选项.
 
 ### 废弃 @JvmDefault 和旧的 Xjvm-default 模式

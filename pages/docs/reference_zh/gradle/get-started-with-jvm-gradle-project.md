@@ -34,9 +34,21 @@ title: "Gradle 与 Kotlin/JVM 入门"
 
 7. 在 **Gradle DSL** 选项中, 选择 **Kotlin**.
 8. 选中 **Add sample code** 选项, 创建一个文件, 其中包含一个 `"Hello World!"` 示例程序.
+
+   > 你也可以启用 **Generate code with onboarding tips** 选项, 向你的示例代码添加一些有用的注释.
+   {:.tip}
+
 9. 点击 **Create**.
 
 这样你就成功的创建了 Gradle 项目.
+
+#### 为你的项目指定 Gradle 版本
+
+你可以在 **Advanced Settings** 中为你的项目明确指定 Gradle 版本, 可以使用 Gradle Wrapper, 也可以使用本地安装的 Gradle:
+* **使用 Gradle Wrapper:** 在 **Gradle distribution** 选项列表中, 选择 **Wrapper**. 取消 **Auto-select** 选择框, 并在 **Gradle version** 选项列表中, 选择你的 Gradle 版本.
+* **使用本地安装的 Gradle:** 在 **Gradle distribution** 选项列表中, 选择 **Local installation**. 对 **Gradle location**, 请指定你的本地 local Gradle 版本的路径.
+
+  <img src="/assets/docs/images/gradle/jvm-new-gradle-project-advanced.png" alt="高级设置" width="700"/>
 
 ## 查看构建脚本
 
@@ -59,8 +71,8 @@ repositories { // 依赖项的下载源仓库. 参见 2️⃣
 }
 
 dependencies { // 你想要使用的所有库. 参见 4️⃣
-   // 复制你在仓库中找到的依赖项名称 
-   testImplementation(kotlin("test")) // Kotlin test 库
+    // 复制你在仓库中找到的依赖项名称 
+    testImplementation(kotlin("test")) // Kotlin test 库
 }
 
 tasks.test { // 参见 5️⃣
@@ -68,7 +80,7 @@ tasks.test { // 参见 5️⃣
 }
 
 kotlin { // 扩展, 用于简化设置
-   jvmToolchain(8) // 生成的 JVM bytecode 的目标版本. 参见 7️⃣
+    jvmToolchain({{ site.data.releases.jvmLTSVersionSupportedByKotlin }}) // 生成的 JVM bytecode 的目标版本. 参见 7️⃣
 }
 
 application {
@@ -79,8 +91,8 @@ application {
 * 1️⃣ [Application plugin](https://docs.gradle.org/current/userguide/application_plugin.html)
   支持构建 Java CLI 应用程序.
 * 2️⃣ 参见 [依赖项的下载源仓库](https://docs.gradle.org/current/userguide/declaring_repositories.html).
-* 3️⃣ [Maven Central Repository](https://search.maven.org/).
-  也可以使用 [Google 的 Maven repository](https://maven.google.com/web/index.html),
+* 3️⃣ [Maven Central Repository](https://central.sonatype.com/).
+  也可以使用 [Google 的 Maven repository](https://maven.google.com/),
   或你的公司的私有仓库.
 * 4️⃣ 参见 [声明依赖项](https://docs.gradle.org/current/userguide/declaring_dependencies.html).
 * 5️⃣ 参见 [构建任务(Task)](https://docs.gradle.org/current/dsl/org.gradle.api.Task.html).
@@ -89,7 +101,7 @@ application {
 
 你可以看到, Gradle 构建文件中还添加了几个 Kotlin 相关的 artifact:
 
-1. 在 `plugins` 代码段中, 有 `kotlin("jvm")` artifact – 这个 plugin 定义项目中使用的 Kotlin 版本.
+1. 在 `plugins{}` 代码段中, 有 `kotlin("jvm")` artifact – 这个 plugin 定义项目中使用的 Kotlin 版本.
 
 2. 在 `dependencies` 内, 有 `testImplementation(kotlin("test"))`. 
    详情请参见 [设置测试库的依赖项](gradle-configure-project.html#set-dependencies-on-test-libraries).

@@ -55,7 +55,7 @@ enum class ProtocolState {
 可以为所有的枚举常数提供一个共同的实现, 也可以在不同的枚举常数的匿名类中提供不同的实现.
 枚举类实现接口时, 只需要在枚举类的声明中加入希望实现的接口名, 示例如下:
 
-<div class="sample" markdown="1" theme="idea">
+<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.9">
 
 ```kotlin
 import java.util.function.BinaryOperator
@@ -77,7 +77,7 @@ enum class IntArithmetics : BinaryOperator<Int>, IntBinaryOperator {
 fun main() {
     val a = 13
     val b = 31
-    for (f in IntArithmetics.values()) {
+    for (f in IntArithmetics.entries) {
         println("$f($a, $b) = ${f.apply(a, b)}")
     }
 }
@@ -91,31 +91,94 @@ fun main() {
 
 ## 使用枚举常数
 
-Kotlin 中的枚举类拥有编译器添加的方法, 可以列出枚举类中定义的所有枚举常数值, 可以通过枚举常数值的名称字符串得到对应的枚举常数值.
+Kotlin 中的枚举类拥有编译器添加的合成的(synthetic)属性和方法, 可以列出枚举类中定义的所有枚举常数值, 可以通过枚举常数值的名称字符串得到对应的枚举常数值.
 这些方法的签名如下(这里假设枚举类名称为 `EnumClass`):
 
 ```kotlin
 EnumClass.valueOf(value: String): EnumClass
-EnumClass.values(): Array<EnumClass>
+EnumClass.entries: EnumEntries<EnumClass> // 专门的 List<EnumClass>
 ```
+
+下面是这些属性和方法的使用示例:
+
+<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.9" id="rgb-enums-kotlin">
+
+```kotlin
+enum class RGB { RED, GREEN, BLUE }
+
+fun main() {
+    for (color in RGB.entries) println(color.toString()) // 输出结果为 RED, GREEN, BLUE
+    println("The first color is: ${RGB.valueOf("RED")}") // 输出结果为 "The first color is: RED"
+}
+```
+
+</div>
 
 如果给定的名称不能匹配枚举类中定义的任何一个枚举常数值, `valueOf()` 方法会抛出 `IllegalArgumentException` 异常.
 
-你可以通过 `enumValues<T>()` 和 `enumValueOf<T>()` 函数, 以泛型方式取得枚举类中的常数:
+在 Kotlin 1.9.0 引入 `entries` 之前, 是使用 `values()` 函数来取得枚举常数的数组.
+
+每个枚举常数值也拥有属性:
+[`name`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/name.html)
+和
+[`ordinal`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/ordinal.html),
+可以取得它的名称, 以及在枚举类中声明的顺序(从 0 开始):
+
+<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3" id="rgb-enums-properties-kotlin">
+
+```kotlin
+enum class RGB { RED, GREEN, BLUE }
+
+fun main() {
+    //sampleStart
+    println(RGB.RED.name)    // 输出结果为 RED
+    println(RGB.RED.ordinal) // 输出结果为 0
+    //sampleEnd
+}
+```
+
+</div>
+
+你可以通过
+[`enumValues<T>()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/enum-values.html) 
+和
+[`enumValueOf<T>()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/enum-value-of.html)
+函数, 以泛型方式取得枚举类中的常数:
 
 ```kotlin
 enum class RGB { RED, GREEN, BLUE }
 
 inline fun <reified T : Enum<T>> printAllValues() {
-    print(enumValues<T>().joinToString { it.name })
+    println(enumValues<T>().joinToString { it.name })
 }
 
-printAllValues<RGB>() // 打印结果为 RED, GREEN, BLUE
+printAllValues<RGB>() // 输出结果为 RED, GREEN, BLUE
 ```
 
-每个枚举常数值都拥有属性, 可以取得它的名称, 以及它在枚举类中声明的顺序(从 0 开始计算):
+> 关于内联函数(inline function)和实体化的类型参数(Reified type parameter), 详情请参见 [内联函数](inline-functions.html).
+{:.tip}
+
+在 Kotlin 1.9.20 中, 引入了 `enumEntries<T>()` 函数,  作为
+[`enumValues<T>()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/enum-values.html)
+函数的未来的替代.
+
+Kotlin 仍然支持 `enumValues<T>()` 函数, 但我们推荐你改为使用 `enumEntries<T>()` 函数, 因为它的性能损失较少.
+每次调用 `enumValues<T>()` 都会创建一个新的数组, 而每次调用 `enumEntries<T>()` 都会返回相同的 List, 这样的性能要高效得多.
+
+例如:
 
 ```kotlin
-val name: String
-val ordinal: Int
+enum class RGB { RED, GREEN, BLUE }
+
+@OptIn(ExperimentalStdlibApi::class)
+inline fun <reified T : Enum<T>> printAllValues() {
+    println(enumEntries<T>().joinToString { it.name })
+}
+
+printAllValues<RGB>() 
+// 输出结果为 RED, GREEN, BLUE
 ```
+
+> `enumEntries<T>()` 函数实验性功能. 要使用它, 需要标注 `@OptIn(ExperimentalStdlibApi)` 注解来表示使用者同意(Opt-in),
+> 并 [将语言版本设置为 1.9 以上](gradle/gradle-compiler-options.html#attributes-common-to-jvm-and-js).
+{:.warning}

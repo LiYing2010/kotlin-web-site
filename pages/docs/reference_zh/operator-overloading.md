@@ -109,7 +109,8 @@ fun main() {
 | `a * b` | `a.times(b)` |
 | `a / b` | `a.div(b)` |
 | `a % b` | `a.rem(b)` |
-| `a..b ` | `a.rangeTo(b)` |
+| `a..b`  | `a.rangeTo(b)` |
+| `a..<b` | `a.rangeUntil(b)` |
 
 对于上表中的操作符, 编译器只是简单地解析 *翻译为* 列中的表达式.
 
@@ -207,6 +208,7 @@ data class Counter(val dayIndex: Int) {
 所有的比较操作符都被翻译为对 `compareTo` 函数的调用, 这个函数的返回值必须是 `Int` 类型.
 
 ### 属性委托操作符
+
 关于 `provideDelegate`, `getValue` 和 `setValue` 操作符函数, 请参见 [委托属性](delegated-properties.html).
 
 ## 对命名函数的中缀式调用

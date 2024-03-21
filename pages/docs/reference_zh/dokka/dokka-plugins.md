@@ -30,9 +30,9 @@ Dokka plugin 作为单独的 artifact 发布, 因此要应用一个 Dokka plugin
 > 但是, 应该不会导致一致性问题, 因为 Dokka 没有公开任何可变的数据结构和对象.
 >
 > 如果你发现这类问题, 建议检查应用了哪些 plugin, 以及这些 plugin 的行为.
-{:.note}
+> {:.note}
 
-我们来看看在你的项目中如何应用 [mathjax plugin](https://github.com/Kotlin/dokka/tree/master/plugins/mathjax):
+我们来看看在你的项目中如何应用 [mathjax plugin](https://github.com/Kotlin/dokka/tree/{{ site.data.releases.dokkaVersion }}/dokka-subprojects/plugin-mathjax):
 
 <div class="multi-language-sample" data-lang="kotlin">
 
@@ -355,13 +355,13 @@ java -jar dokka-cli-{{ site.data.releases.dokkaVersion }}.jar \
 
 下面是一些重要的 Dokka plugin, 可能对你有用:
 
-| **名称**                                                                                                    | **描述**                                                                    |
-|-----------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
-| [Android documentation plugin](https://github.com/Kotlin/dokka/tree/master/plugins/android-documentation) | 改善 Android 上的文档体验 |
-| [Versioning plugin](https://github.com/Kotlin/dokka/tree/master/plugins/versioning)                       | 添加版本选择器, 帮助组织你的应用程序/库的多个不同版本的文档 |
-| [MermaidJS HTML plugin](https://github.com/glureau/dokka-mermaid)                                         | 输出 KDocs 中出现的 [MermaidJS](https://mermaid-js.github.io/mermaid/#/) 图和视觉效果 |
-| [Mathjax HTML plugin](https://github.com/Kotlin/dokka/tree/master/plugins/mathjax)                        | 美化输出 KDocs 中出现的数学公式 |
-| [Kotlin as Java plugin](https://github.com/Kotlin/dokka/tree/master/plugins/kotlin-as-java)               | 以 Java 视角输出 Kotlin 签名 |
+| **名称**                                                                                                                                                    | **描述**                                                                    |
+|-----------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
+| [Android documentation plugin](https://github.com/Kotlin/dokka/tree/{{ site.data.releases.dokkaVersion }}/dokka-subprojects/plugin-android-documentation) | 改善 Android 上的文档体验                                                         |
+| [Versioning plugin](https://github.com/Kotlin/dokka/tree/{{ site.data.releases.dokkaVersion }}/dokka-subprojects/plugin-versioning)                       | 添加版本选择器, 帮助组织你的应用程序/库的多个不同版本的文档                                           |
+| [MermaidJS HTML plugin](https://github.com/glureau/dokka-mermaid)                                                                                         | 输出 KDocs 中出现的 [MermaidJS](https://mermaid-js.github.io/mermaid/#/) 图和视觉效果 |
+| [Mathjax HTML plugin](https://github.com/Kotlin/dokka/tree/{{ site.data.releases.dokkaVersion }}/dokka-subprojects/plugin-mathjax)                        | 美化输出 KDocs 中出现的数学公式                                                       |
+| [Kotlin as Java plugin](https://github.com/Kotlin/dokka/tree/{{ site.data.releases.dokkaVersion }}/dokka-subprojects/plugin-kotlin-as-java)               | 以 Java 视角输出 Kotlin 签名                                                     |
 
 如果你是 Dokka plugin 的开发者, 希望将你的 plugin 添加到这个列表,
 请通过 [Slack](dokka-introduction.html#community) 或 [GitHub](https://github.com/Kotlin/dokka/) 联系维护者.

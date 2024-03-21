@@ -74,7 +74,7 @@ Kotlin 1.7.0 已经发布了. 它公布了新的 Kotlin/JVM K2 编译器的 Alph
 
 Kotlin 的下一个发布版本将会改进 K2 编译器的稳定性, 并提供更多功能, 敬请期待!
 
-如果你使用 Kotlin K2 编译器时遇到任何性能问题, 请 [向我们的问题追踪系统提交报告](https://youtrack.jetbrains.com/newIssue?project=KT&c=Type%20Performance%20Problem&c=Subsystems%20Frontend.%20IR).
+如果你使用 Kotlin K2 编译器时遇到任何性能问题, 请 [向我们的问题追踪系统提交报告](https://kotl.in/issue).
 
 ## 语言功能
 
@@ -195,7 +195,7 @@ fun main() {
 
 这个发布版带来了对 Kotlin/JVM 编译器的性能改进, 以及一个新的编译器 选项.
 此外, 对函数式接口构造器的可调用引用升级为稳定版.
-注意, 从 1.7.0 开始, Kotlin/JVM 的默认编译目标版本现在是 `1.8`.
+注意, 从 1.7.0 开始, Kotlin/JVM 的默认编译目标版本是 `1.8`.
 
 * [编译器性能优化](#compiler-performance-optimizations)
 * [新的编译器选项 `-Xjdk-release`](#new-compiler-option-xjdk-release)
@@ -330,7 +330,7 @@ Kotlin 1.7.0 修正了这个问题, 现在这样的情况会导致程序终止.
 
 在以前的版本中, 你需要安装 CocoaPods 依赖项管理器和 `cocoapods-generate` plugin 才能使用 CocoaPods,
 比如, 用来在 Kotlin Multiplatform Mobile 项目中管理
-[iOS 依赖项](multiplatform-mobile/multiplatform-mobile-ios-dependencies.html#with-cocoapods).
+[iOS 依赖项](multiplatform/multiplatform-ios-dependencies.html#with-cocoapods).
 
 现在设置与 CocoaPods 的集成变得更加简单, 而且我们解决了 `cocoapods-generate` 不能在 Ruby 3 和更高版本上安装的问题.
 现在还支持最新的 Ruby 版本, 它在 Apple M1 上工作得更好.
@@ -435,7 +435,7 @@ kotlin {
 还对 Native, JS, 和 JVM 平台统一了对命名捕获组(Named Capturing Group)的支持:
 
 * [集合函数 min() 和 max() 返回非 null 值](#min-and-max-collection-functions-return-as-non-nullable)
-* [在明确指定的下标处查找正则表达式匹配](#regular-expression-matching-at-specific-indices)
+* [在明确指定的下标处查找正规表达式匹配](#regular-expression-matching-at-specific-indices)
 * [延长对旧的语言和 API 版本的支持](#extended-support-for-previous-language-and-api-versions)
 * [通过反射访问注解](#access-to-annotations-via-reflection)
 * [深度递归(Deep Recursive) 函数升级为稳定版](#stable-deep-recursive-functions)
@@ -465,18 +465,18 @@ fun main() {
 }
 ```
 
-### 在明确指定的下标处查找正则表达式匹配
+### 在明确指定的下标处查找正规表达式匹配
 
 [在 1.5.30 中引入](whatsnew1530.html#matching-with-regex-at-a-particular-position)
 的 `Regex.matchAt()` 和 `Regex.matchesAt()` 函数现在升级为稳定版.
-这些函数提供了一种方法, 在一个 `String` 或 `CharSequence` 中的一个指定的位置, 检查正则表达式是否存在一个完整的匹配.
+这些函数提供了一种方法, 在一个 `String` 或 `CharSequence` 中的一个指定的位置, 检查正规表达式是否存在一个完整的匹配.
 
 `matchesAt()` 检查一个匹配, 并返回一个 boolean 结果:
 
 ```kotlin
 fun main() {
     val releaseText = "Kotlin 1.7.0 is on its way!"
-    // 正则表达式: 一个数字, 点号, 一个数字, 点号, 一个或多个数字
+    // 正规表达式: 一个数字, 点号, 一个数字, 点号, 一个或多个数字
     val versionRegex = "\\d[.]\\d[.]\\d+".toRegex()
 
     println(versionRegex.matchesAt(releaseText, 0)) // 输出结果为 "false"
@@ -642,14 +642,14 @@ println(list)
 
 从 Kotlin 1.7.0 开始, 命名捕获组(Named Capturing Group) 不仅在 JVM 上支持, 而且在 JS 和 Native 平台也支持了.
 
-要为一个捕获组指定一个名称, 请在你的正则表达式中使用 (`?<name>group`) 语法.
+要为一个捕获组指定一个名称, 请在你的正规表达式中使用 (`?<name>group`) 语法.
 要得到被这个组匹配的文本, 请调用新引入的函数
 [`MatchGroupCollection.get()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/get.html),
 参数是组的名称.
 
 #### 通过名称获取匹配的组的值
 
-我们来看看这个示例, 它匹配城市的座标. 要得到正则表达式匹配的组的集合,
+我们来看看这个示例, 它匹配城市的座标. 要得到正规表达式匹配的组的集合,
 请使用 [`groups`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-match-result/groups.html).
 比较一下得到组的两种方法, 一种是通过组的编号(下标)来得到, 另一种是通过组的名称来得到,
 然后使用 `value` 得到组的内容:
@@ -667,7 +667,7 @@ fun main() {
 #### 命名的反向引用
 
 你现在还可以在反向引用组时使用组的名称. 反向引用会匹配在前面曾经被一个捕获组匹配过的相同的文字.
-要使用这个功能, 请在你的正则表达式中使用 `\k<name>` 语法:
+要使用这个功能, 请在你的正规表达式中使用 `\k<name>` 语法:
 
 ```kotlin
 fun backRef() {
@@ -683,7 +683,7 @@ fun backRef() {
 命名的组引用可以与替换表达式一起使用.
 比如
 [`replace()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/replace.html)
-函数, 会使用一个替换表达式替换在输入文本中指定的正则表达式的所有匹配,
+函数, 会使用一个替换表达式替换在输入文本中指定的正规表达式的所有匹配,
 以及
 [`replaceFirst()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/replace-first.html)
 函数, 只替换第一个匹配.
@@ -915,7 +915,7 @@ plugins {
   kapt.verbose=true
   ```
 
-> 你还可以使用 [命令行选项 `verbose`](kapt.html#using-in-cli), 启用 verbose 输出.
+> 你还可以使用 [命令行选项 `verbose`](kapt.html#use-in-cli), 启用 verbose 输出.
 {:.note}
 
 统计结果会出现在 log 中, 级别为 `info`. 你会看到 `Annotation processor stats:` 行, 之后是每个注解处理器的执行时间统计.

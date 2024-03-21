@@ -208,7 +208,7 @@ fun main() {
 
 ## 值范围(Range)与数列(Progression)
 
-在 Kotlin 中, 你可以使用 [值范围(Range)](../ranges.html#range) 创建数值范围.
+在 Kotlin 中, 你可以使用 [值范围(Range)](../ranges.html) 创建数值范围.
 比如, `Version(1, 11)..Version(1, 30)` 包括从 `1.11` 到 `1.30` 的所有版本.
 你可以使用 `in` 操作符检查你的版本是否在范围中: `Version(0, 9) in versionRange`.
 

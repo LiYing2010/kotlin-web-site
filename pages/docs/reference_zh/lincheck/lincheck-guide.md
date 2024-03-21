@@ -35,7 +35,7 @@ repositories {
 }
 
 dependencies {
-    testImplementation("org.jetbrains.kotlinx:lincheck:%lincheckVersion%")
+    testImplementation("org.jetbrains.kotlinx:lincheck:{{ site.data.releases.lincheckVersion }}")
 }
 ```
 
@@ -51,7 +51,7 @@ repositories {
 }
 
 dependencies {
-    testImplementation "org.jetbrains.kotlinx:lincheck:%lincheckVersion%"
+    testImplementation "org.jetbrains.kotlinx:lincheck:{{ site.data.releases.lincheckVersion }}"
 }
 ```
 
@@ -66,19 +66,10 @@ dependencies {
 1. [使用 Lincheck 编写你的第一个测试](introduction.html)
 2. [选择你的测试策略](testing-strategies.html)
 3. [配置操作参数](operation-arguments.html)
-4. [在模型检查中使用模块化测试](modular-testing.html) 
-5. [考虑常见的算法约束](constraints.html)
-6. [检查算法的非阻塞进度保证(non-blocking progress guarantee)](progress-guarantees.html)
-7. [定义算法的顺序规格(sequential specification)](sequential-specification.html)
+4. [考虑常见的算法约束](constraints.html)
+5. [检查算法的非阻塞进度保证(non-blocking progress guarantee)](progress-guarantees.html)
+6. [定义算法的顺序规格(sequential specification)](sequential-specification.html)
 
 ## 其他参考资料
-
-* Workshop. Lincheck: JVM 平台的并发程序测试: [第 1 部分](https://www.youtube.com/watch?v=YNtUK9GK4pA),
-  Hydra 2021, EN
-* Workshop. Lincheck: JVM 平台的并发程序测试: [第 2 部分](https://www.youtube.com/watch?v=EW7mkAOErWw),
-  Hydra 2021, EN
-* [Lincheck. 在 Java 中测试并发数据结构](https://www.youtube.com/watch?v=YAb7YoEd6mM), Heisenbug 2019,
-  RU
-* [使用 Lincheck 测试并发算法](https://www.youtube.com/watch?v=9cB36asOjPo), Joker 2019, RU
-* [Lincheck: 在 Java 中测试并发数据结构](https://www.youtube.com/watch?v=hwbpUEGHvvY), Hydra 2019, RU
-* [无锁的算法测试](https://www.youtube.com/watch?v=_0_HOnTSS0E), Joker 2017, RU
+* "我们如何测试 Kotlin Coroutine 中的并发算法", Nikita Koval: [视频](https://youtu.be/jZqkWfa11Js). KotlinConf 2023
+* "Lincheck: 在 JVM 上测试并发程序" 由 Maria Sokolova 主持的研讨会: [视频第 1 部分](https://www.youtube.com/watch?v=YNtUK9GK4pA), [视频第 2 部分](https://www.youtube.com/watch?v=EW7mkAOErWw). Hydra 2021

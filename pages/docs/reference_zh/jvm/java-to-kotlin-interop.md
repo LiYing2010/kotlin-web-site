@@ -401,7 +401,8 @@ public class BB8 implements Robot {
 Kotlin 中的可见度修饰符与 Java 的对应规则如下:
 
 * `private` 成员会被编译为 Java 中的 `private` 成员
-* `private` 顶级声明会被编译为 Java 中的 包内局部声明(package-local declaration)
+* `private` 顶级声明会被编译为 Java 中的 `private` 顶级声明.
+   如果从类的内部访问, 那么还会包含包的 `private` 访问器(Package-private accessor).
 * `protected` 成员在 Java 中仍然是 `protected` 不变
    (注意, Java 允许从同一个包内的其他类访问 protected 成员, 但 Kotlin 不允许, 因此 Java 类中将拥有更大的访问权限)
 * `internal` 声明会被编译为 Java 中的 `public`.

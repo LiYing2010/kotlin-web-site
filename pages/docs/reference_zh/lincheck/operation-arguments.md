@@ -52,6 +52,7 @@ class MultiMap<K, V> {
    import org.jetbrains.kotlinx.lincheck.check
    import org.jetbrains.kotlinx.lincheck.paramgen.*
    import org.jetbrains.kotlinx.lincheck.strategy.stress.*
+   import org.jetbrains.kotlinx.lincheck.strategy.managed.modelchecking.*
    import org.junit.*
    
    class MultiMap<K, V> {
@@ -92,32 +93,44 @@ class MultiMap<K, V> {
 
    ```text
    = Invalid execution results =
-   Parallel part:
-   | add(1, 1): void | add(1, 4): void |
-   Post part:
-   [get(1): [4]]
+   | ---------------------------------- |
+   |    Thread 1     |     Thread 2     |
+   | ---------------------------------- |
+   | add(2, 0): void | add(2, -1): void |
+   | ---------------------------------- |
+   | get(2): [0]     |                  |
+   | ---------------------------------- |
    ```
-
+   
 6. 最后, 运行 `modelCheckingTest()`. 它会失败, 输出如下:
 
-   ```text
-   = Invalid execution results =
-   Parallel part:
-   | add(1, 6): void | add(1, -8): void |
-   Post part:
-   [get(1): [-8]]
-   = The following interleaving leads to the error =
-   Parallel part trace:
-   |                      | add(1, -8)                                               |
-   |                      |   add(1,-8) at MultiMapTest.add(MultiMapTest.kt:61)      |
-   |                      |     get(1): null at MultiMap.add(MultiMapTest.kt:38)     |
-   |                      |     switch                                               |
-   | add(1, 6): void      |                                                          |
-   |   thread is finished |                                                          |
-   |                      |     put(1,[-8]): [6] at MultiMap.add(MultiMapTest.kt:40) |
-   |                      |   result: void                                           |
-   |                      |   thread is finished                                     |
-   ```
+```text
+= Invalid execution results =
+| ---------------------------------- |
+|    Thread 1     |     Thread 2     |
+| ---------------------------------- |
+| add(2, 0): void | add(2, -1): void |
+| ---------------------------------- |
+| get(2): [-1]    |                  |
+| ---------------------------------- |
+
+---
+All operations above the horizontal line | ----- | happen before those below the line
+---
+   
+The following interleaving leads to the error:
+| ---------------------------------------------------------------------- |
+|    Thread 1     |                       Thread 2                       |
+| ---------------------------------------------------------------------- |
+|                 | add(2, -1)                                           |
+|                 |   add(2,-1) at MultiMapTest.add(MultiMap.kt:31)      |
+|                 |     get(2): null at MultiMap.add(MultiMap.kt:15)     |
+|                 |     switch                                           |
+| add(2, 0): void |                                                      |
+|                 |     put(2,[-1]): [0] at MultiMap.add(MultiMap.kt:17) |
+|                 |   result: void                                       |
+| ---------------------------------------------------------------------- |
+```
 
 由于 key 值范围很小, Lincheck 很快发现了竞争情况: 当 2 个值并发的添加到同一个 key 值的时候, 其中 1 个值可能会被覆盖, 并丢失.
 
@@ -126,12 +139,4 @@ class MultiMap<K, V> {
 
 ## 下一步
 
-现在的 `MultiMap` 实现使用一个复杂的 `j.u.c.ConcurrentHashMap` 数据结构作为底层工具,
-这个类内部的同步控制, 会显著提升数据的并发处理能力, 因此可能会需要更多时间才能发现 bug. 
-
-如果你认为 `j.u.c.ConcurrentHashMap` 的实现是正确的,
-你可以使用模型检查测试策略中的 [模块化测试功能](modular-testing.html), 来提高测试速度, 并增加测试覆盖率.
-
-## 参见
-
-学习如何测试设置了执行中访问 [约束](constraints.html) 的数据结构.
+学习如何测试设置了 [执行中访问约束](constraints.html) 的数据结构, 例如单生成者(single-producer)单消费者(single-consumer) 队列.

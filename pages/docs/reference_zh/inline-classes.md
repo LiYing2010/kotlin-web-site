@@ -2,14 +2,14 @@
 type: doc
 layout: reference
 category: "Classes and Objects"
-title: "内联类"
+title: "内联的值类(Inline value class)"
 ---
 
-# 内联类
+# 内联的值类(Inline value class)
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
-对于业务逻辑来说, 有些时候会需要对某些类型创建一些包装类. 但是, 这就会产生堆上的内存分配, 带来运行时的性能损失.
+如果将值封装到类中, 创建一些特定领域的类型, 有时候会非常有用. 但是, 这就会产生堆上的内存分配, 带来运行时的性能损失.
 更坏的情况下, 如果被包装的类是基本类型, 那么性能损失会非常严重, 因为在运行时对基本类型本来可以进行极大地性能优化, 而它的包装类却不能享受这种好处.
 
 为了解决这类问题, Kotlin 引入了一种特别的类, 称为 _内联类(inline class)_,
@@ -30,10 +30,6 @@ value class Password(private val s: String)
 value class Password(private val s: String)
 ```
 
-> 用于声明内联类的 `inline` 修饰符已被废弃.
-{:.note}
-
-
 内联类必须拥有唯一的一个属性, 并在主构造器中初始化这个属性.
 在运行期, 会使用这个唯一的属性来表达内联类的实例(关于运行期的内部表达, 请参见 [下文](#representation)):
 
@@ -49,29 +45,42 @@ val securePassword = Password("Don't try this in production")
 ## 成员
 
 内联类支持与通常的类相同的功能.
-具体来说, 内联类可以声明属性和函数, 也可以有 `init` 代码段:
+具体来说, 内联类可以声明属性和函数, 也可以有 `init` 代码段和 [次级构造器(secondary constructor)](classes.html#secondary-constructors):
+
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.9">
 
 ```kotlin
 @JvmInline
-value class Name(val s: String) {
+value class Person(private val fullName: String) {
     init {
-        require(s.length > 0) { }
+        require(fullName.isNotEmpty()) {
+            "Full name shouldn't be empty"
+        }
+    }
+
+    constructor(firstName: String, lastName: String) : this("$firstName $lastName") {
+        require(lastName.isNotBlank()) {
+            "Last name shouldn't be empty"
+        }
     }
 
     val length: Int
-        get() = s.length
+        get() = fullName.length
 
     fun greet() {
-        println("Hello, $s")
+        println("Hello, $fullName")
     }
 }
 
 fun main() {
-    val name = Name("Kotlin")
-    name.greet() // 方法 `greet` 会作为静态方法来调用
-    println(name.length) // 属性的取值函数会作为静态方法来调用
+    val name1 = Person("Kotlin", "Mascot")
+    val name2 = Person("Kodee")
+    name1.greet() // `greet()` 函数会作为静态方法来调用
+    println(name2.length) // 属性的取值函数会作为静态方法来调用
 }
 ```
+
+</div>
 
 内联类的属性不能拥有 [后端域变量](properties.html#backing-fields).
 只能拥有简单的计算属性 (不能拥有 `lateinit` 属性或委托属性)
@@ -149,11 +158,6 @@ value class UserId<T>(val value: T)
 fun compute(s: UserId<String>) {} // 编译器生成的代码是 fun compute-<hashcode>(s: Any?)
 ```
 
-> 泛型的内联类是 [实验性功能](components-stability.html).
-> 它随时有可能变更或被删除.
-> 需要通过 `-language-version 1.8` 编译器参数进行使用者同意(Opt-in).
-{:.warning}
-
 ### 函数名称混淆
 
 由于内联类被编译为它的底层类型, 因此可能会导致一些令人难以理解的错误, 比如, 意料不到的平台签名冲突:
@@ -169,13 +173,9 @@ fun compute(x: Int) { }
 fun compute(x: UInt) { }
 ```
 
-为了解决这种问题, 使用内联类的函数会被进行名称 *混淆*, 方法是对函数名添加一些稳定的哈希值.
+为了解决这种问题, 使用内联类的函数会被进行名称 _混淆_, 方法是对函数名添加一些稳定的哈希值.
 因此, `fun compute(x: UInt)` 会表达为 `public final void compute-<hashcode>(int x)`,
 然后就解决了函数名称的冲突问题.
-
-> 在 Kotlin 1.4.30 中, 名称混淆机制有改变.
-> 请使用编译器参数 `-Xuse-14-inline-classes-mangling-scheme` 来强制编译器使用旧的 1.4.0 名称混淆机制, 以保证二进制兼容性.
-{:.note}
 
 ### 在 Java 代码中调用
 

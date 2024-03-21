@@ -22,14 +22,12 @@ KSP 设计目标是 只需要处理器使用的最少量的 _根源代码_, 作�
 * `Resolver.getClassDeclarationByName`
 * `Resolver.getDeclarationsFromPackage`
 
-> 目前, 只有 Kotlin 和 Java 源代码中的变更会被追踪. classpath, 也就是其他模块或库中的变更,
-> 默认会触发一次对所有源代码的完整的重新处理. 追踪 classpath 中的变更, 请设置 Gradle 属性
-> `ksp.incremental.intermodule=true`, 使用 JVM 上的一个实验性功能.
-{:.note}
-
 目前增量式处理会默认启用. 要关闭它, 请设置 Gradle 属性 `ksp.incremental=false`.
 要为依赖项和输出对应的脏文件集启用 log, 请使用 `ksp.incremental.log=true`.
-你可以在 `build` 输出文件夹中找到这些 log 文件, 扩展名为 `.log`.
+你可以在 `build` 输出目录中找到这些 log 文件, 扩展名为 `.log`.
+
+在 JVM 平台, 默认会追踪 classpath 中的变更, 以及 Kotlin 和 Java 源代码的变更.
+如果要只追踪 Kotlin 和 Java 源代码的变更, 请设置 Gradle 属性 `ksp.incremental.intermodule=false`, 关闭对 classpath 中变更的追踪.
 
 ## 聚集(Aggregating) vs 隔离(Isolating)
 

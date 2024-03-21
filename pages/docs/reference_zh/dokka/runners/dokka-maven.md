@@ -408,7 +408,7 @@ JDK Javadoc 版本会通过 `jdkVersion` 选项决定.
     <configuration>
         <sourceLinks>
             <link>
-                <path>${project.basedir}/src</path>
+                <path>src</path>
                 <url>https://github.com/kotlin/dokka/tree/master/src</url>
                 <lineSuffix>#L</lineSuffix>
             </link>
@@ -419,6 +419,8 @@ JDK Javadoc 版本会通过 `jdkVersion` 选项决定.
 
 #### path
 本地源代码目录的路径. 必须是从当前模块根目录开始的相对路径.
+
+注意: 只允许使用 Unix 风格路径, Windows 风格路径会产生错误.
 
 #### url
 可以由文档读者访问的源代码托管服务 URL, 例如 GitHub, GitLab, Bitbucket, 等等.
@@ -561,7 +563,7 @@ Dokka 会尽量对给定的 URL 自动寻找 `package-list`, 并将声明链接�
         <suppressInheritedMembers>false</suppressInheritedMembers>
         <offlineMode>false</offlineMode>
         <sourceDirectories>
-            <dir>${project.basedir}/src</dir>
+            <dir>src</dir>
         </sourceDirectories>
         <documentedVisibilities>
             <visibility>PUBLIC</visibility>

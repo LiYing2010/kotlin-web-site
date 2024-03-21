@@ -8,10 +8,6 @@ title: "构建最终的原生二进制文件"
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
-> 本章描述的是构建原生二进制文件的旧方式. 请参见新的、实验性的 [Kotlin/Native DSL](multiplatform-native-artifacts.html),
-> 这种方式更加高效, 而且更加易用.
-{:.note}
-
 Kotlin/Native 编译目标默认会被编译输出为 `*.klib` 库文件,
 这种库文件可以被 Kotlin/Native 用作依赖项, 但它不能执行, 也不能被用作一个原生的库.
 
@@ -22,6 +18,10 @@ Kotlin/Native 编译目标默认会被编译输出为 `*.klib` 库文件,
 > `kotlin-multiplatform` plugin 默认不会创建任何产品版(production)的二进制文件.
 > 默认情况下, 只会产生一个调试版(debug)的测试可执行文件, 你可以通过 `test` 编译任务来运行这个可执行文件内的单元测试.
 {:.note}
+
+Kotlin/Native 编译器生成的二进制文件可能包含第三方代码, 数据, 或衍生作品.
+也就是说, 如果你发布 Kotlin/Native 编译的 [最终二进制文件](multiplatform-build-native-binaries.html),
+那么你始终需要在你的二进制分发版中包含必要的 [许可证文件](../native/native-binary-licenses.html).
 
 ## 声明二进制文件
 
@@ -232,10 +232,6 @@ binaries.findExecutable('foo', DEBUG)
 
 ## 将依赖项目导出到二进制文件
 
-> 你也可以使用 [新的 Kotlin/Native DSL](multiplatform-native-artifacts.html#libraries-and-frameworks)
-> 来将依赖项目导出到二进制文件.
-{:.tip}
-
 编译 Objective-C 框架, 或原生库(共享库或静态库)时, 经常会出现一种需要, 不仅要打包当前项目的类文件, 同时还要打包它的依赖项的类.
 我们可以用 `export` 方法, 指定需要导出哪些依赖项到二进制文件中.
 
@@ -356,10 +352,6 @@ binaries {
 
 ## 构建通用框架(Universal Framework)
 
-> 你也可以使用 [新的 Kotlin/Native DSL](multiplatform-native-artifacts.html#fat-frameworks)
-> 来构建通用(fat)框架.
-{:.tip}
-
 默认情况下, Kotlin/Native 编译产生的 Objective-C 框架只支持单个平台.
 但是, 使用 [`lipo` 工具程序](https://llvm.org/docs/CommandGuide/llvm-lipo.html),
 可以将多个框架合并为单个通用的(fat) 二进制文件.
@@ -438,10 +430,6 @@ kotlin {
 </div>
 
 ## 构建 XCFramework
-
-> 你也可以使用 [新的 Kotlin/Native DSL](multiplatform-native-artifacts.html#xcframeworks)
-> 来构建 XCFrameworks.
-{:.tip}
 
 所有的 Kotlin 跨平台项目都可以使用 XCFramework 作为输出, 将用于所有目标平台和架构的逻辑收集在单个 bundle 之内.
 与 [单个通用的(fat)框架](#build-universal-frameworks) 不同,

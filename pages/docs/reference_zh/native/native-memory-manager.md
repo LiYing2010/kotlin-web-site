@@ -9,30 +9,34 @@ title: "Kotlin/Native 内存管理"
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
-> 本章描述的是新内存管理器的功能特性, 这个新内存管理器从 Kotlin 1.7.20 开始默认使用.
-> 如果要将你的项目从旧内存管理器迁移到新内存管理器, 请参见我们的 [迁移指南](native-migration-guide.html).
-{:.note}
+Kotlin/Native 使用一个现代化的内存管理器, 类似于 JVM, Go, 以及其它主流技术, 包括以下功能:
 
-Kotlin/Native 使用一个现代化的内存管理器, 类似于 JVM, Go, 以及其它主流技术:
 * 对象存储在共享的堆(heap)中, 可以在任何线程中访问.
 * 定期执行追踪垃圾收集器(Garbage Collector, GC), 回收那些从 "根(roots)" 无法到达的对象, 比如局部变量, 全局变量.
 
-内存管理器对 Kotlin/Native 的所有目标平台都是相同的, wasm32 除外, 只有 [旧的内存管理器](#legacy-memory-manager) 支持这个目标平台.
-
 ## 垃圾收集器
 
-GC 的具体算法一直在持续演进. 对于 1.7.20, 使用的算法是 Stop-the-World Mark 和 Concurrent Sweep 收集器,
+Kotlin/Native 的 GC 算法一直在持续演进. 目前使用的算法是 Stop-the-World Mark 和 Concurrent Sweep 收集器,
 它不会把堆(heap)分为不同的代(generation).
 
-GC 在单独的线程中执行, 由定时器和内存压力来启动, 或者也可以 [手动调用](#enable-garbage-collection-manually).
+GC 使用完全并行标记(Full Parallel Mark), 它结合了暂停的转换器(Paused Mutator), GC 线程, 以及可选的标记线程(Marker Thread),
+来处理标记队列(Mark Queue).
+默认情况下, 暂停的转换器(Paused Mutator)和至少一个 GC 线程共通参与标记过程.
+您可以使用 `-Xbinary=gcMarkSingleThreaded=true` 编译选项, 禁用完全并行标记(Full Parallel Mark).
+但是, 这样做可能会增加垃圾收集器的暂停时间.
+
+当标记阶段完成时, GC 会处理弱引用(Weak Reference), 并将指向未标记对象的引用(Unmarked Object)设置为 null.
+为了减少 GC 的暂停时间, 你可以使用 `-Xbinary=concurrentWeakSweep=true` 编译选项, 禁用对弱引用(Weak Reference)的并发处理.
+
+GC 在单独的线程中执行, 根据定时器和内存压力来启动. 此外, 也可以 [手动调用](#enable-garbage-collection-manually).
 
 ### 手动启动垃圾收集
 
-要强制启动垃圾收集器, 可以调用 `kotlin.native.internal.GC.collect()`. 这个函数会触发一个新的垃圾收集, 并等待它结束.
+要强制启动垃圾收集器, 可以调用 `kotlin.native.internal.GC.collect()`. 这个方法会触发一次新的垃圾收集, 并等待它结束.
 
 ### 监测 GC 性能
 
-目前还没有专门的指标来监测 GC 性能. 但是, 还是可以查看 GC log 来进行诊断分析.
+目前没有专门的指标来监测 GC 性能. 但是, 可以查看 GC log 来进行问题诊断.
 要启用 log, 请在 Gradle 构建脚本中设置以下编译选项:
 
 ```none
@@ -56,28 +60,90 @@ GC 在单独的线程中执行, 由定时器和内存压力来启动, 或者也�
 
 ## 内存消耗
 
+Kotlin/Native 使用它自己的 [内存分配器](https://github.com/JetBrains/kotlin/blob/master/kotlin-native/runtime/src/alloc/custom/README.md).
+它将系统内存分为多个页面(Page), 允许按连续的顺序进行独立的清理.
+每次分配的内存都会成为一个页面(Page)内的内存块(Memory Block), 并且页面会追踪各个块的大小.
+各种不同的页面类型进行了不同的优化, 以适应于不同的内存分配大小.
+内存块的连续排列保证了可以对所有的分配块进行高效的迭代.
+
+当一个线程分配内存时, 它会根据分配的大小搜索适当的页面.
+线程会根据不同的大小类别维护一组页面.
+对于一个确定的大小, 当前页通常可以容纳这个内存分配.
+如果不能, 那么线程会从共享的分配空间请求一个不同的页面.
+这个页面的状态可能是可用, 需要清理, 或需要创建.
+
+Kotlin/Native 内存分配器有一种保护功能, 可以防止突然激增的内存分配请求.
+它可以防止转换器(Mutator)迅速的分配大量垃圾, 以至于 GC 线程无法处理, 导致内存使用量无限的增长.
+在这种情况下, GC 会强制进入 Stop-the-World 阶段, 直到完成迭代.
+
+你可以自己监控内存消耗, 检查内存泄漏, 并调整内存消耗.
+
+### 检查内存泄露
+
+要访问内存管理器的统计信息, 可以调用 `kotlin.native.internal.GC.lastGCInfo()`.
+这个方法返回垃圾收集器最后一次运行的统计信息.
+统计信息可以用于:
+
+* 调试使用全局变量时的内存泄漏
+* 在运行测试时检查是否存在内存泄漏
+
+```kotlin
+import kotlin.native.internal.*
+import kotlin.test.*
+
+class Resource
+
+val global = mutableListOf<Resource>()
+
+@OptIn(ExperimentalStdlibApi::class)
+fun getUsage(): Long {
+    GC.collect()
+    return GC.lastGCInfo!!.memoryUsageAfter["heap"]!!.totalObjectsSizeBytes
+}
+
+fun run() {
+    global.add(Resource())
+    // 如果删除下面这行, 测试将会失败
+    global.clear()
+}
+
+@Test
+fun test() {
+    val before = getUsage()
+    // 这里使用一个单独的函数, 确保所有的临时对象都被清除
+    run()
+    val after = getUsage()
+    assertEquals(before, after)
+}
+```
+
+### 调整内存消耗
+
 如果程序中不存在内存泄露, 但你仍然观察到异常高的内存消耗, 请尝试将 Kotlin 更新到最新版本.
-我们一直在持续改进内存管理器, 因此即使只是一次简单的编译器更新, 也可能改善你的程序的内存消耗情况.  
+我们一直在持续改进内存管理器, 因此即使只是一次简单的编译器更新, 也可能改善你的程序的内存消耗情况.
 
-解决高内存消耗问题的另一种方式与 [`mimalloc`](https://github.com/microsoft/mimalloc) 有关, 它是很多目标平台的默认的内存分配器.
-它会预先分配并保持住系统内存, 以便提高内存分配的速度.
+更新 Kotlin 版本后, 如果您还是遇到内存消耗过高的情况, 可以选择以下几种解决方法:
 
-要避免这种方式造成的内存消耗, (代价是损失性能), 有以下几种方法:
-* 将内存分配器从 `mimalloc` 切换到系统的分配器. 具体做法是, 在你的 Gradle 构建脚本中设置 `-Xallocator=std` 编译选项.
-* 从 Kotlin 1.8.0-Beta 开始, 你也可以指示 `mimalloc` 及时将内存释放回系统. 这样的性能损失比较小, 但结果比较不确定.
+* 在你的 Gradle 构建脚本中使用以下编译选项之一, 切换到不同的内存分配器:
 
+  * `-Xallocator=mimalloc`, 使用 [mimalloc](https://github.com/microsoft/mimalloc) 内存分配器.
+  * `-Xallocator=std`, 使用系统的内存分配器.
+
+* 如果你使用 mimalloc 内存分配器, 你可以命令它及时将内存释放回系统.
   具体做法是, 在你的 `gradle.properties` 文件中启用以下二进制文件选项:
 
   ```none
   kotlin.native.binary.mimallocUseCompaction=true
   ```
 
+  这样的性能损失比较小, 但与系统的内存分配器相比, 它的结果比较不确定.
+
 如果以上方法都不能改善内存消耗问题, 请到 [YouTrack](https://youtrack.jetbrains.com/newissue?project=kt) 报告问题.
 
 ## 在后台进行单元测试
 
-在单元测试中, 不会处理主线程队列, 因此不要使用 `Dispatchers.Main`,
-除非有对它设置 mock, 具体方法是调用 `kotlinx-coroutines-test` 中的 `Dispatchers.setMain`.
+在单元测试中, 不会处理主线程队列, 因此, 除非 mock 过 `Dispatchers.Main`, 否则不要使用它.
+mock 它的方法是, 调用 `kotlinx-coroutines-test` 中的 `Dispatchers.setMain`.
 
 如果你没有依赖于 `kotlinx.coroutines`, 或者因为某些原因 `Dispatchers.setMain` 不适合你的需求,
 请使用以下变通方法, 实现测试启动器(test launcher):
@@ -102,21 +168,6 @@ fun mainBackground(args: Array<String>) {
 ```
 
 然后, 使用 `-e testlauncher.mainBackground` 编译器选项来编译测试程序的二进制文件.
-
-## 旧的内存管理器
-
-如果有必要, 你可以切换回旧的内存管理器. 方法是在你的 `gradle.properties` 文件中设置以下选项:
-
-```none
-kotlin.native.binary.memoryModel=strict
-```
-
-> * 对旧的内存管理器, 不能使用编译器缓存功能, 因此编译时间可能变慢.
-> * 这个 Gradle 选项用于回退到旧的内存管理器, 在未来的发布版本中会被删除.
-{:.note}
-
-如果你从旧的内存管理器迁移时遇到问题, 或者你希望临时性的同时支持当前的和旧的内存管理器,
-请参见 [迁移指南](native-migration-guide.html) 中我们的建议.
 
 ## 下一步
 

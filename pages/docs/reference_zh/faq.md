@@ -11,13 +11,14 @@ title: FAQ
 
 ### 什么是 Kotlin?
 
-Kotlin 是一种开源的, 静态类型的编程语言, 针对的目标平台是 JVM, Android, JavaScript 以及 Native 应用.
+Kotlin 是一种开源的, 静态类型的编程语言, 针对的目标平台是 JVM, Android, JavaScript, Wasm, 以及 Native 应用.
 Kotlin 由 [JetBrains 公司](https://www.jetbrains.com) 开发.
 Kotlin 项目开始于 2010 年, 并在很早的阶段开源. 第一次正式发布的 1.0 版是在 2016 年 2 月.
 
 ### Kotlin 的当前版本是多少?
 
 当前发布的版本是 {{ site.data.releases.latest.version }}, 发布日期是 {{ site.data.releases.latest.date }}.
+更多详情请参见 [GitHub](https://github.com/jetbrains/kotlin).
 
 ### Kotlin 是免费的吗?
 
@@ -49,7 +50,7 @@ Kotlin 在类型安全方面也更强, 比如, 它支持 非 null 类型, 可以
 
 ### 我可以用 Kotlin 来做什么?
 
-Kotlin 可以用来做任何类型的开发, 可以用在服务器端, 客户端, 以及 Android 环境.
+Kotlin 可以用来做任何类型的开发, 可以用在 Web 服务器端, Web 客户端, 以及 Android 环境.
 通过 Kotlin/Native 功能(目前正在开发的), 未来还将支持其他平台,
 比如嵌入式系统, macOS 以及 iOS.
 目前已有开发者使用 Kotlin 开发移动应用程序, 服务端应用程序,
@@ -67,12 +68,10 @@ JavaScript 或 JavaFX 的客户端应用程序, 以及数据科学, 这只是少
 此外, 还有使用 Kotlin 编写的框架, 比如 [Ktor](https://github.com/kotlin/ktor).
 详情请参见 [服务端端开发的相关资源](server-overview.html).
 
-### 我可以使用 Kotlin 进行 web 开发吗?
+### 我可以使用 Kotlin 进行 Web 开发吗?
 
-是的. 除了用于 web 后端开发之外, 你还可以使用 Kotlin/JS 来开发 web 客户端.
-Kotlin 可以使用 [DefinitelyTyped](https://definitelytyped.org) 中的定义, 为 JavaScript 共通库获取静态类型能力,
-而且兼容于既有的 JavaScript 模块系统, 比如 AMD 和 CommonJS.
-详情请参见 [客户端开发的相关资源](js-overview.html).
+是的. 除了用于 Web 后端开发之外, 你还可以使用 Kotlin/Wasm 来开发 Web 客户端.
+参见 [Kotlin/Wasm 入门](wasm/wasm-get-started.html).
 
 ### 我可以使用 Kotlin 进行桌面开发吗?
 
@@ -82,13 +81,16 @@ Kotlin 可以使用 [DefinitelyTyped](https://definitelytyped.org) 中的定义,
 ### 我可以使用 Kotlin 进行原生(Native)程序开发吗?
 
 是的. Kotlin 项目包括了 Kotlin/Native. 它可以将 Kotlin 代码编译为原生代码, 运行时无需 VM.
-Kotlin/Native 目前还是 Beta 版, 但已经可以试用于流行的桌面和移动设备平台, 甚至还可以用于一部分 IoT 设备.
+你可以试用它, 用于流行的桌面和移动设备平台, 甚至还可以用于一部分 IoT 设备.
 详情请参见 [Kotlin/Native 文档](native/native-overview.html).
 
 ### 有哪些 IDE 支持 Kotlin?
 
-通过 JetBrains 开发的官方 Kotlin plugin, Kotlin 完全支持 [IntelliJ IDEA](https://www.jetbrains.com/idea/download/)
-和 [Android Studio](https://developer.android.com/kotlin/get-started).
+通过 JetBrains 开发的官方 Kotlin plugin, Kotlin 完全支持
+[IntelliJ IDEA](https://www.jetbrains.com/idea/download/),
+[Android Studio](https://developer.android.com/kotlin/get-started),
+以及 [JetBrains Fleet](https://www.jetbrains.com/help/fleet/getting-started-with-kotlin-in-fleet.html).
+
 其他 IDE 和源代码编辑器, 比如 Eclipse, Visual Studio Code, 和 Atom, 也有 Kotlin 社区支持的 plugin.
 
 你也可以试用 [Kotlin Playground](https://play.kotlinlang.org), 在你的浏览器中编写, 运行, 并共享 Kotlin 代码.
@@ -113,7 +115,7 @@ Kotlin/Native 目前还是 Beta 版, 但已经可以试用于流行的桌面和�
 ### Kotlin 支持 JVM 的哪些版本?
 
 Kotlin 允许你选择运行时的 JVM 版本. 默认情况下, Kotlin/JVM 编译器产生与 Java 8 兼容的字节码.
-如果你希望利用更高版本 Java 中的优化功能, 你可以明确指定编译目标的 Java 版本, 可选的版本是从 9 到 19.
+如果你希望利用更高版本 Java 中的优化功能, 你可以明确指定编译目标的 Java 版本, 可选的版本是从 9 到 21.
 注意, 这时编译产生的字节码在低版本的 Java 环境可能无法运行.
 从 [Kotlin 1.5](whatsnew15.html#new-default-jvm-target-1-8) 开始, 编译器不再产生与低于 Java 8 的版本兼容的字节码.
 
@@ -134,8 +136,8 @@ Kotlin 受到各种既有语言的启发, 比如 Java, C#, JavaScript, Scala 以
 
 ### Kotlin 的开发者是谁?
 
-Kotlin 主要是由 JetBrains 公司的一个工程师团队(目前 100+ 人)开发的.
-语言设计的领导者是 [Roman Elizarov](https://twitter.com/relizarov).
+Kotlin 主要是由 [JetBrains](https://www.jetbrains.com/) 公司的一个工程师团队(目前 100+ 人)开发的.
+语言设计的领导者是 Michail Zarečenskij.
 除了这个核心团队之外, 在 GitHub 上还有超过 250 人的外部贡献者.
 
 ### 在哪里可以得到 Kotlin 的更多信息?
@@ -151,7 +153,7 @@ Kotlin 主要是由 JetBrains 公司的一个工程师团队(目前 100+ 人)开
 
 ### 是否有关于 Kotlin 的在线课程?
 
-你可以通过 JetBrains Academy 的 [Kotlin 基础教程](https://hyperskill.org/join/fromdocstoJetSalesStat?redirect=true&next=/tracks/18) 来学习创建应用程序所需要的全部 Kotlin 基础知识.
+你可以通过 JetBrains Academy 的 [Kotlin 核心教程](https://hyperskill.org/tracks?category=4&utm_source=jbkotlin_hs&utm_medium=referral&utm_campaign=kotlinlang-docs&utm_content=button_1&utm_term=22.03.23) 来学习创建应用程序所需要的全部 Kotlin 基础知识.
 
 你还可以学习这些课程:
 * Kevin Jones 著: [Pluralsight 课程: Kotlin 入门](https://www.pluralsight.com/courses/kotlin-getting-started)
@@ -162,13 +164,13 @@ Kotlin 主要是由 JetBrains 公司的一个工程师团队(目前 100+ 人)开
 
 ### 有 Kotlin 开发者社区吗?
 
-是的. Kotlin 有一个很活跃的社区. Kotlin 开发者聚集在 [Kotlin 论坛](https://discuss.kotlinlang.org),
+是的! Kotlin 有一个很活跃的社区. Kotlin 开发者聚集在 [Kotlin 论坛](https://discuss.kotlinlang.org),
 [StackOverflow](https://stackoverflow.com/questions/tagged/kotlin),
 以及更活跃的 [Kotlin Slack](https://slack.kotlinlang.org) (到 2020 年 4 月, 成员接近 30000 人).
 
 ### 有 Kotlin 开发者活动吗?
 
-是的. 有很多专注于 Kotlin 的用户组, 以及聚会活动. 你可以
+是的! 有很多专注于 Kotlin 的用户组, 以及聚会活动. 你可以
 [在这个网站](https://kotlinlang.org/user-groups/user-group-list.html)
 找到这类活动的列表.
 此外, 还有 Kotlin 开发者社区在世界各地组织的
@@ -177,10 +179,13 @@ Kotlin 主要是由 JetBrains 公司的一个工程师团队(目前 100+ 人)开
 
 ### 有 Kotlin 开发者大会吗?
 
-是的. 官方的 [Kotlin 开发者大会](https://kotlinconf.com) 由 JetBrains 公司每年举办一次.
-[2017 年](https://kotlinconf.com/2017/) 在 San-Francisco 举行,
-[2018 年](https://kotlinconf.com/2018/) 在 Amsterdam 举行,
-[2019 年](https://kotlinconf.com/2019/) 在 Copenhagen 举行.
+是的! [Kotlin 开发者大会](https://kotlinconf.com/) 由 JetBrains 公司每年举办一次,
+这个大会聚集了来自全世界的开发者, 爱好者, 以及专家, 分享他们关于 Kotlin 的知识和经验.
+
+除技术演讲和研讨之外, Kotlin 开发者大会还提供了的机会让大家建立关系网络, 组织社区活动, 以及社会活动,
+参加者可以与其他 Kotlin 爱好者保持联系, 并交换思想.
+Kotlin 开发者大会是培养和促进 Kotlin 生态系统内协作, 以及社区建设的平台.
+
 在世界各地的各种开发者大会中也会涉及到 Kotlin.
 你可以
 [在这个网站](https://kotlinlang.org/community/talks.html?time=upcoming)
@@ -188,7 +193,8 @@ Kotlin 主要是由 JetBrains 公司的一个工程师团队(目前 100+ 人)开
 
 ### Kotlin 是否有社交媒体帐号?
 
-是的. 最活跃的 Kotlin 帐号是 [Twitter 帐号](https://twitter.com/kotlin).
+是的.
+请订阅 [Kotlin YouTube 频道](https://www.youtube.com/c/Kotlin), 并追随 Kotlin 的 [Twitter 帐号](https://twitter.com/kotlin).
 
 ### 是否有关于 Kotlin 的其他在线资源?
 
@@ -200,3 +206,5 @@ Kotlin 主要是由 JetBrains 公司的一个工程师团队(目前 100+ 人)开
 可以在 [这个地址](https://resources.jetbrains.com/storage/products/kotlin/docs/kotlin_logos.zip) 下载 Logo.
 使用 Logo 时请注意遵守使用规则, 具体请参见压缩包中的 `guidelines.pdf` 文件包含的简单规则,
 以及 [Kotlin 商标使用指南](https://kotlinfoundation.org/guidelines/).
+
+详情请参见 [Kotlin 品牌资产](kotlin-brand-assets.html).

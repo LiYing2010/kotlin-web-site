@@ -28,7 +28,7 @@ Kotlin 语言和它的工具集分成很多组件, 比如针对 JVM, JS 和 Nati
   * 我们只是在实验某些想法, 并且希望某些使用者试用, 并提供意见反馈. 如果这些想法不成功, 我们随时可能抛弃它.
 
 **Alpha** 代表 "使用时风险自负, 将来升级时可能会出现问题":
-  * 我们决定将这些想法变成产品, 但它还没有达到最终状态.
+  * 我们打算将这些想法变成产品, 但它还没有达到最终状态.
 
 **Beta** 代表 "可以使用这些功能, 我们会尽力减少升级时的问题":
   * 功能已经基本完成, 现在使用者的意见反馈非常重要.
@@ -74,37 +74,38 @@ Kotlin 语言和它的工具集分成很多组件, 比如针对 JVM, JS 和 Nati
 
 ## Kotlin 各部分组件当前的稳定性
 
-|**组件**|**状态**|**进入这个状态的版本**| **备注**  |
-| --- | --- | --- |-------|
-| Kotlin/JVM|Stable|1.0|  |
-| Kotlin K2 (JVM)|Alpha|1.7|   |
-| kotlin 标准库 (JVM)|Stable|1.0|   |
-| 协程|Stable|1.3|   |
-| kotlin 反射 (JVM)|Beta|1.0|  |
-| Kotlin/JS (基于传统后端)|Stable|1.3| 从 1.8.0 开始已废弃, 参见 [IR 迁移指南](js/js-ir-migration.html) |
-| Kotlin/JVM (基于 IR)|Stable|1.5|   |
-| Kotlin/JS (基于 IR)|Stable|1.8|   |
-| Kotlin/Native 运行库|Beta|1.3|    |
-| Kotlin/Native 的新内存管理器|Beta|1.7.20| |
-| klib 二进制文件|Alpha|1.4|    |
-| Kotlin Multiplatform |Beta|1.7.20| |
-| Kotlin/Native 与 C 代码和 Objective C 代码的交互|Beta|1.3|   |
-| CocoaPods 集成|Beta|1.3|   |
-| Android Studio 的 Kotlin Multiplatform Mobile plugin|Alpha|0.3.0| [版本与语言本身的版本不同](multiplatform-mobile/multiplatform-mobile-plugin-releases.html) 
-| 期待/实际(expect/actual) 语言功能|Beta|1.2|  |
-| KDoc 语法|Stable|1.0|  |
-| Dokka|Beta|1.6|   |
-| 脚本的语法和语义|Alpha|1.2|   |
-| 脚本的内嵌和扩展 API|Beta|1.5 |
-| 脚本的 IDE 支持|Experimental|1.2 |
-| CLI 脚本|Alpha|1.2 |
-| 编译器插件 API|Experimental|1.0|   |
-| 序列化编译器插件|Stable|1.4|   |
-| 序列化核心库|Stable|1.0.0| 版本与语言本身的版本不同 |
-| 内联类(Inline class)|Stable|1.5|  |
-| 无符号数运算|Stable|1.5|  |
-| 标准库中的契约(Contract)|Stable|1.3|   |
-| 用户定义的契约(Contract)|Experimental|1.3|   |
-| **所有其他实验性组件, 默认状态**|Experimental|N/A|  |
+| **组件**                                              | **状态**       | **进入这个状态的版本** | **备注**                                                           |
+|-----------------------------------------------------|--------------|---------------|------------------------------------------------------------------|
+| Kotlin/JVM                                          | Stable       | 1.0           |                                                                  |
+| Kotlin K2 (JVM, Native, Wasm, JS)                   | Beta         | 1.9.20        |                                                                  |
+| kotlin 标准库 (JVM)                                    | Stable       | 1.0           |                                                                  |
+| 协程                                                  | Stable       | 1.3           |                                                                  |
+| kotlin 反射 (JVM)                                     | Beta         | 1.0           |                                                                  |
+| Kotlin/JS (基于传统后端)                                  | Stable       | 1.3           | 从 1.8.0 开始已废弃, 参见 [IR 迁移指南](js/js-ir-migration.html)             |
+| Kotlin/JVM (基于 IR)                                  | Stable       | 1.5           |                                                                  |
+| Kotlin/JS (基于 IR)                                   | Stable       | 1.8           |                                                                  |
+| Kotlin/Native 运行库                                   | Stable       | 1.9.20        |                                                                  |
+| Kotlin/Native 内存管理器                                 | Stable       | 1.9.20        |                                                                  |
+| klib 二进制文件                                          | Stable       | 1.9.20        |                                                                  |
+| Kotlin Multiplatform                                | Stable       | 1.9.20        |                                                                  |
+| Kotlin/Native 与 C 代码和 Objective C 代码的交互             | Beta         | 1.3           |                                                                  |
+| CocoaPods 集成                                        | Stable       | 1.9.20        |                                                                  |
+| Android Studio 的 Kotlin Multiplatform Mobile plugin | Beta         | 0.8.0         | [版本与语言本身的版本不同](multiplatform/multiplatform-plugin-releases.html) |
+| 期待(expected)与实际(actual) 函数和属性                       | Stable       | 1.9.20        |                                                                  |
+| 期待(expected)与实际(actual) 类                           | Beta         | 1.7.20        |                                                                  |
+| KDoc 语法                                             | Stable       | 1.0           |                                                                  |
+| Dokka                                               | Beta         | 1.6           |                                                                  |
+| 脚本的语法和语义                                            | Alpha        | 1.2           |                                                                  |
+| 脚本的内嵌和扩展 API                                        | Beta         | 1.5           |                                                                  |
+| 脚本的 IDE 支持                                          | Beta         |               | 从 IntelliJ IDEA 2023.1 之后版本开始可用                                  |
+| CLI 脚本                                              | Alpha        | 1.2           |                                                                  |
+| 编译器插件 API                                           | Experimental | 1.0           |                                                                  |
+| 序列化编译器插件                                            | Stable       | 1.4           |                                                                  |
+| 序列化核心库                                              | Stable       | 1.0.0         | 版本与语言本身的版本不同                                                     |
+| 内联类(Inline class)                                   | Stable       | 1.5           |                                                                  |
+| 无符号数运算                                              | Stable       | 1.5           |                                                                  |
+| 标准库中的契约(Contract)                                   | Stable       | 1.3           |                                                                  |
+| 用户定义的契约(Contract)                                   | Experimental | 1.3           |                                                                  |
+| **所有其他实验性组件, 默认状态**                                 | Experimental | N/A           |                                                                  |
 
 *[本章节在 1.4 以前的版本参见这个页面](components-stability-pre-1.4.html).*

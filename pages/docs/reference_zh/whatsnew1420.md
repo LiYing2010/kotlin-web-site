@@ -155,8 +155,6 @@ rootProject.plugins.withType<YarnPlugin> {
 - **Node.js 应用程序** - 一个最小的项目, 运行在 Node.js 环境内.
     它提供参数来包含实验性的 `kotlinx-nodejs` 包.
 
-更多详情参见 [通过模板创建 Kotlin/JS 应用程序](js/js-get-started.html).
-
 ### IR 编译器忽略编译错误
 
 > _忽略编译错误_ 模式是 [实验性功能](components-stability.html). 这个功能随时可能抛弃或改变.

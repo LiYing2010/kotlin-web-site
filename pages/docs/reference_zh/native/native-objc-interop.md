@@ -5,11 +5,19 @@ category: "Native"
 title: "与 Swift/Objective-C 代码交互"
 ---
 
-# 与 Swift/Objective-C 的交互能力
+# 与 Swift/Objective-C 代码交互
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
+> Objective-C 库的导入是 [实验性功能](../components-stability.html#stability-levels-explained).
+> `cinterop` 工具从 Objective-C 库生成的所有 Kotlin 声明都应该标注 `@ExperimentalForeignApi` 注解.
+>
+> Kotlin/Native 自带的原生平台库 (例如 Foundation, UIKit, 和 POSIX),
+{:.warning}
+
 本章介绍 Kotlin/Native 与 Swift/Objective-C 的交互能力的一些细节.
+
+关于 iOS 和 Kotlin 之间的内存管理, 详情请参见 [与 iOS 集成](native-ios-integration.html).
 
 ## 使用方法
 
@@ -52,9 +60,10 @@ Kotlin 模块可以在 Swift/Objective-C 代码中使用, 只需要编译成一�
 |------------------------|-------------------------------|---------------------------|------------------------------------------------------------------------------------|
 | `class`                | `class`                       | `@interface`              | [名称翻译](#name-translation)                                                          |
 | `interface`            | `protocol`                    | `@protocol`               |                                                                                    |
-| `constructor`/`create` | Initializer                   | Initializer               | [初始化器](#initializers)                                                              |
-| Property               | Property                      | Property                  | [顶层函数和属性](#top-level-functions-and-properties) [设值方法(Setter)](#setters)            |
-| Method                 | Method                        | Method                    | [顶层函数和属性](#top-level-functions-and-properties) [方法名称翻译](#method-names-translation) |
+| `constructor`/`create` | 初始化器(Initializer)             | 初始化器(Initializer)         | [初始化器](#initializers)                                                              |
+| 属性                     | 属性                            | 属性                        | [顶层函数和属性](#top-level-functions-and-properties) [设值方法(Setter)](#setters)            |
+| 方法                     | 方法                            | 方法                        | [顶层函数和属性](#top-level-functions-and-properties) [方法名称翻译](#method-names-translation) |
+| `enum class`           | `class`                       | `@interface`              | [枚举类](#enums)                                                                      |
 | `suspend` ->           | `completionHandler:`/ `async` | `completionHandler:`      | [错误与异常](#errors-and-exceptions) [挂起函数](#suspending-functions)                      |
 | `@Throws fun`          | `throws`                      | `error:(NSError**)error`  | [错误与异常](#errors-and-exceptions)                                                    |
 | Extension              | Extension                     | Category 成员               | [扩展与 Category 成员](#extensions-and-category-members)                                |
@@ -85,8 +94,9 @@ Protocol 导入 Kotlin 后会变成接口, 并使用 `Protocol` 作为名称后�
 Kotlin 类和接口导入 Objective-C 时会加上名称前缀.
 前缀由框架名称决定.
 
-Objective-C 不支持框架内的包. 因此如果同一个框架内的不同包下存在同名的 Kotlin 类, Kotlin 编译器会对类重命名.
-这个算法还未稳定, 在不同的 Kotlin 发布版中可能发生变化. 作为替代手段, 你可以将框架内发生名称冲突的 Kotlin 类重命名.
+Objective-C 不支持框架内的包. 如果 Kotlin 编译器发现同一个框架内的不同包下存在同名的 Kotlin 类, Kotlin 编译器会对类重命名.
+这个算法还未稳定, 在不同的 Kotlin 发布版中可能发生变化.
+要绕过这个问题, 你可以将框架内发生名称冲突的 Kotlin 类重命名.
 
 如果要避免对 Kotlin 声明的重新命名, 请使用 `@ObjCName` 注解.
 这个注解会指示 Kotlin 编译器对类, 接口, 以及其他 Kotlin 元素使用自定义的 Objective-C 和 Swift 名称:
@@ -98,7 +108,6 @@ class MyKotlinArray {
     fun indexOf(@ObjCName("of") element: String): Int = TODO()
 }
 
-
 // ObjCName 注解的使用示例
 let array = MySwiftArray()
 let index = array.index(of: "element")
@@ -107,7 +116,7 @@ let index = array.index(of: "element")
 > 使用这个注解需要 [使用者同意(Opt-in)](../opt-in-requirements.html).
 {:.note}
 
-### 初始化器(initializer)
+### 初始化器(Initializer)
 
 Swift/Objective-C 初始化器导入 Kotlin 时会成为构造器.
 对于 Objective-C category 中声明的初始化器, 或声明为 Swift extension 的初始化器,
@@ -141,7 +150,7 @@ MyLibraryUtilsKt.foo()
 ### 方法名称翻译
 
 通常来说, Swift 的参数标签和 Objective-C 的 selector 会被映射为 Kotlin 的参数名称.
-但这两种概念还是存在一些语义上的区别的, 因此有时 Swift/Objective-C 方法导入时可能导致 Kotlin 中的签名冲突.
+但这两种概念还是存在一些语义上的区别, 因此有时 Swift/Objective-C 方法导入时可能导致 Kotlin 中的签名冲突.
 这时, 发生冲突的方法可以在 Kotlin 使用命名参数来调用, 比如:
 
 ```swift
@@ -188,6 +197,38 @@ Swift 则只有受控错误. 因此如果 Swift 或 Objective-C 的代码调用�
 注意, 反过来的翻译目前还未实现:
 Swift/Objective-C 中抛出 error 的方法, 导入 Kotlin 时不会成为抛出异常的方法.
 
+### 枚举类
+
+Kotlin 枚举类会被导入为 Objective-C 中的 `@interface`, 以及 Swift 中的 `class`.
+这些数据结构拥有与各个枚举值相对应的属性. 对于下面的 Kotlin 代码:
+
+```kotlin
+// Kotlin
+enum class Colors {
+    RED, GREEN, BLUE
+}
+```
+
+在 Swift 中, 你可以这样访问这个枚举类的属性:
+
+```swift
+// Swift
+Colors.red
+Colors.green
+Colors.blue
+```
+
+要在 Swift 的 `switch` 语句中使用 Kotlin 枚举类型的变量, 需要提供一个 default 语句, 以避免发生编译错误:
+
+```swift
+switch color {
+    case .red: print("It's red")
+    case .green: print("It's green")
+    case .blue: print("It's blue")
+    default: fatalError("No such color")
+}
+```
+
 ### 挂起函数
 
 > 从 Swift 代码中 以 `async` 方式调用 `suspend`函数是 [实验性功能](../components-stability.html).
@@ -203,13 +244,19 @@ Kotlin 的 [挂起函数](../coroutines/coroutines-basics.html) (`suspend`) 在�
 目前, 这个功能还处于非常初始的实验阶段, 存在很多限制.
 详情请参见 [这个 YouTrack issue](https://youtrack.jetbrains.com/issue/KT-47610).
 
-更多详情请参见 [Swift 中的 `async`/`await` 机制](https://docs.swift.org/swift-book/LanguageGuide/Concurrency.html).
+更多详情请参见 [关于 `async`/`await` 机制的 Swift 文档](https://docs.swift.org/swift-book/LanguageGuide/Concurrency.html).
 
 ### 扩展与 Category 成员
 
-Objective-C Category 的成员, 以及 Swift extension 的成员, 导入 Kotlin 时会变成扩展函数.
+Objective-C Category 的成员, 以及 Swift extension 的成员, 导入 Kotlin 时通常会变成扩展函数.
 因此这些声明在 Kotlin 中不能被覆盖.
 另外, extension 初始化器 在 Kotlin 中不会成为类的构造器.
+
+> 目前有两种例外情况.
+> 从 Kotlin 1.8.20 开始, 
+> 在 NSView 类 (来自 AppKit 框架) 或 UIView 类 (来自 UIKit 框架) 的相同的头文件中声明的 Category 的成员, 会被导入为这些类的成员.
+> 因此你可以覆盖从 NSView 或 UIView 继承的子类的方法.
+{:.note}
 
 对 "通常的" Kotlin 类的 Kotlin 扩展, 导入 Swift 和 Objective-C 后, 分别会成为扩展和 category 成员.
 对其他类型的 Kotlin 扩展, 会被当作 [顶层声明](#top-level-functions-and-properties) 处理, 带有额外的接受者参数.
@@ -350,7 +397,7 @@ class Sample<T>() {
 
 为了支持可以为 null 的类型, Objective-C 头文件需要将 `myVal` 的返回值定义为可为 null.
 
-为了减轻这个问题, 定义你的泛型类时, 如果泛型类型 *绝对不会* 为 null,
+为了减轻这个问题, 定义你的泛型类时, 如果泛型类型 _绝对不会_ 为 null,
 需要提供一个非-null 的类型约束(type constraint):
 
 ```kotlin
@@ -397,7 +444,7 @@ binaries.framework {
 ## 在映射的类型之间进行变换
 
 编写 Kotlin 代码时, 对象可能需要从 Kotlin 类型转换为等价的 Swift/Objective-C 类型 (或者反过来).
-这种情况下可以直接使用传统的 Kotlin 类型转换, 比如:
+这种情况下, 可以直接使用传统的 Kotlin 类型转换, 比如:
 
 ```kotlin
 val nsArray = listOf(1, 2, 3) as NSArray
@@ -435,6 +482,10 @@ class ViewController : UIViewController {
 
 如果多个方法在 Kotlin 中发生了签名冲突, 要覆盖这些方法,
 你可以在类上添加 `@Suppress("CONFLICTING_OVERLOADS")` 注解.
+
+> 压制 Kotlin 签名冲突错误, 是一种临时的替代方法. 这样的情况下不能保证稳定性, 因此要小心使用.
+> 我们将会在未来的 Kotlin 发布版本中解决这个问题.
+{:.warning}
 
 Kotlin/Native 默认不会允许通过 `super(...)` 构造器来调用 Objective-C 的非指定(non-designated)初始化器.
 如果在 Objective-C 库中没有正确地标注出指定的(designated)初始化器, 那么这种限制可能会造成我们的不便.
@@ -513,7 +564,7 @@ kotlin {
 已知的限制:
 * 依赖项的文档不会导出, 除非它本身也使用 `-Xexport-kdoc` 选项来编译.
   这个功能还是实验性功能, 因此使用这个选项编译的库可能与其他编译器版本不兼容.
-* 绝大多数 KDoc 注释会 "保持原状" 导出, 很多 KDoc 功能(例如, `@property`)不支持.
+* 绝大多数 KDoc 注释会 "保持原状" 导出. 很多 KDoc 功能(例如, `@property`)不支持.
 
 ## 不支持的特性
 

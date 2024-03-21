@@ -103,11 +103,11 @@ Kotlin 的原始创建者, [JetBrains 公司](https://jetbrains.com), 在开发�
 并通过与 [Kotlin 基金会](https://kotlinfoundation.org/) 的协调, 正在不断推动 Kotlin 的开发.
 
 Kotlin 编程语言的所有变更都在[首席语言设计师](https://kotlinfoundation.org/structure/)
-(目前是 Roman Elizarov) 的监督之下.
+(目前是 Michail Zarečenskij) 的监督之下.
 所有与语言演进相关的问题, 首席设计师拥有最终决定权.
 此外, 对已经完全稳定的组件的不兼容变更, 必须经过 [Kotlin 基金会](https://kotlinfoundation.org/structure/) 任命的
 [语言委员会](https://kotlinfoundation.org/structure/) 的批准.
-(语言委员会目前由 Jeffrey van Gogh, William R. Cook 和 Roman Elizarov 组成).
+(语言委员会目前由 Jeffrey van Gogh, Werner Dietl, 和 Michail Zarečenskij 组成).
 
 语言委员会最终决定作出哪些不兼容的变更, 应该采取哪些步骤让使用者平滑地升级.
 在作出这些决策时, 语言委员会依靠一组指导原则, 详情请参见 [这里](https://kotlinfoundation.org/language-committee-guidelines/).
@@ -195,7 +195,7 @@ Kotlin 包含很多组件(Kotlin/JVM, JS, Native, 各种库, 等等), 关于各�
 目前, 这样的项目可以启用 `-progressive` 选项, 这样即使在增量发布的版本中, 也可以让这些 bug 修复有效.
 
 所有这些标记都可以在命令行中使用, 也可以在 [Gradle](gradle/gradle-compiler-options.html)
-和 [Maven](maven.html#specifying-compiler-options) 中使用.
+和 [Maven](maven.html#specify-compiler-options) 中使用.
 
 ### 二进制格式的演化
 

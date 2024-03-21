@@ -19,6 +19,7 @@ Java 中长期困扰的一系列问题, 在 Kotlin 得到了解决:
 * 与 Java 中的 SAM 变换方案相反, Kotlin 中存在专门的 [函数类型(function type)](../lambdas.html#function-types)
 * 不使用通配符的 [使用处类型变异(Use-site variance)](../generics.html#use-site-variance-type-projections)
 * Kotlin 中不存在受控 [异常](../exceptions.html)
+* [集合的接口定义区分为只读集合与可变集合](../collections-overview.html)
 
 ## Java 中有, 而 Kotlin 中没有的功能
 
@@ -37,6 +38,9 @@ Java 中长期困扰的一系列问题, 在 Kotlin 得到了解决:
   以及 [类型投射(type projection)](../generics.html#type-projections).
 * [条件(三元)运算符 `a ? b : c`](../control-flow.html#if-expression)
   在 Kotlin 中由以下功能代替: [if 表达式](../control-flow.html#if-expression).
+* [记录类(Record)](https://openjdk.org/jeps/395)
+* [记录模式(Record Pattern)](https://openjdk.org/jeps/440)
+* **Java 22**: [未命名变量和模式](https://openjdk.org/jeps/456)
 
 
 ## Kotlin 中有, 而 Java 中没有的功能
@@ -44,20 +48,24 @@ Java 中长期困扰的一系列问题, 在 Kotlin 得到了解决:
 * [Lambda 表达式](../lambdas.html) + [内联函数](../inline-functions.html) = 实现自定义的控制结构
 * [扩展函数](../extensions.html)
 * [Null 值安全性](../null-safety.html)
-* [类型智能转换](../typecasts.html)
-* [字符串模板](../strings.html)
+* [类型智能转换](../typecasts.html) (**Java 16**: [对 instanceof 的模式匹配](https://openjdk.org/jeps/394))
+* [字符串模板](../strings.html) (**Java 21**: [字符串模板 (预览版)](https://openjdk.org/jeps/430))
 * [属性](../properties.html)
 * [主构造器](../classes.html)
 * [委托(First-class delegation)](../delegation.html)
-* [变量和属性的类型推断](../basic-types.html)
+* [变量和属性的类型推断](../basic-types.html) (**Java 10**: [局部变量的类型推断](https://openjdk.org/jeps/286))
 * [单例(Singleton)](../object-declarations.html)
 * [声明处类型变异(Declaration-site variance) 和类型投射(Type projection)](../generics.html)
 * [值范围表达式](../ranges.html)
 * [操作符重载](../operator-overloading.html)
 * [同伴对象(Companion object)](../classes.html#companion-objects)
 * [数据类](../data-classes.html)
-* [集合的接口定义区分为只读集合与可变集合](../collections-overview.html)
 * [协程](../coroutines-overview.html)
+* [顶级(Top Level)函数](../functions.html)
+* [默认参数](../functions.html#default-arguments)
+* [命名参数](../functions.html#named-arguments)
+* [中缀(Infix)函数](../functions.html#infix-notation)
+* [预期声明与实际声明](../multiplatform/multiplatform-expect-actual.html)
 
 
 ## 下一步做什么?

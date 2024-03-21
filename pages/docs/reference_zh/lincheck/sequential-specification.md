@@ -29,9 +29,7 @@ title: "顺序规格"
 ```kotlin
 import org.jetbrains.kotlinx.lincheck.*
 import org.jetbrains.kotlinx.lincheck.annotations.*
-import org.jetbrains.kotlinx.lincheck.annotations.Operation
 import org.jetbrains.kotlinx.lincheck.strategy.stress.*
-import org.jetbrains.kotlinx.lincheck.verifier.*
 import org.junit.*
 import java.util.*
 import java.util.concurrent.*
@@ -52,7 +50,7 @@ class ConcurrentLinkedQueueTest {
 }
 
 class SequentialQueue {
-    val s = LinkedList<Int>()
+    private val s = LinkedList<Int>()
 
     fun add(x: Int) = s.add(x)
     fun poll(): Int? = s.poll()

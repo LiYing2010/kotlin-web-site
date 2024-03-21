@@ -80,7 +80,7 @@ title: "向 Spring Boot 项目添加数据类"
 
    ### 可为 Null 的类型 – String?
 
-   Kotlin 提供了 [对可为 Null 的类型的内建支持](../null-safety.html#nullable-types-and-non-null-types).
+   Kotlin 提供了 [对可为 Null 的类型的内建支持](../null-safety.html#nullable-types-and-non-nullable-types).
    在 Kotlin 中, 类型系统会区分可以为 `null` 值的引用 (*nullable reference*) 和不可以为 `null` 值的引用(*non-nullable reference*).
 
    例如, 一个通常的 `String` 类型变量不能保存 `null` 值. 要允许使用 null 值, 你可以将一个变量声明为可为 null 的字符串, 写做 `String?`.
@@ -143,7 +143,7 @@ title: "向 Spring Boot 项目添加数据类"
 下面是 `DemoApplication.kt` 的完整代码:
 
 ```kotlin
-package demo
+package com.example.demo
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -192,15 +192,3 @@ Spring 应用程序已经可以运行了:
 本教程的下一部分中, 你将会向你的项目添加并配置一个数据库, 并发送 HTTP 请求.
 
 **[阅读下一章](jvm-spring-boot-add-db-support.html)**
-
-### 获得 Kotlin 语言导航地图
-
-得到你个人的语言导航地图, 它可以帮助你浏览 Kotlin 的功能特性, 并追踪你学习语言的进度.
-我们还会向你发送语言小提示, 以及与 Spring 一起使用 Kotlin 的有用资料.
-
-<a href="https://info.jetbrains.com/kotlin-tips.html">
-   <img src="/assets/docs/images/spring-boot/get-kotlin-language-map.png" alt="得到 Kotlin 语言导航地图" width="700"/>
-</a>
-
-> 在这个页面中, 需要提供你的 EMail 地址, 然后才能收到这些资料.
-{:.note}

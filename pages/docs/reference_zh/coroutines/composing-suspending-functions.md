@@ -200,6 +200,10 @@ Completed in 1017 ms
 
 ## async 风格的函数
 
+> 在这个例子中展示的这种使用异步函数的编程风格只是为了演示目的, 但在其他编程语言中是一种很流行的风格.
+> 我们 **强烈不鼓励** 在 Kotlin 协程中使用这种编程风格, 具体原因将在下文中解释.
+{:.note}
+
 我们可以定义一个 async 风格的函数, 它使用一个 [GlobalScope] 引用,
 通过 [async] 协程构建器来 _异步地_ 调用 `doSomethingUsefulOne` 和 `doSomethingUsefulTwo`,
 以这种方式来关闭结构化的同步.
@@ -284,10 +288,6 @@ suspend fun doSomethingUsefulTwo(): Int {
 The answer is 42
 Completed in 1085 ms
 ```
-
-> 在这个例子中展示的这种使用异步函数的编程风格只是为了演示目的, 但在其他编程语言中是一种很流行的风格.
-> 我们 **强烈不鼓励** 在 Kotlin 协程中使用这种编程风格, 具体原因将在下文中解释.
-{:.note}
 
 考虑一下, 如果在 `val one = somethingUsefulOneAsync()` 和 `one.await()` 表达式之间,
 代码存在某种逻辑错误, 程序抛出了一个异常, 程序的操作中止了, 那么会怎么样.

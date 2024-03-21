@@ -93,7 +93,7 @@ when (x) {
 
 ```kotlin
 enum class Bit {
-  ZERO, ONE
+    ZERO, ONE
 }
 
 val numericValue = when (getRandomBit()) {
@@ -110,7 +110,7 @@ val numericValue = when (getRandomBit()) {
 
 ```kotlin
 enum class Color {
-  RED, GREEN, BLUE
+    RED, GREEN, BLUE
 }
 
 when (getColor()) {  
@@ -121,8 +121,8 @@ when (getColor()) {
 }
 
 when (getColor()) {
-  Color.RED -> println("red") // 没有针对 GREEN 和 BLUE 的分支
-  else -> println("not red") // 需要 'else' 分支
+    Color.RED -> println("red") // 没有针对 GREEN 和 BLUE 的分支
+    else -> println("not red") // 需要 'else' 分支
 }
 ```
 

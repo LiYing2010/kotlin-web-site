@@ -17,7 +17,7 @@ Kotlin 源代码首先转换为
 对于 Kotlin/JS, 这种方案可以实现更加积极的优化, 并能够改进以前的编译器中出现的许多重要问题,
 比如, 生成的代码大小(通过死代码清除), 以及 JavaScript 和 TypeScript 生态环境的交互能力, 等等.
 
-从 Kotlin 1.4.0 开始, 可以通过 Kotlin/JS Gradle 插件使用 IR 编译器后端.
+从 Kotlin 1.4.0 开始, 可以通过 Kotlin Multiplatform Gradle 插件使用 IR 编译器后端.
 要在你的项目中启用它, 需要在你的 Gradle 构建脚本中, 向 `js` 函数传递一个编译器类型参数:
 
 ```groovy
@@ -30,9 +30,12 @@ kotlin {
 ```
 
 * `IR` 对 Kotlin/JS 使用新的 IR 编译器后端.
-* `LEGACY` 使用默认的编译器后端.
+* `LEGACY` 使用旧的编译器后端.
 * `BOTH` 编译项目时使用新的 IR 编译器以及默认的编译器后端.
   主要用于 [编写同时兼容于两种后端的库](#authoring-libraries-for-the-ir-compiler-with-backwards-compatibility).
+
+> 从 Kotlin 1.8.0 开始, 旧的编译器后端已被废弃. 从 Kotlin 1.9.0 开始, 使用 `LEGACY` 或 `BOTH` 编译器类型会发生错误.
+{:.warning}
 
 编译器类型也可以在 `gradle.properties` 文件中通过 `kotlin.js.compiler=ir` 来设置.
 但是这个设置会被 `build.gradle(.kts)` 中的任何设置覆盖.
@@ -83,7 +86,7 @@ kotlin.js.ir.output.granularity=whole-program // 默认为 'per-module'
 
 ## 忽略编译错误
 
-> _忽略编译错误_ 模式还处于 [实验阶段](/docs/reference_zh/components-stability.html).
+> _忽略编译错误_ 模式还处于 [实验阶段](../components-stability.html).
 > 它随时有可能变更或被删除.
 > 使用这个功能需要明确要求使用者同意(详情请见下文), 而且你应该只用来进行功能评估, 不要用在你的正式产品中.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issues/KT) 提供你的反馈意见.
@@ -140,19 +143,36 @@ kotlin {
 
 ## 预览: 生成 TypeScript 声明文件 (d.ts)
 
-> 生成 TypeScript 声明文件 (`d.ts`)功能还处于 [实验阶段](/docs/reference_zh/components-stability.html).
+> 生成 TypeScript 声明文件 (`d.ts`)功能还处于 [实验阶段](../components-stability.html).
 > 它随时有可能变更或被删除.
 > 使用这个功能需要明确要求使用者同意(详情请见下文), 而且你应该只用来进行功能评估, 不要用在你的正式产品中.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issues?q=%23%7BKJS:%20d.ts%20generation%7D) 提供你的反馈意见.
 {:.warning}
 
 Kotlin/JS IR 编译器能够从你的 Kotlin 代码生成 TypeScript 定义.
-在开发混合 app(hybrid app)时, JavaScript 工具和 IDE 可以使用这些定义, 来提供代码自动完成, 支持静态分析,
+在开发混合 App(hybrid app)时, JavaScript 工具和 IDE 可以使用这些定义, 来提供代码自动完成, 支持静态分析,
 使得在 JavaScript 和 TypeScript 项目中包含 Kotlin 代码变得更加便利.
 
-在输出可执行文件(`binaries.executable()`)的项目中, 标注了 [`@JsExport`](js-to-kotlin-interop.html#jsexport-annotation) 注解的顶级声明会生成一个 `.d.ts`文件,
-其中包含导出的 Kotlin 声明对应的 TypeScript 定义.
-这些声明位于 `build/js/packages/<package_name>/kotlin`, 与相应的未经 webpack 处理的 JavaScript 代码在一起.
+如果你的项目输出可执行文件 (`binaries.executable()`), Kotlin/JS IR 编译器会收集所有标注了
+[`@JsExport`](js-to-kotlin-interop.html#jsexport-annotation) 注解的顶级声明,
+并自动在一个 `.d.ts` 文件中生成 TypeScript 定义.
+
+如果你想要生成 TypeScript 定义, 你需要在 Gradle 构建文件中明确进行配置.
+请在你的 `build.gradle.kts` 文件的 [`js` 小节](js-project-setup.html#execution-environments) 中添加 `generateTypeScriptDefinitions()`.
+例如:
+
+```kotlin
+kotlin {
+    js {
+        binaries.executable()
+        browser {
+        }
+        generateTypeScriptDefinitions()
+    }
+}
+```
+
+这些声明位于 `build/js/packages/<package_name>/kotlin` 目录中, 与相应的未经 webpack 处理的 JavaScript 代码在一起.
 
 ## IR 编译器目前的限制
 

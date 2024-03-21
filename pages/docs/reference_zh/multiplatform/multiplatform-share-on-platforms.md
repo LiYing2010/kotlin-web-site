@@ -13,11 +13,9 @@ title: "在不同的平台之间共用代码"
 * [在你的项目中使用的所有平台上共用代码](#share-code-on-all-platforms).
 通过这种方式, 可以共用那些适用于所有平台的共通业务逻辑.
 * [在你的项目中使用的一部分(但不是所有)平台上共用代码](#share-code-on-similar-platforms).
-可以通过一种阶层结构, 在相似的平台上共用很大部分代码.
-你可以对编译目标的共通组合使用 [编译目标的简写](#use-target-shortcuts),
-或者 [手动创建层级结构](#configure-the-hierarchical-structure-manually).
+通过使用层级结构(Hierarchical Structure), 你可以在相似的平台上重用代码.
 
-如果需要在共用代码中访问平台相关的 API, 可以使用 Kotlin 的 [预期声明与实际声明(expected and actual declaration)](multiplatform-connect-to-apis.html) 机制.
+如果需要在共用代码中访问平台相关的 API, 可以使用 Kotlin 的 [预期声明与实际声明(expected and actual declaration)](multiplatform-expect-actual.html) 机制.
 
 ## 在所有平台上共用代码
 
@@ -28,9 +26,9 @@ title: "在不同的平台之间共用代码"
 
 源代码集之间一些依赖关系会默认设置. 对于以下源代码集, 你不需要手动指定任何 `dependsOn` 关系:
 * 所有平台相关的源代码集会默认依赖于共通源代码集, 比如 `jvmMain`, `macosX64Main`, 等等.
-* 某个特定编译目标的 `main` 与 `test` 源代码集之间会默认依赖, 比如 `androidMain` 与 `androidTest`.
+* 某个特定编译目标的 `main` 与 `test` 源代码集之间会默认依赖, 比如 `androidMain` 与 `androidUnitTest`.
 
-如果在共用的代码中需要访问平台相关的 API, 可以使用 Kotlin 的 [预期声明与实际声明(expected and actual declaration)](multiplatform-connect-to-apis.html) 机制.
+如果在共用的代码中需要访问平台相关的 API, 可以使用 Kotlin 的 [预期声明与实际声明(expected and actual declaration)](multiplatform-expect-actual.html) 机制.
 
 ## 在类似的平台上共用代码
 
@@ -43,226 +41,14 @@ title: "在不同的平台之间共用代码"
 很明显, 在这种设置中, 对两个 iOS 编译目标我们需要一个共用的源代码集,
 其中包含的 Kotlin/Native 代码, 仍然可以直接调用那些对 iOS 设备和模拟器共通的 API.
 
-这种情况下, 可以使用层级结构, 在你的项目中的多个原生编译目标之间共用代码.
-从 Kotlin 1.6.20 开始, 层级结构功能默认启用.
-详情请参见 [层级项目结构](multiplatform-hierarchy.html).
+这种情况下, 可以通过以下任何一种方法, 使用[层级结构(Hierarchical Structure)](multiplatform-hierarchy.html), 在你的项目中的多个原生编译目标之间共用代码:
 
-有两种方法来创建层级结构:
+* [使用默认的层级模板](multiplatform-hierarchy.html#default-hierarchy-template)
+* [手动配置层级结构](multiplatform-hierarchy.html#manual-configuration)
 
-* [使用编译目标的简写](#use-target-shortcuts): 对原生编译目标的共通组合, 可以方便的创建层级结构.
-* [手动配置层级结构](#configure-the-hierarchical-structure-manually).
+更多详情请参见 [在多个库之间共用代码](#share-code-in-libraries) 以及 [连接平台相关的库](#connect-platform-specific-libraries).
 
-更多详情请参见 [在多个库之间共用代码](#share-code-in-libraries) 以及 [在层级结构中使用原生库](#use-native-libraries-in-the-hierarchical-structure).
-
-> 由于存在一个 [已知的问题](https://youtrack.jetbrains.com/issue/KT-40975),
-> 在使用了层级结构的跨平台项目中, 如果你的项目依赖于以下库:
->
-> * 不支持层级结构的跨平台库.
-> * 第三方原生库, 默认支持的 [平台库](native-platform-libs.html) 除外.
->
-> 那么对共用的原生源代码集, 你将无法使用 IDE 的代码自动完成与高亮显示等功能:
->
-> 这个问题 applies 只影响共用的原生源代码集. IDE 还是能正确支持其他源代码.
->
-> 对于类似的源代码集, 比如 `iosArm64` 和 `iosX64`, 请参见
-  [如何绕过这个问题](../multiplatform-mobile/multiplatform-mobile-ios-dependencies.html#workaround-to-enable-ide-support-for-the-shared-ios-source-set)
-> .
-{:.note}
-
-### 使用编译目标的简写
-
-假设一个典型的跨平台项目包含两个 iOS 相关的编译目标 – `iosArm64` 和 `iosX64`,
-层级结构包括一个中间源代码集 (`iosMain`), 平台相关的源代码集会使用它.
-
-<img class="img-responsive" src="{{ url_for('asset', path='docs/images/multiplatform/iosmain-hierarchy.png') }}" alt="对 iOS 编译目标共用代码" width="400"/>
-
-`kotlin-multiplatform` plugin 提供了编译目标的简写, 来对编译目标的共通组合创建层级结构.
-
-| 编译目标简写    | 编译目标                                         |
-|-----------|----------------------------------------------|
-| `ios`     | `iosArm64`, `iosX64`                         |
-| `watchos` | `watchosArm32`, `watchosArm64`, `watchosX64` |
-| `tvos`    | `tvosArm64`, `tvosX64`                       |
-
-所有的简写都会在代码中创建类似的层级结构. 比如, `ios` 简写创建下面的层级结构:
-
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" theme="idea" mode="kotlin" data-highlight-only>
-
-```kotlin
-kotlin {
-    sourceSets{
-        val commonMain by sourceSets.getting
-        val iosX64Main by sourceSets.getting
-        val iosArm64Main by sourceSets.getting
-        val iosMain by sourceSets.creating {
-            dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-        }
-    }
-}
-```
-
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" theme="idea" mode="groovy" data-highlight-only>
-
-```groovy
-kotlin {
-    sourceSets{
-        iosMain {
-            dependsOn(commonMain)
-            iosX64Main.dependsOn(it)
-            iosArm64Main.dependsOn(it)
-        }
-    }
-}
-```
-
-</div>
-</div>
-
-#### 编译目标简写与 ARM64 (Apple Silicon) 模拟器
-
-编译目标简写 `ios`, `watchos`, 和 `tvos` 不包括 ARM64 (Apple Silicon) 平台的模拟器编译目标:
-`iosSimulatorArm64`, `watchosSimulatorArm64`, 和 `tvosSimulatorArm64`.
-如果你使用编译目标简写, 并且希望为 Apple Silicon 模拟器编译你的项目,
-请按以下方式修改你的编译脚本:
-
-1. 添加你需要的 `*SimulatorArm64` 模拟器编译目标.
-2. 使用源代码集合依赖项 (`dependsOn`), 将模拟器编译目标连接到简写.
-
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" theme="idea" mode="kotlin" data-highlight-only>
-
-```kotlin
-kotlin {
-    ios()
-    // 添加 ARM64 模拟器编译目标
-    iosSimulatorArm64()
-
-    val iosMain by sourceSets.getting
-    val iosTest by sourceSets.getting
-    val iosSimulatorArm64Main by sourceSets.getting
-    val iosSimulatorArm64Test by sourceSets.getting
-
-    // 设置源代码集依赖项
-    iosSimulatorArm64Main.dependsOn(iosMain)
-    iosSimulatorArm64Test.dependsOn(iosTest)
-}
-```
-
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" theme="idea" mode="groovy" data-highlight-only>
-
-```groovy
-kotlin {
-    ios()
-    // 添加 ARM64 模拟器编译目标
-    iosSimulatorArm64()
-
-    // 设置源代码集依赖项
-    sourceSets {
-        // ...
-        iosSimulatorArm64Main {
-            dependsOn(iosMain)
-        }
-        iosSimulatorArm64Test {
-            dependsOn(iosTest)
-        }
-    }
-}
-```
-
-</div>
-</div>
-
-### 手动配置层级结构
-
-要手动创建层级结构, 需要引入一个中间源代码集, 包含针对多个编译目标的共用代码,
-然后创建一个源代码集层级结构, 包含这个中间源代码集.
-
-![层级结构]({{ url_for('asset', path='docs/images/multiplatform/hierarchical-structure.png') }})
-
-比如, 如果你想要创建共用代码, 用于原生 Linux, Windows, 和 macOS 编译目标 – `linuxX64M`, `mingwX64`, 和 `macosX64`:
-
-1. 添加中间源代码集 `desktopMain`, 其中包含用于这些编译目标的共用逻辑.
-2. 使用 `dependsOn` 关系, 指定源代码集的层级结构.
-
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" theme="idea" mode="kotlin" data-highlight-only>
-
-```kotlin
-kotlin{
-    sourceSets {
-        val desktopMain by creating {
-            dependsOn(commonMain)
-        }
-        val linuxX64Main by getting {
-            dependsOn(desktopMain)
-        }
-        val mingwX64Main by getting {
-            dependsOn(desktopMain)
-        }
-        val macosX64Main by getting {
-            dependsOn(desktopMain)
-        }
-    }
-}
-```
-
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" theme="idea" mode="groovy" data-highlight-only>
-
-```groovy
-kotlin {
-    sourceSets {
-        desktopMain {
-            dependsOn(commonMain)
-        }
-        linuxX64Main {
-            dependsOn(desktopMain)
-        }
-        mingwX64Main {
-            dependsOn(desktopMain)
-        }
-        macosX64Main {
-            dependsOn(desktopMain)
-        }
-    }
-}
-```
-
-</div>
-</div>
-
-对以下编译目标组合, 可以共用源代码集:
-
-* JVM 或 Android + JS + Native
-* JVM 或 Android + Native
-* JS + Native
-* JVM 或 Android + JS
-* Native
-
-对以下编译目标组合, Kotlin 目前不支持共用源代码集:
-
-* 多个 JVM 编译目标
-* JVM + Android 编译目标
-* 多个 JS 编译目标
-
-如果你需要在共用的原生源代码集中访问平台相关的 API, IntelliJ IDEA 可以帮助你查找在共用的原生代码中可以使用的共通声明.
-其他情况下, 请使用 Kotlin 的 [预期声明与实际声明](multiplatform-connect-to-apis.html) 机制.
-
-### 在多个库之间共用代码
+## 在多个库之间共用代码
 
 感谢项目层级结构的帮助, 多个库也可以对一组编译目标提供共通的 API.
 当 [库发布](multiplatform-publish-lib.html) 时, 它的中间源代码集的 API 会与项目结构信息一起嵌入到库的 artifact 中.
@@ -277,24 +63,16 @@ kotlin {
 你可以依赖到这个库, 并在 JVM 和原生编译目标之间共用的源代码集中调用 `runBlocking`,
 因为它与库的 `concurrent` 源代码集的 "编译目标签名" 相符.
 
-### 在层级结构中使用原生库
+## 连接平台相关的库
 
-在多个原生编译目标之间共用的源代码集中, 可以使用平台相关的库, 比如 `Foundation`, `UIKit`, 以及 `POSIX`.
-这个功能可以帮助你共用更多的原生代码, 不会受到平台相关的依赖项的限制.
+为了共用更多的原生代码, 而不是仅仅局限于平台相关的依赖项, 你可以连接 [平台相关的库](../native/native-platform-libs.html).
+Kotlin/Native 附带的库 (例如 Foundation, UIKit, 和 POSIX) 在共用的源代码集中默认可以使用.
 
-从 Kotlin 1.6.20 开始, 在共用源代码集中默认可以使用平台相关的库.
-不需要额外的步骤. IntelliJ IDEA 会帮助你查找在共用的代码中可以使用的共通声明.
-详情请参见 [层级项目结构](multiplatform-hierarchy.html).
-
-除了 Kotlin/Native 自带的 [平台库](../native/native-platform-libs.html) 之外,
-这个方法也可以处理自定义的 [`cinterop` 库](../native/native-c-interop.html), 使得在共用的源代码集中可以使用这些库.
-要打开这个功能, 请添加 `kotlin.mpp.enableCInteropCommonization` 设置:
-
-```none
-kotlin.mpp.enableCInteropCommonization=true
-```
+此外, 如果在你的项目中使用 [Kotlin CocoaPods Gradle](../native/native-cocoapods.html) plugin,
+你也可以使用 [`cinterop` 机制](../native/native-c-interop.html) 导入的第三方原生库.
 
 ## 下一步做什么?
 
-* 关于使用 Kotlin 的 [预期声明与实际声明](multiplatform-connect-to-apis.html) 机制共用代码, 查看示例程序
+* 关于使用 Kotlin 的 [预期声明与实际声明](multiplatform-expect-actual.html) 机制共用代码, 查看示例程序
 * 学习 [层级项目结构](multiplatform-hierarchy.html)
+* 阅读我们推荐的 [跨平台项目中的源代码文件命名规约](../coding-conventions.html#source-file-names)

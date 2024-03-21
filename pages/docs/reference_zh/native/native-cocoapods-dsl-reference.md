@@ -48,7 +48,6 @@ plugin 版本与 [Kotlin 发布版本](../releases.html) 相同. 最新的稳定
 | `authors`   | 通过这个项目构建得到的 Pod 的作者. |
 | `podfile`   | 配置已有的 `Podfile` 文件. |
 | `noPodspec()`   | 设置 plugin 不要为 `cocoapods` 小节生成 Podspec 文件. |
-| `useLibraries()`| 设置 `cocoapods-generate` 生成与静态库兼容的 `xcodeproj`. |
 | `name`      | 通过这个项目构建得到的 Pod 的名称. 如果不指定, 会使用项目的名称. |
 | `license`   | 通过这个项目构建得到的 Pod 的许可协议类型, 以及文字. |
 | `framework` | framework 代码段对 plugin 生成的框架进行配置. |
@@ -96,7 +95,7 @@ kotlin {
 }
 ```
 
-### `framework()` 代码段
+### `framework` 代码段
 
 `framework` 代码段嵌套在 `cocoapods` 代码段内, 用来配置通过项目构建的 Pod 的框架属性.
 
@@ -127,14 +126,17 @@ kotlin {
 `pod()` 函数调用会对通过这个项目构建得到的 Pod 添加一个 CocoaPods 依赖项.
 每个依赖项都需要一个单独的 `pod()` 函数调用.
 
-在函数参数中, 你可以指定一个 Pod 库的名称. 在这个函数的配置代码段中, 还可以指定其他参数, 例如库的 `version` 和 `source`.
+在函数参数中, 你可以指定一个 Pod 库的名称. 在这个函数的配置代码段中, 还可以指定其他参数, 例如库的 `version` 和 `source`:
 
-| **名称**       | **描述**                                | 
-|---------------|-----------------------------------------|
-| `version`     | 库的版本. 要使用库的最新版本, 请省略这个参数. |
+| **名称**       | **描述**                                                                                                                                                                                                                                             | 
+|---------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `version`     | 库的版本. 要使用库的最新版本, 请省略这个参数.                                                                                                                                                                                                                          |
 | `source`      | 可以使用以下几种方式来配置 Pod: <br/> 通过 `git()` 函数, 使用 Git 仓库中的 Pod. 在 `git()` 之后的代码段中, 你可以指定 `commit` 来使用特定的 commit, 可以指定 `tag` 来使用特定的 tag, 可以指定 `branch` 来使用 特定的 branch <br/> 通过 `path()` 函数, 使用本地仓库中的 Pod <br/> 通过 `url()` 函数, 使用打包的(tar, jar, zip) Pod 文件夹 |
-| `packageName` | 指定包名称. |
-| `extraOpts`   | 为 Pod 库指定选项列表. 例如, 特定的参数: <code style="block" lang="Kotlin">extraOpts = listOf("-compiler-option")</code>. |
+| `packageName` | 指定包名称.                                                                                                                                                                                                                                             |
+| `extraOpts`   | 为 Pod 库指定选项列表. 例如, 特定的参数: <code style="block" lang="Kotlin">extraOpts = listOf("-compiler-option")</code>                                                                                                                                          |
+| `linkOnly`                   | 让 CocoaPods plugin 使用动态框架(Dynamic Framework)的 Pod 依赖项, 不生成 cinterop 绑定. 如果对静态框架(Static Framework)使用这个选项, 会删除整个 Pod 依赖项.                                                                                                                            |
+| `interopBindingDependencies` | 包含对其他 Pod 的依赖项列表. 在对新的 Pod 构建 Kotlin 绑定时会使用这个列表.                                                                                                                                                                                                   |
+| `useInteropBindingFrom()`    | 指定用做依赖项的已存在的 Pod 的名称. 这个 Pod 需要在函数执行之前声明. 这个函数让 CocoaPods plugin 在对新的 Pod 构建 Kotlin 绑定时, 使用已存在的 Pod 的绑定.                                                                                                                                           |
 
 ```kotlin
 kotlin {
@@ -148,6 +150,7 @@ kotlin {
       
         pod("pod_dependency") {
             version = "1.0"
+            linkOnly = true
             source = path(project.file("../pod_dependency"))
         }
     }

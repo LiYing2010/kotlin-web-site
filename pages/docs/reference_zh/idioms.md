@@ -106,8 +106,8 @@ for ((k, v) in map) {
 ## 在数值范围中遍历
 
 ```kotlin
-for (i in 1..100) { ... }  // 闭区间: 包括 100
-for (i in 1 until 100) { ... } // 半开(half-open)区间: 不包括 100
+for (i in 1..100) { ... }  // 终端封闭的(closed-ended)数值范围: 包括 100
+for (i in 1..<100) { ... } // 终端开放的(open-ended)数值范围: 不包括 100
 for (x in 2..10 step 2) { ... }
 for (x in 10 downTo 1) { ... }
 (1..10).forEach { ... }
@@ -172,11 +172,13 @@ println(files?.size) // 如果 files 不为 null, 这里会打印 size 值
 ```kotlin
 val files = File("Test").listFiles()
 
+// 简单的 fallback 值:
 println(files?.size ?: "empty") // 如果 files 为 null, 这里会打印 "empty"
 
-// 如果 files 为 null 时的 fallback 值需要通过一个代码段来计算, 可以使用 `run`
+// 如果要通过一个代码段来计算更加复杂的 fallback 值, 可以使用 `run`
 val filesSize = files?.size ?: run {
-    return someSize
+    val someSize = getSomeSize()
+    someSize * 2
 }
 println(filesSize)
 ```
@@ -342,17 +344,6 @@ stream.buffered().reader().use { reader ->
 //     ...
 
 inline fun <reified T: Any> Gson.fromJson(json: JsonElement): T = this.fromJson(json, T::class.java)
-```
-
-## 可为 null 的布尔值
-
-```kotlin
-val b: Boolean? = ...
-if (b == true) {
-    ...
-} else {
-    // `b` 为 false 或为 null
-}
 ```
 
 ## 交换两个变量的值

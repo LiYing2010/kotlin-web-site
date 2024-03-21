@@ -69,16 +69,18 @@ class MessageService(val db: JdbcTemplate) {
         Message(response.getString("id"), response.getString("text"))
     }
 
-    fun save(message: Message){
-        db.update("insert into messages values ( ?, ? )",
-           message.id, message.text)
+    fun save(message: Message) {
+        db.update(
+            "insert into messages values ( ?, ? )",
+            message.id, message.text
+        )
     }
 }
 ```
 
 ### 构造器参数与依赖注入 – (val db: JdbcTemplate)
 
-Kotlin 中的类可以拥有一个主构造器, 以及一个或多个 [次级构造器(secondary constructor)](../classes.html#secondary-constructors).
+Kotlin 中的类有一个主构造器. 还可以有一个或多个 [次级构造器(secondary constructor)](../classes.html#secondary-constructors).
 *主构造器* 是类头部的一部分, 位于类名称以及可选的类型参数之后.
 在我们的例子中, 构造器是 `(val db: JdbcTemplate)`.
 
@@ -131,6 +133,9 @@ db.query("select * from messages") { response, _ ->
 更新 `MessageController` 来使用新的 `MessageService` 类:
 
 ```kotlin
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.PostMapping
+
 @RestController
 class MessageController(val service: MessageService) {
     @GetMapping("/")
@@ -162,17 +167,21 @@ data class Message(val id: String?, val text: String)
 更新你的代码, 在将 message 保存到时数据库, 如果 `id` 为 `null`, 生成新的值:
 
 ```kotlin
+import java.util.UUID
+
 @Service
 class MessageService(val db: JdbcTemplate) {
     fun findMessages(): List<Message> = db.query("select * from messages") { response, _ ->
         Message(response.getString("id"), response.getString("text"))
     }
 
-    fun save(message: Message){
+    fun save(message: Message) {
         val id = message.id ?: UUID.randomUUID().toString()
-        db.update("insert into messages values ( ?, ? )",
-                  id, message.text)
-    } 
+        db.update(
+            "insert into messages values ( ?, ? )",
+            id, message.text
+        )
+    }
 }
 ```
 
@@ -222,7 +231,7 @@ class MessageService(val db: JdbcTemplate) {
 你应该使用一个 HTTP 客户端来访问前面创建的 Endpoint. 在 IntelliJ IDEA 中, 请使用内嵌的 HTTP Client:
 
 1. 运行应用程序. 应用程序启动之后, 你可以执行 POST 请求来向数据库存储消息.
-   创建 `requests.http` 文件, 并添加以下 HTTP 请求:
+   在 `src/main/resources` 文件夹中创建 `requests.http` 文件, 并添加以下 HTTP 请求:
 
    ```http_request
    ### Post "Hello!"
@@ -301,19 +310,23 @@ curl -X GET --location "http://localhost:8080"
     
         fun save(message: Message) {
             val id = message.id ?: UUID.randomUUID().toString()
-            db.update("insert into messages values ( ?, ? )", 
-                      id, message.text)
+            db.update(
+                "insert into messages values ( ?, ? )", 
+                id, message.text
+            )
         }
     }
     ```
-   
-   > 通过 id 来获取 message 的 `query()` 函数是由 Spring Framework 提供的一个 [Kotlin 扩展函数](../extensions.html#extension-functions),
-   > 如上面的代码所示, 它需要一个额外的 import 语句.
-   {:.note}
+
+   > 通过 id 来获取 message 的 `.query()` 函数是由 Spring Framework 提供的一个 [Kotlin 扩展函数](../extensions.html#extension-functions),
+   > 如上面的代码所示, 它需要一个额外的 `import org.springframework.jdbc.core.query` 语句.
+   {:.warning}
 
 2. 向 `MessageController` 类添加新的 `index(...)` 函数, 参数是 `id`:
 
     ```kotlin
+    import org.springframework.web.bind.annotation.*
+
     @RestController
     class MessageController(val service: MessageService) {
         @GetMapping("/")
@@ -343,6 +356,64 @@ curl -X GET --location "http://localhost:8080"
    * `RowMapper` 实例, 由 Lambda 表达式实现
 
    `query()` 函数的第 2 个参数声明为 *不定数量参数* (`vararg`). 在 Kotlin 中, 不定数量参数的位置并不要求是在参数列表的最后.
+
+下面是 `DemoApplication.kt` 的完整代码:
+
+```kotlin
+package com.example.demo
+
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
+import org.springframework.stereotype.Service
+import org.springframework.jdbc.core.JdbcTemplate
+import java.util.UUID
+import org.springframework.jdbc.core.query
+import org.springframework.web.bind.annotation.*
+
+@SpringBootApplication
+class DemoApplication
+
+fun main(args: Array<String>) {
+    runApplication<DemoApplication>(*args)
+}
+
+@RestController
+class MessageController(val service: MessageService) {
+    @GetMapping("/")
+    fun index(): List<Message> = service.findMessages()
+
+    @GetMapping("/{id}")
+    fun index(@PathVariable id: String): List<Message> =
+        service.findMessageById(id)
+
+    @PostMapping("/")
+    fun post(@RequestBody message: Message) {
+        service.save(message)
+    }
+}
+
+data class Message(val id: String?, val text: String)
+
+@Service
+class MessageService(val db: JdbcTemplate) {
+
+    fun findMessages(): List<Message> = db.query("select * from messages") { response, _ ->
+        Message(response.getString("id"), response.getString("text"))
+    }
+
+    fun findMessageById(id: String): List<Message> = db.query("select * from messages where id = ?", id) { response, _ ->
+        Message(response.getString("id"), response.getString("text"))
+    }
+
+    fun save(message: Message) {
+        val id = message.id ?: UUID.randomUUID().toString()
+        db.update(
+            "insert into messages values ( ?, ? )",
+            id, message.text
+        )
+    }
+}
+```
 
 ## 运行应用程序
 
@@ -378,15 +449,3 @@ Spring 应用程序已经可以运行了:
 本教程的最后部分会向你演示, 如何使用更加流行的数据库操作方式 Spring Data. 
 
 **[阅读下一章](jvm-spring-boot-using-crudrepository.html)**
-
-### 获得 Kotlin 语言导航地图
-
-得到你个人的语言导航地图, 它可以帮助你浏览 Kotlin 的功能特性, 并追踪你学习语言的进度.
-我们还会向你发送语言小提示, 以及与 Spring 一起使用 Kotlin 的有用资料.
-
-<a href="https://info.jetbrains.com/kotlin-tips.html">
-   <img src="/assets/docs/images/spring-boot/get-kotlin-language-map.png" alt="得到 Kotlin 语言导航地图" width="700"/>
-</a>
-
-> 在这个页面中, 需要提供你的 EMail 地址, 然后才能收到这些资料.
-{:.note}

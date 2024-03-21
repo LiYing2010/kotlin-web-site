@@ -54,7 +54,9 @@ tasks.named('compileKotlin', org.jetbrains.kotlin.gradle.tasks.KotlinCompilation
 </div>
 </div>
 
-当编译的目标平台为 JVM 时, 编译产品代码的编译任务名为 `compileKotlin`, 编译测试代码的编译任务名为 `compileTestKotlin`.
+### JVM 目标平台
+
+对于 JVM 目标平台, 编译产品代码的编译任务名为 `compileKotlin`, 编译测试代码的编译任务名为 `compileTestKotlin`.
 针对自定义源代码集的编译任务名, 是与源代码集名称对应的 `compile<Name>Kotlin`.
 
 Android 项目的编译任务名称, 包含
@@ -62,7 +64,46 @@ Android 项目的编译任务名称, 包含
 的名称, 完整名称是 `compile<BuildVariant>Kotlin`,
 比如, `compileDebugKotlin`, `compileReleaseUnitTestKotlin`.
 
-当编译的目标平台为 JavaScript 时, 产品代码的编译任务名是 `compileKotlinJs`, 测试代码的编译任务名是 `compileTestKotlinJs`,
+对于 JVM 和 Android 项目, 可以使用项目的 Kotlin 扩展 DSL 来定义选项:
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+kotlin {
+    compilerOptions {
+        apiVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.{{ site.data.releases.gradleApiVersion }})
+    }
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+kotlin {
+    compilerOptions {
+        apiVersion = org.jetbrains.kotlin.gradle.dsl.KotlinVersion.{{ site.data.releases.gradleApiVersion }}
+    }
+}
+```
+
+</div>
+</div>
+
+有一些重要的细节需要注意:
+
+* `android.kotlinOptions` 和 `kotlin.compilerOptions` 配置代码块会相互覆盖. 只有最后出现的 (最下方的) 代码块会起作用.
+* `kotlin.compilerOptions` 会配置项目中所有的 Kotlin 编译任务.
+* 你可以使用 `tasks.named<KotlinJvmCompile>("compileKotlin") { }`
+  (或 `tasks.withType<KotlinJvmCompile>().configureEach { }`) 来由覆盖 `kotlin.compilerOptions` DSL 提供的配置.
+
+### JavaScript 目标平台
+
+对于 JavaScript 目标平台, 产品代码的编译任务名是 `compileKotlinJs`, 测试代码的编译任务名是 `compileTestKotlinJs`,
 针对自定义源代码集的编译任务名, 是 `compile<Name>KotlinJs`.
 
 要对单个编译任务进行配置, 请使用它的名称. 示例如下:
@@ -103,6 +144,8 @@ tasks.named('compileKotlin', KotlinCompilationTask) {
 
 编译 JavaScript 和 Common 时, 请使用相应的 `Kotlin2JsCompile` 和 `KotlinCompileCommon` 类型.
 
+### 配置所有的 Kotlin 编译任务
+
 也可以对项目中的所有 Kotlin 编译任务进行配置:
 
 <div class="multi-language-sample" data-lang="kotlin">
@@ -112,9 +155,9 @@ tasks.named('compileKotlin', KotlinCompilationTask) {
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 // ...
 
-val compileKotlin = tasks.named<KotlinCompilationTask<*>>("compileKotlin")
-
-compileKotlin.compilerOptions { /*...*/ }
+tasks.named<KotlinCompilationTask<*>>("compileKotlin").configure {
+  compilerOptions { /*...*/ }
+}
 ```
 
 </div>
@@ -135,15 +178,25 @@ tasks.named('compileKotlin', KotlinCompilationTask) {
 </div>
 </div>
 
+## 所有的编译器选项
+
 Gradle 任务所支持的选项完整列表如下:
+
+### 共通属性
+
+| 属性名称              | 描述                                                | 可以选择的值                    | 默认值           |
+|-------------------|---------------------------------------------------|---------------------------|---------------|
+| `optIn`           | 配置 [opt-in 编译器参数](../opt-in-requirements.html) 列表 | `listOf( /* opt-ins */ )` | `emptyList()` |
+| `progressiveMode` | 启用 [渐进编译模式](../whatsnew13.html#progressive-mode)  | `true`, `false`           | `false`       |
 
 ### JVM 任务独有的属性
 
-| 属性名称             | 描述      | 可以选择的值             |默认值 |
-|---------------------|----------|------------------------|-------|
-| `javaParameters` | 为 Java 1.8 的方法参数反射功能生成 metadata  |   | false |
-| `jvmTarget`      | 指定编译输出的 JVM 字节码的版本    | "1.8", "9", "10", ..., "19". 参见 [编译器选项的数据类型](#types-for-compiler-options) | "{{ site.data.releases.defaultJvmTargetVersion }}" |
-| `noJdk`          | 不要自动将 Java 运行库包含到 classpath 内 |  | false |
+| 属性名称                      | 描述                                                                                                                                                          | 可以选择的值                                                                          | 默认值                                                |
+|---------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|----------------------------------------------------|
+| `javaParameters`          | 为 Java 1.8 的方法参数反射功能生成 metadata                                                                                                                             |                                                                                 | false                                              |
+| `jvmTarget`               | 指定编译输出的 JVM 字节码的版本                                                                                                                                          | "1.8", "9", "10", ..., "20", "21". 参见 [编译器选项的数据类型](#types-for-compiler-options) | "{{ site.data.releases.defaultJvmTargetVersion }}" |
+| `noJdk`                   | 不要自动将 Java 运行库包含到 classpath 内                                                                                                                               |                                                                                 | false                                              |
+| `jvmTargetValidationMode` | 验证 Kotlin 和 Java 编译任务的 [JVM 编译目标兼容性](gradle-configure-project.html#check-for-jvm-target-compatibility-of-related-compile-tasks). 适用于 `KotlinCompile` 类型的任务. | `WARNING`, `ERROR`, `INFO`                                                      | `ERROR`                                            |
 
 ### JVM, JS, 和 JS DCE 任务支持的共通属性
 
@@ -175,9 +228,9 @@ val compileKotlin: KotlinCompilationTask<*> by tasks
 // 单个实验性参数
 compileKotlin.compilerOptions.freeCompilerArgs.add("-Xexport-kdoc")
 // 单个额外参数, 可以是 key-value 对
-compileKotlin.compilerOptions.freeCompilerArgs.add("-opt-in=org.mylibrary.OptInAnnotation")
+compileKotlin.compilerOptions.freeCompilerArgs.add("-Xno-param-assertions")
 // 多个参数的列表
-compileKotlin.compilerOptions.freeCompilerArgs.addAll(listOf("-Xno-param-assertions", "-Xno-receiver-assertions", "-Xno-call-assertions"))
+compileKotlin.compilerOptions.freeCompilerArgs.addAll(listOf("-Xno-receiver-assertions", "-Xno-call-assertions"))
 ```
 
 </div>
@@ -195,9 +248,9 @@ tasks.named('compileKotlin', KotlinCompilationTask) {
         // 单个实验性参数
         freeCompilerArgs.add("-Xexport-kdoc")
         // 单个额外参数, 可以是 key-value 对
-        freeCompilerArgs.add("-opt-in=org.mylibrary.OptInAnnotation")
+        freeCompilerArgs.add("-Xno-param-assertions")
         // 多个参数的列表
-        freeCompilerArgs.addAll(["-Xno-param-assertions", "-Xno-receiver-assertions", "-Xno-call-assertions"])
+        freeCompilerArgs.addAll(["-Xno-receiver-assertions", "-Xno-call-assertions"])
     }
 }
 ```
@@ -207,27 +260,66 @@ tasks.named('compileKotlin', KotlinCompilationTask) {
 
 ### JVM 和 JS 任务支持的共通属性
 
-| 属性名称 | 描述         | 可以选择的值 |默认值 |
-|------|-------------|-----------------|--------------|
-| `apiVersion`      | 只允许使用指定的版本的运行库中的 API  | "1.3" (已废弃 DEPRECATED), "1.4" (已废弃 DEPRECATED), "1.5", "1.6", "1.7", "1.8", "1.9" (实验性功能) |  |
-| `languageVersion` | 指定源代码所兼容的 Kotlin 版本  | "1.3" (已废弃 DEPRECATED), "1.4" (已废弃 DEPRECATED), "1.5", "1.6", "1.7", "1.8", "1.9" (实验性功能) |  |
+| 属性名称              | 描述                   | 可以选择的值                                                                                                   | 默认值 |
+|-------------------|----------------------|----------------------------------------------------------------------------------------------------------|-----|
+| `apiVersion`      | 只允许使用指定的版本的运行库中的 API | "1.4" (已废弃 DEPRECATED), "1.5" (已废弃 DEPRECATED), "1.6", "1.7", "1.8", "1.9", "2.0" (实验性功能), "2.1" (实验性功能) |     |
+| `languageVersion` | 指定源代码所兼容的 Kotlin 版本  | "1.4" (已废弃 DEPRECATED), "1.5" (已废弃 DEPRECATED), "1.6", "1.7", "1.8", "1.9", "2.0" (实验性功能), "2.1" (实验性功能) |     |
+
+
+#### Example of setting a languageVersion
+
+To set a language version, use the following syntax:
+
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+tasks
+    .withType<org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile>()
+    .configureEach {
+        compilerOptions
+            .languageVersion
+            .set(
+                org.jetbrains.kotlin.gradle.dsl.KotlinVersion.{{ site.data.releases.gradleLanguageVersion }}
+            )
+    }
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+tasks
+    .withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask.class)
+    .configureEach {
+        compilerOptions.languageVersion = 
+            org.jetbrains.kotlin.gradle.dsl.KotlinVersion.{{ site.data.releases.gradleLanguageVersion }}
+    }
+```
+
+</div>
+</div>
 
 参见 [编译器选项的数据类型](#types-for-compiler-options).
 
 ### JS 任务独有的属性
 
-| 属性名称   | 描述   | 可以选择的值 |默认值 |
-|------|-------|---------------|--------|
-| `friendModulesDisabled` | 指定是否关闭内部声明的输出  |  | false |
-| `main` | 指定执行时是否调用 main 函数  | "call", "noCall". 参见 [编译器选项的数据类型](#types-for-compiler-options) | "call" |
-| `metaInfo` | 指定是否生成带有 metadata 的 .meta.js 和 .kjsm 文件. 用于创建库 |  | true |
-| `moduleKind` | 指定编译器生成的 JS 模块类型 | "umd", "commonjs", "amd", "plain", "es". 参见 [编译器选项的数据类型](#types-for-compiler-options) | "umd" |
-| `outputFile` | 指定编译结果输出的 *.js 文件 |  | "\<buildDir>/js/packages/\<project.name>/kotlin/\<project.name>.js" |
-| `sourceMap` | 指定是否生成源代码映射文件(source map) |  | true |
-| `sourceMapEmbedSources` | 指定是否将源代码文件嵌入到源代码映射文件中 | "never", "always", "inlining". 参见 [编译器选项的数据类型](#types-for-compiler-options) |  |
-| `sourceMapPrefix` | 对源代码映射文件中的路径添加一个指定的前缀 |  |  |
-| `target` | 指定生成的 JS 文件 的 ECMA 版本 | "v5" | "v5" |
-| `typedArrays` | 将基本类型数组转换为 JS 的有类型数组 |  | true |
+| 属性名称                    | 描述                                                                                                                                              | 可以选择的值                                                                                      | 默认值                                                                 |
+|-------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|---------------------------------------------------------------------|
+| `friendModulesDisabled` | 指定是否关闭内部声明的输出                                                                                                                                   |                                                                                             | false                                                               |
+| `main`                  | 指定执行时是否调用 main 函数                                                                                                                               | "call", "noCall". 参见 [编译器选项的数据类型](#types-for-compiler-options)                              | "call"                                                              |
+| `metaInfo`              | 指定是否生成带有 metadata 的 .meta.js 和 .kjsm 文件. 用于创建库                                                                                                  |                                                                                             | true                                                                |
+| `moduleKind`            | 指定编译器生成的 JS 模块类型                                                                                                                                | "umd", "commonjs", "amd", "plain", "es". 参见 [编译器选项的数据类型](#types-for-compiler-options)       | "umd"                                                               |
+| `outputFile`            | 指定编译结果输出的 *.js 文件                                                                                                                               |                                                                                             | "\<buildDir>/js/packages/\<project.name>/kotlin/\<project.name>.js" |
+| `sourceMap`             | 指定是否生成源代码映射文件(source map)                                                                                                                       |                                                                                             | true                                                                |
+| `sourceMapEmbedSources` | 指定是否将源代码文件嵌入到源代码映射文件中                                                                                                                           | "never", "always", "inlining". 参见 [编译器选项的数据类型](#types-for-compiler-options)                 |                                                                     |
+| `sourceMapNamesPolicy`  | 将你在 Kotlin 代码中声明的变量和函数名称添加到源代码映射文件中. 详情请参见 [编译器参考文档](../compiler-reference.html#source-map-names-policy-simple-names-fully-qualified-names-no). | "simple-names", "fully-qualified-names", "no". 参见 [编译器选项的数据类型](#types-for-compiler-options) | "simple-names"                                                      |
+| `sourceMapPrefix`       | 对源代码映射文件中的路径添加一个指定的前缀                                                                                                                           |                                                                                             |                                                                     |
+| `target`                | 指定生成的 JS 文件 的 ECMA 版本                                                                                                                           | "v5"                                                                                        | "v5"                                                                |
+| `typedArrays`           | 将基本类型数组转换为 JS 的有类型数组                                                                                                                            |                                                                                             | true                                                                |
 
 ### 编译器选项的数据类型
 
@@ -236,14 +328,15 @@ tasks.named('compileKotlin', KotlinCompilationTask) {
 | 选项   | 数据类型 | 示例  |
 |--------|------|---------|
 | `jvmTarget` | [`JvmTarget`](https://github.com/JetBrains/kotlin/blob/1.8.0/libraries/tools/kotlin-gradle-compiler-types/src/generated/kotlin/org/jetbrains/kotlin/gradle/dsl/JvmTarget.kt) | `compilerOptions.jvmTarget.set(JvmTarget.JVM_11)` |
-| `apiVersion` and `languageVersion` | [`KotlinVersion`](https://github.com/JetBrains/kotlin/blob/1.8.0/libraries/tools/kotlin-gradle-compiler-types/src/generated/kotlin/org/jetbrains/kotlin/gradle/dsl/KotlinVersion.kt) | `compilerOptions.languageVersion.set(KotlinVersion.KOTLIN_1_9)` |
+| `apiVersion` and `languageVersion` | [`KotlinVersion`](https://github.com/JetBrains/kotlin/blob/1.8.0/libraries/tools/kotlin-gradle-compiler-types/src/generated/kotlin/org/jetbrains/kotlin/gradle/dsl/KotlinVersion.kt) | `compilerOptions.languageVersion.set(KotlinVersion.{{ site.data.releases.gradleLanguageVersion }})` |
 | `main` | [`JsMainFunctionExecutionMode`](https://github.com/JetBrains/kotlin/blob/1.8.0/libraries/tools/kotlin-gradle-compiler-types/src/generated/kotlin/org/jetbrains/kotlin/gradle/dsl/JsMainFunctionExecutionMode.kt) | `compilerOptions.main.set(JsMainFunctionExecutionMode.NO_CALL)` |
 | `moduleKind` | [`JsModuleKind`](https://github.com/JetBrains/kotlin/blob/1.8.0/libraries/tools/kotlin-gradle-compiler-types/src/generated/kotlin/org/jetbrains/kotlin/gradle/dsl/JsModuleKind.kt) | `compilerOptions.moduleKind.set(JsModuleKind.MODULE_ES)` |
 | `sourceMapEmbedSources` | [`JsSourceMapEmbedMode`](https://github.com/JetBrains/kotlin/blob/1.8.0/libraries/tools/kotlin-gradle-compiler-types/src/generated/kotlin/org/jetbrains/kotlin/gradle/dsl/JsSourceMapEmbedMode.kt) | `compilerOptions.sourceMapEmbedSources.set(JsSourceMapEmbedMode.SOURCE_MAP_SOURCE_CONTENT_INLINING)` |
+| `sourceMapNamesPolicy` | [`JsSourceMapNamesPolicy`](https://github.com/JetBrains/kotlin/blob/1.8.20/libraries/tools/kotlin-gradle-compiler-types/src/generated/kotlin/org/jetbrains/kotlin/gradle/dsl/JsSourceMapNamesPolicy.kt) | `compilerOptions.sourceMapNamesPolicy.set(JsSourceMapNamesPolicy.SOURCE_MAP_NAMES_POLICY_FQ_NAMES)` |
 
 ## 下一步做什么?
 
 学习:
 * [增量编译, 缓存, 构建报告, 以及 Kotlin Daemon](gradle-compilation-and-caches.html).
-* [Gradle 的基本概念与详细信息](https://docs.gradle.org/current/userguide/getting_started.html).
+* [Gradle 的基本概念与详细信息](https://docs.gradle.org/current/userguide/userguide.html).
 * [对 Gradle plugin 变体的支持](gradle-plugin-variants.html).

@@ -35,6 +35,10 @@ title: "Kotlin/JVM 入门"
     * 如果在你的计算机上还没有需要的 JDK, 请选择 **Download JDK**.
 
 7. 启用 **Add sample code** 选项, 创建文件, 其中包含 `"Hello World!"` 示例程序.
+
+   > 你也可以启用 **Generate code with onboarding tips** 选项, 向你的示例代码添加一些有用的注释.
+   {:.tip}
+
 8. 点击 **Create**.
 
   > 如果你选择了 Gradle 构建系统, 那么在你的项目中会有一个构建脚本文件: `build.gradle(.kts)`.
@@ -59,10 +63,6 @@ title: "Kotlin/JVM 入门"
 
    * 使用关键字 `val` 引入一个局部变量 `name`. 它会得到你输入的名字 –
      [`readln()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/readln.html).
-
-     > readln() 函数从 [Kotlin 1.6.0](../whatsnew16.html#new-readline-functions) 开始可用.
-     > 请确保你安装了最新版的 [Kotlin plugin](../releases.html).
-     {:.note}
 
    * 使用字符串模板, 直接在输出的文本内, 在变量名之前添加一个 `$` 符号 – `$name`.
 

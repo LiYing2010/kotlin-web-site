@@ -26,7 +26,7 @@ Dokka 能够使用很多种格式生成文档, 包括它自己的现代化 [HTML
 * [Bitmovin](https://cdn.bitmovin.com/player/android/3/docs/index.html)
 * [Hexagon](https://hexagonkt.com/api/index.html)
 * [Ktor](https://api.ktor.io/)
-* [OkHttp](https://square.github.io/okhttp/4.x/okhttp/okhttp3/) (Markdown 格式)
+* [OkHttp](https://square.github.io/okhttp/5.x/okhttp/okhttp3/)
 
 要运行 Dokka, 你可以使用 [Gradle](runners/dokka-gradle.html), [Maven](runners/dokka-maven.html) 或者 [命令行](runners/dokka-cli.html).
 它也是 [高度插件化的](dokka-plugins.html).

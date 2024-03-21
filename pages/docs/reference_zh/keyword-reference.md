@@ -168,9 +168,9 @@ Kotlin 支持以下操作符与特殊符号:
  * `?.` 执行一个 [安全调用](null-safety.html#safe-calls) (如果接受者不为 null, 则调用一个方法, 或调用一个属性的访问函数).
  * `?:` 如果这个运算符左侧的表达式值为 null, 则返回右侧的表达式值(也就是 [elvis 操作符](null-safety.html#elvis-operator)).
  * `::` 创建一个 [成员的引用](reflection.html#function-references), 或者一个 [类引用](reflection.html#class-references).
- * `..` 创建一个 [值范围](ranges.html).
+ * `..`, `..<` 创建 [值范围](ranges.html).
  * `:` 在声明中, 用作名称与类型之间的分隔符.
- * `?` 将一个类型标记为 [可为 null](null-safety.html#nullable-types-and-non-null-types).
+ * `?` 将一个类型标记为 [可为 null](null-safety.html#nullable-types-and-non-nullable-types).
  * `->`
      - 在 [lambda 表达式](lambdas.html#lambda-expression-syntax) 中, 用作参数与函数体之间的分隔符.
      - 在 [函数类型](lambdas.html#function-types) 中, 用作参数与返回类型之间的分隔符.

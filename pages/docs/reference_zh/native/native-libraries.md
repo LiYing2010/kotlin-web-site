@@ -152,7 +152,13 @@ Hello, Kotlin world!
 
 * 当前编译目录, 或一个绝对路径.
 * 通过 `-repo` 参数指定的所有仓库.
-* 默认仓库中安装的所有库(默认仓库现在是 `~/.konan` 目录, 但可以设置 **KONAN_DATA_DIR** 环境变量来修改这个路径).
+* 默认仓库中安装的所有库.
+
+  > 默认仓库是 `~/.konan`. You can change it 你可以设置 Gradle 属性 `kotlin.data.dir` 来修改这个值.
+  >
+  > 或者, 也可以使用 `-Xkonan-data-dir` 编译器选项, 通过 `cinterop` 和  `konanc` 工具来配置你的的自定义目录路径.
+  {:.note}
+
 * `$installation/klib` 目录中安装的所有库.
 
 ### 库文件的格式
@@ -201,10 +207,10 @@ Kotlin/Native 库是 zip 文件, 包含预定义的目录结构, 如下:
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 // ...
 
-val compileKotlin = tasks.named<KotlinCompilationTask<*>>("compileKotlin")
-
-// $base 是源代码文件的基准路径
-compileKotlin.compilerOptions.freeCompilerArgs.add("-Xklib-relative-path-base=$base")
+tasks.named<KotlinCompilationTask<*>>("compileKotlin").configure {
+    // $base 是源代码文件的基准路径
+    compilerOptions.freeCompilerArgs.add("-Xklib-relative-path-base=$base")
+}
 ```
 
 </div>

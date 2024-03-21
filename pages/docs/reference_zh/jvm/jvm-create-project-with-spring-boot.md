@@ -53,6 +53,9 @@ title: "使用 Kotlin 创建 Spring Boot 项目"
 
 下载并安装 [IntelliJ IDEA Ultimate Edition](https://www.jetbrains.com/idea/download/index.html) 的最新版.
 
+> 如果你使用的是 IntelliJ IDEA Community Edition 或其他 IDE, 你可以使用 [基于 web 页面的项目生成器](https://start.spring.io) 来生成 Spring Boot 项目.
+{:.note}
+
 ## 创建 Spring Boot 项目
 
 使用 IntelliJ IDEA Ultimate Edition 中的 Project Wizard, 创建新的使用 Kotlin 的 Spring Boot 项目:
@@ -88,7 +91,8 @@ title: "使用 Kotlin 创建 Spring Boot 项目"
 
 6. 点击 **Create**, 生成并设置项目.
 
-   IDE 将会生成并打开新的项目. 可能需要一些时间来下载并导入项目的依赖项.
+   > IDE 将会生成并打开新的项目. 可能需要一些时间来下载并导入项目的依赖项.
+   {:.tip}
 
 7. 之后, 你可以在 **Project view** 中看到下面的项目结构:
 
@@ -109,16 +113,19 @@ Gradle 文件是用于 Spring Boot 的标准内容, 但它也包含必须的 Kot
 ```kotlin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile // 用于下面的 `KotlinCompile` task
 
-plugins { 
-    id("org.springframework.boot") version "2.7.1"
-    id("io.spring.dependency-management") version "1.0.11.RELEASE"
+plugins {
+    id("org.springframework.boot") version "3.1.2"
+    id("io.spring.dependency-management") version "1.1.2"
     kotlin("jvm") version "{{ site.data.releases.latest.version }}" // 使用的 Kotlin 版本
     kotlin("plugin.spring") version "{{ site.data.releases.latest.version }}" // Kotlin Spring plugin
 }
 
 group = "com.example"
-version = "0.0.1-SNAPSHOT" 
-java.sourceCompatibility = JavaVersion.VERSION_17 
+version = "0.0.1-SNAPSHOT"
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+}
 
 repositories {
     mavenCentral()
@@ -129,7 +136,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web") 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin") // Jackson 扩展, 用于在 Kotlin 中使用 JSON
     implementation("org.jetbrains.kotlin:kotlin-reflect") // Kotlin 反射库, 使用 Spring 时需要
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8") // Kotlin 标准库
     runtimeOnly("com.h2database:h2") 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
@@ -158,9 +164,8 @@ tasks.withType<Test> {
 
    * `com.fasterxml.jackson.module:jackson-module-kotlin` – 这个模块支持Kotlin 类和数据类的序列化和反序列化
    * `org.jetbrains.kotlin:kotlin-reflect` – Kotlin 反射库
-   * `org.jetbrains.kotlin:kotlin-stdlib-jdk8` – Kotlin 标准库
 
-3. 在依赖项之后, 你可以看到 `KotlinComiple` task 配置模块.
+3. 在依赖项之后, 你可以看到 `KotlinCompile` task 配置模块.
    在这里你可以向编译器添加额外的参数, 来启用或禁用某些语言特性.
 
 ## 查看生成的 Spring Boot 应用程序
@@ -168,7 +173,7 @@ tasks.withType<Test> {
 打开 `DemoApplication.kt` 文件:
 
 ```kotlin
-package demo
+package com.example.demo
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -199,7 +204,7 @@ fun main(args: Array<String>) {
 [`main()`](../basic-syntax.html#program-entry-point) 函数是应用程序的入口点.
 
 它声明为在 `DemoApplication` 类之外的一个 [顶层函数](../functions.html#function-scope).
-main 函数调用 Spring 的 `runApplication(*args)` 函数, 使用 Spring Framework 来启动应用程序.
+`main()` 函数调用 Spring 的 `runApplication(*args)` 函数, 使用 Spring Framework 来启动应用程序.
 
 ### 可变参数 – args: Array&lt;String&gt;
 查看 `runApplication()` 函数的声明, 你会看到函数的参数标记了 [`vararg`](../functions.html#variable-number-of-arguments-varargs) 修饰符: `vararg args: String`.
@@ -274,7 +279,7 @@ fun index(@RequestParam("name") name: String) = "Hello, $name!"
 下面是 `DemoApplication.kt` 的完整代码:
 
 ```kotlin
-package demo
+package com.example.demo
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -324,15 +329,3 @@ Spring 应用程序现在可以运行了:
 本教程的下一部分中, 你将学习 Kotlin 数据类, 以及如何在你的应用程序中使用.
 
 **[阅读下一章](jvm-spring-boot-add-data-class.html)**
-
-### 获得 Kotlin 语言导航地图
-
-得到你个人的语言导航地图, 它可以帮助你浏览 Kotlin 的功能特性, 并追踪你学习语言的进度.
-我们还会向你发送语言小提示, 以及与 Spring 一起使用 Kotlin 的有用资料.
-
-<a href="https://info.jetbrains.com/kotlin-tips.html">
-   <img src="/assets/docs/images/spring-boot/get-kotlin-language-map.png" alt="得到 Kotlin 语言导航地图" width="700"/>
-</a>
-
-> 在这个页面中, 需要提供你的 EMail 地址, 然后才能收到这些资料.
-{:.note}

@@ -122,7 +122,7 @@ class Rectangle(override val vertices: List<Point>): Fillable, Polygon {
 要试用包范围内的封闭类层级结构功能, 请添加编译器选项 `-language-version 1.5`.
 如果你能通过这个 [YouTrack ticket](https://youtrack.jetbrains.com/issue/KT-42433) 提供你的反馈意见, 我们会非常感谢.
 
-更多详情请参见 [包范围内的封闭类(Sealed Class)层级结构](sealed-classes.html#location-of-direct-subclasses).
+更多详情请参见 [包范围内的封闭类(Sealed Class)层级结构](sealed-classes.html#inheritance).
 
 ### 内联类(Inline Class)的改进
 

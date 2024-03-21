@@ -14,7 +14,7 @@ title: "兼容模式"
 (在 IDE 和
 [Gradle](gradle/gradle-compiler-options.html)
 /
-[Maven](maven.html#specifying-compiler-options)
+[Maven](maven.html#specify-compiler-options)
 中也可以使用):
 
 - `-language-version X.Y` - Kotlin 语言版本 X.Y 兼容模式, 对这个版本以后的所有语言功能报告错误.

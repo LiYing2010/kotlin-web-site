@@ -12,7 +12,9 @@ title: "基本语法"
 本章会通过示例程序向你介绍 Kotlin 的一系列基本语法元素.
 在各节的末尾, 你可以找到各个专题详细信息的页面链接.
 
-你也可以通过 JetBrains Academy 的免费 [Kotlin 基础课程](https://hyperskill.org/join/fromdocstoJetSalesStat?redirect=true&next=/tracks/18) 学习 Kotlin 的全部基本知识.
+你也可以通过 JetBrains Academy 的免费
+[Kotlin 核心课程](https://hyperskill.org/tracks?category=4&utm_source=jbkotlin_hs&utm_medium=referral&utm_campaign=kotlinlang-docs&utm_content=button_1&utm_term=22.03.23)
+学习 Kotlin 的全部基本知识.
 
 ## 包的定义与导入
 
@@ -34,7 +36,7 @@ import kotlin.text.*
 
 Kotlin 应用程序的入口点是 `main` 函数.
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3" id="kotlin-basic-syntax-hello-world">
 
 ```kotlin
 fun main() {
@@ -61,7 +63,7 @@ fun main(args: Array<String>) {
 
 `print` 函数会将传递给它的参数打印到标准输出(Standard Output).
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3" id="kotlin-basic-syntax-print">
 
 ```kotlin
 fun main() {
@@ -76,7 +78,7 @@ fun main() {
 
 `println` 函数会打印它的参数, 并在末尾加上换行(Line Break), 因此之后的打印信息会出现在下一行.
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3" id="kotlin-basic-syntax-println">
 
 ```kotlin
 fun main() {
@@ -93,7 +95,7 @@ fun main() {
 
 以下函数接受两个 `Int` 类型参数, 并返回 `Int` 类型结果.
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3" id="kotlin-basic-syntax-return-int">
 
 ```kotlin
 //sampleStart
@@ -112,7 +114,7 @@ fun main() {
 
 以下函数使用表达式语句作为函数体, 返回类型由自动推断决定.
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3" id="kotlin-basic-syntax-function-expression">
 
 ```kotlin
 //sampleStart
@@ -128,7 +130,7 @@ fun main() {
 
 以下函数不返回有意义的结果.
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3" id="kotlin-basic-syntax-return-unit">
 
 ```kotlin
 //sampleStart
@@ -146,7 +148,7 @@ fun main() {
 
 返回值为 `Unit` 类型时, 可以省略.
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3" id="kotlin-basic-syntax-function-omit-unit">
 
 ```kotlin
 //sampleStart
@@ -169,7 +171,7 @@ fun main() {
 
 只读的局部变量使用关键字 `val` 来定义, 它们只能赋值一次.
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3" id="kotlin-basic-syntax-val">
 
 ```kotlin
 fun main() {
@@ -187,7 +189,7 @@ fun main() {
 
 可以多次赋值的变量使用关键字 `var` 来定义.
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3" id="kotlin-basic-syntax-var">
 
 ```kotlin
 fun main() {
@@ -203,7 +205,7 @@ fun main() {
 
 也可以将变量声明在顶级(top level).
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3" id="kotlin-basic-syntax-variable-top-level">
 
 ```kotlin
 //sampleStart
@@ -239,18 +241,18 @@ class Shape
 类的属性(Property)可以在类声明部分或类主体部分中列出.
 
 ```kotlin
-class Rectangle(var height: Double, var length: Double) {
-    var perimeter = (height + length) * 2
+class Rectangle(val height: Double, val length: Double) {
+    val perimeter = (height + length) * 2
 }
 ```
 
 会自动生成一个默认构造器, 参数是在类声明部分中定义的那些属性.
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3" id="kotlin-basic-syntax-class-constructor">
 
 ```kotlin
-class Rectangle(var height: Double, var length: Double) {
-    var perimeter = (height + length) * 2
+class Rectangle(val height: Double, val length: Double) {
+    val perimeter = (height + length) * 2
 }
 fun main() {
 //sampleStart
@@ -267,8 +269,8 @@ fun main() {
 ```kotlin
 open class Shape
 
-class Rectangle(var height: Double, var length: Double): Shape() {
-    var perimeter = (height + length) * 2
+class Rectangle(val height: Double, val length: Double): Shape() {
+    val perimeter = (height + length) * 2
 }
 ```
 
@@ -292,7 +294,7 @@ Kotlin 的块注释允许嵌套.
 
 ```kotlin
 /* 注释从这里开始
-/* 包含一个嵌套的注释 */     
+/* 包含一个嵌套的注释 */
 到这里结束. */
 ```
 
@@ -303,7 +305,7 @@ Kotlin 的块注释允许嵌套.
 
 ## 字符串模板
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3" id="kotlin-basic-syntax-string-templates">
 
 ```kotlin
 fun main() {
@@ -327,7 +329,7 @@ fun main() {
 
 ## 条件表达式
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3" id="kotlin-basic-syntax-conditional-expressions">
 
 ```kotlin
 //sampleStart
@@ -350,7 +352,7 @@ fun main() {
 
 在 Kotlin 中, `if` 也可以用作表达式.
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3" id="kotlin-basic-syntax-if-expression">
 
 ```kotlin
 //sampleStart
@@ -368,7 +370,7 @@ fun main() {
 
 ## for 循环
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3" id="kotlin-basic-syntax-for-loop">
 
 ```kotlin
 fun main() {
@@ -385,7 +387,7 @@ fun main() {
 
 或者
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3" id="kotlin-basic-syntax-for-loop-indices">
 
 ```kotlin
 fun main() {
@@ -405,7 +407,7 @@ fun main() {
 
 ## while 循环
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3" id="kotlin-basic-syntax-while-loop">
 
 ```kotlin
 fun main() {
@@ -427,7 +429,7 @@ fun main() {
 
 ## when 表达式
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3" id="kotlin-basic-syntax-when-expression">
 
 ```kotlin
 //sampleStart
@@ -452,14 +454,14 @@ fun main() {
 
 </div>
 
-参见 [when expression](control-flow.html#when-expression).
+参见 [when 表达式](control-flow.html#when-expression).
 
 
 ## 值范围(Range)
 
-使用 `in` 运算符检查一个数值是否在某个值范围(Range)之内.
+使用 `in` 操作符检查一个数值是否在某个值范围(Range)之内:
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3" id="kotlin-basic-syntax-range-in">
 
 ```kotlin
 fun main() {
@@ -477,7 +479,7 @@ fun main() {
 
 检查一个数值是否在某个值范围之外.
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3" id="kotlin-basic-syntax-out-of-range">
 
 ```kotlin
 fun main() {
@@ -498,7 +500,7 @@ fun main() {
 
 在一个值范围内进行遍历迭代.
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3" id="kotlin-basic-syntax-iterate-range">
 
 ```kotlin
 fun main() {
@@ -514,7 +516,7 @@ fun main() {
 
 在一个数列(progression)上进行遍历迭代.
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3" id="kotlin-basic-syntax-iterate-progression">
 
 ```kotlin
 fun main() {
@@ -539,7 +541,7 @@ fun main() {
 
 在一个集合上进行遍历迭代.
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3" id="kotlin-basic-syntax-iterate-collection">
 
 ```kotlin
 fun main() {
@@ -556,7 +558,7 @@ fun main() {
 
 使用 `in` 运算符检查一个集合是否包含某个对象.
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3" id="kotlin-basic-syntax-collection-in">
 
 ```kotlin
 fun main() {
@@ -572,9 +574,9 @@ fun main() {
 
 </div>
 
-使用 Lambda 表达式, 对集合元素进行过滤和变换:
+使用 [Lambda 表达式](lambdas.html) 对集合元素进行过滤和变换:
 
-<div class="sample" markdown="1" theme="idea" auto-indent="false" indent="2">
+<div class="sample" markdown="1" theme="idea" auto-indent="false" indent="2" id="kotlin-basic-syntax-collection-filter-map">
 
 ```kotlin
 fun main() {
@@ -609,7 +611,7 @@ fun parseInt(str: String): Int? {
 
 以下示例演示如何使用一个返回值可为 null 的函数:
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3" id="kotlin-basic-syntax-function-nullable-value">
 
 ```kotlin
 fun parseInt(str: String): Int? {
@@ -643,8 +645,7 @@ fun main() {
 
 或者
 
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3" id="kotlin-basic-syntax-function-null-check">
 
 ```kotlin
 fun parseInt(str: String): Int? {
@@ -688,7 +689,7 @@ fun main() {
 `is` 运算符可以检查一个表达式的值是不是某个类型的实例.
 如果对一个不可变的局部变量或属性进行过类型检查, 那么之后的代码就不必再对它进行显式地类型转换, 而可以直接将它当作需要的类型来使用:
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3" id="kotlin-basic-syntax-is-operator">
 
 ```kotlin
 //sampleStart
@@ -717,7 +718,7 @@ fun main() {
 
 或者
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3" id="kotlin-basic-syntax-is-operator-expression">
 
 ```kotlin
 //sampleStart
@@ -743,7 +744,7 @@ fun main() {
 
 甚至还可以
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3" id="kotlin-basic-syntax-is-operator-logic">
 
 ```kotlin
 //sampleStart

@@ -9,6 +9,13 @@ title: "教程 - 映射 C 语言的函数指针(Function Pointer)"
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
+> C 库导入是 [实验性功能](../components-stability.html#stability-levels-explained).
+> `cinterop` 工具从 C 库生成的所有 Kotlin 声明都应该标注 `@ExperimentalForeignApi` 注解.
+>
+> Kotlin/Native 自带的原生平台库 (例如 Foundation, UIKit, 和 POSIX),
+> 只对一部分 API 需要使用者明确同意(Opt-in). 对于这样的情况, 你会在 IDE 中看到警告信息.
+{:.warning}
+
 这是本系列的第 3 篇教程.
 第 1 篇教程是 [映射 C 语言的基本数据类型](mapping-primitive-data-types-from-c.html).
 此外还有教程 [映射 C 语言的结构(Struct)和联合(Union)类型](mapping-struct-union-types-from-c.html)
@@ -58,13 +65,13 @@ MyFun supply_fun() {
 尽管可以直接使用命令行, 或者通过脚本文件(比如 `.sh` 或 `.bat` 文件), 但这种方法不适合于包含几百个文件和库的大项目.
 更好的方法是使用带有构建系统的 Kotlin/Native 编译器,
 因为它会帮助你下载并缓存 Kotlin/Native 编译器二进制文件, 传递依赖的库, 并运行编译器和测试.
-Kotlin/Native 能够通过 [kotlin-multiplatform](../multiplatform/multiplatform-discover-project.html#multiplatform-plugin) plugin
+Kotlin/Native 能够通过 [kotlin-multiplatform](../gradle/gradle-configure-project.html#targeting-multiple-platforms) plugin
 使用 [Gradle](https://gradle.org) 构建系统.
 
 关于如何使用 Gradle 设置 IDE 兼容的项目, 请参见教程 [一个基本的 Kotlin/Native 应用程序](native-gradle.html).
 如果你想要寻找具体的步骤指南, 来开始一个新的 Kotlin/Native 项目并在 IntelliJ IDEA 中打开它, 请先阅读这篇教程.
 在本教程中, 我们关注更高级的 C 交互功能, 包括使用 Kotlin/Native,
-以及使用 Gradle 的 [跨平台](../multiplatform/multiplatform-discover-project.html#multiplatform-plugin) 构建.
+以及使用 Gradle 的 [跨平台](../gradle/gradle-configure-project.html#targeting-multiple-platforms) 构建.
 
 首先, 创建一个项目文件夹. 本教程中的所有路径都是基于这个文件夹的相对路径.
 有时在添加任何新文件之前, 会需要创建缺少的目录.
@@ -148,8 +155,8 @@ Gradle 推荐使用符合约定习惯的文件布局, 而不是使用额外的�
 比如, 源代码文件应该放在 `src/nativeMain/kotlin` 文件夹中.
 默认情况下, 来自 C 的所有符号会被导入到 `interop` 包,
 你可能想要在我们的 `.kt` 文件中导入整个包.
-请查看 [kotlin-multiplatform](../multiplatform/multiplatform-discover-project.html#multiplatform-plugin) plugin 文档,
-学习配置它的各种方法.
+请查看 [Multiplatform Gradle DSL 参考文档](../multiplatform/multiplatform-dsl-reference.html),
+学习它的各种配置方法.
 
 创建一个 `src/nativeMain/kotlin/hello.kt` 桩(stub)文件, 内容如下,
 看看 C 函数指针声明在 Kotlin 中会变成什么:

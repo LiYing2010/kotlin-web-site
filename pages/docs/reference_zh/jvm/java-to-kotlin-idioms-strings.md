@@ -244,7 +244,7 @@ System.out.println("Anonymized input: '" + replacementResult + "'");
 
 在 Kotlin 中, 你可以使用 [Regex](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-regex/) 类,
 它可以简化正规表达式的相关操作.
-此外, 可以使用 [原生字符串(Raw String)](../strings.html#string-literals) 来减少反斜杠的数量,
+此外, 可以使用 [多行字符串(Multiline String)](../strings.html#multiline-strings) 来减少反斜杠的数量,
 简化正规表达式的书写:
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.5" id="replace-occurrences-kotlin">
@@ -253,7 +253,7 @@ System.out.println("Anonymized input: '" + replacementResult + "'");
 fun main() {
 //sampleStart
     // Kotlin
-    val regex = Regex("""\w*\d+\w*""") // 原生字符串
+    val regex = Regex("""\w*\d+\w*""") // 多行字符串
     val input = "login: Pokemon5, password: 1q2w3e4r5t"
     val replacementResult = regex.replace(input, replacement = "xxx")
     println("Initial input: '$input'")

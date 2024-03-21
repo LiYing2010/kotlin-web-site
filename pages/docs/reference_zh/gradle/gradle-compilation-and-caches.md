@@ -42,27 +42,104 @@ Kotlin Gradle plugin 支持增量编译模式.
 
 ### 增量编译的新方案
 
-> 增量编译的新方案是 [实验性功能](../components-stability.html).
-> 它随时有可能变更或被删除.
-> 需要使用者同意(Opt-in) (详情见下文). 我们建议你只为评估目的来使用这个功能,
-> 并且希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issues/KT) 提供你的反馈意见.
-{:.warning}
-
 从 Kotlin 1.7.0 开始, 针对 JVM 后端, 而且只在 Gradle 构建系统中, 可以使用增量编译的新方案.
+从 Kotlin 1.8.20 开始, 默认启用这个新方案.
 这种方案支持发生在依赖的非 Kotlin 模块内的变更,
 包括编译回避功能的改进, 并且与 [Gradle 构建缓存](#gradle-build-cache-support) 兼容.
 
 这些功能改进可以减少非增量式构建的次数, 让整体的编译时间更加快速.
 如果你使用构建缓存, 或者在非 Kotlin Gradle 模块中频繁进行修改, 那么可以得到显著的性能改进.
 
-要启用这个新方案, 请在你的 `gradle.properties` 中设置以下选项:
+要关闭这个新方案, 请在你的 `gradle.properties` 中设置以下选项:
 
 ```none
-kotlin.incremental.useClasspathSnapshot=true
+kotlin.incremental.useClasspathSnapshot=false
 ```
+
+希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-49682) 提供你对这个功能的反馈意见.
 
 关于增量编译的新方案的底层实现细节, 请参见
 [这篇 Blog](https://blog.jetbrains.com/kotlin/2022/07/a-new-approach-to-incremental-compilation-in-kotlin/).
+
+### 对编译任务的输出的精确备份
+
+> 对编译任务的输出的精确备份是 [实验性功能](../components-stability.html#stability-levels-explained).
+> 希望你能通过我们的 [问题追踪系统](https://kotl.in/issue/experimental-ic-optimizations) 提供你的反馈意见.
+{:.warning}
+
+从 Kotlin 1.8.20 开始, 你可以启用精确备份功能, 这时只有 Kotlin 在增量编译中重新编译的那些类会被备份.
+完整备份和精确备份都可以帮助在发生编译错误后再次运行增量构建.
+精确备份与完整备份相比, 会耗费较少的构建时间.
+对于大型的项目, 或者很多任务都创建备份, 那么完整备份可能会花费 **明显** 更长的构建时间, 尤其是如果项目位于速度较慢的 HDD 上.
+
+要启用这个优化功能, 请向 `gradle.properties` 文件添加 `kotlin.compiler.preciseCompilationResultsBackup` Gradle 属性:
+
+```none
+kotlin.compiler.preciseCompilationResultsBackup=true
+```
+
+#### JetBrains 使用精确备份的例子
+
+在下面的图表中, 你可以看到使用精确备份与完整备份相对比的示例:
+
+<img src="/assets/docs/images/gradle/comparison-of-full-and-precise-backups.png" alt="完整备份与精确备份的对比" width="700"/>
+
+第一个和第二个对比图显示了在 Kotlin 项目中使用精确备份时对 Kotlin Gradle plugin 构建的影响:
+
+1. 进行一个小的 [ABI](https://en.wikipedia.org/wiki/Application_binary_interface) 变更之后:
+   向一个被大量模块依赖的模块添加一个新的 public 方法.
+2. 进行一个小的非 ABI 变更之后:
+   向一个没有被其他模块依赖的模块添加一个 private 函数.
+
+第三个对比图显示了在 [Space](https://www.jetbrains.com/space/) 项目中使用精确备份时, 在小的非 ABI 更改后对 Web 前端构建的影响:
+向一个被大量模块依赖的 Kotlin/JS 模块添加一个 private 函数.
+
+我们在使用 Apple M1 Max CPU 的计算机上进行这些测量; 在不同的计算机上会出现稍微不同的结果.
+影响性能的因素包括但不限于以下几点:
+
+* [Kotlin daemon](#the-kotlin-daemon-and-how-to-use-it-with-gradle)
+  和 [Gradle daemon](https://docs.gradle.org/current/userguide/gradle_daemon.html) 热身状况(warm)如何.
+* 硬盘速度如何.
+* CPU 型号, 以及它的繁忙程度.
+* 哪些模块受到变更的影响, 以及这些模块有多大.
+* 是 ABI 变更还是非 ABI 变更.
+
+#### 使用构建报告来评估优化
+
+要对你的项目和场景, 评估优化在你的计算机上的影响, 你可以使用 [Kotlin 构建报告](#build-reports).
+请向你的 `gradle.properties` 文件添加下面的属性, 启用文本文件格式的构建报告:
+
+```text
+kotlin.build.report.output=file
+```
+
+下面是在启用精确备份*之前*, 构建报告的相关部分的示例:
+
+```text
+Task ':kotlin-gradle-plugin:compileCommonKotlin' finished in 0.59 s
+<...>
+Time metrics:
+ Total Gradle task time: 0.59 s
+ Task action before worker execution: 0.24 s
+  Backup output: 0.22 s // 注意这个数字
+<...>
+```
+
+下面是在启用精确备份*之后*, 构建报告的相关部分的示例:
+
+```text
+Task ':kotlin-gradle-plugin:compileCommonKotlin' finished in 0.46 s
+<...>
+Time metrics:
+ Total Gradle task time: 0.46 s
+ Task action before worker execution: 0.07 s
+  Backup output: 0.05 s // 备份消耗的时间减少了
+ Run compilation in Gradle worker: 0.32 s
+  Clear jar cache: 0.00 s
+  Precise backup output: 0.00 s // 与精确备份相关的输出
+  Cleaning up the backup stash: 0.00 s // 与精确备份相关的输出
+<...>
+```
 
 ## 对 Gradle 编译缓存的支持
 
@@ -72,22 +149,10 @@ Kotlin 插件支持 [Gradle 编译缓存](https://docs.gradle.org/current/usergu
 如果想要对所有的 Kotlin 编译任务禁用缓存, 请将系统属性 `kotlin.caching.enabled` 设置为 `false`
 (也就是使用参数 `-Dkotlin.caching.enabled=false` 来执行编译).
 
-如果使用 [kapt](../kapt.html), 请注意, KAPT 注解处理任务默认不会缓存.
-但你可以 [手动启用缓存功能](../kapt.html#gradle-build-cache-support).
-
 ## 对 Gradle 配置缓存的支持
 
-> Gradle 配置缓存支持存在一些限制:
-> * 配置缓存功能是一个实验性功能, 从 Gradle 6.5 或更高版本开始支持.  
->   请到 [Gradle 发布页面](https://gradle.org/releases/) 查看这个功能是否被提升到稳定状态.
-> * 这个功能只被以下 Gradle plugin 支持:
->   * `org.jetbrains.kotlin.jvm`
->   * `org.jetbrains.kotlin.js`
->   * `org.jetbrains.kotlin.android`
-{:.note}
-
 Kotlin plugin 使用 [Gradle 配置缓存](https://docs.gradle.org/current/userguide/configuration_cache.html),
-通过重用配置阶段的结果来增加构建处理的速度.
+通过对之后的构建重用配置阶段的结果, 来增加构建处理的速度.
 
 关于如何启用配置缓存, 请参见
 [Gradle 文档](https://docs.gradle.org/current/userguide/configuration_cache.html#config_cache:usage).
@@ -227,6 +292,25 @@ tasks.withType(CompileUsingKotlinDaemon::class).configureEach { task ->
   {:.note}
 * 如果 `Xmx` 参数未指定, Kotlin daemon 会从 Gradle daemon 继承.
 
+## Kotlin 的新编译器
+
+Kotlin 的新 K2 编译器处于 [Beta 阶段](../components-stability.html#stability-levels-explained).
+它对 Kotlin JVM, Native, Wasm 和 JS 项目提供基本的支持.
+
+新编译器的目标是加速新的语言功能的开发, 统一 Kotlin 支持的所有平台, 带来性能改进, 并为编译器扩展提供 API.
+
+从 Kotlin 2.0 开始, 将会默认使用 K2 编译器.
+要在你的项目中试用它, 并检查它的性能, 请使用 `kotlin.experimental.tryK2=true` Gradle 属性, 或执行下面的命令:
+
+```shell
+./gradlew assemble -Pkotlin.experimental.tryK2=true
+```
+
+这个 Gradle 属性会自动将默认语言版本设置为 2.0, 并更新 [构建报告](#build-reports)
+其中包含, 与当前的编译器相比, 使用 K2 编译器编译的 Kotlin 任务的数量.
+
+关于 K2 编译器的稳定性, 更多详情请参见我们的 [Kotlin blog](https://blog.jetbrains.com/kotlin/2023/02/k2-kotlin-2-0/)
+
 ## 定义 Kotlin 编译器执行策略
 
 _Kotlin 编译器执行策略_ 定义 Kotlin 编译器在哪里执行, 以及各种情况下是否支持增量编译.
@@ -361,18 +445,20 @@ tasks.named("compileKotlin").configure {
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issues/KT) 提供你的反馈意见.
 {:.warning}
 
-从 Kotlin 1.7.0 开始, 可以输出用于追踪编译器性能的构建报告.
-报告包括不同编译阶段的持续时间, 以及为什么不能进行增量编译的原因.
-
+构建报告包括不同编译阶段的持续时间, 以及为什么不能进行增量编译的原因.
 如果编译时间太长, 或对于相同的项目出现了不同的编译时间, 可以使用构建报告来调查性能问题.
 
-Kotlin 构建报告可以帮助我们比 [Gradle Build Scan](https://scans.gradle.com/) 更加有效的检查错误. 
-很多工程师使用 Gradle Build Scan 来调查构建的性能问题, 但 Gradle Build Scan 中的粒度只是单个 Gradle Task.
+Kotlin 构建报告可以帮助你调查构建性能相关的问题, 它比 [Gradle build scans](https://scans.gradle.com/) 更加有效,
+Gradle Build Scan 中的粒度只是单个 Gradle Task.
 
 通过对长时间运行的编译分析构建报告, 可以帮助你解决两种常见问题:
 * 构建不能增量模式运行. 分析原因, 并解决底层问题.
 * 构建是增量模式运行, 但耗费太多时间.
   可以尝试重新组织源代码文件 — 切分大的文件, 将不同的类保存到不同的文件, 重构大的类, 在不同的文件中声明顶层函数, 等等.
+
+构建报告还会显示项目中使用的 Kotlin 版本.
+此外, 从 Kotlin 1.9.0 开始, 你可以在你的 [Gradle Build Scan](https://scans.gradle.com/) 中看到,
+是使用当前编译器还是 [K2 编译器](#the-new-kotlin-compiler)来编译代码.
 
 请参见
 [如何阅读构建报告](https://blog.jetbrains.com/kotlin/2022/06/introducing-kotlin-build-reports/#how_to_read_build_reports) 
@@ -395,7 +481,7 @@ kotlin.build.report.output=file
 | `build_scan` | 将构建报告保存到 [build scan](https://scans.gradle.com/) 的 `custom values` 小节. 注意, Gradle Enterprise plugin 会限制 custom values 的数量和长度. 在很大的项目中, 有些值可能会丢失. |
 | `http` | 通过 HTTP(S) 提交构建报告. 使用 POST 方法传送 JSON 格式的测量结果. 你可以在 [Kotlin 代码仓库](https://github.com/JetBrains/kotlin/blob/master/libraries/tools/kotlin-gradle-plugin/src/common/kotlin/org/jetbrains/kotlin/gradle/plugin/statistics/CompileStatisticsData.kt) 中看到传送的数据的当前版本. 你可以在 [这篇 Blog](https://blog.jetbrains.com/kotlin/2022/06/introducing-kotlin-build-reports/#enable_build_reports) 看到 HTTP Endpoint 的示例  |
 
-下面是 `kotlin.build.report` 的所有选项完整列表:
+下面是 `kotlin.build.report` 的选项列表:
 
 ```none
 # 需要的报告输出格式. 可以任意组合
@@ -409,15 +495,26 @@ kotlin.build.report.single_file=some_filename
 # 可选项. 文件格式的报告的输出目录. 默认值是: build/reports/kotlin-build/
 kotlin.build.report.file.output_dir=kotlin-reports
 
-# 如果使用 HTTP 输出, 则必须设置. 基于 HTTP(S) 的报告的 POST 地址
+# 可选项. 用来标记你的构建报告的标签 (例如, debug parameters)
+kotlin.build.report.label=some_label
+```
+
+只适用于 HTTP 输出的选项:
+
+```none
+# 必须设置. 基于 HTTP(S) 的报告的 POST 地址
 kotlin.build.report.http.url=http://127.0.0.1:8080
 
 # 可选项. 如果 HTTP endpoint 要求身份验证, 通过这个设置指定用户名和密码
 kotlin.build.report.http.user=someUser
 kotlin.build.report.http.password=somePassword
 
-# 可选项. 用来标记你的构建报告的标签 (例如, debug parameters)
-kotlin.build.report.label=some_label
+# 可选项. 将构建的 Git branch 名称添加到构建报告 
+kotlin.build.report.http.include_git_branch.name=true|false
+
+# 可选项. 将编译器参数添加到构建报告
+# 如果一个项目包含很多模块, 构建报告中的编译器参数可能非常重, 而且并没有多大帮助
+kotlin.build.report.include_compiler_arguments=true|false
 ```
 
 ### custom values 的限制
@@ -452,5 +549,5 @@ HTTP 构建统计 log 可能包含某些项目和系统属性. 这些属性可�
 ## 下一步做什么?
 
 学习:
-* [Gradle 的基本概念与详细信息](https://docs.gradle.org/current/userguide/getting_started.html).
+* [Gradle 的基本概念与详细信息](https://docs.gradle.org/current/userguide/userguide.html).
 * [对 Gradle plugin 变体的支持](gradle-plugin-variants.md).

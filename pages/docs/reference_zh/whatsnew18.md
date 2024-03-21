@@ -175,7 +175,7 @@ Kotlin 1.8.0 引入了新的 Android 源代码集布局, 替换了以前的目�
 
 * 这 2 个目录代表不同的含义: Kotlin 的 `androidTest` 属于 `unitTest` 类型, 而 Android 的属于 `integrationTest` 类型.
 * 这 2 个目录造成了易于误解的 `SourceDirectories` 布局,
-  因为 `src/androidTest/java` 包含 `UnitTest`, 而 `src/androidTest/kotlin` 包含 `InstrumentedTest`.
+  因为 `src/androidTest/kotlin` 包含 `UnitTest`, 而 `src/androidTest/java` 包含 `InstrumentedTest`.
 * 对于 Gradle 配置来说, `KotlinSourceSets` 和 `AndroidSourceSets` 都使用类似的命名方式,
   因此 Kotlin 和 Android 源代码集 `androidTest` 的配置结果是一样的:
   `androidTestImplementation`, `androidTestApi`, `androidTestRuntimeOnly`, 以及 `androidTestCompileOnly`.
@@ -223,6 +223,53 @@ Kotlin 1.8.0 引入了新的 Android 源代码集布局, 替换了以前的目�
 |-------|-------------------------------|---------------------------------------------|
 | main  | src/main/AndroidManifest.xml  | src/<b>android</b>Main/AndroidManifest.xml  |
 | debug | src/debug/AndroidManifest.xml | src/<b>android</b>Debug/AndroidManifest.xml |
+
+#### Android 测试与 common 测试之间的关系
+
+新的 Android 源代码集布局改变了 Android-instrumented 测试 (在新的布局中名称变更为 `androidInstrumentedTest`)
+与 common 测试之间的关系.
+
+在以前的版本中, `androidAndroidTest` 和 `commonTest` 之间存在默认的 `dependsOn` 关系.
+具体来说, 代表以下含义:
+
+* 在 `androidAndroidTest` 中可以访问 `commonTest` 中的代码.
+* `commonTest` 中的 `expect` 声明在 `androidAndroidTest` 中必须有对应的 `actual` 实现.
+* 在 `commonTest` 中声明的测试, 也会作为 Android instrumented 测试执行.
+
+在新的 Android 源代码集布局中, 不再默认添加这个 `dependsOn` 关系.
+如果你期望切换到以前的行为, 请在你的 `build.gradle.kts` 文件中, 手动声明这个关系:
+
+```kotlin
+kotlin {
+    // ...
+    sourceSets {
+        val commonTest by getting
+        val androidInstrumentedTest by getting {
+            dependsOn(commonTest)
+        }
+    }
+}
+```
+
+#### 对 Android flavor 的支持
+
+在以前的版本中, Kotlin Gradle plugin 会在很早的阶段创建对应于 `debug` 和 `release` 构建类型的 Android 源代码集,
+或对应于自定义 flavor 的 Android 源代码集, 例如 `demo` 和 `full`.
+因此这些源代码集可以通过 `val androidDebug by getting { ... }` 这样的结构来访问.
+
+在新的 Android 源代码集布局中, 这些源代码集会在 `afterEvaluate` 阶段创建.
+因此上面的表达式不再有效, 会导致错误: `org.gradle.api.UnknownDomainObjectException: KotlinSourceSet with name 'androidDebug' not found`.
+
+为了解决这样的错误, 请在你的 `build.gradle.kts` 文件中使用新的 `invokeWhenCreated()` API:
+
+```kotlin
+kotlin {
+    // ...
+    sourceSets.invokeWhenCreated("androidFreeDebug") {
+        // ...
+    }
+}
+```
 
 ### 配置与设置
 
@@ -483,7 +530,7 @@ implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
 **我们鼓励你将这个属性设置为 `error`**, 并 [配置工具链](gradle/gradle-configure-project.html#gradle-java-toolchains-support),
 或者手动对齐 JVM 版本.
 
-详情请参见 [如果你不检查编译目标的兼容性, 可能会导致什么样的错误](gradle/gradle-configure-project.html#what-can-go-wrong-if-not-checking-targets-compatibility).
+详情请参见 [如果你不检查编译目标的兼容性, 可能会导致什么样的错误](gradle/gradle-configure-project.html#what-can-go-wrong-if-targets-are-incompatible).
 
 ### Kotlin Gradle plugin 的传递依赖项的解析
 
@@ -524,7 +571,7 @@ dependencies {
   现在, 我们将 `KotlinCompile` task 的 `classpath` 属性的废弃级别修改为 `error`.
   所有的编译任务使用 `libraries` 输入来指定编译所需要的库列表.
 * 我们删除了 `kapt.use.worker.api` 属性, 它可以通过 Gradle Workers API 来运行 [kapt](kapt.html).
-  从 Kotlin 1.3.70 开始, 默认情况下, [kapt 使用 Gradle worker](kapt.html#running-kapt-tasks-in-parallel), 
+  从 Kotlin 1.3.70 开始, 默认情况下, [kapt 使用 Gradle worker](kapt.html#run-kapt-tasks-in-parallel), 
   我们建议使用这种方法.
 * 在 Kotlin 1.7.0 中, 我们 [宣布了 `kotlin.compiler.execution.strategy` 属性的废弃周期开始](whatsnew17.html#deprecation-of-the-kotlin-compiler-execution-strategy-system-property). 
   在这个发布版中, 我们删除了这个属性. 详情请参见 [如何使用其它方式定义 Kotlin 编译器执行策略](gradle/gradle-compilation-and-caches.html#defining-kotlin-compiler-execution-strategy).
@@ -694,7 +741,7 @@ fun setUpEnvironment(projectDirectory: Path, fixtureName: String) {
         .copyToRecursively(projectDirectory, followLinks = false)
     fixturesRoot.resolve(fixtureName)
         .copyToRecursively(projectDirectory, followLinks = false, 
-          overwrite = true) // 覆盖 common fixture 中相同的内容
+            overwrite = true) // 覆盖 common fixture 中相同的内容
 }
 ```
 
@@ -746,9 +793,9 @@ Kotlin 文档有了很大的变更:
 
 * [Gradle 与 Kotlin/JVM 入门](gradle/get-started-with-jvm-gradle-project.html) –
   使用 IntelliJ IDEA 和 Gradle 创建一个控制台应用程序.
-* [使用 Ktor 和 SQLDelight 创建跨平台应用程序](multiplatform-mobile/multiplatform-mobile-ktor-sqldelight.html) –
+* [使用 Ktor 和 SQLDelight 创建跨平台应用程序](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-ktor-sqldelight.html) –
   使用 Kotlin Multiplatform Mobile, 创建一个运行于 iOS 和 Android 的移动应用程序.
-* [Kotlin Multiplatform Mobile 入门](multiplatform-mobile/multiplatform-mobile-getting-started.html) –
+* [Kotlin Multiplatform 入门](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-getting-started.html) –
   学习使用 Kotlin 进行跨平台移动应用程序开发, 并创建一个可以同时运行于 Android 和 iOS 平台的应用程序.
 
 ## 安装 Kotlin 1.8.0

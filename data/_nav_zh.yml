@@ -77,6 +77,25 @@ reference:
         - url: /docs/reference_zh/getting-started.html
           title: Kotlin 入门
 
+    - title: Kotlin 观光之旅
+      content:
+        - url: /docs/reference_zh/tour/kotlin-tour-welcome.html
+          title: Kotlin 观光之旅
+        - url: /docs/reference_zh/tour/kotlin-tour-hello-world.html
+          title: Hello world
+        - url: /docs/reference_zh/tour/kotlin-tour-basic-types.html
+          title: 基本类型
+        - url: /docs/reference_zh/tour/kotlin-tour-collections.html
+          title: 集合(Collection)
+        - url: /docs/reference_zh/tour/kotlin-tour-control-flow.html
+          title: 控制流
+        - url: /docs/reference_zh/tour/kotlin-tour-functions.html
+          title: 函数
+        - url: /docs/reference_zh/tour/kotlin-tour-classes.html
+          title: 类
+        - url: /docs/reference_zh/tour/kotlin-tour-null-safety.html
+          title: Null 值安全性
+
     - title: Kotlin 概述
       content:
         - url: /docs/reference_zh/multiplatform/multiplatform.html
@@ -85,10 +104,12 @@ reference:
           title: 使用 Kotlin 进行服务器端开发
         - url: /docs/reference_zh/android-overview.html
           title: 使用 Kotlin 进行 Android 开发
-        - url: /docs/reference_zh/js/js-overview.html
-          title: 使用 Kotlin 进行 JavaScript 开发
+        - url: /docs/reference_zh/wasm/wasm-overview.html
+          title: 使用 Kotlin 进行 Wasm 开发
         - url: /docs/reference_zh/native/native-overview.html
           title: 使用 Kotlin 进行原生(Native)程序开发
+        - url: /docs/reference_zh/js/js-overview.html
+          title: 使用 Kotlin 进行 JavaScript 开发
         - url: /docs/reference_zh/data-science-overview.html
           title: 在数据科学(Data Science)中使用 Kotlin
         - url: /docs/reference_zh/competitive-programming.html
@@ -96,12 +117,18 @@ reference:
 
     - title: Kotlin 新功能
       content:
-        - url: /docs/reference_zh/whatsnew18.html
-          title: Kotlin 1.8.0
+        - url: /docs/reference_zh/whatsnew1920.html
+          title: Kotlin 1.9.20
+        - url: /docs/reference_zh/whatsnew19.html
+          title: Kotlin 1.9.0
         - url: /docs/reference_zh/whatsnew-eap.html
-          title: Kotlin 1.8.20-RC
+          title: Kotlin 2.0.0-Beta4
         - title: 早期版本
           content:
+            - url: /docs/reference_zh/whatsnew1820.html
+              title: Kotlin 1.8.20
+            - url: /docs/reference_zh/whatsnew18.html
+              title: Kotlin 1.8.0
             - url: /docs/reference_zh/whatsnew1720.html
               title: Kotlin 1.7.20
             - url: /docs/reference_zh/whatsnew17.html
@@ -160,7 +187,7 @@ reference:
               - url: /docs/reference_zh/unsigned-integer-types.html
                 title: 无符号整数类型
               - url: /docs/reference_zh/booleans.html
-                title: 布尔(Booleans)类型
+                title: 布尔(Boolean)类型
               - url: /docs/reference_zh/characters.html
                 title: 字符
               - url: /docs/reference_zh/strings.html
@@ -201,7 +228,7 @@ reference:
           - url: /docs/reference_zh/data-classes.html
             title: 数据类(Data Class)
           - url: /docs/reference_zh/sealed-classes.html
-            title: 封闭类(Sealed Class)
+            title: 封闭类(Sealed Class)与封闭接口(Sealed Interface)
           - url: /docs/reference_zh/generics.html
             title: "泛型(Generic): in, out, where"
           - url: /docs/reference_zh/nested-classes.html
@@ -209,7 +236,7 @@ reference:
           - url: /docs/reference_zh/enum-classes.html
             title: 枚举类(Enum Class)
           - url: /docs/reference_zh/inline-classes.html
-            title: 内联类(Inline Class)
+            title: 内联的值类(Inline value class)
           - url: /docs/reference_zh/object-declarations.html
             title: 对象表达式(Object Expression)与对象声明(Object Declaration)
           - url: /docs/reference_zh/delegation.html
@@ -256,53 +283,21 @@ reference:
 
     - title: 跨平台程序开发
       content:
-        - title: 针对 iOS 和 Android 的 Kotlin 跨平台程序开发
-          content:
-            - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-getting-started.html
-              title: Kotlin Multiplatform Mobile 入门
-            - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-setup.html
-              title: 1. 设置开发环境
-            - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-create-first-app.html
-              title: 2. 创建你的第一个跨平台应用程序
-            - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-dependencies.html
-              title: 3. 添加依赖项
-            - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-upgrade-app.html
-              title: 4. 升级你的应用程序
-            - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-wrap-up.html
-              title: 5. 完成你的项目
-            - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-understand-project-structure.html
-              title: 理解移动应用程序项目结构
-            - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-integrate-in-existing-app.html
-              title: 教程 - 让你的 Android 应用程序在 iOS 上运行
-            - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-publish-apps.html
-              title: 发布你的应用程序
-            - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-ktor-sqldelight.html
-              title: 教程 - 使用 Ktor 和 SQLDelight 创建跨平台应用程序
+        - url: /docs/reference_zh/multiplatform/multiplatform-get-started.html
+          title: Kotlin 跨平台程序开发入门
+        - url: /docs/reference_zh/multiplatform/multiplatform-discover-project.html
+          title: 理解基本项目结构
+        - url: /docs/reference_zh/multiplatform/multiplatform-advanced-project-structure.html
+          title: 探索高级项目结构
+        - url: /docs/reference_zh/multiplatform/multiplatform-set-up-targets.html
+          title: 设置编译目标
 
-        - title: 针对其它平台的 Kotlin 跨平台程序开发
-          content:
-            - url: /docs/reference_zh/multiplatform/multiplatform-get-started.html
-              title: Kotlin 跨平台程序开发入门
-            - url: /docs/reference_zh/multiplatform/multiplatform-discover-project.html
-              title: 理解跨平台项目的结构
-            - url: /docs/reference_zh/multiplatform/multiplatform-set-up-targets.html
-              title: 手动设置编译目标
-            - url: /docs/reference_zh/multiplatform/multiplatform-full-stack-app.html
-              title: 使用 Kotlin Multiplatform 构建全栈 Web 应用程序
-
-        - title: 创建跨平台的库
-          content:
-            - url: /docs/reference_zh/multiplatform/multiplatform-library.html
-              title: 教程 - 创建并发布跨平台的库
-            - url: /docs/reference_zh/multiplatform/multiplatform-publish-lib.html
-              title: 发布跨平台的库
-
-        - title: 共用代码的原则
+        - title: 共用代码
           content:
             - url: /docs/reference_zh/multiplatform/multiplatform-share-on-platforms.html
               title: 在不同的平台之间共用代码
-            - url: /docs/reference_zh/multiplatform/multiplatform-connect-to-apis.html
-              title: 连接平台相关的 API
+            - url: /docs/reference_zh/multiplatform/multiplatform-expect-actual.html
+              title: 预期声明与实际声明
             - url: /docs/reference_zh/multiplatform/multiplatform-hierarchy.html
               title: 层级项目结构
 
@@ -310,35 +305,33 @@ reference:
           content:
             - url: /docs/reference_zh/multiplatform/multiplatform-add-dependencies.html
               title: 添加跨平台库依赖项
-            - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-android-dependencies.html
-              title: 为 Andorid 目标平台添加依赖项
-            - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-ios-dependencies.html
-              title: 为 iOS 目标平台添加依赖项
-
-        - url: /docs/reference_zh/multiplatform/multiplatform-run-tests.html
-          title: 运行测试
+            - url: /docs/reference_zh/multiplatform/multiplatform-android-dependencies.html
+              title: Android 目标平台
+            - url: /docs/reference_zh/multiplatform/multiplatform-ios-dependencies.html
+              title: iOS 目标平台
 
         - title: 编译 Artifact
           content:
             - url: /docs/reference_zh/multiplatform/multiplatform-configure-compilations.html
               title: 配置编译任务
-            - url: /docs/reference_zh/multiplatform/multiplatform-native-artifacts.html
-              title: "[实验性 DSL] 构建最终的原生二进制文件"
             - url: /docs/reference_zh/multiplatform/multiplatform-build-native-binaries.html
               title: 构建最终的原生二进制文件
 
-        - url: /docs/reference_zh/multiplatform/multiplatform-dsl-reference.html
-          title: 跨平台程序的 Gradle DSL 参考文档
-        - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-samples.html
-          title: 示例程序
-        - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-faq.html
-          title: FAQ
-        - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-introduce-your-team.html
-          title: 向你的开发团队介绍跨平台移动开发
-        - url: /docs/reference_zh/multiplatform/multiplatform-compatibility-guide.html
-          title: 兼容性指南
-        - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-plugin-releases.html
-          title: Kotlin Multiplatform Mobile Plugin 的发布版本
+        - url: /docs/reference_zh/multiplatform/multiplatform-publish-lib.html
+          title: 发布跨平台的库
+        - url: /docs/reference_zh/multiplatform/multiplatform-introduce-your-team.html
+          title: 如何向你的开发团队介绍跨平台移动开发
+
+        - title: 参考文档
+          content:
+            - url: /docs/reference_zh/multiplatform/multiplatform-dsl-reference.html
+              title: 跨平台程序的 Gradle DSL 参考文档
+            - url: /docs/reference_zh/multiplatform/multiplatform-android-layout.html
+              title: Android 源代码集布局
+            - url: /docs/reference_zh/multiplatform/multiplatform-compatibility-guide.html
+              title: 兼容性指南
+            - url: /docs/reference_zh/multiplatform/multiplatform-plugin-releases.html
+              title: Kotlin Multiplatform Mobile Plugin 的发布版本
 
     - title: 运行平台
       content:
@@ -387,50 +380,18 @@ reference:
                 - url: /docs/reference_zh/jvm/java-to-kotlin-nullability-guide.html
                   title: 可空性(Nullability)
 
-        - title: JavaScript 平台
-          content:
-            - url: /docs/reference_zh/js/js-get-started.html
-              title: Kotlin/JS for React 入门
-            - url: /docs/reference_zh/js/js-project-setup.html
-              title: 创建工程(Project)
-            - url: /docs/reference_zh/js/running-kotlin-js.html
-              title: 运行 Kotlin/JS 代码
-            - url: /docs/reference_zh/js/dev-server-continuous-compilation.html
-              title: 开发服务器(Development server)与持续编译(Continuous Compilation)
-            - url: /docs/reference_zh/js/js-debugging.html
-              title: 调试 Kotlin/JS 代码
-            - url: /docs/reference_zh/js/js-running-tests.html
-              title: 在 Kotlin/JS 平台进行测试
-            - url: /docs/reference_zh/js/javascript-dce.html
-              title: JavaScript 死代码剔除工具
-            - url: /docs/reference_zh/js/js-ir-compiler.html
-              title: IR 编译器
-            - url: /docs/reference_zh/js/js-ir-migration.html
-              title: 将 Kotlin/JS 项目迁移到 IR 编译器
-            - title: 在 JS 平台开发中使用 Kotlin
+            - title: 库开发者指南
               content:
-                - url: /docs/reference_zh/js/browser-api-dom.html
-                  title: 浏览器与 DOM API
-                - url: /docs/reference_zh/js/js-interop.html
-                  title: 在 Kotlin 中使用 JavaScript 代码
-                - url: /docs/reference_zh/js/dynamic-type.html
-                  title: 动态类型(Dynamic Type)
-                - url: /docs/reference_zh/js/using-packages-from-npm.html
-                  title: 使用 npm 中的依赖项
-                - url: /docs/reference_zh/js/js-to-kotlin-interop.html
-                  title: 在 JavaScript 中使用 Kotlin 代码
-                - url: /docs/reference_zh/js/js-modules.html
-                  title: JavaScript 模块(Module)
-                - url: /docs/reference_zh/js/js-reflection.html
-                  title: Kotlin/JS 的反射(Reflection)
-                - url: /docs/reference_zh/js/typesafe-html-dsl.html
-                  title: 类型安全的 HTML DSL
-                - url: /docs/reference_zh/js/js-external-declarations-with-dukat.html
-                  title: 使用 Dukat 生成外部声明(External Declaration)
-            - url: /docs/reference_zh/js/js-samples.html
-              title: 示例程序
-            - url: /docs/reference_zh/js/js-react.html
-              title: 教程 - 使用 React 和 Kotlin/JS 创建 Web 应用程序
+                - url: /docs/reference_zh/api-guidelines/jvm-api-guidelines-introduction.html
+                  title: 入门
+                - url: /docs/reference_zh/api-guidelines/jvm-api-guidelines-readability.html
+                  title: 可读性
+                - url: /docs/reference_zh/api-guidelines/jvm-api-guidelines-predictability.html
+                  title: 可预测性
+                - url: /docs/reference_zh/api-guidelines/jvm-api-guidelines-debuggability.html
+                  title: 可调试性
+                - url: /docs/reference_zh/api-guidelines/jvm-api-guidelines-backward-compatibility.html
+                  title: 向后兼容性(Backward Compatibility)
 
         - title: 原生(Native)平台
           content:
@@ -484,27 +445,72 @@ reference:
                   title: 与 iOS 集成
                 - url: /docs/reference_zh/native/native-migration-guide.html
                   title: 迁移指南
-                - title: 旧的内存管理器
-                  content:
-                    - url: /docs/reference_zh/native/native-immutability.html
-                      title: 不变性(Immutability)与并发(Concurrency)
-                    - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-concurrency-overview.html
-                      title: 并发概述
-                    - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-concurrent-mutability.html
-                      title: 并发中的可变性
-                    - url: /docs/reference_zh/multiplatform-mobile/multiplatform-mobile-concurrency-and-coroutines.html
-                      title: 并发与协程
 
             - url: /docs/reference_zh/native/native-debugging.html
               title: 调试 Kotlin/Native 代码
-            - url: /docs/reference_zh/native/native-target-support.html
-              title: 支持的目标平台
             - url: /docs/reference_zh/native/native-ios-symbolication.html
               title: 符号化(Symbolicate) iOS 崩溃报告(Crash Report)
-            - url: /docs/reference_zh/native/native-improving-compilation-time.html
-              title: 改进 Kotlin/Native 编译速度
-            - url: /docs/reference_zh/native/native-faq.html
-              title: Kotlin/Native FAQ
+
+            - title: 参考文档与提示
+              content:
+                - url: /docs/reference_zh/native/native-target-support.html
+                  title: 支持的目标平台
+                - url: /docs/reference_zh/native/native-improving-compilation-time.html
+                  title: 改进 Kotlin/Native 编译速度
+                - url: /docs/reference_zh/native/native-binary-licenses.html
+                  title: 许可证
+                - url: /docs/reference_zh/native/native-faq.html
+                  title: Kotlin/Native FAQ
+
+
+        - title: WebAssembly (Wasm) 平台
+          content:
+            - url: /docs/reference_zh/wasm/wasm-get-started.html
+              title: 使用 IntelliJ IDEA 开发 Kotlin/Wasm 入门
+            - url: /docs/reference_zh/wasm/wasm-libraries.html
+              title: 添加 Kotlin 库的依赖项
+            - url: /docs/reference_zh/wasm/wasm-js-interop.html
+              title: 与 JavaScript 交互
+            - url: /docs/reference_zh/wasm/wasm-troubleshooting.html
+              title: 问题分析
+
+
+        - title: JavaScript 平台
+          content:
+            - url: /docs/reference_zh/js/js-project-setup.html
+              title: 创建工程(Project)
+            - url: /docs/reference_zh/js/running-kotlin-js.html
+              title: 运行 Kotlin/JS 代码
+            - url: /docs/reference_zh/js/dev-server-continuous-compilation.html
+              title: 开发服务器(Development server)与持续编译(Continuous Compilation)
+            - url: /docs/reference_zh/js/js-debugging.html
+              title: 调试 Kotlin/JS 代码
+            - url: /docs/reference_zh/js/js-running-tests.html
+              title: 在 Kotlin/JS 平台进行测试
+            - url: /docs/reference_zh/js/javascript-dce.html
+              title: JavaScript 死代码剔除工具
+            - url: /docs/reference_zh/js/js-ir-compiler.html
+              title: IR 编译器
+            - url: /docs/reference_zh/js/js-ir-migration.html
+              title: 将 Kotlin/JS 项目迁移到 IR 编译器
+            - title: 在 JS 平台开发中使用 Kotlin
+              content:
+                - url: /docs/reference_zh/js/browser-api-dom.html
+                  title: 浏览器与 DOM API
+                - url: /docs/reference_zh/js/js-interop.html
+                  title: 在 Kotlin 中使用 JavaScript 代码
+                - url: /docs/reference_zh/js/dynamic-type.html
+                  title: 动态类型(Dynamic Type)
+                - url: /docs/reference_zh/js/using-packages-from-npm.html
+                  title: 使用 npm 中的依赖项
+                - url: /docs/reference_zh/js/js-to-kotlin-interop.html
+                  title: 在 JavaScript 中使用 Kotlin 代码
+                - url: /docs/reference_zh/js/js-modules.html
+                  title: JavaScript 模块(Module)
+                - url: /docs/reference_zh/js/js-reflection.html
+                  title: Kotlin/JS 的反射(Reflection)
+                - url: /docs/reference_zh/js/typesafe-html-dsl.html
+                  title: 类型安全的 HTML DSL
 
         - title: 脚本(Scripting)平台
           content:
@@ -553,10 +559,13 @@ reference:
             - url: /docs/reference_zh/map-operations.html
               title: Map 相关操作
 
-        - url: /docs/reference_zh/scope-functions.html
-          title: 作用域函数(Scope Function)
         - url: /docs/reference_zh/opt-in-requirements.html
           title: 明确要求使用者同意的功能(Opt-in Requirement)
+        - url: /docs/reference_zh/scope-functions.html
+          title: 作用域函数(Scope Function)
+        - url: /docs/reference_zh/time-measurement.html
+          title: 时间测量
+
 
     - title: 官方库
       content:
@@ -602,8 +611,6 @@ reference:
               title: 测试策略
             - url: /docs/reference_zh/lincheck/operation-arguments.html
               title: 操作参数
-            - url: /docs/reference_zh/lincheck/modular-testing.html
-              title: 模块化测试
             - url: /docs/reference_zh/lincheck/constraints.html
               title: 数据结构约束
             - url: /docs/reference_zh/lincheck/progress-guarantees.html
@@ -617,15 +624,17 @@ reference:
     - title: API 参考文档
       content:
         - url: https://kotlinlang.org/api/latest/jvm/stdlib/
-          title: 标准库(stdlib)
+          title: 标准库 (stdlib)
         - url: https://kotlinlang.org/api/latest/kotlin.test/
-          title: 测试库(kotlin.test)
+          title: 测试库 (kotlin.test)
         - url: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/
-          title: 协程(kotlinx.coroutines)
+          title: 协程 (kotlinx.coroutines)
         - url: https://kotlinlang.org/api/kotlinx.serialization/kotlinx-serialization-core/
-          title: 序列化(kotlinx.serialization)
+          title: 序列化 (kotlinx.serialization)
         - url: https://kotlinlang.org/api/kotlinx-datetime/
-          title: 日期与时间(kotlinx-datetime)
+          title: 日期与时间 (kotlinx-datetime)
+        - url: https://kotlinlang.org/api/kotlinx-metadata-jvm/
+          title: JVM Metadata (kotlinx-metadata-jvm)
         - url: https://api.ktor.io/
           title: Ktor
 
@@ -636,7 +645,7 @@ reference:
           title: 关键字(Keyword)与操作符(Operator)
         - url: https://kotlinlang.org/docs/reference/grammar.html
           title: 语法
-        - url: https://kotlin.github.io/kotlin-spec/
+        - url: https://kotlinlang.org/spec/
           title: 语言规格
 
 
@@ -720,7 +729,7 @@ reference:
             - url: /docs/reference_zh/sam-with-receiver-plugin.html
               title: SAM-with-receiver
             - url: /docs/reference_zh/kapt.html
-              title: Kapt
+              title: kapt
             - url: /docs/reference_zh/lombok.html
               title: Lombok
         - title: Kotlin 符号处理(Kotlin Symbol Processing) API
@@ -757,8 +766,10 @@ reference:
           title: 通过示例学习 Kotlin
         - url: /docs/reference_zh/koans.html
           title: Kotlin Koan
-        - url: https://hyperskill.org/join/fromdocstoJetSalesStat?redirect=true&next=/tracks/18
-          title: Kotlin 基础课程
+        - url: https://hyperskill.org/tracks?category=4&amp;utm_source=jbkotlin_hs&amp;utm_medium=referral&amp;utm_campaign=kotlinlang-docs&amp;utm_content=button_1&amp;utm_term=22.03.23
+          title: Kotlin 核心课程
+        - url: /docs/reference_zh/kotlin-hands-on.html
+          title: Kotlin 动手课程(hands-on)
         - url: /docs/reference_zh/kotlin-tips.html
           title: Kotlin 小技巧
         - url: /docs/reference_zh/books.html
@@ -797,6 +808,8 @@ reference:
               title: Kotlin 各组件的稳定性 (1.4 版以前)
             - title: 兼容性
               content:
+                - url: /docs/reference_zh/compatibility-guide-19.html
+                  title: Kotlin 1.9 兼容性指南
                 - url: /docs/reference_zh/compatibility-guide-18.html
                   title: Kotlin 1.8 兼容性指南
                 - url: /docs/reference_zh/compatibility-guide-1720.html
@@ -825,6 +838,7 @@ reference:
               title: Kotlin 品牌的使用
             - url: https://kotlinfoundation.org/faq/
               title: Kotlin 基金会 FAQ
+
         - title: 期刊
           content:
             - url: /docs/reference_zh/cross-platform-mobile-development.html
@@ -833,6 +847,13 @@ reference:
               title: 原生(Native) App 开发与跨平台(cross-platform)移动 App 开发
             - url: /docs/reference_zh/cross-platform-frameworks.html
               title: 跨平台 App 开发最流行的 6 种框架
+
+        - title: Google 编程夏令营
+          content:
+            - url: /docs/reference_zh/gsoc-2024.html
+              title: 使用 Kotlin 参加 Google 编程夏令营 2024
+            - url: /docs/reference_zh/gsoc-2023.html
+              title: 使用 Kotlin 参加 Google 编程夏令营 2023
         - url: /docs/reference_zh/security.html
           title: 安全性
         - url: /docs/reference_zh/kotlin-pdf.html
@@ -845,8 +866,6 @@ reference:
               title: KUG 指南
             - url: /docs/reference_zh/kotlin-night-guidelines.html
               title: Kotlin Night 指南
-#        - url: /docs/reference_zh/gsoc-2023.html
-#          title: Google Summer of Code with Kotlin
         - url: /docs/reference_zh/kotlin-brand-assets.html
           title: Kotlin 品牌资产
         - url: https://kotlinlang.org/assets/kotlin-media-kit.pdf

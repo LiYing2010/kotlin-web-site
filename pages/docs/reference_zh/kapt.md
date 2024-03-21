@@ -97,6 +97,27 @@ Kotlin 使用 _kapt_ 编译器插件来支持注解处理器(参见 [JSR 269](ht
    kapt.use.jvm.ir=true
    ```
 
+## 试用 Kotlin K2 编译器
+
+> kapt 编译器插件对 K2 编译器的支持是 [实验性功能](components-stability.html).
+> 需要使用者同意(Opt-in) (详情见下文),
+> 你应该只为评估和试验目的来使用这个功能.
+{:.warning}
+
+从 Kotlin 1.9.20 开始, 你可以对 [K2 编译器](https://blog.jetbrains.com/kotlin/2021/10/the-road-to-the-k2-compiler/) 试用 kapt 编译器插件,
+K2 编译器带来了性能改进和很多其它优点. 要在你的项目中使用 K2 编译器, 请在你的 `gradle.properties` 文件中添加以下选项:
+
+```kotlin
+kotlin.experimental.tryK2=true
+kapt.use.k2=true
+```
+
+或者, 你也可以通过以下步骤, 对 kapt 启用 K2 编译器:
+1. 在你的 `build.gradle.kts` 文件中, 将 [语言版本](gradle/gradle-compiler-options.html#example-of-setting-a-languageversion) 设置为 `2.0`.
+2. 在你的 `gradle.properties` 文件中, 添加 `kapt.use.k2=true`.
+
+如果你在对 K2 编译器使用 kapt 插件时遇到任何问题, 请报告到我们的 [问题追踪系统](http://kotl.in/issue).
+
 ## 注解处理器的参数
 
 可以使用 `arguments {}` 代码段来传递参数给注解处理器:
@@ -224,7 +245,7 @@ sample/src/main/
 你可以使用生成的报告来寻找哪些模块触发了不必要的注解处理器, 然后更新这些模块, 不再触发这些注解处理器.
 
 使用以下步骤启用这个统计功能:
-* 在你的 `build.gradle.kts` 文件中, 将 `showProcessorStats` flag 设置为 `true`:
+* 在你的 `build.gradle(.kts)` 文件中, 将 `showProcessorStats` flag 设置为 `true`:
 
   ```kotlin
   kapt {
@@ -238,7 +259,7 @@ sample/src/main/
   kapt.verbose=true
   ```
 
-> 也可以使用 [命令行选项 `verbose`](#using-in-cli) 启用 verbose 输出.
+> 也可以使用 [命令行选项 `verbose`](#use-in-cli) 启用 verbose 输出.
 {:.note}
 
 统计结果将出现在日志中, 级别为 `info`.
@@ -266,7 +287,7 @@ sample/src/main/
 但是, 编译回避不能用于编译类路径中发现的注解处理器, 因为它们的 _任何变更_ 都需要运行注解处理任务.
 
 要使用编译回避模式运行 kapt, 你需要:
-* 对 `kapt*` 配置手工添加注解处理器依赖项目, 具体方法参见 [上文](#using-in-gradle).
+* 对 `kapt*` 配置手工添加注解处理器依赖项目, 具体方法参见 [上文](#use-in-gradle).
 * 不要在编译类路径中查找注解处理器, 方法是在你的 `gradle.properties` 文件中添加以下代码:
 
 ```none
@@ -306,7 +327,7 @@ kapt {
 
 有些注解处理库(比如 `AutoFactory`), 依赖于类型声明签名中的明确的数据类型.
 默认情况下, kapt 会将所有的未知类型替换为 `NonExistentClass`, 包括编译产生的类的类型信息,
-但是你可以修改这种行为. 在 `build.gradle` 文件中添加一个选项, 就可以对桩代码中推断错误的数据类型进行修正:
+但是你可以修改这种行为. 在 `build.gradle(.kts)` 文件中添加一个选项, 就可以对桩代码中推断错误的数据类型进行修正:
 
 ```groovy
 kapt {
@@ -323,6 +344,7 @@ kapt {
     <id>kapt</id>
     <goals>
         <goal>kapt</goal>
+        <!-- 如果你对 kapt plugin 启用了扩展(extension), 那么可以省略 <goals> 元素 -->
     </goals>
     <configuration>
         <sourceDirs>
@@ -330,7 +352,7 @@ kapt {
             <sourceDir>src/main/java</sourceDir>
         </sourceDirs>
         <annotationProcessorPaths>
-            <!-- 请在此处指定你的注解处理器. -->
+            <!-- 请在此处指定你的注解处理器 -->
             <annotationProcessorPath>
                 <groupId>com.google.dagger</groupId>
                 <artifactId>dagger-compiler</artifactId>
@@ -341,7 +363,24 @@ kapt {
 </execution>
 ```
 
-请注意, IntelliJ IDEA 自有的编译系统目前还不支持 kapt.
+要配置注解处理的级别(level), 请在 `<configuration>` 代码段中将 `aptMode` 设置为下面的值之一:
+
+* `stubs` – 只生成注解处理所需要的桩代码.
+* `apt` – 只允许注解处理.
+* `stubsAndApt` – (默认值) 生成桩代码, 并运行注解处理.
+
+例如:
+
+```xml
+<configuration>
+   ...
+   <aptMode>stubs</aptMode>
+</configuration>
+```
+
+## 在 IntelliJ 构建系统中使用
+
+IntelliJ IDEA 自有的构建系统不支持 kapt.
 如果你想要重新运行注解处理过程, 请通过 "Maven Projects" 工具栏启动编译过程.
 
 ## 在命令行中使用
@@ -370,10 +409,11 @@ kapt 编译器插件随 Kotlin 编译器的二进制发布版一同发布.
   如果指定了这个选项, kapt 不会在 `apclasspath` 中查找注解处理器.
 * `verbose`: 启用详细输出.
 * `aptMode` (*必须*)
-    * `stubs` – 只生成注解处理所需要的桩代码;
-    * `apt` – 只进行注解处理;
+    * `stubs` – 只生成注解处理所需要的桩代码.
+    * `apt` – 只进行注解处理.
     * `stubsAndApt` – 生成桩代码, 并且进行注解处理.
-* `correctErrorTypes`: 详情请参见 [下文](#using-in-gradle). 默认关闭.
+* `correctErrorTypes`: 详情请参见 [下文](#use-in-gradle). 默认关闭.
+* `dumpFileReadHistory`: 输出路径, 用于输出每个文件的注解处理过程中使用的类的列表.
 
 plugin 的命令行选项格式是: `-P plugin:<plugin id>:<key>=<value>`. 命令行选项可以重复.
 

@@ -13,7 +13,7 @@ title: "协程的基本概念"
 
 ## 你的第一个协程
 
-_协程_ 是可挂起的计算代码的一个实例. 概念上类似于线程, 它包含一段需要运行的代码, 与其他代码并行工作.
+_协程_ 是一段可挂起的计算代码的一个实例. 概念上类似于线程, 它包含一段需要运行的代码, 与其他代码并行工作.
 但是, 协程并没有绑定到任何特定的线程上. 它的运行可以在一个线程上挂起, 然后在另一个线程中恢复运行.
 
 协程可以看作是轻量的线程, 但有很多重要的区别, 使得协程的使用与线程非常不同.
@@ -258,14 +258,16 @@ Done
 
 与 JVM 线程相比, 协程消耗更少的资源.
 有些代码使用线程时会耗尽 JVM 的可用内存, 如果用协程来表达, 则不会达到资源上限.
-比如, 以下代码启动 100000 个不同的协程, 每个协程等待 5 秒, 然后打印一个点号('.'),
+比如, 以下代码启动 50,000 个不同的协程, 每个协程等待 5 秒, 然后打印一个点号('.'),
 但只消耗非常少的内存:
+
+<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
 
 fun main() = runBlocking {
-    repeat(100_000) { // 启动非常多的协程
+    repeat(50_000) { // 启动非常多的协程
         launch {
             delay(5000L)
             print(".")
@@ -273,16 +275,19 @@ fun main() = runBlocking {
     }
 }
 ```
-<!-- 尽管协程比线程消耗更少的内存, 但这个示例程序还是会耗尽 playground 的堆内存; 请不要在 上运行这个示例. -->
+
+</div>
 
 > 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-basic-06.kt).
 {:.note}
 
-<!--- TEST lines.size == 1 && lines[0] == ".".repeat(100_000) -->
+<!--- TEST lines.size == 1 && lines[0] == ".".repeat(50_000) -->
 
 如果你使用线程来实现同样的功能
 (删除 `runBlocking`, 将 `launch` 替换为 `thread`, 将 `delay` 替换为 `Thread.sleep`).
-你的程序很可能会消耗太多内存, 抛出内存不足(out-of-memory)的错误.
+那么会消耗非常多的内存.
+根据你的操作系统, JDK 版本, 以及程序的设定,
+这段程序要么会抛出内存不足(out-of-memory)的错误, 要么会缓慢的启动线程, 以免出现太多并发运行的线程.
 
 <!--- MODULE kotlinx-coroutines-core -->
 <!--- INDEX kotlinx.coroutines -->

@@ -2,7 +2,7 @@
 type: doc
 layout: reference
 category:
-title: "在 Kotlin Multiplatform 中使用 KSPP"
+title: "在 Kotlin Multiplatform 中使用 KSP"
 ---
 
 # 在 Kotlin Multiplatform 中使用 KSP

@@ -77,7 +77,7 @@ print(
 7. 请为 **Gradle DSL** 选择 Kotlin 或 Gradle 语言 .
 8. 点击 **Create**.
 
-<img src="/assets/docs/images/tutorials/scripting/custom-script-deps/script-deps-create-root-project.png" alt="为自定义 Kotlin 脚本创建一个根项目" width="800"/>
+<img src="/assets/docs/images/tutorials/scripting/custom-script-deps/script-deps-create-root-project.png" alt="为自定义 Kotlin 脚本创建一个根项目" width="700"/>
 
 ## 添加脚本模块
 
@@ -91,7 +91,7 @@ print(
 6. 对模块的父模块, 选择根模块.
 7. 点击 **Create**.
 
-   <img src="/assets/docs/images/tutorials/scripting/custom-script-deps/script-deps-module-definition.png" alt="创建脚本定义模块" width="800"/>
+   <img src="/assets/docs/images/tutorials/scripting/custom-script-deps/script-deps-module-definition.png" alt="创建脚本定义模块" width="700"/>
 
 8. 在模块的 `build.gradle(.kts)` 文件中, 删除 Kotlin Gradle plugin 的 `version`. 因为它在根项目的构建脚本中已经定义过了.
 

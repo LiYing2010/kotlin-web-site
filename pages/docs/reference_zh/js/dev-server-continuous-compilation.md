@@ -30,4 +30,4 @@ title: "开发服务器(Development server)与持续编译(Continuous Compilatio
 <img src="/assets/docs/images/reference/dev-server-continuous-compilation/waiting-for-changes.png" alt="Gradle 等待文件变更" width="700"/>
 
 一旦检测到文件变更, 你的程序会被自动重新编译. 如果你在浏览器中打开了页面, 开发服务器会触发页面自动更新, 然后你的变更会反应到页面中.
-这是由 Kotlin/JS Gradle plugin 管理的 `webpack-dev-server` 提供的功能.
+这是由 Kotlin Multiplatform Gradle plugin 管理的 `webpack-dev-server` 提供的功能.

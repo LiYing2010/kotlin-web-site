@@ -194,7 +194,7 @@ fun main(s: Array<String>) {
 
 ## 内联属性(Inline property)
 
-对于不存在后端域变量(Backing Field)的属性, 可以对它的取值和设值方法使用 `inline` 修饰符.
+对于不存在 [后端域变量(Backing Field)](properties.html#backing-fields) 的属性, 可以对它的取值和设值方法使用 `inline` 修饰符.
 你可以标识单个的属性取值/设值方法:
 
 ```kotlin

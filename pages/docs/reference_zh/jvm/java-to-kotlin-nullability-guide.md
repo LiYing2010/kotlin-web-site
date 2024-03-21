@@ -91,7 +91,7 @@ fun stringLength(a: String?): Int = if (a != null) a.length else 0
 在检查通过之后, 在编译器执行检查的范围内, 编译器会将这个变量当作是不可为 null 的类型 `String`.
 
 你不进行这样的检查, 代码会编译失败, 错误信息如下:
-"Only [safe (?.)](../null-safety.html#safe-calls) or [non-null asserted (!!.) calls](../null-safety.html#the-operator) are allowed
+"Only [safe (?.)](../null-safety.html#safe-calls) or [non-nullable asserted (!!.) calls](../null-safety.html#the-operator) are allowed
 on a [nullable receiver](../extensions.html#nullable-receiver) of type String?".
 
 这段代码还可以写得更简短一些 – 使用 [安全调用操作符 ?. (If-not-null 的简写表达)](../idioms.html#if-not-null-shorthand), 
@@ -119,6 +119,34 @@ Kotlin 能够识别这些注解, 并根据注解来处理这些类型.
 * 编译器不会对多余的 null 检查进行高亮度显示, 如果你对一个不可为 null 类型的值,执行 null 值安全的操作, 通常会高亮度显示.
 
 更多详情请参见 [从 Kotlin 调用 Java 代码时, 如何处理 null 值安全性与平台类型](java-interop.html#null-safety-and-platform-types).
+
+## 对确定不为 null (definitely non-nullable) 类型的支持
+
+在 Kotlin 中, 如果要覆盖一个包含 `@NotNull` 参数的 Java 方法, 你需要 Kotlin 的确定不为 null (definitely non-nullable) 类型.
+
+例如, 对于 Java 中的这个 `load()` 方法:
+
+```java
+import org.jetbrains.annotations.*;
+
+public interface Game<T> {
+  public T save(T x) {}
+  @NotNull
+  public T load(@NotNull T x) {}
+}
+```
+
+要在 Kotlin 中成功的覆盖 `load()` 方法, 你需要将 `T1` 声明为确定不为 null (`T1 & Any`):
+
+```kotlin
+interface ArcadeGame<T1> : Game<T1> {
+  override fun save(x: T1): T1
+  // T1 声明为确定不为 null
+  override fun load(x: T1 & Any): T1 & Any
+}
+```
+
+关于泛型中的确定不为 null 类型, 详情请参见 [确定不为 null 类型](../generics.html#definitely-non-nullable-types).
 
 ## 检查函数调用的结果
 
@@ -304,6 +332,6 @@ fun getStringLength(y: Any): Int {
   将既有的 Java 代码转换为 Kotlin.
 * 阅读其他的迁移向导:
   * [Java 和 Kotlin 中的字符串](java-to-kotlin-idioms-strings.html)
-  * [Java 和 Kotlin 中的集合(Collection)](java-to-kotlin-collections-guide.html).
+  * [Java 和 Kotlin 中的集合(Collection)](java-to-kotlin-collections-guide.html)
 
 如果你有喜欢的惯用法, 欢迎发起一个 PR, 分享给我们!

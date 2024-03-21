@@ -10,7 +10,7 @@ title: "压力测试与模型检查"
 最终更新: {{ site.data.releases.latestDocDate }}
 
 Lincheck 提供了 2 种测试策略: 压力测试与模型检查.
-下面我们使用 [前一章](introduction.html) 中的 `Counter` 示例, 来学习这 2 种测试策略的内部机制:
+下面我们使用 [前一章](introduction.html) 中在 `BasicCounterTest.kt` 文件中编写的 `Counter`, 来学习这 2 种策略的内部机制:
 
 ```kotlin
 class Counter {
@@ -41,14 +41,6 @@ import org.jetbrains.kotlinx.lincheck.annotations.*
 import org.jetbrains.kotlinx.lincheck.check
 import org.jetbrains.kotlinx.lincheck.strategy.stress.*
 import org.junit.*
-
-class Counter {
-    @Volatile
-    private var value = 0
-
-    fun inc(): Int = ++value
-    fun get() = value
-}
 
 class CounterTest {
     private val c = Counter() // 初始化状态
@@ -92,14 +84,6 @@ import org.jetbrains.kotlinx.lincheck.check
 import org.jetbrains.kotlinx.lincheck.strategy.managed.modelchecking.*
 import org.junit.*
 
-class Counter {
-    @Volatile
-    private var value = 0
-
-    fun inc(): Int = ++value
-    fun get() = value
-}
-
 class CounterTest {
     private val c = Counter() // 初始化状态
 
@@ -124,6 +108,18 @@ class CounterTest {
 >
 > 如果测试代码使用了 `java.util` 包中的类, 会需要这些属性,
 > 因为有些类的内部实现使用了 `jdk.internal.misc.Unsafe`, 或其他类似的内部类.
+> 如果你是 Gradle, 请在 `build.gradle.kts` 文件添加下面的内容:
+>
+> ```
+> tasks.withType<Test> {
+>   jvmArgs(
+>     "--add-opens", "java.base/java.lang=ALL-UNNAMED",
+>     "--add-opens", "java.base/jdk.internal.misc=ALL-UNNAMED",
+>     "--add-exports", "java.base/jdk.internal.util=ALL-UNNAMED",
+>     "--add-exports", "java.base/sun.security.action=ALL-UNNAMED"
+>   )
+> }
+> ```
 {:.tip}
 
 ### 模型检查的工作原理
@@ -161,17 +157,8 @@ _模型检查策略_ 更适合在循序一致性内存模型下查找 bug, 因�
     import org.jetbrains.kotlinx.lincheck.annotations.*
     import org.jetbrains.kotlinx.lincheck.check
     import org.jetbrains.kotlinx.lincheck.strategy.stress.*
-    import org.jetbrains.kotlinx.lincheck.verifier.*
     import org.junit.*
-    
-    class Counter {
-        @Volatile
-        private var value = 0
-    
-        fun inc(): Int = ++value
-        fun get() = value
-    }
-    
+
     class CounterTest {
         private val c = Counter()
     
@@ -195,18 +182,22 @@ _模型检查策略_ 更适合在循序一致性内存模型下查找 bug, 因�
 
 2. 在此运行 `stressTest()`, Lincheck 会生成类似于下面的场景:
 
-    ```text 
-    Init part:
-    [inc(), inc()]
-    Parallel part:
-    | get() | inc() |
-    | inc() | get() |
-    Post part:
-    [inc()]
-    ```
+   ```text 
+   | ------------------- |
+   | Thread 1 | Thread 2 |
+   | ------------------- |
+   | inc()    |          |
+   | inc()    |          |
+   | ------------------- |
+   | get()    | inc()    |
+   | inc()    | get()    |
+   | ------------------- |
+   | inc()    |          |
+   | ------------------- |
+   ```
 
-    这类, 在并行运行部分之前有 2 个操作, 在并行运行部分中, 对每个操作都有 2 个线程,
-    最后是 1 个操作.
+   这里, 在并行运行部分之前有 2 个操作, 在并行运行部分中, 对每个操作都有 2 个线程,
+   最后是 1 个操作.
 
 你也可以通过同样的方式来配置模型检查测试.
 
@@ -219,8 +210,11 @@ Lincheck 会尝试对错误进行最小化, 努力删除操作, 同时又确保�
 
 ```text
 = Invalid execution results =
-Parallel part:
-| inc(): 1 | inc(): 1 |
+| ------------------- |
+| Thread 1 | Thread 2 |
+| ------------------- |
+| inc()    | inc()    |
+| ------------------- |
 ```
 
 由于对更小的场景更容易分析, 因此默认会启用场景最小化.
@@ -244,15 +238,7 @@ Parallel part:
     import org.jetbrains.kotlinx.lincheck.check
     import org.jetbrains.kotlinx.lincheck.strategy.managed.modelchecking.*
     import org.junit.Test
-    
-    class Counter {
-        @Volatile
-        private var value = 0
-    
-        fun inc(): Int = ++value
-        fun get() = value
-    }
-    
+
     class CounterTest {
         private val c = Counter()
     
@@ -271,28 +257,35 @@ Parallel part:
     ```
 
 2. 运行 `modelCheckingTest()`, 确认 `Counter` 的状态会在修改计数器状态的切换点被打印输出
-(输出的文字以 `STATE:` 开始):
+   (输出的文字以 `STATE:` 开始):
 
     ```text
     = Invalid execution results =
-    STATE: 0
-    Parallel part:
+    | ------------------- |
+    | Thread 1 | Thread 2 |
+    | ------------------- |
+    | STATE: 0            |
+    | ------------------- |
     | inc(): 1 | inc(): 1 |
-    STATE: 1
-    = The following interleaving leads to the error =
-    Parallel part trace:
-    |                      | inc()                                                |
-    |                      |   inc(): 1 at CounterTest.inc(CounterTest.kt:42)     |
-    |                      |     value.READ: 0 at Counter.inc(CounterTest.kt:35)  |
-    |                      |     switch                                           |
-    | inc(): 1             |                                                      |
-    | STATE: 1             |                                                      |
-    |   thread is finished |                                                      |
-    |                      |     value.WRITE(1) at Counter.inc(CounterTest.kt:35) |
-    |                      |     STATE: 1                                         |
-    |                      |     value.READ: 1 at Counter.inc(CounterTest.kt:35)  |
-    |                      |   result: 1                                          |
-    |                      |   thread is finished                                 |
+    | ------------------- |
+    | STATE: 1            |
+    | ------------------- |
+    
+    The following interleaving leads to the error:
+    | -------------------------------------------------------------------- |
+    | Thread 1 |                         Thread 2                          |
+    | -------------------------------------------------------------------- |
+    |          | inc()                                                     |
+    |          |   inc(): 1 at CounterTest.inc(CounterTest.kt:10)          |
+    |          |     value.READ: 0 at Counter.inc(BasicCounterTest.kt:10)  |
+    |          |     switch                                                |
+    | inc(): 1 |                                                           |
+    | STATE: 1 |                                                           |
+    |          |     value.WRITE(1) at Counter.inc(BasicCounterTest.kt:10) |
+    |          |     STATE: 1                                              |
+    |          |     value.READ: 1 at Counter.inc(BasicCounterTest.kt:10)  |
+    |          |   result: 1                                               |
+    | -------------------------------------------------------------------- |
     ```
 
 对于压力测试的情况, Lincheck 会在场景的并行运行部分之前和之后打印状态信息, 还会在结束时打印.
@@ -304,7 +297,3 @@ Parallel part:
 ## 下一步
 
 学习如何 [配置传递给操作的参数](operation-arguments.html), 以及在什么情况下需要如此.
-
-## 参见
-
-学习如何使用 [模块化测试](modular-testing.html) 优化和提升模型检查策略的覆盖率.

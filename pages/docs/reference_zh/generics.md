@@ -35,9 +35,9 @@ val box = Box(1) // 1 的类型为 Int, 因此编译器知道类型为 Box<Int>
 Java 的类型系统中, 最微妙最难于理解和使用的部分之一, 就是它的通配符类型(wildcard type) (参见 [Java 泛型 FAQ](http://www.angelikalanger.com/GenericsFAQ/JavaGenericsFAQ.html)).
 Kotlin 中不存在这样的通配符类型. 而是使用声明处类型变异(declaration-site variance), 以及类型投射(type projection).
 
+### Java 中的类型变异(Variance)和通配符(Wildcard)
+
 让我们思考一下为什么 Java 需要这些神秘的通配符类型.
-这个问题已有详细的解释, 请参见 [Effective Java, 第 3 版](http://www.oracle.com/technetwork/java/effectivejava-136174.html),
-第 31 条: _为增加 API 的灵活性, 应该使用限定范围的通配符类型(bounded wildcard)_.
 首先, Java 中的泛型类型是 _不可变的(invariant)_, 也就是说 `List<String>` _不是_ `List<Object>` 的子类型.
 因为, 如果 `List` 不是 _不可变的(invariant)_, 那么下面的代码将可以通过编译, 但会在运行时导致一个异常,
 那么 List 就并没有任何优于 Java 数组的地方了:
@@ -45,12 +45,19 @@ Kotlin 中不存在这样的通配符类型. 而是使用声明处类型变异(d
 ```java
 // Java
 List<String> strs = new ArrayList<String>();
-List<Object> objs = strs; // !!! 编译期错误可以防止我们遭遇运行时错误.
-objs.add(1); // 向 String 组成的 List 添加了一个 Integer 类型的元素
-String s = strs.get(0); // !!! ClassCastException: 无法将 Integer 转换为 String
+
+// 在编译期, Java 会在这里报告类型不匹配的错误.
+List<Object> objs = strs;
+
+// 如果不报告这个错误会怎么样 ?
+// 那么我们就能够向 String 组成的 List 添加一个 Integer 类型的元素.
+objs.add(1);
+
+// 然后在运行期, Java 会抛出 ClassCastException 异常: Integer cannot be cast to String
+String s = strs.get(0); 
 ```
 
-Java 禁止上面示例中的做法, 以保证运行时刻的类型安全. 但这个原则背后存在一些隐含的影响.
+Java 禁止上面示例中的做法, 以保证运行期的类型安全. 但这个原则背后存在一些隐含的影响.
 比如, 我们来看看 `Collection` 接口的 `addAll()` 方法.
 这个方法的签名应该是什么样的? 你可能会根据第一直觉, 将它定义为:
 
@@ -65,17 +72,13 @@ interface Collection<E> ... {
 
 ```java
 // Java
+
+// 如果 addAll 方法使用前面那种简单的定义, 下面的代码无法编译:
+// Collection<String> is not a subtype of Collection<Object>
 void copyAll(Collection<Object> to, Collection<String> from) {
     to.addAll(from);
-    // !!! 如果 addAll 方法使用前面那种简单的定义, 这里的调用将无法通过编译:
-    // 因为 Collection<String> 不是 Collection<Object> 的子类型
 }
 ```
-
-(在 Java 语言中, 你可能通过非常痛苦的方式学到了这个教训,
-详情请参见 [Effective Java, 第 3 版](http://www.oracle.com/technetwork/java/effectivejava-136174.html),
-第 28 条: _尽量使用 List, 而不是数组_)
-
 
 因此 `addAll()` 的签名定义实际上是这样的:
 
@@ -95,22 +98,21 @@ interface Collection<E> ... {
 
 要理解这种模式的工作原理十分简单: 如果你只能从一个集合 _取得_ 元素, 那么就可以使用一个 `String` 组成的集合, 并从中读取 `Object` 实例.
 反过来, 如果你只能向集合 _放入_ 元素, 那么就可以使用一个 `Object` 组成的集合, 并向其中放入 `String`:
-在 Java 中有 `List<? super String>`, 它是 `List<Object>` 的一个 _父类型_.
+在 Java 中有 `List<? super String>`, 它可以接受 `String`, 或 `String` 的任何父类型.
 
 上面的后一种情况称为 _反向类型变异(contravariance)_,
 对于 `List<? super String>`, 你只能调用那些接受 `String` 类型参数的方法
 (比如, 可以调用 `add(String)`, 或 `set(int, String)`),
 如果你对 `List<T>` 调用返回类型为 `T` 的方法时, 你得到的返回值将不会是 `String` 类型, 而是 `Object` 类型.
 
-Joshua Bloch 将那些只能 _读取_ 的对象称为 _生产者(Producer)_,
-将那些只能 _写入_ 的对象称为 _消费者(Consumer)_.
+Joshua Bloch 在他的 [Effective Java, 第 3 版](http://www.oracle.com/technetwork/java/effectivejava-136174.html) 详细解释了这个问题,
+(第 31 条: "为增加 API 的灵活性, 应该使用限定范围的通配符类型(bounded wildcard)").
+他将那些只能 _读取_ 的对象称为 _生产者(Producer)_, 将那些只能 _写入_ 的对象称为 _消费者(Consumer)_.
 他建议:
 
-> "为尽量保证灵活性, 应该对代表生产者和消费者的输入参数使用通配符类型",
-> 他还提出了下面的记忆口诀:
->
-> PECS: 生产者(Producer)对应 Extends, 消费者(Consumer) 对应 Super
-{:.tip}
+> "为尽量保证灵活性, 应该对代表生产者和消费者的输入参数使用通配符类型."
+
+他还提出了下面的记忆口诀: _PECS_, 表示 _生产者(Producer)对应 Extends, 消费者(Consumer) 对应 Super_.
 
 > 如果你使用一个生产者对象, 比如, `List<? extends Foo>`, 你将无法对这个对象调用 `add()` 或 `set()` 方法,
 > 但这并不代表这个对象是 _值不变的(immutable)_:
@@ -337,6 +339,40 @@ fun <T> copyWhenGreater(list: List<T>, threshold: T): List<String>
 
 传入的类型必须同时满足 `where` 子句中的所有条件.
 在上面的示例中, `T` 类型必须 _同时_ 实现 `CharSequence` 和 `Comparable` 接口.
+
+## 确定不为 null 的类型
+
+为了让与 Java 的泛型类和接口的互操作更加便利, Kotlin 允许将泛型类型参数为声明 **确定不为 null**.
+
+要将泛型类型 `T` 声明为确定不为 null, 请使用 `& Any` 来声明这个类型. 例如: `T & Any`.
+
+确定不为 null 的类型的 [上界(Upper Bound)](#upper-bounds) 必须是可以为 null 的类型.
+
+确定不为 null 的类型的最常见的使用场景是, 你想要覆盖 override 一个包含 `@NotNull` 参数的 Java 方法.
+例如, 考虑下面的 `load()` 方法:
+
+```java
+import org.jetbrains.annotations.*;
+
+public interface Game<T> {
+    public T save(T x) {}
+    @NotNull
+    public T load(@NotNull T x) {}
+}
+```
+
+要在 Kotlin 中成功的覆盖 `load()` 方法, 你需要将 `T1` 声明为确定不为 null:
+
+```kotlin
+interface ArcadeGame<T1> : Game<T1> {
+    override fun save(x: T1): T1
+    // T1 确定不为 null
+    override fun load(x: T1 & Any): T1 & Any
+}
+```
+
+如果只使用 Kotlin, 那么你不太可能需要明确的声明确定不为 null 的类型,
+因为 Kotlin 的类型推断功能会帮你解决这个问题.
 
 ## 类型擦除
 

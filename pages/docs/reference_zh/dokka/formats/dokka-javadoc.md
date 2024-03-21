@@ -24,11 +24,11 @@ Dokka 的 Javadoc 输出格式与 Java 的
 
 所有的 Kotlin 代码和签名都会以 Java 的视角来显示.
 这是通过我们的
-[Kotlin as Java Dokka plugin](https://github.com/Kotlin/dokka/tree/master/plugins/kotlin-as-java)
+[Kotlin as Java Dokka plugin](https://github.com/Kotlin/dokka/tree/{{ site.data.releases.dokkaVersion }}/dokka-subprojects/plugin-kotlin-as-java)
 来实现的, 这个 plugin 是 Dokka 默认附带的, 而且对这个格式会默认使用.
 
 Javadoc 输出格式作为一个 [Dokka plugin](../dokka-plugins.html) 来实现, 由 Dokka 开发组维护.
-它是开源的, 源代码请参见 [GitHub](https://github.com/Kotlin/dokka/tree/master/plugins/javadoc).
+它是开源的, 源代码请参见 [GitHub](https://github.com/Kotlin/dokka/tree/{{ site.data.releases.dokkaVersion }}/dokka-subprojects/plugin-javadoc).
 
 ## 生成 Javadoc 文档
 
@@ -119,8 +119,8 @@ Javadoc 输出格式作为一个 [Dokka plugin](../dokka-plugins.html) 来实现
 <p></p>
 <p>
 由于 Javadoc 输出格式是一个 <a href="../dokka-plugins.html#apply-dokka-plugins">Dokka plugin</a>,
-因此你需要下载 plugin 的
-<a href="https://mvnrepository.com/artifact/org.jetbrains.dokka/javadoc-plugin/{{ site.data.releases.dokkaVersion }}">JAR 文件</a>.
+因此你需要
+<a href="https://repo1.maven.org/maven2/org/jetbrains/dokka/javadoc-plugin/{{ site.data.releases.dokkaVersion }}/javadoc-plugin-{{ site.data.releases.dokkaVersion }}.jar">下载 plugin 的 JAR 文件</a>.
 </p>
 
 <p>
@@ -129,8 +129,8 @@ Javadoc 输出格式有 2 个依赖项, 你需要通过额外的 JAR 文件的�
 
 <p>
 <list>
-<li> <a href="https://mvnrepository.com/artifact/org.jetbrains.dokka/kotlin-as-java-plugin/{{ site.data.releases.dokkaVersion }}">kotlin-as-java plugin</a> </li>
-<li> <a href="https://mvnrepository.com/artifact/com.soywiz.korlibs.korte/korte-jvm/3.3.0">korte-jvm</a> </li>
+<li> <a href="https://repo1.maven.org/maven2/org/jetbrains/dokka/kotlin-as-java-plugin/{{ site.data.releases.dokkaVersion }}/kotlin-as-java-plugin-{{ site.data.releases.dokkaVersion }}.jar">kotlin-as-java plugin</a> </li>
+<li> <a href="https://repo1.maven.org/maven2/com/soywiz/korlibs/korte/korte-jvm/3.3.0/korte-jvm-3.3.0.jar">korte-jvm</a> </li>
 </list>
 </p>
 

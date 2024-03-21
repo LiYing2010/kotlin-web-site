@@ -40,7 +40,7 @@ class Bar { ... }
 示例:
 
 ```kotlin
-// file name: example.kt
+// 文件名: example.kt
 package foo
 
 private fun foo() { ... } // 只在 example.kt 文件内可访问
@@ -60,7 +60,7 @@ internal val baz = 6    // 在同一个模块(module)内可以访问
 * `internal` 表示在 *本模块之内*, 凡是能够访问到这个类的地方, 同时也能访问到这个类的 `internal` 成员.
 * `public` 表示凡是能够访问到这个类的地方, 同时也能访问这个类的 `public` 成员.
 
-> 在 Kotlin 中, 外部类(outer class)不能访问其内部类(inner class)的 private 成员.
+> 在 Kotlin 中, 外部类(outer class)不能访问其内部类(inner class)的 `private` 成员.
 {:.note}
 
 如果你覆盖一个 `protected` 或 `internal` 成员, 并且没有明确指定可见度,
@@ -107,9 +107,12 @@ class Unrelated(o: Outer) {
 class C private constructor(a: Int) { ... }
 ```
 
-这里构造器是 private 的. 所有构造器默认都是 `public` 的,
+这里构造器是 `private` 的. 所有构造器默认都是 `public` 的,
 因此使得凡是可以访问到类的地方都可以访问到类的构造器
 (因此 一个 `internal` 类的构造器只能在同一个模块内访问).
+
+对于封闭类(Sealed Class), 构造器默认为 `protected` 的.
+更多详情请参见 [封闭类(Sealed Class)](sealed-classes.html#constructors).
 
 ### 局部声明
 
@@ -123,5 +126,5 @@ class C private constructor(a: Int) { ... }
 
 * 一个 IntelliJ IDEA 模块.
 * 一个 Maven 工程.
-* 一个 Gradle 源代码集(source set) (`test` 源代码集例外, 它可以访问 `main` 中的 internal 声明).
+* 一个 Gradle 源代码集(source set) (`test` 源代码集例外, 它可以访问 `main` 中的 `internal` 声明).
 * 通过 `<kotlinc>` Ant 任务的一次调用编译的一组文件.

@@ -11,7 +11,7 @@ title: "安全性"
 
 我们尽力保证我们的产品不存在安全性漏洞. 为了减少发生安全性漏洞的风险, 请遵守以下原则: 
 
-* 总是使用 Kotlin 的最新发布版. 为了安全性目的, 我们将发布版公布到 [Maven Central](https://search.maven.org/search?q=g:org.jetbrains.kotlin), 
+* 总是使用 Kotlin 的最新发布版. 为了安全性目的, 我们将发布版公布到 [Maven Central](https://central.sonatype.com/search?q=g:org.jetbrains.kotlin), 
 使用以下 PGP key:
 
   * Key ID: **kt-a@jetbrains.com**
@@ -31,4 +31,4 @@ title: "安全性"
 或者向我们发送 [email](mailto:security@jetbrains.org). 
 
 关于我们对安全性问题的负责任的披露流程(Responsible Disclosure Process),
-详情请参见 [JetBrains 协调披露政策(Coordinated Disclosure Policy)](https://www.jetbrains.com/legal/terms/coordinated-disclosure.html).
+详情请参见 [JetBrains 协调披露政策(Coordinated Disclosure Policy)](https://www.jetbrains.com/legal/docs/terms/coordinated-disclosure/).

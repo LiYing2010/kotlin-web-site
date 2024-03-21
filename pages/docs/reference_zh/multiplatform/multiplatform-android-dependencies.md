@@ -12,7 +12,7 @@ title: "添加 Android 依赖项"
 在你的 Gradle 文件中声明依赖项, 然后导入项目.
 然后在你的 Kotlin 代码中就可以使用这个依赖项了.
 
-在 Multiplatform Mobile 项目中声明 Android 依赖项时, 我们建议将它们添加到一个专门的 Android 源代码集.
+在 Kotlin Multiplatform 项目中声明 Android 依赖项时, 我们建议将它们添加到一个专门的 Android 源代码集.
 为此, 请更新你的项目的 `shared` 目录中的 `build.gradle(.kts)` 文件:
 
 <div class="multi-language-sample" data-lang="kotlin">
@@ -43,7 +43,7 @@ sourceSets {
 </div>
 </div>
 
-将 Android 项目中的一个顶层依赖项, 移动到 Multiplatform Mobile 项目中的一个专门的源代码集,
+将 Android 项目中的一个顶层依赖项, 移动到 Multiplatform 项目中的一个专门的源代码集,
 如果这个顶层依赖项使用了 non-trivial 的配置名称, 可能会很困难.
 比如, 要从 Android 项目的顶层, 移动 `debugImplementation` 依赖项, 你需要向源代码集添加一个 implementation 依赖项, 名为 `androidDebug`.
 在迁移过程中, 为了减少解决这类问题需要做的工作, 你可以在 `android` 代码块中添加一个 `dependencies` 代码块:
@@ -90,4 +90,4 @@ android {
 
 * [关于添加依赖项的 Android 官方文档](https://developer.android.com/studio/build/dependencies)
 * [添加对跨平台库或其他跨平台项目的依赖项](../multiplatform/multiplatform-add-dependencies.html)
-* [添加 iOS 依赖项](multiplatform-mobile-ios-dependencies.html)
+* [添加 iOS 依赖项](multiplatform-ios-dependencies.html)

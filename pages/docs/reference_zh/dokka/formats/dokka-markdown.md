@@ -105,7 +105,7 @@ GFM 输出格式会生成 [GitHub 风格的 Markdown](https://github.github.com/
 </p>
 
 <p>
-更多详情, 请参见 Mavin plugin 文档中的 <a href="../runners/dokka-maven.html#other-output-formats">其它输出格式</a>.
+更多详情, 请参见 Maven plugin 文档中的 <a href="../runners/dokka-maven.html#other-output-formats">其它输出格式</a>.
 </p>
 
 </div>
@@ -115,8 +115,8 @@ GFM 输出格式会生成 [GitHub 风格的 Markdown](https://github.github.com/
 <p></p>
 <p>
 由于 GFM 格式是以 <a href="../dokka-plugins.html#apply-dokka-plugins">Dokka plugin</a> 方式实现的,
-因此你需要下载
-<a href="https://mvnrepository.com/artifact/org.jetbrains.dokka/gfm-plugin/{{ site.data.releases.dokkaVersion }}">JAR 文件</a>,
+因此你需要
+<a href="https://repo1.maven.org/maven2/org/jetbrains/dokka/gfm-plugin/{{ site.data.releases.dokkaVersion }}/gfm-plugin-{{ site.data.releases.dokkaVersion }}.jar">下载 JAR 文件</a>,
 并将它传递给 <code>pluginsClasspath</code>.
 </p>
 
@@ -159,7 +159,7 @@ java -jar dokka-cli-{{ site.data.releases.dokkaVersion }}.jar \
 
 </div>
 
-源代码请参见 <a href="https://github.com/Kotlin/dokka/tree/{{ site.data.releases.dokkaVersion }}/plugins/gfm">GitHub</a>.
+源代码请参见 <a href="https://github.com/Kotlin/dokka/tree/{{ site.data.releases.dokkaVersion }}/dokka-subprojects/plugin-gfm">GitHub</a>.
 
 ## Jekyll
 
@@ -256,8 +256,8 @@ Jekyll 输出格式生成 [Jekyll](https://jekyllrb.com/) 兼容的 Markdown 格
 <p></p>
 <p>
 由于 Jekyll 格式是以 <a href="../dokka-plugins.html#apply-dokka-plugins">Dokka plugin</a> 方式实现的,
-因此你需要下载
-<a href="https://mvnrepository.com/artifact/org.jetbrains.dokka/jekyll-plugin/{{ site.data.releases.dokkaVersion }}">JAR 文件</a>.
+因此你需要
+<a href="https://repo1.maven.org/maven2/org/jetbrains/dokka/jekyll-plugin/{{ site.data.releases.dokkaVersion }}/jekyll-plugin-{{ site.data.releases.dokkaVersion }}.jar">下载 JAR 文件</a>.
 这个格式也是基于 <a href="#gfm">GFM</a> 格式, 因此你还需要提供 GFM 格式的依赖项.
 两个 JAR 文件都需要传递给 <code>pluginsClasspath</code>:
 </p>
@@ -302,4 +302,4 @@ java -jar dokka-cli-{{ site.data.releases.dokkaVersion }}.jar \
 
 </div>
 
-源代码请参见 <a href="https://github.com/Kotlin/dokka/tree/{{ site.data.releases.dokkaVersion }}/plugins/jekyll">GitHub</a>.
+源代码请参见 <a href="https://github.com/Kotlin/dokka/tree/{{ site.data.releases.dokkaVersion }}/dokka-subprojects/plugin-jekyll">GitHub</a>.

@@ -52,10 +52,9 @@ kotlin {
 
 ```kotlin
 kotlin {
-    targets.jvm.compilations.all {
+    jvm().compilations.all {
         compilerOptions.configure {
-            sourceMap.set(true)
-            metaInfo.set(true)
+            jvmTarget.set(JvmTarget.JVM_1_8)
         }
     }
 }
@@ -71,8 +70,7 @@ kotlin {
 kotlin {
     jvm().compilations.all {
         compilerOptions.configure {
-            sourceMap.set(true)
-            metaInfo.set(true)
+            jvmTarget.set(JvmTarget.JVM_1_8)
         }
     }
 }
@@ -106,9 +104,11 @@ kotlin {
 
 ```groovy
 kotlin {
-    jvm().compilations.main {
-        compilerOptions.configure {
-            jvmTarget.set(JvmTarget.JVM_1_8)
+    jvm {
+        compilations.main {
+            compilerOptions.configure {
+                jvmTarget.set(JvmTarget.JVM_1_8)
+            }
         }
     }
 }
@@ -203,7 +203,7 @@ kotlin {
 
 ## 在 JVM 编译任务中使用 Java 源代码
 
-[使用项目向导创建项目](multiplatform-library.html) 时, Java 源代码会包含在 JVM 编译任务内.
+使用 [项目向导](https://kmp.jetbrains.com/) 创建项目时, Java 源代码会包含在 JVM 编译任务内.
 
 在构建脚本中, 以下代码会应用 Gradle `java` plugin, 并配置编译目标, 使其与 `java` plugin 协作:
 
@@ -360,7 +360,7 @@ Kotlin 可以使用 `dependsOn` 关系来创建 [源代码集层级结构](multi
 而且也会被编译称为同一个编译目标的二进制形式, 比如 JVM class 文件.
 * `jvmMain` 的源代码可以 '看见' `commonMain` 的声明, 包括内部声明,
 也能看见 `commonMain` 的 [依赖项](multiplatform-add-dependencies.html), 即使是标记为 `implementation` 的依赖项.
-* `jvmMain` 可以包含 `commonMain` 的 [预期声明(expected declaration)](multiplatform-connect-to-apis.html) 的平台相关的实现.
+* `jvmMain` 可以包含 `commonMain` 的 [预期声明(expected declaration)](multiplatform-expect-actual.html) 的平台相关的实现.
 * `commonMain` 的资源会与 `jvmMain` 的资源一起处理, 复制.
 * `jvmMain` 和 `commonMain` 的 [语言设置](multiplatform-dsl-reference.html#language-settings) 应该保持一致.
 

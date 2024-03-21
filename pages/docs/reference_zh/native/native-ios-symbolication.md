@@ -101,20 +101,3 @@ kotlin {
 
 </div>
 </div>
-
-
-## 对内联的(inlined) 栈层次(stack frame) 解码(Decode)
-
-Xcode 对调用栈中的内联函数(inlined function)调用似乎不能正确解码
-(不仅 Kotlin `inline` 函数如此, 而且包括在机器码优化过程中被内联的函数).
-因此调用栈中的某些元素的信息可能会丢失.
-如果发生这样的情况, 请考虑使用 `lldb` 来处理已经被 Xcode 符号化过的崩溃报告,
-比如:
-
-```bash
-$ lldb -b -o "script import lldb.macosx" -o "crashlog file.crash"
-```
-
-这个命令会输出额外处理过的崩溃报告, 并且包含内联的调用栈元素.
-
-更多详情请参见 [LLDB 文档](https://lldb.llvm.org/use/symbolication.html).

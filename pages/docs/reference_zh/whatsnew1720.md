@@ -93,8 +93,7 @@ compileKotlin {
 我们非常感谢你任何形式的反馈意见:
 * 在 Kotlin Slack 中直接向 K2 开发者提供你的反馈意见: [得到邀请](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up?_gl=1*ju6cbn*_ga*MTA3MTk5NDkzMC4xNjQ2MDY3MDU4*_ga_9J976DJZ68*MTY1ODMzNzA3OS4xMDAuMS4xNjU4MzQwODEwLjYw),
   并加入 [#k2-early-adopters](https://kotlinlang.slack.com/archives/C03PK0PE257) 频道.
-* 向 [我们的问题追踪系统](https://youtrack.jetbrains.com/newIssue?project=KT&c=Type%20Performance%20Problem&c=Subsystems%20Frontend.%20IR)
-  报告你使用新 K2 编译器时遇到的任何问题.
+* 如果在使用新 K2 编译器时遇到的任何问题, 请向 [我们的问题追踪系统](https://kotl.in/issue) 提交报告.
 * [开启 **Send usage statistics** 选项](https://www.jetbrains.com/help/idea/settings-usage-statistics.html),
   允许 JetBrains 收集关于 K2 使用情况的匿名统计数据.
 
@@ -755,12 +754,10 @@ Kotlin 1.7.20 对 `java.nio.file.Path` 类提供了新的 [扩展函数](extensi
 
 ### 教程的改进和新增
 
-* [Kotlin Multiplatform Mobile 入门](multiplatform-mobile/multiplatform-mobile-getting-started.html) –
-  学习使用 Kotlin 进行跨平台移动应用程序开发, 并创建一个可以同时运行于 Android 和 iOS 平台的应用程序.
-* [使用 Kotlin Multiplatform 构建全栈 Web 应用程序](multiplatform/multiplatform-full-stack-app.html) –
-  使用 Kotlin 来创建应用程序的所有部分, 包括 Kotlin/JVM 服务器端, 和 Kotlin/JS web 客户端.
-* [使用 React 和 Kotlin/JS 创建 Web 应用程序](js/js-react.html) –
-  创建一个浏览器应用程序, 学习一个典型的 React 程序中用到的 Kotlin 的 DSL 和功能特性.
+* [Kotlin Multiplatform 入门](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-getting-started.html)
+  – 学习使用 Kotlin 进行跨平台移动应用程序开发, 并创建一个可以同时运行于 Android 和 iOS 平台的应用程序.
+* [使用 React 和 Kotlin/JS 创建 Web 应用程序](js/js-react.html)
+  – 创建一个浏览器应用程序, 学习一个典型的 React 程序中用到的 Kotlin 的 DSL 和功能特性.
 
 ### Kotlin 的发布版本文档的变更
 

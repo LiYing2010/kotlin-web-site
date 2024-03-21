@@ -21,15 +21,17 @@ Gradle 7.0 为 Gradle plugin 开发者引入了一个新功能
 
 目前, Kotlin Gradle plugin 有以下变体:
 
-| 变体名      | 对应的 Gradle 版本 |
+| 变体名        | 对应的 Gradle 版本 |
 |------------|---------------|
 | `main`     | 6.8.3–6.9.3   |
 | `gradle70` | 7.0           |
 | `gradle71` | 7.1-7.4       |
 | `gradle75` | 7.5           |
-| `gradle76` | 7.6 或更高版本  |
+| `gradle76` | 7.6           |
+| `gradle80` | 8.0           |
+| `gradle81` | 8.1.1 或更高版本   |
 
-在未来的 Kotlin 发布版中, 可能会增加更多的变体.
+在未来的 Kotlin 发布版中, 还会增加更多的变体.
 
 要检查你的构建使用的是哪个变体, 请启用
 [`--info` log 级别](https://docs.gradle.org/current/userguide/logging.html#sec:choosing_a_log_level),
@@ -52,7 +54,7 @@ Gradle 7.0 为 Gradle plugin 开发者引入了一个新功能
 
 ```kotlin
 configurations.register("customConfiguration") {
-    ...
+    // ...
 }
 ```
 
@@ -64,7 +66,7 @@ configurations.register("customConfiguration") {
 
 ```groovy
 configurations.register("customConfiguration") {
-    ...
+    // ...
 }
 ```
 
@@ -116,8 +118,8 @@ configurations {
             )
             // 如果你想要使用某个特定的 KGP 变体的依赖:
             attribute(
-                 GradlePluginApiVersion.GRADLE_PLUGIN_API_VERSION_ATTRIBUTE,
-                 project.objects.named("7.0")
+                GradlePluginApiVersion.GRADLE_PLUGIN_API_VERSION_ATTRIBUTE,
+                project.objects.named("7.0")
             )
         }
     }
@@ -158,7 +160,7 @@ configurations {
 否则, 你会看到这样的错误:
 
 ```none
- > Could not resolve all files for configuration ':customConfiguraton'.
+ > Could not resolve all files for configuration ':customConfiguration'.
       > Could not resolve org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.0.
         Required by:
             project :
@@ -172,4 +174,4 @@ configurations {
 
 ## 下一步做什么?
 
-学习 [Gradle 基本概念与详细信息](https://docs.gradle.org/current/userguide/getting_started.html).
+学习 [Gradle 基本概念与详细信息](https://docs.gradle.org/current/userguide/userguide.html).

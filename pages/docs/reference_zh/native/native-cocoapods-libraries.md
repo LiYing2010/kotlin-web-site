@@ -48,8 +48,8 @@ Kotlin 项目需要在 `build.gradle(.kts)` 中调用 `pod()` 函数来添加 Po
             summary = "CocoaPods test library"
             homepage = "https://github.com/JetBrains/kotlin"
 
-            pod("AFNetworking") {
-                version = "~> 4.0.1"
+            pod("FirebaseAuth") {
+                version = "10.16.0"
             }
         }
     }
@@ -57,10 +57,10 @@ Kotlin 项目需要在 `build.gradle(.kts)` 中调用 `pod()` 函数来添加 Po
 
 3. 重新导入项目.
 
-要在 Kotlin 代码中使用这些依赖项, 需要导入 `cocoapods.<library-name>` 包.
+要在 Kotlin 代码中使用这些依赖项, 需要导入 `cocoapods.<library-name>` 包:
 
 ```kotlin
-import cocoapods.AFNetworking.*
+import cocoapods.FirebaseAuth.*
 ```
 
 ## 使用保存在本地的 Pod 库添加依赖项
@@ -93,8 +93,8 @@ import cocoapods.AFNetworking.*
                 version = "1.0"
                 source = path(project.file("../subspec_dependency"))
             }
-            pod("AFNetworking") {
-                version = "~> 4.0.1"
+            pod("FirebaseAuth") {
+                version = "10.16.0"
             }
         }
     }
@@ -106,12 +106,12 @@ import cocoapods.AFNetworking.*
 
 3. 重新导入项目.
 
-要在 Kotlin 代码中使用这些依赖项, 需要导入 `cocoapods.<library-name>` 包.
+要在 Kotlin 代码中使用这些依赖项, 需要导入 `cocoapods.<library-name>` 包:
 
 ```kotlin
 import cocoapods.pod_dependency.*
 import cocoapods.subspec_dependency.*
-import cocoapods.AFNetworking.*
+import cocoapods.FirebaseAuth.*
 ```
 
 ## 从自定义的 Git 仓库添加 Pod 库依赖项
@@ -143,9 +143,9 @@ import cocoapods.AFNetworking.*
 
             ios.deploymentTarget = "13.5"
 
-            pod("AFNetworking") {
-                source = git("https://github.com/AFNetworking/AFNetworking") {
-                    tag = "4.0.0"
+            pod("FirebaseAuth") {
+                source = git("https://github.com/firebase/firebase-ios-sdk") {
+                    tag = "10.16.0"
                 }
             }
 
@@ -166,10 +166,10 @@ import cocoapods.AFNetworking.*
 
 3. 重新导入项目.
 
-要在 Kotlin 代码中使用这些依赖项, 需要导入 `cocoapods.<library-name>` 包.
+要在 Kotlin 代码中使用这些依赖项, 需要导入 `cocoapods.<library-name>` 包:
 
 ```kotlin
-import cocoapods.AFNetworking.*
+import cocoapods.Alamofire.*
 import cocoapods.JSONModel.*
 import cocoapods.CocoaLumberjack.*
 ```
@@ -209,7 +209,7 @@ import cocoapods.CocoaLumberjack.*
 > ```
 {:.note}
 
-要在 Kotlin 代码中使用这些依赖项, 需要导入 `cocoapods.<library-name>` 包.
+要在 Kotlin 代码中使用这些依赖项, 需要导入 `cocoapods.<library-name>` 包:
 
 ```kotlin
 import cocoapods.example.*
@@ -220,8 +220,9 @@ import cocoapods.example.*
 1. 在 `pod()` 函数内指定 Pod 库名称.
 
    在配置代码段中, 指定 cinterop 选项:
-    * `extraOpts` – 指定对 Pod 库的选项列表. 例如, 指定 flag: `extraOpts = listOf("-compiler-option")`.
-    * `packageName` – 指定包名称. 如果有指定, 可以使用这个包名称导入这个库: `import <packageName>`.
+   * `extraOpts` – 指定对 Pod 库的选项列表. 例如, 指定 flag: `extraOpts = listOf("-compiler-option")`.
+   * `packageName` – 指定包名称. 如果有指定, 可以使用这个包名称导入这个库:
+     `import <packageName>`.
 
 2. 指定 Pod 库的部署目标(deployment target)最小版本.
 
@@ -235,8 +236,6 @@ import cocoapods.example.*
 
             ios.deploymentTarget = "13.5"
 
-            useLibraries()
-
             pod("YandexMapKit") {
                 packageName = "YandexMK"
             }
@@ -246,7 +245,7 @@ import cocoapods.example.*
 
 3. 重新导入项目.
 
-要在 Kotlin 代码中使用这些依赖项, 需要导入 `cocoapods.<library-name>` 包.
+要在 Kotlin 代码中使用这些依赖项, 需要导入 `cocoapods.<library-name>` 包:
 
 ```kotlin
 import cocoapods.YandexMapKit.*
@@ -259,36 +258,54 @@ import YandexMK.YMKPoint
 import YandexMK.YMKDistance
 ```
 
-## 使用静态 Pod 库添加依赖项
+### 对带 @import 命令的 Objective-C 头文件的支持
 
-1. 使用 `pod()` 函数指定 Pod 库名称.
+> 这个功能是 [实验性功能](../components-stability.html#stability-levels-explained).
+> 它随时有可能变更或被删除. 请注意, 只为评估和试验目的来使用这个功能.
+> 希望你能通过我们的 [问题追踪系统](https://kotl.in/issue) 提供你的反馈意见.
+{:.warning}
 
-2. 调用 `useLibraries()` 函数 - 这个函数会对静态库开启一个特殊的 flag.
+某些 Objective-C 库, 尤其是 Swift 库的封装库, 在它们的头文件中存在 `@import` 命令.
+默认情况下, cinterop 不支持这些命令.
 
-3. 指定 Pod 库的部署目标(deployment target)最小版本.
-
-    ```kotlin
-    kotlin {
-        ios()
-
-        cocoapods {
-            summary = "CocoaPods test library"
-            homepage = "https://github.com/JetBrains/kotlin"
-
-            ios.deploymentTarget = "13.5"
-
-            pod("YandexMapKit") {
-                version = "~> 3.2"
-            }
-            useLibraries()
-        }
-    }
-    ```
-
-4. 重新导入项目.
-
-要在 Kotlin 代码中使用这些依赖项, 需要导入 `cocoapods.<library-name>` 包.
+要启用对 `@import` 命令的支持, 请在 `pod()` 函数的配置代码段中指定 `-fmodules` 选项:
 
 ```kotlin
-import cocoapods.YandexMapKit.*
+kotlin {
+    ios()
+
+    cocoapods {
+        summary = "CocoaPods test library"
+        homepage = "https://github.com/JetBrains/kotlin"
+
+        ios.deploymentTarget = "13.5"
+
+        pod("PodName") {
+            extraOpts = listOf("-compiler-option", "-fmodules")
+        }
+    }
+}
 ```
+
+### 在依赖的 Pod 之间共用 Kotlin cinterop
+
+如果你使用 `pod()` 函数添加了多个 Pod 库依赖项, 当你的 Pod 库的 API 之间存在依赖关系时, 你可能会遇到问题.
+
+这种情况下, 为了让代码成功编译, 请使用 `useInteropBindingFrom()` 函数.
+在为新的 Pod 构建绑定时, 这个函数会利用为另一个 Pod 生成的 cinterop 绑定.
+
+你应该在设置依赖项之前声明依赖的 Pod 库:
+
+```kotlin
+// pod("WebImage") 的 cinterop:
+fun loadImage(): WebImage
+
+// pod("Info") 的 cinterop:
+fun printImageInfo(image: WebImage)
+
+// 你的代码:
+printImageInfo(loadImage())
+```
+
+这样的情况下, 如果你没有正确配置 cinterop 之间的依赖关系,
+这段代码会无效, 因为 `WebImage` 类型在不同的 cinterop 文件内, 因此, 它也属于不同的包.

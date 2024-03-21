@@ -31,6 +31,19 @@ title: "Kotlin 品牌资产"
 * 不要修改文字.
 * 不要将 Logo 放在复杂的背景上. 不要将 Logo 放在亮色背景上.
 
+## Kotlin 吉祥物
+
+Kodee 是 Kotlin 重新构想的吉祥物. Kodee 不仅仅只是一个符号, 它也是你的好伙伴, 鼓励并激发你展现你的创造力.
+在使用它时, 我们请求你遵循这些 [简单的规则](https://resources.jetbrains.com/storage/products/kotlin/docs/Kotlin_Mascot_Guidelines.pdf).
+
+<img src="/assets/docs/images/brand-assets/mascot-body-proportions.png" alt="Kotlin 吉祥物 Kodee proportions" width="700"/>
+
+你可以在你的数字化素材或打印素材中使用 Kodee. 为了这个用途, 我们准备了一系列的 Kotlin 吉祥物资产, 供你下载和使用.
+
+[下载全部资产](https://resources.jetbrains.com/storage/products/kotlin/docs/kotlin_mascot_2.zip){:.typo-float-right.kto-button.kto-button_size_m.kto-button_mode_outline}
+
+<img src="/assets/docs/images/brand-assets/mascot-in-action.png" alt="Kotlin 吉祥物 Kodee in action" width="700"/>
+
 ## Kotlin 用户组品牌资产
 
 我们为 Kotlin 用户组提供特别定制的 Logo, 这个 Logo 易于辨认, 而且与 Kotlin 相关联.

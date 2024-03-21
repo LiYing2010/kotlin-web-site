@@ -24,7 +24,9 @@ Kotlin/Native 编译器正在不断更新, 并改进它的性能.
 
   在容器(比如 Docker)内或者使用持续集成系统(Continuous Integration)构建时, 编译器可能在每次构建时都需要重新创建 `~/.konan` 目录.
   为了避免这样的步骤, 请配置你的环境, 使其在多次构建之间保留 `~/.konan`.
-  比如, 使用 `KONAN_DATA_DIR` 环境变量来重新定义它的位置.
+  比如, 使用 Gradle 属性 `kotlin.data.dir` 来重新定义它的位置.
+
+  或者, 也可以使用 `-Xkonan-data-dir` 编译器选项, 通过 `cinterop` 和  `konanc` 工具来配置你的的自定义目录路径.
 
 ## Gradle 配置
 
@@ -49,7 +51,7 @@ Kotlin/Native 编译器正在不断更新, 并改进它的性能.
     * `packForXcode`: 由于 iOS 各种模拟器和各种真实设备使用不同的处理器架构, 因此通常会将 Kotlin/Native 二进制文件以 universal (fat) 框架的形式发布.
       在本地开发时, 只为你正在使用的平台构建 `.framework` 会比较快.
       
-      要构建一个平台专用的框架, 请调用 [Kotlin Multiplatform Mobile 项目向导](../multiplatform-mobile/multiplatform-mobile-create-first-app.html)
+      要构建一个平台专用的框架, 请调用 [Kotlin Multiplatform 项目向导](https://kmp.jetbrains.com/)
       创建的 `packForXcode` 任务. 
       
       > 请记住, 这种情况下, 在设备和模拟器之间切换之后, 你将会需要使用 `./gradlew clean` 清除构建.
@@ -75,6 +77,13 @@ Kotlin/Native 编译器正在不断更新, 并改进它的性能.
   如果你过去曾遇到与这些功能相关的问题, 并向你的 `gradle.properties` 文件或 Gradle 命令行添加过这些参数,
   请删除这些参数, 再次检查构建是否成功.
   有可能以前添加过这些属性来绕过某些问题, 但这些问题现在已经解决了.
+
+* **尝试使用 klib artifact 的增量编译功能**. 使用增量编译时, 如果项目模块产生的 `klib` artifact 只发生了部分变更,
+  那么只有 `klib` 的一部分会被重新编译为二进制文件.
+
+  这个功能是 [实验性功能](../components-stability.html#stability-levels-explained).
+  要启用这个功能, 请向你的 `gradle.properties` 文件添加 `kotlin.incremental.native=true` 选项.
+  如果你遇到问题, 请 [在 YouTrack 中创建 issue](https://kotl.in/issue).
 
 ## Windows OS 配置
 

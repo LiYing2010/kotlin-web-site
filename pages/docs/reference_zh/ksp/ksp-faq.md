@@ -2,10 +2,10 @@
 type: doc
 layout: reference
 category:
-title: "FAQ"
+title: "KSP FAQ"
 ---
 
-# FAQ
+# KSP FAQ
 
 最终更新: {{ site.data.releases.latestDocDate }}
 

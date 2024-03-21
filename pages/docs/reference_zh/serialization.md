@@ -22,7 +22,14 @@ _序列化(serialization)_ 是指将应用程序使用的数据转换为一种�
 
 在 Kotlin 中, 数据序列化工具是一个单独的组件,
 [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization).
-其中包含 2 个主要部分: Gradle 插件 –`org.jetbrains.kotlin.plugin.serialization` 和运行库.
+其中包含几个主要部分:
+`org.jetbrains.kotlin.plugin.serialization` Gradle plugin, [运行库](#libraries),
+以及编译器插件.
+
+编译器插件, `kotlinx-serialization-compiler-plugin` 和 `kotlinx-serialization-compiler-plugin-embeddable`,
+直接发布到 Maven Central.
+第 2 个插件用来与 `kotlin-compiler-embeddable` artifact 配合使用, 对于脚本 artifact, 它是默认选项.
+Gradle 会把编译器插件添加为你的项目的编译器参数.
 
 ## 库
 
@@ -71,6 +78,8 @@ _序列化(serialization)_ 是指将应用程序使用的数据转换为一种�
 ## 示例: JSON 序列化
 
 下面我们来看一看如何将 Kotlin 对象序列化为 JSON.
+
+### 添加插件和依赖项
 
 开始之前, 你需要配置你的构建脚本, 使你的项目能够使用 Kotlin 序列化工具:
 
@@ -133,53 +142,69 @@ _序列化(serialization)_ 是指将应用程序使用的数据转换为一种�
 现在, 可以在你的代码中使用序列化 API 了.
 API 所在的包是 `kotlinx.serialization`, 以及各个格式专用的子包, 比如 `kotlinx.serialization.json`.
 
-首先, 对一个类添加 `@Serializable` 注解, 使它可以被序列化.
+### 序列化和反序列化 JSON
 
-```kotlin
-import kotlinx.serialization.Serializable
+1. 对一个类添加 `@Serializable` 注解, 使它可以被序列化.
 
-@Serializable
-data class Data(val a: Int, val b: String)
-```
+   ```kotlin
+   import kotlinx.serialization.Serializable
 
-然后就可以调用函数 `Json.encodeToString()`, 序列化这个类的实例.
+   @Serializable
+   data class Data(val a: Int, val b: String)
+   ```
 
-```kotlin
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.encodeToString
+2. 调用函数 `Json.encodeToString()`, 序列化这个类的实例.
 
-@Serializable
-data class Data(val a: Int, val b: String)
+   ```kotlin
+   import kotlinx.serialization.Serializable
+   import kotlinx.serialization.json.Json
+   import kotlinx.serialization.encodeToString
 
-fun main() {
-   val json = Json.encodeToString(Data(42, "str"))
-}
-```
+   @Serializable
+   data class Data(val a: Int, val b: String)
 
-结果, 你会得到一个 JSON 格式的字符串, 其中包含这个对象的状态: `{"a": 42, "b": "str"}`
+   fun main() {
+      val json = Json.encodeToString(Data(42, "str"))
+   }
+   ```
 
-也可以通过单次函数调用, 序列化对象的集合, 比如 List.
+   结果, 你会得到一个 JSON 格式的字符串, 其中包含这个对象的状态: `{"a": 42, "b": "str"}`
 
-```kotlin
-val dataList = listOf(Data(42, "str"), Data(12, "test"))
-val jsonList = Json.encodeToString(dataList)
-```
+   > 也可以通过单次函数调用, 序列化对象的集合, 比如 List:
+   >
+   > ```kotlin
+   > val dataList = listOf(Data(42, "str"), Data(12, "test"))
+   > val jsonList = Json.encodeToString(dataList)
+   > ```
+   {:.note}
 
-要从 JSON 字符串中反序列化对象, 请使用 `decodeFromString()` 函数:
+3. 使用 `decodeFromString()` 函数, 从 JSON 字符串中反序列化对象:
 
-```kotlin
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.decodeFromString
+   ```kotlin
+   import kotlinx.serialization.Serializable
+   import kotlinx.serialization.json.Json
+   import kotlinx.serialization.decodeFromString
 
-@Serializable
-data class Data(val a: Int, val b: String)
+   @Serializable
+   data class Data(val a: Int, val b: String)
 
-fun main() {
-   val obj = Json.decodeFromString<Data>("""{"a":42, "b": "str"}""")
-}
-```
+   fun main() {
+      val obj = Json.decodeFromString<Data>("""{"a":42, "b": "str"}""")
+   }
+   ```
+
+就是这样! 你已经成功的将对象序列化为 JSON 字符串, 然后将 JSON 字符串反序列化为对象.
+
+## 下一步
 
 关于 Kotlin 中的序列化, 更多详情请阅读
 [Kotlin 序列化指南](https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/serialization-guide.md).
+
+你可以阅读以下资料, 学习 Kotlin 序列化的不同方面:
+
+* [Kotlin 序列化及其核心概念](https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/basic-serialization.md)
+* [Kotlin 的内建可序列化类](https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/builtin-classes.md)
+* [序列化器的更多详情, 并学习如何创建自定义的序列化器](https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/serializers.md)
+* [Kotlin 如何处理多态序列化](https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/polymorphism.md#open-polymorphism)
+* [Kotlin 序列化如何处理 JSON 的各种功能](https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/json.md#json-elements)
+* [Kotlin 支持的实验性序列化格式](https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/formats.md)

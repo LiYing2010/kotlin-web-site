@@ -9,6 +9,13 @@ title: "与 C 代码交互"
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
+> C 库的导入是 [实验性功能](../components-stability.html#stability-levels-explained).
+> `cinterop` 工具从 C 库生成的所有 Kotlin 声明都应该标注 `@ExperimentalForeignApi` 注解.
+>
+> Kotlin/Native 自带的原生平台库 (例如 Foundation, UIKit, 和 POSIX),
+> 只对一部分 API 需要使用者明确同意(Opt-in). 对于这样的情况, 你会在 IDE 中看到警告信息.
+{:.warning}
+
 Kotlin/Native 遵循 Kotlin 的传统, 提供与既有的平台软件的优秀的互操作性.
 对于原生程序来说, 最重要的互操作性对象就是与 C 语言库.
 因此 Kotlin/Native 附带了 `cinterop` 工具,
@@ -164,16 +171,23 @@ linkerOpts = -lpng
 
 也可以指定某个目标平台独有的参数, 比如:
 
-
  ```c
  compilerOpts = -DBAR=bar
  compilerOpts.linux_x64 = -DFOO=foo1
- compilerOpts.mac_x64 = -DFOO=foo2
+ compilerOpts.macos_x64 = -DFOO=foo2
  ```
 
 通过这样的配置, C 头文件在 Linux 上的会使用 `-DBAR=bar -DFOO=foo1` 参数进行分析,
 macOS 上则会使用 `-DBAR=bar -DFOO=foo2` 参数进行分析.
 注意, 定义文件的任何参数, 都可以包含共用的, 以及平台独有的两部分.
+
+#### 链接器错误
+
+当一个 Kotlin 库依赖于一个 C 或 Objective-C 库时, 可能会发生链接器错误, 例如, 使用 [CocoaPods 集成](native-cocoapods.html) 时.
+如果依赖的库在当前机器上没有安装, 在项目的构建脚本中也没有明确的配置, 那么就会发生 "Framework not found" 错误.
+
+如果你是库的作者, 你可以通过自定义消息来帮助你的用户解决链接器错误.
+方法是, 在你的 `.def` 文件中添加 `userSetupHint=message` 属性, 或者向 `cinterop` 传递 `-Xuser-setup-hint` 编译器选项.
 
 ### 添加自定义声明
 

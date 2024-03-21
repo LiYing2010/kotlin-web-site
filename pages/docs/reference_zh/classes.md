@@ -25,8 +25,8 @@ class Empty
 
 ## 构造器
 
-Kotlin 中的类可以有一个 _主构造器(primary constructor)_, 以及一个或多个 _次构造器(secondary constructor)_.
-主构造器是类头部的一部分, 位于类名称以及可选的类型参数之后.
+Kotlin 中的类有一个 _主构造器(primary constructor)_, 此外还可以有一个或多个 _次构造器(secondary constructor)_.
+主构造器在类头部中声明, 位于类名称以及可选的类型参数之后.
 
 ```kotlin
 class Person constructor(firstName: String) { /*...*/ }
@@ -38,8 +38,9 @@ class Person constructor(firstName: String) { /*...*/ }
 class Person(firstName: String) { /*...*/ }
 ```
 
-主构造器中不能包含任何代码. 初始化代码可以放在 _初始化代码段(initializer block)_ 中,
-初始化代码段使用 `init` 关键字作为前缀.
+主构造器初始化类的实例, 以及它在类头部中的属性. 类头部不能包含任何可执行的代码.
+如果你想要在对象创建时运行某些代码, 可以使用类 body 中的 _初始化代码段(initializer block)_.
+初始化代码段使用 `init` 关键字来定义, 之后是大括号. 请将你想要运行的代码放在大括号之内.
 
 在类的实例初始化过程中, 初始化代码段按照它们在类主体中出现的顺序执行,
 初始化代码段之间还可以插入属性的初始化代码:

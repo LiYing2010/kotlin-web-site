@@ -31,10 +31,14 @@ title: "将 Kotlin Gradle 项目用作 CocoaPods 依赖项"
 ## 单个编译目标的 Xcode 项目 
 
 1. 如果你还没有 Xcode 项目, 请使用 `Podfile` 创建一个.
-2. 使用 `podfile = project.file(..)` 向你的 Xcode 项目 `Podfile` 添加路径,
+2. 在应用程序 Target 中, 请确认禁用了 **Build Options** 之下的 **User Script Sandboxing**:
+
+   ![禁用 sandboxing CocoaPods]({{ url_for('asset', path='docs/images/multiplatform/disable-sandboxing-cocoapods.png') }})
+
+3. 使用 `podfile = project.file(..)` 向你的 Xcode 项目 `Podfile` 添加路径,
    其中的文件路径是你的 Kotlin 项目的 `build.gradle.kts` (`build.gradle`) 文件路径.
    这个步骤可以通过对你的 `Podfile` 调用 `pod install`, 帮助你的 Xcode 项目与 Gradle 项目依赖项保持同步.
-3. 指定 Pod 库的部署目标(deployment target)最小版本.
+4. 指定 Pod 库的部署目标(deployment target)最小版本.
     ```kotlin
     kotlin {
         ios()
@@ -43,15 +47,15 @@ title: "将 Kotlin Gradle 项目用作 CocoaPods 依赖项"
             summary = "CocoaPods test library"
             homepage = "https://github.com/JetBrains/kotlin"
             ios.deploymentTarget = "13.5"
-            pod("AFNetworking") {
-                version = "~> 4.0.0"
+            pod("FirebaseAuth") {
+                version = "10.16.0"
             }
             podfile = project.file("../ios-app/Podfile")
         }
     }
     ```
 
-4. 对你在 Xcode 项目中想要包含的 Gradle 项目, 将它的名称和路径添加到 `Podfile`.
+5. 对你在 Xcode 项目中想要包含的 Gradle 项目, 将它的名称和路径添加到 `Podfile`.
 
     ```ruby
     use_frameworks!
@@ -63,13 +67,13 @@ title: "将 Kotlin Gradle 项目用作 CocoaPods 依赖项"
     end
     ```
 
-5. 重新导入项目.
+6. 重新导入项目.
 
 ## 多个编译目标的 Xcode 项目
 
 1. 如果你还没有 Xcode 项目, 请使用 `Podfile` 创建一个.
 2. 使用 `podfile = project.file(..)` 向你的 Xcode 项目 `Podfile` 添加路径,
-   其中的文件路径是你的 Kotlin 项目的 `build.gradle.kts` (`build.gradle`).
+   其中的文件路径是你的 Kotlin 项目的 `build.gradle(.kts)`.
    这个步骤可以通过对你的 `Podfile` 调用 `pod install`, 帮助你的 Xcode 项目与 Gradle 项目依赖项保持同步.
 3. 对于你的项目中希望使用的 Pod 库, 使用`pod()` 添加依赖项.
 4. 对每个目标, 指定 Pod 库的部署目标(deployment target)最小版本.
@@ -85,8 +89,8 @@ title: "将 Kotlin Gradle 项目用作 CocoaPods 依赖项"
             ios.deploymentTarget = "13.5"
             tvos.deploymentTarget = "13.4"
 
-            pod("AFNetworking") {
-                version = "~> 4.0.0"
+            pod("FirebaseAuth") {
+                version = "10.16.0"
             }
             podfile = project.file("../severalTargetsXcodeProject/Podfile") // 指定 Podfile 路径
         }

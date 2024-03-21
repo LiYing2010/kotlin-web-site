@@ -100,7 +100,7 @@ Kotlin 使用函数类型(Function Type), 比如 `(Int) -> String` .
 函数类型的声明也可以指定函数参数的名称: `(x: Int, y: Int) -> Point`.
 参数名称可以用来更好地说明参数含义.
 
-为了表示函数类型是 [可以为 null 的](null-safety.html#nullable-types-and-non-null-types), 可以使用括号:
+为了表示函数类型是 [可以为 null 的](null-safety.html#nullable-types-and-non-nullable-types), 可以使用括号:
 `((Int, Int) -> Int)?`.
 
 函数类型也可以使用括号组合在一起: `(Int) -> ((Int) -> Unit)`

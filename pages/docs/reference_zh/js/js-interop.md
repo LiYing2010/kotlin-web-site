@@ -17,10 +17,6 @@ Kotlin 代码可以将 Java 类当作 Kotlin 类来使用, Java 代码也可以�
 如果你希望完全发挥 Kotlin 类型系统的能力, 你可以为 JavaScript 库创建外部声明,
 Kotlin 编译器及相关工具能够正确处理这些外部声明.
 
-如果 npm 依赖项提供了类型信息(TypeScript / `d.ts`),
-有一个实验性的工具程序 [Dukat](js-external-declarations-with-dukat.html),
-能够自动创建 Kotlin 外部声明.
-
 ## 内联 JavaScript
 
 使用 [`js()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.js/js.html) 函数,
@@ -126,7 +122,7 @@ open external class Foo {
     fun stop()
 }
 
-class Bar: Foo() {
+class Bar : Foo() {
     override fun run() {
         window.alert("Running!")
     }
@@ -230,3 +226,40 @@ function usingAsOperator(s) {
     return typeof (tmp$ = s) === 'string' ? tmp$ : throwCCE();
 }
 ```
+
+## 相等判断
+
+与其他平台相比, Kotlin/JS 的相等判断语义有所不同.
+
+在 Kotlin/JS 中, Kotlin [引用相等](../equality.html#referential-equality) 操作符 (`===`)
+永远会翻译为 JavaScript 的
+[严格相等](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Strict_equality) 操作符 (`===`).
+
+JavaScript `===` 操作符不仅检查两个值相等, 而且检查这两个值的类型也相等:
+
+ ```kotlin
+fun main() {
+    val name = "kotlin"
+    val value1 = name.substring(0, 1)
+    val value2 = name.substring(0, 1)
+
+    println(if (value1 === value2) "yes" else "no")
+    // 在 Kotlin/JS 平台, 输出结果为 'yes' 
+    // 在其他平台, 输出结果为 'no'
+}
+ ```
+
+而且, 在 Kotlin/JS 中, 数值类型 [`Byte`, `Short`, `Int`, `Float`, 和 `Double`](js-to-kotlin-interop.html#kotlin-types-in-javascript)
+在运行期都使用 JavaScript 类型 `Number` 表达.
+因此, 这 5 种类型的值是无法区分的:
+
+ ```kotlin
+fun main() {
+    println(1.0 as Any === 1 as Any)
+    // 在 Kotlin/JS 平台, 输出结果为 'true'
+    // 在其他平台, 输出结果为 'false'
+}
+ ```
+
+> 关于 Kotlin 中的相等判断, 更多详情请参见 [相等判断](../equality.html) 文档.
+{:.tip}

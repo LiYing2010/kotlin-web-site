@@ -10,11 +10,14 @@ title: "Gradle"
 最终更新: {{ site.data.releases.latestDocDate }}
 
 Gradle 是一个构建系统, 帮助你自动化并管理你的构建过程. 它会下载需要的依赖项, 打包你的代码, 并做好编译前的准备工作.
-关于 Gradle 的基本概念与详细信息, 请参见 [Gradle 网站](https://docs.gradle.org/current/userguide/getting_started.html).
+关于 Gradle 的基本概念与详细信息, 请参见 [Gradle 网站](https://docs.gradle.org/current/userguide/userguide.html).
 
 通过 [这些使用说明](gradle-configure-project.html), 你可以对不同的平台设置你自己的项目,
 或者可以学习一个小的 [step-by-step 教程](get-started-with-jvm-gradle-project.html),
 它会演示如何使用 Kotlin 创建一个简单的 "Hello World" 后台应用程序.
+
+> 关于 Kotlin, Gradle, 和 Android Gradle plugin 各版本的兼容性, 详情请参见 [这里](gradle-configure-project.html#apply-the-plugin).
+{:.tip}
 
 在本章中, 你将会学习:
 * [编译器选项, 以及如何传递编译器选项](gradle-compiler-options.html).

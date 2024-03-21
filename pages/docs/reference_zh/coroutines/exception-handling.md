@@ -19,7 +19,7 @@ title: "协程的异常处理"
 ## 异常的传播(propagation)
 
 协程构建器对于异常的处理有两种风格:
-自动传播异常([launch] 和 [actor] 构建器), 或者将异常交给使用者处理([async] 和 [produce] 构建器).
+自动传播异常([launch] 构建器), 或者将异常交给使用者处理([async] 和 [produce] 构建器).
 如果使用这些构建器创建一个 _根(root)_ 协程, 也就是并不属于其他任何协程的 _子_ 协程,
 前一种构建器将异常当作 **未捕获的(uncaught)** 异常, 类似于 Java 的 `Thread.uncaughtExceptionHandler`,
 后一种则要求使用者处理最终的异常, 比如使用 [await][Deferred.await] 或 [receive][ReceiveChannel.receive] 来处理异常.
@@ -291,9 +291,6 @@ fun main() = runBlocking {
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-exceptions-05.kt).
 {:.note}
 
-> 注意: 上面的示例程序只能在支持 `suppressed` 异常的 JDK7+ 以上版本才能正常运行
-{:.note}
-
 这个示例程序的输出结果是:
 
 ```text
@@ -321,7 +318,7 @@ fun main() = runBlocking {
         println("CoroutineExceptionHandler got $exception")
     }
     val job = GlobalScope.launch(handler) {
-        val inner = launch { // 从这里开始的所有协程都会被取消
+        val innerJob = launch { // 从这里开始的所有协程都会被取消
             launch {
                 launch {
                     throw IOException() // 最初的异常
@@ -329,7 +326,7 @@ fun main() = runBlocking {
             }
         }
         try {
-            inner.join()
+            innerJob.join()
         } catch (e: CancellationException) {
             println("Rethrowing CancellationException with original cause")
             throw e // 再次抛出协程被取消的异常, 但仍然是最初的 IOException 被处理
@@ -544,7 +541,6 @@ The scope is completed
 
 <!--- INDEX kotlinx.coroutines.channels -->
 
-[actor]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.channels/actor.html
 [produce]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.channels/produce.html
 [ReceiveChannel.receive]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.channels/-receive-channel/receive.html
 

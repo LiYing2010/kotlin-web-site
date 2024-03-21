@@ -129,9 +129,35 @@ external fun newC()
 
 ## JavaScript 中的 Kotlin 类型
 
-* 除 `kotlin.Long` 外, Kotlin 的数字类型都被映射为 JavaScript 的 `Number` 类型.
-* `kotlin.Char` 被映射为 JavaScript 的 `Number`, 值为字符编码.
-* Kotlin 在运行时无法区分数字类型(除 `kotlin.Long` 外), 因此以下代码能够正常工作:
+Kotlin 类型在 JavaScript 中映射为以下类型:
+
+| Kotlin 类型                                                        | JavaScript 类型               | 注释                                                                     |
+|------------------------------------------------------------------|-----------------------------|------------------------------------------------------------------------|
+| `Byte`, `Short`, `Int`, `Float`, `Double`                        | `Number`                    |                                                                        |
+| `Char`                                                           | `Number`                    | Number 表示字符的编码.                                                        |
+| `Long`                                                           | 不支持                         | JavaScript 中没有 64 位整数类型, 因此它使用一个 Kotlin 类来模拟.                          |
+| `Boolean`                                                        | `Boolean`                   |                                                                        |
+| `String`                                                         | `String`                    |                                                                        |
+| `Array`                                                          | `Array`                     |                                                                        |
+| `ByteArray`                                                      | `Int8Array`                 |                                                                        |
+| `ShortArray`                                                     | `Int16Array`                |                                                                        |
+| `IntArray`                                                       | `Int32Array`                |                                                                        |
+| `CharArray`                                                      | `UInt16Array`               | 包含属性 `$type$ == "CharArray"`.                                          |
+| `FloatArray`                                                     | `Float32Array`              |                                                                        |
+| `DoubleArray`                                                    | `Float64Array`              |                                                                        |
+| `LongArray`                                                      | `Array<kotlin.Long>`        | 包含属性 `$type$ == "LongArray"`. 另外请参见 Kotlin 的 Long 类型的注释.               |
+| `BooleanArray`                                                   | `Int8Array`                 | 包含属性 `$type$ == "BooleanArray"`.                                       |
+| `Unit`                                                           | Undefined                   |                                                                        |
+| `Any`                                                            | `Object`                    |                                                                        |
+| `Throwable`                                                      | `Error`                     |                                                                        |
+| 可为 Null 的 `Type?`                                                | `Type \| null \| undefined` |                                                                        |
+| Kotlin 的所有其他类型 (使用 `JsExport` 注解标注的类型除外) | 不支持                         | 包含 Kotlin 的集合(`List`, `Set`, `Map`, 等等.), 以及无符号类型(unsigned variant). |
+
+
+此外, 还要注意:
+
+* Kotlin 为 `kotlin.Int`, `kotlin.Byte`, `kotlin.Short`, `kotlin.Char` 和 `kotlin.Long` 保留了溢出语义.
+* Kotlin 在运行时无法区分数值类型(除 `kotlin.Long` 外), 因此以下代码能够正常工作:
 
   ```kotlin
   fun f() {
@@ -141,22 +167,5 @@ external fun newC()
   }
   ```
 
-* Kotlin 保留了 `kotlin.Int`, `kotlin.Byte`, `kotlin.Short`, `kotlin.Char` 和 `kotlin.Long` 的溢出语义.
-* `kotlin.Long` 没有映射到任何 JavaScript 对象, 因为在 JavaScript 中没有 64 位整数. 它通过一个 Kotlin 类来模拟实现.
-* `kotlin.String` 映射为 JavaScript `String`.
-* `kotlin.Any` 映射为 JavaScript 的 `Object` (`new Object()`, `{}`, 等等).
-* `kotlin.Array` 映射为 JavaScript 的 `Array`.
-* Kotlin 集合 (`List`, `Set`, `Map`, 等等) 不会映射为任何特定的 JavaScript 类型.
-* `kotlin.Throwable` 映射为 JavaScript 的 Error.
 * Kotlin 在 JavaScript 中保留了延迟加载对象的初始化处理.
 * Kotlin 在 JavaScript 中没有实现顶级属性的延迟加载初始化处理.
-
-### 基本类型的数组
-
-基本类型的数组使用 JavaScript 的 `TypedArray` 来实现:
-
-* `kotlin.ByteArray`, `-.ShortArray`, `-.IntArray`, `-.FloatArray`, 以及 `-.DoubleArray`
-  分别映射为 JavaScript 的 `Int8Array`, `Int16Array`, `Int32Array`, `Float32Array`, 和 `Float64Array`.
-* `kotlin.BooleanArray` 映射为 JavaScript 的 `Int8Array`, 并带有属性 `$type$ == "BooleanArray"`
-* `kotlin.CharArray` 映射为 JavaScript 的 `UInt16Array`, 并带有属性 `$type$ == "CharArray"`
-* `kotlin.LongArray` 映射为 JavaScript 的 `kotlin.Long` 构成的 `Array`, 并带有属性 `$type$ == "LongArray"`.

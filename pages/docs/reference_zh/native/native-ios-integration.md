@@ -9,10 +9,6 @@ title: "与 iOS 集成"
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
-> 本章介绍的是从 Kotlin 1.7.20 开始默认启用的新内存管理器.
-> 要将你的项目从旧内存管理器迁移到新内存管理器, 请参见我们的 [迁移指南](native-migration-guide.html).
-{:.note}
-
 Kotlin/Native 垃圾收集器能够与 Swift/Objective-C ARC 无缝集成, 通常不需要额外的工作.
 详情请参见 [与 Swift/Objective-C 代码交互](native-objc-interop.html).
 
@@ -22,32 +18,32 @@ Kotlin/Native 垃圾收集器能够与 Swift/Objective-C ARC 无缝集成, 通�
 
 ### 销毁器(Deinitializer)
 
-如果 Swift/Objective-C 对象和它们引用的对象, 跨越了代码交互的边界, 进入到 Kotlin/Native 中,
-那么对这些对象的销毁处理, 会在另一个线程中调用, 例如:
+如果 Swift/Objective-C 对象和它们引用的对象, 在主线程中传递给 Kotlin/Native 代码,
+那么对这些对象的销毁处理, 会在主线程中调用, 例如:
 
 ```kotlin
 // Kotlin
 class KotlinExample {
-   fun action(arg: Any) {
-      println(arg)
-   }
+    fun action(arg: Any) {
+        println(arg)
+    }
 }
 ```
 
 ```swift
 // Swift
 class SwiftExample {
-   init() {
-      print("init on \(Thread.current)")
-   }
+    init() {
+        print("init on \(Thread.current)")
+    }
 
-   deinit {
-      print("deinit on \(Thread.current)")
-   }
+    deinit {
+        print("deinit on \(Thread.current)")
+    }
 }
 
 func test() {
-   KotlinExample().action(arg: SwiftExample())
+    KotlinExample().action(arg: SwiftExample())
 }
 ```
 
@@ -56,8 +52,21 @@ func test() {
 ```text
 init on <_NSMainThread: 0x600003bc0000>{number = 1, name = main}
 shared.SwiftExample
-deinit on <NSThread: 0x600003b9b900>{number = 7, name = (null)}
+deinit on <_NSMainThread: 0x600003bc0000>{number = 1, name = main}
 ```
+
+下面的情况下, Swift/Objective-C 对象的销毁处理会在一个特殊的 GC 线程中调用, 而不是在主线程中:
+
+* Swift/Objective-C 对象在主线程之外的线程中传递给 Kotlin 代码.
+* 主派发队列(main dispatch queue) 没有被处理.
+
+如果你想要明确的在特殊的 GC 线程中调用销毁处理,
+请在你的 `gradle.properties` 文件中设置 `kotlin.native.binary.objcDisposeOnMain=false`.
+这个选项会允许在特殊的 GC 线程中调用销毁处理,
+即使 Swift/Objective-C 对象在主线程中传递给 Kotlin 也是如此.
+
+特殊的 GC 线程会与 Objective-C 运行库一起编译, 也就是说它拥有一个运行循环(run loop),
+以及空的自动释放池(drain autorelease pool).
 
 ### 事件完成处理器(Completion handler)
 
@@ -201,8 +210,8 @@ class KotlinStorage(var field: Any? = null) : Storage {
 
 class KotlinExample {
     fun action(firstSwiftStorage: Storage, secondSwiftStorage: Storage) {
-	// 这里, 我们创建下面的对象链:
-	// firstKotlinStorage -> firstSwiftStorage -> secondKotlinStorage -> secondSwiftStorage.
+        // 这里, 我们创建下面的对象链:
+        // firstKotlinStorage -> firstSwiftStorage -> secondKotlinStorage -> secondSwiftStorage.
         val firstKotlinStorage = KotlinStorage()
         firstKotlinStorage.store(firstSwiftStorage)
         val secondKotlinStorage = KotlinStorage()

@@ -9,10 +9,10 @@ title: "调试 Kotlin/JS 代码"
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
-JavaScript 代码映射, 提供了由打包器(bundler)或极简化器(minifier)产生的极简化代码与开发者编写的真实代码之间的对应关系.
+JavaScript 代码映射(Source Map), 提供了由打包器(bundler)或极简化器(minifier)产生的极简化代码与开发者编写的真实代码之间的对应关系.
 通过这种方式, 代码映射可以支持代码执行时的调试.
 
-Kotlin/JS Gradle plugin 它构建的项目自动生成代码映射, 不需要任何额外的配置.
+Kotlin Multiplatform Gradle plugin 会为它构建的项目自动生成代码映射, 不需要任何额外的配置.
 
 ## 在浏览器中调试
 

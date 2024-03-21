@@ -25,6 +25,7 @@ _对象表达式(object expression)_ 会为匿名类创建对象 , 匿名类就�
 如果你只是需要一个对象, 而不需要任何基类型, 可以将这个对象的成员写在 `object` 之后的大括号内:
 
 <div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+
 ```kotlin
 
 fun main() {
@@ -32,11 +33,12 @@ fun main() {
     val helloWorld = object {
         val hello = "Hello"
         val world = "World"
-        // 对象表达式扩展 Any 类型, 因此对 `toString()` 函数需要 `override`
+        // 对象表达式继承 Any 类型, 因此对 `toString()` 函数需要 `override`
         override fun toString() = "$hello $world"
     }
-//sampleEnd
+
     print(helloWorld)
+//sampleEnd
 }
 ```
 </div>
@@ -102,7 +104,7 @@ interface A {
 interface B
 
 class C {
-    // 返回类型为 Any. x 不可访问
+    // 返回类型为 Any; x 不可访问
     fun getObject() = object {
         val x: String = "x"
     }
@@ -188,12 +190,7 @@ object DefaultListener : MouseAdapter() {
 
 ### 数据对象
 
-> 数据对象声明是一个 [实验性功能](components-stability.html).
-> 它随时有可能变更或被删除.
-> 需要通过 [编译器选项](gradle/gradle-compiler-options.html) `compilerOptions.languageVersion.set(KotlinVersion.KOTLIN_1_9)` 进行使用者同意(Opt-in).
-{:.note}
-
-如果在 Kotlin 中打印一个普通的 `object` 声明, 你会注意到它的字符串表达包含对象的名称和 hash 值:
+如果在 Kotlin 中打印一个普通的 `object` 声明, 它的字符串表达包含对象的名称和 hash 值:
 
 ```kotlin
 object MyObject
@@ -203,33 +200,96 @@ fun main() {
 }
 ```
 
-和 [数据类](data-classes.html) 一样, 你可以使用 `data` 修饰符标记你的 `object` 声明,
-得到更好格式化的字符串表达, 而不必手动编写它的 `toString` 函数实现:
+和 [数据类](data-classes.html) 一样, 你可以使用 `data` 修饰符标记 `object` 声明.
+这个修饰符会让编译器为你的对象生成一系列的函数:
+
+* `toString()` 返回数据对象的名称
+* `equals()`/`hashCode()` 函数对
+
+  > 你不可以为 `data object` 的 `equals` 或 `hashCode` 函数提供自定义实现.
+  {:.note}
+
+数据对象的 `toString()` 函数会返回对象的名称:
 
 ```kotlin
-data object MyObject
-
-fun main() {
-    println(MyObject) // 输出结果为: MyObject
-}
-```
-
-[封闭类(Sealed Class)层级结构](sealed-classes.html) 很适合使用 `data object` 声明,
-你可以维持对象与其他数据类的一致性:
-
-```kotlin
-sealed class ReadResult {
-    data class Number(val value: Int): ReadResult()
-    data class Text(val value: String): ReadResult()
-    data object EndOfFile: ReadResult()
+data object MyDataObject {
+    val x: Int = 3
 }
 
 fun main() {
-    println(ReadResult.Number(1)) // 输出结果为: Number(value=1)
-    println(ReadResult.Text("Foo")) // 输出结果为: Text(value=Foo)
-    println(ReadResult.EndOfFile) // 输出结果为: EndOfFile
+    println(MyDataObject) // 输出结果为 MyDataObject
 }
 ```
+
+`data object` 的 `equals()` 函数会保证你的 `data object` 的所有对象都被看作相等.
+大多数情况下, 你的数据对象在运行期只会存在单个实例 (毕竟, `data object` 声明的就是一个单子(singleton)).
+但是, 在某些特殊情况下, 也可以在运行期生成相同类型的其他对象 (例如, 通过 `java.lang.reflect` 使用平台的反射功能, 或通过底层使用了这个 API 的 JVM 序列化库),
+这个功能可以确保这些对象被当作相等.
+
+> 请确保只对 `data objects` 进行结构化的相等比较 (使用 `==` 操作符), 而不要进行引用相等比较 (使用 `===` 操作符).
+> 如果数据对象在运行期有一个以上的实例存在, 这样可以帮助你避免错误.
+{:.warning}
+
+```kotlin
+import java.lang.reflect.Constructor
+
+data object MySingleton
+
+fun main() {
+    val evilTwin = createInstanceViaReflection()
+
+    println(MySingleton) // 输出结果为 MySingleton
+    println(evilTwin) // 输出结果为 MySingleton
+
+    // 即使一个库强行创建了 MySingleton 的第二个实例, 它的 `equals` 方法也会返回 true:
+    println(MySingleton == evilTwin) // 输出结果为 true
+
+    // 不要使用 === 比较数据对象.
+    println(MySingleton === evilTwin) // 输出结果为 false
+}
+
+fun createInstanceViaReflection(): MySingleton {
+    // Kotlin 的反射功能不允许创建数据对象的实例.
+    // 这段代码 "强行" 创建新的 MySingleton 实例 (也就是通过 Java 平台的反射功能)
+    // 在你的代码中一定不要这样做!
+    return (MySingleton.javaClass.declaredConstructors[0].apply { isAccessible = true } as Constructor<MySingleton>).newInstance()
+}
+```
+
+编译器生成的 `hashCode()` 函数的行为与 `equals()` 函数保持一致, 因此一个 `data object` 的所有运行期实例都拥有相同的 hash 值.
+
+#### 数据对象与数据类的不同
+
+尽管 `data object` 和 `data class` 声明经常一起使用, 而且很相似, 但对于 `data object` 有一些函数没有生成:
+
+* 没有 `copy()` 函数.
+  因为 `data object` 声明通常用作单子对象, 因此不会生成 `copy()` 函数.
+  这种单子模式将一个类限定为只有单个实例, 如果允许创建实例的拷贝, 就破坏了只存在单个实例的原则.
+* 没有 `componentN()` 函数.
+  与 `data class` 不同, `data object` 没有任何数据属性.
+  对这种没有数据属性的对象进行解构是没有意义的, 因此不会生成 `componentN()` 函数.
+
+#### 在封闭层级结构(Sealed Hierarchy)中使用数据对象
+
+数据对象声明非常适合在封闭层级结构(Sealed Hierarchy) 中使用, 例如 [封闭类或封闭接口](sealed-classes.html),
+这样的方式允许你声明数据类和数据对象, 并保持对称性.
+在这个示例中, 将 `EndOfFile` 声明为 `data object`, 而不是普通的 `object`,
+代表它自动拥有 `toString()` 函数, 不需要手动的覆盖这个函数:
+
+<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3" id="data-objects-sealed-hierarchies">
+
+```kotlin
+sealed interface ReadResult
+data class Number(val number: Int) : ReadResult
+data class Text(val text: String) : ReadResult
+data object EndOfFile : ReadResult
+
+fun main() {
+    println(Number(7)) // 输出结果为 Number(number=7)
+    println(EndOfFile) // 输出结果为 EndOfFile
+}
+```
+</div>
 
 ### 同伴对象(Companion Object)
 

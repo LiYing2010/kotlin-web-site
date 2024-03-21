@@ -19,15 +19,21 @@ title: "进度保证"
 ModelCheckingOptions().checkObstructionFreedom()
 ```
 
-以 Java 标准库中的 `ConcurrentHashMap<K, V>` 为例.
-下面是一个 Lincheck 测试, 能够发现 `put(key: K, value: V)` 是一个阻塞操作:
+创建一个 `ConcurrentMapTest.kt` 文件.
+然后添加下面的测试代码, 它能够检测出 Java 标准库中的 `ConcurrentHashMap::put(key: K, value: V)` 是一个阻塞操作:
 
 ```kotlin
+import org.jetbrains.kotlinx.lincheck.*
+import org.jetbrains.kotlinx.lincheck.annotations.*
+import org.jetbrains.kotlinx.lincheck.strategy.managed.modelchecking.*
+import org.junit.*
+import java.util.concurrent.*
+
 class ConcurrentHashMapTest {
     private val map = ConcurrentHashMap<Int, Int>()
 
     @Operation
-    public fun put(key: Int, value: Int) = map.put(key, value)
+    fun put(key: Int, value: Int) = map.put(key, value)
 
     @Test
     fun modelCheckingTest() = ModelCheckingOptions()
@@ -44,40 +50,48 @@ class ConcurrentHashMapTest {
 
 ```text
 = Obstruction-freedom is required but a lock has been found =
-Execution scenario (init part):
-[put(2, 6)]
-Execution scenario (parallel part):
-| put(-6, -8) | put(1, 4) |
+| ---------------------- |
+|  Thread 1  | Thread 2  |
+| ---------------------- |
+| put(1, -1) |           |
+| ---------------------- |
+| put(2, -2) | put(3, 2) |
+| ---------------------- |
 
-= The following interleaving leads to the error =
-Parallel part trace:
-|                                                                                          | put(1, 4)                                                                                |
-|                                                                                          |   put(1,4) at ConcurrentHashMapTest.put(ConcurrentMapTest.kt:34)                         |
-|                                                                                          |     putVal(1,4,false) at ConcurrentHashMap.put(ConcurrentHashMap.java:1006)              |
+---
+All operations above the horizontal line | ----- | happen before those below the line
+---
+
+The following interleaving leads to the error:
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|                                         Thread 1                                         |                                         Thread 2                                         |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|                                                                                          | put(3, 2)                                                                                |
+|                                                                                          |   put(3,2) at ConcurrentHashMapTest.put(ConcurrentMapTest.kt:11)                         |
+|                                                                                          |     putVal(3,2,false) at ConcurrentHashMap.put(ConcurrentHashMap.java:1006)              |
 |                                                                                          |       table.READ: Node[]@1 at ConcurrentHashMap.putVal(ConcurrentHashMap.java:1014)      |
 |                                                                                          |       tabAt(Node[]@1,0): Node@1 at ConcurrentHashMap.putVal(ConcurrentHashMap.java:1018) |
 |                                                                                          |       MONITORENTER at ConcurrentHashMap.putVal(ConcurrentHashMap.java:1031)              |
 |                                                                                          |       tabAt(Node[]@1,0): Node@1 at ConcurrentHashMap.putVal(ConcurrentHashMap.java:1032) |
 |                                                                                          |       next.READ: null at ConcurrentHashMap.putVal(ConcurrentHashMap.java:1046)           |
 |                                                                                          |       switch                                                                             |
-| put(-6, -8)                                                                              |                                                                                          |
-|   put(-6,-8) at ConcurrentHashMapTest.put(ConcurrentMapTest.kt:34)                       |                                                                                          |
-|     putVal(-6,-8,false) at ConcurrentHashMap.put(ConcurrentHashMap.java:1006)            |                                                                                          |
+| put(2, -2)                                                                               |                                                                                          |
+|   put(2,-2) at ConcurrentHashMapTest.put(ConcurrentMapTest.kt:11)                        |                                                                                          |
+|     putVal(2,-2,false) at ConcurrentHashMap.put(ConcurrentHashMap.java:1006)             |                                                                                          |
 |       table.READ: Node[]@1 at ConcurrentHashMap.putVal(ConcurrentHashMap.java:1014)      |                                                                                          |
 |       tabAt(Node[]@1,0): Node@1 at ConcurrentHashMap.putVal(ConcurrentHashMap.java:1018) |                                                                                          |
 |       MONITORENTER at ConcurrentHashMap.putVal(ConcurrentHashMap.java:1031)              |                                                                                          |
-|                                                                                          |       MONITOREXIT at ConcurrentHashMap.putVal(ConcurrentHashMap.java:1065)               |
-
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 ```
 
-下面我们来为非阻塞的 `ConcurrentSkipListMap<K, V>` 编写一个测试, 这个测试应该成功通过:
+下面我们来为非阻塞的 `ConcurrentSkipListMap<K, V>` 添加一个测试, 这个测试应该成功通过:
 
 ```kotlin
 class ConcurrentSkipListMapTest {
     private val map = ConcurrentSkipListMap<Int, Int>()
 
     @Operation
-    public fun put(key: Int, value: Int) = map.put(key, value)
+    fun put(key: Int, value: Int) = map.put(key, value)
 
     @Test
     fun modelCheckingTest() = ModelCheckingOptions()

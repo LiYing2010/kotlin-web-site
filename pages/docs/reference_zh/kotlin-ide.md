@@ -6,14 +6,14 @@ title: "支持 Kotlin 开发的 IDE"
 ---
 
 # 支持 Kotlin 开发的 IDE
-[//]: # (description: JetBrains provides Kotlin plugin support for IntelliJ IDEA and Android Studio. Eclipse has the community supported Kotlin plugin.)
+[//]: # (description: JetBrains provides Kotlin plugin support for IntelliJ IDEA, Fleet and Android Studio. Eclipse has the community supported Kotlin plugin.)
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
-JetBrains 为 2 种集成开发环境(IDE)提供了官方的 Kotlin plugin:
-[IntelliJ IDEA](#intellij-idea) 和 [Android Studio](#android-studio).
+JetBrains 为 [IntelliJ IDEA](#intellij-idea), [JetBrains Fleet](#fleet), 和 [Android Studio](#android-studio)
+提供了官方的 Kotlin plugin.
 
-其他 IDE 和源代码编辑器, 比如 [Eclipse](#eclipse), Visual Studio Code, 和 Atom, 也有 Kotlin 社区支持的 plugin.
+其他 IDE 和代码编辑器, 比如 [Eclipse](#eclipse), Visual Studio Code, 和 Atom, 也有 Kotlin 社区支持的 plugin.
 
 ## IntelliJ IDEA
 
@@ -24,6 +24,24 @@ JetBrains 为 2 种集成开发环境(IDE)提供了官方的 Kotlin plugin:
 Kotlin plugin 包含在 IntelliJ IDEA 的每个发布版内.
 
 关于 IntelliJ IDEA, 详情请参见 [官方文档](https://www.jetbrains.com/help/idea/discover-intellij-idea.html).
+
+## Fleet
+
+> JetBrains Fleet 目前是 Public Preview 状态, 可以自由使用.
+{:.note}
+
+[JetBrains Fleet](https://www.jetbrains.com/fleet/) 是一个支持多种语言的 IDE 和代码编辑器, 为 Kotlin 提供高级支持,
+对 Kotlin 开发者提供流畅的开发体验.
+你可以使用 Fleet 作为代码编辑器, 以便快速修改代码,
+也可以打开 Smart Mode, 将它变成一个功能完备的 IDE, 包含智能代码提示功能.
+
+各个 Fleet 发布版都包含了 Kotlin plugin.
+
+Fleet 也支持 Kotlin Multiplatform 项目, 目标平台包括 Android, iOS, 以及 Desktop 平台, 支持代码的测试和调试.
+Fleet 的 Smart Mode 会选择适当的代码处理引擎, 并可以在 Kotlin Multiplatform 代码
+和其他能与 Kotlin 互操作的语言编写的代码之间, 进行代码导航.
+
+Fleet 的使用入门, 请参见教程 [使用 Fleet 进行跨平台开发](https://www.jetbrains.com/help/kotlin-multiplatform-dev/fleet.html).
 
 ## Android Studio
 
@@ -49,7 +67,7 @@ Kotlin 开发组管理 Kotlin plugin for Eclipse 的开发和贡献过程.
 
 ## 与 Kotlin 语言各版本的兼容性
 
-对于 IntelliJ IDEA 和 Android Studio, Kotlin plugin 包含在 IDE 的各个发布版之内.
+对于 IntelliJ IDEA, Fleet 和 Android Studio, Kotlin plugin 包含在 IDE 的各个发布版之内.
 新的 Kotlin 版本发布之后, 这些 IDE 会自动建议更新 Kotlin 到最新的版本.
 关于各个 IDE 支持的最新的语言版本, 请参见 [Kotlin 的发布版本](releases.html#ide-support).
 
@@ -72,5 +90,6 @@ Kotlin [GitHub 发布页面]({{ site.data.releases.latest.url }})
 ## 下一步做什么?
 
 * [使用 IntelliJ IDEA IDE 创建你的第一个项目](jvm/jvm-get-started.html)
-* [使用 Android Studio 创建你的第一个跨平台移动应用程序](multiplatform-mobile/multiplatform-mobile-create-first-app.html)
+* [使用 Fleet 创建 Multiplatform 项目](https://www.jetbrains.com/help/kotlin-multiplatform-dev/fleet.html)
+* [使用 Android Studio 创建你的第一个跨平台移动应用程序](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-create-first-app.html)
 * 学习如何 [安装 Kotlin plugin 的 EAP 版本](install-eap-plugin.html)

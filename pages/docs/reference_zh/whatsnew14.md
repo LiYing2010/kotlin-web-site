@@ -1,10 +1,10 @@
 ---
 type: doc
 layout: reference
-title: "Kotlin 1.4 版中的新功能"
+title: "Kotlin 1.4.0 版中的新功能"
 ---
 
-# Kotlin 1.4 版中的新功能
+# Kotlin 1.4.0 版中的新功能
 
 最终更新: {{ site.data.releases.latestDocDate }}
 
@@ -330,7 +330,7 @@ fun test(xs: List<Int>) {
 你可以学习以下教程来试用新的 Kotlin 项目向导:
 
 * [创建一个基于 Kotlin/JVM 的控制台应用程序](jvm/jvm-get-started.html)
-* [创建一个针对 React 的 Kotlin/JS 应用程序](js/js-get-started.html)
+* [创建一个针对 React 的 Kotlin/JS 应用程序](js/js-react.html)
 * [创建一个 Kotlin/Native 应用程序](native/native-get-started.html)
 
 ### 协程调试器
@@ -675,7 +675,6 @@ class A {
 关于 npm 包的依赖项管理, 更多详情请阅读 [直接使用 Gradle 管理 npm 的包依赖项目](js/js-project-setup.html#npm-dependencies).
 - 对 Kotlin 外部声明生成器 [Dukat](https://github.com/Kotlin/dukat) 提供了更强的集成.
 外部声明现在可以在构建时期生成, 也可以通过 Gradle 任务手动生成.
-关于如何使用这个集成功能, 更多详情请阅读 [如何使用集成功能](js/js-external-declarations-with-dukat.html).
 
 ### 新的 JS IR 后端
 
@@ -691,7 +690,7 @@ class A {
 ```groovy
 kotlin {
     js(IR) { // 或者使用: LEGACY, BOTH
-        // . . .
+        // ...
     }
     binaries.executable()
 }
@@ -864,7 +863,7 @@ Kotlin/Native 完成了很多性能改进, 提高了开发速度, 也提高了�
 在以前的版本中, 添加到跨平台项目的代码, 可以放在平台相关的源代码集中, 只限于一个编译目标使用, 不能被其他任何平台重用,
 也可以放在共通源代码集中, 比如 `commonMain` 或 `commonTest`, 被项目中的所有平台共用.
 在共通源代码集中, 你只能通过使用
-[`expect` 声明(需要对应的平台相关的 `actual` 实现)](multiplatform/multiplatform-connect-to-apis.html) 来调用平台相关的 API.
+[`expect` 声明(需要对应的平台相关的 `actual` 实现)](multiplatform/multiplatform-expect-actual.html) 来调用平台相关的 API.
 
 通过这种机制很容易实现 [在所有的平台上共用代码](multiplatform/multiplatform-share-on-platforms.html#share-code-on-all-platforms),
 但不容易 [只在一部分编译目标中共用代码](multiplatform/multiplatform-share-on-platforms.html#share-code-on-similar-platforms),
@@ -882,9 +881,7 @@ Kotlin/Native 完成了很多性能改进, 提高了开发速度, 也提高了�
 现在你可以通过 [层级项目结构](multiplatform/multiplatform-share-on-platforms.html#share-code-on-similar-platforms) 来实现这样的代码共用,
 它能够通过使用源代码集合的编译目标, 来推断和适用各个源代码集中可用的 API 和语言功能特性.
 
-对于共通的编译目标组合, 你可以使用 [编译目标的简写(shortcut)](multiplatform/multiplatform-share-on-platforms.html#use-target-shortcuts) 创建层级结构.
-
-
+对于共通的编译目标组合, 你可以使用编译目标的简写(shortcut)来创建层级结构.
 比如, 可以通过 `ios()` 简写, 创建上面例子中的 2 个 iOS 编译目标以及共用的源代码集:
 
 ```kotlin
@@ -894,9 +891,9 @@ kotlin {
 ```
 
 关于编译目标的其他组合, 请使用 `dependsOn` 关系连接源代码集,
-来 [手动创建层级结构](multiplatform/multiplatform-share-on-platforms.html#configure-the-hierarchical-structure-manually).
+来 [手动创建层级结构](multiplatform/multiplatform-hierarchy.html#manual-configuration).
 
-![层级结构]({{ url_for('asset', path='docs/images/multiplatform/hierarchical-structure.png') }})
+![层级结构]({{ url_for('asset', path='docs/images/multiplatform/manual-hierarchical-structure.png') }})
 
 <div class="multi-language-sample" data-lang="groovy">
 <div class="sample" markdown="1" theme="idea" mode="groovy" data-highlight-only>
@@ -954,12 +951,12 @@ kotlin{
 
 ### 在层级结构中使用原生库
 
-在几个原生编译目标间共用的源代码集中, 可以使用平台依赖的库, 比如 `Foundation`, `UIKit`, 和 `POSIX`.
+在几个原生编译目标间共用的源代码集中, 可以使用平台依赖的库, 比如 Foundation, UIKit, 和 POSIX.
 这个功能可以帮助你共用更多的原生代码, 不受平台相关依赖项的限制.
 
 不需要额外的步骤 – 所有事情都会自动完成. IntelliJ IDEA 会帮助你发现可以在共用代码中使用的共通声明.
 
-更多详情请参见 [使用平台依赖的库](multiplatform/multiplatform-share-on-platforms.html#use-native-libraries-in-the-hierarchical-structure).
+更多详情请参见 [使用平台依赖的库](multiplatform/multiplatform-share-on-platforms.html#connect-platform-specific-libraries).
 
 ### 依赖项只需要指定一次
 

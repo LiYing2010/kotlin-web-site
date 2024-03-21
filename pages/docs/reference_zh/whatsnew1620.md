@@ -506,13 +506,14 @@ Kotlin 1.6.20 默认启用层级结构支持.
 这个技术对于 [库作者](#more-opportunities-for-library-authors) 也很方便, 因为层级项目结构允许他们对一部分编译目标发布和使用带有共通 API 的库.
 
 默认情况下, 使用层级项目结构发布的库只兼容于层级结构的项目.
-详情请参见 [项目与库的兼容性](multiplatform/multiplatform-hierarchy.html#compatibility).
 
 #### 在你的项目中更好的共用代码 
 
 没有层级结构支持, 就没有直接的方法在 _一部分_ 而不是在 _所有_
 [Kotlin 编译目标](multiplatform/multiplatform-dsl-reference.html#targets) 中共用代码.
-一个常见的例子是, 对所有的 iOS 编译目标共用代码, 并使用 iOS 专有的 [依赖项](multiplatform/multiplatform-share-on-platforms.html#use-native-libraries-in-the-hierarchical-structure), 比如 `Foundation`.
+一个常见的例子是, 对所有的 iOS 编译目标共用代码,
+并使用 iOS 专有的 [依赖项](multiplatform/multiplatform-share-on-platforms.html#connect-platform-specific-libraries),
+比如 Foundation.
 
 感谢层级项目结构, 你现在可以直接达到这个目的.
 在新的结构中, 源代码集组成一个层级结构.
@@ -549,7 +550,7 @@ Kotlin 工具链会提供正确的默认依赖项, 比如 Kotlin/Native 标准�
 * 对于 Kotlin 1.6.20, 我们建议使用 [Android Studio 2021.1.1](https://developer.android.com/studio) (Bumblebee) 或更高版本,
   以获得最好的开发体验.
 
-* 你可以也选择性禁用(opt-out)这个功能. 要禁用层级结构支持, 请在 `gradle.properties` 中设置以下选项:
+* 你可以也选择性禁用(opt out)这个功能. 要禁用层级结构支持, 请在 `gradle.properties` 中设置以下选项:
 
   ```none
   # gradle.properties
@@ -898,7 +899,7 @@ tasks.withType<KotlinCompile>().configureEach {
 
 * 我们废弃了使用 `kapt.use.worker.api` 来通过 Kotlin daemon 运行 [kapt](kapt.html) 的功能 –
   现在这个选项会在 Gradle 的输出中产生一条警告信息. 
-  默认情况下, 从 1.3.70 版开始 [kapt 使用 Gradle worker](kapt.html#running-kapt-tasks-in-parallel), 我们建议继续使用这种方法.
+  默认情况下, 从 1.3.70 版开始 [kapt 使用 Gradle worker](kapt.html#run-kapt-tasks-in-parallel), 我们建议继续使用这种方法.
 
   我们将会在未来的发布版中删除选项 `kapt.use.worker.api`.
 

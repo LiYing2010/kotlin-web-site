@@ -21,7 +21,7 @@ Kotlin 提供了一组内建数据类型来表达数值.
 | `Int`	 | 32        |-2,147,483,648 (-2<sup>31</sup>)| 2,147,483,647 (2<sup>31</sup> - 1)|
 | `Long`	 | 64        |-9,223,372,036,854,775,808 (-2<sup>63</sup>)|9,223,372,036,854,775,807 (2<sup>63</sup> - 1)|
 
-如果你初始化一个变量, 不明确指定类型, 编译器会自动推断类型, 使用足够表达这个值的最小的整数范围.
+如果你初始化一个变量, 不明确指定类型, 编译器会自动推断类型, 使用从 `Int` 开始、足够表达这个值的最小的整数范围.
 如果值没有超过 `Int` 类型的最大范围, 那么类型会推断为 `Int`. 如果超过, 那么类型将是 `Long`.
 如果要明确指明一个数值是 `Long` 类型, 请在数值末尾添加 `L` 后缀.
 如果明确指定类型, 编译器会检查值有没有超过指定类型的最大范围.
@@ -185,19 +185,11 @@ print(b == a) // 结果与你期望的相反! 这句代码打印的结果将是 
 由于存在以上问题, Kotlin 中较小的数据类型  _不会隐式地转换为_ 较大的数据类型.
 也就是说, 要将一个 `Byte` 类型值赋给一个 `Int` 类型的变量需要进行显式类型转换:
 
-<div class="sample" markdown="1" theme="idea">
-
 ```kotlin
-fun main() {
-//sampleStart
-    val b: Byte = 1 // 这是 OK 的, 因为编译器会对字面值进行静态检查
-    // val i: Int = b // 编译错误
-    val i1: Int = b.toInt()
-//sampleEnd
-}
+val b: Byte = 1 // 这是 OK 的, 因为编译器会对字面值进行静态检查
+// val i: Int = b // 编译错误
+val i1: Int = b.toInt()
 ```
-
-</div>
 
 所有的数值类型都可以转换为其他类型:
 
@@ -317,11 +309,39 @@ val x = (1 shl 2) and 0x000FF000
 (比如, 类型明确声明为浮点值, 或者由编译器推断为浮点值, 或者通过[智能类型转换](typecasts.html#smart-casts)变为浮点值),
 那么此时对这些数值, 或由这些数值构成的范围的操作, 将遵循 [IEEE 754 浮点数值运算标准](https://en.wikipedia.org/wiki/IEEE_754).
 
-但是, 为了支持使用泛型的情况, 并且支持完整的排序功能, 如果操作数 **不能** 静态地判定为浮点值类型
-(例如, `Any`, `Comparable<...>`, 或者类型参数),
-此时对这些浮点值的操作将使用 `Float` 和 `Double` 类中实现的 `equals` 和 `compareTo` 方法,
-这些方法不符合 IEEE 754 浮点数值运算标准, 因此:
+但是, 为了支持使用泛型的情况, 并且支持完整的排序功能, 如果操作数 **不能** 静态地判定为浮点值类型, 那么判定结果会不同.
+例如, `Any`, `Comparable<...>`, 或 `Collection<T>` 类型.
+对于这样的情况, 对这些浮点值的操作将使用 `Float` 和 `Double` 类中实现的 `equals` 和 `compareTo` 方法.
+因此判定结果是:
 
 * `NaN` 会被判定为等于它自己
 * `NaN` 会被判定为大于任何其他数值, 包括正无穷大(`POSITIVE_INFINITY`)
 * `-0.0` 会被判定为小于 `0.0`
+
+下面是一段的示例程序, 演示静态地判定为浮点值类型的操作数(`Double.NaN`)
+与 **不能** 静态地判定为浮点值类型的操作数 (`listOf(T)`) 之间的动作差别.
+
+<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+
+```kotlin
+fun main() {
+    //sampleStart
+    // 操作数静态地判定为浮点值类型
+    println(Double.NaN == Double.NaN)                 // 输出结果为 false
+    // 操作数 不能 静态地判定为浮点值类型
+    // 因此 NaN 等于它自己
+    println(listOf(Double.NaN) == listOf(Double.NaN)) // 输出结果为 true
+
+    // 操作数静态地判定为浮点值类型
+    println(0.0 == -0.0)                              // 输出结果为 true
+    // 操作数 不能 静态地判定为浮点值类型
+    // 因此 -0.0 小于 0.0
+    println(listOf(0.0) == listOf(-0.0))              // 输出结果为 false
+
+    println(listOf(Double.NaN, Double.POSITIVE_INFINITY, 0.0, -0.0).sorted())
+    // 输出结果为 [-0.0, 0.0, Infinity, NaN]
+    //sampleEnd
+}
+```
+
+</div>

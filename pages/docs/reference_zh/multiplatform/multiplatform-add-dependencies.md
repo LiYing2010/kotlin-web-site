@@ -11,7 +11,7 @@ title: "添加跨平台库依赖项"
 每个应用程序都需要一组库才能正常工作.
 一个 Kotlin Multiplatform 项目可以依赖于可以在所有平台工作的跨平台库, 平台相关的库, 还可以依赖于其他跨平台项目.
 
-要在一个库中添加依赖项, 需要更新你的项目的 `shared` 目录中的 `build.gradle(.kts)` 文件.
+要在一个库中添加依赖项, 需要更新你的项目包含共用代码的目录中的 `build.gradle(.kts)` 文件.
 在 [`dependencies`](multiplatform-dsl-reference.html#dependencies) 代码段内,
 设置必要 [类型](../gradle/gradle-configure-project.html#dependency-types) 的依赖项 (比如, `implementation`):
 
@@ -21,10 +21,8 @@ title: "添加跨平台库依赖项"
 ```kotlin
 kotlin {
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation("com.example:my-library:1.0") // 对所有源代码集共用的库
-            }
+        commonMain.dependencies {
+            implementation("com.example:my-library:1.0") // 对所有源代码集共用的库
         }
     }
 }
@@ -69,10 +67,42 @@ Kotlin Gradle plugin 会根据你的 Gradle 构建脚本的
 
 ### 测试库
 
-跨平台的测试程序可以使用 [`kotlin.test` API](https://kotlinlang.org/api/latest/kotlin.test/).
-当你 [创建跨平台项目](multiplatform-library.html) 时, 对共通源代码集和平台相关的源代码集, 项目创建向导会自动添加测试库依赖项.
+对于跨平台的测试, 可以使用 [`kotlin.test`](https://kotlinlang.org/api/latest/kotlin.test/) API.
+当你创建跨平台项目时, 你可以在 `commonTest` 中使用一个依赖项, 对所有的源代码集添加测试依赖项:
 
-如果创建项目时没有使用项目创建向导, 你也可以 [手动添加依赖项](../gradle/gradle-configure-project.html#set-dependencies-on-test-libraries).
+<div class="multi-language-sample" data-lang="kotlin">
+<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+```kotlin
+kotlin {
+    sourceSets {
+        commonTest.dependencies {
+            implementation(kotlin("test")) // 会自动引入所有的平台依赖项
+        }
+    }
+}
+```
+
+</div>
+</div>
+
+<div class="multi-language-sample" data-lang="groovy">
+<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+```groovy
+kotlin {
+    sourceSets {
+        commonTest {
+            dependencies {
+                implementation kotlin("test") // 会自动引入所有的平台依赖项
+            }
+        }
+    }
+}
+```
+
+</div>
+</div>
 
 ## kotlinx 库
 
@@ -85,10 +115,8 @@ Kotlin Gradle plugin 会根据你的 Gradle 构建脚本的
 ```kotlin
 kotlin {
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:{{ site.data.releases.latest.coroutines.version }}")
-            }
+        commonMain.dependencies {
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:{{ site.data.releases.latest.coroutines.version }}")
         }
     }
 }
@@ -123,10 +151,8 @@ kotlin {
 ```kotlin
 kotlin {
     sourceSets {
-        val jvmMain by getting {
-            dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:{{ site.data.releases.latest.coroutines.version }}")
-            }
+        jvmMain.dependencies {
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:{{ site.data.releases.latest.coroutines.version }}")
         }
     }
 }
@@ -176,15 +202,11 @@ Kotlin Multiplatform Mobile plugin 会对所有其他源代码集自动添加对
 ```kotlin
 kotlin {
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation("io.ktor:ktor-client-core:{{ site.data.releases.ktorVersion }}")
-            }
+        commonMain.dependencies {
+            implementation("io.ktor:ktor-client-core:{{ site.data.releases.ktorVersion }}")
         }
-        val androidMain by getting {
-            dependencies {
-                // 对 ktor-client 库的平台相关部分的依赖项, 会自动添加
-            }
+        androidMain.dependencies {
+            // 对 ktor-client 库的平台相关部分的依赖项, 会自动添加
         }
     }
 }
@@ -221,7 +243,9 @@ kotlin {
 如果你只想对特定的源代码集使用一个跨平台库, 你可以只在这些源代码集中添加它的依赖项.
 特定库中的声明, 将只能在这些源代码集中使用.
 
-> 这种情况下不要使用平台相关的名称, 比如下面示例中的 SQLDelight `native-driver`. 请到库的文档中查找确切的名称.
+> 这种情况下请使用库的通用名称, 而不要使用平台相关的名称,
+> 比如对下面示例中的 SQLDelight, 请使用 `native-driver`, 而不要使用 `native-driver-iosx64`.
+> 请到库的文档中查找确切的名称.
 {:.note}
 
 <div class="multi-language-sample" data-lang="kotlin">
@@ -230,20 +254,16 @@ kotlin {
 ```kotlin
 kotlin {
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                // kotlinx.coroutines 可以在所有源代码集中使用
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:{{ site.data.releases.latest.coroutines.version }}")
-            }
+        commonMain.dependencies {
+            // kotlinx.coroutines 可以在所有源代码集中使用
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:{{ site.data.releases.latest.coroutines.version }}")
         }
-        val androidMain by getting {
-            dependencies {}
+        androidMain.dependencies {
+
         }
-        val iosMain by getting {
-            dependencies {
-                // SQLDelight 只在 iOS 源代码集中可以使用, 但在 Android 源代码集或共通源代码集不可使用
-                implementation("com.squareup.sqldelight:native-driver:{{ site.data.releases.sqlDelightVersion }}")
-            }
+        iosMain.dependencies {
+            // SQLDelight 只在 iOS 源代码集中可以使用, 但在 Android 源代码集或共通源代码集不可使用
+            implementation("com.squareup.sqldelight:native-driver:{{ site.data.releases.sqlDelightVersion }}")
         }
     }
 }
@@ -280,13 +300,6 @@ kotlin {
 </div>
 </div>
 
-> 如果在一个支持层级结构的跨平台项目中, 使用一个不支持 [层级结构](multiplatform-share-on-platforms.html#share-code-on-similar-platforms) 的跨平台库,
-> 那么对于共用的 iOS 源代码集, 你将不能使用某些 IDE 功能, 比如代码完成与高亮度显示.
->
-> 这是一个 [已知的问题](https://youtrack.jetbrains.com/issue/KT-40975), 我们正在解决.
-> 目前, 你可以使用 [这个变通办法](../multiplatform-mobile/multiplatform-mobile-ios-dependencies.html#workaround-to-enable-ide-support-for-the-shared-ios-source-set).
-{:.note}
-
 ## 对其他跨平台项目的依赖项
 
 你可以将一个跨平台项目作为另一个项目的依赖项. 要实现这个目的, 只需要简单的向需要的源代码集添加一个项目依赖项.
@@ -299,15 +312,11 @@ kotlin {
 ```kotlin
 kotlin {
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(project(":some-other-multiplatform-module"))
-            }
+        commonMain.dependencies {
+            implementation(project(":some-other-multiplatform-module"))
         }
-        val androidMain by getting {
-            dependencies {
-                // :some-other-multiplatform-module 的平台相关部分, 会自动添加
-            }
+        androidMain.dependencies {
+            // :some-other-multiplatform-module 的平台相关部分, 会自动添加
         }
     }
 }
@@ -343,5 +352,5 @@ kotlin {
 
 查看跨平台项目中添加依赖项的其他资料, 并学习以下内容:
 
-* [添加 Android 依赖项](../multiplatform-mobile/multiplatform-mobile-android-dependencies.html)
-* [添加 iOS 依赖项](../multiplatform-mobile/multiplatform-mobile-ios-dependencies.html)
+* [添加 Android 依赖项](../multiplatform/multiplatform-android-dependencies.html)
+* [添加 iOS 依赖项](../multiplatform/multiplatform-ios-dependencies.html)

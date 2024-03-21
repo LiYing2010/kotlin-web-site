@@ -15,22 +15,8 @@ title: "使用 Lincheck 编写你的第一个测试"
 
 ## 创建一个项目
 
-1. 在 IntelliJ IDEA 中, 打开一个既有的 Kotlin 项目, 或 [创建一个新项目](../jvm/jvm-get-started.html).
+在 IntelliJ IDEA 中, 打开一个既有的 Kotlin 项目, 或 [创建一个新项目](../jvm/jvm-get-started.html).
 创建项目时, 使用 Gradle 构建系统.
-2. 在 `src/main/kotlin` 目录中, 打开 `main.kt` 文件.
-3. 将 `main.kt` 中的代码, 替换为以下计数器实现:
-
-    ```kotlin
-    class Counter {
-        @Volatile
-        private var value = 0
-   
-        fun inc(): Int = ++value
-        fun get() = value
-    }
-    ```
-
-   你的 Lincheck 测试将会检查 计数器是否线程安全.
 
 ## 添加需要的依赖项
 
@@ -75,9 +61,9 @@ title: "使用 Lincheck 编写你的第一个测试"
    </div>
    </div>
 
-## 编写并运行测试
+## 编写一个并发的计数器, 并运行测试
 
-1. 在 `src/test/kotlin` 目录中, 创建 `BasicCounterTest.kt` 文件, 并添加以下代码:
+1. 在 `src/test/kotlin` 目录中, 创建 `BasicCounterTest.kt` 文件, 并添加以下代码, 这是一个有 bug 的并发计数器, 然后为它编写一个 Lincheck 测试:
 
    ```kotlin
    import org.jetbrains.kotlinx.lincheck.annotations.*
@@ -109,7 +95,7 @@ title: "使用 Lincheck 编写你的第一个测试"
    ```
 
    Lincheck 测试会自动完成以下工作: 
-   * 使用指定的 `inc()` 和 `dec()` 操作生成一些随机的并发场景.
+   * 使用指定的 `inc()` 和 `get()` 操作生成一些随机的并发场景.
    * 对生成的每个场景执行一系列调用.
    * 验证每个调用的结果是否正确.
 
@@ -117,8 +103,11 @@ title: "使用 Lincheck 编写你的第一个测试"
 
    ```text
    = Invalid execution results =
-   Parallel part:
+   | ------------------- |
+   | Thread 1 | Thread 2 |
+   | ------------------- |
    | inc(): 1 | inc(): 1 |
+   | ------------------- |
    ```
 
    这里, Lincheck 发现了测试运行结果违反了计数器的原子性 – 两个并发的增加操作返回了相同的结果 `1` .
@@ -137,7 +126,6 @@ title: "使用 Lincheck 编写你的第一个测试"
    import org.jetbrains.kotlinx.lincheck.annotations.*
    import org.jetbrains.kotlinx.lincheck.check
    import org.jetbrains.kotlinx.lincheck.strategy.managed.modelchecking.*
-   import org.jetbrains.kotlinx.lincheck.verifier.*
    import org.junit.*
    
    class Counter {
@@ -152,7 +140,7 @@ title: "使用 Lincheck 编写你的第一个测试"
        private val c = Counter()
    
        @Operation
-       fun getAndInc() = c.getAndInc()
+       fun inc() = c.inc()
    
        @Operation
        fun get() = c.get()
@@ -166,20 +154,25 @@ title: "使用 Lincheck 编写你的第一个测试"
 
    ```text
    = Invalid execution results =
-   Parallel part:
+   | ------------------- |
+   | Thread 1 | Thread 2 |
+   | ------------------- |
    | inc(): 1 | inc(): 1 |
-   = The following interleaving leads to the error =
-   Parallel part trace:
-   |                      | inc()                                                      |
-   |                      |   inc(): 1 at BasicCounterTest.inc(BasicCounterTest.kt:11) |
-   |                      |     value.READ: 0 at Counter.inc(Counter.kt:5)             |
-   |                      |     switch                                                 |
-   | inc(): 1             |                                                            |
-   |   thread is finished |                                                            |
-   |                      |     value.WRITE(1) at Counter.inc(Counter.kt:5)            |
-   |                      |     value.READ: 1 at Counter.inc(Counter.kt:5)             |
-   |                      |   result: 1                                                |
-   |                      |   thread is finished                                       |
+   | ------------------- |
+   
+   The following interleaving leads to the error:
+   | --------------------------------------------------------------------- |
+   | Thread 1 |                          Thread  2                         |
+   | --------------------------------------------------------------------- |
+   |          | inc()                                                      |
+   |          |   inc(): 1 at BasicCounterTest.inc(BasicCounterTest.kt:18) |
+   |          |     value.READ: 0 at Counter.inc(BasicCounterTest.kt:10)   |
+   |          |     switch                                                 |
+   | inc(): 1 |                                                            |
+   |          |     value.WRITE(1) at Counter.inc(BasicCounterTest.kt:10)  |
+   |          |     value.READ: 1 at Counter.inc(BasicCounterTest.kt:10)   |
+   |          |   result: 1                                                |
+   | --------------------------------------------------------------------- |
    ```
 
    根据这个追踪信息信息, 发生了以下事件:
@@ -233,33 +226,40 @@ class ConcurrentDequeTest {
 
 ```text
 = Invalid execution results =
-Init part:
-[addLast(4): void]
-Parallel part:
-| pollFirst(): 4 | addFirst(-4): void       |
-|                | peekLast():   4    [-,1] |
+| ---------------------------------------- |
+|      Thread 1     |       Thread 2       |
+| ---------------------------------------- |
+| addLast(22): void |                      |
+| ---------------------------------------- |
+| pollFirst(): 22   | addFirst(8): void    |
+|                   | peekLast(): 22 [-,1] |
+| ---------------------------------------- |
+
 ---
-values in "[..]" brackets indicate the number of completed operations 
+All operations above the horizontal line | ----- | happen before those below the line
+---
+Values in "[..]" brackets indicate the number of completed operations
 in each of the parallel threads seen at the beginning of the current operation
 ---
 
-= The following interleaving leads to the error =
-Parallel part trace:
-| pollFirst()                                                                                               |                      |
-|   pollFirst(): 4 at ConcurrentDequeTest.pollFirst(ConcurrentDequeTest.kt:39)                              |                      |
-|     first(): Node@1 at ConcurrentLinkedDeque.pollFirst(ConcurrentLinkedDeque.java:915)                    |                      |
-|     item.READ: null at ConcurrentLinkedDeque.pollFirst(ConcurrentLinkedDeque.java:917)                    |                      |
-|     next.READ: Node@2 at ConcurrentLinkedDeque.pollFirst(ConcurrentLinkedDeque.java:925)                  |                      |
-|     item.READ: 4 at ConcurrentLinkedDeque.pollFirst(ConcurrentLinkedDeque.java:917)                       |                      |
-|     prev.READ: null at ConcurrentLinkedDeque.pollFirst(ConcurrentLinkedDeque.java:919)                    |                      |
-|     switch                                                                                                |                      |
-|                                                                                                           | addFirst(-4): void   |
-|                                                                                                           | peekLast(): 4        |
-|                                                                                                           |   thread is finished |
-|     compareAndSet(Node@2,4,null): true at ConcurrentLinkedDeque.pollFirst(ConcurrentLinkedDeque.java:920) |                      |
-|     unlink(Node@2) at ConcurrentLinkedDeque.pollFirst(ConcurrentLinkedDeque.java:921)                     |                      |
-|   result: 4                                                                                               |                      |
-|   thread is finished                                                                                      |                      |
+The following interleaving leads to the error:
+| --------------------------------------------------------------------------------------------------------------------------------- |
+|                                                Thread 1                                                    |       Thread 2       |
+| --------------------------------------------------------------------------------------------------------------------------------- |
+| pollFirst()                                                                                                |                      |
+|   pollFirst(): 22 at ConcurrentDequeTest.pollFirst(ConcurrentDequeTest.kt:17)                              |                      |
+|     first(): Node@1 at ConcurrentLinkedDeque.pollFirst(ConcurrentLinkedDeque.java:915)                     |                      |
+|     item.READ: null at ConcurrentLinkedDeque.pollFirst(ConcurrentLinkedDeque.java:917)                     |                      |
+|     next.READ: Node@2 at ConcurrentLinkedDeque.pollFirst(ConcurrentLinkedDeque.java:925)                   |                      |
+|     item.READ: 22 at ConcurrentLinkedDeque.pollFirst(ConcurrentLinkedDeque.java:917)                       |                      |
+|     prev.READ: null at ConcurrentLinkedDeque.pollFirst(ConcurrentLinkedDeque.java:919)                     |                      |
+|     switch                                                                                                 |                      |
+|                                                                                                            | addFirst(8): void    |
+|                                                                                                            | peekLast(): 22       |
+|     compareAndSet(Node@2,22,null): true at ConcurrentLinkedDeque.pollFirst(ConcurrentLinkedDeque.java:920) |                      |
+|     unlink(Node@2) at ConcurrentLinkedDeque.pollFirst(ConcurrentLinkedDeque.java:921)                      |                      |
+|   result: 22                                                                                               |                      |
+| --------------------------------------------------------------------------------------------------------------------------------- |
 ```
 
 > [请在这里查看完整代码](https://github.com/Kotlin/kotlinx-lincheck/blob/guide/src/jvm/test/org/jetbrains/kotlinx/lincheck/test/guide/ConcurrentLinkedDequeTest.kt).
@@ -273,6 +273,5 @@ Parallel part trace:
 
 * [如何生成操作参数](operation-arguments.html)
 * [常见的算法约束](constraints.html)
-* [在模型检查中使用模块化测试](modular-testing.html)
 * [检查非阻塞进度保证(non-blocking progress guarantee)](progress-guarantees.html)
 * [定义算法的顺序规格(sequential specification)](sequential-specification.html)
