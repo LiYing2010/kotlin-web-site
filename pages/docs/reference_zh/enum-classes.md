@@ -179,6 +179,6 @@ printAllValues<RGB>()
 // 输出结果为 RED, GREEN, BLUE
 ```
 
-> `enumEntries<T>()` 函数实验性功能. 要使用它, 需要标注 `@OptIn(ExperimentalStdlibApi)` 注解来表示使用者同意(Opt-in),
+> `enumEntries<T>()` 函数是实验性功能. 要使用它, 需要标注 `@OptIn(ExperimentalStdlibApi)` 注解来表示使用者同意(Opt-in),
 > 并 [将语言版本设置为 1.9 以上](gradle/gradle-compiler-options.html#attributes-common-to-jvm-and-js).
 {:.warning}
