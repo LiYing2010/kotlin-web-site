@@ -30,9 +30,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   Open Graph data #}
 <meta property="og:title" content="{{ title }}"/>
 <meta property="og:type" content="website"/>
-<meta property="og:url" content="https://kotlinlang.org{{ request.path }}"/>
+<meta property="og:url" content="https://kotlin.liying-cn.net{{ request.path }}"/>
 
-<meta property="og:image" content="https://kotlinlang.org{%
+<meta property="og:image" content="https://kotlin.liying-cn.net{%
     if not og_image
 %}{{ url_for('asset', path='images/open-graph/general.png') }}{%
     else
@@ -50,7 +50,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:site" content="@kotlin">
 <meta name="twitter:title" content="{{ title }}">
 <meta name="twitter:description" content="{% if page and page.description %}{{page.description}}{% endif %}">
-<meta name="twitter:image:src" content="https://kotlinlang.org{%
+<meta name="twitter:image:src" content="https://kotlin.liying-cn.net{%
     if not og_image
 %}{{ url_for('asset', path='images/twitter/general.png') }}{%
     else
