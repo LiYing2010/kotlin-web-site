@@ -2,9 +2,9 @@
 <html lang="en" class="{% block body_class %}{% endblock %} {% if restyled %}page_restyled_{{ restyled }}{% else %}page-old-styled {% endif %}">
 <head>
     {% if page and page.title %}
-        {% set title=page.title + ' - Kotlin Programming Language' %}
+        {% set title=page.title + ' - Kotlin 语言参考文档 中文版' %}
     {% else %}
-        {% set title='Kotlin Programming Language' %}
+        {% set title= 'Kotlin 语言参考文档 中文版' %}
     {% endif %}
 
     <title>{% block title %}{{ title }}{% endblock %}</title>
