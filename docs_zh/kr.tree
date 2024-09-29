@@ -3,7 +3,7 @@
     SYSTEM "https://resources.jetbrains.com/writerside/1.0/product-profile.dtd">
 
 <instance-profile id="kr"
-                  name="Kotlin"
+                  name="Kotlin 语言参考文档 中文版"
                   start-page="home.xml">
 
     <toc-element toc-title="首页">
