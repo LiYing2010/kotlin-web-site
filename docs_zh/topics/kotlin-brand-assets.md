@@ -122,7 +122,7 @@ JetBrains 为 Kotlin Night 活动提供品牌和素材. 我们的开发组会为
 
 你可以在你的宣传墙装饰上贴纸或难忘的活动照片.
 
-![宣传墙](kotlin-night-press-wall.svg){width=700
+![宣传墙](kotlin-night-press-wall.svg){width=700}
 
 ### 贴纸徽章
 

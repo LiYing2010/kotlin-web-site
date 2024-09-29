@@ -41,7 +41,7 @@
   >
   > ```kotlin
   > plugins {
-  >     kotlin("jvm") version "{{ site.data.releases.latest.version }}"
+  >     kotlin("jvm") version "%kotlinVersion%"
   >     application
   > }
   > ```
