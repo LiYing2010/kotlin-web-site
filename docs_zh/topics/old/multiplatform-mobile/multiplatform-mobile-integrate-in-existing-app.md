@@ -69,7 +69,7 @@ Kotlin Multiplatform Mobile plugin 提供了一个专门的向导来创建这样
 在你的 Android 项目中, 为你的跨平台代码创建一个 Kotlin Multiplatform 共用模块.
 之后你将会将这个模块连接到你的既有的 Android 应用程序和你未来的 iOS 应用程序.
 
-1. 在 Android Studio 中, 点击 **File** \| **New** \| **New Module**.
+1. 在 Android Studio 中, 点击 **File** | **New** | **New Module**.
 2. 在模板列表中, 选择 **Kotlin Multiplatform Shared Module**, 输入模块名称 `shared`,
 并在 iOS 框架发布选项列表中选择 **Regular framework**.
 将共用模块连接到 iOS 应用程序需要这一步.
@@ -251,7 +251,7 @@ val fakeUser = LoggedInUser(java.util.UUID.randomUUID().toString(), "Jane Doe")
 
 ### 在 Xcode 中创建一个 iOS 项目
 
-1. 在 中 Xcode, 点击 **File** \| **New** \| **Project**.
+1. 在 中 Xcode, 点击 **File** | **New** | **Project**.
 2. 为 iOS App 选择一个模板, 并点击 **Next**.
 
    <img src="/assets/docs/images/multiplatform-mobile/integrate-in-existing-app/ios-project-wizard-1.png" alt="iOS 项目模板" width="700"/>

@@ -5,7 +5,7 @@
 本节介绍如何创建跨平台的库. 也可以参阅 [完整的教程](../tutorials/mpp/multiplatform-library.html),
 介绍如何创建跨平台的库, 测试它, 并发布到 Maven.
 
-1. 在 IntelliJ IDEA 中, 选择菜单 **File** \| **New** \| **Project**.
+1. 在 IntelliJ IDEA 中, 选择菜单 **File** | **New** | **Project**.
 2. 在左侧面板, 选择 **Kotlin**.
 3. 输入项目名称, 然后在 **Multiplatform** 中选择 **Library** 作为项目模板.
 

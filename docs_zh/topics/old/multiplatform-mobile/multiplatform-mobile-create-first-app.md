@@ -53,7 +53,7 @@
 >
 {style="tip"}
 
-1. 在 Android Studio 中, 选择 **File \| New \| New Project**.
+1. 在 Android Studio 中, 选择 **File | New | New Project**.
 2. 在项目模板列表中选择 **Kotlin Multiplatform App**, 并点击 **Next**.
 
     <img src="/assets/docs/images/multiplatform-mobile/create-first-app/multiplatform-mobile-project-wizard-1.png" alt="跨平台移动项目模板" width="700"/>

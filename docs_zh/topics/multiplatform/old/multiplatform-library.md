@@ -23,7 +23,7 @@
 
 ## 创建一个项目
 
-1. 在 IntelliJ IDEA 中, 选择 **File \| New \| Project**.
+1. 在 IntelliJ IDEA 中, 选择 **File | New | Project**.
 2. 在左侧面板中, 选择 **Kotlin Multiplatform**.
 3. 输入一个项目名称, 然后在 **Multiplatform** 中 选择 **Library** 作为项目模板.
 

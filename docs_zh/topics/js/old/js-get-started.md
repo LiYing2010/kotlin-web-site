@@ -10,7 +10,7 @@
 
 安装 IntelliJ IDEA 后, 就可以创建你的第一个 Kotlin/JS with React 前端应用程序了.
 
-1. 在 IntelliJ IDEA 中, 选择 **File** \| **New** \| **Project**.
+1. 在 IntelliJ IDEA 中, 选择 **File** | **New** | **Project**.
 2. 在左侧面板中, 选择 **Kotlin Multiplatform**.
 3. 输入项目名称, 选择 **React Application** 作为项目模板, 然后点击 **Next**.
 
