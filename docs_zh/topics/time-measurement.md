@@ -268,7 +268,7 @@ fun main() {
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-time-measure-time"}
 
 要测量执行一段代码消耗的时间, **并且** 返回这段代码的执行结果,
-请使用内联函数 [`measureTimedValue`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.time/measure-time.html). 
+请使用内联函数 [`measureTimedValue`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.time/measure-time.html).
 
 示例:
 
@@ -330,7 +330,7 @@ fun main() {
 
        println("Measurement 1.${n + 1}: elapsed1=$elapsed1, elapsed2=$elapsed2, diff=${elapsed1 - elapsed2}")
    }
-   
+
    println(mark2 > mark1) // 比较结果为 true, 因为 mark2 是在 mark1 之后捕获的.
    // 输出结果为 true
 //sampleEnd
@@ -356,7 +356,7 @@ fun main() {
    // 还没有经过 5 秒
    println(mark2.hasPassedNow())
    // 输出结果为 false
-  
+
    // 等待 6 秒
    Thread.sleep(6000)
    println(mark2.hasPassedNow())

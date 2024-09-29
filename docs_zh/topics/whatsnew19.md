@@ -380,7 +380,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeSimu
 > ```shell
 > /usr/bin/xcrun simctl boot <DeviceId>
 >```
-> 
+>
 {style = "warning"}
 
 ### Kotlin/Native 中库的链接 {id="library-linkage-in-kotlin-native"}
@@ -666,7 +666,7 @@ external sealed class ExternalEnum {
 
 ```kotlin
 // build.gradle.kts
-kotlin { 
+kotlin {
     js(IR) {
         useEsModules() // 启用 ES6 模块
         browser()
@@ -848,7 +848,7 @@ Gradle 将这些 plugin 添加为编译器参数. 你不需要对你既有的项
 > tasks.named<KaptGenerateStubs>("kaptGenerateStubs") { // 你的自定义配置 }
 > ```
 > {validate="false"}
-> 
+>
 {style="warning"}
 
 更多详情, 请参见我们的 [YouTrack ticket](https://youtrack.jetbrains.com/issue/KT-54468/KAPT-Gradle-plugin-causes-eager-task-creation).
@@ -989,7 +989,7 @@ fun main() {
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-whats-new-time-elapsed"}
 
 要检查是否已经经过了某个截止时刻, 或者是否已经到达超时时间, 请使用 [`hasPassedNow()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.time/-time-mark/has-passed-now.html)
-和 [`hasNotPassedNow()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.time/-time-mark/has-not-passed-now.html) 
+和 [`hasNotPassedNow()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.time/-time-mark/has-not-passed-now.html)
 扩展函数:
 
 ```kotlin
@@ -1091,7 +1091,7 @@ fun main() {
 在 Kotlin 1.8.0 之前, 无法实现这样的共通函数, 因为标准库还支持 JVM 编译目标 1.6 和 1.7.
 
 从 Kotlin 1.8.0 开始, 标准库使用 JVM 编译目标 1.8 来编译.
-因此在 1.9.0 中, 现在有了 **共通的** 
+因此在 1.9.0 中, 现在有了 **共通的**
 [`groups`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-match-result/groups.html) 函数,
 你可以用来获取名称获取正规表达式中捕获的组的内容.
 当你想要访问属于特定捕获组的正规表达式匹配结果时, 这会非常有用.
@@ -1103,7 +1103,7 @@ fun main() {
 fun main() {
     val regex = """\b(?<city>[A-Za-z\s]+),\s(?<state>[A-Z]{2}):\s(?<areaCode>[0-9]{3})\b""".toRegex()
     val input = "Coordinates: Austin, TX: 123"
-    
+
     val match = regex.find(input)!!
     println(match.groups["city"]?.value)
     // 输出结果为 Austin
@@ -1126,7 +1126,7 @@ fun main() {
 
 ```kotlin
 sourcePath.copyToRecursively(
-    destinationPath.createParentDirectories(), 
+    destinationPath.createParentDirectories(),
     followLinks = false
  )
 ```

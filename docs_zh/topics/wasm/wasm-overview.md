@@ -12,7 +12,7 @@
 
 Kotlin 能够构建应用程序, 并通过 Compose Multiplatform 和 Kotlin/Wasm, 将移动应用和桌面应用中的用户界面(UI) 重用在你的 Web 项目中.
 
-[Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/) 是一个声明式框架, 
+[Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/) 是一个声明式框架,
 基于 Kotlin 和 [Jetpack Compose](https://developer.android.com/jetpack/compose),
 通过它, 你可以一次性实现你的 UI, 然后在你的所有目标平台上共用 UI.
 针对 Web 平台, Compose Multiplatform 使用 Kotlin/Wasm 作为编译目标.

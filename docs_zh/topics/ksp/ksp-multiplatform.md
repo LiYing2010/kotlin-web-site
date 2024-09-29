@@ -43,7 +43,7 @@ dependencies {
 ## 编译与处理
 
 在跨平台项目中, 对每个平台 Kotlin 编译可能发生多次 (`main`, `test`, 或其他构建配置).
-符号处理也是如此. 
+符号处理也是如此.
 每存在一个 Kotlin 编译 task, 并且指定了对应的 `ksp<Target>` 或 `ksp<SourceSet>` 配置, 就会创建一个符号处理 task.
 
 比如, 在上面的 `build.gradle.kts` 中, 有 4 个编译 task: common/metadata, JVM main, Linux x64 main, Linux x64 test,
@@ -58,7 +58,7 @@ dependencies {
 
 从 KSP 1.0.1 开始, 提供了对各个编译目标分别进行配置的功能, 如上面的示例所示. 将来:
 1. 对于跨平台项目, `ksp(...)` 配置将被废弃, 并删除.
-2. 对于单一平台项目, `ksp(...)` 配置将只适用于 main, 默认编译 task. 
+2. 对于单一平台项目, `ksp(...)` 配置将只适用于 main, 默认编译 task.
    其他编译目标, 比如 `test`, 将需要指定 `kspTest(...)` 来适用处理器.
 
 从 KSP 1.0.1 开始, 有一个早期预览版的 flag `-DallowAllTargetConfiguration=false`, 可以切换到更加高效率的模式.

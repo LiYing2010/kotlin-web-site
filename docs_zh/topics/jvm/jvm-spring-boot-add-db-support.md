@@ -140,7 +140,7 @@ class MessageController(val service: MessageService) {
 data class Message(val id: String?, val text: String)
 ```
 
-但是, 将 `null` 作为 `id` 值保存到数据库是不正确的: 你需要恰当的处理这样的情况.  
+但是, 将 `null` 作为 `id` 值保存到数据库是不正确的: 你需要恰当的处理这样的情况.
 
 更新你的代码, 在将 message 保存到时数据库, 如果 `id` 为 `null`, 生成新的值:
 
@@ -223,12 +223,12 @@ class MessageService(val db: JdbcTemplate) {
    {
      "text": "Hello!"
    }
-   
+
    ### Post "Bonjour!"
 
    POST http://localhost:8080/
    Content-Type: application/json
-   
+
    {
      "text": "Bonjour!"
    }
@@ -237,7 +237,7 @@ class MessageService(val db: JdbcTemplate) {
 
    POST http://localhost:8080/
    Content-Type: application/json
-   
+
    {
      "text": "Privet!"
    }
@@ -278,22 +278,22 @@ curl -X GET --location "http://localhost:8080"
 
     ```kotlin
     import org.springframework.jdbc.core.query
-    
+
     @Service
     class MessageService(val db: JdbcTemplate) {
-    
+
         fun findMessages(): List<Message> = db.query("select * from messages") { response, _ ->
             Message(response.getString("id"), response.getString("text"))
         }
-    
+
         fun findMessageById(id: String): List<Message> = db.query("select * from messages where id = ?", id) { response, _ ->
             Message(response.getString("id"), response.getString("text"))
         }
-    
+
         fun save(message: Message) {
             val id = message.id ?: UUID.randomUUID().toString()
             db.update(
-                "insert into messages values ( ?, ? )", 
+                "insert into messages values ( ?, ? )",
                 id, message.text
             )
         }
@@ -314,11 +314,11 @@ curl -X GET --location "http://localhost:8080"
     class MessageController(val service: MessageService) {
         @GetMapping("/")
         fun index(): List<Message> = service.findMessages()
-    
+
         @GetMapping("/{id}")
         fun index(@PathVariable id: String): List<Message> =
             service.findMessageById(id)
-    
+
         @PostMapping("/")
         fun post(@RequestBody message: Message) {
             service.save(message)
@@ -431,7 +431,7 @@ Spring 应用程序已经可以运行了:
     ### 根据 id 得到 message
     GET http://localhost:8080/f16c1d2e-08dc-455c-abfe-68440229b84f
     ```
-    
+
     > 请使用你的 message 的真实 id, 不要使用上面例子中的值.
     >
     {style="note"}
@@ -442,6 +442,6 @@ Spring 应用程序已经可以运行了:
 
 ## 下一步
 
-本教程的最后部分会向你演示, 如何使用更加流行的数据库操作方式 Spring Data. 
+本教程的最后部分会向你演示, 如何使用更加流行的数据库操作方式 Spring Data.
 
 **[阅读下一章](jvm-spring-boot-using-crudrepository.md)**

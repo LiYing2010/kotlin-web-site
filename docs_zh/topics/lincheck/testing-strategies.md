@@ -37,7 +37,7 @@ import org.junit.*
 
 class CounterTest {
     private val c = Counter() // 初始化状态
-    
+
     // 计数器上的操作
     @Operation
     fun inc() = c.inc()
@@ -119,11 +119,11 @@ class CounterTest {
 ### 模型检查的工作原理 {collapsible="true"}
 
 要重现复杂并发算法中的大多数 bug, 可以使用典型的数据冲突, 同时将代码的执行切换从一个线程切换到另一个线程.
-此外, 对于弱内存模型的模型检查器非常复杂, 
+此外, 对于弱内存模型的模型检查器非常复杂,
 因此 Lincheck 使用_循序一致性(sequential consistency)内存模型_ 下的有限模型检查.
 
 简单的说, Lincheck 会分析所有的数据冲突, 从一个上下文切换开始, 然后是两个, 持续这个过程, 直到检测到指定数量的数据冲突.
-这个策略可以使用最少的上下文切换次数找到不正确的数据冲突, 使得后面的 bug 调查更加容易. 
+这个策略可以使用最少的上下文切换次数找到不正确的数据冲突, 使得后面的 bug 调查更加容易.
 
 为了控制运行, Lincheck 会在测试代码中插入特殊的切换点. 这些切换点标识可以执行上下文切换的位置.
 本质上, 这些切换点是对共享内存的访问, 例如在 JVM 中读取或更新域和数组元素, 以及 `wait/notify` 和 `park/unpark` 调用.
@@ -164,7 +164,7 @@ _模型检查策略_ 更适合在循序一致性内存模型下查找 bug, 因�
 
         @Test
         fun stressTest() = StressOptions() // 压力测试选项:
-            .actorsBefore(2) // 并行运行部分之前的操作数量 
+            .actorsBefore(2) // 并行运行部分之前的操作数量
             .threads(2) // 并行运行部分中的线程数量
             .actorsPerThread(2) // 并行运行部分的每个线程中的操作数量
             .actorsAfter(1) // 并行运行部分之后的操作数量
@@ -264,7 +264,7 @@ Lincheck 会尝试对错误进行最小化, 努力删除操作, 同时又确保�
     | ------------------- |
     | STATE: 1            |
     | ------------------- |
-    
+
     The following interleaving leads to the error:
     | -------------------------------------------------------------------- |
     | Thread 1 |                         Thread 2                          |

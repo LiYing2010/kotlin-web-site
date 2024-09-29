@@ -292,7 +292,7 @@ interface Robot {
 ```java
 // Java 实现类
 public class C3PO implements Robot {
-    // Robot 接口中隐含存在 move() 方法的实现  
+    // Robot 接口中隐含存在 move() 方法的实现
     @Override
     public void speak() {
         System.out.println("I beg your pardon, sir");
@@ -343,7 +343,7 @@ public class BB8 implements Robot {
 注解标记接口.
 这样可以让你一次性的向公开 API 中的所有接口添加这个注解, 而且你不需要对新的非公开代码使用任何注解.
 
-> 从 Kotlin 1.6.20 开始, 对使用 `-Xjvm-default=all` 或 `-Xjvm-default=all-compatibility` 模式编译的模块, 
+> 从 Kotlin 1.6.20 开始, 对使用 `-Xjvm-default=all` 或 `-Xjvm-default=all-compatibility` 模式编译的模块,
 > 你可以使用默认模式 (`-Xjvm-default=disable` 编译器选项) 编译模块.
 >
 {style="note"}

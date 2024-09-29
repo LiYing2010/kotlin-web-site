@@ -35,7 +35,7 @@ set 元素的顺序也可能是不可知的.
 fun main() {
 //sampleStart
     val numbers = linkedSetOf("one", "two", "three", "four", "five")
-    println(numbers.elementAt(3))    
+    println(numbers.elementAt(3))
 
     val numbersSortedSet = sortedSetOf("one", "two", "three", "four")
     println(numbersSortedSet.elementAt(0)) // 元素按照字母顺序存储
@@ -54,8 +54,8 @@ fun main() {
 fun main() {
 //sampleStart
     val numbers = listOf("one", "two", "three", "four", "five")
-    println(numbers.first())    
-    println(numbers.last())    
+    println(numbers.first())
+    println(numbers.last())
 //sampleEnd
 }
 ```

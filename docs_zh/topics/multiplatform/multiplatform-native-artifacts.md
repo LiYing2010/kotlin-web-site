@@ -4,21 +4,21 @@
 
 > 本章介绍的新 DSL 是 [实验性功能](../components-stability.html). 它随时有可能变更.
 > 我们建议你只为评估和试验目的来使用这个功能.
-> 
+>
 > 如果你无法使用新 DSL, 请参见构建原生二进制文件的 [前一种方案](multiplatform-build-native-binaries.html).
-> 
+>
 {style="warning"}
 
 [Kotlin/Native 编译目标](multiplatform-dsl-reference.html#native-targets) 会被编译为 `*.klib` 库的 Artifact,
 这些库 Artifact 可以被 Kotlin/Native 本身用作依赖项, 但不能用作原生库.
- 
+
 要声明最终的原生二进制文件, 请通过 `kotlinArtifacts` DSL, 使用新的二进制文件格式.
 它代表为这个编译目标构建的原生二进制文件的集合, 以及默认的 `*.klib` Artifact,
 它还提供了一组方法, 用来声明和配置这些文件.
- 
+
 > `kotlin-multiplatform` plugin 默认不会创建任何生产环境(production)版的二进制文件.
 > 默认生成的二进制文件只有 debug 版的测试用可执行文件, 供你通过 `test` 编译任务来运行单元测试.
-> 
+>
 {style="note"}
 
 Kotlin Artifact DSL 可以帮助你解决一个常见问题: 你需要从你的 App 访问多个 Kotlin 模块.
@@ -27,7 +27,7 @@ Kotlin Artifact DSL 可以帮助你解决一个常见问题: 你需要从你的 
 ## 声明二进制文件
 
 `kotlinArtifacts` 元素是 Gradle 构建脚本中用于 Artifact 配置的顶层代码块.
-请使用以下二进制文件类型来声明 `kotlinArtifacts` DSL 的元素: 
+请使用以下二进制文件类型来声明 `kotlinArtifacts` DSL 的元素:
 
 | 工厂方法           | 二进制文件类型                                                                                | 可用于                                     |
 |----------------|----------------------------------------------------------------------------------------|-----------------------------------------|
@@ -45,9 +45,9 @@ Kotlin Artifact DSL 可以帮助你解决一个常见问题: 你需要从你的 
 * [Native.XCFramework](#xcframeworks)
 
 最简单的版本需要对选择的构建类型指定 `target` (或 `targets`) 参数.
-目前, 可以使用 2 个构建类型: 
+目前, 可以使用 2 个构建类型:
 
-* `DEBUG` – 生成一个无优化的二进制文件, 包含调试信息 
+* `DEBUG` – 生成一个无优化的二进制文件, 包含调试信息
 * `RELEASE` – 生成优化的二进制文件, 不包含调试信息
 
 在 `modes` 参数中, 你可以指定你想要为哪个构建类型创建二进制文件.
@@ -240,7 +240,7 @@ kotlinArtifacts {
 
 > 如果你因为某些原因无法使用新 DSL, 请试用 [前一种方案](multiplatform-build-native-binaries.html#export-dependencies-to-binaries)
 > 来将依赖项导出到二进制文件.
-> 
+>
 {style="tip"}
 
 ### Fat 框架
@@ -297,7 +297,7 @@ kotlinArtifacts {
 
 > 如果你因为某些原因无法使用新 DSL, 请试用 [前一种方案](multiplatform-build-native-binaries.html#build-universal-frameworks)
 > 来构建 fat 框架.
-> 
+>
 {style="tip"}
 
 ### XCFramework
@@ -338,7 +338,7 @@ kotlinArtifacts {
     it.native.XCFramework("sdk") {
         targets(iosX64, iosArm64, iosSimulatorArm64)
         setModules(
-            project(":shared"), 
+            project(":shared"),
             project(":lib")
         )
     }
@@ -352,5 +352,5 @@ kotlinArtifacts {
 
 > 如果你因为某些原因无法使用新 DSL, 请试用 [前一种方案](multiplatform-build-native-binaries.html#build-xcframeworks)
 > 来构建 XCFramework.
-> 
+>
 {style="tip"}

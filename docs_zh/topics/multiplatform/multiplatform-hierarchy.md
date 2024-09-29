@@ -166,16 +166,16 @@ Learn more about hierarchy templates: https://kotl.in/hierarchy-template
         macosArm64()
         iosArm64()
         iosSimulatorArm64()
-    
+
         // 再次适用默认层级结构. 它会创建源代码集, 例如 iosMain:
         applyDefaultHierarchyTemplate()
-    
+
         sourceSets {
             // 创建额外的 jvmAndMacos 源代码集:
             val jvmAndMacos by creating {
                 dependsOn(commonMain.get())
             }
-    
+
             macosArm64Main.get().dependsOn(jvmAndMacos)
             jvmMain.get().dependsOn(jvmAndMacos)
         }
@@ -191,10 +191,10 @@ Learn more about hierarchy templates: https://kotl.in/hierarchy-template
         macosArm64()
         iosArm64()
         iosSimulatorArm64()
-    
+
         // 再次适用默认层级结构. 它会创建源代码集, 例如 iosMain:
         applyDefaultHierarchyTemplate()
-    
+
         sourceSets {
             // 创建额外的 jvmAndMacos 源代码集:
             jvmAndMacos {
@@ -206,7 +206,7 @@ Learn more about hierarchy templates: https://kotl.in/hierarchy-template
             jvmMain {
                 dependsOn(jvmAndMacos.get())
             }
-        } 
+        }
     }
     ```
 

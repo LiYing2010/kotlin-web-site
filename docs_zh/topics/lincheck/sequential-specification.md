@@ -36,7 +36,7 @@ class ConcurrentLinkedQueueTest {
 
     @Operation
     fun poll(): Int? = s.poll()
-   
+
     @Test
     fun stressTest() = StressOptions()
         .sequentialSpecification(SequentialQueue::class.java)

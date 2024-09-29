@@ -11,7 +11,7 @@ Kotlin 是一门现代而成熟的编程语言, 设计目标是让开发者更�
 
 ## 安装 Kotlin {id="install-kotlin"}
 
-Kotlin 包含在 [IntelliJ IDEA](https://www.jetbrains.com/idea/download/) 和 [Android Studio](https://developer.android.com/studio) 每个发行版之内.  
+Kotlin 包含在 [IntelliJ IDEA](https://www.jetbrains.com/idea/download/) 和 [Android Studio](https://developer.android.com/studio) 每个发行版之内.
 下载并安装这些 IDE 中的一个, 就可以开始使用 Kotlin 了.
 
 ## 使用 Kotlin 来创建强大的应用程序
@@ -108,7 +108,7 @@ Kotlin 包含在 [IntelliJ IDEA](https://www.jetbrains.com/idea/download/) 和 [
    | SQLDelight | 第三方库. [文档](https://cashapp.github.io/sqldelight/) |
 
    > 在 [社区开发的库列表](https://libs.kmp.icerock.dev/) 中还能找到其他跨平台库.
-   > 
+   >
    {style="tip"}
 
 4. **关于 Kotlin Multiplatform 的更多资料:**

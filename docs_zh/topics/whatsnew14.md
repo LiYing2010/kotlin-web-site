@@ -88,7 +88,7 @@ kotlin {
 <tab title="Groovy" group-key="groovy">
 
 ```groovy
-kotlin {    
+kotlin {
     // 用于 strict 模式
     explicitApi()
     // 或
@@ -299,7 +299,7 @@ fun test(xs: List<Int>) {
 新的 Kotlin 项目向导既简单又灵活:
 
 1. *选择项目模板*, 可以根据你的目的来不同的模板. 未来还会添加更多模板.
-2. *选择构建系统* – Gradle (Kotlin 或 Groovy DSL), Maven, 或 IntelliJ IDEA. 
+2. *选择构建系统* – Gradle (Kotlin 或 Groovy DSL), Maven, 或 IntelliJ IDEA.
 Kotlin 项目向导只会显示你选择的项目模板支持的构建系统.
 3. *预览项目结构*, 可以直接在主画面上预览.
 
@@ -1211,7 +1211,7 @@ Kotlin 标准库 1.4.0 中最重要的变化如下:
     //sampleStart
         val list = listOf("kot", "lin")
         val lettersList = list.flatMap { it.asSequence() }
-        val lettersSeq = list.asSequence().flatMap { it.toList() }    
+        val lettersSeq = list.asSequence().flatMap { it.toList() }
     //sampleEnd
         println(lettersList)
         println(lettersSeq.toList())

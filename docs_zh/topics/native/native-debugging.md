@@ -156,7 +156,7 @@ Process 4985 stopped
    4        var p = Point(x, y)
 -> 5        println("p = $p")
    6    }
-   7   
+   7
    8    data class Point(val x: Int, val y: Int)
 
 Process 4985 launched: './program.kexe' (x86_64)

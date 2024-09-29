@@ -152,7 +152,7 @@ engine on a port, in this case, `9090`.
     import io.ktor.server.response.*
     import io.ktor.server.http.content.*
     import io.ktor.server.routing.*
-    
+
     fun main() {
         embeddedServer(Netty, 9090) {
             routing {
@@ -363,7 +363,7 @@ using IntelliJ IDEA Ultimate Edition, you can do this right from the IDE.
     ```http
     POST http://localhost:9090/shoppingList
     Content-Type: application/json
-    
+
     {
       "desc": "Peppers 🌶",
       "priority": 5
@@ -617,18 +617,18 @@ Based on these requirements, you can implement the `App` component as follows:
     import react.dom.html.ReactHTML.h1
     import react.dom.html.ReactHTML.li
     import react.dom.html.ReactHTML.ul
-    
+
     private val scope = MainScope()
-    
+
     val App = FC<Props> {
     var shoppingList by useState(emptyList<ShoppingListItem>())
-    
+
         useEffectOnce {
             scope.launch {
                 shoppingList = getShoppingList()
             }
         }
-    
+
         h1 {
             +"Full-Stack Shopping List"
         }
@@ -669,24 +669,24 @@ provides a callback when users submit their entry to the shopping list to receiv
     import react.dom.html.InputType
     import react.dom.html.ReactHTML.form
     import react.dom.html.ReactHTML.input
-    
+
     external interface InputProps : Props {
         var onSubmit: (String) -> Unit
     }
-    
+
     val inputComponent = FC<InputProps> { props ->
     val (text, setText) = useState("")
-    
+
         val submitHandler: FormEventHandler<HTMLFormElement> = {
             it.preventDefault()
             setText("")
             props.onSubmit(text)
         }
-    
+
         val changeHandler: ChangeEventHandler<HTMLInputElement> = {
             setText(it.target.value)
         }
-    
+
         form {
             onSubmit = submitHandler
             input {

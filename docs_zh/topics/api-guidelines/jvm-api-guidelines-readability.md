@@ -29,7 +29,7 @@ fun String.chop(length: Int, startIndex: Int) =
 ```
 
 如果你有很多类似的方法, 应该对它们使用一致并且易于预见的名称.
-`stdlib` API 是这样做的: 
+`stdlib` API 是这样做的:
 有 `first()` 和 `firstOrNull()` 方法, `single()` 和 `singleOrNull()` 方法, 等等.
 从它们的名称可以看出这些方法是成对的, 而且有些方法可能返回 `null`, 其它方法可能抛出异常.
 
@@ -103,7 +103,7 @@ div("tags") {
 
 请记住, 在大括号内, 无法在编译期检查你是否设置了所有必须的属性.
 为了避免这个问题, 请将必须的属性作为函数的参数, 而不是构建器的属性.
-例如, 
+例如,
 如果你希望 `href` 是一个必须的 HTML 属性, 你的函数应该是这样的:
 
 ```kotlin
@@ -238,7 +238,7 @@ fun Graph.getDegree(vertex: Int): Int = edges[vertex]?.size ?: 0
 fun map(transform: (T) -> R): List<R>
 
 fun mapNotNull(transform: (T) -> R?): List<R>
-```    
+```
 
 我们可以添加一个 `map(filterNulls: Boolean)` 函数, 然后编写这样的代码:
 
@@ -250,7 +250,7 @@ listOf(1, null, 2).map(false) { it.toString() }
 但是, 如果你使用 `mapNotNull()` 函数, 读者就能立即理解它的逻辑:
 
 ```kotlin
-listOf(1, null, 2).mapNotNull { it.toString() } 
+listOf(1, null, 2).mapNotNull { it.toString() }
 ```
 
 ## 下一步做什么?

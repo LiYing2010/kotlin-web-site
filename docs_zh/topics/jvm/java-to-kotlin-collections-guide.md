@@ -135,7 +135,7 @@ immutableCollection.add("five"); // 在运行时刻会发生 `UnsupportedOperati
 ```
 {id="immutable-java"}
 
-如果你在 IntelliJ IDEA 中编写后面两段代码, IDE 会提出警告, 告诉你正在修改不可变的对象. 
+如果你在 IntelliJ IDEA 中编写后面两段代码, IDE 会提出警告, 告诉你正在修改不可变的对象.
 这段代码能够编译, 并在运行时刻发生 `UnsupportedOperationException` 错误.
 你不能通过集合的类型判断它是否可变.
 
@@ -155,8 +155,8 @@ val immutableNumbers = listOf("one", "two")
 
 ## 协变(Covariance)
 
-在 Java 中, 如果函数的参数是祖先类型元素的集合, 那么你不能传递一个后代类型元素的集合. 
-比如, 如果 `Rectangle` 继承 `Shape`, 对于参数是 `Shape` 元素集合的函数, 你不能传递 `Rectangle` 元素类型的集合. 
+在 Java 中, 如果函数的参数是祖先类型元素的集合, 那么你不能传递一个后代类型元素的集合.
+比如, 如果 `Rectangle` 继承 `Shape`, 对于参数是 `Shape` 元素集合的函数, 你不能传递 `Rectangle` 元素类型的集合.
 要让代码能够编译, 需要使用 `? extends Shape` 类型, 才能让函数接受从 `Shape` 继承的后代类型元素的集合:
 
 ```java
@@ -239,9 +239,9 @@ public void compareVersions() {
            versionIsInRange(new Version(1, 20), minVersion, maxVersion));
 }
 
-public Boolean versionIsInRange(Version versionToCheck, Version minVersion, 
+public Boolean versionIsInRange(Version versionToCheck, Version minVersion,
                                 Version maxVersion) {
-    return versionToCheck.compareTo(minVersion) >= 0 
+    return versionToCheck.compareTo(minVersion) >= 0
             && versionToCheck.compareTo(maxVersion) <= 0;
 }
 ```
@@ -275,7 +275,7 @@ fun main() {
 
 在 Java 中, 要根据多个条件比较对象, 你可以使用
 [`Comparator`](https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html)
-接口的 [`comparing()`](https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html#comparing-java.util.function.Function-) 
+接口的 [`comparing()`](https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html#comparing-java.util.function.Function-)
 和 [`thenComparingX()`](https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html#thenComparing-java.util.Comparator-)
 函数 .
 比如, 要按照姓名和年龄比较人:
@@ -305,7 +305,7 @@ class Person implements Comparable<Person> {
 }
 
 public void comparePersons() {
-    var persons = List.of(new Person("Jack", 35), new Person("David", 30), 
+    var persons = List.of(new Person("Jack", 35), new Person("David", 30),
             new Person("Jack", 25));
     System.out.println(persons.stream().sorted(Comparator
             .comparing(Person::getName)
@@ -323,7 +323,7 @@ data class Person(
 )
 
 fun main() {
-    val persons = listOf(Person("Jack", 35), Person("David", 30), 
+    val persons = listOf(Person("Jack", 35), Person("David", 30),
         Person("Jack", 25))
     println(persons.sortedWith(compareBy(Person::name, Person::age)))
 }
@@ -385,7 +385,7 @@ public void remove() {
 ```
 {id="remove-elements-java"}
 
-在 Kotlin 中, 有 2 种类型的元素删除函数: 
+在 Kotlin 中, 有 2 种类型的元素删除函数:
 根据下标删除 [`removeAt()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/remove-at.html),
 以及根据值删除 [`remove()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/remove.html).
 
@@ -442,7 +442,7 @@ if (list.size() > 0) {
 
 对 [`Deque`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Deque.html)
 和它的后代类, 你还可以使用
-[`getFirst()`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Deque.html#getFirst()) 
+[`getFirst()`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Deque.html#getFirst())
 和
 [`getLast()`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Deque.html#getLast())
 函数:
@@ -461,7 +461,7 @@ if (deque.size() > 0) {
 在 Kotlin 中, 有专门的函数
 [`firstOrNull()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/first-or-null.html)
 和
-[`lastOrNull()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/last-or-null.html). 
+[`lastOrNull()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/last-or-null.html).
 使用 [`Elvis 操作符`](null-safety.md#elvis-operator), 你可以根据函数结果执行更多操作.
 比如, `firstOrNull()`:
 
@@ -473,7 +473,7 @@ val theFreshestEmail = emails.lastOrNull() ?: ""
 ```
 {id="get-first-last-kotlin"}
 
-## 从 List 创建 Set 
+## 从 List 创建 Set
 
 在 Java 中, 要从
 [`List`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html)
@@ -553,8 +553,8 @@ fun main() {
 ## 过滤元素 {id="filter-elements"}
 
 在 Java 中, 要过滤集合的元素, 你需要使用
-[Stream API](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/package-summary.html). 
-Stream API 包括 `中间(Intermediate)` 和 `终止(Terminal)` 操作. `filter()` 是一个中间操作, 返回一个 Stream. 
+[Stream API](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/package-summary.html).
+Stream API 包括 `中间(Intermediate)` 和 `终止(Terminal)` 操作. `filter()` 是一个中间操作, 返回一个 Stream.
 要得到输出的集合, 你需要使用终止操作, 比如 `collect()`.
 比如, 要只保留 key 以 `1` 结尾并且 value 大于 `10` 的对:
 
@@ -570,7 +570,7 @@ public void filterEndsWith() {
 ```
 {id="filter-elements-java"}
 
-在 Kotlin 中, 过滤是集合内建的操作, `filter()` 返回与过滤之前相同的集合类型. 
+在 Kotlin 中, 过滤是集合内建的操作, `filter()` 返回与过滤之前相同的集合类型.
 因此, 你需要编写的代码只是 `filter()` 以及它的过滤条件:
 
 ```kotlin
@@ -587,9 +587,9 @@ fun main() {
 
 详情请参见 [过滤 Map](map-operations.md#filter).
 
-### 根据类型过滤元素 
+### 根据类型过滤元素
 
-在 Java 中, 要根据类型过滤元素, 并对其执行操作, 你需要使用 
+在 Java 中, 要根据类型过滤元素, 并对其执行操作, 你需要使用
 [`instanceof`](https://docs.oracle.com/en/java/javase/17/language/pattern-matching-instanceof-operator.html)
 操作符检查元素类型, 然后进行类型转换:
 
@@ -610,7 +610,7 @@ public void objectIsInstance() {
 {id="filter-by-type-java"}
 
 在 Kotlin 中, 你可以直接对集合调用
-[`filterIsInstance<NEEDED_TYPE>()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/filter-is-instance.html), 
+[`filterIsInstance<NEEDED_TYPE>()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/filter-is-instance.html),
 类型转换会由 [智能类型转换](typecasts.md#smart-casts) 完成:
 
 ```kotlin
@@ -634,9 +634,9 @@ fun main() {
 在 Java 中, 你可以通过
 [Stream API](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/package-summary.html)
 函数
-[`allMatch()`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Stream.html#allMatch(java.util.function.Predicate)), 
+[`allMatch()`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Stream.html#allMatch(java.util.function.Predicate)),
 [`noneMatch()`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Stream.html#noneMatch(java.util.function.Predicate)),
-和 
+和
 [`anyMatch()`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Stream.html#anyMatch(java.util.function.Predicate))
 执行所有这些检查:
 
@@ -704,7 +704,7 @@ fun main() {
     val colors = listOf("red", "brown")
     val animals = listOf("fox", "bear", "wolf")
 
-    println(colors.zip(animals) { color, animal -> 
+    println(colors.zip(animals) { color, animal ->
         "The ${animal.replaceFirstChar { it.uppercase() }} is $color" })
 //sampleEnd
 }
@@ -720,7 +720,7 @@ fun main() {
 ### 关联(Associate)元素
 
 在 Java 中, 你可以使用
-[Stream API](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/package-summary.html) 
+[Stream API](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/package-summary.html)
 将元素与某个特性关联在一起:
 
 ```java

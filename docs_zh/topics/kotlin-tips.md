@@ -10,14 +10,14 @@ Kotlin 小技巧是一系列的短视频, Kotlin 开发组成员向你演示, �
 
 在 Kotlin 中执行 `null + null` 会发生什么情况, 返回结果是什么?
 在我们最新的一个 Kotlin 小技巧视频中, Sebastian Aigner 将解开这个谜题.
-此外, 他还会演示为什么我们不用害怕可为 null 的值: 
+此外, 他还会演示为什么我们不用害怕可为 null 的值:
 
 <video width="560" height="315" src="https://youtu.be/wwplVknTza4" title="Kotlin Tips: null + null in Kotlin"/>
 
 ## 去除集合中的重复元素 {id="deduplicating-collection-items"}
 
 得到了一个包含重复元素的 Kotlin 集合吗? 需要只包含唯一元素的集合?
-请看这个 Kotlin 小技巧视频, Sebastian Aigner 向你演示如何从你的 List 中删除重复元素, 或者转换为 Set: 
+请看这个 Kotlin 小技巧视频, Sebastian Aigner 向你演示如何从你的 List 中删除重复元素, 或者转换为 Set:
 
 <video width="560" height="315" src="https://youtu.be/ECOf0PeSANw" title="Kotlin Tips: Deduplicating Collection Items"/>
 

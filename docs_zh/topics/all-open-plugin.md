@@ -158,7 +158,7 @@ plugins {
 </dependencies>
 ```
 
-这个插件指定了以下注解: 
+这个插件指定了以下注解:
 * [`@Component`](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/stereotype/Component.html)
 * [`@Async`](https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/scheduling/annotation/Async.html)
 * [`@Transactional`](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/transaction/annotation/Transactional.html)
@@ -172,7 +172,7 @@ plugins {
 或 [`@Repository`](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/stereotype/Repository.html)
 标注的类, 都会自动变为 open, 因为这些注解都标注了元注解
 [`@Component`](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/stereotype/Component.html).
- 
+
 当然, 你也可以在同一个项目内同时使用 `kotlin-allopen` 和 `kotlin-spring`.
 
 > 如果你使用 [start.spring.io](https://start.spring.io/#!language=kotlin) 服务生成项目模板,
@@ -192,7 +192,7 @@ All-open 编译器插件的 JAR 文件 存在于 Kotlin 编译器的二进制发
 可以使用 `annotation` 插件选项直接指定 all-open 注解, 或者启用 _预设置(preset)_:
 
 ```bash
-# 插件选项格式是: "-P plugin:<plugin id>:<key>=<value>". 
+# 插件选项格式是: "-P plugin:<plugin id>:<key>=<value>".
 # 选项可以重复.
 
 -P plugin:org.jetbrains.kotlin.allopen:annotation=com.my.Annotation

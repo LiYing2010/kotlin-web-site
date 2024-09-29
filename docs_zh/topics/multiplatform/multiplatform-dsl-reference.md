@@ -505,7 +505,7 @@ kotlin {
 ```groovy
 kotlin {
     sourceSets {
-        myMain { /* ... */ } // 创建或设置一个名称为 'myMain' 的源代码集  
+        myMain { /* ... */ } // 创建或设置一个名称为 'myMain' 的源代码集
     }
 }
 ```

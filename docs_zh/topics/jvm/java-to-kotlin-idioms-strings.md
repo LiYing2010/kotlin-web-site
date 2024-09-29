@@ -76,7 +76,7 @@ fun main() {
 
 ## 通过集合中的元素创建一个字符串
 
-在 Java 中, 你可以使用 [Stream API](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/stream/package-summary.html) 
+在 Java 中, 你可以使用 [Stream API](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/stream/package-summary.html)
 来过滤, 变换, 并收集元素:
 
 ```java
@@ -306,7 +306,7 @@ System.out.println(result);
 ```
 {id="join-strings-11-java"}
 
-在 Java 15 中, 有了 [文本块(Text Block)](https://docs.oracle.com/en/java/javase/15/text-blocks/index.html) 功能. 
+在 Java 15 中, 有了 [文本块(Text Block)](https://docs.oracle.com/en/java/javase/15/text-blocks/index.html) 功能.
 但需要记住: 如果你打印一个多行字符串, 而且三重引号出现在下一行,
 那么会存在一个额外的空行:
 
@@ -332,7 +332,7 @@ System.out.println(result);
 ```kotlin
 fun main() {
 //sampleStart
-    // Kotlin   
+    // Kotlin
     val result = """
         Kotlin
            Java

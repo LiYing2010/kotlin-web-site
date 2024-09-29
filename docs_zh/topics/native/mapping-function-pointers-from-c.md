@@ -22,12 +22,12 @@
 ## 映射来自 C 的函数指针类型
 
 要理解 Kotlin 和 C 之间的映射, 最好的方法是试验一段小示例程序.
-声明一个函数, 它接受一个函数指针作为参数, 以及另一个函数, 它返回一个函数指针. 
+声明一个函数, 它接受一个函数指针作为参数, 以及另一个函数, 它返回一个函数指针.
 
 Kotlin/Native 带有 `cinterop` 工具; 这个工具会生成 C 语言和 Kotlin 之间的绑定.
 它使用一个 `.def` 文件来指定一个要导入的 C 库.
 详情请参见 [与 C 库交互](native-c-interop.md).
- 
+
 试验 C API 映射的最快方法是, 将所有 C 声明都写在 `interop.def` 文件中, 完全不需要创建任何 `.h` 或 `.c` 文件.
 然后将 C 声明放在一个 `.def` 文件中, 在专门的 `---` 分割行之后:
 
@@ -50,7 +50,7 @@ MyFun supply_fun() {
 ```
 
 这个 `interop.def` 文件已经足以编译和运行应用程序, 或在 IDE 中打开它.
-现在来创建项目文件, 在 [IntelliJ IDEA](https://jetbrains.com/idea)中打开项目, 并运行它. 
+现在来创建项目文件, 在 [IntelliJ IDEA](https://jetbrains.com/idea)中打开项目, 并运行它.
 
 ## 查看为 C 库生成的 Kotlin API
 
@@ -183,7 +183,7 @@ typealias MyFunVar = kotlinx.cinterop.CPointerVarOf<lib.MyFun>
 你可以看到, C 函数的 `typedef` 被转换为 Kotlin 的 `typealias`.
 它使用 `CPointer<..>` 类型来表示指针参数, 使用 `CFunction<(Int)->Int>` 来表示函数签名.
 对所有的 `CPointer<CFunction<..>` 类型, 有一个 `invoke` 操作符扩展函数,
-因此可以象 Kotlin 中的任何其他函数一样调用它. 
+因此可以象 Kotlin 中的任何其他函数一样调用它.
 
 ## 将 Kotlin 函数作为 C 函数指针传递 {id="pass-kotlin-function-as-c-function-pointer"}
 

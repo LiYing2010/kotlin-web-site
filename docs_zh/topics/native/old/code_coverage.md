@@ -49,7 +49,7 @@ LLVM_PROFILE_FILE=build/program.profraw ./program.kexe
 生成的代码覆盖率信息文件可以使用 `llvm-profdata` 工具程序来解析. 基本用法是:
 ```
 llvm-profdata merge default.profraw -o program.profdata
-```  
+```
 更多命令行选项请参见 [目录行指南](http://llvm.org/docs/CommandGuide/llvm-profdata.html).
 
 #### 创建报告

@@ -4,7 +4,7 @@
 
 > Dukat 目前还在 [实验性阶段](/docs/reference_zh/components-stability.html).
 > 如果遇到任何问题, 请到报告到 Dukat 的 [问题管理系统](https://github.com/kotlin/dukat/issues).
-> 
+>
 {style="note"}
 
 [Dukat](https://github.com/kotlin/dukat) 是一个正在开发中的工具,

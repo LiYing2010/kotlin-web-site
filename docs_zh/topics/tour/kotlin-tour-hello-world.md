@@ -29,7 +29,7 @@ fun main() {
 * [`println()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/println.html) 和 [`print()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/print.html) 函数将它们的参数打印到标准输出
 
 > 函数会在后面的各章中详细介绍. 在此之前, 所有的示例程序都使用 `main()` 函数.
-> 
+>
 {style="note"}
 
 ## 变量
@@ -43,12 +43,12 @@ fun main() {
 例如:
 
 ```kotlin
-fun main() { 
+fun main() {
 //sampleStart
     val popcorn = 5    // 有 5 盒爆米花
     val hotdog = 7     // 有 7 个热狗
     var customers = 10 // 队列中有 10 个客户
-    
+
     // 有些客户离开了队列
     customers = 8
     println(customers)
@@ -60,19 +60,19 @@ fun main() {
 
 > 变量可以声明在 `main()` 函数之外, 在你的程序开始的地方.
 > 使用这种方式声明的变量, 我们称之为声明在 **顶级(top level)** 范围中.
-> 
+>
 {style="tip"}
 
 由于 `customers` 是可变的变量, 可以在变量声明之后对它重新赋值.
 
 > 我们建议你默认将所有变量都声明为只读(`val`)变量.
 > 只有在需要的时候才声明可变的(`var`)变量.
-> 
+>
 {style="note"}
 
 ## 字符串模板
 
-确定的知道变量内容如何打印到标准输出将会很有用处. 你可以使用 **字符串模板** 做到这一点. 
+确定的知道变量内容如何打印到标准输出将会很有用处. 你可以使用 **字符串模板** 做到这一点.
 你可以使用模板表达式来访问存储在变量和其它对象中的数据, 并将它们转换为字符串.
 字符串值是包含在双引号 `"` 中的一串字符. 模板表达式总是以美元符号 `$` 作为起始.
 
@@ -81,12 +81,12 @@ fun main() {
 例如:
 
 ```kotlin
-fun main() { 
+fun main() {
 //sampleStart
     val customers = 10
     println("There are $customers customers")
     // 输出结果为 There are 10 customers
-    
+
     println("There are ${customers + 1} customers")
     // 输出结果为 There are 11 customers
 //sampleEnd

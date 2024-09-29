@@ -21,7 +21,7 @@ Kotlin/Native 支持以下平台:
 
 > 要编译到 Apple 平台的编译目标, macOS, iOS, tvOS, 和 watchOS, 你需要安装 [Xcode](https://apps.apple.com/us/app/xcode/id497799835)
 > 以及它的命令行工具.
-> 
+>
 {style="note"}
 
 [请参见所有支持的目标平台](native-target-support.md).

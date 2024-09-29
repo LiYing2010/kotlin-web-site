@@ -17,7 +17,7 @@ repositories {
 
 | 支持的库                          |
 |-------------------------------|
-| stdlib                        | 
+| stdlib                        |
 | kotlin-test                   |
 | kotlinx-coroutines            |
 | Compose Multiplatform         |

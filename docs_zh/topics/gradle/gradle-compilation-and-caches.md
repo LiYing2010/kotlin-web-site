@@ -372,8 +372,8 @@ tasks.withType(CompileUsingKotlinDaemon)
 
 ## Kotlin 编译器的 fallback 策略 {id="kotlin-compiler-fallback-strategy"}
 
-Kotlin 编译器的 fallback 策略是指, 如果 daemon 因为某种原因失败, 则在 Kotlin daemon 之外运行编译任务. 
-如果 Gradle daemon 启动, 编译器会使用 ["In process" 策略](#defining-kotlin-compiler-execution-strategy). 
+Kotlin 编译器的 fallback 策略是指, 如果 daemon 因为某种原因失败, 则在 Kotlin daemon 之外运行编译任务.
+如果 Gradle daemon 启动, 编译器会使用 ["In process" 策略](#defining-kotlin-compiler-execution-strategy).
 如果 Gradle daemon 没有启动, 编译器会使用 "Out of process" 策略.
 
 当 fallback 发生时, 在你的 Gradle 构建输出中会收到以下警告信息:
@@ -387,7 +387,7 @@ Try ./gradlew --stop if this issue persists.
 
 但是, 静默的 fallback 到其他策略, 会消耗大量的系统资源, 或导致不确定的构建结果.
 关于这个问题, 请参见这个 [YouTrack issue](https://youtrack.jetbrains.com/issue/KT-48843/Add-ability-to-disable-Kotlin-daemon-fallback-strategy).
-要避免这个问题, 有一个 Gradle 属性 `kotlin.daemon.useFallbackStrategy`, 默认值为 `true`. 
+要避免这个问题, 有一个 Gradle 属性 `kotlin.daemon.useFallbackStrategy`, 默认值为 `true`.
 当它的值设置为 `false` 时, daemon 启动或通信时问题会导致构建失败.
 请在 `gradle.properties` 文件中声明这个属性:
 
@@ -446,7 +446,7 @@ Gradle Build Scan 中的粒度只是单个 Gradle Task.
 是使用当前编译器还是 [K2 编译器](#the-new-kotlin-compiler)来编译代码.
 
 请参见
-[如何阅读构建报告](https://blog.jetbrains.com/kotlin/2022/06/introducing-kotlin-build-reports/#how_to_read_build_reports) 
+[如何阅读构建报告](https://blog.jetbrains.com/kotlin/2022/06/introducing-kotlin-build-reports/#how_to_read_build_reports)
 以及 [JetBrains 如何使用构建报告](https://blog.jetbrains.com/kotlin/2022/06/introducing-kotlin-build-reports/#how_we_use_build_reports_in_jetbrains).
 
 ### 启用构建报告 {id="enabling-build-reports"}
@@ -472,7 +472,7 @@ kotlin.build.report.output=file
 # 需要的报告输出格式. 可以任意组合
 kotlin.build.report.output=file,single_file,http,build_scan
 
-# 如果使用 single_file 输出, 则必须设置. 表示报告的输出位置 
+# 如果使用 single_file 输出, 则必须设置. 表示报告的输出位置
 # 请使用这个设定, 代替已废弃的 `kotlin.internal.single.build.metrics.file` 属性
 kotlin.build.report.single_file=some_filename
 
@@ -493,7 +493,7 @@ kotlin.build.report.http.url=http://127.0.0.1:8080
 kotlin.build.report.http.user=someUser
 kotlin.build.report.http.password=somePassword
 
-# 可选项. 将构建的 Git branch 名称添加到构建报告 
+# 可选项. 将构建的 Git branch 名称添加到构建报告
 kotlin.build.report.http.include_git_branch.name=true|false
 
 # 可选项. 将编译器参数添加到构建报告
@@ -504,8 +504,8 @@ kotlin.build.report.include_compiler_arguments=true|false
 ### custom values 的限制
 
 为了收集 build scan 的统计信息, Kotlin 构建报告会使用 [Gradle 的 custom values](https://docs.gradle.com/enterprise/tutorials/extending-build-scans/).
-你和各种 Gradle plugin 都可以向 custom value 写入数据. custom value 的数量存在限制. 
-关于 custom value 目前的最大件数, 请参见 [Build scan plugin 文档](https://docs.gradle.com/enterprise/gradle-plugin/#adding_custom_values). 
+你和各种 Gradle plugin 都可以向 custom value 写入数据. custom value 的数量存在限制.
+关于 custom value 目前的最大件数, 请参见 [Build scan plugin 文档](https://docs.gradle.com/enterprise/gradle-plugin/#adding_custom_values).
 
 如果你的项目很大, 这些 custom value 的数量可能非常大.
 如果超过的限制, 你会在 log 中看到以下信息:
@@ -522,7 +522,7 @@ kotlin.build.report.build_scan.custom_values_limit=500
 
 ### 关闭对项目和系统属性的收集
 
-HTTP 构建统计 log 可能包含某些项目和系统属性. 这些属性可以改变构建的行为, 因此将它们输出到构建统计信息中会很有用处. 
+HTTP 构建统计 log 可能包含某些项目和系统属性. 这些属性可以改变构建的行为, 因此将它们输出到构建统计信息中会很有用处.
 这是属性也可能存储了敏感信息, 例如, 密码, 或项目的完整路径.
 
 你可以向你的 `gradle.properties` 文件添加 `kotlin.build.report.http.verbose_environment` 属性, 来禁止收集这些统计信息.

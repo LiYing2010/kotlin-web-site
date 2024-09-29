@@ -40,7 +40,7 @@ Fleet 的使用入门, 请参见教程 [使用 Fleet 进行跨平台开发](http
 ## Android Studio
 
 [Android Studio](https://developer.android.com/studio) 是用于 Android App 开发的官方 IDE,
-它基于 [IntelliJ IDEA](https://www.jetbrains.com/idea/). 
+它基于 [IntelliJ IDEA](https://www.jetbrains.com/idea/).
 在 IntelliJ 强大的代码编辑器和开发工具的基础之上, Android Studio 还提供了更多功能, 在 Android App 的开发过程中提高你的生产效率.
 
 Kotlin plugin 包含在 Android Studio 的每个发布版内.

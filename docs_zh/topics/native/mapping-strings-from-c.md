@@ -44,7 +44,7 @@ int copy_string(char* str, int size);
 #endif
 ```
 
-在这个示例中, 你可以看到 C 语言中传递或接收一个字符串的最常见方式. 
+在这个示例中, 你可以看到 C 语言中传递或接收一个字符串的最常见方式.
 注意 `return_string` 的返回值. 通常, 最好确保你使用了正确的 `free(..)` 函数调用来释放返回的 `char*`.
 
 Kotlin/Native 带有 `cinterop` 工具; 这个工具会生成 C 语言和 Kotlin 之间的绑定.
@@ -207,7 +207,7 @@ fun copy_string(str: CValuesRef<ByteVar /* = ByteVarOf<Byte> */>?, size: Int): I
 Kotlin 将 `char` 类型转换为 `kotlin.Byte` 类型, 因为它通常是 8 bit 有符号值.
 
 在生成的 Kotlin 声明中, 你可以看到 `str` 表达为 `CValuesRef<ByteVar/>?`.
-这个类型是可为 null 的, 你可以直接传递 Kotlin 的 `null` 作为参数值. 
+这个类型是可为 null 的, 你可以直接传递 Kotlin 的 `null` 作为参数值.
 
 ## 将 Kotlin 字符串传递到 C {id="pass-kotlin-string-to-c"}
 
@@ -271,7 +271,7 @@ fun sendString() {
 
 首先, 你需要有一个 native 指针传递给 C 函数. 使用 `usePinned` 扩展函数, 临时固定住字节数组的 native 内存地址.
 C 函数向这个字节数组填充数据.
-使用另一个扩展函数 `ByteArray.decodeToString()`, 将字节数组转换为一个 Kotlin `String`, 假设使用 UTF-8 编码. 
+使用另一个扩展函数 `ByteArray.decodeToString()`, 将字节数组转换为一个 Kotlin `String`, 假设使用 UTF-8 编码.
 
 ## 修正代码
 

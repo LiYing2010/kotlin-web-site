@@ -36,17 +36,17 @@ Kotlin/Native 编译器正在不断更新, 并改进它的性能.
 
 * **只构建你需要的二进制文件**. 除非你真的需要这样, 否则不要运行构建整个项目的 Gradle 任务, 比如 `build` 或 `assemble`.
   这样的任务会多次构建相同的代码, 增加编译时间.
-  典型情况下, 比如在 IntelliJ IDEA 中运行测试, 或从 Xcode 启动应用程序, Kotlin 工具会避免执行不必要的 Gradle 任务. 
-  
+  典型情况下, 比如在 IntelliJ IDEA 中运行测试, 或从 Xcode 启动应用程序, Kotlin 工具会避免执行不必要的 Gradle 任务.
+
   如果你遇到比较特殊的场景, 或使用了特殊的构建配置, 你可能需要自行选择 Gradle 任务.
     * `linkDebug*`: 为了在开发期间运行你的代码, 你通常只需要一个二进制文件, 因此只运行对应的 `linkDebug*` 任务通常就够了.
       请记住, 编译一个证实发布版的二进制文件 (`linkRelease*`) 会比编译一个调试版本耗费更多时间.
     * `packForXcode`: 由于 iOS 各种模拟器和各种真实设备使用不同的处理器架构, 因此通常会将 Kotlin/Native 二进制文件以 universal (fat) 框架的形式发布.
       在本地开发时, 只为你正在使用的平台构建 `.framework` 会比较快.
-      
+
       要构建一个平台专用的框架, 请调用 [Kotlin Multiplatform 项目向导](https://kmp.jetbrains.com/)
-      创建的 `packForXcode` 任务. 
-      
+      创建的 `packForXcode` 任务.
+
       > 请记住, 这种情况下, 在设备和模拟器之间切换之后, 你将会需要使用 `./gradlew clean` 清除构建.
       > 详情请参见 [这个问题](https://youtrack.jetbrains.com/issue/KT-40907).
       >

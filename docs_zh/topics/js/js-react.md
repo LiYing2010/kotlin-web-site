@@ -28,23 +28,23 @@ concepts behind React may help you understand some sample code, but it is not st
    IDEA. The template includes a basic Kotlin/JS Gradle project with all required configurations and dependencies
 
    * Dependencies and tasks in the `build.gradle.kts` file:
-   
+
    ```kotlin
    dependencies {
        // React, React DOM + Wrappers
        implementation(enforcedPlatform("org.jetbrains.kotlin-wrappers:kotlin-wrappers-bom:1.0.0-pre.354"))
        implementation("org.jetbrains.kotlin-wrappers:kotlin-react")
        implementation("org.jetbrains.kotlin-wrappers:kotlin-react-dom")
-   
+
        // Kotlin React Emotion (CSS)
        implementation("org.jetbrains.kotlin-wrappers:kotlin-emotion")
-   
+
        // Video Player
        implementation(npm("react-player", "2.10.1"))
-   
+
        // Share Buttons
        implementation(npm("react-share", "4.4.0"))
-   
+
        // Coroutines & serialization
        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3")
        implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
@@ -78,7 +78,7 @@ concepts behind React may help you understand some sample code, but it is not st
 
    ```kotlin
    import kotlinx.browser.document
-   
+
    fun main() {
        document.bgColor = "red"
    }
@@ -278,7 +278,7 @@ You can now replace the hardcoded list of videos with a list of Kotlin objects:
        Video(2, "Dissecting the stdlib", "Huyen Tue Dao", "https://youtu.be/Fzt_9I733Yg"),
        Video(3, "Kotlin and Spring Boot", "Nicolas Frankel", "https://youtu.be/pSiZVAeReeg")
    )
-   
+
    val watchedVideos = listOf(
        Video(4, "Creating Internal DSLs in Kotlin", "Venkat Subramaniam", "https://youtu.be/JzTeAM8N1-o")
    )
@@ -294,7 +294,7 @@ You can now replace the hardcoded list of videos with a list of Kotlin objects:
        }
    }
    ```
-   
+
 4. Apply the same process to modify the code for the single tag following "Videos watched" as well:
 
    ```kotlin
@@ -397,12 +397,12 @@ To start creating the application's structure, first explicitly specify `App`, t
    import react.dom.html.ReactHTML.div
    import react.dom.html.ReactHTML.p
    import react.dom.html.ReactHTML.img
-   
+
    val App = FC<Props> {
        // typesafe HTML goes here, starting with the first h1 tag!
    }
    ```
-   
+
    The `FC` function creates a [function component](https://reactjs.org/docs/components-and-props.html#function-and-class-components).
 
 3. In the `Main.kt` file, update the `main()` function as follows:
@@ -433,7 +433,7 @@ and contains the code from the `unwatchedVideos` list.
    import react.*
    import react.dom.*
    import react.dom.html.ReactHTML.p
-   
+
    val VideoList = FC<Props> {
        for (video in unwatchedVideos) {
            p {
@@ -452,7 +452,7 @@ and contains the code from the `unwatchedVideos` list.
            +"Videos to watch"
        }
        VideoList()
-   
+
        h3 {
            +"Videos watched"
        }
@@ -727,11 +727,11 @@ in each `Video` object, so you can pass it as a prop and access its attributes.
    import react.dom.html.ReactHTML.div
    import react.dom.html.ReactHTML.h3
    import react.dom.html.ReactHTML.img
-   
+
    external interface VideoPlayerProps : Props {
        var video: Video
    }
-   
+
    val VideoPlayer = FC<VideoPlayerProps> { props ->
        div {
            css {
@@ -743,7 +743,7 @@ in each `Video` object, so you can pass it as a prop and access its attributes.
                +"${props.video.speaker}: ${props.video.title}"
            }
            img {
-               src = "https://via.placeholder.com/640x360.png?text=Video+Player+Placeholder"              
+               src = "https://via.placeholder.com/640x360.png?text=Video+Player+Placeholder"
            }
        }
    }
@@ -896,9 +896,9 @@ in GitHub.
    ```kotlin
    @file:JsModule("react-player")
    @file:JsNonModule
-   
+
    import react.*
-   
+
    @JsName("default")
    external val ReactPlayer: ComponentClass<dynamic>
    ```
@@ -921,12 +921,12 @@ for the component. In this case, use the `url` and `controls` props:
    ```kotlin
    @file:JsModule("react-player")
    @file:JsNonModule
-   
+
    import react.*
-   
+
    @JsName("default")
    external val ReactPlayer: ComponentClass<ReactPlayerProps>
-   
+
    external interface ReactPlayerProps : Props {
        var url: String
        var controls: Boolean
@@ -969,26 +969,26 @@ an off-the-shelf React component for this as well, for example, [react-share](ht
    ```kotlin
    @file:JsModule("react-share")
    @file:JsNonModule
-   
+
    import react.ComponentClass
    import react.Props
-   
+
    @JsName("EmailIcon")
    external val EmailIcon: ComponentClass<IconProps>
-   
+
    @JsName("EmailShareButton")
    external val EmailShareButton: ComponentClass<ShareButtonProps>
-   
+
    @JsName("TelegramIcon")
    external val TelegramIcon: ComponentClass<IconProps>
-   
+
    @JsName("TelegramShareButton")
    external val TelegramShareButton: ComponentClass<ShareButtonProps>
-   
+
    external interface ShareButtonProps : Props {
        var url: String
    }
-   
+
    external interface IconProps : Props {
        var size: Int
        var round: Boolean
@@ -1083,7 +1083,7 @@ these types of conversions from JSON strings to Kotlin objects.
        // . . .
        kotlin("plugin.serialization") version "%kotlinVersion%"
    }
-   
+
    dependencies {
        // . . .
        // Serialization
@@ -1153,12 +1153,12 @@ functionality provided by Kotlin's coroutines:
 
    ```kotlin
    val mainScope = MainScope()
-   
+
    val App = FC<Props> {
        var currentVideo: Video? by useState(null)
        var unwatchedVideos: List<Video> by useState(emptyList())
        var watchedVideos: List<Video> by useState(emptyList())
-   
+
        useEffectOnce {
            mainScope.launch {
                unwatchedVideos = fetchVideos()

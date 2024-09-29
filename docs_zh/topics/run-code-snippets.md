@@ -15,7 +15,7 @@ Kotlin 代码通常使用项目来管理, 你可以通过 IDE, 文本编辑器, 
 IntelliJ IDEA 和 Android Studio 支持 Kotlin [草稿(Scratch)文件与工作簿(Worksheet)](https://www.jetbrains.com/help/idea/kotlin-repl.html#efb8fb32).
 
 * _草稿(Scratch)文件_ (或者直接简称 _草稿_) 可以在你的项目的同一个 IDE 窗口内创建代码草稿, 并立即运行.
-  草稿不会关联到项目; 你可以从你的 OS 上的任何 IntelliJ IDEA 窗口, 访问并运行你的所有草稿. 
+  草稿不会关联到项目; 你可以从你的 OS 上的任何 IntelliJ IDEA 窗口, 访问并运行你的所有草稿.
 
   要创建一个 Kotlin 草稿, 请选择菜单 **File** | **New** | **Scratch File**, 然后选择 **Kotlin** 类型.
 

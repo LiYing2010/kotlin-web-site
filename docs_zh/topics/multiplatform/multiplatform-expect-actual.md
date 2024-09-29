@@ -87,7 +87,7 @@ IDE 可以帮助解决常见的问题, 包括:
 
    ```kotlin
    package identity
-  
+
    import kotlinx.cinterop.toKString
    import platform.posix.getlogin
    import platform.posix.getpid
@@ -137,7 +137,7 @@ IDE 可以帮助解决常见的问题, 包括:
    ```kotlin
    // 在 nativeMain 源代码集中:
    actual fun buildIdentity(): Identity = NativeIdentity()
-  
+
    class NativeIdentity(
        override val userName: String = getlogin()?.toKString() ?: "None",
        override val processID: Long = getpid().toLong()

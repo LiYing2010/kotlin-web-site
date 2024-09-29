@@ -93,7 +93,7 @@ fun main() = runBlocking<Unit> {
         selectFizzBuzz(fizz, buzz)
     }
     coroutineContext.cancelChildren() // 取消 fizz 和 buzz 协程
-//sampleEnd        
+//sampleEnd
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
@@ -185,9 +185,9 @@ fun main() = runBlocking<Unit> {
     repeat(8) { // 输出前 8 个结果
         println(selectAorB(a, b))
     }
-    coroutineContext.cancelChildren()  
-//sampleEnd      
-}    
+    coroutineContext.cancelChildren()
+//sampleEnd
+}
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
@@ -267,8 +267,8 @@ fun main() = runBlocking<Unit> {
         delay(250) // 我们多花点时间慢慢分析这个数值, 不要着急
     }
     println("Done consuming")
-    coroutineContext.cancelChildren()  
-//sampleEnd      
+    coroutineContext.cancelChildren()
+//sampleEnd
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}

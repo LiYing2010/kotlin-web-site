@@ -4,7 +4,7 @@
 最终更新: %latestDocDate%
 
 支持跨平台程序开发是 Kotlin 的关键益处之一.
-它可以减少对 [不同的平台](multiplatform-dsl-reference.md#targets) 编写和维护相同的代码从头开始, 
+它可以减少对 [不同的平台](multiplatform-dsl-reference.md#targets) 编写和维护相同的代码从头开始,
 同时又保持原生程序开发的灵活性和益处.
 
 详情请参见 [Kotlin Multiplatform 的优点](multiplatform.md).

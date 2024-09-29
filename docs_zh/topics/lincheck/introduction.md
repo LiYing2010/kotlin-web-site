@@ -2,7 +2,7 @@
 
 最终更新: %latestDocDate%
 
-本教程演示如何编写你的第一个 Lincheck 测试, 设置 Lincheck 框架, 并使用它的基本 API. 
+本教程演示如何编写你的第一个 Lincheck 测试, 设置 Lincheck 框架, 并使用它的基本 API.
 你将会创建一个新的 IntelliJ IDEA 项目, 其中包含不正确的并发计数器实现,
 为它编写一个测试, 然后查找并分析 bug.
 
@@ -23,7 +23,7 @@
    repositories {
        mavenCentral()
    }
-   
+
    dependencies {
        // Lincheck 依赖项
        testImplementation("org.jetbrains.kotlinx:lincheck:%lincheckVersion%")
@@ -34,12 +34,12 @@
 
    </tab>
    <tab title="Groovy" group-key="groovy">
-   
+
    ```groovy
    repositories {
        mavenCentral()
    }
-   
+
    dependencies {
        // Lincheck 依赖项
        testImplementation "org.jetbrains.kotlinx:lincheck:%lincheckVersion%"
@@ -74,7 +74,7 @@
        // 对计数器的操作
        @Operation
        fun inc() = c.inc()
-   
+
        @Operation
        fun get() = c.get()
 
@@ -83,7 +83,7 @@
    }
    ```
 
-   Lincheck 测试会自动完成以下工作: 
+   Lincheck 测试会自动完成以下工作:
    * 使用指定的 `inc()` 和 `get()` 操作生成一些随机的并发场景.
    * 对生成的每个场景执行一系列调用.
    * 验证每个调用的结果是否正确.
@@ -116,7 +116,7 @@
    import org.jetbrains.kotlinx.lincheck.check
    import org.jetbrains.kotlinx.lincheck.strategy.managed.modelchecking.*
    import org.junit.*
-   
+
    class Counter {
        @Volatile
        private var value = 0
@@ -127,13 +127,13 @@
 
    class BasicCounterTest {
        private val c = Counter()
-   
+
        @Operation
        fun inc() = c.inc()
-   
+
        @Operation
        fun get() = c.get()
-   
+
        @Test
        fun modelCheckingTest() = ModelCheckingOptions().check(this::class)
    }
@@ -148,7 +148,7 @@
    | ------------------- |
    | inc(): 1 | inc(): 1 |
    | ------------------- |
-   
+
    The following interleaving leads to the error:
    | --------------------------------------------------------------------- |
    | Thread 1 |                          Thread  2                         |
@@ -176,7 +176,7 @@
 
 ## 测试 Java 标准库
 
-下面我们来发现一个 Java 标准库的 `ConcurrentLinkedDeque` 中的 bug. 
+下面我们来发现一个 Java 标准库的 `ConcurrentLinkedDeque` 中的 bug.
 下面的 Lincheck 测试会发现向双向队列头部删除和添加一个元素时发生的竞争情况:
 
 ```kotlin

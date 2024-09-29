@@ -4,7 +4,7 @@
 
 > 跨平台项目目前处于 [Alpha](/docs/reference_zh/components-stability.html) 阶段.
 > 语言功能和相关工具在未来的 Kotlin 版本中都可能发生变化.
-> 
+>
 {style="note"}
 
 支持跨平台程序开发是 Kotlin 的关键性益处之一.
@@ -36,4 +36,4 @@
 * [使用 Kotlin Multiplatform 构建一个全栈的(full stack) Web 应用程序](https://play.kotlinlang.org/hands-on/Full%20Stack%20Web%20App%20with%20Kotlin%20Multiplatform/01_Introduction):
 这个教程创建一个 Client-Server 应用程序, 其中用到共用代码, 序列化, 以及其他各种跨平台开发的范例.
 通过这个例子, 在创建针对 Kotlin/JVM 和 Kotlin/JS 目标平台的应用程序的过程中, 讲授背后的概念.
-还简要介绍了如何将 Ktor 同时用作服务器端框架和客户端框架.  
+还简要介绍了如何将 Ktor 同时用作服务器端框架和客户端框架.

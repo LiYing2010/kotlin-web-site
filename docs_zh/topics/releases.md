@@ -43,7 +43,7 @@
     * [最新发布版](https://developer.android.com/studio)
     * [早期预览版](https://developer.android.com/studio/preview)
 
-> 关于 IntelliJ IDEA 中 Kotlin 相关的最新更新, 
+> 关于 IntelliJ IDEA 中 Kotlin 相关的最新更新,
 > 请参见 [IntelliJ IDEA 最新功能](https://www.jetbrains.com/idea/whatsnew/) 的 **Kotlin** 小节.
 >
 {style="tip"}

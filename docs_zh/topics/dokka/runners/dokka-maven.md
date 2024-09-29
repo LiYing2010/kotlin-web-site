@@ -277,7 +277,7 @@ Dokka 有很多配置选项, 可以用来定制你和你的读者的体验.
             是否禁止输出在指定的类中继承得到的而且没有显式覆盖的成员.
         </p>
         <p>
-            注意: 这个选项可以禁止输出 <code>equals</code>/<code>hashCode</code>/<code>toString</code> 之类的函数, 
+            注意: 这个选项可以禁止输出 <code>equals</code>/<code>hashCode</code>/<code>toString</code> 之类的函数,
             但不能禁止输出 <code>dataClass.componentN</code> 和 <code>dataClass.copy</code> 之类的合成函数.
             对合成函数, 请使用 <code>suppressObviousFunctions</code> 选项.
         </p>
@@ -290,7 +290,7 @@ Dokka 有很多配置选项, 可以用来定制你和你的读者的体验.
             是否通过你的网络来解析远程的文件/链接.
         </p>
         <p>
-            包括用来生成外部文档链接的包列表. 
+            包括用来生成外部文档链接的包列表.
             例如, 可以让来自标准库的类成为文档中可以点击的链接.
         </p>
         <p>
@@ -624,7 +624,7 @@ Dokka 有很多配置选项, 可以用来定制你和你的读者的体验.
         <p>
             如果你想要对这个包内的 <code>protected</code>/<code>internal</code>/<code>private</code> 声明生成文档,
             以及如果你想要排除 <code>public</code> 声明, 只为 internal API 生成文档,
-            这个选项可以很有用. 
+            这个选项可以很有用.
         </p>
         <p>
             默认值: <code>PUBLIC</code>

@@ -8,7 +8,7 @@ Kotlin User Group, 简称 KUG, 是一个专注于 Kotlin 的开发社区, 你可
 * 提供 Kotlin 相关的内容, 主要的活动形式是定期会面交流.
 * 主办定期的活动 (至少每 3 个月 1 次), 允许公开注册, 对参与活动没有限制.
 * 由社区管理和组织, 不通过这些活动赚取金钱, 也不从成员和参加者获取任何其他商业利益.
-* 保证遵守行为规范, 为来自任何背景任何经验的参加者提供一个友好的环境 
+* 保证遵守行为规范, 为来自任何背景任何经验的参加者提供一个友好的环境
   (参见我们推荐的 [行为规范](https://confluence.jetbrains.com/display/ALL/JetBrains+Open+Source+and+Community+Code+of+Conduct)).
 
 对 KUG 聚会的形式没有任何限制. 可以采用适合于开发社区的任何形式, 可以是演讲, 动手实验室, 讲座课程, 编程马拉松(hackathon), 或者非正式的啤酒聚会.
@@ -32,7 +32,7 @@ Kotlin User Group, 简称 KUG, 是一个专注于 Kotlin 的开发社区, 你可
 
 如果有问题, 可以 [联系我们](mailto:kug@jetbrains.com)
 
-## JetBrains 对 KUG 的支持 
+## JetBrains 对 KUG 的支持
 
 活跃的 KUG, 至少每 3 个月主办 1 次聚会, 可以申请我们的社区支持计划, 包括:
 * 官方的 KUG 品牌.

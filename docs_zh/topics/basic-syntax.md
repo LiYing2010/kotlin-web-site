@@ -527,7 +527,7 @@ fun printProduct(arg1: String, arg2: String) {
     }
     else {
         println("'$arg1' or '$arg2' is not a number")
-    }    
+    }
 }
 //sampleEnd
 

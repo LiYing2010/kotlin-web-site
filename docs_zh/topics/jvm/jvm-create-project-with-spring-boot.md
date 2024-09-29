@@ -32,19 +32,19 @@
 >
 {style="note"}
 
-1. 在 IntelliJ IDEA 中, 选择 **File** | **New** | **Project**. 
+1. 在 IntelliJ IDEA 中, 选择 **File** | **New** | **Project**.
 2. 在左侧面板中, 选择 **New Project** | **Spring Initializr**.
 3. 在 Project Wizard 窗口中, 指定以下项目和选项:
-   
+
    * **Name**: demo
    * **Language**: Kotlin
    * **Build system**: Gradle
    * **JDK**: Java 17 JDK
-     
+
      > 本教程使用 **Amazon Corretto version 18**.
      >
      {style="note"}
-   
+
    * **Java**: 17
 
    ![创建 Spring Boot 项目](create-spring-boot-project.png){width=800}
@@ -102,12 +102,12 @@ repositories {
     mavenCentral()
 }
 
-dependencies { 
-    implementation("org.springframework.boot:spring-boot-starter-data-jdbc") 
-    implementation("org.springframework.boot:spring-boot-starter-web") 
+dependencies {
+    implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
+    implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin") // Jackson 扩展, 用于在 Kotlin 中使用 JSON
     implementation("org.jetbrains.kotlin:kotlin-reflect") // Kotlin 反射库, 使用 Spring 时需要
-    runtimeOnly("com.h2database:h2") 
+    runtimeOnly("com.h2database:h2")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
@@ -118,7 +118,7 @@ tasks.withType<KotlinCompile> { // `KotlinCompile` task 的设置
     }
 }
 
-tasks.withType<Test> { 
+tasks.withType<Test> {
     useJUnitPlatform()
 }
 ```
@@ -198,7 +198,7 @@ fun main(args: Array<String>) {
    <def title="展开(spread)操作符 – (*args)">
       <p>
         <code>args</code> 是 <code>main()</code> 函数的参数, 它声明为一个字符串数组.
-        由于存在的是字符串的数组, 而你想要将它的内容传递给函数, 
+        由于存在的是字符串的数组, 而你想要将它的内容传递给函数,
         请使用展开(spread)操作符 (在数组之前加上星号 <code>*</code>).
       </p>
    </def>
@@ -321,7 +321,7 @@ Spring 应用程序现在可以运行了:
 1. 点击 `main()` 方法侧栏中的绿色 Run 图标:
 
     ![运行 Spring Boot 应用程序](run-spring-boot-application.png){width=706}
-    
+
     > 你也可以在终端窗口运行 `./gradlew bootRun` 命令.
     >
     {style="tip"}

@@ -36,13 +36,13 @@ fun main() {
 fun main() {
 //sampleStart
     val str = "abcd"
-   
+
     // 创建一个新的 String 对象, 并打印
     println(str.uppercase())
     // 输出结果为 ABCD
-   
+
     // 原字符串保持原来的值不变
-    println(str) 
+    println(str)
     // 输出结果为 abcd
 //sampleEnd
 }

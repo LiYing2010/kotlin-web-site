@@ -17,7 +17,7 @@ Kotlin/JS 目前的实现针对 [ES5](https://www.ecma-international.org/ecma-26
 而且与 JavaScript 生态系统的交互变得更加顺畅.
 
 > 从 Kotlin 1.8.0 开始, 旧的编译器已被废弃.
-> 
+>
 {style="note"}
 
 通过从 Kotlin 代码生成 TypeScript 声明文件 (`d.ts`), IR 编译器使得 "混合(hybrid)" 应用程序的开发更加容易,

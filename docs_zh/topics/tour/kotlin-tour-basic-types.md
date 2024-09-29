@@ -43,7 +43,7 @@ fun main() {
 
 > `+=`, `-=`, `*=`, `/=`, 和 `%=` 是计算并赋值操作符(Augmented Assignment Operator).
 > 详情请参见 [计算并赋值](operator-overloading.md#augmented-assignments).
-> 
+>
 {style="tip"}
 
 总的来说, Kotlin 有以下数据类型:

@@ -122,7 +122,7 @@ class Rectangle(override val vertices: List<Point>): Fillable, Polygon {
 ### 内联类(Inline Class)的改进 {id="improved-inline-classes"}
 
 > 内联的数据类目前是 [Beta 版](components-stability.md).
-> 已经基本稳定, 但未来可能需要执行一些迁移工作. 我们会尽量减少需要你进行的代码变更工作. 
+> 已经基本稳定, 但未来可能需要执行一些迁移工作. 我们会尽量减少需要你进行的代码变更工作.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-42434) 提供你的反馈意见.
 >
 {style="warning"}
@@ -135,19 +135,19 @@ Kotlin 1.4.30 将 [内联类(Inline Class)](inline-classes.md) 升级到 [Beta �
   在未来的 Kotlin 版本中, 我们计划废弃 `inline` 修饰符.
 
   从现在开始, 对于 JVM 后端, Kotlin 要求在类的声明之前添加 `@JvmInline` 注解:
-  
+
   ```kotlin
   inline class Name(private val s: String)
-  
+
   value class Name(private val s: String)
-  
+
   // 对于 JVM 后端
   @JvmInline
   value class Name(private val s: String)
   ```
 
 * 内联类可以拥有 `init` 代码段. 你可以添加需要在类实例创建之后立即执行的代码:
-  
+
   ```kotlin
   @JvmInline
   value class Negative(val x: Int) {
@@ -162,9 +162,9 @@ Kotlin 1.4.30 将 [内联类(Inline Class)](inline-classes.md) 升级到 [Beta �
 
   ```kotlin
   inline class UInt(val x: Int)
-  
+
   fun compute(x: Int) { }
-  
+
   @JvmName("computeUInt")
   fun compute(x: UInt) { }
   ```
@@ -209,7 +209,7 @@ Kotlin/JVM 的 [基于 IR 的编译器后端](whatsnew14.md#unified-backends-and
 
   </tab>
   <tab title="Groovy" group-key="groovy">
-  
+
   ```groovy
   tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile) {
     kotlinOptions.useIR = true
@@ -282,7 +282,7 @@ Gradle 会缓存计算结果, 并在以后的构建中重用这些结果.
 
 ## 标准库
 
-### 针对大写/小写文字的 Locale 无关 API 
+### 针对大写/小写文字的 Locale 无关 API
 
 > Locale 无关 API 功能是 [实验性功能](components-stability.md). 它随时有可能变更或被删除.
 > 请注意, 只为评估和试验目的来使用这个功能.
@@ -307,7 +307,7 @@ Kotlin 1.4.30 提供了以下替代函数:
 
 * 对 `String` 函数:
 
-  | **以前的版本**                |**1.4.30 的替代函数**| 
+  | **以前的版本**                |**1.4.30 的替代函数**|
 -------------------------| --- | --- |
   | `String.toUpperCase()`  |`String.uppercase()`|
   | `String.toLowerCase()`  |`String.lowercase()`|
@@ -316,13 +316,13 @@ Kotlin 1.4.30 提供了以下替代函数:
 
 * `Char` 函数:
 
-  |**以前的版本**|**1.4.30 的替代函数**| 
+  |**以前的版本**|**1.4.30 的替代函数**|
   | --- | --- |
   |`Char.toUpperCase()`|`Char.uppercaseChar(): Char`<br/>`Char.uppercase(): String`|
   |`Char.toLowerCase()`|`Char.lowercaseChar(): Char`<br/>`Char.lowercase(): String`|
   |`Char.toTitleCase()`|`Char.titlecaseChar(): Char`<br/>`Char.titlecase(): String`|
 
-> 对于 Kotlin/JVM 平台, 还有明确使用 `Locale` 参数的 overload 版本的 `uppercase()`, `lowercase()`, 和 `titlecase()` 函数 
+> 对于 Kotlin/JVM 平台, 还有明确使用 `Locale` 参数的 overload 版本的 `uppercase()`, `lowercase()`, 和 `titlecase()` 函数
 >
 {style="note"}
 
@@ -342,13 +342,13 @@ Kotlin 1.4.30 提供了以下替代函数:
 ```kotlin
 "4".toInt() // 返回 4
 '4'.toInt() // 返回 52
-// 而且没有共通函数可以对字符 '4' 返回数值 4 
+// 而且没有共通函数可以对字符 '4' 返回数值 4
 ```
 
 为了避免这样的混淆, 我们决定将 `Char` 转换分离为以下两组名称更加清晰的函数:
 
 * 第一组的函数, 用于得到 `Char` 的整数代码, 以及通过指定的代码构建 `Char`:
- 
+
   ```kotlin
   fun Char(code: Int): Char
   fun Char(code: UShort): Char

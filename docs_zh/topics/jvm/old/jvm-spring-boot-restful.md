@@ -156,7 +156,7 @@ data class Message(val id: String?, val text: String)
    ```kotlin
    import org.springframework.data.annotation.Id
    import org.springframework.data.relational.core.mapping.Table
-  
+
    @Table("MESSAGES")
    data class Message(@Id val id: String?, val text: String)
    ```
@@ -166,9 +166,9 @@ data class Message(val id: String?, val text: String)
    ```kotlin
    import org.springframework.data.jdbc.repository.query.Query
    import org.springframework.data.repository.CrudRepository
-  
+
    interface MessageRepository : CrudRepository<Message, String>{
-  
+
        @Query("select * from messages")
        fun findMessages(): List<Message>
    }
@@ -186,7 +186,7 @@ data class Message(val id: String?, val text: String)
 
    ```kotlin
    import org.springframework.stereotype.Service
-  
+
    @Service
    class MessageService(val db: MessageRepository) {
 
@@ -200,20 +200,20 @@ data class Message(val id: String?, val text: String)
 
    这个类包含 2 个方法:
    * `post()` 将一个新的 `Message` 对象写入到数据库
-   * `findMessages()` 从数据库得到所有的 `Message` 
+   * `findMessages()` 从数据库得到所有的 `Message`
 
 4. 更新 `MessageResource` 类:
 
    ```kotlin
    import org.springframework.web.bind.annotation.RequestBody
    import org.springframework.web.bind.annotation.PostMapping
-  
-  
+
+
    @RestController
    class MessageResource(val service: MessageService) {
        @GetMapping("/")
        fun index(): List<Message> = service.findMessages()
-  
+
        @PostMapping("/")
        fun post(@RequestBody message: Message) {
            service.post(message)
@@ -268,29 +268,29 @@ data class Message(val id: String?, val text: String)
    ### Post 'Hello!"
    POST http://localhost:8080/
    Content-Type: application/json
-  
+
    {
      "text": "Hello!"
    }
-  
+
    ### Post "Bonjour!"
-  
+
    POST http://localhost:8080/
    Content-Type: application/json
-  
+
    {
      "text": "Bonjour!"
    }
-  
+
    ### Post "Privet!"
-  
+
    POST http://localhost:8080/
    Content-Type: application/json
-  
+
    {
      "text": "Privet!"
    }
-  
+
    ### 得到所有的消息
    GET http://localhost:8080/
    ```

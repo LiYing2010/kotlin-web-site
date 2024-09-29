@@ -19,7 +19,7 @@ interface IndexedContainer {
 
 ```kotlin
 class OrdersList: IndexedContainer {
-    override fun get(index: Int) { /*...*/ }   
+    override fun get(index: Int) { /*...*/ }
 }
 ```
 

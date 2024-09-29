@@ -21,7 +21,7 @@ Kotlin 中, 过滤条件使用 _判定条件(predicate)_ 来表示 –
 ```kotlin
 fun main() {
 //sampleStart
-    val numbers = listOf("one", "two", "three", "four")  
+    val numbers = listOf("one", "two", "three", "four")
     val longerThan3 = numbers.filter { it.length > 3 }
     println(longerThan3)
 

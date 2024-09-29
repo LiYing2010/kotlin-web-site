@@ -6,7 +6,7 @@
 Kotlin/Native 和 Multiplatform 的构建默认使用 Gradle.
 
 虽然大多数 IDE, 包括 [IntelliJ IDEA](https://www.jetbrains.com/idea), 都可以生成需要的 Gradle 文件,
-但本教程还是介绍如何手工创建, 以便更好的理解工作原理. 
+但本教程还是介绍如何手工创建, 以便更好的理解工作原理.
 
 开始之前, 请安装 [Gradle](https://gradle.org/install/) 的最新版本.
 
@@ -126,7 +126,7 @@ Kotlin/Native 和 Multiplatform 的构建默认使用 Gradle.
 现在你可以在支持 Gradle 的任何 IDE 中打开你的项目. 如果你使用 IntelliJ IDEA:
 
 1. 选择 **File** | **Open...**.
-2. 选择项目目录, 并点击 **Open**.  
+2. 选择项目目录, 并点击 **Open**.
    IntelliJ IDEA 会自动检测到这是一个 Kotlin/Native 项目.
 
 > 如果你的项目发生任何问题, IntelliJ IDEA 会在 **Build** 页面显示错误信息.

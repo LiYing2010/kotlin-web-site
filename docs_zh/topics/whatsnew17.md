@@ -143,7 +143,7 @@ fun main() {
 构建器推断是一种特殊的类型推断, 在调用泛型构建器函数时非常有用.
 它可以帮助编译器, 利用一个调用的 Lambda 表达式参数之内的其它调用的类型信息, 推断这个调用本身的类型参数.
 
-过去, [在 1.6.0 中引入](whatsnew16.md#changes-to-builder-inference) 了编译器选项 `-Xenable-builder-inference`. 
+过去, [在 1.6.0 中引入](whatsnew16.md#changes-to-builder-inference) 了编译器选项 `-Xenable-builder-inference`.
 从 1.7.0 开始, 不需要指定这个编译器选项, 如果通常的类型推断对一个类型无法得到足够的信息, 构建器推断会自动启用.
 
 参见 [如何编写自定义的泛型构建器](using-builders-with-builder-inference.md).
@@ -451,7 +451,7 @@ kotlin {
 在 Kotlin 1.4.0 中, 所有这些函数都有了对应的 *OrNull() 同义函数.
 被这个变更影响的旧函数, 已被逐渐废弃.
 
-Kotlin 1.7.0 重新引入了原来的函数名称, 但返回类型为非 null. 
+Kotlin 1.7.0 重新引入了原来的函数名称, 但返回类型为非 null.
 新的 `min()`, `max()`, `minBy()`, `maxBy()`, `minWith()`, 和 `maxWith()` 函数,
 现在会严格的返回集合元素, 或抛出一个异常.
 
@@ -677,7 +677,7 @@ fun backRef() {
 }
 ```
 
-#### 在替换表达式中使用命名的组 
+#### 在替换表达式中使用命名的组
 
 命名的组引用可以与替换表达式一起使用.
 比如
@@ -738,7 +738,7 @@ kotlin.incremental.useClasspathSnapshot=true
 ```
 
 > 增量编译的新方案目前只能用于 JVM 后端和 Gradle 构建系统.
-> 
+>
 {style="note"}
 
 关于增量编译新方案的实现方式, 详情请参见
@@ -813,7 +813,7 @@ kotlin.build.report.output=file
 
 ### 支持 Gradle plugin 变体(Variant) {id="support-for-gradle-plugin-variants"}
 
-Gradle 7.0 为 Gradle plugin 作者引入了一个新功能 
+Gradle 7.0 为 Gradle plugin 作者引入了一个新功能
 — [带变体的 plugin](https://docs.gradle.org/7.0/userguide/implementing_gradle_plugins.html#plugin-with-variants).
 在为 Gradle 7.1 以下版本维护兼容性时, 这个功能使得更容易为新的 Gradle 功能添加支持.
 详情请参见 [Gradle 中的变体选择](https://docs.gradle.org/current/userguide/variant_model.html).
@@ -1010,7 +1010,7 @@ sourceSets {
 
 关于协程, 详情请参见 [协程指南](coroutines-guide.md).
 
-#### 删除了工具链扩展方法中的类型转换 
+#### 删除了工具链扩展方法中的类型转换
 
 在 Kotlin 1.7.0 之前, 在使用 Kotlin DSL 配置 Gradle 工具链时, 你必须将它类型转换为 `JavaToolchainSpec` 类:
 
@@ -1045,7 +1045,7 @@ IntelliJ IDEA 2022.1 和 Android Studio Chipmunk (212) 会自动建议将 Kotlin
 
 新的命令行编译器可以在 [GitHub 发布页面](https://github.com/JetBrains/kotlin/releases/tag/v1.7.0) 下载.
 
-### 将既有的项目迁移到 Kotlin 1.7.0, 或使用 Kotlin 1.7.0 创建新的项目 
+### 将既有的项目迁移到 Kotlin 1.7.0, 或使用 Kotlin 1.7.0 创建新的项目
 
 * 要将既有的项目迁移到 Kotlin 1.7.0, 请将 Kotlin 版本修改为 `1.7.0`, 然后重新导入你的 Gradle 或 Maven 项目.
   详情请参见 [如何更新到 Kotlin 1.7.0](releases.md#update-to-a-new-release).

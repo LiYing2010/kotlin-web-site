@@ -99,7 +99,7 @@ This API is used by the `loadContributorsBlocking()` function to fetch the list 
             .execute()                  // #2
             .also { logRepos(req, it) } // #3
             .body() ?: emptyList()      // #4
-    
+
         return repos.flatMap { repo ->
             service
                 .getRepoContributorsCall(req.org, repo.name) // #1
@@ -128,7 +128,7 @@ This API is used by the `loadContributorsBlocking()` function to fetch the list 
     fun <T> Response<List<T>>.bodyList(): List<T> {
         return body() ?: emptyList()
     }
-    ```  
+    ```
 
 3. Run the program again and take a look at the system output in IntelliJ IDEA. It should have something like this:
 
@@ -149,7 +149,7 @@ This API is used by the `loadContributorsBlocking()` function to fetch the list 
     event dispatching thread). This main thread becomes blocked, and that's why the UI is frozen:
 
     ![The blocked main thread](blocking.png){width=700}
-    
+
     After the list of contributors has loaded, the result is updated.
 
 4. In `src/contributors/Contributors.kt`, find the `loadContributors()` function responsible for choosing how
@@ -707,14 +707,14 @@ create as many as you need.
 
     ```kotlin
     suspend fun loadContributorsConcurrent(
-        service: GitHubService, 
+        service: GitHubService,
         req: RequestData
     ): List<User> = coroutineScope {
         val repos = service
             .getOrgRepos(req.org)
             .also { logRepos(req, it) }
             .bodyList()
-    
+
         val deferreds: List<Deferred<List<User>>> = repos.map { repo ->
             async {
                 service.getRepoContributors(req.org, repo.name)
@@ -835,7 +835,7 @@ import kotlinx.coroutines.*
 
 fun main() = runBlocking { /* this: CoroutineScope */
     launch { /* ... */ }
-    // the same as:   
+    // the same as:
     this.launch { /* ... */ }
 }
 ```
@@ -903,7 +903,7 @@ the parent coroutine.
 
     ```kotlin
     suspend fun loadContributorsConcurrent(
-        service: GitHubService, 
+        service: GitHubService,
         req: RequestData
     ): List<User> = coroutineScope {
         // ...
@@ -950,7 +950,7 @@ the parent coroutine.
 
     ```kotlin
     interface Contributors {
-    
+
         fun loadContributors() {
             // ...
             when (getSelectedVariant()) {
@@ -962,10 +962,10 @@ the parent coroutine.
                 }
             }
         }
-    
+
         private fun Job.setUpCancellation() {
             val loadingJob = this              // #2
-    
+
             // cancel the loading job if the 'cancel' button was clicked:
             val listener = ActionListener {
                 loadingJob.cancel()            // #3
@@ -973,11 +973,11 @@ the parent coroutine.
             }
             // add a listener to the 'cancel' button:
             addCancelListener(listener)
-    
+
             // update the status and remove the listener
             // after the loading job is completed
         }
-    }   
+    }
     ```
 
 The `launch` function returns an instance of `Job`. `Job` stores a reference to the "loading coroutine", which loads
@@ -1400,9 +1400,9 @@ of delaying in real time:
 ```kotlin
 @Test
 fun testDelayInSuspend() = runTest {
-    val realStartTime = System.currentTimeMillis() 
+    val realStartTime = System.currentTimeMillis()
     val virtualStartTime = currentTime
-        
+
     foo()
     println("${System.currentTimeMillis() - realStartTime} ms") // ~ 6 ms
     println("${currentTime - virtualStartTime} ms")             // 1000 ms

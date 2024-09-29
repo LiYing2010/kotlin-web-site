@@ -37,7 +37,7 @@ class MultiMap<K, V> {
 3. 使用字符串配置 `@Param(conf = "1:2")`, 定义要生成的值的范围.
 4. 指定参数配置的名称 (`@Param(name = "key")`), 以便在多个操作中共用这个配置.
 
-   下面是对 `MultiMap` 的压力测试, 它会为 `add(key, value)` 和 `get(key)` 操作生成 key 值, 范围是 `[1..2]`: 
+   下面是对 `MultiMap` 的压力测试, 它会为 `add(key, value)` 和 `get(key)` 操作生成 key 值, 范围是 `[1..2]`:
 
    ```kotlin
    import java.util.concurrent.*
@@ -106,7 +106,7 @@ class MultiMap<K, V> {
    | ---------------------------------- |
    | get(2): [-1]    |                  |
    | ---------------------------------- |
-   
+
    ---
    All operations above the horizontal line | ----- | happen before those below the line
    ---

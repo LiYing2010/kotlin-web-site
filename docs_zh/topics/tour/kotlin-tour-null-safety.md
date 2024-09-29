@@ -99,7 +99,7 @@ fun main() {
 ```kotlin
 fun lengthString(maybeString: String?): Int? = maybeString?.length
 
-fun main() { 
+fun main() {
     var nullString: String? = null
     println(lengthString(nullString))
     // null
@@ -173,8 +173,8 @@ fun employeeById(id: Int) = when(id) {
 }
 
 fun salaryById(id: Int) = // 在这里编写你的代码
-    
-fun main() { 
+
+fun main() {
     println((1..5).sumOf { id -> salaryById(id) })
 }
 ```

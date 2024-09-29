@@ -25,7 +25,7 @@ _CrudRepository_ 是一个 Spring Data 接口, 可以指定类型的仓库进行
 
 首先, 你需要调整 `Message` 类, 来配合 `CrudRepository` API:
 
-1. 向 `Message` 类添加 `@Table` 注解, 声明它与数据库表的映射关系.  
+1. 向 `Message` 类添加 `@Table` 注解, 声明它与数据库表的映射关系.
    在 `id` 属性之前添加 `@Id` 注解.
 
     > 这些注解也需要额外的 import.
@@ -35,18 +35,18 @@ _CrudRepository_ 是一个 Spring Data 接口, 可以指定类型的仓库进行
     ```kotlin
     import org.springframework.data.annotation.Id
     import org.springframework.data.relational.core.mapping.Table
-    
+
     @Table("MESSAGES")
     data class Message(@Id var id: String?, val text: String)
     ```
-    
+
    除了添加这些注解之外, 你还需要让 `id` 成为可变属性 (`var`), 因为在将新对象插入到数据库时 `CrudRepository` 需要如此.
 
 2. 为`CrudRepository` 声明一个接口, 它负责操作 `Message` 数据类:
 
     ```kotlin
     import org.springframework.data.repository.CrudRepository
-    
+
     interface MessageRepository : CrudRepository<Message, String>
     ```
 
@@ -58,13 +58,13 @@ _CrudRepository_ 是一个 Spring Data 接口, 可以指定类型的仓库进行
     @Service
     class MessageService(val db: MessageRepository) {
         fun findMessages(): List<Message> = db.findAll().toList()
-    
+
         fun findMessageById(id: String): List<Message> = db.findById(id).toList()
-    
+
         fun save(message: Message) {
             db.save(message)
         }
-    
+
         fun <T : Any> Optional<out T>.toList(): List<T> =
             if (isPresent) listOf(get()) else emptyList()
     }

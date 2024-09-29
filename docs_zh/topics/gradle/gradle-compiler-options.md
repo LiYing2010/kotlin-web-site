@@ -8,7 +8,7 @@ JVM, JavaScript, 以及 [支持的平台的](native-overview.md#target-platforms
 这些编译器会在以下情况下使用:
 * 当你对你的 Kotlin 工程按下 __Compile__ 或 __Run__ 按钮时, 由 IDE 使用.
 * 当你在控制台或在 IDE 内调用 `gradle build` 命令时, 由 Gradle 使用.
-* 当你在控制台或在 IDE 内调用 `mvn compile` 或 `mvn test-compile`, 由 Maven 使用. 
+* 当你在控制台或在 IDE 内调用 `mvn compile` 或 `mvn test-compile`, 由 Maven 使用.
 
 你也可以从命令行手动运行 Kotlin 编译器, 详情请参见教程 [使用命令行编译器](command-line.md).
 
@@ -16,7 +16,7 @@ JVM, JavaScript, 以及 [支持的平台的](native-overview.md#target-platforms
 
 Kotlin 编译器带有很多选项, 用来定制编译过程.
 
-使用构建脚本, 你可以指定额外的编译选项. 可以通过 Kotlin 编译任务的 `compilerOptions` 属性来添加编译选项. 
+使用构建脚本, 你可以指定额外的编译选项. 可以通过 Kotlin 编译任务的 `compilerOptions` 属性来添加编译选项.
 例如:
 
 <tabs group="build-script">
@@ -270,7 +270,7 @@ tasks
 tasks
     .withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask.class)
     .configureEach {
-        compilerOptions.languageVersion = 
+        compilerOptions.languageVersion =
             org.jetbrains.kotlin.gradle.dsl.KotlinVersion.%gradleLanguageVersion%
     }
 ```

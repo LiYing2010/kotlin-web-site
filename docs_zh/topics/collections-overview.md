@@ -55,7 +55,7 @@ Kotlin 标准库实现了基本的集合类型: set, list, 以及 map.
 fun main() {
 //sampleStart
     val numbers = mutableListOf("one", "two", "three", "four")
-    numbers.add("five")   // 这是可以的    
+    numbers.add("five")   // 这是可以的
     println(numbers)
     //numbers = mutableListOf("six", "seven")      // 编译错误
 //sampleEnd
@@ -249,7 +249,7 @@ fun main() {
 [`Map<K, V>`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html)
 不继承自 `Collection` 接口; 但它仍然是 Kotlin 的集合类型.
 `Map` 存储成对的 _键(key)-值(value)_ (或者叫 _条目(entry)_); 键(key)是不可重复的, 但不同的键(key)可以对应到相等的值(value).
-`Map` 接口提供了专用的函数, 比如根据指定的键(key)来得到对应的值(value), 查找键(key)和值(value), 等等.  
+`Map` 接口提供了专用的函数, 比如根据指定的键(key)来得到对应的值(value), 查找键(key)和值(value), 等等.
 
 ```kotlin
 fun main() {
@@ -258,7 +258,7 @@ fun main() {
 
     println("All keys: ${numbersMap.keys}")
     println("All values: ${numbersMap.values}")
-    if ("key2" in numbersMap) println("Value by key \"key2\": ${numbersMap["key2"]}")    
+    if ("key2" in numbersMap) println("Value by key \"key2\": ${numbersMap["key2"]}")
     if (1 in numbersMap.values) println("The value 1 is in the map")
     if (numbersMap.containsValue(1)) println("The value 1 is in the map") // 结果与上面相同
 //sampleEnd

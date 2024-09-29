@@ -388,7 +388,7 @@ Kotlin 编译器通过参数来提供关于 `prop` 属性的所有必须信息: 
   ```kotlin
   class A {
       operator fun getValue(thisRef: Any?, property: KProperty<*>) ...
- 
+
       val s by this
   }
   ```

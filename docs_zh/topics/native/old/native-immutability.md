@@ -4,7 +4,7 @@
 
 > 本章描述的是旧的内存管理器的功能特性.
 > 从 Kotlin 1.7.20 开始会默认启用新的内存管理器, 详情请参见 [Kotlin/Native 内存管理](native-memory-manager.html).
-> 
+>
 {style="note"}
 
 Kotlin/Native 实现了严格的可变性检查, 以确保重要的不变性(invariant)机制,

@@ -17,7 +17,7 @@ import java.util.concurrent.*
 class MultiMap<K, V> {
     val map = ConcurrentHashMap<K, List<V>>()
 
-    // 根据指定的 key, 将值添加到列表 
+    // 根据指定的 key, 将值添加到列表
     // 这里包含竞争情况 :(
     fun add(key: K, value: V) {
         val list = map[key]
@@ -32,7 +32,7 @@ class MultiMap<K, V> {
 }
 ```
 
-`j.u.c.ConcurrentHashMap` 已经确保是线性一致的, 因此它的操作可以认为是原子操作. 
+`j.u.c.ConcurrentHashMap` 已经确保是线性一致的, 因此它的操作可以认为是原子操作.
 在你的测试中, 你可以在 `ModelCheckingOptions()` 中使用 `addGuarantee` 选项来指定这一点:
 
 ```kotlin
@@ -47,7 +47,7 @@ import org.junit.*
 class MultiMap<K,V> {
     val map = ConcurrentHashMap<K, List<V>>()
 
-    // 根据指定的 key, 将值添加到列表 
+    // 根据指定的 key, 将值添加到列表
     // 这里包含竞争情况 :(
     fun add(key: K, value: V) {
         val list = map[key]
@@ -88,5 +88,5 @@ class MultiMapTest {
 
 ## 下一步
 
-学习如何测试设置了 [执行期访问约束](constraints.html) 的数据结构, 
+学习如何测试设置了 [执行期访问约束](constraints.html) 的数据结构,
 比如单生成者/单消费者队列.

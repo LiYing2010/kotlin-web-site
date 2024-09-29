@@ -53,13 +53,13 @@ java -jar dokka-cli-%dokkaVersion%.jar -sourceSet -help
 
 ### 使用命令行选项运行 {id="run-with-command-line-options"}
 
-你可以传递命令行选项来配置 CLI 运行器. 
+你可以传递命令行选项来配置 CLI 运行器.
 
 你至少需要提供以下选项:
 
 * `-pluginsClasspath` - 指向已下载的依赖项的绝对/相对路径列表, 使用分号 `;` 分隔
 * `-sourceSet` - 要生成文档的源代码的绝对路径
-* `-outputDir` - 文档输出目录的绝对/相对路径 
+* `-outputDir` - 文档输出目录的绝对/相对路径
 
 ```bash
 java -jar dokka-cli-%dokkaVersion%.jar \
@@ -74,7 +74,7 @@ java -jar dokka-cli-%dokkaVersion%.jar \
 
 ### 使用 JSON 配置运行 {id="run-with-json-configuration"}
 
-可以使用 JSON 来配置 CLI 运行器. 这种情况下, 你需要提供指向 JSON 配置文件的绝对/相对路径, 作为第一个也是唯一一个参数. 
+可以使用 JSON 来配置 CLI 运行器. 这种情况下, 你需要提供指向 JSON 配置文件的绝对/相对路径, 作为第一个也是唯一一个参数.
 所有其它的配置选项都从 JSON 配置文件解析得到.
 
 ```bash
@@ -196,14 +196,14 @@ java -jar dokka-cli-%dokkaVersion%.jar -sourceSet -help
 | `samples`                    | 包含示例函数的目录或文件的列表. 可以接受多个路径, 以分号分隔.                                                                        |
 | `includes`                   | <p id="includes-cli">包含 [模块和包文档](dokka-module-and-package-docs.md) 的 Markdown 文件. 可以接受多个路径, 以分号分隔.</p>   |
 | `documentedVisibilities`     | 需要生成文档的成员可见度. 可以接受多个值, 以分号分隔. 可以设置的值: `PUBLIC`, `PRIVATE`, `PROTECTED`, `INTERNAL`, `PACKAGE`.           |
-| `reportUndocumented`         | 是否对无文档的声明输出警告.                                                                                           | 
-| `noSkipEmptyPackages`        | 是否对空的包创建页面.                                                                                              | 
-| `skipDeprecated`             | 是否跳过废弃的声明.                                                                                               | 
+| `reportUndocumented`         | 是否对无文档的声明输出警告.                                                                                           |
+| `noSkipEmptyPackages`        | 是否对空的包创建页面.                                                                                              |
+| `skipDeprecated`             | 是否跳过废弃的声明.                                                                                               |
 | `jdkVersion`                 | 生成 JDK Javadoc 链接时使用的 JDK 版本.                                                                            |
 | `languageVersion`            | 设置代码分析和示例环境时使用的 Kotlin 语言版本.                                                                             |
 | `apiVersion`                 | 设置代码分析和示例环境时使用的 Kotlin API 版本.                                                                           |
-| `noStdlibLink`               | 是否生成指向 Kotlin 标准库的链接.                                                                                    | 
-| `noJdkLink`                  | 是否生成指向 JDK Javadoc 的链接.                                                                                  | 
+| `noStdlibLink`               | 是否生成指向 Kotlin 标准库的链接.                                                                                    |
+| `noJdkLink`                  | 是否生成指向 JDK Javadoc 的链接.                                                                                  |
 | `suppressedFiles`            | 需要禁止输出的文件路径. 可以接受多个路径, 以分号分隔.                                                                            |
 | `analysisPlatform`           | 设置代码分析环境时使用的平台.                                                                                          |
 | `perPackageOptions`          | 包源代码集配置列表, 格式为 `matchingRegexp,-deprecated,-privateApi,+warnUndocumented,+suppress;...`. 可以接受多个值, 以分号分隔. |
@@ -326,7 +326,7 @@ java -jar dokka-cli-%dokkaVersion%.jar -sourceSet -help
             是否通过你的网络来解析远程的文件/链接.
         </p>
         <p>
-            包括用来生成外部文档链接的包列表. 例如, 可以让来自标准库的类成为文档中可以点击的链接. 
+            包括用来生成外部文档链接的包列表. 例如, 可以让来自标准库的类成为文档中可以点击的链接.
         </p>
         <p>
             将这个选项设置为 <code>true</code>, 某些情况下可以显著提高构建速度, 但也会降低文档质量和用户体验.

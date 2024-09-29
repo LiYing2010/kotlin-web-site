@@ -23,13 +23,13 @@
 
    </tab>
    <tab title="Groovy" group-key="groovy">
-   
+
    ```groovy
    dependencies {
        implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:%coroutinesVersion%'
    }
    ```
-   
+
    </tab>
    </tabs>
 
@@ -48,7 +48,7 @@
 
     ```kotlin
     import kotlinx.coroutines.*
-    
+
     fun main() = runBlocking<Unit> {
         val a = async {
             println("I'm computing part of the answer")
@@ -76,7 +76,7 @@
 
    ![构建一个控制台应用程序](flow-debug-project.png)
 
-    然后会出现 **Debug** 工具窗口: 
+    然后会出现 **Debug** 工具窗口:
     * **Frames** 页包含调用栈.
     * **Variables** 页包含当前上下文中的变量.
     * **Coroutines** 页包含正在运行的或挂起的协程信息. 它显示存在 3 个协程.

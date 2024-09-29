@@ -258,9 +258,9 @@ Kotlin 1.7.20 对 [构建器类型推断](using-builders-with-builder-inference.
     class Data {
         fun doSmth() {} // 1
     }
-    
+
     fun <T> T.doSmth() {} // 2
-    
+
     fun test() {
         buildList {
             this.add(Data())
@@ -268,17 +268,17 @@ Kotlin 1.7.20 对 [构建器类型推断](using-builders-with-builder-inference.
         }
     }
     ```
-    {validate="false"} 
-  
+    {validate="false"}
+
   要修正这段代码, 你需要明确指定类型:
 
     ```kotlin
     class Data {
         fun doSmth() {} // 1
     }
-    
+
     fun <T> T.doSmth() {} // 2
-    
+
     fun test() {
         buildList<Data> { // 使用类型参数!
             this.add(Data())
@@ -293,21 +293,21 @@ Kotlin 1.7.20 对 [构建器类型推断](using-builders-with-builder-inference.
 
     ```kotlin
     fun <T: Any> buildList(
-        first: MutableList<T>.() -> Unit, 
+        first: MutableList<T>.() -> Unit,
         second: MutableList<T>.() -> Unit
     ): List<T> {
         val list = mutableListOf<T>()
         list.first()
         list.second()
-        return list 
+        return list
     }
-    
+
     fun main() {
         buildList(
             first = { // this 的类型是: MutableList<String>
                 add("")
             },
-            second = { // this 的类型是: MutableList<Int> 
+            second = { // this 的类型是: MutableList<Int>
                 val i: Int = get(0)
                 println(i)
             }
@@ -388,7 +388,7 @@ fun compute(s: UserId<String>) {} // 编译器生成 fun compute-<hashcode>(s: A
   object NamedObject {
       operator fun getValue(thisRef: Any?, property: KProperty<*>): String = ...
   }
-  
+
   val s: String by NamedObject
   ```
   {validate="false"}
@@ -397,7 +397,7 @@ fun compute(s: UserId<String>) {} // 编译器生成 fun compute-<hashcode>(s: A
 
   ```kotlin
   val impl: ReadOnlyProperty<Any?, String> = ...
-  
+
   class A {
       val s: String by impl
   }
@@ -409,7 +409,7 @@ fun compute(s: UserId<String>) {} // 编译器生成 fun compute-<hashcode>(s: A
   ```kotlin
   class A {
       operator fun getValue(thisRef: Any?, property: KProperty<*>) ...
-   
+
       val s by this
   }
   ```
@@ -643,15 +643,15 @@ Kotlin 1.7.20 对 `java.nio.file.Path` 类提供了新的 [扩展函数](extensi
           // 这里可以实现访问目录时的某些逻辑
           FileVisitResult.CONTINUE
       }
-  
+
       onVisitFile { file, attributes ->
           // 这里可以实现访问文件时的某些逻辑
           FileVisitResult.CONTINUE
       }
   }
-  
+
   // 这里可以实现某些逻辑
-  
+
   projectDirectory.visitFileTree(cleanVisitor)
   ```
 
@@ -664,7 +664,7 @@ Kotlin 1.7.20 对 `java.nio.file.Path` 类提供了新的 [扩展函数](extensi
           // 这里可以实现访问目录时的某些逻辑
           FileVisitResult.CONTINUE
       }
-  
+
       onVisitFile { file, attributes ->
           // 这里可以实现访问文件时的某些逻辑
           FileVisitResult.CONTINUE
@@ -686,7 +686,7 @@ Kotlin 1.7.20 对 `java.nio.file.Path` 类提供了新的 [扩展函数](extensi
                   FileVisitResult.CONTINUE
               }
           }
-  
+
           onVisitFile { file, _ ->
               if (file.extension == "class") {
                   file.deleteExisting()
@@ -694,29 +694,29 @@ Kotlin 1.7.20 对 `java.nio.file.Path` 类提供了新的 [扩展函数](extensi
               FileVisitResult.CONTINUE
           }
       }
-  
+
       val rootDirectory = createTempDirectory("Project")
-  
+
       rootDirectory.resolve("src").let { srcDirectory ->
           srcDirectory.createDirectory()
           srcDirectory.resolve("A.kt").createFile()
           srcDirectory.resolve("A.class").createFile()
       }
-  
+
       rootDirectory.resolve("build").let { buildDirectory ->
           buildDirectory.createDirectory()
           buildDirectory.resolve("Project.jar").createFile()
       }
-  
-   
+
+
       // 使用 walk 函数:
       val directoryStructure = rootDirectory.walk(PathWalkOption.INCLUDE_DIRECTORIES)
           .map { it.relativeTo(rootDirectory).toString() }
           .toList().sorted()
       assertPrints(directoryStructure, "[, build, build/Project.jar, src, src/A.class, src/A.kt]")
-  
+
       rootDirectory.visitFileTree(cleanVisitor)
-  
+
       val directoryStructureAfterClean = rootDirectory.walk(PathWalkOption.INCLUDE_DIRECTORIES)
           .map { it.relativeTo(rootDirectory).toString() }
           .toList().sorted()

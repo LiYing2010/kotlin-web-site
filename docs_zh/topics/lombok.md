@@ -71,7 +71,7 @@ plugins {
 
 如果要使用 [Lombok 配置文件](https://projectlombok.org/features/configuration) `lombok.config`,
 你需要设置文件路径, 让插件能够找到它.
-路径必须是从模块目录开始的相对路径. 
+路径必须是从模块目录开始的相对路径.
 例如, 向你的 `build.gradle(.kts)` 文件添加以下代码:
 
 <tabs group="build-script">
@@ -188,7 +188,7 @@ kapt {
 如果你想要使用 `lombok.config` 文件, 请将以下代码中的 `<PATH_TO_CONFIG_FILE>` 替换为你的 `lombok.config` 文件的路径:
 
 ```bash
-# 插件选项的格式是: "-P plugin:<plugin id>:<key>=<value>". 
+# 插件选项的格式是: "-P plugin:<plugin id>:<key>=<value>".
 # 选项可以重复.
 
 -P plugin:org.jetbrains.kotlin.lombok:config=<PATH_TO_CONFIG_FILE>

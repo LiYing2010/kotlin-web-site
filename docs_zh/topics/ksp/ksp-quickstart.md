@@ -11,34 +11,34 @@
 
    <tabs group="build-script">
    <tab title="Kotlin" group-key="kotlin">
-   
+
    ```kotlin
    plugins {
        kotlin("jvm") version "%kspSupportedKotlinVersion%" apply false
    }
-   
+
    buildscript {
        dependencies {
            classpath(kotlin("gradle-plugin", version = "%kspSupportedKotlinVersion%"))
        }
    }
    ```
-   
+
    </tab>
    <tab title="Groovy" group-key="groovy">
-   
+
    ```groovy
    plugins {
        id 'org.jetbrains.kotlin.jvm' version '%kspSupportedKotlinVersion%' apply false
    }
-   
+
    buildscript {
        dependencies {
            classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:%kspSupportedKotlinVersion%'
        }
    }
    ```
-   
+
    </tab>
    </tabs>
 
@@ -48,16 +48,16 @@
 
    <tabs group="build-script">
    <tab title="Kotlin" group-key="kotlin">
-   
+
    ```kotlin
    plugins {
        kotlin("jvm")
    }
-   
+
    repositories {
        mavenCentral()
    }
-   
+
    dependencies {
        implementation("com.google.devtools.ksp:symbol-processing-api:%kspSupportedKotlinVersion%-%kspVersion%")
    }
@@ -65,16 +65,16 @@
 
    </tab>
    <tab title="Groovy" group-key="groovy">
-   
+
    ```groovy
    plugins {
        id 'org.jetbrains.kotlin.jvm' version '%kotlinVersion%'
    }
-   
+
    repositories {
        mavenCentral()
    }
-   
+
    dependencies {
        implementation 'com.google.devtools.ksp:symbol-processing-api:%kspSupportedKotlinVersion%-%kspVersion%'
    }
@@ -84,14 +84,14 @@
    </tabs>
 
 5. 你需要实现
-   [`com.google.devtools.ksp.processing.SymbolProcessor`](https://github.com/google/ksp/tree/main/api/src/main/kotlin/com/google/devtools/ksp/processing/SymbolProcessor.kt)  
+   [`com.google.devtools.ksp.processing.SymbolProcessor`](https://github.com/google/ksp/tree/main/api/src/main/kotlin/com/google/devtools/ksp/processing/SymbolProcessor.kt)
    和
    [`com.google.devtools.ksp.processing.SymbolProcessorProvider`](https://github.com/google/ksp/tree/main/api/src/main/kotlin/com/google/devtools/ksp/processing/SymbolProcessorProvider.kt).
    你实现的 `SymbolProcessorProvider` 将被作为一个服务装载, 负责创建你实现的 `SymbolProcessor` 实例.
    注意以下几点:
     * 实现
       [`SymbolProcessorProvider.create()`](https://github.com/google/ksp/blob/master/api/src/main/kotlin/com/google/devtools/ksp/processing/SymbolProcessorProvider.kt),
-      负责创建一个 `SymbolProcessor`. 
+      负责创建一个 `SymbolProcessor`.
       通过 `SymbolProcessorProvider.create()` 的参数传递你的处理器需要的依赖项 (比如 `CodeGenerator`, 处理器选项).
     * 你的主逻辑应该在
       [`SymbolProcessor.process()`](https://github.com/google/ksp/blob/master/api/src/main/kotlin/com/google/devtools/ksp/processing/SymbolProcessor.kt)
@@ -102,7 +102,7 @@
     * 关于 `SymbolProcessorProvider` 和 `SymbolProcessor` 接口实现的例子, 请参见示例项目中的以下文件.
         * `src/main/kotlin/BuilderProcessor.kt`
         * `src/main/kotlin/TestProcessor.kt`
-    * 编写完你自己的处理器之后, 需要向包注册你的处理器 provider, 方法是在 
+    * 编写完你自己的处理器之后, 需要向包注册你的处理器 provider, 方法是在
       `resources/META-INF/services/com.google.devtools.ksp.processing.SymbolProcessorProvider`
       中包含它的完全限定名称.
 
@@ -112,18 +112,18 @@
 
    <tabs group="build-script">
    <tab title="Kotlin" group-key="kotlin">
-   
+
    ```kotlin
-   pluginManagement { 
-       repositories { 
+   pluginManagement {
+       repositories {
            gradlePluginPortal()
        }
    }
    ```
-   
+
    </tab>
    <tab title="Groovy" group-key="groovy">
-   
+
    ```groovy
    pluginManagement {
        repositories {
@@ -131,7 +131,7 @@
        }
    }
    ```
-   
+
    </tab>
    </tabs>
 
@@ -139,34 +139,34 @@
 
    <tabs group="build-script">
    <tab title="Kotlin" group-key="kotlin">
-   
+
    ```kotlin
    plugins {
        id("com.google.devtools.ksp") version "%kspSupportedKotlinVersion%-%kspVersion%"
    }
-   
+
    dependencies {
        implementation(kotlin("stdlib-jdk8"))
        implementation(project(":test-processor"))
        ksp(project(":test-processor"))
    }
    ```
-   
+
    </tab>
    <tab title="Groovy" group-key="groovy">
-   
+
    ```groovy
    plugins {
        id 'com.google.devtools.ksp' version '%kspSupportedKotlinVersion%-%kspVersion%'
    }
-   
+
    dependencies {
        implementation 'org.jetbrains.kotlin:kotlin-stdlib:%kotlinVersion%'
        implementation project(':test-processor')
        ksp project(':test-processor')
    }
    ```
-   
+
    </tab>
    </tabs>
 
@@ -285,7 +285,7 @@ kotlin {
 
 ```text
 Execution optimizations have been disabled for task ':publishPluginJar' to ensure correctness due to the following reasons:
-Gradle detected a problem with the following location: '../build/generated/ksp/main/kotlin'. 
+Gradle detected a problem with the following location: '../build/generated/ksp/main/kotlin'.
 Reason: Task ':publishPluginJar' uses this output of task ':kspKotlin' without declaring an explicit or implicit dependency.
 ```
 

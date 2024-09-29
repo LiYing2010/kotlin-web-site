@@ -22,19 +22,19 @@
                 创建你的第一个跨平台应用程序
             </div>
             <br/>
-    
+
             <div style="vertical-align: middle; display: inline-flex">
                 <img src="/assets/docs/images/icons/icon-3-todo.svg" alt="第 3 步" width="20"/> &nbsp;
                 添加依赖项
             </div>
             <br/>
-    
+
             <div style="vertical-align: middle; display: inline-flex">
                 <img src="/assets/docs/images/icons/icon-4-todo.svg" alt="第 4 步" width="20"/> &nbsp;
                 升级你的应用程序
             </div>
             <br/>
-    
+
             <div style="vertical-align: middle; display: inline-flex">
                 <img src="/assets/docs/images/icons/icon-5-todo.svg" alt="第 5 步" width="20"/> &nbsp;
                 完成你的项目
@@ -80,7 +80,7 @@
                     但是, Kotlin/Native 有时还不支持 Xcode 的最新版.
                     如果你遇到这种情况, <a href="https://developer.apple.com/download/all/?q=Xcode">请安装一个旧版本的 Xcode</a>.
                 </p>
-            </note>   
+            </note>
         </td>
     </tr>
     <tr>
@@ -112,7 +112,7 @@
         <td>
             <p>
                 Kotlin plugin 随 Android Studio 的每个版本一起发布. 但是, 还需要将它更新到最新版本, 以免发生兼容性问题.
-            </p> 
+            </p>
             <p>
                 要更新 Kotlin plugin, 请在 Android Studio 的欢迎画面,
                 选择 <strong>Plugins | Installed</strong>. 点击 Kotlin 旁边的 <strong>Update</strong> 按钮.

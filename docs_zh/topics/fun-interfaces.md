@@ -72,8 +72,8 @@ fun main() {
 我们来看看以下代码:
 
 ```kotlin
-interface Printer { 
-    fun print() 
+interface Printer {
+    fun print()
 }
 
 fun Printer(block: () -> Unit): Printer = object : Printer { override fun print() = block() }
@@ -82,7 +82,7 @@ fun Printer(block: () -> Unit): Printer = object : Printer { override fun print(
 由于可以使用对函数式接口构造器的可调用的引用, 这段代码可以替换为函数式接口声明:
 
 ```kotlin
-fun interface Printer { 
+fun interface Printer {
     fun print()
 }
 ```

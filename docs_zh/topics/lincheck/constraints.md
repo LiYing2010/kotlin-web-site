@@ -52,7 +52,7 @@ class MPSCQueueTest {
     @Operation
     fun offer(x: Int) = queue.offer(x)
 
-    @Operation(nonParallelGroup = "consumers") 
+    @Operation(nonParallelGroup = "consumers")
     fun poll(): Int? = queue.poll()
 
     @Operation(nonParallelGroup = "consumers")

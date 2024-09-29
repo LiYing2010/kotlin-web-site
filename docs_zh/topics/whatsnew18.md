@@ -31,7 +31,7 @@ Kotlin 1.8.0 已经发布了, 以下是它的一些最重要的功能:
 
 ## Kotlin/JVM
 
-从 1.8.0 版开始, 编译器可以生成字节码版本对应于 JVM 19 的类. 
+从 1.8.0 版开始, 编译器可以生成字节码版本对应于 JVM 19 的类.
 新的语言版本还包括以下功能:
 
 * [一个编译器选项, 关闭 JVM 注解对象的生成](#ability-to-not-generate-type-use-and-type-parameter-annotation-targets)
@@ -66,7 +66,7 @@ Kotlin 1.8.0 添加了一个新的 `-Xdebug` 编译器选项, 它会禁止代码
 ### 删除了旧的编译器后端 {id="removal-of-the-old-backend"}
 
 在 Kotlin 1.5.0 中, 我们 [宣布了](whatsnew15.md#stable-jvm-ir-backend) 基于 IR 的编译器后端进入 [稳定版](components-stability.md).
-因此从 Kotlin 1.4.* 开始的旧的编译器后端已被废弃. 在 Kotlin 1.8.0 中, 我们完全删除了旧的编译器后端. 
+因此从 Kotlin 1.4.* 开始的旧的编译器后端已被废弃. 在 Kotlin 1.8.0 中, 我们完全删除了旧的编译器后端.
 同时, 我们也删除了编译器选项 `-Xuse-old-backend` 和 Gradle 选项 `useOldBackend`.
 
 ### 支持 Lombok 的 @Builder 注解 {id="support-for-lombok-s-builder-annotation"}
@@ -75,7 +75,7 @@ Kotlin 1.8.0 添加了一个新的 `-Xdebug` 编译器选项, 它会禁止代码
 因此我们决定支持 [@Builder 注解](https://projectlombok.org/features/Builder).
 
 我们还没有支持 `@SuperBuilder` 和 `@Tolerate` 注解的计划,
-但如果有足够多的人投票支持 
+但如果有足够多的人投票支持
 [@SuperBuilder](https://youtrack.jetbrains.com/issue/KT-53563/Kotlin-Lombok-Support-SuperBuilder)
 和 [@Tolerate](https://youtrack.jetbrains.com/issue/KT-53564/Kotlin-Lombok-Support-Tolerate)
 , 我们可以考虑增加这个功能.
@@ -122,7 +122,7 @@ Kotlin/Native 编译器限制支持 Xcode 的最新稳定版, 14.1. 具体改善
 * [`@HiddenFromObjC`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native/-hidden-from-obj-c/)
   允许你对 Objective-C 隐藏一个 Kotlin 声明.
 
-  这个注解指示 Kotlin 编译器, 不要将一个函数或属性导出到 Objective-C 以及 Swift. 
+  这个注解指示 Kotlin 编译器, 不要将一个函数或属性导出到 Objective-C 以及 Swift.
   这样可以让你的 Kotlin 代码对 Objective-C/Swift 更加友好.
 
 * [`@ShouldRefineInSwift`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native/-should-refine-in-swift/)
@@ -144,7 +144,7 @@ Kotlin 开发组非常感谢 [Rick Clephas](https://github.com/rickclephas) 实�
 
 ### CocoaPods Gradle plugin 中默认使用动态框架(Dynamic framework)  {id="dynamic-frameworks-by-default-in-the-cocoapods-gradle-plugin"}
 
-从 Kotlin 1.8.0 开始, 由 CocoaPods Gradle plugin 注册的 Kotlin 框架默认使用动态链接. 
+从 Kotlin 1.8.0 开始, 由 CocoaPods Gradle plugin 注册的 Kotlin 框架默认使用动态链接.
 以前的静态实现与 Kotlin Gradle plugin 的行为不一致.
 
 ```kotlin
@@ -176,7 +176,7 @@ Kotlin 1.8.0 引入了新的 Android 源代码集布局, 替换了以前的目�
   因此 Kotlin 和 Android 源代码集 `androidTest` 的配置结果是一样的:
   `androidTestImplementation`, `androidTestApi`, `androidTestRuntimeOnly`, 以及 `androidTestCompileOnly`.
 
-为了解决这些问题, 以及其他一些问题, 我们引入了一种新的 Android 源代码集布局. 
+为了解决这些问题, 以及其他一些问题, 我们引入了一种新的 Android 源代码集布局.
 以下是两种布局的一些关键差别:
 
 #### KotlinSourceSet 命名方式
@@ -296,7 +296,7 @@ Kotlin 1.8.0 发布了 JS IR 编译器后端的稳定版, 并对 JavaScript 相�
 
 ### JS IR 编译器后端的稳定版 {id="stable-js-ir-compiler-backend"}
 
-从这个发布版开始, [基于中间代码 (Intermediate Representation, IR) 的 Kotlin/JS 编译器](js-ir-compiler.md) 后端进入稳定版. 
+从这个发布版开始, [基于中间代码 (Intermediate Representation, IR) 的 Kotlin/JS 编译器](js-ir-compiler.md) 后端进入稳定版.
 我们花费了一些时间来对全部三种后端统一基础设施, 但现在这些后端对 Kotlin 代码可以使用相同的 IR.
 
 由于 JS IR 编译器后端已经进入稳定版, 因此旧的后端现在已被废弃.
@@ -381,7 +381,7 @@ browser {
 
 ## Gradle
 
-Kotlin 1.8.0 **完全** 支持 Gradle 7.2 和 7.3. 你也可以使用 Gradle 的最新版本, 
+Kotlin 1.8.0 **完全** 支持 Gradle 7.2 和 7.3. 你也可以使用 Gradle 的最新版本,
 但如果你这样做, 请注意, 你可能会遇到 deprecation 警告, 或者 Gradle 的某些新功能可能不能工作.
 
 这个版本带来了很多变更:
@@ -395,7 +395,7 @@ Kotlin 1.8.0 **完全** 支持 Gradle 7.2 和 7.3. 你也可以使用 Gradle 的
 
 ### 将 Kotlin 编译器选项导出为 Gradle 的 lazy 属性 {id="exposing-kotlin-compiler-options-as-gradle-lazy-properties"}
 
-为了将可用的 Kotlin 编译器选项导出为 [Gradle 的 lazy 属性](https://docs.gradle.org/current/userguide/lazy_configuration.html), 
+为了将可用的 Kotlin 编译器选项导出为 [Gradle 的 lazy 属性](https://docs.gradle.org/current/userguide/lazy_configuration.html),
 并更好的集成到 Kotlin task 中, 我们进行了很多变更:
 
 * 编译任务有了新的 `compilerOptions` 输入, 与已有的 `kotlinOptions` 类似,
@@ -412,16 +412,16 @@ Kotlin 1.8.0 **完全** 支持 Gradle 7.2 和 7.3. 你也可以使用 Gradle 的
 
 * Kotlin 工具 task `KotlinJsDce` 和 `KotlinNativeLink` 有了新的 `toolOptions` 输入, 与已有的 `kotlinOptions` 输入类似.
 * 新的输入带有 [`@Nested` Gradle 注解](https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/Nested.html).
-  输入内的每个属性都有相关的 Gradle 注解, 例如 
+  输入内的每个属性都有相关的 Gradle 注解, 例如
   [`@Input` 或 `@Internal`](https://docs.gradle.org/current/userguide/more_about_tasks.html#sec:up_to_date_checks).
 * Kotlin Gradle plugin API artifact 有 2 个新的接口:
     * `org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask`, 它带有 `compilerOptions` 输入和 `compileOptions()` 方法.
       所有的 Kotlin 编译 task 都实现这个接口.
-    * `org.jetbrains.kotlin.gradle.tasks.KotlinToolTask`, 它带有 `toolOptions` 输入和 `toolOptions()` 方法. 
+    * `org.jetbrains.kotlin.gradle.tasks.KotlinToolTask`, 它带有 `toolOptions` 输入和 `toolOptions()` 方法.
       所有的 Kotlin 工具 task – `KotlinJsDce`, `KotlinNativeLink`, 和 `KotlinNativeLinkArtifactTask` – 都实现这个接口.
 * 有些 `compilerOptions` 使用新的类型, 而不是 `String` 类型:
     * [`JvmTarget`](https://github.com/JetBrains/kotlin/blob/1.8.0/libraries/tools/kotlin-gradle-compiler-types/src/generated/kotlin/org/jetbrains/kotlin/gradle/dsl/JvmTarget.kt)
-    * [`KotlinVersion`](https://github.com/JetBrains/kotlin/blob/1.8.0/libraries/tools/kotlin-gradle-compiler-types/src/generated/kotlin/org/jetbrains/kotlin/gradle/dsl/KotlinVersion.kt) 
+    * [`KotlinVersion`](https://github.com/JetBrains/kotlin/blob/1.8.0/libraries/tools/kotlin-gradle-compiler-types/src/generated/kotlin/org/jetbrains/kotlin/gradle/dsl/KotlinVersion.kt)
       (用于 `apiVersion` 和 `languageVersion` 输入)
     * [`JsMainFunctionExecutionMode`](https://github.com/JetBrains/kotlin/blob/1.8.0/libraries/tools/kotlin-gradle-compiler-types/src/generated/kotlin/org/jetbrains/kotlin/gradle/dsl/JsMainFunctionExecutionMode.kt)
     * [`JsModuleKind`](https://github.com/JetBrains/kotlin/blob/1.8.0/libraries/tools/kotlin-gradle-compiler-types/src/generated/kotlin/org/jetbrains/kotlin/gradle/dsl/JsModuleKind.kt)
@@ -437,21 +437,21 @@ Kotlin 1.8.0 **完全** 支持 Gradle 7.2 和 7.3. 你也可以使用 Gradle 的
 > Kotlin Gradle plugin 仍然会向 Android 扩展添加 `KotlinJvmOptions` DSL:
 >
 > ```kotlin
-> android { 
+> android {
 >     kotlinOptions {
 >         jvmTarget = "11"
 >     }
 > }
 > ```
 >
-> 在 [这个问题](https://youtrack.jetbrains.com/issue/KT-15370/Gradle-DSL-add-module-level-kotlin-options) 中, 
+> 在 [这个问题](https://youtrack.jetbrains.com/issue/KT-15370/Gradle-DSL-add-module-level-kotlin-options) 中,
 > 这个功能会被修改为, 将 `compilerOptions` DSL 添加到模块级别.
 >
 {style="note"}
 
 #### 限制
 
-> `kotlinOptions` task 输入和 `kotlinOptions{...}` task DSL 现在处于支持模式, 将会在未来的发布版中被废弃. 
+> `kotlinOptions` task 输入和 `kotlinOptions{...}` task DSL 现在处于支持模式, 将会在未来的发布版中被废弃.
 > 我们只会对 `compilerOptions` 和 `toolOptions` 进行功能改进.
 >
 {style="warning"}
@@ -459,14 +459,14 @@ Kotlin 1.8.0 **完全** 支持 Gradle 7.2 和 7.3. 你也可以使用 Gradle 的
 对 `kotlinOptions` 调用任何 setter 或 getter, 会被代理到 `compilerOptions` 中的相关属性.
 因此会造成以下限制:
 * `compilerOptions` 和 `kotlinOptions` 在 task 的执行阶段不能修改 (有一种例外情况, 参见下面的章节).
-* `freeCompilerArgs` 返回不可变的 `List<String>`, 也就是说, 比如, 
+* `freeCompilerArgs` 返回不可变的 `List<String>`, 也就是说, 比如,
   `kotlinOptions.freeCompilerArgs.remove("something")` 会失败.
 
 有一些 plugin, 包括 `kotlin-dsl`, 以及启用了 [Jetpack Compose](https://developer.android.com/jetpack/compose) 的 Android Gradle plugin (AGP),
 会在 task 的执行阶段试图修改 `freeCompilerArgs` 属性.
 在 Kotlin 1.8.0 中, 我们为它们添加了一个变通方法.
-这个变通方法允许任何构建脚本或 plugin 在执行阶段修改 `kotlinOptions.freeCompilerArgs`, 但会在构建 log 中输出警告. 
-要禁用这个警告, 请使用新的 Gradle 属性 `kotlin.options.suppressFreeCompilerArgsModificationWarning=true`. 
+这个变通方法允许任何构建脚本或 plugin 在执行阶段修改 `kotlinOptions.freeCompilerArgs`, 但会在构建 log 中输出警告.
+要禁用这个警告, 请使用新的 Gradle 属性 `kotlin.options.suppressFreeCompilerArgsModificationWarning=true`.
 Gradle 将会为
 [`kotlin-dsl` plugin](https://github.com/gradle/gradle/issues/22091)
 和 [启用了 Jetpack Compose 的 AGP](https://issuetracker.google.com/u/1/issues/247544167)
@@ -521,12 +521,12 @@ implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
 >
 {style="note"}
 
-[从这个发布版开始](https://youtrack.jetbrains.com/issue/KT-54993/Raise-kotlin.jvm.target.validation.mode-check-default-level-to-error-when-build-is-running-on-Gradle-8), 
+[从这个发布版开始](https://youtrack.jetbrains.com/issue/KT-54993/Raise-kotlin.jvm.target.validation.mode-check-default-level-to-error-when-build-is-running-on-Gradle-8),
 [`kotlin.jvm.target.validation.mode` 属性](gradle-configure-project.md#check-for-jvm-target-compatibility-of-related-compile-tasks)
 对 Gradle 8.0+ 项目 (Gradle 的这个版本还未正式发布) 的默认值是 `error`,
 如果发现 JVM 编译目标不兼容, plugin 会让构建失败.
 
-将默认值从 `warning` 提示到 `error` 是为了平滑的迁移到 Gradle 8.0 的预备步骤. 
+将默认值从 `warning` 提示到 `error` 是为了平滑的迁移到 Gradle 8.0 的预备步骤.
 **我们鼓励你将这个属性设置为 `error`**, 并 [配置工具链](gradle-configure-project.md#gradle-java-toolchains-support),
 或者手动对齐 JVM 版本.
 
@@ -535,20 +535,20 @@ implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
 ### Kotlin Gradle plugin 的传递依赖项的解析 {id="resolution-of-kotlin-gradle-plugins-transitive-dependencies"}
 
 在 Kotlin 1.7.0 中, 我们引入了 [对 Gradle plugin 变体的支持](whatsnew17.md#support-for-gradle-plugin-variants).
-由于这些 plugin 变体的存在, 一个构建的 classpath 可以包含 [Kotlin Gradle plugin](https://plugins.gradle.org/u/kotlin) 的不同版本, 
+由于这些 plugin 变体的存在, 一个构建的 classpath 可以包含 [Kotlin Gradle plugin](https://plugins.gradle.org/u/kotlin) 的不同版本,
 并依赖到某些依赖项的不同版本, 通常是 `kotlin-gradle-plugin-api`.
 这种情况可能导致依赖项解析的问题, 我们建议使用下面的变通方法, 下面以 `kotlin-dsl` plugin 为例.
 
-Gradle 7.6 中的 `kotlin-dsl` plugin 依赖于 `org.jetbrains.kotlin.plugin.sam.with.receiver:1.7.10` plugin, 
+Gradle 7.6 中的 `kotlin-dsl` plugin 依赖于 `org.jetbrains.kotlin.plugin.sam.with.receiver:1.7.10` plugin,
 后一个 plugin 又依赖于 `kotlin-gradle-plugin-api:1.7.10`.
 如果你添加 `org.jetbrains.kotlin.gradle.jvm:1.8.0` plugin,
-这个 `kotlin-gradle-plugin-api:1.7.10` 的传递依赖项可能导致依赖项解析错误, 
-因为版本 (`1.8.0` 和 `1.7.10`) 与变体属性 [`org.gradle.plugin.api-version`](https://docs.gradle.org/current/javadoc/org/gradle/api/attributes/plugin/GradlePluginApiVersion.html) 
+这个 `kotlin-gradle-plugin-api:1.7.10` 的传递依赖项可能导致依赖项解析错误,
+因为版本 (`1.8.0` 和 `1.7.10`) 与变体属性 [`org.gradle.plugin.api-version`](https://docs.gradle.org/current/javadoc/org/gradle/api/attributes/plugin/GradlePluginApiVersion.html)
 值不匹配.
 变通方法是, 添加这个
-[constraint](https://docs.gradle.org/current/userguide/dependency_constraints.html#sec:adding-constraints-transitive-deps) 
+[constraint](https://docs.gradle.org/current/userguide/dependency_constraints.html#sec:adding-constraints-transitive-deps)
 来对齐版本.
-我们正在计划实现 [Kotlin Gradle Plugin 库对齐平台](https://youtrack.jetbrains.com/issue/KT-54691/Kotlin-Gradle-Plugin-libraries-alignment-platform), 
+我们正在计划实现 [Kotlin Gradle Plugin 库对齐平台](https://youtrack.jetbrains.com/issue/KT-54691/Kotlin-Gradle-Plugin-libraries-alignment-platform),
 在此之前, 可能一直需要使用这个变通方法:
 
 ```kotlin
@@ -594,12 +594,12 @@ dependencies {
 Kotlin 1.8.0 不再支持 JVM 1.6 和 1.7 编译目标. 因此, 你不再需要在构建脚本中分布声明 `kotlin-stdlib-jdk7` 和 `kotlin-stdlib-jdk8`,
 因为这些库文件的内容已经合并到了 `kotlin-stdlib` 之内.
 
-> 如果在你的构建脚本中明确声明了 `kotlin-stdlib-jdk7` 和 `kotlin-stdlib-jdk8` 依赖项, 
+> 如果在你的构建脚本中明确声明了 `kotlin-stdlib-jdk7` 和 `kotlin-stdlib-jdk8` 依赖项,
 > 那么你应该将它们替换为 `kotlin-stdlib`.
 >
 {style="note"}
 
-注意, 混合使用 stdlib 库文件的不同版本可能导致类重复, 或类缺失. 
+注意, 混合使用 stdlib 库文件的不同版本可能导致类重复, 或类缺失.
 为了避免这种问题, Kotlin Gradle plugin 可以帮助你 [对齐 stdlib 版本](#usage-of-the-latest-kotlin-stdlib-version-in-transitive-dependencies).
 
 ### cbrt()
@@ -613,9 +613,9 @@ fun main() {
     val num = 27
     val negNum = -num
 
-    println("The cube root of ${num.toDouble()} is: " + 
+    println("The cube root of ${num.toDouble()} is: " +
             cbrt(num.toDouble()))
-    println("The cube root of ${negNum.toDouble()} is: " + 
+    println("The cube root of ${negNum.toDouble()} is: " +
             cbrt(negNum.toDouble()))
 }
 ```
@@ -668,7 +668,7 @@ fun main() {
         val elapsed2 = mark2.elapsedNow()
 
         // 根据两次 elapsedNow() 调用之间经过了多长时间不同
-        // elapsed1 和 elapsed2 之间的差别可能发生变化 
+        // elapsed1 和 elapsed2 之间的差别可能发生变化
         println("Measurement 1.${n + 1}: elapsed1=$elapsed1, " +
                 "elapsed2=$elapsed2, diff=${elapsed1 - elapsed2}")
     }
@@ -680,12 +680,12 @@ fun main() {
         val elapsed1 = mark3 - mark1
         val elapsed2 = mark3 - mark2
 
-        // 现在相对于 mark3 来计算经过的时间, 
+        // 现在相对于 mark3 来计算经过的时间,
         // 而 mark3 是固定的值
         println("Measurement 2.${n + 1}: elapsed1=$elapsed1, " +
                 "elapsed2=$elapsed2, diff=${elapsed1 - elapsed2}")
     }
-    // 也可以对 time marks 进行比较 
+    // 也可以对 time marks 进行比较
     // 这里的输出结果为 true, 因为 mark2 的捕获是在 mark1 之后
     println(mark2 > mark1)
 //sampleEnd
@@ -697,13 +697,13 @@ fun main() {
 
 ### 递归的复制或删除目录 {id="recursive-copying-or-deletion-of-directories"}
 
-> `java.nio.file.path` 的这些新函数是 [实验性功能](components-stability.md#stability-levels-explained). 
-> 要使用它们, 你需要使用 `@OptIn(kotlin.io.path.ExperimentalPathApi::class)` 或 `@kotlin.io.path.ExperimentalPathApi` 进行使用者同意(Opt-in). 
+> `java.nio.file.path` 的这些新函数是 [实验性功能](components-stability.md#stability-levels-explained).
+> 要使用它们, 你需要使用 `@OptIn(kotlin.io.path.ExperimentalPathApi::class)` 或 `@kotlin.io.path.ExperimentalPathApi` 进行使用者同意(Opt-in).
 > 或者, 你也可以使用编译器选项 `-opt-in=kotlin.io.path.ExperimentalPathApi`.
 >
 {style="warning"}
 
-我们为 `java.nio.file.Path` 引入了 2 个新的扩展函数, `copyToRecursively()` 和 `deleteRecursively()`, 
+我们为 `java.nio.file.Path` 引入了 2 个新的扩展函数, `copyToRecursively()` 和 `deleteRecursively()`,
 它们可以:
 
 * 将一个目录以及其中的内容, 递归的复制到另一个目标目录.
@@ -716,7 +716,7 @@ fun main() {
 使用 `copyToRecursively()` 函数时, 你可以覆盖 `onError` lambda 函数, 来定义在复制过程中发生异常时, 应该如何处理:
 
 ```kotlin
-sourceRoot.copyToRecursively(destinationRoot, followLinks = false, 
+sourceRoot.copyToRecursively(destinationRoot, followLinks = false,
     onError = { source, target, exception ->
         logger.logError(exception, "Failed to copy $source to $target")
         OnErrorResult.TERMINATE
@@ -737,7 +737,7 @@ fun setUpEnvironment(projectDirectory: Path, fixtureName: String) {
     fixturesRoot.resolve(COMMON_FIXTURE_NAME)
         .copyToRecursively(projectDirectory, followLinks = false)
     fixturesRoot.resolve(fixtureName)
-        .copyToRecursively(projectDirectory, followLinks = false, 
+        .copyToRecursively(projectDirectory, followLinks = false,
             overwrite = true) // 覆盖 common fixture 中相同的内容
 }
 ```
@@ -745,7 +745,7 @@ fun setUpEnvironment(projectDirectory: Path, fixtureName: String) {
 
 #### 自定义复制行为
 
-要定义你自己的复制逻辑, 请使用这个函数的带有额外参数 `copyAction` 的覆盖版本. 
+要定义你自己的复制逻辑, 请使用这个函数的带有额外参数 `copyAction` 的覆盖版本.
 使用 `copyAction`, 你可以提供一个 lambda 函数, 指定你想要的复制动作:
 
 ```kotlin

@@ -10,7 +10,7 @@
 >
 {style="warning"}
 
-通过本教程, 你将学习 C 数据类型在 Kotlin/Native 中会变成什么类型, 以及反过来. 你将会: 
+通过本教程, 你将学习 C 数据类型在 Kotlin/Native 中会变成什么类型, 以及反过来. 你将会:
 - 学习 [C 语言中有什么数据类型](#types-in-c-language).
 - 创建一个 [小小的 C 库](#example-c-library), 在库的导出(export)中使用这些类型.
 - [查看为 C 库生成的 Kotlin API](#inspect-generated-kotlin-apis-for-a-c-library).
@@ -54,7 +54,7 @@ void doubles(float a, double b);
 Stackoverflow 上的 [C++ 兼容性](https://stackoverflow.com/questions/1041866/what-is-the-effect-of-extern-c-in-c)
 一文介绍了关于这个问题的更多细节.
 
-对每一组 `.h` 文件, 你将使用 Kotlin/Native 的 [`cinterop` 工具](native-c-interop.md) 来生成一个 Kotlin/Native 库, 也就是 `.klib` 文件. 
+对每一组 `.h` 文件, 你将使用 Kotlin/Native 的 [`cinterop` 工具](native-c-interop.md) 来生成一个 Kotlin/Native 库, 也就是 `.klib` 文件.
 生成的库会将来自 Kotlin/Native 的调用桥接给 C 代码.
 它包含 `.h` 文件中的定义对应的 Kotlin 声明.
 只需要一个 `.h` 文件来运行 `cinterop` 工具. 而且你不需要创建一个 `lib.c` 文件, 除非你想要编译并运行这个示例.
@@ -82,7 +82,7 @@ void doubles(float a, double b) { }
 ```
 
 这个 `interop.def` 文件已经足以编译并运行应用程序, 或在 IDE 中打开它.
-现在我们来创建 项目 文件, 在 [IntelliJ IDEA](https://jetbrains.com/idea) 中打开项目, 并运行它. 
+现在我们来创建 项目 文件, 在 [IntelliJ IDEA](https://jetbrains.com/idea) 中打开项目, 并运行它.
 
 ## 查看为 C 库生成的 Kotlin API {id="inspect-generated-kotlin-apis-for-a-c-library"}
 
@@ -123,7 +123,7 @@ kotlin {
     // mingwX64("native") { // 用于 Windows 环境
         val main by compilations.getting
         val interop by main.cinterops.creating
-    
+
         binaries {
             executable()
         }
@@ -154,9 +154,9 @@ kotlin {
     // macosArm64("native") { // 用于 Apple Silicon macOS 环境
     // mingwX64('native') { // 用于 Windows 环境
         compilations.main.cinterops {
-            interop 
+            interop
         }
-    
+
         binaries {
             executable()
         }
@@ -210,7 +210,7 @@ fun uints(c: UByte, d: UShort, e: UInt, f: ULong)
 fun doubles(a: Float, b: Double)
 ```
 
-C 类型按照我们期望的方式映射成了 Kotlin 类型, 注意 `char` 类型映射为 `kotlin.Byte`, 
+C 类型按照我们期望的方式映射成了 Kotlin 类型, 注意 `char` 类型映射为 `kotlin.Byte`,
 因为它通常是 8 bit 有符号值.
 
 | C  类型              | Kotlin 类型|
@@ -237,7 +237,7 @@ C 类型按照我们期望的方式映射成了 Kotlin 类型, 注意 `char` 类
 ```
 
 最终的 `hello.kt` 文件中的代码大致如下:
- 
+
 ```kotlin
 import interop.*
 

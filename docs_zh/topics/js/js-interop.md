@@ -235,7 +235,7 @@ fun main() {
     val value2 = name.substring(0, 1)
 
     println(if (value1 === value2) "yes" else "no")
-    // 在 Kotlin/JS 平台, 输出结果为 'yes' 
+    // 在 Kotlin/JS 平台, 输出结果为 'yes'
     // 在其他平台, 输出结果为 'no'
 }
 ```

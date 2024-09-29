@@ -23,19 +23,19 @@
                 <a href="multiplatform-mobile-create-first-app.html">创建你的第一个跨平台应用程序</a>
             </div>
             <br/>
-    
+
             <div style="vertical-align: middle; display: inline-flex">
                 <img src="/assets/docs/images/icons/icon-3-done.svg" alt="第 3 步" width="20"/> &nbsp;
                 <a href="multiplatform-mobile-dependencies.html">添加依赖项</a>
             </div>
             <br/>
-    
+
             <div style="vertical-align: middle; display: inline-flex">
                 <img src="/assets/docs/images/icons/icon-4-done.svg" alt="第 4 步" width="20"/> &nbsp;
                 <a href="multiplatform-mobile-upgrade-app.html">升级你的应用程序</a>
             </div>
             <br/>
-    
+
             <div style="vertical-align: middle; display: inline-flex">
                 <img src="/assets/docs/images/icons/icon-5.svg" alt="第 5 步" width="20"/> &nbsp;
                 <strong>完成你的项目</strong>
@@ -68,7 +68,7 @@
      <list>
         <li><a href="multiplatform-mobile-understand-project-structure.html">Kotlin Multiplatform Mobile 项目结构</a></li>
         <li><a href="../native/native-objc-interop.html">与 Objective-C 框架和库交互</a></li>
-        <li><a href="../multiplatform/multiplatform-add-dependencies.html">添加跨平台库依赖项</a></li>        
+        <li><a href="../multiplatform/multiplatform-add-dependencies.html">添加跨平台库依赖项</a></li>
         <li><a href="multiplatform-mobile-android-dependencies.html">添加 Android 依赖项</a></li>
         <li><a href="multiplatform-mobile-ios-dependencies.html">添加 iOS 依赖项</a></li>
      </list>
@@ -93,7 +93,7 @@
     <td>
      <list>
         <li><a href="https://kotlinlang.slack.com/archives/C3PQML5NU">加入 Kotlin Slack 的 #multiplatform 频道</a></li>
-        <li><a href="https://stackoverflow.com/questions/tagged/kotlin-multiplatform">订阅 Stack Overflow 的 "kotlin-multiplatform" 标签</a></li>        
+        <li><a href="https://stackoverflow.com/questions/tagged/kotlin-multiplatform">订阅 Stack Overflow 的 "kotlin-multiplatform" 标签</a></li>
         <li><a href="https://www.youtube.com/playlist?list=PLlFc5cFwUnmy_oVc9YQzjasSNoAk4hk_C">订阅 Kotlin YouTube 频道</a></li>
         <li><a href="https://youtrack.jetbrains.com/newIssue?project=KT">向我们的问题追踪系统报告问题</a></li>
      </list>

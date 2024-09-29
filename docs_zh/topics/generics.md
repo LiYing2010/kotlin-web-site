@@ -47,7 +47,7 @@ List<Object> objs = strs;
 objs.add(1);
 
 // 然后在运行期, Java 会抛出 ClassCastException 异常: Integer cannot be cast to String
-String s = strs.get(0); 
+String s = strs.get(0);
 ```
 
 Java 禁止上面示例中的做法, 以保证运行期的类型安全. 但这个原则背后存在一些隐含的影响.

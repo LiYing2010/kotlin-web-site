@@ -51,7 +51,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ and _[语言版本升级平滑
 > **不兼容性类型**: 源代码级
 >
 > **概述**: 过去曾经尝试修正 1.7.0 版在类型推断约束处理中出现的问题,
-> 本次发布实现了 [KT-52668](https://youtrack.jetbrains.com/issue/KT-52668) 描述的变更, 回滚了这个修正. 
+> 本次发布实现了 [KT-52668](https://youtrack.jetbrains.com/issue/KT-52668) 描述的变更, 回滚了这个修正.
 > 在 1.7.10 中进行了这个修正, 但导致了新的问题.
 >
 > **废弃周期**:
@@ -68,13 +68,13 @@ _[保证语言的现代化](kotlin-evolution.md)_ and _[语言版本升级平滑
 > **不兼容性类型**: 源代码级
 >
 > **概述**: Kotlin 1.7 引入了一个功能特性, 称为无限制的构建器推断,
-> 使得即使传递给参数的 Lambda 表达式没有标注 `@BuilderInference` 注解, 也可以利用构建器推断功能. 
-> 但是, 如果在函数调用中出现多个这样的 Lambda 表达式, 可能导致几种问题. 
-> 
+> 使得即使传递给参数的 Lambda 表达式没有标注 `@BuilderInference` 注解, 也可以利用构建器推断功能.
+> 但是, 如果在函数调用中出现多个这样的 Lambda 表达式, 可能导致几种问题.
+>
 > 如果多个 Lambda 函数对应的参数没有标注 `@BuilderInference` 注解,
 > 而且在 Lambda 表达式内要求使用构建器推断来完成类型推断, Kotlin 1.7.20 会对这样的情况报告编译错误.
 >
 > **废弃周期**:
 >
-> - 1.7.20: 对这样的Lambda 函数报告编译错误,  
+> - 1.7.20: 对这样的Lambda 函数报告编译错误,
 > 可以使用 `-XXLanguage:+NoBuilderInferenceWithoutAnnotationRestriction` 来临时退回到 1.7.20 以前的行为.

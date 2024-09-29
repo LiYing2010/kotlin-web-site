@@ -85,7 +85,7 @@ class Example1Processor : SymbolProcessor {
     override fun process(resolver: Resolver) {
         val declA = resolver.getSymbolsWithAnnotation("Interesting").first() as KSClassDeclaration
         val declB = declA.superTypes.first().resolve().declaration
-        // B.kt 不是必须的, 因为它可以被 KSP 推断为一个依赖项 
+        // B.kt 不是必须的, 因为它可以被 KSP 推断为一个依赖项
         val dependencies = Dependencies(aggregating = true, declA.containingFile!!)
         // outputForA.kt
         val outputName = "outputFor${declA.simpleName.asString()}"

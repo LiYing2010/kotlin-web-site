@@ -333,7 +333,7 @@ Kotlin 1.4.30 取消了对 `init` 代码块的限制.
 @JvmInline
 value class Person(private val fullName: String) {
     // 从 Kotlin 1.4.30 开始可以使用:
-    init { 
+    init {
         check(fullName.isNotBlank()) {
             "Full name shouldn't be empty"
         }
@@ -588,7 +588,7 @@ Kotlin 1.8.20 包含的变更有: Kotlin/Native 支持的目标平台, 与 Objec
 * [在 UIKit 中将 Objective-C 扩展导入为类的成员](#import-objective-c-extensions-as-class-members-in-uikit)
 * [在编译器中重新实现了编译器的缓存管理](#reimplementation-of-compiler-cache-management-in-the-compiler)
 * [在 Cocoapods Gradle plugin 中废弃了 `useLibraries()`](#deprecation-of-uselibraries-in-cocoapods-gradle-plugin)
-  
+
 ### Kotlin/Native 目标平台的更新 {id="update-for-kotlin-native-targets"}
 
 Kotlin 开发组决定重新审查 Kotlin/Native 支持的目标平台,

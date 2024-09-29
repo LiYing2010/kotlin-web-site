@@ -4,7 +4,7 @@
 
 Kotlin 标准库提供了大量的函数用来在集合上进行各种操作.
 包括简单的操作, 比如获取元素, 添加元素,
-以及更复杂的操作, 比如查找, 排序, 过滤(Filtering), 变换(Transformation), 等等.  
+以及更复杂的操作, 比如查找, 排序, 过滤(Filtering), 变换(Transformation), 等等.
 
 ## 扩展函数与成员函数
 
@@ -53,7 +53,7 @@ Kotlin 标准库提供了大量的函数用来在集合上进行各种操作.
 
 fun main() {
 //sampleStart
-    val numbers = listOf("one", "two", "three", "four")  
+    val numbers = listOf("one", "two", "three", "four")
     numbers.filter { it.length > 3 }  // `numbers` 不会受影响, 过滤结果会丢失
     println("numbers are still $numbers")
     val longerThan3 = numbers.filter { it.length > 3 } // 过滤结果保存在变量 `longerThan3` 中

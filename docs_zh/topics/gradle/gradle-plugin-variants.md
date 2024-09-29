@@ -4,10 +4,10 @@
 
 Gradle 7.0 为 Gradle plugin 开发者引入了一个新功能
 — [带变体(variant)的 plugin](https://docs.gradle.org/7.0/userguide/implementing_gradle_plugins.html#plugin-with-variants).
-使用这个功能, 可以在 plugin 中支持最新的 Gradle 功能, 同时保持与旧版本 Gradle 的兼容性. 
+使用这个功能, 可以在 plugin 中支持最新的 Gradle 功能, 同时保持与旧版本 Gradle 的兼容性.
 详情请参见 [Gradle 中的变体选择](https://docs.gradle.org/current/userguide/variant_model.html).
 
-使用 Gradle plugin 变体, Kotlin 开发组能够针对不同的 Gradle 版本发布不同的 Kotlin Gradle plugin (KGP) 变体. 
+使用 Gradle plugin 变体, Kotlin 开发组能够针对不同的 Gradle 版本发布不同的 Kotlin Gradle plugin (KGP) 变体.
 目标是在 `main` 变体中支持基本的 Kotlin 编译, 这个变体对应于支持的 Gradle 最低版本.
 每个变体将会支持对应的 Gradle 版本的功能. 最新的变体将会支持最新的 Gradle 功能.
 通过这种方式, 可以对旧的 Gradle 版本支持较少的功能, 对新的 Gradle 版本支持更多的功能.

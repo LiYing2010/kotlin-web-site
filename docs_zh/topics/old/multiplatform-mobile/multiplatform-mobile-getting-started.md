@@ -4,7 +4,7 @@
 
 > Kotlin Multiplatform Mobile 目前是 [Beta 版](../components-stability.html).
 > 已经接近稳定, 但未来可能会需要一些迁移步骤.
-> 
+>
 > * 关于 Kotlin Multiplatform Mobile 技术的当前状态与未来的开发计划,
 >   请参见 Blog [Kotlin Multiplatform Mobile Beta 版](https://blog.jetbrains.com/kotlin/2022/10/kmm-beta).
 > * 也可以参见

@@ -21,13 +21,13 @@
 
 ## 映射 C 的结构(Struct)和联合(Union)类型 {id="mapping-struct-and-union-c-types"}
 
-要理解 Kotlin 和 C 之间的映射, 最好的方法是试验一段小示例程序. 
+要理解 Kotlin 和 C 之间的映射, 最好的方法是试验一段小示例程序.
 我们在 C 语言中声明一个结构和一个联合, 看看它们如何映射到 Kotlin.
 
 Kotlin/Native 带有 `cinterop` 工具; 这个工具会生成 C 语言和 Kotlin 之间的绑定.
 它使用一个 `.def` 文件来指定一个要导入的 C 库.
 详情请参见教程 [与 C 库交互](native-c-interop.md).
- 
+
 在 [前面的教程](mapping-primitive-data-types-from-c.md) 中, 你创建了一个 `lib.h` 文件.
 现在, 直接在 `interop.def` 文件中包含这些声明, 在专门的 `---` 分割行之后:
 
@@ -195,13 +195,13 @@ class MyUnion constructor(rawPtr: NativePtr /* = NativePtr */) : CStructVar {
 }
 ```
 
-你可以看到 `cinterop` 为我们的 `struct` 和 `union` 类型生成的包装类型. 
+你可以看到 `cinterop` 为我们的 `struct` 和 `union` 类型生成的包装类型.
 对 C 中声明的 `MyStruct` 和 `MyUnion` 类型, 相应的生成了 Kotlin 类 `MyStruct` 和 `MyUnion`.
 这些包装类型继承自基类 `CStructVar`, 并将所有的域声明为 Kotlin 属性.
 它使用 `CValue<T>` 来表达一个传值(By-Value)的结构参数, 使用 `CValuesRef<T>?` 表达传递结构或联合的指针.
 
 技术上, 在 Kotlin 中 `struct` 和 `union` 类型没有区别.
-注意, Kotlin 中 `MyUnion` 类的 `a`, `b`, 和 `c` 属性使用相同的内存位置来读写它们的值, 和 C 语言中的 `union` 一样. 
+注意, Kotlin 中 `MyUnion` 类的 `a`, `b`, 和 `c` 属性使用相同的内存位置来读写它们的值, 和 C 语言中的 `union` 一样.
 
 关于更多细节以及高级使用场景, 请参见 [与 C 代码交互](native-c-interop.md) 文档.
 
@@ -210,7 +210,7 @@ class MyUnion constructor(rawPtr: NativePtr /* = NativePtr */) : CStructVar {
 在 Kotlin 中为 C 的 `struct` 和 `union` 类型生成的包装类很容易使用.
 由于存在那些生成的属性, 在 Kotlin 代码中使用它们感觉很自然. 目前唯一的问题是, 如何为这些类创建一个新的实例.
 如你所见, 在 `MyStruct` 的 `MyUnion` 声明中, 构造函数需要一个 `NativePtr` 参数.
-当然, 你不希望手动处理指针. 相反, 你可以让 Kotlin API 来为我们初始化这些对象. 
+当然, 你不希望手动处理指针. 相反, 你可以让 Kotlin API 来为我们初始化这些对象.
 
 我们来看一下生成的那些接受 `MyStruct` 和 `MyUnion` 参数的函数.
 你可以看到, 传值的参数表达为 `kotlinx.cinterop.CValue<T>`. 对于类型指针参数则是 `kotlinx.cinterop.CValuesRef<T>`.
@@ -220,7 +220,7 @@ Kotlin 为我们提供了 API 方便的处理这两种类型, 我们来试一下
 
 `CValue<T>` 类型用来向 C 函数传递一个传值的参数.
 使用 `cValue` 函数来创建 `CValue<T>` 对象实例. 函数要求一个
-[带接受者的 Lambda 函数](lambdas.md#function-literals-with-receiver) 
+[带接受者的 Lambda 函数](lambdas.md#function-literals-with-receiver)
 来初始化底层的 C 类型. 函数声明如下:
 
 ```kotlin
@@ -246,24 +246,24 @@ fun callValue() {
 }
 ```
 
-### 使用 `CValuesRef<T>` 创建结构和联合 
+### 使用 `CValuesRef<T>` 创建结构和联合
 
 在 Kotlin 中, `CValuesRef<T>` 类型用来传递 C 函数的有类型指针参数.
-首先, 你需要 `MyStruct` 和 `MyUnion` 类的实例. 可以直接在 native 内存中创建它们. 
+首先, 你需要 `MyStruct` 和 `MyUnion` 类的实例. 可以直接在 native 内存中创建它们.
 方法是对 `kotlinx.cinterop.NativePlacement` 类型使用扩展函数:
 
 ```kotlin
-fun <reified T : kotlinx.cinterop.CVariable> alloc(): T   
+fun <reified T : kotlinx.cinterop.CVariable> alloc(): T
 ```
 
 `NativePlacement` 表示 native 内存, 它有类似于 `malloc` 和 `free` 的函数.
 `NativePlacement` 有几种实现.
 全局实现通过 `kotlinx.cinterop.nativeHeap` 来调用, 在使用完毕后不要忘记调用 `nativeHeap.free(..)` 函数来释放内存.
- 
+
 另一个选择是使用函数:
 
 ```kotlin
-fun <R> memScoped(block: kotlinx.cinterop.MemScope.() -> R): R    
+fun <R> memScoped(block: kotlinx.cinterop.MemScope.() -> R): R
 ```
 
 它创建一个短期存在(Short-Lived)的内存分配范围(Allocation Scope),
@@ -289,7 +289,7 @@ fun callRef() {
 }
 ```
 
-注意, 这段代码使用来自 `memScoped` Lambda 接受者类型的扩展属性 `ptr`, 
+注意, 这段代码使用来自 `memScoped` Lambda 接受者类型的扩展属性 `ptr`,
 来将 `MyStruct` 和 `MyUnion` 实例转换为 native 指针.
 
 `MyStruct` 和 `MyUnion` 类内部保存指向 native 内存的指针.
@@ -302,7 +302,7 @@ fun callRef() {
 当然, 有些使用场景中, 对一个函数调用你需要以值的方式传递一个结构,
 然后对另一个函数调用需要以引用的方式传递同一个结构.
 在 Kotlin/Native 中也是可以实现的.
-这里需要用到 `NativePlacement`. 
+这里需要用到 `NativePlacement`.
 
 首先我们来看看 `CValue<T>` 如何转换为指针:
 
@@ -319,7 +319,7 @@ fun callMix_ref() {
 }
 ```
 
-这段代码使用来自 `memScoped` Lambda 接受者类型的扩展属性 `ptr`, 
+这段代码使用来自 `memScoped` Lambda 接受者类型的扩展属性 `ptr`,
 来将 `MyStruct` 和 `MyUnion` 实例转换为 native 指针.
 这些指针只在 `memScoped` block 之内有效.
 
@@ -348,7 +348,7 @@ fun callMix_value() {
 ```
 
 最终的 `hello.kt` 文件中的代码大致如下:
- 
+
 ```kotlin
 import interop.*
 import kotlinx.cinterop.alloc

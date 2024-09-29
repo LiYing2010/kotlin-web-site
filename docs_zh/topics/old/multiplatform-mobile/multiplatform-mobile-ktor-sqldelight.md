@@ -128,7 +128,7 @@ Both the `kotlinx.serialization` and SQLDelight libraries also require additiona
     buildscript {
         // ...
         val sqlDelightVersion = "%sqlDelightVersion%"
-        
+
         dependencies {
             // ...
             classpath("com.squareup.sqldelight:gradle-plugin:$sqlDelightVersion")
@@ -228,7 +228,7 @@ First, create the `.sq` file, which will contain all the needed SQL queries. By 
        missionPatchUrl TEXT,
        articleUrl      TEXT
    );
-   
+
    CREATE TABLE Rocket (
        id   TEXT NOT NULL PRIMARY KEY,
        name TEXT NOT NULL,
@@ -242,7 +242,7 @@ First, create the `.sq` file, which will contain all the needed SQL queries. By 
    insertLaunch:
    INSERT INTO Launch(flightNumber, missionName, launchYear, rocketId, details, launchSuccess, launchDateUTC, missionPatchUrl, articleUrl)
    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);
-   
+
    insertRocket:
    INSERT INTO Rocket(id, name, type)
    VALUES(?, ?, ?);
@@ -253,7 +253,7 @@ First, create the `.sq` file, which will contain all the needed SQL queries. By 
    ```text
    removeAllLaunches:
    DELETE FROM Launch;
-   
+
    removeAllRockets:
    DELETE FROM Rocket;
    ```
@@ -265,7 +265,7 @@ First, create the `.sq` file, which will contain all the needed SQL queries. By 
    selectRocketById:
    SELECT * FROM Rocket
    WHERE id = ?;
-   
+
    selectAllLaunchesInfo:
    SELECT Launch.*, Rocket.*
    FROM Launch
@@ -286,7 +286,7 @@ implementations of the SQLite driver, so you need to create them for each platfo
 
    ```kotlin
    package com.jetbrains.handson.kmm.shared.cache
-   
+
    import com.squareup.sqldelight.db.SqlDriver
 
    expect class DatabaseDriverFactory {
@@ -304,11 +304,11 @@ implementations of the SQLite driver, so you need to create them for each platfo
 
    ```kotlin
    package com.jetbrains.handson.kmm.shared.cache
-   
+
    import android.content.Context
    import com.squareup.sqldelight.android.AndroidSqliteDriver
    import com.squareup.sqldelight.db.SqlDriver
-   
+
    actual class DatabaseDriverFactory(private val context: Context) {
        actual fun createDriver(): SqlDriver {
            return AndroidSqliteDriver(AppDatabase.Schema, context, "test.db")
@@ -322,7 +322,7 @@ implementations of the SQLite driver, so you need to create them for each platfo
 
    ```kotlin
    package com.jetbrains.handson.kmm.shared.cache
-   
+
    import com.squareup.sqldelight.db.SqlDriver
    import com.squareup.sqldelight.drivers.native.NativeSqliteDriver
 
@@ -351,7 +351,7 @@ a `Database` class, which will wrap the `AppDatabase` class and contain the cach
 
    ```kotlin
    package com.jetbrains.handson.kmm.shared.cache
-   
+
    import com.jetbrains.handson.kmm.shared.entity.Links
    import com.jetbrains.handson.kmm.shared.entity.Rocket
    import com.jetbrains.handson.kmm.shared.entity.RocketLaunch
@@ -387,7 +387,7 @@ a `Database` class, which will wrap the `AppDatabase` class and contain the cach
    internal fun getAllLaunches(): List<RocketLaunch> {
        return dbQuery.selectAllLaunchesInfo(::mapLaunchSelecting).executeAsList()
    }
-   
+
    private fun mapLaunchSelecting(
        flightNumber: Long,
        missionName: String,
@@ -435,12 +435,12 @@ a `Database` class, which will wrap the `AppDatabase` class and contain the cach
                if (rocket == null) {
                    insertRocket(launch)
                }
-   
+
                insertLaunch(launch)
            }
        }
    }
-   
+
    private fun insertRocket(launch: RocketLaunch) {
        dbQuery.insertRocket(
            id = launch.rocket.id,
@@ -448,7 +448,7 @@ a `Database` class, which will wrap the `AppDatabase` class and contain the cach
            type = launch.rocket.type
        )
    }
-   
+
    private fun insertLaunch(launch: RocketLaunch) {
        dbQuery.insertLaunch(
            flightNumber = launch.flightNumber.toLong(),
@@ -533,7 +533,7 @@ In the `androidApp/src/main/AndroidManifest.xml` file, add the following permiss
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.jetbrains.handson.androidApp">
     <uses-permission android:name="android.permission.INTERNET" />
-    
+
 </manifest>
 ```
 
@@ -550,7 +550,7 @@ public class.
 
    ```kotlin
    package com.jetbrains.handson.kmm.shared
-   
+
    import com.jetbrains.handson.kmm.shared.cache.Database
    import com.jetbrains.handson.kmm.shared.cache.DatabaseDriverFactory
    import com.jetbrains.handson.kmm.shared.network.SpaceXApi
@@ -568,7 +568,7 @@ public class.
 
    ```kotlin
    import com.jetbrains.handson.kmm.shared.entity.RocketLaunch
-   
+
    @Throws(Exception::class)
    suspend fun getLaunches(forceReload: Boolean): List<RocketLaunch> {
        val cachedLaunches = database.getAllLaunches()
@@ -641,13 +641,13 @@ dependencies {
        private lateinit var launchesRecyclerView: RecyclerView
        private lateinit var progressBarView: FrameLayout
        private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-   
+
        override fun onCreate(savedInstanceState: Bundle?) {
            super.onCreate(savedInstanceState)
-   
+
            title = "SpaceX Launches"
            setContentView(R.layout.activity_main)
-   
+
            launchesRecyclerView = findViewById(R.id.launchesListRv)
            progressBarView = findViewById(R.id.progressBar)
            swipeRefreshLayout = findViewById(R.id.swipeContainer)
@@ -660,19 +660,19 @@ dependencies {
 
    ```kotlin
    class LaunchesRvAdapter(var launches: List<RocketLaunch>) : RecyclerView.Adapter<LaunchesRvAdapter.LaunchViewHolder>() {
-   
+
        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LaunchViewHolder {
            return LayoutInflater.from(parent.context)
                .inflate(R.layout.item_launch, parent, false)
                .run(::LaunchViewHolder)
        }
-   
+
        override fun getItemCount(): Int = launches.count()
-   
+
        override fun onBindViewHolder(holder: LaunchViewHolder, position: Int) {
            holder.bindData(launches[position])
        }
-   
+
        inner class LaunchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
            // ...
            fun bindData(launch: RocketLaunch) {
@@ -699,7 +699,7 @@ dependencies {
        <color name="colorPrimary">#37474f</color>
        <color name="colorPrimaryDark">#102027</color>
        <color name="colorAccent">#62727b</color>
-   
+
        <color name="colorSuccessful">#4BB543</color>
        <color name="colorUnsuccessful">#FC100D</color>
        <color name="colorNoData">#615F5F</color>
@@ -713,11 +713,11 @@ dependencies {
    <?xml version="1.0" encoding="utf-8"?>
    <resources>
        <string name="app_name">SpaceLaunches</string>
-   
+
        <string name="successful">Successful</string>
        <string name="unsuccessful">Unsuccessful</string>
        <string name="no_data">No data</string>
-   
+
        <string name="launch_year_field">Launch year: %s</string>
        <string name="mission_name_field">Launch name: %s</string>
        <string name="launch_success_field">Launch success: %s</string>
@@ -783,20 +783,20 @@ dependencies {
    class MainActivity : AppCompatActivity() {
        // ...
        private val launchesRvAdapter = LaunchesRvAdapter(listOf())
-   
+
        override fun onCreate(savedInstanceState: Bundle?) {
            // ...
            launchesRecyclerView.adapter = launchesRvAdapter
            launchesRecyclerView.layoutManager = LinearLayoutManager(this)
-   
+
            swipeRefreshLayout.setOnRefreshListener {
                swipeRefreshLayout.isRefreshing = false
                displayLaunches(true)
            }
-   
+
            displayLaunches(false)
        }
-   
+
        private fun displayLaunches(needReload: Boolean) {
            // TODO: Presentation logic
        }
@@ -880,10 +880,10 @@ data.
    ```swift
    import SwiftUI
    import shared
-   
+
    struct RocketLaunchRow: View {
        var rocketLaunch: RocketLaunch
-   
+
        var body: some View {
            HStack() {
                VStack(alignment: .leading, spacing: 10.0) {
@@ -896,7 +896,7 @@ data.
            }
        }
    }
-   
+
    extension RocketLaunchRow {
        private var launchText: String {
            if let isSuccess = rocketLaunch.launchSuccess {
@@ -905,7 +905,7 @@ data.
                return "No data"
            }
        }
-   
+
        private var launchColor: Color {
            if let isSuccess = rocketLaunch.launchSuccess {
                return isSuccess.boolValue ? Color.green : Color.red
@@ -929,7 +929,7 @@ data.
            case result([RocketLaunch])
            case error(String)
        }
-   
+
       class ViewModel: ObservableObject {
           @Published var launches = LoadableLaunches.loading
       }
@@ -946,7 +946,7 @@ data.
    ```swift
    struct ContentView: View {
     @ObservedObject private(set) var viewModel: ViewModel
-   
+
         var body: some View {
             NavigationView {
                 listView()
@@ -957,7 +957,7 @@ data.
                 })
             }
         }
-   
+
         private func listView() -> AnyView {
             switch viewModel.launches {
             case .loading:
@@ -996,12 +996,12 @@ library.
        class ViewModel: ObservableObject {
            let sdk: SpaceXSDK
            @Published var launches = LoadableLaunches.loading
-   
+
            init(sdk: SpaceXSDK) {
                self.sdk = sdk
                self.loadLaunches(forceReload: false)
            }
-   
+
            func loadLaunches(forceReload: Bool) {
                // TODO: retrieve data
            }
@@ -1010,7 +1010,7 @@ library.
    ```
 
 2. Call the `getLaunches()` function from the `SpaceXSDK` class and save the result in the `launches` property:
-   
+
    ```Swift
    func loadLaunches(forceReload: Bool) {
        self.launches = .loading
@@ -1035,7 +1035,7 @@ library.
    ```swift
    import SwiftUI
    import shared
-   
+
    @main
    struct iOSApp: App {
        let sdk = SpaceXSDK(databaseDriverFactory: DatabaseDriverFactory())

@@ -202,7 +202,7 @@ Dokka 所有样式表的源代码, 请参见
 
 ### 自定义资源 {id="customize-assets"}
 
-你可以使用 `customAssets` [配置选项](#configuration), 提供你自己的绑定到文档的图片. 
+你可以使用 `customAssets` [配置选项](#configuration), 提供你自己的绑定到文档的图片.
 
 这些文件会被复制到 `<output>/images` 目录.
 

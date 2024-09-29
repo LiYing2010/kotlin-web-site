@@ -18,7 +18,7 @@ Kotlin Mobile 使用 [Kotlin 的跨平台能力](../multiplatform/multiplatform.
 ### Kotlin Multiplatform Mobile plugin 是什么?
 
 针对 Android Studio 的 _[Kotlin Multiplatform Mobile plugin](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform-mobile)_
-可以帮助你开发同时工作于 Android 和 iOS 上的应用程序. 
+可以帮助你开发同时工作于 Android 和 iOS 上的应用程序.
 
 使用 Kotlin Multiplatform Mobile plugin, 你能够:
 * 直接在 Android Studio 中运行, 测试, 以及调试你的应用程序的 iOS 部分.
@@ -47,7 +47,7 @@ Kotlin/Native 主要设计用于将代码编译到不适合或无法使用虚拟
 ### 相关技术的开发计划是什么?
 
 Kotlin Multiplatform Mobile 是 [Kotlin 发展路线图](../roadmap.html) 中的核心部分之一.
-要查看我们目前正在开发哪些功能, 请参见 [发展路线图细节](../roadmap.html#roadmap-details). 
+要查看我们目前正在开发哪些功能, 请参见 [发展路线图细节](../roadmap.html#roadmap-details).
 最近的大部分变更反应在 **Kotlin Multiplatform** 和 **Kotlin/Native** 小节.
 
 下面的视频介绍 Kotlin Multiplatform Mobile 的当前状态, 以及我们的开发计划:
@@ -81,7 +81,7 @@ IntelliJ IDEA 也可以通过项目向导创建跨平台移动应用程序, 但�
 
 ### 在 Kotlin Multiplatform Mobile 项目中我应该怎样编写并发代码?
 
-通过使用新的 [Kotlin/Native 内存管理器](../native/native-memory-manager.html), 在你的跨平台移动项目中可以很容易的编写并发代码,  
+通过使用新的 [Kotlin/Native 内存管理器](../native/native-memory-manager.html), 在你的跨平台移动项目中可以很容易的编写并发代码,
 这个新的内存管理器消除了以前的限制, 并统一了在 Kotlin/JVM 和 Kotlin/Native 上的行为.
 从 Kotlin 1.7.20 开始, 已经默认启用了新的内存管理器.
 

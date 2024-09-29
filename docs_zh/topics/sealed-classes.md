@@ -115,7 +115,7 @@ sealed class IOError {
   private constructor(description: String): this() { /*...*/ }
 
   // 这里会发生错误, 因为在封闭类中不允许使用 public 和 internal 构造器
-  // public constructor(code: Int): this() {} 
+  // public constructor(code: Int): this() {}
 }
 ```
 
@@ -130,7 +130,7 @@ sealed class IOError {
 >
 > ```kotlin
 > sealed interface Error
-> 
+>
 > // 枚举类扩展封闭接口 'Error'
 > enum class ErrorType : Error {
 >     FILE_ERROR, DATABASE_ERROR
@@ -219,17 +219,17 @@ fun main() {
 下面的例子演示如何管理不同的 UI 状态:
 
 ```kotlin
-sealed class UIState { 
+sealed class UIState {
     data object Loading : UIState()
     data class Success(val data: String) : UIState()
     data class Error(val exception: Exception) : UIState()
 }
 
-fun updateUI(state: UiState) { 
+fun updateUI(state: UiState) {
     when (state) {
         is UIState.Loading -> showLoadingIndicator()
         is UIState.Success -> showData(state.data)
-        is UIState.Error -> showError(state.exception) 
+        is UIState.Error -> showError(state.exception)
     }
 }
 ```
@@ -247,11 +247,11 @@ sealed class Payment {
     data object Cash : Payment()
 }
 
-fun processPayment(payment: Payment) { 
+fun processPayment(payment: Payment) {
     when (payment) {
         is Payment.CreditCard -> processCreditCardPayment(payment.number, payment.expiryDate)
         is Payment.PayPal -> processPayPalPayment(payment.email)
-        is Payment.Cash -> processCashPayment() 
+        is Payment.Cash -> processCashPayment()
     }
 }
 ```

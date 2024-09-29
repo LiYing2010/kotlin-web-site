@@ -43,10 +43,10 @@ kotlin {
 其他属性的初始化会被延迟, 直到使用它们的代码真正被执行时才会生成属性值.
 
 ```kotlin
-val a = run { 
+val a = run {
     val result = // 假设这里是一段计算密集的代码
     println(result)
-    result 
+    result
 } // 属性值直到初次使用时才会计算
 ```
 

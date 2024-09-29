@@ -8,9 +8,9 @@ Dokka 的设计思想是易于扩展, 而且高度可定制化,
 Dokka plugin 的范围很广, 包括支持其他编程语言的源代码, 到支持各种输出格式.
 你可以对你自己的 KDoc tag 或注解添加支持, 教会 Dokka 如何输出 KDoc 描述中出现的各种的 DSL,
 对 Dokka 页面的外观重新设计, 使其无缝的集成到你的公司的网站,
-将 Dokka 与其他工具集成, 等等等等. 
+将 Dokka 与其他工具集成, 等等等等.
 
-如果你想要学习如何 创建 Dokka plugin, 请参见 
+如果你想要学习如何 创建 Dokka plugin, 请参见
 [开发者指南](https://kotlin.github.io/dokka/%dokkaVersion%/developer_guide/introduction/).
 
 ## 应用 Dokka plugin {id="apply-dokka-plugins"}
@@ -46,7 +46,7 @@ dependencies {
 }
 ```
 
-> 在对 [多项目](dokka-gradle.md#multi-project-builds) 构建生成文档时, 
+> 在对 [多项目](dokka-gradle.md#multi-project-builds) 构建生成文档时,
 > 你需要同时对子项目和它们的父项目应用 Dokka plugin.
 >
 {style="note"}
@@ -128,8 +128,8 @@ Dokka plugin 应该在 `pluginsClasspath` 之下指定.
 
 ## 配置 Dokka plugin {id="configure-dokka-plugins"}
 
-Dokka plugin 也可以带有它们自己的配置选项. 
-要查看有哪些选项可以使用, 请参考你使用的 plugin 的文档. 
+Dokka plugin 也可以带有它们自己的配置选项.
+要查看有哪些选项可以使用, 请参考你使用的 plugin 的文档.
 
 我们来看看如何配置 `DokkaBase` plugin, 它负责生成 [HTML](dokka-html.md) 文档.
 我们向 assets 添加自定义的图片(使用 `customAssets` 选项),

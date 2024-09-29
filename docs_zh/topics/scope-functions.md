@@ -294,7 +294,7 @@ fun main() {
     val numbers = mutableListOf("one", "two", "three")
     with(numbers) {
         val firstItem = first()
-        val lastItem = last()        
+        val lastItem = last()
         println("First item: $firstItem, last item: $lastItem")
     }
 //sampleEnd
@@ -364,10 +364,10 @@ fun processNonNullString(str: String) {}
 
 fun main() {
 //sampleStart
-    val str: String? = "Hello"   
+    val str: String? = "Hello"
     //processNonNullString(str)       // 编译错误: str 可能为 null
     val length = str?.let {
-        println("let() called on $it")        
+        println("let() called on $it")
         processNonNullString(it)      // OK: 在 '?.let { }' 之内可以保证 'it' 不为 null
         it.length
     }
@@ -514,7 +514,7 @@ fun main() {
 //sampleStart
     val adam = Person("Adam").apply {
         age = 32
-        city = "London"        
+        city = "London"
     }
     println(adam)
 //sampleEnd

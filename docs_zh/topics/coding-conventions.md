@@ -85,9 +85,9 @@ root
 >
 > * 非 JVM 平台 对重复的 File Facade 不会发生错误. 但是, 这种命名规约可以帮助你保持文件名称的一致性.
 > * 在 JVM 平台上, 如果源代码文件不包含顶层声明, 就不会生成File Facade, 因此你不会遇到名称冲突的问题.
-> 
+>
 >   但是, 只要一次简单的代码重构, 或代码添加一个顶层函数, 就可以造成 "Duplicate JVM classes" 错误, 这种命名规约可以帮助你避免这样的情况.
-> 
+>
 {style="tip"}
 
 ### 源代码文件的组织
@@ -962,7 +962,7 @@ else
 when(x) {
     0 -> return "zero"
     else -> return "nonzero"
-}    
+}
 ```
 
 ### if 和 when

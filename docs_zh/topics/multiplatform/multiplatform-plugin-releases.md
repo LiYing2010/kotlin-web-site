@@ -3,14 +3,14 @@
 最终更新: %latestDocDate%
 
 我们正在努力开发 [Kotlin Multiplatform Mobile plugin for Android Studio](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform-mobile)
-的稳定版, 我们会不断发布新的版本, 包含新的功能, 改进, 和 bug 修正. 
+的稳定版, 我们会不断发布新的版本, 包含新的功能, 改进, 和 bug 修正.
 
 请确认你安装了最新版的 Kotlin Multiplatform Mobile plugin!
 
 ## 更新到新的发布版
 
 如果出现了新的 Kotlin Multiplatform Mobile plugin 发布版, Android Studio 会建议你更新.
-如果你接受建议, 它会自动更新 plugin 到最新版本. 
+如果你接受建议, 它会自动更新 plugin 到最新版本.
 你将会需要重新启动 Android Studio 来完成 plugin 的安装.
 
 你可以通过菜单 **Settings/Preferences** | **Plugins**, 查看 plugin 的版本, 并手动更新它.
@@ -26,9 +26,9 @@
 
 ## 发布版本详情 {id="release-details"}
 
-下表列出了 Kotlin Multiplatform Mobile plugin 最新发布版的详细信息: 
+下表列出了 Kotlin Multiplatform Mobile plugin 最新发布版的详细信息:
 
-<table> 
+<table>
 <tr>
 <th>
 发布版

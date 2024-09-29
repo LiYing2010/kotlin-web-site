@@ -16,7 +16,7 @@
 
 > * 要将依赖项正确导入到 Kotlin/Native 模块, `Podfile` 必须包含:
 >   [`use_modular_headers!`](https://guides.cocoapods.org/syntax/podfile.html#use_modular_headers_bang)
->   或 
+>   或
 >   [`use_frameworks!`](https://guides.cocoapods.org/syntax/podfile.html#use_frameworks_bang) 指令.
 > * 如果你不指定部署目标(deployment target)最小版本, 而且依赖项 Pod 需要更高的部署目标版本, 那么会发生错误.
 >

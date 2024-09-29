@@ -45,7 +45,7 @@
     * Multiplatform 和 iOS 模块
     * JVM 模块
       <img src="/assets/docs/images/multiplatform/multiplatform-project-3.png" alt="配置项目" width="700"/>
- 
+
 向导将会创建一个跨平台库的示例, 结构如下:
 
 <img src="/assets/docs/images/multiplatform/multiplatform-lib-structure.png" alt="跨平台库结构" width="250"/>
@@ -60,14 +60,14 @@
 
     ```kotlin
     package org.jetbrains.base64
-    
+
     interface Base64Encoder {
         fun encode(src: ByteArray): ByteArray
     }
     ```
 
 4. 定义 `Base64Factory` 对象, 向共通代码提供 `Base64Encoder` 接口的一个实例:
-   
+
     ```kotlin
     expect object Base64Factory {
         fun createEncoder(): Base64Encoder
@@ -93,17 +93,17 @@
 3. 提供 `Base64Factory` 对象的一个简单实现, 代理到 `java.util.Base64` 类:
 
    > IDEA 代码检查器会帮助你为 `expect` 声明创建 `actual` 实现.
-> 
+>
 {style="note"}
 
     ```kotlin
     package org.jetbrains.base64
     import java.util.*
-    
+
     actual object Base64Factory {
         actual fun createEncoder(): Base64Encoder = JvmBase64Encoder
     }
-    
+
     object JvmBase64Encoder : Base64Encoder {
         override fun encode(src: ByteArray): ByteArray = Base64.getEncoder().encode(src)
     }
@@ -121,13 +121,13 @@ JS 实现将会非常类似于 JVM 的实现.
 
     ```kotlin
     package org.jetbrains.base64
-    
+
     import kotlinx.browser.window
-    
+
     actual object Base64Factory {
         actual fun createEncoder(): Base64Encoder = JsBase64Encoder
     }
-    
+
     object JsBase64Encoder : Base64Encoder {
         override fun encode(src: ByteArray): ByteArray {
             val string = src.decodeToString()
@@ -147,20 +147,20 @@ JS 实现将会非常类似于 JVM 的实现.
 
     ```kotlin
     package org.jetbrains.base64
-    
+
     private val BASE64_ALPHABET: String = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
     private val BASE64_MASK: Byte = 0x3f
     private val BASE64_PAD: Char = '='
     private val BASE64_INVERSE_ALPHABET = IntArray(256) {
         BASE64_ALPHABET.indexOf(it.toChar())
     }
-    
+
     private fun Int.toBase64(): Char = BASE64_ALPHABET[this]
-    
+
     actual object Base64Factory {
         actual fun createEncoder(): Base64Encoder = NativeBase64Encoder
     }
-    
+
     object NativeBase64Encoder : Base64Encoder {
         override fun encode(src: ByteArray): ByteArray {
             fun ByteArray.getOrZero(index: Int): Int = if (index >= size) 0 else get(index).toInt()
@@ -172,7 +172,7 @@ JS 实现将会非常类似于 JVM 的实现.
                 val padSize = if (symbolsLeft >= 3) 0 else (3 - symbolsLeft) * 8 / 6
                 val chunk = (src.getOrZero(index) shl 16) or (src.getOrZero(index + 1) shl 8) or src.getOrZero(index + 2)
                 index += 3
-    
+
                 for (i in 3 downTo padSize) {
                     val char = (chunk shr (6 * i)) and BASE64_MASK.toInt()
                     result.add(char.toBase64().code.toByte())
@@ -180,7 +180,7 @@ JS 实现将会非常类似于 JVM 的实现.
                 // pad 部分填充 '='
                 repeat(padSize) { result.add(BASE64_PAD.code.toByte()) }
             }
-    
+
             return result.toByteArray()
         }
     }
@@ -240,7 +240,7 @@ object JvmBase64Encoder : Base64Encoder {
         fun testEncodeToString() {
             checkEncodeToString("Kotlin is awesome", "S290bGluIGlzIGF3ZXNvbWU=")
         }
-    
+
         @Test
         fun testPaddedStrings() {
             checkEncodeToString("", "")
@@ -249,11 +249,11 @@ object JvmBase64Encoder : Base64Encoder {
             checkEncodeToString("333", "MzMz")
             checkEncodeToString("4444", "NDQ0NA==")
         }
-    
+
         private fun checkEncodeToString(input: String, expectedOutput: String) {
             assertEquals(expectedOutput, Base64Factory.createEncoder().encodeToString(input.asciiToByteArray()))
         }
-    
+
         private fun String.asciiToByteArray() = ByteArray(length) {
             get(it).code.toByte()
         }
@@ -267,7 +267,7 @@ object JvmBase64Encoder : Base64Encoder {
     ```
 
    > 你也可以在 Gradle task 列表中双击 `check` 来运行它.
-> 
+>
 {style="note"}
 
 测试将在所有的平台上运行 (JVM, JS, 和 Native).
@@ -282,10 +282,10 @@ object JvmBase64Encoder : Base64Encoder {
 
    ```kotlin
    package org.jetbrains.base64
-   
+
    import kotlin.test.Test
    import kotlin.test.assertEquals
-   
+
    class Base64JvmTest {
        @Test
        fun testNonAsciiString() {
@@ -311,7 +311,7 @@ object JvmBase64Encoder : Base64Encoder {
        kotlin("multiplatform") version "{{ site.data.releases.latest.version }}"
        id("maven-publish")
    }
-   
+
    group = "org.jetbrains.base64"
    version = "1.0.0"
    ```
@@ -323,7 +323,7 @@ object JvmBase64Encoder : Base64Encoder {
    ```
 
    > 你也可以在 Gradle task 列表中双击 `publishToMavenLocal` 来运行它.
-> 
+>
 {style="note"}
 
 
@@ -360,7 +360,7 @@ object JvmBase64Encoder : Base64Encoder {
 ### 对发布进行设置
 
 现在你需要指示 Gradle 如何发布库. 大多数工作已经由 `maven-publish` 和 Kotlin Gradle plugin 完成了, 所有必须的发布都会自动创建.
-在库发布到本地 Maven 仓库时, 你已经知道了发布结果. 
+在库发布到本地 Maven 仓库时, 你已经知道了发布结果.
 要发布到 Maven Central, 你需要添加下面的步骤:
 
 1. 配置 Public Maven 仓库 URL 和帐号信息.
@@ -384,7 +384,7 @@ object JvmBase64Encoder : Base64Encoder {
    plugins {
        `kotlin-dsl` // 需要这个 plugin, 以便将我们用 Kotlin 编写的构建逻辑转变为 Gradle Plugin
    }
-   
+
    repositories {
        gradlePluginPortal() // 需要这段代码, 以便在我们的 plugin 中使用 'maven-publish' 和 'signing' plugin
    }
@@ -401,19 +401,19 @@ object JvmBase64Encoder : Base64Encoder {
    import org.gradle.kotlin.dsl.`maven-publish`
    import org.gradle.kotlin.dsl.signing
    import java.util.*
-   
+
    plugins {
        `maven-publish`
        signing
    }
-   
-   // 密码信息的桩设定值, 在没有进行发布设定值时, 让项目也能够同步并正确构建, 
+
+   // 密码信息的桩设定值, 在没有进行发布设定值时, 让项目也能够同步并正确构建,
    ext["signing.keyId"] = null
    ext["signing.password"] = null
    ext["signing.secretKeyRingFile"] = null
    ext["ossrhUsername"] = null
    ext["ossrhPassword"] = null
-   
+
    // 从 local.properties 文件或从环境变量获取密码信息, CI 中可能会使用环境变量
    val secretPropsFile = project.rootProject.file("local.properties")
    if (secretPropsFile.exists()) {
@@ -431,13 +431,13 @@ object JvmBase64Encoder : Base64Encoder {
        ext["ossrhUsername"] = System.getenv("OSSRH_USERNAME")
        ext["ossrhPassword"] = System.getenv("OSSRH_PASSWORD")
    }
-   
+
    val javadocJar by tasks.registering(Jar::class) {
        archiveClassifier.set("javadoc")
    }
-   
+
    fun getExtraString(name: String) = ext[name]?.toString()
-   
+
    publishing {
        // 配置 Maven Central 仓库
        repositories {
@@ -450,18 +450,18 @@ object JvmBase64Encoder : Base64Encoder {
                }
            }
        }
-   
+
        // 配置所有的发布
        publications.withType<MavenPublication> {
            // javadoc.jar artifact 文件的桩设置
            artifact(javadocJar.get())
-   
+
            // 设置 Maven Central 需要的 artifact 信息
            pom {
                name.set("MPP Sample library")
                description.set("Sample Kotlin Multiplatform library (jvm + ios + js) test")
                url.set("https://github.com/<your-github-repo>/mpp-sample-lib")
-   
+
                licenses {
                    license {
                        name.set("MIT")
@@ -472,7 +472,7 @@ object JvmBase64Encoder : Base64Encoder {
                    developer {
                    id.set("<your-github-profile>")
                    name.set("<your-name>")
-                   email.set("<your-email>") 
+                   email.set("<your-email>")
                }
            }
                scm {
@@ -514,11 +514,11 @@ object JvmBase64Encoder : Base64Encoder {
    ```none
    # GPG Key 对 ID (它的指纹中的至少 8 位数字)
    signing.keyId=...
-   # Key 对的密码 
+   # Key 对的密码
    signing.password=...
    # 你前面导出的 Private Key
    signing.secretKeyRingFile=...
-   # 你的 Jira 帐号的用户名和密码 
+   # 你的 Jira 帐号的用户名和密码
    ossrhUsername=...
    ossrhPassword=...
    ```

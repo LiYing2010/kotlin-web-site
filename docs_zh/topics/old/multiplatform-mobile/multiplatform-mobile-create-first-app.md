@@ -17,25 +17,25 @@
                 <a href="multiplatform-mobile-setup.html">设置开发环境</a>
             </div>
             <br/>
-    
+
             <div style="vertical-align: middle; display: inline-flex">
                 <img src="/assets/docs/images/icons/icon-2.svg" alt="第 2 步" width="20"/> &nbsp;
                 <strong>创建你的第一个跨平台应用程序</strong>
             </div>
             <br/>
-    
+
             <div style="vertical-align: middle; display: inline-flex">
                 <img src="/assets/docs/images/icons/icon-3-todo.svg" alt="第 3 步" width="20"/> &nbsp;
                 添加依赖项
             </div>
             <br/>
-    
+
             <div style="vertical-align: middle; display: inline-flex">
                 <img src="/assets/docs/images/icons/icon-4-todo.svg" alt="第 4 步" width="20"/> &nbsp;
                 升级你的应用程序
             </div>
             <br/>
-    
+
             <div style="vertical-align: middle; display: inline-flex">
                 <img src="/assets/docs/images/icons/icon-5-todo.svg" alt="第 5 步" width="20"/> &nbsp;
                 完成你的项目
@@ -58,7 +58,7 @@
 
     <img src="/assets/docs/images/multiplatform-mobile/create-first-app/multiplatform-mobile-project-wizard-1.png" alt="跨平台移动项目模板" width="700"/>
 
-3. 为你的第 1 个 应用程序指定名称, 并点击 **Next**.  
+3. 为你的第 1 个 应用程序指定名称, 并点击 **Next**.
 
     <img src="/assets/docs/images/multiplatform-mobile/create-first-app/multiplatform-mobile-project-wizard-2.png" alt="跨平台移动项目 - 一般设置" width="700"/>
 
@@ -79,7 +79,7 @@
 
 ## 查看项目结构
 
-要查看你的跨平台移动项目的完整结构, 请从 **Android** 视图切换到 **Project** 视图. 
+要查看你的跨平台移动项目的完整结构, 请从 **Android** 视图切换到 **Project** 视图.
 
 <img src="/assets/docs/images/multiplatform-mobile/create-first-app/select-project-view.png" alt="选择项目视图" width="200"/>
 
@@ -103,7 +103,7 @@ _源代码集_ 是一个 Gradle 概念, 它表示逻辑上组合在一起的一�
 
 <img src="/assets/docs/images/multiplatform-mobile/basic-project-structure-2.png" alt="源代码集与模块结构" width="200"/>
 
-> 这是你在 IntelliJ IDEA 或 Android Studio 中, 使用项目向导创建的一个 Multiplatform Mobile 项目的示例结构. 
+> 这是你在 IntelliJ IDEA 或 Android Studio 中, 使用项目向导创建的一个 Multiplatform Mobile 项目的示例结构.
 > 真实的项目可能包含更加复杂的结构.
 >
 {style="note"}
@@ -126,7 +126,7 @@ _源代码集_ 是一个 Gradle 概念, 它表示逻辑上组合在一起的一�
 #### 在不同的 Android 模拟设备上运行
 
 学习如何 [配置 Android Emulator, 并在不同的模拟设备上运行你的应用程序](https://developer.android.com/studio/run/emulator#runningapp).
-    
+
 #### 在真实的 Android 上设备运行
 
 学习如何 [配置并连接到一个硬件设备, 并在这个设备上并运行你的应用程序](https://developer.android.com/studio/run/device).
@@ -162,9 +162,9 @@ _源代码集_ 是一个 Gradle 概念, 它表示逻辑上组合在一起的一�
 5. 在 **Execution target** 列表中, 选择一个模拟设备, 然后点击 **OK**.
 
     ![使用 iOS 模拟器的新的运行配置]({{ url_for('asset', path='docs/images/multiplatform-mobile/create-first-app/ios-new-simulator.png') }})
-    
+
 6. 点击 **Run**, 在新的模拟设备上运行你的应用程序.
-    
+
 #### 在一个真实的 iOS 设备上运行
 
 1. 将一个真实的 iPhone 设备连接到 Xcode.
@@ -178,11 +178,11 @@ _源代码集_ 是一个 Gradle 概念, 它表示逻辑上组合在一起的一�
 
 ## 更新你的应用程序
 
-1. 打开 `shared/src/commonMain/kotlin` 中的 `Greeting.kt` 文件.  
+1. 打开 `shared/src/commonMain/kotlin` 中的 `Greeting.kt` 文件.
    这个目录存储 Android 和 iOS 两个平台共用的代码. 如果你修改了共用代码, 你会看到这些修改反应到两个平台的应用程序中.
 
    ![共用的 Kotlin 文件]({{ url_for('asset', path='docs/images/multiplatform-mobile/create-first-app/common-kotlin-file.png') }})
-    
+
 2. 更新共用代码, 使用在所有平台上都能工作的 Kotlin 翻转字符串标准库函数
    [`reversed()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/reversed.html):
 
@@ -200,10 +200,10 @@ _源代码集_ 是一个 Gradle 概念, 它表示逻辑上组合在一起的一�
 
     <img src="/assets/docs/images/multiplatform-mobile/create-first-app/first-multiplatform-project-on-android-2.png" alt="在 Android 上运行更新后的跨平台移动 App" width="300"/>
 
-4. 在 Android Studio 中, 切换到 **iosApp**, 再次运行它, 在 iOS 虚拟设备上查看更新后的应用程序.  
+4. 在 Android Studio 中, 切换到 **iosApp**, 再次运行它, 在 iOS 虚拟设备上查看更新后的应用程序.
 
     <img src="/assets/docs/images/multiplatform-mobile/create-first-app/first-multiplatform-project-on-ios-2.png" alt="在 iOS 上运行更新后的跨平台移动 App" width="300"/>
-    
+
 ## 下一步
 
 在本教程的下一部分, 你将会学习依赖项, 并向你的项目添加一个第三方库, 来扩展它的功能.

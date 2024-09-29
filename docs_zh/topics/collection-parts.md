@@ -16,10 +16,10 @@ Kotlin 标准库包含扩展函数可以用来截取集合中的一部分.
 
 fun main() {
 //sampleStart
-    val numbers = listOf("one", "two", "three", "four", "five", "six")    
+    val numbers = listOf("one", "two", "three", "four", "five", "six")
     println(numbers.slice(1..3))
     println(numbers.slice(0..4 step 2))
-    println(numbers.slice(setOf(3, 5, 0)))    
+    println(numbers.slice(setOf(3, 5, 0)))
 //sampleEnd
 }
 ```
@@ -33,7 +33,7 @@ fun main() {
 要从集合尾部开始取得指定数量的元素, 可以使用
 [`takeLast()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/take-last.html)
 函数.
-如果参数中指定的期望取得元素数量超过集合大小, 那么这两个函数都会返回整个集合.  
+如果参数中指定的期望取得元素数量超过集合大小, 那么这两个函数都会返回整个集合.
 
 如果要从集合头部或尾部开始, 抛弃指定数量的元素, 并取得剩余的元素, 可以使用
 [`drop()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/drop.html)
@@ -113,7 +113,7 @@ fun main() {
 这时需要通过 lambda 函数的方式指定变换操作, 并将这个 lambda 函数作为参数传递给 `chunked()` 函数.
 lambda 函数本身收到的参数是集合中的一个块.
 当使用变换操作参数来调用 `chunked()` 函数时,
-各个块都会是临时存在(short-living) 的 `List`, 应该在 lambda 函数内读取它的内容.  
+各个块都会是临时存在(short-living) 的 `List`, 应该在 lambda 函数内读取它的内容.
 
 ```kotlin
 
@@ -140,7 +140,7 @@ fun main() {
 
 fun main() {
 //sampleStart
-    val numbers = listOf("one", "two", "three", "four", "five")    
+    val numbers = listOf("one", "two", "three", "four", "five")
     println(numbers.windowed(3))
 //sampleEnd
 }
@@ -183,7 +183,7 @@ fun main() {
 
 fun main() {
 //sampleStart
-    val numbers = listOf("one", "two", "three", "four", "five")    
+    val numbers = listOf("one", "two", "three", "four", "five")
     println(numbers.zipWithNext())
     println(numbers.zipWithNext() { s1, s2 -> s1.length > s2.length})
 //sampleEnd

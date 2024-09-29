@@ -35,7 +35,7 @@ Kotlin 1.6.20 带来了一些未来语言功能的预览版, 对跨平台项目�
 
 ```kotlin
 interface LoggingContext {
-    val log: Logger // 这个上下文提供一个 logger 的引用  
+    val log: Logger // 这个上下文提供一个 logger 的引用
 }
 
 context(LoggingContext)
@@ -160,7 +160,7 @@ Kotlin 1.6.20 引入了新的注解 [`@JvmDefaultWithCompatibility`](https://kot
 
 ### -Xjvm-default 模式中的兼容性变更 {id="compatibility-changes-in-the-xjvm-default-modes"}
 
-Kotlin 1.6.20 添加了选项, 对使用 `-Xjvm-default=all` 或 `-Xjvm-default=all-compatibility` 模式编译的模块, 
+Kotlin 1.6.20 添加了选项, 对使用 `-Xjvm-default=all` 或 `-Xjvm-default=all-compatibility` 模式编译的模块,
 可以使用默认模式(`-Xjvm-default=disable` 编译器选项)编译模块.
 以前, 如果所有模块都使用 `-Xjvm-default=all` 或 `-Xjvm-default=all-compatibility` 模式, 编译也会成功.
 你可以在这个 [YouTrack issue](https://youtrack.jetbrains.com/issue/KT-47000) 中留下你的反馈意见.
@@ -188,7 +188,7 @@ Kotlin 1.6.20 废弃了编译器选项 `-Xjvm-default` 的 `compatibility` 和 `
 要启用实验性的并行后端模式, 请使用 [编译器选项](compiler-reference.md#compiler-options) `-Xbackend-threads`.
 对这个选项可以使用以下参数:
 
-* `N` 是你想要使用的线程数量. 这个值不要大于你的 CPU 核数; 否则, 线程间的上下文切换会导致并行编译不会发生更多效果 
+* `N` 是你想要使用的线程数量. 这个值不要大于你的 CPU 核数; 否则, 线程间的上下文切换会导致并行编译不会发生更多效果
 * `0` 对每个 CPU 核, 使用单独的线程
 
 [Gradle](gradle.md) 可以并行运行 task, 但如果从 Gradle 的观点来看, 一个项目(或一个项目的主要部分)只是一个很大的 task,
@@ -198,7 +198,7 @@ Kotlin 1.6.20 废弃了编译器选项 `-Xjvm-default` 的 `compatibility` 和 `
 
 > 并行编译存在一些条件:
 > * 它不能与 [kapt](kapt.md) 一起工作, 因为 kapt 会禁用 IR 后端
-> * 它的设计要求更多的 JVM heap 内存. heap 内存大小正比于线程数量 
+> * 它的设计要求更多的 JVM heap 内存. heap 内存大小正比于线程数量
 >
 {style="note"}
 
@@ -300,7 +300,7 @@ Kotlin/Native 1.6.20 继续更新了它的新组件. 我们进一步改善了 Ko
 要为新的 Kotlin/Native 内存管理器启用这个功能, 请传递以下编译器选项:
 
 ```bash
--Xgc=cms 
+-Xgc=cms
 ```
 
 关于新内存管理器的性能, 欢迎在这个 [YouTrack issue](https://youtrack.jetbrains.com/issue/KT-48526) 中提供你的反馈意见.
@@ -467,7 +467,7 @@ binaryOptions["androidProgramType"] = "nativeActivity"
 Kotlin 1.6.20 带来了一些性能改进和 bug 修正, 影响到 Kotlin 生成的 LLVM IR.
 根据我们内部项目的评测, 平均结果显示我们实现了下面的性能提升:
 
-* 执行时间减少了 15% 
+* 执行时间减少了 15%
 * release 和 debug 二进制文件代码大小都减少了 20%
 * release 二进制文件的编译时间减少了 26%
 
@@ -739,7 +739,7 @@ tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinCompile).configureEach {
         freeCompilerArgs += "-Xklib-relative-path-base=$base"
     }
 }
-``` 
+```
 
 </tab>
 </tabs>
@@ -785,12 +785,12 @@ rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlu
         file("my-kotlin-js-store")
     rootProject.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension).lockFileName = 'my-yarn.lock'
 }
-``` 
+```
 
 </tab>
 </tabs>
 
-> 修改 lock 文件名称, 可能会导致依赖项检查工具不再正确读取这个文件. 
+> 修改 lock 文件名称, 可能会导致依赖项检查工具不再正确读取这个文件.
 >
 {style="warning"}
 
@@ -822,7 +822,7 @@ rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlu
 rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin) {
     rootProject.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension).ignoreScripts = false
 }
-``` 
+```
 
 </tab>
 </tabs>
@@ -897,7 +897,7 @@ tasks.withType<KotlinCompile>().configureEach {
 在 Kotlin 1.6.20 中, 我们修改了这些属性的废弃级别 :
 
 * 我们废弃了使用 `kapt.use.worker.api` 来通过 Kotlin daemon 运行 [kapt](kapt.md) 的功能 –
-  现在这个选项会在 Gradle 的输出中产生一条警告信息. 
+  现在这个选项会在 Gradle 的输出中产生一条警告信息.
   默认情况下, 从 1.3.70 版开始 [kapt 使用 Gradle worker](kapt.md#run-kapt-tasks-in-parallel), 我们建议继续使用这种方法.
 
   我们将会在未来的发布版中删除选项 `kapt.use.worker.api`.

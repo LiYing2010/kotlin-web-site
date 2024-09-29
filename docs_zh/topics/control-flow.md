@@ -103,9 +103,9 @@ enum class Color {
     RED, GREEN, BLUE
 }
 
-when (getColor()) {  
+when (getColor()) {
     Color.RED -> println("red")
-    Color.GREEN -> println("green")   
+    Color.GREEN -> println("green")
     Color.BLUE -> println("blue")
     // 不需要 'else' 分支, 因为已经覆盖了所有可能的情况
 }

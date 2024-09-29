@@ -103,7 +103,7 @@ cinterop -def png.def -compiler-option -I/usr/local/include -o png
 
 #### 使用 glob 过滤头文件
 
-也可以使用 `.def` 文件内的过滤属性作为 glob 来过滤头文件. 
+也可以使用 `.def` 文件内的过滤属性作为 glob 来过滤头文件.
 这些属性值会被看作一个空格分隔的 glob 列表.
 
 * 要包含头文件中的声明, 请使用 `headerFilter` 属性.

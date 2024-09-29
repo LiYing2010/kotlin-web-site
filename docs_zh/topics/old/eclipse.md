@@ -4,7 +4,7 @@
 
 [Eclipse IDE](https://www.eclipse.org/downloads/) 是非常著名的 IDE, 它提供了很多包, 可用于各种语言和平台上的开发.
 你可以使用它来编写 Kotlin 代码.
-在本文档中, 你将学会如何在 Eclipse IDE 中开发 Kotlin 的基本知识. 
+在本文档中, 你将学会如何在 Eclipse IDE 中开发 Kotlin 的基本知识.
 
 ## 设置环境
 
@@ -13,14 +13,14 @@
 推荐使用 **Eclipse IDE for Java Developers** bundle.
 
 要向你的 Eclipse IDE 添加 Kotlin 支持, 请安装 **Kotlin Plugin for Eclipse**.
-我们推荐通过 [Eclipse Marketplace](https://marketplace.eclipse.org/content/kotlin-plugin-eclipse) 安装 Kotlin plugin. 
-打开 __Help | Eclipse Marketplace...__ 菜单, 查找 __Kotlin Plugin for Eclipse__: 
+我们推荐通过 [Eclipse Marketplace](https://marketplace.eclipse.org/content/kotlin-plugin-eclipse) 安装 Kotlin plugin.
+打开 __Help | Eclipse Marketplace...__ 菜单, 查找 __Kotlin Plugin for Eclipse__:
 
 <img src="/assets/docs/images/eclipse/eclipse-marketplace.png" alt="Eclipse Marketplace" width="500"/>
 
-plugin 安装完毕并重新启动 Eclipse 之后, 请确认 plugin 是否正确安装: 
+plugin 安装完毕并重新启动 Eclipse 之后, 请确认 plugin 是否正确安装:
 在菜单 __Window | Perspective | Open Perspective | Other...__ 中打开 __Kotlin perspective__
-    
+
 <img src="/assets/docs/images/eclipse/eclipse-open-perspective.png" alt="Kotlin Perspective" width="500"/>
 
 ## 创建一个新项目
@@ -35,7 +35,7 @@ plugin 安装完毕并重新启动 Eclipse 之后, 请确认 plugin 是否正确
 
 对于 Eclipse IDE, 项目也是一个 Java 项目, 但配置了 Kotlin nature, 也就是说它有 Kotlin Builder, 并引用 Kotlin 运行库.
 这种解决方案的好处是, 你可以在同一个项目中添加 Kotlin 和 Java 代码.
-   
+
 项目结构大致如下:
 
 <img src="/assets/docs/images/eclipse/eclipse-empty-project.png" alt="空的 Kotlin 项目" width="700"/>
@@ -62,7 +62,7 @@ plugin 安装完毕并重新启动 Eclipse 之后, 请确认 plugin 是否正确
 要运行应用程序, 请在 main 文件的某个地方点击鼠标右键, 然后选择 __Run As | Kotlin Application__.
 
 <img src="/assets/docs/images/eclipse/eclipse-run-as.png" alt="运行 Kotlin 应用程序" width="700"/>
-   
+
 如果一切正确, 你会在 **Console** 窗口看到输出结果.
 
 <img src="/assets/docs/images/eclipse/eclipse-output.png" alt="程序输出视图" width="500"/>

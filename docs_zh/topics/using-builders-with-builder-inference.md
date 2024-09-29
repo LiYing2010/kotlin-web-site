@@ -41,7 +41,7 @@ fun addEntryToMap(baseMap: Map<String, Number>, additionalEntry: Pair<String, In
    ```kotlin
    fun <V> buildList(builder: MutableList<V>.() -> Unit) { ... }
    ```
-   
+
    > 注意, 直接传递类型参数的类型, 比如 `fun <T> myBuilder(builder: T.() -> Unit)`, 目前还不支持.
    >
    {style="note"}
@@ -57,12 +57,12 @@ fun addEntryToMap(baseMap: Map<String, Number>, additionalEntry: Pair<String, In
 
        fun getLastItem(): T? = items.lastOrNull()
    }
-   
+
    fun <T> ItemHolder<T>.addAllItems(xs: List<T>) {
        xs.forEach { addItem(it) }
    }
 
-   fun <T> itemHolderBuilder(builder: ItemHolder<T>.() -> Unit): ItemHolder<T> = 
+   fun <T> itemHolderBuilder(builder: ItemHolder<T>.() -> Unit): ItemHolder<T> =
        ItemHolder<T>().apply(builder)
 
    fun test(s: String) {
@@ -70,7 +70,7 @@ fun addEntryToMap(baseMap: Map<String, Number>, additionalEntry: Pair<String, In
            addItem(s)
        }
        val itemHolder2 = itemHolderBuilder { // itemHolder2 的类型是 ItemHolder<String>
-           addAllItems(listOf(s)) 
+           addAllItems(listOf(s))
        }
        val itemHolder3 = itemHolderBuilder { // itemHolder3 的类型是 ItemHolder<String?>
            val lastItem: String? = getLastItem()
@@ -81,7 +81,7 @@ fun addEntryToMap(baseMap: Map<String, Number>, additionalEntry: Pair<String, In
 
 ### 支持的功能
 
-构建器推断支持以下功能: 
+构建器推断支持以下功能:
 * 推断多个类型参数
   ```kotlin
   fun <K, V> myBuilder(builder: MutableMap<K, V>.() -> Unit): Map<K, V> { ... }
@@ -93,7 +93,7 @@ fun addEntryToMap(baseMap: Map<String, Number>, additionalEntry: Pair<String, In
       mapBuilder: MutableMap<K, V>.() -> Unit
   ): Pair<List<V>, Map<K, V>> =
       mutableListOf<V>().apply(listBuilder) to mutableMapOf<K, V>().apply(mapBuilder)
-  
+
   fun main() {
       val result = myBuilder(
           { add(1) },
@@ -102,18 +102,18 @@ fun addEntryToMap(baseMap: Map<String, Number>, additionalEntry: Pair<String, In
       // result 的类型是 Pair<List<Int>, Map<String, Int>>
   }
   ```
-* 推断 Lambda 表达式的参数或返回类型中出现的类型参数 
+* 推断 Lambda 表达式的参数或返回类型中出现的类型参数
   ```kotlin
   fun <K, V> myBuilder1(
       mapBuilder: MutableMap<K, V>.() -> K
   ): Map<K, V> = mutableMapOf<K, V>().apply { mapBuilder() }
-  
+
   fun <K, V> myBuilder2(
       mapBuilder: MutableMap<K, V>.(K) -> Unit
   ): Map<K, V> = mutableMapOf<K, V>().apply { mapBuilder(2 as K) }
-  
+
   fun main() {
-      // result1 推断得到的类型是 Map<Long, String> 
+      // result1 推断得到的类型是 Map<Long, String>
       val result1 = myBuilder1 {
           put(1L, "value")
           2
@@ -168,14 +168,14 @@ val result = buildList {
 * 对 Lambda 表达式的接受者, 使用类型参数的类型调用方法
   ```kotlin
   val result = buildList {
-      // 根据传递的 "value" 参数, 类型参数被推断为 String 
+      // 根据传递的 "value" 参数, 类型参数被推断为 String
       add("value")
   } // result 的类型被推断为 List<String>
   ```
-* 对返回类型参数类型的调用, 指定期望的类型 
+* 对返回类型参数类型的调用, 指定期望的类型
   ```kotlin
   val result = buildList {
-      // 根据期待的类型, 类型参数被推断为 Float 
+      // 根据期待的类型, 类型参数被推断为 Float
       val x: Float = get(0)
   } // result 的类型被推断为 List<Float>
   ```
@@ -212,13 +212,13 @@ val result = buildList {
           val isLong = x.isMoreThat3()
       // ...
       } // result2 的类型为 List<String>
-  
+
       val result3 = buildList {
           takeListOfStrings(this)
       } // result3 的类型为 List<String>
   }
   ```
-* 取得一个指向 Lambda 表达式接受者的成员的可调用的引用 
+* 取得一个指向 Lambda 表达式接受者的成员的可调用的引用
   ```kotlin
   fun main() {
       val result = buildList {
@@ -267,5 +267,5 @@ fun main() {
 }
 ```
 
-这里会出现类型不匹配, 因为在构建器 Lambda 表达式之外指定了期待的 Map 类型. 
+这里会出现类型不匹配, 因为在构建器 Lambda 表达式之外指定了期待的 Map 类型.
 编译器会使用固定的接受者类型 `Map<in String, String>` 来分析 Lambda 表达式内的所有的语句.

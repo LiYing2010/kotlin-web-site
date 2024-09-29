@@ -2,7 +2,7 @@
 
 最终更新: %latestDocDate%
 
-你可以使用 _持续编译(Continuous Compilation)_ 模式, 这样就不必每次想要查看修改结果时手动编译和执行 Kotlin/JS 项目. 
+你可以使用 _持续编译(Continuous Compilation)_ 模式, 这样就不必每次想要查看修改结果时手动编译和执行 Kotlin/JS 项目.
 使用 _持续(Continuous)_ 模式调用 Gradle wrapper, 而不是不是使用通常的 `run` 命令:
 
 ```bash

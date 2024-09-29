@@ -21,7 +21,7 @@ Kotlin 和 Kotlin plugin 拥有各自不同的功能:
 
 ## 发布版详细信息
 
-下表列出了最新的 Kotlin plugin 发布版的详细信息: 
+下表列出了最新的 Kotlin plugin 发布版的详细信息:
 
 <table>
 <tr>
@@ -42,14 +42,14 @@ Kotlin 和 Kotlin plugin 拥有各自不同的功能:
     <li> 支持 Kotlin 1.7.20 的功能特性 </li>
     <li> 针对 Kotlin 的 IDE 性能改进 </li>
     <br/>
-    详情请参见: 
+    详情请参见:
     <li> <a href="https://www.jetbrains.com/idea/whatsnew/2022-3/">IntelliJ IDEA 2022.3 的新功能</a> </li>
   </td>
 </tr>
 
 <tr>
   <td>
-    <b> 2022.2 </b> <br/> 
+    <b> 2022.2 </b> <br/>
     发布日期: 2022/07/26
   </td>
   <td>
@@ -57,53 +57,53 @@ Kotlin 和 Kotlin plugin 拥有各自不同的功能:
     <li> 修正了编译器版本不匹配导致的本地与 CI 构建中的不一致 </li>
     <li> IDE 性能改进 </li>
     <br/>
-    详情请参见: 
+    详情请参见:
     <li> <a href="https://www.jetbrains.com/idea/whatsnew/2022-2/">IntelliJ IDEA 2022.2 的新功能</a> </li>
   </td>
 </tr>
 
 <tr>
   <td>
-    <b> 2022.1 </b> <br/> 
+    <b> 2022.1 </b> <br/>
     发布日期: 2022/04/12
   </td>
   <td>
-    <li> 调试器改进 </li> 
+    <li> 调试器改进 </li>
     <li> IDE 性能改进 </li>
     <li> 集成 <a href="https://github.com/Kotlin/kotlinx-kover">Kover plugin</a> </li>
     <br/>
-    详情请参见: 
+    详情请参见:
     <li> <a href="https://www.jetbrains.com/idea/whatsnew/2022-1/">IntelliJ IDEA 2022.1 的新功能</a> </li>
   </td>
 </tr>
 
 <tr>
   <td>
-    <b> 2021.3 </b> <br/> 
-    发布日期: 2021/11/30  
+    <b> 2021.3 </b> <br/>
+    发布日期: 2021/11/30
   </td>
   <td>
-    <li> 更好的调试体验 </li> 
+    <li> 更好的调试体验 </li>
     <li> 性能改进 </li>
     <li> 代码编辑器的内联提示 </li>
     <li> 新的代码重构功能, 变量查看功能(Inspection)和代码意图(Intention)功能的改进 </li>
     <br/>
-    详情请参见: 
+    详情请参见:
     <li> <a href="https://www.jetbrains.com/idea/whatsnew/2021-3/">IntelliJ IDEA 2021.3 的新功能</a> </li>
   </td>
 </tr>
 
 <tr>
   <td>
-    <b> 2021.2 </b> <br/> 
+    <b> 2021.2 </b> <br/>
     发布日期: 2021/07/27
   </td>
   <td>
-    <li> 性能改进 </li> 
+    <li> 性能改进 </li>
     <li> 更好的调试体验 </li>
     <li> 支持远程开发 </li>
     <br/>
-    详情请参见: 
+    详情请参见:
     <li> <a href="https://www.jetbrains.com/idea/whatsnew/2021-2/">IntelliJ IDEA 2021.2 的新功能</a> </li>
   </td>
 </tr>
@@ -114,7 +114,7 @@ Kotlin 和 Kotlin plugin 拥有各自不同的功能:
     发布日期: 2021/04/07
   </td>
   <td>
-    <li> 性能改进 </li> 
+    <li> 性能改进 </li>
     <li> 调试过程中计算自定义的 get 方法</li>
     <li> 改进了修改方法签名的代码重构功能</li>
     <li> 对类型参数的代码完成</li>

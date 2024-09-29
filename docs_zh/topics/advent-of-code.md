@@ -321,5 +321,5 @@
 ## 下一步做什么?
 
 * 在 [Kotlin Koans](koans.md) 中完成更多任务
-* 通过 JetBrains Academy 的 [Kotlin 核心教程](https://hyperskill.org/tracks?category=4&utm_source=jbkotlin_hs&utm_medium=referral&utm_campaign=kotlinlang-docs&utm_content=button_1&utm_term=22.03.23) 
+* 通过 JetBrains Academy 的 [Kotlin 核心教程](https://hyperskill.org/tracks?category=4&utm_source=jbkotlin_hs&utm_medium=referral&utm_campaign=kotlinlang-docs&utm_content=button_1&utm_term=22.03.23)
   创建真实工作的应用程序

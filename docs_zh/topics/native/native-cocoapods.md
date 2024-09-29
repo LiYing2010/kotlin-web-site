@@ -147,12 +147,12 @@ sudo gem install cocoapods
             name = "MyCocoaPod"
 
             framework {
-                // 必须属性              
+                // 必须属性
                 // 配置框架名称. 'frameworkName' 属性已废弃, 请改为使用这个属性
                 baseName = "MyFramework"
 
                 // 可选属性
-                // 指定框架的链接类型. 默认为 dynamic. 
+                // 指定框架的链接类型. 默认为 dynamic.
                 isStatic = false
                 // 导出依赖项
                 export(project(":anotherKMMModule"))

@@ -19,7 +19,7 @@
 <tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
-// 请将 `<...>` 替换为 plugin 名称 
+// 请将 `<...>` 替换为 plugin 名称
 plugins {
     kotlin("<...>") version "%kotlinVersion%"
 }
@@ -49,8 +49,8 @@ plugins {
 |---------------|---------------------------------------|-----------------------------------------------------|
 | 1.9.20–1.9.23 | %minGradleVersion%–%maxGradleVersion% | %minAndroidGradleVersion%–%maxAndroidGradleVersion% |
 | 1.9.0–1.9.10  | 6.8.3–7.6.0                           | 4.2.2–7.4.0                                         |
-| 1.8.20–1.8.22 | 6.8.3–7.6.0                           | 4.1.3–7.4.0                                         |      
-| 1.8.0–1.8.11  | 6.8.3–7.3.3                           | 4.1.3–7.2.1                                         |   
+| 1.8.20–1.8.22 | 6.8.3–7.6.0                           | 4.1.3–7.4.0                                         |
+| 1.8.0–1.8.11  | 6.8.3–7.3.3                           | 4.1.3–7.2.1                                         |
 | 1.7.20–1.7.22 | 6.7.1–7.1.1                           | 3.6.4–7.0.4                                         |
 | 1.7.0–1.7.10  | 6.7.1–7.0.2                           | 3.4.3–7.0.2                                         |
 | 1.6.20–1.6.21 | 6.1.1–7.0.2                           | 3.4.3–7.0.2                                         |
@@ -226,7 +226,7 @@ plugins {
 `targetCompatibility` 等于当前的 Gradle JDK 版本, 也就是你的 JDK 版本 (除非你使用
 [Java 工具链策略](gradle-configure-project.md#gradle-java-toolchains-support)).
 假设你的 JDK 版本是 `%jvmLTSVersionSupportedByKotlin%`,
-你发布的库文件会 [声明它兼容](https://docs.gradle.org/current/userguide/publishing_gradle_module_metadata.html) 
+你发布的库文件会 [声明它兼容](https://docs.gradle.org/current/userguide/publishing_gradle_module_metadata.html)
 于 JDK %jvmLTSVersionSupportedByKotlin% 以上版本:
 `org.gradle.jvm.version=%jvmLTSVersionSupportedByKotlin%`, 实际上是错误的.
 这种情况下, 在你的主项目中, 会需要使用 Java %jvmLTSVersionSupportedByKotlin% 才能添加这个库,
@@ -318,7 +318,7 @@ kotlin {
 ```kotlin
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>)) 
+        languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>))
     }
 }
 ```
@@ -329,7 +329,7 @@ java {
 ```groovy
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>)) 
+        languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>))
     }
 }
 ```
@@ -763,7 +763,7 @@ kotlin.stdlib.default.dependency=false
 从 Kotlin 标准库 1.9.20 版开始, Gradle 使用包含在标准库中的元数据(metadata),
 来自动对齐传递依赖项 `kotlin-stdlib-jdk7` 和 `kotlin-stdlib-jdk8` 的版本.
 
-如果你添加了 Kotlin 标准库版本 1.8.0 到 1.9.10 之间的依赖项, 例如: 
+如果你添加了 Kotlin 标准库版本 1.8.0 到 1.9.10 之间的依赖项, 例如:
 `implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.0")`,
 那么 Kotlin Gradle Plugin 会对传递依赖项 `kotlin-stdlib-jdk7` 和 `kotlin-stdlib-jdk8` 使用这个 Kotlin 版本.
 这样会避免标准库的不同版本出现重复的类.
@@ -868,7 +868,7 @@ kotlin.stdlib.jdk.variants.version.alignment=false
   </tab>
   </tabs>
 
-* 如果你使用旧版本 (低于 `1.8.0`) 的 `kotlin-stdlib-jdk7`/`kotlin-stdlib-jdk8`, 例如, 
+* 如果你使用旧版本 (低于 `1.8.0`) 的 `kotlin-stdlib-jdk7`/`kotlin-stdlib-jdk8`, 例如,
   `implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:SOME_OLD_KOTLIN_VERSION")`,
   并且某个依赖项传递依赖到 `kotlin-stdlib:1.8+`,
   [请将你的 `kotlin-stdlib-jdk<7/8>:SOME_OLD_KOTLIN_VERSION`

@@ -53,8 +53,8 @@ while a 3D mascot is used on a flat background.
 
 ![Kotlin mascot colors](mascot-colors.png){width=700}
 
-**Light background**: white (#FFFFFF), black (#000000), light grey (#BFBFBF)  
-**Neutral background**: white (#FFFFFF), black (#000000)  
+**Light background**: white (#FFFFFF), black (#000000), light grey (#BFBFBF)
+**Neutral background**: white (#FFFFFF), black (#000000)
 **Dark background**: white (#FFFFFF), black (#000000), dark grey (#7D7D7D)
 
 ## Guidelines for use

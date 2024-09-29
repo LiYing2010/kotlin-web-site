@@ -9,7 +9,7 @@
 它包含单个画面, 用来输入一个用户名和密码.
 认证信息验证并保存到一个内存数据库中.
 
-> 如果你不熟悉 Kotlin Multiplatform Mobile, 
+> 如果你不熟悉 Kotlin Multiplatform Mobile,
 > 你可以先学习如何 [从头创建并配置一个跨平台移动应用程序](multiplatform-mobile-create-first-app.html).
 >
 {style="tip"}
@@ -18,7 +18,7 @@
 
 1. [安装所有需要的工具, 并更新到最新版本](multiplatform-mobile-setup.html).
 
-   > 你需要一台运行 macOS 的 Mac 机器来完成本教程中的某些步骤, 包括编写 iOS 相关代码, 以及运行 iOS 应用程序.  
+   > 你需要一台运行 macOS 的 Mac 机器来完成本教程中的某些步骤, 包括编写 iOS 相关代码, 以及运行 iOS 应用程序.
    > 这些步骤不能在其他操作系统上进行, 比如 Microsoft Windows. 这是由于 Apple 的要求.
    >
    {style="note"}
@@ -167,9 +167,9 @@ Kotlin Multiplatform Mobile plugin 提供了一个专门的向导来创建这样
     ```kotlin
     // 修改后
     private fun isEmailValid(email: String) = emailRegex.matches(email)
-    
+
     companion object {
-        private val emailRegex = 
+        private val emailRegex =
             ("[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
                 "\\@" +
                 "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
@@ -180,7 +180,7 @@ Kotlin Multiplatform Mobile plugin 提供了一个专门的向导来创建这样
     }
     ```
 
-#### 将跨平台代码连接到平台相关 API 
+#### 将跨平台代码连接到平台相关 API
 
 在 `LoginDataSource` 类中, `fakeUser` 的全局唯一标识符(UUID)是使用 `java.util.UUID` 类生成的, 但这个类在 iOS 平台不可用.
 
@@ -196,14 +196,14 @@ val fakeUser = LoggedInUser(java.util.UUID.randomUUID().toString(), "Jane Doe")
 1. 从共通代码中删除 `java.util.UUID` 类:
 
     ```kotlin
-   val fakeUser = LoggedInUser(randomUUID(), "Jane Doe") 
+   val fakeUser = LoggedInUser(randomUUID(), "Jane Doe")
    ```
 
 2. 在 `shared/src/commonMain` 目录的 `com.jetbrains.simplelogin.shared` 包内创建 `Utils.kt` 文件, 并提供 `expect` 声明:
 
     ```kotlin
     package com.jetbrains.simplelogin.shared
-    
+
     expect fun randomUUID(): String
     ```
 
@@ -211,7 +211,7 @@ val fakeUser = LoggedInUser(java.util.UUID.randomUUID().toString(), "Jane Doe")
 
     ```kotlin
     package com.jetbrains.simplelogin.shared
-    
+
     import java.util.*
 
     actual fun randomUUID() = UUID.randomUUID().toString()
@@ -221,7 +221,7 @@ val fakeUser = LoggedInUser(java.util.UUID.randomUUID().toString(), "Jane Doe")
 
     ```kotlin
     package com.jetbrains.simplelogin.shared
-    
+
     import platform.Foundation.NSUUID
 
     actual fun randomUUID(): String = NSUUID().UUIDString()
@@ -291,7 +291,7 @@ val fakeUser = LoggedInUser(java.util.UUID.randomUUID().toString(), "Jane Doe")
     cd "$SRCROOT/.."
     ./gradlew :shared:embedAndSignAppleFrameworkForXcode
     ```
-   
+
    <img src="/assets/docs/images/multiplatform-mobile/integrate-in-existing-app/xcode-add-run-phase-2.png" alt="添加脚本" width="700"/>
 
 4. 将 **Run Script** phase 移动到 **Compile Sources** phase 之前.
@@ -334,7 +334,7 @@ val fakeUser = LoggedInUser(java.util.UUID.randomUUID().toString(), "Jane Doe")
    ```swift
    import SwiftUI
    import shared
-    
+
    struct ContentView: View {
        var body: some View {
            Text(Greeting().greeting())
@@ -354,7 +354,7 @@ val fakeUser = LoggedInUser(java.util.UUID.randomUUID().toString(), "Jane Doe")
     ```swift
     import SwiftUI
     import shared
-    
+
     @main
     struct SimpleLoginIOSApp: App {
         var body: some Scene {

@@ -70,7 +70,7 @@ fun main() {
 我们来编译这些类:
 
 ```none
-kotlinc lib.kt client.kt 
+kotlinc lib.kt client.kt
 ```
 
 编译结果是 2 个文件: `LibKt.class` 和 `ClientKt.class`.
@@ -325,7 +325,7 @@ Kotlin 给了你很大的自由度来决定如何编写代码.
    ```kotlin
    // 版本 1
    fun getToken() = 1
-   
+
    // 版本 1.1
    fun getToken() = "1"
    ```
@@ -355,7 +355,7 @@ Kotlin 给了你很大的自由度来决定如何编写代码.
 如果你不能得到你的库的旧版本的构建, 它就不那么容易使用了.
 而且, japicmp 会给出 Kotlin metadata 的变更信息, 你可能并不需要 (因为 metadata 格式并没有明确的规格, 而且它只供 Kotlin 内部使用).
 
-二进制兼容性验证器只能作为 Gradle plugin 使用, 而且它还处于 [Alpha 阶段](components-stability.md#stability-levels-explained). 
+二进制兼容性验证器只能作为 Gradle plugin 使用, 而且它还处于 [Alpha 阶段](components-stability.md#stability-levels-explained).
 它不需要访问 JAR 文件. 它只需要以前的 API 和当前 API 的特定的 dump. 它能够自己收集这些 dump.
 关于这些工具, 详情请阅读下文.
 

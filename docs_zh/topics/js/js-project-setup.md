@@ -747,7 +747,7 @@ Kotlin Multiplatform Gradle 插件在安装 npm 依赖项时默认会禁止执�
 <tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
-rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin> { 
+rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin> {
     rootProject.the<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension>().ignoreScripts = false
 }
 ```

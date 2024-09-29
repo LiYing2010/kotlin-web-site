@@ -191,7 +191,7 @@ import DateTools.*
 6. 向构建脚本添加与这个框架交互的信息:
     * 传递 .def 文件路径.
       如果你的 `.def` 文件与 cinterop 名称相同, 并放置在 `src/nativeInterop/cinterop/` 目录中, 那么这个路径可以省略.
-    * 使用 `-framework` 选项, 向编译器和链接器传递框架名称. 
+    * 使用 `-framework` 选项, 向编译器和链接器传递框架名称.
       使用 `-F` 选项, 向编译器和链接器传递框架源代码和二进制文件的路径.
 
     <tabs group="build-script">
@@ -261,7 +261,7 @@ import MyFramework.*
 
 ## 下一步做什么?
 
-查看跨平台项目中添加依赖项的其他资料, 并学习以下内容:  
+查看跨平台项目中添加依赖项的其他资料, 并学习以下内容:
 
 * [连接到平台相关的库](multiplatform-share-on-platforms.md#connect-platform-specific-libraries)
 * [添加对跨平台库或其他跨平台项目的依赖项](multiplatform-add-dependencies.md)

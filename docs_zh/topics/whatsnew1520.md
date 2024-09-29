@@ -13,7 +13,7 @@ Kotlin 1.5.20 修复了在 1.5.0 新功能中发现的问题, 还包含很多工
 
 ## Kotlin/JVM
 
-Kotlin 1.5.20 包含 JVM 平台上的以下更新: 
+Kotlin 1.5.20 包含 JVM 平台上的以下更新:
 * [通过动态调用拼接字符串](#string-concatenation-via-invokedynamic)
 * [支持 JSpecify 的可否为 null 注解](#support-for-jspecify-nullness-annotations)
 * [支持在包含 Kotlin 和 Java 代码的模块内调用 Lombok 生成的 Java 方法](#support-for-calling-java-s-lombok-generated-methods-within-modules-that-have-kotlin-and-java-code)
@@ -33,11 +33,11 @@ Kotlin 1.5.20 在 JVM 9+ 以上的目标平台, 将字符串拼接编译为 [动
 ### 支持 JSpecify 的可否为 null 注解 {id="support-for-jspecify-nullness-annotations"}
 
 Kotlin 编译器可以读取多种类型的 [可否为 null 注解](java-interop.md#nullability-annotations),
-以便将可否为 null 信息从 Java 传递到 Kotlin. 
+以便将可否为 null 信息从 Java 传递到 Kotlin.
 1.5.20 版增加了对 [JSpecify 项目](https://jspecify.dev/) 的支持, 这个项目包括统一的 Java 可否为 null 注解.
 
 通过 JSpecify, 你可以提供更加详细的可否为 null 信息, 帮助 Kotlin 与 Java 代码交互时保证 null 值安全性.
-你可以对声明, 包, 或模块范围设置默认的可否为 null 设定, 也可以通过参数指定可否为 null, 以及其他功能. 
+你可以对声明, 包, 或模块范围设置默认的可否为 null 设定, 也可以通过参数指定可否为 null, 以及其他功能.
 详细的功能请参见 [JSpecify 用户指南](https://jspecify.dev/user-guide.html).
 
 下面是一个示例, 演示 Kotlin 如何处理 JSpecify 注解:
@@ -105,7 +105,7 @@ Kotlin/Native 1.5.20 提供了新功能的预览, 以及工具的改进:
 ### Opt-in: 导出 KDoc 注释到生成的 Objective-C 头文件 {id="opt-in-export-of-kdoc-comments-to-generated-objective-c-headers"}
 
 > 导出 KDoc 注释到生成的 Objective-C 头文件是 [实验性功能](components-stability.md).
-> 它随时有可能变更或被删除. 
+> 它随时有可能变更或被删除.
 > 需要使用者明确同意(Opt-in) (详情请参见下文), 而且你应该只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-38600) 提供你的反馈意见.
 >

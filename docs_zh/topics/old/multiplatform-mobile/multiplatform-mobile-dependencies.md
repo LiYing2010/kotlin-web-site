@@ -23,19 +23,19 @@
                 <a href="multiplatform-mobile-create-first-app.html">创建你的第一个跨平台应用程序</a>
             </div>
             <br/>
-    
+
             <div style="vertical-align: middle; display: inline-flex">
                 <img src="/assets/docs/images/icons/icon-3.svg" alt="第 3 步" width="20"/> &nbsp;
                 <strong>添加依赖项</strong>
             </div>
             <br/>
-    
+
             <div style="vertical-align: middle; display: inline-flex">
                 <img src="/assets/docs/images/icons/icon-4-todo.svg" alt="第 4 步" width="20"/> &nbsp;
                 升级你的应用程序
             </div>
             <br/>
-    
+
             <div style="vertical-align: middle; display: inline-flex">
                 <img src="/assets/docs/images/icons/icon-5-todo.svg" alt="第 5 步" width="20"/> &nbsp;
                 完成你的项目
@@ -87,7 +87,7 @@
                dependencies {
                    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
                }
-           } 
+           }
        }
    }
    ```
@@ -98,10 +98,10 @@
 
 4. 在 `shared/src/commonMain/kotlin` 目录中, 创建新的 `NewYear.kt` 文件,
    在其中添加一个函数, 使用 `date-time` 库提供的日期运算, 计算从今天到新年的天数:
-   
+
    ```kotlin
    import kotlinx.datetime.*
-   
+
    fun daysUntilNewYear(): Int {
        val today = Clock.System.todayIn(TimeZone.currentSystemDefault())
        val closestNewYear = LocalDate(today.year + 1, 1, 1)
@@ -139,7 +139,7 @@
 * 学习如何 [添加 Android 依赖项](multiplatform-mobile-android-dependencies.html)
   和 [使用或不使用 CocoaPods 添加 iOS 依赖项](multiplatform-mobile-ios-dependencies.html)
   以便在平台相关的源代码集中使用.
-* 在示例项目中, 查看 [如何使用 Android 和 iOS 库](multiplatform-mobile-samples.html) 的示例 
+* 在示例项目中, 查看 [如何使用 Android 和 iOS 库](multiplatform-mobile-samples.html) 的示例
   (注意确认 "平台 API" 列).
 
 ## 获取帮助

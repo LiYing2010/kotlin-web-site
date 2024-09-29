@@ -5,7 +5,7 @@
 通过完成这个教程, 学习使用 Spring Boot 和 Kotlin:
 本教程将会带领你使用 Spring Boot 创建一个简单的应用程序, 并添加数据库来存储信息.
 
-完成以下 4 个步骤, 你将会学到 Kotlin 语言的很多基本功能: 
+完成以下 4 个步骤, 你将会学到 Kotlin 语言的很多基本功能:
 
 ![第 1 步](icon-1.svg){width=25}{type="joined"}  [创建 Spring Boot 项目](jvm-create-project-with-spring-boot.md)
 
@@ -29,6 +29,6 @@
 
 ## 加入开发社区
 
-* ![Slack](slack.svg){width=25}{type="joined"} **Kotlin slack**: 首先 [得到邀请](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up), 然后加入 [#spring](https://kotlinlang.slack.com/archives/C0B8ZTWE4) 和 [#server](https://kotlinlang.slack.com/archives/C0B8RC352) 频道. 
+* ![Slack](slack.svg){width=25}{type="joined"} **Kotlin slack**: 首先 [得到邀请](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up), 然后加入 [#spring](https://kotlinlang.slack.com/archives/C0B8ZTWE4) 和 [#server](https://kotlinlang.slack.com/archives/C0B8RC352) 频道.
 * ![Stack Overflow](stackoverflow.svg){width=25}{type="joined"} **Stack Overflow**: 订阅 ["kotlin"](https://stackoverflow.com/questions/tagged/kotlin), ["spring-kotlin"](https://stackoverflow.com/questions/tagged/spring-kotlin), 或 ["ktor"](https://stackoverflow.com/questions/tagged/ktor) 标签
 * ![YouTube](youtube.svg){width=25}{type="joined"} **Kotlin YouTube channel**: 订阅并观看关于 [使用 Spring 开发 Kotlin](https://www.youtube.com/playlist?list=PLlFc5cFwUnmxOJL0GSSZ1Vot4KL2Vwe7x) 的视频

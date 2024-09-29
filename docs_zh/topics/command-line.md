@@ -142,4 +142,4 @@ Kotlin 支持脚本的自定义功能(实验性功能), 例如添加外部属性
 kotlinc -script-templates org.example.CustomScriptDefinition -script custom.script1.kts
 ```
 
-更多详情请参见 [KEEP-75](https://github.com/Kotlin/KEEP/blob/master/proposals/scripting-support.md). 
+更多详情请参见 [KEEP-75](https://github.com/Kotlin/KEEP/blob/master/proposals/scripting-support.md).

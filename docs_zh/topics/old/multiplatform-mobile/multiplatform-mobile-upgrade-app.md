@@ -23,19 +23,19 @@
                 <a href="multiplatform-mobile-create-first-app.html">创建你的第一个跨平台应用程序</a>
             </div>
             <br/>
-    
+
             <div style="vertical-align: middle; display: inline-flex">
                 <img src="/assets/docs/images/icons/icon-3-done.svg" alt="第 3 步" width="20"/> &nbsp;
                 <a href="multiplatform-mobile-dependencies.html">添加依赖项</a>
             </div>
             <br/>
-    
+
             <div style="vertical-align: middle; display: inline-flex">
                 <img src="/assets/docs/images/icons/icon-4-todo.svg" alt="第 4 步" width="20"/> &nbsp;
                 <strong>升级你的应用程序</strong>
             </div>
             <br/>
-    
+
             <div style="vertical-align: middle; display: inline-flex">
                 <img src="/assets/docs/images/icons/icon-5-todo.svg" alt="第 5 步" width="20"/> &nbsp;
                 完成你的项目
@@ -190,7 +190,7 @@ data class RocketLaunch (
     import io.ktor.client.plugins.contentnegotiation.*
     import io.ktor.serialization.kotlinx.json.*
     import kotlinx.serialization.json.Json
-    
+
     class Greeting {
         private val platform: Platform = getPlatform()
 
@@ -272,7 +272,7 @@ data class RocketLaunch (
    ```kotlin
    import androidx.compose.runtime.*
    import kotlinx.coroutines.launch
-   
+
    class MainActivity : ComponentActivity() {
        override fun onCreate(savedInstanceState: Bundle?) {
            super.onCreate(savedInstanceState)
@@ -319,7 +319,7 @@ data class RocketLaunch (
 1. 启动你的 Xcode 应用程序, 并选择 **Open a project or file**.
 2. 找到你的项目, 例如 **KotlinMultiplatformSandbox**, 并选择 `iosApp` 文件夹. 点击 **Open**.
 3. 在 `iosApp/iOSApp.swift` 中, 为你的应用程序更新入口点:
-   
+
    ```swift
    @main
    struct iOSApp: App {
@@ -336,15 +336,15 @@ data class RocketLaunch (
     ```swift
     import SwiftUI
     import shared
-    
+
     struct ContentView: View {
         @ObservedObject private(set) var viewModel: ViewModel
-    
+
         var body: some View {
             Text(viewModel.text)
         }
     }
-     
+
     extension ContentView {
         class ViewModel: ObservableObject {
             @Published var text = "Loading..."

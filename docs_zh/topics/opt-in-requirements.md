@@ -37,13 +37,13 @@ class DateProvider // 一个明确要求使用者同意的类
 
 ```kotlin
 // 库的使用者代码
-fun getYear(): Int {  
+fun getYear(): Int {
     val dateProvider: DateProvider // 编译错误: DateProvider 要求使用者同意
     // ...
 }
 
 @MyDateTime
-fun getDate(): Date {  
+fun getDate(): Date {
     val dateProvider: DateProvider // OK: 使用这个类的函数本身也要求使用者同意
     // ...
 }
@@ -252,7 +252,7 @@ annotation class MyDateTime
 * `RequiresOptIn.Level.ERROR`. 用户的明确同意是必须的. 否则, t被这个注解标注过的 API, 使用它的代码会编译失败. 默认使用这个严重级别.
 * `RequiresOptIn.Level.WARNING`. 用户的明确同意不是必须的, 但建议你明确表示同意. 否则, 编译器会给出警告.
 
-请使用 `@RequiresOptIn` 注解的`level` 参数来设置你希望的严重级别.  
+请使用 `@RequiresOptIn` 注解的`level` 参数来设置你希望的严重级别.
 
 此外, 你还可以指定一个 `message` 来提示 API 使用者关于这个 API 的特定条件.
 对于使用这个 API 但没有明确同意的用户, 编译器会显示提示这个警告信息.

@@ -2,7 +2,7 @@
 
 最终更新: %latestDocDate%
 
-要为基于 Gradle 的项目要生成文档, 你可以使用 
+要为基于 Gradle 的项目要生成文档, 你可以使用
 [Gradle plugin for Dokka](https://plugins.gradle.org/plugin/org.jetbrains.dokka).
 
 它对你的项目进行了基本的自动配置, 带有方便的 [Gradle task](#generate-documentation) 用于生成文档,
@@ -14,7 +14,7 @@
 
 ## 应用 Dokka {id="apply-dokka"}
 
-应用 Gradle plugin for Dokka 时, 推荐的方式是使用 
+应用 Gradle plugin for Dokka 时, 推荐的方式是使用
 [plugin DSL](https://docs.gradle.org/current/userguide/plugins.html#sec:plugins_block):
 
 <tabs group="build-script">
@@ -70,7 +70,7 @@ subprojects {
 >
 {style="note"}
 
-> 如果你在 
+> 如果你在
 > [预编译的脚本 plugin](https://docs.gradle.org/current/userguide/custom_plugins.html#sec:precompiled_plugins)
 > 中使用 Dokka, 你需要将
 > [Kotlin Gradle plugin](gradle-configure-project.md#apply-the-plugin)
@@ -200,10 +200,10 @@ parentProject
 
 但是, 你可以 [配置](#subproject-configuration) `Partial` task, 为你的子项目定制 Dokka.
 
-> `Partial` task 生成的输出包含未解析的 HTML 模板和引用, 
+> `Partial` task 生成的输出包含未解析的 HTML 模板和引用,
 > 因此在父项目的 [`MultiModule`](#multimodule-tasks) task 进行后续处理之前,
 > 这些文档还不能直接使用.
-> 
+>
 {style="warning"}
 
 > 如果你只想对单个子项目生成文档, 请使用 [单项目 task](#single-project-builds).
@@ -393,7 +393,7 @@ dokkaGfm {
 </tab>
 </tabs>
 
-或者你也可以同时配置所有的 task 和输出格式: 
+或者你也可以同时配置所有的 task 和输出格式:
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
@@ -409,7 +409,7 @@ plugins {
     id("org.jetbrains.dokka") version "%dokkaVersion%"
 }
 
-// 同时配置所有的单项目 Dokka task, 
+// 同时配置所有的单项目 Dokka task,
 // 例如 dokkaHtml, dokkaJavadoc 和 dokkaGfm.
 tasks.withType<DokkaTask>().configureEach {
     dokkaSourceSets.configureEach {
@@ -442,7 +442,7 @@ plugins {
     id 'org.jetbrains.dokka' version '%dokkaVersion%'
 }
 
-// 同时配置所有的单项目 Dokka task, 
+// 同时配置所有的单项目 Dokka task,
 // 例如 dokkaHtml, dokkaJavadoc 和 dokkaGfm.
 tasks.withType(DokkaTask.class) {
     dokkaSourceSets.configureEach {
@@ -702,8 +702,8 @@ tasks.withType<DokkaTask>().configureEach {
 ```groovy
 import org.jetbrains.dokka.gradle.DokkaTask
 
-// 注意: 要配置多项目构建, 你需要配置子项目的 Partial task. 
-//      参见本文档的 "配置示例" 小节. 
+// 注意: 要配置多项目构建, 你需要配置子项目的 Partial task.
+//      参见本文档的 "配置示例" 小节.
 tasks.withType(DokkaTask.class) {
     moduleName.set(project.name)
     moduleVersion.set(project.version.toString())
@@ -771,7 +771,7 @@ tasks.withType(DokkaTask.class) {
             满足以下条件的函数, 会被认为是显而易见的函数:
             <list>
                 <li>
-                    继承自 <code>kotlin.Any</code>, <code>Kotlin.Enum</code>, <code>java.lang.Object</code> 或 <code>java.lang.Enum</code>, 
+                    继承自 <code>kotlin.Any</code>, <code>Kotlin.Enum</code>, <code>java.lang.Object</code> 或 <code>java.lang.Enum</code>,
                     例如 <code>equals</code>, <code>hashCode</code>, <code>toString</code>.
                 </li>
                 <li>
@@ -802,7 +802,7 @@ tasks.withType(DokkaTask.class) {
             是否通过你的网络来解析远程的文件/链接.
         </p>
         <p>
-            包括用来生成外部文档链接的包列表. 
+            包括用来生成外部文档链接的包列表.
             例如, 可以让来自标准库的类成为文档中可以点击的链接.
         </p>
         <p>
@@ -834,8 +834,8 @@ import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.dokka.Platform
 import java.net.URL
 
-// 注意: 要配置多项目构建, 你需要配置子项目的 Partial task. 
-//      参见本文档的 "配置示例" 小节. 
+// 注意: 要配置多项目构建, 你需要配置子项目的 Partial task.
+//      参见本文档的 "配置示例" 小节.
 tasks.withType<DokkaTask>().configureEach {
     // ...
     // 参见本文档的 "一般配置" 小节
@@ -890,8 +890,8 @@ import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.dokka.Platform
 import java.net.URL
 
-// 注意: 要配置多项目构建, 你需要配置子项目的 Partial task. 
-//      参见本文档的 "配置示例" 小节. 
+// 注意: 要配置多项目构建, 你需要配置子项目的 Partial task.
+//      参见本文档的 "配置示例" 小节.
 tasks.withType(DokkaTask.class) {
     // ...
     // 参见本文档的 "一般配置" 小节
@@ -1112,7 +1112,7 @@ tasks.withType(DokkaTask.class) {
         </p>
         <p>
             关于这个选项的使用方法, 请参见
-            <a href="https://github.com/Kotlin/dokka/tree/master/examples/gradle/dokka-gradle-example">Dokka Gradle 示例</a> 
+            <a href="https://github.com/Kotlin/dokka/tree/master/examples/gradle/dokka-gradle-example">Dokka Gradle 示例</a>
         </p>
     </def>
     <def title="platform">
@@ -1171,8 +1171,8 @@ tasks.withType(DokkaTask.class) {
 import org.jetbrains.dokka.gradle.DokkaTask
 import java.net.URL
 
-// 注意: 要配置多项目构建, 你需要配置子项目的 Partial task. 
-//      参见本文档的 "配置示例" 小节. 
+// 注意: 要配置多项目构建, 你需要配置子项目的 Partial task.
+//      参见本文档的 "配置示例" 小节.
 tasks.withType<DokkaTask>().configureEach {
     // ...
     // 参见本文档的 "一般配置" 小节
@@ -1199,8 +1199,8 @@ tasks.withType<DokkaTask>().configureEach {
 import org.jetbrains.dokka.gradle.DokkaTask
 import java.net.URL
 
-// 注意: 要配置多项目构建, 你需要配置子项目的 Partial task. 
-//      参见本文档的 "配置示例" 小节. 
+// 注意: 要配置多项目构建, 你需要配置子项目的 Partial task.
+//      参见本文档的 "配置示例" 小节.
 tasks.withType(DokkaTask.class) {
     // ...
     // 参见本文档的 "一般配置" 小节
@@ -1269,8 +1269,8 @@ tasks.withType(DokkaTask.class) {
 import org.jetbrains.dokka.DokkaConfiguration.Visibility
 import org.jetbrains.dokka.gradle.DokkaTask
 
-// 注意: 要配置多项目构建, 你需要配置子项目的 Partial task. 
-//      参见本文档的 "配置示例" 小节. 
+// 注意: 要配置多项目构建, 你需要配置子项目的 Partial task.
+//      参见本文档的 "配置示例" 小节.
 tasks.withType<DokkaTask>().configureEach {
     // ...
     // 参见本文档的 "一般配置" 小节
@@ -1299,8 +1299,8 @@ tasks.withType<DokkaTask>().configureEach {
 import org.jetbrains.dokka.DokkaConfiguration.Visibility
 import org.jetbrains.dokka.gradle.DokkaTask
 
-// 注意: 要配置多项目构建, 你需要配置子项目的 Partial task. 
-//      参见本文档的 "配置示例" 小节. 
+// 注意: 要配置多项目构建, 你需要配置子项目的 Partial task.
+//      参见本文档的 "配置示例" 小节.
 tasks.withType(DokkaTask.class) {
     // ...
     // 参见本文档的 "一般配置" 小节
@@ -1388,7 +1388,7 @@ tasks.withType(DokkaTask.class) {
 
 ### 外部文档链接配置 {id="external-documentation-links-configuration"}
 
-`externalDocumentationLink` 配置块可以创建链接, 指向你的依赖项的外部文档. 
+`externalDocumentationLink` 配置块可以创建链接, 指向你的依赖项的外部文档.
 
 例如, 如果你使用来自 `kotlinx.serialization` 的类型, 默认情况下,
 在你的文档中这些类型不是可点击的链接, 因为无法解析这些类型.
@@ -1406,8 +1406,8 @@ tasks.withType(DokkaTask.class) {
 import org.jetbrains.dokka.gradle.DokkaTask
 import java.net.URL
 
-// 注意: 要配置多项目构建, 你需要配置子项目的 Partial task. 
-//      参见本文档的 "配置示例" 小节. 
+// 注意: 要配置多项目构建, 你需要配置子项目的 Partial task.
+//      参见本文档的 "配置示例" 小节.
 tasks.withType<DokkaTask>().configureEach {
     // ...
     // 参见本文档的 "一般配置" 小节
@@ -1435,8 +1435,8 @@ tasks.withType<DokkaTask>().configureEach {
 import org.jetbrains.dokka.gradle.DokkaTask
 import java.net.URL
 
-// 注意: 要配置多项目构建, 你需要配置子项目的 Partial task. 
-//      参见本文档的 "配置示例" 小节. 
+// 注意: 要配置多项目构建, 你需要配置子项目的 Partial task.
+//      参见本文档的 "配置示例" 小节.
 tasks.withType(DokkaTask.class) {
     // ...
     // 参见本文档的 "一般配置" 小节
@@ -1534,7 +1534,7 @@ tasks.withType<DokkaTask>().configureEach {
             sourceRoots.from(file("src"))
             classpath.from(project.files(), file("libs/dependency.jar"))
             samples.from(project.files(), "samples/Basic.kt", "samples/Advanced.kt")
-            
+
             sourceLink {
                 localDirectory.set(projectDir.resolve("src"))
                 remoteUrl.set(URL("https://github.com/kotlin/dokka/tree/master/src"))
@@ -1577,8 +1577,8 @@ import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.dokka.Platform
 import java.net.URL
 
-// 注意: 要配置多项目构建, 你需要配置子项目的 Partial task. 
-//      参见本文档的 "配置示例" 小节. 
+// 注意: 要配置多项目构建, 你需要配置子项目的 Partial task.
+//      参见本文档的 "配置示例" 小节.
 tasks.withType(DokkaTask.class) {
     moduleName.set(project.name)
     moduleVersion.set(project.version.toString())

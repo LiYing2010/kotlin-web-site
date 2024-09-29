@@ -151,9 +151,9 @@ binaries {
 
 | 编译目标平台/设备         | Gradle 函数          |
 |------------------------|----------------------|
-| macOS x86_64           | `macosX64()`         | 
-| macOS ARM 64           | `macosArm64()`       | 
-| iOS ARM 64             | `iosArm64()`         | 
+| macOS x86_64           | `macosX64()`         |
+| macOS ARM 64           | `macosArm64()`       |
+| iOS ARM 64             | `iosArm64()`         |
 | iOS Simulator (x86_64) | `iosX64()`           |
 | iOS Simulator (arm64)  | `iosSimulatorArm64`  |
 
@@ -213,7 +213,7 @@ __attribute__((swift_name("KotlinMutableDictionary")))
 ```
 
 Kotlin 类在 Objective-C 中的基类是 `KotlinBase`, 这个类继承 `NSObject` 类.
-还有一些对集合和异常的封装. 
+还有一些对集合和异常的封装.
 大多数集合类型映射为 Objective-C/Swift 中类似的集合类型:
 
 | Kotlin      | Swift               | Objective-C         |
@@ -301,7 +301,7 @@ __attribute__((swift_name("Clazz")))
 `Demo` 前缀来自 `kotlinc-native` 编译器的 `-output` 参数, 以及 Framework 名称.
 你可以看到可为 null 的返回 类型 `ULong?` 在 Objective-C 中转换为 `DemoLong*`.
 
-### Kotlin 的全局声明 
+### Kotlin 的全局声明
 
 Kotlin 的所有全局函数, 在 Objective-C 中转换为 `DemoLibKt`, 在 Swift 中转换为 `LibKt`,
 这里 `Demo` 是 Framework 名称, 由 `kotlinc-native` 的 `-output` 参数指定.
@@ -345,20 +345,20 @@ Kotlin/Native 垃圾收集 会与 Objective-C/Swift 的引用计数集成.
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         [[DemoObject object] field];
-        
+
         DemoClazz* clazz = [[ DemoClazz alloc] init];
         [clazz memberP:42];
-        
+
         [DemoLibKt forIntegersB:1 s:1 i:3 l:[DemoULong numberWithUnsignedLongLong:4]];
         [DemoLibKt forIntegersB:1 s:1 i:3 l:nil];
-        
+
         [DemoLibKt forFloatsF:2.71 d:[DemoDouble numberWithDouble:2.71]];
         [DemoLibKt forFloatsF:2.71 d:nil];
-        
+
         NSString* ret = [DemoLibKt acceptFunF:^NSString * _Nullable(NSString * it) {
             return [it stringByAppendingString:@" Kotlin is fun"];
         }];
-        
+
         NSLog(@"%@", ret);
         return 0;
     }
@@ -366,12 +366,12 @@ int main(int argc, const char * argv[]) {
 ```
 
 这里你在 Objective-C 代码中直接调用 Kotlin 类.
-Kotlin `object` 有类方法函数 `object`, 我们可以用它来得到唯一对象的实例, 并对它调用 `Object` 方法. 
+Kotlin `object` 有类方法函数 `object`, 我们可以用它来得到唯一对象的实例, 并对它调用 `Object` 方法.
 widespread 模式用来创建 `Clazz` 类的一个实例. 在 Objective-C 中你调用 `[[ DemoClazz alloc] init]`.
 对于没有参数的构造器, 你也可以使用 `[DemoClazz new]`.
 在 Objective-C 中, Kotlin 源代码的全局声明封装在 `DemoLibKt` 类内.
 所有方法转换为这个类中的类方法.
-`strings` 函数转换为 Objective-C 中的 `DemoLibKt.stringsStr` 函数, 你可以直接传递 `NSString` 参数. 
+`strings` 函数转换为 Objective-C 中的 `DemoLibKt.stringsStr` 函数, 你可以直接传递 `NSString` 参数.
 返回值类型也是 `NSString`.
 
 ## 在 Swift 中使用代码 {id="use-the-code-from-swift"}
@@ -406,7 +406,7 @@ Kotlin 的 `object Object` 在 Swift 中则有了一个构造器, 而且我们�
 在 Swift 中这个实例永远是同一个, 因此 `Object() === Object()` 为 true.
 方法和属性转换为相同的名称. Kotlin 的 `String` 也转换为 Swift 的 `String`.
 Swift 也对我们隐藏 `NSNumber*` 的装箱(boxing).
-我们可以向 Kotlin 传递一个 Swift 的闭包(closure), 也可以在 Swift 中调用一个 Kotlin 的 Lambda 函数. 
+我们可以向 Kotlin 传递一个 Swift 的闭包(closure), 也可以在 Swift 中调用一个 Kotlin 的 Lambda 函数.
 
 关于类型映射, 更多详情请参见文档 [与 Swift/Objective-C 代码交互](native-objc-interop.md).
 
@@ -429,11 +429,11 @@ Swift 也对我们隐藏 `NSNumber*` 的装箱(boxing).
 ### 针对 iOS 编译目标的 Xcode 配置 {id="xcode-for-ios-targets"}
 
 首先, 你需要在 Xcode 项目中包含编译后的 Framework.
-方法是, 在 **target** 配置页的 **General** 页的 **Frameworks, Libraries, and Embedded Content** 节, 添加 Framework. 
+方法是, 在 **target** 配置页的 **General** 页的 **Frameworks, Libraries, and Embedded Content** 节, 添加 Framework.
 
 第 2 步是, 在 **target** 配置页的 **Build Settings** 页 的 **Framework Search Paths** 节, 包含 Framework 路径.
 可以使用宏 `$(PROJECT_DIR)` 来简化设置.
- 
+
 iOS 模拟器要求 Framework 编译到 `ios_x64` 编译目标, 在我们的例子中是 `iOS_sim` 文件夹.
 
 [这个 Stackoverflow 讨论串](https://stackoverflow.com/questions/30963294/creating-ios-osx-frameworks-is-it-necessary-to-codesign-them-before-distributin)
@@ -442,9 +442,9 @@ iOS 模拟器要求 Framework 编译到 `ios_x64` 编译目标, 在我们的例�
 
 ## 下一步做什么?
 
-Kotlin/Native 支持与 Objective-C 和 Swift 语言的双向交互. 
+Kotlin/Native 支持与 Objective-C 和 Swift 语言的双向交互.
 Kotlin 对象与 Objective-C/Swift 的引用计数集成.
-未使用的 Kotlin 对象会被自动删除. 
+未使用的 Kotlin 对象会被自动删除.
 [与 Swift/Objective-C 代码交互](native-objc-interop.md) 文档介绍了交互的更多实现细节.
 当然, 可以导入一个既有的 Framework 并在 Kotlin 中使用它.
 Kotlin/Native 带有很多预导入的系统 Framework.

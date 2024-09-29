@@ -81,7 +81,7 @@ Web 应用程序不需要分别打包和发布, 而且可以在线发布.
 {style="tip"}
 
 > [Kotlin Multiplatform 入门](https://www.jetbrains.com/kotlin-multiplatform/)
-> 
+>
 {style="note"}
 
 ## 跨平台移动开发是否适合你? {id="is-cross-platform-mobile-development-right-for-you"}

@@ -279,7 +279,7 @@ fun main() {
 //sampleStart
     val numbers = listOf("one", "two", "three", "four")
 
-    println(numbers)         
+    println(numbers)
     println(numbers.joinToString())
 
     val listString = StringBuffer("The list of numbers: ")
@@ -298,7 +298,7 @@ fun main() {
 
 fun main() {
 //sampleStart
-    val numbers = listOf("one", "two", "three", "four")    
+    val numbers = listOf("one", "two", "three", "four")
     println(numbers.joinToString(separator = " | ", prefix = "start: ", postfix = ": end"))
 //sampleEnd
 }

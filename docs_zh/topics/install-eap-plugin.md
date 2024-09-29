@@ -14,11 +14,11 @@
 
 请按照以下步骤来安装 IntelliJ IDEA 和 Android Studio 的 Kotlin Plugin 预览版.
 
-1. 选择 **Tools** | **Kotlin** | **Configure Kotlin Plugin Updates**. 
+1. 选择 **Tools** | **Kotlin** | **Configure Kotlin Plugin Updates**.
 
    ![选择 Kotlin Plugin 更新](idea-kotlin-plugin-updates.png)
    {width="600"}
-    
+
 2. 在 **Update channel** 列表中, 选择 **Early Access Preview** 频道.
 
     ![选择 EAP 更新频道](idea-kotlin-update-channel.png)

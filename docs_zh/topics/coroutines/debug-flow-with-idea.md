@@ -104,7 +104,7 @@
 
     ![构建一个控制台应用程序](flow-debug-project.png)
 
-    这时会出现 **Debug** 工具窗口: 
+    这时会出现 **Debug** 工具窗口:
     * **Frames** 页包含调用栈信息.
     * **Variables** 页包含当前上下文环境中的变量. 它告诉我们数据流正在发射第 1 个值.
     * **Coroutines** 页包含正在运行中的或者被挂起的协程信息.
@@ -141,8 +141,8 @@
 
     * 推荐一个
       [`buffer()`](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/buffer.html)
-      函数调用, 并发运行发射者和收取者. `buffer()` 存储已发射的值, 并在一个独立的协程中运行数据流收取者. 
- 
+      函数调用, 并发运行发射者和收取者. `buffer()` 存储已发射的值, 并在一个独立的协程中运行数据流收取者.
+
     ```kotlin
     fun main() = runBlocking<Unit> {
         simple()
@@ -156,7 +156,7 @@
 
 3. 点击 **Build Project**, 构建代码.
 
-## 调试有 2 个协程的 Kotlin 数据流 
+## 调试有 2 个协程的 Kotlin 数据流
 
 1. 在 `println(value)` 处设置一个新断点.
 

@@ -191,7 +191,7 @@ Kotlin 1.5.0 现在使用动态调用 (`invokedynamic`) 来编译 SAM (Single Ab
 {style="warning"}
 
 Kotlin 1.5.0 引入实验性的功能, 能够将普通的 Kotlin Lambda 表达式 (which are not converted to an instance
-of a functional 接口) 编译为动态调用(`invokedynamic`). 
+of a functional 接口) 编译为动态调用(`invokedynamic`).
 这个实现使用
 [`LambdaMetafactory.metafactory()`](https://docs.oracle.com/javase/8/docs/api/java/lang/invoke/LambdaMetafactory.html#metafactory-java.lang.invoke.MethodHandles.Lookup-java.lang.String-java.lang.invoke.MethodType-java.lang.invoke.MethodType-java.lang.invoke.MethodHandle-java.lang.invoke.MethodType-),
 它能够在运行期高效的生成需要的类, 因此可以产生更轻量的二进制代码,
@@ -231,7 +231,7 @@ Kotlin 1.5.0 对这个功能引入了很多改进:
   * 可变参数
   * 域(Field)
   * 类型参数和它的类型边界(bound)
-  * 基类和接口的类型参数 
+  * 基类和接口的类型参数
 * 如果一个 nullability 注解拥有适用于一个类型的多个 target, 而且其中之一是 `TYPE_USE`, 那么会优先使用 `TYPE_USE`.
   例如, 如果 `@Nullable` 同时支持 `TYPE_USE` 和 `METHOD` target,
   那么 Java 中的方法签名 `@Nullable String[] f()` 会被识别为 Kotlin 的 `fun f(): Array<String?>!`.
@@ -429,7 +429,7 @@ Kotlin 1.5.0 提供了以下完全 [稳定版](components-stability.md) 的替�
 val baseDir = Path("/base")
 val subDir = baseDir / "subdirectory"
 
-// 列出一个目录中的文件 
+// 列出一个目录中的文件
 val kotlinFiles: List<Path> = Path("/home/user").listDirectoryEntries("*.kt")
 ```
 
@@ -457,10 +457,10 @@ fun main() {
 //sampleStart
     println("Floored division -5/3: ${(-5).floorDiv(3)}")
     println( "Modulus: ${(-5).mod(3)}")
-    
+
     println("Truncated division -5/3: ${-5 / 3}")
     println( "Remainder: ${-5 % 3}")
-//sampleEnd    
+//sampleEnd
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.5"}
@@ -519,7 +519,7 @@ fun main() {
     val (letterOrDigitList, notLetterOrDigitList) = chars.partition { it.isLetterOrDigit() }
     println(letterOrDigitList) // [a, 1]
     println(notLetterOrDigitList) // [+]
-//sampleEnd    
+//sampleEnd
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.5"}
@@ -536,7 +536,7 @@ fun main() {
     val (titleCases, notTitleCases) = chars.partition { it.isTitleCase() }
     println(titleCases) // [ǅ, ǈ, ǋ, ǲ]
     println(notTitleCases) // [1, A, a, +]
-//sampleEnd    
+//sampleEnd
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.5"}
@@ -589,7 +589,7 @@ fun main() {
     println("true".toBooleanStrict())
     println("1".toBooleanStrictOrNull())
     // println("1".toBooleanStrict()) // 这里会抛出 Exception
-//sampleEnd    
+//sampleEnd
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.5"}
@@ -605,9 +605,9 @@ fun main() {
 现在你可以使用 `kotlin-test` 依赖项, 对 `commonTest` 源代码集中的测试代码添加依赖项,
 Gradle plugin 会对每个测试源代码集推断出对应的平台依赖项:
 * 对 JVM 源代码集使用 `kotlin-test-junit`, 参见 [对 Kotlin/JVM 源代码集自动选择测试框架](#automatic-selection-of-a-testing-framework-for-kotlin-jvm-source-sets)
-* 对 Kotlin/JS 源代码集使用 `kotlin-test-js` 
+* 对 Kotlin/JS 源代码集使用 `kotlin-test-js`
 * 对共通源代码集使用 `kotlin-test-common` 和 `kotlin-test-annotations-common`
-* 对 Kotlin/Native 源代码集不会添加额外的依赖项 
+* 对 Kotlin/Native 源代码集不会添加额外的依赖项
 
 此外, 你还可以在任何共享的或平台相关的源代码集中, 使用 `kotlin-test` 依赖项.
 
@@ -689,7 +689,7 @@ tasks {
   @Test
   fun testFunction() {
       val s: Any = "test"
-      assertIs<String>(s)  // 如果断言失败会抛出 AssertionError, 错误信息包含 s 的实际类型 
+      assertIs<String>(s)  // 如果断言失败会抛出 AssertionError, 错误信息包含 s 的实际类型
       // 可以现在打印 s.length, 因为在 assertIs 中已经判断了 s 的类型是字符串
       println("${s.length}")
   }
@@ -785,7 +785,7 @@ tasks {
 
 `kotlinx.serialization` [1.2.1](https://github.com/Kotlin/kotlinx.serialization/releases/tag/v1.2.1) 的新功能包括:
 * JSON 序列化的性能改善
-* 在 JSON 序列化中支持多名称 
+* 在 JSON 序列化中支持多名称
 * 实验性功能: 从 `@Serializable` 类生成 .proto schema
 * 其他
 
@@ -799,7 +799,7 @@ tasks {
 
 `kotlinx-datetime` [0.2.0](https://github.com/Kotlin/kotlinx-datetime/releases/tag/v0.2.0) 的新功能包括:
 * `@Serializable` Datetime 对象
-* `DateTimePeriod` 和 `DatePeriod` 的规范化 API 
+* `DateTimePeriod` 和 `DatePeriod` 的规范化 API
 * 其他
 
 详情请参见 [changelog](https://github.com/Kotlin/kotlinx-datetime/releases/tag/v0.2.0)

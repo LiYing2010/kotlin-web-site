@@ -111,7 +111,7 @@ class Derived: Base {
 public abstract class SequenceBuilder<in T> { ... }
 ```
 
-源代码请参见 [on Github](https://github.com/JetBrains/kotlin/blob/master/libraries/stdlib/src/kotlin/coroutines/experimental/SequenceBuilder.kt).   
+源代码请参见 [on Github](https://github.com/JetBrains/kotlin/blob/master/libraries/stdlib/src/kotlin/coroutines/experimental/SequenceBuilder.kt).
 
 ## 协程的内部工作机制
 
@@ -217,9 +217,9 @@ fun main(args: Array<String>) {
 }
 ```
 
-</div>  
+</div>
 
-运行上面的示例出现, 会打印出序列的前 3 个元素. 打印出来的数字之间插入了 `STEP`, 这是在生成数字的循环代码中输出的. 这个结果证明计算过程却是是延迟加载的. 打印 `1` 之前, 我们只执行到了第一次 `yield(i)`, 并且在这之前打印了 `START`. 然后, 打印 `2` 之前, 我们需要继续执行到下一次 `yield(i)`, 因此会打印出 `STEP`. 同样, 打印 `3` 之前也是如此. 下一个 `STEP` 不会被打印出来(`END` 也是如此), 因为在外部的代码中, 我们并没有从序列中获取更多的元素.   
+运行上面的示例出现, 会打印出序列的前 3 个元素. 打印出来的数字之间插入了 `STEP`, 这是在生成数字的循环代码中输出的. 这个结果证明计算过程却是是延迟加载的. 打印 `1` 之前, 我们只执行到了第一次 `yield(i)`, 并且在这之前打印了 `START`. 然后, 打印 `2` 之前, 我们需要继续执行到下一次 `yield(i)`, 因此会打印出 `STEP`. 同样, 打印 `3` 之前也是如此. 下一个 `STEP` 不会被打印出来(`END` 也是如此), 因为在外部的代码中, 我们并没有从序列中获取更多的元素.
 
 如果要一次性产生所有值的集合(collection) (或序列), 可以使用 `yieldAll()`:
 
@@ -240,7 +240,7 @@ fun main(args: Array<String>) {
 }
 ```
 
-</div>  
+</div>
 
 `buildIterator()` 函数与 `buildSequence()` 类似, 区别是它返回的是延迟加载的迭代器(iterator).
 
@@ -266,11 +266,11 @@ fun main(args: Array<String>) {
 }
 ```
 
-</div>  
+</div>
 
 ### 其他高阶 API: `kotlinx.coroutines`
 
-Kotlin 标准库只提供了与协程有关的核心 API. 主要包括核心的基本命令, 以及核心接口, 所有与协程相关的库都可能会用到这些基本命令和接口.   
+Kotlin 标准库只提供了与协程有关的核心 API. 主要包括核心的基本命令, 以及核心接口, 所有与协程相关的库都可能会用到这些基本命令和接口.
 
 大多数与协程相关的应用程序层次 API 都以单独的库的形式发布: [`kotlinx.coroutines`](https://github.com/Kotlin/kotlinx.coroutines). 这个库包括
  * 使用 `kotlinx-coroutines-core` 实现不依赖于平台的异步编程 :

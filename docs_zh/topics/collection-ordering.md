@@ -36,7 +36,7 @@ class Version(val major: Int, val minor: Int): Comparable<Version> {
     }
 }
 
-fun main() {    
+fun main() {
     println(Version(1, 2) > Version(1, 3))
     println(Version(2, 0) > Version(1, 5))
 }

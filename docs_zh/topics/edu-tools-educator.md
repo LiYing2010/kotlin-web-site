@@ -2,7 +2,7 @@
 
 最终更新: %latestDocDate%
 
-[JetBrains Academy plugin](https://plugins.jetbrains.com/plugin/10081-jetbrains-academy), 可用于 
+[JetBrains Academy plugin](https://plugins.jetbrains.com/plugin/10081-jetbrains-academy), 可用于
 [Android Studio](https://developer.android.com/studio)
 和
 [IntelliJ IDEA](https://www.jetbrains.com/idea/),

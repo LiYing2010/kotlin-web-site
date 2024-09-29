@@ -7,11 +7,11 @@
 
 你只需要为既有的项目手动配置你的构建 — 在安装 EAP 版之前创建的那些项目.
 
-要配置你的构建, 使它使用 Kotlin 的 EAP 版, 你需要: 
+要配置你的构建, 使它使用 Kotlin 的 EAP 版, 你需要:
 
 * 指定 Kotlin 的 EAP 版. 详情请参见 [可用的 EAP 版](eap.md#build-details).
 * 将依赖项版本修改为 EAP 版.
-  Kotlin 的 EAP 版可能无法与前一个正式发布版的库共同工作. 
+  Kotlin 的 EAP 版可能无法与前一个正式发布版的库共同工作.
 
 下文解释如何在 Gradle 和 Maven 中配置你的构建:
 
@@ -80,7 +80,7 @@ repositories {
 下面是示例.
 
 对于 **kotlinx.coroutines** 库, 请添加版本号 – `%coroutinesEapVersion%`
-– 这个版本兼容于 Kotlin 的 EAP 版 `%kotlinEapVersion%`. 
+– 这个版本兼容于 Kotlin 的 EAP 版 `%kotlinEapVersion%`.
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">

@@ -47,7 +47,7 @@
             isMingwX64 -> mingwX64("native")
             else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
         }
-    
+
         nativeTarget.apply {
             binaries {
                 executable {
@@ -81,7 +81,7 @@ Kotlin/Native 带有一组预构建的 [平台库](native-platform-libs.md), 提
 创建一个定义文件的步骤如下:
 
 1. 选择 `src` 文件夹, 使用 **File | New | Directory** 创建一个新目录.
-2. 将新目录命名为 **nativeInterop/cinterop**. 这是头文件位置的默认约定, 
+2. 将新目录命名为 **nativeInterop/cinterop**. 这是头文件位置的默认约定,
    如果你使用不同的位置, 也可以在 `build.gradle.kts` 文件中修改这个设置.
 3. 选择新建的子文件夹, 使用 **File | New | File** 创建一个新的 `libcurl.def` 文件.
 4. 将你的文件内容更新为以下代码:
@@ -89,7 +89,7 @@ Kotlin/Native 带有一组预构建的 [平台库](native-platform-libs.md), 提
     ```c
     headers = curl/curl.h
     headerFilter = curl/*
-    
+
     compilerOpts.linux = -I/usr/include -I/usr/include/x86_64-linux-gnu
     linkerOpts.osx = -L/opt/local/lib -L/usr/local/opt/curl/lib -lcurl
     linkerOpts.linux = -L/usr/lib/x86_64-linux-gnu -lcurl
@@ -118,7 +118,7 @@ Kotlin/Native 带有一组预构建的 [平台库](native-platform-libs.md), 提
 >
 {style="note"}
 
-## 向构建过程添加与 C 的交互 
+## 向构建过程添加与 C 的交互
 
 要使用头文件, 需要确保在构建过程中生成了它们. 要做到这一点, 请向 `build.gradle.kts` 文件添加以下内容:
 

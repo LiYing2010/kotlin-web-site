@@ -252,7 +252,7 @@ Objective-C Category 的成员, 以及 Swift extension 的成员, 导入 Kotlin 
 另外, extension 初始化器 在 Kotlin 中不会成为类的构造器.
 
 > 目前有两种例外情况.
-> 从 Kotlin 1.8.20 开始, 
+> 从 Kotlin 1.8.20 开始,
 > 在 NSView 类 (来自 AppKit 框架) 或 UIView 类 (来自 UIKit 框架) 的相同的头文件中声明的 Category 的成员, 会被导入为这些类的成员.
 > 因此你可以覆盖从 NSView 或 UIView 继承的子类的方法.
 >
@@ -507,7 +507,7 @@ Kotlin/Native 默认不会允许通过 `super(...)` 构造器来调用 Objective
 >
 {style="warning"}
 
-默认情况下, 在生成 Objective-C 头文件时, [KDocs](kotlin-doc.md) 文档注释不会被翻译为头文件中对应的注释.  
+默认情况下, 在生成 Objective-C 头文件时, [KDocs](kotlin-doc.md) 文档注释不会被翻译为头文件中对应的注释.
 例如, 以下带 KDoc 文档的 Kotlin 代码:
 
 ```kotlin

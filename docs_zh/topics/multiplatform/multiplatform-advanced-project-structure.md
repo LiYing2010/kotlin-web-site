@@ -21,7 +21,7 @@
 
 * [`dependsOn`](#dependson-and-source-set-hierarchies) –
   2 个 Kotlin 源代码集之间的, 特定的 Kotlin Multiplatform 关系.
-* [通常的依赖项](#dependencies-on-other-libraries-or-projects) – 
+* [通常的依赖项](#dependencies-on-other-libraries-or-projects) –
   对已发布的库的依赖, 例如 `kotlinx-coroutines`, 或对你的构建中的其他 Gradle 项目的依赖.
 
 通常, 你会使用 _依赖项_ 而不是 _`dependsOn`_ 关系.
@@ -224,7 +224,7 @@ kotlin {
 }
 ```
 
-这里, `jvmMain.dependsOn(jvmAndJsMain)` 会对 `jvmAndJsMain` 添加 JVM 编译目标, 
+这里, `jvmMain.dependsOn(jvmAndJsMain)` 会对 `jvmAndJsMain` 添加 JVM 编译目标,
 `jsMain.dependsOn(jvmAndJsMain)` 会对 `jvmAndJsMain` 添加 JS 编译目标.
 
 最终的项目结构如下:

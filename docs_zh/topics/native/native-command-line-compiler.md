@@ -9,7 +9,7 @@ Kotlin/Native 编译器可以运行于 macOS, Linux, 以及 Windows 环境. 它�
 它支持不同的编译目标, 包括 Linux, macOS, iOS, 等等.
 参见 [所有支持的编译目标完整列表](native-target-support.md).
 尽管跨平台编译是可能的, 也就是说可以在某个平台上针对另一个平台进行编译,
-但在这个 Kotlin case 中, 我们只在相同的平台上编译.  
+但在这个 Kotlin case 中, 我们只在相同的平台上编译.
 
 尽管编译器的输出不包含任何依赖项, 也不要求任何虚拟机, 但编译器本身需要 [Java 1.8 或更高版本的运行环境](https://jdk.java.net/11/).
 
@@ -26,7 +26,7 @@ fun main() {
 }
 ```
 
-## 在控制台编译代码 
+## 在控制台编译代码
 
 要编译应用程序, 请使用从 [这里](https://github.com/JetBrains/kotlin/releases) 下载的编译器, 执行以下命令:
 

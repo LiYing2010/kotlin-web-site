@@ -261,7 +261,7 @@ fun main() {
     // Kotlin
     // 和 Java 中一样的代码:
     val numbers = listOf(1, 2)
-    
+
     println(numbers[0])  // 如果集合为空, 会抛出 IndexOutOfBoundsException 异常
     //numbers.get(5)     // 这里会发生异常!
 

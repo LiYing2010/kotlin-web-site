@@ -18,7 +18,7 @@ Kotlin Multiplatform Mobile 技术的目标是, 对 Android 和 iOS 平台使用
 ## 根项目
 
 根项目是一个 Gradle 项目, 它的子项目包含共用模块, 以及 Android 应用程序.
-它们通过 [Gradle 多项目机制](https://docs.gradle.org/current/userguide/multi_project_builds.html) 链接在一起. 
+它们通过 [Gradle 多项目机制](https://docs.gradle.org/current/userguide/multi_project_builds.html) 链接在一起.
 
 <img src="/assets/docs/images/multiplatform-mobile/basic-project-structure.png" alt="基本的跨平台移动项目结构" width="700"/>
 
@@ -104,7 +104,7 @@ kotlin {
 ### 源代码集(Source Set)
 
 共用模块包含 Android 和 iOS 应用程序的共通代码.
-但是, 要在 Android 和 iOS 上实现相同的逻辑, 有时你会需要对两个平台编写各自专有的代码. 
+但是, 要在 Android 和 iOS 上实现相同的逻辑, 有时你会需要对两个平台编写各自专有的代码.
 为了解决这样的需求, Kotlin 提供了 [预期声明(expect)与实际声明(actual)](../multiplatform/multiplatform-connect-to-apis.html) 机制.
 共用模块的源代码相应的组织为 3 个源代码集(Source Set):
 
@@ -126,7 +126,7 @@ kotlin {
                 implementation("androidx.core:core-ktx:1.2.0")
             }
         }
-        val iosMain by getting 
+        val iosMain by getting
         // ...
     }
 }
@@ -303,7 +303,7 @@ android {
 
 框架通过 [Kotlin/Native](native-overview.html) 编译器生成.
 框架配置保存在构建脚本的 `kotlin {}` 内的 `ios {}` 代码段中.
-它定义输出类型 `framework`, 以及字符串标识符 `baseName`, 用来组成输出的 artifact 的名称. 默认值是 Gradle 模块名称. 
+它定义输出类型 `framework`, 以及字符串标识符 `baseName`, 用来组成输出的 artifact 的名称. 默认值是 Gradle 模块名称.
 对于真是的项目, 对于框架的生成, 很可能你需要更加复杂的配置.
 详情请参见 [跨平台开发文档](../multiplatform/multiplatform-build-native-binaries.html).
 
@@ -358,7 +358,7 @@ kotlin {
 ## Android 应用程序
 
 一个跨平台移动项目的 Android 应用程序部分是一个通常的 Android 应用程序, 由 Kotlin 编写.
-在一个基本的跨平台移动项目中, 它使用 2 个 Gradle plugin: 
+在一个基本的跨平台移动项目中, 它使用 2 个 Gradle plugin:
 
 * Kotlin Android
 * Android Application
@@ -370,7 +370,7 @@ kotlin {
 plugins {
     id("com.android.application")
     kotlin("android")
-} 
+}
 ```
 
 </div>
@@ -398,7 +398,7 @@ plugins {
 dependencies {
     implementation(project(":shared"))
     //..
-} 
+}
 ```
 
 </div>
@@ -428,7 +428,7 @@ dependencies {
     implementation("androidx.core:core-ktx:1.2.0")
     implementation("androidx.appcompat:appcompat:1.1.0")
     implementation("androidx.constraintlayout:constraintlayout:1.1.3")
-} 
+}
 ```
 
 </div>
@@ -506,7 +506,7 @@ android {
 ## iOS 应用程序
 
 iOS 应用程序从一个 Xcode 项目生成, 新建项目向导会自动生成这个 Xcode 项目.
-它保存在根项目内的一个单独的目录中. 
+它保存在根项目内的一个单独的目录中.
 
 <img src="/assets/docs/images/multiplatform-mobile/basic-xcode-project.png" alt="基本的 Kotlin Multiplatform Xcode 项目" width="400"/>
 

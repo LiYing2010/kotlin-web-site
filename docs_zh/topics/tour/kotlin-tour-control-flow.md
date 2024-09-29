@@ -18,10 +18,10 @@ Kotlin 还能够创建循环, 并在循环上迭代.
 
 ## 条件表达式
 
-Kotlin 提供了 `if` 和 `when` 来检测条件表达式. 
+Kotlin 提供了 `if` 和 `when` 来检测条件表达式.
 
 > 如果你必须在 `if` 和 `when` 之间做选择, 我们推荐使用 `when`, 因为它可以创建更加健壮和安全的程序.
-> 
+>
 {style="note"}
 
 ### If
@@ -52,7 +52,7 @@ fun main() {
 把 `if` 用作表达式时, 不要使用大括号 `{}`:
 
 ```kotlin
-fun main() { 
+fun main() {
 //sampleStart
     val a = 1
     val b = 2
@@ -103,7 +103,7 @@ fun main() {
 fun main() {
 //sampleStart
     val obj = "Hello"
-    
+
     val result = when (obj) {
         // 如果 obj 等于 "1", 将 result 设置为 "one"
         "1" -> "One"
@@ -182,7 +182,7 @@ fun main() {
 ```kotlin
 fun main() {
 //sampleStart
-    for (number in 1..5) { 
+    for (number in 1..5) {
         // number 是迭代器(iterator), 1..5 是值范围
         print(number)
     }
@@ -195,7 +195,7 @@ fun main() {
 `for` 循环也可以对集合(Collection)进行遍历:
 
 ```kotlin
-fun main() { 
+fun main() {
 //sampleStart
     val cakes = listOf("carrot", "cheese", "chocolate")
 

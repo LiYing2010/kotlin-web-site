@@ -36,17 +36,17 @@ Kotlin/Native 运行期包含 Atomic 的一些不同的变体. 你可以之间�
 Kotlin 提供一个低层的 [`kotlinx.atomicfu`](https://github.com/Kotlin/kotlinx.atomicfu) 库(实验性功能),
 目前只在为内部目的使用, 不要用于一般的用途.
 你还可以使用 [Stately](https://github.com/touchlab/Stately),
-这是一个工具库, 为 Kotlin/Native 专有的并发实现跨平台兼容性, 由 [Touchlab](https://touchlab.co) 开发. 
+这是一个工具库, 为 Kotlin/Native 专有的并发实现跨平台兼容性, 由 [Touchlab](https://touchlab.co) 开发.
 
 ### `AtomicInt`/`AtomicLong`
 
-首先介绍的 2 个类是简单的数值: `AtomicInt` 和 `AtomicLong`. 使用它们, 
+首先介绍的 2 个类是简单的数值: `AtomicInt` 和 `AtomicLong`. 使用它们,
 你可以共用 `Int` 或 `Long`, 从多个线程中读取或修改.
 
 ```kotlin
 object AtomicDataCounter {
     val count = AtomicInt(3)
-  
+
     fun addOne() {
         count.increment()
     }
@@ -54,12 +54,12 @@ object AtomicDataCounter {
 ```
 
 上面的示例是一个全局的 `object`, 在 Kotlin/Native 中它默认是冻结的.
-但是, 你能够修改 `count` 的值. 
+但是, 你能够修改 `count` 的值.
 需要注意的是, 你能够 _在任何线程中_ 修改 `count` 的值.
 
 ### `AtomicReference`
 
-`AtomicReference` 保存一个对象实例, 而且你能够修改这个对象实例. 
+`AtomicReference` 保存一个对象实例, 而且你能够修改这个对象实例.
 你放在 `AtomicReference` 中的对象必须是冻结的, 但你能够修改 `AtomicReference` 保存的值.
 比如, 下面的示例在  Kotlin/Native 中无法工作:
 
@@ -97,13 +97,13 @@ object GlobalData {
 
 当你需要共用一个状态时, `AtomicReference` 非常有用. 但是也有一些缺点需要考虑.
 
-*相对于* 一个标准的可变的状态, 访问并修改 `AtomicReference` 内的值, 在性能上耗费很高. 
+*相对于* 一个标准的可变的状态, 访问并修改 `AtomicReference` 内的值, 在性能上耗费很高.
 如果性能问题很重要, 你可能需要考虑其他方案, 使用 [线程隔离的状态](#thread-isolated-state).
 
 还有一个潜在的问题是内存泄露, 这个问题将来会解决.
 `AtomicReference` 中保存的对象存在循环引用的情况下, 如果你没有明确的清除, 那么可能会泄露内存:
 
-* 如果你保存的状态可能存在循环引用, 需要回收, 你应该在 `AtomicReference` 中使用一个可为 null 的类型, 
+* 如果你保存的状态可能存在循环引用, 需要回收, 你应该在 `AtomicReference` 中使用一个可为 null 的类型,
   并在使用完毕时, 明确的设置为 null.
 * 如果将 `AtomicReference` 保存在一个全局对象中, 这个全局对象永远不会失效, 那么没有关系
   (因为在进程的整个生命周期中, 这部分内存永远不需要回收).
@@ -154,7 +154,7 @@ Atomic 允许在任何线程中改变状态.
 要做到这一点, 需要创建一个工作队列, 只能从单个线程访问, 并在这个线程中创建一个可变状态.
 其它线程通过调度工作队列中的 _工作_, 实现与可变线程的通信.
 
-输入或输出的数据, 如果有的话, 需要冻结, 但隐藏在工作线程中的可变状态保持可变. 
+输入或输出的数据, 如果有的话, 需要冻结, 但隐藏在工作线程中的可变状态保持可变.
 
 概念上来看, 大致如下: 一个线程向状态处理器(State Worker) push 一个冻结的状态, 处理器将它保存到可变的状态容器中.
 之后, 另一个线程调度工作, 读取这个状态.
@@ -178,7 +178,7 @@ Atomic 允许在任何线程中改变状态.
 
 ## 低层能力
 
-Kotlin/Native 还有一些更加高级的方式来共用并发的状态. 为了实现高性能, 你可能需要完全避开并发规则. 
+Kotlin/Native 还有一些更加高级的方式来共用并发的状态. 为了实现高性能, 你可能需要完全避开并发规则.
 
 > 这是一个更加高级的话题. 你需要深入理解, 在 Kotlin/Native 中并发的底层工作原理,
 > 使用这种方法时, 你需要非常小心. 详情请参见 [并发](../native/native-immutability.html#concurrency-in-kotlin-native).
@@ -187,15 +187,15 @@ Kotlin/Native 还有一些更加高级的方式来共用并发的状态. 为了�
 
 Kotlin/Native 运行在 C++ 之上, 并提供了与 C 和 Objective-C 的交互能力.
 如果你在 iOS 上运行, 你还可以从 Swift 中向你的共用代码传递 Lambda 表达式参数.
-所有这些原生代码都不受 Kotlin/Native 的状态限制. 
+所有这些原生代码都不受 Kotlin/Native 的状态限制.
 
 因此, 你能够使用原生语言实现一个并发的可变状态, 然后让 Kotlin/Native 与它交互.
 
 你可以使用 [Objective-C 交互](../native/native-c-interop.html) 访问低层代码.
 你还可以使用 Swift 实现 Kotlin 接口, 或者传递 Lambda 表达式参数, Kotlin 代码能够在任何线程中调用这些 Lambda 表达式.
 
-平台原生方案的优势之一是性能. 不好的一面在于, 你需要自行管理并发. 
-Objective-C 不理解 `frozen`, 但如果你将来自 Kotlin 的状态在 Objective-C 结构中, 并在线程间共用, Kotlin 状态一定需要冻结. 
+平台原生方案的优势之一是性能. 不好的一面在于, 你需要自行管理并发.
+Objective-C 不理解 `frozen`, 但如果你将来自 Kotlin 的状态在 Objective-C 结构中, 并在线程间共用, Kotlin 状态一定需要冻结.
 Kotlin/Native 的运行期会对各种问题向你提出警告, 但在原生代码中, 有可能会导致非常非常难以追查的并发问题.
 而且非常容易发生内存泄露.
 

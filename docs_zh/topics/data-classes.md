@@ -109,7 +109,7 @@ val olderJack = jack.copy(age = 2)
 ```kotlin
 val jane = User("Jane", 35)
 val (name, age) = jane
-println("$name, $age years of age") 
+println("$name, $age years of age")
 // 输出结果为 Jane, 35 years of age
 ```
 

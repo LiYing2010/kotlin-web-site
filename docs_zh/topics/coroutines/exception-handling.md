@@ -106,7 +106,7 @@ fun main() = runBlocking {
         throw ArithmeticException() // 这个异常不会被输出, 由使用者调用 deferred.await() 来得到并处理这个异常
     }
     joinAll(job, deferred)
-//sampleEnd    
+//sampleEnd
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
@@ -151,7 +151,7 @@ fun main() = runBlocking {
         println("Parent is not cancelled")
     }
     job.join()
-//sampleEnd    
+//sampleEnd
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
@@ -266,7 +266,7 @@ fun main() = runBlocking {
         }
         delay(Long.MAX_VALUE)
     }
-    job.join()  
+    job.join()
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
@@ -316,7 +316,7 @@ fun main() = runBlocking {
         }
     }
     job.join()
-//sampleEnd    
+//sampleEnd
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}

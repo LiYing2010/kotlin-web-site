@@ -136,7 +136,7 @@ fun readTwoBytes(inputStream: InputStream): Pair<Byte, Byte> {
 }
 ```
 
-`readTwoBytes()` 方法必须抛出 `IllegalStateException`, 因为 [`use{}`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/use.html) 
+`readTwoBytes()` 方法必须抛出 `IllegalStateException`, 因为 [`use{}`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/use.html)
 会关闭 `Closeable` 的输入流, 使用者不应该能够从已关闭的流中读取数据.
 要实现这一点, 需要修改 `readByte()` 函数的代码:
 
@@ -172,7 +172,7 @@ fun main() { Test.values()[0] = Test.B }
 如果你在枚举类中缓存了这些值, 运行上面的代码之后, 缓存就会被损坏.
 如果没有缓存这些值, 那么每次调用 `values()` 函数都会产生额外的运行时开销.
 
-由于这个原因, Kotlin 从 1.9 开始废弃了 `values()` 函数, 并 [引入了](https://youtrack.jetbrains.com/issue/KT-48872/Provide-modern-and-performant-replacement-for-Enum.values) 
+由于这个原因, Kotlin 从 1.9 开始废弃了 `values()` 函数, 并 [引入了](https://youtrack.jetbrains.com/issue/KT-48872/Provide-modern-and-performant-replacement-for-Enum.values)
 `entries()` 函数, 它返回一个不可变的 Set.
 
 ## 不要使用 varargs {id="avoid-varargs"}

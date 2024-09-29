@@ -6,7 +6,7 @@
 
 开始之前, 请安装 [IntelliJ IDEA](https://www.jetbrains.com/idea/download/index.html) 的最新版本.
 
-## 创建一个应用程序 
+## 创建一个应用程序
 
 安装 IntelliJ IDEA 后, 就可以创建你的第一个 Kotlin/JS with React 前端应用程序了.
 
@@ -20,7 +20,7 @@
     你的项目默认会使用 Gradle 和 Kotlin DSL 作为构建系统.
 
 4. 接受下一个画面中的默认配置, 并点击 **Finish**. 你的项目会打开.
- 
+
 
     <img src="/assets/docs/images/get-started/js-new-project-2.png" alt="配置前端应用程序" width="700"/>
 
@@ -50,13 +50,13 @@
 
 ### 反转显示你的名字
 
-1. 打开 `src/main/kotlin` 中的 `Welcome.kt` 文件.  
+1. 打开 `src/main/kotlin` 中的 `Welcome.kt` 文件.
    `src` 目录包含 Kotlin 源代码文件和资源. `Welcome.kt` 文件包含示例代码, 描绘你刚才看到的Web 页面.
 
    ![前端应用程序的源代码]({{ url_for('asset', path='docs/images/get-started/js-welcome-kt.png') }})
-   
-2. 修改 `div` 代码, 反转显示你的名字.  
-   
+
+2. 修改 `div` 代码, 反转显示你的名字.
+
    * 使用标准库函数 `reversed()` 反转你的名字.
    * 使用 [字符串模板](../strings.html#string-templates) 表示你反转后的名字,
      添加一个 `$` 符号, 然后将表达式包在括号内 – `${state.name.reversed()}`.
@@ -75,7 +75,7 @@
 
 3. 将你的修改保存到文件.
 
-4. 到浏览器查看结果.  
+4. 到浏览器查看结果.
    只有你的前一个应用程序还在继续运行, 你才会看到修改后的结果. 如果你停止了你的应用程序, 请 [重新运行它](#run-the-application).
 
 <img src="/assets/docs/images/get-started/js-output-2.png" alt="Web 浏览器显示反转的名字" width="600"/>
@@ -84,10 +84,10 @@
 
 1. 打开 `src/main/kotlin` 中的 `Welcome.kt` 文件.
 
-2. 添加一个 `div` 容器, 其中包含一个图片子元素 `img`, 放在 `input` 代码段之后.  
-   
+2. 添加一个 `div` 容器, 其中包含一个图片子元素 `img`, 放在 `input` 代码段之后.
+
    > 按照 IDE 的建议, 导入 `react.dom.html` 包中所有需要的元素.
-> 
+>
 {style="note"}
 
    ```kotlin
@@ -100,8 +100,8 @@
 
 3. 将你的修改保存到文件.
 
-4. 到浏览器查看结果.  
-   只有你的前一个应用程序还在继续运行, 你才会看到修改后的结果. 如果你停止了你的应用程序, 请 [重新运行它](#run-the-application). 
+4. 到浏览器查看结果.
+   只有你的前一个应用程序还在继续运行, 你才会看到修改后的结果. 如果你停止了你的应用程序, 请 [重新运行它](#run-the-application).
 
 <img src="/assets/docs/images/get-started/js-output-3.png" alt="带图片的Web 页面" width="600"/>
 
@@ -109,10 +109,10 @@
 
 1. 打开 `src/main/kotlin` 中的 `Welcome.kt` 文件.
 
-2. 添加一个 `button` 元素, 并加上 `onClick` 事件处理器.  
-   
+2. 添加一个 `button` 元素, 并加上 `onClick` 事件处理器.
+
    > 请确认你导入了 `react.dom.html.ReactHTML`.
-> 
+>
 {style="note"}
 
    ```kotlin
@@ -121,12 +121,12 @@
             name = "Some name"
         }
         +"Change name"
-    }   
+    }
    ```
 
 3. 将你的修改保存到文件.
 
-4. 到浏览器查看结果.  
+4. 到浏览器查看结果.
    只有你的前一个应用程序还在继续运行, 你才会看到修改后的结果. 如果你停止了你的应用程序, 请 [重新运行它](#run-the-application).
 
 <img src="/assets/docs/images/get-started/js-output-4.png" alt="带按钮的Web 页面" width="600"/>
@@ -156,7 +156,7 @@
   实现 React Redux 的待办事项列表(to-do list),
   演示如何使用 npm 的 JS 库(`react`, `react-dom`, `react-router`, `redux`, 以及 `react-redux`),
   使用 Webpack 进行打包, 最小化, 并运行项目.
- 
+
 * [全栈的演示项目](https://github.com/Kotlin/full-stack-web-jetbrains-night-sample)
   指导你如何构建一个应用程序, 接受用户生成的贴文和评论.
   项目中的所有的数据都由fakeJSON 和 JSON Placeholder 服务提供.

@@ -59,7 +59,7 @@ fun main() {
     val numbers = mutableListOf("one", "two")
     numbers += "three"
     println(numbers)
-    numbers += listOf("four", "five")    
+    numbers += listOf("four", "five")
     println(numbers)
 //sampleEnd
 }
@@ -132,9 +132,9 @@ fun main() {
     val numbers = mutableListOf("one", "two", "three", "three", "four")
     numbers -= "three"
     println(numbers)
-    numbers -= listOf("four", "five")    
+    numbers -= listOf("four", "five")
     //numbers -= listOf("four")    // 与上面的结果是相同的
-    println(numbers)    
+    println(numbers)
 //sampleEnd
 }
 ```

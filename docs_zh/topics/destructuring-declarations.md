@@ -105,14 +105,14 @@ val (_, status) = getResult()
 
 你可以在 lambda 表达式的参数中使用解构声明语法. 如果 lambda 表达式的一个参数是 `Pair` 类型
 (或 `Map.Entry` 类型, 或者任何其他类型, 只要它拥有适当的 `componentN` 函数),
-就可以使用几个新的参数来代替原来的参数, 只需要将新参数包含在括号内:   
+就可以使用几个新的参数来代替原来的参数, 只需要将新参数包含在括号内:
 
 ```kotlin
 map.mapValues { entry -> "${entry.value}!" }
 map.mapValues { (key, value) -> "$value!" }
 ```
 
-请注意声明两个参数, 与将一个参数解构为多个参数的区别:  
+请注意声明两个参数, 与将一个参数解构为多个参数的区别:
 
 ```kotlin
 { a -> ... } // 这里是一个参数

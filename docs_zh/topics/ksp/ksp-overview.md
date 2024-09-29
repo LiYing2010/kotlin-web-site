@@ -135,7 +135,7 @@ class HelloFunctionFinderProcessor : SymbolProcessor() {
         }
     }
     // ...
-    
+
     class Provider : SymbolProcessorProvider {
         override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor = TODO()
     }
@@ -170,7 +170,7 @@ class HelloFunctionFinderProcessor : SymbolProcessor() {
 | gRPC Dekorator   | [官方支持](https://github.com/mottljan/grpc-dekorator)                                       |
 | EasyAdapter      | [官方支持](https://github.com/AmrDeveloper/EasyAdapter)                                      |
 | Koin Annotations | [官方支持](https://github.com/InsertKoinIO/koin-annotations)                                 |
-| Glide            | [官方支持](https://github.com/bumptech/glide)                                                | 
+| Glide            | [官方支持](https://github.com/bumptech/glide)                                                |
 | Micronaut        | [官方支持](https://micronaut.io/2023/07/14/micronaut-framework-4-0-0-released/)              |
 | Epoxy            | [官方支持](https://github.com/airbnb/epoxy)                                                  |
 | Paris            | [官方支持](https://github.com/airbnb/paris)                                                  |

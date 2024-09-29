@@ -90,7 +90,7 @@ IntelliJ IDEA 会自动对项目执行增量构建(Incremental Build).
      删除名字中的空白字符 .
    * 使用作用域函数(Scope Function)
      [`let`](scope-functions.md#let)
-     在对象上下文之内运行函数. 
+     在对象上下文之内运行函数.
    * 使用一个 [字符串模板](strings.md#string-templates) 来向一个字符串插入你的名字长度,
      方法是添加一个 `$` 符号, 并将表达式放在大括号内 – `${it.length}`.
      `it` 是 [lambda 表达式参数](coding-conventions.md#lambda-parameters) 的默认名称.

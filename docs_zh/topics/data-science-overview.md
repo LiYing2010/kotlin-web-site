@@ -59,7 +59,7 @@ Kotlin 社区开发了针对数据处理任务的各种库, 并在迅速扩大.
 
 * [Kandy](https://kotlin.github.io/kandy/welcome.html) 是一个使用 Kotlin 开发的开源的 JVM 绘图库.
   它提供了用于创建 Chart 的强大而且灵活的 DSL,
-  以及与 [Kotlin Notebook](https://plugins.jetbrains.com/plugin/16340-kotlin-notebook) 
+  以及与 [Kotlin Notebook](https://plugins.jetbrains.com/plugin/16340-kotlin-notebook)
   和 [Kotlin DataFrame](https://kotlin.github.io/dataframe/gettingstarted.html) 的无缝集成.
 
 * [Multik](https://github.com/Kotlin/multik): Kotlin 编写的多维数组库.
@@ -78,7 +78,7 @@ Kotlin 社区开发了针对数据处理任务的各种库, 并在迅速扩大.
   它实现了 Kotlin 类型的代数结构组合的数学操作,
   为线性结构(linear structure), 表达式, 直方图(histogram), 流运算(streaming operation) 定义了 API,
   对既有的 Java 和 Kotlin 库提供了可互换的包装, 包括
-  [ND4J](https://github.com/eclipse/deeplearning4j/tree/master/nd4j), 
+  [ND4J](https://github.com/eclipse/deeplearning4j/tree/master/nd4j),
   [Commons Math](https://commons.apache.org/proper/commons-math/),
   [Multik](https://github.com/Kotlin/multik), 以及其它库.
 

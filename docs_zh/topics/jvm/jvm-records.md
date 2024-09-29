@@ -16,7 +16,7 @@ public record Person (String name, int age) {}
 * 对每个记录组件, 有一个 private final 域
 * 一个 public 构造器, 参数是所有的域
 * 一组方法, 实现结构化的相等比较: `equals()`, `hashCode()`, `toString()`
-* 为读取每个记录组件, 有一个 public 方法 
+* 为读取每个记录组件, 有一个 public 方法
 
 记录类非常类似于 Kotlin [数据类](data-classes.md).
 
@@ -48,7 +48,7 @@ data class Person(val name: String, val age: Int)
 这个 JVM 专用的注解会导致生成以下内容:
 
 * 在 class 文件中, 生成与类属性对应的记录组件
-* 符合 Java 记录类命名规约的类属性访问器方法名 
+* 符合 Java 记录类命名规约的类属性访问器方法名
 
 数据类会提供 `equals()`, `hashCode()`, 和 `toString()` 方法的实现.
 

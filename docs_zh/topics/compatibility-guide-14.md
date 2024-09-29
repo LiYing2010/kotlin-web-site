@@ -470,7 +470,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 > - &gt;= 1.5: 将这个警告提升为错误,
 > 可以暂时使用 `-XXLanguage:-ProhibitSpreadOnSignaturePolymorphicCall` 回退到 1.4 以前的行为
 
-### 对尾递归(tail-recursive)优化函数, 默认值的初始化顺序变更  
+### 对尾递归(tail-recursive)优化函数, 默认值的初始化顺序变更
 
 > **Issue**: [KT-31540](https://youtrack.jetbrains.com/issue/KT-31540)
 >

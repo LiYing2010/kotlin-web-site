@@ -18,7 +18,7 @@
 ## 协程
 
 协程是轻量的线程, 你可以用来编写异步的非阻塞代码.
-Kotlin 提供了 
+Kotlin 提供了
 [`kotlinx.coroutines`](https://github.com/Kotlin/kotlinx.coroutines) 库,
 其中包括很多高层的, 支持协程的基本功能.
 
@@ -41,11 +41,11 @@ Kotlin 提供了
 
 ### 异步(Asynchronous)与并行处理(Parallel Processing)
 
-异步和并行处理是不同的. 
+异步和并行处理是不同的.
 
 在一个协程中, 处理序列可能被挂起, 并在以后恢复.
 这样可以实现异步非阻塞的代码, 不需要使用回调或 promise.
-这是异步处理, 但与这个协程有关的一切可以发生在单个线程中. 
+这是异步处理, 但与这个协程有关的一切可以发生在单个线程中.
 
 以下代码使用 [Ktor](https://ktor.io/) 发起一个网络调用.
 在主线程中, 调用被初始化, 然后挂起, 同时由另一个底层过程执行实际的网络访问.
@@ -55,7 +55,7 @@ Kotlin 提供了
 val client = HttpClient()
 // 在主线程运行中, 启动一个 `get` 调用
 client.get<String>("https://example.com/some/rest/call")
-// get 调用会被挂起, 允许其他工作在主线程中执行, 然后在 get 调用结束时恢复执行 
+// get 调用会被挂起, 允许其他工作在主线程中执行, 然后在 get 调用结束时恢复执行
 ```
 
 这种机制与并行代码不同, 并行代码需要运行在另一个线程中.
@@ -64,7 +64,7 @@ client.get<String>("https://example.com/some/rest/call")
 ### 用于改变线程的派发器(Dispatcher)
 
 协程由一个派发器(Dispatcher)来执行, 派发器定义协程将在哪个线程上执行.
-你可以通过很多方法为协程指定派发器, 或改变派发器. 例如: 
+你可以通过很多方法为协程指定派发器, 或改变派发器. 例如:
 
 ```kotlin
 suspend fun differentThread() = withContext(Dispatchers.Default){
@@ -80,7 +80,7 @@ suspend fun differentThread() = withContext(Dispatchers.Default){
 
 ### 被捕获数据的冻结
 
-要在一个不同的线程上运行代码, 你需要传递一个 `functionBlock`, 它被冻结, 然后在另一个线程中运行. 
+要在一个不同的线程上运行代码, 你需要传递一个 `functionBlock`, 它被冻结, 然后在另一个线程中运行.
 
 ```kotlin
 fun <R> runOnDifferentThread(functionBlock: () -> R)
@@ -109,7 +109,7 @@ withContext(Dispatchers.Default) {
 }
 ```
 
-运行并行代码时, 要注意被捕获的状态. 
+运行并行代码时, 要注意被捕获的状态.
 状态何时会被捕获, 有些情况下是很明显, 但并不总是如此. 例如:
 
 ```kotlin
@@ -120,7 +120,7 @@ class SomeModel(val id:IdRec){
 }
 ```
 
-`saveData` 之内的代码运行在另一个线程上. 因此会冻结 `id`, 但由于 `id` 是父类的一个属性, 
+`saveData` 之内的代码运行在另一个线程上. 因此会冻结 `id`, 但由于 `id` 是父类的一个属性,
 因此也会冻结父类.
 
 ### 返回数据的冻结
@@ -143,13 +143,13 @@ println("${dc.isFrozen}")
 
 ## 多线程协程
 
-`kotlinx.coroutines` 库的一个 [特殊分支](https://github.com/Kotlin/kotlinx.coroutines/tree/native-mt) 
+`kotlinx.coroutines` 库的一个 [特殊分支](https://github.com/Kotlin/kotlinx.coroutines/tree/native-mt)
 提供了使用多线程的支持.
-这是一个单独的分支, 原因请参见 [Blog: 未来的并发模型](https://blog.jetbrains.com/kotlin/2020/07/kotlin-native-memory-management-roadmap/). 
+这是一个单独的分支, 原因请参见 [Blog: 未来的并发模型](https://blog.jetbrains.com/kotlin/2020/07/kotlin-native-memory-management-roadmap/).
 
 但是, 只要注意考虑它的具体细节, 你还是可以在产品代码中使用 `kotlinx.coroutines` 的多线程版本.
 
-对于 Kotlin {{ site.data.releases.latest.version }}, 目前的版本是 `{{ site.data.releases.latest.coroutines.version }}-native-mt`. 
+对于 Kotlin {{ site.data.releases.latest.version }}, 目前的版本是 `{{ site.data.releases.latest.coroutines.version }}-native-mt`.
 
 要使用多线程版本, 请在 `build.gradle(.kts)` 中对 `commonMain` 源代码集添加一个依赖项:
 
@@ -212,7 +212,7 @@ implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:{{ site.data.relea
 </div>
 </div>
 
-由于 `kotlinx.coroutines` 的主版本是单线程版, 库几乎都会依赖于这个版本. 
+由于 `kotlinx.coroutines` 的主版本是单线程版, 库几乎都会依赖于这个版本.
 如果你看到一个协程操作发生了 `InvalidMutabilityException`, 那么很有可能你使用了错误的版本.
 
 > 使用多线程协程可能导致 _内存泄露_. 对于高负载的复杂协程场景, 这可能会成为问题.
@@ -229,24 +229,24 @@ implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:{{ site.data.relea
 ### CoroutineWorker
 
 [`CoroutinesWorker`](https://github.com/Autodesk/coroutineworker) 是 AutoDesk 发布的一个库,
-它使用 `kotlinx.coroutines` 的单线程版本, 实现了一些跨线程的协程功能. 
+它使用 `kotlinx.coroutines` 的单线程版本, 实现了一些跨线程的协程功能.
 
 对于简单的挂起函数, 这是一个很好的选择, 但它不支持数据流(Flow) 和其他结构.
 
 ### Reaktive
 
 [Reaktive](https://github.com/badoo/Reaktive) 是一个类似 Rx 的库,
-它为 Kotlin Multiplatform 实现了 Reactive 扩展. 
+它为 Kotlin Multiplatform 实现了 Reactive 扩展.
 它包含一些协程扩展, 但主要是围绕 RX 和线程设计的.
 
 ### 自定义处理器
 
-对于更简单的后台任务, 你可以创建自己的处理器, 封装平台相关代码. 
+对于更简单的后台任务, 你可以创建自己的处理器, 封装平台相关代码.
 参见一个 [简单的示例](https://github.com/touchlab/KMMWorker).
 
 ### 平台并发
 
-在产品代码中, 你也可以依赖平台功能来处理并发. 
+在产品代码中, 你也可以依赖平台功能来处理并发.
 如果共用的 Kotlin 代码被用于业务逻辑或数据操作, 而不是用于系统架构, 这种方式可能很有用.
 
 要在 iOS 中跨线程共用一个状态, 这个状态需要被 [冻结](multiplatform-mobile-concurrency-overview.html#immutable-and-frozen-state).

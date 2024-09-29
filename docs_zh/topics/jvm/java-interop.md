@@ -93,7 +93,7 @@ val persons = listOf(Person("Jack", 11), Person("Sofie", 12), Person("Peter", 11
 }
 ```
 
-### 如何启动用 Java 合成属性的引用 {id="how-to-enable-java-synthetic-property-references" collapsible="true"} 
+### 如何启动用 Java 合成属性的引用 {id="how-to-enable-java-synthetic-property-references" collapsible="true"}
 
 要启用这个功能, 请设置 `-language-version 2.1` 编译器选项.
 在 Gradle 项目中, 你可以在你的 `build.gradle(.kts)` 文件中添加以下设置:

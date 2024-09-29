@@ -281,7 +281,7 @@ kotlin {
 class Greeting {
     companion object {
         init {
-            print("Hello, Kotlin!") 
+            print("Hello, Kotlin!")
         }
     }
 }
@@ -442,7 +442,7 @@ kotlin {
     androidTarget()
     iosArm64()
     iosSimulatorArm64()
-   
+
     // iosMain 源代码集会自动创建
 }
 ```
@@ -837,7 +837,7 @@ Kotlin 1.9.20 完全兼容于 Gradle 6.8.3 到 8.1 的版本.
 
 ```none
 Total time for Kotlin tasks: 20.81 s (93.1 % of all tasks time)
-Time   |% of Kotlin time|Task                            
+Time   |% of Kotlin time|Task
 15.24 s|73.2 %          |:compileCommonMainKotlinMetadata
 5.57 s |26.8 %          |:compileNativeMainKotlinMetadata
 
@@ -922,7 +922,7 @@ inline fun <reified T : Enum<T>> printAllValues() {
     print(enumEntries<T>().joinToString { it.name })
 }
 
-printAllValues<RGB>() 
+printAllValues<RGB>()
 // 输出结果为 RED, GREEN, BLUE
 ```
 
@@ -933,7 +933,7 @@ printAllValues<RGB>()
 
 ### Kotlin/Native 标准库进入了稳定版 {id="the-kotlin-native-standard-library-becomes-stable"}
 
-在 Kotlin 1.9.0 中, 我们 [解释了](whatsnew19.md#the-kotlin-native-standard-library-s-journey-towards-stabilization) 
+在 Kotlin 1.9.0 中, 我们 [解释了](whatsnew19.md#the-kotlin-native-standard-library-s-journey-towards-stabilization)
 我们为了使标准库更加接近于我们的稳定性目标而采取的行动.
 在 Kotlin 1.9.20 中, 我们终于完成了这项工作, 让 Kotlin/Native 标准库进入了稳定版.
 以下是这个发布版的一些重要变更:
@@ -959,7 +959,7 @@ Kotlin 1.9.20 还包含了以下变更:
   > 要试用这些功能, 请使用 `@OptIn(ExperimentalStdlibApi)` 标注使用者同意(Opt-in).
   > 请注意, 只为评估和试验目的来使用这些功能.
   > 希望你能通过我们的 [YouTrack](https://kotl.in/issue) 提供你的反馈意见.
-  > 
+  >
   {style="warning"}
 * 在 `kotlin.native.concurrent` 包中, 在 Kotlin 1.9.0 中废弃的 Atomics API, 过去的废弃级别为 `WARNING`, 现在废弃级别提升到了 `ERROR`.
 * 在 `kotlin.concurrent` 包中,  [`AtomicInt`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.concurrent/-atomic-int/index.html) 和 [`AtomicLong`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.concurrent/-atomic-long/index.html) 类的成员函数, 过去的废弃级别为 `ERROR`, 现在已被删除.

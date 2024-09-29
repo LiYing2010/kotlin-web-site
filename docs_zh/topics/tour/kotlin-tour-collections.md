@@ -40,13 +40,13 @@ Kotlin 有以下集合来组织数据元素:
 请在 List 的声明之后的尖括号 `<>` 中添加类型:
 
 ```kotlin
-fun main() { 
+fun main() {
 //sampleStart
     // 只读 List
     val readOnlyShapes = listOf("triangle", "square", "circle")
     println(readOnlyShapes)
     // 输出结果为 [triangle, square, circle]
-    
+
     // 可变的 List, 带有明确的类型声明
     val shapes: MutableList<String> = mutableListOf("triangle", "square", "circle")
     println(shapes)
@@ -62,13 +62,13 @@ fun main() {
 >     val shapesLocked: List<String> = shapes
 > ```
 > 这种操作也叫做 **类型变换(casting)**.
-> 
+>
 {style="tip"}
 
 List 是有顺序的, 因此要访问 List 内的元素, 请使用 [下标访问操作符](operator-overloading.md#indexed-access-operator) `[]`:
 
 ```kotlin
-fun main() { 
+fun main() {
 //sampleStart
     val readOnlyShapes = listOf("triangle", "square", "circle")
     println("The first item in the list is: ${readOnlyShapes[0]}")
@@ -82,7 +82,7 @@ fun main() {
 和 [`.last()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/last.html) 函数:
 
 ```kotlin
-fun main() { 
+fun main() {
 //sampleStart
     val readOnlyShapes = listOf("triangle", "square", "circle")
     println("The first item in the list is: ${readOnlyShapes.first()}")
@@ -95,16 +95,16 @@ fun main() {
 > [`.first()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/first.html) 和 [`.last()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/last.html)
 > 函数是 **扩展** 函数.
 > 要对一个对象调用扩展函数, 请在对象之后加上点号 `.`, 然后把函数名写在后面.
-> 
+>
 > 关于扩展函数, 更多详情请参见 [扩展函数](extensions.md#extension-functions).
 > 对于这篇向导而言, 你只需要知道如何调用它们就行了.
-> 
+>
 {style="note"}
 
 要得到 List 中元素的数量, 请使用 [`.count()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/count.html) 函数:
 
 ```kotlin
-fun main() { 
+fun main() {
 //sampleStart
     val readOnlyShapes = listOf("triangle", "square", "circle")
     println("This list has ${readOnlyShapes.count()} items")
@@ -131,17 +131,17 @@ fun main() {
 和 [`.remove()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/remove.html) 函数:
 
 ```kotlin
-fun main() { 
+fun main() {
 //sampleStart
     val shapes: MutableList<String> = mutableListOf("triangle", "square", "circle")
     // 向 List 添加 "pentagon"
-    shapes.add("pentagon") 
-    println(shapes)  
+    shapes.add("pentagon")
+    println(shapes)
     // 输出结果为 [triangle, square, circle, pentagon]
 
-    // 从 List 中删除第一个 "pentagon" 
-    shapes.remove("pentagon") 
-    println(shapes)  
+    // 从 List 中删除第一个 "pentagon"
+    shapes.remove("pentagon")
+    println(shapes)
     // 输出结果为 [triangle, square, circle]
 //sampleEnd
 }
@@ -168,7 +168,7 @@ fun main() {
     val readOnlyFruit = setOf("apple", "banana", "cherry", "cherry")
     // 可变的 Set, 带有明确的类型声明
     val fruit: MutableSet<String> = mutableSetOf("apple", "banana", "cherry", "cherry")
-    
+
     println(readOnlyFruit)
     // 输出结果为 [apple, banana, cherry]
 //sampleEnd
@@ -187,13 +187,13 @@ fun main() {
 {style="tip"}
 
 > 由于 Set 是 **无顺序的**, 你不能访问位于某个下标的元素.
-> 
+>
 {style="note"}
 
 要得到 Set 中元素的数量, 请使用 [`.count()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/count.html) 函数:
 
 ```kotlin
-fun main() { 
+fun main() {
 //sampleStart
     val readOnlyFruit = setOf("apple", "banana", "cherry", "cherry")
     println("This set has ${readOnlyFruit.count()} items")
@@ -221,12 +221,12 @@ fun main() {
 和 [`.remove()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/remove.html) 函数:
 
 ```kotlin
-fun main() { 
+fun main() {
 //sampleStart
     val fruit: MutableSet<String> = mutableSetOf("apple", "banana", "cherry", "cherry")
     fruit.add("dragonfruit")    // 向 Set 添加 "dragonfruit"
     println(fruit)              // 输出结果为 [apple, banana, cherry, dragonfruit]
-    
+
     fruit.remove("dragonfruit") // 从 Set 中删除 "dragonfruit"
     println(fruit)              // 输出结果为 [apple, banana, cherry]
 //sampleEnd

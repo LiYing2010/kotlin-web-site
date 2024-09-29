@@ -117,7 +117,7 @@ print(
        implementation("org.jetbrains.kotlin:kotlin-scripting-dependencies")
        implementation("org.jetbrains.kotlin:kotlin-scripting-dependencies-maven")
        // 对我们的脚本定义, 需要 coroutines 依赖项
-       implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:%coroutinesVersion%") 
+       implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:%coroutinesVersion%")
    }
    ```
 
@@ -143,7 +143,7 @@ print(
 3. 在 `scriptDef.kt` 中, 创建一个类. 它将是这个类型的脚本的基类, 因此要将它声明为 `abstract` 或 `open`.
 
     ```kotlin
-    // 这个类型的脚本的 abstract (或 open) 基类 
+    // 这个类型的脚本的 abstract (或 open) 基类
     abstract class ScriptWithMavenDeps
     ```
 
@@ -159,7 +159,7 @@ print(
     @KotlinScript(
         // 脚本类型的文件扩展名
         fileExtension = "scriptwithdeps.kts",
-        // 脚本类型的编译配置 
+        // 脚本类型的编译配置
         compilationConfiguration = ScriptWithMavenDepsConfiguration::class
     )
     abstract class ScriptWithMavenDeps
@@ -182,7 +182,7 @@ print(
             defaultImports(DependsOn::class, Repository::class)
             jvm {
                 // 从上下文 classloader 抽取完整的 classpath, 并用作依赖项
-                dependenciesFromCurrentContext(wholeClasspath = true) 
+                dependenciesFromCurrentContext(wholeClasspath = true)
             }
             // 回调
             refineConfiguration {
@@ -203,7 +203,7 @@ print(
         return runBlocking {
             resolver.resolveFromScriptSourceAnnotations(annotations)
         }.onSuccess {
-            context.compilationConfiguration.with { 
+            context.compilationConfiguration.with {
                 dependencies.append(JvmDependency(it))
             }.asSuccess()
         }
@@ -270,7 +270,7 @@ print(
     }
    ```
 
-4. 定义脚本的执行函数. 这里是你使用脚本定义的地方. 
+4. 定义脚本的执行函数. 这里是你使用脚本定义的地方.
    使用脚本定义类作为类型参数, 调用 `createJvmCompilationConfigurationFromTemplate`, 可以得到脚本定义.
    然后调用 `BasicJvmScriptingHost().eval`, 将脚本代码和编译配置传递给它.
    `eval` 会返回 `ResultWithDiagnostics` 的实例, 因此请将它设置为你的函数的返回类型.
@@ -354,4 +354,4 @@ print(
 你已经创建了一个简单的 Kotlin 脚本项目, 下面可以学习关于这个问题的更多内容:
 * 阅读 [Kotlin 脚本的 KEEP](https://github.com/Kotlin/KEEP/blob/master/proposals/scripting-support.md)
 * 浏览更多的 [Kotlin 脚本示例](https://github.com/Kotlin/kotlin-script-examples)
-* 观看 Rodrigo Oliveira 的 [实现 Gradle Kotlin DSL](https://kotlinconf.com/2019/talks/video/2019/126701/) 演讲 
+* 观看 Rodrigo Oliveira 的 [实现 Gradle Kotlin DSL](https://kotlinconf.com/2019/talks/video/2019/126701/) 演讲

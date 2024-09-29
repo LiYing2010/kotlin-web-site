@@ -58,7 +58,7 @@ fun main() {
 
 > 在我们的 [编码规约](coding-conventions.md#function-names) 中,
 > 我们建议函数名称以小写字母开头, 并使用驼峰式大小写(Camel case), 不使用下划线.
-> 
+>
 {style="note"}
 
 ## 命名参数
@@ -70,7 +70,7 @@ fun main() {
 
 > 在下面的示例中, 使用了 [字符串模板](strings.md#string-templates) (`$`) 来访问参数值,
 > 并将它们转换为 `String` 类型, 然后拼接到一个字符串中, 用于打印输出.
-> 
+>
 {style="tip"}
 
 ```kotlin
@@ -168,7 +168,7 @@ fun main() {
 
 > 只有在你的函数没有 body 部(`{}`) 时, 才能够省略返回值类型.
 > 否则你的函数的返回值类型将是 `Unit`.
-> 
+>
 {style="note"}
 
 ## 函数的实际练习
@@ -311,7 +311,7 @@ Lambda 表达式写在大括号 `{}` 之内.
 * `string` 是函数参数.
 * `string` 类型为 `String`.
 * 函数返回对 `string` 调用 [`.uppercase()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/uppercase.html) 函数的结果.
-  
+
 > 如果你声明没有参数的 Lambda 表达式, 那么不必使用 `->`. 例如:
 > ```kotlin
 > { println("Log message") }

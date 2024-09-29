@@ -59,14 +59,14 @@ plugins {
 }
 
 group = "org.example" // 公司名, 比如, `org.jetbrains`
-version = "1.0-SNAPSHOT" // 构建后的 artifact 的版本 
+version = "1.0-SNAPSHOT" // 构建后的 artifact 的版本
 
 repositories { // 依赖项的下载源仓库. 参见 2️⃣
     mavenCentral() // Maven Central Repository. 参见 3️⃣
 }
 
 dependencies { // 你想要使用的所有库. 参见 4️⃣
-    // 复制你在仓库中找到的依赖项名称 
+    // 复制你在仓库中找到的依赖项名称
     testImplementation(kotlin("test")) // Kotlin test 库
 }
 
@@ -79,7 +79,7 @@ kotlin { // 扩展, 用于简化设置
 }
 
 application {
-    mainClass.set("MainKt") // 应用程序的 main class 
+    mainClass.set("MainKt") // 应用程序的 main class
 }
 ```
 
@@ -106,7 +106,7 @@ application {
 
 ## 运行应用程序
 
-打开 `src/main/kotlin` 目录中的 `Main.kt` 文件 .  
+打开 `src/main/kotlin` 目录中的 `Main.kt` 文件 .
 `src` 目录包含 Kotlin 源代码文件和资源. `Main.kt` 文件包含示例代码, 打印输出 `Hello World!`.
 
 ![Main.kt 中的 main fun](jvm-main-kt-initial-gradle.png){width=700}

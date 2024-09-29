@@ -11,7 +11,7 @@
 可能会需要调整你的代码. 本章中, 我们会列举已知的迁移问题, 以及建议的解决方案.
 
 > 关于如何修正迁移期间发生的某些问题, 请安装
-> [Kotlin/JS Inspection pack](https://plugins.jetbrains.com/plugin/17183-kotlin-js-inspection-pack/) plugin, 
+> [Kotlin/JS Inspection pack](https://plugins.jetbrains.com/plugin/17183-kotlin-js-inspection-pack/) plugin,
 > 可以得到有价值的提示.
 >
 {style="tip"}
@@ -156,7 +156,7 @@ val jsonApp = kotlin.js.json(Pair("name", "App1")) as AppProps
 
 ## 在构建脚本中明确指定 binaries.executable()
 
-**问题**: 编译器不会产生可执行的 `.js` 文件. 
+**问题**: 编译器不会产生可执行的 `.js` 文件.
 
 可能会发生这样的问题, 因为默认的编译器会默认产生 JavaScript 可执行文件, 但 IR 编译器则需要明确指定.
 详情请参见 [Kotlin/JS 项目设置指南](js-project-setup.md#execution-environments).
@@ -173,7 +173,7 @@ kotlin {
 }
 ```
 
-## 关于使用 Kotlin/JS IR 编译器时其他问题的提示 
+## 关于使用 Kotlin/JS IR 编译器时其他问题的提示
 
 这些提示也许能够帮助你解决在使用 Kotlin/JS IR 编译器的项目中遇到的问题.
 

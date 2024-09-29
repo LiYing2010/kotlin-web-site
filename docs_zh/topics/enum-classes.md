@@ -124,7 +124,7 @@ fun main() {
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="rgb-enums-properties-kotlin"}
 
 你可以通过
-[`enumValues<T>()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/enum-values.html) 
+[`enumValues<T>()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/enum-values.html)
 和
 [`enumValueOf<T>()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/enum-value-of.html)
 函数, 以泛型方式取得枚举类中的常数:
@@ -160,7 +160,7 @@ inline fun <reified T : Enum<T>> printAllValues() {
     println(enumEntries<T>().joinToString { it.name })
 }
 
-printAllValues<RGB>() 
+printAllValues<RGB>()
 // 输出结果为 RED, GREEN, BLUE
 ```
 

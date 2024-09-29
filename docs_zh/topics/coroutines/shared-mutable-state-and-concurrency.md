@@ -27,7 +27,7 @@ suspend fun massiveRun(action: suspend () -> Unit) {
             }
         }
     }
-    println("Completed ${n * k} actions in $time ms")    
+    println("Completed ${n * k} actions in $time ms")
 }
 ```
 
@@ -37,7 +37,7 @@ suspend fun massiveRun(action: suspend () -> Unit) {
 
 ```kotlin
 import kotlinx.coroutines.*
-import kotlin.system.*    
+import kotlin.system.*
 
 suspend fun massiveRun(action: suspend () -> Unit) {
     val n = 100  // 启动的协程数量
@@ -51,7 +51,7 @@ suspend fun massiveRun(action: suspend () -> Unit) {
             }
         }
     }
-    println("Completed ${n * k} actions in $time ms")    
+    println("Completed ${n * k} actions in $time ms")
 }
 
 //sampleStart
@@ -65,7 +65,7 @@ fun main() = runBlocking {
     }
     println("Counter = $counter")
 }
-//sampleEnd    
+//sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
@@ -103,7 +103,7 @@ suspend fun massiveRun(action: suspend () -> Unit) {
             }
         }
     }
-    println("Completed ${n * k} actions in $time ms")    
+    println("Completed ${n * k} actions in $time ms")
 }
 
 //sampleStart
@@ -118,7 +118,7 @@ fun main() = runBlocking {
     }
     println("Counter = $counter")
 }
-//sampleEnd    
+//sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
@@ -161,7 +161,7 @@ suspend fun massiveRun(action: suspend () -> Unit) {
             }
         }
     }
-    println("Completed ${n * k} actions in $time ms")    
+    println("Completed ${n * k} actions in $time ms")
 }
 
 //sampleStart
@@ -175,7 +175,7 @@ fun main() = runBlocking {
     }
     println("Counter = $counter")
 }
-//sampleEnd    
+//sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
@@ -216,7 +216,7 @@ suspend fun massiveRun(action: suspend () -> Unit) {
             }
         }
     }
-    println("Completed ${n * k} actions in $time ms")    
+    println("Completed ${n * k} actions in $time ms")
 }
 
 //sampleStart
@@ -234,7 +234,7 @@ fun main() = runBlocking {
     }
     println("Counter = $counter")
 }
-//sampleEnd      
+//sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
@@ -274,7 +274,7 @@ suspend fun massiveRun(action: suspend () -> Unit) {
             }
         }
     }
-    println("Completed ${n * k} actions in $time ms")    
+    println("Completed ${n * k} actions in $time ms")
 }
 
 //sampleStart
@@ -290,7 +290,7 @@ fun main() = runBlocking {
     }
     println("Counter = $counter")
 }
-//sampleEnd     
+//sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
@@ -334,7 +334,7 @@ suspend fun massiveRun(action: suspend () -> Unit) {
             }
         }
     }
-    println("Completed ${n * k} actions in $time ms")    
+    println("Completed ${n * k} actions in $time ms")
 }
 
 //sampleStart
@@ -352,7 +352,7 @@ fun main() = runBlocking {
     }
     println("Counter = $counter")
 }
-//sampleEnd    
+//sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 

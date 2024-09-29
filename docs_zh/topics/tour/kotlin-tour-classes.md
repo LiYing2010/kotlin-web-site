@@ -16,7 +16,7 @@ Kotlin 通过类和对象支持面向对象的编程.
 要在你的程序中存储数据, 对象是非常有用的. 类允许你为一个对象声明一组特性.
 当你从一个类创建对象时, 你就可以节省时间和精力, 因为你不需要每次都声明这些特性.
 
-要声明一个类, 请使用 `class` 关键字: 
+要声明一个类, 请使用 `class` 关键字:
 
 ```kotlin
 class Customer
@@ -87,16 +87,16 @@ class Contact(val id: Int, var email: String)
 
 fun main() {
     val contact = Contact(1, "mary@gmail.com")
-    
+
     // 打印属性的值: email
-    println(contact.email)           
+    println(contact.email)
     // mary@gmail.com
 
     // 更新属性的值: email
     contact.email = "jane@gmail.com"
-    
+
     // 打印属性的新值: email
-    println(contact.email)           
+    println(contact.email)
     // 输出结果为 jane@gmail.com
 }
 ```
@@ -129,7 +129,7 @@ class Contact(val id: Int, var email: String) {
 fun main() {
     val contact = Contact(1, "mary@gmail.com")
     // 调用成员函数 printId()
-    contact.printId()           
+    contact.printId()
     // 输出结果为 1
 }
 ```
@@ -170,10 +170,10 @@ data class User(val name: String, val id: Int)
 
 fun main() {
     val user = User("Alex", 1)
-    
+
     //sampleStart
     // 自动使用 toString() 函数, 让输出结果易于阅读
-    println(user)            
+    println(user)
     // 输出结果为 User(name=Alex, id=1)
     //sampleEnd
 }
@@ -196,11 +196,11 @@ fun main() {
     val thirdUser = User("Max", 2)
 
     // 比较 user 和 second user
-    println("user == secondUser: ${user == secondUser}") 
+    println("user == secondUser: ${user == secondUser}")
     // 输出结果为 user == secondUser: true
-    
+
     // 比较 user 和 third user
-    println("user == thirdUser: ${user == thirdUser}")   
+    println("user == thirdUser: ${user == thirdUser}")
     // 输出结果为 user == thirdUser: false
     //sampleEnd
 }
@@ -226,15 +226,15 @@ fun main() {
     val thirdUser = User("Max", 2)
 
     // 创建 user 的完全相同的复制
-    println(user.copy())       
+    println(user.copy())
     // 输出结果为 User(name=Alex, id=1)
 
     // 创建 user 的复制, 但使用另一个 name: "Max"
-    println(user.copy("Max"))  
+    println(user.copy("Max"))
     // 输出结果为 User(name=Max, id=1)
 
     // 创建 user 的复制, 但使用另一个 id: 3
-    println(user.copy(id = 3)) 
+    println(user.copy(id = 3))
     // 输出结果为 User(name=Alex, id=3)
     //sampleEnd
 }

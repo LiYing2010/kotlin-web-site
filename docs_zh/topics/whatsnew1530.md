@@ -55,14 +55,14 @@ sealed class Mode {
 
 fun main() {
     val x: Mode = Mode.ON
-    when (x) { 
+    when (x) {
         Mode.ON -> println("ON")
     }
 // 编译器警告: Non exhaustive 'when' statements on sealed classes/interfaces
 // will be prohibited in 1.7, add an 'OFF' or 'else' branch instead
 
     val y: Boolean = true
-    when (y) {  
+    when (y) {
         true -> println("true")
     }
 // 编译器警告: Non exhaustive 'when' statements on Booleans will be prohibited
@@ -194,7 +194,7 @@ fun createDateSource(): DateProvider { /* ... */ }
 
 fun getDate(): Date {
     val dateSource = createDateSource() // 这里也会出现编译器警告: experimental API usage
-    // ... 
+    // ...
 }
 ```
 
@@ -523,7 +523,7 @@ plugins {
 
 kotlin {
     val xcf = XCFramework()
-  
+
     ios {
         binaries.framework {
             baseName = "shared"

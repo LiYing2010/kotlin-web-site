@@ -7,7 +7,7 @@ Dokka 是一个用于 Kotlin 的 API 文档引擎.
 和 Kotlin 本身一样, Dokka 支持混合语言的项目.
 它能够理解 Kotlin 的
 [KDoc 注释](kotlin-doc.md#kdoc-syntax)
-和 Java 的 
+和 Java 的
 [Javadoc 注释](https://www.oracle.com/technical-resources/articles/java/javadoc-tool.html).
 
 Dokka 能够使用很多种格式生成文档, 包括它自己的现代化 [HTML 格式](dokka-html.md),
