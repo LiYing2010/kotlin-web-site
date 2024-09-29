@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "教程 - 在 JVM 平台使用 JUnit 进行代码测试"
----
+[//]: # (title: 教程 - 在 JVM 平台使用 JUnit 进行代码测试)
 
-# 教程 - 在 JVM 平台使用 JUnit 进行代码测试
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 本教程将向你演示如何编写简单的单元测试, 并使用 Gradle 构建工具来运行测试.
 
@@ -17,67 +10,63 @@ title: "教程 - 在 JVM 平台使用 JUnit 进行代码测试"
 
 ## 添加依赖项
 
-1. 在 IntelliJ IDEA 中打开一个 Kotlin 项目. 如果你还没有项目, 请 [创建一个新项目](jvm-get-started.html#create-an-application).
+1. 在 IntelliJ IDEA 中打开一个 Kotlin 项目. 如果你还没有项目, 请 [创建一个新项目](jvm-get-started.md#create-an-application).
 
    > 创建项目时请选择 **JUnit 5** 作为测试框架.
-   {:.note}
+   >
+   {style="note"}
 
 2. 打开 `build.gradle(.kts)` 文件, 并向 Gradle 配置添加以下依赖项. 通过这个依赖项, 你将可以使用 `kotlin.test` 和 `JUnit`:
 
-   <div class="multi-language-sample" data-lang="kotlin">
-   <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
-   
+    <tabs group="build-script">
+    <tab title="Kotlin" group-key="kotlin">
+
    ```kotlin
    dependencies {
        // 其他依赖项.
        testImplementation(kotlin("test"))
    }
    ```
-   
-   </div>
-   </div>
-   
-   <div class="multi-language-sample" data-lang="groovy">
-   <div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
-   
+
+    </tab>
+    <tab title="Groovy" group-key="groovy">
+
    ```groovy
    dependencies {
        // 其他依赖项.
        testImplementation 'org.jetbrains.kotlin:kotlin-test'
    }
    ```
-   
-   </div>
-   </div>
+
+   </tab>
+   </tabs>
 
 3. 向 `build.gradle(.kts)` 文件添加 `test` 任务:
 
-   <div class="multi-language-sample" data-lang="kotlin">
-   <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
-   
+    <tabs group="build-script">
+    <tab title="Kotlin" group-key="kotlin">
+
    ```kotlin
    tasks.test {
        useJUnitPlatform()
    }
    ```
-   
-   </div>
-   </div>
-   
-   <div class="multi-language-sample" data-lang="groovy">
-   <div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
-   
+
+    </tab>
+    <tab title="Groovy" group-key="groovy">
+
    ```groovy
    test {
        useJUnitPlatform()
    }
    ```
-   
-   </div>
-   </div>
+
+   </tab>
+   </tabs>
 
    > 如果你使用 **New Project** 向导创建项目, 会自动添加这个任务.
-   {:.note}
+   >
+   {style="note"}
 
 ## 添加需要测试的代码
 
@@ -98,16 +87,17 @@ title: "教程 - 在 JVM 平台使用 JUnit 进行代码测试"
 
 ## 创建测试
 
-1. 在 IntelliJ IDEA 中, 对 `Sample` 类选择 **Code** \| **Generate** \| **Test...**.
+1. 在 IntelliJ IDEA 中, 对 `Sample` 类选择 **Code** | **Generate** | **Test...**.
 
-   ![创建测试]({{ url_for('asset', path='docs/images/tutorials/jvm-test/create-test.png') }})
+   ![创建测试](create-test.png)
 
 2. 输入测试类的名称. 比如, `SampleTest`.
 
    IntelliJ IDEA 会在 `test` 目录中创建 `SampleTest.kt` 文件. 这个目录包含 Kotlin 测试源代码文件和资源文件.
 
    > 你也可以在 `src/test/kotlin` 目录中为测试代码手动创建一个 `*.kt` 文件.
-   {:.note}
+   >
+   {style="note"}
 
 3. 在 `SampleTest.kt` 中为 `sum()` 函数添加测试代码:
 
@@ -134,14 +124,15 @@ title: "教程 - 在 JVM 平台使用 JUnit 进行代码测试"
 
 1. 使用源代码编辑器侧栏中的图标运行测试.
 
-   ![运行测试]({{ url_for('asset', path='docs/images/tutorials/jvm-test/run-test.png') }})
+   ![运行测试](run-test.png)
 
    > 你也可以在命令行执行命令 `./gradlew check`, 运行整个项目的所有测试.
-   {:.note}
+   >
+   {style="note"}
 
 2. 在 **Run** 工具窗口检查测试结果:
 
-   ![检查测试结果. 测试成功通过]({{ url_for('asset', path='docs/images/tutorials/jvm-test/check-the-result.png') }})
+   ![检查测试结果. 测试成功通过](check-the-result.png)
 
    测试函数执行成功了.
 
@@ -157,7 +148,7 @@ title: "教程 - 在 JVM 平台使用 JUnit 进行代码测试"
 
 4. 再次运行测试, 并检查结果:
 
-   ![检查测试结果. 测试失败]({{ url_for('asset', path='docs/images/tutorials/jvm-test/check-the-result-2.png') }})
+   ![检查测试结果. 测试失败](check-the-result-2.png)
 
    测试执行失败.
 
@@ -167,6 +158,6 @@ title: "教程 - 在 JVM 平台使用 JUnit 进行代码测试"
 
 * 尝试使用 [kotlin.test](https://kotlinlang.org/api/latest/kotlin.test/kotlin.test/) 的其他函数, 编写其他测试.
   比如, 你可以使用 [`assertNotEquals()`](https://kotlinlang.org/api/latest/kotlin.test/kotlin.test/assert-not-equals.html) 函数.
-* 使用 Kotlin 和 Spring Boot [创建你的第一个应用程序](jvm-get-started-spring-boot.html).
+* 使用 Kotlin 和 Spring Boot [创建你的第一个应用程序](jvm-get-started-spring-boot.md).
 * 在 YouTube 上观看 [这些视频教程](https://www.youtube.com/playlist?list=PL6gx4Cwl9DGDPsneZWaOFg0H2wsundyGr),
   这些教程将演示如何与 Kotlin 和 JUnit 5 一起配合使用 Spring Boot.

@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "教程 - 创建并发布跨平台的库"
----
+[//]: # (title: 教程 - 创建并发布跨平台的库)
 
-# 教程 - 创建并发布跨平台的库
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 本教程中, 你将学习如何为 JVM, JS, 和 Native 平台创建一个跨平台库, 对所有的平台编写共通测试, 并将库发布到本地 Maven 仓库.
 
@@ -100,7 +93,8 @@ title: "教程 - 创建并发布跨平台的库"
 3. 提供 `Base64Factory` 对象的一个简单实现, 代理到 `java.util.Base64` 类:
 
    > IDEA 代码检查器会帮助你为 `expect` 声明创建 `actual` 实现.
-   {:.note}
+> 
+{style="note"}
 
     ```kotlin
     package org.jetbrains.base64
@@ -273,7 +267,8 @@ object JvmBase64Encoder : Base64Encoder {
     ```
 
    > 你也可以在 Gradle task 列表中双击 `check` 来运行它.
-   {:.note}
+> 
+{style="note"}
 
 测试将在所有的平台上运行 (JVM, JS, 和 Native).
 
@@ -328,7 +323,8 @@ object JvmBase64Encoder : Base64Encoder {
    ```
 
    > 你也可以在 Gradle task 列表中双击 `publishToMavenLocal` 来运行它.
-   {:.note}
+> 
+{style="note"}
 
 
 你的库将被发布本地 Maven 仓库.

@@ -1,12 +1,6 @@
----
-type: doc
-layout: reference
-title: "FAQ"
----
+[//]: # (title: FAQ)
 
-# FAQ
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 ### Kotlin Multiplatform Mobile 是什么?
 

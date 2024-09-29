@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "通过构建器类型推断(Builder Type Inference)使用构建器"
----
+[//]: # (title: 通过构建器类型推断(Builder Type Inference)使用构建器)
 
-# 通过构建器类型推断(Builder Type Inference)使用构建器
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin 支持 _构建器类型推断(Builder Type Inference)_ (或者叫构建器推断),
 当你使用泛型构建器时, 这个功能可以很有用.
@@ -38,7 +31,8 @@ fun addEntryToMap(baseMap: Map<String, Number>, additionalEntry: Pair<String, In
 
 > 在 Kotlin 1.7.0 以前, 对一个构建器函数启用构建器推断, 需要添加编译器选项 `-Xenable-builder-inference`.
 > 在 1.7.0 中, 这个选项会默认启用.
-{:.note}
+>
+{style="note"}
 
 要对你自己的构建器使用构建器推断, 请确认它的声明有一个构建器 Lambda 表达式参数, 类型为带接受者的函数类型.
 对接受者类型还有 2 个要求:
@@ -49,7 +43,8 @@ fun addEntryToMap(baseMap: Map<String, Number>, additionalEntry: Pair<String, In
    ```
    
    > 注意, 直接传递类型参数的类型, 比如 `fun <T> myBuilder(builder: T.() -> Unit)`, 目前还不支持.
-   {:.note}
+   >
+   {style="note"}
 
 2. 它应该提供 public 成员函数, 或扩展函数, 签名中包含对应的类型参数. 比如:
    ```kotlin

@@ -1,12 +1,6 @@
----
-type: doc
-layout: reference
-title: "Maven"
----
+[//]: # (title: Maven)
 
-# Maven
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Maven 是一个构建系统, 你可以使用它来构建和管理基于 Java 的项目.
 
@@ -18,7 +12,7 @@ Maven 是一个构建系统, 你可以使用它来构建和管理基于 Java 的
 
 ```xml
 <properties>
-    <kotlin.version>{{ site.data.releases.latest.version }}</kotlin.version>
+    <kotlin.version>%kotlinVersion%</kotlin.version>
 </properties>
 ```
 
@@ -29,7 +23,7 @@ Maven 是一个构建系统, 你可以使用它来构建和管理基于 Java 的
     <plugin>
         <artifactId>kotlin-maven-plugin</artifactId>
         <groupId>org.jetbrains.kotlin</groupId>
-        <version>{{ site.data.releases.latest.version }}</version>
+        <version>%kotlinVersion%</version>
     </plugin>
 </plugins>
 ```
@@ -58,8 +52,9 @@ Maven 是一个构建系统, 你可以使用它来构建和管理基于 Java 的
 ```
 
 > 如果你在 Gradle 项目中将 `mavenLocal()` 声明为仓库, 你可能会在 Gradle 和 Maven 项目之间切换时遇到问题.
-> 详情请参见 [声明仓库](gradle/gradle-configure-project.html#declare-repositories).
-> {:.note}
+> 详情请参见 [声明仓库](gradle-configure-project.md#declare-repositories).
+>
+{style="note"}
 
 ## 设置依赖项
 
@@ -79,7 +74,8 @@ Kotlin 有一个内容广泛的标准库, 可以在你的应用程序中使用.
 > 如果你的编译目标平台是 JDK 7 或 8
 > * 对于 Kotlin 1.8 以前版本, 请使用 `kotlin-stdlib-jdk7` 或 `kotlin-stdlib-jdk8`.
 > * 对于 Kotlin 1.2 以前版本, 请使用 `kotlin-stdlib-jre7` 或 `kotlin-stdlib-jre8`.
-{:.note}
+>
+{style="note"}
 
 如果你的项目使用了
 [Kotlin 反射功能](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect.full/index.html),
@@ -137,7 +133,8 @@ Kotlin 有一个内容广泛的标准库, 可以在你的应用程序中使用.
 > 如果有多个构建插件覆盖了默认的生命周期, 而且你启用了 `extensions` 选项, 
 > 那么 `<build>` 节中的最后一个插件拥有生命周期设定优先权.
 > 在它之前对生命周期设定的所有修改都会被忽略.
-> {:.note}
+>
+{style="note"}
 
 ## 编译 Kotlin 与 Java 的混合源代码
 
@@ -230,7 +227,7 @@ Kotlin 有一个内容广泛的标准库, 可以在你的应用程序中使用.
 
 ## 配置注解处理
 
-详情请参见 [`kapt` – 在 Maven 中使用](kapt.html#use-in-maven).
+详情请参见 [`kapt` – 在 Maven 中使用](kapt.md#use-in-maven).
 
 ## 创建 JAR 文件
 
@@ -291,7 +288,7 @@ Kotlin 有一个内容广泛的标准库, 可以在你的应用程序中使用.
 java -jar target/mymodule-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 ```
 
-## 指定编译器选项
+## 指定编译器选项 {id="specify-compiler-options"}
 
 额外的编译器选项和参数, 可以通过 Maven plugin 节点的 `<configuration>` 元素下的标签来设置:
 
@@ -324,19 +321,19 @@ java -jar target/mymodule-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 
 支持的编译选项列表如下:
 
-### JVM 独有的属性
+### JVM 独有的属性 {id="attributes-specific-to-jvm"}
 
-| 名称                | Maven 属性名                       | 描述                                                  | 可以选择的值                                                                                                          | 默认值                                                |
-|-------------------|---------------------------------|-----------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|----------------------------------------------------|
-| `nowarn`          |                                 | 不产生警告信息                                             | true, false                                                                                                     | false                                              |
+| 名称                | Maven 属性名                       | 描述                                                  | 可以选择的值                                                                                                          | 默认值                         |
+|-------------------|---------------------------------|-----------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|-----------------------------|
+| `nowarn`          |                                 | 不产生警告信息                                             | true, false                                                                                                     | false                       |
 | `languageVersion` | kotlin.compiler.languageVersion | 指定源代码所兼容的 Kotlin 语言版本                               | "1.3" (已废弃 DEPRECATED), "1.4" (已废弃 DEPRECATED), "1.5", "1.6", "1.7", "1.8", "1.9", "2.0" (实验性功能), "2.1" (实验性功能) |
 | `apiVersion`      | kotlin.compiler.apiVersion      | 只允许使用指定的版本的运行库中的 API                                | "1.3" (已废弃 DEPRECATED), "1.4" (已废弃 DEPRECATED), "1.5", "1.6", "1.7", "1.8", "1.9", "2.0" (实验性功能), "2.1" (实验性功能) |
-| `sourceDirs`      |                                 | 指定编译对象源代码文件所在的目录                                    |                                                                                                                 | 工程的源代码根路径                                          |
-| `compilerPlugins` |                                 | 允许使用编译器插件                                           |                                                                                                                 | []                                                 |
-| `pluginOptions`   |                                 | 供编译器插件使用的选项                                         |                                                                                                                 | []                                                 |
-| `args`            |                                 | 额外的编译器参数                                            |                                                                                                                 | []                                                 |
-| `jvmTarget`       | `kotlin.compiler.jvmTarget`     | 指定编译输出的 JVM 字节码的版本                                  | "1.8", "9", "10", ..., "21"                                                                                     | "{{ site.data.releases.defaultJvmTargetVersion }}" |
-| `jdkHome`         | `kotlin.compiler.jdkHome`       | 指定一个自定义的 JDK 路径, 添加到 classpath 内, 替代默认的 JAVA_HOME 值 |                                                                                                                 |                                                    |
+| `sourceDirs`      |                                 | 指定编译对象源代码文件所在的目录                                    |                                                                                                                 | 工程的源代码根路径                   |
+| `compilerPlugins` |                                 | 允许使用编译器插件                                           |                                                                                                                 | []                          |
+| `pluginOptions`   |                                 | 供编译器插件使用的选项                                         |                                                                                                                 | []                          |
+| `args`            |                                 | 额外的编译器参数                                            |                                                                                                                 | []                          |
+| `jvmTarget`       | `kotlin.compiler.jvmTarget`     | 指定编译输出的 JVM 字节码的版本                                  | "1.8", "9", "10", ..., "21"                                                                                     | "%defaultJvmTargetVersion%" |
+| `jdkHome`         | `kotlin.compiler.jdkHome`       | 指定一个自定义的 JDK 路径, 添加到 classpath 内, 替代默认的 JAVA_HOME 值 |                                                                                                                 |                             |
 
 ## 使用 BOM
 
@@ -349,7 +346,7 @@ java -jar target/mymodule-0.0.1-SNAPSHOT-jar-with-dependencies.jar
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-bom</artifactId>
-            <version>{{ site.data.releases.latest.version }}</version>
+            <version>%kotlinVersion%</version>
             <type>pom</type>
             <scope>import</scope>
         </dependency>
@@ -362,8 +359,8 @@ java -jar target/mymodule-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 标准的 Javadoc 生成 plugin (`maven-javadoc-plugin`) 不支持 Kotlin 源代码.
 要对 Kotlin 项目生成文档, 请使用 [Dokka](https://github.com/Kotlin/dokka).
 Dokka 支持混合语言的项目, 可以将文档输出为多种格式, 包括标准的 Javadoc 格式.
-关于如何在你的 Maven 项目中配置 Dokka, 请参见 [Maven](dokka/runners/dokka-maven.html).
+关于如何在你的 Maven 项目中配置 Dokka, 请参见 [Maven](dokka-maven.md).
 
 ## 启用 OSGi 支持
 
-参见 [如何在你的 Maven 项目中启用 OSGi 支持](kotlin-osgi.html#maven).
+参见 [如何在你的 Maven 项目中启用 OSGi 支持](kotlin-osgi.md#maven).

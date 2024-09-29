@@ -1,12 +1,6 @@
----
-type: doc
-layout: reference
-title: "Kotlin 1.2 版中的新功能"
----
+[//]: # (title: Kotlin 1.2 版中的新功能)
 
-# Kotlin 1.2 版中的新功能
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 _发布日期: 2017/11/28_
 
@@ -18,7 +12,7 @@ _发布日期: 2017/11/28_
 * [JVM 环境(JVM Backend)](#jvm-backend)
 * [JavaScript 环境(JavaScript Backend)](#javascript-backend)
 
-## 跨平台项目(Multiplatform Project) (实验性功能)
+## 跨平台项目(Multiplatform Project) (实验性功能) {id="multiplatform-projects-experimental"}
 
 跨平台项目(Multiplatform Project)是 Kotlin 1.2 的一个 **实验性的** 新功能, 它允许你在 Kotlin 支持的多种编译目标平台之间共用代码 – JVM, JavaScript 以及 (将来的) 原生代码.
 一个跨平台项目, 由以下 3 种模块构成:
@@ -63,9 +57,9 @@ actual fun hello(world: String): String =
 actual typealias URL = java.net.URL
 ```
 
-关于创建跨平台项目的详细步骤, 请参见 [跨平台程序开发相关文档](multiplatform/multiplatform.html).
+关于创建跨平台项目的详细步骤, 请参见 [跨平台程序开发相关文档](multiplatform.md).
 
-## 语言层的其他特性
+## 语言层的其他特性 {id="other-language-features"}
 
 ### 在注解中使用数组字面值
 
@@ -85,8 +79,6 @@ public class BookRepositoryImpl {
 `lateinit` 修饰符现在可以用于顶级属性和局部变量.
 比如, 当某个对象的构造器参数是一个 lambda 表达式, 而这个 lambda 表达式又引用到了另一个之后才能定义的对象, 这时就可以使用延迟初始化的局部变量:
 
-<div class="sample" markdown="1" data-min-compiler-version="1.2" theme="idea">
-
 ```kotlin
 class Node<T>(val value: T, val next: () -> Node<T>)
 
@@ -103,14 +95,11 @@ fun main(args: Array<String>) {
     println("Values in the cycle: ${nodes.take(7).joinToString { it.value.toString() }}, ...")
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 ### 检查一个延迟初始化的变量是否已被初始化
 
 现在你可以在属性引用上使用 `isInitialized`, 检查一个延迟初始化的变量是否已被初始化, :
-
-<div class="sample" markdown="1" data-min-compiler-version="1.2" theme="idea">
 
 ```kotlin
 class Foo {
@@ -129,14 +118,11 @@ fun main(args: Array<String>) {
 	Foo().initializationLogic()
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 ### 内联函数(Inline function) 的函数性参数的默认值
 
 内联函数的函数性参数, 现在允许使用默认值:
-
-<div class="sample" markdown="1" data-min-compiler-version="1.2" theme="idea" auto-indent="false">
 
 ```kotlin
 //sampleStart
@@ -152,8 +138,7 @@ fun main(args: Array<String>) {
     println("customStrings = $customStrings")
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 ### 显式类型转换的相关信息可被用于类型推断
 
@@ -170,8 +155,6 @@ val button = findViewById(R.id.button) as Button
 
 如果将一个安全的方法调用(safe call)表达式赋值给一个变量, 然后对这个变量进行 null 值检查,
 这时安全方法调用的接受者对象也会被智能类型转换:
-
-<div class="sample" markdown="1" data-min-compiler-version="1.2" theme="idea" auto-indent="false" indent="2">
 
 ```kotlin
 fun countFirst(s: Any): Int {
@@ -197,12 +180,9 @@ fun main(args: Array<String>) {
   println("called on $list: $countInList")
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 此外, 如果局部变量值的修改只发生在一个 lambda 表达式之前, 那么在这个 lambda 表达式之内, 这个局部变量也可以被智能类型转换:
-
-<div class="sample" markdown="1" data-min-compiler-version="1.2" theme="idea">
 
 ```kotlin
 fun main(args: Array<String>) {
@@ -219,8 +199,7 @@ fun main(args: Array<String>) {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 ### 允许将 this::foo 简写为 ::foo
 
@@ -268,7 +247,7 @@ foo(items = *arrayOf(1))
 在自定义的取值方法中使用 `field = ...` 赋值语句, 改变只读属性的后端域变量的值, 这个功能已被废弃,
 在 Kotlin 1.2 中会产生编译警告, 在 Kotlin 1.3 中将会变为编译错误.
 
-## 标准库
+## 标准库 {id="standard-library"}
 
 ### Kotlin 标准库的 artifact 变更, 以及包分割问题
 
@@ -287,8 +266,6 @@ Kotlin 标准库现在开始完全兼容 Java 9 的模块系统(module system), 
 用来应对以下几种使用场景: 缓冲(buffering)或批处理(batch processing) (`chunked`),
 滑动窗口(sliding window)和滑动平均值(sliding average)的计算 (`windowed`),
 以及对子序列项目对的处理(`zipWithNext`):
-
-<div class="sample" markdown="1" data-min-compiler-version="1.2" theme="idea">
 
 ```kotlin
 fun main(args: Array<String>) {
@@ -311,15 +288,12 @@ fun main(args: Array<String>) {
     println("pairwise differences: $pairwiseDifferences")
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 ### fill, replaceAll, shuffle/shuffled
 
 新增了一组扩展函数, 用于处理列表: 对 `MutableList` 增加了 `fill`, `replaceAll` 和 `shuffle`,
 对只读的 `List` 增加了 `shuffled`:
-
-<div class="sample" markdown="1" data-min-compiler-version="1.2" theme="idea">
 
 ```kotlin
 fun main(args: Array<String>) {
@@ -337,8 +311,7 @@ fun main(args: Array<String>) {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 ### kotlin-stdlib 中的数学运算
 
@@ -392,7 +365,7 @@ Kotlin 1.2 增加了一组函数, 用于 `BigInteger` 和 `BigDecimal` 类型的
 
 为了使这个功能有效, 你需要在依赖库中包含 `kotlin-stdlib-jdk7`.
 
-## JVM 环境(JVM Backend)
+## JVM 环境(JVM Backend) {id="jvm-backend"}
 
 ### 构造函数调用的正规化
 
@@ -423,20 +396,19 @@ Kotlin 1.2 增加了一组函数, 用于 `BigInteger` 和 `BigDecimal` 类型的
 
 对一个平台数据类型(platform type), 如果它映射为 Java 基本类型(`Int!`, `Boolean!`, `Short`!, `Long!`, `Float!`, `Double!`, `Char!`),
 对它调用 `x.equals(null)` 时, 如果 `x` 为 null, 会返回一个不正确的结果 `true`.
-
 从 Kotlin 1.2 开始, 对一个值为 null 的平台数据类型调用 `x.equals(...)` 会 **抛出 NPE 异常**
 (但 `x == ...` 不会抛出异常).
 
 如果想要回到 1.2 版以前的结果, 可以对编译器指定参数 `-Xno-exception-on-explicit-equals-for-boxed-null`.
 
-### 破坏性变更: fix for platform null escaping through an inlined extension receiver
+### 破坏性变更: 对内联的扩展函数中值为 null 的平台数据类型变换的修正
 
 对一个值为 null 的平台数据类型, 调用一个内联的扩展函数, 假如内联函数没有检查接受者是否为 null, 这时可能会导致 null 值被变换为其他代码.
 Kotlin 1.2 在调用端强制执行 null 值检查, 如果接受者为 null, 会抛出异常.
 
 如果想要回到 1.2 版以前的结果, 可以对编译器指定一个回退参数 `-Xno-receiver-assertions`.
 
-## JavaScript 环境(JavaScript Backend)
+## JavaScript 环境(JavaScript Backend) {id="javascript-backend"}
 
 ### 默认支持 TypedArray
 

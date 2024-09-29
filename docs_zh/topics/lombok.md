@@ -1,18 +1,12 @@
----
-type: doc
-layout: reference
-category:
-title: "Lombok 编译器插件"
----
+[//]: # (title: Lombok 编译器插件)
 
-# Lombok 编译器插件
+最终更新: %latestDocDate%
 
-最终更新: {{ site.data.releases.latestDocDate }}
-
-> Lombok 编译器插件是 [实验性功能](components-stability.html).
+> Lombok 编译器插件是 [实验性功能](components-stability.md).
 > 它随时有可能变更或被删除. 请注意, 只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-7112) 提供你的反馈意见.
-{:.warning}
+>
+{style="warning"}
 
 使用 Kotlin Lombok 编译器插件, 可以在 Java/Kotlin 混合代码的同一模块内, 在 Kotlin 代码中生成并使用 Java 代码中的 Lombok 声明.
 如果你从另一个模块调用这样的声明, 那么你不需要使用这个插件来编译这个模块.
@@ -41,49 +35,47 @@ Lombok 编译器插件不能代替 [Lombok](https://projectlombok.org/), 但它�
 , 我们可以考虑增加这个功能.
 
 > 如果在 Kotlin 代码中使用 Lombok 注解, Kotlin 编译器会忽略这些注解.
-{:.note}
+>
+{style="note"}
 
 ## Gradle
 
 在 `build.gradle(.kts)` 文件中添加 `kotlin-plugin-lombok` Gradle 插件:
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 plugins {
-    kotlin("plugin.lombok") version "{{ site.data.releases.latest.version }}"
+    kotlin("plugin.lombok") version "%kotlinVersion%"
     id("io.freefair.lombok") version "8.1.0"
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 plugins {
-    id 'org.jetbrains.kotlin.plugin.lombok' version '{{ site.data.releases.latest.version }}'
+    id 'org.jetbrains.kotlin.plugin.lombok' version '%kotlinVersion%'
     id 'io.freefair.lombok' version '8.1.0'
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 详情请参见 [关于 Lombok 编译器插件使用方法的测试用示例项目](https://github.com/kotlin-hands-on/kotlin-lombok-examples/tree/master/kotlin_lombok_gradle/nokapt).
 
-### 使用 Lombok 配置文件
+### 使用 Lombok 配置文件 {id="using-the-lombok-configuration-file"}
 
 如果要使用 [Lombok 配置文件](https://projectlombok.org/features/configuration) `lombok.config`,
 你需要设置文件路径, 让插件能够找到它.
 路径必须是从模块目录开始的相对路径. 
 例如, 向你的 `build.gradle(.kts)` 文件添加以下代码:
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlinLombok {
@@ -91,11 +83,9 @@ kotlinLombok {
 }
 ```
 
-</div>
-</div>
+</tab>
+<tab title="Groovy" group-key="groovy">
 
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
 
 ```groovy
 kotlinLombok {
@@ -103,8 +93,8 @@ kotlinLombok {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 详情请参见 [关于 Lombok 编译器插件和 `lombok.config` 使用方法的测试用示例项目](https://github.com/kotlin-hands-on/kotlin-lombok-examples/tree/master/kotlin_lombok_gradle/withconfig).
 
@@ -119,7 +109,7 @@ kotlinLombok {
 <plugin>
     <groupId>org.jetbrains.kotlin</groupId>
     <artifactId>kotlin-maven-plugin</artifactId>
-    <version>{{ site.data.releases.latest.version }}</version>
+    <version>${kotlin.version}</version>
     <configuration>
         <compilerPlugins>
             <plugin>lombok</plugin>
@@ -132,12 +122,12 @@ kotlinLombok {
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-maven-lombok</artifactId>
-            <version>{{ site.data.releases.latest.version }}</version>
+            <version>${kotlin.version}</version>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>{{ site.data.releases.lombokVersion }}</version>
+            <version>1.18.20</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
@@ -146,9 +136,9 @@ kotlinLombok {
 
 详情请参见 [关于 Lombok 编译器插件和 `lombok.config` 使用方法的测试用示例项目](https://github.com/kotlin-hands-on/kotlin-lombok-examples/tree/master/kotlin_lombok_maven/nokapt).
 
-## 和 kapt 一起使用
+## 和 kapt 一起使用 {id="using-with-kapt"}
 
-默认情况下, [kapt](kapt.html) 编译器插件 运行所有的注解处理器, 并禁止 javac 的注解处理.
+默认情况下, [kapt](kapt.md) 编译器插件 运行所有的注解处理器, 并禁止 javac 的注解处理.
 要和 kapt 一起运行 [Lombok](https://projectlombok.org/), 请设置 kapt, 允许 javac 的注解处理器继续工作.
 
 如果你使用 Gradle, 请向 `build.gradle(.kts)` 文件添加以下选项:
@@ -173,14 +163,14 @@ kapt {
             <annotationProcessorPath>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
-                <version>{{ site.data.releases.lombokVersion }}</version>
+                <version>${lombok.version}</version>
             </annotationProcessorPath>
         </annotationProcessorPaths>
     </configuration>
-</plugin>    
+</plugin>
 ```
 
-如果注解处理器不依赖于 Lombok 生成的代码, Lombok 编译器插件可以和 [kapt](kapt.html) 一起正确工作.
+如果注解处理器不依赖于 Lombok 生成的代码, Lombok 编译器插件可以和 [kapt](kapt.md) 一起正确工作.
 
 请参见同时使用 kapt 和 Lombok 编译器插件的测试用示例项目:
 * 使用 [Gradle](https://github.com/JetBrains/kotlin/tree/master/libraries/tools/kotlin-gradle-plugin-integration-tests/src/test/resources/testProject/lombokProject/yeskapt).

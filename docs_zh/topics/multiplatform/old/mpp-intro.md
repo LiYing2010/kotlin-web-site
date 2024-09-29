@@ -1,16 +1,11 @@
----
-type: doc
-layout: reference
-title: "Kotlin 跨平台程序开发"
----
+[//]: # (title: Kotlin 跨平台程序开发)
 
-# Kotlin 跨平台程序开发
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 > 跨平台项目目前处于 [Alpha](/docs/reference_zh/components-stability.html) 阶段.
 > 语言功能和相关工具在未来的 Kotlin 版本中都可能发生变化.
-{:.note}
+> 
+{style="note"}
 
 支持跨平台程序开发是 Kotlin 的关键性益处之一.
 它可以大大减少为 [不同的平台](mpp-supported-platforms.html) 编写和维护相同代码耗费的时间

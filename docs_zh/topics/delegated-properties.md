@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Syntax"
-title: "委托属性"
----
+[//]: # (title: 委托属性)
 
-# 委托属性(Delegated Property)
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 有许多非常具有共性的属性, 虽然你可以在每个需要这些属性的类中手工地实现它们,
 但是, 如果能够只实现一次, 然后将它放在库中, 供所有需要者重复使用, 那将会很有帮助.
@@ -86,12 +79,10 @@ Kotlin 标准库中提供了一些工厂方法, 可以实现几种很有用的�
 
 ### 延迟加载(Lazy)属性
 
-[`lazy()`](/api/latest/jvm/stdlib/kotlin/lazy.html) 是一个函数, 接受一个 Lambda 表达式作为参数,
+[`lazy()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/lazy.html) 是一个函数, 接受一个 Lambda 表达式作为参数,
 返回一个 `Lazy<T>` 类型的实例, 这个实例可以作为一个委托, 实现延迟加载(lazy)属性.
 第一次调用 `get()` 时, 将会执行 `lazy()` 函数受到的 Lambda 表达式, 然后会记住这次执行的结果.
 以后所有对 `get()` 的调用都只会简单地返回以前记住的结果.
-
-<div class="sample" markdown="1" theme="idea">
 
 ```kotlin
 val lazyValue: String by lazy {
@@ -104,8 +95,7 @@ fun main() {
     println(lazyValue)
 }
 ```
-
-</div>
+{kotlin-runnable="true"}
 
 默认情况下, 延迟加载(lazy)属性的计算是 *同步的(synchronized)*:
 属性值只会在唯一一个线程内计算, 但所有线程都将得到同样的属性值.
@@ -114,16 +104,13 @@ fun main() {
 如果你确信初期化计算只可能发生在你访问属性的相同线程之内, 那么可以使用 `LazyThreadSafetyMode.NONE` 模式.
 这种模式不会保持线程同步, 因此不会带来这方面的性能损失.
 
-
 ### 可观察(Observable)属性
 
-[`Delegates.observable()`](/api/latest/jvm/stdlib/kotlin.properties/-delegates/observable.html) 函数接受两个参数:
+[`Delegates.observable()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-delegates/observable.html) 函数接受两个参数:
 第一个是初始化值, 第二个是属性值变化事件的响应器(handler).
 
 每次你向属性赋值时, 响应器(handler)都会被调用(在属性赋值处理完成 *之后*).
 响应器收到三个参数: 被赋值的属性, 赋值前的旧属性值, 以及赋值后的新属性值:
-
-<div class="sample" markdown="1" theme="idea">
 
 ```kotlin
 import kotlin.properties.Delegates
@@ -141,8 +128,7 @@ fun main() {
     user.name = "second"
 }
 ```
-
-</div>
+{kotlin-runnable="true"}
 
 如果你希望拦截属性的赋值操作, 并且还能够 *否决* 赋值操作, 那么不要使用 `observable()` 函数,
 而应该改用 [`vetoable()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-delegates/vetoable.html) 函数.
@@ -176,8 +162,6 @@ var MyClass.extDelegated: Int by ::topLevelInt
 这种功能的用途是, 比如, 如果你希望修改属性名称, 同时又保持向后兼容:
 这时可以引入一个新的属性, 将旧的属性标注 `@Deprecated` 注解, 然后将它的实现委托给新属性.
 
-<div class="sample" markdown="1" theme="idea">
-
 ```kotlin
 class MyClass {
    var newName: Int = 0
@@ -192,8 +176,7 @@ fun main() {
    println(myClass.newName) // 42
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.4"}
 
 ## 将多个属性保存在一个 Map 内
 
@@ -219,8 +202,6 @@ val user = User(mapOf(
 
 委托属性将从这个 map 中读取属性值, 使用属性名称字符串作为 key 值:
 
-<div class="sample" markdown="1" theme="idea">
-
 ```kotlin
 class User(val map: Map<String, Any?>) {
     val name: String by map
@@ -238,8 +219,7 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true"}
 
 如果不用只读的 `Map`, 而改用值可变的 `MutableMap`, 那么也可以用作 `var` 属性的委托:
 
@@ -250,7 +230,7 @@ class MutableUser(val map: MutableMap<String, Any?>) {
 }
 ```
 
-## 局部的委托属性(Local Delegated Property)
+## 局部的委托属性(Local Delegated Property) {id="local-delegated-properties"}
 
 你可以将局部变量声明为委托属性.
 比如, 你可以为局部变量添加延迟加载的能力:
@@ -268,7 +248,7 @@ fun example(computeFoo: () -> Foo) {
 `memoizedFoo` 变量直到初次访问时才会被计算.
 如果 `someCondition` 的判定结果为 false, 那么 `memoizedFoo` 变量完全不会被计算.
 
-## 属性委托的前提条件
+## 属性委托的前提条件 {id="property-delegate-requirements"}
 
 对于一个 *只读* 属性 (`val` 属性), 它的委托应该提供 `getValue` 操作符函数, 参数如下:
 
@@ -331,25 +311,26 @@ class ResourceDelegate(private var resource: Resource = Resource()) {
 
 ```kotlin
 fun resourceDelegate(resource: Resource = Resource()): ReadWriteProperty<Any?, Resource> =
-  object : ReadWriteProperty<Any?, Resource> {
-    var curValue = resource
-    override fun getValue(thisRef: Any?, property: KProperty<*>): Resource = curValue
-    override fun setValue(thisRef: Any?, property: KProperty<*>, value: Resource) {
-      curValue = value
+    object : ReadWriteProperty<Any?, Resource> {
+        var curValue = resource
+        override fun getValue(thisRef: Any?, property: KProperty<*>): Resource = curValue
+        override fun setValue(thisRef: Any?, property: KProperty<*>, value: Resource) {
+            curValue = value
+        }
     }
-  }
 
 val readOnlyResource: Resource by resourceDelegate()  // 此处 ReadWriteProperty 被转换为 val
 var readWriteResource: Resource by resourceDelegate()
 ```
 
-## 编译器对委托属性的翻译规则
+## 编译器对委托属性的翻译规则 {id="translation-rules-for-delegated-properties"}
 
 委托属性的底层实现是, 对某些类型的委托属性, Kotlin 编译器会生成辅助属性, 并将目标属性的存取操作委托给这些辅助属性.
 
 > 为了优化的目的, 编译器 [对有些情况 _不会_ 生成辅助属性](#optimized-cases-for-delegated-properties).
 > 关于优化, 详情请参见 [委托到另一个属性](#translation-rules-when-delegating-to-another-property) 中的示例.
-{:.note}
+>
+{style="note"}
 
 比如, 对于属性 `prop`, 编译器会生成一个隐藏的 `prop$delegate` 属性, 然后属性 `prop` 的访问器代码会将存取操作委托给这个新增的属性:
 
@@ -370,7 +351,7 @@ class C {
 Kotlin 编译器通过参数来提供关于 `prop` 属性的所有必须信息: 第一个参数 `this` 指向外层类 `C` 的实例,
 第二个参数 `this::prop` 是一个反射对象, 类型为 `KProperty`, 它将描述 `prop` 属性本身.
 
-### 对委托属性优化的场景
+### 对委托属性优化的场景 {id="optimized-cases-for-delegated-properties"}
 
 如果委托属性是以下几种情况, 域成员 `$delegate` 会被省略:
 * 属性的引用:
@@ -412,7 +393,7 @@ Kotlin 编译器通过参数来提供关于 `prop` 属性的所有必须信息: 
   }
   ```
 
-### 委托到另一个属性时的翻译规则
+### 委托到另一个属性时的翻译规则 {id="translation-rules-when-delegating-to-another-property"}
 
 委托到另一个属性时, Kotlin 编译器生成的代码会直接访问被参照的属性.
 也就是说, 编译器不会生成域变量 `prop$delegate`. 这样的代码优化可以节约内存.

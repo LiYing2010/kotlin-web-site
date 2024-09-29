@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "集合"
-title: "集合操作概述"
----
+[//]: # (title: 集合操作概述)
 
-# 集合操作概述
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin 标准库提供了大量的函数用来在集合上进行各种操作.
 包括简单的操作, 比如获取元素, 添加元素,
@@ -15,7 +8,7 @@ Kotlin 标准库提供了大量的函数用来在集合上进行各种操作.
 
 ## 扩展函数与成员函数
 
-标准库中定义的操作有两类: 集合接口的 [成员函数](classes.html#class-members), 以及 [扩展函数](extensions.html#extension-functions).
+标准库中定义的操作有两类: 集合接口的 [成员函数](classes.md#class-members), 以及 [扩展函数](extensions.md#extension-functions).
 
 成员函数定义了的集合类型的基本操作. 比如,
 [`Collection`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-collection/index.html)
@@ -40,23 +33,21 @@ Kotlin 标准库提供了大量的函数用来在集合上进行各种操作.
 
 ## 共通操作
 
-共通操作对 [只读和可变集合](collections-overview.html#collection-types) 都有效.
+共通操作对 [只读和可变集合](collections-overview.md#collection-types) 都有效.
 共通操作包括以下几组:
 
-* [变换](collection-transformations.html)
-* [过滤](collection-filtering.html)
-* [加法和减法操作符](collection-plus-minus.html)
-* [分组](collection-grouping.html)
-* [截取集合中的一部分](collection-parts.html)
-* [取得集合中的单个元素](collection-elements.html)
-* [排序](collection-ordering.html)
-* [聚合操作](collection-aggregate.html)
+* [变换](collection-transformations.md)
+* [过滤](collection-filtering.md)
+* [加法和减法操作符](collection-plus-minus.md)
+* [分组](collection-grouping.md)
+* [截取集合中的一部分](collection-parts.md)
+* [取得集合中的单个元素](collection-elements.md)
+* [排序](collection-ordering.md)
+* [聚合操作](collection-aggregate.md)
 
 这些章节中介绍的集合操作返回的结果不会影响原来的集合.
 比如, 过滤操作会产生一个 _新集合_, 其中包含符合过滤条件的所有元素.
 因此, 这些操作的结果需要保存在变量中, 或者通过其他方式使用, 比如作为参数传递给其他函数.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 
@@ -70,7 +61,7 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 对某些集合操作, 可以指定 _目标_ 对象.
 这里的目标集合是一个可变的集合, 集合操作函数会将结果添加到目标集合中, 而不是创建新的集合作为返回值.
@@ -85,8 +76,6 @@ fun main() {
 [`associate()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/associate.html).
 这些函数接受一个额外的参数来指定目标集合.
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
-
 ```kotlin
 
 fun main() {
@@ -99,12 +88,10 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 为了方便使用, 这些函数会将目标集合作为返回值,
 因此你可以在调用这些函数的参数中直接创建目标函数的实例:
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 
@@ -118,7 +105,7 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 带目标集合的函数可以用来执行过滤, 关联(associate), 分组, 压扁(flatten), 以及其他操作.
 关于带目标集合的所有操作, 请参见
@@ -127,9 +114,9 @@ fun main() {
 ## 写入操作
 
 对于可变的集合, 还有 _写操作_ 可以改变集合的状态. 这类写操作包括添加元素, 删除元素, 以及变更元素.
-关于写入操作的详情, 请参见 [集合写入操作](collection-write.html),
-以及 [List 相关操作](list-operations.html#list-write-operations)
-和 [Set 相关操作](map-operations.html#map-write-operations) 中对应的章节.
+关于写入操作的详情, 请参见 [集合写入操作](collection-write.md),
+以及 [List 相关操作](list-operations.md#list-write-operations)
+和 [Set 相关操作](map-operations.md#map-write-operations) 中对应的章节.
 
 对于特定的写入操作, 存在一对函数用来执行相同的操作:
 一个函数直接在原来的集合上进行变更, 另一个则将变更后的结果作为新的集合返回, 而不影响原来的集合.
@@ -139,8 +126,6 @@ fun main() {
 而
 [`sorted()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/sorted.html)
 函数则会创建一个新的集合, 其中包含相同的元素排序后的结果, 而原来的集合不会变化.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 
@@ -154,4 +139,4 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}

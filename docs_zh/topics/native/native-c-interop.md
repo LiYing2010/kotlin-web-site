@@ -1,20 +1,14 @@
----
-type: doc
-layout: reference
-category: "Native"
-title: "与 C 代码交互"
----
+[//]: # (title: 与 C 代码交互)
 
-# 与 C 代码交互
+最终更新: %latestDocDate%
 
-最终更新: {{ site.data.releases.latestDocDate }}
-
-> C 库的导入是 [实验性功能](../components-stability.html#stability-levels-explained).
+> C 库的导入是 [实验性功能](components-stability.md#stability-levels-explained).
 > `cinterop` 工具从 C 库生成的所有 Kotlin 声明都应该标注 `@ExperimentalForeignApi` 注解.
 >
 > Kotlin/Native 自带的原生平台库 (例如 Foundation, UIKit, 和 POSIX),
 > 只对一部分 API 需要使用者明确同意(Opt-in). 对于这样的情况, 你会在 IDE 中看到警告信息.
-{:.warning}
+>
+{style="warning"}
 
 Kotlin/Native 遵循 Kotlin 的传统, 提供与既有的平台软件的优秀的互操作性.
 对于原生程序来说, 最重要的互操作性对象就是与 C 语言库.
@@ -31,12 +25,12 @@ Kotlin/Native 遵循 Kotlin 的传统, 提供与既有的平台软件的优秀�
 工具生成的桩代码(stub)可以导入 IDE, 用来帮助代码自动生成, 以及代码跳转.
 
 此外还提供了与 Swift/Objective-C 语言的互操作功能,
-详情请参见 [与 Swift/Objective-C 的交互](native-objc-interop.html).
+详情请参见 [与 Swift/Objective-C 的交互](native-objc-interop.md).
 
 ## 平台库
 
 注意, 很多情况下不要用到自定义的互操作库创建机制(我们后文将会介绍),
-因为对于平台上的标准绑定中的那些 API, 可以使用 [平台库](native-platform-libs.html).
+因为对于平台上的标准绑定中的那些 API, 可以使用 [平台库](native-platform-libs.md).
 比如, Linux/macOS 平台上的 POSIX, Windows 平台上的 Win32, macOS/iOS 平台上的以及 Apple 框架, 都可以通过这种方式来使用.
 
 ## 一个简单的示例
@@ -138,7 +132,8 @@ cinterop -def png.def -compiler-option -I/usr/local/include -o png
 
 > 如果同一个头文件由 `headerFilter` 指定为包含, 同时又由 `excludeFilter` 指定为排除, 那么后一个设定的优先级更高.
 > 指定的头文件不会被包含在绑定内容中.
-{:.note}
+>
+{style="note"}
 
 #### 使用模块映射过滤头文件
 
@@ -183,13 +178,13 @@ macOS 上则会使用 `-DBAR=bar -DFOO=foo2` 参数进行分析.
 
 #### 链接器错误
 
-当一个 Kotlin 库依赖于一个 C 或 Objective-C 库时, 可能会发生链接器错误, 例如, 使用 [CocoaPods 集成](native-cocoapods.html) 时.
+当一个 Kotlin 库依赖于一个 C 或 Objective-C 库时, 可能会发生链接器错误, 例如, 使用 [CocoaPods 集成](native-cocoapods.md) 时.
 如果依赖的库在当前机器上没有安装, 在项目的构建脚本中也没有明确的配置, 那么就会发生 "Framework not found" 错误.
 
 如果你是库的作者, 你可以通过自定义消息来帮助你的用户解决链接器错误.
 方法是, 在你的 `.def` 文件中添加 `userSetupHint=message` 属性, 或者向 `cinterop` 传递 `-Xuser-setup-hint` 编译器选项.
 
-### 添加自定义声明
+### 添加自定义声明 {id="add-custom-declarations"}
 
 在生成绑定之前, 有时会需要向库添加自定义的 C 声明(比如, 对 [宏](#macros)).
 你可以将它们直接包含在 `.def` 文件尾部,
@@ -232,13 +227,13 @@ libraryPaths = /opt/local/lib /usr/local/opt/curl/lib
 
 C 中支持的所有数据类型, 都有对应的 Kotlin 类型:
 
-*   有符号整数, 无符号整数, 以及浮点类型, 会被映射为 Kotlin 中的同样类型, 并且长度相同.
-*   指针和数组映射为 `CPointer<T>?` 类型.
-*   枚举型映射为 Kotlin 的枚举型, 或整数型,
-    由 heuristic 以及 [定义文件中的提示](#definition-file-hints) 决定.
-*   结构体(Struct)和联合体(Union)映射为通过点号访问的域的形式,
-    也就是 `someStructInstance.field1` 的形式.
-*   `typedef` 映射为 `typealias`.
+* 有符号整数, 无符号整数, 以及浮点类型, 会被映射为 Kotlin 中的同样类型, 并且长度相同.
+* 指针和数组映射为 `CPointer<T>?` 类型.
+* 枚举型映射为 Kotlin 的枚举型, 或整数型,
+  由 heuristic 以及 [定义文件中的提示](#definition-file-hints) 决定.
+* 结构体(Struct)和联合体(Union)映射为通过点号访问的域的形式,
+  也就是 `someStructInstance.field1` 的形式.
+* `typedef` 映射为 `typealias`.
 
 此外, 任何 C 类型都有对应的 Kotlin 类型来表达这个类型的左值(lvalue),
 也就是, 在内存中分配的那个值, 而不是简单的不可变的自包含值.
@@ -386,8 +381,8 @@ foo(cValuesOf(1, 2, 3), 3)
 
 还有一些工具, 可以用来在 Kotlin 和 C 的字符串之间进行手工转换:
 
-*   `fun CPointer<ByteVar>.toKString(): String`
-*   `val String.cstr: CValuesRef<ByteVar>`.
+* `fun CPointer<ByteVar>.toKString(): String`
+* `val String.cstr: CValuesRef<ByteVar>`.
 
 要得到指针, `.cstr` 应该在原生内存中分配, 比如:
 
@@ -442,12 +437,12 @@ memScoped {
 如果 API 以句柄的形式使用结构体, 那么这样是可行的,
 但是如果确实需要访问结构体中的域, 那么可以使用以下转换方法:
 
-*   `fun T.readValue(): CValue<T>`. 将(左值) `T` 转换为一个 `CValue<T>`.
-    因此, 如果要构造一个 `CValue<T>`, 可以先分配 `T`, 为其中的域赋值, 然后将它转换为 `CValue<T>`.
+* `fun T.readValue(): CValue<T>`. 将(左值) `T` 转换为一个 `CValue<T>`.
+  因此, 如果要构造一个 `CValue<T>`, 可以先分配 `T`, 为其中的域赋值, 然后将它转换为 `CValue<T>`.
 
-*   `CValue<T>.useContents(block: T.() -> R): R`.
-    将 `CValue<T>` 临时放到内存中, 然后使用放置在内存中的这个 `T` 值作为接收者, 来运行参数中指定的 Lambda 表达式.
-    因此, 如果要读取结构体中一个单独的域, 可以使用下面的代码:
+* `CValue<T>.useContents(block: T.() -> R): R`.
+  将 `CValue<T>` 临时放到内存中, 然后使用放置在内存中的这个 `T` 值作为接收者, 来运行参数中指定的 Lambda 表达式.
+  因此, 如果要读取结构体中一个单独的域, 可以使用下面的代码:
 
     ```kotlin
     val fieldValue = structValue.useContents { field }
@@ -496,7 +491,7 @@ stableRef.dispose()
 
 更多详情请参见 `samples/libcurl`.
 
-### 宏
+### 宏 {id="macros"}
 
 每个展开为常数的 C 语言宏, 都会表达为一个 Kotlin 属性.
 其他的宏都不支持. 但是, 可以将它们封装在支持的声明中, 这样就可以手动映射这些宏.
@@ -513,21 +508,21 @@ static inline int foo(int arg) {
 }
 ```
 
-### 定义文件提示
+### 定义文件提示 {id="definition-file-hints"}
 
 `.def` 支持几种选项, 用来调整最终生成的绑定.
 
-*   `excludedFunctions` 属性值是一个空格分隔的列表, 表示哪些函数应该忽略.
-    有时会需要这个功能, 因为 C 头文件中的一个函数声明, 并不保证它一定可以调用,
-    而且常常很难, 甚至不可能自动判断.
-    这个选项也可以用来绕过 interop 工具本身的 bug.
+* `excludedFunctions` 属性值是一个空格分隔的列表, 表示哪些函数应该忽略.
+  有时会需要这个功能, 因为 C 头文件中的一个函数声明, 并不保证它一定可以调用,
+  而且常常很难, 甚至不可能自动判断.
+  这个选项也可以用来绕过 interop 工具本身的 bug.
 
-*   `strictEnums` 和 `nonStrictEnums` 属性值是空格分隔的列表,
-    分别表示哪些枚举类型需要生成为 Kotlin 枚举类型, 哪些需要生成为整数值.
-    如果一个枚举型在这两个属性中都没有包括, 那么就根据 heuristic 来生成.
+* `strictEnums` 和 `nonStrictEnums` 属性值是空格分隔的列表,
+  分别表示哪些枚举类型需要生成为 Kotlin 枚举类型, 哪些需要生成为整数值.
+  如果一个枚举型在这两个属性中都没有包括, 那么就根据 heuristic 来生成.
 
-*    `noStringConversion` 属性值是一个空格分隔的列表,
-    表示哪些函数的 `const char*` 参数应该不被自动转换为 Kotlin 的字符串类型.
+* `noStringConversion` 属性值是一个空格分隔的列表,
+  表示哪些函数的 `const char*` 参数应该不被自动转换为 Kotlin 的字符串类型.
 
 ### 可移植性
 

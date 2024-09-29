@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "异步编程(Asynchronous Programming)技术"
----
+[//]: # (title: 异步编程(Asynchronous Programming)技术)
 
-# 异步编程(Asynchronous Programming)技术
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 过去几十年来, 作为开发者, 我们始终面对一个问题需要解决 - 怎么样才能让我们的应用程序不要发生阻塞.
 无论我们在开发桌面应用程序, 移动应用程序, 甚至服务器端的应用程序,
@@ -23,7 +16,7 @@ title: "异步编程(Asynchronous Programming)技术"
 
 在解释协程之前, 先让我们简单回顾一下其他解决方案.
 
-## 线程(Thread)
+## 线程(Thread) {id="threading"}
 
 要避免程序阻塞, 线程(Thread)可能是大家最熟悉的解决方案.
 
@@ -50,7 +43,7 @@ fun preparePost(): Token {
 * 线程并不总是可用的. 在某些平台, 比如 JavaScript, 甚至根本不支持线程.
 * 线程使用困难. 调试线程, 以及避免竞争条件, 都是我们在多线程编程中遭遇的常见问题.
 
-## 回调(Callback)
+## 回调(Callback) {id="callbacks"}
 
 使用回调, 基本想法是将回调函数作为参数传给另一个函数, 然后在处理结束后调用这个回调函数.
 
@@ -78,7 +71,7 @@ fun preparePostAsync(callback: (Token) -> Unit) {
 在事件循环架构中, 比如 JavaScript, 回调是非常常见的,
 但即使在这种场景, 通常人们也会改为使用其他方案, 比如 Promise 或 Reactive Extension.
 
-## Future, Promise, 以及其他
+## Future, Promise, 以及其他 {id="futures-promises-and-others"}
 
 Future 或 Promise (其他语言和平台上也可能会使用别的名称),
 背后的理念是, 当我们发起一个调用, 它向我们承诺, 在某个时间点它会返回一个对象,
@@ -112,10 +105,10 @@ fun preparePostAsync(): Promise<Token> {
 * 特殊的返回类型. 返回类型不再是我们需要的实际数据, 而是一个新的类型 `Promise`, 我们需要从它得到数据.
 * 错误处理很复杂. 错误的传播和链条通常很不直观.
 
-## Reactive Extension
+## Reactive Extension {id="reactive-extensions"}
 
 [Erik Meijer](https://en.wikipedia.org/wiki/Erik_Meijer_(computer_scientist))
-将Reactive Extension (Rx) 引入到了 C# 中.
+将 Reactive Extension (Rx) 引入到了 C# 中.
 尽管它在 .NET 平台得到了大量应用, 但并没有被主流开发者采用, 直到 Netflix 将它移植到 Java, 命名为 RxJava.
 在那之后, 对很多平台有了大量的移植, 包括 JavaScript (RxJS).
 
@@ -136,7 +129,7 @@ Rx 背后的理念是所谓 `可观察的流(observable stream)`,
 
 此外, Rx 还引入了比较好的错误处理方案.
 
-## 协程(Coroutine)
+## 协程(Coroutine) {id="coroutines"}
 
 Kotlin 的异步编程解决方案是使用协程(Coroutine),
 它的理念是可被挂起的一段计算, 也就是说, 一个函数的执行在某个时刻可以被挂起, 并在之后的某个时刻恢复运行.
@@ -180,4 +173,4 @@ suspend fun preparePost(): Token {
 这一点与其他语言不同, 比如 C# 的语法添加了 `async` 和 `await`.
 而在 Kotlin 中, 这些只是库函数.
 
-更多详情, 请参见 [协程参考文档](coroutines-overview.html).
+更多详情, 请参见 [协程参考文档](coroutines-overview.md).

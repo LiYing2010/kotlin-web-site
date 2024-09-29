@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "集合"
-title: "迭代器(Iterator)"
----
+[//]: # (title: 迭代器(Iterator))
 
-# 迭代器(Iterator)
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 为了遍历集合中的元素, Kotlin 标准库支持常用的 _迭代器(Iterator)_ 机制 –
 迭代器可以用来按顺序访问集合元素, 而不必暴露集合的底层细节.
@@ -26,8 +19,6 @@ title: "迭代器(Iterator)"
 迭代器经过最后一个元素之后, 它就不能再用来获取元素了; 也不能再移动到以前的位置.
 如果要再次遍历集合, 必须创建新的迭代器.
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
-
 ```kotlin
 
 fun main() {
@@ -45,13 +36,11 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 遍历一个 `Iterable` 集合的另一种方法是使用大家都熟悉的 `for` 循环语句.
 当在集合上使用 `for` 循环时, 会隐含地得到迭代器.
 因此, 下面的示例代码与前面的例子是等价的:
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 
@@ -69,12 +58,10 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 最后, 还有一个方便的 `forEach()` 函数, 可以用来遍历集合, 并对每个元素执行一段指定的代码.
 因此, 前面的示例可以写成这样:
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 
@@ -92,7 +79,7 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 ## List 迭代器
 
@@ -110,8 +97,6 @@ fun main() {
 和
 [`previousIndex()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list-iterator/previous-index.html)
 函数得到遍历中元素的下标位置.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 
@@ -134,7 +119,7 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 由于拥有双方向的遍历能力, 因此 `ListIterator` 在到达最后元素之后, 仍然可以继续使用.
 
@@ -145,8 +130,6 @@ fun main() {
 这个接口继承自 `Iterator`, 添加了元素删除函数
 [`remove()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-iterator/remove.html).
 因此, 你可以在遍历集合的过程中删除元素.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 
@@ -163,7 +146,7 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 对于可变的 list, 可以使用
 [`MutableListIterator`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list-iterator/index.html).
@@ -171,8 +154,6 @@ fun main() {
 使用 [`add()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list-iterator/add.html)
 和 [`set()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list-iterator/set.html) 函数,
 添加或替换元素.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 
@@ -192,4 +173,4 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}

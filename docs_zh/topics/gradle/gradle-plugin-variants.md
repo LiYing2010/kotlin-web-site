@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Gradle"
-title: "对 Gradle plugin 变体的支持"
----
+[//]: # (title: 对 Gradle plugin 变体的支持)
 
-# 对 Gradle plugin 变体的支持
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Gradle 7.0 为 Gradle plugin 开发者引入了一个新功能
 — [带变体(variant)的 plugin](https://docs.gradle.org/7.0/userguide/implementing_gradle_plugins.html#plugin-with-variants).
@@ -42,15 +35,16 @@ Gradle 7.0 为 Gradle plugin 开发者引入了一个新功能
 > 关于 Gradle 中的变体选择功能, 下面是一些已知问题的变通方法:
 > * [pluginManagement 中的 ResolutionStrategy, 对于存在多个变体的 plugin, 不能正常工作 ](https://github.com/gradle/gradle/issues/20545)
 > * [当 Plugin 被添加为 `buildSrc` 的共通依赖项时, Plugin 变体会被忽略](https://github.com/gradle/gradle/issues/20847)
-{:.note}
+>
+{style="note"}
 
 ### 在自定义配置中, Gradle 无法选择 KGP 变体
 
 这是一种预料中的状况, 在自定义配置中, Gradle 无法选择 KGP 变体.
 如果你使用了自定义的 Gradle 配置:
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 configurations.register("customConfiguration") {
@@ -58,11 +52,8 @@ configurations.register("customConfiguration") {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 configurations.register("customConfiguration") {
@@ -70,39 +61,36 @@ configurations.register("customConfiguration") {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 并且你想要添加一个 Kotlin Gradle plugin 的依赖项, 例如:
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 dependencies {
-    customConfiguration("org.jetbrains.kotlin:kotlin-gradle-plugin:{{ site.data.releases.latest.version }}")
+    customConfiguration("org.jetbrains.kotlin:kotlin-gradle-plugin:%kotlinVersion%")
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 dependencies {
-    customConfiguration 'org.jetbrains.kotlin:kotlin-gradle-plugin:{{ site.data.releases.latest.version }}'
+    customConfiguration 'org.jetbrains.kotlin:kotlin-gradle-plugin:%kotlinVersion%'
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 你需要向你的 `customConfiguration` 添加以下属性:
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 configurations {
@@ -126,11 +114,8 @@ configurations {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 configurations {
@@ -154,8 +139,8 @@ configurations {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 否则, 你会看到这样的错误:
 

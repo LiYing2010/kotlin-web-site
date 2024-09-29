@@ -1,12 +1,6 @@
----
-type: doc
-layout: reference
-title: "Kotlin Multiplatform 项目结构的基础知识"
----
+[//]: # (title: Kotlin Multiplatform 项目结构的基础知识)
 
-# Kotlin Multiplatform 项目结构的基础知识
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 使用 Kotlin Multiplatform, 你可以在不同的平台之间共用代码.
 本文解释共用代码的限制, 如何区分代码的共用部分和平台相关部分, 以及如何指定这些共用代码运行的平台.
@@ -36,7 +30,7 @@ Kotlin 编译器以源代码作为输入, 生成一组平台相关的二进制�
 在编译跨平台项目时, 它可以从相同的代码生成多个二进制文件.
 例如, 编译器可以从相同的 Kotlin 文件生成 JVM 的 `.class` 文件, 以及原生的可执行文件:
 
-<img src="/assets/docs/images/multiplatform/project-structure/common-code-diagram.svg" alt="共通代码" width="700"/>
+![共通代码](common-code-diagram.svg){width=700}
 
 并不是每一段 Kotlin 代码都能够编译到所有的平台.
 Kotlin 编译器会阻止你在共用代码中使用平台相关的函数或类, 因为这样的代码不能编译到不同的平台.
@@ -44,7 +38,7 @@ Kotlin 编译器会阻止你在共用代码中使用平台相关的函数或类,
 例如, 你不能在共通代码中使用 `java.io.File` 依赖项.
 它是 JDK 的一部分, 而共通代码还会被编译为原生代码, 这种情况下就不能使用 JDK 的类:
 
-<img src="/assets/docs/images/multiplatform/project-structure/unresolved-java-reference.png" alt="未能解析的 Java 引用" width="500"/>
+![未能解析的 Java 引用](unresolved-java-reference.png){width=500}
 
 在共通代码中, 你可以使用 Kotlin Multiplatform 库.
 这些库提供了共通的 API, 在不同的平台上有不同的实现.
@@ -65,8 +59,9 @@ API 的这些附加部分不能在 `commonMain` 中使用.
 它定义生成的二进制文件格式, 可以使用的语言结构, 以及允许使用的依赖项.
 
 > 编译目标也可以叫做目标平台.
-> 参见完整的 [支持的编译目标列表](multiplatform-dsl-reference.html#targets).
-{:.note}
+> 参见完整的 [支持的编译目标列表](multiplatform-dsl-reference.md#targets).
+>
+{style="note"}
 
 你应该首先 _声明_ 一个编译目标, 指示 Kotlin 为这个特定的目标平台编译代码.
 在 Gradle 中, 你可以在 `kotlin {}` 代码段内使用预定义的 DSL 调用来声明编译目标:
@@ -79,11 +74,11 @@ kotlin {
 ```
 
 通过这种方式, 每个跨平台项目定义一组支持的编译目标.
-参见 [层级项目结构](multiplatform-hierarchy.html) 章节, 进一步了解如何在你的构建脚本中声明编译目标.
+参见 [层级项目结构](multiplatform-hierarchy.md) 章节, 进一步了解如何在你的构建脚本中声明编译目标.
 
 声明 `jvm` 和 `iosArm64` 编译目标之后, `commonMain` 中的共通代码将被编译到这些目标平台:
 
-<img src="/assets/docs/images/multiplatform/project-structure/target-diagram.svg" alt="编译目标" width="700"/>
+![编译目标](target-diagram.svg){width=700}
 
 要理解哪部分代码会被编译到特定的平台, 你可以将编译目标看作附加在 Kotlin 源代码文件上的标签.
 Kotlin 使用这些标签来决定如何编译你的代码, 生成哪个二进制文件, 以及代码中允许使用哪些语言结构和依赖项.
@@ -91,12 +86,12 @@ Kotlin 使用这些标签来决定如何编译你的代码, 生成哪个二进�
 如果你还想将 `greeting.kt` 文件编译到 `.js`, 你只需要声明 JS 编译目标.
 `commonMain` 中的代码就会得到新的 `js` 标签, 对应于 JS 编译目标, 它会指示 Kotlin 生成 `.js` 文件:
 
-<img src="/assets/docs/images/multiplatform/project-structure/target-labels-diagram.svg" alt="编译目标标签" width="700"/>
+![编译目标标签](target-labels-diagram.svg){width=700}
 
 这就是 Kotlin 编译器处理共通代码的方式, 共通代码会编译到所有声明的编译目标.
 参见 [源代码集](#source-sets), 进一步了解如何编写平台相关的代码.
 
-## 源代码集(Source Set)
+## 源代码集(Source Set) {id="source-sets"}
 
 一个 _Kotlin 源代码集(Source Set)_ 是一组源代码文件, 有它独自的编译目标, 依赖项, 以及编译器选项.
 它是在跨平台项目中共用代码的主要方式.
@@ -115,7 +110,7 @@ Kotlin 提供了一组预定义的源代码集.
 在 Kotlin Multiplatform 项目中, 你可以将源代码集当作 `src` 中的目标.
 例如, 一个项目有 `commonMain`, `iosMain`, 和 `jvmMain` 源代码集, 它的结构如下:
 
-<img src="/assets/docs/images/multiplatform/project-structure/src-directory-diagram.png" alt="共用的代码" width="350"/>
+![共用的代码](src-directory-diagram.png){width=350}
 
 在 Gradle 脚本中, 你可以在 `kotlin.sourceSets {}` 代码段中通过名称访问源代码集:
 
@@ -171,12 +166,12 @@ fun jvmGreeting() {
 例如, 假设有 `jvm`, `iosArm64`, 和 `js` 编译目标.
 Kotlin 为共通代码创建 `commonMain` 源代码集, 并为特点的编译目标创建对应的 `jvmMain`, `iosArm64Main`, 和 `jsMain` 源代码集:
 
-<img src="/assets/docs/images/multiplatform/project-structure/specific-target-diagram.svg" alt="编译到指定的编译目标" width="700"/>
+![编译到指定的编译目标](specific-target-diagram.svg){width=700}
 
 编译到 JVM 时, Kotlin 会选择带有 "JVM" 标签的所有源代码集, 也就是, `jvmMain` 和 `commonMain`.
 然后它将这些源代码集一起编译为 JVM class 文件:
 
-<img src="/assets/docs/images/multiplatform/project-structure/compilation-jvm-diagram.svg" alt="编译到 JVM" width="700"/>
+![编译到 JVM](compilation-jvm-diagram.svg){width=700}
 
 由于 Kotlin 将 `commonMain` 和 `jvmMain` 一起编译, 产生的结果二进制文件会包含来自 `commonMain` 和 `jvmMain` 的全部声明.
 
@@ -237,7 +232,7 @@ fun randomUuidString(): String {
 Kotlin 默认创建一些中间源代码集.
 在这个具体案例中, 最终的项目结构类似这样:
 
-<img src="/assets/docs/images/multiplatform/project-structure/intermediate-source-sets-diagram.svg" alt="中间源代码集" width="700"/>
+![中间源代码集](intermediate-source-sets-diagram.svg){width=700}
 
 其中, 下方的彩色方块是平台相关的源代码集. 为了清晰起见, 省略了编译目标的标签.
 
@@ -245,18 +240,20 @@ Kotlin 默认创建一些中间源代码集.
 `appleMain` 源代码集只编译到 Apple 编译目标.
 因此, Kotlin 允许在 `appleMain` 中使用 Apple 专用的 API, 你可以将 `randomUUID()` 函数添加在这里.
 
-> 参见 [层级项目结构](multiplatform-hierarchy.html), 在这里可以看到 Kotlin 默认创建和设置的所有中间源代码集,
+> 参见 [层级项目结构](multiplatform-hierarchy.md), 在这里可以看到 Kotlin 默认创建和设置的所有中间源代码集,
 > 并了解, 如果 Kotlin 没有默认提供你需要的中间源代码集, 应该如何处理.
-{:.tip}
+>
+{style="tip"}
 
 在编译到特定的编译目标时, Kotlin 会得到所有的源代码集, 包括带有这个编译目标标签的中间源代码集.
 因此, 在编译到 `iosArm64` 目标平台时, `commonMain`, `appleMain`, 和 `iosArm64Main` 源代码集中编写的所有代码会组合到一起:
 
-<img src="/assets/docs/images/multiplatform/project-structure/native-executables-diagram.svg" alt="原生可执行文件" width="700"/>
+![原生可执行文件](native-executables-diagram.svg){width=700}
 
 > 如果一部分源代码集中没有源代码也是可以的. 例如, 在 iOS 开发中, 通常不需要提供专用于 iOS 设备但不用于 iOS 模拟器的代码.
 > 因此 `iosArm64Main` 很少需要用到.
-{:.tip}
+>
+{style="tip"}
 
 #### Apple 设备与模拟器的编译目标
 
@@ -304,6 +301,6 @@ Kotlin 提供了一个默认的 [`kotlin.test`](https://kotlinlang.org/api/lates
 
 ## 下一步做什么?
 
-* [学习如何在 Gradle 脚本中声明和使用预定义的源代码集 ](multiplatform-hierarchy.html)
-* [探索跨平台项目结构中的高级概念](multiplatform-advanced-project-structure.html)
-* [学习如何配置编译任务](multiplatform-configure-compilations.html)
+* [学习如何在 Gradle 脚本中声明和使用预定义的源代码集 ](multiplatform-hierarchy.md)
+* [探索跨平台项目结构中的高级概念](multiplatform-advanced-project-structure.md)
+* [学习如何配置编译任务](multiplatform-configure-compilations.md)

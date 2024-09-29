@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "KSP 如何将 Kotlin 代码组织为模型"
----
+[//]: # (title: KSP 如何将 Kotlin 代码组织为模型)
 
-# KSP 如何将 Kotlin 代码组织为模型
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 可以在
 [KSP GitHub 代码仓库](https://github.com/google/ksp/tree/main/api/src/main/kotlin/com/google/devtools/ksp)
@@ -16,10 +9,11 @@ title: "KSP 如何将 Kotlin 代码组织为模型"
 [模型结构](https://github.com/google/ksp/tree/main/api/src/main/kotlin/com/google/devtools/ksp/symbol/)
 :
 
-![类图]({{ url_for('asset', path='docs/images/ksp-class-diagram.svg') }})
+![类图](ksp-class-diagram.svg){thumbnail="true" width="800" thumbnail-same-file="true"}
 
-> [查看完整大小的图片](/assets/docs/images/ksp-class-diagram.svg).
-{:.note}
+> [查看完整大小的图片](https://kotlinlang.org/docs/images/ksp-class-diagram.svg).
+>
+{style="note"}
 
 ## 类型解析
 
@@ -29,12 +23,12 @@ title: "KSP 如何将 Kotlin 代码组织为模型"
 
 ```kotlin
 interface KSFunctionDeclaration : ... {
-  val returnType: KSTypeReference?
-  // ...
+    val returnType: KSTypeReference?
+    // ...
 }
 
 interface KSTypeReference : KSAnnotated, KSModifierListOwner {
-  val type: KSReferenceElement
+    val type: KSReferenceElement
 }
 ```
 

@@ -1,16 +1,9 @@
----
-type: doc
-layout: reference
-category: "Native"
-title: "将 Kotlin Gradle 项目用作 CocoaPods 依赖项"
----
+[//]: # (title: 将 Kotlin Gradle 项目用作 CocoaPods 依赖项)
 
-# 将 Kotlin Gradle 项目用作 CocoaPods 依赖项
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 要将带有 native 编译目标的 Kotlin Multiplatform 项目用作 CocoaPods 的依赖项,
-需要 [完成初始配置](native-cocoapods.html#set-up-an-environment-to-work-with-cocoapods).
+需要 [完成初始配置](native-cocoapods.md#set-up-an-environment-to-work-with-cocoapods).
 你可以在 Xcode 项目的 Podfile 中, 通过它的名称和生成的 Podspec 文件的目录路径来包含这样的依赖项.
 
 依赖项将会与项目一起自动构建(以及重构建).
@@ -26,14 +19,15 @@ title: "将 Kotlin Gradle 项目用作 CocoaPods 依赖项"
 >   或 
 >   [`use_frameworks!`](https://guides.cocoapods.org/syntax/podfile.html#use_frameworks_bang) 指令.
 > * 如果你不指定部署目标(deployment target)最小版本, 而且依赖项 Pod 需要更高的部署目标版本, 那么会发生错误.
-{:.note}
+>
+{style="note"}
 
-## 单个编译目标的 Xcode 项目 
+## 单个编译目标的 Xcode 项目 {id="xcode-project-with-one-target"}
 
 1. 如果你还没有 Xcode 项目, 请使用 `Podfile` 创建一个.
 2. 在应用程序 Target 中, 请确认禁用了 **Build Options** 之下的 **User Script Sandboxing**:
 
-   ![禁用 sandboxing CocoaPods]({{ url_for('asset', path='docs/images/multiplatform/disable-sandboxing-cocoapods.png') }})
+   ![禁用 sandboxing CocoaPods](disable-sandboxing-cocoapods.png)
 
 3. 使用 `podfile = project.file(..)` 向你的 Xcode 项目 `Podfile` 添加路径,
    其中的文件路径是你的 Kotlin 项目的 `build.gradle.kts` (`build.gradle`) 文件路径.
@@ -69,7 +63,7 @@ title: "将 Kotlin Gradle 项目用作 CocoaPods 依赖项"
 
 6. 重新导入项目.
 
-## 多个编译目标的 Xcode 项目
+## 多个编译目标的 Xcode 项目 {id="xcode-project-with-several-targets"}
 
 1. 如果你还没有 Xcode 项目, 请使用 `Podfile` 创建一个.
 2. 使用 `podfile = project.file(..)` 向你的 Xcode 项目 `Podfile` 添加路径,
@@ -101,18 +95,18 @@ title: "将 Kotlin Gradle 项目用作 CocoaPods 依赖项"
 
     ```ruby
     target 'iosApp' do
-      use_frameworks!
-      platform :ios, '13.5'
-      # Pods for iosApp
-      pod 'kotlin_library', :path => '../kotlin-library'
+        use_frameworks!
+        platform :ios, '13.5'
+        # Pods for iosApp
+        pod 'kotlin_library', :path => '../kotlin-library'
     end
 
     target 'TVosApp' do
-      use_frameworks!
-      platform :tvos, '13.4'
+        use_frameworks!
+        platform :tvos, '13.4'
 
-      # Pods for TVosApp
-      pod 'kotlin_library', :path => '../kotlin-library'
+        # Pods for TVosApp
+        pod 'kotlin_library', :path => '../kotlin-library'
     end
     ```
 

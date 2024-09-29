@@ -1,11 +1,6 @@
----
-layout: reference
-title: Kotlin 的发布版本
----
+[//]: # (title: Kotlin 的发布版本)
 
-# Kotlin 的发布版本
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 我们的发布版本包括几种不同的类型:
 
@@ -17,16 +12,17 @@ title: Kotlin 的发布版本
 对于 1.3.70, 我们有 2 个 bug 修复发布版 – 1.3.71 和 1.3.72.
 
 对于每个增量发布版和功能发布版, 我们还会发布几个预览 (_EAP_) 版, 供开发者在正式发布之前试用新功能.
-详情请参见 [早期预览(Early Access Preview)](eap.html).
+详情请参见 [早期预览(Early Access Preview)](eap.md).
 
 关于 Kotlin 的发布版本, 详情请参见
-[Kotlin 发布版的类型, 以及它们的兼容性](kotlin-evolution.html#feature-releases-and-incremental-releases).
+[Kotlin 发布版的类型, 以及它们的兼容性](kotlin-evolution.md#feature-releases-and-incremental-releases).
 
-## 更新到新的发布版
+## 更新到新的发布版 {id="update-to-a-new-release"}
 
 > 从 IntelliJ IDEA 2023.3 和 Android Studio Iguana (2023.2.1) Canary 15 开始, Kotlin plugin 会自动更新.
 > 你只需要在你的项目中更新 Kotlin 版本.
-{:.note}
+>
+{style="note"}
 
 新的发布版发布之后, IntelliJ IDEA 和 Android Studio 会建议你升级.
 如果你接受建议, IDE 会自动将 Kotlin 插件更新到最新版本.
@@ -36,7 +32,7 @@ title: Kotlin 的发布版本
 
 如果你要迁移到新的功能发布版, Kotlin 插件的迁移工具可以帮助你进行迁移.
 
-## IDE 支持
+## IDE 支持 {id="ide-support"}
 
 以下版本的 IntelliJ IDEA 和 Android Studio 支持 Kotlin 语言最新版本:
 * IntelliJ IDEA:
@@ -49,13 +45,14 @@ title: Kotlin 的发布版本
 
 > 关于 IntelliJ IDEA 中 Kotlin 相关的最新更新, 
 > 请参见 [IntelliJ IDEA 最新功能](https://www.jetbrains.com/idea/whatsnew/) 的 **Kotlin** 小节.
-{:.tip}
+>
+{style="tip"}
 
-## 各发布版详情
+## 各发布版详情 {id="release-details"}
 
 下表是 Kotlin 最新发布版的详情.
 
-你也可以使用 [Kotlin 的预览版](eap.html#build-details).
+你也可以使用 [Kotlin 的预览版](eap.md#build-details).
 
 <table>
     <tr>
@@ -69,7 +66,7 @@ title: Kotlin 的发布版本
         </td>
         <td>
             <p>针对 Kotlin 1.9.20, 1.9.21, 和 1.9.22 的 Bug 修复发布版.</p>
-            <p>关于 Kotlin 1.9.20, 请参见 <a href="whatsnew1920.html" target="_blank">Kotlin 1.9.20 版中的新功能</a>.</p>
+            <p>关于 Kotlin 1.9.20, 请参见 <a href="whatsnew1920.md" target="_blank">Kotlin 1.9.20 版中的新功能</a>.</p>
         </td>
     </tr>
     <tr>
@@ -79,7 +76,7 @@ title: Kotlin 的发布版本
         </td>
         <td>
             <p>针对 Kotlin 1.9.20 和 1.9.21 的 Bug 修复发布版.</p>
-            <p>关于 Kotlin 1.9.20, 请参见 <a href="whatsnew1920.html" target="_blank">Kotlin 1.9.20 版中的新功能</a>.</p>
+            <p>关于 Kotlin 1.9.20, 请参见 <a href="whatsnew1920.md" target="_blank">Kotlin 1.9.20 版中的新功能</a>.</p>
         </td>
     </tr>
     <tr>
@@ -89,7 +86,7 @@ title: Kotlin 的发布版本
         </td>
         <td>
             <p>针对 Kotlin 1.9.20 的 Bug 修复发布版.</p>
-            <p>关于 Kotlin 1.9.20, 请参见 <a href="whatsnew1920.html" target="_blank">Kotlin 1.9.20 版中的新功能</a>.</p>
+            <p>关于 Kotlin 1.9.20, 请参见 <a href="whatsnew1920.md" target="_blank">Kotlin 1.9.20 版中的新功能</a>.</p>
         </td>
     </tr>
     <tr>
@@ -101,7 +98,7 @@ title: Kotlin 的发布版本
             <p>一个新功能发布版, 包括 Kotlin K2 编译器的 Beta 版, 和 Kotlin Multiplatform 的稳定版.</p>
             <p>详情请参见:</p>
             <list>
-                <li><a href="whatsnew1920.html" target="_blank">Kotlin 1.9.20 版中的新功能</a></li>
+                <li><a href="whatsnew1920.md" target="_blank">Kotlin 1.9.20 版中的新功能</a></li>
             </list>
         </td>
     </tr>
@@ -112,7 +109,7 @@ title: Kotlin 的发布版本
         </td>
         <td>
             <p>针对 Kotlin 1.9.0 的 Bug 修复发布版.</p>
-            <p>关于 Kotlin 1.9.0, 请参见 <a href="whatsnew19.html" target="_blank">Kotlin 1.9.0 版中的新功能</a>.</p>
+            <p>关于 Kotlin 1.9.0, 请参见 <a href="whatsnew19.md" target="_blank">Kotlin 1.9.0 版中的新功能</a>.</p>
             <note>对于 Android Studio 的 Giraffe 和 Hedgehog 版, Kotlin plugin 1.9.10 会在之后的 Android Studio 更新中发布.</note>
         </td>
     </tr>
@@ -128,7 +125,7 @@ title: Kotlin 的发布版本
               Kotlin/Native 中自定义内存分配器功能的预览版.</p>
             <p>详情请参见:</p>
             <list>
-                <li><a href="whatsnew19.html" target="_blank">Kotlin 1.9.0 版中的新功能</a></li>
+                <li><a href="whatsnew19.md" target="_blank">Kotlin 1.9.0 版中的新功能</a></li>
                 <li><a href="https://www.youtube.com/embed/fvwTZc-dxsM" target="_blank">YouTube 视频: Kotlin 的新功能</a></li>
             </list>
         </td>
@@ -140,7 +137,7 @@ title: Kotlin 的发布版本
         </td>
         <td>
             <p>针对 Kotlin 1.8.20 的 Bug 修复发布版.</p>
-            <p>关于 Kotlin 1.8.20, 请参见 <a href="whatsnew1820.html" target="_blank">Kotlin 1.8.20 版中的新功能</a>.</p>
+            <p>关于 Kotlin 1.8.20, 请参见 <a href="whatsnew1820.md" target="_blank">Kotlin 1.8.20 版中的新功能</a>.</p>
         </td>
     </tr>
     <tr>
@@ -150,7 +147,7 @@ title: Kotlin 的发布版本
         </td>
         <td>
             <p>针对 Kotlin 1.8.20 的 Bug 修复发布版.</p>
-            <p>关于 Kotlin 1.8.20, 请参见 <a href="whatsnew1820.html" target="_blank">Kotlin 1.8.20 版中的新功能</a>.</p>
+            <p>关于 Kotlin 1.8.20, 请参见 <a href="whatsnew1820.md" target="_blank">Kotlin 1.8.20 版中的新功能</a>.</p>
             <note>对于 Android Studio 的 Flamingo 和 Giraffe 版, Kotlin plugin 1.8.21 会在之后的 Android Studio 更新中发布.</note>
         </td>
     </tr>
@@ -164,7 +161,7 @@ title: Kotlin 的发布版本
               默认启用新的 JVM 增量编译, 新的 Kotlin/Wasm 编译器后端.</p>
             <p>详情请参见:</p>
             <list>
-                <li><a href="whatsnew1820.html" target="_blank">Kotlin 1.8.20 版中的新功能</a></li>
+                <li><a href="whatsnew1820.md" target="_blank">Kotlin 1.8.20 版中的新功能</a></li>
                 <li><a href="https://youtu.be/R1JpkpPzyBU" target="_blank">YouTube 视频: Kotlin 的新功能</a></li>
             </list>
         </td>
@@ -194,8 +191,8 @@ title: Kotlin 的发布版本
             </p>
             <p>详情请参见:</p>
             <list>
-                <li><a href="whatsnew18.html" target="_blank">Kotlin 1.8.0 版中的新功能</a></li>
-                <li><a href="compatibility-guide-18.html" target="_blank">Kotlin 1.8 兼容性指南</a></li>
+                <li><a href="whatsnew18.md" target="_blank">Kotlin 1.8.0 版中的新功能</a></li>
+                <li><a href="compatibility-guide-18.md" target="_blank">Kotlin 1.8 兼容性指南</a></li>
             </list>
         </td>
     </tr>
@@ -206,7 +203,7 @@ title: Kotlin 的发布版本
         </td>
         <td>
             <p>针对 Kotlin 1.7.20 的 Bug 修复发布版.</p>
-            <p>关于 Kotlin 1.7.20, 请参见 <a href="whatsnew1720.html" target="_blank">Kotlin 1.7.20 版中的新功能</a>.</p>
+            <p>关于 Kotlin 1.7.20, 请参见 <a href="whatsnew1720.md" target="_blank">Kotlin 1.7.20 版中的新功能</a>.</p>
             <note>
               对于 Android Studio 的 Dolphin, Electric Eel, 以及 Flamingo 版,
               Kotlin plugin 1.7.21 会在之后的 Android Studio 更新中发布.
@@ -224,9 +221,9 @@ title: Kotlin 的发布版本
           </p>
             <p>详情请参见:</p>
             <list>
-                <li><a href="whatsnew1720.html" target="_blank">Kotlin 1.7.20 版中的新功能</a></li>
+                <li><a href="whatsnew1720.md" target="_blank">Kotlin 1.7.20 版中的新功能</a></li>
                 <li><a href="https://youtu.be/OG9npowJgE8" target="_blank">YouTube 视频: Kotlin 的新功能</a></li>
-                <li><a href="compatibility-guide-1720.html" target="_blank">Kotlin 1.7.20 兼容性指南</a></li>
+                <li><a href="compatibility-guide-1720.md" target="_blank">Kotlin 1.7.20 兼容性指南</a></li>
             </list>
             <p>详情请参见 <a href="https://github.com/JetBrains/kotlin/releases/tag/v1.7.20" target="_blank">Kotlin 1.7.20</a>.</p>
         </td>
@@ -258,9 +255,9 @@ title: Kotlin 的发布版本
             </p>
             <p>详情请参见:</p>
             <list>
-                <li><a href="whatsnew17.html" target="_blank">Kotlin 1.7.0 的新功能</a></li>
+                <li><a href="whatsnew17.md" target="_blank">Kotlin 1.7.0 的新功能</a></li>
                 <li><a href="https://youtu.be/54WEfLKtCGk" target="_blank">YouTube 视频: Kotlin 的新功能</a></li>
-                <li><a href="compatibility-guide-17.html" target="_blank">Kotlin 1.7.0 兼容性指南</a></li>
+                <li><a href="compatibility-guide-17.md" target="_blank">Kotlin 1.7.0 兼容性指南</a></li>
             </list>
         </td>
     </tr>
@@ -271,7 +268,7 @@ title: Kotlin 的发布版本
         </td>
         <td>
             <p>针对 Kotlin 1.6.20 的 Bug 修复发布版.</p>
-            <p>详情请参见 <a href="whatsnew1620.html" target="_blank">Kotlin 1.6.20</a>.</p>
+            <p>详情请参见 <a href="whatsnew1620.md" target="_blank">Kotlin 1.6.20</a>.</p>
         </td>
     </tr>
     <tr>
@@ -289,7 +286,7 @@ title: Kotlin 的发布版本
                 <li>Kotlin/JS: IR 编译器改进</li>
                 <li>Gradle: 编译器执行策略</li>
             </list>
-            <p>详情请参见 <a href="whatsnew1620.html" target="_blank">Kotlin 1.6.20</a>.</p>
+            <p>详情请参见 <a href="whatsnew1620.md" target="_blank">Kotlin 1.6.20</a>.</p>
         </td>
     </tr>
     <tr>
@@ -312,8 +309,8 @@ title: Kotlin 的发布版本
             <p>详情请参见:</p>
             <list>
                 <li><a href="https://blog.jetbrains.com/kotlin/2021/11/kotlin-1-6-0-is-released/" target="_blank">关于新版本发布的 Blog</a></li>
-                <li><a href="whatsnew16.html" target="_blank">Kotlin 1.6.0 的新功能</a></li>
-                <li><a href="compatibility-guide-16.html" target="_blank">Kotlin 1.6.0 兼容性指南</a></li>
+                <li><a href="whatsnew16.md" target="_blank">Kotlin 1.6.0 的新功能</a></li>
+                <li><a href="compatibility-guide-16.md" target="_blank">Kotlin 1.6.0 兼容性指南</a></li>
             </list>
         </td>
     </tr>
@@ -324,7 +321,7 @@ title: Kotlin 的发布版本
         </td>
         <td>
             <p>针对 Kotlin 1.5.31 的 Bug 修复发布版.</p>
-            <p>详情请参见 <a href="whatsnew1530.html" target="_blank">Kotlin 1.5.30</a>.</p>
+            <p>详情请参见 <a href="whatsnew1530.md" target="_blank">Kotlin 1.5.30</a>.</p>
         </td>
     </tr>
     <tr>
@@ -334,7 +331,7 @@ title: Kotlin 的发布版本
         </td>
         <td>
             <p>针对 Kotlin 1.5.30 的 Bug 修复发布版.</p>
-            <p>详情请参见 <a href="whatsnew1530.html" target="_blank">Kotlin 1.5.30</a>.</p>
+            <p>详情请参见 <a href="whatsnew1530.md" target="_blank">Kotlin 1.5.30</a>.</p>
         </td>
     </tr>
     <tr>
@@ -355,7 +352,7 @@ title: Kotlin 的发布版本
             <p>详情请参见:</p>
             <list>
                 <li><a href="https://blog.jetbrains.com/kotlin/2021/08/kotlin-1-5-30-released/" target="_blank">关于新版本发布的 Blog</a></li>
-                <li><a href="whatsnew1530.html" target="_blank">Kotlin 1.5.30 的新功能</a></li>
+                <li><a href="whatsnew1530.md" target="_blank">Kotlin 1.5.30 的新功能</a></li>
             </list>
         </td>
     </tr>
@@ -366,7 +363,7 @@ title: Kotlin 的发布版本
         </td>
         <td>
             <p>针对 Kotlin 1.5.20 的 Bug 修复发布版.</p>
-            <p>详情请参见 <a href="whatsnew1520.html" target="_blank">Kotlin 1.5.20</a>.</p>
+            <p>详情请参见 <a href="whatsnew1520.md" target="_blank">Kotlin 1.5.20</a>.</p>
         </td>
     </tr>
     <tr>
@@ -386,7 +383,7 @@ title: Kotlin 的发布版本
             <p>详情请参见:</p>
             <list>
                 <li><a href="https://blog.jetbrains.com/kotlin/2021/06/kotlin-1-5-20-released/" target="_blank">关于新版本发布的 Blog</a></li>
-                <li><a href="whatsnew1520.html" target="_blank">Kotlin 1.5.20 的新功能</a></li>
+                <li><a href="whatsnew1520.md" target="_blank">Kotlin 1.5.20 的新功能</a></li>
             </list>
         </td>
     </tr>
@@ -410,8 +407,8 @@ title: Kotlin 的发布版本
             <p>详情请参见:</p>
             <list>
                 <li><a href="https://blog.jetbrains.com/kotlin/2021/04/kotlin-1-5-0-released/" target="_blank">关于新版本发布的 Blog</a></li>
-                <li><a href="whatsnew15.html" target="_blank">Kotlin 1.5.0 的新功能</a></li>
-                <li><a href="compatibility-guide-15.html" target="_blank">Kotlin 1.5.0 兼容性指南</a></li>
+                <li><a href="whatsnew15.md" target="_blank">Kotlin 1.5.0 的新功能</a></li>
+                <li><a href="compatibility-guide-15.md" target="_blank">Kotlin 1.5.0 兼容性指南</a></li>
             </list>
         </td>
     </tr>
@@ -422,7 +419,7 @@ title: Kotlin 的发布版本
         </td>
         <td>
             <p>针对 Kotlin 1.4.30 的 Bug 修复发布版.</p>
-            <p>详情请参见 <a href="whatsnew1430.html" target="_blank">Kotlin 1.4.30</a>.</p>
+            <p>详情请参见 <a href="whatsnew1430.md" target="_blank">Kotlin 1.4.30</a>.</p>
         </td>
     </tr>
     <tr>
@@ -432,7 +429,7 @@ title: Kotlin 的发布版本
         </td>
         <td>
             <p>针对 Kotlin 1.4.30 的 Bug 修复发布版. </p>
-            <p>详情请参见 <a href="whatsnew1430.html" target="_blank">Kotlin 1.4.30</a>.</p>
+            <p>详情请参见 <a href="whatsnew1430.md" target="_blank">Kotlin 1.4.30</a>.</p>
         </td>
     </tr>
     <tr>
@@ -451,7 +448,7 @@ title: Kotlin 的发布版本
             <p>详情请参见:</p>
             <list>
                 <li><a href="https://blog.jetbrains.com/kotlin/2021/01/kotlin-1-4-30-released/" target="_blank">关于新版本发布的 Blog</a></li>
-                <li><a href="whatsnew1430.html" target="_blank">Kotlin 1.4.30 的新功能</a></li>
+                <li><a href="whatsnew1430.md" target="_blank">Kotlin 1.4.30 的新功能</a></li>
             </list>
         </td>
     </tr>
@@ -462,7 +459,7 @@ title: Kotlin 的发布版本
         </td>
         <td>
             <p>针对 Kotlin 1.4.20 的 Bug 修复发布版</p>
-            <p>详情请参见 <a href="whatsnew1420.html" target="_blank">Kotlin 1.4.20</a>.</p>
+            <p>详情请参见 <a href="whatsnew1420.md" target="_blank">Kotlin 1.4.20</a>.</p>
         </td>
     </tr>
     <tr>
@@ -480,10 +477,10 @@ title: Kotlin 的发布版本
             <p>详情请参见:</p>
             <list>
                 <li><a href="https://blog.jetbrains.com/kotlin/2020/11/kotlin-1-4-20-released/" target="_blank">关于新版本发布的 Blog</a></li>
-                <li><a href="whatsnew1420.html" target="_blank">Kotlin 1.4.20</a></li>
+                <li><a href="whatsnew1420.md" target="_blank">Kotlin 1.4.20</a></li>
             </list>
         </td>
-    </tr>  
+    </tr>
     <tr>
         <td><strong>1.4.10</strong>
             <p>发布日期: <strong>2020/09/07</strong></p>
@@ -493,7 +490,7 @@ title: Kotlin 的发布版本
             <p>针对 Kotlin 1.4.0 的 Bug 修复发布版.</p>
             <p>详情请参见 <a href="https://blog.jetbrains.com/kotlin/2020/08/kotlin-1-4-released-with-a-focus-on-quality-and-performance/" target="_blank">Kotlin 1.4.0</a>.</p>
         </td>
-    </tr>    
+    </tr>
     <tr>
         <td><strong>1.4.0</strong>
             <p>发布日期: <strong>2020/08/17</strong></p>
@@ -504,20 +501,20 @@ title: Kotlin 的发布版本
             <p>详情请参见:</p>
             <list>
                 <li><a href="https://blog.jetbrains.com/kotlin/2020/08/kotlin-1-4-released-with-a-focus-on-quality-and-performance/" target="_blank">关于新版本发布的 Blog</a></li>
-                <li><a href="whatsnew14.html" target="_blank">Kotlin 1.4.0 的新功能</a></li>
-                <li><a href="compatibility-guide-14.html" target="_blank">Kotlin 1.4.0 兼容性指南</a></li>
-                <li><a href="whatsnew14.html#migrating-to-kotlin-140" target="_blank">迁移到 Kotlin 1.4.0</a></li>
+                <li><a href="whatsnew14.md" target="_blank">Kotlin 1.4.0 的新功能</a></li>
+                <li><a href="compatibility-guide-14.md" target="_blank">Kotlin 1.4.0 兼容性指南</a></li>
+                <li><a href="whatsnew14.md#migrating-to-kotlin-1-4-0" target="_blank">迁移到 Kotlin 1.4.0</a></li>
             </list>
-         </td>
-    </tr>       
+        </td>
+    </tr>
     <tr>
         <td><strong>1.3.72</strong>
             <p>发布日期: <strong>2020/04/15</strong></p>
             <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v1.3.72" target="_blank">GitHub 发布链接</a></p>
         </td>
         <td>
-            <p>针对 Kotlin 1.3.70  的 Bug 修复发布版.</p>
+            <p>针对 Kotlin 1.3.70 的 Bug 修复发布版.</p>
             <p>详情请参见 <a href="https://blog.jetbrains.com/kotlin/2020/03/kotlin-1-3-70-released/" target="_blank">Kotlin 1.3.70</a>.</p>
-         </td>
-    </tr>    
+        </td>
+    </tr>
 </table>

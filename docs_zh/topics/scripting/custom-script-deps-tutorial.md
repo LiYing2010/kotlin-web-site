@@ -1,19 +1,13 @@
----
-type: doc
-layout: reference
-category:
-title: "教程 - Kotlin 自定义脚本(Custom Scripting) 入门"
----
+[//]: # (title: 教程 - Kotlin 自定义脚本(Custom Scripting) 入门)
 
-# 教程 - Kotlin 自定义脚本(Custom Scripting) 入门
+最终更新: %latestDocDate%
 
-最终更新: {{ site.data.releases.latestDocDate }}
-
-> Kotlin 脚本是 [实验性功能](../components-stability.html).
+> Kotlin 脚本是 [实验性功能](components-stability.md).
 > 它随时有可能变更或被删除.
 > 请注意, 只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://kotl.in/issue) 提供你的反馈意见.
-{:.warning}
+>
+{style="warning"}
 
 _Kotlin 脚本_ 是这样一种技术, 它能够将 Kotlin 代码作为脚本来运行, 不需要编译并打包为可执行文件.
 
@@ -60,13 +54,14 @@ print(
 
 ## 创建一个项目
 
-1. 在 IntelliJ IDEA 中, 选择 **File** \| **New** \| **Project**.
+1. 在 IntelliJ IDEA 中, 选择 **File** | **New** | **Project**.
 2. 在左侧面板中, 选择 **New Project**.
 3. 输入新项目名称, 如果需要, 修改它的位置.
 
    > 可以选择 **Create Git repository** 选择框, 将新项目添加到源代码版本管理系统.
    > 你也可以在之后的任何时候进行这个工作.
-   {:.tip}
+   >
+   {style="tip"}
 
 4. 在 **Language** 列表中, 选择 **Kotlin**.
 5. 选择 **Gradle** 构建系统.
@@ -77,13 +72,13 @@ print(
 7. 请为 **Gradle DSL** 选择 Kotlin 或 Gradle 语言 .
 8. 点击 **Create**.
 
-<img src="/assets/docs/images/tutorials/scripting/custom-script-deps/script-deps-create-root-project.png" alt="为自定义 Kotlin 脚本创建一个根项目" width="700"/>
+![为自定义 Kotlin 脚本创建一个根项目](script-deps-create-root-project.png){width=700}
 
 ## 添加脚本模块
 
 现在你已经有了一个空的 Kotlin/JVM Gradle 项目. 下面我们添加需要的模块, 脚本定义模块和脚本主机模块:
 
-1. 在 IntelliJ IDEA 中, 选择 **File \| New \| Module**.
+1. 在 IntelliJ IDEA 中, 选择 **File | New | Module**.
 2. 在左侧面板中, 选择 **New Module**. 这个模块将是我们的脚本定义模块.
 3. 输入新模块名称, 如果需要, 修改它的位置.
 4. 在 **Language** 列表中, 选择 **Java**.
@@ -91,7 +86,7 @@ print(
 6. 对模块的父模块, 选择根模块.
 7. 点击 **Create**.
 
-   <img src="/assets/docs/images/tutorials/scripting/custom-script-deps/script-deps-module-definition.png" alt="创建脚本定义模块" width="700"/>
+   ![创建脚本定义模块](script-deps-module-definition.png){width=700}
 
 8. 在模块的 `build.gradle(.kts)` 文件中, 删除 Kotlin Gradle plugin 的 `version`. 因为它在根项目的构建脚本中已经定义过了.
 
@@ -99,7 +94,7 @@ print(
 
 现在项目的结构应该如下:
 
-<img src="/assets/docs/images/tutorials/scripting/custom-script-deps/script-deps-project-structure.png" alt="自定义脚本项目的结构" width="300"/>
+![自定义脚本项目的结构](script-deps-project-structure.png){width=300}
 
 请参见 [kotlin-script-examples GitHub 仓库](https://github.com/Kotlin/kotlin-script-examples/tree/master/jvm/basic/jvm-maven-deps),
 你可以找到一个这样的项目的示例, 以及更多 Kotlin 脚本示例.
@@ -112,8 +107,8 @@ print(
 1. 在脚本定义模块中, 在 `build.gradle(.kts)` 文件的 `dependencies` 代码块中添加 Kotlin 脚本组件的依赖项.
    这些依赖项会提供你在脚本定义中需要的 API:
 
-   <div class="multi-language-sample" data-lang="kotlin">
-   <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+   <tabs group="build-script">
+   <tab title="Kotlin" group-key="kotlin">
 
    ```kotlin
    dependencies {
@@ -126,11 +121,8 @@ print(
    }
    ```
 
-   </div>
-   </div>
-
-   <div class="multi-language-sample" data-lang="groovy">
-   <div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+   </tab>
+   <tab title="Groovy" group-key="groovy">
 
    ```groovy
    dependencies {
@@ -140,12 +132,11 @@ print(
        implementation 'org.jetbrains.kotlin:kotlin-scripting-dependencies-maven'
        // 对我们的脚本定义, 需要 coroutines 依赖项
        implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:%coroutinesVersion%'
-
    }
    ```
 
-   </div>
-   </div>
+   </tab>
+   </tabs>
 
 2. 在模块中创建 `src/main/kotlin/` 目录, 并添加一个 Kotlin 源代码文件, 例如, `scriptDef.kt`.
 
@@ -179,7 +170,8 @@ print(
    > 本教程中, 我们只提供能够工作的代码, 没有详细解释 Kotlin 脚本 API.
    > 你可以在 [GitHub 代码仓库](https://github.com/Kotlin/kotlin-script-examples/blob/master/jvm/basic/jvm-maven-deps/script/src/main/kotlin/org/jetbrains/kotlin/script/examples/jvm/resolve/maven/scriptDef.kt)
    > 找到相同的代码, 包含详细的解释.
-   {:.note}
+   >
+   {style="note"}
 
 5. 定义脚本的编译配置, 如下.
 
@@ -216,7 +208,7 @@ print(
             }.asSuccess()
         }
     }
-    
+
     private val resolver = CompoundDependenciesResolver(FileSystemDependenciesResolver(), MavenDependenciesResolver())
    ```
 
@@ -231,8 +223,8 @@ print(
    * Kotlin 脚本组件, 它会提供你的脚本主机中需要的 API
    * 你前面创建的脚本定义模块
 
-   <div class="multi-language-sample" data-lang="kotlin">
-   <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+   <tabs group="build-script">
+   <tab title="Kotlin" group-key="kotlin">
 
    ```kotlin
    dependencies {
@@ -243,11 +235,8 @@ print(
    }
    ```
 
-   </div>
-   </div>
-
-   <div class="multi-language-sample" data-lang="groovy">
-   <div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+   </tab>
+   <tab title="Groovy" group-key="groovy">
 
    ```groovy
    dependencies {
@@ -258,8 +247,8 @@ print(
    }
    ```
 
-   </div>
-   </div>
+   </tab>
+   </tabs>
 
 2. 在模块中创建 `src/main/kotlin/` 目录, 并添加一个 Kotlin 源代码 文件, 例如, `host.kt`.
 
@@ -323,11 +312,11 @@ print(
    ```kotlin
    @file:Repository("https://maven.pkg.jetbrains.space/public/p/kotlinx-html/maven")
    @file:DependsOn("org.jetbrains.kotlinx:kotlinx-html-jvm:0.7.3")
-   
+
    import kotlinx.html.*; import kotlinx.html.stream.*; import kotlinx.html.attributes.*
-   
+
    val addressee = "World"
-   
+
    print(
        createHTML().html {
            body {
@@ -344,7 +333,7 @@ print(
    2. 右击侧栏图标, 选择 **Modify Run Configuration**.
    3. 在 **Create Run Configuration** 对话框中, 在 **Program arguments** 栏添加脚本文件名, 并点击 **OK**.
 
-      <img src="/assets/docs/images/tutorials/scripting/custom-script-deps/script-deps-run-config.png" alt="脚本主机运行配置" width="800"/>
+      ![脚本主机运行配置](script-deps-run-config.png){width=800}
 
 3. 运行创建后的配置.
 

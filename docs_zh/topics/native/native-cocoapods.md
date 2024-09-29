@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Native"
-title: "CocoaPods 概述与设置"
----
+[//]: # (title: CocoaPods 概述与设置)
 
-# CocoaPods 概述与设置
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin/Native 提供了与 [CocoaPods 依赖管理器](https://cocoapods.org/) 的集成功能.
 你可以添加对 Pod 库的依赖项, 也可以使用跨平台项目的原生编译目标作为 CocoaPods 依赖项.
@@ -18,14 +11,15 @@ Kotlin/Native 提供了与 [CocoaPods 依赖管理器](https://cocoapods.org/) �
 只有在需要编写 Swift/Objective-C 代码, 或在模拟器或设备上运行应用程序时, 才需要使用 Xcode.
 要与 Xcode 正确的协同工作, 你需要 [更新你的 Podfile](#update-podfile-for-xcode).
 
-根据你的项目和目的不同, 可以添加 [Kotlin 项目对 Pod 库的依赖项](native-cocoapods-libraries.html),
-以及 [Kotlin Gradle 项目对 Xcode 项目的依赖项](native-cocoapods-xcode.html).
+根据你的项目和目的不同, 可以添加 [Kotlin 项目对 Pod 库的依赖项](native-cocoapods-libraries.md),
+以及 [Kotlin Gradle 项目对 Xcode 项目的依赖项](native-cocoapods-xcode.md).
 
-## 设置 CocoaPods 环境
+## 设置 CocoaPods 环境 {id="set-up-an-environment-to-work-with-cocoapods"}
 
 使用你选择的安装工具, 安装 [CocoaPods 依赖项管理器](https://cocoapods.org/):
 
-### RVM
+<tabs>
+<tab title="RVM">
 
 1. 如果你还没有, 请先安装 [RVM (Ruby 版本管理器)](https://rvm.io/rvm/install).
 2. 安装 Ruby. 你可以选择特定的版本:
@@ -40,7 +34,8 @@ Kotlin/Native 提供了与 [CocoaPods 依赖管理器](https://cocoapods.org/) �
     sudo gem install -n /usr/local/bin cocoapods
     ```
 
-### Rbenv
+</tab>
+<tab title="Rbenv">
 
 1. 如果你还没有, 请先从 GitHub 安装 [rbenv](https://github.com/rbenv/rbenv#installation).
 2. 安装 Ruby. 你可以选择特定的版本:
@@ -60,10 +55,12 @@ Kotlin/Native 提供了与 [CocoaPods 依赖管理器](https://cocoapods.org/) �
     sudo gem install -n /usr/local/bin cocoapods
     ```
 
-### 默认的 Ruby
+</tab>
+<tab title="默认的 Ruby">
 
 > 这种安装方法不能用于使用 Apple M 芯片的设备. 请使用其他工具来设置 CocoaPods 工作环境.
-{:.note}
+>
+{style="note"}
 
 你可以使用 macOS 上默认的 Ruby 来安装 CocoaPods 依赖管理器:
 
@@ -71,37 +68,48 @@ Kotlin/Native 提供了与 [CocoaPods 依赖管理器](https://cocoapods.org/) �
 sudo gem install cocoapods
 ```
 
-### Homebrew
+</tab>
+<tab title="Homebrew">
 
 > 使用 Homebrew 安装 CocoaPods 可能出现兼容性问题.
 >
 > 在安装 CocoaPods 时, Homebrew 也会安装与 Xcode 联合工作时所需要的 [Xcodeproj](https://github.com/CocoaPods/Xcodeproj) gem.
 > 但是, 它不能通过 Homebrew 来更新, 而且, 如果安装的 Xcodeproj 还不支持最新的 Xcode 版本, 那么你会在安装 Pod 时出现错误.
 > 如果发生这样的情况, 请试用其他工具来安装 CocoaPods.
-{:.warning}
+>
+{style="warning"}
 
 1. 如果你还没有, 请先安装 [Homebrew](https://brew.sh/).
- 
+
 2. 安装 CocoaPods:
 
     ```bash
     brew install cocoapods
     ```
 
-### 如果你使用 Kotlin 1.7.0 以前的版本
-如果你目前的 Kotlin 版本低于 1.7.0, 那么还需要安装 [`cocoapods-generate`](https://github.com/square/cocoapods-generate) 插件:
+</tab>
+</tabs>
 
-  ```bash
-  sudo gem install -n /usr/local/bin cocoapods-generate
-  ```
-
-  > 请注意, `cocoapods-generate` 不能安装在 Ruby 3.0.0 或更高版本上.
-  > 如果你使用的是 Ruby 3.0.0 或更高版本, 请降级 Ruby, 或将 Kotlin 升级到 1.7.0 或更高版本.
-  {:.note}
+<procedure collapsible="true" title="如果你使用 Kotlin 1.7.0 以前的版本">
+    <p>
+        如果你目前的 Kotlin 版本低于 1.7.0, 那么还需要安装 <a href="https://github.com/square/cocoapods-generate"><code>cocoapods-generate</code></a> plugin:
+    </p>
+    <p>
+        <code style="block" lang="bash">
+            sudo gem install -n /usr/local/bin cocoapods-generate
+        </code>
+    </p>
+    <tip>
+        <p>
+            请注意, <code>cocoapods-generate</code> 不能安装在 Ruby 3.0.0 或更高版本上.
+            如果你使用的是 Ruby 3.0.0 或更高版本, 请降级 Ruby, 或将 Kotlin 升级到 1.7.0 或更高版本.
+        </p>
+    </tip>
+</procedure>
 
 如果你在安装过程中遇到问题, 请参见 [可能发生的问题与解决方案](#possible-issues-and-solutions) 小节.
 
-## 添加并配置 Kotlin CocoaPods Gradle plugin
+## 添加并配置 Kotlin CocoaPods Gradle plugin {id="add-and-configure-kotlin-cocoapods-gradle-plugin"}
 
 如果你的环境已经正确设置, 你可以 [创建一个新的 Kotlin Multiplatform 项目](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-create-first-app.html),
 并在 iOS framework distribution 选项中, 选择 **CocoaPods Dependency Manager**.
@@ -113,8 +121,8 @@ sudo gem install cocoapods
 
     ```kotlin
     plugins {
-        kotlin("multiplatform") version "{{ site.data.releases.latest.version }}"
-        kotlin("native.cocoapods") version "{{ site.data.releases.latest.version }}"
+        kotlin("multiplatform") version "%kotlinVersion%"
+        kotlin("native.cocoapods") version "%kotlinVersion%"
     }
     ```
 
@@ -122,8 +130,8 @@ sudo gem install cocoapods
 
     ```kotlin
     plugins {
-        kotlin("multiplatform") version "{{ site.data.releases.latest.version }}"
-        kotlin("native.cocoapods") version "{{ site.data.releases.latest.version }}"
+        kotlin("multiplatform") version "%kotlinVersion%"
+        kotlin("native.cocoapods") version "%kotlinVersion%"
     }
 
     kotlin {
@@ -160,8 +168,9 @@ sudo gem install cocoapods
     }
     ```
 
-   > Kotlin DSL 的完整语法请参见 [Kotlin Gradle plugin 代码仓库](https://github.com/JetBrains/kotlin/blob/master/libraries/tools/kotlin-gradle-plugin/src/common/kotlin/org/jetbrains/kotlin/gradle/targets/native/cocoapods/CocoapodsExtension.kt).
-   {:.note}
+    > Kotlin DSL 的完整语法请参见 [Kotlin Gradle plugin 代码仓库](https://github.com/JetBrains/kotlin/blob/master/libraries/tools/kotlin-gradle-plugin/src/common/kotlin/org/jetbrains/kotlin/gradle/targets/native/cocoapods/CocoapodsExtension.kt).
+    >
+    {style="note"}
 
 3. 重新导入项目.
 
@@ -174,7 +183,7 @@ sudo gem install cocoapods
 
 `Podspec` 文件包含输出框架的路径, 以及一段脚本, 负责在 Xcode 项目的构建过程中, 自动构建这个框架.
 
-## 为 Xcode 更新 Podfile 文件
+## 为 Xcode 更新 Podfile 文件 {id="update-podfile-for-xcode"}
 
 如果要在一个 Xcode 项目中导入你的 Kotlin 项目, 需要修改你的 Podfile 文件:
 
@@ -203,13 +212,14 @@ sudo gem install cocoapods
     ```
 
 > 对 Podfile 文件进行这些修改后, 需要重新导入项目.
-{:.note}
+>
+{style="note"}
 
 如果不对 Podfile 文件进行这些修改, `podInstall` 任务将会失败, CocoaPods plugin 会在 log 中显示错误消息.
 
-## 可能发生的问题与解决方案
+## 可能发生的问题与解决方案 {id="possible-issues-and-solutions"}
 
-### CocoaPods 安装
+### CocoaPods 安装 {collapsible="true"}
 
 #### Ruby 安装
 
@@ -229,9 +239,9 @@ Ruby 1.9 或更高版本带有一个内建的 RubyGems 包管理框架, 可以�
 但是, `cocoapods-generate` 不兼容 Ruby 3.0.0 或更高版本.
 这种情况下, 请降级 Ruby, 或升级 Kotlin 到 1.7.0 或更高版本.
 
-### 找不到模块
+### 找不到模块 {collapsible="true"}
 
-你可能遇到 `module 'SomeSDK' not found` 错误, 这是 [与 C 代码交互](native-c-interop.html) 相关的问题.
+你可能遇到 `module 'SomeSDK' not found` 错误, 这是 [与 C 代码交互](native-c-interop.md) 相关的问题.
 请使用以下变通方法解决这个错误:
 
 #### 指定框架名称
@@ -261,7 +271,7 @@ pod("NearbyMessages") {
 详情请参见 [CocoaPods 文档](https://guides.cocoapods.org/).
 如果尝试过以上方法后, 仍然发生这个错误, 请到 [YouTrack](https://youtrack.jetbrains.com/newissue?project=kt) 报告问题.
 
-### 同步错误
+### 同步错误 {collapsible="true"}
 
 你可能会遇到 `rsync error: some files could not be transferred` 错误.
 这是一个 [已知的问题](https://github.com/CocoaPods/CocoaPods/issues/11946),
@@ -271,7 +281,7 @@ pod("NearbyMessages") {
 
 1. 在应用程序目标设定中禁用用户脚本的沙箱功能:
 
-   <img src="/assets/docs/images/multiplatform/disable-sandboxing-cocoapods.png" alt="禁用 CocoaPods 沙箱功能" width="700"/>
+   ![禁用 CocoaPods 沙箱功能](disable-sandboxing-cocoapods.png){width=700}
 
 2. 停止可能已经启用了沙箱功能的 Gradle daemon 进程:
 

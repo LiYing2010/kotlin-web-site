@@ -1,12 +1,6 @@
----
-type: doc
-layout: reference
-title: "示例程序"
----
+[//]: # (title: 示例程序)
 
-# 示例程序
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 这里是 Kotlin Multiplatform Mobile 示例程序的简要列表.
 
@@ -14,7 +8,8 @@ title: "示例程序"
 >
 > 如果你想要将你的 Multiplatform Mobile 项目添加到这个 topic, 帮助社区,
 > 请按照 [GitHub 文档](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/classifying-your-repository-with-topics#adding-topics-to-your-repository) 中的指示进行.
-{:.tip}
+>
+{style="tip"}
 
 <table>
 <tr>

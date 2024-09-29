@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Syntax"
-title: "函数"
----
+[//]: # (title: 函数)
 
-# 函数
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin 中的函数使用 `fun` 关键字定义:
 
@@ -40,7 +33,7 @@ Stream().read() // 创建一个 Stream 类的实例, 然后调用这个实例的
 fun powerOf(number: Int, exponent: Int): Int { /*...*/ }
 ```
 
-声明函数参数时, 可以使用 [尾随逗号(trailing comma)](coding-conventions.html#trailing-commas):
+声明函数参数时, 可以使用 [尾随逗号(trailing comma)](coding-conventions.md#trailing-commas):
 
 ```kotlin
 fun powerOf(
@@ -49,7 +42,7 @@ fun powerOf(
 ) { /*...*/ }
 ```
 
-### 默认参数
+### 默认参数 {id="default-arguments"}
 
 函数参数可以指定默认值, 如果调用函数时省略了对应的参数, 就会使用默认值.
 这种功能使得我们可以减少大量的重载(overload)函数定义:
@@ -89,8 +82,8 @@ fun foo(
 foo(baz = 1) // 这里将会使用默认参数 bar = 0
 ```
 
-如果默认参数之后的最后一个参数是 [lambda 表达式](lambdas.html#lambda-expression-syntax),
-那么你可以使用命名参数的方式传递这个 lambda 表达式, 也可以[在括号之外传递](lambdas.html#passing-trailing-lambdas):
+如果默认参数之后的最后一个参数是 [lambda 表达式](lambdas.md#lambda-expression-syntax),
+那么你可以使用命名参数的方式传递这个 lambda 表达式, 也可以[在括号之外传递](lambdas.md#passing-trailing-lambdas):
 
 ```kotlin
 fun foo(
@@ -104,7 +97,7 @@ foo(qux = { println("hello") }) // 这里将会使用默认参数 bar = 0 和 ba
 foo { println("hello") }        // 这里将会使用默认参数 bar = 0 和 baz = 1
 ```
 
-### 命名参数
+### 命名参数 {id="named-arguments"}
 
 调用函数时, 你可以指定一个或多个参数名.
 当函数参数很多时, 将实际参数值与函数参数一一对应起来会变得很困难, 尤其是如果参数值是布尔值, 或 `null` 值,
@@ -159,9 +152,10 @@ foo(strings = *arrayOf("a", "b", "c"))
 
 > 在 JVM 平台调用 Java 函数时, 不能使用这种命名参数语法,
 > 因为 Java 字节码并不一定保留了函数参数的名称信息.
-{:.note}
+>
+{style="note"}
 
-### 返回值为 Unit 的函数
+### 返回值为 Unit 的函数 {id="unit-returning-functions"}
 
 如果一个函数不返回有意义的结果值, 那么它的返回类型为 `Unit`. `Unit` 类型只有唯一的一个值 - `Unit`.
 在函数中, 不需要明确地返回这个值:
@@ -182,7 +176,7 @@ fun printHello(name: String?): Unit {
 fun printHello(name: String?) { ... }
 ```
 
-### 单表达式函数(Single-expression function)
+### 单表达式函数(Single-expression function) {id="single-expression-functions"}
 
 如果函数体只包含单个表达式, 那么大括号可以省略, 函数体可以直接写在 `=` 之后:
 
@@ -196,7 +190,7 @@ fun double(x: Int): Int = x * 2
 fun double(x: Int) = x * 2
 ```
 
-### 明确指定返回值类型
+### 明确指定返回值类型 {id="explicit-return-types"}
 
 如果函数体为多行语句组成的代码段, 那么就必须明确指定返回值类型,
 除非这个函数打算返回 `Unit`, [这时返回类型的声明可以省略](#unit-returning-functions).
@@ -204,8 +198,7 @@ fun double(x: Int) = x * 2
 对于多行语句组成的函数, Kotlin 不会推断其返回值类型, 因为这样的函数内部可能存在复杂的控制流,
 而且返回值类型对于代码的阅读者来说并不是那么一目了然(有些时候, 甚至对于编译器来说也很难判定返回值类型).
 
-
-### 不定数量参数(varargs)
+### 不定数量参数(varargs) {id="variable-number-of-arguments-varargs"}
 
 你可以对一个函数的一个参数 (通常是参数中的最后一个) 标记 `vararg` 修饰符:
 
@@ -238,7 +231,7 @@ val a = arrayOf(1, 2, 3)
 val list = asList(-1, 0, *a, 4)
 ```
 
-如果要向 `vararg` 参数传递一个 [基本类型的数组](arrays.html#primitive-type-arrays),
+如果要向 `vararg` 参数传递一个 [基本类型的数组](arrays.md#primitive-type-arrays),
 你需要使用 `toTypedArray()` 函数, 将它转换为一个通常的(有类型的)数组:
 
 ```kotlin
@@ -251,7 +244,7 @@ val list = asList(-1, 0, *a.toTypedArray(), 4)
 使用 `infix` 关键字标记的函数, 也可以使用中缀标记法(infix notation)来调用(调用时省略点号和括号).
 中缀函数需要满足以下条件:
 
-* 必须是成员函数, 或者是[扩展函数](extensions.html).
+* 必须是成员函数, 或者是[扩展函数](extensions.md).
 * 必须只有单个参数.
 * 参数不能是 [不定数量参数](#variable-number-of-arguments-varargs), 而且不能有 [默认值](#default-arguments).
 
@@ -274,7 +267,8 @@ infix fun Int.shl(x: Int): Int { ... }
 > 另一方面, 中缀函数调用的优先级, 高于布尔值运算符 `&&` 和 `||`, `is` 和 `in` 检查, 以及其他运算符. 以下表达式是等价的:
 > * `a && b xor c` 等价于 `a && (b xor c)`
 > * `a xor b in c` 等价于 `(a xor b) in c`
-{:.note}
+>
+{style="note"}
 
 注意, 中缀函数的接受者和参数都需要明确指定.
 如果使用中缀标记法调用当前接受者的一个方法, 需要明确指定 `this`.
@@ -292,14 +286,14 @@ class MyStringCollection {
 }
 ```
 
-## 函数的范围
+## 函数的范围 {id="function-scope"}
 
 Kotlin 的函数可以定义在源代码的顶级范围内(Top Level),
 这就意味着, 你不必象在 Java, C# 或 Scala ([从 Scala 3 开始可以使用顶级定义](https://docs.scala-lang.org/scala3/book/taste-toplevel-definitions.html#inner-main))
 等等语言中那样, 创建一个类来容纳这个函数.
 除顶级函数之外, Kotlin 的函数也可以在局部范围内, 定义为成员函数, 以及扩展函数.
 
-### 局部函数
+### 局部函数 {id="local-functions"}
 
 Kotlin 支持局部函数, 也就是嵌套在另一个函数内的函数:
 
@@ -331,7 +325,7 @@ fun dfs(graph: Graph) {
 }
 ```
 
-### 成员函数
+### 成员函数 {id="member-functions"}
 
 成员函数是指定义在类或对象之内的函数:
 
@@ -347,7 +341,7 @@ class Sample {
 Sample().foo() // 创建 Sample 类的实例, 并调用 foo 函数
 ```
 
-关于类, 以及成员覆盖, 详情请参见 [类](classes.html) 和 [继承](classes.html#inheritance).
+关于类, 以及成员覆盖, 详情请参见 [类](classes.md) 和 [继承](classes.md#inheritance).
 
 ## 泛型函数
 
@@ -357,9 +351,9 @@ Sample().foo() // 创建 Sample 类的实例, 并调用 foo 函数
 fun <T> singletonList(item: T): List<T> { /*...*/ }
 ```
 
-关于泛型函数, 详情请参见 [泛型](generics.html).
+关于泛型函数, 详情请参见 [泛型](generics.md).
 
-## 尾递归函数(Tail recursive function)
+## 尾递归函数(Tail recursive function) {id="tail-recursive-functions"}
 
 Kotlin 支持一种称为 [尾递归(tail recursion)](https://en.wikipedia.org/wiki/Tail_call) 的函数式编程方式.
 对于某些算法, 本来需要使用循环来实现, 你可以改用递归函数, 但同时不会存在栈溢出(stack overflow)的风险.
@@ -396,6 +390,6 @@ private fun findFixPoint(): Double {
 目前只有 Kotlin for JVM 和 Kotlin/Native 支持尾递归.
 
 **参见**:
-* [内联函数(Inline Function)](inline-functions.html)
-* [扩展函数](extensions.html)
-* [高阶函数(Higher-Order Function) 与 Lambda 表达式](lambdas.html)
+* [内联函数(Inline Function)](inline-functions.md)
+* [扩展函数](extensions.md)
+* [高阶函数(Higher-Order Function) 与 Lambda 表达式](lambdas.md)

@@ -1,12 +1,6 @@
----
-type: doc
-layout: reference
-title: "添加 iOS 依赖项"
----
+[//]: # (title: 添加 iOS 依赖项)
 
-# 添加 iOS 依赖项
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 在 Kotlin Multiplatform 项目中, Apple SDK 依赖项(比如 Foundation 或 Core Bluetooth) 可以作为一组预构建的库来使用.
 不需要额外的配置.
@@ -20,13 +14,13 @@ Kotlin 支持与 Objective-C 依赖项交互, 也支持 Swift 依赖项, 但要�
 我们推荐在 Kotlin Multiplatform 项目中 [使用 CocoaPods](#with-cocoapods) 来管理 iOS 依赖项.
 如果你想要精密调节交互过程细节, 或者有某些很重要的原因, 只有这些情况才需要 [手动管理依赖项](#without-cocoapods).
 
-### 使用 CocoaPods
+### 使用 CocoaPods {id="with-cocoapods"}
 
-1. 执行 [CocoaPods 集成的初始设置](../native/native-cocoapods.html#set-up-an-environment-to-work-with-cocoapods).
+1. 执行 [CocoaPods 集成的初始设置](native-cocoapods.md#set-up-an-environment-to-work-with-cocoapods).
 2. 在你的项目的 `build.gradle(.kts)` 文件中加入 `pod()` 函数调用, 添加 CocoaPods 仓库中的你想要使用的 Pod 库的依赖项.
 
-    <div class="multi-language-sample" data-lang="kotlin">
-    <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+    <tabs group="build-script">
+    <tab title="Kotlin" group-key="kotlin">
 
     ```kotlin
     kotlin {
@@ -39,11 +33,8 @@ Kotlin 支持与 Objective-C 依赖项交互, 也支持 Swift 依赖项, 但要�
     }
     ```
 
-    </div>
-    </div>
-
-    <div class="multi-language-sample" data-lang="groovy">
-    <div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+    </tab>
+    <tab title="Groovy" group-key="groovy">
 
     ```groovy
     kotlin {
@@ -56,15 +47,15 @@ Kotlin 支持与 Objective-C 依赖项交互, 也支持 Swift 依赖项, 但要�
     }
     ```
 
-    </div>
-    </div>
+    </tab>
+    </tabs>
 
    你可以通过以下方式添加 Pod 库依赖项:
-    * [使用 CocoaPods 仓库](../native/native-cocoapods-libraries.html#from-the-cocoapods-repository)
-    * [使用本地存储的库](../native/native-cocoapods-libraries.html#on-a-locally-stored-library)
-    * [使用自定义的 Git 仓库](../native/native-cocoapods-libraries.html#from-a-custom-git-repository)
-    * [使用自定义的 Podspec 仓库](../native/native-cocoapods-libraries.html#from-a-custom-podspec-repository)
-    * [使用自定义的 cinterop 选项](../native/native-cocoapods-libraries.html#with-custom-cinterop-options)
+    * [使用 CocoaPods 仓库](native-cocoapods-libraries.md#from-the-cocoapods-repository)
+    * [使用本地存储的库](native-cocoapods-libraries.md#on-a-locally-stored-library)
+    * [使用自定义的 Git 仓库](native-cocoapods-libraries.md#from-a-custom-git-repository)
+    * [使用自定义的 Podspec 仓库](native-cocoapods-libraries.md#from-a-custom-podspec-repository)
+    * [使用自定义的 cinterop 选项](native-cocoapods-libraries.md#with-custom-cinterop-options)
 
 3. 重新导入项目.
 
@@ -74,7 +65,7 @@ Kotlin 支持与 Objective-C 依赖项交互, 也支持 Swift 依赖项, 但要�
 import cocoapods.FirebaseAuth.*
 ```
 
-### 不使用 CocoaPods
+### 不使用 CocoaPods {id="without-cocoapods"}
 
 如果你不想使用 CocoaPods, 你可以使用 cinterop 工具来为 Objective-C 或 Swift 声明创建 Kotlin 绑定.
 然后就可以从 Kotlin 代码调用它们.
@@ -86,7 +77,7 @@ import cocoapods.FirebaseAuth.*
 3. 创建一个专用的 `.def` 文件, 为 cinterop 描述这个依赖项.
 4. 调节你的构建脚本, 在构建过程中生成绑定.
 
-#### 不使用 CocoaPods, 添加一个库
+#### 不使用 CocoaPods, 添加一个库 {id="add-a-library-without-cocoapods"}
 
 1. 下载库的源代码, 放在从你的项目可以引用的某个地方.
 
@@ -112,8 +103,8 @@ import cocoapods.FirebaseAuth.*
     * 使用 `includeDirs` 选项, 告诉 cinterop 到哪里寻找头文件.
     * 配置如何链接到库的二进制文件.
 
-    <div class="multi-language-sample" data-lang="kotlin">
-    <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+    <tabs group="build-script">
+    <tab title="Kotlin" group-key="kotlin">
 
     ```kotlin
     kotlin {
@@ -137,11 +128,8 @@ import cocoapods.FirebaseAuth.*
     }
     ```
 
-    </div>
-    </div>
-
-    <div class="multi-language-sample" data-lang="groovy">
-    <div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+    </tab>
+    <tab title="Groovy" group-key="groovy">
 
     ```groovy
     kotlin {
@@ -167,8 +155,8 @@ import cocoapods.FirebaseAuth.*
     }
     ```
 
-    </div>
-    </div>
+    </tab>
+    </tabs>
 
 7. 构建项目.
 
@@ -179,7 +167,7 @@ import cocoapods.FirebaseAuth.*
 import DateTools.*
 ```
 
-#### 不使用 CocoaPods, 添加一个框架
+#### 不使用 CocoaPods, 添加一个框架 {id="add-a-framework-without-cocoapods"}
 
 1. 下载框架源代码, 放在从你的项目可以引用的某个地方.
 
@@ -206,8 +194,8 @@ import DateTools.*
     * 使用 `-framework` 选项, 向编译器和链接器传递框架名称. 
       使用 `-F` 选项, 向编译器和链接器传递框架源代码和二进制文件的路径.
 
-    <div class="multi-language-sample" data-lang="kotlin">
-    <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+    <tabs group="build-script">
+    <tab title="Kotlin" group-key="kotlin">
 
     ```kotlin
     kotlin {
@@ -230,11 +218,8 @@ import DateTools.*
     }
     ```
 
-    </div>
-    </div>
-
-    <div class="multi-language-sample" data-lang="groovy">
-    <div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+    </tab>
+    <tab title="Groovy" group-key="groovy">
 
     ```groovy
     kotlin {
@@ -259,8 +244,8 @@ import DateTools.*
     }
     ```
 
-    </div>
-    </div>
+    </tab>
+    </tabs>
 
 7. 构建项目.
 
@@ -271,13 +256,13 @@ import DateTools.*
 import MyFramework.*
 ```
 
-详情请参见 [与 Objective-C 和 Swift 交互](../native/native-objc-interop.html)
-以及 [在 Gradle 中配置 cinterop](../multiplatform/multiplatform-dsl-reference.html#cinterops).
+详情请参见 [与 Objective-C 和 Swift 交互](native-objc-interop.md)
+以及 [在 Gradle 中配置 cinterop](multiplatform-dsl-reference.md#cinterops).
 
 ## 下一步做什么?
 
 查看跨平台项目中添加依赖项的其他资料, 并学习以下内容:  
 
-* [连接到平台相关的库](multiplatform-share-on-platforms.html#connect-platform-specific-libraries)
-* [添加对跨平台库或其他跨平台项目的依赖项](../multiplatform/multiplatform-add-dependencies.html)
-* [添加 Android 依赖项](multiplatform-android-dependencies.html)
+* [连接到平台相关的库](multiplatform-share-on-platforms.md#connect-platform-specific-libraries)
+* [添加对跨平台库或其他跨平台项目的依赖项](multiplatform-add-dependencies.md)
+* [添加 Android 依赖项](multiplatform-android-dependencies.md)

@@ -1,15 +1,8 @@
----
-type: doc
-layout: reference
-category: "Syntax"
-title: "内联函数(Inline Function)"
----
+[//]: # (title: 内联函数(Inline Function))
 
-# 内联函数(Inline Function)
+最终更新: %latestDocDate%
 
-最终更新: {{ site.data.releases.latestDocDate }}
-
-使用 [高阶函数](lambdas.html) 在运行时会带来一些不利: 每个函数都是一个对象, 而且它还要捕获一个闭包,
+使用 [高阶函数](lambdas.md) 在运行时会带来一些不利: 每个函数都是一个对象, 而且它还要捕获一个闭包,
 闭包是指一个环境范围, 在这个范围内, 函数体内部可以访问外层变量.
 内存占用(函数对象和类都会占用内存) 以及虚方法调用都会带来运行时的消耗.
 
@@ -60,15 +53,15 @@ inline fun foo(inlined: () -> Unit, noinline notInlined: () -> Unit) { ... }
 > 如果一个内联函数不存在可以内联的函数类型参数, 而且没有 [实体化的类型参数](#reified-type-parameters),
 > 编译器将会产生一个警告, 因为将这样的函数内联不太可能带来任何益处.
 > (如果你确信需要内联, 可以使用 `@Suppress("NOTHING_TO_INLINE")` 注解关闭这个警告)
-{:.note}
+>
+{style="note"}
 
-## 非局部返回(Non-local return)
+## 非局部返回(Non-local return) {id="non-local-returns"}
 
 在 Kotlin 中, 使用无限定符的通常的 `return` 语句, 只能用来退出一个有名称的函数, 或匿名函数.
-要退出一个 Lambda 表达式, 可以使用一个 [标签](returns.html#return-to-labels).
+要退出一个 Lambda 表达式, 可以使用一个 [标签](returns.md#return-to-labels).
 在 Lambda 表达式内禁止使用无标签的 `return`, 因为 Lambda 表达式不允许强制包含它的函数 `return`:
 
-<div class="sample" markdown="1" theme="idea">
 ```kotlin
 fun ordinaryFunction(block: () -> Unit) {
     println("hi!")
@@ -84,11 +77,10 @@ fun main() {
     foo()
 }
 ```
-</div>
+{kotlin-runnable="true" validate="false"}
 
 但是, 如果 Lambda 表达式被传递去的函数是内联函数, 那么 `return` 语句也可以内联, 因此 `return` 是允许的:
 
-<div class="sample" markdown="1" theme="idea">
 ```kotlin
 inline fun inlined(block: () -> Unit) {
     println("hi!")
@@ -104,7 +96,7 @@ fun main() {
     foo()
 }
 ```
-</div>
+{kotlin-runnable="true"}
 
 这样的 `return` 语句(位于 Lambda 表达式内部, 但是退出包含 Lambda 表达式的函数) 称为 *非局部(non-local)* 返回.
 这样的结构经常出现在循环中, 而循环也常常就是包含内联函数的地方:
@@ -133,9 +125,10 @@ inline fun f(crossinline body: () -> Unit) {
 ```
 
 > 在内联的 Lambda 表达式中目前还不能使用 `break` 和 `continue`, 但我们计划将来支持它们.
-{:.note}
+>
+{style="note"}
 
-## 实体化的类型参数(Reified type parameter)
+## 实体化的类型参数(Reified type parameter) {id="reified-type-parameters"}
 
 有些时候你需要访问作为参数传递来的类型:
 
@@ -192,9 +185,9 @@ fun main(s: Array<String>) {
 通常的函数(没有使用 inline 标记的) 不能够使用实体化的类型参数.
 一个没有运行时表现的类型(比如, 一个没有实体化的类型参数, 或者一个虚拟类型, 比如 `Nothing`) 不可以用作实体化的类型参数.
 
-## 内联属性(Inline property)
+## 内联属性(Inline property) {id="inline-properties"}
 
-对于不存在 [后端域变量(Backing Field)](properties.html#backing-fields) 的属性, 可以对它的取值和设值方法使用 `inline` 修饰符.
+对于不存在 [后端域变量(Backing Field)](properties.md#backing-fields) 的属性, 可以对它的取值和设值方法使用 `inline` 修饰符.
 你可以标识单个的属性取值/设值方法:
 
 ```kotlin
@@ -219,7 +212,7 @@ inline var bar: Bar
 ## 对 Public API 内联函数的限制
 
 当一个内联函数是 `public` 或 `protected` 的, 但不属于 `private` 或 `internal` 类型的一部分,
-这个函数将被认为是一个 [模块(module)](visibility-modifiers.html#modules) 的 Public API.
+这个函数将被认为是一个 [模块(module)](visibility-modifiers.md#modules) 的 Public API.
 它可以在其它模块中调用, 并且被内联到调用处.
 
 假如内联函数的定义模块发生了变化, 而调用它的模块没有重新编译, 这时就可能会造成二进制代码不兼容的风险.

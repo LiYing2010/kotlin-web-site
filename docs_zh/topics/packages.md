@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Syntax"
-title: "包与导入"
----
+[//]: # (title: 包(Package)与导入(Import))
 
-# 包与导入
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 源代码文件的开始部分可以是包声明:
 
@@ -48,7 +41,7 @@ class Message { /*...*/ }
 - JavaScript 平台:
   - [kotlin.js.*](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.js/index.html)
 
-## 导入(Import)
+## 导入(Import) {id="imports"}
 
 除默认导入(Import)的内容之外, 各源代码可以包含自己独自的 `import` 指令.
 
@@ -74,10 +67,10 @@ import org.test.Message as TestMessage // 可以使用新名称 TestMessage 来�
 `import` 关键字不仅可以用来导入类; 还可以用来导入其他声明:
 
   * 顶级(top-level) 函数和属性
-  * [对象声明](object-declarations.html#object-declarations-overview) 中定义的函数和属性
-  * [枚举常数](enum-classes.html)
+  * [对象声明](object-declarations.md#object-declarations-overview) 中定义的函数和属性
+  * [枚举常数](enum-classes.md)
 
 ## 顶级(top-level) 声明的可见度
 
 如果一个顶级(top-level) 声明被标注为 `private`, 它将成为私有的,
-只有在它所属的文件内可以访问(参见 [可见度修饰符](visibility-modifiers.html)).
+只有在它所属的文件内可以访问(参见 [可见度修饰符](visibility-modifiers.md)).

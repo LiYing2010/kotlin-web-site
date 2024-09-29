@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "继承"
----
+[//]: # (title: 继承)
 
-# 继承
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin 中所有的类都有一个共同的超类 `Any`, 如果类声明时没有指定超类, 则默认为 `Any`:
 
@@ -47,7 +40,7 @@ class MyView : View {
 }
 ```
 
-## 方法的覆盖
+## 方法的覆盖 {id="overriding-methods"}
 
 Kotlin 要求使用明确的修饰符来标识允许被子类覆盖的成员, 也要求使用明确的修饰符来标识对超类成员的覆盖:
 
@@ -77,7 +70,7 @@ open class Rectangle() : Shape() {
 }
 ```
 
-## 属性的覆盖
+## 属性的覆盖 {id="overriding-properties"}
 
 属性的覆盖方式与方法覆盖相同; 超类中声明的属性在后代类中再次声明时, 必须使用 `override` 关键字来标记,
 而且覆盖后的属性数据类型必须与超类中的属性数据类型兼容.
@@ -111,12 +104,10 @@ class Polygon : Shape {
 }
 ```
 
-## 子类的初始化顺序
+## 子类的初始化顺序 {id="derived-class-initialization-order"}
 
 子类新实例构造的过程中, 首先完成的第一步是要初始化基类 (顺序上仅次于计算传递给基类构造器的参数值),
 因此要在子类的初始化逻辑之前执行.
-
-<div class="sample" markdown="1" theme="idea">
 
 ```kotlin
 //sampleStart
@@ -145,8 +136,7 @@ fun main() {
     Derived("hello", "world")
 }
 ```
-
-</div>
+{kotlin-runnable="true"}
 
 也就是说, 基类构造器执行时, 在子类中定义或覆盖的属性还没有被初始化.
 如果在基类初始化逻辑中使用到这些属性
@@ -154,7 +144,7 @@ fun main() {
 可能会导致不正确的行为, 甚至导致运行时错误.
 因此, 设计基类时, 在构造器, 属性初始化器, 以及 `init` 代码段中, 你应该避免使用 `open` 成员.
 
-## 调用超类中的实现
+## 调用超类中的实现 {id="calling-the-superclass-implementation"}
 
 后代类中的代码, 可以使用 `super` 关键字来调用超类中的函数和属性访问器的实现:
 
@@ -176,8 +166,6 @@ class FilledRectangle : Rectangle() {
 
 在内部类(inner class)的代码中, 可以使用 `super` 关键字加上外部类名称限定符: `super@Outer`
 来访问外部类(outer class)的超类:
-
-<div class="sample" markdown="1" theme="idea">
 
 ```kotlin
 open class Rectangle {
@@ -208,8 +196,7 @@ fun main() {
         fr.draw()
 }
 ```
-
-</div>
+{kotlin-runnable="true"}
 
 ## 覆盖的规则
 

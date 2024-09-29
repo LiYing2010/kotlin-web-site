@@ -1,20 +1,14 @@
----
-type: doc
-layout: reference
-category:
-title: "预期声明与实际声明"
----
+[//]: # (title: 预期声明与实际声明)
 
-# 预期声明与实际声明
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 预期声明(Expected Declaration)与实际声明(Actual Declaration), 让你能够在 Kotlin Multiplatform 模块中访问平台相关的 API.
 你可以在共通代码中提供平台无关的 API.
 
 > 本文描述预期声明与实际声明的语言机制.
 > 关于使用平台相关 API 的各种方法的一般性建议, 请参见 [使用平台相关的 API](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-connect-to-apis.html).
-{:.tip}
+>
+{style="tip"}
 
 ## 预期声明与实际声明的规则
 
@@ -52,12 +46,11 @@ IDE 可以帮助解决常见的问题, 包括:
 你还可以使用 IDE, 在预期声明和实际声明之间导航.
 请选择侧栏图标(gutter icon)来查看实际声明, 或者使用 [快捷键](https://www.jetbrains.com/help/idea/navigating-through-the-source-code.html#go_to_implementation).
 
-<img src="/assets/docs/images/multiplatform/expect-actual-gutter.png" alt="IDE 中从预期声明到实际声明之间的导航" width="500"/>
+![IDE 中从预期声明到实际声明之间的导航](expect-actual-gutter.png){width=500}
 
 ## 使用预期声明与实际声明的各种方案
 
 下面我们来探索各种不同的方案, 使用 expect/actual 机制来解决访问平台 API 的问题, 同时仍然提供一种方法, 使得可以在公共代码中使用这些 API.
-
 
 考虑一个 Kotlin Multiplatform 项目, 你需要实现 `Identity` 类型, 其中包含用户的登录名和当前进程 ID.
 这个项目具有 `commonMain`, `jvmMain` 和 `nativeMain` 源代码集, 让应用程序可以在 JVM 运行, 也可以在 iOS 等原生环境中运行.
@@ -108,7 +101,8 @@ IDE 可以帮助解决常见的问题, 包括:
   这里, 平台函数返回平台相关的 `Identity` 实例.
 
 > 从 Kotlin 1.9.0 开始, 使用 `getlogin()` 和 `getpid()` 函数需要标注 `@OptIn` 注解.
-{:.note}
+>
+{style="note"}
 
 ### 接口加上预期函数与实际函数
 
@@ -234,7 +228,7 @@ DI 框架可以根据当前的环境将依赖注入到组件中.
 只要依赖通过接口来表达, 无论是在编译时期还是在运行时期, 都可以注入任意数量的不同实现.
 
 当依赖与平台相关时, 也适用同样的原则.
-在共通代码中, 一个组件可以使用通常的 [Kotlin 接口](../interfaces.html) 表达它的依赖.
+在共通代码中, 一个组件可以使用通常的 [Kotlin 接口](interfaces.md) 表达它的依赖.
 然后可以配置 DI 框架, 来注入平台相关的实现, 例如, 来自 JVM 的实现, 或来自 iOS 模块的实现.
 
 因此, 预期声明和实际声明只在 DI 框架的配置中需要用到.
@@ -245,10 +239,11 @@ DI 框架可以根据当前的环境将依赖注入到组件中.
 
 ### 预期类与实际类
 
-> 预期类与实际类功能处于 [Beta 版](../components-stability.html).
+> 预期类与实际类功能处于 [Beta 版](components-stability.md).
 > 这个功能已经基本稳定, 但将来可能需要进行一些手动的源代码迁移工作.
 > 我们会尽力减少你需要进行的代码变更.
-{:.warning}
+>
+{style="warning"}
 
 你可以使用预期类与实际类来实现相同的解决方案:
 
@@ -418,7 +413,7 @@ expect class MyDate {
 在 JVM 模块中, `java.time.Month` 枚举可以用来实现第一个预期声明, `java.time.LocalDate` 类可以实现第二个.
 但是, 无法直接向这些类型添加 `actual` 关键字.
 
-相反, 你可以使用 [类型别名](../type-aliases.html) 来连接预期声明和平台相关的类型:
+相反, 你可以使用 [类型别名](type-aliases.md) 来连接预期声明和平台相关的类型:
 
 ```kotlin
 actual typealias Month = java.time.Month
@@ -428,7 +423,8 @@ actual typealias MyDate = java.time.LocalDate
 这种情况下, 请在与预期声明相同的包中定义 `typealias` 声明, 而在其它地方创建被引用的类.
 
 > 由于 `LocalDate` 类型使用了 `Month` 枚举, 你需要在共通代码中将它们都声明为预期类.
-{:.note}
+>
+{style="note"}
 
 <!-- See [Using platform-specific APIs](multiplatform-connect-to-apis.md#actualizing-an-interface-or-a-class-with-an-existing-platform-class-using-typealiases)
 for an Android-specific example of this pattern. -->

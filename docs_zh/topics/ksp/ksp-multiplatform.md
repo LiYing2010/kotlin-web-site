@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "在 Kotlin Multiplatform 中使用 KSP"
----
+[//]: # (title: 在 Kotlin Multiplatform 中使用 KSP)
 
-# 在 Kotlin Multiplatform 中使用 KSP
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 作为一个快速入门的示例, 可以参见 [Kotlin Multiplatform 示例项目](https://github.com/google/ksp/tree/main/examples/multiplatform),
 其中定义了 KSP 处理器.

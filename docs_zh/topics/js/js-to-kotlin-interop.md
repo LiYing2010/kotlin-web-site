@@ -1,15 +1,8 @@
----
-type: doc
-layout: reference
-category: "JavaScript"
-title: "在 JavaScript 中使用 Kotlin 代码"
----
+[//]: # (title: 在 JavaScript 中使用 Kotlin 代码)
 
-# 在 JavaScript 中使用 Kotlin 代码
+最终更新: %latestDocDate%
 
-最终更新: {{ site.data.releases.latestDocDate }}
-
-根据选择的 [JavaScript 模块](js-modules.html) 系统不同, Kotlin/JS 编译期会产生不同的输出.
+根据选择的 [JavaScript 模块](js-modules.md) 系统不同, Kotlin/JS 编译期会产生不同的输出.
 但通常 Kotlin 编译器会生成通常的 JavaScript 类, 函数, 和属性, 你可以在 JavaScript 代码中自由地使用它们.
 但是, 有一些细节问题, 你需要记住.
 
@@ -39,7 +32,7 @@ alert(myModule.foo());
 alert(require('myModule').foo());
 ```
 
-关于 JavaScript 模块系统, 更多详情请参见 [JavaScript 模块(Module)](js-modules.html).
+关于 JavaScript 模块系统, 更多详情请参见 [JavaScript 模块(Module)](js-modules.md).
 
 ## 包结构
 
@@ -64,7 +57,7 @@ alert(require('myModule').my.qualified.packagename.foo())
 alert(myModule.my.qualified.packagename.foo());
 ```
 
-## @JsName 注解
+## @JsName 注解 {id="jsname-annotation"}
 
 某些情况下 (比如, 为了支持重载(overload)), Kotlin 编译器会对 JavaScript 代码中生成的函数和属性的名称进行混淆.
 为了控制编译器生成的函数和属性名称, 你可以使用 `@JsName` 注解:
@@ -108,11 +101,11 @@ person.helloWithGreeting("Servus");      // 打印结果为 "Servus Dmitry!"
 external fun newC()
 ```
 
-
-### @JsExport 注解
+### @JsExport 注解 {id="jsexport-annotation"}
 
 > `@JsExport` 注解目前还在实验性阶段. 在未来的发布版本中, 它的设计可能会发生变化.
-{:.note}
+>
+{style="note"}
 
 对一个顶级声明 (比如一个类或函数)使用 `@JsExport` 注解, 就可以在 JavaScript 中访问 Kotlin 声明.
 这个注解会使用 Kotlin 中给定的名称, 导出所有的下层声明.
@@ -121,13 +114,13 @@ external fun newC()
 为了在导出声明时解决名称的歧义(比如同名函数的重载(overload)),
 可以将 `@JsExport` 注解和 `@JsName` 注解一起使用, 用来指定生成和导出的函数名称.
 
-在当前默认的编译器后端, 以及新的 [IR 编译器后端](js-ir-compiler.html)中, 都可以使用 `@JsExport` 注解.
+在当前默认的编译器后端, 以及新的 [IR 编译器后端](js-ir-compiler.md)中, 都可以使用 `@JsExport` 注解.
 如果你使用 IR 编译器后端, 那么 **必须** 从一开始就使用 `@JsExport` 注解, 来确保你的函数在 Kotlin 中可以使用.
 
 对于跨平台项目, 在共通代码中也可以使用 `@JsExport`.
 它只在针对 JavaScript 目标进行编译时才起作用, 并且允许你导出那些平台无关的 Kotlin 声明.
 
-## JavaScript 中的 Kotlin 类型
+## JavaScript 中的 Kotlin 类型 {id="kotlin-types-in-javascript"}
 
 Kotlin 类型在 JavaScript 中映射为以下类型:
 
@@ -152,7 +145,6 @@ Kotlin 类型在 JavaScript 中映射为以下类型:
 | `Throwable`                                                      | `Error`                     |                                                                        |
 | 可为 Null 的 `Type?`                                                | `Type \| null \| undefined` |                                                                        |
 | Kotlin 的所有其他类型 (使用 `JsExport` 注解标注的类型除外) | 不支持                         | 包含 Kotlin 的集合(`List`, `Set`, `Map`, 等等.), 以及无符号类型(unsigned variant). |
-
 
 此外, 还要注意:
 

@@ -1,12 +1,6 @@
----
-type: doc
-layout: reference
-title: "配置编译任务"
----
+[//]: # (title: 配置编译任务)
 
-# 配置编译任务
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin 跨平台项目使用编译任务来生成 artifact.
 每个编译目标可以有一个或多个编译任务, 比如, 用于产品和测试的编译任务.
@@ -16,7 +10,7 @@ Kotlin 跨平台项目使用编译任务来生成 artifact.
 * 对于 JVM, JS, 和 Native 编译目标: `main` 和 `test` 编译任务.
 * 对于 Android 编译目标: 每个 [Android 构建变体(build variant)](https://developer.android.com/studio/build/build-variants) 一个 [编译任务](#compilation-for-android).
 
-![编译任务]({{ url_for('asset', path='docs/images/multiplatform/compilations.png') }})
+![编译任务](compilations.png)
 
 如果需要编译除产品代码与单元测试之外的其他代码, 比如, 集成测试, 或性能测试,
 你可以 [创建自定义编译任务](#create-a-custom-compilation).
@@ -28,10 +22,10 @@ Kotlin 跨平台项目使用编译任务来生成 artifact.
 * [对一个指定的编译任务](#configure-one-compilation).
 
 请参见对所有编译目标或特定编译目标可用的
-[编译任务参数列表](multiplatform-dsl-reference.html#compilation-parameters)
-和 [编译器选项](../gradle/gradle-compiler-options.html).
+[编译任务参数列表](multiplatform-dsl-reference.md#compilation-parameters)
+和 [编译器选项](gradle-compiler-options.md).
 
-## 配置所有编译任务
+## 配置所有编译任务 {id="configure-all-compilations"}
 
 ```kotlin
 kotlin {
@@ -45,10 +39,10 @@ kotlin {
 }
 ```
 
-## 配置单个编译目标的编译任务
+## 配置单个编译目标的编译任务 {id="configure-compilations-for-one-target"}
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" theme="idea" mode="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlin {
@@ -60,11 +54,8 @@ kotlin {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" theme="idea" mode="groovy" data-highlight-only>
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 kotlin {
@@ -76,13 +67,13 @@ kotlin {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
-## 配置一个编译任务
+## 配置一个编译任务 {id="configure-one-compilation"}
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" theme="idea" mode="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlin {
@@ -96,11 +87,8 @@ kotlin {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" theme="idea" mode="groovy" data-highlight-only>
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 kotlin {
@@ -114,10 +102,10 @@ kotlin {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
-## 创建自定义编译任务
+## 创建自定义编译任务 {id="create-a-custom-compilation"}
 
 如果需要编译除产品代码与单元测试之外的其他代码, 比如, 集成测试, 或性能测试, 请创建自定义编译任务.
 
@@ -125,10 +113,11 @@ kotlin {
 
 > 对于自定义编译任务, 需要手动设置所有的依赖项.
 > 自定义编译任务的默认源代码集不会依赖 `commonMain` 和 `commonTest` 源代码集.
-{:.note}
+>
+{style="note"}
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" theme="idea" mode="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlin {
@@ -161,11 +150,8 @@ kotlin {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" theme="idea" mode="groovy" data-highlight-only>
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 kotlin {
@@ -195,13 +181,13 @@ kotlin {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 对于其他情况也需要创建自定义编译任务, 比如, 如果希望在你的最终 artifact 中对不同的 JVM 版本组合编译任务,
 或者已经在 Gradle 中设置过源代码集, 希望迁移到跨平台项目.
 
-## 在 JVM 编译任务中使用 Java 源代码
+## 在 JVM 编译任务中使用 Java 源代码 {id="use-java-sources-in-jvm-compilations"}
 
 使用 [项目向导](https://kmp.jetbrains.com/) 创建项目时, Java 源代码会包含在 JVM 编译任务内.
 
@@ -217,7 +203,7 @@ kotlin {
 
 Java 源代码文件 放在 Kotlin 源代码根路径的子目录之内. 比如, 路径是:
 
-<img class="img-responsive" src="{{ url_for('asset', path='docs/images/multiplatform/java-source-paths.png') }}" alt="Java 源代码文件" width="200"/>
+![Java 源代码文件](java-source-paths.png){width=200}
 
 共通源代码集不可以包含 Java 源代码.
 
@@ -229,9 +215,9 @@ Java 源代码文件 放在 Kotlin 源代码根路径的子目录之内. 比如,
 
 这个编译目标的发布由 Kotlin plugin 处理, 而且不需要 Java plugin 的具体步骤.
 
-## 配置与原生语言的交互
+## 配置与原生语言的交互 {id="configure-interop-with-native-languages"}
 
-Kotlin 提供 [与原生语言的交互能力](../native/native-c-interop.html), 以及对编译任务进行相关配置的 DSL.
+Kotlin 提供 [与原生语言的交互能力](native-c-interop.md), 以及对编译任务进行相关配置的 DSL.
 
 | 原生语言 | 支持的平台 | 备注 |
 |-----------------|---------------------|----------|
@@ -239,10 +225,11 @@ Kotlin 提供 [与原生语言的交互能力](../native/native-c-interop.html),
 | Objective-C | Apple 平台 (macOS, iOS, watchOS, tvOS) | |
 | 经由 Objective-C 的 Swift | Apple 平台 (macOS, iOS, watchOS, tvOS) | Kotlin 只能使用 `@objc` 属性标注过的 Swift 声明. |
 
-编译任务可以与几个原生库交互. 在编译任务的 `cinterops` 代码段中, 可以使用 [可用的参数](multiplatform-dsl-reference.html#cinterops) 来配置交互能力.
+编译任务可以与几个原生库交互. 在编译任务的 `cinterops` 代码段中,
+可以使用 [可用的参数](multiplatform-dsl-reference.md#cinterops) 来配置交互能力.
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" theme="idea" mode="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlin {
@@ -278,11 +265,8 @@ kotlin {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" theme="idea" mode="groovy" data-highlight-only>
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 kotlin {
@@ -318,10 +302,10 @@ kotlin {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
-## Android 编译任务
+## Android 编译任务 {id="compilation-for-android"}
 
 对 Android 编译目标默认创建的编译任务会与 [Android 构建变体(build variant)](https://developer.android.com/studio/build/build-variants) 绑定:
 对每个构建变体, 会创建一个相同名称的 Kotlin 编译任务.
@@ -334,7 +318,7 @@ kotlin {
 默认的源代码集 `commonMain` 会被添加到所有的产品构建变体(无论是应用程序还是库) 的编译任务中.
 类似的, 源代码集 `commonTest`, 会被添加到单元测试(Unit Test)和设备测试(Instrumented Test)的构建变体中.
 
-也支持使用 [kapt](../kapt.html) 的注解处理,
+也支持使用 [kapt](kapt.md) 的注解处理,
 但是由于目前的限制, 要求在配置 `kapt` 依赖项之前创建 Android 编译目标,
 因此需要使用顶级的 `dependencies { ... }` 代码段, 而不是使用 Kotlin 源代码集的依赖项配置语法.
 
@@ -350,19 +334,19 @@ dependencies {
 
 ## 源代码集层级结构的编译任务
 
-Kotlin 可以使用 `dependsOn` 关系来创建 [源代码集层级结构](multiplatform-share-on-platforms.html#share-code-on-similar-platforms).
+Kotlin 可以使用 `dependsOn` 关系来创建 [源代码集层级结构](multiplatform-share-on-platforms.md#share-code-on-similar-platforms).
 
-<img class="img-responsive" src="{{ url_for('asset', path='docs/images/multiplatform/jvm-js-main.png') }}" alt="源代码集层级结构" width="400"/>
+![源代码集层级结构](jvm-js-main.png){width=400}
 
 如果源代码集 `jvmMain` 依赖源代码集 `commonMain`, 那么:
 
 * 对某个编译目标, 当 `jvmMain` 被编译时, `commonMain` 也会参与这个编译任务,
 而且也会被编译称为同一个编译目标的二进制形式, 比如 JVM class 文件.
 * `jvmMain` 的源代码可以 '看见' `commonMain` 的声明, 包括内部声明,
-也能看见 `commonMain` 的 [依赖项](multiplatform-add-dependencies.html), 即使是标记为 `implementation` 的依赖项.
-* `jvmMain` 可以包含 `commonMain` 的 [预期声明(expected declaration)](multiplatform-expect-actual.html) 的平台相关的实现.
+也能看见 `commonMain` 的 [依赖项](multiplatform-add-dependencies.md), 即使是标记为 `implementation` 的依赖项.
+* `jvmMain` 可以包含 `commonMain` 的 [预期声明(expected declaration)](multiplatform-expect-actual.md) 的平台相关的实现.
 * `commonMain` 的资源会与 `jvmMain` 的资源一起处理, 复制.
-* `jvmMain` 和 `commonMain` 的 [语言设置](multiplatform-dsl-reference.html#language-settings) 应该保持一致.
+* `jvmMain` 和 `commonMain` 的 [语言设置](multiplatform-dsl-reference.md#language-settings) 应该保持一致.
 
 语言设置的一致性检查规则是:
 * `jvmMain` 的 `languageVersion` 设置应该高于或等于 `commonMain` 的设置.

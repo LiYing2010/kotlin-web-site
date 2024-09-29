@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "完成你的项目"
----
+[//]: # (title: 完成你的项目)
 
-# 完成你的项目
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 <table style="border-style: solid; border-color: 252528">
     <tr style="border: none">

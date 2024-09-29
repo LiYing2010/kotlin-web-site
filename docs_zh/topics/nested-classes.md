@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Syntax"
-title: "嵌套类与内部类"
----
+[//]: # (title: 嵌套类与内部类)
 
-# 嵌套类(Nested Class)与内部类(Inner Class)
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 类可以嵌套在另一个类之内:
 
@@ -36,7 +29,7 @@ class OuterClass {
 }
 ```
 
-## 内部类(Inner class)
+## 内部类(Inner class) {id="inner-classes"}
 
 嵌套类可以使用 `inner` 关键字来标记, 然后就可以访问它的外部类(outer class)的成员. 内部类会保存一个引用, 指向外部类的对象实例:
 
@@ -51,11 +44,11 @@ class Outer {
 val demo = Outer().Inner().foo() // == 1
 ```
 
-在内部类中使用 `this` 关键字会产生歧义, 关于如何消除这种歧义, 请参见 [带限定符的 `this` 表达式](this-expressions.html).
+在内部类中使用 `this` 关键字会产生歧义, 关于如何消除这种歧义, 请参见 [带限定符的 `this` 表达式](this-expressions.md).
 
 ## 匿名内部类(Anonymous inner class)
 
-匿名内部类的实例使用 [对象表达式(object expression)](object-declarations.html#object-expressions) 来创建:
+匿名内部类的实例使用 [对象表达式(object expression)](object-declarations.md#object-expressions) 来创建:
 
 ```kotlin
 window.addMouseListener(object : MouseAdapter() {
@@ -72,4 +65,5 @@ window.addMouseListener(object : MouseAdapter() {
 >```kotlin
 > val listener = ActionListener { println("clicked") }
 > ```
-{:.note}
+>
+{style="note"}

@@ -1,12 +1,6 @@
----
-type: doc
-layout: reference
-title: "跨平台项目结构的高级概念"
----
+[//]: # (title: 跨平台项目结构的高级概念)
 
-# 跨平台项目结构的高级概念
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 本文解释 Kotlin Multiplatform 项目结构的高级概念, 以及如何对应到 Gradle 实现.
 
@@ -17,8 +11,9 @@ title: "跨平台项目结构的高级概念"
 * 需要使用 Gradle 构建的低层抽象，例如配置, 任务, 发布, 等等.
 * 正在为 Kotlin Multiplatform 构建创建 Gradle plugin.
 
-> 在深入研究高级概念之前, 我们建议先学习 [跨平台项目结构的基础知识](multiplatform-discover-project.html).
-{:.tip}
+> 在深入研究高级概念之前, 我们建议先学习 [跨平台项目结构的基础知识](multiplatform-discover-project.md).
+>
+{style="tip"}
 
 ## 依赖关系与 dependsOn
 
@@ -32,7 +27,7 @@ title: "跨平台项目结构的高级概念"
 通常, 你会使用 _依赖项_ 而不是 _`dependsOn`_ 关系.
 但是, 为了理解 Kotlin Multiplatform 项目的底层工作方式, 研究 `dependsOn` 是至关重要的.
 
-### dependsOn 与源代码集层级关系
+### dependsOn 与源代码集层级关系 {id="dependson-and-source-set-hierarchies"}
 
 `dependsOn` 是 2 个 Kotlin 源代码集之间的, Kotlin 特有的关系.
 它可以是共通源代码集与平台相关源代码集之间的连接, 例如, 可以表示 `jvmMain` 源代码集依赖于 `commonMain`,
@@ -51,13 +46,13 @@ title: "跨平台项目结构的高级概念"
 下面是一个通常的移动开发项目的例子, 针对的目标平台是 `androidTarget`, `iosArm64` (iPhone 设备),
 和 `iosSimulatorArm64` (Apple Silicon Mac 上的 iPhone 模拟器):
 
-<img src="/assets/docs/images/multiplatform/project-structure/dependson-tree-diagram.svg" alt="DependsOn tree structure" width="700"/>
+![DependsOn 关系树结构](dependson-tree-diagram.svg){width=700}
 
 图中的箭头表示 `dependsOn` 关系.
 在编译平台二进制文件时, 也会保持这些关系.
 所以 Kotlin 能够理解, `iosMain` 应该能够看到来自 `commonMain` 的 API, 但不能看到来自 `iosArm64Main` 的 API:
 
-<img src="/assets/docs/images/multiplatform/project-structure/dependson-relations-diagram.svg" alt="DependsOn relations during compilation" width="700"/>
+![编译期间的 DependsOn 关系](dependson-relations-diagram.svg){width=700}
 
 `dependsOn` 关系使用 `KotlinSourceSet.dependsOn(KotlinSourceSet)` 调用来配置, 例如:
 
@@ -80,7 +75,7 @@ kotlin {
 例如, 你不能设置 `commonMain` 依赖于 `kotlinx-coroutines-core` 库的 `commonMain`,
 也不能调用 `commonTest.dependsOn(commonMain)`.
 
-### 对其他库或项目的依赖
+### 对其他库或项目的依赖 {id="dependencies-on-other-libraries-or-projects"}
 
 在跨平台项目中, 你可以设置通常的依赖项, 可以依赖到已发布的库, 或依赖到另一个 Gradle 项目.
 
@@ -134,23 +129,25 @@ kotlin {
    所有这些源代码集会从 `commonMain` 源代码集继承 `kotlin-coroutines-core` 依赖项,
    因此你不需要将依赖项手动的复制粘贴到这些源代码集中:
 
-   <img src="/assets/docs/images/multiplatform/project-structure/dependency-propagation-diagram.svg" alt="Propagation of multiplatform dependencies" width="700"/>
+   ![跨平台依赖项的传播](dependency-propagation-diagram.svg){width=700}
 
    > 依赖项传播机制允许你通过选择特定的源代码集, 来指定接受到声明的依赖项的范围.
    > 例如, 如果你希望在 iOS 上使用 `kotlinx.coroutines`, 但不在 Android 上使用, 你可以只对 `iosMain` 添加这个依赖项.
-   {:.tip}
+   >
+   {style="tip"}
 
 2. _源代码集 → 跨平台库_ 依赖项, 例如上面的 `commonMain` 对 `org.jetbrians.kotlinx:kotlinx-coroutines-core:1.7.3` 的依赖,
    表示依赖解析的中间状态. 解析的最终状态始终表示为 _源代码集 → 源代码集_ 依赖项.
 
    > 最终的 _源代码集 → 源代码集_ 依赖项不是指 `dependsOn` 关系.
-   {:.note}
+   >
+   {style="note"}
 
    为了推断细粒度的 _源代码集 → 源代码集_ 依赖项, Kotlin 会读取和每个跨平台库一起发布的源代码集结构.
    完成这一步之后, 每个库的内部表达不是一个整体, 而是它的源代码集的集合.
    请看 `kotlinx-coroutines-core` 的例子:
 
-   <img src="/assets/docs/images/multiplatform/project-structure/structure-serialization-diagram.svg" alt="Serialization of the source set structure" width="700"/>
+   ![源代码集结构的序列化](structure-serialization-diagram.svg){width=700}
 
 3. Kotlin 对每个依赖关系解析为依赖项中源代码集的集合.
    这个集合中的每个依赖项源代码集必须拥有 _兼容的编译目标_.
@@ -170,14 +167,14 @@ kotlin {
 
    依赖解析的结果直接影响可以访问 `kotlinx-coroutines-core` 中的哪些代码:
 
-   <img src="/assets/docs/images/multiplatform/project-structure/dependency-resolution-error.png" alt="Error on JVM-specific API in common code" width="700"/>
+   ![在共通代码中使用 JVM 专用 API 的错误](dependency-resolution-error.png){width=700}
 
 ## 声明自定义的源代码集
 
 有些情况下, 在你的项目中可能需要自定义的中间源代码集.
 考虑一个项目, 编译到 JVM, JS, 和 Linux 平台, 你想要只在 JVM 和 JS 平台之间共用一些源代码.
 这种情况下, 你应该为这组编译目标寻找一个特定的源代码集,
-具体方法请参见 [跨平台项目结构的基础知识](multiplatform-discover-project.html).
+具体方法请参见 [跨平台项目结构的基础知识](multiplatform-discover-project.md).
 
 Kotlin 不会自动创建这样的源代码集.
 因此你应该使用 `by creating` 构造来手动创建它:
@@ -200,7 +197,7 @@ kotlin {
 但是, Kotlin 仍然如何处理或者编译这个源代码集.
 如果你画一个源代码集关系图, 这个源代码集将是孤立的, 没有添加任何编译目标的标签:
 
-<img src="/assets/docs/images/multiplatform/project-structure/missing-dependson-diagram.svg" alt="Missing dependsOn relation" width="700"/>
+![dependsOn 关系缺失](missing-dependson-diagram.svg){width=700}
 
 为了解决这个问题, 请添加几个 `dependsOn` 关系, 将 `jvmAndJsMain` 包含到层级结构中:
 
@@ -232,11 +229,12 @@ kotlin {
 
 最终的项目结构如下:
 
-<img src="/assets/docs/images/multiplatform/project-structure/final-structure-diagram.svg" alt="Final project structure" width="700"/>
+![最终的项目结构](final-structure-diagram.svg){width=700}
 
 > 如果手动配置 `dependsOn` 关系, 会禁止自动使用默认的层级结构模板.
-> 关于这样的情况, 以及处理方法, 详情请参见 [附加配置](multiplatform-hierarchy.html#additional-configuration).
-{:.note}
+> 关于这样的情况, 以及处理方法, 详情请参见 [附加配置](multiplatform-hierarchy.md#additional-configuration).
+>
+{style="note"}
 
 ## 编译
 
@@ -245,7 +243,7 @@ kotlin {
 
 例如, 在前面提到的 Kotlin 编译过程中, 用于 iPhone 设备的二进制文件的生成方式如下:
 
-<img src="/assets/docs/images/multiplatform/project-structure/ios-compilation-diagram.svg" alt="Kotlin compilation for iOS" width="700"/>
+![针对 iOS 的 Kotlin 编译](ios-compilation-diagram.svg){width=700}
 
 Kotlin 编译会在编译目标之下分组. 默认情况下, Kotlin 为每个编译目标创建 2 个编译, `main` 编译用于产品源代码, `test` 编译用于测试源代码.
 

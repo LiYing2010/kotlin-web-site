@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "教程 - 使用 Spring Boot 创建有数据库的 RESTful Web 服务"
----
+[//]: # (title: 教程 - 使用 Spring Boot 创建有数据库的 RESTful Web 服务)
 
-# 教程 - 使用 Spring Boot 创建有数据库的 RESTful Web 服务
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 本教程带领你使用 Spring Boot 创建一个简单的应用程序, 并添加数据库来存储信息.
 
@@ -32,7 +25,8 @@ title: "教程 - 使用 Spring Boot 创建有数据库的 RESTful Web 服务"
 使用 Spring Initializr 创建一个新的项目:
 
 > 你可以也使用 [IntelliJ IDEA 和 Spring Boot plugin](https://www.jetbrains.com/help/idea/spring-boot.html) 创建一个新的项目
-{:.note}
+>
+{style="note"}
 
 1. 打开 [Spring Initializr](https://start.spring.io/#!type=gradle-project&language=kotlin&platformVersion=2.7.3&packaging=jar&jvmVersion=11&groupId=com.example&artifactId=demo&name=demo&description=Demo%20project%20for%20Spring%20Boot&packageName=demo&dependencies=web,data-jdbc,h2). 这个链接会打开一个页面, 其中已经预填好了这个教程的项目设置.
    这个项目使用 **Gradle**, **Kotlin**, **Spring Web**, **Spring Data JDBC**, 和 **H2 Database**:
@@ -143,7 +137,8 @@ data class Message(val id: String?, val text: String)
    <img src="/assets/docs/images/tutorials/spring-boot-restful/spring-boot-run-the-application.png" alt="运行应用程序" width="800"/>
 
    > 你也可以在终端运行 `./gradlew bootRun` 命令.
-   {:.note}
+   >
+   {style="note"}
 
 2. 应用程序启动后, 请打开以下 URL: [http://localhost:8080](http://localhost:8080).
 
@@ -334,7 +329,8 @@ curl -X GET --location "http://localhost:8080"
 </a>
 
 > 在这个页面中, 需要提供你的 EMail 地址, 然后才能收到这些资料.
-{:.note}
+>
+{style="note"}
 
 ### 参考资料
 

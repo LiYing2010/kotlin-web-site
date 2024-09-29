@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Syntax"
-title: "类"
----
+[//]: # (title: 类)
 
-# 类
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin 中的类使用 `class` 关键字定义:
 
@@ -23,7 +16,7 @@ class Person { /*...*/ }
 class Empty
 ```
 
-## 构造器
+## 构造器 {id="constructors"}
 
 Kotlin 中的类有一个 _主构造器(primary constructor)_, 此外还可以有一个或多个 _次构造器(secondary constructor)_.
 主构造器在类头部中声明, 位于类名称以及可选的类型参数之后.
@@ -44,8 +37,6 @@ class Person(firstName: String) { /*...*/ }
 
 在类的实例初始化过程中, 初始化代码段按照它们在类主体中出现的顺序执行,
 初始化代码段之间还可以插入属性的初始化代码:
-
-<div class="sample" markdown="1" theme="idea">
 
 ```kotlin
 //sampleStart
@@ -68,8 +59,7 @@ fun main() {
     InitOrderDemo("hello")
 }
 ```
-
-</div>
+{kotlin-runnable="true"}
 
 主构造器的参数可以在初始化代码段中使用.
 也可以在类主体定义的属性初始化代码中使用:
@@ -92,7 +82,7 @@ class Person(val firstName: String, val lastName: String, var age: Int)
 class Person(val firstName: String, val lastName: String, var isEmployed: Boolean = true)
 ```
 
-声明类的属性时, 可以使用 [尾随逗号(trailing comma)](coding-conventions.html#trailing-commas):
+声明类的属性时, 可以使用 [尾随逗号(trailing comma)](coding-conventions.md#trailing-commas):
 
 ```kotlin
 class Person(
@@ -111,9 +101,9 @@ class Person(
 class Customer public @Inject constructor(name: String) { /*...*/ }
 ```
 
-详情请参见 [可见度修饰符](visibility-modifiers.html#constructors).
+详情请参见 [可见度修饰符](visibility-modifiers.md#constructors).
 
-### 次级构造器(secondary constructor)
+### 次级构造器(secondary constructor) {id="secondary-constructors"}
 
 类还可以声明 _次级构造器(secondary constructor)_, 使用 `constructor` 关键字作为前缀:
 
@@ -146,8 +136,6 @@ class Person(val name: String) {
 
 即使类没有定义主构造器, 也会隐含地委托调用主构造器, 因此初始化代码段仍然会被执行:
 
-<div class="sample" markdown="1" theme="idea">
-
 ```kotlin
 //sampleStart
 class Constructors {
@@ -165,8 +153,7 @@ fun main() {
     Constructors(1)
 }
 ```
-
-</div>
+{kotlin-runnable="true"}
 
 如果一个非抽象类没有声明任何主构造器和次级构造器, 它将带有一个自动生成的, 无参数的主构造器.
 这个构造器的可见度为 public.
@@ -184,7 +171,8 @@ class DontCreateMe private constructor() { /*...*/ }
 > ```kotlin
 > class Customer(val customerName: String = "")
 > ```
-{:.note}
+>
+{style="note"}
 
 ## 创建类的实例
 
@@ -197,27 +185,27 @@ val customer = Customer("Joe Smith")
 ```
 
 > Kotlin 没有 `new` 关键字.
-{:.note}
+>
+{style="note"}
 
-关于嵌套类, 内部类, 以及匿名内部类的实例创建过程, 请参见[嵌套类(Nested Class)](nested-classes.html).
+关于嵌套类, 内部类, 以及匿名内部类的实例创建过程, 请参见[嵌套类(Nested Class)](nested-classes.md).
 
-## 类成员
+## 类成员 {id="class-members"}
 
 类中可以包含以下内容:
 
-* [构造器和初始化代码块](classes.html#constructors)
-* [函数](functions.html)
-* [属性](properties.html)
-* [嵌套类和内部类](nested-classes.html)
-* [对象声明](object-declarations.html)
+* [构造器和初始化代码块](#constructors)
+* [函数](functions.md)
+* [属性](properties.md)
+* [嵌套类和内部类](nested-classes.md)
+* [对象声明](object-declarations.md)
 
-
-## 继承
+## 继承 {id="inheritance"}
 
 类可以相互继承, 构成类的继承层级结构.
-详情请参加 [Kotlin 中的继承](inheritance.html).
+详情请参加 [Kotlin 中的继承](inheritance.md).
 
-## 抽象类
+## 抽象类 {id="abstract-classes"}
 
 类本身, 或类中的部分成员, 都可以声明为 `abstract` 的.
 抽象成员在类中不存在具体的实现.
@@ -251,11 +239,11 @@ abstract class WildShape : Polygon() {
 }
 ```
 
-## 同伴对象(Companion Object)
+## 同伴对象(Companion Object) {id="companion-objects"}
 
 如果你需要写一个函数, 希望使用者不必通过类的实例来调用它,
-但又需要访问类的内部信息(比如, 一个工厂方法), 你可以将这个函数写为这个类之内的一个 [对象声明](object-declarations.html) 的成员,
+但又需要访问类的内部信息(比如, 一个工厂方法), 你可以将这个函数写为这个类之内的一个 [对象声明](object-declarations.md) 的成员,
 而不是类本身的成员.
 
-具体来说, 如果你在类中声明一个 [同伴对象](object-declarations.html#companion-objects),
+具体来说, 如果你在类中声明一个 [同伴对象](object-declarations.md#companion-objects),
 那么只需要使用类名作为限定符就可以访问同伴对象的成员了.

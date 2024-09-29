@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic
+    SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       title="Kotlin 语言参考文档"
+       id="home">
+    <section-starting-page>
+        <title>Kotlin 语言参考文档</title>
+        <description>
+            最新稳定版本: %kotlinVersion%
+        </description>
+        <spotlight>
+            <a href="getting-started.md" summary="使用 IntelliJ IDEA 或 Android Studio IDE 为你的开发平台创建第一个 Kotlin 项目" type="start">Kotlin 入门</a>
+            <a href="https://play.kotlinlang.org/" summary="在浏览器中编写, 运行, 以及共享 Kotlin 代码" type="install">在线试用 Kotlin</a>
+        </spotlight>
+        <primary>
+            <title>第一步</title>
+            <a href="basic-syntax.md" summary="关于 Kotlin 语法的概要介绍: 关键字, 操作符, 程序结构">基本语法</a>
+            <a href="kotlin-tour-welcome.md" summary="浏览 Kotlin 编程语言的基础知识">Kotlin 观光之旅</a>
+            <a href="koans.md" summary="帮助你熟悉 Kotlin 的编程练习">Kotlin Koan</a>
+            <a href="command-line.md" summary="下载并安装 Kotlin 编译器">命令行编译器</a>
+        </primary>
+        <secondary>
+            <title>关于 Kotlin 的各种功能</title>
+            <a href="https://kotlinlang.org/api/latest/jvm/stdlib/" summary="Kotlin 日常工作必须的各种功能: IO, 文件, 线程, 集合, 等等">标准库 API 文档</a>
+            <a href="gradle.md" summary="一个构建系统, 自动化并管理你的构建过程">Gradle</a>
+            <a href="basic-types.md" summary="Kotlin 的类型系统: 数值, 字符串, 数组, 以及其他内建的数据类型">基本类型</a>
+            <a href="collections-overview.md" summary="集合(Collection): List, Set, 和 Map">集合</a>
+            <a href="scope-functions.md" summary="作用域函数(Scope Function): let, with, run, apply, 以及 also">作用域函数</a>
+            <a href="coroutines-overview.md" summary="并发: 协程(Coroutine), 数据流(Flow), 通道(Channel)">协程</a>
+        </secondary>
+        <misc>
+            <cards>
+                <title>Kotlin 的新功能</title>
+                <a href="whatsnew1920.md" summary="最新功能: Kotlin K2 已进入 Beta 版, Kotlin Multiplatform 已进入稳定版">Kotlin 1.9.20 的新功能</a>
+                <a href="roadmap.md" summary="Kotlin 的未来开发计划">Kotlin 发展路线图</a>
+            </cards>
+            <cards>
+                <title>Kotlin Multiplatform</title>
+                <a href="https://www.jetbrains.com/kotlin-multiplatform/" summary="学习 Kotlin Multiplatform 如何帮助你在你的应用程序中共用代码">为什么使用 Kotlin Multiplatform</a>
+                <a href="https://kmp.jetbrains.com/" summary="快速创建并下载跨平台项目模板">Kotlin Multiplatform Wizard</a>
+                <a href="https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-getting-started.html" summary="创建一个同时在 Android 和 iOS 上运行的移动应用程序">Kotlin Multiplatform 入门</a>
+                <a href="https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-getting-started.html" summary="使用 Compose Multiplatform 实现一个在所有平台上运行的用户界面">Compose Multiplatform 入门</a>
+            </cards>
+            <cards>
+                <title>关于本文档</title>
+                <a href="about_translation.md" summary="关于本文档的翻译">关于本文档</a>
+            </cards>
+        </misc>
+    </section-starting-page>
+</topic>

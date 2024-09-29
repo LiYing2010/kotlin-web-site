@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "运行 Kotlin/JS 代码"
----
+[//]: # (title: 运行 Kotlin/JS 代码)
 
-# 运行 Kotlin/JS 代码
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin/JS 项目是通过 Kotlin Multiplatform Gradle plugin 管理的, 因此你可以使用适当的 Gradle 任务来运行你的项目.
 如果你从一个空的项目开始, 请确认你已有一些示例代码可以运行.
@@ -32,14 +25,14 @@ fun main() {
 
 如果使用 IntelliJ IDEA, 你可以在 Gradle 工具窗口找到 `jsRun` 任务:
 
-<img src="/assets/docs/images/reference/running-kotlin-js/run-gradle-task.png" alt="IntelliJ IDEA 中的 Gradle Run 任务" width="700"/>
+![IntelliJ IDEA 中的 Gradle Run 任务](run-gradle-task.png){width=700}
 
 初次运行时, `kotlin.multiplatform` Gradle plugin 会下载所有需要的依赖项, 准备运行环境.
 构建完成后, 程序会被执行, 你可以在终端看到输出:
 
-<img src="/assets/docs/images/reference/running-kotlin-js/cli-output.png" alt="在 IntelliJ IDEA 的 Kotlin Multiplatform 项目中执行 JS 编译目标" width="700"/>
+![在 IntelliJ IDEA 的 Kotlin Multiplatform 项目中执行 JS 编译目标](cli-output.png){width=700}
 
-## 在浏览器平台运行
+## 在浏览器平台运行 {id="run-the-browser-target"}
 
 当 Kotlin/JS 项目的编译目标为浏览器时, 你的项目需要有一个 HTML 页面.
 在开发你的应用程序时, 这个页面由开发服务器提供, 它应该嵌入你编译后的 Kotlin/JS 文件.
@@ -49,8 +42,8 @@ fun main() {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>JS Client</title>
+    <meta charset="UTF-8">
+    <title>JS Client</title>
 </head>
 <body>
 <script src="js-tutorial.js"></script>
@@ -74,8 +67,9 @@ fun main() {
 要验证你的程序是否正确运行, 打开你的浏览器的开发者工具(比如, 点击鼠标右键, 选择 _Inspect_ 菜单项).
 在开发者工具中, 打开控制台, 你可以看到 JavaScript 代码的执行结果:
 
-<img src="/assets/docs/images/reference/running-kotlin-js/browser-console-output.png" alt="浏览器的开发者工具中的控制台输出" width="700"/>
+![浏览器的开发者工具中的控制台输出](browser-console-output.png){width=700}
 
 通过这样的设置, 你可以在每次代码之后修改, 重新编译你的项目来查看你的修改结果.
 Kotlin/JS 还支持更方便的方式, 在开发过程中自动构建应用程序.
-关于这种 _持续编译模式_ 的设置方式, 请参见 [开发服务器(Development server)与持续编译(Continuous Compilation)](dev-server-continuous-compilation.html).
+关于这种 _持续编译模式_ 的设置方式,
+请参见 [开发服务器(Development server)与持续编译(Continuous Compilation)](dev-server-continuous-compilation.md).

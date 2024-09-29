@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Lincheck"
-title: "数据结构约束"
----
+[//]: # (title: 数据结构约束)
 
-# 数据结构约束
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 有些数据结构可能要求一部分操作不能并发执行, 例如单生成者(single-producer)/单消费者(single-consumer) 队列.
 Lincheck 对这样的约束提供了现成的支持, 会根据约束条件生成并发场景.
@@ -18,31 +11,27 @@ Lincheck 对这样的约束提供了现成的支持, 会根据约束条件生成
 
 在你的 `build.gradle(.kts)` 文件中, 添加 JCTools 依赖项:
 
-   <div class="multi-language-sample" data-lang="kotlin">
-   <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+   <tabs group="build-script">
+   <tab title="Kotlin" group-key="kotlin">
 
    ```kotlin
    dependencies {
        // jctools 依赖项
-       testImplementation("org.jctools:jctools-core:{{ site.data.releases.jctoolsVersion }}")
+       testImplementation("org.jctools:jctools-core:%jctoolsVersion%")
    }
    ```
 
-   </div>
-   </div>
-
-   <div class="multi-language-sample" data-lang="groovy">
-   <div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+   </tab>
+   <tab title="Groovy" group-key="groovy">
 
    ```groovy
    dependencies {
        // jctools 依赖项
-       testImplementation "org.jctools:jctools-core:{{ site.data.releases.jctoolsVersion }}"
+       testImplementation "org.jctools:jctools-core:%jctoolsVersion%"
    }
    ```
-
-   </div>
-   </div>
+   </tab>
+   </tabs>
 
 为了满足单消费者约束条件, 需要确保所有的 `poll()` 和 `peek()` 消费操作都只会从单个线程中调用.
 为了做到这一点, 我们可以将对应的 `@Operation` 注解的 `nonParallelGroup` 参数设置为相同的值, 例如, `"consumers"`.
@@ -107,7 +96,8 @@ class MPSCQueueTest {
 注意, 所有的消费操作 `poll()` 和 `peek()` 的调用, 都通过单个线程执行, 因此满足了 "单消费者" 约束.
 
 > [请在这里查看完整代码](https://github.com/Kotlin/kotlinx-lincheck/blob/guide/src/jvm/test/org/jetbrains/kotlinx/lincheck/test/guide/MPSCQueueTest.kt).
-{:.note}
+>
+{style="note"}
 
 ## 下一步
 

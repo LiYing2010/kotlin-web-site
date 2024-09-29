@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "集合"
-title: "排序(Ordering)"
----
+[//]: # (title: 排序(Ordering))
 
-# 排序(Ordering)
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 对于一些集合类型来说, 元素的排序是非常重要的问题.
 比如, 包含相同元素的两个 list, 如果元素顺序不同, 会被认为不相等.
@@ -34,8 +27,6 @@ Kotlin 的大多数内建数据类型都是可比较大小的:
 
 下面是一个有排序能力的版本号类, 由 major 和 minor 两部分组成.
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
-
 ```kotlin
 class Version(val major: Int, val minor: Int): Comparable<Version> {
     override fun compareTo(other: Version): Int = when {
@@ -50,7 +41,7 @@ fun main() {
     println(Version(2, 0) > Version(1, 5))
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.6"}
 
 另一种排序方式称为 _自定义(Custom)_ 排序, 你可以对任何类型的实例以任意的方式进行排序.
 具体来说, 你可以对不可比较的对象定义顺序, 也可以对可比较的对象定义与自然顺序不同的另一种顺序.
@@ -58,8 +49,6 @@ fun main() {
 [`Comparator`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-comparator/index.html).
 `Comparator` 包含 `compare()` 函数: 它的参数是同一个类的两个实例, 返回一个整数, 代表它们的比较结果.
 返回值代表的含义与上面介绍的 `compareTo()` 函数相同.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 fun main() {
@@ -69,7 +58,7 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 有了 `lengthComparator`, 我们可以对字符串按照长度来排序, 而不是按照默认的字典顺序排序.
 
@@ -82,24 +71,22 @@ fun main() {
 
 使用 `compareBy()` 函数, 前面例子中的字符串长度比较器可以写成下面这样:
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
-
 ```kotlin
 fun main() {
-//sampleStart    
+//sampleStart
     println(listOf("aaa", "bb", "c").sortedWith(compareBy { it.length }))
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 Kotlin 集合包提供了用于集合排序的各种函数, 可以使用自然顺序, 自定义顺序, 甚至随机顺序.
-本节中, 我们会介绍适用于 [只读](collections-overview.html#collection-types) 集合的排序函数.
+本节中, 我们会介绍适用于 [只读](collections-overview.md#collection-types) 集合的排序函数.
 这些函数的返回结果是一个新集合, 其中包含原集合的元素按照指定顺序排序后的结果.
-对 [可变](collections-overview.html#collection-types) 集合进行原地(in place)排序的函数,
-请参见 [List 相关操作](list-operations.html#sort).
+对 [可变](collections-overview.md#collection-types) 集合进行原地(in place)排序的函数,
+请参见 [List 相关操作](list-operations.md#sort).
 
-## 使用自然顺序排序
+## 使用自然顺序排序 {id="natural-order"}
 
 最基本的
 [`sorted()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/sorted.html)
@@ -107,8 +94,6 @@ Kotlin 集合包提供了用于集合排序的各种函数, 可以使用自然�
 [`sortedDescending()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/sorted-descending.html)
 函数, 返回新的集合, 其中的元素分别使用自然顺序的正序和逆序排序.
 这些函数适用于 `Comparable` 元素组成的集合.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 fun main() {
@@ -120,7 +105,7 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 ## 使用自定义顺序排序
 
@@ -130,8 +115,6 @@ fun main() {
 [`sortedByDescending()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/sorted-by-descending.html)
 函数.
 这些函数的参数是一个选择器函数, 负责将集合元素变换为 `Comparable` 值, 然后再按照这些 `Comparable` 值的自然顺序对集合进行排序.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 fun main() {
@@ -145,15 +128,13 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 要对集合排序指定一个自定义顺序, 你可以提供一个自己的 `Comparator`.
 为了实现这个目的, 可以调用
 [`sortedWith()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/sorted-with.html)
 函数, 并使用你的 `Comparator` 作为参数.
 使用这个函数对字符串按照长度排序的示例如下:
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 fun main() {
@@ -163,15 +144,13 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 ## 逆序集合
 
 可以按照相反的顺序访问集合, 方法是使用
 [`reversed()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/reversed.html)
 函数.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 
@@ -182,7 +161,7 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 `reversed()` 函数的返回值是一个新的集合, 其中复制了原集合中的所有元素.
 因此, 如果之后改变了原元集合的内容, 不会影响到之前通过 `reversed()` 函数得到的结果.
@@ -191,8 +170,6 @@ fun main() {
 [`asReversed()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/as-reversed.html) -
 返回原 List 的一个逆序的视图(view),
 因此, 如果原 List 不会改变, 那么这个函数可能比 `reversed()` 函数更轻量, 更适用.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 fun main() {
@@ -203,11 +180,9 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 如果原 List 是可变的, 那么它的所有修改都会影响它的逆序视图, 反过来也是如此.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 fun main() {
@@ -220,7 +195,7 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 但是, 如果不知道 List 是否可变, 或者原集合根本不是 List,
 那么更适用使用 `reversed()` 函数, 因为它的结果是原集合的一个复制, 内容不会随原集合一起改变.
@@ -234,8 +209,6 @@ fun main() {
 [`Random`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.random/-random/index.html)
 对象作为参数.
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
-
 ```kotlin
 fun main() {
 //sampleStart
@@ -243,6 +216,5 @@ fun main() {
      println(numbers.shuffled())
 //sampleEnd
 }
-
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}

@@ -1,18 +1,13 @@
----
-type: doc
-layout: reference
-title: "[实验性 DSL] 构建最终的原生二进制文件"
----
+[//]: # (title: [实验性 DSL] 构建最终的原生二进制文件)
 
-# [实验性 DSL] 构建最终的原生二进制文件
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 > 本章介绍的新 DSL 是 [实验性功能](../components-stability.html). 它随时有可能变更.
 > 我们建议你只为评估和试验目的来使用这个功能.
 > 
 > 如果你无法使用新 DSL, 请参见构建原生二进制文件的 [前一种方案](multiplatform-build-native-binaries.html).
-{:.warning}
+> 
+{style="warning"}
 
 [Kotlin/Native 编译目标](multiplatform-dsl-reference.html#native-targets) 会被编译为 `*.klib` 库的 Artifact,
 这些库 Artifact 可以被 Kotlin/Native 本身用作依赖项, 但不能用作原生库.
@@ -23,7 +18,8 @@ title: "[实验性 DSL] 构建最终的原生二进制文件"
  
 > `kotlin-multiplatform` plugin 默认不会创建任何生产环境(production)版的二进制文件.
 > 默认生成的二进制文件只有 debug 版的测试用可执行文件, 供你通过 `test` 编译任务来运行单元测试.
-{:.note}
+> 
+{style="note"}
 
 Kotlin Artifact DSL 可以帮助你解决一个常见问题: 你需要从你的 App 访问多个 Kotlin 模块.
 由于不能使用多个 Kotlin/Native Artifact, 你可以使用新 DSL, 将多个 Kotlin 模块导出到单个 Artifact.
@@ -244,7 +240,8 @@ kotlinArtifacts {
 
 > 如果你因为某些原因无法使用新 DSL, 请试用 [前一种方案](multiplatform-build-native-binaries.html#export-dependencies-to-binaries)
 > 来将依赖项导出到二进制文件.
-{:.tip}
+> 
+{style="tip"}
 
 ### Fat 框架
 
@@ -300,7 +297,8 @@ kotlinArtifacts {
 
 > 如果你因为某些原因无法使用新 DSL, 请试用 [前一种方案](multiplatform-build-native-binaries.html#build-universal-frameworks)
 > 来构建 fat 框架.
-{:.tip}
+> 
+{style="tip"}
 
 ### XCFramework
 
@@ -354,4 +352,5 @@ kotlinArtifacts {
 
 > 如果你因为某些原因无法使用新 DSL, 请试用 [前一种方案](multiplatform-build-native-binaries.html#build-xcframeworks)
 > 来构建 XCFramework.
-{:.tip}
+> 
+{style="tip"}

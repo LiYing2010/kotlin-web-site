@@ -1,21 +1,12 @@
----
-type: doc
-layout: reference
-category: "Syntax"
-title: "条件与循环"
----
+[//]: # (title: 条件与循环)
 
-# 条件与循环
+最终更新: %latestDocDate%
 
-最终更新: {{ site.data.releases.latestDocDate }}
-
-## if 表达式
+## if 表达式 {id="if-expression"}
 
 在 Kotlin 中, `if` 是一个表达式: 它有返回值.
 因此, Kotlin 中没有三元运算符(`条件 ? then 分支返回值 : else 分支返回值`),
 因为简单的 `if` 表达式完全可以实现同样的任务.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.5">
 
 ```kotlin
 fun main() {
@@ -45,8 +36,7 @@ fun main() {
     println("maxOrLimit is $maxOrLimit")
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="if-else-if-kotlin"}
 
 `if` 表达式的分支可以是多条语句组成的代码段, 这种情况下, 代码段内最后一个表达式的值将成为整个代码段的返回值:
 
@@ -63,7 +53,7 @@ val max = if (a > b) {
 如果你将 `if` 作为表达式来使用, 比如, 将它的值作为函数的返回值, 或将它的值赋值给一个变量,
 这种情况下必须存在 `else` 分支.
 
-## when 表达式
+## when 表达式 {id="when-expression"}
 
 `when` 表示一个条件表达式, 带有多个分支. 类似于各种 C 风格语言中的 `switch` 语句.
 它的最简单形式如下.
@@ -89,7 +79,7 @@ when (x) {
 
 如果 `when` 被用作 _表达式_, 则必须存在 `else` 分支,
 除非编译器能够证明其他分支的条件已经覆盖了所有可能的情况,
-比如, 使用 [枚举(`enum`)类](enum-classes.html) 的常数 或 [封闭(`sealed`)类](sealed-classes.html) 的子类型.
+比如, 使用 [枚举(`enum`)类](enum-classes.md) 的常数 或 [封闭(`sealed`)类](sealed-classes.md) 的子类型.
 
 ```kotlin
 enum class Bit {
@@ -104,8 +94,8 @@ val numericValue = when (getRandomBit()) {
 ```
 
 在 `when` _语句_ 中, 对于以下情况, `else` 分支是必须的:
-* `when` 的判断对象是 `Boolean`, [枚举(`enum`)类](enum-classes.html), 或 [封闭(`sealed`)类](sealed-classes.html) 类型,
- 或它们的 nullable 类型.
+* `when` 的判断对象是 `Boolean`, [枚举(`enum`)类](enum-classes.md), 或 [封闭(`sealed`)类](sealed-classes.md) 类型,
+ 或它们的可为 null 类型.
 * `when` 的分支没有覆盖所有可能的情况.
 
 ```kotlin
@@ -144,7 +134,7 @@ when (x) {
 }
 ```
 
-你还可以使用 `in` 或 ``!in` 来检查一个值是否属于一个 [范围](ranges.html), 或者检查是否属于一个集合:
+你还可以使用 `in` 或 ``!in` 来检查一个值是否属于一个 [范围](ranges.md), 或者检查是否属于一个集合:
 
 ```kotlin
 when (x) {
@@ -156,7 +146,7 @@ when (x) {
 ```
 
 还可以使用 `is` 或 `!is` 来检查一个值是不是某个类型.
-注意, 由于 Kotlin 的 [智能类型转换](typecasts.html#smart-casts) 功能,
+注意, 由于 Kotlin 的 [智能类型转换](typecasts.md#smart-casts) 功能,
 进行过类型判断之后, 你就可以直接访问这个类型的方法和属性, 而不必再进行显式的类型检查.
 
 ```kotlin
@@ -189,8 +179,7 @@ fun Request.getBody() =
 
 由 `when` 引入的这个变量, 它的有效范围仅限于 `when` 语句之内.
 
-
-## for 循环
+## for 循环 {id="for-loops"}
 
 任何值, 只要能够产生一个迭代器(iterator), 就可以使用 `for` 循环进行遍历.
 相当于 C# 等语言中的 `foreach` 循环. `for` 循环的语法如下:
@@ -217,9 +206,7 @@ for (item: Int in ints) {
 
 上述三个函数都需要标记为 `operator`.
 
-要遍历一个数值范围, 可以使用 [值范围表达式](ranges.html):
-
-<div class="sample" markdown="1" theme="idea">
+要遍历一个数值范围, 可以使用 [值范围表达式](ranges.md):
 
 ```kotlin
 fun main() {
@@ -233,14 +220,11 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 使用 `for` 循环来遍历数组或值范围(Range)时, 会被编译为基于数组下标的循环, 不会产生迭代器(iterator)对象.
 
 如果你希望使用下标变量来遍历数组或 List, 可以这样做:
-
-<div class="sample" markdown="1" theme="idea">
 
 ```kotlin
 fun main() {
@@ -252,12 +236,9 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 或者, 你也可以使用 `withIndex` 库函数:
-
-<div class="sample" markdown="1" theme="idea">
 
 ```kotlin
 fun main() {
@@ -269,10 +250,9 @@ fun main() {
 //sampleEnd
 }
 ```
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-</div>
-
-## while 循环
+## while 循环 {id="while-loops"}
 
 `while` 和 `do-while` 循环会在满足条件时反复执行它们的循环体.
 但它们检查循环条件的时刻不同:
@@ -293,4 +273,4 @@ do {
 ## 循环的中断(break)与继续(continue)
 
 Kotlin 的循环支持传统的 `break` 和 `continue` 操作符.
-详情请参见 [返回与跳转](returns.html).
+详情请参见 [返回与跳转](returns.md).

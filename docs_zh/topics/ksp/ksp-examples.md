@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "KSP 示例程序"
----
+[//]: # (title: KSP 示例程序)
 
-# KSP 示例程序
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 ## 得到所有成员函数
 

@@ -1,16 +1,9 @@
----
-type: doc
-layout: reference
-category: "Native"
-title: "与 iOS 集成"
----
+[//]: # (title: 与 iOS 集成)
 
-# 与 iOS 集成
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin/Native 垃圾收集器能够与 Swift/Objective-C ARC 无缝集成, 通常不需要额外的工作.
-详情请参见 [与 Swift/Objective-C 代码交互](native-objc-interop.html).
+详情请参见 [与 Swift/Objective-C 代码交互](native-objc-interop.md).
 
 但是, 仍然有一些问题需要注意:
 
@@ -171,7 +164,7 @@ SwiftExample deinit
 Objective-C 对象实际存在的时间可能比它应该存在的时间更长, 有时可能导致性能问题.
 例如, 一个长时间运行的循环, 在每次循环时创建几个临时对象, 这些对象跨越 Swift/Objective-C 代码交互边界.
 
-在 [GC 日志](native-memory-manager.html#monitor-gc-performance) 中, 有根对象集中稳定引用的数量.
+在 [GC 日志](native-memory-manager.md#monitor-gc-performance) 中, 有根对象集中稳定引用的数量.
 如果这个数量持续增加, 可能代表 Swift/Objective-C 对象在需要释放的时候, 实际上没有被释放.
 这种情况下, 请在执行代码交互调用的循环体外部, 使用 `autoreleasepool` 代码段:
 
@@ -270,7 +263,7 @@ func test() {
 目前的内存管理器默认不追踪应用程序状态, 而且没有集成 [App 扩展](https://developer.apple.com/app-extensions/).
 
 因此, 内存管理器不会相应的调整 GC 行为, 有些情况下可能造成问题.
-要改变这个行为, 请向你的 `gradle.properties` 添加下面的 [实验性](components-stability.html) 二进制选项:
+要改变这个行为, 请向你的 `gradle.properties` 添加下面的 [实验性](components-stability.md) 二进制选项:
 
 ```none
 kotlin.native.binary.appStateTracking=enabled

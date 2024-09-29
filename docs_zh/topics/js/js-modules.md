@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "JavaScript"
-title: "JavaScript 模块"
----
+[//]: # (title: JavaScript 模块)
 
-# JavaScript 模块(Module)
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 你可以将你的 Kotlin 工程编译为 JavaScript 模块(module), 支持几种常见的 JavaScript 模块系统.
 目前我们支持以下几种 JavaScript 模块设置:
@@ -56,8 +49,8 @@ Webpack 提供了 CommonJS 的两种不同的风格: `commonjs` 和 `commonjs2`,
 
 要选择目标模块系统, 请在 Gradle 构建脚本中设置编译器选项 `moduleKind`:
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 tasks.withType<org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrLink> {
@@ -65,26 +58,23 @@ tasks.withType<org.jetbrains.kotlin.gradle.targets.js.ir.KotlinJsIrLink> {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 compileKotlinJs.compilerOptions.moduleKind = org.jetbrains.kotlin.gradle.dsl.JsModuleKind.MODULE_COMMONJS
 ```
 
-</div>
-</div>
-
+</tab>
+</tabs>
 
 这里可以设置的值是: `umd` (默认设定), `commonjs`, `amd`, `plain`.
 
 > 这种方法与修改 `webpackTask.output.libraryTarget` 不同.
 > 库的输出目标设定, 改变的是 _webpack 库文件生成_ 的输出(在你的代码经过 Kotlin 编译之后).
 > `compilerOptions.moduleKind` 改变的则是 _Kotlin 编译器_ 的输出.
-{:.note}  
+>
+{style="note"}
 
 在 Kotlin Gradle DSL 中, 设置 CommonJS 模块类型可以简写为:
 
@@ -97,7 +87,7 @@ kotlin {
 }
 ```
 
-## @JsModule 注解
+## @JsModule 注解 {id="jsmodule-annotation"}
 
 你可以使用 `@JsModule` 注解, 告诉 Kotlin 一个 `external` 类, 包, 函数, 或属性, 是一个 JavaScript 模块.
 假设你有以下 CommonJS 模块, 名为 "hello":

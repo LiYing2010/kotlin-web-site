@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Other"
-title: "解构声明"
----
+[//]: # (title: 解构声明)
 
-# 解构声明(Destructuring Declaration)
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 有些时候, 能够将一个对象 *解构(destructure)* 为多个变量, 将会很方便, 比如:
 
@@ -36,7 +29,8 @@ val age = person.component2()
 当然, 还可以存在 `component3()` 和 `component4()` 等等.
 
 > `componentN()` 函数需要标记为 `operator`, 才可以在解构声明中使用.
-{:.note}
+>
+{style="note"}
 
 解构声明还可以使用在 `for` 循环中:
 
@@ -49,7 +43,7 @@ for ((a, b) in collection) { ... }
 ## 示例: 从一个函数返回两个值
 
 假如你需要从一个函数返回两个值, 比如, 一个是结果对象, 另一个是某种状态值.
-在 Kotlin 中有一种紧凑的方法实现这个功能, 我们可以声明一个 [数据类](data-classes.html),
+在 Kotlin 中有一种紧凑的方法实现这个功能, 我们可以声明一个 [数据类](data-classes.md),
 然后返回这个数据类的一个实例:
 
 ```kotlin
@@ -68,7 +62,8 @@ val (result, status) = function(...)
 
 > 你也可以使用标准库中的 `Pair` 类, 让上例中的 `function()` 函数返回一个 `Pair<Int, Status>` 实例,
 > 但是, 给你的数据恰当地命名, 通常是一种更好的设计.
-{:.note}
+>
+{style="note"}
 
 ## 示例: 解构声明与 Map
 
@@ -96,7 +91,7 @@ operator fun <K, V> Map.Entry<K, V>.component2() = getValue()
 因此, 你可以在对 map 的 `for` 循环中自由地使用解构声明
 (也可以在对数据类集合的 `for` 循环中使用解构声明).
 
-## 用下划线代替未使用的变量
+## 用下划线代替未使用的变量 {id="underscore-for-unused-variables"}
 
 如果在解构声明中, 你不需要其中的某个变量, 你可以用下划线来代替变量名:
 
@@ -106,7 +101,7 @@ val (_, status) = getResult()
 
 以这种方式跳过的变量, 不会调用对应的 `componentN()` 操作符函数.
 
-## 在 Lambda 表达式中使用解构声明
+## 在 Lambda 表达式中使用解构声明 {id="destructuring-in-lambdas"}
 
 你可以在 lambda 表达式的参数中使用解构声明语法. 如果 lambda 表达式的一个参数是 `Pair` 类型
 (或 `Map.Entry` 类型, 或者任何其他类型, 只要它拥有适当的 `componentN` 函数),

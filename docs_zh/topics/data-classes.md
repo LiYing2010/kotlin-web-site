@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Classes and Objects"
-title: "数据类(Data Class)"
----
+[//]: # (title: 数据类(Data Class))
 
-# 数据类(Data Class)
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin 中数据类(Data Class)的主要用来保存数据.
 对每个数据类, 编译器会自动生成一些额外的成员函数, 可以用来将对象输出为可读的格式, 比较对象实例, 复制对象实例, 等等.
@@ -21,7 +14,7 @@ data class User(val name: String, val age: Int)
 
 * `.equals()`/`.hashCode()` 函数对.
 * `.toString()` 函数, 输出格式为 `"User(name=John, age=42)"`.
-* [`.componentN()` 函数群](destructuring-declarations.html),
+* [`.componentN()` 函数群](destructuring-declarations.md),
   这些函数与类的属性对应, 函数名中的数字 1 到 N, 与属性的声明顺序一致.
 * `.copy()` 函数 (详情见下文).
 
@@ -40,15 +33,16 @@ data class User(val name: String, val age: Int)
   或者是 `final` 的, 导致子类无法覆盖, 则会报告编译错误.
 * 不允许对 `.componentN()` 和 `.copy()` 函数提供明确的实现(译注, 这些函数必须由编译器自动生成).
 
-数据类可以继承其他类 (示例请参见 [封闭类(Sealed class)](sealed-classes.html)).
+数据类可以继承其他类 (示例请参见 [封闭类(Sealed class)](sealed-classes.md)).
 
 > 在 JVM 平台, 如果自动生成的类需要拥有一个无参数的构造器, 那么需要为属性指定默认值
-> (参见 [构造器](classes.html#constructors)):
+> (参见 [构造器](classes.md#constructors)):
 >
 > ```kotlin
 > data class User(val name: String = "", val age: Int = 0)
 > ```
-{:.note}
+>
+{style="note"}
 
 ## 在类主体部声明的属性
 
@@ -66,8 +60,6 @@ data class Person(val name: String) {
 `age` 属性定义在类的 body 部, 因此被排除了.
 所以, 两个 `Person` 对象拥有相同的 `name`, 不同的 `age` 值, 它们会被认为值相等.
 因为 `.equals()` 只计算主构造器中的属性:
-
-<div class="sample" markdown="1" theme="idea">
 
 ```kotlin
 data class Person(val name: String) {
@@ -91,8 +83,7 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 ## 对象复制
 
@@ -113,8 +104,7 @@ val olderJack = jack.copy(age = 2)
 ## 数据类中成员数据的解构
 
 编译器会为数据类生成 _组件函数(Component function)_, 有了这些组件函数,
-就可以在 [解构声明(destructuring declaration)](destructuring-declarations.html) 中使用数据类:
-
+就可以在 [解构声明(destructuring declaration)](destructuring-declarations.md) 中使用数据类:
 
 ```kotlin
 val jane = User("Jane", 35)

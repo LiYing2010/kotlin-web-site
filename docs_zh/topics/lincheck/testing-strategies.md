@@ -1,16 +1,9 @@
----
-type: doc
-layout: reference
-category: "Lincheck"
-title: "压力测试与模型检查"
----
+[//]: # (title: 压力测试与模型检查)
 
-# 压力测试与模型检查
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Lincheck 提供了 2 种测试策略: 压力测试与模型检查.
-下面我们使用 [前一章](introduction.html) 中在 `BasicCounterTest.kt` 文件中编写的 `Counter`, 来学习这 2 种策略的内部机制:
+下面我们使用 [前一章](introduction.md) 中在 `BasicCounterTest.kt` 文件中编写的 `Counter`, 来学习这 2 种策略的内部机制:
 
 ```kotlin
 class Counter {
@@ -57,7 +50,7 @@ class CounterTest {
 }
 ```
 
-### 压力测试的工作原理
+### 压力测试的工作原理 {collapsible="true"}
 
 首先, Lincheck 使用标注了 `@Operation` 注解的操作生成一组并发场景.
 然后, 它启动原生的线程, 开始时同步这些线程, 以保证操作同时发生.
@@ -65,9 +58,9 @@ class CounterTest {
 
 下图说明 Lincheck 如何执行生成的并发场景:
 
-<img src="/assets/docs/images/lincheck/counter-stress.png" alt="计数器压力测试的执行情况" width="700"/>
+![计数器压力测试的执行情况](counter-stress.png){width=700}
 
-## 模型检查
+## 模型检查 {id="model-checking"}
 
 压力测试的主要问题是, 你可能需要耗费几个小时才能理解如何重现你发现的 bug.
 为了帮助你调查 bug, Lincheck 支持有限模型检查, 它可以自动提供数据冲突, 来重现 bug.
@@ -112,17 +105,18 @@ class CounterTest {
 >
 > ```
 > tasks.withType<Test> {
->   jvmArgs(
->     "--add-opens", "java.base/java.lang=ALL-UNNAMED",
->     "--add-opens", "java.base/jdk.internal.misc=ALL-UNNAMED",
->     "--add-exports", "java.base/jdk.internal.util=ALL-UNNAMED",
->     "--add-exports", "java.base/sun.security.action=ALL-UNNAMED"
->   )
+>     jvmArgs(
+>         "--add-opens", "java.base/java.lang=ALL-UNNAMED",
+>         "--add-opens", "java.base/jdk.internal.misc=ALL-UNNAMED",
+>         "--add-exports", "java.base/jdk.internal.util=ALL-UNNAMED",
+>         "--add-exports", "java.base/sun.security.action=ALL-UNNAMED"
+>     )
 > }
 > ```
-{:.tip}
+>
+{style="tip"}
 
-### 模型检查的工作原理
+### 模型检查的工作原理 {collapsible="true"}
 
 要重现复杂并发算法中的大多数 bug, 可以使用典型的数据冲突, 同时将代码的执行切换从一个线程切换到另一个线程.
 此外, 对于弱内存模型的模型检查器非常复杂, 
@@ -136,7 +130,7 @@ class CounterTest {
 为了插入切换点, Lincheck 会使用 ASM 框架, 在运行过程中转换测试代码, 对已有的代码添加内部函数调用.
 
 由于模型检查策略会控制执行过程, Lincheck 能够对导致错误数据冲突的情况提供追踪信息, 实际运用中这些信息会非常有用.
-在 [使用 Lincheck 编写你的第一个测试](introduction.html#trace-the-invalid-execution) 教程中,
+在 [使用 Lincheck 编写你的第一个测试](introduction.md#trace-the-invalid-execution) 教程中,
 你可以看到对 `Counter` 的不正确执行的追踪信息的示例.
 
 ## 哪个测试策略更好?
@@ -161,13 +155,13 @@ _模型检查策略_ 更适合在循序一致性内存模型下查找 bug, 因�
 
     class CounterTest {
         private val c = Counter()
-    
+
         @Operation
         fun inc() = c.inc()
-    
+
         @Operation
         fun get() = c.get()
-    
+
         @Test
         fun stressTest() = StressOptions() // 压力测试选项:
             .actorsBefore(2) // 并行运行部分之前的操作数量 
@@ -182,7 +176,7 @@ _模型检查策略_ 更适合在循序一致性内存模型下查找 bug, 因�
 
 2. 在此运行 `stressTest()`, Lincheck 会生成类似于下面的场景:
 
-   ```text 
+   ```text
    | ------------------- |
    | Thread 1 | Thread 2 |
    | ------------------- |
@@ -241,16 +235,16 @@ Lincheck 会尝试对错误进行最小化, 努力删除操作, 同时又确保�
 
     class CounterTest {
         private val c = Counter()
-    
+
         @Operation
         fun inc() = c.inc()
-    
+
         @Operation
         fun get() = c.get()
-        
+
         @StateRepresentation
         fun stateRepresentation() = c.get().toString()
-        
+
         @Test
         fun modelCheckingTest() = ModelCheckingOptions().check(this::class)
     }
@@ -292,8 +286,9 @@ Lincheck 会尝试对错误进行最小化, 努力删除操作, 同时又确保�
 
 > * 查看 [这些示例的完整代码](https://github.com/Kotlin/kotlinx-lincheck/blob/guide/src/jvm/test/org/jetbrains/kotlinx/lincheck/test/guide/CounterTest.kt)
 > * 查看更多 [测试示例](https://github.com/Kotlin/kotlinx-lincheck/blob/guide/src/jvm/test/org/jetbrains/kotlinx/lincheck/test/guide/StackTest.kt)
-{:.note}
+>
+{style="note"}
 
 ## 下一步
 
-学习如何 [配置传递给操作的参数](operation-arguments.html), 以及在什么情况下需要如此.
+学习如何 [配置传递给操作的参数](operation-arguments.md), 以及在什么情况下需要如此.

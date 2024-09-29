@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "Kotlin 命令行编译器"
----
+[//]: # (title: Kotlin 命令行编译器)
 
-# Kotlin 命令行编译器
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 每个 Kotlin 发布版都带有独立版本的编译器.
 你可以手动下载最新版本, 也可以使用包管理器下载.
@@ -15,23 +8,25 @@ title: "Kotlin 命令行编译器"
 > 要使用 Kotlin, 安装命令行编译器并不是必须的. 编写 Kotlin 应用程序的通常方式是使用 IDE -
 > [IntelliJ IDEA](https://www.jetbrains.com/idea/) 或 [Android Studio](https://developer.android.com/studio).
 > IDE 已经提供了完全的 Kotlin 支持, 不需要添加其它组件.
-> 更多详情请参见 [在 IDE 中使用 Kotlin](getting-started.html).
-{:.note}
+> 更多详情请参见 [在 IDE 中使用 Kotlin](getting-started.md).
+>
+{style="note"}
 
 ## 安装编译器
 
-### 手工安装
+### 手动安装 {id="manual-install"}
 
 手动安装 Kotlin 编译器的步骤:
 
-1. 从 [GitHub Release 页面]({{ site.data.releases.latest.url }}) 下载最新版 (`kotlin-compiler-{{ site.data.releases.latest.version }}.zip`) .
+1. 从 [GitHub Release 页面](%kotlinLatestUrl%) 下载最新版 (`kotlin-compiler-%kotlinVersion%.zip`).
 2. 将独立版本的编译器解包到一个目录, 并将 `bin` 目录添加到系统的 path 设定中(可选).
    `bin` 目录包含在 Windows, macOS, 和 Linux 上编译和运行 Kotlin 所需要的脚本.
 
 > 对于想要使用命令行编译器的 Windows 用户, 我们推荐使用手动安装的方法.
-{:.note}
+>
+{style="note"}
 
-### SDKMAN!
+### 使用 SDKMAN! 安装 {id="sdkman"}
 
 在基于 UNIX 的系统中, 比如 macOS, Linux, Cygwin, FreeBSD, 以及 Solaris, 安装 Kotlin 的更简单的方法是 [SDKMAN!](https://sdkman.io).
 它也能用于 Bash 和 ZSH shell. 参见 [如何安装 SDKMAN!](https://sdkman.io/install).
@@ -42,7 +37,7 @@ title: "Kotlin 命令行编译器"
 sdk install kotlin
 ```
 
-### Homebrew
+### 使用 Homebrew 安装 {id="homebrew"}
 
 另一种方法是, 在 macOS 上你可以通过 [Homebrew](https://brew.sh/) 来安装编译器:
 
@@ -51,7 +46,7 @@ brew update
 brew install kotlin
 ```
 
-### Snap 包
+### 使用 Snap 包安装 {id="snap-package"}
 
 如果你在 Ubuntu 16.04 或更高版本上使用 [Snap](https://snapcraft.io/), 你可以通过命令行安装编译器:
 
@@ -112,7 +107,7 @@ kotlin -classpath hello.jar HelloKt
 
 你可以不带任何参数来运行编译器, 启动一个交互环境. 在这个环境中, 你可以输入任何有效的 Kotlin 代码, 并看到结果.
 
-<img src="/assets/docs/images/command-line/kotlin-shell.png" alt="Shell" width="500"/>
+<img src="kotlin-shell.png" alt="Shell" width="500"/>
 
 ## 运行脚本
 
@@ -138,7 +133,7 @@ kotlinc -script list_folders.kts -- -d <path_to_folder_to_inspect>
 Kotlin 支持脚本的自定义功能(实验性功能), 例如添加外部属性, 提供静态或动态依赖项, 等等.
 自定义通过所谓的 *脚本定义(Script Definition)* 来定义 -
 它是带注解的 Kotlin 类, 带有适当的支持代码. 通过脚本文件名称扩展来选择适当的定义.
-详情请参见 [Kotlin 自定义脚本](scripting/custom-script-deps-tutorial.html).
+详情请参见 [Kotlin 自定义脚本](custom-script-deps-tutorial.md).
 
 在编译类路径中包含了正确的 jar 文件时, 会自动检测并使用适当准备的脚本定义.
 或者, 你也可以向编译器传递 `-script-templates` 选项, 手动指定脚本定义:

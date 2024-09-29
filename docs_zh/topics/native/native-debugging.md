@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Native"
-title: "调试 Kotlin/Native 代码"
----
+[//]: # (title: 调试 Kotlin/Native 代码)
 
-## 调试
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin/Native 编译器目前输出的调试信息兼容于 DWARF 2 规范,
 因此现代的调试工具可以执行以下操作:
@@ -18,7 +11,8 @@ Kotlin/Native 编译器目前输出的调试信息兼容于 DWARF 2 规范,
 
 > 支持 DWARF 2 规范就意味着调试器会把 Kotlin 程序识别为 C89,
 > 因为在 DWARF 5 规范之前, 还没有标识符可以标识语言类型是 Kotlin.
-{:.note}
+>
+{style="note"}
 
 ## 使用 Kotlin/Native 编译器输出带调试信息的二进制文件
 

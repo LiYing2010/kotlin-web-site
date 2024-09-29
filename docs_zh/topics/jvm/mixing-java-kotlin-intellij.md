@@ -1,24 +1,17 @@
----
-type: doc
-layout: reference
-category:
-title: "教程 - 在同一个项目中混合使用 Java 和 Kotlin"
----
+[//]: # (title: 教程 - 在同一个项目中混合使用 Java 和 Kotlin)
 
-# 教程 - 在同一个项目中混合使用 Java 和 Kotlin
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin 对 Java 的交互功能提供了一级支持, 现代化的 IDE 还使得这个功能更加便利.
 本教程中, 你将会学习在 IntelliJ IDEA 如何在同一个项目内同时使用 Kotlin 和 Java 代码.
-关于在 IntelliJ IDEA 中如何启动一个新的 Kotlin 项目, 请参见 [IntelliJ IDEA 中使用 Kotlin 入门](jvm-get-started.html).
+关于在 IntelliJ IDEA 中如何启动一个新的 Kotlin 项目, 请参见 [IntelliJ IDEA 中使用 Kotlin 入门](jvm-get-started.md).
 
 ## 向既有的 Kotlin 项目添加 Java 源代码
 
 向 Kotlin 项目添加 Java 类非常简单. 你只需要创建一个新的 Java 文件.
 在你的项目内选择一个目录或包, 然后选择菜单 **File** | **New** | **Java Class**, 或者使用快捷键 **Alt + Insert**/**Cmd + N**.
 
-<img src="/assets/docs/images/tutorials/mixing-java-kotlin-intellij/new-java-class.png" alt="添加新的 Java 类" width="400"/>
+![添加新的 Java 类](new-java-class.png){width=400}
 
 如果你已经有了 Java 类, 你可以直接将它们复制到项目目录内.
 
@@ -61,21 +54,21 @@ println(customer.placeOrder())
 
 向既有的 Java 项目添加 Kotlin 源代码, 方法基本相同.
 
-<img src="/assets/docs/images/tutorials/mixing-java-kotlin-intellij/new-kotlin-file.png" alt="添加新的 Kotlin 类" width="400"/>
+![添加新的 Kotlin 类](new-kotlin-file.png){width=400}
 
 如果这是你第一次向这个项目添加 Kotlin 文件, IntelliJ IDEA 会自动添加需要的 Kotlin 运行时库.
 
-<img src="/assets/docs/images/tutorials/mixing-java-kotlin-intellij/bundling-kotlin-option.png" alt="绑定 Kotlin 运行时库" width="350"/>
+![绑定 Kotlin 运行时库](bundling-kotlin-option.png){width=350}
 
-你也可以从菜单 **Tools** \| **Kotlin** \| **Configure Kotlin in Project** 手动打开 Kotlin 运行时库配置.
+你也可以从菜单 **Tools** | **Kotlin** | **Configure Kotlin in Project** 手动打开 Kotlin 运行时库配置.
 
-## 使用 J2K 将既有的 Java 文件转换为 Kotlin
+## 使用 J2K 将既有的 Java 文件转换为 Kotlin {id="converting-an-existing-java-file-to-kotlin-with-j2k"}
 
 Kotlin plugin 还带有一个 Java 到 Kotlin 的转换器 (_J2K_), 它可以将 Java 文件自动转换为 Kotlin.
 要对一个源代码文件使用 J2K, 请在它的弹出菜单中, 或在 IntelliJ IDEA 的 **Code** 菜单中,
 点击 **Convert Java File to Kotlin File**.
 
-<img src="/assets/docs/images/tutorials/mixing-java-kotlin-intellij/convert-java-to-kotlin.png" alt="将 Java 文件转换为 Kotlin" width="500"/>
+![将 Java 文件转换为 Kotlin](convert-java-to-kotlin.png){width=500}
 
 转换器并不保证完全正确, 但它确实能将绝大部分样板代码从 Java 正确的转换为 Kotlin.
 有时会需要进行一些手动的修正.

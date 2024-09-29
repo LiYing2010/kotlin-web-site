@@ -1,17 +1,10 @@
----
-type: doc
-layout: reference
-category:
-title: "教程 - 使用 IntelliJ IDEA 调试 Kotlin 数据流(Flow)"
----
+[//]: # (title: 教程 - 使用 IntelliJ IDEA 调试 Kotlin 数据流(Flow))
 
-# 教程 - 使用 IntelliJ IDEA 调试 Kotlin 数据流(Flow)
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 本教程演示如何创建 Kotlin 数据流(Flow), 并使用 IntelliJ IDEA 调试它.
 
-本教程假定你已经具备了 [协程](coroutines-guide.html) 和 [Kotlin 数据流(Flow)](flow.html#flows) 的相关知识.
+本教程假定你已经具备了 [协程](coroutines-guide.md) 和 [Kotlin 数据流(Flow)](flow.md#flows) 的相关知识.
 
 ## 创建 Kotlin 数据流
 
@@ -19,33 +12,30 @@ title: "教程 - 使用 IntelliJ IDEA 调试 Kotlin 数据流(Flow)"
 [数据流(Flow)](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flow.html),
 其中包括一个慢速的发射者(emitter)和一个慢速的收取者(collector):
 
-1. 在 IntelliJ IDEA 中打开一个 Kotlin 项目. 如果你没有项目, 请 [创建项目](../jvm/jvm-get-started.html#create-an-application).
+1. 在 IntelliJ IDEA 中打开一个 Kotlin 项目. 如果你没有项目, 请 [创建项目](jvm-get-started.md#create-an-application).
 
 2. 要在 Gradle 项目中使用 `kotlinx.coroutines` 库, 请向 `build.gradle(.kts)` 添加以下依赖项:
 
-   <div class="multi-language-sample" data-lang="kotlin">
-   <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+   <tabs group="build-script">
+   <tab title="Kotlin" group-key="kotlin">
 
    ```kotlin
    dependencies {
-       implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:{{ site.data.releases.latest.coroutines.version }}")
+       implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:%coroutinesVersion%")
    }
    ```
-   
-   </div>
-   </div>
-   
-   <div class="multi-language-sample" data-lang="groovy">
-   <div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+
+   </tab>
+   <tab title="Groovy" group-key="groovy">
 
    ```groovy
    dependencies {
-       implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:{{ site.data.releases.latest.coroutines.version }}'
+       implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:%coroutinesVersion%'
    }
    ```
-   
-   </div>
-   </div>
+
+   </tab>
+   </tabs>
 
    对于其他构建系统, 请参见 [`kotlinx.coroutines` README](https://github.com/Kotlin/kotlinx.coroutines#using-in-your-projects) 中的说明.
 
@@ -66,7 +56,7 @@ title: "教程 - 使用 IntelliJ IDEA 调试 Kotlin 数据流(Flow)"
     import kotlinx.coroutines.*
     import kotlinx.coroutines.flow.*
     import kotlin.system.*
- 
+
     fun simple(): Flow<Int> = flow {
         for (i in 1..3) {
             delay(100)
@@ -102,45 +92,46 @@ title: "教程 - 使用 IntelliJ IDEA 调试 Kotlin 数据流(Flow)"
 
 6. 点击 **Build Project** 构建代码.
 
-    ![构建应用程序]({{ url_for('asset', path='docs/images/coroutines/flow-build-project.png') }})
+    ![构建应用程序](flow-build-project.png)
 
 ## 调试协程
 
 1. 在调用 `emit()` 函数的代码行设置一个断点:
 
-    ![构建一个控制台应用程序]({{ url_for('asset', path='docs/images/coroutines/flow-breakpoint.png') }})
+    ![构建一个控制台应用程序](flow-breakpoint.png)
 
 2. 点击屏幕顶部运行配置旁边的 **Debug**, 使用调试模式运行代码.
 
-    ![构建一个控制台应用程序]({{ url_for('asset', path='docs/images/coroutines/flow-debug-project.png') }})
+    ![构建一个控制台应用程序](flow-debug-project.png)
 
     这时会出现 **Debug** 工具窗口: 
     * **Frames** 页包含调用栈信息.
     * **Variables** 页包含当前上下文环境中的变量. 它告诉我们数据流正在发射第 1 个值.
     * **Coroutines** 页包含正在运行中的或者被挂起的协程信息.
 
-    ![调试协程]({{ url_for('asset', path='docs/images/coroutines/flow-debug-1.png') }})
+    ![调试协程](flow-debug-1.png)
 
 3. 点击 **Debug** 工具窗口中的 **Resume Program**, 回复调试器运行. 程序会在同一个断点再次暂停.
 
-    ![调试协程]({{ url_for('asset', path='docs/images/coroutines/flow-resume-debug.png') }})
+    ![调试协程](flow-resume-debug.png)
 
     现在数据流发射第 2 个值.
 
-    ![调试协程]({{ url_for('asset', path='docs/images/coroutines/flow-debug-2.png') }})
+    ![调试协程](flow-debug-2.png)
 
 ### 被优化的变量
 
 如果你使用 `suspend` 函数, 那么在调试器中, 你可能会在变量名称旁边看到 "was optimized out" 文字:
 
-![变量 "a" 被优化了]({{ url_for('asset', path='docs/images/coroutines/variable-optimised-out.png') }})
+![变量 "a" 被优化了](variable-optimised-out.png)
 
 这段文字的意思是说, 变量的生存时间变短了, 而且变量已经不再存在了.
 如果变量被优化, 调试代码会变得困难, 因为你看不到变量值.
 你可以使用 `-Xdebug` 编译器选项禁止这种优化.
 
 > __绝对不要在产品(Production)模式中使用这个选项__: `-Xdebug` 可能 [导致内存泄露](https://youtrack.jetbrains.com/issue/KT-48678/Coroutine-debugger-disable-was-optimised-out-compiler-feature#focus=Comments-27-6015585.0-0).
-{:.warning}
+>
+{style="warning"}
 
 ## 添加一个并发运行的协程
 
@@ -171,7 +162,7 @@ title: "教程 - 使用 IntelliJ IDEA 调试 Kotlin 数据流(Flow)"
 
 2. 点击屏幕顶部运行配置旁边的 **Debug**, 使用调试模式运行代码.
 
-    ![构建一个控制台应用程序]({{ url_for('asset', path='docs/images/coroutines/flow-debug-3.png') }})
+    ![构建一个控制台应用程序](flow-debug-3.png)
 
     这时会出现 **Debug** 工具窗口.
 
@@ -181,7 +172,7 @@ title: "教程 - 使用 IntelliJ IDEA 调试 Kotlin 数据流(Flow)"
 
 3. 点击 **Debug** 工具窗口中的 **Resume Program**, 回复调试器运行.
 
-    ![调试协程]({{ url_for('asset', path='docs/images/coroutines/flow-debug-4.png') }})
+    ![调试协程](flow-debug-4.png)
 
     现在收取者协程状态为 **RUNNING**, 而发射者协程状态为 **SUSPENDED**.
 

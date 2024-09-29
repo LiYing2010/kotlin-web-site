@@ -1,16 +1,11 @@
----
-type: doc
-layout: reference
-title: "并发(Concurrency)中的可变性(Mutability)"
----
+[//]: # (title: 并发(Concurrency)中的可变性(Mutability))
 
-# 并发(Concurrency)中的可变性(Mutability)
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 > 本章描述的是旧的内存管理器的功能特性.
 > 从 Kotlin 1.7.20 开始会默认启用新的内存管理器, 详情请参见 [Kotlin/Native 内存管理](../native/native-memory-manager.html).
-{:.note}
+>
+{style="note"}
 
 在 iOS 上进行开发时, [Kotlin/Native 的状态和并发模型](multiplatform-mobile-concurrency-overview.html)
 有 [2 条简单的规则](multiplatform-mobile-concurrency-overview.html#rules-for-state-sharing).
@@ -187,7 +182,8 @@ Kotlin/Native 还有一些更加高级的方式来共用并发的状态. 为了�
 
 > 这是一个更加高级的话题. 你需要深入理解, 在 Kotlin/Native 中并发的底层工作原理,
 > 使用这种方法时, 你需要非常小心. 详情请参见 [并发](../native/native-immutability.html#concurrency-in-kotlin-native).
-{:.note}
+>
+{style="note"}
 
 Kotlin/Native 运行在 C++ 之上, 并提供了与 C 和 Objective-C 的交互能力.
 如果你在 iOS 上运行, 你还可以从 Swift 中向你的共用代码传递 Lambda 表达式参数.

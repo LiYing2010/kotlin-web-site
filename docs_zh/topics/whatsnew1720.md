@@ -1,19 +1,12 @@
----
-type: doc
-layout: reference
-category:
-title: "Kotlin 1.7.20 版中的新功能"
----
+[//]: # (title: Kotlin 1.7.20 版中的新功能)
 
-# Kotlin 1.7.20 版中的新功能
+最终更新: %latestDocDate%
 
-最终更新: {{ site.data.releases.latestDocDate }}
-
-<microformat>
+<tldr>
    <p>IDE 从 IntelliJ IDEA 2021.3, 2022.1, 和 2022.2 开始支持 Kotlin 1.7.20.</p>
-</microformat>
+</tldr>
 
-_[发布日期: 2022/09/29](releases.html#release-details)_
+_[发布日期: 2022/09/29](releases.md#release-details)_
 
 Kotlin 1.7.20 已经发布了! 以下是它的一些重要功能:
 
@@ -24,29 +17,29 @@ Kotlin 1.7.20 已经发布了! 以下是它的一些重要功能:
 
 关于这个版本的变更概要, 请参见以下视频:
 
-<iframe width="560" height="360" src="https://www.youtube.com/embed/OG9npowJgE8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-<br>
+<video src="https://youtu.be/OG9npowJgE8" title="Kotlin 1.7.20 版中的新功能"/>
 
-## 对 Kotlin K2 编译器 plugin 的支持
+## 对 Kotlin K2 编译器 plugin 的支持 {id="support-for-kotlin-k2-compiler-plugins"}
 
 Kotlin 开发组还在继续稳定 K2 编译器.
 K2 仍然在 **Alpha** 阶段
-(如同 [Kotlin 1.7.0 发布版中宣布](whatsnew17.html#new-kotlin-k2-compiler-for-the-jvm-in-alpha) 的那样),
+(如同 [Kotlin 1.7.0 发布版中宣布](whatsnew17.md#new-kotlin-k2-compiler-for-the-jvm-in-alpha) 的那样),
 但现在它支持几种编译器 plugin.
 你可以关注 [这个 YouTrack issue](https://youtrack.jetbrains.com/issue/KT-52604), 从 Kotlin 开发组得到新编译器的最新信息.
 
 从 1.7.20 版开始, Kotlin K2 编译器支持以下 plugin:
 
-* [`all-open`](all-open-plugin.html)
-* [`no-arg`](no-arg-plugin.html)
-* [SAM with receiver](sam-with-receiver-plugin.html)
-* [Lombok](lombok.html)
+* [`all-open`](all-open-plugin.md)
+* [`no-arg`](no-arg-plugin.md)
+* [SAM with receiver](sam-with-receiver-plugin.md)
+* [Lombok](lombok.md)
 * AtomicFU
 * `jvm-abi-gen`
 
 > 新的 K2 编译器的 Alpha 版只能用于 JVM 项目.
 > 不支持 Kotlin/JS, Kotlin/Native, 或其他跨平台项目.
-{:.warning}
+>
+{style="warning"}
 
 关于新的编译器以及它的益处, 请观看以下视频:
 * [通往新 Kotlin 编译器之路](https://www.youtube.com/watch?v=iTdJJq_LyoY)
@@ -62,8 +55,8 @@ K2 仍然在 **Alpha** 阶段
 
 你可以在你的 `build.gradle(.kts)` 文件中指定这个选项:
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 tasks.withType<KotlinCompile> {
@@ -71,20 +64,16 @@ tasks.withType<KotlinCompile> {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 compileKotlin {
     kotlinOptions.useK2 = true
 }
 ```
-
-</div>
-</div>
+</tab>
+</tabs>
 
 你可以在你的 JVM 项目中查看性能提升, 并与旧编译器的性能进行比较.
 
@@ -105,15 +94,16 @@ Kotlin 1.7.20 引入了一些新的语言功能特性的预览版, 并对构建�
 * [新的 data object 声明](#improved-string-representations-for-singletons-and-sealed-class-hierarchies-with-data-objects)
 * [构建器类型推断的限制](#new-builder-type-inference-restrictions)
 
-### ..< 操作符的预览版, 用于创建终止端开放的值范围(open-ended range)
+### `..<` 操作符的预览版, 用于创建终止端开放的值范围(open-ended range) {id="preview-of-the-operator-for-creating-open-ended-ranges"}
 
-> 这个新操作符是 [实验性功能](components-stability.html#stability-levels-explained), 在 IDE 中只有非常有限的支持.
-{:.warning}
+> 这个新操作符是 [实验性功能](components-stability.md#stability-levels-explained), 在 IDE 中只有非常有限的支持.
+>
+{style="warning"}
 
 这个发布版引入了新的 `..<` 操作符. Kotlin 已经有了 `..` 操作符来表达一个值范围.
 新的 `..<` 操作符与 `until` 函数类似, 帮助你定义终止端开放的值范围.
 
-<iframe width="560" height="360" src="https://www.youtube.com/embed/v0AHdAIBnbs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<video src="https://youtu.be//vv0AHdAIBnbs" title="用于创建终止端开放的值范围(open-ended range)的新操作符"/>
 
 我们的研究显示, 这个新操作符更适合表示终止端开放的值范围, 更清楚的表示值范围的上界没有包含在内.
 
@@ -127,12 +117,13 @@ when (value) {
     in 0.75..1.0 ->  // 最后 1 个 1/4  <- 注意这里是封闭的值范围
 }
 ```
+{validate="false"}
 
 #### 标准库 API 的变更
 
 在共通的 Kotlin 标准库的 `kotlin.ranges` 包中, 将会引入以下新的类型和操作:
 
-##### 新的 OpenEndRange<T> 接口
+##### 新的 `OpenEndRange<T>` 接口
 
 用于表达终止端开放的值范围的新接口与已有的 `ClosedRange<T>` 接口非常类似:
 
@@ -146,6 +137,7 @@ interface OpenEndRange<T : Comparable<T>> {
     fun isEmpty(): Boolean = start >= endExclusive
 }
 ```
+{validate="false"}
 
 ##### 在既有的可遍历的值范围中实现 OpenEndRange
 
@@ -161,6 +153,7 @@ class IntRange : IntProgression(...), ClosedRange<Int>, OpenEndRange<Int> {
     override val endExclusive: Int
 }
 ```
+{validate="false"}
 
 ##### 用于标准类型的 rangeUntil 操作符
 
@@ -177,16 +170,17 @@ class IntRange : IntProgression(...), ClosedRange<Int>, OpenEndRange<Int> {
 
 [关于这个新操作符, 详情请参见这个 KEEP 文档](https://github.com/kotlin/KEEP/blob/open-ended-ranges/proposals/open-ended-ranges.md).
 
-### 对单子(Singleton)与带 data object 的封闭类层级结构(Sealed Class Hierarchy), 改善了它们的字符串表示
+### 对单子(Singleton)与带 data object 的封闭类层级结构(Sealed Class Hierarchy), 改善了它们的字符串表示 {id="improved-string-representations-for-singletons-and-sealed-class-hierarchies-with-data-objects"}
 
-> Data object 是 [实验性功能](components-stability.html#stability-levels-explained), 目前在 IDE 中只有非常有限的支持.
-{:.warning}
+> Data object 是 [实验性功能](components-stability.md#stability-levels-explained), 目前在 IDE 中只有非常有限的支持.
+>
+{style="warning"}
 
 这个发布版引入了新类型的 `object` 声明供你使用: `data object`.
 [Data object](https://youtrack.jetbrains.com/issue/KT-4107)
 的行为与通常的 `object` 声明相同, 但默认带有更加良好格式化的 `toString` 表示.
 
-<iframe width="560" height="360" src="https://www.youtube.com/embed/ovAqcwFhEGc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<video src="https://youtu.be/ovAqcwFhEGc" title="Kotlin 1.7.20 中的数据对象"/>
 
 ```kotlin
 package org.example
@@ -222,8 +216,8 @@ fun main() {
 要在你的代码中使用 data object 声明, 请启用 `-language-version 1.9` 编译器选项.
 在 Gradle 项目中, 你可以在你的 `build.gradle(.kts)` 文件中添加以下代码:
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
@@ -232,11 +226,8 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 compileKotlin {
@@ -244,16 +235,15 @@ compileKotlin {
     kotlinOptions.languageVersion = '1.9'
 }
 ```
-
-</div>
-</div>
+</tab>
+</tabs>
 
 关于 data object 的更多信息, 请参见 [KEEP 文档](https://github.com/Kotlin/KEEP/pull/316),
 对于它们的实现, 也可以在这里提供你的反馈意见.
 
-### 构建器类型推断的新限制
+### 构建器类型推断的新限制 {id="new-builder-type-inference-restrictions"}
 
-Kotlin 1.7.20 对 [构建器类型推断](using-builders-with-builder-inference.html) 功能添加了一些重要的限制, 可能会影响你的代码.
+Kotlin 1.7.20 对 [构建器类型推断](using-builders-with-builder-inference.md) 功能添加了一些重要的限制, 可能会影响你的代码.
 这些限制影响包含构建器 lambda 函数的代码, 在这些代码中, 不对 lambda 函数本身进行分析就无法判断参数类型. 而参数需要被用作类型参数.
 现在, 编译器会对这样的代码一律报告错误, 要求你明确指定参数类型.
 
@@ -278,6 +268,7 @@ Kotlin 1.7.20 对 [构建器类型推断](using-builders-with-builder-inference.
         }
     }
     ```
+    {validate="false"} 
   
   要修正这段代码, 你需要明确指定类型:
 
@@ -323,6 +314,7 @@ Kotlin 1.7.20 对 [构建器类型推断](using-builders-with-builder-inference.
         )
     }
     ```
+    {validate="false"}
 
   要修正这个错误, 你需要明确指定类型, 修正类型不匹配的问题:
 
@@ -353,18 +345,19 @@ Kotlin 1.7.20 引入了泛型的内联类(Generic Inline Class), 对委托属性
 * [对委托属性的更多优化](#more-optimized-cases-of-delegated-properties)
 * [在 kapt stub 生成 task 中支持 JVM IR 后端](#support-for-the-jvm-ir-backend-in-kapt-stub-generating-task)
 
-### 泛型的内联类(Generic Inline Class)
+### 泛型的内联类(Generic Inline Class) {id="generic-inline-classes"}
 
-> 泛型的内联类是 [实验性功能](components-stability.html#stability-levels-explained).
+> 泛型的内联类是 [实验性功能](components-stability.md#stability-levels-explained).
 > 它随时有可能变更或被删除.
 > 需要使用者同意(Opt-in) (详情见下文), 而且你应该只为评估的目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-52994) 提供你的反馈意见.
-{:.warning}
+>
+{style="warning"}
 
 Kotlin 1.7.20 允许 JVM 内联类使用类型参数作为它的内部数据的类型.
 编译器会将它映射为 `Any?`, 或者, 一般来说, 映射为类型参数的上界.
 
-<iframe width="560" height="360" src="https://www.youtube.com/embed/0JRPA0tt9og" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<video src="https://youtu.be/0JRPA0tt9og" title="Kotlin 1.7.20 中的泛型的内联类"/>
 
 请参考下面的示例:
 
@@ -382,10 +375,10 @@ fun compute(s: UserId<String>) {} // 编译器生成 fun compute-<hashcode>(s: A
 
 欢迎你通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-52994) 提供你的反馈意见.
 
-### 对委托属性的更多优化
+### 对委托属性的更多优化 {id="more-optimized-cases-of-delegated-properties"}
 
 在 Kotlin 1.6.0 中, 我们优化了委托到一个属性的情况, 具体做法是,
-省略域变量 `$delegate`, 并 [生成对被引用的属性的直接访问](whatsnew16.html#optimize-delegated-properties-which-call-get-set-on-the-given-kproperty-instance).
+省略域变量 `$delegate`, 并 [生成对被引用的属性的直接访问](whatsnew16.md#optimize-delegated-properties-which-call-get-set-on-the-given-kproperty-instance).
 在 1.7.20 中, 我们对更多情况实现了这样的优化.
 如果委托是以下情况, 现在也会省略域变量 `$delegate`:
 
@@ -398,8 +391,9 @@ fun compute(s: UserId<String>) {} // 编译器生成 fun compute-<hashcode>(s: A
   
   val s: String by NamedObject
   ```
+  {validate="false"}
 
-* 同一个模块内, 带有 [后端域变量](properties.html#backing-fields) 和默认 getter 的 final `val` 属性:
+* 同一个模块内, 带有 [后端域变量](properties.md#backing-fields) 和默认 getter 的 final `val` 属性:
 
   ```kotlin
   val impl: ReadOnlyProperty<Any?, String> = ...
@@ -408,6 +402,7 @@ fun compute(s: UserId<String>) {} // 编译器生成 fun compute-<hashcode>(s: A
       val s: String by impl
   }
   ```
+  {validate="false"}
 
 * 常数表达式, 枚举值(Enum Entry), `this`, 或 `null`. 下面是 `this` 的例子:
 
@@ -418,22 +413,24 @@ fun compute(s: UserId<String>) {} // 编译器生成 fun compute-<hashcode>(s: A
       val s by this
   }
   ```
+  {validate="false"}
 
-详情请参见 [委托属性](delegated-properties.html).
+详情请参见 [委托属性](delegated-properties.md).
 
 欢迎你通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-23397) 提供你的反馈意见.
 
-### 在 kapt stub 生成 task 中支持 JVM IR 后端
+### 在 kapt stub 生成 task 中支持 JVM IR 后端 {id="support-for-the-jvm-ir-backend-in-kapt-stub-generating-task"}
 
-> 在 kapt stub 生成 task 中支持 JVM IR 后端是 [实验性功能](components-stability.html).
+> 在 kapt stub 生成 task 中支持 JVM IR 后端是 [实验性功能](components-stability.md).
 > 它随时有可能变更或被删除.
 > 需要使用者同意(Opt-in) (详情见下文).
 > 请注意, 只为评估和试验目的来使用这个功能.
-{:.warning}
+>
+{style="warning"}
 
 在 1.7.20 以前, kapt stub 生成 task 使用旧的编译器后端,
-并且 [kapt](kapt.html) 无法处理 [可重复的注解](annotations.html#repeatable-annotations).
-在 Kotlin 1.7.20 中, 我们添加了在 kapt stub 生成 task 中对 [JVM IR 后端](whatsnew15.html#stable-jvm-ir-backend) 的支持.
+并且 [kapt](kapt.md) 无法处理 [可重复的注解](annotations.md#repeatable-annotations).
+在 Kotlin 1.7.20 中, 我们添加了在 kapt stub 生成 task 中对 [JVM IR 后端](whatsnew15.md#stable-jvm-ir-backend) 的支持.
 因此在 kapt 中可以使用 Kotlin 的所有新功能, 包括可重复的注解.
 
 要在 kapt 中使用 IR 后端, 请在你的 `gradle.properties` 文件中添加以下选项:
@@ -451,9 +448,9 @@ Kotlin 1.7.20 开始默认使用新的 Kotlin/Native 内存管理器, 并提供�
 * [默认使用新的内存管理器](#the-new-kotlin-native-memory-manager-enabled-by-default)
 * [定制 Info.plist 文件](#customizing-the-info-plist-file)
 
-### 默认启用新的 Kotlin/Native 内存管理器
+### 默认启用新的 Kotlin/Native 内存管理器 {id="the-new-kotlin-native-memory-manager-enabled-by-default"}
 
-这个发布版中, 改进了新内存管理器的稳定性, 并改善了性能, 因此我们将新内存管理器提升到 [Beta 版](components-stability.html).
+这个发布版中, 改进了新内存管理器的稳定性, 并改善了性能, 因此我们将新内存管理器提升到 [Beta 版](components-stability.md).
 
 以前的内存管理器使得编写并发和异步代码比较复杂, 包括实现 `kotlinx.coroutines` 库时的问题.
 这些问题阻碍了 Kotlin Multiplatform Mobile 的应用, 因为同步的限制, 导致在 iOS 和 Android 平台共用 Kotlin 代码会发生问题.
@@ -461,7 +458,7 @@ Kotlin 1.7.20 开始默认使用新的 Kotlin/Native 内存管理器, 并提供�
 
 新的内存管理器还支持编译器缓存, 使得编译时间能够与以前的版本媲美.
 关于新内存管理器的更多益处, 请参见我们关于预览版的 [Blog 文章](https://blog.jetbrains.com/kotlin/2021/08/try-the-new-kotlin-native-memory-manager-development-preview/).
-关于更多技术细节, 请参见这篇 [文档](native/native-memory-manager.html).
+关于更多技术细节, 请参见这篇 [文档](native-memory-manager.md).
 
 #### 配置与设置
 
@@ -503,7 +500,8 @@ kotlin.native.binary.objcExportSuspendFunctionLaunchThreadRestriction=none
 
 > 如果你使用 `kotlinx.coroutines` 的 `native-mt` 版本, 或采用了相同的 "dispatch to the original thread" 方案的其他库,
 > 请不要添加这个选项.
-{:.warning}
+>
+{style="warning"}
 
 Kotlin 开发组非常感谢 [Ahmed El-Helw](https://github.com/ahmedre) 实现了这个选项.
 
@@ -513,7 +511,7 @@ Kotlin 开发组非常感谢 [Ahmed El-Helw](https://github.com/ahmedre) 实现�
 
 请在你的项目中试用新的内存管理器, 并 [在我们的问题追踪系统 YouTrack 中留下你的反馈意见](https://youtrack.jetbrains.com/issue/KT-48525).
 
-### 定制 Info.plist 文件
+### 定制 Info.plist 文件 {id="customizing-the-info-plist-file"}
 
 生成框架时, Kotlin/Native 编译器会生成信息属性列表文件, `Info.plist`.
 在以前的版本中, 定制这个文件的内容会很麻烦. 从 Kotlin 1.7.20开始, 你可以直接设置以下属性:
@@ -534,7 +532,7 @@ Kotlin 开发组非常感谢 Mads Ager 实现了这个功能.
 Kotlin/JS 有了一些功能增强, 改进了开发者体验, 并提升了性能:
 
 * 由于依赖项装载的性能改进, 在增量构建和完全构建中, Klib 的生成都更加快速了.
-* 重新实现了 [对开发阶段二进制文件的增量编译](js/js-ir-compiler.html#incremental-compilation-for-development-binaries) 功能,
+* 重新实现了 [对开发阶段二进制文件的增量编译](js-ir-compiler.md#incremental-compilation-for-development-binaries) 功能,
   实现了完全构建时的很大改进, 更快的增量构建, 以及稳定性提升.
 * 我们对内嵌对象, 封闭类, 以及构造器中的可选参数, 改进了 `.d.ts` 文件的生成.
 
@@ -552,7 +550,7 @@ Kotlin 1.7.20 包含的变更是支持 Gradle 7.1.
 * `org.jetbrains.kotlin.gradle.dsl.SingleTargetExtension` 现在有一个泛型参数, `SingleTargetExtension<T : KotlinTarget>`.
 * `kotlin.targets.fromPreset()` convention 已被废弃.
   作为代替, 你可以继续使用 `kotlin.targets { fromPreset() }` 方案,
-  但我们推荐使用更加 [专门的方法来创建编译目标](multiplatform/multiplatform-set-up-targets.html).
+  但我们推荐使用更加 [专门的方法来创建编译目标](multiplatform-set-up-targets.md).
 * 在 `kotlin.targets { }` 代码段内, 由 Gradle 自动生成的编译目标访问器不再可用.
   请改为使用 `findByName("targetName")` 方法.
 
@@ -592,7 +590,7 @@ kotlin {
 
 ### JVM toolchain 配置的新方法
 
-这个发布版提供了一个新的 `jvmToolchain()` 方法, 用来启用 [JVM toolchain 功能](gradle/gradle-configure-project.html#gradle-java-toolchains-support).
+这个发布版提供了一个新的 `jvmToolchain()` 方法, 用来启用 [JVM toolchain 功能](gradle-configure-project.md#gradle-java-toolchains-support).
 如果你不需要任何额外的 [配置设定](https://docs.gradle.org/current/javadoc/org/gradle/jvm/toolchain/JavaToolchainSpec.html),
 比如 `implementation` 或 `vendor`, 你可以通过 Kotlin 扩展使用这个方法:
 
@@ -615,7 +613,7 @@ kotlin {
 
 ## 标准库
 
-Kotlin 1.7.20 对 `java.nio.file.Path` 类提供了新的 [扩展函数](extensions.html#extension-functions), 可以用来遍历文件树:
+Kotlin 1.7.20 对 `java.nio.file.Path` 类提供了新的 [扩展函数](extensions.md#extension-functions), 可以用来遍历文件树:
 
 * `walk()`
    惰性的(lazily)遍历以指定路径为根的文件树.
@@ -628,11 +626,12 @@ Kotlin 1.7.20 对 `java.nio.file.Path` 类提供了新的 [扩展函数](extensi
 * `FileVisitResult`
   是 `FileVisitor` 的返回类型, 默认值是 `CONTINUE`, 表示继续文件遍历过程.
 
-> `java.nio.file.Path` 的这些新扩展函数是 [实验性功能](components-stability.html).
+> `java.nio.file.Path` 的这些新扩展函数是 [实验性功能](components-stability.md).
 > 随时有可能变更或被删除.
 > 需要使用者同意(Opt-in) (详情见下文).
 > 请注意, 只为评估和试验目的来使用这个功能.
-{:.warning}
+>
+{style="warning"}
 
 下面是使用这些新扩展函数能够实现的一些功能:
 
@@ -660,7 +659,7 @@ Kotlin 1.7.20 对 `java.nio.file.Path` 类提供了新的 [扩展函数](extensi
 
   ```kotlin
   projectDirectory.visitFileTree {
-  // builderAction 的定义:
+      // builderAction 的定义:
       onPreVisitDirectory { directory, attributes ->
           // 这里可以实现访问目录时的某些逻辑
           FileVisitResult.CONTINUE
@@ -710,7 +709,7 @@ Kotlin 1.7.20 对 `java.nio.file.Path` 类提供了新的 [扩展函数](extensi
       }
   
    
-  // 使用 walk 函数:
+      // 使用 walk 函数:
       val directoryStructure = rootDirectory.walk(PathWalkOption.INCLUDE_DIRECTORIES)
           .map { it.relativeTo(rootDirectory).toString() }
           .toList().sorted()
@@ -722,7 +721,6 @@ Kotlin 1.7.20 对 `java.nio.file.Path` 类提供了新的 [扩展函数](extensi
           .map { it.relativeTo(rootDirectory).toString() }
           .toList().sorted()
       assertPrints(directoryStructureAfterClean, "[, src, src/A.kt]")
-  //sampleEnd
   }
   ```
 
@@ -740,23 +738,23 @@ Kotlin 1.7.20 对 `java.nio.file.Path` 类提供了新的 [扩展函数](extensi
 
 ### 文档的改进和新增
 
-* [基本类型概述](basic-types.html) –
+* [基本类型概述](basic-types.md) –
   学习 Kotlin 中使用的基本类型: 数值, Booleans, 字符, 字符串, 数组, 以及无符号整数.
-* [Kotlin 开发使用的 IDE](kotlin-ide.html) –
+* [Kotlin 开发使用的 IDE](kotlin-ide.md) –
   查看带有官方 Kotlin 支持的 IDE, 以及带有社区支持的 plugin 的工具.
 
 ### Kotlin Multiplatform 期刊中的新文章
 
-* [原生(Native)应用程序开发与跨平台(cross-platform)移动应用程序开发: 如何选择?](native-and-cross-platform.html) –
+* [原生(Native)应用程序开发与跨平台(cross-platform)移动应用程序开发: 如何选择?](native-and-cross-platform.md) –
   阅读我们的概述, 以及跨平台(cross-platform)应用程序开发和原生(Native)方案各自的优势.
-* [跨平台应用程序开发最流行的 6 种框架](cross-platform-frameworks.html) –
+* [跨平台应用程序开发最流行的 6 种框架](cross-platform-frameworks.md) –
   查看各个框架的关键要素, 帮助你为跨平台项目选择正确的框架.
 
 ### 教程的改进和新增
 
 * [Kotlin Multiplatform 入门](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-getting-started.html)
   – 学习使用 Kotlin 进行跨平台移动应用程序开发, 并创建一个可以同时运行于 Android 和 iOS 平台的应用程序.
-* [使用 React 和 Kotlin/JS 创建 Web 应用程序](js/js-react.html)
+* [使用 React 和 Kotlin/JS 创建 Web 应用程序](js-react.md)
   – 创建一个浏览器应用程序, 学习一个典型的 React 程序中用到的 Kotlin 的 DSL 和功能特性.
 
 ### Kotlin 的发布版本文档的变更
@@ -768,19 +766,20 @@ Kotlin 1.7.20 对 `java.nio.file.Path` 类提供了新的 [扩展函数](extensi
 我们正在寻找方法来提供库之间相互关联相互依赖的信息,
 以便于你来判断, 当你升级你的项目的 Kotlin 版本时, 应该使用 kotlinx 库的哪个版本.
 
-## 安装 Kotlin 1.7.20
+## 安装 Kotlin 1.7.20 {id="install-kotlin-1-7-20"}
 
 [IntelliJ IDEA](https://www.jetbrains.com/idea/download/) 2021.3, 2022.1, 和 2022.2
 会自动建议将 Kotlin plugin 更新到版本 1.7.20.
 
 > 对于 Android Studio Dolphin (213), Electric Eel (221), 和 Flamingo (222),
 > Android Studios 的后续更新会带有 Kotlin plugin 1.7.20.
-{:.note}
+>
+{style="note"}
 
 新的命令行编译器可以通过 [GitHub 发布页面](https://github.com/JetBrains/kotlin/releases/tag/v1.7.20) 下载.
 
-### Kotlin 1.7.20 的兼容性指南
+### Kotlin 1.7.20 的兼容性指南 {id="compatibility-guide-for-kotlin-1-7-20"}
 
 尽管 Kotlin 1.7.20 是一个增量发布版, 但我们仍然不得不进行了一些不兼容的变更, 以解决 Kotlin 1.7.0 中的一些问题.
 
-关于这些不兼容的变更, 详情请参见 [Kotlin 1.7.20 兼容性指南](compatibility-guide-1720.html).
+关于这些不兼容的变更, 详情请参见 [Kotlin 1.7.20 兼容性指南](compatibility-guide-1720.md).

@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "No-arg 编译器插件"
----
+[//]: # (title: No-arg 编译器插件)
 
-# No-arg 编译器插件
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 对带有指定注解的类, *no-arg* 编译器插件会为它生成一个额外的无参数构造器. 
 
@@ -20,23 +13,26 @@ title: "No-arg 编译器插件"
 
 添加插件, 并指定需要为类生成无参数构造器的注解.
 
-```groovy
-buildscript {
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-noarg:{{ site.data.releases.latest.version }}"
-    }
-}
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
-apply plugin: "kotlin-noarg"
+```kotlin
+plugins {
+    kotlin("plugin.noarg") version "%kotlinVersion%"
+}
 ```
 
-或使用 Gradle plugins DSL:
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 plugins {
-  id "org.jetbrains.kotlin.plugin.noarg" version "{{ site.data.releases.latest.version }}"
+    id "org.jetbrains.kotlin.plugin.noarg" version "%kotlinVersion%"
 }
 ```
+
+</tab>
+</tabs>
 
 然后指定 no-arg 注解:
 
@@ -61,7 +57,7 @@ noArg {
 <plugin>
     <artifactId>kotlin-maven-plugin</artifactId>
     <groupId>org.jetbrains.kotlin</groupId>
-    <version>{{ site.data.releases.latest.version }}</version>
+    <version>${kotlin.version}</version>
 
     <configuration>
         <compilerPlugins>
@@ -80,13 +76,13 @@ noArg {
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-maven-noarg</artifactId>
-            <version>{{ site.data.releases.latest.version }}</version>
+            <version>${kotlin.version}</version>
         </dependency>
     </dependencies>
 </plugin>
 ```
 
-## JPA 支持
+## JPA 支持 {id="jpa-support"}
 
 和 `kotlin-spring` 插件封装了 `all-open` 一样, `kotlin-jpa` 也是 `no-arg` 的上层封装.
 这个插件自动指定 *no-arg* 注解为 
@@ -94,25 +90,28 @@ noArg {
 [`@Embeddable`](https://docs.oracle.com/javaee/7/api/javax/persistence/Embeddable.html),
 和 [`@MappedSuperclass`](https://docs.oracle.com/javaee/7/api/javax/persistence/MappedSuperclass.html).
 
-在 Gradle 中添加这个插件的方法如下: 
+在 Gradle 中添加这个插件的方法如下:
 
-``` groovy
-buildscript {
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-noarg:{{ site.data.releases.latest.version }}"
-    }
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+plugins {
+    kotlin("plugin.jpa") version "%kotlinVersion%"
 }
-
-apply plugin: "kotlin-jpa"
 ```
 
-或使用 Gradle plugins DSL:
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 plugins {
-  id "org.jetbrains.kotlin.plugin.jpa" version "{{ site.data.releases.latest.version }}"
+    id "org.jetbrains.kotlin.plugin.jpa" version "%kotlinVersion%"
 }
 ```
+
+</tab>
+</tabs>
 
 在 Maven 中, 启用 `jpa` 插件:
 

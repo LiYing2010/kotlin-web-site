@@ -1,8 +1,6 @@
----
-type: doc
-layout: reference
-category: "Native"
-title: "代码覆盖率(Code Coverage)"
+[//]: # (title: 代码覆盖率(Code Coverage))
+
+最终更新: %latestDocDate%
 ---
 
 

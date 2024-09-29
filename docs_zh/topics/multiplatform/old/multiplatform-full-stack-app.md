@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "使用 Kotlin Multiplatform 构建全栈 Web 应用程序"
----
+[//]: # (title: 使用 Kotlin Multiplatform 构建全栈 Web 应用程序)
 
-# 使用 Kotlin Multiplatform 构建全栈 Web 应用程序
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 This tutorial demonstrates how to build a connected full-stack application with IntelliJ IDEA. You will create a simple
 JSON API and learn how to use the API from a web app using Kotlin and React.

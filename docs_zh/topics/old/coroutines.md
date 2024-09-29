@@ -1,14 +1,13 @@
----
-type: doc
-layout: reference
-category: "Syntax"
-title: "协程(Coroutine)"
+[//]: # (title: 协程(Coroutine))
+
+最终更新: %latestDocDate%
 ---
 
 # 协程(Coroutine)
 
 > 协程(Coroutine) 在 Kotlin 1.1+ 中仍是 *实验性功能*. 详情请参见 [下文](#experimental-status-of-coroutines)
-{:.note}
+>
+{style="note"}
 
 有些 API 会启动一些长时间运行的操作(比如网络 IO, 文件 IO, CPU 或 GPU 密集的工作, 等等), 并且要求调用者等待, 直到任务完成. 协程提供一种新的方式, 可以避免线程阻塞, 改为更加廉价更加可控的操作: 协程的 *挂起(suspension)*.
 
@@ -28,43 +27,36 @@ Go 的 [channels](https://github.com/Kotlin/kotlinx.coroutines/blob/master/corou
 
 另外一个区别就是, 协程不会在某个随机的代码中挂起, 而只能在我们称之为 *挂起点(suspension point)* 的对方挂起, 也就是调用某些特别标记的函数的地方.
 
-## 挂起函数(Suspending function)
+## 挂起函数(Suspending function) {id="suspending-functions"}
 
 如果一个函数使用了 `suspend` 修饰符, 那么当我们调用这个函数时, 就会发生挂起:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```kotlin
 suspend fun doSomething(foo: Foo): Bar { ... }
 ```
-</div>
 
 这种函数称为 *挂起函数(suspending function)*, 因为调用这些函数可能会导致协程挂起(如果这个函数调用的结果已经得到了, 库也可以决定不挂起, 继续执行).
 挂起函数也可以接受参数, 可以返回值, 规则与普通的函数一样, 但调用挂起函数的, 只能是协程, 或其它挂起函数, 或协程或挂起函数中内联的函数字面值(function literal).
 
 实际上, 要启动一个协程, 至少要存在一个挂起函数, 这个挂起函数通常是一个挂起的 Lambda 表达式. 我们来看一个示例程序, 一个简化版的 `async()` 函数 (来自 [`kotlinx.coroutines`](#generators-api-in-kotlincoroutines) 库):
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```kotlin
 fun <T> async(block: suspend () -> T)
 ```
-</div>
 
 这里, `async()` 是一个普通的函数(不是挂起函数), 但是 `block` 参数时一个带 `suspend` 修饰符的函数类型: `suspend () -> T`. 因此, 向  `async()` 函数传递一个 lambda 表达式作为参数时, 这个 lambda 表达式将是一个 *挂起 lambda 表达式 (suspending lambda)*, 然后, 我们在这个 lambda 表达式内调用一个挂起函数:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```kotlin
 async {
     doSomething(foo)
     ...
 }
 ```
-</div>
 
 > **注意:** 挂起函数类型目前不能用作超类, 匿名的挂起函数目前还不支持.
 
 继续我们的例子, `await()` 可以是一个挂起函数(因此也可以在 `async {}` 代码段内调用), 它挂起一个协程, 直到某些计算结束, 然后返回计算结果:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```kotlin
 async {
     ...
@@ -72,14 +64,12 @@ async {
     ...
 }
 ```
-</div>
 
 关于 `kotlinx.coroutines` 库内的 `async/await` 函数的详细工作原理, 请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/coroutines-guide.md#composing-suspending-functions).
 
 注意, 挂起函数 `await()` 和 `doSomething()` 不能在没有内联到挂起函数内的函数字面值中调用,
 也不能在普通的函数中调用, 比如在 `main()` 函数中:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```kotlin
 fun main(args: Array<String>) {
     doSomething() // 错误: 在非协程的环境下调用了挂起函数
@@ -95,11 +85,9 @@ fun main(args: Array<String>) {
         }
     }}
 ```
-</div>
 
 还要注意, 挂起函数可以是虚函数, 当覆盖挂起函数时, 也必须指定 `suspend` 修饰符:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```kotlin
 interface Base {
     suspend fun foo()
@@ -109,22 +97,19 @@ class Derived: Base {
     override suspend fun foo() { ... }
 }
 ```
-</div>
 
 ### `@RestrictsSuspension` 注解
 
-扩展函数 (以及 lambda 表达式) 与通常的函数一样, 也可以标记为 `suspend`. 因此我们可以创建 [面向特定领域的专有语言 (DSL)](type-safe-builders.html) 以及其他可供用户扩展的 API. 某些情况下, 库的作者需要防止使用者增加 *新方式* 来挂起协程.
+扩展函数 (以及 lambda 表达式) 与通常的函数一样, 也可以标记为 `suspend`. 因此我们可以创建 [面向特定领域的专有语言 (DSL)](type-safe-builders.md) 以及其他可供用户扩展的 API. 某些情况下, 库的作者需要防止使用者增加 *新方式* 来挂起协程.
 
 为了达到这个目的, 可以使用 [`@RestrictsSuspension`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.coroutines.experimental/-restricts-suspension/index.html) 注解. 如果扩展函数的接受者类(或接口) `R` 标注了这个注解, 所有的挂起扩展函数都必须委托给 `R` 的成员函数, 或者 `R` 的其他扩展函数. 由于扩展函数之间的委托关系不能出现无限循环 (否则程序将会陷入死循环), 因此可以保证所有的挂起都必须通过调用 `R` 的成员函数来发生, 而 `R` 的成员函数是库作者能够完全控制的.
 
 在 _少数_ 情况下, 这种功能是有必要的, 比如, 如果所有的挂起都需要在库内以某种特殊的方式处理. 举例来说, 如果要通过 [`buildSequence()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.coroutines.experimental/build-sequence.html)函数 (详情参见 [下文](#generators-api-in-kotlincoroutines)) 来实现生成器, 我们需要确保协程内所有的挂起调用最终都调用到 `yield()` 或 `yieldAll()` 函数, 而不是其他任何函数. 所以 [`SequenceBuilder`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.coroutines.experimental/-sequence-builder/index.html) 标注了 `@RestrictsSuspension` 注解:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```kotlin
 @RestrictsSuspension
 public abstract class SequenceBuilder<in T> { ... }
 ```
-</div>
 
 源代码请参见 [on Github](https://github.com/JetBrains/kotlin/blob/master/libraries/stdlib/src/kotlin/coroutines/experimental/SequenceBuilder.kt).   
 
@@ -138,9 +123,9 @@ public abstract class SequenceBuilder<in T> { ... }
 
 协程工作机制的更多的信息请参见 [这篇设计文档](https://github.com/Kotlin/kotlin-coroutines/blob/master/kotlin-coroutines-informal.md). 这篇文档也提到了其他语言中 (比如 C# 或 ECMAScript 2016) 类似的 async/await 功能, 虽然它们实现的语言特性并不象 Kotlin 的协程那样通用.
 
-## 协程还处于试验性阶段
+## 协程还处于试验性阶段 {id="experimental-status-of-coroutines"}
 
-协程的设计仍然处于 [试验阶段](compatibility.html#experimental-features), 也就是说在 Kotlin 发布后续的版本中可能会有变化. 在 Kotlin 1.1+ 中编译协程时, 默认会报告一条警告信息: *"协程" 特性还处于试验阶段*. 你可以使用 [编译参数](/docs/diagnostics/experimental-coroutines.html) 来去掉这条警告.
+协程的设计仍然处于 [试验阶段](compatibility.md#experimental-features), 也就是说在 Kotlin 发布后续的版本中可能会有变化. 在 Kotlin 1.1+ 中编译协程时, 默认会报告一条警告信息: *"协程" 特性还处于试验阶段*. 你可以使用 [编译参数](/docs/diagnostics/experimental-coroutines.html) 来去掉这条警告.
 
 由于协程还处于试验阶段, 标准库中与协程相关的 API 被放在 `kotlin.coroutines.experimental` 包下. 当设计最终确定, 试验阶段结束时, 最终的 API 将被移动到 `kotlin.coroutines` 包下, 而 `kotlin.coroutines.experimental` 包仍会被保留(可能在一个单独的 artifact 文件内) 以便保证向后兼容性.
 
@@ -150,7 +135,7 @@ public abstract class SequenceBuilder<in T> { ... }
 
 这样可以帮助你的库的使用者, 将库版本迁移时带来的问题减到最少.
 
-## 标准 API
+## 标准 API {id="standard-apis"}
 
 协程功能主要有三个部分组成:
  - 语言层面的支持 (也就是上文所述的挂起函数);
@@ -168,7 +153,7 @@ public abstract class SequenceBuilder<in T> { ... }
 
 关于这些 API 的使用方法, 更多详细信息请参见 [这里](https://github.com/Kotlin/kotlin-coroutines/blob/master/kotlin-coroutines-informal.md).
 
-### `kotlin.coroutines` 包中的生成器(Generator) API
+### `kotlin.coroutines` 包中的生成器(Generator) API {id="generators-api-in-kotlincoroutines"}
 
 `kotlin.coroutines.experimental` 包中唯一的 "应用程序层次" 的函数是:
 - [`buildSequence()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.coroutines.experimental/build-sequence.html)

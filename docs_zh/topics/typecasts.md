@@ -1,21 +1,15 @@
----
-type: doc
-layout: reference
-category: "Syntax"
-title: "类型检查与类型转换"
----
+[//]: # (title: 类型检查与类型转换)
 
-# 类型检查与类型转换
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 在 Kotlin 中, 你可以进行类型检查, 在运行时检查一个对象的类型. 类型转换可以将对象转换为另一个类型.
 
 > 关于 **泛型** 的类型检查和转换, 例如 `List<T>`, `Map<K,V>`,
-> 请参见 [泛型的类型检查和转换](generics.html#generics-type-checks-and-casts).
-{:.tip}
+> 请参见 [泛型的类型检查和转换](generics.md#generics-type-checks-and-casts).
+>
+{style="tip"}
 
-## is 与 !is 操作符
+## is 与 !is 操作符 {id="is-and-is-operators"}
 
 可以使用 `is` 操作符, 或者它相反的 `!is` 操作符, 在运行时检查一个对象与一个给定的类型是否一致:
 
@@ -31,7 +25,7 @@ if (obj !is String) { // 等价于 !(obj is String)
 }
 ```
 
-## 智能类型转换
+## 智能类型转换 {id="smart-casts"}
 
 大多数情况下, 在 Kotlin 中你不必使用显式的类型转换操作,
 因为编译器会对不可变值的 `is` 检查和[显式的类型转换](#unsafe-cast-operator) 进行追踪,
@@ -65,8 +59,8 @@ if (x is String && x.length > 0) {
 }
 ```
 
-智能类型转换(Smart Cast) 对于 [`when` 表达式](control-flow.html#when-expressions)
-和 [`while` 循环](control-flow.html#while-loops) 同样有效:
+智能类型转换(Smart Cast) 对于 [`when` 表达式](control-flow.md#when-expression)
+和 [`while` 循环](control-flow.md#while-loops) 同样有效:
 
 ```kotlin
 when (x) {
@@ -77,7 +71,8 @@ when (x) {
 ```
 
 > 注意, 在类型检查语句与变量使用语句之间, 只有在编译器能够确保变量不会改变的情况下, 智能类型转换才是有效的.
-{:.warning}
+>
+{style="warning"}
 
 在以下条件下可以使用智能类型转换:
 
@@ -87,20 +82,20 @@ when (x) {
             <code>val</code> 局部变量
         </td>
         <td>
-            永远有效, 但 <a href="delegated-properties.html">局部的委托属性</a> 例外.
+            永远有效, 但 <a href="delegated-properties.md">局部的委托属性</a> 例外.
         </td>
     </tr>
-        <tr>
+    <tr>
         <td>
             <code>val</code> 属性
         </td>
         <td>
             如果属性是 <code>private</code> 的, 或 <code>internal</code> 的, 或者类型检查处理与属性定义出现在同一个
-            <a href="visibility-modifiers.html#modules">模块(module)</a> 内, 那么智能类型转换是有效的.
+            <a href="visibility-modifiers.md#modules">模块(module)</a> 内, 那么智能类型转换是有效的.
             对于 <code>open</code> 属性, 或存在自定义 get 方法的属性, 智能类型转换是无效的.
         </td>
     </tr>
-        <tr>
+    <tr>
         <td>
            <code>var</code> 局部变量
         </td>
@@ -109,7 +104,7 @@ when (x) {
             并且它不是一个局部的委托属性, 那么智能类型转换是有效的.
         </td>
     </tr>
-        <tr>
+    <tr>
         <td>
             <code>var</code> 属性
         </td>
@@ -119,7 +114,7 @@ when (x) {
     </tr>
 </table>
 
-## "不安全的" 类型转换操作符
+## "不安全的" 类型转换操作符 {id="unsafe-cast-operator"}
 
 如果类型转换不成功, 类型转换操作符通常会抛出一个异常. 因此, 称为 _不安全的(unsafe)_ 类型转换.
 在 Kotlin 中, 不安全的类型转换使用中缀操作符 `as`:
@@ -128,7 +123,7 @@ when (x) {
 val x: String = y as String
 ```
 
-注意, `null` 不能被转换为 `String`, 因为这个类型不是 [可为 null 的(nullable)](null-safety.html).
+注意, `null` 不能被转换为 `String`, 因为这个类型不是 [可为 null 的(nullable)](null-safety.md).
 如果 `y` 为 null, 上例中的代码将抛出一个异常.
 为了让这段代码能够处理 null 值, 需要在类型转换操作符的右侧使用可为 null 的类型:
 
@@ -136,7 +131,7 @@ val x: String = y as String
 val x: String? = y as String?
 ```
 
-## "安全的" (nullable) 类型转换操作
+## "安全的" (nullable) 类型转换操作 {id="safe-nullable-cast-operator"}
 
 为了避免抛出异常, 请使用 *安全的* 类型转换操作符 `as?`, 当类型转换失败时, 它会返回 `null`.
 

@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Native"
-title: "符号化(Symbolicate) iOS 崩溃报告(Crash Report)"
----
+[//]: # (title: 符号化(Symbolicate) iOS 崩溃报告(Crash Report))
 
-# 符号化(Symbolicate) iOS 崩溃报告
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 要对 iOS 应用程序的崩溃进行调试, 有时需要分析崩溃报告.
 关于崩溃报告的详情, 请参见
@@ -26,8 +19,8 @@ title: "符号化(Symbolicate) iOS 崩溃报告(Crash Report)"
 这个选项可以使用编译器参数 `-Xadd-light-debug=disable` 来关闭.
 同时, 对于其他平台, 这个选项默认是关闭的. 如果需要打开, 请使用编译器选项 `-Xadd-light-debug=enable`.
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlin {
@@ -39,11 +32,8 @@ kotlin {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 kotlin {
@@ -55,8 +45,8 @@ kotlin {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 在 IntelliJ IDEA 或 AppCode 模板创建的项目中,
 这些 `.dSYM` bundle 之后会被 Xcode 自动发现.
@@ -70,8 +60,8 @@ kotlin {
 而且无法从 App Store 下载.
 这种情况下, 可能需要将框架设置为静态.
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlin {
@@ -83,11 +73,8 @@ kotlin {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 kotlin {
@@ -99,5 +86,5 @@ kotlin {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>

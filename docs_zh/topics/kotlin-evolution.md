@@ -1,17 +1,8 @@
----
-type: doc
-layout: reference
-category: "Compatibility"
-title: "Kotlin 的演化"
----
+[//]: # (title: Kotlin 的演化)
 
-# Kotlin 的演化
-
-最终更新: {{ site.data.releases.latestDocDate }}
-
+最终更新: %latestDocDate%
 
 ## 务实的演化原则
-
 
 > _语言设计就象用石头做雕像,_
 >
@@ -45,7 +36,7 @@ Kotlin 被设计为一种为程序员服务的务实的工具. 当语言发生�
   除了依靠我们自己尽力作出最好的判断之外, 我们相信, 对某个设计进行验证的做好办法就是, 在真正的软件开发过程中去试用它.
   在将某个设计雕刻到石头上之前, 我们希望它经过实战考验.
   因此我们会努力在语言的生产版本中发布一些新设计的早期版本, 但会将它设定为某种 _未稳定_ 状态:
-  [实验性, Alpha, 或 Beta](components-stability.html).
+  [实验性, Alpha, 或 Beta](components-stability.md).
   这些功能还没有稳定下来, 随时都可能改变, 使用者需要明确地指明自己确定要使用这些未稳定功能, 以及自己愿意面对未来可能发生的迁移问题.
   这些使用者会在使用过程中向我们提供宝贵的反馈信息, 我们收集这些反馈信息后, 会将他们的意见反映到后面的设计中, 并确定最终的功能设计.
 
@@ -112,7 +103,7 @@ Kotlin 编程语言的所有变更都在[首席语言设计师](https://kotlinfo
 语言委员会最终决定作出哪些不兼容的变更, 应该采取哪些步骤让使用者平滑地升级.
 在作出这些决策时, 语言委员会依靠一组指导原则, 详情请参见 [这里](https://kotlinfoundation.org/language-committee-guidelines/).
 
-## 功能性发布版(Feature Release)与增量发布版(Incremental Release)
+## 功能性发布版(Feature Release)与增量发布版(Incremental Release) {id="feature-releases-and-incremental-releases"}
 
 稳定发布版, 比如版本号 1.2, 1.3, 等等. 通常是一次 _功能发布版_, 带来大的语言变更.
 通常, 在功能发布版之间我们会发布一些 _增量发布版_, 比如版本号 1.2.20, 1.2.30, 等等.
@@ -142,7 +133,7 @@ Kotlin 编程语言的所有变更都在[首席语言设计师](https://kotlinfo
 
 ### 各部分组件的稳定性状态
 
-Kotlin 包含很多组件(Kotlin/JVM, JS, Native, 各种库, 等等), 关于各部分组件的稳定性状态, 请参见 [参考文档](components-stability.html).
+Kotlin 包含很多组件(Kotlin/JVM, JS, Native, 各种库, 等等), 关于各部分组件的稳定性状态, 请参见 [参考文档](components-stability.md).
 
 ## 库
 
@@ -163,7 +154,7 @@ Kotlin 包含很多组件(Kotlin/JVM, JS, Native, 各种库, 等等), 关于各�
 * 由同一个库提供的重载(overload)的函数和属性, 本质上应该做完全相同的工作.
   类型推断的变更可能导致在函数调用处得到更加精确的静态类型, 因此会导致对重载函数的调用解析为不同的结果.
 
-库的作者可以使用 @Deprecated 和 [@RequiresOptIn](opt-in-requirements.html) 注解来控制他们的 API 接口的演进.
+库的作者可以使用 @Deprecated 和 [@RequiresOptIn](opt-in-requirements.md) 注解来控制他们的 API 接口的演进.
 注意, 即使是已经从 API 中删除的声明, 也可以使用 @Deprecated(level=HIDDEN) 注解来保护二进制兼容性.
 
 而且, 按照通常的规约, 命名为 "internal" 的包不应该看作 public API.
@@ -189,13 +180,13 @@ Kotlin 包含很多组件(Kotlin/JVM, JS, Native, 各种库, 等等), 关于各�
 我们提供了 `-language-version X.Y` 和 `-api-version X.Y` 标记,
 用来让 Kotlin 的新版本模拟旧版本的行为, 以便维持兼容性.
 为了给你留下更多的代码迁移时间, 除最新的稳定版之外, 我们还
-[支持](compatibility-modes.html) 使用语言和 API 的前 3 个旧版本.
+[支持](compatibility-modes.md) 使用语言和 API 的前 3 个旧版本.
 
 活跃维护中的代码库可以尽快升级到 bug 修复后的版本, 而不必等待整个升级周期完成.
 目前, 这样的项目可以启用 `-progressive` 选项, 这样即使在增量发布的版本中, 也可以让这些 bug 修复有效.
 
-所有这些标记都可以在命令行中使用, 也可以在 [Gradle](gradle/gradle-compiler-options.html)
-和 [Maven](maven.html#specify-compiler-options) 中使用.
+所有这些标记都可以在命令行中使用, 也可以在 [Gradle](gradle-compiler-options.md)
+和 [Maven](maven.md#specify-compiler-options) 中使用.
 
 ### 二进制格式的演化
 

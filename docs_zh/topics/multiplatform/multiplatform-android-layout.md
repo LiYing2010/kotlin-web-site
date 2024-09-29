@@ -1,19 +1,13 @@
----
-type: doc
-layout: reference
-category:
-title: "Android 源代码集布局"
----
+[//]: # (title: Android 源代码集布局)
 
-# Android 源代码集布局
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin 1.8.0 引入了 Android 源代码集布局, 并在 1.9.0 中成为默认布局.
 请阅读这篇向导, 理解的已废弃的旧布局与新布局之间的主要区别, 以及如何迁移你的项目.
 
 > 你不一定要实现这篇向导中的全部建议, 只需要实现那些适合于你的项目的部分.
-{:.tip}
+>
+{style="tip"}
 
 ## 检查兼容性
 
@@ -84,7 +78,7 @@ Kotlin 1.8.0 引入了 Android 源代码集布局, 并在 1.9.0 中成为默认�
 
 ```kotlin
 kotlin {
-// ...
+    // ...
     sourceSets {
         val commonTest by getting
         val androidInstrumentedTest by getting {
@@ -109,10 +103,10 @@ kotlin {
 
 ```kotlin
 kotlin {
-// ...
+    // ...
     @OptIn(ExperimentalKotlinGradlePluginApi::class)
     sourceSets.invokeWhenCreated("androidFreeDebug") {
-// ...
+        // ...
     }
 }
 ```

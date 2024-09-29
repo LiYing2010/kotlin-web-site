@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "向后兼容性(Backward Compatibility)"
----
+[//]: # (title: 向后兼容性(Backward Compatibility))
 
-# 向后兼容性(Backward Compatibility)
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 本章介绍关于 [向后兼容性(Backward Compatibility)](#definition-of-backward-compatibility) 需要注意的问题.
 下面是 "不要做" 的建议:
@@ -22,7 +15,7 @@ title: "向后兼容性(Backward Compatibility)"
 
 详情请参见 [用于增强向后兼容性的工具](#tools-designed-to-enforce-backward-compatibility).
 
-## 向后兼容性(Backward Compatibility)的定义
+## 向后兼容性(Backward Compatibility)的定义 {id="definition-of-backward-compatibility"}
 
 一个好的 API, 非常重要的一点就是向后兼容性.
 向后兼容的代码, 使得新 API 版本的客户能够使用他们过去在旧 API 版本中曾经使用过的相同的 API 代码.
@@ -51,11 +44,11 @@ title: "向后兼容性(Backward Compatibility)"
 
 ## "不要做" 的建议
 
-### 不要向既有的 API 函数添加参数
+### 不要向既有的 API 函数添加参数 {id="don-t-add-arguments-to-existing-api-functions"}
 
 向一个 Public API 添加无默认值的参数, 是一种破坏性变更(Breaking Change),
 因为既有的代码将没有足够的信息来调用变更后的方法.
-即使添加 [默认参数](../functions.html#default-arguments) 也有可能会破坏你的使用者的代码.
+即使添加 [默认参数](functions.md#default-arguments) 也有可能会破坏你的使用者的代码.
 
 下面的例子演示向后兼容性如何被破坏, 其中包含两个类: `lib.kt` 表示一个 "库", `client.kt` 表示这个 "库" 的一个 "客户端".
 在真正的应用程序中, 这样的 "库/客户端" 结构是很常见的.
@@ -124,7 +117,8 @@ Exception in thread "main" java.lang.NoSuchMethodError: 'int LibKt.fib()'
 ##### 使用反编译(decompilation)来理解具体细节
 
 > 这段解释只适用于 JVM 平台.
-{:.note}
+>
+{style="note"}
 
 让我们对修改前的 `LibKt` 类调用 [`javap`](https://docs.oracle.com/en/java/javase/20/docs/specs/man/javap.html):
 
@@ -149,12 +143,12 @@ public final class LibKt {
 
 签名为 `public static final int fib()` 的方法被替换为一个新的方法, 签名为 `public static final int fib(int)`.
 同时, 一个代理方法 `fib$default` 将调用委托给 `fib(int)`.
-对于 JVM 平台, 可以绕过这个问题: 你需要添加 [`@JvmOverloads`](../jvm/java-to-kotlin-interop.html#overloads-generation) 注解.
+对于 JVM 平台, 可以绕过这个问题: 你需要添加 [`@JvmOverloads`](java-to-kotlin-interop.md#overloads-generation) 注解.
 对于跨平台项目, 没有变通方法.
 
-### 不要在 API 中使用数据类
+### 不要在 API 中使用数据类 {id="don-t-use-data-classes-in-an-api"}
 
-我们通常会使用 [数据类(Data Class)](../data-classes.html), 因为它们代码短, 简洁, 而且自动提供了很多好的功能.
+我们通常会使用 [数据类(Data Class)](data-classes.md), 因为它们代码短, 简洁, 而且自动提供了很多好的功能.
 但是, 由于数据类工作方式的某些细节, 在库的 API 中最好不要使用它们.
 几乎任何变更都会导致 API 不能向后兼容.
 
@@ -232,11 +226,12 @@ public final User copy(java.lang.String, java.lang.String, boolean);
 
 > 交换参数的顺序永远是一种不兼容的变更, 因为 `componentX()` 方法发生了变化.
 > 这样的变更会破坏源代码兼容性, 可能也会破坏二进制兼容性.
-{:.warning}
+>
+{style="warning"}
 
-### 不要降低返回值类型的范围
+### 不要降低返回值类型的范围 {id="don-t-make-return-types-narrower"}
 
-有些情况下, 尤其是如果你没有使用 [明确 API 模式(Explicit API Mode)](../whatsnew14.html#explicit-api-mode-for-library-authors),
+有些情况下, 尤其是如果你没有使用 [明确 API 模式(Explicit API Mode)](whatsnew14.md#explicit-api-mode-for-library-authors),
 返回值类型声明可能发生隐含的变化.
 但即使在这样的情况之外, 你也可能会降低返回值类型的范围.
 例如, 你可能发现需要使用下标索引来访问你的集合中的元素, 并且希望将返回值类型从 `Collection` 修改为 `List`.
@@ -290,23 +285,23 @@ Exception in thread "main" java.lang.NoSuchMethodError: 'java.lang.Number Librar
 这行的意思是, 你调用返回类型为 `Number` 的静态方法 `x()`.
 但这个方法已经不存在了, 因此 **二进制兼容性被破坏了**.
 
-## @PublishedApi 注解
+## @PublishedApi 注解 {id="the-publishedapi-annotation"}
 
-有些时候, 你可能需要使用你的一部分内部 API, 来实现 [内联函数(Inline Function)](../inline-functions.html).
+有些时候, 你可能需要使用你的一部分内部 API, 来实现 [内联函数(Inline Function)](inline-functions.md).
 你可以通过 [`@PublishedApi`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-published-api) 注解达到这个目的.
 你应该将标注了 `@PublishedApi` 的代码看作是 Public API 的一部分,
 因此, 你应该小心注意向后兼容性问题.
 
-## @RequiresOptIn 注解
+## @RequiresOptIn 注解 {id="the-requiresoptin-annotation"}
 
 有些时候, 你可能想要让用户试用你的 API.
-在 Kotlin 中, 有很好的方法将某些 API 定义为不稳定状态 – 使用 [`@RequiresOptIn` 注解](../opt-in-requirements.html#require-opt-in-for-api).
+在 Kotlin 中, 有很好的方法将某些 API 定义为不稳定状态 – 使用 [`@RequiresOptIn` 注解](opt-in-requirements.md#require-opt-in-for-api).
 但是, 要注意以下问题:
 1. 如果你很长时间没有修改你的 API 的某个部分, 而且它已经处于稳定状态, 你应该重新考虑是否使用 `@RequiresOptIn` 注解.
 2. 你可以使用 `@RequiresOptIn` 注解来对 API 的不同部分定义不同的保证级别:
    预览版, 实验版, 内部版, Delicate, 或 Alpha, Beta, RC.
 3. 你应该明确定义各个 [级别](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-requires-opt-in/-level/)
-   代表什么含义, 编写 [KDoc](../kotlin-doc.html) 注释, 并添加警告信息.
+   代表什么含义, 编写 [KDoc](kotlin-doc.md) 注释, 并添加警告信息.
 
 如果你依赖于一个 API 明确要求使用者同意, 不要使用 `@OptIn` 注解.
 要使用 `@RequiresOptIn` 注解, 这样可以让你的用户能够有意识的选择他们想要哪个 API, 不想要哪个 API.
@@ -314,10 +309,10 @@ Exception in thread "main" java.lang.NoSuchMethodError: 'java.lang.Number Librar
 `@RequiresOptIn` 的另一个例子是, 如果你想要在使用者使用某个 API 时明确的提出警告.
 例如, 如果你在维护一个库, 它利用了 Kotlin 的反射功能, 你可以对这个库中的类添加 `@RequiresFullKotlinReflection` 注解.
 
-## 明确 API 模式(Explicit API Mode)
+## 明确 API 模式(Explicit API Mode) {id="explicit-api-mode"}
 
 你应该让你的 API 保持尽可能的清楚明白.
-为了强制让 API 清楚明白, 请使用 [明确 API 模式(Explicit API Mode)](../whatsnew14.html#explicit-api-mode-for-library-authors).
+为了强制让 API 清楚明白, 请使用 [明确 API 模式(Explicit API Mode)](whatsnew14.md#explicit-api-mode-for-library-authors).
 
 Kotlin 给了你很大的自由度来决定如何编写代码.
 可以省略类型定义, 可见度声明, 或文档.
@@ -343,7 +338,7 @@ Kotlin 给了你很大的自由度来决定如何编写代码.
    如果使用者应该可以访问, 那么应该声明为 `public`, 并添加文档; 这种情况下, 上面的变更会破坏向后兼容性.
    如果使用者不应该可以访问, 那么应该声明为 `private` 或 `internal`, 上面的变更就不会造成破坏.
 
-## 用于增强向后兼容性的工具
+## 用于增强向后兼容性的工具 {id="tools-designed-to-enforce-backward-compatibility"}
 
 在软件开发中, 向后兼容性是一个至关重要的方面, 因为它能够确保库或框架的新版本能够与既有的代码一起使用, 而不引起任何问题.
 维护向后兼容性可能成为一项困难而且耗费时间的任务, 尤其是在处理大型代码库, 或复杂 API 的时候.
@@ -352,18 +347,19 @@ Kotlin 给了你很大的自由度来决定如何编写代码.
 此外还有另一个解决方案: [japicmp](#japicmp).
 
 > 目前, 这两个工具都只能用于 JVM 平台.
-{:.note}
+>
+{style="note"}
 
 这两个解决方案都有它们的优点和缺点. japicmp 可以用于任何 JVM 语言, 而且它既是一个 CLI 工具, 也是一个构建系统 plugin.
 但是, 它要求应用程序的旧版本和新版本都以 JAR 文件形式提供.
 如果你不能得到你的库的旧版本的构建, 它就不那么容易使用了.
 而且, japicmp 会给出 Kotlin metadata 的变更信息, 你可能并不需要 (因为 metadata 格式并没有明确的规格, 而且它只供 Kotlin 内部使用).
 
-二进制兼容性验证器只能作为 Gradle plugin 使用, 而且它还处于 [Alpha 阶段](../components-stability.html#stability-levels-explained). 
+二进制兼容性验证器只能作为 Gradle plugin 使用, 而且它还处于 [Alpha 阶段](components-stability.md#stability-levels-explained). 
 它不需要访问 JAR 文件. 它只需要以前的 API 和当前 API 的特定的 dump. 它能够自己收集这些 dump.
 关于这些工具, 详情请阅读下文.
 
-### 二进制兼容性验证器
+### 二进制兼容性验证器 {id="binary-compatibility-validator"}
 
 [二进制兼容性验证器](https://github.com/Kotlin/binary-compatibility-validator) 是一个工具,
 它自动检测并报告 API 中的破坏性变更, 帮助确保你的库和框架的向后兼容性.
@@ -401,6 +397,6 @@ class Calculator {
 
 japicmp 会报告以下变更:
 
-<img src="/assets/docs/images/api-guidelines/japicmp-calculator-output.png" alt="japicmp 兼容性检查的输出" width="700"/>
+<img src="japicmp-calculator-output.png" alt="japicmp 兼容性检查的输出" width="700"/>
 
 这仅仅是在 `@Metadata` 注解中的变更, 并没有什么重要意义, 但 japicmp 并不理解 JVM 语言, 必须报告它发现的一切变更.

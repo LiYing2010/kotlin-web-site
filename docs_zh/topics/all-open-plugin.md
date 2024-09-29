@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "All-open 编译器插件"
----
+[//]: # (title: All-open 编译器插件)
 
-# All-open 编译器插件
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin 的类和成员默认都是 `final` 的, 但有些框架和库, 比如 Spring AOP, 需要类是 `open` 的, 因此造成一些不便.
 `all-open` 编译器插件会调整 Kotlin 类, 以这些框架的需求,
@@ -19,40 +12,38 @@ Kotlin 的类和成员默认都是 `final` 的, 但有些框架和库, 比如 Sp
 Kotlin 为 `all-open` 插件提供了 Gradle 和 Maven 支持, 并带有完整的 IDE 集成.
 
 > 对于 Spring, 你可以使用 [`kotlin-spring` 编译器插件](#spring-support).
-{:.note}
+>
+{style="note"}
 
 ## Gradle
 
 在你的 `build.gradle(.kts)` 文件中添加插件:
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 plugins {
-    kotlin("plugin.allopen") version "{{ site.data.releases.latest.version }}"
+    kotlin("plugin.allopen") version "%kotlinVersion%"
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 plugins {
-    id "org.jetbrains.kotlin.plugin.allopen" version "{{ site.data.releases.latest.version }}"
+    id "org.jetbrains.kotlin.plugin.allopen" version "%kotlinVersion%"
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 然后指定需要将类变为 open 的注解:
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 allOpen {
@@ -61,11 +52,8 @@ allOpen {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 allOpen {
@@ -74,8 +62,8 @@ allOpen {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 如果类 (或它的任何超类) 标注了 `com.my.Annotation` 注解, 那么类本身和它的成员都会变为 open.
 
@@ -99,7 +87,7 @@ class MyClass // all-open 插件也会将这个类变为 open
 <plugin>
     <artifactId>kotlin-maven-plugin</artifactId>
     <groupId>org.jetbrains.kotlin</groupId>
-    <version>{{ site.data.releases.latest.version }}</version>
+    <version>${kotlin.version}</version>
 
     <configuration>
         <compilerPlugins>
@@ -118,7 +106,7 @@ class MyClass // all-open 插件也会将这个类变为 open
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-maven-allopen</artifactId>
-            <version>{{ site.data.releases.latest.version }}</version>
+            <version>${kotlin.version}</version>
         </dependency>
     </dependencies>
 </plugin>
@@ -126,36 +114,33 @@ class MyClass // all-open 插件也会将这个类变为 open
 
 关于 all-open 注解的工作方式, 详情请参见 [Gradle 小节](#gradle).
 
-## Spring 支持
+## Spring 支持 {id="spring-support"}
 
 如果你使用 Spring, 你可以启用 `kotlin-spring` 编译器插件, 而不必手动指定 Spring 注解.
 `kotlin-spring` 是对 `all-open` 的一个上层封装, 它的工作方式完全相同.
 
 在你的 `build.gradle(.kts)` 文件中添加 `spring` 插件:
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 plugins {
-    id("org.jetbrains.kotlin.plugin.spring") version "{{ site.data.releases.latest.version }}"
+    id("org.jetbrains.kotlin.plugin.spring") version "%kotlinVersion%"
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 plugins {
-    id "org.jetbrains.kotlin.plugin.spring" version "{{ site.data.releases.latest.version }}"
+    id "org.jetbrains.kotlin.plugin.spring" version "%kotlinVersion%"
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 在 Maven 中, `spring` 插件由 `kotlin-maven-allopen` 插件依赖项提供, 因此在你的`pom.xml` 文件中要这样启用它:
 
@@ -168,7 +153,7 @@ plugins {
     <dependency>
         <groupId>org.jetbrains.kotlin</groupId>
         <artifactId>kotlin-maven-allopen</artifactId>
-        <version>{{ site.data.releases.latest.version }}</version>
+        <version>${kotlin.version}</version>
     </dependency>
 </dependencies>
 ```
@@ -192,7 +177,8 @@ plugins {
 
 > 如果你使用 [start.spring.io](https://start.spring.io/#!language=kotlin) 服务生成项目模板,
 > `kotlin-spring` 插件默认会被启用.
-{:.note}
+>
+{style="note"}
 
 ## 命令行编译器
 

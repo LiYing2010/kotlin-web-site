@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "概述"
-title: "在数据科学(Data Science)中使用 Kotlin"
----
+[//]: # (title: 在数据科学(Data Science)中使用 Kotlin)
 
-# 在数据科学(Data Science)中使用 Kotlin
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 无论是创建数据管道(data pipeline), 还是构建真实生产环境的机器学习模型(machine learning model), Kotlin 都可以是很好的数据处理工具:
 * Kotlin 代码简洁, 易读, 而且易于学习.
@@ -32,7 +25,7 @@ Kotlin 与这些工具集成, 可以帮助你研究数据, 将你的发现与同
 它现在是 Kotlin notebook 开发的推荐方式.
 更多详情, 请阅读我们的 [Blog](https://blog.jetbrains.com/kotlin/2023/07/introducing-kotlin-notebook/).
 
-<img src="/assets/docs/images/data-science/kotlin-notebook.png" alt="Kotlin Notebook" width="800"/>
+![Kotlin Notebook](kotlin-notebook.png){width=800}
 
 ### Datalore 的 Kotlin Notebooks
 
@@ -40,7 +33,7 @@ Kotlin 与这些工具集成, 可以帮助你研究数据, 将你的发现与同
 你还可以通过 Kotlin notebooks 实时的协作, 编写代码时得到智能的代码辅助, 以及通过交互式报告或静态报告共享结果.
 请参见 [示例报告](https://datalore.jetbrains.com/view/report/9YLrg20eesVX2cQu1FKLiZ).
 
-<img src="/assets/docs/images/data-science/kotlin-datalore.png" alt="Kotlin in Datalore" width="800"/>
+![Kotlin in Datalore](kotlin-datalore.png){width=800}
 
 [注册免费的 Datalore 社区帐号来使用 Kotlin](https://datalore.jetbrains.com/).
 
@@ -49,7 +42,7 @@ Kotlin 与这些工具集成, 可以帮助你研究数据, 将你的发现与同
 Jupyter Notebook 是一个开源的 Web 应用程序, 你可以用来创建和分享文档(也称为 "notebook"), 其中包含代码, 可视化的数据, 以及 Markdown 格式的文本.
 [Kotlin-jupyter](https://github.com/Kotlin/kotlin-jupyter) 是一个开源项目, 可以在 Jupyter Notebook 中添加对 Kotlin 的支持.
 
-<img src="/assets/docs/images/data-science/kotlin-jupyter-kernel.png" alt="Kotlin in Jupyter notebook" width="800"/>
+![Kotlin in Jupyter notebook](kotlin-jupyter-kernel.png){width=800}
 
 关于 Kotlin Kernel 的安装指南, 文档, 以及示例, 请查看它的 [GitHub 代码库](https://github.com/Kotlin/kotlin-jupyter).
 
@@ -97,7 +90,6 @@ Kotlin 社区开发了针对数据处理任务的各种库, 并在迅速扩大.
 
 * [londogard-nlp-toolkit](https://github.com/londogard/londogard-nlp-toolkit/) 是一个工具库,
   用于自然语言处理(Natural Language Processing), 比如 字(word)/子字(subword)/语句(sentence) 嵌入(embedding), 字频统计(word-frequency), 终止字(stopword), 词干(stemming), 等等.
-
 
 ### Java 库
 

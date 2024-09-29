@@ -1,21 +1,15 @@
----
-type: doc
-layout: reference
-category: "Coroutine"
-title: "选择表达式(Select expression)"
----
-
-# 选择表达式(Select expression) (实验性功能)
-
-最终更新: {{ site.data.releases.latestDocDate }}
-
 <!--- TEST_NAME SelectGuideTest -->
+
+[//]: # (title: 选择表达式(Select expression) (实验性功能))
+
+最终更新: %latestDocDate%
 
 使用选择表达式, 我们可以同时等待多个挂起函数, 并且 _选择_ 其中第一个执行完毕的结果.
 
 > 选择表达式是 `kotlinx.coroutines` 中的一个实验性功能.
 > 在以后的 `kotlinx.coroutines` 新版本库中, 与选择表达式相关的 API 将会发生变化, 可能带来一些不兼容的变更.
-{:.note}
+>
+{style="note"}
 
 ## 从通道中选择
 
@@ -61,8 +55,6 @@ suspend fun selectFizzBuzz(fizz: ReceiveChannel<String>, buzz: ReceiveChannel<St
 
 <!--- CLEAR -->
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
-
 ```kotlin
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
@@ -104,11 +96,11 @@ fun main() = runBlocking<Unit> {
 //sampleEnd        
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-select-01.kt).
-{:.note}
+>
+{style="note"}
 
 这个示例程序的输出结果是:
 
@@ -157,8 +149,6 @@ suspend fun selectAorB(a: ReceiveChannel<String>, b: ReceiveChannel<String>): St
 
 <!--- CLEAR -->
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
-
 ```kotlin
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
@@ -199,11 +189,11 @@ fun main() = runBlocking<Unit> {
 //sampleEnd      
 }    
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-select-02.kt).
-{:.note}
+>
+{style="note"}
 
 这个示例程序的输出结果比较有趣, 所以我们来分析一下其中的细节:
 
@@ -235,8 +225,6 @@ Channel 'a' is closed
 下面我们来编写一个示例程序, 有一个整数值的生产者,
 当主通道的消费者的消费速度跟不上生产者的发送速度时, 会把它的值改为发送到 `side` 通道:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-
 ```kotlin
 fun CoroutineScope.produceNumbers(side: SendChannel<Int>) = produce<Int> {
     for (num in 1..10) { // 产生 10 个数值, 从 1 到 10
@@ -249,13 +237,9 @@ fun CoroutineScope.produceNumbers(side: SendChannel<Int>) = produce<Int> {
 }
 ```
 
-</div>
-
 我们让消费者的运行速度变得比较慢一些, 每隔 250 ms 处理一个数值:
 
 <!--- CLEAR -->
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -287,11 +271,11 @@ fun main() = runBlocking<Unit> {
 //sampleEnd      
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-select-03.kt).
-{:.note}
+>
+{style="note"}
 
 下面我们来看看运行结果会怎么样:
 
@@ -338,8 +322,6 @@ fun CoroutineScope.asyncStringsList(): List<Deferred<String>> {
 
 <!--- CLEAR -->
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
-
 ```kotlin
 import kotlinx.coroutines.*
 import kotlinx.coroutines.selects.*
@@ -371,11 +353,11 @@ fun main() = runBlocking<Unit> {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-select-04.kt).
-{:.note}
+>
+{style="note"}
 
 运行结果是:
 
@@ -430,8 +412,6 @@ main 函数启动一个协程来输出 `switchMapDeferreds` 的结果, 并向它
 
 <!--- CLEAR -->
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
-
 ```kotlin
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
@@ -483,11 +463,11 @@ fun main() = runBlocking<Unit> {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-select-05.kt).
-{:.note}
+>
+{style="note"}
 
 这个示例程序的运行结果是:
 

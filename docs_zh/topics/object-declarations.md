@@ -1,18 +1,11 @@
----
-type: doc
-layout: reference
-category: "Syntax"
-title: "对象表达式,对象声明,以及同伴对象"
----
+[//]: # (title: 对象表达式,对象声明,以及同伴对象)
 
-# 对象表达式(Object Expression)与对象声明(Object Declaration)
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 有时你需要创建一个对象, 这个对象在某个类的基础上略做修改, 但又不希望仅仅为了这一点点修改就明确地声明一个新类.
 Kotlin 对这种问题使用 _对象表达式(object expression)_ 和 _对象声明(object declaration)_ 来解决.
 
-## 对象表达式(Object expression)
+## 对象表达式(Object expression) {id="object-expressions"}
 
 _对象表达式(object expression)_ 会为匿名类创建对象 , 匿名类就是指没有明确使用 `class` 声明的类.
 这些类适合一次性使用. 你可以从头开始定义这种类, 也可以从既有的类继承, 或者实现接口.
@@ -23,8 +16,6 @@ _对象表达式(object expression)_ 会为匿名类创建对象 , 匿名类就�
 对象表达式以 `object` 关键字起始.
 
 如果你只是需要一个对象, 而不需要任何基类型, 可以将这个对象的成员写在 `object` 之后的大括号内:
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 
@@ -41,12 +32,12 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true"}
 
 ### 从基类继承匿名对象
 
 要创建一个继承自某个类(或多个类)的匿名类的对象, 需要在 `object` 关键字和冒号(`:`)之后指定基类.
-然后实现或覆盖基类的成员, 就和你在 [继承](inheritance.html) 这个基类时一样:
+然后实现或覆盖基类的成员, 就和你在 [继承](inheritance.md) 这个基类时一样:
 
 ```kotlin
 window.addMouseListener(object : MouseAdapter() {
@@ -73,7 +64,7 @@ val ab: A = object : A(1), B {
 
 ### 将匿名对象用作返回类型或值类型
 
-如果匿名对象用作局部的, 或 [private](visibility-modifiers.html#packages) 但不 [inline](inline-functions.html)
+如果匿名对象用作局部的, 或 [private](visibility-modifiers.md#packages) 但不 [inline](inline-functions.md)
 声明 (函数或属性) 的类型,
 那么通过这个函数或属性的返回值, 可以访问匿名对象的成员:
 
@@ -145,9 +136,7 @@ fun countClicks(window: JComponent) {
 }
 ```
 
-
-{:#object-declarations-overview}
-## 对象声明(Object declaration)
+## 对象声明(Object declaration) {id="object-declarations-overview"}
 
 [单例模式](http://en.wikipedia.org/wiki/Singleton_pattern) 在有些情况下可能是很有用的,
 Kotlin 可以非常便利地声明一个单例:
@@ -186,7 +175,8 @@ object DefaultListener : MouseAdapter() {
 
 > 对象声明不可以是局部的(也就是说, 不可以直接嵌套在函数之内),
 > 但可以嵌套在另一个对象声明之内, 或者嵌套在另一个非内部类(non-inner class)之内.
-{:.note}
+>
+{style="note"}
 
 ### 数据对象
 
@@ -200,14 +190,15 @@ fun main() {
 }
 ```
 
-和 [数据类](data-classes.html) 一样, 你可以使用 `data` 修饰符标记 `object` 声明.
+和 [数据类](data-classes.md) 一样, 你可以使用 `data` 修饰符标记 `object` 声明.
 这个修饰符会让编译器为你的对象生成一系列的函数:
 
 * `toString()` 返回数据对象的名称
 * `equals()`/`hashCode()` 函数对
 
   > 你不可以为 `data object` 的 `equals` 或 `hashCode` 函数提供自定义实现.
-  {:.note}
+  >
+  {style="note"}
 
 数据对象的 `toString()` 函数会返回对象的名称:
 
@@ -228,7 +219,8 @@ fun main() {
 
 > 请确保只对 `data objects` 进行结构化的相等比较 (使用 `==` 操作符), 而不要进行引用相等比较 (使用 `===` 操作符).
 > 如果数据对象在运行期有一个以上的实例存在, 这样可以帮助你避免错误.
-{:.warning}
+>
+{style="warning"}
 
 ```kotlin
 import java.lang.reflect.Constructor
@@ -271,12 +263,10 @@ fun createInstanceViaReflection(): MySingleton {
 
 #### 在封闭层级结构(Sealed Hierarchy)中使用数据对象
 
-数据对象声明非常适合在封闭层级结构(Sealed Hierarchy) 中使用, 例如 [封闭类或封闭接口](sealed-classes.html),
+数据对象声明非常适合在封闭层级结构(Sealed Hierarchy) 中使用, 例如 [封闭类或封闭接口](sealed-classes.md),
 这样的方式允许你声明数据类和数据对象, 并保持对称性.
 在这个示例中, 将 `EndOfFile` 声明为 `data object`, 而不是普通的 `object`,
 代表它自动拥有 `toString()` 函数, 不需要手动的覆盖这个函数:
-
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3" id="data-objects-sealed-hierarchies">
 
 ```kotlin
 sealed interface ReadResult
@@ -289,9 +279,9 @@ fun main() {
     println(EndOfFile) // 输出结果为 EndOfFile
 }
 ```
-</div>
+{kotlin-runnable="true" id="data-objects-sealed-hierarchies"}
 
-### 同伴对象(Companion Object)
+### 同伴对象(Companion Object) {id="companion-objects"}
 
 一个类内部的对象声明, 可以使用 `companion` 关键字标记为同伴对象:
 
@@ -355,8 +345,7 @@ val f: Factory<MyClass> = MyClass
 ```
 
 但是, 如果使用 `@JvmStatic` 注解, 你可以让同伴对象的成员在 JVM 上被编译为真正的静态方法(static method)和静态域(static field).
-详情请参见 [与 Java 的互操作性](jvm/java-to-kotlin-interop.html#static-fields).
-
+详情请参见 [与 Java 的互操作性](java-to-kotlin-interop.md#static-fields).
 
 ### 对象表达式与对象声明在语义上的区别
 

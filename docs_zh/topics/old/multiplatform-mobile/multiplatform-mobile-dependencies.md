@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "向你的项目添加依赖项"
----
+[//]: # (title: 向你的项目添加依赖项)
 
-# 向你的项目添加依赖项
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 <table style="border-style: solid; border-color: 252528">
     <tr style="border: none">
@@ -77,7 +70,8 @@ title: "向你的项目添加依赖项"
 
 > 如果你有 Android 应用程序的开发经验, 添加一个跨平台依赖项类似于在通常的 Android 项目中添加一个 Gradle 依赖项.
 > 唯一的区别是, 你需要指定源代码集.
-{:.tip}
+>
+{style="tip"}
 
 我们现在回到应用程序, 让问候信息更多一点节日气息.
 除了设备信息之外, 添加函数来显示距离新年的天数.

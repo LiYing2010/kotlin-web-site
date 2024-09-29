@@ -1,16 +1,9 @@
----
-type: doc
-layout: reference
-category: "Other"
-title: "层级项目结构"
----
+[//]: # (title: 层级项目结构)
 
-# 层级项目结构
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin Multiplatform 项目支持层级的源代码集结构.
-也就是说, 你可以安排中间源代码集的层级结构, 用于在部分的, 但不是全部的 [支持的编译目标](multiplatform-dsl-reference.html#targets),
+也就是说, 你可以安排中间源代码集的层级结构, 用于在部分的, 但不是全部的 [支持的编译目标](multiplatform-dsl-reference.md#targets),
 之间共用共通的代码.
 使用中间源代码集可以帮助你:
 
@@ -30,7 +23,7 @@ Kotlin 工具链会确保, 每个源代码集只能访问这个源代码集编�
 如果你有更加复杂的项目, 你可以 [手动配置](#manual-configuration).
 这是一种更加底层的方案: 它更加灵活, 但需要更多的努力和更多的知识.
 
-## 默认层级结构模板
+## 默认层级结构模板 {id="default-hierarchy-template"}
 
 从 Kotlin 1.9.20 开始, Kotlin Gradle plugin 包含内建的默认 [层级结构模板](#see-the-full-hierarchy-template).
 对于一些常见的情况, 模板包含了预定义的中间源代码集.
@@ -38,8 +31,8 @@ Plugin 会根据你项目中指定的编译目标, 自动设置这些源代码�
 
 考虑下面的示例:
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlin {
@@ -49,11 +42,8 @@ kotlin {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 kotlin {
@@ -63,14 +53,14 @@ kotlin {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 当你在你的代码中声明编译目标 `androidTarget`, `iosArm64`, 和 `iosSimulatorArm64` 时,
 Kotlin Gradle plugin 会从模板中找到合适的共享源代码集, 并为你创建这些源代码集.
 最后产生的层级结构类似下图:
 
-![使用默认的层级结构模板的示例]({{ url_for('asset', path='docs/images/multiplatform/default-hierarchy-example.svg') }})
+![使用默认的层级结构模板的示例](default-hierarchy-example.svg){thumbnail="true" width="350" thumbnail-same-file="true"}
 
 绿色的源代码集会自动创建并包含到项目中, 同时, 默认模板中的灰色的源代码集会被忽略.
 Kotlin Gradle plugin 没有创建一些源代码集, 例如 `watchos`, 因为项目中没有 watchOS 编译目标.
@@ -81,8 +71,8 @@ Kotlin Gradle plugin 没有创建一些源代码集, 例如 `watchos`, 因为项
 Kotlin Gradle plugin 会为来自默认层级结构模板的所有源代码集创建类型安全的访问器,
 因此, 与 [手动配置](#manual-configuration) 相比, 你可以引用这些源代码集, 不需要使用 `by getting` 或 `by creating` 构建器:
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlin {
@@ -98,11 +88,8 @@ kotlin {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 kotlin {
@@ -120,16 +107,17 @@ kotlin {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 > 在这个示例中, `apple` 和 `native` 源代码集只编译到 `iosArm64` 和 `iosSimulatorArm64` 编译目标.
 > 因此, 尽管它们的名字不是 ios, 它们可以访问完整的 iOS API.
 > 对于 `native` 这样的源代码集, 这可能会违反直觉, 因为你可能会期望在这个源代码集中, 只能访问那些所有原生编译目标都能够使用的 API.
 > 这个行为未来可能会变更.
-{:.note}
+>
+{style="note"}
 
-### 附加配置
+### 附加配置 {id="additional-configuration"}
 
 你可能会需要对默认层级结构模板进行一些调整.
 如果你曾经使用 `dependsOn` 调用, [手动](#manual-configuration) 引入了中间源代码集,
@@ -153,14 +141,14 @@ Learn more about hierarchy templates: https://kotl.in/hierarchy-template
 * [在默认层级结构模板中创建额外的源代码集](#creating-additional-source-sets)
 * [修改默认层级结构模板创建的源代码集](#modifying-source-sets)
 
-#### 替换手动配置
+#### 替换手动配置 {id="replacing-a-manual-configuration"}
 
 **问题场景**. 你所有的中间源代码集都被默认层级结构模板覆盖.
 
 **解决方案**. 删除所有的手动 `dependsOn()` 调用和使用 `by creating` 构建器的源代码集.
 关于所有默认源代码集的列表, 请参见 [完整的层级结构模板](#see-the-full-hierarchy-template).
 
-#### 创建额外的源代码集
+#### 创建额外的源代码集 {id="creating-additional-source-sets"}
 
 **问题场景**. 你想要添加默认层级结构模板没有提供的源代码集, 例如, macOS 和 JVM 编译目标之间的一个中间源代码集.
 
@@ -169,9 +157,9 @@ Learn more about hierarchy templates: https://kotl.in/hierarchy-template
 1. 明确调用 `applyDefaultHierarchyTemplate()`, 重新适用模板.
 2. 使用 `dependsOn()`, [手动](#manual-configuration) 配置额外的源代码集:
 
-    <div class="multi-language-sample" data-lang="kotlin">
-    <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
-    
+    <tabs group="build-script">
+    <tab title="Kotlin" group-key="kotlin">
+
     ```kotlin
     kotlin {
         jvm()
@@ -193,13 +181,10 @@ Learn more about hierarchy templates: https://kotl.in/hierarchy-template
         }
     }
     ```
-    
-    </div>
-    </div>
-    
-    <div class="multi-language-sample" data-lang="groovy">
-    <div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
-    
+
+    </tab>
+    <tab title="Groovy" group-key="groovy">
+
     ```groovy
     kotlin {
         jvm()
@@ -224,12 +209,11 @@ Learn more about hierarchy templates: https://kotl.in/hierarchy-template
         } 
     }
     ```
-    
-    </div>
-    </div>
 
+    </tab>
+    </tabs>
 
-#### 修改源代码集
+#### 修改源代码集 {id="modifying-source-sets"}
 
 **问题场景**. 你已经有了源代码集, 名字与模板生成的源代码集完全相同, 但在你的项目中的一些不同的编译目标之间共用.
 例如, 一个 `nativeMain` 源代码集, 只在桌面专用的编译目标之间共用: `linuxX64`, `mingwX64`, 和 `macosX64`.
@@ -250,19 +234,21 @@ Learn more about hierarchy templates: https://kotl.in/hierarchy-template
 > 可以查看 `applyHierarchyTemplate {}` 代码块, 以及 `KotlinHierarchyTemplate.default` 的声明作为示例.
 > 请记住, 这个 API 还在开发中.
 > 它没有经过足够的测试, 在未来的发布版中可能发生变更.
-{:.tip}
+>
+{style="tip"}
 
-#### 查看完整的层级结构模板
+#### 查看完整的层级结构模板 {id="see-the-full-hierarchy-template"}
 
 当你声明你的项目的编译目标时, plugin 会根据指定的编译目标, 从模板中选择共用的源代码集, 并在你的项目中创建这些源代码集.
 
-![Default hierarchy template]({{ url_for('asset', path='docs/images/multiplatform/full-template-hierarchy.svg') }})
+![默认的层级结构模板](full-template-hierarchy.svg)
 
 > 这个示例只显示了项目的 production 部分, 省略了 `Main` 后缀 (例如, 使用 `common` 而不是 `commonMain`).
 > 但是, 还有完全相同的一组 `*Test` 源代码集.
-{:.tip}
+>
+{style="tip"}
 
-## 手动配置
+## 手动配置 {id="manual-configuration"}
 
 你可以在源代码集结构中手动的引入中间源代码集. 它包含多个编译目标之间的共用代码.
 
@@ -272,8 +258,8 @@ Learn more about hierarchy templates: https://kotl.in/hierarchy-template
 1. 添加中间源代码集 `desktopMain`, 包含用于这些编译目标的共用逻辑.
 2. 使用 `dependsOn` 关系, 指定源代码集的层级结构.
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlin {
@@ -293,11 +279,8 @@ kotlin {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 kotlin {
@@ -322,12 +305,12 @@ kotlin {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 最后产生的层级结构类似下图:
 
-![手动配置的层级结构]({{ url_for('asset', path='docs/images/multiplatform/manual-hierarchical-structure.png') }})
+![手动配置的层级结构](manual-hierarchical-structure.png)
 
 对以下编译目标组合, 可以共用源代码集:
 

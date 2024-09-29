@@ -1,15 +1,8 @@
----
-type: doc
-layout: reference
-category: "Syntax"
-title: "类型安全的构建器"
----
+[//]: # (title: 类型安全的构建器)
 
-# 类型安全的构建器(Type-Safe Builder)
+最终更新: %latestDocDate%
 
-最终更新: {{ site.data.releases.latestDocDate }}
-
-通过将恰当命名的函数用做构建器, 结合 [带接受者的函数字面值](lambdas.html#function-literals-with-receiver),
+通过将恰当命名的函数用做构建器, 结合 [带接受者的函数字面值](lambdas.md#function-literals-with-receiver),
 我们可以在 Kotlin 中创建出类型安全的, 静态类型的构建器.
 
 类型安全的构建器(Type-safe builder) 可以用来创建基于 Kotlin 的, 特定领域专用语言(domain-specific language, DSL),
@@ -74,7 +67,7 @@ html {
 }
 ```
 
-`html` 实际上是一个函数调用, 它接受一个 [Lambda 表达式](lambdas.html) 作为参数.
+`html` 实际上是一个函数调用, 它接受一个 [Lambda 表达式](lambdas.md) 作为参数.
 这个函数的定义如下:
 
 ```kotlin
@@ -103,14 +96,12 @@ html {
 
 现在, `this` 关键字可以省略, 通常都是如此, 省略之后你的代码就已经非常接近一个构建器了:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
 ```kotlin
 html {
     head { ... }
     body { ... }
 }
 ```
-</div>
 
 那么, 这个函数调用做了什么? 我们来看看上面定义的 `html` 函数体.
 首先它创建了一个 `HTML` 类的新实例, 然后它调用通过参数得到的函数, 来初始化这个 `HTML` 实例
@@ -254,11 +245,11 @@ html {
 }
 ```
 
-## `com.example.html` 包的完整定义
+## `com.example.html` 包的完整定义 {id="full-definition-of-the-com-example-html-package"}
 
 下面是 `com.example.html` 包的完整定义(但只包含上文示例程序使用到的元素).
 它可以构建一个 HTML 树.
-这段代码大量使用了 [扩展函数](extensions.html) 和 [带接受者的 Lambda 表达式](lambdas.html#function-literals-with-receiver).
+这段代码大量使用了 [扩展函数](extensions.md) 和 [带接受者的 Lambda 表达式](lambdas.md#function-literals-with-receiver).
 
 ```kotlin
 package com.example.html

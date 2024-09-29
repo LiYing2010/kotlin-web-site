@@ -1,20 +1,13 @@
----
-type: doc
-layout: reference
-category:
-title: "Kotlin 符号处理(Kotlin Symbol Processing) API"
----
+[//]: # (title: Kotlin 符号处理(Kotlin Symbol Processing) API)
 
-# Kotlin 符号处理(Kotlin Symbol Processing) API
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin 符号处理(Kotlin Symbol Processing, _KSP_) 是一组 API, 你可以使用它开发轻量的编译器插件.
 KSP 提供一组简化的编译器插件 API, 利用 Kotlin 的能力, 同时保持最小的学习曲线.
-与 [kapt](../kapt.html) 相比, 使用 KSP 的注解处理器运行速度可以快 2 倍.
+与 [kapt](kapt.md) 相比, 使用 KSP 的注解处理器运行速度可以快 2 倍.
 
-* 关于 KSP 与 kapt 与比较, 详情请参见 [为什么需要 KSP](ksp-why-ksp.html).
-* 要开始编写 KSP 处理器, 请参见 [KSP 快速入门](ksp-quickstart.html).
+* 关于 KSP 与 kapt 与比较, 详情请参见 [为什么需要 KSP](ksp-why-ksp.md).
+* 要开始编写 KSP 处理器, 请参见 [KSP 快速入门](ksp-quickstart.md).
 
 ## 概述
 
@@ -42,7 +35,7 @@ KSP 将源程序当作只读, 避免这种情况.
 
 你也可以观看这个视频, 大致了解 KSP:
 
-<iframe width="560" height="360" src="https://www.youtube.com/embed/bv-VyGM3HCY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<video src="https://youtu.be/bv-VyGM3HCY" title="Kotlin 符号处理 (KSP)"/>
 
 
 ## KSP 如何看待源代码文件
@@ -151,18 +144,18 @@ class HelloFunctionFinderProcessor : SymbolProcessor() {
 
 ## 资源
 
-* [KSP 快速入门](ksp-quickstart.html)
-* [为什么使用 KSP?](ksp-why-ksp.html)
-* [示例](ksp-examples.html)
-* [KSP 如何将 Kotlin 代码组织为模型](ksp-additional-details.html)
-* [针对 Java 注解处理器开发者的参考文档](ksp-reference.html)
-* [增量式处理](ksp-incremental.html)
-* [多轮处理](ksp-multi-round.html)
-* [在跨平台项目中使用 KSP](ksp-multiplatform.html)
-* [在命令行运行 KSP](ksp-command-line.html)
-* [FAQ](ksp-faq.html)
+* [KSP 快速入门](ksp-quickstart.md)
+* [为什么使用 KSP?](ksp-why-ksp.md)
+* [示例](ksp-examples.md)
+* [KSP 如何将 Kotlin 代码组织为模型](ksp-additional-details.md)
+* [针对 Java 注解处理器开发者的参考文档](ksp-reference.md)
+* [增量式处理](ksp-incremental.md)
+* [多轮处理](ksp-multi-round.md)
+* [在跨平台项目中使用 KSP](ksp-multiplatform.md)
+* [在命令行运行 KSP](ksp-command-line.md)
+* [FAQ](ksp-faq.md)
 
-## 支持的库
+## 支持的库 {id="supported-libraries"}
 
 下面是 Android 上的流行的库, 以及它们对 KSP 的支持情况:
 

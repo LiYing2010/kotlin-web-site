@@ -1,11 +1,5 @@
----
-type: doc
-layout: reference
-title: "如何向你的开发团队介绍跨平台移动开发"
----
+[//]: # (title: 如何向你的开发团队介绍跨平台移动开发)
 
-# 如何向你的开发团队介绍跨平台移动开发
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 本章不翻译, 请阅读 [原文](https://kotlinlang.org/docs/multiplatform-introduce-your-team.html)

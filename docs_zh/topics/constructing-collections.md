@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "集合"
-title: "创建集合"
----
+[//]: # (title: 创建集合)
 
-# 创建集合
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 ## 通过指定的元素创建
 
@@ -37,7 +30,7 @@ val numbersMap = mapOf("key1" to 1, "key2" to 2, "key3" to 3, "key4" to 1)
 
 注意, 使用 `to` 这样的写法创建的是短期存在的 `Pair` 对象, 因此只有在性能问题不严重的情况下才推荐这种写法.
 为避免消耗过多的内存, 可以使用其他方法. 比如, 可以创建可变的 map, 然后通过写操作向其中填充数据.
-这种情况下使用 [`apply()`](scope-functions.html#apply) 函数可以让 map 的初始化过程更加流畅.
+这种情况下使用 [`apply()`](scope-functions.md#apply) 函数可以让 map 的初始化过程更加流畅.
 
 ```kotlin
 val numbersMap = mutableMapOf<String, String>().apply { this["one"] = "1"; this["two"] = "2" }
@@ -49,7 +42,7 @@ val numbersMap = mutableMapOf<String, String>().apply { this["one"] = "1"; this[
 [`buildList()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/build-list.html),
 [`buildSet()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/build-set.html),
 和 [`buildMap()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/build-map.html).
-这些函数创建新的, 可变的集合, 然后使用 [写操作](collection-write.html)填充集合内容,
+这些函数创建新的, 可变的集合, 然后使用 [写操作](collection-write.md)填充集合内容,
 再返回一个只读的集合, 包含相同的元素:
 
 ```kotlin
@@ -79,8 +72,6 @@ val empty = emptyList<String>()
 对于 list, 有一个类似构造器的函数, 它接受的参数是 list 大小, 以及一个初始化函数,
 这个初始化函数负责根据元素的下标计算各个元素的值.
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
-
 ```kotlin
 fun main() {
 //sampleStart
@@ -89,7 +80,7 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 ## 使用具体类型的(Concrete type) 集合构造器
 
@@ -102,7 +93,7 @@ val linkedList = LinkedList<String>(listOf("one", "two", "three"))
 val presizedSet = HashSet<Int>(32)
 ```
 
-## 从既有的集合复制
+## 从既有的集合复制 {id="copy"}
 
 如果想要从已有的集合创建一个相同内容的新集合, 可以使用复制(copy)函数.
 标准库中提供的集合复制函数创建的是 _浅(shallow)_ 复制的集合, 其中的元素与既有的集合指向相同的对象引用.
@@ -115,8 +106,6 @@ val presizedSet = HashSet<Int>(32)
 等等, 会创建一个集合在函数调用那一刻的副本(snapshot).
 这些函数的结果是一个新的集合, 但包含完全相同的元素.
 如果对原来的集合添加或删除元素, 不会影响到副本集合中的内容. 同样的, 对副本的修改也不会影响到原来的集合.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 class Person(var name: String)
@@ -132,11 +121,9 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 这些函数也可以用来将一个集合转换为其他类型的集合, 比如从一个 list 创建一个 set, 或者相反.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 fun main() {
@@ -149,13 +136,11 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 另一种方法是, 你可以创建一个新的引用, 指向相同的集合实例.
 如果用一个既有的集合初始化赋值给一个集合变量, 这时就创建了一个新的引用.
 这种情况下, 如果通过一个引用修改了集合实例的内容, 这些变化会影响到所有其他的引用.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 fun main() {
@@ -167,12 +152,10 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 集合的初始化可以用来限制它的可变性. 比如, 如果创建一个 `List` 引用, 指向一个 `MutableList`,
 那么如果你当你想要使用这个只读类型的 `List` 引用来修改集合内容, 编译器会报告编译错误.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 fun main() {
@@ -185,15 +168,13 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 ## 调用其他集合的函数
 
 在既有的集合上执行各种操作的结果也可以创建新的集合.
-比如, [过滤(filtering)](collection-filtering.html) 一个 list 会创建一个新的 list,
+比如, [过滤(filtering)](collection-filtering.md) 一个 list 会创建一个新的 list,
 其中只包含满足过滤条件的元素:
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 fun main() {
@@ -204,12 +185,10 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-[映射(Mapping)](collection-transformations.html#map) 函数会创建一个新的 list,
+[映射(Mapping)](collection-transformations.md#map) 函数会创建一个新的 list,
 其中包含各个元素变换后的结果:
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 fun main() {
@@ -220,11 +199,9 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-[关联(Association)](collection-transformations.html#associate) 函数会创建 map:
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+[关联(Association)](collection-transformations.md#associate) 函数会创建 map:
 
 ```kotlin
 fun main() {
@@ -234,6 +211,6 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-关于 Kotlin 集合的各种操作, 详情请参见 [集合的各种操作(Operation)概述](collection-operations.html).
+关于 Kotlin 集合的各种操作, 详情请参见 [集合的各种操作(Operation)概述](collection-operations.md).

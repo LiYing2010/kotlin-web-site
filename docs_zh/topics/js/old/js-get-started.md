@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "Kotlin/JS for React 入门"
----
+[//]: # (title: Kotlin/JS for React 入门)
 
-# Kotlin/JS for React 入门
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 本教程演示如何在 IntelliJ IDEA 中使用 Kotlin/JS for React 创建一个前端应用程序.
 
@@ -94,7 +87,8 @@ title: "Kotlin/JS for React 入门"
 2. 添加一个 `div` 容器, 其中包含一个图片子元素 `img`, 放在 `input` 代码段之后.  
    
    > 按照 IDE 的建议, 导入 `react.dom.html` 包中所有需要的元素.
-   {:.note}
+> 
+{style="note"}
 
    ```kotlin
    div {
@@ -118,7 +112,8 @@ title: "Kotlin/JS for React 入门"
 2. 添加一个 `button` 元素, 并加上 `onClick` 事件处理器.  
    
    > 请确认你导入了 `react.dom.html.ReactHTML`.
-   {:.note}
+> 
+{style="note"}
 
    ```kotlin
    button {

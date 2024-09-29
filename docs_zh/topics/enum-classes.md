@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Syntax"
-title: "枚举类"
----
+[//]: # (title: 枚举类)
 
-# 枚举类(Enum Class)
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 枚举类最基本的使用场景, 就是实现类型安全的枚举值:
 
@@ -55,8 +48,6 @@ enum class ProtocolState {
 可以为所有的枚举常数提供一个共同的实现, 也可以在不同的枚举常数的匿名类中提供不同的实现.
 枚举类实现接口时, 只需要在枚举类的声明中加入希望实现的接口名, 示例如下:
 
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.9">
-
 ```kotlin
 import java.util.function.BinaryOperator
 import java.util.function.IntBinaryOperator
@@ -82,12 +73,11 @@ fun main() {
     }
 }
 ```
-</div>
-
+{kotlin-runnable="true" kotlin-min-compiler-version="1.9"}
 
 所有的枚举类都默认实现了 [Comparable](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-comparable/index.html) 接口.
 枚举常数值的大小顺序, 等于它在枚举类中的定义顺序.
-详情请参见 [排序(Ordering)](collection-ordering.html).
+详情请参见 [排序(Ordering)](collection-ordering.md).
 
 ## 使用枚举常数
 
@@ -101,8 +91,6 @@ EnumClass.entries: EnumEntries<EnumClass> // 专门的 List<EnumClass>
 
 下面是这些属性和方法的使用示例:
 
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.9" id="rgb-enums-kotlin">
-
 ```kotlin
 enum class RGB { RED, GREEN, BLUE }
 
@@ -111,8 +99,7 @@ fun main() {
     println("The first color is: ${RGB.valueOf("RED")}") // 输出结果为 "The first color is: RED"
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.9" id="rgb-enums-kotlin"}
 
 如果给定的名称不能匹配枚举类中定义的任何一个枚举常数值, `valueOf()` 方法会抛出 `IllegalArgumentException` 异常.
 
@@ -124,8 +111,6 @@ fun main() {
 [`ordinal`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/ordinal.html),
 可以取得它的名称, 以及在枚举类中声明的顺序(从 0 开始):
 
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3" id="rgb-enums-properties-kotlin">
-
 ```kotlin
 enum class RGB { RED, GREEN, BLUE }
 
@@ -136,8 +121,7 @@ fun main() {
     //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="rgb-enums-properties-kotlin"}
 
 你可以通过
 [`enumValues<T>()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/enum-values.html) 
@@ -155,8 +139,9 @@ inline fun <reified T : Enum<T>> printAllValues() {
 printAllValues<RGB>() // 输出结果为 RED, GREEN, BLUE
 ```
 
-> 关于内联函数(inline function)和实体化的类型参数(Reified type parameter), 详情请参见 [内联函数](inline-functions.html).
-{:.tip}
+> 关于内联函数(inline function)和实体化的类型参数(Reified type parameter), 详情请参见 [内联函数](inline-functions.md).
+>
+{style="tip"}
 
 在 Kotlin 1.9.20 中, 引入了 `enumEntries<T>()` 函数,  作为
 [`enumValues<T>()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/enum-values.html)
@@ -180,5 +165,6 @@ printAllValues<RGB>()
 ```
 
 > `enumEntries<T>()` 函数是实验性功能. 要使用它, 需要标注 `@OptIn(ExperimentalStdlibApi)` 注解来表示使用者同意(Opt-in),
-> 并 [将语言版本设置为 1.9 以上](gradle/gradle-compiler-options.html#attributes-common-to-jvm-and-js).
-{:.warning}
+> 并 [将语言版本设置为 1.9 以上](gradle-compiler-options.md#attributes-common-to-jvm-and-js).
+>
+{style="warning"}

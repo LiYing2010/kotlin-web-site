@@ -1,15 +1,8 @@
----
-type: doc
-layout: reference
-category: "Syntax"
-title: "Null 值安全性"
----
+[//]: # (title: Null 值安全性)
 
-# Null 值安全性
+最终更新: %latestDocDate%
 
-最终更新: {{ site.data.releases.latestDocDate }}
-
-## 可为 null 的类型与不可为 null 的类型
+## 可为 null 的类型与不可为 null 的类型 {id="nullable-types-and-non-nullable-types"}
 
 Kotlin 类型系统的设计目标就是希望消除 null 引用带来的危险,
 也就是所谓的 [造成十亿美元损失的大错误](https://en.wikipedia.org/wiki/Tony_Hoare#Apologies_and_retractions).
@@ -24,10 +17,10 @@ Kotlin 类型系统的设计目标就是希望消除 null 引用带来的危险,
 * 初始化过程中存在数据不一致, 比如:
   * 在构造器中可以访问到未初始化的 `this`, 并且将它传递给了其他代码,
     然后在其他代码中使用了这个未初始化的 `this` (也就是所谓的 "leaking `this`" 警告);
-  * [基类的构造器调用了 open 的成员函数](inheritance.html#derived-class-initialization-order),
+  * [基类的构造器调用了 open 的成员函数](inheritance.md#derived-class-initialization-order),
     但这个成员函数在子类中的实现使用了未初始化的状态数据.
 * Java 互操作:
-  * 试图对一个 [平台类型](java-interop.html#null-safety-and-platform-types)的 `null` 引用访问其成员函数.
+  * 试图对一个 [平台类型](java-interop.md#null-safety-and-platform-types)的 `null` 引用访问其成员函数.
   * 用于 Java 互操作的泛型类型的可空性存在问题.
     比如, 一段 Java 代码可能向一个 Kotlin `MutableList<String>` 中添加一个 `null` 值,
     因此, 对这种情况应该使用 `MutableList<String?>`.
@@ -36,7 +29,6 @@ Kotlin 类型系统的设计目标就是希望消除 null 引用带来的危险,
 在 Kotlin 中, 类型系统明确区分可以指向 `null` 的引用 (可为 null 引用) 与不可以指向 null 的引用 (非 null 引用).
 比如, 一个通常的 `String` 类型变量不可以指向 `null`:
 
-<div class="sample" markdown="1" theme="idea">
 ```kotlin
 fun main() {
 //sampleStart
@@ -45,11 +37,10 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" validate="false"}
 
 要允许 null 值, 你可以将变量声明为可为 null 的字符串, 写作 `String?`:
 
-<div class="sample" markdown="1" theme="idea">
 ```kotlin
 fun main() {
 //sampleStart
@@ -59,7 +50,7 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true"}
 
 现在, 假如你对 `a` 调用方法或访问属性, 可以确信不会产生 NPE, 因此你可以安全地编写以下代码:
 
@@ -75,7 +66,7 @@ val l = b.length // 错误: 变量 'b' 可能为 null
 
 但你仍然需要访问这个属性, 对不对? 有以下几种方法可以实现.
 
-## 在条件语句中进行 `null` 检查
+## 在条件语句中进行 `null` 检查 {id="check-for-null-with-the-if-conditional"}
 
 首先, 你可以明确地检查 `b` 是否为 `null`, 然后对两种情况分别处理:
 
@@ -86,7 +77,6 @@ val l = if (b != null) b.length else -1
 编译器将会追踪你执行过的检查, 因此允许在 `if` 内访问 `length` 属性 .
 更复杂的条件也是支持的:
 
-<div class="sample" markdown="1" theme="idea">
 ```kotlin
 fun main() {
 //sampleStart
@@ -99,18 +89,17 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true"}
 
 注意, 以上方案需要的前提是, `b` 的内容不可变
 (也就是说, 对于局部变量的情况, 在 null 值检查与变量使用之间, 要求这个局部变量没有被修改,
 对于类属性的情况, 要求是一个使用后端域变量的 `val` 属性, 并且不允许被后代类覆盖),
 因为, 假如没有这样的限制的话, `b` 就有可能会在检查之后被修改为 `null` 值.
 
-## 安全调用
+## 安全调用 {id="safe-calls"}
 
 要访问可能为 null 值的变量的属性, 第二个选择方案是使用安全调用操作符 `?.`:
 
-<div class="sample" markdown="1" theme="idea">
 ```kotlin
 fun main() {
 //sampleStart
@@ -121,7 +110,7 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true"}
 
 如果 `b` 不是 null, 这个表达式将会返回 `b.length`, 否则返回 `null`.
 这个表达式本身的类型为 `Int?`.
@@ -140,7 +129,6 @@ bob?.department?.head?.name
 如果需要只对非 null 的值执行某个操作,
 你可以组合使用安全调用操作符和 [`let`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/let.html):
 
-<div class="sample" markdown="1" theme="idea">
 ```kotlin
 fun main() {
 //sampleStart
@@ -151,7 +139,7 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true"}
 
 在赋值运算的左侧也可以使用安全调用. 这时, 如果链式安全调用中的任何一个接受者为 `null`,
 赋值运算就会被跳过, 完全不会对赋值运算右侧的表达式进行计算:
@@ -161,9 +149,9 @@ fun main() {
 person?.department?.head = managersPool.getManager()
 ```
 
-## 可为 null 的接受者
+## 可为 null 的接受者 {id="nullable-receiver"}
 
-可以对 [可为 null 的接受者](extensions.html#nullable-receiver) 定义扩展函数.
+可以对 [可为 null 的接受者](extensions.md#nullable-receiver) 定义扩展函数.
 通过这种方式, 你可以指定 null 值的行为, 而不必在每次调用时都进行 null 检查.
 
 例如,
@@ -186,7 +174,7 @@ if (isoTimestamp == null) {
 }
 ```
 
-## Elvis 操作符
+## Elvis 操作符 {id="elvis-operator"}
 
 假设你有一个可为 null 的引用 `b`, 你可以说,
 "如果 `b` 不为 `null`, 那么就使用它, 否则, 就使用某个非 null 的值":
@@ -215,7 +203,7 @@ fun foo(node: Node): String? {
 }
 ```
 
-## `!!` 操作符
+## `!!` 操作符 {id="the-operator"}
 
 对于 NPE 的热爱者们来说, 还有第三个选择方案:
 非 null 判定操作符(`!!`) 可以将任何值转换为 非 null 类型, 如果这个值是 `null` 则会抛出一个异常.
@@ -251,5 +239,5 @@ val intList: List<Int> = nullableList.filterNotNull()
 
 ## 下一步做什么?
 
-* 学习 [在 Java 和 Kotlin 中如何处理可空性(nullability)](jvm/java-to-kotlin-nullability-guide.html).
-* 学习 [确定不含 null 值的泛型](generics.html#definitely-non-nullable-types).
+* 学习 [在 Java 和 Kotlin 中如何处理可空性(nullability)](java-to-kotlin-nullability-guide.md).
+* 学习 [确定不含 null 值的泛型](generics.md#definitely-non-nullable-types).

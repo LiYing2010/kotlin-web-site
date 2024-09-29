@@ -1,41 +1,23 @@
----
-type: doc
-layout: reference
-category: dokka
-title: "Dokka 入门"
----
+[//]: # (title: Dokka 入门)
 
-# Dokka 入门
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 下面你可以看到一段简单的指南, 帮助你开始学习使用 Dokka.
 
-<div class="multi-language-sample" data-lang="kotlin">
+<tabs group="build-script">
+<tab title="Gradle Kotlin DSL" group-key="kotlin">
 
-<p></p>
-
-<p>
 在你的项目的根构建脚本中应用 Gradle plugin for Dokka:
-</p>
-
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
 
 ```kotlin
 plugins {
-    id("org.jetbrains.dokka") version "{{ site.data.releases.dokkaVersion }}"
+    id("org.jetbrains.dokka") version "%dokkaVersion%"
 }
 ```
 
-</div>
-
-<p>
 如果要对
-<a href="https://docs.gradle.org/current/userguide/multi_project_builds.html">多项目(multi-project)</a>
+[多项目(multi-project)](https://docs.gradle.org/current/userguide/multi_project_builds.html)
 构建生成文档, 你还需要对各个子项目应用 Gradle plugin:
-</p>
-
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
 
 ```kotlin
 subprojects {
@@ -43,50 +25,29 @@ subprojects {
 }
 ```
 
-</div>
-
-<p>
 要生成文档, 需要运行以下 Gradle task:
-<list>
-    <li> <code>dokkaHtml</code>: 用于单项目构建 </li>
-    <li> <code>dokkaHtmlMultiModule</code>: 用于多项目构建 </li>
-</list>
-</p>
 
-<p>
-输出目录默认设置为 <code>/build/dokka/html</code> 和 <code>/build/dokka/htmlMultiModule</code>.
-</p>
+* `dokkaHtml`: 用于单项目构建
+* `dokkaHtmlMultiModule`: 用于多项目构建
 
-<p>
-关于如何在 Gradle 中使用 Dokka, 更多详情请参见 <a href="runners/dokka-gradle.html">Gradle</a>.
-</p>
+输出目录默认设置为 `/build/dokka/html` 和 `/build/dokka/htmlMultiModule`.
 
-</div>
+关于如何在 Gradle 中使用 Dokka, 更多详情请参见 [Gradle](dokka-gradle.md).
 
-<div class="multi-language-sample" data-lang="groovy">
+</tab>
+<tab title="Gradle Groovy DSL" group-key="groovy">
 
-<p></p>
-<p>
 在你的项目的根构建脚本中应用 Gradle plugin for Dokka:
-</p>
-
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy" data-highlight-only>
 
 ```groovy
 plugins {
-    id 'org.jetbrains.dokka' version '{{ site.data.releases.dokkaVersion }}'
+    id 'org.jetbrains.dokka' version '%dokkaVersion%'
 }
 ```
 
-</div>
-
-<p>
 如果要对
-<a href="https://docs.gradle.org/current/userguide/multi_project_builds.html">多项目(multi-project)</a>
+[多项目(multi-project)](https://docs.gradle.org/current/userguide/multi_project_builds.html)
 构建生成文档, 你还需要对各个子项目应用 Gradle plugin:
-</p>
-
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy" data-highlight-only>
 
 ```groovy
 subprojects {
@@ -94,34 +55,19 @@ subprojects {
 }
 ```
 
-</div>
-
-<p>
 要生成文档, 需要运行以下 Gradle task:
-<list>
-    <li> <code>dokkaHtml</code>: 用于单项目构建 </li>
-    <li> <code>dokkaHtmlMultiModule</code>: 用于多项目构建 </li>
-</list>
-</p>
 
-<p>
-输出目录默认设置为 <code>/build/dokka/html</code> 和 <code>/build/dokka/htmlMultiModule</code>.
-</p>
+* `dokkaHtml`: 用于单项目构建
+* `dokkaHtmlMultiModule`: 用于多项目构建
 
-<p>
-关于如何在 Gradle 中使用 Dokka, 更多详情请参见 <a href="runners/dokka-gradle.html">Gradle</a>.
-</p>
+输出目录默认设置为 `/build/dokka/html` 和 `/build/dokka/htmlMultiModule`.
 
-</div>
+关于如何在 Gradle 中使用 Dokka, 更多详情请参见 [Gradle](dokka-gradle.md).
 
-<div class="multi-language-sample" data-lang="maven">
+</tab>
+<tab title="Maven" group-key="mvn">
 
-<p></p>
-<p>
-在你的 POM 文件的 <code>plugins</code> 小节添加 Maven plugin for Dokka:
-</p>
-
-<div class="sample" markdown="1" mode="xml" theme="idea" data-lang="xml" data-highlight-only>
+在你的 POM 文件的 `plugins` 小节添加 Maven plugin for Dokka:
 
 ```xml
 <build>
@@ -129,7 +75,7 @@ subprojects {
         <plugin>
             <groupId>org.jetbrains.dokka</groupId>
             <artifactId>dokka-maven-plugin</artifactId>
-            <version>{{ site.data.releases.dokkaVersion }}</version>
+            <version>%dokkaVersion%</version>
             <executions>
                 <execution>
                     <phase>pre-site</phase>
@@ -143,18 +89,11 @@ subprojects {
 </build>
 ```
 
-</div>
+要生成文档, 需要运行 `dokka:dokka` goal.
 
-<p>
-要生成文档, 需要运行 <code>dokka:dokka</code> goal.
-</p>
+输出目录默认设置为 `target/dokka`.
 
-<p>
-输出目录默认设置为 <code>target/dokka</code>.
-</p>
+关于如何在 Maven 中使用 Dokka, 更多详情请参见 [Maven](dokka-maven.md).
 
-<p>
-关于如何在 Maven 中使用 Dokka, 更多详情请参见 <a href="runners/dokka-maven.html">Maven</a>.
-</p>
-
-</div>
+</tab>
+</tabs>

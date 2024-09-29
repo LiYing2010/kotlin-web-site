@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Syntax"
-title: "注解"
----
+[//]: # (title: 注解)
 
-# 注解(Annotation)
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 注解是用来为代码添加元数据(metadata)的一种手段.
 要声明一个注解, 需要在类之前添加 `annotation` 修饰符:
@@ -38,7 +31,7 @@ annotation class Fancy
 annotation class Fancy
 ```
 
-## 注解的使用
+## 注解的使用 {id="usage"}
 
 ```kotlin
 @Fancy class Foo {
@@ -111,7 +104,7 @@ annotation class Ann(val arg1: KClass<*>, val arg2: KClass<out Any>)
 @Ann(String::class, Int::class) class MyClass
 ```
 
-## 创建注解类的实例
+## 创建注解类的实例 {id="instantiation"}
 
 在 Java 中, 注解类型是一种形式的接口, 因此你不能实现一个注解类, 并使用它的实例.
 Kotlin 使用不同的机制, 允许你在任意代码中调用注解类的构造器, 然后使用得到的实例.
@@ -144,7 +137,7 @@ annotation class Suspendable
 val f = @Suspendable { Fiber.sleep(10) }
 ```
 
-## 注解的使用目标(Use-site Target)
+## 注解的使用目标(Use-site Target) {id="annotation-use-site-targets"}
 
 当你对一个属性或一个主构造器的参数添加注解时, 从一个 Kotlin 元素会产生出多个 Java 元素,
 因此在编译产生的 Java 字节码中, 你的注解存在多个可能的适用目标.
@@ -308,7 +301,7 @@ fun foo(ann: Ann) {
 
 要避免生成 `TYPE_USE` 和 `TYPE_PARAMETER` 注解目标, 请使用新的编译器参数 `-Xno-new-java-annotation-targets`.
 
-## 可重复注解
+## 可重复注解 {id="repeatable-annotations"}
 
 就象 [在 Java 中](https://docs.oracle.com/javase/tutorial/java/annotations/repeating.html) 一样, Kotlin 也有可重复注解,
 它可以对同个代码元素使用多次.

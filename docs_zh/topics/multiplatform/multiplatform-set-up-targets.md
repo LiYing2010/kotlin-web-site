@@ -1,17 +1,11 @@
----
-type: doc
-layout: reference
-title: "为 Kotlin Multiplatform 设置编译目标"
----
+[//]: # (title: 为 Kotlin Multiplatform 设置编译目标)
 
-# 为 Kotlin Multiplatform 设置编译目标
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 可以在使用 [项目向导](https://kmp.jetbrains.com/) 创建项目时添加编译目标.
-如果之后再需要添加编译目标, 可以使用对 [支持的平台](multiplatform-dsl-reference.html#targets) 预设置的编译目标来手工添加.
+如果之后再需要添加编译目标, 可以使用对 [支持的平台](multiplatform-dsl-reference.md#targets) 预设置的编译目标来手工添加.
 
-更多详情请参见 [编译目标的额外设置](multiplatform-dsl-reference.html#common-target-configuration).
+更多详情请参见 [编译目标的额外设置](multiplatform-dsl-reference.md#common-target-configuration).
 
 ```kotlin
 kotlin {
@@ -23,10 +17,10 @@ kotlin {
 }
 ```
 
-每个编译目标可以有一个或多个 [编译任务](multiplatform-configure-compilations.html).
-除了用于测试和产品的默认的编译任务之外, 你还可以 [创建自定义的编译任务](multiplatform-configure-compilations.html#create-a-custom-compilation).
+每个编译目标可以有一个或多个 [编译任务](multiplatform-configure-compilations.md).
+除了用于测试和产品的默认的编译任务之外, 你还可以 [创建自定义的编译任务](multiplatform-configure-compilations.md#create-a-custom-compilation).
 
-## 对一个平台区分多个编译目标
+## 对一个平台区分多个编译目标 {id="distinguish-several-targets-for-one-platform"}
 
 在一个跨平台库中, 对一个平台可以有多个编译目标. 比如, 这些编译目标可以提供相同的 API, 但在运行时使用不同的库, 比如不同的测试框架, 不同的日志库.
 对这样的跨平台库的依赖可能会解析失败, 因为不清楚应该选择哪个编译目标.
@@ -35,8 +29,8 @@ kotlin {
 
 比如, 假设有一个测试库, 在两个编译目标中支持 JUnit 和 TestNG. 库的作者需要在两个编译目标中添加一个属性, 如下:
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" theme="idea" mode="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 val testFrameworkAttribute = Attribute.of("com.example.testFramework", String::class.java)
@@ -51,11 +45,8 @@ kotlin {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" theme="idea" mode="groovy" data-highlight-only>
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 def testFrameworkAttribute = Attribute.of('com.example.testFramework', String)
@@ -70,7 +61,7 @@ kotlin {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 库的使用者编译目标如果出现依赖项目的歧义, 就需要对他的编译目标添加这个属性来解决歧义.

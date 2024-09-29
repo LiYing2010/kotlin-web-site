@@ -1,14 +1,8 @@
----
-type: doc
-layout: reference
-title: "Ant"
----
+[//]: # (title: Ant)
 
-# Ant
+最终更新: %latestDocDate%
 
-最终更新: {{ site.data.releases.latestDocDate }}
-
-## 安装 Ant Task
+## 安装 Ant Task {id="getting-the-ant-tasks"}
 
 Kotlin 提供了 3 个 Ant Task:
 
@@ -17,11 +11,11 @@ Kotlin 提供了 3 个 Ant Task:
 * `withKotlin`: 使用标准的 *javac* Ant Task 来编译 Kotlin 代码
 
 这些 Task 定义在 *kotlin-ant.jar* 库文件内, 这个库文件位于
-[Kotlin 编译器]({{site.data.releases.latest.url}})
+[Kotlin 编译器](%kotlinLatestUrl%)
 的 `lib` 文件夹内.
 需要的 Ant 版本是 1.8.2 以上.
 
-## 面向 JVM, 编译纯 Kotlin 代码
+## 面向 JVM, 编译纯 Kotlin 代码 {id="targeting-jvm-with-kotlin-only-source"}
 
 如果工程内只包含 Kotlin 源代码, 这种情况下最简单的编译方法是使用 `kotlinc` Task:
 
@@ -37,7 +31,7 @@ Kotlin 提供了 3 个 Ant Task:
 
 这里的 `${kotlin.lib}` 指向 Kotlin standalone 编译器解压缩后的文件夹.
 
-## 面向 JVM, 编译包含多个根目录的纯 Kotlin 代码
+## 面向 JVM, 编译包含多个根目录的纯 Kotlin 代码 {id="targeting-jvm-with-kotlin-only-source-and-multiple-roots"}
 
 如果工程中包含多个源代码根目录, 可以使用 `src` 元素来定义源代码路径:
 
@@ -54,7 +48,7 @@ Kotlin 提供了 3 个 Ant Task:
 </project>
 ```
 
-## 面向 JVM, 编译 Kotlin 和 Java 的混合代码
+## 面向 JVM, 编译 Kotlin 和 Java 的混合代码 {id="targeting-jvm-with-kotlin-and-java-source"}
 
 如果工程包含 Kotlin 和 Java 的混合代码, 这时尽管也能够使用 `kotlinc`,
 但为了避免重复指定 Task 参数, 推荐使用 `withKotlin` Task:
@@ -82,7 +76,7 @@ Kotlin 提供了 3 个 Ant Task:
 <withKotlin moduleName="myModule"/>
 ```
 
-## 面向 JavaScript, 编译单个源代码文件夹
+## 面向 JavaScript, 编译单个源代码文件夹 {id="targeting-javascript-with-single-source-folder"}
 
 ```xml
 <project name="Ant Task Test" default="build">
@@ -94,7 +88,7 @@ Kotlin 提供了 3 个 Ant Task:
 </project>
 ```
 
-## 面向 JavaScript, 使用 Prefix, PostFix 和 sourcemap 选项
+## 面向 JavaScript, 使用 Prefix, PostFix 和 sourcemap 选项 {id="targeting-javascript-with-prefix-postfix-and-sourcemap-options"}
 
 ```xml
 <project name="Ant Task Test" default="build">
@@ -106,7 +100,7 @@ Kotlin 提供了 3 个 Ant Task:
 </project>
 ```
 
-## 面向 JavaScript, 编译单个源代码文件夹, 使用 metaInfo 选项
+## 面向 JavaScript, 编译单个源代码文件夹, 使用 metaInfo 选项 {id="targeting-javascript-with-single-source-folder-and-metainfo-option"}
 
 如果你希望将编译结果当作一个 Kotlin/JavaScript 库发布, 可以使用 `metaInfo` 选项.
 如果 `metaInfo` 设值为 `true`, 那么编译时会额外创建带二进制元数据(binary metadata)的 JS 文件.
@@ -123,11 +117,11 @@ Kotlin 提供了 3 个 Ant Task:
 </project>
 ```
 
-## 参照
+## 参照 {id="references"}
 
 完整的 Ant Task 元素和属性一览表如下:
 
-### kotlinc 和 kotlin2js 的共通属性
+### kotlinc 和 kotlin2js 的共通属性 {id="attributes-common-for-kotlinc-and-kotlin2js"}
 
 |  名称 |    说明     |  是否必须  |   默认值      |
 |------|-------------|----------|---------------|
@@ -136,7 +130,7 @@ Kotlin 提供了 3 个 Ant Task:
 | `noStdlib` | 不要将 Kotlin 标准库包含在 classpath 内 | 否 | false |
 | `failOnError` | 如果编译过程中检测到错误, 是否让整个构建过程失败 | 否 | true |
 
-### kotlinc 独有的属性
+### kotlinc 独有的属性 {id="kotlinc-attributes"}
 
 |  名称 |    说明     |  是否必须  |   默认值      |
 |------|-------------|----------|---------------|
@@ -146,7 +140,7 @@ Kotlin 提供了 3 个 Ant Task:
 | `includeRuntime`  | 当 `output` 是 .jar 文件时, 是否将 Kotlin 运行库包含在这个 jar 内 | 否 | true  |
 | `moduleName` | 被编译的模块名称 | 否 | 编译目标的名称(如果有指定), 或工程名称 |
 
-### kotlin2js 独有的属性
+### kotlin2js 独有的属性 {id="kotlin2js-attributes"}
 
 |  名称 |    说明     |  是否必须 |
 |------|-------------|----------|
@@ -158,7 +152,7 @@ Kotlin 提供了 3 个 Ant Task:
 | `metaInfo`  | 是否生成带二进制描述符(binary descriptor)的元数据(metadata)文件 | 否 |
 | `main`  | 编译器是否生成对 main 函数的调用代码 | 否 |
 
-### 指定编译参数
+### 指定编译参数 {id="passing-raw-compiler-arguments"}
 
 如果需要指定自定义的编译参数, 可以使用 `<compilerarg>` 元素的 `value` 或 `line` 属性.
 这个元素可以放在 `<kotlinc>`, `<kotlin2js>`, 以及 `<withKotlin>` 任务元素之内, 示例如下:

@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Lincheck"
-title: "进度保证"
----
+[//]: # (title: 进度保证)
 
-# 进度保证
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 很多并发算法会提供非阻塞的进度保证, 例如无锁(lock-freedom)和无等待(wait-freedom).
 由于算法通常比较复杂, 因此很容易加入 bug, 导致算法阻塞.
@@ -105,7 +98,8 @@ class ConcurrentSkipListMapTest {
 > * **无等待(wait-freedom)**, 无论其他线程正在做什么, 每个操作都能够在有限次数的步骤内完成.
 > * **无锁(lock-freedom)**, 保证系统级别的进度, 至少一个操作能够在有限次数的步骤内完成, 其他某个操作可能会阻塞.
 > * **无阻塞(obstruction-freedom)**, 如果其他所有线程都暂停, 那么操作能够在有限次数的步骤内完成.
-{type="tip"}
+>
+{style="tip"}
 
 目前, Lincheck 只支持无阻塞(obstruction-freedom)的进度保证.
 但是, 大多数现实生活中的存活 bug 都是由于添加了不正确的阻塞代码,
@@ -114,8 +108,9 @@ class ConcurrentSkipListMapTest {
 > * [请在这里查看示例的完整代码](https://github.com/Kotlin/kotlinx-lincheck/blob/guide/src/jvm/test/org/jetbrains/kotlinx/lincheck/test/guide/ConcurrentMapTest.kt).
 > * 查看 [另一个示例](https://github.com/Kotlin/kotlinx-lincheck/blob/guide/src/jvm/test/org/jetbrains/kotlinx/lincheck/test/guide/ObstructionFreedomViolationTest.kt),
 >  这里会对 Michael-Scott 队列实现测试它的进度保证.
-{:.note}
+>
+{style="note"}
 
 ## 下一步
 
-学习如何对被测试的算法明确的 [指定顺序规格](sequential-specification.html), 增加 Lincheck 测试的健壮性.
+学习如何对被测试的算法明确的 [指定顺序规格](sequential-specification.md), 增加 Lincheck 测试的健壮性.

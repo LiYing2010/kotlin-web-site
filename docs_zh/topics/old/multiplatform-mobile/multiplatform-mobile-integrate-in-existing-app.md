@@ -1,12 +1,6 @@
----
-type: doc
-layout: reference
-title: "教程 - 让你的 Android 应用程序在 iOS 上运行"
----
+[//]: # (title: 教程 - 让你的 Android 应用程序在 iOS 上运行)
 
-# 教程 - 让你的 Android 应用程序在 iOS 上运行
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 本教程将介绍如何让你的既有的 Android 应用程序变成跨平台程序, 可以同时在 Android 和 iOS 上运行.
 你将学会编写代码, 并一次性的对 Android 和 iOS 测试你的代码.
@@ -17,7 +11,8 @@ title: "教程 - 让你的 Android 应用程序在 iOS 上运行"
 
 > 如果你不熟悉 Kotlin Multiplatform Mobile, 
 > 你可以先学习如何 [从头创建并配置一个跨平台移动应用程序](multiplatform-mobile-create-first-app.html).
-{:.tip}
+>
+{style="tip"}
 
 ## 准备开发环境
 
@@ -25,7 +20,8 @@ title: "教程 - 让你的 Android 应用程序在 iOS 上运行"
 
    > 你需要一台运行 macOS 的 Mac 机器来完成本教程中的某些步骤, 包括编写 iOS 相关代码, 以及运行 iOS 应用程序.  
    > 这些步骤不能在其他操作系统上进行, 比如 Microsoft Windows. 这是由于 Apple 的要求.
-   {:.note}
+   >
+   {style="note"}
 
 2. 在 Android Studio 中, 从代码仓库创建一个新项目:
 
@@ -35,7 +31,8 @@ title: "教程 - 让你的 Android 应用程序在 iOS 上运行"
 
    > `master` 分支包含项目的初始状态 — 一个简单的 Android 应用程序.
    > 要查看包含 iOS 应用程序和共用模块的最终状态, 请切换到 `final` 分支.
-   {:.tip}
+   >
+   {style="tip"}
 
 3. 切换到 **Project** 视图.
 
@@ -278,7 +275,8 @@ val fakeUser = LoggedInUser(java.util.UUID.randomUUID().toString(), "Jane Doe")
 有了框架之后, 你可以手动将它连接到你的 iOS 项目.
 
 > 另一种替代选择是 [配置通过 CocoaPods 的集成](../native/native-cocoapods.html), 但这样的集成不在本教程的讨论范围内.
-{:.note}
+>
+{style="note"}
 
 将你的框架手动连接到 iOS 项目:
 
@@ -320,7 +318,8 @@ val fakeUser = LoggedInUser(java.util.UUID.randomUUID().toString(), "Jane Doe")
 
 > 如果你要使用与默认的 `Debug` 或 `Release` 不同的自定义构建配置, 请在 **Build Settings** 页面,
 > 在 **User-Defined** 之下添加 `KOTLIN_FRAMEWORK_BUILD_TYPE` 设置, 将它设置为 `Debug` 或 `Release`.
-{:.note}
+>
+{style="note"}
 
 ### 在 Swift 中使用共用模块
 

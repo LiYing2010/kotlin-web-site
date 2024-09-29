@@ -1,16 +1,8 @@
----
-type: doc
-layout: reference
-category: "Coroutine"
-title: "通道(Channel)"
----
-
-# 通道(Channel)
-
-最终更新: {{ site.data.releases.latestDocDate }}
-
 <!--- TEST_NAME ChannelsGuideTest -->
 
+[//]: # (title: 通道(Channel))
+
+最终更新: %latestDocDate%
 
 延迟产生的数据提供了一种方便的方式可以在协程之间传递单个值.
 而通道则提供了另一种方式, 可以在协程之间传递数值的流.
@@ -20,8 +12,6 @@ title: "通道(Channel)"
 [Channel] 在概念上非常类似于 `BlockingQueue`. 关键的不同是,
 它没有阻塞的 `put` 操作, 而是提供挂起的 [send][SendChannel.send] 操作,
 没有阻塞的 `take` 操作, 而是提供挂起的 [receive][ReceiveChannel.receive] 操作.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -40,11 +30,11 @@ fun main() = runBlocking {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-channel-01.kt).
-{:.note}
+>
+{style="note"}
 
 这段示例程序的输出是:
 
@@ -67,8 +57,6 @@ Done!
 概念上来说, [close][SendChannel.close] 操作类似于向通道发送一个特殊的关闭标记.
 收到这个关闭标记之后, 对通道的迭代操作将会立即停止, 因此可以保证在关闭操作以前发送的所有数据都会被正确接收:
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
-
 ```kotlin
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
@@ -86,11 +74,11 @@ fun main() = runBlocking {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-channel-02.kt).
-{:.note}
+>
+{style="note"}
 
 <!--- TEST
 1
@@ -111,8 +99,6 @@ Done!
 有一个便利的协程构建器, 名为 [produce], 它可以很简单地编写出生产者端的正确代码,
 还有一个扩展函数 [consumeEach], 可以在消费者端代码中替代 `for` 循环:
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
-
 ```kotlin
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
@@ -129,11 +115,11 @@ fun main() = runBlocking {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-channel-03.kt).
-{:.note}
+>
+{style="note"}
 
 <!--- TEST
 1
@@ -168,8 +154,6 @@ fun CoroutineScope.square(numbers: ReceiveChannel<Int>): ReceiveChannel<Int> = p
 
 <!--- CLEAR -->
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
-
 ```kotlin
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
@@ -195,11 +179,11 @@ fun CoroutineScope.square(numbers: ReceiveChannel<Int>): ReceiveChannel<Int> = p
     for (x in numbers) send(x * x)
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-channel-04.kt).
-{:.note}
+>
+{style="note"}
 
 <!--- TEST
 1
@@ -211,9 +195,10 @@ Done!
 -->
 
 > 所有创建协程的函数都被定义为 [CoroutineScope] 上的扩展函数,
-> 因此我们可以依靠 [结构化的并发](composing-suspending-functions.html#structured-concurrency-with-async)
+> 因此我们可以依靠 [结构化的并发](composing-suspending-functions.md#structured-concurrency-with-async)
 > 来保证应用程序中没有留下长期持续的全局协程.
-{:.note}
+>
+{style="note"}
 
 ## 使用管道寻找质数
 
@@ -248,8 +233,6 @@ numbersFrom(2) -> filter(2) -> filter(3) -> filter(5) -> filter(7) ...
 
 <!--- CLEAR -->
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
-
 ```kotlin
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
@@ -275,11 +258,11 @@ fun CoroutineScope.filter(numbers: ReceiveChannel<Int>, prime: Int) = produce<In
     for (x in numbers) if (x % prime != 0) send(x)
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-channel-05.kt).
-{:.note}
+>
+{style="note"}
 
 这段示例程序的输出是:
 
@@ -298,7 +281,7 @@ fun CoroutineScope.filter(numbers: ReceiveChannel<Int>, prime: Int) = produce<In
 
 <!--- TEST -->
 
-注意, 你可以使用标准库的协程构建器 [`iterator`](/api/latest/jvm/stdlib/kotlin.sequences/iterator.html) 来创建相同的管道.
+注意, 你可以使用标准库的协程构建器 [`iterator`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.sequences/iterator.html) 来创建相同的管道.
 把 `produce` 函数替换为 `iterator`, 把 `send` 函数替换为 `yield`,
 把 `receive` 函数替换为 `next`, 把 `ReceiveChannel` 替换为 `Iterator`,
 就可以不用关心删除协程的作用范围了.
@@ -340,8 +323,6 @@ fun CoroutineScope.launchProcessor(id: Int, channel: ReceiveChannel<Int>) = laun
 
 <!--- CLEAR -->
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
-
 ```kotlin
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
@@ -369,11 +350,11 @@ fun CoroutineScope.launchProcessor(id: Int, channel: ReceiveChannel<Int>) = laun
     }
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-channel-06.kt).
-{:.note}
+>
+{style="note"}
 
 这个示例程序的输出可能类似如下结果, 但处理协程的 id 和实际收到的具体的整数值可能会略微不同:
 
@@ -418,8 +399,6 @@ suspend fun sendString(channel: SendChannel<String>, s: String, time: Long) {
 
 <!--- CLEAR -->
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
-
 ```kotlin
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
@@ -443,11 +422,11 @@ suspend fun sendString(channel: SendChannel<String>, s: String, time: Long) {
     }
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-channel-07.kt).
-{:.note}
+>
+{style="note"}
 
 输出结果是:
 
@@ -473,9 +452,6 @@ BAR!
 
 我们来看看以下示例程序的运行结果:
 
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
-
 ```kotlin
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
@@ -495,11 +471,11 @@ fun main() = runBlocking<Unit> {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-channel-08.kt).
-{:.note}
+>
+{style="note"}
 
 使用缓冲区大小为 _4_ 的通道时, 这个示例程序会输出 "sending" _5_ 次:
 
@@ -521,9 +497,6 @@ Sending 4
 通道对这些方法以先进先出(first-in first-out)的顺序进行服务,
 也就是说, 第一个调用 `receive` 的协程会得到通道中的数据.
 在下面的示例程序中, 有两个 "ping" 和 "pong" 协程, 从公用的一个 "table" 通道接收 "ball" 对象.
-
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -551,11 +524,11 @@ suspend fun player(name: String, table: Channel<Ball>) {
 }
 //sampleEnd
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-channel-09.kt).
-{:.note}
+>
+{style="note"}
 
 "ping" 协程首先启动, 因此它会先接收到 ball.
 虽然 "ping" 协程将 ball 送回到 table 之后, 立即再次开始接收 ball,
@@ -584,8 +557,6 @@ pong Ball(hits=4)
 使用通道的 [ReceiveChannel.cancel] 方法来指出不再需要它继续产生数据了.
 
 下面我们看看它的实际应用:
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -617,11 +588,11 @@ fun main() = runBlocking<Unit> {
 }
 //sampleEnd
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-channel-10.kt).
-{:.note}
+>
+{style="note"}
 
 这个示例程序的输出结果是:
 

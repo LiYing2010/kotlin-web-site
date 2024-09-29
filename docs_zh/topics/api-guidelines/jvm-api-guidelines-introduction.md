@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "入门"
----
+[//]: # (title: 入门)
 
-# 入门
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 一个好的库应该具备以下特征:
 * 向后兼容性(Backward Compatibility)
@@ -17,10 +10,10 @@ title: "入门"
 
 这篇向导概要性的介绍为你的库编写 API 时的最佳实践, 以及需要考虑的问题.
 包含以下几章:
-* [可读性](jvm-api-guidelines-readability.html)
-* [可预测性](jvm-api-guidelines-predictability.html)
-* [可调试性](jvm-api-guidelines-debuggability.html)
-* [向后兼容性(Backward Compatibility)](jvm-api-guidelines-backward-compatibility.html)
+* [可读性](jvm-api-guidelines-readability.md)
+* [可预测性](jvm-api-guidelines-predictability.md)
+* [可调试性](jvm-api-guidelines-debuggability.md)
+* [向后兼容性(Backward Compatibility)](jvm-api-guidelines-backward-compatibility.md)
 
 下面的许多最佳实践提供了一些建议, 告诉你如何如何降低 API 的认知复杂度.
 因此, 在进入到最佳实践之前, 我们先来解释一下认知复杂度.
@@ -64,7 +57,7 @@ fun sortDescending(data: List<String>) { ... }
 fun maxLength(data: List<String>, maxLength: Int) { ... }
 ```
 
-通过 [扩展函数](../extensions.html) 的帮助, 你可以更加简化上面的代码:
+通过 [扩展函数](extensions.md) 的帮助, 你可以更加简化上面的代码:
 
 ```kotlin
 fun List<String>.delimit(delimiter: String): List<String> { ... }
@@ -76,4 +69,4 @@ fun List<String>.maxLength(maxLength: Int): List<String> { ... }
 
 ## 下一步做什么?
 
-学习 API 的 [可读性](jvm-api-guidelines-readability.html).
+学习 API 的 [可读性](jvm-api-guidelines-readability.md).

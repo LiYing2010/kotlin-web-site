@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: Basics
-title: 编码规约
----
+[//]: # (title: 编码规约)
 
-# 编码规约
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 对任何编程语言来说, 都需要一种广为人知, 并且易于遵守的编码规约.
 这里我们对使用 Kotlin 的项目, 给出一些编码规约和代码组织的指导原则.
@@ -20,13 +13,13 @@ title: 编码规约
 
 ### 应用代码规则
 
-1. 进入设置界面 **Settings/Preferences \| Editor \| Code Style \| Kotlin**.
+1. 进入设置界面 **Settings/Preferences | Editor | Code Style | Kotlin**.
 2. 点击 **Set from...**.
 3. 选择 **Kotlin style guide** .
 
 ### 验证你的代码是否符合代码规则
 
-1. 进入设置界面 **Settings/Preferences \| Editor \| Inspections \| General**.
+1. 进入设置界面 **Settings/Preferences | Editor | Inspections | General**.
 2. 选中检查项 **Incorrect formatting**.
 对于本编码规约中提到的其他问题 (比如命名规约), 相应的检查项目默认已经启用了.
 
@@ -41,8 +34,10 @@ title: 编码规约
 >对于 JVM 平台: 在混合使用 Kotlin 和 Java 的项目中,
 >Kotlin 源代码文件应该与 Java 源代码文件放在相同的源代码根目录下,
 >并且遵循相同的目录结构: 每个文件应该保存在它的 package 语句对应的目录之下.
+>
+{style="note"}
 
-### 源代码文件名
+### 源代码文件名 {id="source-file-names"}
 
 如果 Kotlin 源代码文件只包含单个类或接口 (以及相关的顶级声明), 那么源代码文件的名称应该与类名相同, 再加上 `.kt` 扩展名.
 这个规则适用于所有类型的类和接口.
@@ -92,7 +87,8 @@ root
 > * 在 JVM 平台上, 如果源代码文件不包含顶层声明, 就不会生成File Facade, 因此你不会遇到名称冲突的问题.
 > 
 >   但是, 只要一次简单的代码重构, 或代码添加一个顶层函数, 就可以造成 "Duplicate JVM classes" 错误, 这种命名规约可以帮助你避免这样的情况.
-{:.tip}
+> 
+{style="tip"}
 
 ### 源代码文件的组织
 
@@ -143,7 +139,7 @@ open class DeclarationProcessor { /*...*/ }
 object EmptyDeclarationProcessor : DeclarationProcessor() { /*...*/ }
 ```
 
-### 函数名称
+### 函数名称 {id="function-names"}
 
 函数, 属性, 以及局部变量的名称以小写字母开头, 并且使用驼峰式大小写, 而且不使用下划线:
 
@@ -161,7 +157,6 @@ class FooImpl : Foo { /*...*/ }
 
 fun Foo(): Foo { return FooImpl() }
 ```
-
 
 ### 测试方法名称
 
@@ -228,7 +223,6 @@ class C {
 在名称中使用缩写字母时, 如果缩写字母只包含两个字母, 请将它们全部大写 (比如 `IOStream`);
 如果超过两个字母, 请将首字母大写, 其他字母小写 (比如 `XmlFormatter`, `HttpInputStream`).
 
-
 ## 代码格式化
 
 ### 缩进
@@ -247,7 +241,8 @@ if (elements != null) {
 
 >在 Kotlin 中, 分号是可以省略的, 因此折行很重要. 语言设计时预想使用 Java 风格的大括号,
 >如果你使用不同的格式化风格, 你的代码执行时的行为可能会与你预想的不同.
-{:.note}
+>
+{style="note"}
 
 ### 水平空格
 
@@ -546,7 +541,6 @@ when (foo) {
 }
 ```
 
-
 ### 方法调用
 
 如果参数列表很长, 请在开括号之后换行. 参数缩进 4 个空格.
@@ -575,7 +569,7 @@ val anchor = owner
 
 链式调用中的第一个调用, 在它之前通常应该换行, 但如果能让代码更合理, 也可以省略换行.
 
-### Lambda 表达式
+### Lambda 表达式 {id="lambdas"}
 
 在 Lambda 表达式中, 在大括号前后应该加入空格, 分隔参数与表达式体的箭头前后也要加入空格.
 如果一个函数调用可以接受单个 Lambda 表达式作为参数, 那么 Lambda 表达式应该尽可能写到函数调用的圆括号之外.
@@ -613,7 +607,7 @@ foo {
 }
 ```
 
-### 尾随逗号(Trailing Comma)
+### 尾随逗号(Trailing Comma) {id="trailing-commas"}
 
 尾随逗号是指, 在一系列元素的最末尾之后出现的逗号:
 
@@ -634,9 +628,8 @@ class Person(
 尾随逗号完全是可选的 – 没有尾随逗号, 你的代码仍然可以工作.
 Kotlin 编码风格向导鼓励在声明处使用尾随逗号, 在调用处则由你自己决定.
 
-要在 IntelliJ IDEA 的代码格式化工具中启用尾随逗号, 请进入设置界面 **Settings/Preferences \| Editor \| Code Style \| Kotlin**,
+要在 IntelliJ IDEA 的代码格式化工具中启用尾随逗号, 请进入设置界面 **Settings/Preferences | Editor | Code Style | Kotlin**,
 打开 **Other** 页, 然后选中 **Use trailing comma** 选项.
-
 
 #### 枚举
 
@@ -720,7 +713,7 @@ fun getZValue(mySurface: Surface, xValue: Int, yValue: Int) =
     ]
 ```
 
-#### Lambda 表达式的参数
+#### Lambda 表达式的参数 {id="parameters-in-lambdas"}
 
 ```kotlin
 fun main() {
@@ -871,10 +864,9 @@ fun foo() { // 此处省略了 ": Unit"
 println("$name has ${children.size} children")
 ```
 
-
 ## 各种语言特性的惯用法
 
-### 数据的不可变性
+### 数据的不可变性 {id="immutability"}
 
 尽量使用不可变的数据, 而不是可变的数据.
 如果局部变量或属性的值在初始化之后不再变更, 尽量将它们声明为 `val`, 而不是 `var`.
@@ -919,15 +911,14 @@ typealias PersonIndex = Map<String, Person>
 ```
 
 如果你使用 private 或 internal 的类型别名来避免名称冲突,
-建议改为使用 [包(Package)与导入(Import)](packages.html) 中介绍的 `import ... as ...` 功能.
+建议改为使用 [包(Package)与导入(Import)](packages.md) 中介绍的 `import ... as ...` 功能.
 
-### Lambda 表达式参数
+### Lambda 表达式参数 {id="lambda-parameters"}
 
 在比较短, 而且没有嵌套的 Lambda 表达式, 建议使用 `it` 规约, 而不要明确声明参数.
 在有参数的嵌套 Lambda 表达式中, 参数一定要明确声明.
 
-
-### 在 Lambda 表达式中返回
+### 在 Lambda 表达式中返回 {id="returns-in-a-lambda"}
 
 不要在 Lambda 表达式中使用多个带标签的返回. 应该考虑重构你的 Lambda 表达式, 使它只有一个退出点.
 如果无法做到, 或者代码不够清晰, 那么可以考虑把 Lambda 改为一个匿名函数.
@@ -1014,7 +1005,7 @@ for (i in 0..n - 1) { /*...*/ }  // 不好的风格
 for (i in 0..<n) { /*...*/ }  // 比较好的风格
 ```
 
-### 字符串
+### 字符串 {id="strings"}
 
 尽量使用字符串模板来进行字符串拼接.
 
@@ -1022,8 +1013,6 @@ for (i in 0..<n) { /*...*/ }  // 比较好的风格
 
 关于多行字符串中缩进的维护, 如果结果字符串内部不需要任何缩进, 应该使用 `trimIndent` 函数,
 如果字符串内部需要缩进, 应该使用 `trimMargin` 函数:
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.6">
 
 ```kotlin
 fun main() {
@@ -1052,10 +1041,9 @@ fun main() {
 //sampleEnd
 }
 ```
+{kotlin-runnable="true"}
 
-</div>
-
-详情请参见 [Java 与 Kotlin 的多行字符串的区别](jvm/java-to-kotlin-idioms-strings.html#use-multiline-strings).
+详情请参见 [Java 与 Kotlin 的多行字符串的区别](java-to-kotlin-idioms-strings.md#use-multiline-strings).
 
 ### 函数 vs 属性
 
@@ -1122,10 +1110,10 @@ fun main() {
 }
 ```
 
-### 作用域函数(Scope Function) apply/with/run/also/let
+### 作用域函数(Scope Function): `apply`, `with`, `run`, `also`, `let`
 
 Kotlin 提供了一组函数, 用来在某个指定的对象上下文中执行一段代码, 这些函数包括: `let`, `run`, `with`, `apply`, 以及 `also`.
-对于具体的问题, 应该如何选择正确的作用域函数, 详情请参见 [作用域函数(Scope Function)](scope-functions.html).
+对于具体的问题, 应该如何选择正确的作用域函数, 详情请参见 [作用域函数(Scope Function)](scope-functions.md).
 
 ## 针对库开发的编码规约
 
@@ -1133,7 +1121,7 @@ Kotlin 提供了一组函数, 用来在某个指定的对象上下文中执行�
 
  * 始终明确指定成员的可见度 (以免不小心将某个声明暴露成 public API)
  * 始终明确指定函数的返回类型, 以及属性类型 (以免修改实现代码时, 不小心改变了返回类型)
- * 对所有的 public 成员编写 [KDoc](kotlin-doc.html) 文档注释 (这是为了对库生成文档),
+ * 对所有的 public 成员编写 [KDoc](kotlin-doc.md) 文档注释 (这是为了对库生成文档),
    例外情况是, 方法或属性的覆盖不需要提供新的注释
 
-关于为你的库编写 API 时的最佳实践, 以及需要考虑的问题, 请参见 [库开发者指南](api-guidelines/jvm-api-guidelines-introduction.html).
+关于为你的库编写 API 时的最佳实践, 以及需要考虑的问题, 请参见 [库开发者指南](jvm-api-guidelines-introduction.md).

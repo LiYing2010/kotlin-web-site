@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "Eclipse IDE"
----
+[//]: # (title: Eclipse IDE)
 
-# Eclipse IDE
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 [Eclipse IDE](https://www.eclipse.org/downloads/) 是非常著名的 IDE, 它提供了很多包, 可用于各种语言和平台上的开发.
 你可以使用它来编写 Kotlin 代码.

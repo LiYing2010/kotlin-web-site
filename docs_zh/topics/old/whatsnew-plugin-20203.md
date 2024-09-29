@@ -1,7 +1,6 @@
----
-type: doc
-layout: reference
-title: "Kotlin plugin 的发布版本"
+[//]: # (title: Kotlin plugin 的发布版本)
+
+最终更新: %latestDocDate%
 ---
 
 # Kotlin plugin 的发布版本

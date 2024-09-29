@@ -1,16 +1,9 @@
----
-type: doc
-layout: reference
-category: "Syntax"
-title: "作用域函数(Scope Function)"
----
+[//]: # (title: 作用域函数(Scope Function))
 
-# 作用域函数(Scope Function)
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin 标准库提供了一系列函数, 用来在某个指定的对象上下文中执行一段代码.
-你可以对一个对象调用这些函数, 并提供一个 [Lambda 表达式](lambdas.html), 函数会创建一个临时的作用域(scope).
+你可以对一个对象调用这些函数, 并提供一个 [Lambda 表达式](lambdas.md), 函数会创建一个临时的作用域(scope).
 在这个作用域内, 你可以访问这个对象, 而不需要指定名称.
 这样的函数称为 _作用域函数(Scope Function)_.
 有 5 个这类函数:
@@ -24,8 +17,6 @@ Kotlin 标准库提供了一系列函数, 用来在某个指定的对象上下�
 它们之间的区别在于, 在代码段内如何访问这个对象, 以及整个表达式的最终结果值是什么.
 
 下面是使用作用域函数的典型例子:
-
-<div class="sample" markdown="1" theme="idea">
 
 ```kotlin
 data class Person(var name: String, var age: Int, var city: String) {
@@ -44,12 +35,9 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 如果不使用 `let` 函数, 为了实现同样的功能, 你就不得不引入一个新的变量, 并在每次用到它的时候使用变量名来访问它.
-
-<div class="sample" markdown="1" theme="idea">
 
 ```kotlin
 data class Person(var name: String, var age: Int, var city: String) {
@@ -67,8 +55,7 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 作用域函数并没有引入技术上的新功能, 但它能让你的代码变得更简洁易读.
 
@@ -119,11 +106,9 @@ fun main() {
 
 在传递给作用域函数的 Lambda 表达式内部, 可以通过一个简短的引用来访问上下文对象, 而不需要使用它的变量名.
 每个作用域函数都会使用两种方法之一来引用上下文对象:
-作为 Lambda 表达式的 [接受者](lambdas.html#function-literals-with-receiver)(`this`)来访问,
+作为 Lambda 表达式的 [接受者](lambdas.md#function-literals-with-receiver)(`this`)来访问,
 或者作为 Lambda 表达式的参数(`it`)来访问.
 两种方法的功能都是一样的, 因此我们分别介绍这两种方法在不同使用场景下的优点和缺点, 并提供一些使用建议.
-
-<div class="sample" markdown="1" theme="idea">
 
 ```kotlin
 fun main() {
@@ -140,20 +125,18 @@ fun main() {
     }
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 #### 使用 `this`
 
-`run`, `with`, 和 `apply` 函数将上下文对象作为 Lambda 表达式的 [接受者](lambdas.html#function-literals-with-receiver) - 通过 `this` 关键字来访问.
+`run`, `with`, 和 `apply` 函数将上下文对象作为 Lambda 表达式的
+[接受者](lambdas.md#function-literals-with-receiver) - 通过 `this` 关键字来访问.
 因此, 在这些函数的 Lambda 表达式内, 可以象通常的类函数一样访问到上下文对象.
 
 大多数情况下, 访问接受者对象的成员时, 可以省略 `this` 关键字, 代码可以更简短.
 另一方面, 如果省略了 `this`, 阅读代码时会很难区分哪些是接受者的成员, 哪些是外部对象和函数.
 因此, 把上下文对象作为接受者(`this`)的方式,
 建议用于那些主要对上下文对象成员进行操作的 Lambda 表达式: 调用上下文对象的函数, 或对其属性赋值.
-
-<div class="sample" markdown="1" theme="idea">
 
 ```kotlin
 data class Person(var name: String, var age: Int = 0, var city: String = "")
@@ -168,20 +151,17 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 #### 使用 `it`
 
-`let` 和 `also` 函数使用另一种方式, 它们将上下文对象作为 Lambda 表达式的 [参数](lambdas.html#lambda-expression-syntax) 来访问.
+`let` 和 `also` 函数使用另一种方式, 它们将上下文对象作为 Lambda 表达式的 [参数](lambdas.md#lambda-expression-syntax) 来访问.
 如果参数名称不指定, 那么上下文对象使用隐含的默认参数名称 `it`.
 `it` 比 `this` 更短, 而且带 `it` 的表达式通常也更容易阅读.
 
 但是, 你就不能象省略 `this` 那样, 隐含地访问访问对象的函数和属性.
 因此, 通过 `it` 访问上下文对象的方式, 比较适合于对象主要被用作函数参数的情况.
 如果你的代码段中存在多个变量, `it` 也是更好的选择.
-
-<div class="sample" markdown="1" theme="idea">
 
 ```kotlin
 import kotlin.random.Random
@@ -203,12 +183,9 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 下面的示例通过有名称的 Lambda 参数 `value` 来访问上下文对象.
-
-<div class="sample" markdown="1" theme="idea">
 
 ```kotlin
 import kotlin.random.Random
@@ -230,8 +207,7 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 ### 返回值
 
@@ -247,8 +223,6 @@ fun main() {
 `apply` 和 `also` 的返回值是作用域对象本身.
 因此它们可以作为 _旁路(side step)_ 成为链式调用的一部分:
 你可以在这些函数之后对同一个对象继续调用其他函数.
-
-<div class="sample" markdown="1" theme="idea">
 
 ```kotlin
 fun main() {
@@ -266,12 +240,9 @@ fun main() {
     println(numberList)
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 还可以用在函数的 return 语句中, 将上下文对象作为函数的返回值.
-
-<div class="sample" markdown="1" theme="idea">
 
 ```kotlin
 import kotlin.random.Random
@@ -292,16 +263,13 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 #### 返回 Lambda 表达式的结果值
 
 `let`, `run`, 和 `with` 函数返回 Lambda 表达式的结果值.
 因此, 如果需要将 Lambda 表达式结果赋值给一个变量,
 或者对 Lambda 表达式结果进行链式操作, 等等, 你可以使用这些函数.
-
-<div class="sample" markdown="1" theme="idea">
 
 ```kotlin
 fun main() {
@@ -316,12 +284,9 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 此外, 你也可以忽略返回值, 只使用作用域函数来为局部变量创建一个临时的作用域.
-
-<div class="sample" markdown="1" theme="idea">
 
 ```kotlin
 fun main() {
@@ -335,8 +300,7 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 ## 函数
 
@@ -352,23 +316,18 @@ fun main() {
 函数可以用来在链式调用的结果值上调用一个或多个函数.
 比如, 下面的代码对一个集合执行两次操作, 然后打印结果:
 
-<div class="sample" markdown="1" theme="idea">
-
 ```kotlin
 fun main() {
 //sampleStart
     val numbers = mutableListOf("one", "two", "three", "four", "five")
     val resultList = numbers.map { it.length }.filter { it > 3 }
-    println(resultList)    
+    println(resultList)
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 使用 `let` 函数, 可以改写上面的示例, 使得不必将 List 操作的结果赋值给一个变量:
-
-<div class="sample" markdown="1" theme="idea">
 
 ```kotlin
 fun main() {
@@ -381,13 +340,10 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 如果传递给 `let` 的 Lambda 表达式的代码段只包含唯一的一个函数调用, 而且使用 `it` 作为这个函数的参数,
 那么可以使用方法引用 (`::`) 来代替 Lambda 表达式:
-
-<div class="sample" markdown="1" theme="idea">
 
 ```kotlin
 fun main() {
@@ -397,14 +353,11 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 `let` 经常用来对非 null 值执行一段代码.
-如果要对可为 null 的对象进行操作, 请使用 [null 值安全的调用操作符 `?.`](null-safety.html#safe-calls),
+如果要对可为 null 的对象进行操作, 请使用 [null 值安全的调用操作符 `?.`](null-safety.md#safe-calls),
 然后再通过 `let` 函数, 在 Lambda 表达式内执行这段操作.
-
-<div class="sample" markdown="1" theme="idea">
 
 ```kotlin
 fun processNonNullString(str: String) {}
@@ -421,14 +374,11 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 你也可以使用 `let` 函数, 在一个比较小的作用域内引入局部变量, 让你的代码更加易读.
 为了对上下文对象定义一个新的变量, 请将变量名作为 Lambda 表达式的参数,
 然后就可以在 Lambda 表达式使用这个参数名, 而不是默认名称 `it`.
-
-<div class="sample" markdown="1" theme="idea">
 
 ```kotlin
 fun main() {
@@ -442,8 +392,7 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 ### with 函数
 
@@ -456,8 +405,6 @@ fun main() {
 我们推荐使用 `with` 函数的情况是, 你可以用它在上下文对象上调用函数, 但不需要使用返回值.
 在代码中, `with` 可以被理解为 "_使用这个对象, 进行以下操作._"
 
-<div class="sample" markdown="1" theme="idea">
-
 ```kotlin
 fun main() {
 //sampleStart
@@ -469,12 +416,9 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 你也可以使用 `with` 函数, 引入一个辅助对象, 使用它的属性或函数来计算得到一个结果值.
-
-<div class="sample" markdown="1" theme="idea">
 
 ```kotlin
 fun main() {
@@ -488,8 +432,7 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 ### run 函数
 
@@ -501,8 +444,6 @@ fun main() {
 因此和 `let` 一样, 你可以对上下文对象使用点号来调用它.
 
 如果你的 Lambda 表达式既初始化对象, 也计算结果值, 那么就很适合使用 `run` 函数.
-
-<div class="sample" markdown="1" theme="idea">
 
 ```kotlin
 class MultiportService(var url: String, var port: Int) {
@@ -529,15 +470,12 @@ fun main() {
     println(letResult)
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 你也可以把 `run` 作为非扩展函数来使用.
 非扩展函数版本的 `run` 函数没有上下文对象, 但它仍然返回 Lambda 表达式的结果.
 通过使用非扩展函数方式的 `run` 函数, 你可以在需要表达式的地方执行多条语句的代码段.
 在代码中, 非扩展函数方式的 `run` 函数可以看作是 "_执行这个代码段, 并计算结果_".
-
-<div class="sample" markdown="1" theme="idea">
 
 ```kotlin
 fun main() {
@@ -556,8 +494,7 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 ### apply 函数
 
@@ -569,8 +506,6 @@ fun main() {
 会返回上下文对象本身, 因此我们推荐的使用场景是, 代码段没有返回值, 并且主要对接受者对象的成员进行操作.
 `apply` 函数最常见的使用场景是对象配置.
 这样的代码调用可以理解为 "_将以下赋值操作应用于这个对象._"
-
-<div class="sample" markdown="1" theme="idea">
 
 ```kotlin
 data class Person(var name: String, var age: Int = 0, var city: String = "")
@@ -585,8 +520,7 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 `apply` 的另一种使用场景是, 将 `apply` 函数用作链式调用的一部分, 用来实现复杂的处理.
 
@@ -602,8 +536,6 @@ fun main() {
 
 如果在代码中看到 `also` 函数, 可以理解为 "_对这个对象还执行以下操作_".
 
-<div class="sample" markdown="1" theme="idea">
-
 ```kotlin
 fun main() {
 //sampleStart
@@ -614,8 +546,7 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 ## takeIf 函数和 takeUnless 函数
 
@@ -632,8 +563,6 @@ fun main() {
 
 使用 `takeIf` 或 `takeUnless` 时, 在 Lambda 表达式内部, 可以通过参数 (`it`) 访问到对象.
 
-<div class="sample" markdown="1" theme="idea">
-
 ```kotlin
 import kotlin.random.*
 
@@ -647,14 +576,12 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 如果在 `takeIf` 函数和 `takeUnless` 函数之后链式调用其他函数,
 > 别忘了进行 null 值检查, 或者使用 null 值安全的成员调用(`?.`), 因为它们的返回值是可以为 null 的.
-{:.tip}
-
-<div class="sample" markdown="1" theme="idea">
+>
+{style="tip"}
 
 ```kotlin
 fun main() {
@@ -666,15 +593,12 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 `takeIf` 函数和 `takeUnless` 函数在与作用域函数组合使用时特别有用.
 例如, 你可以将 `takeIf` 和 `takeUnless` 函数与 `let` 函数组合起来, 可以对满足某个条件的对象运行一段代码.
 为了实现这个目的, 可以先对这个对象调用 `takeIf` 函数, 然后使用 null 值安全方式(`?.`)来调用 `let` 函数.
 对于不满足检查条件的对象, `takeIf` 函数会返回 `null`, 然后 `let` 函数不会被调用.
-
-<div class="sample" markdown="1" theme="idea">
 
 ```kotlin
 fun main() {
@@ -691,12 +615,9 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 如果不使用 `takeIf` 和作用域函数, 同样的功能会写成下面这样, 你可以比较一下两种方式的差别:
-
-<div class="sample" markdown="1" theme="idea">
 
 ```kotlin
 fun main() {
@@ -714,5 +635,4 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}

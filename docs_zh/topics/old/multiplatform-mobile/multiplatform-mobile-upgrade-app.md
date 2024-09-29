@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "升级你的应用程序"
----
+[//]: # (title: 升级你的应用程序)
 
-# 升级你的应用程序
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 <table style="border-style: solid; border-color: 252528">
     <tr style="border: none">
@@ -320,7 +313,8 @@ data class RocketLaunch (
 共用模块已经导入, 并在 `ContentView.swift` 中通过 `import shared` 来使用.
 
 > 如果你看到错误提示说无法找到共用模块, 请运行应用程序.
-{:.tip}
+>
+{style="tip"}
 
 1. 启动你的 Xcode 应用程序, 并选择 **Open a project or file**.
 2. 找到你的项目, 例如 **KotlinMultiplatformSandbox**, 并选择 `iosApp` 文件夹. 点击 **Open**.

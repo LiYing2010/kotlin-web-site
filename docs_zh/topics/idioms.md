@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Basics"
-title: "惯用法"
----
+[//]: # (title: 惯用法)
 
-# 惯用法
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 本章介绍 Kotlin 中的一些常见的习惯用法. 如果你有自己的好的经验, 可以将它贡献给我们. 你可以将你的修正提交到 git, 并创建一个 Pull Request.
 
@@ -24,8 +17,7 @@ data class Customer(val name: String, val email: String)
 * `hashCode()` 函数
 * `toString()` 函数
 * `copy()` 函数
-* 所有属性的 `component1()`, `component2()`, ...  函数(参见 [数据类](data-classes.html))
-
+* 所有属性的 `component1()`, `component2()`, ...  函数(参见 [数据类](data-classes.md))
 
 ## 对函数参数指定默认值
 
@@ -33,7 +25,7 @@ data class Customer(val name: String, val email: String)
 fun foo(a: Int = 0, b: String = "") { ... }
 ```
 
-## 过滤 List 中的元素
+## 过滤 List 中的元素 {id="filter-a-list"}
 
 ```kotlin
 val positives = list.filter { x -> x > 0 }
@@ -45,8 +37,7 @@ val positives = list.filter { x -> x > 0 }
 val positives = list.filter { it > 0 }
 ```
 
-详情请参见 [Java 与 Kotlin 过滤处理的区别](jvm/java-to-kotlin-collections-guide.html#filter-elements).
-
+详情请参见 [Java 与 Kotlin 过滤处理的区别](java-to-kotlin-collections-guide.md#filter-elements).
 
 ## 在集合中检查元素是否存在
 
@@ -62,7 +53,7 @@ if ("jane@example.com" !in emailsList) { ... }
 println("Name $name")
 ```
 
-详情请参见 [Java 与 Kotlin 字符串拼接处理的区别](jvm/java-to-kotlin-idioms-strings.html#concatenate-strings).
+详情请参见 [Java 与 Kotlin 字符串拼接处理的区别](java-to-kotlin-idioms-strings.md#concatenate-strings).
 
 ## 类型实例检查
 
@@ -74,19 +65,19 @@ when (x) {
 }
 ```
 
-## 只读 List
+## 只读 List {id="read-only-list"}
 
 ```kotlin
 val list = listOf("a", "b", "c")
 ```
 
-## 只读 Map
+## 只读 Map {id="read-only-map"}
 
 ```kotlin
 val map = mapOf("a" to 1, "b" to 2, "c" to 3)
 ```
 
-## 访问 Map 中的条目
+## 访问 Map 中的条目 {id="access-a-map-entry"}
 
 ```kotlin
 println(map["key"])
@@ -137,7 +128,6 @@ object Resource {
 }
 ```
 
-
 ## 为抽象类(Abstract Class)创建实例
 
 ```kotlin
@@ -159,7 +149,7 @@ fun main() {
 }
 ```
 
-## If not null 的简写表达方式
+## If not null 的简写表达方式 {id="if-not-null-shorthand"}
 
 ```kotlin
 val files = File("Test").listFiles()
@@ -183,7 +173,7 @@ val filesSize = files?.size ?: run {
 println(filesSize)
 ```
 
-## 当值为 null 时, 执行某个语句
+## 当值为 null 时, 执行某个语句 {id="execute-a-statement-if-null"}
 
 ```kotlin
 val values = ...
@@ -197,9 +187,9 @@ val emails = ... // 可能为空
 val mainEmail = emails.firstOrNull() ?: ""
 ```
 
-详情请参见 [Java 与 Kotlin 集合第一个元素的获取方法的区别](jvm/java-to-kotlin-collections-guide.html#get-the-first-and-the-last-items-of-a-possibly-empty-collection).
+详情请参见 [Java 与 Kotlin 集合第一个元素的获取方法的区别](java-to-kotlin-collections-guide.md#get-the-first-and-the-last-items-of-a-possibly-empty-collection).
 
-## 当值不为 null 时, 执行某个语句
+## 当值不为 null 时, 执行某个语句 {id="execute-if-not-null"}
 
 ```kotlin
 val value = ...
@@ -266,7 +256,6 @@ fun arrayOfMinusOnes(size: Int): IntArray {
     return IntArray(size).apply { fill(-1) }
 }
 ```
-
 
 ## 使用单个表达式来定义一个函数
 
@@ -368,7 +357,7 @@ IntelliJ IDEA 的 Kotlin 插件能够理解 `TODO()` 函数的意义, 并会在 
 
 ## 下一步做什么?
 
-* 使用 Kotlin 的编程风格来解决 [Advent of Code 谜题](advent-of-code.html).
-* 学习如何执行 [Java 与 Kotlin 中常见的字符串处理任务](jvm/java-to-kotlin-idioms-strings.html).
-* 学习如何执行 [Java 与 Kotlin 中常见的集合(Collection)处理任务](jvm/java-to-kotlin-collections-guide.html).
-* 学习如何 [在 Java 与 Kotlin 中处理可空性(Nullability)](jvm/java-to-kotlin-nullability-guide.html).
+* 使用 Kotlin 的编程风格来解决 [Advent of Code 谜题](advent-of-code.md).
+* 学习如何执行 [Java 与 Kotlin 中常见的字符串处理任务](java-to-kotlin-idioms-strings.md).
+* 学习如何执行 [Java 与 Kotlin 中常见的集合(Collection)处理任务](java-to-kotlin-collections-guide.md).
+* 学习如何 [在 Java 与 Kotlin 中处理可空性(Nullability)](java-to-kotlin-nullability-guide.md).

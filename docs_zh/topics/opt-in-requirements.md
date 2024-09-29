@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Syntax"
-title: "明确要求使用者同意的功能(Opt-in Requirement)"
----
+[//]: # (title: 明确要求使用者同意的功能(Opt-in Requirement))
 
-# 明确要求使用者同意的功能(Opt-in Requirement)
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin 标准库提供了一种机制, 可以要求用户明确同意使用 API 中的某些部分.
 对于某些需要使用者明确同意的情况, 库的开发者可以通过这种机制告知他们 API 的使用者,
@@ -15,14 +8,14 @@ Kotlin 标准库提供了一种机制, 可以要求用户明确同意使用 API 
 
 为了防止潜在的问题, 编译器会向这些 API 的使用者提示这些条件的警告信息, 并要求他们同意(Opt-in), 然后才能够使用 API.
 
-## 同意使用 API
+## 同意使用 API {id="opt-in-to-using-api"}
 
 如果库的作者将库中的一个 API 标记为 _[要求使用者同意(requiring opt-in)](#require-opt-in-for-api)_,
 那么你在自己的代码中使用它时, 需要明确表示同意使用.
 有几种方法来同意使用这样的 API, 可以使用任何一种方法, 它们都不存在技术上的限制.
 你可以自由选择最适合你情况的方法.
 
-### 传递式同意(Propagating opt-in)
+### 传递式同意(Propagating opt-in) {id="propagating-opt-in"}
 
 如果你在代码中使用了某个 API, 而你的代码本身又打算给第三方使用(是一个库),
 那么你也可以将这个的 API 的要求使用者同意设定传递给你的 API.
@@ -38,7 +31,7 @@ _[明确要求使用者同意(Opt-in Requirement) 注解](#create-opt-in-require
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
 annotation class MyDateTime // 明确要求使用者同意的注解
 
-@MyDateTime                            
+@MyDateTime
 class DateProvider // 一个明确要求使用者同意的类
 ```
 
@@ -81,7 +74,7 @@ fun displayDate() {
 
 如果要使用多个要求使用者同意的 API, 请在你的函数声明中分别添加它们的注解.
 
-### 非传递式同意(Non-propagating opt-in)
+### 非传递式同意(Non-propagating opt-in) {id="non-propagating-opt-in"}
 
 在并不对外提供 API 的模块内部, 比如应用程序模块, 你可以同意使用 API, 而不必将这种对使用者同意的强制要求传递到你的代码中.
 这种情况下, 请对你的函数声明标注
@@ -95,7 +88,7 @@ fun displayDate() {
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
 annotation class MyDateTime // 明确要求使用者同意的注解
 
-@MyDateTime                            
+@MyDateTime
 class DateProvider // 一个明确要求使用者同意的类
 ```
 
@@ -137,10 +130,11 @@ fun displayDate() {
 @file:OptIn(MyDateTime::class)
 ```
 
-### 模块范围内同意使用(Module-wide opt-in)
+### 模块范围内同意使用(Module-wide opt-in) {id="module-wide-opt-in"}
 
 > 从 Kotlin 1.6.0 开始支持编译器选项 `-opt-in`. 对更早的 Kotlin 版本, 请使用 `-Xopt-in`.
-{:.note}
+>
+{style="note"}
 
 如果你不希望在你的代码中每次使用需要同意的 API 的地方都添加标注, 那么你可以在你的整个模块级别上同意使用这些 API.
 要在一个模块内同意使用某个 API, 可以使用参数 `-opt-in` 来编译模块,
@@ -149,8 +143,8 @@ fun displayDate() {
 
 如果使用 Gradle 编译模块, 你可以象下面的例子这样来添加参数:
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
@@ -161,11 +155,8 @@ tasks.named<KotlinCompilationTask<*>>("compileKotlin").configure {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
@@ -178,14 +169,13 @@ tasks.named('compileKotlin', KotlinCompilationTask) {
 }
 ```
 
-</div>
-</div>
-
+</tab>
+</tabs>
 
 如果你的 Gradle 模块是一个跨平台模块, 请使用 `optIn` 方法:
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 sourceSets {
@@ -195,11 +185,8 @@ sourceSets {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 sourceSets {
@@ -211,8 +198,8 @@ sourceSets {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 对于 Maven, 可以这样添加编译参数:
 
@@ -236,9 +223,9 @@ sourceSets {
 
 如果要在整个模块级别同意使用多个 API, 请对你的模块中使用到的每个要求用户同意的元素逐个添加上述参数.
 
-## 对 API 标记要求使用者同意
+## 对 API 标记要求使用者同意 {id="require-opt-in-for-api"}
 
-### 创建表示要求使用者同意(Opt-in requirement)的注解
+### 创建表示要求使用者同意(Opt-in requirement)的注解 {id="create-opt-in-requirement-annotations"}
 
 如果你希望要求使用者明确同意使用你的模块中的 API, 需要创建一个注解, 用来作为 _要求使用者同意(Opt-in requirement)注解_.
 这个注解类本身必须标注
@@ -281,7 +268,7 @@ annotation class ExperimentalDateTime
 不同的注解可以使你的代码的使用者在使用这些功能时更加安全: 他们可以只使用他们明确接受的那部分功能.
 同时也使你自己能够控制各个功能, 对各个功能分别取消用户同意的强制要求.
 
-### 标记要求使用者同意的 API 元素
+### 标记要求使用者同意的 API 元素 {id="mark-api-elements"}
 
 想要将 API 标记为要求使用者同意, 请在它的声明部分添加你定义的那个 opt-in requirement 要求使用者同意注解:
 
@@ -298,7 +285,7 @@ fun getTime(): Time {}
 * 不能用这种注解标注属性的后端域变量(backing field)或取值函数(getter), 只能标注属性本身.
 * 不能用这种注解标注局部变量或函数的值参数.
 
-## 未稳定发布的 API 对使用者同意的要求
+## 未稳定发布的 API 对使用者同意的要求 {id="opt-in-requirements-for-pre-stable-apis"}
 
 如果你对未稳定发布的功能要求使用者同意, 请仔细维护你的 API, 确保不要破坏使用者的代码.
 

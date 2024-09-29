@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "为什么使用 KSP"
----
+[//]: # (title: 为什么使用 KSP)
 
-# 为什么使用 KSP
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 编译器插件是强大的元编程(Metaprogramming)工具, 能够大大增强你编写代码的方式.
 编译器插件直接将编译器作为库来调用, 分析并修改输入的程序. 这些插件还能够为各种用途生成输出.
@@ -48,7 +41,7 @@ KSP 的 API 与 `kotlin.reflect` 类似. 主要差别是, KSP 中的类型引用
 
 ## 与 kapt 比较
 
-[kapt](../kapt.html) 是一个出色的解决方案, 它使得大量的 Java 注解处理器能够直接用于 Kotlin 程序.
+[kapt](kapt.md) 是一个出色的解决方案, 它使得大量的 Java 注解处理器能够直接用于 Kotlin 程序.
 KSP 相比 kapt 的主要优势是, 提高了构建性能, 没有与 JVM 紧密结合, 更符合 Kotlin 惯用法的 API, 以及能够理解 Kotlin 专有的符号.
 
 为了不加修改的直接运行 Java 注解处理器, kapt 将 Kotlin 代码编译为 Java 桩代码(stub), 其中保留了 Java 注解处理器关注的信息.

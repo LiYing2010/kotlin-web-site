@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Syntax"
-title: "泛型(Generic): in, out, where"
----
+[//]: # (title: 泛型(Generic): in, out, where)
 
-# 泛型(Generic): in, out, where
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin 中的类也可以有类型参数, 与 Java 一样:
 
@@ -120,7 +113,8 @@ Joshua Bloch 在他的 [Effective Java, 第 3 版](http://www.oracle.com/technet
 >
 > 通配符类型(或者其他任何的类型变异)唯一能够确保的仅仅是 _类型安全_.
 > 对象值的不变性(Immutability)是与此完全不同的另一个问题.
-{:.note}
+>
+{style="note"}
 
 ### 声明处的类型变异(Declaration-site variance)
 
@@ -193,13 +187,13 @@ fun demo(x: Comparable<Number>) {
 _in_ 和 _out_ 关键字的意义看来是十分直观的(同样的关键字已经在 C# 中使用很长时间了),
 因此, 前面提到的记忆口诀也没有必要了, 我们可以将它改写为更高的抽象层次:
 
-**[存在主义](https://en.wikipedia.org/wiki/Existentialism) 变形法则: 消费者进, 生产者出\!** :-)
+**[存在主义](https://en.wikipedia.org/wiki/Existentialism) 变形法则: 消费者进, 生产者出!** :-)
 
 **译注: 上面两句翻译得不够好, 待校**
 
-## 类型投射(Type projection)
+## 类型投射(Type projection) {id="type-projections"}
 
-### 使用处的类型变异(Use-site variance): 类型投射(Type projection)
+### 使用处的类型变异(Use-site variance): 类型投射(Type projection) {id="use-site-variance-type-projections"}
 
 将声明类型参数 T 声明为 `out`, 就可以免去使用时子类化的麻烦, 这是十分方便的.
 但是有些类 _不能_ 限定为仅仅只返回 `T` 类型值!
@@ -278,7 +272,8 @@ fun fill(dest: Array<in String>, value: String) { ... }
 * `Function<*, *>`, 代表 `Function<in Nothing, out Any?>`.
 
 > 星号投射与 Java 的原生类型(raw type)非常类似, 但可以安全使用.
-{:.note}
+>
+{style="note"}
 
 ## 泛型函数
 
@@ -310,7 +305,7 @@ val l = singletonList(1)
 
 对于一个给定的类型参数, 所允许使用的类型, 可以通过 _泛型约束(generic constraint)_ 来限制.
 
-### 上界(Upper Bound)
+### 上界(Upper Bound) {id="upper-bounds"}
 
 最常见的约束是 _上界(Upper Bound)_, 对应于 Java 中的 _extends_ 关键字:
 
@@ -340,7 +335,7 @@ fun <T> copyWhenGreater(list: List<T>, threshold: T): List<String>
 传入的类型必须同时满足 `where` 子句中的所有条件.
 在上面的示例中, `T` 类型必须 _同时_ 实现 `CharSequence` 和 `Comparable` 接口.
 
-## 确定不为 null 的类型
+## 确定不为 null 的类型 {id="definitely-non-nullable-types"}
 
 为了让与 Java 的泛型类和接口的互操作更加便利, Kotlin 允许将泛型类型参数为声明 **确定不为 null**.
 
@@ -380,7 +375,7 @@ interface ArcadeGame<T1> : Game<T1> {
 在运行期, 泛型类型的实例不保存关于其类型参数的任何信息.
 我们称之为, 类型信息 _被擦除_ 了. 比如, `Foo<Bar>` 和 `Foo<Baz?>` 的实例, 其类型信息会被擦除, 只剩下 `Foo<*>`.
 
-### 泛型的类型检查与类型转换
+### 泛型的类型检查与类型转换 {id="generics-type-checks-and-casts"}
 
 由于存在类型擦除的问题, 因此不存在一种通用的办法, 可以在运行期检查一个泛型类的实例是通过什么样的类型参数来创建的,
 并且编译器禁止这样的 `is` 检查, 例如 `ints is List<Int>` 或 `list is T` (T 是类型参数).
@@ -407,12 +402,10 @@ fun handleStrings(list: MutableList<String>) {
 对于不涉及类型参数的类型转换, 可以使用的相同语法, 但省略类型参数: `list as ArrayList`.
 
 泛型函数调用的类型参数也只在编译期进行检查. 在函数内部, 类型参数不能用来进行类型检查, 而且向类型参数的类型转换 (`foo as T`) 也不做检查.
-唯一的例外是使用 [实体化的类型参数(Reified type parameter)](inline-functions.html#reified-type-parameters) 的内联函数,
+唯一的例外是使用 [实体化的类型参数(Reified type parameter)](inline-functions.md#reified-type-parameters) 的内联函数,
 会将它们的实际类型参数内联到每一个调用处. 因此可以对类型参数使用类型检查和转换.
 但是, 在类型检查或转换内部使用的泛型类型实例, 仍然存在上述限制.
 例如, 在类型检查 `arg is T` 中, 如果 `arg` 自身是一个泛型类型的实例, 它的类型参数仍然会被擦除.
-
-<div class="sample" markdown="1" theme="idea">
 
 ```kotlin
 //sampleStart
@@ -439,7 +432,7 @@ fun main() {
     //println(stringToStringList?.second?.forEach() {it.length}) // 这里会抛出 ClassCastException 异常, 因为 list 中的元素不是字符串
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 ### 未检查的类型转换
 
@@ -468,11 +461,11 @@ val intsDictionary: Map<String, Int> = readDictionary(intsFile) as Map<String, I
 你可以引入合理的抽象层次, 将未检查的类型转换, 从对接口的调用代码中, 移动到具体的实现类中.
 正确使用 [泛型类型变异(generic variance)](#variance) 也可能有助于解决这类问题.
 
-对于泛型函数, 使用 [实体化的类型参数(Reified type parameter)](inline-functions.html#reified-type-parameters)
+对于泛型函数, 使用 [实体化的类型参数(Reified type parameter)](inline-functions.md#reified-type-parameters)
 可以使得 `arg as T` 之类的类型转换变成可被检查的类型转换,
 除非 `arg` 的类型带有 *它自己的* 类型参数, 并且在运行期间被擦除了.
 
-对类型转换语句, 或这个语句所属的声明, 添加 `@Suppress("UNCHECKED_CAST")` [注解](annotations.html#annotations),
+对类型转换语句, 或这个语句所属的声明, 添加 `@Suppress("UNCHECKED_CAST")` [注解](annotations.md),
 可以屏蔽未检查的类型转换导致的编译警告:
 
 ```kotlin
@@ -483,11 +476,12 @@ inline fun <reified T> List<*>.asListOfType(): List<T>? =
         null
 ```
 
-> **在 JVM 平台**: [数组类型](arrays.html) (`Array<Foo>`) 保持了被擦除的数组元素类型信息,
+> **在 JVM 平台**: [数组类型](arrays.md) (`Array<Foo>`) 保持了被擦除的数组元素类型信息,
 > 将某个类型向数组类型进行的转换, 可以进行部分地检查: 数组元素可否为空, 以及数组元素本身的类型参数仍然会被擦除.
 > 比如, 只要 `foo` 是一个数组, 并且元素类型是任意一种 `List<*>`, 无论元素可否为 null,
 > 那么 `foo as Array<List<String>?>` 转换就会成功.
-{:.note}
+>
+{style="note"}
 
 ## 对类型参数的下划线操作符
 

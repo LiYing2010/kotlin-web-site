@@ -1,19 +1,11 @@
----
-type: doc
-layout: reference
-category: "JavaScript"
-title: "Kotlin/JS 的反射(Reflection)"
----
+[//]: # (title: Kotlin/JS 的反射(Reflection))
 
-# Kotlin/JS 的反射(Reflection)
+最终更新: %latestDocDate%
 
-最终更新: {{ site.data.releases.latestDocDate }}
-
-Kotlin/JS 只对 Kotlin [反射 API](/docs/reference_zh/reflection.html) 提供有限的支持.
+Kotlin/JS 只对 Kotlin [反射 API](reflection.md) 提供有限的支持.
 目前仅支持以下 API:
-* [类引用(class reference)](/docs/reference_zh/reflection.html#class-references) (`::class`).
+* [类引用(class reference)](reflection.md#class-references) (`::class`).
 * [`KType`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-type/) 和 [`typeof()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/type-of.html) 函数.
-
 
 ## 类引用(class reference)
 

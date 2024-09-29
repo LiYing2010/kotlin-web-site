@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "Kotlin plugin 的发布版本"
----
+[//]: # (title: Kotlin plugin 的发布版本)
 
-# Kotlin plugin 的发布版本
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
  [IntelliJ Kotlin plugin](https://plugins.jetbrains.com/plugin/6954-kotlin) 的发布周期与 [IntelliJ IDEA](https://www.jetbrains.com/idea/) 相同.
 为了加快新功能的测试和发布速度, plugin 和 IDEA 平台已经移动到了相同的代码库, 并同时发布.

@@ -1,12 +1,6 @@
----
-type: doc
-layout: reference
-title: "构建最终的原生二进制文件"
----
+[//]: # (title: 构建最终的原生二进制文件)
 
-# 构建最终的原生二进制文件
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin/Native 编译目标默认会被编译输出为 `*.klib` 库文件,
 这种库文件可以被 Kotlin/Native 用作依赖项, 但它不能执行, 也不能被用作一个原生的库.
@@ -17,13 +11,14 @@ Kotlin/Native 编译目标默认会被编译输出为 `*.klib` 库文件,
 
 > `kotlin-multiplatform` plugin 默认不会创建任何产品版(production)的二进制文件.
 > 默认情况下, 只会产生一个调试版(debug)的测试可执行文件, 你可以通过 `test` 编译任务来运行这个可执行文件内的单元测试.
-{:.note}
+>
+{style="note"}
 
 Kotlin/Native 编译器生成的二进制文件可能包含第三方代码, 数据, 或衍生作品.
-也就是说, 如果你发布 Kotlin/Native 编译的 [最终二进制文件](multiplatform-build-native-binaries.html),
-那么你始终需要在你的二进制分发版中包含必要的 [许可证文件](../native/native-binary-licenses.html).
+也就是说, 如果你发布 Kotlin/Native 编译的最终二进制文件,
+那么你始终需要在你的二进制分发版中包含必要的 [许可证文件](native-binary-licenses.md).
 
-## 声明二进制文件
+## 声明二进制文件 {id="declare-binaries"}
 
 请使用以下工厂方法来声明 `binaries` 列表中的元素.
 
@@ -55,7 +50,7 @@ kotlin {
 }
 ```
 
-如果不需要[额外的配置](multiplatform-dsl-reference.html#native-targets), 那么可以省略这个 Lambda 表达式:
+如果不需要[额外的配置](multiplatform-dsl-reference.md#native-targets), 那么可以省略这个 Lambda 表达式:
 
 ```kotlin
 binaries {
@@ -66,8 +61,8 @@ binaries {
 还可以指定对哪些构建类型创建二进制文件.
 下面的示例只创建 `debug` 版的二进制文件:
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" theme="idea" mode="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 binaries {
@@ -77,11 +72,8 @@ binaries {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" theme="idea" mode="groovy" data-highlight-only>
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 binaries {
@@ -91,13 +83,13 @@ binaries {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 还可以使用自定义的名称来声明二进制文件:
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" theme="idea" mode="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 binaries {
@@ -113,11 +105,8 @@ binaries {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" theme="idea" mode="groovy" data-highlight-only>
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 binaries {
@@ -133,16 +122,16 @@ binaries {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 这个示例中的第一个参数指定一个名称前缀, 它会是二进制文件的默认名称.
 比如, 在 Windows 平台, 这个示例会输出 `foo.exe` 和 `bar.exe`.
 还可以使用这个名称前缀 [在构建脚本中访问二进制文件](#access-binaries).
 
-## 访问二进制文件
+## 访问二进制文件 {id="access-binaries"}
 
-可以访问二进制文件来 [对其进行配置](multiplatform-dsl-reference.html#native-targets),
+可以访问二进制文件来 [对其进行配置](multiplatform-dsl-reference.md#native-targets),
 或者得到它们的属性 (比如, 得到输出文件的路径).
 
 可以通过二进制文件的唯一名称来得到它.
@@ -151,10 +140,11 @@ binaries {
 比如, `releaseFramework` 或 `testDebugExecutable`.
 
 > 静态库和共享库分别带有 static 和 shared 后缀, 比如, `fooDebugStatic` 或 `barReleaseShared`.
-{:.note}
+>
+{style="note"}
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" theme="idea" mode="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 // 如果二进制文件不存在, 这个函数会失败.
@@ -165,11 +155,8 @@ binaries.getByName("fooDebugExecutable")
 binaries.findByName("fooDebugExecutable")
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" theme="idea" mode="groovy" data-highlight-only>
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 // 如果二进制文件不存在, 这个函数会失败.
@@ -181,13 +168,13 @@ binaries.getByName('fooDebugExecutable')
 binaries.findByName('fooDebugExecutable')
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 另一种方法是, 可以使用名称前缀和构建类型, 通过有类型的 get 方法访问二进制文件.
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" theme="idea" mode="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 // 如果二进制文件不存在, 这个函数会失败.
@@ -205,11 +192,8 @@ binaries.findExecutable("foo", DEBUG)
 // findFramework, findStaticLib 以及 findSharedLib.
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" theme="idea" mode="groovy" data-highlight-only>
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 // 如果二进制文件不存在, 这个函数会失败.
@@ -227,16 +211,16 @@ binaries.findExecutable('foo', DEBUG)
 // findFramework, findStaticLib 以及 findSharedLib.
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
-## 将依赖项目导出到二进制文件
+## 将依赖项目导出到二进制文件 {id="export-dependencies-to-binaries"}
 
 编译 Objective-C 框架, 或原生库(共享库或静态库)时, 经常会出现一种需要, 不仅要打包当前项目的类文件, 同时还要打包它的依赖项的类.
 我们可以用 `export` 方法, 指定需要导出哪些依赖项到二进制文件中.
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" theme="idea" mode="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlin {
@@ -262,11 +246,8 @@ kotlin {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" theme="idea" mode="groovy" data-highlight-only>
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 kotlin {
@@ -292,14 +273,15 @@ kotlin {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 比如, 你用 Kotlin 实现了几个模块, 并且想要在 Swift 中访问这些模块.
 在一个 Swift 应用程序中无法使用多个 Kotlin/Native 框架, 但你可以创建一个 umbrella 框架, 把所有这些模块都导出到这个框架.
 
-> 只能导出对应的源代码集的 [`api` 依赖项](../gradle/gradle-configure-project.html#dependency-types).
-{:.note}
+> 只能导出对应的源代码集的 [`api` 依赖项](gradle-configure-project.md#dependency-types).
+>
+{style="note"}
 
 当你导出一个依赖项, 它的所有 API 到会包含框架 API 中.
 编译器会向框架添加这个依赖项的代码, 即使你只使用了它的一小部分.
@@ -316,10 +298,11 @@ kotlin {
 >
 > 大多数情况下, 你不需要将所有这些依赖项添加到 framework API.
 > 应该只对你需要在 Swift 或 Objective-C 代码中直接访问的依赖项, 明确使用 `export`.
-{:.warning}
+>
+{style="warning"}
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" theme="idea" mode="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 binaries {
@@ -331,11 +314,8 @@ binaries {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" theme="idea" mode="groovy" data-highlight-only>
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 binaries {
@@ -347,10 +327,10 @@ binaries {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
-## 构建通用框架(Universal Framework)
+## 构建通用框架(Universal Framework) {id="build-universal-frameworks"}
 
 默认情况下, Kotlin/Native 编译产生的 Objective-C 框架只支持单个平台.
 但是, 使用 [`lipo` 工具程序](https://llvm.org/docs/CommandGuide/llvm-lipo.html),
@@ -359,10 +339,11 @@ binaries {
 这种情况下, 最终产生的通用框架可以同时运行在 32 位和 64 位设备上.
 
 > fat 框架必须使用与原框架相同的基本名称(base name). 否则会发生错误.
-{:.warning}
+>
+{style="warning"}
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" theme="idea" mode="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 import org.jetbrains.kotlin.gradle.tasks.FatFrameworkTask
@@ -391,11 +372,8 @@ kotlin {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" theme="idea" mode="groovy" data-highlight-only>
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 import org.jetbrains.kotlin.gradle.tasks.FatFrameworkTask
@@ -426,17 +404,17 @@ kotlin {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
-## 构建 XCFramework
+## 构建 XCFramework {id="build-xcframeworks"}
 
 所有的 Kotlin 跨平台项目都可以使用 XCFramework 作为输出, 将用于所有目标平台和架构的逻辑收集在单个 bundle 之内.
 与 [单个通用的(fat)框架](#build-universal-frameworks) 不同,
 在将应用程序发布到 App Store 之前, 你不需要删除所有不必要的架构.
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" theme="idea" mode="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
@@ -458,11 +436,8 @@ kotlin {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" theme="idea" mode="groovy" data-highlight-only>
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFrameworkConfig
@@ -484,15 +459,15 @@ kotlin {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 在你声明 XCFramework 时, Kotlin Gradle plugin 会注册 3 个 Gradle task:
 * `assembleXCFramework`
-* `assembleDebugXCFramework` (额外的 debug artifact, 其中包含 [dSYMs](../native/native-ios-symbolication.html))
+* `assembleDebugXCFramework` (额外的 debug artifact, 其中包含 [dSYMs](native-ios-symbolication.md))
 * `assembleReleaseXCFramework`
 
-如果在你的项目中使用 [CocoaPods 集成](../native/native-cocoapods.html), 那么可以使用 Kotlin CocoaPods Gradle plugin 构建 XCFramework.
+如果在你的项目中使用 [CocoaPods 集成](native-cocoapods.md), 那么可以使用 Kotlin CocoaPods Gradle plugin 构建 XCFramework.
 它包含以下 task, 使用所有已注册的编译目标构建 XCFramework, 并生成 podspec 文件:
 * `podPublishReleaseXCFramework`, 生成 release 版 XCFramework 以及一个 podspec 文件.
 * `podPublishDebugXCFramework`, 生成 debug 版 XCFramework 以及一个 podspec 文件.
@@ -503,7 +478,8 @@ kotlin {
 
 > 如果 Kotlin 框架使用不同的 Kotlin 版本构建, 那么不推荐发布这些框架到公共仓库.
 > 这样做可能导致在最终使用者的项目中发生冲突.
-{:.warning}
+>
+{style="warning"}
 
 ## 定制 Info.plist 文件
 

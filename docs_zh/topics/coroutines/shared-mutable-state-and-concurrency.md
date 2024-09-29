@@ -1,15 +1,8 @@
----
-type: doc
-layout: reference
-category: "Coroutine"
-title: "共享的可变状态与并发"
----
-
-# 共享的可变状态值与并发
-
-最终更新: {{ site.data.releases.latestDocDate }}
-
 <!--- TEST_NAME SharedStateGuideTest -->
+
+[//]: # (title: 共享的可变状态与并发)
+
+最终更新: %latestDocDate%
 
 使用多线程的派发器, 比如 [Dispatchers.Default], 协程可以并发执行.
 因此协程也面对并发带来的所有问题.
@@ -41,8 +34,6 @@ suspend fun massiveRun(action: suspend () -> Unit) {
 我们先来执行一个非常简单的操作, 使用多线程的 [Dispatchers.Default], 把一个共享的可变变量加 1.
 
 <!--- CLEAR -->
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -76,11 +67,11 @@ fun main() = runBlocking {
 }
 //sampleEnd    
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-sync-01.kt)
-{:.note}
+>
+{style="note"}
 
 <!--- TEST LINES_START
 Completed 100000 actions in
@@ -95,8 +86,6 @@ Counter =
 有一种常见的错误观念, 认为把变量变为 `volatile` 就可以解决并发访问问题. 我们来试一下:
 
 <!--- CLEAR -->
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -131,11 +120,11 @@ fun main() = runBlocking {
 }
 //sampleEnd    
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-sync-02.kt).
-{:.note}
+>
+{style="note"}
 
 <!--- TEST LINES_START
 Completed 100000 actions in
@@ -154,8 +143,6 @@ Counter =
 在我们的简单的计数器示例中, 可以使用 `AtomicInteger` 类, 它有一个原子化的 `incrementAndGet` 操作:
 
 <!--- CLEAR -->
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -190,11 +177,11 @@ fun main() = runBlocking {
 }
 //sampleEnd    
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-sync-03.kt).
-{:.note}
+>
+{style="note"}
 
 <!--- TEST ARBITRARY_TIME
 Completed 100000 actions in xxx ms
@@ -212,8 +199,6 @@ _线程限定(Thread confinement)_ 是共享的可变状态值问题的一种解
 通过使用单线程的上下文, 可以很容易地对协程使用这种方案.
 
 <!--- CLEAR -->
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -251,11 +236,11 @@ fun main() = runBlocking {
 }
 //sampleEnd      
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-sync-04.kt).
-{:.note}
+>
+{style="note"}
 
 <!--- TEST ARBITRARY_TIME
 Completed 100000 actions in xxx ms
@@ -272,8 +257,6 @@ Counter = 100000
 下面的示例程序就是这样做的, 它在单一线程的上下文中运行每个协程.
 
 <!--- CLEAR -->
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -309,11 +292,11 @@ fun main() = runBlocking {
 }
 //sampleEnd     
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-sync-05.kt).
-{:.note}
+>
+{style="note"}
 
 <!--- TEST ARBITRARY_TIME
 Completed 100000 actions in xxx ms
@@ -333,8 +316,6 @@ Counter = 100000
 还有一个扩展函数 [withLock], 它用非常便利的方式实现 `mutex.lock(); try { ... } finally { mutex.unlock() }` 模式:
 
 <!--- CLEAR -->
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -373,11 +354,11 @@ fun main() = runBlocking {
 }
 //sampleEnd    
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-sync-06.kt).
-{:.note}
+>
+{style="note"}
 
 <!--- TEST ARBITRARY_TIME
 Completed 100000 actions in xxx ms

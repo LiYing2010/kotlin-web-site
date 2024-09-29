@@ -1,8 +1,6 @@
----
-type: doc
-layout: reference
-category: "Native"
-title: "Gradle 插件"
+[//]: # (title: Gradle 插件)
+
+最终更新: %latestDocDate%
 ---
 
 

@@ -1,17 +1,11 @@
+[//]: # (title: 并发(Concurrency)概述)
 
----
-type: doc
-layout: reference
-title: "并发(Concurrency)概述"
----
-
-# 并发(Concurrency)概述
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 > 本章描述的是旧的内存管理器的功能特性.
 > 从 Kotlin 1.7.20 开始会默认启用新的内存管理器, 详情请参见 [Kotlin/Native 内存管理](../native/native-memory-manager.html).
-{:.note}
+>
+{style="note"}
 
 当你的开发经验从 Android 扩展到 Kotlin Multiplatform Mobile 时, 你在 iOS 中将会遇到不同的状态和并发模型.
 这是一种 Kotlin/Native 模型, 可以将 Kotlin 代码编译为脱离虚拟机运行的原生的二进制, 比如, 能够在 iOS 上运行. 

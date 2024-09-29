@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Coroutine"
-title: "教程 - 协程与通道(Channel)"
----
+[//]: # (title: 教程 - 协程与通道(Channel))
 
-# 教程 - 协程与通道(Channel)
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 In this tutorial, you'll learn how to use coroutines in IntelliJ IDEA to perform network requests without blocking the
 underlying thread or callbacks.

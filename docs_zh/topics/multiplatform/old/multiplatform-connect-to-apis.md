@@ -1,17 +1,12 @@
----
-type: doc
-layout: reference
-title: "连接平台相关的 API"
----
+[//]: # (title: 连接平台相关的 API)
 
-# 连接平台相关的 API
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 > `expect`/`actual` 功能处于 [Beta](../../components-stability.html) 阶段.
 > 这个功能已经基本稳定, 但将来可能需要进行一些手动的源代码迁移工作.
 > 我们会尽力减少你需要进行的代码变更.
-{:.warning}
+> 
+{style="warning"}
 
 如果你正在开发跨平台应用程序, 需要访问某个实现了你所需要功能的平台相关 API,
 (比如, [生成 UUID](#generate-a-uuid))
@@ -31,7 +26,8 @@ IDE 提供了工具帮助你创建缺少的实际声明.
 >
 > 请不要滥用预期声明和实际声明 – 有些情况下, 使用 [接口](../../interfaces.html) 可能是更好的选择,
 > 因为它更加灵活, 而且更易于测试.
-{:.note}
+> 
+{style="note"}
 
 详情请参见 [添加平台相关库的依赖项](../multiplatform-add-dependencies.html).
 

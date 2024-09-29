@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Native"
-title: "Kotlin/Native 中的并发"
----
+[//]: # (title: Kotlin/Native 中的并发)
 
-## Kotlin/Native 中的并发
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin/Native 平台不鼓励使用经典的面向线程的并发模型, 包括互斥代码段, 以及有条件的变量,
 因为这种模型易于出错, 可靠性差.

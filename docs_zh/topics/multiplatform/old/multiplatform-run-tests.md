@@ -1,12 +1,6 @@
----
-type: doc
-layout: reference
-title: "为 Kotlin Multiplatform 运行测试"
----
+[//]: # (title: 为 Kotlin Multiplatform 运行测试)
 
-# 为 Kotlin Multiplatform 运行测试
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin 默认支持对 JVM, JS, Android, Linux, Windows, macOS 以及 iOS, watchOS, 和 tvOS 模拟器运行测试程序.
 要对其他 Kotlin/Native 编译目标运行测试程序, 你需要在适当的环境, 模拟器, 或测试框架中手动进行配置.

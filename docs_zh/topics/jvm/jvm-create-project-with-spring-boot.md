@@ -1,51 +1,18 @@
----
-type: doc
-layout: reference
-category:
-title: "使用 Kotlin 创建 Spring Boot 项目"
----
+[//]: # (title: 使用 Kotlin 创建 Spring Boot 项目)
 
-# 使用 Kotlin 创建 Spring Boot 项目
-[//]: # (title: Create a Spring Boot project with Kotlin)
-[//]: # (description: Create a Spring Boot application with Kotlin using IntelliJ IDEA.)
+最终更新: %latestDocDate%
 
-最终更新: {{ site.data.releases.latestDocDate }}
-
-<table style="border-style: solid; border-color: 252528">
-    <tr style="border: none">
-        <td>
-            这是 <strong>Spring Boot 和 Kotlin 入门</strong> 教程的第 1 部分:
-        </td>
-    </tr>
-    <tr>
-        <td>
-        <div style="display: block">
-            <div style="vertical-align: middle; display: inline-flex">
-                <img src="/assets/docs/images/icons/icon-1.svg" alt="第 1 步" width="20"/> &nbsp;
-                <strong>使用 Kotlin 创建 Spring Boot 项目</strong>
-            </div>
-            <br/>
-
-            <div style="vertical-align: middle; display: inline-flex">
-                <img src="/assets/docs/images/icons/icon-2-todo.svg" alt="第 2 步" width="20"/> &nbsp;
-                向 Spring Boot 项目添加数据类
-            </div>
-            <br/>
-    
-            <div style="vertical-align: middle; display: inline-flex">
-                <img src="/assets/docs/images/icons/icon-3-todo.svg" alt="第 3 步" width="20"/> &nbsp;
-                为 Spring Boot 项目添加数据库支持
-            </div>
-            <br/>
-    
-            <div style="vertical-align: middle; display: inline-flex">
-                <img src="/assets/docs/images/icons/icon-4-todo.svg" alt="第 4 步" width="20"/> &nbsp;
-                使用 Spring Data CrudRepository 进行数据库访问
-            </div>
-        </div>
-        </td>
-    </tr>
-</table>
+<tldr>
+    <p>
+        这是 <strong>Spring Boot 和 Kotlin 入门</strong> 教程的第 1 部分:
+    </p><br/>
+    <p>
+        <img src="icon-1.svg" width="20" alt="第 1 步"/> <strong>使用 Kotlin 创建 Spring Boot 项目</strong> <br/>
+        <img src="icon-2-todo.svg" width="20" alt="第 2 步"/> 向 Spring Boot 项目添加数据类 <br/>
+        <img src="icon-3-todo.svg" width="20" alt="第 3 步"/> 为 Spring Boot 项目添加数据库支持<br/>
+        <img src="icon-4-todo.svg" width="20" alt="第 4 步"/> 使用 Spring Data CrudRepository 进行数据库访问<br/>
+    </p>
+</tldr>
 
 本教程的第 1 部分向你演示如何在 IntelliJ IDEA 中使用 Project Wizard 创建一个 Spring Boot 项目.
 
@@ -54,17 +21,19 @@ title: "使用 Kotlin 创建 Spring Boot 项目"
 下载并安装 [IntelliJ IDEA Ultimate Edition](https://www.jetbrains.com/idea/download/index.html) 的最新版.
 
 > 如果你使用的是 IntelliJ IDEA Community Edition 或其他 IDE, 你可以使用 [基于 web 页面的项目生成器](https://start.spring.io) 来生成 Spring Boot 项目.
-{:.note}
+>
+{style="note"}
 
-## 创建 Spring Boot 项目
+## 创建 Spring Boot 项目 {id="create-a-spring-boot-project"}
 
 使用 IntelliJ IDEA Ultimate Edition 中的 Project Wizard, 创建新的使用 Kotlin 的 Spring Boot 项目:
 
 > 你也可以使用 [IntelliJ IDEA 和 Spring Boot plugin](https://www.jetbrains.com/help/idea/spring-boot.html) 来创建新项目.
-{:.note}
+>
+{style="note"}
 
-1. 在 IntelliJ IDEA 中, 选择 **File** \| **New** \| **Project**. 
-2. 在左侧面板中, 选择 **New Project** \| **Spring Initializr**.
+1. 在 IntelliJ IDEA 中, 选择 **File** | **New** | **Project**. 
+2. 在左侧面板中, 选择 **New Project** | **Spring Initializr**.
 3. 在 Project Wizard 窗口中, 指定以下项目和选项:
    
    * **Name**: demo
@@ -73,11 +42,12 @@ title: "使用 Kotlin 创建 Spring Boot 项目"
    * **JDK**: Java 17 JDK
      
      > 本教程使用 **Amazon Corretto version 18**.
-     {:.note}
+     >
+     {style="note"}
    
    * **Java**: 17
 
-   <img src="/assets/docs/images/spring-boot/create-spring-boot-project.png" alt="创建 Spring Boot 项目" width="800"/>
+   ![创建 Spring Boot 项目](create-spring-boot-project.png){width=800}
 
 4. 确认填写了所有的项目, 然后点击 **Next**.
 
@@ -87,22 +57,23 @@ title: "使用 Kotlin 创建 Spring Boot 项目"
    * **SQL / Spring Data JDBC**
    * **SQL / H2 Database**
 
-   <img src="/assets/docs/images/spring-boot/set-up-spring-boot-project.png" alt="设置 Spring Boot 项目" width="800"/>
+   ![设置 Spring Boot 项目](set-up-spring-boot-project.png){width=800}
 
 6. 点击 **Create**, 生成并设置项目.
 
    > IDE 将会生成并打开新的项目. 可能需要一些时间来下载并导入项目的依赖项.
-   {:.tip}
+   >
+   {style="tip"}
 
 7. 之后, 你可以在 **Project view** 中看到下面的项目结构:
 
-   <img src="/assets/docs/images/spring-boot/spring-boot-project-view.png" alt="设置 Spring Boot 项目" width="400"/>
+   ![设置 Spring Boot 项目](spring-boot-project-view.png){width=400}
 
    生成的 Gradle 项目符合 Maven 的标注目录布局:
    * 在 `main/kotlin` 文件夹下是属于应用程序的包和类.
    * 应用程序的入口点是 `DemoApplication.kt` 文件的 `main()` 方法.
 
-## 查看项目的 Gradle 构建文件
+## 查看项目的 Gradle 构建文件 {id="explore-the-project-gradle-build-file" collapsible="true"}
 
 打开 `build.gradle.kts` 文件: 它是 Gradle Kotlin 构建脚本, 包含应用程序需要的依赖项目列表.
 
@@ -186,33 +157,52 @@ fun main(args: Array<String>) {
 }
 ```
 
-### 声明类 – DemoApplication 类
-在包声明和 import 语句之后, 你可以看到第一个类声明, `class DemoApplication`.
-
-在 Kotlin 中, 如果一个类不包含任何成员 (属性或函数), 你可以直接省略掉类的主体部分 (`{}`).
-
-### @SpringBootApplication 注解
-[`@SpringBootApplication 注解`](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.using-the-springbootapplication-annotation)
-在 Spring Boot 应用程序中是一个便利的注解.
-
-它会启用 Spring Boot 的 [自动配置](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.auto-configuration), 
-[组件扫描](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/ComponentScan.html),
-而且可以对 "应用程序类" 定义额外的配置.
-
-
-### 程序入口点 – main()
-[`main()`](../basic-syntax.html#program-entry-point) 函数是应用程序的入口点.
-
-它声明为在 `DemoApplication` 类之外的一个 [顶层函数](../functions.html#function-scope).
-`main()` 函数调用 Spring 的 `runApplication(*args)` 函数, 使用 Spring Framework 来启动应用程序.
-
-### 可变参数 – args: Array&lt;String&gt;
-查看 `runApplication()` 函数的声明, 你会看到函数的参数标记了 [`vararg`](../functions.html#variable-number-of-arguments-varargs) 修饰符: `vararg args: String`.
-这表示, 你可以向这个函数传递可变数量的字符串参数.
-
-### 展开(spread)操作符 – (*args)
-`args` 是 `main()` 函数的参数, 它声明为一个字符串数组.
-由于存在的是字符串的数组, 而你想要将它的内容传递给函数, 请使用展开(spread)操作符 (在数组之前加上星号 `*`).
+<deflist collapsible="true">
+   <def title="声明类 – DemoApplication 类">
+      <p>
+        在包声明和 import 语句之后, 你可以看到第一个类声明, <code>class DemoApplication</code>.
+      </p>
+      <p>
+        在 Kotlin 中, 如果一个类不包含任何成员 (属性或函数), 你可以直接省略掉类的主体部分 (<code>{}</code>).
+      </p>
+   </def>
+   <def title="@SpringBootApplication 注解">
+      <p>
+        <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.using-the-springbootapplication-annotation"><code>@SpringBootApplication 注解</code></a>
+        在 Spring Boot 应用程序中是一个很方便的注解.
+        它会启用 Spring Boot 的
+        <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.auto-configuration">自动配置</a>,
+        <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/ComponentScan.html">组件扫描</a>,
+        而且可以对 "应用程序类" 定义额外的配置.".
+      </p>
+   </def>
+   <def title="程序入口点 – main()">
+      <p>
+        <a href="basic-syntax.md#program-entry-point"><code>main()</code></a> 函数是应用程序的入口点.
+      </p>
+      <p>
+        它声明为在 <code>DemoApplication</code> 类之外的一个
+        <a href="functions.md#function-scope">顶层函数</a>.
+        <code>main()</code> 函数调用 Spring 的 <code>runApplication(*args)</code> 函数,
+        使用 Spring Framework 来启动应用程序.
+      </p>
+   </def>
+   <def title="可变参数 – args: Array&lt;String&gt;">
+      <p>
+        查看 <code>runApplication()</code> 函数的声明, 你会看到函数的参数标记了
+        <a href="functions.md#variable-number-of-arguments-varargs"><code>vararg</code> 修饰符</a>:
+        <code>vararg args: String</code>.
+        这表示, 你可以向这个函数传递可变数量的字符串参数.
+      </p>
+   </def>
+   <def title="展开(spread)操作符 – (*args)">
+      <p>
+        <code>args</code> 是 <code>main()</code> 函数的参数, 它声明为一个字符串数组.
+        由于存在的是字符串的数组, 而你想要将它的内容传递给函数, 
+        请使用展开(spread)操作符 (在数组之前加上星号 <code>*</code>).
+      </p>
+   </def>
+</deflist>
 
 
 ## 创建 Controller
@@ -230,42 +220,63 @@ class MessageController {
 }
 ```
 
-### @RestController 注解
-你需要告诉 Spring, `MessageController` 是一个 REST Controller, 因此你应该对它标注 `@RestController` 注解.
-
-这个注解表示这个类将会被组件扫描识别, 因为它和我们的 `DemoApplication` 类处在相同的包内.
-
-### @GetMapping 注解
-`@GetMapping` 标注 REST Controller 的函数, 它实现了与 HTTP GET 调用对应的 endpoint:
-
-```kotlin
-@GetMapping("/")
-fun index(@RequestParam("name") name: String) = "Hello, $name!"
-```
-
-### @RequestParam 注解
-函数参数 `name` 标注了 `@RequestParam` 注解. 这个注解表示方法参数应该绑定到一个 Web 请求参数.
-
-因此, 如果你访问应用程序的根路径, 并提供一个请求名为 "name" 的参数, 例如 `/?name=<your-value>`,
-这个参数值将会被用做调用 `index()` 函数时的参数.
-
-### 单表达式函数 – index()
-由于 `index()` 函数只包含一条语句, 你可以将它声明为一个 [单表达式函数](../functions.html#single-expression-functions).
-
-意思就是说, 大括号可以省略, 函数体直接放在等号 `=` 之后.
-
-### 函数返回值的类型推断
-`index()` 函数没有明确声明返回类型. 编译器会查看等号 `=` 右侧语句的结果, 以此推断返回类型.
-
-`Hello, $name!` 表达式的类型是 `String`, 因此函数的返回类型也是 `String`.
-
-### 字符串模板 – $name
-`Hello, $name!` 表达式在 Kotlin 中称为 [*字符串模板*](../strings.html#string-templates).
-
-字符串模板是字符串的字面值, 其中包含内嵌的表达式.
-
-对于字符串的拼接操作, 这是一个很方便的替代方法.
-
+<deflist collapsible="true">
+   <def title="@RestController 注解">
+      <p>
+        你需要告诉 Spring, <code>MessageController</code> 是一个 REST Controller, 因此你应该对它标注 <code>@RestController</code> 注解.
+      </p>
+      <p>
+        这个注解表示这个类将会被组件扫描识别, 因为它和我们的 <code>DemoApplication</code> 类处在相同的包内.
+      </p>
+   </def>
+   <def title="@GetMapping 注解">
+      <p>
+        <code>@GetMapping</code> 标注 REST Controller 的函数, 它实现了与 HTTP GET 调用对应的 endpoint:
+      </p>
+      <code style="block" lang="kotlin">
+      @GetMapping("/")
+      fun index(@RequestParam("name") name: String) = "Hello, $name!"
+      </code>
+   </def>
+   <def title="@RequestParam 注解">
+      <p>
+        函数参数 <code>name</code> 标注了 <code>@RequestParam</code> 注解. 这个注解表示方法参数应该绑定到一个 Web 请求参数.
+      </p>
+      <p>
+        因此, 如果你访问应用程序的根路径, 并提供一个请求名为 "name" 的参数, 例如 <code>/?name=&lt;your-value&gt;</code>,
+        这个参数值将会被用做调用 <code>index()</code> 函数时的参数.
+      </p>
+   </def>
+   <def title="单表达式函数 – index()">
+      <p>
+        由于 <code>index()</code> 函数只包含一条语句, 你可以将它声明为一个
+        <a href="functions.md#single-expression-functions">单表达式函数</a>.
+      </p>
+      <p>
+        意思就是说, 大括号可以省略, 函数体直接放在等号 <code>=</code> 之后.
+      </p>
+   </def>
+   <def title="函数返回值的类型推断">
+      <p>
+        <code>index()</code> 函数没有明确声明返回类型. 编译器会查看等号 <code>=</code> 右侧语句的结果, 以此推断返回类型.
+      </p>
+      <p>
+        <code>Hello, $name!</code> 表达式的类型是 <code>String</code>, 因此函数的返回类型也是 <code>String</code>.
+      </p>
+   </def>
+   <def title="字符串模板 – $name">
+      <p>
+        <code>Hello, $name!</code> 表达式在 Kotlin 中称为
+        <a href="strings.md#string-templates"><i>字符串模板</i></a>.
+      </p>
+      <p>
+        字符串模板是字符串的字面值, 其中包含内嵌的表达式.
+      </p>
+      <p>
+        对于字符串的拼接操作, 这是一个很方便的替代方法.
+      </p>
+   </def>
+</deflist>
 
 > 这些 Spring 注解需要额外的 import 语句:
 >
@@ -274,7 +285,8 @@ fun index(@RequestParam("name") name: String) = "Hello, $name!"
 > import org.springframework.web.bind.annotation.RequestParam
 > import org.springframework.web.bind.annotation.RestController
 > ```
-{:.note}
+>
+{style="note"}
 
 下面是 `DemoApplication.kt` 的完整代码:
 
@@ -300,6 +312,7 @@ class MessageController {
     fun index(@RequestParam("name") name: String) = "Hello, $name!"
 }
 ```
+{collapsible="true"}
 
 ## 运行应用程序
 
@@ -307,10 +320,11 @@ Spring 应用程序现在可以运行了:
 
 1. 点击 `main()` 方法侧栏中的绿色 Run 图标:
 
-    <img src="/assets/docs/images/spring-boot/run-spring-boot-application.png" alt="运行 Spring Boot 应用程序" width="706"/>
+    ![运行 Spring Boot 应用程序](run-spring-boot-application.png){width=706}
     
     > 你也可以在终端窗口运行 `./gradlew bootRun` 命令.
-    {:.tip}
+    >
+    {style="tip"}
 
     这样会在你的计算机上启动本地服务器.
 
@@ -322,10 +336,10 @@ Spring 应用程序现在可以运行了:
 
     你会看到输出的结果 "Hello, John!":
 
-    <img src="/assets/docs/images/spring-boot/spring-application-response.png" alt="Spring 应用程序的应答" width="706"/>
+    ![Spring 应用程序的应答](spring-application-response.png){width=706}
 
 ## 下一步
 
 本教程的下一部分中, 你将学习 Kotlin 数据类, 以及如何在你的应用程序中使用.
 
-**[阅读下一章](jvm-spring-boot-add-data-class.html)**
+**[阅读下一章](jvm-spring-boot-add-data-class.md)**

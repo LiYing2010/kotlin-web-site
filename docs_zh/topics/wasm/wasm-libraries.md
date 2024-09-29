@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "向 Kotlin/Wasm 项目添加 Kotlin 库依赖项"
----
+[//]: # (title: 向 Kotlin/Wasm 项目添加 Kotlin 库依赖项)
 
-# 向 Kotlin/Wasm 项目添加 Kotlin 库的依赖项
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 你可以在 Kotlin/Wasm 中使用最流行的 Kotlin 库, 这个功能开箱即用, 不需要额外的设置.
 
@@ -37,7 +30,7 @@ repositories {
 
 ## 在你的项目中启用库
 
-要设置对一个库的依赖项, 例如 [`kotlinx.serilization`](../serialization.html) 和 [`kotlinx.coroutines`](../coroutines/coroutines-guide.html),
+要设置对一个库的依赖项, 例如 [`kotlinx.serilization`](serialization.md) 和 [`kotlinx.coroutines`](coroutines-guide.md),
 请更新你的 `build.gradle.kts` 文件:
 
 ```kotlin
@@ -61,4 +54,4 @@ kotlin {
 
 ## 下一步做什么?
 
-[查看 Kotlin/Wasm 与 JavaScript 的交互能力](wasm-js-interop.html)
+[查看 Kotlin/Wasm 与 JavaScript 的交互能力](wasm-js-interop.md)

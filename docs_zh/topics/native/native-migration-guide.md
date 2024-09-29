@@ -1,15 +1,8 @@
----
-type: doc
-layout: reference
-category: "Native"
-title: "迁移到新的内存管理器"
----
+[//]: # (title: 迁移到新的内存管理器)
 
-# 迁移到新的内存管理器
+最终更新: %latestDocDate%
 
-最终更新: {{ site.data.releases.latestDocDate }}
-
-本向导会对新的 [Kotlin/Native 内存管理器](native-memory-manager.html) 与旧的内存管理器进行比较, 并介绍如何迁移你的项目.
+本向导会对新的 [Kotlin/Native 内存管理器](native-memory-manager.md) 与旧的内存管理器进行比较, 并介绍如何迁移你的项目.
 
 新内存管理器最重要的变化是解除了对象共享的限制.
 在线程之间共享对象时, 你不需要冻结对象, 具体来说:
@@ -36,45 +29,38 @@ title: "迁移到新的内存管理器"
 ## 更新 Kotlin
 
 从 Kotlin 1.7.20 开始会默认启用新的 Kotlin/Native 内存管理器.
-请检查 Kotlin 版本, 如果需要的话, 请 [更新到最新版](releases.html#update-to-a-new-release).
+请检查 Kotlin 版本, 如果需要的话, 请 [更新到最新版](releases.md#update-to-a-new-release).
 
 ## 更新依赖项
 
-<table>
-<tr>
-  <td>
-    kotlinx.coroutines
-  </td>
-  <td>
-    <p>更新到 1.6.0 或更高版本. 不要使用带 <code>native-mt</code> 后缀的.</p>
-    <p>关于新内存管理器, 还有一些需要注意的问题:</p>
-    <list>
-        <li>所有的基本元素(通道(Channel), 数据流(Flow), 协程(Coroutine)) 都可以跨越 Worker 边界工作, 因为不再需要冻结.</li>
-        <li><code>Dispatchers.Default</code> 在 Linux 和 Windows 上通过 Worker 池来实现, 在 Apple 目标平台上则通过全局队列来实现.</li>
-        <li>可以使用 <code>newSingleThreadContext</code> 来创建依靠单个 Worker 实现的协程派发器.</li>
-        <li>可以使用 <code>newFixedThreadPoolContext</code> 来创建依靠 <code>N</code> 个 Worker 的池实现的协程派发器.</li>
-        <li><code>Dispatchers.Main</code> 在 Darwin 上依靠主队列实现, 在其它平台依靠独立的 Worker 来实现.</li>
-    </list>
-  </td>
-</tr>
-<tr>
-  <td>
-    Ktor
-  </td>
-  <td>
-    更新到 2.0 或更高版本.
-  </td>
-</tr>
-<tr>
-  <td>
-    其他依赖项
-  </td>
-  <td>
-    <p>大多数库应该能够平滑升级, 但可能存在少量例外.</p>
-    <p>请确认你的依赖项更新到了最新版本, 针对旧的和新的内存管理器的库版本没有差别.</p>
-  </td>
-</tr>
-</table>
+<deflist style="medium">
+    <def title="kotlinx.coroutines">
+        <p>
+            更新到 1.6.0 或更高版本. 不要使用带 <code>native-mt</code> 后缀的版本.
+        </p>
+        <p>
+            关于新内存管理器, 还有一些需要注意的问题:
+        </p>
+        <list>
+            <li>所有的基本元素(通道(Channel), 数据流(Flow), 协程(Coroutine)) 都可以跨越 Worker 边界工作, 因为不再需要冻结.</li>
+            <li><code>Dispatchers.Default</code> 在 Linux 和 Windows 上通过 Worker 池来实现, 在 Apple 目标平台上则通过全局队列来实现.</li>
+            <li>可以使用 <code>newSingleThreadContext</code> 来创建依靠单个 Worker 实现的协程派发器.</li>
+            <li>可以使用 <code>newFixedThreadPoolContext</code> 来创建依靠 <code>N</code> 个 Worker 的池实现的协程派发器.</li>
+            <li><code>Dispatchers.Main</code> 在 Darwin 上依靠主队列实现, 在其它平台依靠独立的 Worker 来实现.</li>
+        </list>
+    </def>
+    <def title="Ktor">
+        更新到 2.0 或更高版本.
+    </def>
+    <def title="其他依赖项">
+        <p>
+            大多数库应该能够平滑升级, 但可能存在少量例外.
+        </p>
+        <p>
+            请确认你的依赖项更新到了最新版本, 针对旧的和新的内存管理器的库版本没有差别.
+        </p>
+    </def>
+</deflist>
 
 ## 更新你的代码
 
@@ -95,7 +81,7 @@ title: "迁移到新的内存管理器"
 | [`WorkerBoundReference<out T : Any>` 类](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/-worker-bound-reference/) | 请直接使用 `T`.                                                                                                                   |
 | [`DetachedObjectGraph<T>` 类](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/-detached-object-graph/)             | 请直接使用 `T`. 要通过 C 代码交互传递值, 请使用 [StableRef 类](https://kotlinlang.org/api/latest/jvm/stdlib/kotlinx.cinterop/-stable-ref/). |
 
-## 同时支持新的和旧的内存管理器
+## 同时支持新的和旧的内存管理器 {id="support-both-new-and-legacy-memory-managers"}
 
 如果你是库的作者, 需要维护你的代码支持旧的内存管理器, 或者在新的内存管理器出现问题时希望能够回退到旧的内存管理器,
 你可以临时的支持新的和旧的内存管理器.
@@ -106,9 +92,9 @@ title: "迁移到新的内存管理器"
 * 在 Gradle 中, 对所有的 Kotlin 源代码集添加 `languageSettings.optIn("kotlin.native.FreezingIsDeprecated")`.
 * 传递编译器选项 `-opt-in=kotlin.native.FreezingIsDeprecated`.
 
-详情请参见 [明确要求使用者同意的功能](../opt-in-requirements.html).
+详情请参见 [明确要求使用者同意的功能](opt-in-requirements.md).
 
 ## 下一步做什么
 
-* [关于新的内存管理器](native-memory-manager.html)
-* [配置与 iOS 的集成](native-ios-integration.html)
+* [关于新的内存管理器](native-memory-manager.md)
+* [配置与 iOS 的集成](native-ios-integration.md)

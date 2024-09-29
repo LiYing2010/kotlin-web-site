@@ -1,34 +1,29 @@
----
-type: doc
-layout: reference
-category: "Native"
-title: "与 Swift/Objective-C 代码交互"
----
+[//]: # (title: 与 Swift/Objective-C 代码交互)
 
-# 与 Swift/Objective-C 代码交互
+最终更新: %latestDocDate%
 
-最终更新: {{ site.data.releases.latestDocDate }}
-
-> Objective-C 库的导入是 [实验性功能](../components-stability.html#stability-levels-explained).
+> Objective-C 库的导入是 [实验性功能](components-stability.md#stability-levels-explained).
 > `cinterop` 工具从 Objective-C 库生成的所有 Kotlin 声明都应该标注 `@ExperimentalForeignApi` 注解.
 >
 > Kotlin/Native 自带的原生平台库 (例如 Foundation, UIKit, 和 POSIX),
-{:.warning}
+> 只对一部分 API 需要使用者明确同意(Opt-in). 对于这样的情况, 你会在 IDE 中看到警告信息.
+>
+{style="warning"}
 
 本章介绍 Kotlin/Native 与 Swift/Objective-C 的交互能力的一些细节.
 
-关于 iOS 和 Kotlin 之间的内存管理, 详情请参见 [与 iOS 集成](native-ios-integration.html).
+关于 iOS 和 Kotlin 之间的内存管理, 详情请参见 [与 iOS 集成](native-ios-integration.md).
 
-## 使用方法
+## 使用方法 {id="usage"}
 
 Kotlin/Native 提供了与 Objective-C 的双向交互能力.
 Objective-C 框架和库可以在 Kotlin 代码中使用, 只需要正确地导入到编译环境中 (系统框架已经默认导入了).
-参见 [编译配置](../multiplatform/multiplatform-configure-compilations.html#configure-interop-with-native-languages).
+参见 [编译配置](multiplatform-configure-compilations.md#configure-interop-with-native-languages).
 Swift 库也可以在 Kotlin 代码中使用, 只需要将它的 API 用 `@objc` 导出为 Objective-C.
 纯 Swift 模块目前还不支持.
 
 Kotlin 模块可以在 Swift/Objective-C 代码中使用, 只需要编译成一个框架
-(参见 [如何声明二进制文件](../multiplatform/multiplatform-build-native-binaries.html#declare-binaries)).
+(参见 [如何声明二进制文件](multiplatform-build-native-binaries.md#declare-binaries)).
 我们提供了一个例子,
 请参见 [Kotlin Multiplatform Mobile 示例程序](https://github.com/Kotlin/kmm-basic-sample).
 
@@ -47,8 +42,9 @@ Kotlin 模块可以在 Swift/Objective-C 代码中使用, 只需要编译成一�
   关于如何在 Swift 中润色(Refine) Objective-C 声明,
   详情请参见 [Apple 官方文档](https://developer.apple.com/documentation/swift/improving-objective-c-api-declarations-for-swift).
 
-> 使用这些注解需要 [使用者同意(Opt-in)](../opt-in-requirements.html).
-{:.note}
+> 使用这些注解需要 [使用者同意(Opt-in)](opt-in-requirements.md).
+>
+{style="note"}
 
 ## 映射
 
@@ -83,7 +79,7 @@ Kotlin 模块可以在 Swift/Objective-C 代码中使用, 只需要编译成一�
 | Function 类型            | Function 类型                   | Block pointer 类型          | [Function 类型](#function-types)                                                     |
 | 内联类(Inline class)      | 不支持                           | 不支持                       | [不支持的特性](#unsupported)                                                             |
 
-### 名称翻译
+### 名称翻译 {id="name-translation"}
 
 Objective-C 类导入 Kotlin 时使用它们原来的名称.
 Protocol 导入 Kotlin 后会变成接口, 并使用 `Protocol` 作为名称后缀,
@@ -113,10 +109,11 @@ let array = MySwiftArray()
 let index = array.index(of: "element")
 ```
 
-> 使用这个注解需要 [使用者同意(Opt-in)](../opt-in-requirements.html).
-{:.note}
+> 使用这个注解需要 [使用者同意(Opt-in)](opt-in-requirements.md).
+>
+{style="note"}
 
-### 初始化器(Initializer)
+### 初始化器(Initializer) {id="initializers"}
 
 Swift/Objective-C 初始化器导入 Kotlin 时会成为构造器.
 对于 Objective-C category 中声明的初始化器, 或声明为 Swift extension 的初始化器,
@@ -124,12 +121,12 @@ Swift/Objective-C 初始化器导入 Kotlin 时会成为构造器.
 
 Kotlin 构造器导入 Swift/Objective-C 时会成为初始化器.
 
-### 设值方法(Setter)
+### 设值方法(Setter) {id="setters"}
 
 Objective-C 中可写的属性如果覆盖超类中的只读属性, 对于 `foo` 属性会表示为 `setFoo()` 方法.
 对于一个协议(protocol)的只读属性, 如果实现为可变的属性, 那么也是同样的规则.
 
-### 顶层函数和属性
+### 顶层函数和属性 {id="top-level-functions-and-properties"}
 
 Kotlin 的顶层函数和属性, 可以通过某个特殊类的成员来访问.
 每个 Kotlin 源代码文件都会被翻译为一个这样的类. 比如:
@@ -147,7 +144,7 @@ fun foo() {}
 MyLibraryUtilsKt.foo()
 ```
 
-### 方法名称翻译
+### 方法名称翻译 {id="method-names-translation"}
 
 通常来说, Swift 的参数标签和 Objective-C 的 selector 会被映射为 Kotlin 的参数名称.
 但这两种概念还是存在一些语义上的区别, 因此有时 Swift/Objective-C 方法导入时可能导致 Kotlin 中的签名冲突.
@@ -172,10 +169,11 @@ player.moveTo(UP, byInches = 42)
 你可以在 Swift 或 Objective-C 中指定一个更加符合使用习惯的名称, 而不是对 Kotlin 声明自动重命名.
 请使用 `@ObjCName` 注解, 指示 Kotlin 编译器对方法或参数使用自定义的 Objective-C 和 Swift 名称.
 
-> 使用这个注解需要 [使用者同意(Opt-in)](../opt-in-requirements.html).
-{:.note}
+> 使用这个注解需要 [使用者同意(Opt-in)](opt-in-requirements.md).
+>
+{style="note"}
 
-### 错误与异常
+### 错误与异常 {id="errors-and-exceptions"}
 
 Kotlin 中不存在受控异常(Checked Exception)的概念, 所有的 Kotlin 异常都是不受控的.
 Swift 则只有受控错误. 因此如果 Swift 或 Objective-C 的代码调用一个 Kotlin 方法,
@@ -197,7 +195,7 @@ Swift 则只有受控错误. 因此如果 Swift 或 Objective-C 的代码调用�
 注意, 反过来的翻译目前还未实现:
 Swift/Objective-C 中抛出 error 的方法, 导入 Kotlin 时不会成为抛出异常的方法.
 
-### 枚举类
+### 枚举类 {id="enums"}
 
 Kotlin 枚举类会被导入为 Objective-C 中的 `@interface`, 以及 Swift 中的 `class`.
 这些数据结构拥有与各个枚举值相对应的属性. 对于下面的 Kotlin 代码:
@@ -229,14 +227,15 @@ switch color {
 }
 ```
 
-### 挂起函数
+### 挂起函数 {id="suspending-functions"}
 
-> 从 Swift 代码中 以 `async` 方式调用 `suspend`函数是 [实验性功能](../components-stability.html).
+> 从 Swift 代码中 以 `async` 方式调用 `suspend`函数是 [实验性功能](components-stability.md).
 > 它随时有可能变更或被删除. 请注意, 只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-47610) 提供你的反馈意见.
-{:.warning}
+>
+{style="warning"}
 
-Kotlin 的 [挂起函数](../coroutines/coroutines-basics.html) (`suspend`) 在生成的 Objective-C 头文件中表达为带有回调的函数,
+Kotlin 的 [挂起函数](coroutines-basics.md) (`suspend`) 在生成的 Objective-C 头文件中表达为带有回调的函数,
 或用 Swift/Objective-C 术语称为 [completion handlers](https://developer.apple.com/documentation/swift/calling_objective-c_apis_asynchronously).
 
 从 Swift 5.5 开始, Kotlin 的 `suspend` 函数也可以从 Swift 代码中以 `async` 函数的方式调用,
@@ -246,7 +245,7 @@ Kotlin 的 [挂起函数](../coroutines/coroutines-basics.html) (`suspend`) 在�
 
 更多详情请参见 [关于 `async`/`await` 机制的 Swift 文档](https://docs.swift.org/swift-book/LanguageGuide/Concurrency.html).
 
-### 扩展与 Category 成员
+### 扩展与 Category 成员 {id="extensions-and-category-members"}
 
 Objective-C Category 的成员, 以及 Swift extension 的成员, 导入 Kotlin 时通常会变成扩展函数.
 因此这些声明在 Kotlin 中不能被覆盖.
@@ -256,7 +255,8 @@ Objective-C Category 的成员, 以及 Swift extension 的成员, 导入 Kotlin 
 > 从 Kotlin 1.8.20 开始, 
 > 在 NSView 类 (来自 AppKit 框架) 或 UIView 类 (来自 UIKit 框架) 的相同的头文件中声明的 Category 的成员, 会被导入为这些类的成员.
 > 因此你可以覆盖从 NSView 或 UIView 继承的子类的方法.
-{:.note}
+>
+{style="note"}
 
 对 "通常的" Kotlin 类的 Kotlin 扩展, 导入 Swift 和 Objective-C 后, 分别会成为扩展和 category 成员.
 对其他类型的 Kotlin 扩展, 会被当作 [顶层声明](#top-level-functions-and-properties) 处理, 带有额外的接受者参数.
@@ -271,7 +271,7 @@ Objective-C Category 的成员, 以及 Swift extension 的成员, 导入 Kotlin 
 * Kotlin 函数类型, 及其子类型
 * Objective-C 类和协议(protocol)
 
-### Kotlin 单子(singleton)
+### Kotlin 单子(singleton) {id="kotlin-singletons"}
 
 Kotlin 单子(singleton) (通过 `object` 声明产生, 包括 `companion object`) 导入 Swift/Objective-C 会成为一个类,
 但它只有唯一一个实例.
@@ -302,7 +302,8 @@ MyClass.Companion.shared
 ```
 
 > 通过 Objective-C 的 `[MySingleton mySingleton]` 和 Swift 的 `MySingleton()` 访问对象, 这个功能已被废弃.
-{:.note}
+>
+{style="note"}
 
 ### NSNumber
 
@@ -322,7 +323,7 @@ Kotlin 基本类型的装箱类会被映射为 Swift/Objective-C 中的特殊类
 Objective-C 的 `NSMutableString` 类在 Kotlin 中无法使用.
 `NSMutableString` 所有实例在传递给 Konlin 之前都会被复制一次.
 
-### 集合
+### 集合 {id="collections"}
 
 Kotlin 集合会被转换为 Swift/Objective-C 的集合类型, 对应关系请参见上表.
 Swift/Objective-C 的集合也会以同样的方式映射为 Kotlin 的集合类型, 但 `NSMutableSet` 和 `NSMutableDictionary` 除外.
@@ -333,7 +334,7 @@ Swift/Objective-C 的集合也会以同样的方式映射为 Kotlin 的集合类
 (或者在 Objective-C 中使用 `${prefix}MutableSet` 类, 其中 `prefix` 是框架名称前缀).
 对于 `MutableMap` 类型也是如此.
 
-### Function 类型
+### Function 类型 {id="function-types"}
 
 Kotlin 的函数类型对象 (比如 Lambda 表达式) 会被转换为 Swift 函数 或 Objective-C 代码段(block).
 但是, 在翻译函数和函数类型时, 对于参数类型和返回值类型的映射方法存在区别.
@@ -361,7 +362,7 @@ foo {
 }
 ```
 
-### 泛型
+### 泛型 {id="generics"}
 
 Objective-C 支持类上定义的 "轻量的泛型", 支持的功能相对有限.
 Swift 可以导入类上定义的泛型, 向编译器提供额外的类型信息.
@@ -383,7 +384,7 @@ Kotlin 和 Swift 都把可空性(Nullability)的定义作为类型信息的一�
 
 ```kotlin
 class Sample<T>() {
-  fun myVal(): T
+    fun myVal(): T
 }
 ```
 
@@ -391,7 +392,7 @@ class Sample<T>() {
 
 ```swift
 class Sample<T>() {
-  fun myVal(): T?
+    fun myVal(): T?
 }
 ```
 
@@ -402,7 +403,7 @@ class Sample<T>() {
 
 ```kotlin
 class Sample<T : Any>() {
-  fun myVal(): T
+    fun myVal(): T
 }
 ```
 
@@ -441,7 +442,7 @@ binaries.framework {
 }
 ```
 
-## 在映射的类型之间进行变换
+## 在映射的类型之间进行变换 {id="casting-between-mapped-types"}
 
 编写 Kotlin 代码时, 对象可能需要从 Kotlin 类型转换为等价的 Swift/Objective-C 类型 (或者反过来).
 这种情况下, 可以直接使用传统的 Kotlin 类型转换, 比如:
@@ -485,7 +486,8 @@ class ViewController : UIViewController {
 
 > 压制 Kotlin 签名冲突错误, 是一种临时的替代方法. 这样的情况下不能保证稳定性, 因此要小心使用.
 > 我们将会在未来的 Kotlin 发布版本中解决这个问题.
-{:.warning}
+>
+{style="warning"}
 
 Kotlin/Native 默认不会允许通过 `super(...)` 构造器来调用 Objective-C 的非指定(non-designated)初始化器.
 如果在 Objective-C 库中没有正确地标注出指定的(designated)初始化器, 那么这种限制可能会造成我们的不便.
@@ -493,18 +495,19 @@ Kotlin/Native 默认不会允许通过 `super(...)` 构造器来调用 Objective
 
 ## C 语言功能
 
-请参见 [与 C 代码交互](native-c-interop.html), 其中有一些示例程序,
+请参见 [与 C 代码交互](native-c-interop.md), 其中有一些示例程序,
 其中的库使用了某些 C 语言功能, 比如, 不安全的指针, 结构(struct), 等等.
 
 ## 将 KDoc 注释导出到生成的 Objective-C 头文件
 
-> KDoc 注释导出到生成的 Objective-C 头文件是 [实验性功能](../components-stability.html).
+> KDoc 注释导出到生成的 Objective-C 头文件是 [实验性功能](components-stability.md).
 > 它随时有可能变更或被删除.
 > 需要使用者同意(Opt-in) (详情见下文), 而且你应该只为评估目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-38600) 提供你的反馈意见.
-{:.warning}
+>
+{style="warning"}
 
-默认情况下, 在生成 Objective-C 头文件时, [KDocs](../kotlin-doc.html) 文档注释不会被翻译为头文件中对应的注释.  
+默认情况下, 在生成 Objective-C 头文件时, [KDocs](kotlin-doc.md) 文档注释不会被翻译为头文件中对应的注释.  
 例如, 以下带 KDoc 文档的 Kotlin 代码:
 
 ```kotlin
@@ -523,8 +526,8 @@ fun printSum(a: Int, b: Int) = println(a.toLong() + b)
 
 要启用 KDoc 注释导出功能, 请在你的 `build.gradle(.kts)` 添加以下编译器选项:
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlin {
@@ -534,11 +537,8 @@ kotlin {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 kotlin {
@@ -548,8 +548,8 @@ kotlin {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 这样设置之后, Objective-C 头文件将包含对应的注释:
 
@@ -566,7 +566,7 @@ kotlin {
   这个功能还是实验性功能, 因此使用这个选项编译的库可能与其他编译器版本不兼容.
 * 绝大多数 KDoc 注释会 "保持原状" 导出. 很多 KDoc 功能(例如, `@property`)不支持.
 
-## 不支持的特性
+## 不支持的特性 {id="unsupported"}
 
 Kotlin 编程语言的一些特性目前还没有映射为 Objective-C 或 Swift 中对应的特性.
 目前, 在生成的框架头文件中, 以下特性还不能正确地导出:

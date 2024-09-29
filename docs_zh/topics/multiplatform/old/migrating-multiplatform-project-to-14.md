@@ -1,12 +1,6 @@
----
-type: doc
-layout: reference
-title: "将跨平台项目迁移到 Kotlin 1.4.0"
----
+[//]: # (title: 将跨平台项目迁移到 Kotlin 1.4.0)
 
-# 将跨平台项目迁移到 Kotlin 1.4.0
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 在 Kotlin 1.4.0 中, 跨平台程序开发工具有了很多新功能特性和改进.
 其中一些对既有的项目可以立即使用, 其他一些则需要额外的配置步骤.

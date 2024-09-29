@@ -1,12 +1,6 @@
----
-type: doc
-layout: reference
-title: "理解移动应用程序项目结构"
----
+[//]: # (title: 理解移动应用程序项目结构)
 
-# 理解移动应用程序项目结构
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin Multiplatform Mobile 技术的目标是, 对 Android 和 iOS 平台使用共通的逻辑, 统一应用程序的开发过程.
 为实现这个目标, 它使用一种移动应用程序专有结构的 [Kotlin 跨平台](../multiplatform/multiplatform.html) 项目.
@@ -14,7 +8,8 @@ Kotlin Multiplatform Mobile 技术的目标是, 对 Android 和 iOS 平台使用
 本文描述基本的跨平台移动项目的结构和组成部分: 共用模块, Android 应用程序, 以及一个 iOS 应用程序.
 
 > 组织你的项目不仅仅只有这种结构; 但是, 我们推荐使用这种结构作为起点.
-{:.note}
+>
+{style="note"}
 
 要查看你的跨平台移动项目的完整结构, 请从 **Android** 视图切换到 **Project** 视图.
 
@@ -357,7 +352,8 @@ kotlin {
 详情请参见 [iOS 应用程序](#ios-application).
 
 > Gradle task `embedAndSignAppleFrameworkForXcode` 只能用于 Xcode 项目的构建; 否则, 会发生错误.
-{:.note}
+>
+{style="note"}
 
 ## Android 应用程序
 
@@ -523,7 +519,8 @@ iOS 应用程序从一个 Xcode 项目生成, 新建项目向导会自动生成�
   在 **User-Defined** 之下添加 `KOTLIN_FRAMEWORK_BUILD_TYPE` 设置, 将它设置为 `Debug` 或 `Release`.
 
 > Gradle task `embedAndSignAppleFrameworkForXcode` 只能用于 Xcode 项目的构建; 否则, 会发生错误.
-{:.note}
+>
+{style="note"}
 
 <img src="/assets/docs/images/multiplatform-mobile/packforxcode-in-project-settings.png" alt="在 Xcode 项目设置中执行 `embedAndSignAppleFrameworkForXcode`" width="700"/>
 

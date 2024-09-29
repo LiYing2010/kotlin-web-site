@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "改进 Kotlin/Native 编译速度"
----
+[//]: # (title: 改进 Kotlin/Native 编译速度)
 
-# 改进 Kotlin/Native 编译速度
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin/Native 编译器正在不断更新, 并改进它的性能.
 使用最新的 Kotlin/Native 编译器, 以及正确配置的构建环境, 对于使用 Kotlin/Native 编译目标的项目, 你可以显著的改进编译速度.
@@ -56,14 +49,15 @@ Kotlin/Native 编译器正在不断更新, 并改进它的性能.
       
       > 请记住, 这种情况下, 在设备和模拟器之间切换之后, 你将会需要使用 `./gradlew clean` 清除构建.
       > 详情请参见 [这个问题](https://youtrack.jetbrains.com/issue/KT-40907).
-      {:.note}
+      >
+      {style="note"}
 
 
 * **不要禁用 [Gradle daemon](https://docs.gradle.org/current/userguide/gradle_daemon.html)**, 如果没有重要的原因, 请不要这样做.
   默认情况下 [Kotlin/Native 从 Gradle daemon 启动](https://blog.jetbrains.com/kotlin/2020/03/kotlin-1-3-70-released/#kotlin-native).
   Gradle daemon 启用时, 会使用相同的 JVM 进程, 因此不必为每次编译重新最准备.
 
-* **不要使用 [transitiveExport = true](../multiplatform/multiplatform-build-native-binaries.html#export-dependencies-to-binaries)**.
+* **不要使用 [transitiveExport = true](multiplatform-build-native-binaries.md#export-dependencies-to-binaries)**.
   使用传递导出(Transitive Export)很多情况下会导致死代码剔除(Dead Code Elimination)功能被关闭: 编译器必须处理很多未使用的代码.
   这样会增加编译时间.
   要明确使用 `export`, 来导出需要的项目和依赖项.
@@ -81,7 +75,7 @@ Kotlin/Native 编译器正在不断更新, 并改进它的性能.
 * **尝试使用 klib artifact 的增量编译功能**. 使用增量编译时, 如果项目模块产生的 `klib` artifact 只发生了部分变更,
   那么只有 `klib` 的一部分会被重新编译为二进制文件.
 
-  这个功能是 [实验性功能](../components-stability.html#stability-levels-explained).
+  这个功能是 [实验性功能](components-stability.md#stability-levels-explained).
   要启用这个功能, 请向你的 `gradle.properties` 文件添加 `kotlin.incremental.native=true` 选项.
   如果你遇到问题, 请 [在 YouTrack 中创建 issue](https://kotl.in/issue).
 

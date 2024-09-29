@@ -1,17 +1,11 @@
----
-type: doc
-layout: reference
-category: "JavaScript"
-title: "使用 Dukat 生成外部声明(External Declaration)"
----
+[//]: # (title: 使用 Dukat 生成外部声明(External Declaration))
 
-# 使用 Dukat 生成外部声明(External Declaration)
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 > Dukat 目前还在 [实验性阶段](/docs/reference_zh/components-stability.html).
 > 如果遇到任何问题, 请到报告到 Dukat 的 [问题管理系统](https://github.com/kotlin/dukat/issues).
-{:.note}
+> 
+{style="note"}
 
 [Dukat](https://github.com/kotlin/dukat) 是一个正在开发中的工具,
 它可以将 TypeScript 声明文件 (`.d.ts`) 自动转换为 Kotlin 的外部声明.

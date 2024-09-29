@@ -1,12 +1,6 @@
----
-type: doc
-layout: reference
-title: "创建跨平台的库"
----
+[//]: # (title: 创建跨平台的库)
 
-# 创建跨平台的库
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 本节介绍如何创建跨平台的库. 也可以参阅 [完整的教程](../tutorials/mpp/multiplatform-library.html),
 介绍如何创建跨平台的库, 测试它, 并发布到 Maven.

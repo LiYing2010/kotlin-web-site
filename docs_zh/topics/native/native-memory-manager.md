@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Native"
-title: "Kotlin/Native 内存管理"
----
+[//]: # (title: Kotlin/Native 内存管理)
 
-# Kotlin/Native 内存管理
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin/Native 使用一个现代化的内存管理器, 类似于 JVM, Go, 以及其它主流技术, 包括以下功能:
 
@@ -30,11 +23,11 @@ GC 使用完全并行标记(Full Parallel Mark), 它结合了暂停的转换器(
 
 GC 在单独的线程中执行, 根据定时器和内存压力来启动. 此外, 也可以 [手动调用](#enable-garbage-collection-manually).
 
-### 手动启动垃圾收集
+### 手动启动垃圾收集 {id="enable-garbage-collection-manually"}
 
 要强制启动垃圾收集器, 可以调用 `kotlin.native.internal.GC.collect()`. 这个方法会触发一次新的垃圾收集, 并等待它结束.
 
-### 监测 GC 性能
+### 监测 GC 性能 {id="monitor-gc-performance"}
 
 目前没有专门的指标来监测 GC 性能. 但是, 可以查看 GC log 来进行问题诊断.
 要启用 log, 请在 Gradle 构建脚本中设置以下编译选项:
@@ -56,7 +49,8 @@ GC 在单独的线程中执行, 根据定时器和内存压力来启动. 此外,
 
 > 使用这个选项后, GC 不会收集 Kotlin 对象, 因此只要程序继续运行, 内存消耗就会持续上升.
 > 请注意, 不要耗尽系统内存.
-{:.warning}
+>
+{style="warning"}
 
 ## 内存消耗
 
@@ -166,10 +160,11 @@ fun mainBackground(args: Array<String>) {
     error("CFRunLoopRun should never return")
 }
 ```
+{collapsible="true"}
 
 然后, 使用 `-e testlauncher.mainBackground` 编译器选项来编译测试程序的二进制文件.
 
 ## 下一步
 
-* [从旧的内存管理器迁移](native-migration-guide.html)
-* [与 iOS 集成的配置](native-ios-integration.html)
+* [从旧的内存管理器迁移](native-migration-guide.md)
+* [与 iOS 集成的配置](native-ios-integration.md)

@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Java Interop"
-title: "在 Java 中调用 Kotlin 代码"
----
+[//]: # (title: 在 Java 中调用 Kotlin 代码)
 
-# 在 Java 中调用 Kotlin 代码
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 在 Java 中可以很容易地调用 Kotlin 代码.
 比如, 在 Java 方法中可以非常自然的创建 Kotlin 类的实例, 并操作这些实例.
@@ -140,10 +133,10 @@ class JavaClient {
 }
 ```
 
-[延迟初始化属性](properties.html#late-initialized-properties-and-variables) 也会公开为 Java 中的域.
+[延迟初始化属性](properties.md#late-initialized-properties-and-variables) 也会公开为 Java 中的域.
 域的可见度将与属性的 `lateinit` 的设值方法可见度一样.
 
-## 静态域
+## 静态域(Static Fields) {id="static-fields"}
 
 声明在命名对象(named object)或同伴对象(companion object)之内的 Kotlin 属性, 将会存在静态的后端域变量(backing field),
 对于命名对象, 静态后端域变量存在于命名对象内, 对于同伴对象, 静态后端域变量存在包含同伴对象的类之内.
@@ -171,7 +164,7 @@ Key.COMPARATOR.compare(key1, key2);
 // 这里访问的是 Key 类中的 public static final 域
 ```
 
-命名对象或同伴对象中的[延迟初始化属性](properties.html#late-initialized-properties-and-variables) 对应的静态的后端域变量,
+命名对象或同伴对象中的[延迟初始化属性](properties.md#late-initialized-properties-and-variables) 对应的静态的后端域变量,
 其可见度将与属性的设值方法可见度一样.
 
 ```kotlin
@@ -212,7 +205,7 @@ int max = ExampleKt.MAX;
 int version = C.VERSION;
 ```
 
-## 静态方法
+## 静态方法(Static Method) {id="static-methods"}
 
 上文中提到, Kotlin 会将包级函数编译为静态方法.
 此外, 如果你对函数添加 [`@JvmStatic`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html) 注解,
@@ -237,7 +230,6 @@ C.callNonStatic(); // 错误: 不是静态方法
 C.Companion.callStatic(); // 实例上的方法仍然存在
 C.Companion.callNonStatic(); // 这个方法只能通过实例来调用
 ```
-
 
 对命名对象也一样:
 
@@ -274,10 +266,11 @@ interface ChatBot {
 `@JvmStatic` 注解也可以用于命名对象或同伴对象的属性, 可以使得属性的取值方法和设值方法变成静态方法,
 对于命名对象, 这些静态方法在命名对象之内, 对于同伴对象, 这些静态方法在包含同伴对象的类之内.
 
-## 接口中的默认方法(Default Method)
+## 接口中的默认方法(Default Method) {id="default-methods-in-interfaces"}
 
 > 只有 JVM 1.8 或更高版本的编译目标平台才支持默认方法.
-{:.note}
+>
+{style="note"}
 
 从 JDK 1.8 开始, Java 中的接口可以包含 [默认方法(Default Method)](https://docs.oracle.com/javase/tutorial/java/IandI/defaultmethods.html).
 如果要把 Kotlin 接口的所有非抽象成员变为实现这些接口的 Java 类的默认方法,
@@ -337,9 +330,10 @@ public class BB8 implements Robot {
 > 然后再使用编译选项 `-Xjvm-default=enable` 进行编译. 但是, 有些情况下这两种办法的结果会有区别.
 > 关于 Kotlin 1.4 中默认方法生成过程的具体变化,
 > 请参见 Kotlin blog 中的 [这篇文章](https://blog.jetbrains.com/kotlin/2020/07/kotlin-1-4-m3-generating-default-methods-in-interfaces/).
-{:.note}
+>
+{style="note"}
 
-### 默认方法的兼容模式
+### 默认方法的兼容模式 {id="compatibility-modes-for-default-methods"}
 
 如果你的 Kotlin 接口在过去编译时没有使用编译选项 `-Xjvm-default=all`, 并且有客户代码正在使用这些接口,
 那么, 在你的 Kotlin 接口代码使用这个编译选项再次编译之后, 可能导致客户代码与新代码二进制不兼容.
@@ -351,7 +345,8 @@ public class BB8 implements Robot {
 
 > 从 Kotlin 1.6.20 开始, 对使用 `-Xjvm-default=all` 或 `-Xjvm-default=all-compatibility` 模式编译的模块, 
 > 你可以使用默认模式 (`-Xjvm-default=disable` 编译器选项) 编译模块.
-{:.note}
+>
+{style="note"}
 
 兼容模式的详细解释:
 
@@ -372,7 +367,8 @@ public class BB8 implements Robot {
 如果某些客户代码依赖于 `DefaultImpls` 类的存在, 那么 __会破坏二进制兼容性__.
 
 > 如果使用了接口委托, 所有的接口方法都会被委托. 唯一的例外是使用被废弃的 `@JvmDefault` 注解标注的方法.
-{:.note}
+>
+{style="note"}
 
 #### all-compatibility 模式
 
@@ -465,7 +461,7 @@ fun getX() = 10
 var x: Int = 23
 ```
 
-## 重载函数(Overload)的生成
+## 重载函数(Overload)的生成 {id="overloads-generation"}
 
 通常, 如果在 Kotlin 中定义一个函数, 并指定了参数默认值, 这个方法在 Java 中只会存在带所有参数的版本.
 如果你希望 Java 端的使用者看到不同参数的多个重载方法,
@@ -494,11 +490,11 @@ void draw(String label, int lineWidth) { }
 void draw(String label) { }
 ```
 
-注意, 在 [次级构造器](classes.html#secondary-constructors) 中介绍过,
+注意, 在 [次级构造器](classes.md#secondary-constructors) 中介绍过,
 如果一个类的构造器方法参数全部都指定了默认值, 那么会对这个类生成一个 public 的无参数构造器.
 这个特性即使在没有使用 `@JvmOverloads` 注解时也是有效的.
 
-## 受控异常(Checked Exception)
+## 受控异常(Checked Exception) {id="checked-exceptions"}
 
 Kotlin 中不存在受控异常.
 因此, Kotlin 函数在 Java 中的签名通常不会声明它抛出的异常.
@@ -545,7 +541,7 @@ fun writeToFile() {
 
 ## 泛型的类型变异(Variant)
 
-如果 Kotlin 类使用了 [声明处的类型变异(declaration-site variance)](generics.html#declaration-site-variance),
+如果 Kotlin 类使用了 [声明处的类型变异(declaration-site variance)](generics.md#declaration-site-variance),
 那么这些类在 Java 代码中看到的形式存在两种可能. 比如, 你有下面这样的类, 以及两个使用这个类的函数:
 
 ```kotlin
@@ -571,7 +567,7 @@ Base unboxBase(Box<Base> box) { ... }
 为了解决 Java 端的问题, 你需要将 `unboxBase` 函数定义成这样:
 
 ```java
-Base unboxBase(Box<? extends Base> box) { ... }  
+Base unboxBase(Box<? extends Base> box) { ... }
 ```
 
 这个声明使用了 Java 的 *通配符类型(wildcards type)* (`? extends Base`),
@@ -594,7 +590,8 @@ Base unboxBase(Box<? extends Base> box) { ... }
 
 > 如果类型参数是 final 的, 那么生成类型通配符一般来说就没有意义了,
 > 因此 `Box<String>` 永远是 `Box<String>`, 无论它出现在什么位置.
-{:.note}
+>
+{style="note"}
 
 如果你需要类型通配符, 但默认没有生成, 可以使用 `@JvmWildcard` 注解:
 
@@ -614,11 +611,12 @@ fun unboxBase(box: Box<@JvmSuppressWildcards Base>): Base = box.value
 
 > `@JvmSuppressWildcards` 不仅可以用于单个的类型参数, 也可以用于整个函数声明或类声明,
 > 这时它会使得这个函数或类之内的所有类型通配符都不产生.
-{:.note}
+>
+{style="note"}
 
 ### `Nothing` 类型的翻译
 
-[`Nothing`](exceptions.html#the-nothing-type) 类型是很特殊的, 因为它在 Java 中没有对应的概念.
+[`Nothing`](exceptions.md#the-nothing-type) 类型是很特殊的, 因为它在 Java 中没有对应的概念.
 所有的 Java 引用类型, 包括`java.lang.Void`, 都可以接受 `null` 作为它的值,
 而 `Nothing` 甚至连 `null` 值都不能接受. 因此, 在 Java 的世界里无法准确地表达这个类型.
 因此, Kotlin 会在使用 `Nothing` 类型参数的地方生成一个原生类型(raw type):

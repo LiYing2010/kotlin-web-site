@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Native"
-title: "平台库"
----
+[//]: # (title: 平台库)
 
-# 平台库
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 为了实现对使用者的原生操作系统服务的访问能力, Kotlin/Native 发布版包含了一组针对各个平台预先编译好的库.
 我们称之为 **平台库**.
@@ -19,13 +12,9 @@ title: "平台库"
 
 要使用这个库, 只需要导入它:
 
-<div class="sample" markdown="1" theme="idea" data-highlight-only>
-
 ```kotlin
 import platform.posix.*
 ```
-
-</div>
 
 唯一不能使用这个库的平台是 [WebAssembly](https://en.wikipedia.org/wiki/WebAssembly).
 

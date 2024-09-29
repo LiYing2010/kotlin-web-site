@@ -1,23 +1,17 @@
----
-type: doc
-layout: reference
-category: "Tools"
-title: "为 Kotlin 代码编写文档: KDoc"
----
+[//]: # (title: 为 Kotlin 代码编写文档: KDoc)
 
-# 为 Kotlin 代码编写文档: KDoc
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 为 Kotlin 代码编写文档使用的语言 (相当于 Java 中的 Javadoc) 称为 **KDoc**.
 本质上, KDoc 结合了 Javadoc 和 Markdown, 它在块标签(block tag)使用 Javadoc 语法(但做了扩展, 以便支持 Kotlin 特有的概念),
 Markdown 则用来表示内联标记(inline markup).
 
 > Kotlin 的文档引擎: Dokka, 它能够理解 KDoc, 而且可以用来生成各种不同格式的文档.
-> 详情请参见我们的 [Dokka 文档](dokka/dokka-introduction.html).
-{:.note}
+> 详情请参见我们的 [Dokka 文档](dokka-introduction.md).
+>
+{style="note"}
 
-## KDoc 语法
+## KDoc 语法 {id="kdoc-syntax"}
 
 与 Javadoc 一样, KDoc 以 `/**` 开始, 以 `*/` 结束.
 文档中的每一行以星号开始, 星号本身不会被当作文档内容.
@@ -108,8 +102,8 @@ KDoc 目前支持以下块标签:
 但站在代码的角度又需要被外界访问, 对这样的元素可以使用这个标签.
 
 > KDoc 不支持 `@deprecated` 标签. 请使用 `@Deprecated` 注解来代替.
-{:.note}
-
+>
+{style="note"}
 
 ## 内联标记(Inline Markup)
 
@@ -121,20 +115,20 @@ KDoc 目前支持以下块标签:
 
 要生成指向其他元素(类, 方法, 属性, 或参数)的链接, 只需要简单地将它的名称放在方括号内:
 
-```
+```none
 请使用 [foo] 方法来实现这个目的.
 ```
 
 如果你希望对链接指定一个标签, 请使用 Markdown 参照风格(reference-style)语法:
 
-```
+```none
 请使用 [这个方法](foo) 来实现这个目的.
 ```
 
 在链接中也可以使用带限定符的元素名称.
 注意, 与 Javadoc 不同, 限定符的元素名称永远使用点号来分隔各个部分, 包括方法名称之前的分隔符, 也是点号:
 
-```
+```none
 请使用 [kotlin.reflect.KClass.properties] 来列举一个类的属性.
 ```
 
@@ -146,6 +140,14 @@ KDoc 目前支持以下块标签:
 由于 Kotlin 的文档生成工具会将所有重载函数的文档放在同一个页面之内,
 因此不必明确指定某一个具体的重载函数, 链接也可以正常工作.
 
+### 外部链接
+
+要添加外部链接, 请使用通常的 Markdown 语法:
+
+```none
+关于 KDoc 语法的更多详情, 请参见 [KDoc](<example-URL>).
+```
+
 ## 下一步做什么?
 
-学习如何使用 Kotlin 的文档生成工具: [Dokka](dokka/dokka-introduction.html).
+学习如何使用 Kotlin 的文档生成工具: [Dokka](dokka-introduction.md).

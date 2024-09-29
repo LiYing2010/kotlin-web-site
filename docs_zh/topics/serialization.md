@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "语法"
-title: "序列化"
----
+[//]: # (title: 序列化)
 
-# 序列化(serialization)
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 _序列化(serialization)_ 是指将应用程序使用的数据转换为一种格式, 使它可以通过网络传输, 或保存到数据库或文件.
 相应的, _反序列化(deserialization)_ 是指相反的过程, 从外部读取数据, 将它转换为运行时对象.
@@ -31,7 +24,7 @@ _序列化(serialization)_ 是指将应用程序使用的数据转换为一种�
 第 2 个插件用来与 `kotlin-compiler-embeddable` artifact 配合使用, 对于脚本 artifact, 它是默认选项.
 Gradle 会把编译器插件添加为你的项目的编译器参数.
 
-## 库
+## 库 {id="libraries"}
 
 `kotlinx.serialization` 提供了一组库, 用于所有支持的平台 – JVM, JavaScript, Native –
 而且支持很多序列化格式 – JSON, CBOR, protocol buffers, 以及其他格式.
@@ -48,13 +41,12 @@ Gradle 会把编译器插件添加为你的项目的编译器参数.
 针对各编译平台的 artifact 会自动选择; 你不需要手动添加.
 在 JVM, JS, Native, 和跨平台项目中, 可以使用相同的依赖项.
 
-
 注意, `kotlinx.serialization` 库使用单独的版本结构, 与 Kotlin 本身的版本不同.
 最新的发布版本请参见
 [GitHub](https://github.com/Kotlin/kotlinx.serialization/releases)
 的版本列表.
 
-## 格式
+## 格式 {id="formats"}
 
 `kotlinx.serialization` 包括针对多种序列化格式的库:
 
@@ -69,133 +61,128 @@ Gradle 会把编译器插件添加为你的项目的编译器参数.
 * [HOCON](https://github.com/lightbend/config/blob/master/HOCON.md):
   [`kotlinx-serialization-hocon`](https://github.com/Kotlin/kotlinx.serialization/blob/master/formats/README.md#hocon) (只限于 JVM 平台)
 
-注意, 除 JSON 序列化(`kotlinx-serialization-json`)之外, 其他所有库都处于[实验状态](components-stability.html),
+注意, 除 JSON 序列化(`kotlinx-serialization-json`)之外, 其他所有库都处于[实验状态](components-stability.md),
 也就是说, 它们的 API 可能会发生变化, 不另行通知.
 
 此外还有社区维护的库, 支持更多序列化格式, 比如 [YAML](https://yaml.org/) 或 [Apache Avro](https://avro.apache.org/).
 关于可用的序列化格式, 详情请参见 [`kotlinx.serialization` 文档](https://github.com/Kotlin/kotlinx.serialization/blob/master/formats/README.md).
 
-## 示例: JSON 序列化
+## 示例: JSON 序列化 {id="example-json-serialization"}
 
 下面我们来看一看如何将 Kotlin 对象序列化为 JSON.
 
-### 添加插件和依赖项
+### 添加插件和依赖项 {id="add-plugins-and-dependencies"}
 
 开始之前, 你需要配置你的构建脚本, 使你的项目能够使用 Kotlin 序列化工具:
 
 1. 应用 Kotlin 序列化 Gradle 插件 `org.jetbrains.kotlin.plugin.serialization`
 (在 Kotlin Gradle DSL 中是 `kotlin("plugin.serialization")`).
 
-    <div class="multi-language-sample" data-lang="kotlin">
-    <div class="sample" markdown="1" theme="idea" mode='kotlin' data-highlight-only>
+    <tabs group="build-script">
+    <tab title="Kotlin" group-key="kotlin">
 
     ```kotlin
     plugins {
-        kotlin("jvm") version "{{ site.data.releases.latest.version }}"
-        kotlin("plugin.serialization") version "{{ site.data.releases.latest.version }}"
+        kotlin("jvm") version "%kotlinVersion%"
+        kotlin("plugin.serialization") version "%kotlinVersion%"
     }
     ```
 
-    </div>
-    </div>
-
-    <div class="multi-language-sample" data-lang="groovy">
-    <div class="sample" markdown="1" theme="idea" mode='groovy'>
+    </tab>
+    <tab title="Groovy" group-key="groovy">
 
     ```groovy
     plugins {
-        id 'org.jetbrains.kotlin.jvm' version '{{ site.data.releases.latest.version }}'
-        id 'org.jetbrains.kotlin.plugin.serialization' version '{{ site.data.releases.latest.version }}'  
+        id 'org.jetbrains.kotlin.jvm' version '%kotlinVersion%'
+        id 'org.jetbrains.kotlin.plugin.serialization' version '%kotlinVersion%'
     }
     ```
 
-    </div>
-    </div>
+    </tab>
+    </tabs>
 
 2. 添加 JSON 序列化库的依赖项:
-`org.jetbrains.kotlinx:kotlinx-serialization-json:{{ site.data.releases.latest.serialization.version }}`
+`org.jetbrains.kotlinx:kotlinx-serialization-json:%serializationVersion%`
 
-    <div class="multi-language-sample" data-lang="kotlin">
-    <div class="sample" markdown="1" theme="idea" mode='kotlin' data-highlight-only>
+    <tabs group="build-script">
+    <tab title="Kotlin" group-key="kotlin">
 
     ```kotlin
     dependencies {
-        implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:{{ site.data.releases.latest.serialization.version }}")
+        implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:%serializationVersion%")
     }
     ```
 
-    </div>
-    </div>
-
-    <div class="multi-language-sample" data-lang="groovy">
-    <div class="sample" markdown="1" theme="idea" mode='groovy'>
+    </tab>
+    <tab title="Groovy" group-key="groovy">
 
     ```groovy
     dependencies {
-        implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:{{ site.data.releases.latest.serialization.version }}'
+        implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:%serializationVersion%'
     }
     ```
 
-    </div>
-    </div>
+    </tab>
+    </tabs>
 
 现在, 可以在你的代码中使用序列化 API 了.
 API 所在的包是 `kotlinx.serialization`, 以及各个格式专用的子包, 比如 `kotlinx.serialization.json`.
 
-### 序列化和反序列化 JSON
+### 序列化和反序列化 JSON {id="serialize-and-deserialize-json"}
 
 1. 对一个类添加 `@Serializable` 注解, 使它可以被序列化.
 
-   ```kotlin
-   import kotlinx.serialization.Serializable
+    ```kotlin
+    import kotlinx.serialization.Serializable
 
-   @Serializable
-   data class Data(val a: Int, val b: String)
-   ```
+    @Serializable
+    data class Data(val a: Int, val b: String)
+    ```
 
 2. 调用函数 `Json.encodeToString()`, 序列化这个类的实例.
 
-   ```kotlin
-   import kotlinx.serialization.Serializable
-   import kotlinx.serialization.json.Json
-   import kotlinx.serialization.encodeToString
+    ```kotlin
+    import kotlinx.serialization.Serializable
+    import kotlinx.serialization.json.Json
+    import kotlinx.serialization.encodeToString
 
-   @Serializable
-   data class Data(val a: Int, val b: String)
-
-   fun main() {
+    @Serializable
+    data class Data(val a: Int, val b: String)
+    
+    fun main() {
       val json = Json.encodeToString(Data(42, "str"))
-   }
-   ```
+    }
+    ```
 
-   结果, 你会得到一个 JSON 格式的字符串, 其中包含这个对象的状态: `{"a": 42, "b": "str"}`
+    结果, 你会得到一个 JSON 格式的字符串, 其中包含这个对象的状态: `{"a": 42, "b": "str"}`
 
-   > 也可以通过单次函数调用, 序列化对象的集合, 比如 List:
-   >
-   > ```kotlin
-   > val dataList = listOf(Data(42, "str"), Data(12, "test"))
-   > val jsonList = Json.encodeToString(dataList)
-   > ```
-   {:.note}
+    > 也可以通过单次函数调用, 序列化对象的集合, 比如 List:
+    >
+    > ```kotlin
+    > val dataList = listOf(Data(42, "str"), Data(12, "test"))
+    > val jsonList = Json.encodeToString(dataList)
+    > ```
+    >
+    {style="note"}
 
 3. 使用 `decodeFromString()` 函数, 从 JSON 字符串中反序列化对象:
 
-   ```kotlin
-   import kotlinx.serialization.Serializable
-   import kotlinx.serialization.json.Json
-   import kotlinx.serialization.decodeFromString
+    ```kotlin
+    import kotlinx.serialization.Serializable
+    import kotlinx.serialization.json.Json
+    import kotlinx.serialization.decodeFromString
 
-   @Serializable
-   data class Data(val a: Int, val b: String)
+    @Serializable
+    data class Data(val a: Int, val b: String)
 
-   fun main() {
+    fun main() {
       val obj = Json.decodeFromString<Data>("""{"a":42, "b": "str"}""")
-   }
-   ```
+    }
+    ```
 
 就是这样! 你已经成功的将对象序列化为 JSON 字符串, 然后将 JSON 字符串反序列化为对象.
 
-## 下一步
+## 下一步 {id="what-s-next"}
 
 关于 Kotlin 中的序列化, 更多详情请阅读
 [Kotlin 序列化指南](https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/serialization-guide.md).

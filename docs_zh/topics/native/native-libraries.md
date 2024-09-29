@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Native"
-title: "Kotlin/Native 库"
----
+[//]: # (title: Kotlin/Native 库)
 
-# Kotlin/Native 库
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 ## Kotlin 编译器使用方法
 
@@ -40,10 +33,9 @@ $ cinterop -def samples/gitchurn/src/nativeInterop/cinterop/libgit2.def -compile
 
 我们可以得到 `libgit2.klib` 文件.
 
-详情请参见 [与 C 代码交互](native-c-interop.html).
+详情请参见 [与 C 代码交互](native-c-interop.md).
 
-
-## klib 工具
+## klib 工具 {id="klib-utility"}
 
 **klib** 库管理工具可以用来查看和安装库.
 
@@ -146,7 +138,7 @@ Hello, Kotlin world!
 
 ## 高级问题
 
-### 库的查找顺序
+### 库的查找顺序 {id="library-search-sequence"}
 
 当我们指定 `-library foo` 参数时, 编译器会按照以下顺序查找 `foo` 库:
 
@@ -154,14 +146,15 @@ Hello, Kotlin world!
 * 通过 `-repo` 参数指定的所有仓库.
 * 默认仓库中安装的所有库.
 
-  > 默认仓库是 `~/.konan`. You can change it 你可以设置 Gradle 属性 `kotlin.data.dir` 来修改这个值.
-  >
-  > 或者, 也可以使用 `-Xkonan-data-dir` 编译器选项, 通过 `cinterop` 和  `konanc` 工具来配置你的的自定义目录路径.
-  {:.note}
+   > 默认仓库是 `~/.konan`. You can change it 你可以设置 Gradle 属性 `kotlin.data.dir` 来修改这个值.
+   >
+   > 或者, 也可以使用 `-Xkonan-data-dir` 编译器选项, 通过 `cinterop` 和  `konanc` 工具来配置你的的自定义目录路径.
+   >
+   {style="note"}
 
 * `$installation/klib` 目录中安装的所有库.
 
-### 库文件的格式
+### 库文件的格式 {id="library-format"}
 
 Kotlin/Native 库是 zip 文件, 包含预定义的目录结构, 如下:
 
@@ -189,10 +182,11 @@ Kotlin/Native 库是 zip 文件, 包含预定义的目录结构, 如下:
 
 在你的 Kotlin/Native 环境的 `klib/stdlib` 目录下可以找到这些库文件结构的例子.
 
-### 在 klib 中使用相对路径 
+### 在 klib 中使用相对路径 {id="using-relative-paths-in-klibs"}
 
 > klib 中的相对路径功能从 Kotlin 1.6.20 开始可用.
-{:.note}
+>
+{style="note"}
 
 源代码文件的序列化后的 IR 表达是一个 `klib` 库的[一部分](#library-format).
 其中包含文件路径, 用于生成正确的调试信息.
@@ -200,8 +194,8 @@ Kotlin/Native 库是 zip 文件, 包含预定义的目录结构, 如下:
 使用 `-Xklib-relative-path-base` , 你可以修改库的格式, 在 artifact 中只使用相对路径.
 要让这个功能有效, 需要向编译器选项的参数传递一个或多个源代码文件基准路径:
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
@@ -213,11 +207,8 @@ tasks.named<KotlinCompilationTask<*>>("compileKotlin").configure {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
@@ -231,5 +222,5 @@ tasks.named('compileKotlin', KotlinCompilationTask) {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>

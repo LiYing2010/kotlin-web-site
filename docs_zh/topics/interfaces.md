@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Syntax"
-title: "接口"
----
+[//]: # (title: 接口(Interface))
 
-# 接口
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin 中的接口可以包含抽象方法的声明, 也可以包含方法的实现.
 接口与抽象类的区别在于, 接口不能存储状态数据.

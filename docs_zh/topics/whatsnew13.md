@@ -1,26 +1,20 @@
----
-type: doc
-layout: reference
-title: "Kotlin 1.3 版中的新功能"
----
+[//]: # (title: Kotlin 1.3 版中的新功能)
 
-# Kotlin 1.3 版中的新功能
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 _发布日期: 2018/10/29_
 
 ## 协程功能正式发布
 
 经过长期广泛的实战测试之后, 协程功能终于正式发布了! 也就是说, 从 Kotlin 1.3 开始, 协程功能的语言级支持,
-以及 API 都进入 [完全稳定](components-stability.html) 状态.
-请参见新的 [协程概述](coroutines-overview.html) 文档.
+以及 API 都进入 [完全稳定](components-stability.md) 状态.
+请参见新的 [协程概述](coroutines-overview.md) 文档.
 
 Kotlin 1.3 引入了挂起函数的可调用的引用, 并在反射 API 中支持协程.
 
 ## Kotlin/Native
 
-Kotlin 1.3 继续改进对原生程序开发的. 详情请参见 [Kotlin/Native 概述](native/native-overview.html).
+Kotlin 1.3 继续改进对原生程序开发的. 详情请参见 [Kotlin/Native 概述](native-overview.md).
 
 ## 跨平台项目
 
@@ -31,13 +25,13 @@ Kotlin 1.3 继续改进对原生程序开发的. 详情请参见 [Kotlin/Native 
 
   * 在旧模式中, 共通代码和平台相关代码需要放在不同的模块中, 然后使用 `expectedBy` 依赖项导入.
     现在, 共通代码和平台相关代码放在同一模块的不同源代码路径中, 项目配置变得更加容易.
-  * 对于支持的各种目标平台, 现在有了大量的 [预定义平台配置](multiplatform/multiplatform-dsl-reference.html#targets).
-  * [依赖项配置](multiplatform/multiplatform-add-dependencies.html)有了变化; 现在以各个源代码路径为单位分别指定依赖项.
+  * 对于支持的各种目标平台, 现在有了大量的 [预定义平台配置](multiplatform-dsl-reference.md#targets).
+  * [依赖项配置](multiplatform-add-dependencies.md)有了变化; 现在以各个源代码路径为单位分别指定依赖项.
   * 源代码集现在可以在任意一部分平台之间共用(比如, 在编译目标平台为 JS, Android 和 iOS 的模块中,
     你可以让某个源代码集只在 Android 和 iOS 平台中共用).
-  * 现在支持 [发布跨平台的库](multiplatform/multiplatform-publish-lib.html).
+  * 现在支持 [发布跨平台的库](multiplatform-publish-lib.md).
 
-更多详细信息, 请参见 [跨平台程序开发文档](multiplatform/multiplatform.html).
+更多详细信息, 请参见 [跨平台程序开发文档](multiplatform.md).
 
 ## 契约(Contract)
 
@@ -106,8 +100,6 @@ fun foo() {
 `stdlib` 已经使用了契约, 用来改进上文介绍的编译器分析能力.
 这部分契约是 **稳定** 的, 也就是说你不必添加额外的编译选项, 也能得到编译器分析能力的提高:
 
-<div class="sample" data-min-compiler-version="1.3" markdown="1" theme="idea">
-
 ```kotlin
 //sampleStart
 fun bar(x: String?) {
@@ -121,8 +113,7 @@ fun main() {
     bar("42")
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 ### 自定义的契约
 
@@ -155,7 +146,7 @@ fun Request.getBody() =
 ```
 
 虽然我们可以在 `when` 语句之前抽取这个变量, 但 `when` 语句中的 `val` 变量的作用范围会被限定在 `when` 的语句体之内, 因此可以防止它扩散到更广的范围.
-[关于 `when` 语句的完整文档, 请阅读这里](control-flow.html#when-expression).
+[关于 `when` 语句的完整文档, 请阅读这里](control-flow.md#when-expression).
 
 ## 对接口的同伴对象使用 @JvmStatic 和 @JvmField 注解
 
@@ -215,15 +206,12 @@ annotation class Foo {
 Kotlin 1.3 引入了一个更简单的 `main` 函数形式, 它可以没有任何参数.
 "Hello, World" 程序在 Kotlin 代码中可以减少 19 个字符了!
 
-<div class="sample" data-min-compiler-version="1.3" markdown="1" theme="idea">
-
 ```kotlin
 fun main() {
     println("Hello, world!")
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 ## 带巨量参数的函数
 
@@ -238,7 +226,7 @@ fun trueEnterpriseComesToKotlin(block: (Any, Any, ... /* 另外还有 42 个 */,
 }
 ```
 
-## 渐进模式
+## 渐进模式 {id="progressive-mode"}
 
 Kotlin 非常关注稳定性, 以及源代码的向后兼容: Kotlin 的兼容性政策是: 破坏性变更
 (也就是, 某些变更会造成过去能够成功编译的代码无法编译) 只能出现在主版本中 (**1.2**, **1.3**, 等等.).
@@ -256,10 +244,11 @@ Kotlin 非常关注稳定性, 以及源代码的向后兼容: Kotlin 的兼容�
 
 ## 内联类
 
->内联类目前处于 [Alpha 阶段](components-stability.html).
+>内联类目前处于 [Alpha 阶段](components-stability.md).
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issues/KT) 提供你的反馈意见.
-> 详情请参见 [参考文档](inline-classes.html).
-{:.note}
+> 详情请参见 [参考文档](inline-classes.md).
+>
+{style="note"}
 
 Kotlin 1.3 引入了一种新的类型声明 — `inline class`.
 内联类可以看作一种功能受到限制的类, 具体来说, 内联类只能有一个属性, 不能更多, 也不能更少:
@@ -271,8 +260,6 @@ inline class Name(val s: String)
 Kotlin 编译器会使用这个限制, 尽力优化内联类的运行期表达, 用内联类底层属性的值来代替内联类的实例,
 因此可以去除构造器调用, 减少 GC 压力, 而且可以进行进一步的代码优化:
 
-<div class="sample" data-min-compiler-version="1.3" markdown="1" theme="idea">
-
 ```kotlin
 inline class Name(val s: String)
 //sampleStart
@@ -283,17 +270,17 @@ fun main() {
 }
 //sampleEnd
 ```
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-</div>
-
-关于内联类的详情, 请参见 [参考文档](inline-classes.html).
+关于内联类的详情, 请参见 [参考文档](inline-classes.md).
 
 ## 无符号整数
 
-> 无符号整数目前处于 [Beta 阶段](components-stability.html).
+> 无符号整数目前处于 [Beta 阶段](components-stability.md).
 > 具体实现已经基本稳定, 但将来可能会需要手工迁移你的代码.
 > 我们会尽力减少你需要修改的代码量.
-{:.note}
+>
+{style="note"}
 
 Kotlin 1.3 引入了无符号整数类型:
 
@@ -303,8 +290,6 @@ Kotlin 1.3 引入了无符号整数类型:
 * `kotlin.ULong`: 无符号的 64 位整数, 值范围是 0 到 2^64 - 1
 
 有符号整数所支持的大多数功能, 对无符号整数也适用:
-
-<div class="sample" data-min-compiler-version="1.3" markdown="1" theme="idea">
 
 ```kotlin
 fun main() {
@@ -329,18 +314,17 @@ println("ubyte: $ubyte, byte: $byte, ulong2: $ulong2")
 println("x: $x, y: $y, z: $z, range: $range")
 }
 ```
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-</div>
-
-详情请参见 [参考文档](unsigned-integer-types.html).
+详情请参见 [参考文档](unsigned-integer-types.md).
 
 ## @JvmDefault 注解
 
-> `@JvmDefault` 目前还处于[实验性阶段](components-stability.html).
+> `@JvmDefault` 目前还处于[实验性阶段](components-stability.md).
 > 请注意, 只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issues/KT) 提供你的反馈意见.
-{:.note}
-
+>
+{style="note"}
 
 Kotlin 支持许多 Java 版本, 包括 Java 6 和 Java 7, 在这些版本上还不支持接口的默认方法.
 为了你编程的方便, Kotlin 编译器绕过了这个限制, 但是这个解决方法无法与 Java 8 中的 `default` 方法兼容.
@@ -358,7 +342,8 @@ interface Foo {
 
 > 警告! 使用 `@JvmDefault` 注解来标注你的 API 会对二进制兼容性造成严重的影响.
 在你的产品代码中使用 `@JvmDefault` 之前, 请一定要认真阅读 [参考文档](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-default/index.html).
-{:.note}
+>
+{style="note"}
 
 ## 标准库
 
@@ -366,8 +351,6 @@ interface Foo {
 
 在 Kotlin 1.3 之前, 没有统一的方法在所有的平台上生成随机数 — 我们必须使用各种平台独自的解决方案, 比如在 JVM 上使用 `java.util.Random`.
 Kotlin 1.3 版引入 `kotlin.random.Random` 类, 解决了这个问题, 这个类可以在所有的平台上使用:
-
-<div class="sample" data-min-compiler-version="1.3" markdown="1" theme="idea">
 
 ```kotlin
 import kotlin.random.Random
@@ -379,10 +362,9 @@ fun main() {
 //sampleEnd
 }
 ```
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-</div>
-
-### isNullOrEmpty/orEmpty 扩展函数
+### isNullOrEmpty 和 orEmpty 扩展函数
 
 标准库提供了对某些数据类型的 `isNullOrEmpty` 和 `orEmpty` 扩展函数.
 如果接受者是 `null`, 或内容为空, 那么 `isNullOrEmpty` 函数返回 `true`,
@@ -393,8 +375,6 @@ Kotlin 1.3 对集合(Collection), Map, 以及对象数组, 都提供了类似的
 
 对既有的数组类型, 包括无符号整数数组, 提供了 `array.copyInto(targetArray, targetOffset, startIndex, endIndex)` 扩展函数,
 可以使用纯 Kotlin 代码, 更简单地实现基于数组的容器.
-
-<div class="sample" data-min-compiler-version="1.3" markdown="1" theme="idea">
 
 ```kotlin
 fun main() {
@@ -408,16 +388,13 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 ### associateWith 函数
 
 已有一组 key 值, 希望将每一个 Key 与某个值关联起来, 创建一个 Map, 这是很常见的情况.
 以前, 使用 `associate { it to getValue(it) }` 函数, 也是可以做到的,
 但是现在我们引入了一个更加高效, 而且更加易用的新函数: `keys.associateWith { getValue(it) }`.
-
-<div class="sample" data-min-compiler-version="1.3" markdown="1" theme="idea">
 
 ```kotlin
 fun main() {
@@ -429,14 +406,10 @@ fun main() {
 }
 ```
 
-</div>
-
 ### ifEmpty 和 ifBlank 函数
 
 对于集合(Collection), Map, 对象数组, 字符序列, 以及值序列(equence), 现在有了 `ifEmpty` 函数,
 对于接受者对象内容为空的情况, 可以指定一个替代值:
-
-<div class="sample" data-min-compiler-version="1.3" markdown="1" theme="idea">
 
 ```kotlin
 fun main() {
@@ -453,12 +426,9 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 除此之外, 字符序列和字符串还有一个 `ifBlank` 扩展函数, 它和 `ifEmpty` 函数一样, 也会使用指定的替代值, 但它检查的条件是字符串内容是否全部是空白字符.
-
-<div class="sample" data-min-compiler-version="1.3" markdown="1" theme="idea">
 
 ```kotlin
 fun main() {
@@ -469,8 +439,7 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 ### 在反射中使用封闭类
 
@@ -487,8 +456,8 @@ fun main() {
 
 ### 在 IDE 中支持代码风格
 
-Kotlin 1.3 开始在 IntelliJ IDEA 中支持 [推荐的代码风格](coding-conventions.html).
-关于代码迁移的方法, 请参见 [参考文档](code-style-migration-guide.html).
+Kotlin 1.3 开始在 IntelliJ IDEA 中支持 [推荐的代码风格](coding-conventions.md).
+关于代码迁移的方法, 请参见 [参考文档](code-style-migration-guide.md).
 
 ### kotlinx.serialization
 
@@ -499,14 +468,16 @@ Kotlin 1.3 开始在 IntelliJ IDEA 中支持 [推荐的代码风格](coding-conv
 详情请参见 [参考文档](https://github.com/Kotlin/kotlinx.serialization#current-project-status).
 
 > 虽然现在 kotlinx.serialization 与 Kotlin 编译器一起发布, 但在 Kotlin 1.3 中它仍然是一个实验性功能.
-{:.note}
+>
+{style="note"}
 
 ### 脚本 API 升级
 
-> 脚本是一个[实验性功能](components-stability.html), 这个功能随时可能会放弃或发生修改.
+> 脚本是一个[实验性功能](components-stability.md), 这个功能随时可能会放弃或发生修改.
 > 请注意, 只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issues/KT) 提供你的反馈意见.
-{:.note}
+>
+{style="note"}
 
 Kotlin 1.3 仍在持续改进脚本 API, 引入了一些实验性的功能, 支持脚本的定制, 包括添加外部属性, 提供静态或动态的依赖项, 等等.
 

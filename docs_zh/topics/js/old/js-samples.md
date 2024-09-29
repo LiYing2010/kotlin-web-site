@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "示例程序"
----
+[//]: # (title: 示例程序)
 
-# 示例程序
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 这里是 Kotlin/JS 示例程序的简要列表.
 

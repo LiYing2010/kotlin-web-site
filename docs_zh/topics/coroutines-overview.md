@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Introduction"
-title: "协程(Coroutine)"
----
+[//]: # (title: 协程(Coroutine))
 
-# 协程(Coroutine)
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 异步(Asynchronous)程序开发, 或者叫非阻塞(non-blocking)程序开发, 是一种软件开发的一个重要部分.
 当开发服务器端程序, 桌面程序, 或移动设备应用程序时, 不仅需要为用户提供流畅的使用体验,
@@ -22,25 +15,24 @@ Kotlin 采用一种灵活的方式解决这类问题,
 
 ## 如何开始
 
-如果你是 Kotlin 新手, 请先阅读 [Kotlin 入门](getting-started.html).
+如果你是 Kotlin 新手, 请先阅读 [Kotlin 入门](getting-started.md).
 
 ### 文档
 
-- [协程简介](coroutines/coroutines-guide.html)
-- [基本概念](coroutines/coroutines-basics.html)
-- [频道(Channel)](coroutines/channels.html)
-- [协程上下文与派发器(Dispatcher)](coroutines/coroutine-context-and-dispatchers.html)
-- [共享的可变状态与并发](coroutines/shared-mutable-state-and-concurrency.html)
-- [异步的数据流(Asynchronous Flow)](coroutines/flow.html)
+- [协程简介](coroutines-guide.md)
+- [基本概念](coroutines-basics.md)
+- [频道(Channel)](channels.md)
+- [协程上下文与派发器(Dispatcher)](coroutine-context-and-dispatchers.md)
+- [共享的可变状态与并发](shared-mutable-state-and-concurrency.md)
+- [异步的数据流(Asynchronous Flow)](flow.md)
 
 ### 教程
 
-- [异步程序开发](async-programming.html)
-- [协程(Coroutine)与通道(Channel)简介](coroutines/coroutines-and-channels.html)
-- [使用 IntelliJ IDEA 调试协程](coroutines/debug-coroutines-with-idea.html)
-- [使用 IntelliJ IDEA 调试 Kotlin 数据流(Flow)](coroutines/debug-flow-with-idea.html)
+- [异步程序开发](async-programming.md)
+- [协程(Coroutine)与通道(Channel)简介](coroutines-and-channels.md)
+- [使用 IntelliJ IDEA 调试协程](debug-coroutines-with-idea.md)
+- [使用 IntelliJ IDEA 调试 Kotlin 数据流(Flow)](debug-flow-with-idea.md)
 - [在 Android 平台测试 Kotlin 协程](https://developer.android.com/kotlin/coroutines/test)
-
 
 ## 示例项目
 

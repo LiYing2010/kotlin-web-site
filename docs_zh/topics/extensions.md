@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Syntax"
-title: "扩展"
----
+[//]: # (title: 扩展)
 
-# 扩展
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin 提供了向一个类或一个接口扩展新功能的能力,
 而且不必从这个类继承, 也不必使用 _装饰器(Decorator)_ 之类的设计模式.
@@ -18,7 +11,7 @@ Kotlin 提供了向一个类或一个接口扩展新功能的能力,
 这种机制称为 _扩展函数(extension function)_.
 此外还有 _扩展属性(extension property)_, 你可以用来向已有的类添加新的属性.
 
-## 扩展函数(Extension Function)
+## 扩展函数(Extension Function) {id="extension-functions"}
 
 要声明一个扩展函数, 需要在函数名之前添加前缀, 表示这个函数的 _接收者类型(receiver type)_, 也就是我们希望扩展的对象类型.
 以下示例将为 `MutableList<Int>` 类型添加一个 `swap` 函数:
@@ -50,7 +43,7 @@ fun <T> MutableList<T>.swap(index1: Int, index2: Int) {
 ```
 
 你需要在函数名之前声明泛型的类型参数, 然后在接收者类型表达式中就可以使用泛型了.
-关于泛型的更多详情, 请参见 [泛型函数](generics.html).
+关于泛型的更多详情, 请参见 [泛型函数](generics.md).
 
 ## 扩展函数的解析是 _静态_ 的
 
@@ -59,8 +52,6 @@ fun <T> MutableList<T>.swap(index1: Int, index2: Int) {
 
 扩展函数的调用派发过程是 _静态_ 的. 因此, 被调用的是哪个扩展函数, 是在编译期间通过接受者的类型决定的.
 比如:
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 fun main() {
@@ -79,7 +70,7 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 这段示例程序的打印结果将是 _Shape_,
 因为调用哪个函数, 仅仅是由参数 `s` 声明的类型决定, 这里参数 `s` 的类型为 `Shape` 类.
@@ -87,8 +78,6 @@ fun main() {
 如果类中存在成员函数, 同时又在同一个类上定义了同名的扩展函数, 并且与调用时指定的参数匹配,
 这种情况下 _成员函数总是会优先使用_.
 比如:
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 fun main() {
@@ -103,7 +92,7 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 这段代码的输出将是 _Class method_.
 
@@ -122,6 +111,7 @@ fun main() {
 //sampleEnd
 }
 ```
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 ## 可为空的接收者(Nullable Receiver)
 
@@ -142,7 +132,7 @@ fun Any?.toString(): String {
 }
 ```
 
-## 扩展属性(Extension Property)
+## 扩展属性(Extension Property) {id="extension-properties"}
 
 Kotlin 也支持扩展属性, 与扩展函数类似:
 
@@ -151,10 +141,11 @@ val <T> List<T>.lastIndex: Int
     get() = size - 1
 ```
 
-> 由于扩展属性实际上不会向类添加新的成员, 因此无法让一个扩展属性拥有一个 [后端域变量](properties.html#backing-fields).
+> 由于扩展属性实际上不会向类添加新的成员, 因此无法让一个扩展属性拥有一个 [后端域变量](properties.md#backing-fields).
 > 所以, _对于扩展属性不允许存在初始化器_.
 > 扩展属性的行为只能通过明确给定的取值方法与设值方法来定义.
-{:.note}
+>
+{style="note"}
 
 示例:
 
@@ -164,11 +155,9 @@ val House.number = 1 // 错误: 扩展属性不允许存在初始化器
 
 ## 对同伴对象(Companion Object)的扩展
 
-如果一个类定义了[同伴对象](object-declarations.html#companion-objects),
+如果一个类定义了[同伴对象](object-declarations.md#companion-objects),
 你可以对这个同伴对象定义扩展函数和扩展属性.
 与同伴对象的常规成员一样, 可以只使用类名限定符来调用这些扩展函数和扩展属性:
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 class MyClass {
@@ -181,9 +170,7 @@ fun main() {
     MyClass.printCompanion()
 }
 ```
-
-</div>
-
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 ## 扩展的范围
 
@@ -208,7 +195,7 @@ fun main() {
 }
 ```
 
-详情请参见 [导入](packages.html#imports).
+详情请参见 [导入](packages.md#imports).
 
 ## 将扩展定义为成员
 
@@ -216,8 +203,6 @@ fun main() {
 这些隐含接收者的成员可以不使用限定符直接访问.
 扩展方法的定义所在的类的实例, 称为 _派发接受者(dispatch receiver)_,
 扩展方法的目标类型的实例, 称为 _扩展接受者(extension receiver)_.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 class Host(val hostname: String) {
@@ -244,11 +229,10 @@ fun main() {
     //Host("kotl.in").printConnectionString()  // 错误, 在 Connection 之外无法访问扩展函数
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 当派发接受者与扩展接受者的成员名称发生冲突时, 扩展接受者的成员将会被优先使用.
-如果想要使用派发接受者的成员, 请参见 [带限定符的 `this` 语法](this-expressions.html#qualified-this).
+如果想要使用派发接受者的成员, 请参见 [带限定符的 `this` 语法](this-expressions.md#qualified-this).
 
 ```kotlin
 class Connection {
@@ -261,8 +245,6 @@ class Connection {
 
 以成员的形式定义的扩展函数, 可以声明为 `open`, 而且可以在子类中覆盖.
 也就是说, 在这类扩展函数的派发过程中, 针对派发接受者是虚拟的(virtual), 但针对扩展接受者仍然是静态的(static).
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 open class Base { }
@@ -299,11 +281,11 @@ fun main() {
     DerivedCaller().call(Derived())  // 输出结果为 "Base extension function in DerivedCaller" - 扩展接受者的解析过程是静态的
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 ## 关于可见度的注意事项
 
-扩展函数或扩展属性 [对其他元素的可见度](visibility-modifiers.html) 规则, 与定义在同一范围内的普通函数相同.
+扩展函数或扩展属性 [对其他元素的可见度](visibility-modifiers.md) 规则, 与定义在同一范围内的普通函数相同.
 比如:
 
 * 定义在源代码文件顶级(top-level)范围内的扩展, 可以访问同一源代码文件内的其他顶级 `private` 元素.

@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Coroutine"
-title: "协程的基本概念"
----
+[//]: # (title: 协程的基本概念)
 
-# 协程的基本概念
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 本章我们介绍协程的基本概念.
 
@@ -19,8 +12,6 @@ _协程_ 是一段可挂起的计算代码的一个实例. 概念上类似于线
 协程可以看作是轻量的线程, 但有很多重要的区别, 使得协程的使用与线程非常不同.
 
 下面请运行以下代码, 看看你的第一个协程:
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -35,11 +26,11 @@ fun main() = runBlocking { // this: CoroutineScope
 }
 //sampleEnd
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-basic-01.kt).
-{:.note}
+>
+{style="note"}
 
 你将看到以下运行结果:
 
@@ -85,14 +76,12 @@ CoroutineScope 界定了协程的生命周期.
 直到所有子协程结束之前, 外层的作用范围不会结束.
 结构化的并发还保证代码中的任何错误都会正确的向外报告, 不会丢失.
 
-## 代码重构, 抽取函数
+## 代码重构, 抽取函数 {id="extract-function-refactoring"}
 
 下面我们把 `launch { ... }` 之内的代码抽取成一个独立的函数.
 如果在 IDE 中对这段代码进行一个 "Extract function" 重构操作, 你会得到一个带 `suspend` 修饰符的新函数.
 这就是你的第一个 _挂起函数_. 在协程内部可以象使用普通函数那样使用挂起函数, 但挂起函数与普通函数的不同在于,
 它们又可以使用其他挂起函数(比如下面的例子中使用的 `delay` 函数)来 _挂起_ 当前协程的运行.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -110,11 +99,11 @@ suspend fun doWorld() {
 }
 //sampleEnd
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-basic-02.kt).
-{:.note}
+>
+{style="note"}
 
 <!--- TEST
 Hello
@@ -134,8 +123,6 @@ World!
 你可以在任何挂起函数中使用 `coroutineScope`.
 比如, 你可以将打印 `Hello` 和 `World` 并发代码移动到一个 `suspend fun doWorld()` 函数之内:
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
-
 ```kotlin
 import kotlinx.coroutines.*
 
@@ -153,11 +140,11 @@ suspend fun doWorld() = coroutineScope {  // this: CoroutineScope
 }
 //sampleEnd
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-basic-03.kt).
-{:.note}
+>
+{style="note"}
 
 这段代码的输出同样是:
 
@@ -172,8 +159,6 @@ World!
 
 在任何挂起函数之内, 可以使用 [coroutineScope][_coroutineScope] 构建器来执行多个并发的操作.
 我们在 `doWorld` 挂起函数内启动 2 个并发的协程:
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -199,10 +184,11 @@ suspend fun doWorld() = coroutineScope { // this: CoroutineScope
 }
 //sampleEnd
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-basic-04.kt).
-{:.note}
+>
+{style="note"}
 
 `launch { ... }` 之内的 2 段代码会 _并发_ 执行, 启动之后 1 秒会先输出 `World 1`, 启动之后 2 秒会输出 `World 2`.
 直到 2 段代码都结束之后, `doWorld` 之内的 [coroutineScope][_coroutineScope] 才会结束,
@@ -222,8 +208,6 @@ Done
 [launch] 协程构建器会返回一个 [Job] 对象, 它是被启动的协程的管理器, 可以用来明确的等待协程结束.
 比如, 你可以等待子协程结束, 然后再输出 "Done":
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
-
 ```kotlin
 import kotlinx.coroutines.*
 
@@ -236,13 +220,14 @@ fun main() = runBlocking {
     println("Hello")
     job.join() // 等待子协程结束
     println("Done")
-//sampleEnd    
+//sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-basic-05.kt).
-{:.note}
+>
+{style="note"}
 
 这段代码的输出是:
 
@@ -261,8 +246,6 @@ Done
 比如, 以下代码启动 50,000 个不同的协程, 每个协程等待 5 秒, 然后打印一个点号('.'),
 但只消耗非常少的内存:
 
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3">
-
 ```kotlin
 import kotlinx.coroutines.*
 
@@ -275,11 +258,11 @@ fun main() = runBlocking {
     }
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-basic-06.kt).
-{:.note}
+>
+{style="note"}
 
 <!--- TEST lines.size == 1 && lines[0] == ".".repeat(50_000) -->
 

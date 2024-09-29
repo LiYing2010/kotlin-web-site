@@ -1,52 +1,19 @@
----
-type: doc
-layout: reference
-category:
-title: "为 Spring Boot 项目添加数据库支持"
----
+[//]: # (title: 为 Spring Boot 项目添加数据库支持)
+[//]: # (description: 使用 JDBC Template, 为使用 Kotlin 开发的 Sprint Boot 项目添加数据库支持.)
 
-# 为 Spring Boot 项目添加数据库支持
-[//]: # (title: Add database support for Spring Boot project)
-[//]: # (description: Add a database support for Sprint Boot project written in Kotlin using JDBC template.)
+最终更新: %latestDocDate%
 
-最终更新: {{ site.data.releases.latestDocDate }}
-
-<table style="border-style: solid; border-color: 252528">
-    <tr style="border: none">
-        <td>
-            这是 <strong>Spring Boot 和 Kotlin 入门</strong> 教程的第 3 部分.
-            开始这一部分之前, 请确认你已经完成了前面的步骤:
-        </td>
-    </tr>
-    <tr>
-        <td>
-        <div style="display: block">
-            <div style="vertical-align: middle; display: inline-flex">
-                <img src="/assets/docs/images/icons/icon-1-done.svg" alt="第 1 步" width="20"/> &nbsp;
-                <a href="jvm-create-project-with-spring-boot.html">使用 Kotlin 创建 Spring Boot 项目</a>
-            </div>
-            <br/>
-
-            <div style="vertical-align: middle; display: inline-flex">
-                <img src="/assets/docs/images/icons/icon-2-done.svg" alt="第 2 步" width="20"/> &nbsp;
-                <a href="jvm-spring-boot-add-data-class.html">向 Spring Boot 项目添加数据类</a>
-            </div>
-            <br/>
-    
-            <div style="vertical-align: middle; display: inline-flex">
-                <img src="/assets/docs/images/icons/icon-3.svg" alt="第 3 步" width="20"/> &nbsp;
-                <strong>为 Spring Boot 项目添加数据库支持</strong>
-            </div>
-            <br/>
-    
-            <div style="vertical-align: middle; display: inline-flex">
-                <img src="/assets/docs/images/icons/icon-4-todo.svg" alt="第 4 步" width="20"/> &nbsp;
-                使用 Spring Data CrudRepository 进行数据库访问
-            </div>
-        </div>
-        </td>
-    </tr>
-</table>
+<tldr>
+    <p>
+        这是 <strong>Spring Boot 和 Kotlin 入门</strong> 教程的第 3 部分.
+        开始这一部分之前, 请确认你已经完成了前面的步骤:
+    </p><br/>
+    <p>
+        <img src="icon-1-done.svg" width="20" alt="第 1 步"/> <a href="jvm-create-project-with-spring-boot.md">使用 Kotlin 创建 Spring Boot 项目</a><br/>
+        <img src="icon-2-done.svg" width="20" alt="第 2 步"/> <a href="jvm-spring-boot-add-data-class.md">向 Spring Boot 项目添加数据类</a><br/>
+        <img src="icon-3.svg" width="20" alt="第 3 步"/> <strong>为 Spring Boot 项目添加数据库支持</strong><br/>
+        <img src="icon-4-todo.svg" width="20" alt="第 4 步"/> 使用 Spring Data CrudRepository 进行数据库访问</p>
+</tldr>
 
 在教程的这个部分, 你将会使用 JDBC 向你的项目添加并配置一个数据库. 在 JVM 应用程序中, 你要使用 JDBC 来操作数据库.
 为了方便, Spring Framework 提供了 `JdbcTemplate` 类, 简化 JDBC 的使用, 并帮助避免常见的错误.
@@ -78,55 +45,61 @@ class MessageService(val db: JdbcTemplate) {
 }
 ```
 
-### 构造器参数与依赖注入 – (val db: JdbcTemplate)
-
-Kotlin 中的类有一个主构造器. 还可以有一个或多个 [次级构造器(secondary constructor)](../classes.html#secondary-constructors).
-*主构造器* 是类头部的一部分, 位于类名称以及可选的类型参数之后.
-在我们的例子中, 构造器是 `(val db: JdbcTemplate)`.
-
-`val db: JdbcTemplate` 是构造器的参数:
-
-```kotlin
-@Service
-class MessageService(val db: JdbcTemplate)
-```
-
-### 尾缀 Lambda 表达式(Trailing Lambda) 与 SAM 转换
-
-`findMessages()` 函数调用 `JdbcTemplate` 类的 `query()` 函数. `query()` 函数接受 2 个参数:
-一个 SQL 查询, 类型为字符串, 以及一个回调, 将每一行查询结果转换为对象:
-
-```sql
-db.query("...", RowMapper { ... } )
-```
-
-`RowMapper` 接口只声明了一个方法, 因此可以使用 Lambda 表达式来实现它, 省略接口名称.
-Kotlin 编译器知道表达式需要转换成的接口, 因为你将它用作函数调用的一个参数.
-这个功能称为 [Kotlin 中的SAM 转换](java-interop.html#sam-conversions):
-
-```sql
-db.query("...", { ... } )
-```      
-
-在 SAM 转换之后, query 函数得到 2 个参数: 首先是一个 String, 后面是一个 Lambda 表达式.
-根据 Kotlin 的习惯, 如果一个函数的最后一个参数是一个函数, 那么传递给这个参数的 Lambda 表达式可以放在括号之外.
-这样的语法称为 [尾缀 Lambda 表达式(Trailing Lambda)](../lambdas.html#passing-trailing-lambdas):
-
-```sql
-db.query("...") { ... }
-```
-
-### 对未使用的 Lambda 表达式参数使用下划线
-
-对于带有多个参数的 Lambda 表达式, 你可以使用下划线 `_` 符号来代替你不需要使用的参数的名称.
-
-因此, query 函数调用的最终语法如下:
-
-```kotlin
-db.query("select * from messages") { response, _ ->
-    Message(response.getString("id"), response.getString("text"))
-}
-```
+<deflist collapsible="true">
+   <def title="构造器参数与依赖注入 – (val db: JdbcTemplate)">
+      <p>
+        Kotlin 中的类有一个主构造器. 还可以有一个或多个 <a href="classes.md#secondary-constructors">次级构造器</a>.
+        <i>主构造器</i> 是类头部的一部分, 位于类名称以及可选的类型参数之后.
+        在我们的例子中, 构造器是 <code>(val db: JdbcTemplate)</code>.
+      </p>
+      <p>
+        <code>val db: JdbcTemplate</code> 是构造器的参数:
+      </p>
+      <code style="block" lang="kotlin">
+      @Service
+      class MessageService(val db: JdbcTemplate)
+      </code>
+  </def>
+   <def title="尾缀 Lambda 表达式(Trailing Lambda) 与 SAM 转换">
+      <p>
+        <code>findMessages()</code> 函数调用 <code>JdbcTemplate</code> 类的 <code>query()</code> 函数.
+        <code>query()</code> 函数接受 2 个参数:
+        一个 SQL 查询, 类型为字符串, 以及一个回调, 将每一行查询结果转换为对象:
+      </p>
+      <code style="block" lang="sql">
+      db.query("...", RowMapper { ... } )
+      </code><br/>
+      <p>
+        <code>RowMapper</code> 接口只声明了一个方法, 因此可以使用 Lambda 表达式来实现它, 省略接口名称.
+        Kotlin 编译器知道表达式需要转换成的接口, 因为你将它用作函数调用的一个参数.
+        这个功能称为 <a href="java-interop.md#sam-conversions">Kotlin 中的SAM 转换</a>:
+      </p>
+      <code style="block" lang="sql">
+      db.query("...", { ... } )
+      </code><br/>
+      <p>
+        在 SAM 转换之后, query 函数得到 2 个参数: 首先是一个 String, 后面是一个 Lambda 表达式.
+        根据 Kotlin 的习惯, 如果一个函数的最后一个参数是一个函数, 那么传递给这个参数的 Lambda 表达式可以放在括号之外.
+        这样的语法称为 <a href="lambdas.md#passing-trailing-lambdas">尾缀 Lambda 表达式(Trailing Lambda)</a>:
+      </p>
+      <code style="block" lang="sql">
+      db.query("...") { ... }
+      </code>
+   </def>
+   <def title="对未使用的 Lambda 表达式参数使用下划线">
+      <p>
+        对于带有多个参数的 Lambda 表达式, 你可以使用下划线 <code>_</code> 符号来代替你不需要使用的参数的名称.
+      </p>
+      <p>
+        因此, query 函数调用的最终语法如下:
+      </p>
+      <code style="block" lang="kotlin">
+      db.query("select * from messages") { response, _ ->
+          Message(response.getString("id"), response.getString("text"))
+      }
+      </code>
+   </def>
+</deflist>
 
 ## 更新 MessageController 类
 
@@ -149,10 +122,15 @@ class MessageController(val service: MessageService) {
 
 ```
 
-### @PostMapping 注解
-负责处理 HTTP POST 请求的方法需要标注 `@PostMapping` 注解.
-为了将 HTTP 请求 Body 部的 JSON 内容转换为对象, 你需要对方法参数使用 `@RequestBody` 注解.
-由于 Jackson 库存在于应用程序的类路径中, 这个转换能够自动完成.
+<deflist collapsible="true">
+   <def title="@PostMapping 注解">
+      <p>
+        负责处理 HTTP POST 请求的方法需要标注 <code>@PostMapping</code> 注解.
+        为了将 HTTP 请求 Body 部的 JSON 内容转换为对象, 你需要对方法参数使用 <code>@RequestBody</code> 注解.
+        由于 Jackson 库存在于应用程序的类路径中, 这个转换能够自动完成.
+      </p>
+   </def>
+</deflist>
 
 ## 更新 MessageService 类
 
@@ -185,11 +163,15 @@ class MessageService(val db: JdbcTemplate) {
 }
 ```
 
-### Elvis 操作符 – ?:
-代码 `message.id ?: UUID.randomUUID().toString()` 使用了 [Elvis 操作符 (if-not-null-else 的缩写) `?:`](../null-safety.html#elvis-operator).
-如果 `?:` 左侧的表达式不是 `null`, Elvis 操作符会返回这个表达式的值; 否则, 它返回右侧表达式的值.
-注意, 右侧表达式只有在左侧表达式为 `null` 的情况下才会计算.
-
+<deflist collapsible="true">
+   <def title="Elvis 操作符 – ?:">
+      <p>
+        代码 <code>message.id ?: UUID.randomUUID().toString()</code> 使用了 <a href="null-safety.md#elvis-operator">Elvis 操作符 (if-not-null-else 的缩写) <code>?:</code></a>.
+        如果 <code>?:</code> 左侧的表达式不是 <code>null</code>, Elvis 操作符会返回这个表达式的值; 否则, 它返回右侧表达式的值.
+        注意, 右侧表达式只有在左侧表达式为 <code>null</code> 的情况下才会计算.
+      </p>
+   </def>
+</deflist>
 
 应用程序代码已经可以访问数据库了. 现在需要配置数据源.
 
@@ -199,7 +181,7 @@ class MessageService(val db: JdbcTemplate) {
 
 1. 在 `src/main/resources` 目录中创建 `schema.sql` 文件. 它将会保存数据库对象的定义:
 
-   <img src="/assets/docs/images/spring-boot/create-database-schema.png" alt="创建数据库 Schema" width="400"/>
+   ![创建数据库 Schema](create-database-schema.png){width=400}
 
 2. 更新 `src/main/resources/schema.sql` 文件, 内容如下:
 
@@ -267,13 +249,13 @@ class MessageService(val db: JdbcTemplate) {
 2. 执行所有的 POST 请求. 使用请求声明侧栏中的绿色 **Run** 图标.
    这些请求会将消息写入到数据库:
 
-   ![执行 POST 请求]({{ url_for('asset', path='docs/images/spring-boot/execute-post-requests.png') }})
+   ![执行 POST 请求](execute-post-requests.png)
 
 3. 执行 GET 请求, 并在 **Run** 工具窗口查看结果:
 
-   ![执行 GET 请求]({{ url_for('asset', path='docs/images/spring-boot/execute-get-requests.png') }})
+   ![执行 GET 请求](execute-get-requests.png)
 
-### 执行请求的其它方式
+### 执行请求的其它方式 {collapsible="true"}
 
 你也可以使用任何其它的 HTTP Client, 或 cURL 命令行工具.
 比如, 在终端中运行以下命令, 得到同样的结果:
@@ -318,9 +300,10 @@ curl -X GET --location "http://localhost:8080"
     }
     ```
 
-   > 通过 id 来获取 message 的 `.query()` 函数是由 Spring Framework 提供的一个 [Kotlin 扩展函数](../extensions.html#extension-functions),
-   > 如上面的代码所示, 它需要一个额外的 `import org.springframework.jdbc.core.query` 语句.
-   {:.warning}
+    > 通过 id 来获取 message 的 `.query()` 函数是由 Spring Framework 提供的一个 [Kotlin 扩展函数](extensions.md#extension-functions),
+    > 如上面的代码所示, 它需要一个额外的 `import org.springframework.jdbc.core.query` 语句.
+    >
+    {style="warning"}
 
 2. 向 `MessageController` 类添加新的 `index(...)` 函数, 参数是 `id`:
 
@@ -343,19 +326,30 @@ curl -X GET --location "http://localhost:8080"
     }
     ```
 
-   ### 从 context 路径得到值
-
-   Spring Framework 会从 context 路径得到 message 的 `id` 值, 因为你对新函数标注了 `@GetMapping("/{id}")` 注解.
-   通过对函数参数标注 `@PathVariable` 注解, 你告诉 Spring Framework 使用得到的值作为函数参数. 新函数会调用 `MessageService` 来通过 id 取得单个 message.
-
-   ### vararg 参数在参数列表中的位置
-
-   `query()` 函数接受 3 个参数:
-   * SQL 查询字符串, 它执行时需要一个参数
-   * `id`, 类型为字符串的参数
-   * `RowMapper` 实例, 由 Lambda 表达式实现
-
-   `query()` 函数的第 2 个参数声明为 *不定数量参数* (`vararg`). 在 Kotlin 中, 不定数量参数的位置并不要求是在参数列表的最后.
+    <deflist collapsible="true">
+    <def title="从 context 路径得到值">
+       <p>
+        Spring Framework 会从 context 路径得到 message 的 <code>id</code> 值,
+        因为你对新函数标注了 <code>@GetMapping(&quot;/{id}&quot;)</code> 注解.
+        通过对函数参数标注 <code>@PathVariable</code> 注解, 你告诉 Spring Framework 使用得到的值作为函数参数.
+        新函数会调用 <code>MessageService</code> 来通过 id 取得单个 message.
+       </p>
+    </def>
+    <def title="vararg 参数在参数列表中的位置">
+        <p>
+            <code>query()</code> 函数接受 3 个参数:
+        </p>
+        <list>
+            <li>SQL 查询字符串, 它执行时需要一个参数</li>
+            <li>`id`, 类型为字符串的参数</li>
+            <li><code>RowMapper</code> 实例, 由 Lambda 表达式实现</li>
+        </list>
+        <p>
+            <code>query()</code> 函数的第 2 个参数声明为 <i>不定数量参数</i> (<code>vararg</code>).
+            在 Kotlin 中, 不定数量参数的位置并不要求是在参数列表的最后.
+        </p>
+    </def>
+    </deflist>
 
 下面是 `DemoApplication.kt` 的完整代码:
 
@@ -414,6 +408,7 @@ class MessageService(val db: JdbcTemplate) {
     }
 }
 ```
+{collapsible="true"}
 
 ## 运行应用程序
 
@@ -438,14 +433,15 @@ Spring 应用程序已经可以运行了:
     ```
     
     > 请使用你的 message 的真实 id, 不要使用上面例子中的值.
-    {:.note}
+    >
+    {style="note"}
 
 5. 执行 GET 请求, 并在 **Run** 工具窗口中查看结果:
 
-    <img src="/assets/docs/images/spring-boot/retrieve-message-by-its-id.png" alt="根据 id 得到 message" width="706"/>
+    ![根据 id 得到 message](retrieve-message-by-its-id.png){width=706}
 
 ## 下一步
 
 本教程的最后部分会向你演示, 如何使用更加流行的数据库操作方式 Spring Data. 
 
-**[阅读下一章](jvm-spring-boot-using-crudrepository.html)**
+**[阅读下一章](jvm-spring-boot-using-crudrepository.md)**

@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Tools"
-title: "Kotlin 与 OSGi"
----
+[//]: # (title: Kotlin 与 OSGi)
 
-# Kotlin 与 OSGi
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 要在你的项目中使用 Kotlin 的 [OSGi](https://www.osgi.org/) 支持功能,
 需要使用 `kotlin-osgi-bundle`, 而不是通常的 Kotlin 库文件.
@@ -50,20 +43,53 @@ title: "Kotlin 与 OSGi"
 
 在 Gradle 工程中引入 `kotlin-osgi-bundle`:
 
-```groovy
-compile "org.jetbrains.kotlin:kotlin-osgi-bundle:$kotlinVersion"
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+dependencies {
+    implementation(kotlin("osgi-bundle"))
+}
 ```
 
-通过传递依赖, 你可能会间接依赖到一些默认的 Kotlin 库, 你可以使用以下方法删除这些库:
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 dependencies {
- compile (
-   [group: 'some.group.id', name: 'some.library', version: 'someversion'],
-   .....) {
-  exclude group: 'org.jetbrains.kotlin'
+    implementation "org.jetbrains.kotlin:kotlin-osgi-bundle:%kotlinVersion%"
 }
 ```
+
+</tab>
+</tabs>
+
+通过传递依赖, 你可能会间接依赖到一些默认的 Kotlin 库, 你可以使用以下方法删除这些库:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+dependencies {
+    implementation("some.group.id:some.library:someversion") {
+        exclude(group = "org.jetbrains.kotlin")
+    }
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+dependencies {
+    implementation('some.group.id:some.library:someversion') {
+        exclude group: 'org.jetbrains.kotlin'
+    }
+}
+```
+
+</tab>
+</tabs>
 
 ## FAQ
 

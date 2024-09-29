@@ -1,16 +1,10 @@
----
-type: doc
-layout: reference
-category: "Syntax"
-title: "动态类型"
----
+[//]: # (title: 动态类型)
 
-# 动态类型(Dynamic Type)
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 > 当编译目标平台为 JVM 时, 不支持动态类型.
-{:.note}
+>
+{style="note"}
 
 Kotlin 是一种静态类型的语言, 但它必须与无类型的或类型系统较为松散的语言交互, 比如 JavaScript 的环境.
 为了方便这样的使用场景, Kotlin 语言 提供了 `dynamic` 类型:
@@ -39,7 +33,7 @@ Kotlin 代码中的 `dyn.whatever(1)`,
 
 对 `dynamic` 类型的值调用 Kotlin 编写的函数时,
 要注意, Kotlin 到 JavaScript 编译器会进行名称混淆.
-你可能需要使用 [@JsName 注解](js-to-kotlin-interop.html#jsname-annotation)
+你可能需要使用 [@JsName 注解](js-to-kotlin-interop.md#jsname-annotation)
 来为你需要调用的函数指定一个明确的名称.
 
 一个动态调用永远会返回一个 `dynamic` 的结果, 因此你可以将这些调用自由地串联起来:

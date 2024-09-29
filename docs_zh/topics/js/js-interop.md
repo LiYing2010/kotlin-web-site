@@ -1,23 +1,16 @@
----
-type: doc
-layout: reference
-category: "JavaScript"
-title: "在 Kotlin 中使用 JavaScript 代码"
----
+[//]: # (title: 在 Kotlin 中使用 JavaScript 代码)
 
-# 在 Kotlin 中使用 JavaScript 代码
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin 设计时最优先重视与 Java 平台交互的问题:
 Kotlin 代码可以将 Java 类当作 Kotlin 类来使用, Java 代码也可以将 Kotlin 类当作 Java 类来使用.
 
 然而, JavaScript 是一种动态类型的语言, 也就是说它在编译时刻不做类型检查.
-通过 [动态类型](dynamic-type.html), 在 Kotlin 中你可以自由地与 JavaScript 交互,
+通过 [动态类型](dynamic-type.md), 在 Kotlin 中你可以自由地与 JavaScript 交互,
 如果你希望完全发挥 Kotlin 类型系统的能力, 你可以为 JavaScript 库创建外部声明,
 Kotlin 编译器及相关工具能够正确处理这些外部声明.
 
-## 内联 JavaScript
+## 内联 JavaScript {id="inline-javascript"}
 
 使用 [`js()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.js/js.html) 函数,
 你可以将 JavaScript 代码内联到你的 Kotlin 代码中.
@@ -39,13 +32,13 @@ fun jsTypeOf(o: Any): String {
 fun getTypeof() = "typeof"
 ```
 
-注意, 调用 `js()` 返回的值是 [`dynamic`](dynamic-type.html) 类型, 这个类型在编译时不保证任何类型安全性.
+注意, 调用 `js()` 返回的值是 [`dynamic`](dynamic-type.md) 类型, 这个类型在编译时不保证任何类型安全性.
 
-## external 修饰符
+## external 修饰符 {id="external-modifier"}
 
 你可以对某个声明使用 `external` 修饰符, 来告诉 Kotlin 它是由纯 JavaScript 编写的.
 编译器看到这样的声明后, 它会假定对应的类, 函数, 或属性的实现, 会由外部提供
-(由开发者提供, 或由 [npm 依赖项](js-project-setup.html#npm-dependencies)提供),
+(由开发者提供, 或由 [npm 依赖项](js-project-setup.md#npm-dependencies)提供),
 因此它不会为这个声明生成 JavaScript 代码.
 由于同样的原因, `external` 声明不能带有 body 部. 比如:
 
@@ -80,7 +73,7 @@ MyClass.sharedMember = function() { /* 实现代码 */ };
 MyClass.prototype.ownMember = function() { /* 实现代码 */ };
 ```
 
-在 Kotlin 中没有这样的语法. 但是, 在 Kotlin 中有 [`同伴`(companion)](object-declarations.html#companion-objects) 对象.
+在 Kotlin 中没有这样的语法. 但是, 在 Kotlin 中有 [`同伴`(companion)](object-declarations.md#companion-objects) 对象.
 Kotlin 以特殊的方式处理 `external` 类的同伴对象:
 它不是期待一个对象, 而是假设同伴对象的成员在 JavaScript 中是定义在类上的成员函数.
 上例中的 `MyClass`, 在 Kotlin 中可以写为:
@@ -139,8 +132,7 @@ class Bar : Foo() {
 - 带默认参数的函数不能覆盖.
 - `external` 类不能扩展非 `external` 类.
 
-
-### external 接口
+### external 接口 {id="external-interfaces"}
 
 JavaScript 没有接口的概念. 如果一个函数要求它的参数支持 `foo` 和 `bar` 两个方法,
 你只需要传递一个确实带有这些方法的对象.
@@ -201,10 +193,9 @@ fun sendQuery() {
     然后点击代码检查信息 "Unchecked cast to external interface" 旁的小箭头.
     在这里, 你可以选择对这个警告进行屏蔽的适用范围, 然后 IDE 会在你的源代码文件中添加对应的注解.
 
-
 ### 类型转换
 
-["不安全的" 类型转换操作符](/docs/reference_zh/typecasts.html#unsafe-cast-operator) `as`
+["不安全的" 类型转换操作符](typecasts.md#unsafe-cast-operator) `as`
 在转换失败时会抛出 `ClassCastException` 异常,
 除此之外, Kotlin/JS 还提供了 [`unsafeCast<T>()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.js/unsafe-cast.html).
 如果使用 `unsafeCast`, 在运行时 _完全不进行任何类型检查_. 比如, 对于下面两个方法:
@@ -227,17 +218,17 @@ function usingAsOperator(s) {
 }
 ```
 
-## 相等判断
+## 相等判断 {id="equality"}
 
 与其他平台相比, Kotlin/JS 的相等判断语义有所不同.
 
-在 Kotlin/JS 中, Kotlin [引用相等](../equality.html#referential-equality) 操作符 (`===`)
+在 Kotlin/JS 中, Kotlin [引用相等](equality.md#referential-equality) 操作符 (`===`)
 永远会翻译为 JavaScript 的
 [严格相等](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Strict_equality) 操作符 (`===`).
 
 JavaScript `===` 操作符不仅检查两个值相等, 而且检查这两个值的类型也相等:
 
- ```kotlin
+```kotlin
 fun main() {
     val name = "kotlin"
     val value1 = name.substring(0, 1)
@@ -247,19 +238,20 @@ fun main() {
     // 在 Kotlin/JS 平台, 输出结果为 'yes' 
     // 在其他平台, 输出结果为 'no'
 }
- ```
+```
 
-而且, 在 Kotlin/JS 中, 数值类型 [`Byte`, `Short`, `Int`, `Float`, 和 `Double`](js-to-kotlin-interop.html#kotlin-types-in-javascript)
+而且, 在 Kotlin/JS 中, 数值类型 [`Byte`, `Short`, `Int`, `Float`, 和 `Double`](js-to-kotlin-interop.md#kotlin-types-in-javascript)
 在运行期都使用 JavaScript 类型 `Number` 表达.
 因此, 这 5 种类型的值是无法区分的:
 
- ```kotlin
+```kotlin
 fun main() {
     println(1.0 as Any === 1 as Any)
     // 在 Kotlin/JS 平台, 输出结果为 'true'
     // 在其他平台, 输出结果为 'false'
 }
- ```
+```
 
-> 关于 Kotlin 中的相等判断, 更多详情请参见 [相等判断](../equality.html) 文档.
-{:.tip}
+> 关于 Kotlin 中的相等判断, 更多详情请参见 [相等判断](equality.md) 文档.
+>
+{style="tip"}

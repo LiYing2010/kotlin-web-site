@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Coroutine"
-title: "协程上下文与派发器(Dispatcher)"
----
+[//]: # (title: 协程上下文与派发器(Dispatcher))
 
-# 协程上下文与派发器(Dispatcher)
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 协程总是在某个上下文环境执行, 上下文环境通过 Kotlin 标准库中定义的
 [CoroutineContext](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.coroutines/-coroutine-context/)
@@ -16,7 +9,7 @@ title: "协程上下文与派发器(Dispatcher)"
 协程的上下文是一组不同的元素. 最主要的元素是协程的 [Job], 这个概念我们前面已经介绍过了,
 此外还有任务的派发器(Dispatcher), 本章我们来介绍派发器.
 
-## 派发器与线程
+## 派发器与线程 {id="dispatchers-and-threads"}
 
 协程上下文包含了一个 _协程派发器_ (参见 [CoroutineDispatcher]), 它负责确定对应的协程使用哪个或哪些线程来执行.
 协程派发器可以将协程的执行限定在某个特定的线程上,
@@ -27,8 +20,6 @@ title: "协程上下文与派发器(Dispatcher)"
 这个参数可以用来为新创建的协程显式地指定派发器, 以及其他上下文元素.
 
 我们来看看下面的示例程序:
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -47,14 +38,14 @@ fun main() = runBlocking<Unit> {
     launch(newSingleThreadContext("MyOwnThread")) { // 将会在独自的新线程内执行
         println("newSingleThreadContext: I'm working in thread ${Thread.currentThread().name}")
     }
-//sampleEnd    
+//sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-01.kt).
-{:.note}
+>
+{style="note"}
 
 这个示例程序的输出如下 (顺序可能略有不同):
 
@@ -81,7 +72,7 @@ main runBlocking      : I'm working in thread main
 在真实的应用程序中, 这样的线程, 必须在不再需要的时候使用 [close][ExecutorCoroutineDispatcher.close] 函数释放它,
 或者保存在一个顶层变量中, 并在应用程序内继续重用.
 
-## 非受限派发器(Unconfined dispatcher)与受限派发器(Confined dispatcher)
+## 非受限派发器(Unconfined dispatcher)与受限派发器(Confined dispatcher) {id="unconfined-vs-confined-dispatcher"}
 
 [Dispatchers.Unconfined] 协程派发器会在调用者线程内启动协程, 但只会持续运行到第一次挂起点为止.
 在挂起之后, 它会在哪个线程内恢复协程的执行, 这完全由被调用的挂起函数来决定.
@@ -92,8 +83,6 @@ main runBlocking      : I'm working in thread main
 具体来说, 对于 [runBlocking] 协程, 默认的派发器会限定为调用它的那个线程,
 因此继承这个派发器的效果就是, 将协程的执行限定在这个线程上,
 并且执行顺序为可预测的先进先出(FIFO)调度顺序.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -110,14 +99,14 @@ fun main() = runBlocking<Unit> {
         delay(1000)
         println("main runBlocking: After delay in thread ${Thread.currentThread().name}")
     }
-//sampleEnd    
+//sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-02.kt).
-{:.note}
+>
+{style="note"}
 
 上面的示例程序的输出如下:
 
@@ -138,26 +127,28 @@ main runBlocking: After delay in thread main
 > 如果我们不需要控制协程在哪个线程上执行, 或者由于协程中的某些操作必须立即执行,
 > 因此对其进行控制会导致一些不希望的副作用, 这时使用非受限派发器就非常有用.
 > 在通常的代码中不应该使用非受限派发器.
-{:.note}
+>
+{style="note"}
 
-## 协程与线程的调试
+## 协程与线程的调试 {id="debugging-coroutines-and-threads"}
 
 协程可以在一个线程内挂起, 然后在另一个线程中恢复运行.
 如果不使用特殊的工具, 那么即使协程的派发器只使用一个线程,
 也很难弄清楚协程在哪里, 在什么时间, 具体做了什么操作.
 
-### 使用 IDEA 进行调试
+### 使用 IDEA 进行调试 {id="debugging-with-idea"}
 
 Kotlin 插件的 Coroutine 调试器帮助我们在 IntelliJ IDEA 中调试协程.
 
 > 调试功能适用于 `kotlinx-coroutines-core` 的 1.3.8 或以后版本.
-{:.note}
+>
+{style="note"}
 
 **Debug** Tool Window 包含 **Coroutines** 页面.
 在这个页面中, 你可以看到运行中的和挂起的协程的信息.
 协程按照它们运行时所属的派发器分组.
 
-<img src="{{ url_for('asset', path='docs/images/coroutines/coroutine-idea-debugging-1.png') }}" alt="调试协程" width="700" />
+![调试协程](coroutine-idea-debugging-1.png){width=700}
 
 通过协程调试器, 你可以:
 * 检查每个协程的状态.
@@ -171,7 +162,7 @@ Kotlin 插件的 Coroutine 调试器帮助我们在 IntelliJ IDEA 中调试协�
 
 关于协程调试, 更多详情请参见这篇 [教程](https://kotlinlang.org/docs/tutorials/coroutines/debug-coroutines-with-idea.html).
 
-### 使用日志进行调试
+### 使用日志进行调试 {id="debugging-using-logging"}
 
 如果没有协程调试器, 那么对于多线程应用程序的另一种调试方法是, 在日志文件的每一条日志信息中输出线程名称.
 在各种日志输出框架中都广泛的支持这个功能.
@@ -179,8 +170,6 @@ Kotlin 插件的 Coroutine 调试器帮助我们在 IntelliJ IDEA 中调试协�
 因此 `kotlinx.coroutines` 包含了一些调试工具来方便我们的调试工作.
 
 请使用 JVM 选项 `-Dkotlinx.coroutines.debug` 来运行下面的示例程序:
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -198,14 +187,14 @@ fun main() = runBlocking<Unit> {
         7
     }
     log("The answer is ${a.await() * b.await()}")
-//sampleEnd    
+//sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-03.kt).
-{:.note}
+>
+{style="note"}
 
 上面的例子中会出现 3 个协程. `runBlocking` 之内的主协程 (#1),
 以及另外 2 个计算延迟值的协程 `a` (#2) 和 `b` (#3).
@@ -226,13 +215,12 @@ fun main() = runBlocking<Unit> {
 
 > 当使用 `-ea` 参数运行 JVM 时, 也会打开调试模式.
 > 关于调试工具的详情, 请参见 [DEBUG_PROPERTY_NAME] 属性的文档.
-{:.note}
+>
+{style="note"}
 
-## 在线程间跳转
+## 在线程间跳转 {id="jumping-between-threads"}
 
 请使用 JVM 参数 `-Dkotlinx.coroutines.debug` 运行下面的示例程序 (参见 [debug](#debugging-coroutines-and-threads)):
-
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -255,10 +243,11 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-04.kt).
-{:.note}
+>
+{style="note"}
 
 上面的示例程序演示了几种技巧. 一是使用明确指定的上下文来调用 [runBlocking],
 另一个技巧是使用 [withContext] 函数, 在同一个协程内切换协程的上下文,
@@ -275,12 +264,10 @@ fun main() {
 注意, 这个示例程序还使用了 Kotlin 标准库的 `use` 函数,
 以便在 [newSingleThreadContext] 创建的线程不再需要的时候释放它.
 
-## 在上下文中的任务
+## 在上下文中的任务 {id="job-in-the-context"}
 
 协程的 [Job] 是协程上下文的一部分, 而且可以通过自己的上下文来访问到 [Job],
 方法是使用 `coroutineContext[Job]` 表达式:
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -288,18 +275,18 @@ import kotlinx.coroutines.*
 fun main() = runBlocking<Unit> {
 //sampleStart
     println("My job is ${coroutineContext[Job]}")
-//sampleEnd    
+//sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-05.kt).
-{:.note}
+>
+{style="note"}
 
 在 [调试模式](#debugging-coroutines-and-threads) 下运行时, 这个示例程序的输出类似于:
 
-```
+```text
 My job is "coroutine#1":BlockingCoroutine{Active}@6d311334
 ```
 
@@ -308,7 +295,7 @@ My job is "coroutine#1":BlockingCoroutine{Active}@6d311334
 注意, [CoroutineScope] 中的 [isActive]
 只是 `coroutineContext[Job]?.isActive == true` 的一个简写.
 
-## 协程的子协程
+## 协程的子协程 {id="children-of-a-coroutine"}
 
 当一个协程在另一个协程的 [CoroutineScope] 内启动时,
 它会通过 [CoroutineScope.coroutineContext] 继承这个协程的上下文,
@@ -323,8 +310,6 @@ My job is "coroutine#1":BlockingCoroutine{Active}@6d311334
    那么这个参数会覆盖父 scope 的 `Job`.
 
 以上两种情况, 启动的协程都不会被绑定到启动它的那段代码的作用范围, 并会独自运行.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -354,11 +339,11 @@ fun main() = runBlocking<Unit> {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-06.kt).
-{:.note}
+>
+{style="note"}
 
 这个示例程序的运行结果是:
 
@@ -371,12 +356,10 @@ job1: I am not affected by cancellation of the request
 
 <!--- TEST -->
 
-## 父协程的职责
+## 父协程的职责 {id="parental-responsibilities"}
 
 父协程总是会等待它的所有子协程运行完毕.
 父协程不必明确地追踪它启动的子协程, 也不必使用 [Job.join] 来等待子协程运行完毕:
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -398,11 +381,11 @@ fun main() = runBlocking<Unit> {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-07.kt).
-{:.note}
+>
+{style="note"}
 
 这个示例程序的运行结果如下:
 
@@ -416,7 +399,7 @@ Now processing of the request is complete
 
 <!--- TEST -->
 
-## 为协程命名以便于调试
+## 为协程命名以便于调试 {id="naming-coroutines-for-debugging"}
 
 如果协程频繁输出日志, 而且你只需要追踪来自同一个协程的日志, 那么使用系统自动赋予的协程 id 就足够了.
 然而, 如果协程与某个特定的输入处理绑定在一起, 或者负责执行某个后台任务, 那么最好明确地为协程命名, 以便于调试.
@@ -424,8 +407,6 @@ Now processing of the request is complete
 当 [调试模式](#debugging-coroutines-and-threads) 开启时, 协程名称会包含在正在运行这个协程的线程的名称内.
 
 下面的示例程序演示这个概念:
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -447,14 +428,14 @@ fun main() = runBlocking(CoroutineName("main")) {
         6
     }
     log("The answer for v1 / v2 = ${v1.await() / v2.await()}")
-//sampleEnd    
+//sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-08.kt).
-{:.note}
+>
+{style="note"}
 
 使用 JVM 参数 `-Dkotlinx.coroutines.debug` 运行这个示例程序时, 输出类似于以下内容:
 
@@ -467,12 +448,10 @@ fun main() = runBlocking(CoroutineName("main")) {
 
 <!--- TEST FLEXIBLE_THREAD -->
 
-## 组合上下文中的元素
+## 组合上下文中的元素 {id="combining-context-elements"}
 
 有些时候我们会需要对协程的上下文定义多个元素. 这时我们可以使用 `+` 操作符.
 比如, 我们可以同时使用明确指定的派发器, 以及明确指定的名称, 来启动一个协程:
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -482,14 +461,14 @@ fun main() = runBlocking<Unit> {
     launch(Dispatchers.Default + CoroutineName("test")) {
         println("I'm working in thread ${Thread.currentThread().name}")
     }
-//sampleEnd    
+//sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-09.kt).
-{:.note}
+>
+{style="note"}
 
 使用 JVM 参数 `-Dkotlinx.coroutines.debug` 运行这个示例程序时, 输出结果是:
 
@@ -499,7 +478,7 @@ I'm working in thread DefaultDispatcher-worker-1 @test#2
 
 <!--- TEST FLEXIBLE_THREAD -->
 
-## 协程的作用范围(Scope)
+## 协程的作用范围(Scope) {id="coroutine-scope"}
 
 下面我们把上下文, 子协程, 任务的相关知识综合起来.
 假设我们的应用程序中有一个对象, 它存在一定的生命周期, 但这个对象不是一个协程.
@@ -548,8 +527,6 @@ activity 销毁之后, 即使再等待一段时间, 协程也不再向屏幕输�
 
 <!--- CLEAR -->
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
-
 ```kotlin
 import kotlinx.coroutines.*
 
@@ -580,14 +557,14 @@ fun main() = runBlocking<Unit> {
     println("Destroying activity!")
     activity.destroy() // 取消所有协程
     delay(1000) // 确认协程不再继续工作
-//sampleEnd    
+//sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-10.kt).
-{:.note}
+>
+{style="note"}
 
 这个示例程序的输出如下:
 
@@ -605,9 +582,10 @@ Destroying activity!
 
 > 注意, Android 对于协程作用范围的整个生命周期提供了一类支持(first-party support).
 > 详情请参见 [相应的文档](https://developer.android.com/topic/libraries/architecture/coroutines#lifecyclescope).
-{:.note}
+>
+{style="note"}
 
-### 线程的局部数据
+### 线程的局部数据 {id="thread-local-data"}
 
 有些时候, 如果能够向协程传递, 或者在协程直接传递一些线程局部的数据(thread-local data), 将是一种很方便的功能,
 但是, 协程并没有关联到某个具体的线程, 因此, 如果自己写代码来实现这种功能, 可能会导致大量的样板代码.
@@ -617,8 +595,6 @@ Destroying activity!
 它会创建一个额外的上下文元素, 用来保持某个给定的 `ThreadLocal` 的值, 并且每次当协程切换上下文时就恢复它的值.
 
 我们通过一个例子来演示如何使用这个函数:
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -639,11 +615,11 @@ fun main() = runBlocking<Unit> {
 //sampleEnd
 }
 ```
-
-</div>                                                                                       
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-11.kt).
-{:.note}
+>
+{style="note"}
 
 在这个示例程序中, 我们使用 [Dispatchers.Default], 在后台线程池中启动了一个新的协程,
 因此协程会在线程池的另一个线程中运行,

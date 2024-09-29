@@ -1,15 +1,8 @@
----
-type: doc
-layout: reference
-category:
-title: "无符号整数类型"
----
+[//]: # (title: 无符号整数(Unsigned Integer)类型)
 
-# 无符号整数(Unsigned Integer)类型
+最终更新: %latestDocDate%
 
-最终更新: {{ site.data.releases.latestDocDate }}
-
-除 [整数类型](numbers.html#integer-types) 外, Kotlin 还提供了以下无符号整数类型:
+除 [整数类型](numbers.md#integer-types) 外, Kotlin 还提供了以下无符号整数类型:
 
 | 类型       | 大小 (位) | 最小值 | 最大值                                       |
 |----------|-----------|-----------|-------------------------------------------------|
@@ -21,15 +14,17 @@ title: "无符号整数类型"
 
 无符号整数支持有符号整数的大多数运算符.
 
-> 无符号数值以 [内联类](inline-classes.html) 的方式实现, 内部存储属性包含对应的同等宽度的有符号数值类型.
+> 无符号数值以 [内联类](inline-classes.md) 的方式实现, 内部存储属性包含对应的同等宽度的有符号数值类型.
 > 如果你想要在无符号和有符号的整数类型之间转换, 请确认更新了你的代码, 让所有的函数调用和操作都支持新的类型.
-{:.note}
+>
+{style="note"}
 
 ## 无符号整数的数组和值范围
 
-> 无符号整数的数组以及对这些数组的操作目前处于 [Beta](components-stability.html) 状态.
+> 无符号整数的数组以及对这些数组的操作目前处于 [Beta](components-stability.md) 状态.
 > 随时可能发生不兼容的变化. 使用时需要明确同意(Opt-in)(详情请参见下文).
-{:.note}
+>
+{style="note"}
 
 与基本类型相同, 每一种无符号整数类型都有一个对应的类来表示由它构成的数组:
 
@@ -44,11 +39,10 @@ title: "无符号整数类型"
 要消除这个警告, 请使用 `@ExperimentalUnsignedTypes` 注解, 标注使用者同意(Opt-in).
 你的代码的使用者是否也需要明确同意使用你的 API, 这一点由你来决定,
 但请注意, 无符号整数数组还不是稳定的功能, 因此由于语言本身的变化, 使用它们的 API 可能会出现错误.
-详情请参见 [明确要求使用者同意的功能(Opt-in Requirement)](opt-in-requirements.html).
+详情请参见 [明确要求使用者同意的功能(Opt-in Requirement)](opt-in-requirements.md).
 
-为了支持 `UInt` 和 `ULong` 类型的 [值范围与数列](ranges.html) 功能,
+为了支持 `UInt` 和 `ULong` 类型的 [值范围与数列](ranges.md) 功能,
 还提供了 `UIntRange`, `UIntProgression`, `ULongRange`, `ULongProgression` 类.
-
 
 ## 无符号整数的字面值(literal)
 

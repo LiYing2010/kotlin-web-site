@@ -1,56 +1,16 @@
----
-type: doc
-layout: reference
-category:
-title: "基本类型"
----
+[//]: # (title: 基本类型)
 
-# 基本类型
+最终更新: %latestDocDate%
 
-最终更新: {{ site.data.releases.latestDocDate }}
-
-<table style="border-style: solid; border-color: #D1D1D2">
-    <tr>
-        <td>
-        <div style="display: block">
-            <div style="vertical-align: middle; display: inline-flex">
-                <img src="/assets/docs/images/icons/icon-1-done.svg" alt="第 1 步" width="20"/> &nbsp;
-                <a href="kotlin-tour-hello-world.html">Hello world</a>
-            </div>
-            <br/>
-            <div style="vertical-align: middle; display: inline-flex">
-                <img src="/assets/docs/images/icons/icon-2.svg" alt="第 2 步" width="20"/> &nbsp;
-                <strong>基本类型</strong>
-            </div>
-            <br/>
-            <div style="vertical-align: middle; display: inline-flex">
-                <img src="/assets/docs/images/icons/icon-3-todo.svg" alt="第 3 步" width="20"/> &nbsp;
-                <a href="kotlin-tour-collections.html">集合(Collection)</a>
-            </div>
-            <br/>
-            <div style="vertical-align: middle; display: inline-flex">
-                <img src="/assets/docs/images/icons/icon-4-todo.svg" alt="第 4 步" width="20"/> &nbsp;
-                <a href="kotlin-tour-control-flow.html">控制流</a>
-            </div>
-            <br/>
-            <div style="vertical-align: middle; display: inline-flex">
-                <img src="/assets/docs/images/icons/icon-5-todo.svg" alt="第 5 步" width="20"/> &nbsp;
-                <a href="kotlin-tour-functions.html">函数</a>
-            </div>
-            <br/>
-            <div style="vertical-align: middle; display: inline-flex">
-                <img src="/assets/docs/images/icons/icon-6-todo.svg" alt="第 6 步" width="20"/> &nbsp;
-                <a href="kotlin-tour-classes.html">类</a>
-            </div>
-            <br/>
-            <div style="vertical-align: middle; display: inline-flex">
-                <img src="/assets/docs/images/icons/icon-7-todo.svg" alt="第 7 步" width="20"/> &nbsp;
-                <a href="kotlin-tour-null-safety.html">Null 值安全性</a>
-            </div>
-        </div>
-        </td>
-    </tr>
-</table>
+<tldr>
+    <p><img src="icon-1-done.svg" width="20" alt="第 1 步" /> <a href="kotlin-tour-hello-world.md">Hello world</a><br />
+        <img src="icon-2.svg" width="20" alt="第 2 步" /> <strong>基本类型</strong><br />
+        <img src="icon-3-todo.svg" width="20" alt="第 3 步" /> <a href="kotlin-tour-collections.md">集合(Collection)</a><br />
+        <img src="icon-4-todo.svg" width="20" alt="第 4 步" /> <a href="kotlin-tour-control-flow.md">控制流</a><br />
+        <img src="icon-5-todo.svg" width="20" alt="第 5 步" /> <a href="kotlin-tour-functions.md">函数</a><br />
+        <img src="icon-6-todo.svg" width="20" alt="第 6 步" /> <a href="kotlin-tour-classes.md">类</a><br />
+        <img src="icon-7-todo.svg" width="20" alt="第 7 步" /> <a href="kotlin-tour-null-safety.md">Null 值安全性</a></p>
+</tldr>
 
 在 Kotlin 中, 每个变量和数据结构都有一个数据类型.
 数据类型很重要, 因为它告诉编译器你可以对这个变量或数据结构做什么样的操作.
@@ -60,8 +20,6 @@ title: "基本类型"
 Kotlin **推断** 数据类型的能力称为 **类型推断**.
 `customers` 被赋值了一个整数值. 根据这一点, Kotlin 推断 `customers` 拥有数值型的数据类型: `Int`.
 结果是, 编译器知道你可以对 `customers` 执行算数操作:
-
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3" id="kotlin-tour-basic-types-arithmetic">
 
 ```kotlin
 fun main() {
@@ -81,12 +39,12 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-basic-types-arithmetic"}
 
 > `+=`, `-=`, `*=`, `/=`, 和 `%=` 是计算并赋值操作符(Augmented Assignment Operator).
-> 详情请参见 [计算并赋值](../operator-overloading.html#augmented-assignments).
-{:.tip}
+> 详情请参见 [计算并赋值](operator-overloading.md#augmented-assignments).
+> 
+{style="tip"}
 
 总的来说, Kotlin 有以下数据类型:
 
@@ -99,7 +57,7 @@ fun main() {
 | 字符     | `Char`                             |
 | 字符串    | `String`                           |
 
-关于基本类型和它们的属性, 详情请参见 [基本类型](../basic-types.html).
+关于基本类型和它们的属性, 详情请参见 [基本类型](basic-types.md).
 
 有了这些知识之后, 你可以声明变量, 并初始化这些变量.
 只要变量在第一次读取之前初始化, Kotlin 就能够正确处理这些变量.
@@ -107,8 +65,6 @@ fun main() {
 要声明一个变量但不初始化, 请使用 `:` 来指定它的类型.
 
 例如:
-
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3" id="kotlin-tour-basic-types-initialization">
 
 ```kotlin
 fun main() {
@@ -127,19 +83,17 @@ fun main() {
 //sampleEnd
 }
 ```
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-basic-types-initialization"}
 
-</div>
-
-现在你已经知道了如何声明基本类型, 下面我们来学习 [集合(Collection)](kotlin-tour-collections.html).
+现在你已经知道了如何声明基本类型, 下面我们来学习 [集合(Collection)](kotlin-tour-collections.md).
 
 ## 实际练习
 
-### 习题
+### 习题 {collapsible="true"}
 
 为每个变量明确声明正确的类型:
 
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3" id="kotlin-tour-basic-types-exercise">
-
+|---|---|
 ```kotlin
 fun main() {
     val a = 1000
@@ -150,13 +104,9 @@ fun main() {
     val f = '\n'
 }
 ```
+{validate="false" kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-basic-types-exercise"}
 
-</div>
-
-#### 参考答案
-
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3" data-highlight-only id="kotlin-tour-basic-types-solution">
-
+|---|---|
 ```kotlin
 fun main() {
     val a: Int = 1000
@@ -167,9 +117,8 @@ fun main() {
     val f: Char = '\n'
 }
 ```
-
-</div>
+{collapsible="true" collapsed-title="参考答案" id="kotlin-tour-basic-types-solution"}
 
 ## 下一步
 
-[集合(Collection)](kotlin-tour-collections.html)
+[集合(Collection)](kotlin-tour-collections.md)

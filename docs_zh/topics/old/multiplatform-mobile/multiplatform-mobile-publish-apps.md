@@ -1,12 +1,6 @@
----
-type: doc
-layout: reference
-title: "发布你的应用程序"
----
+[//]: # (title: 发布你的应用程序)
 
-# 发布你的应用程序
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 当你的移动应用程序准备好之后, 现在可以将它们发布到应用程序商店, 交给用户使用了.
 对各个平台存在很多应用程序商店. 但是, 本文我们只介绍官方商店:

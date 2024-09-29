@@ -1,22 +1,16 @@
----
-type: doc
-layout: reference
-category:
-title: "Kotlin Night 指南"
----
+[//]: # (title: Kotlin Night 指南)
 
-# Kotlin Night 指南
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin Night 是一种聚会, 包含 3 到 4 次关于 Kotlin 或相关技术的演讲.
 
-> 关于 Kotlin Night 的品牌资产, 请参见 [Kotlin 品牌资产文档](kotlin-brand-assets.html#kotlin-night-brand-assets).
-{:.note}
+> 关于 Kotlin Night 的品牌资产, 请参见 [Kotlin 品牌资产文档](kotlin-brand-assets.md#kotlin-night-brand-assets).
+>
+{style="note"}
 
 ## 活动指南
 
-* 请使用我们提供的 [品牌素材](kotlin-brand-assets.html#kotlin-night-brand-assets).
+* 请使用我们提供的 [品牌素材](kotlin-brand-assets.md#kotlin-night-brand-assets).
   所有活动和素材使用相同的风格, 将会有助于让 Kotlin Night 的体验保持统一.
 * Kotlin Night 应该是免费的活动. 可以收取最低费用来应付必须的开支, 但应该是非营利的活动.
 * 活动应该公开宣布, 并且允许任何人参加, 没有任何歧视性的限制.

@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "时间测量"
----
+[//]: # (title: 时间测量)
 
-# 时间测量
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin 标准库为你提供了一些工具, 使用不同的单位计算和测量时间.
 精确的时间测量对下面这些活动是非常重要的:
@@ -39,11 +32,10 @@ Kotlin 标准库为你提供了一些工具, 使用不同的单位计算和测�
 `nanoseconds`, `microseconds`, `milliseconds`, `seconds`, `minutes`, `hours`, 和 `days`.
 
 > 天表示24小时的时间长度. 不是日历上的天.
-> {:.tip}
+>
+{style="tip"}
 
 示例:
-
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3" id="kotlin-time-create-duration">
 
 ```kotlin
 import kotlin.time.*
@@ -71,11 +63,9 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-time-create-duration"}
 
 你也可以对 `Duration` 对象进行基本的算数运算:
-
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3" id="kotlin-time-create-duration-arithmetic">
 
 ```kotlin
 import kotlin.time.*
@@ -103,7 +93,7 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-time-create-duration-arithmetic"}
 
 ### 获取字符串表达
 
@@ -114,8 +104,6 @@ fun main() {
 例如: `1h 0m 45.677s` 或 `-(6d 5h 5m 28.284s)`
 
 要配置输出, 请使用 `.toString()` 函数, 以你希望的 `DurationUnit` 和小数位数, 作为函数参数:
-
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3" id="kotlin-time-string-representation">
 
 ```kotlin
 import kotlin.time.Duration
@@ -130,11 +118,9 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-time-string-representation"}
 
 要得到 [ISO-8601 兼容](https://en.wikipedia.org/wiki/ISO_8601) 的字符串, 请使用 [`toIsoString()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.time/-duration/to-iso-string.html) 函数:
-
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3" id="kotlin-time-iso-string-representation">
 
 ```kotlin
 import kotlin.time.Duration.Companion.seconds
@@ -145,7 +131,7 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-time-iso-string-representation"}
 
 ### 转换持续时间
 
@@ -159,8 +145,6 @@ fun main() {
 
 示例:
 
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3" id="kotlin-time-convert-duration">
-
 ```kotlin
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
@@ -173,7 +157,7 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-time-convert-duration"}
 
 或者, 你也可以使用下面的扩展函数, 以你希望的 `DurationUnit` 作为函数参数:
 * `.toInt()`
@@ -181,8 +165,6 @@ fun main() {
 * `.toLong()`
 
 示例:
-
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3" id="kotlin-time-convert-duration-extension">
 
 ```kotlin
 import kotlin.time.Duration.Companion.seconds
@@ -195,13 +177,11 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-time-convert-duration-extension"}
 
 ### 比较持续时间
 
 要检查 `Duration` 对象是否相等, 请使用相等操作符 (`==`):
-
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3" id="kotlin-time-equality-duration">
 
 ```kotlin
 import kotlin.time.Duration
@@ -217,11 +197,9 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-time-equality-duration"}
 
 要比较 `Duration` 对象, 请使用比较操作符 (`<`, `>`):
-
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3" id="kotlin-time-compare-duration">
 
 ```kotlin
 import kotlin.time.Duration.Companion.microseconds
@@ -234,7 +212,7 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-time-compare-duration"}
 
 ### 将持续时间分解为不同的部分
 
@@ -242,9 +220,7 @@ fun main() {
 [`toComponents()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.time/-duration/to-components.html) 函数的重载版本.
 将你希望执行的后续操作, 以函数或 Lambda 表达式的形式, 作为 `toComponents()` 函数的参数.
 
-For example:
-
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3" id="kotlin-time-duration-components">
+示例:
 
 ```kotlin
 import kotlin.time.Duration
@@ -258,10 +234,10 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-time-duration-components"}
 
 在上面的示例中, Lambda 表达式使用 `hours` 和 `minutes` 作为参数, 另外还有下划线 (`_`) 对用于未使用的参数 `seconds` 和 `nanoseconds`.
-Lambda 表达式使用 [字符串模板](strings.html#string-templates), 得到所需要的 `hours` 和 `minutes` 的输出格式, 最后返回拼接的字符串.
+Lambda 表达式使用 [字符串模板](strings.md#string-templates), 得到所需要的 `hours` 和 `minutes` 的输出格式, 最后返回拼接的字符串.
 
 ## 测量时间
 
@@ -277,8 +253,6 @@ Lambda 表达式使用 [字符串模板](strings.html#string-templates), 得到�
 要测量执行一段代码消耗的时间,
 请使用内联函数 [`measureTime`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.time/measure-time.html):
 
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3" id="kotlin-time-measure-time">
-
 ```kotlin
 import kotlin.time.measureTime
 
@@ -291,14 +265,12 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-time-measure-time"}
 
 要测量执行一段代码消耗的时间, **并且** 返回这段代码的执行结果,
 请使用内联函数 [`measureTimedValue`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.time/measure-time.html). 
 
 示例:
-
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3" id="kotlin-time-measure-timed-value">
 
 ```kotlin
 import kotlin.time.measureTimedValue
@@ -314,7 +286,7 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-time-measure-timed-value"}
 
 默认情况下, 这两个函数使用一个单调时间源(monotonic time source).
 
@@ -341,8 +313,6 @@ fun main() {
 
 示例:
 
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3" id="kotlin-time-measure-difference">
-
 ```kotlin
 import kotlin.time.*
 
@@ -366,13 +336,11 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-time-measure-difference"}
 
 要检查是否已经经过了某个截止时刻, 或者是否已经到达超时时间, 请使用 [`hasPassedNow()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.time/-time-mark/has-passed-now.html)
 和 [`hasNotPassedNow()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.time/-time-mark/has-not-passed-now.html)
 扩展函数:
-
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3" id="kotlin-time-deadline=passed">
 
 ```kotlin
 import kotlin.time.*
@@ -397,7 +365,7 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-time-deadline=passed"}
 
 ## 时间源
 
@@ -417,7 +385,7 @@ fun main() {
 | Kotlin/JS (browser) | `window.performance.now()` 或 `Date.now()`                           |
 | Kotlin/Native       | `std::chrono::high_resolution_clock` or `std::chrono::steady_clock` |
 
-### 创建时间源
+### 创建时间源 {id="create-time-source"}
 
 有些情况下, 你可能想要使用不同的时间源.
 例如, 在 Android 中, `System.nanoTime()` 在设备活动时才计算时间.
@@ -440,5 +408,6 @@ fun main() {
     println(elapsed) // 例如 103 ms
 }
 ```
+{validate="false"}
 
 关于 `kotlin.time` 包, 更多详情请参见我们的 [标准库 API 参考文档](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.time/).

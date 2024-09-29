@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "使用 npm 中的依赖项"
----
+[//]: # (title: 使用 npm 中的依赖项)
 
-# 使用 npm 中的依赖项
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 在 Kotlin/JS 项目中, 所有的依赖项都可以通过 Gradle plugin 来管理. 包括 Kotlin/Multiplatform 库,
 比如`kotlinx.coroutines`, `kotlinx.serialization`, 或 `ktor-client`.
@@ -57,4 +50,4 @@ false
 由于 JavaScript 生态系统有很多种方式来导出包中的函数 (比如通过命名的导出, 或默认导出),
 因此对于其他 npm 包, 它的外部声明可能需要稍微不同的结构.
 
-关于如何编写外部声明, 请参见 [在 Kotlin 中使用 JavaScript 代码](js-interop.html).
+关于如何编写外部声明, 请参见 [在 Kotlin 中使用 JavaScript 代码](js-interop.md).

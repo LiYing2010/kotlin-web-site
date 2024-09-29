@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Introduction"
-title: "使用 Kotlin 进行 Android 开发"
----
+[//]: # (title: 使用 Kotlin 进行 Android 开发)
 
-# 使用 Kotlin 进行 Android 开发
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 2019 年的 Google I/O 大会宣布, [Kotlin 成为 Android 移动应用开发的首选语言](https://developer.android.com/kotlin/first).
 

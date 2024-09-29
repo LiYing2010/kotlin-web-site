@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "集合"
-title: "集合(Collection)概述"
----
+[//]: # (title: 集合(Collection)概述)
 
-# 集合(Collection)概述
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin 标准库提供了丰富的工具用来管理 _集合(Collection)_ – 数量可变的一组项目 (数量允许为 0),
 这些集合对于解决我们的问题都非常重要, 而且使用类似的方式进行操作.
@@ -38,10 +31,11 @@ Kotlin 提供的集合操作功能, 与集合中元素的具体数据类型无�
 集合接口和相关的函数存放在 `kotlin.collections` 包之下.
 下面我们大致介绍其中的内容.
 
-> 数组不是集合(Collection)类型. 详情请参见 [数组](arrays.html).
-{:.note}
+> 数组不是集合(Collection)类型. 详情请参见 [数组](arrays.md).
+>
+{style="note"}
 
-## 集合类型
+## 集合类型 {id="collection-types"}
 
 Kotlin 标准库实现了基本的集合类型: set, list, 以及 map.
 下面的每一对接口代表一种集合类型:
@@ -50,14 +44,12 @@ Kotlin 标准库实现了基本的集合类型: set, list, 以及 map.
 * 一个 _可变(mutable)_ 接口, 继承对应的只读接口,
   另外增加了写操作: 添加, 删除, 以及更新集合元素.
 
-注意, 内容可变的集合, 并不要求集合变量声明为 [`var`](basic-syntax.html#variables).
+注意, 内容可变的集合, 并不要求集合变量声明为 [`var`](basic-syntax.md#variables).
 即使可变集合赋值给 `val`, 仍然可以对它进行写操作.
 将可变集合复制给 `val` 的好处是, 你可以保证指向这个可变集合的引用不会被修改.
 随着时间的流逝, 你的代码规模会逐渐增长, 并变得更加复杂, 防止无意的修改引用会变得更加重要.
 尽可能的使用 `val`, 有助于编写更加安全和健壮的代码.
 如果你想要对 `val` 类型的集合重新赋值, 会发生编译错误:
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 fun main() {
@@ -67,13 +59,11 @@ fun main() {
     println(numbers)
     //numbers = mutableListOf("six", "seven")      // 编译错误
 //sampleEnd
-
 }
 ```
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-</div>
-
-只读的集合类型是 [协变的(covariant)](generics.html#variance).
+只读的集合类型是 [协变的(covariant)](generics.md#variance).
 也就是说, 假设 `Rectangle` 类继承自 `Shape` 类,
 那么在任何需要 `List<Shape>` 的地方你都可以使用 `List<Rectangle>`.
 换句话说, 集合类型之间的父类型-子类型关系, 与集合中的元素类型之间的父类型-子类型关系相同.
@@ -86,15 +76,13 @@ Map 类型对于它的值(value)的数据类型是协变的(covariant), 但对�
 
 下面是 Kotlin 集合接口之间的继承关系图:
 
-![集合接口继承关系图]({{ url_for('asset', path='docs/images/reference/collections-overview/collections-diagram.png') }})
+![集合接口继承关系图](collections-diagram.png){width="500"}
 
-下面我们来介绍这些接口, 以及他们的实现.
-
-关于 `Collection`, 请阅读本节以下部分.
+下面我们来介绍这些接口, 以及他们的实现. 关于 `Collection`, 请阅读本节以下部分.
 关于 `List`, `Set`, 和 `Map`, 你可以阅读对应的章节,
 也可以观看 Sebastian Aigner 讲解的视频, 他是 Kotlin 开发者 Advocate:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/F8jj7e-_jFA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<video src="https://youtu.be/F8jj7e-_jFA" title="Kotlin 集合概述"/>
 
 ### Collection
 
@@ -107,8 +95,6 @@ Map 类型对于它的值(value)的数据类型是协变的(covariant), 但对�
 [`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)
 和
 [`Set`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html).
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 fun printAll(strings: Collection<String>) {
@@ -124,12 +110,10 @@ fun main() {
     printAll(stringSet)
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 [`MutableCollection<T>`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-collection/index.html)
 继承了 `Collection`, 并添加了元素的写操作, 比如 `add` 和 `remove`.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 fun List<String>.getShortWordsTo(shortWords: MutableList<String>, maxLength: Int) {
@@ -146,15 +130,13 @@ fun main() {
     println(shortWords)
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 ### List
 
 [`List<T>`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)
 按指定的顺序存储元素, 并使用下标来访问元素.
 下标从 0 开始 – 0 是第一个元素的下标 – 直到 `lastIndex` 为止, `lastIndex` 的值等于 `(list.size - 1)`.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 fun main() {
@@ -167,14 +149,12 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 List 中的元素 (包括 null) 允许重复: list 可以包含任意数量的相等对象, 也允许同一个对象多次出现.
 如果两个 list 的元素数量相同, 并且相同位置的元素全都
-[结构相等(structurally equal)](equality.html#structural-equality),
+[结构相等(structurally equal)](equality.md#structural-equality),
 那么这两个 list 被认为是相等的.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 data class Person(var name: String, var age: Int)
@@ -190,12 +170,10 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 [`MutableList<T>`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html)
 继承了 `List`, 并添加了 list 专有的写操作, 比如, 在指定的位置添加或删除元素.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 fun main() {
@@ -209,7 +187,7 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 你可以看到, 从某些角度看 list 与数组(array)非常类似.
 但是, 它们之间存在一个重要的区别: 数组的大小是在初始化时固定的, 而且永远不能改变;
@@ -226,8 +204,6 @@ fun main() {
 `Set` 可以只包含一个 `null`.
 如果两个 set 的元素数量相同, 并且一个 set 中的任何一个元素都在另一个 set 中存在一个相等的元素, 那么这两个 set 被看作是相等的.
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
-
 ```kotlin
 fun main() {
 //sampleStart
@@ -240,7 +216,7 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 [`MutableSet`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-set/index.html)
 继承自 `Set`, 并添加了继承自 `MutableCollection` 的写操作.
@@ -249,8 +225,6 @@ fun main() {
 [`LinkedHashSet`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-linked-hash-set/index.html)
 – 它会保留元素插入的顺序.
 因此, 依赖于元素顺序的那些函数, 比如 `first()` 或 `last()`, 在这些 set 上会返回可预测的结果.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 fun main() {
@@ -263,7 +237,7 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 另一个替代实现 –
 [`HashSet`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-hash-set/index.html)
@@ -276,8 +250,6 @@ fun main() {
 不继承自 `Collection` 接口; 但它仍然是 Kotlin 的集合类型.
 `Map` 存储成对的 _键(key)-值(value)_ (或者叫 _条目(entry)_); 键(key)是不可重复的, 但不同的键(key)可以对应到相等的值(value).
 `Map` 接口提供了专用的函数, 比如根据指定的键(key)来得到对应的值(value), 查找键(key)和值(value), 等等.  
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 fun main() {
@@ -292,29 +264,25 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 如果两个 map 包含相等的 键(key)-值(value) 对, 那么这两个 map 被看作是相等的, 无论键(key)-值(value) 对的顺序如何.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 fun main() {
 //sampleStart
-    val numbersMap = mapOf("key1" to 1, "key2" to 2, "key3" to 3, "key4" to 1)    
+    val numbersMap = mapOf("key1" to 1, "key2" to 2, "key3" to 3, "key4" to 1)
     val anotherMap = mapOf("key2" to 2, "key1" to 1, "key4" to 1, "key3" to 3)
 
     println("The maps are equal: ${numbersMap == anotherMap}")
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 [`MutableMap`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-map/index.html)
 继承自 `Map`, 添加了 map 专有的写操作,
 比如, 你可以添加新的键(key)-值(value) 对, 或者对指定的键(key)更新它对应的值(value).
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 fun main() {
@@ -327,7 +295,7 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 `MutableMap` 的默认实现是
 [`LinkedHashMap`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-linked-hash-map/index.html)
@@ -343,7 +311,6 @@ fun main() {
 因此, 在 Kotlin 中 `ArrayDeque` 可以同时充当 Stack 和 Queue 数据结构的角色.
 在它内部的实现中, `ArrayDeque` 使用了一个可以变更大小的数组, 在需要的时候, 会自动调整数组大小:
 
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.4">
 
 ```kotlin
 fun main() {
@@ -352,7 +319,7 @@ fun main() {
     deque.addFirst(0)
     deque.addLast(4)
     println(deque) // 输出结果为 [0, 1, 2, 3, 4]
-  
+
     println(deque.first()) // 输出结果为 0
     println(deque.last()) // 输出结果为 4
 
@@ -361,5 +328,4 @@ fun main() {
     println(deque) // 输出结果为 [1, 2, 3]
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.4"}

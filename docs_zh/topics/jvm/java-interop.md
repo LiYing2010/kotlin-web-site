@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Java Interop"
-title: "在 Kotlin 中调用 Java 代码"
----
+[//]: # (title: 在 Kotlin 中调用 Java 代码)
 
-# 在 Kotlin 中调用 Java 代码
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin 的设计过程中就考虑到了与 Java 的互操作性.
 在 Kotlin 中可以通过很自然的方式调用既有的 Java 代码, 反过来在 Java 中也可以很流畅地使用 Kotlin 代码.
@@ -59,10 +52,11 @@ fun calendarDemo() {
 
 ## Java 合成属性(Synthetic Property)的引用
 
-> 这个功能是 [实验性功能](../components-stability.html#stability-levels-explained).
+> 这个功能是 [实验性功能](components-stability.md#stability-levels-explained).
 > 它随时有可能变更或被删除.
 > 我们建议你只为评估和试验目的来使用这个功能..
-{:.warning}
+>
+{style="warning"}
 
 从 Kotlin 1.8.20 开始, 你可以创建 Java 合成属性的引用. 考虑下面的 Java 代码:
 
@@ -99,13 +93,13 @@ val persons = listOf(Person("Jack", 11), Person("Sofie", 12), Person("Peter", 11
 }
 ```
 
-### 如何启动用 Java 合成属性的引用
+### 如何启动用 Java 合成属性的引用 {id="how-to-enable-java-synthetic-property-references" collapsible="true"} 
 
 要启用这个功能, 请设置 `-language-version 2.1` 编译器选项.
 在 Gradle 项目中, 你可以在你的 `build.gradle(.kts)` 文件中添加以下设置:
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 tasks
@@ -119,11 +113,8 @@ tasks
     }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 tasks
@@ -134,11 +125,12 @@ tasks
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 > 在 Kotlin 1.9.0 以前的版本中, 要启用这个功能, 你必须设置 `-language-version 1.9` 编译器选项.
-{:.note}
+>
+{style="note"}
 
 ## 返回值为 void 的方法
 
@@ -156,7 +148,7 @@ tasks
 foo.`is`(bar)
 ```
 
-## Null 值安全性与平台数据类型
+## Null 值安全性与平台数据类型 {id="null-safety-and-platform-types"}
 
 Java 中的所有引用都可以为 `null` 值, 因此对于来自 Java 的对象, Kotlin 的严格的 null 值安全性要求就变得毫无意义了.
 Java 中定义的类型在 Kotlin 中会被特别处理, 被称为 *平台数据类型(platform type)*.
@@ -206,7 +198,7 @@ val notNull: String = item // 允许, 但在运行时刻可能失败
 * `(Mutable)Collection<T>!` 代表 "元素类型为 `T` 的Java 集合, 内容可能可变, 也可能不可变, 值可能允许为 null, 也可能不允许为 null",
 * `Array<(out) T>!` 代表 "元素类型为 `T` (或 `T` 的子类型)的 Java 数组, 值可能允许为 null, 也可能不允许为 null"
 
-### 可否为 null(Nullability) 注解
+### 可否为 null(Nullability) 注解 {id="nullability-annotations"}
 
 带有可否为 null(Nullability) 注解的 Java 类型在 Kotlin 中不会被当作平台数据类型,
 而会被识别为可为 null 的, 或非 null 的 Kotlin 类型.
@@ -238,7 +230,8 @@ Koltin 支持的可否为 null(Nullability) 注解的完整列表请参见
 你也可以对泛型类型参数的实参(Type argument)和形参(Type parameter)添加注解, 标记它可否为 null.
 
 > 本章所有示例程序都使用 JetBrain 的, `org.jetbrains.annotations` 包中的可否为 null 注解.
-{:.note}
+>
+{style="note"}
 
 #### 类型参数实参(Type argument)
 
@@ -284,7 +277,7 @@ fun main() {
 
 `Derived` 的上界(Upper Bound) 被设置为 `Base<String?>`, 而不是 `Base<String>`.
 
-更多详情请参考 [在 Kotlin 中使用 Java 的泛型](java-interop.html#java-generics-in-kotlin).
+更多详情请参考 [在 Kotlin 中使用 Java 的泛型](#java-generics-in-kotlin).
 
 #### 类型参数形参(Type parameter)
 
@@ -329,7 +322,8 @@ class BaseWithBound<T : Number> {}
 > 注意: 如果可否为 null 注解除 `TYPE_USE` 之外还支持适用于类型的其他 target,
 > 那么会优先使用 `TYPE_USE`. 比如, 如果 `@Nullable` 的 target 包括 `TYPE_USE` 和 `METHOD`,
 > 那么 Java 方法签名 `@Nullable String[] f()` 在 Kotlin 中会成为 `fun f(): Array<String?>!`.
-{:.note}
+>
+{style="note"}
 
 ### 对 JSR-305 规范的支持
 
@@ -389,7 +383,6 @@ interface A {
 * `ElementType.TYPE_USE` 表示注解对象为任何类型,
   包含类型参数(type argument), 类型参数上界(Upper Bound), 以及通配符类型(wildcard type)
 
-
 当一个类型没有标注可否为 null 注解时, 会使用默认的可否为 null 设定,
 Kotlin 会查找对象类型所属的最内层的元素, 要求这个元素使用了类型限定符默认值注解, 而且 `ElementType` 值与对象类型相匹配,
 然后通过类型限定符默认值注解, 得到这个默认的可否为 null 设定.
@@ -423,7 +416,8 @@ interface A {
 
 > 上面示例程序中的类型只在 strict 编译模式下才有效, 否则, Kotlin 会将它们识别为平台类型.
 > 详情请参见本章的 [`@UnderMigration` 注解](#undermigration-annotation)小节 以及 [编译器配置](#compiler-configuration)小节.
-{:.note}
+>
+{style="note"}
 
 另外还支持包级别的可否为 null 默认设定:
 
@@ -433,7 +427,7 @@ interface A {
 package test;
 ```
 
-#### @UnderMigration 注解
+#### @UnderMigration 注解 {id="undermigration-annotation"}
 
 库的维护者可以使用 `@UnderMigration` 注解 (由独立的库文件 `kotlin-annotations-jvm` 提供),
 来定义可否为空(nullability)类型标识符的迁移状态.
@@ -464,12 +458,13 @@ public class Test {}
 
 > 一个可否为空(nullability)注解的 MigrationStatus 值, 不会被它的类型限定符别名继承,
 > 但在使用时类型限定符默认值会有效.
-{:.note}
+>
+{style="note"}
 
 如果一个类型限定符默认值使用了一个类型限定符别名, 而且他们都添加了 `@UnderMigration` 注解,
 这时会优先使用类型限定符默认值中的 MigrationStatus.
 
-#### 编译器配置
+#### 编译器配置 {id="compiler-configuration"}
 
 可以添加 `-Xjsr305` 编译器选项来配置 JSR-305 规范检查, 这个编译器选项可以使用以下设置之一(或者多个设置的组合):
 
@@ -495,7 +490,8 @@ public class Test {}
 > [`@Nullable`](https://www.javadoc.io/doc/com.google.code.findbugs/jsr305/3.0.1/javax/annotation/Nullable.html)
 > 以及 [`@CheckForNull`](https://www.javadoc.io/doc/com.google.code.findbugs/jsr305/latest/javax/annotation/CheckForNull.html)
 > 始终是有效的, 并且会影响 Kotlin 对被注解声明中的类型的识别.
-{:.note}
+>
+{style="note"}
 
 比如, 如果在编译器参数中添加 `-Xjsr305=ignore -Xjsr305=under-migration:ignore -Xjsr305=@org.library.MyNullable:warn`,
 对于被 `@org.library.MyNullable` 注解的类型, 如果存在不正确的使用, 此时编译器会报告警告,
@@ -504,7 +500,7 @@ public class Test {}
 编译器的默认行为与 `-Xjsr305=warn` 一样.
 目前 `strict` 设定还是实验性的 (未来可能会增加更多的检查).
 
-## 数据类型映射
+## 数据类型映射 {id="mapped-types"}
 
 Kotlin 会对某些 Java 类型进行特殊处理. 这些类型会被从 Java 中原封不动地装载进来, 但被 _映射_ 为对应的 Kotlin 类型.
 映射过程只会在编译时发生, 运行时的数据表达不会发生变化.
@@ -565,20 +561,21 @@ Java 中的装箱的基本类型(boxed primitive type), 会被映射为 Kotlin �
 | `Map<K, V>`          | `Map<K, V>`          | `MutableMap<K, V>`              | `(Mutable)Map<K, V>!`              |
 | `Map.Entry<K, V>`    | `Map.Entry<K, V>`    | `MutableMap.MutableEntry<K,V>` | `(Mutable)Map.(Mutable)Entry<K, V>!` |
 
-Java 数据的映射如下, 详情参见 [下文](java-interop.html#java-arrays):
+Java 数据的映射如下, 详情参见 [下文](#java-arrays):
 
 | **Java 类型** | **Kotlin 类型**  |
 |---------------|------------------|
 | `int[]`       | `kotlin.IntArray!` |
 | `String[]`    | `kotlin.Array<(out) String>!` |
 
-> 这些 Java 类型的静态成员, 无法通过 Kotlin 类型的[同伴对象](/docs/reference_zh/object-declarations.html#companion-objects)直接访问.
+> 这些 Java 类型的静态成员, 无法通过 Kotlin 类型的[同伴对象](object-declarations.md#companion-objects)直接访问.
 > 要访问这些静态成员, 需要使用 Java 类型的完整限定名称, 比如 `java.lang.Integer.toHexString(foo)`.
-{:.note}
+>
+{style="note"}
 
-## 在 Kotlin 中使用 Java 的泛型
+## 在 Kotlin 中使用 Java 的泛型 {id="java-generics-in-kotlin"}
 
-Kotlin 的泛型 与 Java 的泛型略有差异 (参见 [泛型](/docs/reference_zh/generics.html)).
+Kotlin 的泛型 与 Java 的泛型略有差异 (参见 [泛型](generics.md)).
 将 Java 类型导入 Kotlin 时, 会进行以下变换:
 
 * Java 的通配符会被变换为 Kotlin 的类型投射:
@@ -599,7 +596,7 @@ if (a is List<Int>) // 错误: 无法判断它是不是 Int 构成的 List
 if (a is List<*>) // OK: 这里的判断不保证 List 内容的数据类型
 ```
 
-## Java 数组
+## Java 数组 {id="java-arrays"}
 
 与 Java 不同, Kotlin 中的数组是不可变的(invariant).
 这就意味着, Kotlin 不允许你将 `Array<String>` 赋值给 `Array<Any>`,这样就可以避免发生运行时错误.
@@ -684,7 +681,7 @@ javaObj.removeIndicesVarArg(*array)
 
 ## 受控异常(Checked Exception)
 
-在 Kotlin 中, [所有的异常都是不受控的(unchecked)](/docs/reference_zh/exceptions.html),
+在 Kotlin 中, [所有的异常都是不受控的(unchecked)](exceptions.md),
 也就是说编译器不会强制要求你捕获任何异常.
 因此, 当调用 Java 方法时, 如果这个方法声明了受控异常, Kotlin 不会要求你做任何处理:
 
@@ -701,7 +698,7 @@ fun render(list: List<*>, to: Appendable) {
 当 Java 类型导入 Kotlin 时, 所有 `java.lang.Object` 类型的引用都会被转换为 `Any` 类型.
 由于 `Any` 类与具体的实现平台无关, 因此它声明的成员方法只有 `toString()`, `hashCode()` 和 `equals()`,
 所以, 为了补足 `java.lang.Object` 中的其他方法,
-Kotlin 使用了 [扩展函数](/docs/reference_zh/extensions.html).
+Kotlin 使用了 [扩展函数](extensions.md).
 
 ### wait()/notify()
 
@@ -715,14 +712,14 @@ Kotlin 使用了 [扩展函数](/docs/reference_zh/extensions.html).
 
 ### getClass()
 
-要得到一个对象的 Java Class 信息, 可以使用 [类引用](/docs/reference_zh/reflection.html#class-references) 的 `java` 扩展属性:
+要得到一个对象的 Java Class 信息, 可以使用 [类引用](reflection.md#class-references) 的 `java` 扩展属性:
 
 ```kotlin
 val fooClass = foo::class.java
 ```
 
 上面的示例程序中, 使用了一个
-[与对象实例绑定的类引用](/docs/reference_zh/reflection.html#bound-class-references).
+[与对象实例绑定的类引用](reflection.md#bound-class-references).
 你也可以使用 `javaClass` 扩展属性:
 
 ```kotlin
@@ -756,7 +753,7 @@ class C {
 
 按照 Java 的规则, `finalize()` 不能是 `private` 方法.
 
-## 继承 Java 的类
+## 继承 Java 的类 {id="inheritance-from-java-classes"}
 
 Kotlin 类的超类中, 最多只能指定一个 Java 类(Java 接口的数量没有限制).
 
@@ -788,9 +785,9 @@ Java 的反射在 Kotlin 类中也可以使用, 反过来也是如此.
 可以得到 Java 成员变量对应的 `KProperty`, 得到 `KFunction` 对应的 Java 方法或构造器,
 或者反过来得到 Java 方法或构造器对应的 `KFunction`.
 
-## SAM 转换
+## SAM 转换 {id="sam-conversions"}
 
-Kotlin 支持 Java 和 [Kotlin 接口](/docs/reference_zh/fun-interfaces.html) 的 SAM(Single Abstract Method) 转换.
+Kotlin 支持 Java 和 [Kotlin 接口](fun-interfaces.md) 的 SAM(Single Abstract Method) 转换.
 支持 Java 的 SAM 转换就是说, 如果一个 Java 接口中仅有一个方法, 并且没有默认实现, 那么只要 Java 接口方法与 Kotlin 函数参数类型一致,
 Kotlin 的函数字面值就可以自动转换为这个接口的实现者.
 
@@ -817,9 +814,10 @@ executor.execute(Runnable { println("This runs in a thread pool") })
 ```
 
 > SAM 转换只对接口有效, 不能用于抽象类, 即使抽象类中仅有唯一一个抽象方法.
-{:.note}
+>
+{style="note"}
 
-## 在 Kotlin 中使用 JNI(Java Native Interface)
+## 在 Kotlin 中使用 JNI(Java Native Interface) {id="using-jni-with-kotlin"}
 
 要声明一个由本地代码(C 或者 C++)实现的函数, 你需要使用 `external` 修饰符标记这个函数:
 
@@ -843,5 +841,5 @@ var myProperty: String
 
 在 Kotlin 代码中你可以使用 Java 代码由 Lombok 生成的声明.
 如果你需要在 Java/Kotlin 代码混合的同一个模块中生成并使用这些声明,
-具体方法请参见 [Lombok 编译器插件](/docs/reference_zh/lombok.html).
+具体方法请参见 [Lombok 编译器插件](lombok.md).
 如果你要在其他模块中使用这些声明, 那么不需要使用这个插件来编译这个模块.

@@ -1,19 +1,13 @@
----
-type: doc
-layout: reference
-category: "Lincheck"
-title: "顺序规格"
----
+[//]: # (title: 顺序规格)
 
-# 顺序规格
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 为了确认算法实现了正确的顺序行为, 你可以为测试数据结构编写一个简单的顺序化实现,
 用来定义算法的 _顺序规格(sequential specification)_.
 
 > 使用这个功能, 你只需要编写单个测试, 而不必分别编写顺序测试和并发测试.
-{:.tip}
+>
+{style="tip"}
 
 要指定需要验证的算法的顺序规格, 你需要:
 
@@ -58,4 +52,5 @@ class SequentialQueue {
 ```
 
 > [请在这里查看示例的完整代码](https://github.com/Kotlin/kotlinx-lincheck/blob/guide/src/jvm/test/org/jetbrains/kotlinx/lincheck/test/guide/ConcurrentLinkedQueueTest.kt).
-{:.note}
+>
+{style="note"}

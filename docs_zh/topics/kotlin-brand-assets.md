@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Tools"
-title: "Kotlin 品牌资产"
----
+[//]: # (title: Kotlin 品牌资产)
 
-# Kotlin 品牌资产
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 ## Kotlin Logo
 
@@ -15,12 +8,12 @@ title: "Kotlin 品牌资产"
 
 [下载所有版本](https://resources.jetbrains.com/storage/products/kotlin/docs/kotlin_logos.zip){:.typo-float-right.kto-button.kto-button_size_m.kto-button_mode_outline}
 
-<img src="/assets/docs/images/brand-assets/kotlin-logo.png" alt="Kotlin Logo" width="700"/>
+![Kotlin logo](kotlin-logo.png){width=700}
 
 我们的 Logo 和标志中包含保护区域. 请将 Logo 摆放在适当位置, 不要让其它图像元素遮挡保护区域.
 保护区域的最小尺寸是标志高度的一半.
 
-<img src="/assets/docs/images/brand-assets/kotlin-logo-guidelines.png" alt="Kotlin Logo 的尺寸" width="700"/>
+![Kotlin Logo 的尺寸](kotlin-logo-guidelines.png){width=700}
 
 使用 Logo 时请特别注意以下限制事项:
 
@@ -36,15 +29,15 @@ title: "Kotlin 品牌资产"
 Kodee 是 Kotlin 重新构想的吉祥物. Kodee 不仅仅只是一个符号, 它也是你的好伙伴, 鼓励并激发你展现你的创造力.
 在使用它时, 我们请求你遵循这些 [简单的规则](https://resources.jetbrains.com/storage/products/kotlin/docs/Kotlin_Mascot_Guidelines.pdf).
 
-<img src="/assets/docs/images/brand-assets/mascot-body-proportions.png" alt="Kotlin 吉祥物 Kodee proportions" width="700"/>
+![Kotlin 吉祥物 Kodee 的尺寸](mascot-body-proportions.png){width=700}
 
 你可以在你的数字化素材或打印素材中使用 Kodee. 为了这个用途, 我们准备了一系列的 Kotlin 吉祥物资产, 供你下载和使用.
 
 [下载全部资产](https://resources.jetbrains.com/storage/products/kotlin/docs/kotlin_mascot_2.zip){:.typo-float-right.kto-button.kto-button_size_m.kto-button_mode_outline}
 
-<img src="/assets/docs/images/brand-assets/mascot-in-action.png" alt="Kotlin 吉祥物 Kodee in action" width="700"/>
+![Kotlin mascot Kodee in action](mascot-in-action.png){width=700}
 
-## Kotlin 用户组品牌资产
+## Kotlin 用户组品牌资产 {id="kotlin-user-group-brand-assets"}
 
 我们为 Kotlin 用户组提供特别定制的 Logo, 这个 Logo 易于辨认, 而且与 Kotlin 相关联.
 
@@ -61,7 +54,7 @@ Kodee 是 Kotlin 重新构想的吉祥物. Kodee 不仅仅只是一个符号, �
 
 我们向新的 Kotlin 用户组提供用户组 Logo, 以及 Profile 图片.
 
-<img src="/assets/docs/images/brand-assets/user-group/kotlin-user-group-logo.png" alt="品牌图片" width="700"/>
+![品牌图片](kotlin-user-group-logo.png){width=700}
 
 我们这样做的主要原因有 2 点:
 
@@ -76,7 +69,7 @@ Kodee 是 Kotlin 重新构想的吉祥物. Kodee 不仅仅只是一个符号, �
 2. 将 **Your City** 文字替换为你的用户组名称.
 3. 下载图片, 将它用作用户组素材.
 
-<img src="/assets/docs/images/brand-assets/user-group/kotlin-user-group-avatar.png" alt="Belarusian Kotlin 用户组示例" width="300"/>
+![Belarusian Kotlin 用户组示例](kotlin-user-group-avatar.png){width=300}
 
 *Belarusian Kotlin 用户组 Profile 图片示例*
 
@@ -100,9 +93,9 @@ Kodee 是 Kotlin 重新构想的吉祥物. Kodee 不仅仅只是一个符号, �
    请点击模式图片的背景, 选择 'Replace Image', 然后 'Upload from Computer', 或使用其他来源.
 3. 下载图片, 将它用作你在 [meetup.com](https://meetup.com) 上的 Profile.
 
-<img src="/assets/docs/images/brand-assets/user-group/kotlin-user-group.png" alt="用户组示例" width="700"/>
+![用户组示例](kotlin-user-group.png){width=700}
 
-## Kotlin Night 品牌资产
+## Kotlin Night 品牌资产 {id="kotlin-night-brand-assets"}
 
 JetBrains 为 Kotlin Night 活动提供品牌和素材. 我们的开发组会为活动的宣传准备数字资产, 并发送你的商品包, 包括贴纸和 T-恤.
 请阅读相关文档, 看看我们能够如何让你的 Kotlin Night 活动更加有趣!
@@ -113,15 +106,15 @@ JetBrains 为 Kotlin Night 活动提供品牌和素材. 我们的开发组会为
 
 贴纸可以帖到任何对 Kotlin Night 活动需要的媒体. 你能够帖的地方全部都贴上吧. 很好玩!
 
-<img src="/assets/docs/images/brand-assets/kotlin-night-branding/kotlin-night-cover.svg" alt="Cover/Logo" width="700"/>
+![Cover/Logo](kotlin-night-cover.svg){width=700}
 
-<img src="/assets/docs/images/brand-assets/kotlin-night-branding/kotlin-night-fb.svg" alt="Cover Social" width="700"/>
+![Cover Social](kotlin-night-fb.svg){width=700}
 
 ### 品牌贴纸
 
 贴纸可以用作 Kotlin Night 的品牌资产. 你能够帖的地方全部都贴上吧. 很好玩!
 
-<img src="/assets/docs/images/brand-assets/kotlin-night-branding/kotlin-night-stickers.svg" alt="贴纸" width="700"/>
+![贴纸](kotlin-night-stickers.svg){width=700}
 
 <!-- ![Stickers usage](kotlin-night-stickers-usage.svg){width=700} -->
 
@@ -129,7 +122,7 @@ JetBrains 为 Kotlin Night 活动提供品牌和素材. 我们的开发组会为
 
 你可以在你的宣传墙装饰上贴纸或难忘的活动照片.
 
-<img src="/assets/docs/images/brand-assets/kotlin-night-branding/kotlin-night-press-wall.svg" alt="宣传墙" width="700"/>
+![宣传墙](kotlin-night-press-wall.svg){width=700
 
 ### 贴纸徽章
 
@@ -139,11 +132,11 @@ JetBrains 为 Kotlin Night 活动提供品牌和素材. 我们的开发组会为
 
 或者你也可以提供一面贴纸板, 让你的来宾能够贴上贴纸, 写下他们的感想, 反馈, 以及希望.
 
-<img src="/assets/docs/images/brand-assets/kotlin-night-branding/kotlin-night-board.svg" alt="贴纸板" width="700"/>
+![贴纸板](kotlin-night-board.svg){width=700}
 
 ### T-恤
 
 活动的来宾能够在贴纸板帖上贴纸, 写下他们对聚会的感想.
 对你来说意味着什么呢?
 
-<img src="/assets/docs/images/brand-assets/kotlin-night-branding/kotlin-night-t-shirt.svg" alt="T-恤" width="700"/>
+![T-恤](kotlin-night-t-shirt.svg){width=700}

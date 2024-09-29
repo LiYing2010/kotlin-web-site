@@ -1,46 +1,37 @@
----
-type: doc
-layout: reference
-title: "跨平台程序的 Gradle DSL 参考文档"
----
+[//]: # (title: 跨平台程序的 Gradle DSL 参考文档)
 
-# 跨平台程序的 Gradle DSL 参考文档
+最终更新: %latestDocDate%
 
-最终更新: {{ site.data.releases.latestDocDate }}
-
-Kotlin Multiplatform Gradle plugin, 是一个用来创建 [Kotlin Multiplatform](multiplatform.html) 项目的工具.
+Kotlin Multiplatform Gradle plugin, 是一个用来创建 [Kotlin Multiplatform](multiplatform.md) 项目的工具.
 本章我们提供关于它的参考文档; 当你为 Kotlin Multiplatform 项目编写 Gradle 编译脚本时可以参考本文档.
-详情请参见 [关于 Kotlin Multiplatform 项目的基本概念, 如何创建和配置跨平台项目](multiplatform-get-started.html).
+详情请参见 [关于 Kotlin Multiplatform 项目的基本概念, 如何创建和配置跨平台项目](multiplatform-get-started.md).
 
 ## 插件 Id 与版本
 
 Kotlin 跨平台 Gradle 插件的完整限定名称是 `org.jetbrains.kotlin.multiplatform`.
 如果使用 Kotlin Gradle DSL, 可以通过 `kotlin("multiplatform")` 语句应用这个插件.
-插件的版本与 Kotlin 发布版本一致. 最新的版本是 {{ site.data.releases.latest.version }}.
+插件的版本与 Kotlin 发布版本一致. 最新的版本是 %kotlinVersion%.
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" theme="idea" mode='kotlin' data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 plugins {
-    kotlin("multiplatform") version "{{ site.data.releases.latest.version }}"
+    kotlin("multiplatform") version "%kotlinVersion%"
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" theme="idea" mode='groovy'>
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 plugins {
-    id 'org.jetbrains.kotlin.multiplatform' version '{{ site.data.releases.latest.version }}'
+    id 'org.jetbrains.kotlin.multiplatform' version '%kotlinVersion%'
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 ## 顶级代码块
 
@@ -49,18 +40,19 @@ Gradle 编译脚本中跨平台项目配置的顶级代码块是 `kotlin`.
 
 | **代码块**          | **解释**                                              |
 |------------------|-----------------------------------------------------|
-| _\<targetName\>_ | 为项目声明一个特定的编译目标. 可以选择的编译目标名称请参见 [编译目标](#targets) 小节. |
+| **`<targetName>`** | 为项目声明一个特定的编译目标. 可以选择的编译目标名称请参见 [编译目标](#targets) 小节. |
 | `targets`        | 项目的所有编译目标.                                          |
 | `presets`        | 所有预定义的编译目标. 使用这个代码块可以一次性 [设置多个预定义的编译目标](#targets).  |
 | `sourceSets`     | 为项目设置预定义的源代码集, 并声明自定义 [源代码集](#source-sets).         |
 
-## 编译目标
+## 编译目标 {id="targets"}
 
 _编译目标(Target)_ 是指针对某个特定的支持的平台的一系列编译功能, 包括源代码编译, 测试, 打包.
-Kotlin 对每个平台提供了预设置的编译目标(Target Preset). 参见 [如何使用预设置的编译目标(Target Preset)](multiplatform-set-up-targets.html).
+Kotlin 对每个平台提供了预设置的编译目标(Target Preset).
+参见 [如何使用预设置的编译目标(Target Preset)](multiplatform-set-up-targets.md).
 
 每个编译目标可以包含一个或多个 [编译任务(compilation)](#compilations).
-除了用于测试和产品的默认的编译任务之外, 你还可以 [创建自定义的编译任务](mpp-configure-compilations.html#create-a-custom-compilation).
+除了用于测试和产品的默认的编译任务之外, 你还可以 [创建自定义的编译任务](multiplatform-configure-compilations.md#create-a-custom-compilation).
 
 跨平台项目的编译目标通过 `kotlin` 之内的相应代码块进行描述, 比如, `jvm`, `android`, `iosArm64`.
 可选的编译目标如下:
@@ -85,14 +77,14 @@ Kotlin 对每个平台提供了预设置的编译目标(Target Preset). 参见 [
                 <li><code>browser {}</code> 用于运行在浏览器内的应用程序.</li>
                 <li><code>nodejs {}</code> 运行在 Node.js 上的应用程序.</li>
             </list>
-            <p>更多详情请参见 <a href="../js/js-project-setup.html#execution-environments">创建 Kotlin JavaScript 项目</a>.</p>
+            <p>更多详情请参见 <a href="js-project-setup.md#execution-environments">创建 Kotlin JavaScript 项目</a>.</p>
         </td>
     </tr>
     <tr>
         <td>Kotlin/Native</td>
         <td></td>
         <td>
-            <p>对 macOS, Linux, 和 Windows 主机, 目前支持的编译目标请参见 <a href="../native/native-target-support.html">Kotlin/Native 支持的目标平台</a>.</p>
+            <p>对 macOS, Linux, 和 Windows 主机, 目前支持的编译目标请参见 <a href="native-target-support.md">Kotlin/Native 支持的目标平台</a>.</p>
         </td>
     </tr>
     <tr>
@@ -106,7 +98,8 @@ Kotlin 对每个平台提供了预设置的编译目标(Target Preset). 参见 [
 </table>
 
 > 构建中会忽略当前主机不支持的编译目标, 因此这些编译目标不会被发布.
-{:.note}
+>
+{style="note"}
 
 ```groovy
 kotlin {
@@ -124,17 +117,17 @@ kotlin {
 
 每个编译目标可以有一个或多个 [编译任务(compilation)](#compilations).
 
-### 所有编译目标的共通配置
+### 所有编译目标的共通配置 {id="common-target-configuration"}
 
 在任何一种编译目标代码块之内, 都可以使用以下声明:
 
-| **名称**              | **解释**                                                                                          |
-|---------------------|-------------------------------------------------------------------------------------------------|
-| `attributes`        | 针对单个平台 [对编译目标消除歧义](multiplatform-set-up-targets.html#distinguish-several-targets-for-one-platform) 的属性设置. |
-| `preset`            | 如果存在的话, 代表创建这个编译目标时使用的预定义设置.                                                                    |
-| `platformType`      | 指定这个编译目标的 Kotlin 平台. 允许的值是: `jvm`, `androidJvm`, `js`, `native`, `common`.                      |
-| `artifactsTaskName` | 负责编译这个编译目标的结果 artifact 的编译任务的名称.                                                                |
-| `components`        | 用于设置 Gradle publication 的组件.                                                                    |
+| **名称**              | **解释**                                                                                                  |
+|---------------------|---------------------------------------------------------------------------------------------------------|
+| `attributes`        | 针对单个平台 [对编译目标消除歧义](multiplatform-set-up-targets.md#distinguish-several-targets-for-one-platform) 的属性设置. |
+| `preset`            | 如果存在的话, 代表创建这个编译目标时使用的预定义设置.                                                                            |
+| `platformType`      | 指定这个编译目标的 Kotlin 平台. 允许的值是: `jvm`, `androidJvm`, `js`, `native`, `common`.                              |
+| `artifactsTaskName` | 负责编译这个编译目标的结果 artifact 的编译任务的名称.                                                                        |
+| `components`        | 用于设置 Gradle publication 的组件.                                                                            |
 
 ### JVM 编译目标
 
@@ -147,7 +140,7 @@ kotlin {
 对同时包含 Java 和 Kotlin 源代码文件的项目, 请使用这个函数.
 注意 Java 源代码文件的默认目录与 Java 插件的默认设定不同. 相反, 这个默认设定继承自 Kotlin 源代码集.
 比如, 如果 JVM 编译目标使用默认名称 `jvm`, 那么默认的 Java 源代码文件目录是 `src/jvmMain/java` (正式产品的 Java 源代码) 和 `src/jvmTest/java` (测试程序的 Java 源代码).
-详情请参见 [在 JVM 编译任务中使用 Java 源代码](multiplatform-configure-compilations.html#use-java-sources-in-jvm-compilations).
+详情请参见 [在 JVM 编译任务中使用 Java 源代码](multiplatform-configure-compilations.md#use-java-sources-in-jvm-compilations).
 
 ```kotlin
 kotlin {
@@ -166,19 +159,19 @@ kotlin {
 |`browser`| 浏览器编译目标的配置.|
 |`nodejs`| Node.js 编译目标的配置.|
 
-详情请参见 [配置 Kotlin/JS 项目](../js/js-project-setup.html).
+详情请参见 [配置 Kotlin/JS 项目](js-project-setup.md).
 
 #### 浏览器
 
 `browser` 代码块包含以下配置代码块:
 
-|**名称**|**解释**|
-| --- | --- |
-|`testRuns`|测试运行任务的配置.|
-|`runTask`|项目运行的配置.|
-|`webpackTask`|使用 [Webpack](https://webpack.js.org/) 编译项目的配置.|
-|`dceTask`|[死代码剔除(Dead Code Elimination)](../js/javascript-dce.html) 的配置.|
-|`distribution`|输出文件的路径.|
+| **名称**         | **解释**                                                 |
+|----------------|--------------------------------------------------------|
+| `testRuns`     | 测试运行任务的配置.                                             |
+| `runTask`      | 项目运行的配置.                                               |
+| `webpackTask`  | 使用 [Webpack](https://webpack.js.org/) 编译项目的配置.         |
+| `dceTask`      | [死代码剔除(Dead Code Elimination)](javascript-dce.md) 的配置. |
+| `distribution` | 输出文件的路径.                                               |
 
 ```kotlin
 kotlin {
@@ -213,16 +206,16 @@ kotlin {
 }
 ```
 
-### 原生(Native)编译目标
+### 原生(Native)编译目标 {id="native-targets"}
 
 对于原生(Native)编译目标, 可以使用以下代码块:
 
-|**名称**|**解释**|
-| --- | --- |
-|`binaries`|编译输出的 [二进制文件(binary)](#binaries) 的配置.|
-|`cinterops`| [与 C 库文件交互](#cinterops) 的配置.|
+| **名称**      | **解释**                                |
+|-------------|---------------------------------------|
+| `binaries`  | 编译输出的 [二进制文件(binary)](#binaries) 的配置. |
+| `cinterops` | [与 C 库文件交互](#cinterops) 的配置.          |
 
-#### 二进制文件(Binary)
+#### 二进制文件(Binary) {id="binaries"}
 
 有以下几种二进制文件(Binary)任务:
 
@@ -259,8 +252,8 @@ kotlin {
 |`runTask`|用于访问可执行二进制文件的运行任务. 对于 `linuxX64`, `macosX64`, 或 `mingwX64` 之外的编译目标, 这个属性的值为 `null`.|
 |`isStatic`|用于 Objective-C 框架. 包含静态库(static library), 而不是动态库(dynamic library).|
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" theme="idea" mode='kotlin' data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 binaries {
@@ -295,11 +288,8 @@ binaries {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" theme="idea" mode='groovy'>
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 binaries {
@@ -334,10 +324,10 @@ binaries {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
-详情请参见 [构建原生二进制文件](multiplatform-build-native-binaries.html).
+详情请参见 [构建原生二进制文件](multiplatform-build-native-binaries.md).
 
 #### CInterops
 
@@ -351,10 +341,10 @@ binaries {
 |`compilerOpts`|cinterop 工具传递给编译器的选项.|
 |`includeDirs`|用于查找头文件的目录.|
 
-详情请参见 [如何配置与原生语言的交互](multiplatform-configure-compilations.html#configure-interop-with-native-languages).
+详情请参见 [如何配置与原生语言的交互](multiplatform-configure-compilations.md#configure-interop-with-native-languages).
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" theme="idea" mode='kotlin' data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlin {
@@ -384,11 +374,8 @@ kotlin {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" theme="idea" mode='groovy'>
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 kotlin {
@@ -420,18 +407,18 @@ kotlin {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 ### Android 编译目标
 
 Kotlin Multiplatform plugin 针对 Android 编译目标提供了两个专有的函数.
 这两个函数帮助你设置 [构建变体(build variants)](https://developer.android.com/studio/build/build-variants):
 
-| **名称**                        | **解释**                                                                                        |
-|-------------------------------|-----------------------------------------------------------------------------------------------|
-| `publishLibraryVariants()`    | 指定用于发布的构建变体. 详情请参见 [发布 Android 库](multiplatform-publish-lib.html#publish-an-android-library). |
-| `publishAllLibraryVariants()` | 发布所有的构建变体.                                                                                    |
+| **名称**                        | **解释**                                                                                      |
+|-------------------------------|---------------------------------------------------------------------------------------------|
+| `publishLibraryVariants()`    | 指定用于发布的构建变体. 详情请参见 [发布 Android 库](multiplatform-publish-lib.md#publish-an-android-library). |
+| `publishAllLibraryVariants()` | 发布所有的构建变体.                                                                                  |
 
 ```kotlin
 kotlin {
@@ -441,34 +428,35 @@ kotlin {
 }
 ```
 
-详情请参见 [针对 Android 的编译](multiplatform-configure-compilations.html#compilation-for-android).
+详情请参见 [针对 Android 的编译](multiplatform-configure-compilations.md#compilation-for-android).
 
 > `kotlin` 代码块之内的 `android` 配置, 不会替代任何 Android 项目的编译配置.
 > 关于如何为 Android 项目编写编译脚本, 详情请参见 [Android 开发文档](https://developer.android.com/studio/build).
-{:.note}
+>
+{style="note"}
 
-## 源代码集(Source set)
+## 源代码集(Source set) {id="source-sets"}
 
 `sourceSets` 代码块描述项目的源代码集. 源代码集是指在某个编译任务中一起参与编译的 Kotlin 源代码文件, 相关的资源文件, 依赖项目, 以及语言设置.
 
 跨平台项目的各个编译目标都包含 [预定义的源代码集](#predefined-source-sets);
 开发者也可以根据需要创建 [自定义的源代码集](#custom-source-sets).
 
-### 预定义的源代码集
+### 预定义的源代码集 {id="predefined-source-sets"}
 
 创建会在跨平台项目时会自动设置预定义的源代码集.
 可用的预定义源代码集如下:
 
-|**名称**|**解释**|
-| --- | --- |
-|`commonMain`| 所有平台共用的代码和资源. 对所有的跨平台项目都可用. 项目的所有 main [编译任务](#compilations)都会使用这个源代码集.|
-|`commonTest`| 所有平台共用的测试代码和资源. 对所有的跨平台项目都可用. 项目的所有 test 编译任务都会使用这个源代码集.|
-|_\<targetName\>\<compilationName\>_|各个编译目标专有的源代码集. 这里的 _\<targetName\>_ 是预定义编译目标的名称, _\<compilationName\>_ 是这个编译目标的编译任务名称. 比如: `jsTest`, `jvmMain`.|
+| **名称**                            |**解释**|
+|-----------------------------------| --- |
+| `commonMain`                      | 所有平台共用的代码和资源. 对所有的跨平台项目都可用. 项目的所有 main [编译任务](#compilations)都会使用这个源代码集.|
+| `commonTest`                      | 所有平台共用的测试代码和资源. 对所有的跨平台项目都可用. 项目的所有 test 编译任务都会使用这个源代码集.|
+| **`<targetName><compilationName>`** |各个编译目标专有的源代码集. 这里的 **`<targetName>`** 是预定义编译目标的名称, **`<compilationName>`** 是这个编译目标的编译任务名称. 比如: `jsTest`, `jvmMain`.|
 
 使用 Kotlin Gradle DSL 时, 预定义源代码集的代码块需要标记为 `by getting`.
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" theme="idea" mode='kotlin' data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlin {
@@ -478,11 +466,8 @@ kotlin {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" theme="idea" mode='groovy'>
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 kotlin {
@@ -492,19 +477,19 @@ kotlin {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
-详情请参见 [源代码集](multiplatform-discover-project.html#source-sets).
+详情请参见 [源代码集](multiplatform-discover-project.md#source-sets).
 
-### 自定义源代码集
+### 自定义源代码集 {id="custom-source-sets"}
 
 自定义源代码集由项目开发者手动创建.
 要创建一个自定义源代码集, 需要在 `sourceSets` 之内, 使用自定义源代码集的名称, 添加一个代码块.
 如果使用 Kotlin Gradle DSL, 需要将自定义源代码集标记为 `by creating`.
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" theme="idea" mode='kotlin' data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlin {
@@ -514,11 +499,8 @@ kotlin {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" theme="idea" mode='groovy'>
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 kotlin {
@@ -528,26 +510,26 @@ kotlin {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 注意, 新创建的源代码集不会关联到其他源代码集. 如果要在项目的编译任务中使用这个源代码集,
-[请将它关联到其他源代码集](multiplatform-hierarchy.html#manual-configuration).
+[请将它关联到其他源代码集](multiplatform-hierarchy.md#manual-configuration).
 
-### 源代码集的参数
+### 源代码集的参数 {id="source-set-parameters"}
 
 源代码集的配置保存在相应的 `sourceSets` 代码块之内. 一个源代码集包含以下参数:
 
-| **名称**             | **解释**                                                           |
-|--------------------|------------------------------------------------------------------|
-| `kotlin.srcDir`    | 源代码集目录之内的 Kotlin 源代码文件位置.                                        |
-| `resources.srcDir` | 源代码集目录之内的资源文件位置.                                                 |
-| `dependsOn`        | [关联到另一个源代码集](multiplatform-hierarchy.html#manual-configuration)  |
-| `dependencies`     | 源代码集的 [依赖项目](#dependencies).                                     |
-| `languageSettings` | 用于这个源代码集的 [语言设置](#language-settings).                            |
+| **名称**             | **解释**                                                        |
+|--------------------|---------------------------------------------------------------|
+| `kotlin.srcDir`    | 源代码集目录之内的 Kotlin 源代码文件位置.                                     |
+| `resources.srcDir` | 源代码集目录之内的资源文件位置.                                              |
+| `dependsOn`        | [关联到另一个源代码集](multiplatform-hierarchy.md#manual-configuration) |
+| `dependencies`     | 源代码集的 [依赖项目](#dependencies).                                  |
+| `languageSettings` | 用于这个源代码集的 [语言设置](#language-settings).                         |
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" theme="idea" mode='kotlin' data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlin {
@@ -564,11 +546,8 @@ kotlin {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" theme="idea" mode='groovy'>
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 kotlin {
@@ -585,10 +564,10 @@ kotlin {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
-## 编译任务
+## 编译任务 {id="compilations"}
 
 一个编译目标可以包含一个或多个编译任务, 比如, 用于正式产品的编译任务, 或用于测试代码的编译任务. 编译目标创建时会自动添加 [预定义的编译任务](#predefined-compilations).
 你也可以另外创建 [自定义编译任务](#custom-compilations).
@@ -596,9 +575,9 @@ kotlin {
 如果需要访问一个编译目标的所有编译任务, 或某个特定的编译任务, 请使用 `compilations` 对象集合.
 通过 `compilations`, 你可以使用名称来访问一个编译任务.
 
-详情请参见 [配置编译任务](multiplatform-configure-compilations.html).
+详情请参见 [配置编译任务](multiplatform-configure-compilations.md).
 
-### 预定义的编译任务
+### 预定义的编译任务 {id="predefined-compilations"}
 
 对项目的每个编译目标, 会自动创建预定义的编译任务, Android 编译目标除外.
 可用的预定义编译任务如下:
@@ -608,8 +587,8 @@ kotlin {
 |`main`|用于正式产品源代码的编译任务.|
 |`test`|用于测试代码的编译任务.|
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" theme="idea" mode='kotlin' data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlin {
@@ -623,11 +602,8 @@ kotlin {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" theme="idea" mode='groovy'>
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 kotlin {
@@ -638,19 +614,19 @@ kotlin {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
-### 自定义编译任务
+### 自定义编译任务 {id="custom-compilations"}
 
 除了预定义的编译任务之外, 你也可以创建自己的自定义编译任务.
 要创建一个自定义编译任务, 请在 `compilations` 集合中添加一个新的项目.
 如果使用 Kotlin Gradle DSL, 自定义编译任务需要标记为 `by creating`.
 
-详情请参见 [创建自定义编译任务](multiplatform-configure-compilations.html#create-a-custom-compilation).
+详情请参见 [创建自定义编译任务](multiplatform-configure-compilations.md#create-a-custom-compilation).
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" theme="idea" mode='kotlin' data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlin {
@@ -673,11 +649,8 @@ kotlin {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" theme="idea" mode='groovy'>
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 kotlin {
@@ -698,28 +671,28 @@ kotlin {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
-### 编译任务的参数
+### 编译任务的参数 {id="compilation-parameters"}
 
 一个编译任务可以包含以下参数:
 
-| **名称**                   | **解释**             |
-|--------------------------|-----------------------|
-| `defaultSourceSet`       | 编译任务的默认源代码集. |
-| `kotlinSourceSets`       | 源代码集, 参与这个编译任务. |
-| `allKotlinSourceSets`    | 源代码集, 参与这个编译任务, 以及通过 `dependsOn()` 关联的所有其他编译任务. |
-| `compilerOptions`        | 应用于这个编译任务的编译器选项. 关于所有可用的选项, 请参见 [编译选项](../gradle.html#compiler-options). |
-| `compileKotlinTask`      | 编译 Kotlin 源代码的 Gradle 任务. |
-| `compileKotlinTaskName`  | `compileKotlinTask` 的名称. |
-| `compileAllTaskName`     | 编译这个编译任务中所有源代码的Gradle 任务的名称. |
-| `output`                 | 编译任务的输出. |
-| `compileDependencyFiles` | 这个编译任务的编译时刻依赖项目文件(classpath). |
-| `runtimeDependencyFiles` | 这个编译任务的运行时刻依赖项目文件(classpath). |
+| **名称**                   | **解释**                                                              |
+|--------------------------|---------------------------------------------------------------------|
+| `defaultSourceSet`       | 编译任务的默认源代码集.                                                        |
+| `kotlinSourceSets`       | 源代码集, 参与这个编译任务.                                                     |
+| `allKotlinSourceSets`    | 源代码集, 参与这个编译任务, 以及通过 `dependsOn()` 关联的所有其他编译任务.                     |
+| `compilerOptions`        | 应用于这个编译任务的编译器选项. 关于所有可用的选项, 请参见 [编译选项](gradle-compiler-options.md). |
+| `compileKotlinTask`      | 编译 Kotlin 源代码的 Gradle 任务.                                           |
+| `compileKotlinTaskName`  | `compileKotlinTask` 的名称.                                            |
+| `compileAllTaskName`     | 编译这个编译任务中所有源代码的Gradle 任务的名称.                                        |
+| `output`                 | 编译任务的输出.                                                            |
+| `compileDependencyFiles` | 这个编译任务的编译时刻依赖项目文件(classpath).                                       |
+| `runtimeDependencyFiles` | 这个编译任务的运行时刻依赖项目文件(classpath).                                       |
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" theme="idea" mode='kotlin' data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlin {
@@ -748,11 +721,8 @@ kotlin {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" theme="idea" mode='groovy'>
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 kotlin {
@@ -778,14 +748,14 @@ kotlin {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
-## 依赖项目
+## 依赖项目 {id="dependencies"}
 
 源代码集的 `dependencies` 代码块包含这个源代码集的依赖项目.
 
-详情请参见 [配置依赖项](../gradle/gradle-configure-project.html).
+详情请参见 [配置依赖项](gradle-configure-project.md).
 
 有 4 种类型的依赖项目:
 
@@ -796,8 +766,8 @@ kotlin {
 | `compileOnly`    | 只在当前模块的编译任务中使用的依赖项目. |
 | `runtimeOnly`    | 运行时刻的依赖项目, 但在任何模块的编译任务中都不可见. |
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" theme="idea" mode='kotlin' data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlin {
@@ -816,11 +786,8 @@ kotlin {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" theme="idea" mode='groovy'>
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 kotlin {
@@ -839,16 +806,16 @@ kotlin {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 除此之外, 源代码集之间还可以相互依赖, 形成一种层级结构. 这种情况下, 应该使用 [`dependsOn()`](#source-set-parameters) 关系.
 
 在编译脚本的最顶层 `dependencies` 代码块中, 也可以声明源代码集的依赖项目.
 这种情况下, 依赖项目声明需要使用 `<sourceSetName><DependencyKind>` 格式, 比如, `commonMainApi`.
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" theme="idea" mode='kotlin' data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 dependencies {
@@ -857,11 +824,8 @@ dependencies {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" theme="idea" mode='groovy'>
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 dependencies {
@@ -870,23 +834,23 @@ dependencies {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
-## 语言设置
+## 语言设置 {id="language-settings"}
 
 源代码集的 `languageSettings` 代码块用来定义项目分析和构建的某些方面. 可选的语言设置如下:
 
-|**名称**|**解释**|
-| --- | --- |
-|`languageVersion`|与某个 Kotlin 版本保持源代码级的兼容性.|
-|`apiVersion`|允许使用从指定的 Kotlin 版本的库才开始提供的 API 声明.|
-|`enableLanguageFeature`|启用指定的语言特性. 这个参数可选的值, 对应于那些目前还处于试验状态的语言特性, 或还没有正式公布的语言特性.|
-|`optIn`|允许使用指定的 [明确要求使用者同意(Opt-in) 注解](../opt-in-requirements.html).|
-|`progressiveMode`|启用 [渐进模式(progressive mode)](../whatsnew13.html#progressive-mode).|
+|**名称**| **解释**                                                       |
+| --- |--------------------------------------------------------------|
+|`languageVersion`| 与某个 Kotlin 版本保持源代码级的兼容性.                                     |
+|`apiVersion`| 允许使用从指定的 Kotlin 版本的库才开始提供的 API 声明.                           |
+|`enableLanguageFeature`| 启用指定的语言特性. 这个参数可选的值, 对应于那些目前还处于试验状态的语言特性, 或还没有正式公布的语言特性.     |
+|`optIn`| 允许使用指定的 [明确要求使用者同意(Opt-in) 注解](opt-in-requirements.md).      |
+|`progressiveMode`| 启用 [渐进模式(progressive mode)](whatsnew13.md#progressive-mode). |
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" theme="idea" mode='kotlin' data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlin {
@@ -902,11 +866,8 @@ kotlin {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" theme="idea" mode='groovy'>
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 kotlin {
@@ -922,5 +883,5 @@ kotlin {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>

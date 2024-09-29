@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Classes and Objects"
-title: "内联的值类(Inline value class)"
----
+[//]: # (title: 内联的值类(Inline value class))
 
-# 内联的值类(Inline value class)
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 如果将值封装到类中, 创建一些特定领域的类型, 有时候会非常有用. 但是, 这就会产生堆上的内存分配, 带来运行时的性能损失.
 更坏的情况下, 如果被包装的类是基本类型, 那么性能损失会非常严重, 因为在运行时对基本类型本来可以进行极大地性能优化, 而它的包装类却不能享受这种好处.
@@ -40,14 +33,12 @@ val securePassword = Password("Don't try this in production")
 ```
 
 这就是内联类的主要功能, 受 *内联* 这个名称的启发而来: 类中的数据被 *内联* 到使用它的地方
-(类似于 [内联函数](inline-functions.html) 的内容被内联到调用它的地方).
+(类似于 [内联函数](inline-functions.md) 的内容被内联到调用它的地方).
 
 ## 成员
 
 内联类支持与通常的类相同的功能.
-具体来说, 内联类可以声明属性和函数, 也可以有 `init` 代码段和 [次级构造器(secondary constructor)](classes.html#secondary-constructors):
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.9">
+具体来说, 内联类可以声明属性和函数, 也可以有 `init` 代码段和 [次级构造器(secondary constructor)](classes.md#secondary-constructors):
 
 ```kotlin
 @JvmInline
@@ -79,12 +70,10 @@ fun main() {
     println(name2.length) // 属性的取值函数会作为静态方法来调用
 }
 ```
+{kotlin-runnable="true" kotlin-min-compiler-version="1.9"}
 
-</div>
-
-内联类的属性不能拥有 [后端域变量](properties.html#backing-fields).
+内联类的属性不能拥有 [后端域变量](properties.md#backing-fields).
 只能拥有简单的计算属性 (不能拥有 `lateinit` 属性或委托属性)
-
 
 ## 继承
 
@@ -108,11 +97,11 @@ fun main() {
 
 禁止内联类参与类继承. 也就是说, 内联类不能继承其他类, 而且它永远是 `final` 类, 不能被其他类继承.
 
-## 内部表达
+## 内部表达 {id="representation"}
 
 在通常的代码中, Kotlin 编译器会对每个内联类保留一个 *包装*.
 内联类的实例在运行期可以表达为这个包装, 也可以表达为它的底层类型.
-类似于 `Int` 可以 [表达](numbers.html#numbers-representation-on-the-jvm) 为基本类型 `int`,
+类似于 `Int` 可以 [表达](numbers.md#numbers-representation-on-the-jvm) 为基本类型 `int`,
 也可以表达为包装类 `Integer`.
 
 Kotlin 编译器会优先使用底层类型而不是包装类, 这样可以产生最优化的代码, 运行时的性能也会最好.
@@ -145,7 +134,7 @@ fun main() {
 }
 ```
 
-由于内联类可以表达为底层类型和包装类两种方式, [引用相等性](equality.html#referential-equality) 对于内联类是毫无意义的,
+由于内联类可以表达为底层类型和包装类两种方式, [引用相等性](equality.md#referential-equality) 对于内联类是毫无意义的,
 因此禁止对内联类进行引用相等性判断操作.
 
 内联类也可以使用泛型类型参数作为底层类型. 这种情况下, 编译器将它映射为 `Any?`,
@@ -194,7 +183,7 @@ fun compute(x: UInt) { }
 
 ## 内联类与类型别名
 
-初看起来, 内联类似乎非常象 [类型别名](type-aliases.html). 确实, 它们都声明了一个新的类型, 并且在运行期都表达为各自的底层类型.
+初看起来, 内联类似乎非常象 [类型别名](type-aliases.md). 确实, 它们都声明了一个新的类型, 并且在运行期都表达为各自的底层类型.
 
 但是, 主要的差别在于, 类型别名与它的底层类型是 *赋值兼容* 的 (与同一个底层类型的另一个类型别名, 也是兼容的), 而内联类不是如此.
 

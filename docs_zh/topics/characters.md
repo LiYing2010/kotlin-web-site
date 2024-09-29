@@ -1,19 +1,13 @@
----
-type: doc
-layout: reference
-category:
-title: "字符"
----
+[//]: # (title: 字符)
 
-# 字符
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 字符使用 `Char` 类型表达.
 字符的字面值(literal)使用单引号表达: `'1'`.
 
 > 在 JVM 平台, 字符保存为基本类型(Primitive Type): `char`, 表示一个 16 位的 Unicode 字符.
-{:.note}
+>
+{style="note"}
 
 特殊字符使用反斜线转义表达.
 Kotlin 支持的转义字符包括:
@@ -29,8 +23,6 @@ Kotlin 支持的转义字符包括:
 
 其他任何字符, 都可以使用 Unicode 转义表达方式: `'\uFF00'`.
 
-<div class="sample" markdown="1" theme="idea">
-
 ```kotlin
 fun main() {
 //sampleStart
@@ -42,13 +34,12 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
-
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 如果字符的值是数字, 可以使用 [`digitToInt()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/digit-to-int.html)
 函数显式转换为 `Int` 值.
 
-> 在 JVM 平台, 当需要一个可为 null 的字符引用时, 字符会被装箱(box)为 Java 类, 与 [数值类型](numbers.html#numbers-representation-on-the-jvm) 一样.
+> 在 JVM 平台, 当需要一个可为 null 的字符引用时, 字符会被装箱(box)为 Java 类, 与 [数值类型](numbers.md#numbers-representation-on-the-jvm) 一样.
 > 装箱操作不保持对象的同一性(identity).
-{:.note}
+>
+{style="note"}

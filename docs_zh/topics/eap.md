@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "参加 Kotlin EAP 项目"
----
+[//]: # (title: 参加 Kotlin EAP 项目)
 
-# 参加 Kotlin EAP(Early Access Preview) 项目
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 你可以参加 Kotlin 早期预览(EAP) 项目, 试用 Kotlin 还未发布的最新功能.
 
@@ -23,14 +16,15 @@ title: "参加 Kotlin EAP 项目"
 如果你有任何问题, 希望参与讨论, 欢迎加入 [Kotlin Slack 的 #eap 频道](https://app.slack.com/client/T09229ZC6/C0KLZSCHF).
 在这个频道中, 你还可以收到关于新的 EAP 版本的通知.
 
-**[在 IDEA 和 Android Studio 中安装 Kotlin EAP Plugin](install-eap-plugin.html)**
+**[在 IDEA 和 Android Studio 中安装 Kotlin EAP Plugin](install-eap-plugin.md)**
 
 > 参与 EAP 项目, 表示你明确了解 EAP 版本并不可靠, 可能不会象期待的那样正常工作, 并且可能包含错误.
 > 请注意, 对于 EAP 和某些版本的最终发布版之间兼容性, 我们并不提供任何保证.
-{:.note}
+>
+{style="note"}
 
 如果你已经安装了 EAP 版, 并希望在之前创建的项目中使用,
-请参见 [如何针对 EAP 版配置你的构建](configure-build-for-eap.html).
+请参见 [如何针对 EAP 版配置你的构建](configure-build-for-eap.md).
 
 ## EAP 版能够如何帮助你更加高效的使用 Kotlin
 
@@ -56,7 +50,9 @@ title: "参加 Kotlin EAP 项目"
   如果你是一个 Kotlin 爱好者, 并且喜欢创作教育性的内容来向 Kotlin 生态系统做贡献,
   那么试用 Kotlin EAP 中的新功能特性, 你就有机会第一个向 Kotlin 社区分享新的酷炫功能的使用经验.
 
-## EAP 版本
+## EAP 版本 {id="build-details"}
+
+<!-- _No preview versions are currently available._ -->
 
 <table>
     <tr>
@@ -72,11 +68,12 @@ title: "参加 Kotlin EAP 项目"
             <p>Kotlin K2 编译器的稳定发布版.</p>
             <p>包括 Gradle 构建工具的改进.</p>
             <p>Kotlin/Wasm 与 JavaScript 交互能力的改进.</p>
-            <p>更多详情, 请参见 <a href="https://github.com/JetBrains/kotlin/releases/tag/v2.0.0-Beta5">changelog</a> 或 <a href="whatsnew-eap.html">Kotlin 2.0.0-Beta5 中的新功能</a>.</p>
+            <p>更多详情, 请参见 <a href="https://github.com/JetBrains/kotlin/releases/tag/v2.0.0-Beta5">changelog</a> 或 <a href="whatsnew-eap.md">Kotlin 2.0.0-Beta5 中的新功能</a>.</p>
         </td>
     </tr>
 </table>
 
 > 如果 Kotlin EAP plugin 无法找到最新的 EAP 版, 请检查你使用的是不是最新版的 [IntelliJ IDEA](https://www.jetbrains.com/help/idea/update.html)
 > 或 [Android Studio](https://developer.android.com/studio/intro/update).
-{:.note}
+>
+{style="note"}

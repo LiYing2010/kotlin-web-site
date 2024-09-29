@@ -1,24 +1,17 @@
----
-type: doc
-layout: reference
-category: "Native"
-title: "CocoaPods Gradle plugin DSL 参考文档"
----
+[//]: # (title: CocoaPods Gradle plugin DSL 参考文档)
 
-# CocoaPods Gradle plugin DSL 参考文档
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin CocoaPods Gradle plugin 是一个用来创建 Podspec 文件的工具.
-将你的 Kotlin 项目与 [CocoaPods 依赖项 管理器](https://cocoapods.org/) 集成时, 会需要这些文件.
+将你的 Kotlin 项目与 [CocoaPods 依赖项管理器](https://cocoapods.org/) 集成时, 会需要这些文件.
 
-本文档将会介绍, 使用 [CocoaPods 集成](native-cocoapods.html) 时,
+本文档将会介绍, 使用 [CocoaPods 集成](native-cocoapods.md) 时,
 你可以使用的 Kotlin CocoaPods Gradle plugin 的所有代码段, 函数, 属性.
 
-* 学习如何 [设置开发环境](native-cocoapods.html#set-up-an-environment-to-work-with-cocoapods) 并
-[配置 Kotlin CocoaPods Gradle plugin](native-cocoapods.html#add-and-configure-kotlin-cocoapods-gradle-plugin).
-* 根据你的项目和目的不同, 你可以添加 [Kotlin 项目与 Pod 库](native-cocoapods-libraries.html) 之间的依赖项,
-  也可以添加 [Kotlin Gradle 项目与 Xcode 项目](native-cocoapods-xcode.html) 之间的依赖项.
+* 学习如何 [设置开发环境](native-cocoapods.md#set-up-an-environment-to-work-with-cocoapods) 并
+[配置 Kotlin CocoaPods Gradle plugin](native-cocoapods.md#add-and-configure-kotlin-cocoapods-gradle-plugin).
+* 根据你的项目和目的不同, 你可以添加 [Kotlin 项目与 Pod 库](native-cocoapods-libraries.md) 之间的依赖项,
+  也可以添加 [Kotlin Gradle 项目与 Xcode 项目](native-cocoapods-xcode.md) 之间的依赖项.
 
 ## 启用 plugin
 
@@ -26,12 +19,12 @@ Kotlin CocoaPods Gradle plugin 是一个用来创建 Podspec 文件的工具.
 
 ```kotlin
 plugins {
-   kotlin("multiplatform") version "{{ site.data.releases.latest.version }}"
-   kotlin("native.cocoapods") version "{{ site.data.releases.latest.version }}"
+    kotlin("multiplatform") version "%kotlinVersion%"
+    kotlin("native.cocoapods") version "%kotlinVersion%"
 }
 ```
 
-plugin 版本与 [Kotlin 发布版本](../releases.html) 相同. 最新的稳定版本是 {{ site.data.releases.latest.version }}.
+plugin 版本与 [Kotlin 发布版本](releases.md) 相同. 最新的稳定版本是 %kotlinVersion%.
 
 ## `cocoapods` 代码段
 
@@ -73,13 +66,13 @@ plugin 版本与 [Kotlin 发布版本](../releases.html) 相同. 最新的稳定
 ```kotlin
 kotlin {
     ios()
-   
+
     cocoapods {
         version = "2.0"
         name = "MyCocoaPod"
         summary = "CocoaPods test library"
         homepage = "https://github.com/JetBrains/kotlin"
-        
+
         extraSpecAttributes["vendored_frameworks"] = 'CustomFramework.xcframework'
         license = "{ :type => 'MIT', :text => 'License text'}"
         source = "{ :git => 'git@github.com:vkormushkin/kmmpodlibrary.git', :tag => '$version' }"
@@ -89,7 +82,7 @@ kotlin {
             url("https://github.com/Kotlin/kotlin-cocoapods-spec.git")
         }
         pod("example")
-        
+
         xcodeConfigurationToNativeBuildType["CUSTOM_RELEASE"] = NativeBuildType.RELEASE
    }
 }
@@ -100,7 +93,8 @@ kotlin {
 `framework` 代码段嵌套在 `cocoapods` 代码段内, 用来配置通过项目构建的 Pod 的框架属性.
 
 > 注意, `baseName` 是必须指定的项目.
-{:.note}
+>
+{style="note"}
 
 | **名称**           | **描述**                                      | 
 |--------------------|----------------------------------------------|
@@ -141,13 +135,13 @@ kotlin {
 ```kotlin
 kotlin {
     ios()
-   
+
     cocoapods {
         summary = "CocoaPods test library"
         homepage = "https://github.com/JetBrains/kotlin"
-      
+
         ios.deploymentTarget = "13.5"
-      
+
         pod("pod_dependency") {
             version = "1.0"
             linkOnly = true

@@ -1,24 +1,17 @@
----
-type: doc
-layout: reference
-category:
-title: "跨平台应用程序开发最流行的 6 种框架"
----
+[//]: # (title: 跨平台应用程序开发最流行的 6 种框架)
+[//]: # (description: 本文介绍跨平台应用程序开发最流行的 6 种框架, 并解释在为你的项目选择跨平台开发工具时需要考虑的关键问题.)
 
-# 跨平台 App 开发最流行的 6 种框架
-[//]: # (description:This article identifies the six most popular cross-platform app development frameworks and explains key things to consider when choosing a cross-platform tool for your project.)
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 过去几年, 跨平台 App 开发已经成为创建移动应用程序的最流行方式.
 一个跨平台方案, 或者叫多平台方案, 能够帮助开发者创建 App, 在不同的移动平台上以类似的方式运行.
 
 Google 搜索趋势图显示, 自从 2010 以来, 开发者对跨平台方案的兴趣一直在稳定增长:
 
-<img src="/assets/docs/images/google-trends-cross-platform.png" alt="关于跨平台 App 开发的 Google 搜索趋势图" width="700"/>
+![关于跨平台 App 开发的 Google 搜索趋势图](google-trends-cross-platform.png){width=700}
 
 快速进步的
-[跨平台移动开发](cross-platform-mobile-development.html#kotlin-multiplatform)
+[跨平台移动开发](cross-platform-mobile-development.md#kotlin-multiplatform)
 技术的流行度增长, 导致市场上出现了更多的新工具.
 面对这样多的选择, 要选择最适合你的一种可能会很困难.
 为了帮助你找到正确的工具, 我们整理了一份列表, 包括 6 个最好的跨平台 App 开发框架, 以及它们各自的优秀功能.
@@ -104,7 +97,8 @@ Kotlin Multiplatform (KMP) 是由 JetBrains 提供的开源技术, 它允许跨�
 来开发带有近似原生程序用户体验的多平台 App.
 
 > 使用 [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-getting-started.html) 创建你的第一个跨平台移动 App.
-{:.note}
+>
+{style="note"}
 
 ### Ionic
 
@@ -189,7 +183,8 @@ Kotlin Multiplatform 提供了完全的代码共用灵活性.
 它允许开发者在 Android, iOS, Web, 以及 Desktop (通过 JVM) 平台之间共用 UI, 它基于 Kotlin 和 Jetpack Compose 开发.
 
 > [Compose Multiplatform 入门](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-getting-started.html)
-{:.note}
+>
+{style="note"}
 
 #### 4. 框架成熟度
 

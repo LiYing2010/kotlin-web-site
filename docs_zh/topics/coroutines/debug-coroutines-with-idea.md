@@ -1,47 +1,37 @@
----
-type: doc
-layout: reference
-category:
-title: "教程 - 使用 IntelliJ IDEA 调试协程"
----
+[//]: # (title: 教程 - 使用 IntelliJ IDEA 调试协程)
 
-# 教程 - 使用 IntelliJ IDEA 调试协程
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 本教程演示如何创建 Kotlin 协程, 并使用 IntelliJ IDEA 调试这些协程.
 
-本教程假定你已经了解了 [协程](coroutines-guide.html) 的基本概念.
+本教程假定你已经了解了 [协程](coroutines-guide.md) 的基本概念.
 
 ## 创建协程
 
-1. 在 IntelliJ IDEA 中打开一个 Kotlin 项目. 如果你没有项目, 请 [创建一个项目](../jvm/jvm-get-started.html#create-an-application).
+1. 在 IntelliJ IDEA 中打开一个 Kotlin 项目. 如果你没有项目, 请 [创建一个项目](jvm-get-started.md#create-an-application).
 
 2. 要在 Gradle 项目中使用 `kotlinx.coroutines` 库, 请向 `build.gradle(.kts)` 添加以下依赖项:
 
-   <div class="multi-language-sample" data-lang="kotlin">
-   <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+   <tabs group="build-script">
+   <tab title="Kotlin" group-key="kotlin">
 
    ```kotlin
    dependencies {
-       implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:{{ site.data.releases.latest.coroutines.version }}")
+       implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:%coroutinesVersion%")
    }
    ```
-   
-   </div>
-   </div>
-   
-   <div class="multi-language-sample" data-lang="groovy">
-   <div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
 
+   </tab>
+   <tab title="Groovy" group-key="groovy">
+   
    ```groovy
    dependencies {
-       implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:{{ site.data.releases.latest.coroutines.version }}'
+       implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:%coroutinesVersion%'
    }
    ```
    
-   </div>
-   </div>
+   </tab>
+   </tabs>
 
    对于其他构建系统, 请参见 [`kotlinx.coroutines` README](https://github.com/Kotlin/kotlinx.coroutines#using-in-your-projects) 中的说明.
 
@@ -74,17 +64,17 @@ title: "教程 - 使用 IntelliJ IDEA 调试协程"
 
 5. 点击 **Build Project**, 构建代码.
 
-    ![构建一个应用程序]({{ url_for('asset', path='docs/images/coroutines/flow-build-project.png') }})
+    ![构建一个应用程序](flow-build-project.png)
 
 ## 调试协程
 
 1. 在 `println()` 函数调用的行设置断点:
 
-    ![构建一个控制台应用程序]({{ url_for('asset', path='docs/images/coroutines/coroutine-breakpoint.png') }})
+   ![构建一个控制台应用程序](coroutine-breakpoint.png)
 
 2. 点击画面顶部运行配置旁边的 **Debug**, 在调试模式下运行代码.
 
-    ![构建一个控制台应用程序]({{ url_for('asset', path='docs/images/coroutines/flow-debug-project.png') }})
+   ![构建一个控制台应用程序](flow-debug-project.png)
 
     然后会出现 **Debug** 工具窗口: 
     * **Frames** 页包含调用栈.
@@ -92,12 +82,12 @@ title: "教程 - 使用 IntelliJ IDEA 调试协程"
     * **Coroutines** 页包含正在运行的或挂起的协程信息. 它显示存在 3 个协程.
     第一个协程状态为 **RUNNING**, 其它两个状态为 **CREATED**.
 
-    ![调试协程]({{ url_for('asset', path='docs/images/coroutines/coroutine-debug-1.png') }})
+    ![调试协程](coroutine-debug-1.png)
 
 3. 点击 **Debug** 工具窗口中的 **Resume Program**, 恢复调试器 session:
 
-    ![调试协程]({{ url_for('asset', path='docs/images/coroutines/coroutine-debug-2.png') }})
-    
+    ![调试协程](coroutine-debug-2.png)
+
     现在 **Coroutines** 页显示如下:
     * 第 1 个协程状态为 **SUSPENDED** – 它在等待值, 以便执行乘法运算.
     * 第 2 个协程正在计算 `a` 的值 – 状态为 **RUNNING**.
@@ -105,7 +95,7 @@ title: "教程 - 使用 IntelliJ IDEA 调试协程"
 
 4. 点击 **Debug** 工具窗口中的 **Resume Program**, 恢复调试器 session:
 
-    ![构建一个控制台应用程序]({{ url_for('asset', path='docs/images/coroutines/coroutine-debug-3.png') }})
+   ![构建一个控制台应用程序](coroutine-debug-3.png)
 
    现在 **Coroutines** 页显示如下:
     * 第 1 个协程状态为 **SUSPENDED** – 它在等待值, 以便执行乘法运算.
@@ -118,11 +108,12 @@ title: "教程 - 使用 IntelliJ IDEA 调试协程"
 
 如果你使用 `suspend` 函数, 那么在调试器中, 你可能会在变量名称旁边看到 "was optimized out" 文字:
 
-![变量 "a" 被优化了]({{ url_for('asset', path='docs/images/coroutines/variable-optimised-out.png') }})
+![变量 "a" 被优化了](variable-optimised-out.png)
 
 这段文字的意思是说, 变量的生存时间变短了, 而且变量已经不再存在了.
 如果变量被优化, 调试代码会变得困难, 因为你看不到变量值.
 你可以使用 `-Xdebug` 编译器选项禁止这种优化.
 
 > __绝对不要在产品(Production)模式中使用这个选项__: `-Xdebug` 可能 [导致内存泄露](https://youtrack.jetbrains.com/issue/KT-48678/Coroutine-debugger-disable-was-optimised-out-compiler-feature#focus=Comments-27-6015585.0-0).
-{:.warning}
+>
+{style="warning"}

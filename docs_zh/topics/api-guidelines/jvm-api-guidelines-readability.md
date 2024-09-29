@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "可读性"
----
+[//]: # (title: 可读性)
 
-# 可读性
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 本章介绍关于 [API 一致性](#api-consistency) 需要注意的问题, 并提供以下建议:
 * [使用构建器 DSL](#use-a-builder-dsl)
@@ -15,7 +8,7 @@ title: "可读性"
 * [适当的使用成员函数和扩展函数](#use-member-and-extension-functions-appropriately)
 * [避免在函数中使用 Boolean 参数](#avoid-using-boolean-arguments-in-functions)
 
-## API 一致性
+## API 一致性 {id="api-consistency"}
 
 API 保持一致, 并提供良好的文档, 对于良好的开发体验来说是非常重要的.
 参数顺序, 整体的命名风格, 超载(overload) 也非常重要.
@@ -40,7 +33,7 @@ fun String.chop(length: Int, startIndex: Int) =
 有 `first()` 和 `firstOrNull()` 方法, `single()` 和 `singleOrNull()` 方法, 等等.
 从它们的名称可以看出这些方法是成对的, 而且有些方法可能返回 `null`, 其它方法可能抛出异常.
 
-## 使用构建器 DSL
+## 使用构建器 DSL {id="use-a-builder-dsl"}
 
 在程序开发中, ["构建器(Builder)"](https://en.wikipedia.org/wiki/Builder_pattern#:~:text=The%20builder%20pattern%20is%20a,Gang%20of%20Four%20design%20patterns)
 是一个很著名的模式.
@@ -123,11 +116,12 @@ fun a(href: String, block: A.() -> Unit): A
 fun a(block: A.() -> Unit): A
 ```
 
-> 只要你不从构建器 DSL 中删除什么东西, 那么它就是 [向后兼容的](jvm-api-guidelines-backward-compatibility.html).
+> 只要你不从构建器 DSL 中删除什么东西, 那么它就是 [向后兼容的](jvm-api-guidelines-backward-compatibility.md).
 > 通常情况下不会发生问题, 因为随着时间的推移, 大多数开发者只会向他们的构建器类添加更多的属性.
-{:.note}
+>
+{style="note"}
 
-## 在适当的情况下, 使用类似构造器风格的函数
+## 在适当的情况下, 使用类似构造器风格的函数 {id="use-constructor-like-functions-where-applicable"}
 
 有时候, 你可以通过使用类似构造器风格的函数, 简化你的 API 的外观.
 一个类似构造器风格的函数, 是指函数名称以大写字母开头, 因此看起来象一个类的构造器.
@@ -178,7 +172,7 @@ public fun <T> listOf(vararg elements: T): List<T> =
 internal object EmptyList : List<Nothing>, Serializable, RandomAccess
 ```
 
-你可以编写一个类似构造器风格的函数, 降低你的代码的 [认知复杂度](jvm-api-guidelines-introduction.html#cognitive-complexity),
+你可以编写一个类似构造器风格的函数, 降低你的代码的 [认知复杂度](jvm-api-guidelines-introduction.md#cognitive-complexity),
 并减少你的 API 的大小:
 
 ```kotlin
@@ -189,10 +183,10 @@ public fun <T> listOf(vararg elements: T): List<T> =
     if (elements.isNotEmpty()) elements.asList() else List()
 ```
 
-## 适当的使用成员函数和扩展函数
+## 适当的使用成员函数和扩展函数 {id="use-member-and-extension-functions-appropriately"}
 
-只有 API 的非常核心的部分才应该写成 [成员函数](../functions.html#member-functions),
-其他所有功能应该写成 [扩展函数](../extensions.html#extension-functions).
+只有 API 的非常核心的部分才应该写成 [成员函数](functions.md#member-functions),
+其他所有功能应该写成 [扩展函数](extensions.md#extension-functions).
 这样可以帮助你告诉阅读代码的人, 什么是核心功能, 什么不是.
 
 例如, 看看下面的 Graph 类:
@@ -231,11 +225,11 @@ fun Graph.getDegree(vertex: Int): Int = edges[vertex]?.size ?: 0
 
 只有属性, 覆盖, 以及访问器才应该作为类的成员.
 
-## 避免在函数中使用 Boolean 参数
+## 避免在函数中使用 Boolean 参数 {id="avoid-using-boolean-arguments-in-functions"}
 
 理想情况下, 读者应该只靠阅读代码就能够判断函数参数的目的.
 然而, 如果使用 `Boolean` 参数, 这就不太可能了, 尤其是如果你没有使用 IDE (例如, 如果你在某个版本管理系统中审查代码).
-使用 [命名的参数](../functions.html#named-arguments) 有助于说明参数的目的, 但目前不可能强迫开发者在 IDE 中使用命名的参数.
+使用 [命名的参数](functions.md#named-arguments) 有助于说明参数的目的, 但目前不可能强迫开发者在 IDE 中使用命名的参数.
 另一个方案是, 创建一个函数, 让它执行 `Boolean` 参数对应的功能, 并给这个函数一个非常有描述性的名称.
 
 例如, 在标准库中, 有两个 `map()` 函数:
@@ -262,6 +256,6 @@ listOf(1, null, 2).mapNotNull { it.toString() }
 ## 下一步做什么?
 
 学习 API 的:
-* [可预测性](jvm-api-guidelines-predictability.html)
-* [可调试性](jvm-api-guidelines-debuggability.html)
-* [向后兼容性(Backward Compatibility)](jvm-api-guidelines-backward-compatibility.html)
+* [可预测性](jvm-api-guidelines-predictability.md)
+* [可调试性](jvm-api-guidelines-debuggability.md)
+* [向后兼容性(Backward Compatibility)](jvm-api-guidelines-backward-compatibility.md)

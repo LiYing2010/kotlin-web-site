@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "多轮(Multiple Round)处理"
----
+[//]: # (title: 多轮(Multiple Round)处理)
 
-# 多轮(Multiple Round)处理
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 KSP 支持 _多轮(Multiple Round)处理_, 也就是通过多次步骤处理文件.
 因此前一轮处理的输出可以供后一轮处理作为额外的输入.
@@ -95,7 +88,7 @@ KSP 提供 2 个 API来访问文件: `Resolver.getAllFiles()` 和 `Resolver.getN
 在 `SymbolProcessor` 接口中, KSP 为 `onError()` 提供一个默认的无操作(no-op) 实现.
 你可以覆盖这个方法, 提供你自己的错误处理逻辑.
 
-## 高级内容
+## 高级内容 {id="advanced"}
 
 ### 校验的默认行为
 

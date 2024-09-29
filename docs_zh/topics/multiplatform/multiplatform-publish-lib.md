@@ -1,12 +1,6 @@
----
-type: doc
-layout: reference
-title: "发布跨平台的库"
----
+[//]: # (title: 发布跨平台的库)
 
-# 发布跨平台的库
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 你可以使用 [`maven-publish` Gradle plugin](https://docs.gradle.org/current/userguide/publishing_maven.html),
 将跨平台的库发布到本地的 Maven 仓库.
@@ -33,7 +27,8 @@ publishing {
 ```
 
 > 你也可以将跨平台的库发布到 GitHub 仓库. 详情请参见 GitHub 文档 [GitHub packages](https://docs.github.com/en/packages).
-{:.tip}
+>
+{style="tip"}
 
 ## 发布的结构
 
@@ -42,14 +37,15 @@ Android 编译目标除外, 因为它需要 [更多步骤来配置发布任务](
 
 跨平台库的发布会包含一个额外的 _root_ 发布 `kotlinMultiplatform`, 这是用作整个库的发布,
 如果将它添加为共通源代码集的依赖项, 它会自动解析为适当的平台相关 artifact.
-详情请参见 [添加依赖项](multiplatform-add-dependencies.html).
+详情请参见 [添加依赖项](multiplatform-add-dependencies.md).
 
 这个 `kotlinMultiplatform` 发布包含元数据 artifact, 而且会引用其他发布作为它的变体(variant).
 
 > 有些仓库, 比如 Maven Central, 要求 root 模块包含不带分类标识的 JAR artifact, 比如 `kotlinMultiplatform-1.0.jar`.  
 > Kotlin Multiplatform plugin 会自动产生需要的 artifact, 以及内嵌的元数据 artifact.
 > 也就是说, 你不需要自定义你的构建脚本, 向你的库的 root 模块添加一个空的 artifact, 来满足仓库的要求.
-{:.note}
+>
+{style="note"}
 
 如果仓库要求, `kotlinMultiplatform` 发布还可能会需要源代码和文档的 artifact.
 这种情况下, 请在 publication 内使用 [`artifact(...)`](https://docs.gradle.org/current/javadoc/org/gradle/api/publish/maven/MavenPublication.html#artifact-java.lang.Object-) 添加这些需要的 artifact.
@@ -74,8 +70,8 @@ Android 编译目标除外, 因为它需要 [更多步骤来配置发布任务](
 
 如果无法升级, 请在 `shared/build.gradle(.kts)` 文件中为每个编译目标指定一个 main host, 并检查这个标记:
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" theme="idea" mode="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlin {
@@ -100,11 +96,8 @@ kotlin {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" theme="idea" mode="groovy" data-highlight-only>
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 kotlin {
@@ -128,10 +121,10 @@ kotlin {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
-## 发布 Android 库
+## 发布 Android 库 {id="publish-an-android-library"}
 
 要发布一个 Android 库, 需要一些额外的配置.
 
@@ -177,7 +170,8 @@ kotlin {
 
 > 如果不同的编译变体存在不同的依赖项, 那么不推荐以产品风格为单位分组发布编译变体,
 > 因为它们的依赖项会组合在一起, 成为一个庞大的依赖项列表.
-{:.note}
+>
+{style="note"}
 
 ## 禁用源代码的发布
 

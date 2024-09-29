@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "集合"
-title: "聚合(Aggregate)操作"
----
+[//]: # (title: 聚合(Aggregate)操作)
 
-# 聚合(Aggregate)操作
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin 的集合包含一些函数, 用于实现常见的 _聚合(Aggregate)操作_ – 也就是根据集合内容返回单个结果的操作.
 大多数聚合操作都是大家已经熟悉的, 并与其他语言中的类似操作的工作方式相同:
@@ -23,8 +16,6 @@ Kotlin 的集合包含一些函数, 用于实现常见的 _聚合(Aggregate)操�
 * [`count()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/count.html)
   函数, 返回集合的元素个数.
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
-
 ```kotlin
 
 fun main() {
@@ -37,7 +28,7 @@ fun main() {
     println("Sum: ${numbers.sum()}")
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 还有其他函数, 可以取得最小和最大元素, 但使用指定的选择器(selector)函数, 或自定义的
 [`Comparator`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-comparator/index.html):
@@ -72,8 +63,6 @@ fun main() {
 [`minOfWith`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/min-of-with.html) –
 这些函数与上面的各个函数功能相同, 但对空集合会抛出 `NoSuchElementException` 异常.
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
-
 ```kotlin
 
 fun main() {
@@ -88,15 +77,13 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 除通常的 `sum()` 函数外, 还有更高级的求和函数
 [`sumOf()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/sum-of.html),
 它接受一个选择器函数作为参数, 返回结果是对集合所有元素执行这个选择器函数之后的合计结果.
 选择器函数可以返回不同的数值类型:
 `Int`, `Long`, `Double`, `UInt`, 以及 `ULong` (对 JVM 平台还支持 `BigInteger` 和 `BigDecimal`).
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 
@@ -108,9 +95,9 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.4"}
 
-## 折叠(fold) 与 简化(reduce)
+## 折叠(fold) 与 简化(reduce) {id="fold-and-reduce"}
 
 对于更加专门的情况, 可以使用
 [`reduce()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/reduce.html)
@@ -121,8 +108,6 @@ fun main() {
 
 这两个函数的区别是, `fold()` 通过参数指定初始值, 并把它用作第一步处理时的累计值,
 而 `reduce()` 的第一步处理, 使用第一个和第二个元素作为操作参数.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 fun main() {
@@ -140,7 +125,7 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 上面的示例演示了它们的区别: 计算元素值加倍之后的合计值时, 我们使用了 `fold()` 函数.
 如果将同样的计算函数传递给 `reduce()`, 会得到不同的结果,
@@ -154,8 +139,6 @@ fun main() {
 它们的工作方式与 `fold()` 和 `reduce()` 函数类似, 但从最末尾的元素开始, 然后继续处理前面的元素.
 注意, 如果从右端开始进行折叠或简化操作, 那么计算函数得到的操作参数顺序也会改变: 第一个参数是元素值, 第二个参数是累计值.
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
-
 ```kotlin
 
 fun main() {
@@ -166,7 +149,7 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 执行操作时还可以使用元素下标作为参数.
 这时请使用
@@ -179,8 +162,6 @@ fun main() {
 [`reduceRightIndexed()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/reduce-right-indexed.html)
 和
 [`foldRightIndexed()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/fold-right-indexed.html).
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 
@@ -195,7 +176,7 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 对于空的集合, 所有的简化(reduce) 操作都会抛出异常. 如果要得到 `null` 值, 请使用对应的 `*OrNull()` 函数:
 * [`reduceOrNull()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/reduce-or-null.html)
@@ -210,7 +191,6 @@ fun main() {
 [`runningReduce()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/running-reduce.html)
 函数.
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.4">
 ```kotlin
 
 fun main() {
@@ -224,7 +204,7 @@ fun main() {
     println(runningFoldSum.mapIndexed(transform).joinToString("\n", "Sum of first N elements with runningFold:\n"))
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.4"}
 
 如果执行操作时需要使用元素下标作为参数, 请使用
 [`runningFoldIndexed()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/running-fold-indexed.html)

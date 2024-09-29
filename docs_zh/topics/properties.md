@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Syntax"
-title: "属性(Property)"
----
+[//]: # (title: 属性(Property))
 
-# 属性(Property)
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 ## 声明属性
 
@@ -35,7 +28,7 @@ fun copyAddress(address: Address): Address {
 }
 ```
 
-## 取值方法(Getter)与设值方法(Setter)
+## 取值方法(Getter)与设值方法(Setter) {id="getters-and-setters"}
 
 声明属性的完整语法是:
 
@@ -66,8 +59,6 @@ val inferredType = 1 // 属性类型为 Int, 使用默认的取值方法
 (因此你可以用这种方式实现一个计算得到的属性).
 下面是一个自定义取值方法的示例:
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
-
 ```kotlin
 //sampleStart
 class Rectangle(val width: Int, val height: Int) {
@@ -80,8 +71,7 @@ fun main() {
     println("Width=${rectangle.width}, height=${rectangle.height}, area=${rectangle.area}")
 }
 ```
-
-</div>
+{kotlin-runnable="true"}
 
 如果能够从取值方法(Getter)推断得到属性类型, 那么可以省略:
 
@@ -113,7 +103,7 @@ var setterWithAnnotation: Any? = null
     @Inject set // 对设值方法添加 Inject 注解
 ```
 
-### 属性的后端域变量(Backing Field)
+### 属性的后端域变量(Backing Field) {id="backing-fields"}
 
 在 Kotlin 中, 只有需要将域变量(field)作为属性的一部分, 在内存中保存属性值的时候, 才会使用域变量(field).
 域变量不能直接声明. 但是, 如果属性需要一个后端域变量(Backing Field), Kotlin 会自动提供.
@@ -157,18 +147,17 @@ public val table: Map<String, Int>
 > 对于 JVM 平台: 如果私有属性的取值方法与设值方法都使用默认实现, 那么对这个属性的访问将被编译器优化,
 > 变为直接读写后端域变量, 以避免不必要的函数调用造成性能损失.
 
-
-## 编译期常数值
+## 编译期常数值 {id="compile-time-constants"}
 
 如果只读属性的值在编译期间就能确定, 请使用 `const` 修饰符, 将它标记为 _编译期常数值(compile time constant)_.
 这类属性必须满足以下所有条件:
 
-* 必须是顶级属性(Top-level Property), 或者是一个 [`object` 声明](object-declarations.html#object-declarations) 的成员,
-  或者是一个 _[同伴对象(Companion object)](object-declarations.html#companion-objects) 的成员.
+* 必须是顶级属性(Top-level Property), 或者是一个 [`object` 声明](object-declarations.md#object-declarations-overview) 的成员,
+  或者是一个 _[同伴对象(Companion object)](object-declarations.md#companion-objects) 的成员.
 * 值必须初始化为 `String` 类型, 或基本类型(primitive type)
 * 不存在自定义的取值方法
 
-编译器会对常数的使用进行内联(inline), 将对常数的引用替换为常数的实际值. 但是, 常数对应的域变量不会被删除, 因此可以通过使用 [反射](reflection.html) 与它进行交互.
+编译器会对常数的使用进行内联(inline), 将对常数的引用替换为常数的实际值. 但是, 常数对应的域变量不会被删除, 因此可以通过使用 [反射](reflection.md) 与它进行交互.
 
 这类属性也可以用在注解内:
 
@@ -178,7 +167,7 @@ const val SUBSYSTEM_DEPRECATED: String = "This subsystem is deprecated"
 @Deprecated(SUBSYSTEM_DEPRECATED) fun foo() { ... }
 ```
 
-## 延迟初始化的(Late-Initialized)属性和变量
+## 延迟初始化的(Late-Initialized)属性和变量 {id="late-initialized-properties-and-variables"}
 
 通常, 如果属性声明为非 null 数据类型, 那么属性值必须在构造器内初始化.
 但是, 这种限制很多时候会带来一些不便.
@@ -212,7 +201,7 @@ public class MyTest {
 ### 检查 `lateinit var` 是否已完成初始化
 
 为了检查一个 `lateinit var` 是否已经初始化完成,
-可以对 [属性的引用](reflection.html#property-references) 调用 `.isInitialized`:
+可以对 [属性的引用](reflection.md#property-references) 调用 `.isInitialized`:
 
 ```kotlin
 if (foo::bar.isInitialized) {
@@ -225,7 +214,7 @@ if (foo::bar.isInitialized) {
 
 ## 属性的覆盖
 
-参见 [属性的覆盖](classes.html#overriding-properties)
+参见 [属性的覆盖](inheritance.md#overriding-properties)
 
 ## 委托属性(Delegated Property)
 
@@ -234,4 +223,4 @@ if (foo::bar.isInitialized) {
 在第一种极简单的情况与第二种极复杂的情况之间, 还存在一些常见的属性工作模式.
 比如: 属性值的延迟加载, 通过指定的键值(key)从 map 中读取数据, 访问数据库, 属性被访问时通知监听器.
 
-这些常见行为可以使用[_委托属性(delegated property)_](delegated-properties.html), 以库的形式实现.
+这些常见行为可以使用[_委托属性(delegated property)_](delegated-properties.md), 以库的形式实现.

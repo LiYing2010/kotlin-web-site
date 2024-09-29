@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Syntax"
-title: "值范围(Range)与数列(Progression)"
----
+[//]: # (title: 值范围(Range)与数列(Progression))
 
-# 值范围(Range)与数列(Progression)
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin 允许你非常便利的创建值范围, 方法是使用 `kotlin.ranges` 包中的
 [`.rangeTo()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/range-to.html)
@@ -19,8 +12,6 @@ Kotlin 允许你非常便利的创建值范围, 方法是使用 `kotlin.ranges` 
 * 终端开放(open-ended)的值范围, 请使用 `..<` 操作符, 调用 `.rangeUntil()` 函数.
 
 例如:
-
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3" id="kotlin-ranges-rangeto-rangeuntil">
 
 ```kotlin
 fun main() {
@@ -35,12 +26,9 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-ranges-rangeto-rangeuntil"}
 
 值范围非常适合用在 `for` 循环中遍历:
-
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3" id="kotlin-ranges-for-loop">
 
 ```kotlin
 fun main() {
@@ -50,14 +38,11 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-ranges-for-loop"}
 
 如果需要按反序遍历整数, 请使用标准库中的
 [`downTo`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/down-to.html)
 函数代替 `..`.
-
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3" id="kotlin-ranges-downto">
 
 ```kotlin
 fun main() {
@@ -67,15 +52,12 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-ranges-downto"}
 
 还可以使用任意步长(不一定是 1)来遍历整数.
 可以通过
 [`step`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/step.html)
 函数实现.
-
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3" id="kotlin-ranges-step">
 
 ```kotlin
 fun main() {
@@ -91,8 +73,7 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-ranges-step"}
 
 ## 数列(Progression)
 
@@ -109,14 +90,12 @@ fun main() {
 
 ```java
 for (int i = first; i <= last; i += step) {
-  // ...
+    // ...
 }
 ```
 
 当你在值范围上遍历时会隐含地创建一个数列,
 这个数列的 `first` 和 `last` 元素就是值范围的边界值, `step` 为 1.
-
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3" id="kotlin-ranges-progressions">
 
 ```kotlin
 fun main() {
@@ -126,12 +105,9 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-ranges-progressions"}
 
 如果要自定义数列的步长, 可以在值范围上使用 `step` 函数.
-
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3" id="kotlin-ranges-progressions-step">
 
 ```kotlin
 fun main() {
@@ -141,16 +117,13 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-ranges-progressions-step"}
 
 数列的 `last` 元素计算方法如下:
 * 如果步长为正: 小于或等于值范围结束值的最大值, 并且满足 `(last - first) % step == 0`.
 * 如果步长为负: 大于或等于值范围结束值的最小值, 并且满足 `(last - first) % step == 0`.
 
 因此, `last` 元素并不一定等同于值范围中指定的结束值.
-
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3" id="kotlin-ranges-progressions-last">
 
 ```kotlin
 fun main() {
@@ -160,13 +133,10 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-ranges-progressions-last"}
 
 数列实现了 `Iterable<N>` 接口, 这里的 `N` 分别是 `Int`, `Long`, 或 `Char`,
-因此数列可以用于很多 [集合函数](collection-operations.html), 比如 `map`, `filter`, 等等.
-
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3" id="kotlin-ranges-progressions-filter">
+因此数列可以用于很多 [集合函数](collection-operations.md), 比如 `map`, `filter`, 等等.
 
 ```kotlin
 fun main() {
@@ -176,5 +146,4 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-ranges-progressions-filter"}

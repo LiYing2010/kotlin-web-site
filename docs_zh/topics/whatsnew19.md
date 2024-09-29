@@ -1,15 +1,8 @@
----
-type: doc
-layout: reference
-category:
-title: "Kotlin 1.9.0 版中的新功能"
----
+[//]: # (title: Kotlin 1.9.0 版中的新功能)
 
-# Kotlin 1.9.0 版中的新功能
+最终更新: %latestDocDate%
 
-最终更新: {{ site.data.releases.latestDocDate }}
-
-_[发布日期: 2023/07/06](releases.html#release-details)_
+_[发布日期: 2023/07/06](releases.md#release-details)_
 
 Kotlin 1.9.0 已经发布了, JVM 平台的 K2 编译器已经进入 **Beta** 版.
 此外, 还有以下一些重要功能:
@@ -27,11 +20,9 @@ Kotlin 1.9.0 已经发布了, JVM 平台的 K2 编译器已经进入 **Beta** �
 
 关于本次更新的概要介绍, 你可以观看以下视频:
 
-<iframe width="560" height="360" src="https://www.youtube.com/embed/fvwTZc-dxsM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<video src="https://youtu.be/fvwTZc-dxsM" title="Kotlin 1.9.0 版中的新功能"/>
 
-
-
-## IDE 支持
+## IDE 支持 {id="ide-support"}
 
 在以下 IDE 中可以使用支持 1.9.0 版的 Kotlin plugin:
 
@@ -45,9 +36,10 @@ Kotlin 1.9.0 已经发布了, JVM 平台的 K2 编译器已经进入 **Beta** �
 IntelliJ IDEA 2023.2 的后续发布版中会包含 Kotlin 1.9.0 plugin.
 
 > 要下载 Kotlin 的 artifact 和依赖项, 请 [配置你的 Gradle 设置](#configure-gradle-settings), 使用 Maven Central 仓库.
-{:.warning}
+>
+{style="warning"}
 
-## 新的 Kotlin K2 编译器更新
+## 新的 Kotlin K2 编译器更新 {id="new-kotlin-k2-compiler-updates"}
 
 JetBrains 的 Kotlin 开发组一直在努力稳定 K2 编译器, 1.9.0 版引入了更多的新功能.
 JVM 平台的 K2 编译器现在已进入 **Beta** 版.
@@ -56,7 +48,7 @@ JVM 平台的 K2 编译器现在已进入 **Beta** 版.
 
 ### kapt 编译器 plugin 与 K2 编译器之间的兼容性
 
-你可以在你的项目中和 K2 编译器一起使用 [kapt plugin](kapt.html), 但存在一些限制.
+你可以在你的项目中和 K2 编译器一起使用 [kapt plugin](kapt.md), 但存在一些限制.
 即使将 `languageVersion` 设置为 `2.0`, kapt 编译器 plugin 仍然会使用旧的编译器.
 
 如果你对一个 `languageVersion` 设置为 `2.0` 的项目执行 kapt 编译器 plugin,
@@ -70,7 +62,7 @@ kapt 会自动切换到 `1.9`, 并禁用特定版本的兼容性检查.
 
 如果你在和 K2 编译器一起使用 kapt 时遇到任何问题, 请报告到我们的 [问题追踪系统](http://kotl.in/issue).
 
-### 在你的项目中试用 K2 编译器
+### 在你的项目中试用 K2 编译器 {id="try-the-k2-compiler-in-your-project"}
 
 从 1.9.0 开始, 到 Kotlin 2.0 发布之前, 你可以很容易的测试 K2 编译器,
 只需要向你的 `gradle.properties` 文件添加 `kotlin.experimental.tryK2=true` Gradle 属性就可以了.
@@ -90,14 +82,14 @@ kapt 会自动切换到 `1.9`, 并禁用特定版本的兼容性检查.
 ##### 100% (2/2) tasks have been compiled with Kotlin 2.0 #####
 ```
 
-### Gradle 构建报告
+### Gradle 构建报告 {id="gradle-build-reports"}
 
-[Gradle 构建报告](gradle/gradle-compilation-and-caches.html#build-reports) 现在会显示编译代码时使用的是当前编译器还是 K2 编译器.
+[Gradle 构建报告](gradle-compilation-and-caches.md#build-reports) 现在会显示编译代码时使用的是当前编译器还是 K2 编译器.
 在 Kotlin 1.9.0 中, 你可以在你的 [Gradle build scan](https://scans.gradle.com/) 中看到这些信息:
 
-<img src="/assets/docs/images/gradle/gradle-build-scan-k1.png" alt="Gradle build scan - 使用 K1 编译器" width="700"/>
+![Gradle build scan - 使用 K1 编译器](gradle-build-scan-k1.png){width=700}
 
-<img src="/assets/docs/images/gradle/gradle-build-scan-k2.png" alt="Gradle build scan - 使用 K2 编译器" width="700"/>
+![Gradle build scan - 使用 K2 编译器](gradle-build-scan-k2.png){width=700}
 
 你还可以在构建报告中看到项目中使用的 Kotlin 版本:
 
@@ -108,9 +100,10 @@ Task info:
 
 > 如果你使用 Gradle 8.0, 你可能遇到构建报告的一些问题, 尤其是启用 Gradle 配置缓存时.
 > 这是一个已知的问题, 在 Gradle 8.1 和之后的版本中已经修正.
-{:.note}
+>
+{style="note"}
 
-### K2 编译器目前的限制
+### K2 编译器目前的限制 {id="current-k2-compiler-limitations"}
 
 在你的 Gradle 项目中启用 K2 存在一些限制, 对使用 Gradle 8.3 以下版本的项目, 下面的情况可能会有影响:
 
@@ -151,14 +144,15 @@ kotlin {
 * [数据对象与数据类的对称性](#stable-data-objects-for-symmetry-with-data-classes)
 * [在内联的值类(inline value class)中支持有 body 的次级构造器(secondary constructor)](#support-for-secondary-constructors-with-bodies-in-inline-value-classes)
 
-### 枚举类值函数的替代进入稳定版
+### 枚举类值函数的替代进入稳定版 {id="stable-replacement-of-the-enum-class-values-function"}
 
 在 1.8.20 中, 引入了实验性功能: 枚举类的 `entries` 属性.
 `entries` 属性是 `values()` 合成(synthetic)函数的现代而且高性能的替代者.
 在 1.9.0 中, `entries` 属性进入了稳定版.
 
 > `values()` 函数仍然继续支持, 但我们推荐你改为使用 `entries` 属性.
-{:.tip}
+>
+{style="tip"}
 
 ```kotlin
 enum class Color(val colorName: String, val rgb: String) {
@@ -169,12 +163,13 @@ enum class Color(val colorName: String, val rgb: String) {
 
 fun findByRgb(rgb: String): Color? = Color.entries.find { it.rgb == rgb }
 ```
+{validate="false"}
 
-关于枚举类的 `entries` 属性, 更多详情请参见 [Kotlin 1.8.20 的新功能](whatsnew1820.html#a-modern-and-performant-replacement-of-the-enum-class-values-function).
+关于枚举类的 `entries` 属性, 更多详情请参见 [Kotlin 1.8.20 的新功能](whatsnew1820.md#a-modern-and-performant-replacement-of-the-enum-class-values-function).
 
-### 数据对象与数据类的对称性进入稳定版
+### 数据对象与数据类的对称性进入稳定版 {id="stable-data-objects-for-symmetry-with-data-classes"}
 
-在 [Kotlin 1.8.20](whatsnew1820.html#preview-of-data-objects-for-symmetry-with-data-classes) 中引入了数据对象的声明,
+在 [Kotlin 1.8.20](whatsnew1820.md#preview-of-data-objects-for-symmetry-with-data-classes) 中引入了数据对象的声明,
 现在进入了稳定版.
 包括为了与数据类保持对称而添加的函数: `toString()`, `equals()`, 和 `hashCode()`.
 
@@ -195,10 +190,11 @@ fun main() {
     println(EndOfFile) // 输出结果为 EndOfFile
 }
 ```
+{validate="false"}
 
-更多详情, 请参见 [Kotlin 1.8.20 的新功能](whatsnew1820.html#preview-of-data-objects-for-symmetry-with-data-classes).
+更多详情, 请参见 [Kotlin 1.8.20 的新功能](whatsnew1820.md#preview-of-data-objects-for-symmetry-with-data-classes).
 
-### 在内联的值类(inline value class)中支持有 body 的次级构造器(secondary constructor)
+### 在内联的值类(inline value class)中支持有 body 的次级构造器(secondary constructor) {id="support-for-secondary-constructors-with-bodies-in-inline-value-classes"}
 
 从 Kotlin 1.9.0 开始, [内联的值类(inline value class)](inline-classes.md) 中有 body 的次级构造器(secondary constructor) 默认可以使用了:
 
@@ -219,6 +215,7 @@ value class Person(private val fullName: String) {
     }
 }
 ```
+{validate="false"}
 
 以前, Kotlin 在内联类中只允许使用 public 的主构造器.
 这就造成, 无法封装底层值, 或创建一个内联类来表达某些受限定的值.
@@ -228,7 +225,7 @@ value class Person(private val fullName: String) {
 现在这个功能默认可以使用了.
 关于 Kotlin 内联类的开发进程, 请参见 [这个 KEEP](https://github.com/Kotlin/KEEP/blob/master/proposals/inline-classes.md).
 
-## Kotlin/JVM
+## Kotlin/JVM {id="kotlin-jvm"}
 
 从 version 1.9.0 来时, 编译器能够生成字节码版本对应于 JVM 20的类.
 此外, `JvmDefault` 注解和旧的 `-Xjvm-default` 模式的废弃周期继续向前推进.
@@ -243,7 +240,7 @@ value class Person(private val fullName: String) {
 因此, 在 Kotlin 1.9.0 中, `JvmDefault` 注解不再具有任何意义, 并被标注为已废弃, 使用它会产生编译错误.
 它最终将会从 Kotlin 中完全删除.
 
-## Kotlin/Native
+## Kotlin/Native {id="kotlin-native"}
 
 除其他改进之外, 这个发布版还带来了 [Kotlin/Native 内存管理器](native-memory-manager.md) 的更多改进,
 将会增强它的健壮性和性能:
@@ -254,10 +251,10 @@ value class Person(private val fullName: String) {
 * [能够为 iOS 模拟器上的测试配置 standalone 模式](#ability-to-configure-standalone-mode-for-ios-simulator-tests-in-kotlin-native)
 * [Kotlin/Native 中库的链接](#library-linkage-in-kotlin-native)
 
-### 自定义内存分配器的预览版
+### 自定义内存分配器的预览版 {id="preview-of-custom-memory-allocator"}
 
 Kotlin 1.9.0 引入了自定义内存分配器的预览版.
-它的分配系统能够提高 [Kotlin/Native 内存管理器](native/native-memory-manager.html) 的运行期性能.
+它的分配系统能够提高 [Kotlin/Native 内存管理器](native-memory-manager.md) 的运行期性能.
 
 Kotlin/Native 中目前的对象分配系统使用一个一般性的分配器, 不能实现高效的垃圾收集.
 作为补偿, 在垃圾收集器 (GC) 将所有已分配的对象合并入单个列表之前
@@ -302,16 +299,17 @@ kotlin {
     }
 }
 ```
+{validate="false"}
 
 #### 留下你的反馈意见
 
 希望你能通过 [YouTrack](https://youtrack.jetbrains.com/issue/KT-55364/Implement-custom-allocator-for-Kotlin-Native)
 提供你的反馈意见, 帮助改进自定义分配器.
 
-### 主线程上的 Objective-C 或 Swift 对象释放 hook
+### 主线程上的 Objective-C 或 Swift 对象释放 hook {id="objective-c-or-swift-object-deallocation-hook-on-the-main-thread"}
 
 从 Kotlin 1.9.0 开始, 对于 Objective-C 或 Swift 对象, 如果对象在主线程中被传递到 Kotlin, 那么对象的释放 hook 也会在主线程上被调用.
-[Kotlin/Native 内存管理器](native/native-memory-manager.html) 以前处理 Objective-C 对象引用的方式可能会导致内存泄露.
+[Kotlin/Native 内存管理器](native-memory-manager.md) 以前处理 Objective-C 对象引用的方式可能会导致内存泄露.
 我们相信现在的新的行为可以改进内存管理器的健壮性.
 
 考虑一个被 Kotlin 代码引用的 Objective-C 对象, 例如, 当对象作为参数传递时, 被函数返回时, 或者从一个集合获取时.
@@ -338,7 +336,7 @@ kotlin.native.binary.objcDisposeOnMain=false
 
 遇到这样的情况, 请报告到 [我们的问题追踪系统](https://kotl.in/issue).
 
-### 在 Kotlin/Native 中访问常数值时不会初始化对象
+### 在 Kotlin/Native 中访问常数值时不会初始化对象 {id="no-object-initialization-when-accessing-constant-values-in-kotlin-native"}
 
 从 Kotlin 1.9.0 开始, 在访问 `const val` 域变量时, Kotlin/Native 后端不会初始化对象:
 
@@ -357,11 +355,12 @@ fun main() {
     println(x.y)
 }
 ```
+{validate="false"}
 
 这个行为现在与 Kotlin/JVM 平台统一了, Kotlin/JVM 平台的实现与 Java 一致, 对这种情况对象永远不会初始化.
 由于这个变化, 你的 Kotlin/Native 项目还能够有一些性能改进.
 
-### 能够为 iOS 模拟器上的测试配置 standalone 模式
+### 能够为 iOS 模拟器上的测试配置 standalone 模式 {id="ability-to-configure-standalone-mode-for-ios-simulator-tests-in-kotlin-native"}
 
 默认情况下, 在对 Kotlin/Native 运行 iOS 模拟器上的测试时, 会使用 `--standalone` 选项, 以避免发生手动的模拟器启动和关闭.
 在 1.9.0 中, 现在你可以在 Gradle task 中通过 `standalone` 属性配置是否使用这个选项.
@@ -374,15 +373,17 @@ tasks.withType<org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeSimu
     standalone.set(false)
 }
 ```
+{validate="false"}
 
 > 如果你禁用 standalone 模式, 那么必须手动启用模拟器. 要从 CLI 启动你的模拟器, 可以使用下面的命令:
 >
 > ```shell
 > /usr/bin/xcrun simctl boot <DeviceId>
 >```
-{:.warning}
+> 
+{style = "warning"}
 
-### Kotlin/Native 中库的链接
+### Kotlin/Native 中库的链接 {id="library-linkage-in-kotlin-native"}
 
 从 Kotlin 1.9.0 开始, Kotlin/Native 编译器使用与 Kotlin/JVM 相同的方式来处理 Kotlin 库的链接问题.
 如果一个第三方 Kotlin 库的作者对实验性 API 进行了不兼容的变更, 而这个 API 又被另一个第三方 Kotlin 库使用, 那么你就可能遇到这样的问题.
@@ -417,7 +418,6 @@ kotlin {
 
         compilations.configureEach {
             compilerOptions.configure {
-
                 // 禁止链接警告:
                 freeCompilerArgs.add("-Xpartial-linkage-loglevel=INFO")
 
@@ -431,8 +431,9 @@ kotlin {
     }
 }
 ```
+{validate="false"}
 
-### 用于与 C 代码交互时的隐式整数转换的编译器选项
+### 用于与 C 代码交互时的隐式整数转换的编译器选项 {id="compiler-option-for-c-interop-implicit-integer-conversions"}
 
 我们引入了与 C 代码交互时的一个编译器选项, 允许你使用隐式整数转换.
 经过仔细考虑之后, 我们引入了这个编译器选项, 以防止无意的使用,
@@ -451,6 +452,7 @@ val tomorrow = NSCalendar.currentCalendar.dateByAddingUnit(
     options = 0
 )
 ```
+{validate="false"}
 
 要对原生库使用隐式转换, 请使用 `-XXLanguage:+ImplicitSignedToUnsignedIntegerConversion` 编译器选项.
 
@@ -462,6 +464,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile>().configur
     )
 }
 ```
+{validate="false"}
 
 ## Kotlin Multiplatform
 
@@ -471,7 +474,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile>().configur
 * [默认启用新的 Android 源代码集布局](#new-android-source-set-layout-enabled-by-default)
 * [在跨平台项目中的 Gradle 配置缓存功能的预览版](#preview-of-the-gradle-configuration-cache)
 
-### 对支持的 Android target 的变更
+### 对支持的 Android target 的变更 {id="changes-to-android-target-support"}
 
 我们正在继续努力稳定 Kotlin Multiplatform.
 其中必要的一步是为 Android target 提供一级支持.
@@ -484,7 +487,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile>().configur
 Google plugin 将成为在跨平台项目中使用 Android 的首选方式.
 当它完成之后, 我们会提供必要的迁移说明, 让你能够象以前一样使用 `android` 的短名称.
 
-### 默认启用新的 Android 源代码集布局
+### 默认启用新的 Android 源代码集布局 {id="new-android-source-set-layout-enabled-by-default"}
 
 从 Kotlin 1.9.0 开始, 默认会使用新的 Android 源代码集布局.
 它取代了以前的目录命名模式, 这个旧模式在很多方面令人难以理解.
@@ -495,10 +498,9 @@ Google plugin 将成为在跨平台项目中使用 Android 的首选方式.
 * 清晰的 Gradle 配置命名模式 – 在 `KotlinSourceSets` 和 `AndroidSourceSets` 中, 命名模式现在更加一致, 更加易于预测.
 
 新的布局需要使用 Android Gradle plugin 7.0 或更高版本, 以及 Android Studio 2022.3 或更高版本.
-请参见我们的 [迁移向导](multiplatform/multiplatform-android-layout.html), 在你的 `build.gradle(.kts)` 文件中进行必要的修改.
+请参见我们的 [迁移向导](multiplatform-android-layout.md), 在你的 `build.gradle(.kts)` 文件中进行必要的修改.
 
-{:#preview-of-gradle-configuration-cache}
-### Gradle 配置缓存功能的预览版
+### Gradle 配置缓存功能的预览版 {id="preview-of-the-gradle-configuration-cache"}
 
 Kotlin 1.9.0 增加了对跨平台库中的 [Gradle 配置缓存](https://docs.gradle.org/current/userguide/configuration_cache.html) 的支持.
 如果你是库的作者, 你可以得益于构建性能的改善.
@@ -506,10 +508,11 @@ Kotlin 1.9.0 增加了对跨平台库中的 [Gradle 配置缓存](https://docs.g
 Gradle 配置缓存通过对后续的构建重用配置阶段的结果来加快构建过程.
 这个功能从 Gradle 8.1 开始成为稳定版. 要启用它, 请遵照 [Gradle 文档](https://docs.gradle.org/current/userguide/configuration_cache.html#config_cache:usage) 中的说明.
 
-> 对于与 Xcode 集成的 task, 或 [Kotlin CocoaPods Gradle plugin](native/native-cocoapods-dsl-reference.html),
+> 对于与 Xcode 集成的 task, 或 [Kotlin CocoaPods Gradle plugin](native-cocoapods-dsl-reference.md),
 > Kotlin Multiplatform plugin 还不支持 Gradle 配置缓存.
 > 我们期望在未来的 Kotlin 发布版中添加这个功能.
-{:.note}
+>
+{style="note"}
 
 ## Kotlin/Wasm
 
@@ -517,27 +520,27 @@ Kotlin 开发组还在继续实验新的 Kotlin/Wasm 编译目标.
 这个发布版引入了几个性能优化和 [与编译结果大小相关的优化](#size-related-optimizations),
 以及 [与 JavaScript 交互功能的更新](#updates-in-javascript-interop).
 
-### 与编译结果大小相关的优化
+### 与编译结果大小相关的优化 {id="size-related-optimizations"}
 
 对 WebAssembly (Wasm) 项目, Kotlin 1.9.0 引入了编译结果大小的显著改善.
 比较两个 "Hello World" 项目,
 Kotlin 1.9.0 中的 Wasm 代码大小比 Kotlin 1.8.20 中要小超过 10 倍以上.
 
-<img src="/assets/docs/images/wasm/wasm-1-9-0-size-improvements.png" alt="Kotlin/Wasm 与编译结果大小相关的优化" width="700"/>
+![Kotlin/Wasm 与编译结果大小相关的优化](wasm-1-9-0-size-improvements.png){width=700}
 
 在使用 Kotlin 代码针对 Wasm 平台进行开发时, 这些代码大小优化可以更加高效的利用资源, 并改善性能.
 
-### 与 JavaScript 交互功能的更新
+### 与 JavaScript 交互功能的更新 {id="updates-in-javascript-interop"}
 
 这次 Kotlin 更新引入了 Kotlin/Wasm 的 Kotlin 与 JavaScript 之间交互能力的变更.
-由于 Kotlin/Wasm 是一个 [实验性](components-stability.html#stability-levels-explained) 功能, 它的互操作性存在一些限制.
+由于 Kotlin/Wasm 是一个 [实验性](components-stability.md#stability-levels-explained) 功能, 它的互操作性存在一些限制.
 
 #### 动态类型的限制
 
 从 1.9.0 版开始, Kotlin 在 Kotlin/Wasm 中不再支持使用 `Dynamic` 类型.
 这个功能现在已被废弃, 由新的通用的 `JsAny` 类型取代, 这个类型游离于 JavaScript 互操作性.
 
-更多详情, 请参见 [Kotlin/Wasm 与 JavaScript 的互操作性](wasm/wasm-js-interop.html) 文档.
+更多详情, 请参见 [Kotlin/Wasm 与 JavaScript 的互操作性](wasm-js-interop.md) 文档.
 
 #### 非外部类型(non-external type)的限制
 
@@ -554,7 +557,7 @@ Kotlin/Wasm 在向 JavaScript 传递值时, 或从 JavaScript 传入值时, 支�
 从 Kotlin 1.9.0 开始, 在 Kotlin/Wasm 的 JavaScript 交互中, 只支持外部(external) 类型, 基本类型, 字符串, 以及函数类型.
 此外, 引入了一个单独的显式类型, 名为 `JsReference`, 用来表达可在 JavaScript 交互中使用的 Kotlin/Wasm 对象句柄.
 
-更多详情, 请参见 [Kotlin/Wasm 与 JavaScript 的互操作性](wasm/wasm-js-interop.html) 文档.
+更多详情, 请参见 [Kotlin/Wasm 与 JavaScript 的互操作性](wasm-js-interop.md) 文档.
 
 ### Kotlin Playground 中的 Kotlin/Wasm
 
@@ -564,10 +567,9 @@ Kotlin Playground 支持 Kotlin/Wasm 编译目标.
 
 > 使用 Kotlin/Wasm 需要在你的浏览器中启用实验性的功能.
 >
-> [参见: 如何启用这些功能](wasm/wasm-troubleshooting.html).
-{:.note}
-
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3" id="kotlin-whats-new-1-9-0-kotlin-wasm-playground">
+> [参见: 如何启用这些功能](wasm-troubleshooting.md).
+>
+{style="note"}
 
 ```kotlin
 import kotlin.time.*
@@ -594,11 +596,9 @@ fun computeAck(m: Int, n: Int) {
     println("duration: ${t.inWholeNanoseconds / 1e6} ms")
 }
 ```
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-whats-new-1-9-0-kotlin-wasm-playground"}
 
-</div>
-
-
-## Kotlin/JS
+## Kotlin/JS {id="kotlin-js"}
 
 这个发布版引入了 Kotlin/JS 的更新, 包括删除了旧的 Kotlin/JS 编译器, 废弃了 Kotlin/JS Gradle plugin,
 以及实验性的支持 ES6:
@@ -611,18 +611,19 @@ fun computeAck(m: Int, n: Int) {
 * [从 stdlib-js 中抽取了 org.w3c 声明](#extract-org-w3c-declarations-from-stdlib-js)
 
 > 从 1.9.0 版开始, 对 Kotlin/JS 还启用了 [部分的库链接](#library-linkage-in-kotlin-native).
-{:.note}
+>
+{style="note"}
 
 
-### 删除了旧的 Kotlin/JS 编译器
+### 删除了旧的 Kotlin/JS 编译器 {id="removal-of-the-old-kotlin-js-compiler"}
 
-在 Kotlin 1.8.0 中, 我们 [宣布了](whatsnew18.html#stable-js-ir-compiler-backend) 基于 IR 的后端已成为 [稳定版](components-stability.html).
+在 Kotlin 1.8.0 中, 我们 [宣布了](whatsnew18.md#stable-js-ir-compiler-backend) 基于 IR 的后端已成为 [稳定版](components-stability.md).
 从那之后, 不指定编译器成为一种错误, 使用旧的编译器会导致警告.
 
 在 Kotlin 1.9.0 中, 使用旧的后端会导致错误.
-请遵照我们的 [迁移指南](js/js-ir-migration.html), 迁移到 IR 编译器.
+请遵照我们的 [迁移指南](js-ir-migration.md), 迁移到 IR 编译器.
 
-### 废弃了 Kotlin/JS Gradle plugin
+### 废弃了 Kotlin/JS Gradle plugin {id="deprecation-of-the-kotlin-js-gradle-plugin"}
 
 从 Kotlin 1.9.0 开始, `kotlin-js` Gradle plugin 已被废弃.
 我们建议你改为使用 `kotlin-multiplatform` Gradle plugin 中的 `js()` 编译目标.
@@ -630,10 +631,10 @@ fun computeAck(m: Int, n: Int) {
 Kotlin/JS Gradle plugin 的功能本质上与 `kotlin-multiplatform` plugin 是重叠的, 并使用了相同的内部实现.
 这种功能重叠导致了理解困难, 并增加了 Kotlin 开发组的维护负担.
 
-关于迁移说明, 请参见我们的 [Kotlin Multiplatform 兼容性指南](multiplatform/multiplatform-compatibility-guide.html#migration-from-kotlin-js-gradle-plugin-to-kotlin-multiplatform-gradle-plugin).
+关于迁移说明, 请参见我们的 [Kotlin Multiplatform 兼容性指南](multiplatform-compatibility-guide.md#migration-from-kotlin-js-gradle-plugin-to-kotlin-multiplatform-gradle-plugin).
 如果你遇到迁移指南中没有提到的其它问题, 请报告到我们的 [问题追踪系统](http://kotl.in/issue).
 
-### 废弃了外部枚举类型(external enum)
+### 废弃了外部枚举类型(external enum) {id="deprecation-of-external-enum"}
 
 在 Kotlin 1.9.0 中, 外部枚举类型(external enum)的使用将被废弃, 原因是枚举类型的静态成员, 例如 `entries`, 不能存在于 Kotlin 之外.
 我们建议改为使用外部的封闭类, 并以对象作为它的子类:
@@ -648,15 +649,16 @@ external sealed class ExternalEnum {
     object B: ExternalEnum
 }
 ```
+{validate="false"}
 
 通过切换为以对象为子类的外部封闭类, 你可以实现与外部枚举类型相似的功能, 同时又能避免与默认方法相关的问题.
 
 从 Kotlin 1.9.0 开始, 外部枚举类型的使用将被标记为废弃.
 我们建议你更新你的代码, 使用上面建议的外部封闭类来实现, 以保证兼容性, 并有利于未来的维护.
 
-### 实验性的支持 ES6 类和模块
+### 实验性的支持 ES6 类和模块 {id="experimental-support-for-es6-classes-and-modules"}
 
-本次发布引入了对 ES6 模块和生成 ES6 类的 [实验性](components-stability.html#stability-levels-explained) 支持:
+本次发布引入了对 ES6 模块和生成 ES6 类的 [实验性](components-stability.md#stability-levels-explained) 支持:
 * 模块提供了一种方式, 简化你的代码库, 并提高可维护性.
 * 类允许你结合面向对象编程 (OOP) 原则, 产生更加清晰直观的代码.
 
@@ -665,11 +667,11 @@ external sealed class ExternalEnum {
 ```kotlin
 // build.gradle.kts
 kotlin { 
-    js(IR) { 
+    js(IR) {
         useEsModules() // 启用 ES6 模块
         browser()
-        }
     }
+}
 
 // 启用 ES6 类的生成
 tasks.withType<KotlinJsCompile>().configureEach {
@@ -678,10 +680,11 @@ tasks.withType<KotlinJsCompile>().configureEach {
     }
 }
 ```
+{validate="false"}
 
 关于ECMAScript 2015 (ES6), 更多详情请参见 [官方文档](https://262.ecma-international.org/6.0/).
 
-### 更改了 JS 产品发布(production distribution)的默认目标
+### 更改了 JS 产品发布(production distribution)的默认目标 {id="changed-default-destination-of-js-production-distribution"}
 
 在 Kotlin 1.9.0 之前, 发布的目标目录是 `build/distributions`.
 但是, 这是一个用于 Gradle archive 的共通目录.
@@ -692,9 +695,10 @@ tasks.withType<KotlinJsCompile>().configureEach {
 在 Kotlin 1.9.0 中, 它会发布到 `build/dist/js/productionExecutable`.
 
 > 如果你有一个使用这些构建结果的管道, 请确认更新目录的设置.
-{:.warning}
+>
+{style="warning"}
 
-### 从 stdlib-js 中抽取了 org.w3c 声明
+### 从 stdlib-js 中抽取了 org.w3c 声明 {id="extract-org-w3c-declarations-from-stdlib-js"}
 
 从 Kotlin 1.9.0 开始, `stdlib-js` 不再包含 `org.w3c` 声明.
 这些声明改为移动到一个单独的 Gradle 依赖项中.
@@ -716,21 +720,21 @@ Kotlin 1.9.0 带来了新的 Gradle 编译器选项, 以及很多其他功能:
 * [kapt 不再过早创建 task](#kapt-doesn-t-cause-eager-task-creation-in-gradle)
 * [JVM 编译目标校验模式的程序化配置](#programmatic-configuration-of-the-jvm-target-validation-mode)
 
-### 删除了 classpath 属性
+### 删除了 classpath 属性 {id="removed-classpath-property"}
 
 在 Kotlin 1.7.0 中, 我们宣布了 `KotlinCompile` task 属性 `classpath` 废弃周期的开始.
 在 Kotlin 1.8.0 中废弃级别提升到了 `ERROR`.
 在本次发布版中, 我们最终删除了 `classpath` 属性.
 所有的编译任务现在应该使用 `libraries` 输入, 得到编译所需要的库的列表.
 
-### 新的编译器选项
+### 新的编译器选项 {id="new-compiler-options"}
 
 Kotlin Gradle plugin 现在提供新的属性, 用于使用者同意(Opt-in), 以及编译器的渐进模式(progressive mode).
 
 * 要对新的 API 标注使用者同意(Opt-in), 现在你可以使用 `optIn` 属性, 传递一个字符串列表, 例如: `optIn.set(listOf(a, b, c))`.
 * 要启用渐进模式, 请使用 `progressiveMode.set(true)`.
 
-### Kotlin/JVM 的项目级编译器选项
+### Kotlin/JVM 的项目级编译器选项 {id="project-level-compiler-options-for-kotlin-jvm"}
 
 从 Kotlin 1.9.0 开始, 在 `kotlin` 配置代码块中, 可以使用一个新的 `compilerOptions` 代码块:
 
@@ -741,6 +745,7 @@ kotlin {
     }
 }
 ```
+{validate="false"}
 
 这个功能使得编译器选项的配置更加容易. 但是, 需要注意一些重要的细节:
 
@@ -752,23 +757,24 @@ android {
     kotlinOptions {}
 }
 ```
+{validate="false"}
 
 * `android.kotlinOptions` 和 `kotlin.compilerOptions` 配置块会相互覆盖. 只有构建文件中最后出现的 (最下方的) 代码块会起作用.
 * 如果在项目级配置了 `moduleName`, 它的值在传递给编译器时可能会变更.
   对 `main` 编译不会如此, 但对其它编译类型, 例如, test source, Kotlin Gradle plugin 会添加  `_test` 后缀.
 * `tasks.withType<KotlinJvmCompile>().configureEach {}` (或 `tasks.named<KotlinJvmCompile>("compileKotlin") { }`) 之内的配置会覆盖 `kotlin.compilerOptions` 和 `android.kotlinOptions`.
 
-### 用于 Kotlin/Native 模块名称的编译器选项
+### 用于 Kotlin/Native 模块名称的编译器选项 {id="compiler-option-for-kotlin-native-module-name"}
 
 在 Kotlin Gradle plugin 中现在可以很容易的使用 Kotlin/Native 的
-[`module-name`](compiler-reference.html#module-name-name-native) 编译器选项.
+[`module-name`](compiler-reference.md#module-name-name-native) 编译器选项.
 
 这个选项对编译的模块指定一个名称, 也可以为导入到 Objective-C 的声明添加一个名称前缀.
 
 你可以直接在你的 Gradle 构建文件的 `compilerOptions` 代码块中设置模块名称:
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 tasks.named<org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile>("compileKotlinLinuxX64") {
@@ -778,11 +784,8 @@ tasks.named<org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile>("compileKotli
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 tasks.named("compileKotlinLinuxX64", org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile.class) {
@@ -792,10 +795,11 @@ tasks.named("compileKotlinLinuxX64", org.jetbrains.kotlin.gradle.tasks.KotlinNat
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
-### 用于 Kotlin 官方库的单独的编译器 plugin
+
+### 用于 Kotlin 官方库的单独的编译器 plugin {id="separate-compiler-plugins-for-official-kotlin-libraries"}
 
 Kotlin 1.9.0 为它的官方库引入了单独的编译器 plugin. 以前, 编译器 plugin 内嵌在对应的 Gradle plugin 中.
 如果编译器 plugin 编译时使用的 Kotlin 版本比 Gradle build 的 Kotlin 运行期版本更高, 就可能导致兼容性问题.
@@ -818,15 +822,15 @@ Kotlin 1.9.0 为它的官方库引入了单独的编译器 plugin. 以前, 编�
 
 Gradle 将这些 plugin 添加为编译器参数. 你不需要对你既有的项目进行任何变更.
 
-### 增加了最低支持版本
+### 增加了最低支持版本 {id="incremented-minimum-supported-version"}
 
 从 Kotlin 1.9.0 开始, 支持的 Android Gradle plugin 最低版本是 4.2.2.
 
-参见 [Kotlin Gradle plugin 与可用的 Gradle 版本之间的兼容性](gradle/gradle-configure-project.html#apply-the-plugin).
+参见 [Kotlin Gradle plugin 与可用的 Gradle 版本之间的兼容性](gradle-configure-project.md#apply-the-plugin).
 
-### kapt 不再过早创建 Gradle 中的 task
+### kapt 不再过早创建 Gradle 中的 task {id="kapt-doesn-t-cause-eager-task-creation-in-gradle"}
 
-在 1.9.0 之前, [kapt 编译器 plugin](kapt.html) 会请求配置后的 Kotlin 编译 task 实例, 导致过早的创建 task.
+在 1.9.0 之前, [kapt 编译器 plugin](kapt.md) 会请求配置后的 Kotlin 编译 task 实例, 导致过早的创建 task.
 在 Kotlin 1.9.0 中已经解决了这个问题. 如果你的 `build.gradle.kts` 文件使用默认的配置, 那么你的设置不会受到这个变更的影响.
 
 > 如果你使用自定义的配置, 你的设置会受到不利的影响.
@@ -837,16 +841,19 @@ Gradle 将这些 plugin 添加为编译器参数. 你不需要对你既有的项
 > ```kotlin
 > tasks.named<KotlinJvmCompile>("compileKotlin") { // 你的自定义配置 }
 > ```
+> {validate="false"}
 >
 > 这种情况下, 你需要确定 `KaptGenerateStubs` task 中也包含相同的修改:
 > ```kotlin
 > tasks.named<KaptGenerateStubs>("kaptGenerateStubs") { // 你的自定义配置 }
 > ```
-{:.warning}
+> {validate="false"}
+> 
+{style="warning"}
 
 更多详情, 请参见我们的 [YouTrack ticket](https://youtrack.jetbrains.com/issue/KT-54468/KAPT-Gradle-plugin-causes-eager-task-creation).
 
-### JVM 编译目标校验模式的程序化配置
+### JVM 编译目标校验模式的程序化配置 {id="programmatic-configuration-of-the-jvm-target-validation-mode"}
 
 在 Kotlin 1.9.0 之前, 只有一种方法来调整 Kotlin 与 Java 之间的 JVM 编译目标不兼容性的检测方式.
 你必须在你的 `gradle.properties` 文件中对整个项目设置 `kotlin.jvm.target.validation.mode=ERROR`.
@@ -858,6 +865,7 @@ tasks.named<org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile>("compileKotlin")
     jvmTargetValidationMode.set(org.jetbrains.kotlin.gradle.dsl.jvm.JvmTargetValidationMode.WARNING)
 }
 ```
+{validate="false"}
 
 ## 标准库
 
@@ -868,9 +876,9 @@ Kotlin 1.9.0 对标准库有了一些很大的改进:
 * [有了一个 **共通的** 函数来通过名称获取正规表达式中捕获的组(capture group)](#new-common-function-to-get-regex-capture-group-by-name)
 * [引入了 `HexFormat` 类, 用于 16 进制数的格式化和解析](#new-hexformat-class-to-format-and-parse-hexadecimals)
 
-### 用于终端开放(open-ended)的值范围的 `..<` 操作符进入稳定版
+### 用于终端开放(open-ended)的值范围的 `..<` 操作符进入稳定版 {id="stable-operator-for-open-ended-ranges"}
 
-新的 `..<` 操作符用于终端开放(open-ended)的值范围, 它在 [Kotlin 1.7.20](whatsnew1720.html#preview-of-the-operator-for-creating-open-ended-ranges) 中引入, 在 1.8.0 中进入稳定版.
+新的 `..<` 操作符用于终端开放(open-ended)的值范围, 它在 [Kotlin 1.7.20](whatsnew1720.md#preview-of-the-operator-for-creating-open-ended-ranges) 中引入, 在 1.8.0 中进入稳定版.
 在 1.9.0 中, 用于操作终端开放的值范围的标准库 API也进入了稳定版.
 
 我们的研究显示, 在声明一个终端开放的值范围时, 新的 `..<` 操作符更加易于理解.
@@ -888,6 +896,7 @@ fun main() {
     // 输出结果为 2 4 6 8
 }
 ```
+{validate="false"}
 
 下面是使用新的 `..<` 操作符示例:
 
@@ -901,13 +910,15 @@ fun main() {
     // 输出结果为 2 4 6 8
 }
 ```
+{validate="false"}
 
 > 从 IntelliJ IDEA 2023.1.1 版开始, 有了一个新的代码审查, 对你可以使用 `..<` 操作符的地方, 会高亮显示.
-{:.note}
+>
+{style="note"}
 
-关于如何使用这个操作符, 更多详情请参见 [Kotlin 1.7.20 版中的新功能](whatsnew1720.html#preview-of-the-operator-for-creating-open-ended-ranges).
+关于如何使用这个操作符, 更多详情请参见 [Kotlin 1.7.20 版中的新功能](whatsnew1720.md#preview-of-the-operator-for-creating-open-ended-ranges).
 
-### 时间 API 进入稳定版
+### 时间 API 进入稳定版 {id="stable-time-api"}
 
 从 1.3.50 开始, 我们引入了一个新的时间测量 API 的预览版.
 API 中关于时间长度的部分在 1.6.0 中进入了稳定版.
@@ -946,6 +957,7 @@ object RealtimeMonotonicTimeSource : AbstractLongTimeSource(DurationUnit.NANOSEC
     override fun read(): Long = SystemClock.elapsedRealtimeNanos()
 }
 ```
+{validate="false"}
 
 #### 标记时刻, 并测量时刻之间的差异
 
@@ -953,9 +965,6 @@ object RealtimeMonotonicTimeSource : AbstractLongTimeSource(DurationUnit.NANOSEC
 接口, 和 [`markNow()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.time/-time-source/mark-now.html) 函数
 来创建一个 [`TimeMark`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.time/-time-mark/).
 要测量来自同一个时间源的 `TimeMarks` 之间的差异, 请使用减法操作符 (`-`):
-
-
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3" id="kotlin-whats-new-time-elapsed">
 
 ```kotlin
 import kotlin.time.*
@@ -977,14 +986,11 @@ fun main() {
     println(mark2 > mark1) // 比较结果为 true, 因为 mark2 是在 mark1 之后捕获的.
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-whats-new-time-elapsed"}
 
 要检查是否已经经过了某个截止时刻, 或者是否已经到达超时时间, 请使用 [`hasPassedNow()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.time/-time-mark/has-passed-now.html)
 和 [`hasNotPassedNow()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.time/-time-mark/has-not-passed-now.html) 
 扩展函数:
-
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3" id="kotlin-whats-new-time-passednow">
 
 ```kotlin
 import kotlin.time.*
@@ -1006,10 +1012,9 @@ fun main() {
     // 输出结果为 true
 }
 ```
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-whats-new-time-passednow"}
 
-</div>
-
-### Kotlin/Native 标准库走向稳定
+### Kotlin/Native 标准库走向稳定 {id="the-kotlin-native-standard-library-s-journey-towards-stabilization"}
 
 由于我们的 Kotlin/Native 标准库持续增长, 我们决定是时候对它进行一次全面的审查, 以确保它符合我们的高标准.
 作为这次审查的一部分, 我们仔细的审查了 **每一个** 现有的 public 签名.
@@ -1034,17 +1039,18 @@ fun main() {
 >   IntelliJ IDEA 会在代码审查后自动建议替换.
 > * 被废弃, 那么它已被废弃, 废弃级别为: `WARNING`.
 > * 被标记为已过时, 那么你可以继续使用它, 但将来它会被替换.
-{:.note}
+>
+{style="note"}
 
 我们不会在这里列出这次审查的全部结果, 但下面是一些重要的部分:
 * 我们让 Atomics API 进入了稳定版.
 * 我们让 [`kotlinx.cinterop`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlinx.cinterop/) 进入了实验版,
-  使用这个包, 现在会要求另一种使用者同意(Opt-in). 更多详情, 请参见 [显式 C 互操作性 稳定性保证](#explicit-c-interoperability-stability-guarantees).
+  使用这个包, 现在会要求另一种使用者同意(Opt-in). 更多详情, 请参见 [显式 C 互操作性的稳定性保证](#explicit-c-interoperability-stability-guarantees).
 * 我们将 [`Worker`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/-worker/) 类和它的相关 API 标记为已过时.
 * 我们将 [`BitSet`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native/-bit-set/) 类标记为已过时.
 * 我们将 `kotlin.native.internal` 包中的所有 `public` API 标记为 `private`, 或移动到了其它包.
 
-#### 显式 C 互操作性 稳定性保证
+#### 显式 C 互操作性的稳定性保证 {id="explicit-c-interoperability-stability-guarantees"}
 
 为了保护我们的 API 的高质量, 我们决定让 [`kotlinx.cinterop`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlinx.cinterop/)
 进入实验版.
@@ -1064,7 +1070,7 @@ fun main() {
 
 我们欢迎你提供反馈意见! 你可以在这个 [ticket](https://youtrack.jetbrains.com/issue/KT-57728) 中添加评论, 提供你的反馈意见.
 
-### @Volatile 注解进入稳定版
+### @Volatile 注解进入稳定版 {id="stable-volatile-annotation"}
 
 如果你使用 `@Volatile` 注解标注一个 `var` 属性, 那么它的后端域变量(Backing Field) 会被标注这个注解,
 使得对这个域变量的所有读写操作都是原子化的, 而且写入操作永远对其它线程可见.
@@ -1078,7 +1084,7 @@ fun main() {
 在 1.9.0 中, `kotlin.concurrent.Volatile` 进入了稳定版.
 如果你在你的跨平台项目中使用 `kotlin.jvm.Volatile`, 我们建议你迁移到 `kotlin.concurrent.Volatile`.
 
-### 新的共通函数, 根据名称获取正规表达式中捕获的组
+### 新的共通函数, 根据名称获取正规表达式中捕获的组 {id="new-common-function-to-get-regex-capture-group-by-name"}
 
 在 1.9.0 之前, 每个平台都有自己的扩展, 用于根据名称获取正规表达式中捕获的组.
 但是, 没有共通的函数.
@@ -1107,8 +1113,9 @@ fun main() {
     // 输出结果为 123
 }
 ```
+{validate="false"}
 
-### 新的路径工具函数, 用于创建父目录
+### 新的路径工具函数, 用于创建父目录 {id="new-path-utility-to-create-parent-directories"}
 
 在 1.9.0 中, 有一个新的 `createParentDirectories()` 扩展函数, 你可以用来创建一个新的文件, 如果需要, 还会创建所有的父目录.
 如果你向 `createParentDirectories()` 指定一个文件路径, 它会检查父目录是否已经存在.
@@ -1123,13 +1130,15 @@ sourcePath.copyToRecursively(
     followLinks = false
  )
 ```
+{validate="false"}
 
-### 新的 HexFormat 类, 用于 16 进制数的格式化和解析
+### 新的 HexFormat 类, 用于 16 进制数的格式化和解析 {id="new-hexformat-class-to-format-and-parse-hexadecimals"}
 
-> 新的 `HexFormat` 类以及相关的扩展函数是 [实验性功能](components-stability.html#stability-levels-explained),
+> 新的 `HexFormat` 类以及相关的扩展函数是 [实验性功能](components-stability.md#stability-levels-explained),
 > 要使用它们, 你可以使用 `@OptIn(ExperimentalStdlibApi::class)` 注解标注使用者同意(Opt-in),
 > 或者使用编译器参数 `-opt-in=kotlin.ExperimentalStdlibApi`.
-{:.warning}
+>
+{style="warning"}
 
 在 1.9.0 中, [`HexFormat`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-hex-format/)
 类以及相关的扩展函数作为实验性的功能提供, 允许你对数字和 16 进制字符串进行转换.
@@ -1140,6 +1149,7 @@ sourcePath.copyToRecursively(
 ```kotlin
 println(93.toHexString()) // 输出结果为 "0000005d"
 ```
+{validate="false"}
 
 `HexFormat` 类包含格式化选项, 你可以使用 `HexFormat{}` 构建器进行配置.
 
@@ -1172,6 +1182,7 @@ val threeGroupFormat = HexFormat { upperCase = true; bytes.bytesPerGroup = 2; by
 println(macAddress.toHexString(threeGroupFormat))
 // 输出结果为 "001B.6384.45E6"
 ```
+{validate="false"}
 
 如果你在使用数字类型, 你可以通过属性配置以下选项:
 
@@ -1187,17 +1198,18 @@ println(macAddress.toHexString(threeGroupFormat))
 // 使用 HexFormat{} 构建器, 解析 16 进制字符串, 前缀为: "0x".
 println("0x3a".hexToInt(HexFormat { number.prefix = "0x" })) // 输出结果为 "58"
 ```
+{validate="false"}
 
 ## 文档更新
 
 Kotlin 文档有了一些重要变更:
-* [Kotlin 观光之旅](tour/kotlin-tour-welcome.html) – 通过理论和实践章节, 学习 Kotlin 编程语言的基础知识.
-* [Android 源代码集布局](multiplatform/multiplatform-android-layout.html) – 了解新的 Android 源代码集布局.
-* [Kotlin Multiplatform 兼容性指南](multiplatform/multiplatform-compatibility-guide.html) – 了解使用 Kotlin Multiplatform 开发项目时你可能遇到的不兼容的变更.
-* [Kotlin Wasm](wasm/wasm-overview.html) – 了解 Kotlin/Wasm, 以及在你的 Kotlin Multiplatform 项目中如何使用它.
-* [向 Kotlin/Wasm 项目添加 Kotlin 库的依赖项](wasm/wasm-libraries.html) – 了解 Kotlin/Wasm 支持的 Kotlin 库.
+* [Kotlin 观光之旅](kotlin-tour-welcome.md) – 通过理论和实践章节, 学习 Kotlin 编程语言的基础知识.
+* [Android 源代码集布局](multiplatform-android-layout.md) – 了解新的 Android 源代码集布局.
+* [Kotlin Multiplatform 兼容性指南](multiplatform-compatibility-guide.md) – 了解使用 Kotlin Multiplatform 开发项目时你可能遇到的不兼容的变更.
+* [Kotlin Wasm](wasm-overview.md) – 了解 Kotlin/Wasm, 以及在你的 Kotlin Multiplatform 项目中如何使用它.
+* [向 Kotlin/Wasm 项目添加 Kotlin 库的依赖项](wasm-libraries.md) – 了解 Kotlin/Wasm 支持的 Kotlin 库.
 
-## 安装 Kotlin 1.9.0
+## 安装 Kotlin 1.9.0 {id="install-kotlin-1-9-0"}
 
 ### 检查 IDE 版本
 
@@ -1208,7 +1220,7 @@ Android Studio Giraffe (223) 和 Hedgehog (231) 会在后续的发布版中支�
 
 新的命令行编译器可以通过 [GitHub 发布页面](https://github.com/JetBrains/kotlin/releases/tag/v1.9.0) 下载.
 
-### 配置 Gradle 的设置
+### 配置 Gradle 的设置 {id="configure-gradle-settings"}
 
 要下载 Kotlin 的 artifact 和依赖项, 请更新你的 `settings.gradle(.kts)` 文件, 使用 Maven Central 仓库:
 
@@ -1220,11 +1232,12 @@ pluginManagement {
     }
 }
 ```
+{validate="false"}
 
 如果没有指定仓库, Gradle 会使用已废弃的 JCenter 仓库, 导致无法下载 Kotlin artifact 的错误.
 
 ## Kotlin 1.9.0 兼容性指南
 
-Kotlin 1.9.0 是一个 [功能发布版](kotlin-evolution.html#feature-releases-and-incremental-releases),
+Kotlin 1.9.0 是一个 [功能发布版](kotlin-evolution.md#feature-releases-and-incremental-releases),
 因此其中的变更可能不兼容你之前针对旧版本 Kotlin 编写的代码.
-关于这样的变更, 详情请参见 [Kotlin 1.9.0 兼容性指南](compatibility-guide-19.html).
+关于这样的变更, 详情请参见 [Kotlin 1.9.0 兼容性指南](compatibility-guide-19.md).

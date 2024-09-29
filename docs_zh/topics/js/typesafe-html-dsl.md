@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "类型安全的 HTML DSL"
----
+[//]: # (title: 类型安全的 HTML DSL)
 
-# 类型安全的 HTML DSL
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 [kotlinx.html 库](https://www.github.com/kotlin/kotlinx.html) 提供了使用静态类型的 HTML 构建器生成 DOM 元素的能力
 (而且除 JavaScript 之外, 它甚至能在 JVM 平台使用!)
@@ -53,7 +46,7 @@ fun main() {
 在浏览器中运行这个示例程序时, DOM 会被直接组装起来.
 使用浏览器的开发工具查看网站的元素, 我们很容易确认结果:
 
-<img src="/assets/docs/images/reference/typesafe-html-dsl/rendering-example.png" alt="使用 kotlinx.html 输出网页" width="700"/>
+![使用 kotlinx.html 输出网页](rendering-example.png){width=700}
 
 关于 `kotlinx.html` 库, 更多详情请参见 [GitHub Wiki 页面](https://github.com/Kotlin/kotlinx.html/wiki/Getting-started),
 在这里你可以找到更多信息,

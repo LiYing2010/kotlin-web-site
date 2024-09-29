@@ -1,20 +1,13 @@
----
-type: doc
-layout: reference
-category: "Other"
-title: "Kotlin 跨平台程序开发入门"
----
+[//]: # (title: Kotlin 跨平台程序开发入门)
+[//]: # (description: 学校如何利用 Kotlin Multiplatform 来创建你的第一个 Kotlin 跨平台应用程序, 或跨平台库.)
 
-# Kotlin Multiplatform 入门
-[//]: # (description: Learn how to create your first Kotlin cross-platform app or library benefiting from Kotlin Multiplatform.)
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 支持跨平台程序开发是 Kotlin 的关键益处之一.
-它可以减少对 [不同的平台](multiplatform-dsl-reference.html#targets) 编写和维护相同的代码从头开始, 
+它可以减少对 [不同的平台](multiplatform-dsl-reference.md#targets) 编写和维护相同的代码从头开始, 
 同时又保持原生程序开发的灵活性和益处.
 
-详情请参见 [Kotlin Multiplatform 的优点](multiplatform.html).
+详情请参见 [Kotlin Multiplatform 的优点](multiplatform.md).
 
 ## 从头开始
 
@@ -30,13 +23,13 @@ title: "Kotlin 跨平台程序开发入门"
 
 当你获得 Kotlin Multiplatform 的一些经验, 并且想要知道如何解决特定的跨平台开发任务:
 
-* 在你的 Kotlin 跨平台项目中 [在不同平台间共用代码](multiplatform-share-on-platforms.html).
+* 在你的 Kotlin 跨平台项目中 [在不同平台间共用代码](multiplatform-share-on-platforms.md).
 * 在开发跨平台应用程序和库时 [连接到平台相关的 API](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-connect-to-apis.html).
-* 为你的 Kotlin 跨平台项目 [手动设置编译目标](multiplatform-set-up-targets.html).
-* 对标准库, 测试库, 或其他 kotlinx 库 [添加依赖项](multiplatform-add-dependencies.html).
-* 在你的项目中为产品和测试目的 [配置编译任务](multiplatform-configure-compilations.html).
-* 向 Maven 仓库 [发布跨平台库](multiplatform-publish-lib.html).
-* [构建原生二进制文件](multiplatform-build-native-binaries.html) 生成可执行文件或共用库, 比如通用框架(Universal Framework)或 XCFramework.
+* 为你的 Kotlin 跨平台项目 [手动设置编译目标](multiplatform-set-up-targets.md).
+* 对标准库, 测试库, 或其他 kotlinx 库 [添加依赖项](multiplatform-add-dependencies.md).
+* 在你的项目中为产品和测试目的 [配置编译任务](multiplatform-configure-compilations.md).
+* 向 Maven 仓库 [发布跨平台库](multiplatform-publish-lib.md).
+* [构建原生二进制文件](multiplatform-build-native-binaries.md) 生成可执行文件或共用库, 比如通用框架(Universal Framework)或 XCFramework.
 
 ## 如何获取帮助
 

@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Syntax"
-title: "异常"
----
+[//]: # (title: 异常(Exception))
 
-# 异常(Exception)
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 ## 异常类
 
@@ -16,7 +9,6 @@ Kotlin 中所有的异常类都继承自 `Throwable` 类.
 
 要抛出异常, 可以使用 `throw` 表达式:
 
-<div class="sample" markdown="1" theme="idea">
 ```kotlin
 fun main() {
 //sampleStart
@@ -24,18 +16,16 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 要捕获异常, 可以使用 `try`...`catch` 表达式:
 
 ```kotlin
 try {
     // 某些代码
-}
-catch (e: SomeException) {
+} catch (e: SomeException) {
     // 异常处理
-}
-finally {
+} finally {
     // 可选的 finally 代码段
 }
 ```
@@ -73,8 +63,7 @@ Appendable append(CharSequence csq) throws IOException;
 ```kotlin
 try {
     log.append(message)
-}
-catch (IOException e) {
+} catch (IOException e) {
     // 实际上前面的代码必然是安全的
 }
 ```
@@ -94,10 +83,10 @@ Bruce Eckel 对受控异常评论说:
 (译注, 他是 Borland Turbo Pascal 和 Delphi 的主要作者, 微软.Net概念的发起人之一, .Net首席架构师)
 
 从 Java, Swift, 或 Objective-C 中 调用 Kotlin 代码时, 如果你想对函数调用者提示可能发生异常, 可以使用 `@Throws` 注解.
-关于这个注解 [在 Java 中如何使用](jvm/java-to-kotlin-interop.html#checked-exceptions)
-以及 [在 Swift 和 Objective-C 如何使用](native/native-objc-interop.html#errors-and-exceptions), 请阅读这些文档.
+关于这个注解 [在 Java 中如何使用](java-to-kotlin-interop.md#checked-exceptions)
+以及 [在 Swift 和 Objective-C 如何使用](native-objc-interop.md#errors-and-exceptions), 请阅读这些文档.
 
-## Nothing 类型
+## Nothing 类型 {id="the-nothing-type"}
 
 在 Kotlin 中, `throw` 是一个表达式, 比如说, 你可以将它用做 Elvis 表达式的一部分:
 
@@ -132,4 +121,4 @@ val l = listOf(null)   // 'l' 的类型是 `List<Nothing?>
 
 ## 与 Java 的互操作性
 
-关于与 Java 的互操作性问题, 请参见 [与 Java 的互操作性](jvm/java-interop.html) 中关于异常的小节.
+关于与 Java 的互操作性问题, 请参见 [与 Java 的互操作性](java-interop.md) 中关于异常的小节.

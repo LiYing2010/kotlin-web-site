@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Syntax"
-title: "高阶函数与 Lambda 表达式"
----
+[//]: # (title: 高阶函数与 Lambda 表达式)
 
-# 高阶函数与 Lambda 表达式
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 在 Kotlin 中函数是 [一级公民](https://en.wikipedia.org/wiki/First-class_function),
 也就是说, 函数可以保存在变量和数据结构中, 也可以作为参数来传递给 [高阶函数](#higher-order-functions),
@@ -17,7 +10,7 @@ title: "高阶函数与 Lambda 表达式"
 为了实现这些功能, Kotlin 作为一种静态类型语言, 使用了一组 [函数类型](#function-types) 来表达函数,
 并提供了一组专门的语言结构, 比如 [lambda 表达式](#lambda-expressions-and-anonymous-functions).
 
-## 高阶函数(Higher-Order Function)
+## 高阶函数(Higher-Order Function) {id="higher-order-functions"}
 
 高阶函数(higher-order function)是一种特殊的函数, 它接受函数作为参数, 或者返回一个函数.
 
@@ -48,8 +41,6 @@ fun <T, R> Collection<T>.fold(
 在调用高阶函数时, 我们经常使用 Lambda 表达式作为这种参数
 (详细介绍请参见 [后面的章节](#lambda-expressions-and-anonymous-functions)):
 
-<div class="sample" markdown="1" theme="idea">
-
 ```kotlin
 fun main() {
     //sampleStart
@@ -76,10 +67,9 @@ fun main() {
     println("product = $product")
 }
 ```
+{kotlin-runnable="true"}
 
-</div>
-
-## 函数类型(Function Type)
+## 函数类型(Function Type) {id="function-types"}
 
 为了在类型和参数声明中处理函数, 比如: `val onClick: () -> Unit = ...` ,
 Kotlin 使用函数类型(Function Type), 比如 `(Int) -> String` .
@@ -88,33 +78,34 @@ Kotlin 使用函数类型(Function Type), 比如 `(Int) -> String` .
 
 * 所有的函数类型都带有参数类型列表, 用括号括起, 以及返回值类型: `(A, B) -> C` 表示一个函数类型,
   它接受两个参数, 类型为 `A` 和 `B`, 返回值类型为 `C`.
-  参数类型列表可以为空, 比如 `() -> A`. [`Unit` 类型的返回值](functions.html#unit-returning-functions) 不能省略.
+  参数类型列表可以为空, 比如 `() -> A`. [`Unit` 类型的返回值](functions.md#unit-returning-functions) 不能省略.
 
 * 函数类型也可以带一个额外的 *接受者* 类型, 以点号标记, 放在函数类型声明的前部:
   `A.(B) -> C` 表示一个可以对类型为 `A` 的接受者调用的函数, 参数类型为`B`, 返回值类型为 `C`.
   对这种函数类型, 我们经常使用 [带接受者的函数字面值](#function-literals-with-receiver).
 
-* [挂起函数(Suspending function)](coroutines.html#suspending-functions) 是一种特殊类型的函数,
+* [挂起函数(Suspending function)](coroutines-basics.md#extract-function-refactoring) 是一种特殊类型的函数,
   它的声明带有一个特殊的 *suspend* 修饰符, 比如: `suspend () -> Unit`, 或者: `suspend A.(B) -> C`.
 
 函数类型的声明也可以指定函数参数的名称: `(x: Int, y: Int) -> Point`.
 参数名称可以用来更好地说明参数含义.
 
-为了表示函数类型是 [可以为 null 的](null-safety.html#nullable-types-and-non-nullable-types), 可以使用括号:
+为了表示函数类型是 [可以为 null 的](null-safety.md#nullable-types-and-non-nullable-types), 可以使用括号:
 `((Int, Int) -> Int)?`.
 
 函数类型也可以使用括号组合在一起: `(Int) -> ((Int) -> Unit)`
 
 > 箭头符号的结合顺序是右侧优先, `(Int) -> (Int) -> Unit` 的含义与上面的例子一样, 而不同于: `((Int) -> (Int)) -> Unit`.
-{:.note}
+>
+{style="note"}
 
-你也可以使用 [类型别名](type-aliases.html) 来给函数类型指定一个名称:
+你也可以使用 [类型别名](type-aliases.md) 来给函数类型指定一个名称:
 
 ```kotlin
 typealias ClickHandler = (Button, ClickEvent) -> Unit
 ```
 
-### 创建函数类型的实例
+### 创建函数类型的实例 {id="instantiating-a-function-type"}
 
 有几种不同的方法可以创建函数类型的实例:
 
@@ -122,14 +113,14 @@ typealias ClickHandler = (Button, ClickEvent) -> Unit
     * [Lambda 表达式](#lambda-expressions-and-anonymous-functions): `{ a, b -> a + b }`,
     * [匿名函数(Anonymous Function)](#anonymous-functions): `fun(s: String): Int { return s.toIntOrNull() ?: 0 }`
 
-   [带接受者的函数字面值](#function-literals-with-receiver) 可以用作带接受者的函数类型的实例.
+  [带接受者的函数字面值](#function-literals-with-receiver) 可以用作带接受者的函数类型的实例.
 
 * 使用已声明的元素的可调用的引用:
-    * 顶级[函数](reflection.html#function-references), 局部[函数](reflection.html#function-references), 成员[函数](reflection.html#function-references), 或扩展[函数](reflection.html#function-references), 比如: `::isOdd`, `String::toInt`,
-    * 顶级[属性](reflection.html#property-references), 成员[属性](reflection.html#property-references), 或扩展[属性](reflection.html#property-references), 比如: `List<Int>::size`,
-    * [构造器](reflection.html#constructor-references), 比如: `::Regex`
+    * 顶级[函数](reflection.md#function-references), 局部[函数](reflection.md#function-references), 成员[函数](reflection.md#function-references), 或扩展[函数](reflection.md#function-references), 比如: `::isOdd`, `String::toInt`,
+    * 顶级[属性](reflection.md#property-references), 成员[属性](reflection.md#property-references), 或扩展[属性](reflection.md#property-references), 比如: `List<Int>::size`,
+    * [构造器](reflection.md#constructor-references), 比如: `::Regex`
 
-   以上几种形式都包括 [绑定到实例的可调用的引用](reflection.html#bound-function-and-property-references), 也就是指向具体实例的成员的引用: `foo::toString`.
+  以上几种形式都包括 [绑定到实例的可调用的引用](reflection.md#bound-function-and-property-references), 也就是指向具体实例的成员的引用: `foo::toString`.
 
 * 使用自定义类, 以接口的方式实现函数类型:
 
@@ -152,8 +143,6 @@ val a = { i: Int -> i + 1 } // 编译器自动推断得到的类型为 (Int) -> 
 比如, 如果参数类型或变量类型为 `A.(B) -> C`, 那么可以使用 `(A, B) -> C` 函数类型的值,
 反过来也是如此:
 
-<div class="sample" markdown="1" theme="idea">
-
 ```kotlin
 fun main() {
     //sampleStart
@@ -168,25 +157,23 @@ fun main() {
     println("result = $result")
 }
 ```
-
-</div>
+{kotlin-runnable="true"}
 
 > 注意, 自动推断的结果默认是不带接受者的函数类型, 即使给变量初始化赋值为一个扩展函数的引用, 也是如此.
 > 要改变这种结果, 你需要明确指定变量类型.
-{:.note}
+>
+{style="note"}
 
-### 调用一个函数类型的实例
+### 调用一个函数类型的实例 {id="invoking-a-function-type-instance"}
 
-要调用一个函数类型的值, 可以使用它的 [`invoke(...)` 操作符](operator-overloading.html#invoke-operator):
+要调用一个函数类型的值, 可以使用它的 [`invoke(...)` 操作符](operator-overloading.md#invoke-operator):
 `f.invoke(x)`, 或者直接写 `f(x)`.
 
 如果函数类型值有接受者, 那么接受者对象实例应该作为第一个参数传递进去.
 调用有接受者的函数类型值的另一种方式是, 将接受者写作函数调用的前缀,
-就像调用 [扩展函数](extensions.html) 一样: `1.foo(2)`.
+就像调用 [扩展函数](extensions.md) 一样: `1.foo(2)`.
 
 示例:
-
-<div class="sample" markdown="1" theme="idea">
 
 ```kotlin
 fun main() {
@@ -203,14 +190,13 @@ fun main() {
     //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true"}
 
 ### 内联函数(Inline Function)
 
-有些时候, 使用 [内联函数](inline-functions.html) 可以为高阶函数实现更加灵活的控制流程.
+有些时候, 使用 [内联函数](inline-functions.md) 可以为高阶函数实现更加灵活的控制流程.
 
-## Lambda 表达式与匿名函数(Anonymous Function)
+## Lambda 表达式与匿名函数(Anonymous Function) {id="lambda-expressions-and-anonymous-functions"}
 
 Lambda 表达式和匿名函数, 都是 *函数字面值(function literal)*,
 函数字面值没有象普通函数那样声明, 而是立即作为表达式传递出去.
@@ -228,7 +214,7 @@ max(strings, { a, b -> a.length < b.length })
 fun compare(a: String, b: String): Boolean = a.length < b.length
 ```
 
-### Lambda 表达式的语法
+### Lambda 表达式的语法 {id="lambda-expression-syntax"}
 
 Lambda 表达式的完整语法形式如下:
 
@@ -248,7 +234,7 @@ val sum: (Int, Int) -> Int = { x: Int, y: Int -> x + y }
 val sum = { x: Int, y: Int -> x + y }
 ```
 
-### 函数调用时使用尾缀 Lambda 表达式
+### 函数调用时使用尾缀 Lambda 表达式 {id="passing-trailing-lambdas"}
 
 根据 Kotlin 的编码规约, 如果函数的最后一个参数是一个函数, 那么如果使用 Lambda 表达式作为这个参数的值,
 可以将 Lambda 表达式写在函数调用的括号之外:
@@ -265,7 +251,7 @@ val product = items.fold(1) { acc, e -> acc * e }
 run { println("...") }
 ```
 
-### `it`: 单一参数的隐含名称
+### `it`: 单一参数的隐含名称 {id="it-implicit-name-of-a-single-parameter"}
 
 很多情况下 Lambda 表达式只有唯一一个参数.
 
@@ -276,9 +262,9 @@ run { println("...") }
 ints.filter { it > 0 } // 这个函数字面值的类型是 '(it: Int) -> Boolean'
 ```
 
-### 从 Lambda 表达式中返回结果值
+### 从 Lambda 表达式中返回结果值 {id="returning-a-value-from-a-lambda-expression"}
 
-如果使用 [带标签限定的 return](returns.html#return-to-labels) 语法, 你可以在 Lambda 表达式内明确地返回一个结果值.
+如果使用 [带标签限定的 return](returns.md#return-to-labels) 语法, 你可以在 Lambda 表达式内明确地返回一个结果值.
 否则, 会隐含地返回 Lambda 表达式内最后一条表达式的值.
 
 因此, 下面两段代码是等价的:
@@ -302,7 +288,7 @@ ints.filter {
 strings.filter { it.length == 5 }.sortedBy { it }.map { it.uppercase() }
 ```
 
-### 使用下划线代替未使用的参数
+### 使用下划线代替未使用的参数 {id="underscore-for-unused-variables"}
 
 如果 Lambda 表达式的某个参数未被使用, 你可以用下划线来代替参数名:
 
@@ -313,9 +299,9 @@ map.forEach { (_, value) -> println("$value!") }
 ### 在 Lambda 表达式中使用解构声明
 
 关于在 Lambda 表达式中使用解构声明,
-请参见 [解构声明(destructuring declaration)](destructuring-declarations.html#destructuring-in-lambdas).
+请参见 [解构声明(destructuring declaration)](destructuring-declarations.md#destructuring-in-lambdas).
 
-### 匿名函数(Anonymous Function)
+### 匿名函数(Anonymous Function) {id="anonymous-functions"}
 
 上面讲到的 Lambda 表达式语法, 还缺少了一种功能, 就是如何指定函数的返回值类型.
 大多数情况下, 不需要指定返回值类型, 因为可以自动推断得到.
@@ -346,17 +332,18 @@ ints.filter(fun(item) = item > 0)
 
 > 匿名函数当作参数传递时, 一定要放在函数调用的圆括号内.
 > 允许将函数类型参数写在圆括号之外的语法, 仅对 Lambda 表达式有效.
-{:.note}
+>
+{style="note"}
 
 Lambda 表达式与匿名函数之间的另一个区别是,
-它们的 [非局部返回(non-local return)](inline-functions.html#non-local-returns) 的行为不同.
+它们的 [非局部返回(non-local return)](inline-functions.md#non-local-returns) 的行为不同.
 不使用标签的 `return` 语句总是从 `fun` 关键字定义的函数中返回.
 也就是说, Lambda 表达式内的 `return` 将会从包含这个 Lambda 表达式的函数中返回,
 而匿名函数内的 `return` 只会从匿名函数本身返回.
 
 ### 闭包(Closure)
 
-Lambda 表达式, 匿名函数 (此外还有 [局部函数](functions.html#local-functions), [对象表达式](object-declarations.html#object-expressions)) 可以访问它的 _闭包_,
+Lambda 表达式, 匿名函数 (此外还有 [局部函数](functions.md#local-functions), [对象表达式](object-declarations.md#object-expressions)) 可以访问它的 _闭包_,
 也就是, 定义在外层范围中的变量. 闭包中捕获的变量在 Lambda 表达式内是可以修改的:
 
 ```kotlin
@@ -367,7 +354,7 @@ ints.filter { it > 0 }.forEach {
 print(sum)
 ```
 
-### 带有接受者的函数字面值
+### 带有接受者的函数字面值 {id="function-literals-with-receiver"}
 
 带接受者的 [函数类型](#function-types), 比如 `A.(B) -> C`,
 可以通过一种特殊形式的函数字面值来创建它的实例, 也就是带接受者的函数字面值.
@@ -376,9 +363,9 @@ print(sum)
 来 [调用带接受者的函数类型的实例](#invoking-a-function-type-instance).
 
 在这个函数字面值的函数体内部, 传递给这个函数调用的接受者对象会成为一个 *隐含的* `this`,
-因此你可以访问接收者对象的成员, 而不必指定任何限定符, 也可以使用 [`this` 表达式](this-expressions.html) 来访问接受者对象.
+因此你可以访问接收者对象的成员, 而不必指定任何限定符, 也可以使用 [`this` 表达式](this-expressions.md) 来访问接受者对象.
 
-这种行为很类似于 [扩展函数](extensions.html), 在扩展函数的函数体中, 你也可以访问接收者对象的成员.
+这种行为很类似于 [扩展函数](extensions.md), 在扩展函数的函数体中, 你也可以访问接收者对象的成员.
 
 下面的例子演示一个带接受者的函数字面值, 以及这个函数字面值的类型,
 在函数体内部, 调用了接受者对象的 `plus` 方法:
@@ -395,7 +382,7 @@ val sum = fun Int.(other: Int): Int = this + other
 ```
 
 如果接受者类型可以通过上下文自动推断得到, 那么 Lambda 表达式也可以用做带接受者的函数字面值.
-这种用法的一个重要例子就是 [类型安全的构建器(Type-Safe Builder)](type-safe-builders.html):
+这种用法的一个重要例子就是 [类型安全的构建器(Type-Safe Builder)](type-safe-builders.md):
 
 ```kotlin
 class HTML {

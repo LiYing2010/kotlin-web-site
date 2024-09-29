@@ -1,12 +1,6 @@
----
-type: doc
-layout: reference
-title: "函数式 (SAM) 接口"
----
+[//]: # (title: 函数式 (SAM) 接口)
 
-# 函数式 (SAM) 接口
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 只有一个抽象方法的接口称为 _函数式接口 (Functional Interface)_, 或者叫做 _单抽象方法(SAM, Single Abstract Method) 接口_.
 函数式接口可以拥有多个非抽象的成员, 但只能拥有一个抽象成员.
@@ -19,10 +13,10 @@ fun interface KRunnable {
 }
 ```
 
-## SAM 转换功能
+## SAM 转换功能 {id="sam-conversions"}
 
 对于函数式接口, 可以通过 SAM 转换功能,
-使用 [Lambda 表达式](lambdas.html#lambda-expressions-and-anonymous-functions), 让你的代码更加简洁易读.
+使用 [Lambda 表达式](lambdas.md#lambda-expressions-and-anonymous-functions), 让你的代码更加简洁易读.
 
 你可以使用 Lambda 表达式, 而不必手动的创建一个类, 实现函数式接口.
 只要 Lambda 表达式的签名与接口的唯一方法的签名相匹配, Kotlin 可以通过 SAM 转换功能,
@@ -56,8 +50,6 @@ val isEven = IntPredicate { it % 2 == 0 }
 
 这样, 就通过更加简短的 Lambda 表达式代替了所有其他不必要的代码.
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.4-M1">
-
 ```kotlin
 fun interface IntPredicate {
    fun accept(i: Int): Boolean
@@ -69,14 +61,13 @@ fun main() {
    println("Is 7 even? - ${isEven.accept(7)}")
 }
 ```
+{kotlin-runnable="true" kotlin-min-compiler-version="1.4"}
 
-</div>
+也可以使用 [对 Java 接口的 SAM 转换功能](java-interop.md#sam-conversions).
 
-也可以使用 [对 Java 接口的 SAM 转换功能](java-interop.html#sam-conversions).
+## 从带构造器函数的接口迁移到函数式接口 {id="migration-from-an-interface-with-constructor-function-to-a-functional-interface"}
 
-## 从带构造器函数的接口 迁移到函数式接口
-
-从 1.6.20 开始, Kotlin 支持对函数式接口构造器的 [可调用的引用](reflection.html#callable-references),
+从 1.6.20 开始, Kotlin 支持对函数式接口构造器的 [可调用的引用](reflection.md#callable-references),
 因此增加了一种源代码兼容的方式, 可以从带构造器函数的接口迁移到函数式接口.
 我们来看看以下代码:
 
@@ -113,7 +104,7 @@ fun Printer(...) {...}
 
 ## 函数式接口 与 类型别名(Type Alias)
 
-你也可以对函数类型使用 [类型别名(Type Alias)](type-aliases.html), 简单的重写上面的代码:
+你也可以对函数类型使用 [类型别名(Type Alias)](type-aliases.md), 简单的重写上面的代码:
 
 ```kotlin
 typealias IntPredicate = (i: Int) -> Boolean
@@ -125,7 +116,7 @@ fun main() {
 }
 ```
 
-但是, 函数式接口 与 [类型别名(Type Alias)](type-aliases.html) 服务于不同的目的.
+但是, 函数式接口 与 [类型别名(Type Alias)](type-aliases.md) 服务于不同的目的.
 类型别名只是对已有的类型提供一个新的名称 – 它不会创建新的类型, 而函数式接口会.
 对某个特定的函数式接口, 你可以提供扩展, 但对通常的函数或函数的类型别名则不可以.
 

@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Coroutine"
-title: "协程指南"
----
+[//]: # (title: 协程指南)
 
-# 协程指南
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin 只在它的标准库中提供了最少量的低层 API, 让其它库来使用协程.
 与拥有类似功能的其他语言不同, `async` 和 `await` 在 Kotlin 中不是关键字, 甚至不是标准库的一部分.
@@ -23,18 +16,18 @@ Kotlin 只在它的标准库中提供了最少量的低层 API, 让其它库来�
 
 ## 章节目录
 
-* [协程的基本概念](coroutines-basics.html)
+* [协程的基本概念](coroutines-basics.md)
 * [实际动手(hands-on)教程: 协程与通道(Channel)简介](https://play.kotlinlang.org/hands-on/Introduction%20to%20Coroutines%20and%20Channels)
-* [取消与超时](cancellation-and-timeouts.html)
-* [挂起函数(Suspending Function)的组合](composing-suspending-functions.html)
-* [协程上下文与派发器(Dispatcher)](coroutine-context-and-dispatchers.html)
-* [异步的执行流(Asynchronous Flow)](flow.html)
-* [通道(Channel)](channels.html)
-* [协程的异常处理](exception-handling.html)
-* [共享的可变状态与并发](shared-mutable-state-and-concurrency.html)
-* [选择表达式 (实验性功能)](select-expression.html)
-* [教程: 使用 IntelliJ IDEA 调试协程](debug-coroutines-with-idea.html)
-* [教程: 使用 IntelliJ IDEA 调试 Kotlin 数据流(Flow)](debug-flow-with-idea.html)
+* [取消与超时](cancellation-and-timeouts.md)
+* [挂起函数(Suspending Function)的组合](composing-suspending-functions.md)
+* [协程上下文与派发器(Dispatcher)](coroutine-context-and-dispatchers.md)
+* [异步的执行流(Asynchronous Flow)](flow.md)
+* [通道(Channel)](channels.md)
+* [协程的异常处理](exception-handling.md)
+* [共享的可变状态与并发](shared-mutable-state-and-concurrency.md)
+* [选择表达式 (实验性功能)](select-expression.md)
+* [教程: 使用 IntelliJ IDEA 调试协程](debug-coroutines-with-idea.md)
+* [教程: 使用 IntelliJ IDEA 调试 Kotlin 数据流(Flow)](debug-flow-with-idea.md)
 
 ## 其他参考文档
 

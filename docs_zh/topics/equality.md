@@ -1,20 +1,13 @@
----
-type: doc
-layout: reference
-category: "Other"
-title: "相等判断"
----
+[//]: # (title: 相等判断)
 
-# 相等判断
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 在 Kotlin 中, 存在两种相等判断:
 
 * _结构相等_ (`==`) - 使用 `equals()` 函数判断
 * _引用相等_ (`===`) - 判断两个引用指向同一个对象
 
-## 结构相等
+## 结构相等 {id="structural-equality"}
 
 结构相等检查两个对象是否拥有相同的内容和结构.
 结构相等使用 `==` 操作, 以及它的相反操作 `!=`, 来判断.
@@ -26,8 +19,6 @@ a?.equals(b) ?: (b === null)
 
 如果 `a` 不为 `null`, 将会调用 `equals(Any?)` 函数.
 否则(如果 `a` 为 `null`), 将会检查 `b` 是否指向 `null`:
-
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3">
 
 ```kotlin
 fun main() {
@@ -45,8 +36,7 @@ fun main() {
     // 输出结果为 true
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 注意, 当明确地与 `null` 进行比较时, 没有必要优化代码:
 `a == null` 将会自动转换为 `a === null`.
@@ -80,21 +70,20 @@ class Point(val x: Int, val y: Int) {
 ```
 > 在覆盖 equals() 函数时, 你还应该覆盖 [hashCode() 函数](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/hash-code.html),
 > 以保持相等判断和 hash 值的一致性, 确保这些函数的行为正确.
-{:.note}
+>
+{style="note"}
 
 同名但参数不同的其他函数 (比如 `equals(other: Foo)`) 不会影响到使用操作符 `==` 和 `!=` 进行的相等判断.
 
 结构相等与 `Comparable<...>` 接口定义的比较操作没有关系,
 因此, 只有 `equals(Any?)` 函数的自定义实现才会影响相等操作符的结果.
 
-## 引用相等
+## 引用相等 {id="referential-equality"}
 
 引用相等检查两个对象的内存地址, 判断它们是不是相同的实例.
 
 引用相等使用 `===` 操作, 以及它的相反操作 `!==`, 来判断.
 当, 且仅当, `a` 与`b` 指向同一个对象时, `a === b` 结果为 `true`:
-
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.3">
 
 ```kotlin
 fun main() {
@@ -111,13 +100,13 @@ fun main() {
     // 输出结果为 true
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 对于运行时期表达为基本类型的那些值(比如, `Int`), `===` 判断等价于 `==` 判断.
 
-> 在 Kotlin/JS 中, 引用相等的实现方式是不同的. 关于相等判断, 更多详情请参见 [Kotlin/JS](js/js-interop.html#equality) 文档.
-{:.tip}
+> 在 Kotlin/JS 中, 引用相等的实现方式是不同的. 关于相等判断, 更多详情请参见 [Kotlin/JS](js-interop.md#equality) 文档.
+>
+{style="tip"}
 
 ## 浮点数值的相等比较
 
@@ -132,10 +121,10 @@ fun main() {
 * `NaN` 认为大于任何其他元素 (包括 `POSITIVE_INFINITY`)
 * `-0.0` 不等于 `0.0`
 
-详情请参见: [浮点值的比较](numbers.html#floating-point-numbers-comparison).
+详情请参见: [浮点值的比较](numbers.md#floating-point-numbers-comparison).
 
 ## 数组的相等比较
 
 要比较两个数组是否包含相同顺序的相同元素, 请使用 [`contentEquals()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/content-equals.html).
 
-详情请参见, [数组的比较](arrays.html#compare-arrays).
+详情请参见, [数组的比较](arrays.md#compare-arrays).

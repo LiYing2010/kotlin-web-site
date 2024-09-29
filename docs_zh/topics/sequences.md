@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "集合"
-title: "序列(Sequence)"
----
+[//]: # (title: 序列(Sequence))
 
-# 序列(Sequence)
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 除集合之外, Kotlin 还提供了另一种类型 – _序列(sequence)_
 ([`Sequence<T>`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.sequences/-sequence/index.html)).
@@ -31,7 +24,7 @@ title: "序列(Sequence)"
 
 ## 创建序列
 
-### 通过指定的元素创建
+### 通过指定的元素创建 {id="from-elements"}
 
 要创建序列, 可以使用
 [`sequenceOf()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.sequences/sequence-of.html)
@@ -41,7 +34,7 @@ title: "序列(Sequence)"
 val numbersSequence = sequenceOf("four", "three", "two", "one")
 ```
 
-### 通过 Iterable 创建
+### 通过 Iterable 创建 {id="from-an-iterable"}
 
 如果你已经有了一个 `Iterable` 对象 (比如 `List` 或 `Set`), 你可以调用它的
 [`asSequence()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/as-sequence.html).
@@ -50,10 +43,9 @@ val numbersSequence = sequenceOf("four", "three", "two", "one")
 ```kotlin
 val numbers = listOf("one", "two", "three", "four")
 val numbersSequence = numbers.asSequence()
-
 ```
 
-### 通过函数创建
+### 通过函数创建 {id="from-a-function"}
 
 创建序列的另一种方式是, 通过一个函数来计算序列中的元素.
 调用
@@ -62,8 +54,6 @@ val numbersSequence = numbers.asSequence()
 这个函数有一个可选的参数, 你可以明确指定第一个元素的值, 也可以指定一个函数来计算第一个元素的值.
 当序列元素的计算函数返回 `null` 时, 序列的生成过程会停止.
 所以, 下面示例中的序列是无限的.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 
@@ -75,11 +65,9 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 如果想要使用 `generateSequence()` 函数创建有限的序列, 那么你的序列元素的计算函数应该在生成最后一个元素之后返回 `null`.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 
@@ -90,9 +78,9 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-### 通过数据块(chunk)创建
+### 通过数据块(chunk)创建 {id="from-chunks"}
 
 最后, 还有
 [`sequence()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.sequences/sequence.html)
@@ -105,8 +93,6 @@ fun main() {
 这些函数会将元素返回给序列的使用者, 然后暂停 `sequence()` 函数的执行, 直到序列使用者请求下一个元素.
 `yield()` 的参数是单个元素; `yieldAll()` 的参数可以是一个 `Iterable` 对象, 或一个 `Iterator`, 或另一个 `Sequence`. `yieldAll()` 函数的 `Sequence` 参数可以是无限的.
 但是, 这样的调用必须出现在序列的最末尾: 否则, 在这之后的所有序列元素都不会被执行到.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 
@@ -121,38 +107,36 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 ## 序列的操作
 
 根据对数据状态的要求不同, 序列的操作可以分为以下两类:
 
 * _无状态(Stateless)_ 操作, 不需要保存状态信息, 对每个元素的处理都是独立的,
-  比如, [`map()`](collection-transformations.html#map) 或 [`filter()`](collection-filtering.html).
+  比如, [`map()`](collection-transformations.md#map) 或 [`filter()`](collection-filtering.md).
   无状态操作本身可以使用固定数量的少量状态数据来处理一个元素,
-  比如, [`take()` 或 `drop()`](collection-parts.html).
+  比如, [`take()` 或 `drop()`](collection-parts.md).
 * _有状态(Stateful)_ 操作, 需要大量的状态信息, 通常正比于序列内的元素数量.
 
 如果序列的一个操作返回另一个序列, 结果序列的内容是延迟计算的, 我们称这个操作为 _中间(intermediate)_ 操作.
 相反, 如果一个操作不返回新的序列, 那么称为 _终止(terminal)_ 操作.
-终止操作的例子, 比如 [`toList()`](constructing-collections.html#copy) 或 [`sum()`](collection-aggregate.html).
+终止操作的例子, 比如 [`toList()`](constructing-collections.md#copy) 或 [`sum()`](collection-aggregate.md).
 只有执行终止操作后, 才能取得序列中的元素.
 
 序列元素可以多次遍历; 序列的某些实现类可能造成限制, 使得它只能遍历一次. 这样的限制会在这些序列的文档中明确说明.
 
-## 序列处理的例子
+## 序列处理的示例 {id="sequence-processing-example"}
 
-下面我们通过一个例子来看看 `Iterable` 和 `Sequence` 区别.
+下面我们通过一个示例来看看 `Iterable` 和 `Sequence` 区别.
 
 ### 使用 `Iterable`
 
 假设你有很多单词. 下面的代码会过滤长度超过 3 个字母的单词, 然后打印前 4 个这种单词的长度.
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
-
 ```kotlin
 
-fun main() {    
+fun main() {
 //sampleStart
     val words = "The quick brown fox jumps over the lazy dog".split(" ")
     val lengthsList = words.filter { println("filter: $it"); it.length > 3 }
@@ -164,20 +148,18 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 运行这段代码时, 你可以看到 `filter()` 和 `map()` 函数的执行顺序与它们在代码中出现的顺序相同.
 首先, 你会看到对所有元素输出 `filter:`, 然后对过滤之后剩余的元素输出 `length:`, 然后是最后两行代码的输出.
 
 下图是 list 各处理步骤的具体执行过程:
 
-![List processing]({{ url_for('asset', path='docs/images/reference/sequences/list-processing.png') }})
+![List 处理](list-processing.png)
 
 ### 使用序列
 
 下面我们用序列来实现同样的处理:
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 
@@ -197,7 +179,7 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 这段代码的输出显示, `filter()` 和 `map()` 函数在创建最终的结果 list 时才被执行.
 因此, 你首先看到的输出是 `"Lengths of.."`, 然后序列的处理才会开始.
@@ -206,6 +188,6 @@ fun main() {
 
 序列的处理过程如下:
 
-![Sequences processing]({{ url_for('asset', path='docs/images/reference/sequences/sequence-processing.png') }})
+![序列处理](sequence-processing.png) {width="700"}
 
 在这个示例中, 序列处理执行了 18 步, 而使用 list 时则需要 23 步.

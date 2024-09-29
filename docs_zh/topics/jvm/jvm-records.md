@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "在 Kotlin 中使用 Java 记录类(Record)"
----
+[//]: # (title: 在 Kotlin 中使用 Java 记录类(Record))
 
-# 在 Kotlin 中使用 Java 记录类(Record)
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 在 Java 中 _记录类(Record)_ 是用于存储不可变数据的 [类](https://openjdk.java.net/jeps/395).
 记录类携带一组固定的值 – _记录组件(Records Components)_.
@@ -25,12 +18,12 @@ public record Person (String name, int age) {}
 * 一组方法, 实现结构化的相等比较: `equals()`, `hashCode()`, `toString()`
 * 为读取每个记录组件, 有一个 public 方法 
 
-记录类非常类似于 Kotlin [数据类](../data-classes.html).
+记录类非常类似于 Kotlin [数据类](data-classes.md).
 
 ## 在 Kotlin 代码中使用 Java 记录类
 
 在 Kotlin 中, 你可以通过使用类和属性相同的方式来使用 Java 中声明的记录类及其组件.
-要访问记录组件, 可以和使用 [Kotlin 属性](../properties.html) 一样, 直接使用它的名称:
+要访问记录组件, 可以和使用 [Kotlin 属性](properties.md) 一样, 直接使用它的名称:
 
 ```kotlin
 val newPerson = Person("Kotlin", 10)
@@ -44,7 +37,8 @@ Kotlin 只支持对数据类声明记录类, 而且数据类必须符合 [要求
 要在 Kotlin 中声明一个数据类, 请使用 `@JvmRecord` 注解:
 
 > 向一个已存在的类添加 `@JvmRecord`, 这样的变化会导致二进制不兼容. 会改变类属性访问器的命名规约.
-{:.note}
+>
+{style="note"}
 
 ```kotlin
 @JvmRecord
@@ -58,7 +52,7 @@ data class Person(val name: String, val age: Int)
 
 数据类会提供 `equals()`, `hashCode()`, 和 `toString()` 方法的实现.
 
-### 要求
+### 要求 {id="requirements"}
 
 要使用 `@JvmRecord` 注解来声明数据类, 它必须符合以下要求:
 
@@ -74,8 +68,8 @@ data class Person(val name: String, val age: Int)
 
 对生成的 JVM 字节码, JVM 记录类要求的编译目标为 `16` 或更高版本.
 
-要明确指定字节码版本, 请在 [Gradle](../gradle/gradle-compiler-options.html#attributes-specific-to-jvm)
-或 [Maven](../maven.html#attributes-specific-to-jvm)中, 使用 `jvmTarget` 编译器选项.
+要明确指定字节码版本, 请在 [Gradle](gradle-compiler-options.md#attributes-specific-to-jvm)
+或 [Maven](maven.md#attributes-specific-to-jvm)中, 使用 `jvmTarget` 编译器选项.
 
 ## 更多讨论
 

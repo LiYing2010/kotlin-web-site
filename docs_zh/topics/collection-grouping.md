@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "集合"
-title: "分组(Grouping)"
----
+[//]: # (title: 分组(Grouping))
 
-# 分组(Grouping)
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin 标准库提供了扩展函数, 用于对集合中的元素进行分组操作.
 最基本的函数是
@@ -20,8 +13,6 @@ Kotlin 标准库提供了扩展函数, 用于对集合中的元素进行分组�
 象这样使用两个 lambda 函数调用 `groupBy()`时, 结果 map 中, 第一个参数(`keySelector` lambda 函数)负责生成键(key),
 它对应的值(value) 则是由第二个参数(值转换 lambda 函数)产生的结果组成的 list, 而不是集合中原来元素组成的 list.
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
-
 ```kotlin
 
 fun main() {
@@ -33,7 +24,7 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 如果你希望对元素分组, 同时对所有的分组结果执行某个操作, 可以使用
 [`groupingBy()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/grouping-by.html)
@@ -51,13 +42,11 @@ fun main() {
   和
   [`reduce()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/reduce.html)
   函数, 将每个分组结果作为独立的集合,
-  执行 [折叠(fold) 与 简化(reduce)](collection-aggregate.html#fold-and-reduce) 操作,
+  执行 [折叠(fold) 与 简化(reduce)](collection-aggregate.md#fold-and-reduce) 操作,
   并返回结果.
 * [`aggregate()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/aggregate.html)
   函数, 对每个分组结果中的所有元素反复执行指定的操作, 并返回最后结果.
   这是对 `Grouping` 执行任意操作的通用方式. 如果 折叠(fold) 与 简化(reduce) 不能满足你的需求, 可以用这种方式实现自定义的操作.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 
@@ -68,4 +57,4 @@ fun main() {
 //sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}

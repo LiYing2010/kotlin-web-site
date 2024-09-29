@@ -1,16 +1,8 @@
----
-type: doc
-layout: reference
-category: "Coroutine"
-title: "协程的异常处理"
----
-
-# 协程的异常处理
-
-最终更新: {{ site.data.releases.latestDocDate }}
-
 <!--- TEST_NAME ExceptionsGuideTest -->
 
+[//]: # (title: 协程的异常处理)
+
+最终更新: %latestDocDate%
 
 本章介绍异常处理, 以及发生异常时的取消.
 我们已经知道, 协程被取消时会在挂起点(suspension point)抛出 [CancellationException], 而协程机制忽略会这个异常.
@@ -23,17 +15,15 @@ title: "协程的异常处理"
 如果使用这些构建器创建一个 _根(root)_ 协程, 也就是并不属于其他任何协程的 _子_ 协程,
 前一种构建器将异常当作 **未捕获的(uncaught)** 异常, 类似于 Java 的 `Thread.uncaughtExceptionHandler`,
 后一种则要求使用者处理最终的异常, 比如使用 [await][Deferred.await] 或 [receive][ReceiveChannel.receive] 来处理异常.
-(关于 [produce] 和 [receive][ReceiveChannel.receive] 请参见 [通道(Channel)](channels.html)).
+(关于 [produce] 和 [receive][ReceiveChannel.receive] 请参见 [通道(Channel)](channels.md)).
 
 我们通过一个简单的示例程序来演示一下, 我们使用 [GlobalScope] 创建根协程:
-
 
 > [GlobalScope] 是一个非常精密的 API, 可能会造成严重的影响.
 > 需要使用到 `GlobalScope` 的情况非常少, 其中包括为整个应用程序创建一个根协程.
 > 因此你需要通过 `@OptIn(DelicateCoroutinesApi::class)` 注解来明确的同意使用 `GlobalScope`.
-{:.note}
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.5">
+>
+{style="note"}
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -60,13 +50,13 @@ fun main() = runBlocking {
 }
 //sampleEnd
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-exceptions-01.kt).
-{:.note}
+>
+{style="note"}
 
-(使用 [调试模式](coroutine-context-and-dispatchers.html#debugging-coroutines-and-threads)时), 这段代码的输出结果是:
+(使用 [调试模式](coroutine-context-and-dispatchers.md#debugging-coroutines-and-threads)时), 这段代码的输出结果是:
 
 ```text
 Throwing exception from launch
@@ -97,9 +87,8 @@ _根_ 协程的上下文元素 [CoroutineExceptionHandler] 可以用作这个根
 
 > 在监控(supervision)作用范围内运行的协程, 不会将异常传播到它的父协程, 因此属于上述规则的例外情况.
 > 详情请参见本章的 [监控(Supervision)](#supervision) 小节.
-{:.note}
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
+>
+{style="note"}
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -120,11 +109,11 @@ fun main() = runBlocking {
 //sampleEnd    
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-exceptions-02.kt).
-{:.note}
+>
+{style="note"}
 
 这个示例程序的输出结果是:
 
@@ -140,8 +129,6 @@ CoroutineExceptionHandler got java.lang.AssertionError
 协程内部使用 `CancellationException` 来实现取消, 这些异常会被所有的异常处理器忽略,
 因此它们只能用来在 `catch` 块中输出额外的调试信息.
 如果使用 [Job.cancel] 来取消一个协程, 那么协程会终止运行, 但不会取消它的父协程.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -167,11 +154,11 @@ fun main() = runBlocking {
 //sampleEnd    
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-exceptions-03.kt).
-{:.note}
+>
+{style="note"}
 
 这个示例程序的输出结果是:
 
@@ -185,19 +172,18 @@ Parent is not cancelled
 
 如果一个协程遇到了 `CancellationException` 以外的异常, 那么它会使用这个异常来取消自己的父协程.
 这种行为不能覆盖, 而且 Kotlin 使用这个机制来实现
-[结构化并发](composing-suspending-functions.html#structured-concurrency-with-async)
+[结构化并发](composing-suspending-functions.md#structured-concurrency-with-async)
 中的稳定的协程层级关系.
 [CoroutineExceptionHandler] 的实现对子协程不会使用.
 
 > 在这些示例程序中, 我们总是在 [GlobalScope] 内创建的协程上安装 [CoroutineExceptionHandler].
 > 如果在 main [runBlocking] 的作用范围内启动的协程上安装异常处理器, 是毫无意义的,
 > 因为子协程由于异常而终止之后, 主协程一定会被取消, 而忽略它上面安装的异常处理器.
-{:.note}
+>
+{style="note"}
 
 只有当所有的子协程全部终止之后, 最初的异常才会由父协程处理,
 请看下面示例程序的演示.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -230,11 +216,11 @@ fun main() = runBlocking {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-exceptions-04.kt).
-{:.note}
+>
+{style="note"}
 
 这个示例程序的输出结果是:
 
@@ -256,8 +242,6 @@ CoroutineExceptionHandler got java.lang.ArithmeticException
 <!--- INCLUDE
 import kotlinx.coroutines.exceptions.*
 -->
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -285,11 +269,11 @@ fun main() = runBlocking {
     job.join()  
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-exceptions-05.kt).
-{:.note}
+>
+{style="note"}
 
 这个示例程序的输出结果是:
 
@@ -301,11 +285,10 @@ CoroutineExceptionHandler got java.io.IOException with suppressed [java.lang.Ari
 
 > 注意, 异常聚合机制目前只能在 Java version 1.7+ 以上版本才能正常工作.
 > JS 和 原生平台目前暂时不支持异常聚合, 将来会解决这个问题.
-{:.note}
+>
+{style="note"}
 
 协程取消异常是透明的, 默认不会被聚合到其他异常中:
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -336,11 +319,11 @@ fun main() = runBlocking {
 //sampleEnd    
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-exceptions-06.kt).
-{:.note}
+>
+{style="note"}
 
 这个示例程序的输出结果是:
 
@@ -351,7 +334,7 @@ CoroutineExceptionHandler got java.io.IOException
 
 <!--- TEST-->
 
-## 监控
+## 监控 {id="supervision"}
 
 正如我们前面学到的, 取消是一种双向关系, 它会在整个协程层级关系内传播.
 下面我们来看看, 如果需要单向的取消, 会发生什么情况.
@@ -368,8 +351,6 @@ CoroutineExceptionHandler got java.io.IOException
 [SupervisorJob][SupervisorJob()] 可以用作这类目的.
 它与通常的 [Job][Job()] 类似, 唯一的区别在于取消只向下方传播.
 我们用下面的示例程序来演示一下:
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -404,11 +385,11 @@ fun main() = runBlocking {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-supervision-01.kt).
-{:.note}
+>
+{style="note"}
 
 这个示例程序的输出结果是:
 
@@ -426,8 +407,6 @@ The second child is cancelled because the supervisor was cancelled
 对于 *带作用范围* 的并发, 可以使用 [supervisorScope][_supervisorScope] 代替 [coroutineScope][_coroutineScope] 来实现同一目的.
 它也只向一个方向传播取消, 并且只在它自身失败的情况下取消所有的子协程.
 它在运行结束之前也会等待所有的子协程结束, 和 [coroutineScope][_coroutineScope] 一样.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlin.coroutines.*
@@ -456,11 +435,11 @@ fun main() = runBlocking {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-supervision-02.kt).
-{:.note}
+>
+{style="note"}
 
 这个示例程序的输出结果是:
 
@@ -482,8 +461,6 @@ Caught an assertion error
 _会_ 使用安装在其作用范围上的 [CoroutineExceptionHandler],
 (详情请参见 [CoroutineExceptionHandler](#coroutineexceptionhandler) 小节).
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
-
 ```kotlin
 import kotlin.coroutines.*
 import kotlinx.coroutines.*
@@ -504,11 +481,11 @@ fun main() = runBlocking {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-supervision-03.kt).
-{:.note}
+>
+{style="note"}
 
 这个示例程序的输出结果是:
 

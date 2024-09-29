@@ -1,17 +1,10 @@
----
-type: doc
-layout: reference
-category: "Gradle"
-title: "Kotlin Gradle plugin 中的编译与缓存"
----
+[//]: # (title: Kotlin Gradle plugin 中的编译与缓存)
 
-# Kotlin Gradle plugin 中的编译与缓存
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 在本章中, 你将学习以下内容:
 * [增量编译(Incremental compilation)](#incremental-compilation)
-* [对 Gradle 编译缓存的支持](#gradle-build-cache-support)
+* [对 Gradle 构建缓存的支持](#gradle-build-cache-support)
 * [对 Gradle 配置缓存的支持](#gradle-configuration-cache-support)
 * [Kotlin daemon 及其在 Gradle 中的使用](#the-kotlin-daemon-and-how-to-use-it-with-gradle)
 * [定义 Kotlin 编译器执行策略](#defining-kotlin-compiler-execution-strategy)
@@ -38,7 +31,8 @@ Kotlin Gradle plugin 支持增量编译模式.
 > 有时增量编译的问题会在错误发生之后再经过多轮才报告给使用者.
 > 请使用 [构建报告](#build-reports) 来追踪变更历史和编译历史.
 > 这样可以帮助你提供可重现的 bug 报告.
-{:.tip}
+>
+{style="tip"}
 
 ### 增量编译的新方案
 
@@ -63,9 +57,10 @@ kotlin.incremental.useClasspathSnapshot=false
 
 ### 对编译任务的输出的精确备份
 
-> 对编译任务的输出的精确备份是 [实验性功能](../components-stability.html#stability-levels-explained).
+> 对编译任务的输出的精确备份是 [实验性功能](components-stability.md#stability-levels-explained).
 > 希望你能通过我们的 [问题追踪系统](https://kotl.in/issue/experimental-ic-optimizations) 提供你的反馈意见.
-{:.warning}
+>
+{style="warning"}
 
 从 Kotlin 1.8.20 开始, 你可以启用精确备份功能, 这时只有 Kotlin 在增量编译中重新编译的那些类会被备份.
 完整备份和精确备份都可以帮助在发生编译错误后再次运行增量构建.
@@ -82,7 +77,7 @@ kotlin.compiler.preciseCompilationResultsBackup=true
 
 在下面的图表中, 你可以看到使用精确备份与完整备份相对比的示例:
 
-<img src="/assets/docs/images/gradle/comparison-of-full-and-precise-backups.png" alt="完整备份与精确备份的对比" width="700"/>
+<img src="comparison-of-full-and-precise-backups.png" alt="完整备份与精确备份的对比" width="700"/>
 
 第一个和第二个对比图显示了在 Kotlin 项目中使用精确备份时对 Kotlin Gradle plugin 构建的影响:
 
@@ -141,15 +136,15 @@ Time metrics:
 <...>
 ```
 
-## 对 Gradle 编译缓存的支持
+## 对 Gradle 构建缓存的支持 {id="gradle-build-cache-support"}
 
-Kotlin 插件支持 [Gradle 编译缓存](https://docs.gradle.org/current/userguide/build_cache.html),
-编译缓存会保存编译的输出, 并在未来的编译中重复使用.
+Kotlin 插件支持 [Gradle 构建缓存](https://docs.gradle.org/current/userguide/build_cache.html),
+构建缓存会保存构建的输出, 并在未来的构建中重复使用.
 
-如果想要对所有的 Kotlin 编译任务禁用缓存, 请将系统属性 `kotlin.caching.enabled` 设置为 `false`
+如果想要对所有的 Kotlin 任务禁用缓存, 请将系统属性 `kotlin.caching.enabled` 设置为 `false`
 (也就是使用参数 `-Dkotlin.caching.enabled=false` 来执行编译).
 
-## 对 Gradle 配置缓存的支持
+## 对 Gradle 配置缓存的支持 {id="gradle-configuration-cache-support"}
 
 Kotlin plugin 使用 [Gradle 配置缓存](https://docs.gradle.org/current/userguide/configuration_cache.html),
 通过对之后的构建重用配置阶段的结果, 来增加构建处理的速度.
@@ -158,7 +153,7 @@ Kotlin plugin 使用 [Gradle 配置缓存](https://docs.gradle.org/current/userg
 [Gradle 文档](https://docs.gradle.org/current/userguide/configuration_cache.html#config_cache:usage).
 启用这个功能之后, Kotlin Gradle plugin 会自动开始使用它.
 
-## Kotlin daemon 及其在 Gradle 中的使用
+## Kotlin daemon 及其在 Gradle 中的使用 {id="the-kotlin-daemon-and-how-to-use-it-with-gradle"}
 
 Kotlin daemon 会:
 * 与 Gradle daemon 共同运行来编译项目.
@@ -170,7 +165,7 @@ Kotlin daemon 会和 Gradle daemon 一起停止, 或在没有 Kotlin 编译任�
 
 Kotlin daemon 使用与 Gradle daemon 相同的 JDK.
 
-### 设置 Kotlin daemon 的 JVM 参数
+### 设置 Kotlin daemon 的 JVM 参数 {id="setting-kotlin-daemon-s-jvm-arguments"}
 
 以下列表是设置参数的几种不同方式, 列表中设置方式按照优先级排列, 每种方式都会覆盖在它之前的其他方式:
 * [继承 Gradle daemon 参数](#gradle-daemon-arguments-inheritance)
@@ -179,7 +174,7 @@ Kotlin daemon 使用与 Gradle daemon 相同的 JDK.
 * [使用 `kotlin` 扩展](#kotlin-extension)
 * [使用特定的任务定义](#specific-task-definition)
 
-#### 继承 Gradle daemon 参数
+#### 继承 Gradle daemon 参数 {id="gradle-daemon-arguments-inheritance"}
 
 如果不做任何设定, Kotlin daemon 会从 Gradle daemon 继承 JVM 参数.
 比如, 在 `gradle.properties` 文件中:
@@ -188,7 +183,7 @@ Kotlin daemon 使用与 Gradle daemon 相同的 JDK.
 org.gradle.jvmargs=-Xmx1500m -Xms=500m
 ```
 
-#### 设置系统属性 kotlin.daemon.jvm.options
+#### 设置系统属性 kotlin.daemon.jvm.options {id="kotlin-daemon-jvm-options-system-property"}
 
 如果 Gradle daemon 的 JVM 参数包含 `kotlin.daemon.jvm.options` 系统属性 – 请在 `gradle.properties` 文件中指定:
 
@@ -200,7 +195,6 @@ org.gradle.jvmargs=-Dkotlin.daemon.jvm.options=-Xmx1500m,Xms=500m
 * **只有** 在参数 `Xmx`, `XX:MaxMetaspaceSize`, 和 `XX:ReservedCodeCacheSize` 之前要使用减号 `-`, 在其它参数之前不要使用.
 * 参数之间的分隔使用逗号 (`,`), _不带空格_. 空格之后的参数会被 Gradle daemon 使用, 而不是被 Kotlin daemon 使用.
 
-
 > 如果满足以下所有条件, Gradle 会忽略这些属性:
 > * Gradle 使用 JDK 1.9 或更高版本.
 > * Gradle 版本在 7.0(含) 和 7.1.1(含) 之间.
@@ -208,9 +202,10 @@ org.gradle.jvmargs=-Dkotlin.daemon.jvm.options=-Xmx1500m,Xms=500m
 > * Kotlin daemon 没有运行.
 >
 > 要解决这个问题, 请升级 Gradle 到 7.2 (或更高版本), 或者使用 `kotlin.daemon.jvmargs` 属性 – 参见以下章节.
-{:.warning}
+>
+{style="warning"}
 
-#### 设置属性 kotlin.daemon.jvmargs
+#### 设置属性 kotlin.daemon.jvmargs {id="kotlin-daemon-jvmargs-property"}
 
 你可以在 `gradle.properties` 文件中添加 `kotlin.daemon.jvmargs` 属性:
 
@@ -218,12 +213,12 @@ org.gradle.jvmargs=-Dkotlin.daemon.jvm.options=-Xmx1500m,Xms=500m
 kotlin.daemon.jvmargs=-Xmx1500m -Xms=500m
 ```
 
-#### 使用 kotlin 扩展
+#### 使用 kotlin 扩展 {id="kotlin-extension"}
 
 你可以在 `kotlin` 扩展中指定参数:
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlin {
@@ -231,11 +226,8 @@ kotlin {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 kotlin {
@@ -243,15 +235,15 @@ kotlin {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
-#### 使用特定的任务定义
+#### 使用特定的任务定义 {id="specific-task-definition"}
 
 你可以对特定的任务指定参数:
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 tasks.withType<CompileUsingKotlinDaemon>().configureEach {
@@ -259,11 +251,8 @@ tasks.withType<CompileUsingKotlinDaemon>().configureEach {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 tasks.withType(CompileUsingKotlinDaemon::class).configureEach { task ->
@@ -271,13 +260,14 @@ tasks.withType(CompileUsingKotlinDaemon::class).configureEach { task ->
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 > 这种情况下, 会在任务执行时启动一个新的 Kotlin daemon 实例. 更多详情请参见 [指定 JVM 参数时 Kotlin daemon 的行为](#kotlin-daemon-s-behavior-with-jvm-arguments).
-{:.note}
+>
+{style="note"}
 
-### 指定 JVM 参数时 Kotlin daemon 的行为
+### 指定 JVM 参数时 Kotlin daemon 的行为 {id="kotlin-daemon-s-behavior-with-jvm-arguments"}
 
 配置 Kotlin daemon 的 JVM 参数时, 请注意:
 
@@ -289,12 +279,13 @@ tasks.withType(CompileUsingKotlinDaemon::class).configureEach { task ->
   这样, 就可以只有在开发者编译这个特定模块时, 才会使用很大的 heap memory 启动一个 Kotlin daemon.
   > 如果已有某个 Kotlin daemon 在运行中, 并且它的 heap memory 尺寸足够满足编译的需求,
   > 那么即使另一个任务要求的 JVM 参数不同, 也仍会重用这个 daemon, 而不是启动一个新的实例.
-  {:.note}
+  >
+  {style="note"}
 * 如果 `Xmx` 参数未指定, Kotlin daemon 会从 Gradle daemon 继承.
 
-## Kotlin 的新编译器
+## Kotlin 的新编译器 {id="the-new-kotlin-compiler"}
 
-Kotlin 的新 K2 编译器处于 [Beta 阶段](../components-stability.html#stability-levels-explained).
+Kotlin 的新 K2 编译器处于 [Beta 阶段](components-stability.md#stability-levels-explained).
 它对 Kotlin JVM, Native, Wasm 和 JS 项目提供基本的支持.
 
 新编译器的目标是加速新的语言功能的开发, 统一 Kotlin 支持的所有平台, 带来性能改进, 并为编译器扩展提供 API.
@@ -311,7 +302,7 @@ Kotlin 的新 K2 编译器处于 [Beta 阶段](../components-stability.html#stab
 
 关于 K2 编译器的稳定性, 更多详情请参见我们的 [Kotlin blog](https://blog.jetbrains.com/kotlin/2023/02/k2-kotlin-2-0/)
 
-## 定义 Kotlin 编译器执行策略
+## 定义 Kotlin 编译器执行策略 {id="defining-kotlin-compiler-execution-strategy"}
 
 _Kotlin 编译器执行策略_ 定义 Kotlin 编译器在哪里执行, 以及各种情况下是否支持增量编译.
 
@@ -347,8 +338,8 @@ Task 属性 `compilerExecutionStrategy` 可以使用的值是:
 
 在你的构建脚本中使用 Task 属性 `compilerExecutionStrategy`:
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 import org.jetbrains.kotlin.gradle.tasks.CompileUsingKotlinDaemon
@@ -358,14 +349,11 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompilerExecutionStrategy
 
 tasks.withType<CompileUsingKotlinDaemon>().configureEach {
     compilerExecutionStrategy.set(KotlinCompilerExecutionStrategy.IN_PROCESS)
-} 
+}
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 import org.jetbrains.kotlin.gradle.tasks.CompileUsingKotlinDaemon
@@ -379,10 +367,10 @@ tasks.withType(CompileUsingKotlinDaemon)
     }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
-## Kotlin 编译器的 fallback 策略
+## Kotlin 编译器的 fallback 策略 {id="kotlin-compiler-fallback-strategy"}
 
 Kotlin 编译器的 fallback 策略是指, 如果 daemon 因为某种原因失败, 则在 Kotlin daemon 之外运行编译任务. 
 如果 Gradle daemon 启动, 编译器会使用 ["In process" 策略](#defining-kotlin-compiler-execution-strategy). 
@@ -409,41 +397,38 @@ kotlin.daemon.useFallbackStrategy=false
 
 在 Kotlin 编译任务中也有一个 `useDaemonFallbackStrategy` 属性, 如果同时使用, 它的优先级会高于 Gradle 属性.
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 tasks {
     compileKotlin {
         useDaemonFallbackStrategy.set(false)
-    }   
+    }
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 tasks.named("compileKotlin").configure {
     useDaemonFallbackStrategy = false
 }
 ```
-
-</div>
-</div>
+</tab>
+</tabs>
 
 如果运行编译所需要的内存不足, 你会在 log 中看到相关信息.
 
-## 构建报告
+## 构建报告 {id="build-reports"}
 
-> 构建报告是 [实验性功能](../components-stability.html).
+> 构建报告是 [实验性功能](components-stability.md).
 > 它随时有可能变更或被删除.
 > 需要使用者同意(Opt-in) (详情见下文). 请注意, 只为评估目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issues/KT) 提供你的反馈意见.
-{:.warning}
+>
+{style="warning"}
 
 构建报告包括不同编译阶段的持续时间, 以及为什么不能进行增量编译的原因.
 如果编译时间太长, 或对于相同的项目出现了不同的编译时间, 可以使用构建报告来调查性能问题.
@@ -464,7 +449,7 @@ Gradle Build Scan 中的粒度只是单个 Gradle Task.
 [如何阅读构建报告](https://blog.jetbrains.com/kotlin/2022/06/introducing-kotlin-build-reports/#how_to_read_build_reports) 
 以及 [JetBrains 如何使用构建报告](https://blog.jetbrains.com/kotlin/2022/06/introducing-kotlin-build-reports/#how_we_use_build_reports_in_jetbrains).
 
-### 启用构建报告
+### 启用构建报告 {id="enabling-build-reports"}
 
 要启用构建报告, 请在 `gradle.properties` 中指定构建报告输出的保存位置:
 
@@ -485,7 +470,6 @@ kotlin.build.report.output=file
 
 ```none
 # 需要的报告输出格式. 可以任意组合
-# Required outputs. Any combination is allowed
 kotlin.build.report.output=file,single_file,http,build_scan
 
 # 如果使用 single_file 输出, 则必须设置. 表示报告的输出位置 
@@ -544,7 +528,8 @@ HTTP 构建统计 log 可能包含某些项目和系统属性. 这些属性可�
 你可以向你的 `gradle.properties` 文件添加 `kotlin.build.report.http.verbose_environment` 属性, 来禁止收集这些统计信息.
 
 > JetBrains 不会收集这些统计信息. 你需要选择一个地方来 [存储你的统计报告](#enabling-build-reports).
-{:.note}
+>
+{style="note"}
 
 ## 下一步做什么?
 

@@ -1,12 +1,6 @@
----
-type: doc
-layout: reference
-title: "设置开发环境"
----
+[//]: # (title: 设置开发环境)
 
-# 设置开发环境
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 <table style="border-style: solid; border-color: 252528">
     <tr style="border: none">
@@ -54,7 +48,8 @@ title: "设置开发环境"
 
 > 要编写 iOS 专有代码, 并在模拟设备或真实设备上运行 iOS 应用程序, 你需要使用运行 macOS 操作系统的 Mac 计算机.
 > 这些步骤不能在其他操作系统上进行, 比如 Microsoft Windows. 这是 Apple 的限制.
-{:.warning}
+>
+{style="warning"}
 
 ## 安装必要的工具
 
@@ -136,7 +131,8 @@ title: "设置开发环境"
 为了保证一切工作正常, 请安装并运行 KDoctor 工具:
 
 > KDoctor 只能在 macOS 上工作.
-{:.note}
+>
+{style="note"}
 
 1. 在 Android Studio 的 terminal 窗口, 或你的命令行工具中, 运行以下命令, 使用 Homebrew 安装 KDoctor 工具:
 
@@ -160,7 +156,8 @@ title: "设置开发环境"
 
    > 你可以忽略 KDoctor 关于 CocoaPods 安装的警告.
    > 在你的第一个项目中, 你将会使用不同的 iOS framework distribution 选项.
-   {:.tip}
+   >
+   {style="tip"}
 
 ## 可能的问题与解决方案
 

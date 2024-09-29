@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Classes and Objects"
-title: "封闭类(Sealed Class)与封闭接口(Sealed Interface)"
----
+[//]: # (title: 封闭类(Sealed Class)与封闭接口(Sealed Interface))
 
-# 封闭类(Sealed Class)
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 _封闭_ 类和接口提供了对类的继承关系进行控制的方式.
 一个封闭类的所有的直接子类(Direct Subclass)在编译时刻就能够确定.
@@ -17,7 +10,8 @@ _封闭_ 类和接口提供了对类的继承关系进行控制的方式.
 > 直接子类(Direct Subclass) 是指直接从父类继承的那些类.
 >
 > 间接子类(Indirect Subclass) 是指从父类继承, 但继承关系超过一层的那些类.
-{:.note}
+>
+{style="note"}
 
 当你将封闭类和接口与 `when` 表达式一起使用时,
 你可以覆盖所有可能的子类的行为, 并保证不会有新的子类创建出来, 对你的代码产生不利的影响.
@@ -36,7 +30,8 @@ _封闭_ 类和接口提供了对类的继承关系进行控制的方式.
 
 > Java 15 引入了 [一个类似的概念](https://docs.oracle.com/en/java/javase/15/language/sealed-classes-and-interfaces.html#GUID-0C709461-CC33-419A-82BF-61461336E65F),
 > 它的封闭类使用 `sealed` 关键字和 `permits` 子句, 来定义受限制的层级结构.
-{:.tip}
+>
+{style="tip"}
 
 ## 声明封闭类或接口
 
@@ -65,16 +60,14 @@ object RuntimeError : Error
 但是, 使用 **封闭的** 错误类层级结构, 库的作者就能够确定他们知道了所有可能的错误类型, 而且之后也不会出现其他的错误类型.
 
 示例代码中的层级关系如下:
-<img src="/assets/docs/images/reference/concepts/sealed-classes-interfaces.svg" alt="封闭类和封闭接口层级结构示意图" width="700"/>
+![封闭类和封闭接口层级结构示意图](sealed-classes-interfaces.svg){width=700}
 
-### 构造器
+### 构造器 {id="constructors"}
 
-封闭类本身永远是 [抽象(abstract)类](classes.html#abstract-classes), 因此, 不能直接生成它的实例.
+封闭类本身永远是 [抽象(abstract)类](classes.md#abstract-classes), 因此, 不能直接生成它的实例.
 但是, 它可以包含或继承构造器.
 这些构造器不是用来创建封闭类自身的实例, 而是用来创建它的子类.
 我们来看看下面的例子, 有一个封闭类 `Error`, 以及它的几个子类, 我们创建这些子类的实例:
-
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.5">
 
 ```kotlin
 sealed class Error(val message: String) {
@@ -92,10 +85,9 @@ fun main() {
 // Database cannot be reached
 // An unknown error has occurred
 ```
+{kotlin-runnable="true" kotlin-min-compiler-version="1.5"}
 
-</div>
-
-你可以在你的封闭类中使用 [`enum`](enum-classes.html) 类, 用枚举常数来表示状态, 并提供更多细节信息.
+你可以在你的封闭类中使用 [`enum`](enum-classes.md) 类, 用枚举常数来表示状态, 并提供更多细节信息.
 每个枚举常数只存在 **单个** 实例, 而封闭类的子类可以有 **多个** 实例.
 在下面的示例中, `sealed class Error` 和它的几个子类, 使用 `enum` 来表示错误的严重级别.
 每个子类的构造器会初始化 `severity`, 并改变它的状态:
@@ -111,7 +103,7 @@ sealed class Error(val severity: ErrorSeverity) {
 }
 ```
 
-封闭类的构造器的 [可见度](visibility-modifiers.html) 必须是: `protected` (默认值) 或 `private`:
+封闭类的构造器的 [可见度](visibility-modifiers.md) 必须是: `protected` (默认值) 或 `private`:
 
 ```kotlin
 sealed class IOError {
@@ -127,10 +119,10 @@ sealed class IOError {
 }
 ```
 
-## 继承
+## 继承 {id="inheritance"}
 
 封闭类和接口的直接子类必须定义在同一个包之内. 可以是顶级位置, 也可以嵌套在任意多的其他有名称的类, 有名称的接口, 或有名称的对象之内.
-子类可以设置为任意的 [可见度](visibility-modifiers.html), 只要它们符合 Kotlin 中通常的类继承规则.
+子类可以设置为任意的 [可见度](visibility-modifiers.md), 只要它们符合 Kotlin 中通常的类继承规则.
 
 封闭类的子类必须拥有一个适当的限定名称. 不能是局部对象或匿名对象.
 
@@ -144,7 +136,8 @@ sealed class IOError {
 >     FILE_ERROR, DATABASE_ERROR
 > }
 > ```
-{:.note}
+>
+{style="note"}
 
 这些限制不适用于非直接子类. 如果封闭的类一个直接子类没有标记为封闭,
 那么它可以按照其修饰符允许的方式任意扩展:
@@ -162,23 +155,21 @@ open class CustomError(): Error
 
 ### 跨平台项目中的继承
 
-在 [跨平台项目](multiplatform/multiplatform-get-started.html)中还存在一种继承限制:
-封闭类的直接子类必须放在同一个 [源代码集(Source Set)](multiplatform/multiplatform-discover-project.html#source-sets) 中.
-这个限制适用于没有使用 [`expect` 和 `actual` 修饰符](multiplatform/multiplatform-expect-actual.html) 的封闭类.
+在 [跨平台项目](multiplatform-get-started.md)中还存在一种继承限制:
+封闭类的直接子类必须放在同一个 [源代码集(Source Set)](multiplatform-discover-project.md#source-sets) 中.
+这个限制适用于没有使用 [`expect` 和 `actual` 修饰符](multiplatform-expect-actual.md) 的封闭类.
 
 如果封闭类声明为共通源代码集(common source set)中的 `expect`, 并且在平台相关的代码集内拥有 `actual` 实现类,
 那么 `expect` 和 `actual` 的版本在各自的源代码集内都可以拥有子类.
 此外, 如果你使用了层级结构(hierarchical structure),
 你可以在 `expect` 和 `actual` 声明之间的任何源代码集内创建子类.
 
-更多详情请参见 [跨平台项目的层级结构(hierarchical structure)](multiplatform/multiplatform-hierarchy.html).
+更多详情请参见 [跨平台项目的层级结构(hierarchical structure)](multiplatform-hierarchy.md).
 
-## 和 `when` 表达式一起使用封闭类
+## 和 `when` 表达式一起使用封闭类 {id="use-sealed-classes-with-when-expression"}
 
 `when` 表达式和封闭类一起使用时, Kotlin 编译器能够进行穷尽的检查, 是否覆盖了所有可能的情况.
 这样的情况下, 你可以不必添加 `else` 分支:
-
-<div class="sample" markdown="1" theme="idea" kotlin-min-compiler-version="1.5">
 
 ```kotlin
 // 封闭类和它的子类
@@ -209,14 +200,15 @@ fun main() {
     errors.forEach { log(it) }
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.5"}
 
-> 在跨平台项目中, 如果与 `when` 表达式一起使用的封闭类, 是你的共通代码中的 [预期声明](multiplatform/multiplatform-expect-actual.html),
+> 在跨平台项目中, 如果与 `when` 表达式一起使用的封闭类, 是你的共通代码中的 [预期声明](multiplatform-expect-actual.md),
 > 那么仍然需要 `else` 分支.
 > 这是因为, `actual` 平台实现中的子类可以扩展封闭类, 但在共通代码中, 无法确定这些子类.
-{:.note}
+>
+{style="note"}
 
-## 使用场景
+## 使用场景 {id="use-case-scenarios"}
 
 我们来看看一些实际的使用场景, 封闭类和封闭接口可以非常有用.
 

@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Coroutine"
-title: "取消与超时"
----
+[//]: # (title: 取消与超时)
 
-# 取消与超时
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 本章介绍协程的取消与超时.
 
@@ -16,8 +9,6 @@ title: "取消与超时"
 在一个长期运行的应用程序中, 你可能会需要在你的后台协程中进行一些更加精细的控制.
 比如, 使用者可能已经关闭了某个启动协程的页面, 现在它的计算结果已经不需要了, 因此协程的执行可以取消.
 [launch] 函数会返回一个 [Job], 可以通过它来取消正在运行的协程:
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -35,14 +26,14 @@ fun main() = runBlocking {
     job.cancel() // 取消 job
     job.join() // 等待 job 结束
     println("main: Now I can quit.")
-//sampleEnd    
+//sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-cancel-01.kt).
-{:.note}
+>
+{style="note"}
 
 这个示例的运行结果如下:
 
@@ -53,6 +44,8 @@ job: I'm sleeping 2 ...
 main: I'm tired of waiting!
 main: Now I can quit.
 ```
+
+<!--- TEST -->
 
 一旦 main 函数调用 `job.cancel`, 我们就再也看不到协程的输出了, 因为协程已经被取消了.
 还有一个 [Job] 上的扩展函数 [cancelAndJoin],
@@ -65,8 +58,6 @@ main: Now I can quit.
 这些函数会检查协程是否被取消, 并在被取消时抛出 [CancellationException] 异常.
 但是, 如果一个协程正在进行计算, 并且没有检查取消状态, 那么它是不可被取消的,
 比如下面的例子:
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -89,14 +80,14 @@ fun main() = runBlocking {
     println("main: I'm tired of waiting!")
     job.cancelAndJoin() // 取消 job, 并等待它结束
     println("main: Now I can quit.")
-//sampleEnd    
+//sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-cancel-02.kt).
-{:.note}
+>
+{style="note"}
 
 运行一下这个示例, 我们会看到, 即使在取消之后,
 协程还是继续输出 "I'm sleeping" 信息, 直到循环 5 次之后, 协程才自己结束.
@@ -112,8 +103,6 @@ main: Now I can quit.
 ```
 
 如果捕获一个 [CancellationException] 然后不再抛出它, 也可以观察到同样的问题:
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -136,13 +125,14 @@ fun main() = runBlocking {
     println("main: I'm tired of waiting!")
     job.cancelAndJoin() // 取消 job, 并等待它结束
     println("main: Now I can quit.")
-//sampleEnd    
+//sampleEnd
 }
 ```
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-cancel-03.kt).
-{:.note}
+>
+{style="note"}
 
 尽管示例中的捕获 `Exception` 是一种反模式, 但在更加微妙的情况下还是会出现这个问题, 比如在使用
 [`runCatching`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/run-catching.html)
@@ -155,8 +145,6 @@ fun main() = runBlocking {
 另一种方法是显式地检查协程的取消状态. 我们来试试后一种方法.
 
 我们来把前面的示例程序中的 `while (i < 5)` 改为 `while (isActive)`, 然后再运行, 看看结果如何.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -179,14 +167,14 @@ fun main() = runBlocking {
     println("main: I'm tired of waiting!")
     job.cancelAndJoin() // 取消 job, 并等待它结束
     println("main: Now I can quit.")
-//sampleEnd    
+//sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-cancel-04.kt).
-{:.note}
+>
+{style="note"}
 
 你会看到, 现在循环变得能够被取消了. [isActive] 是一个扩展属性,
 在协程内部的代码中可以通过 [CoroutineScope] 对象访问到.
@@ -204,9 +192,6 @@ main: Now I can quit.
 可被取消的挂起函数, 在被取消时会抛出 [CancellationException] 异常, 这个异常可以通过通常的方式来处理.
 比如, 可以使用 `try {...} finally {...}` 表达式, 或者 Kotlin 的 `use` 函数,
 以便在一个协程被取消时执行结束处理:
-
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -227,14 +212,14 @@ fun main() = runBlocking {
     println("main: I'm tired of waiting!")
     job.cancelAndJoin() // 取消 job, 并等待它结束
     println("main: Now I can quit.")
-//sampleEnd    
+//sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-cancel-05.kt).
-{:.note}
+>
+{style="note"}
 
 [join][Job.join] 和 [cancelAndJoin] 都会等待所有的结束处理执行完毕,
 因此上面的示例程序会产生这样的输出:
@@ -248,6 +233,8 @@ job: I'm running finally
 main: Now I can quit.
 ```
 
+<!--- TEST -->
+
 ## 运行无法取消的代码段
 
 如果试图在上面示例程序的 `finally` 代码段中使用挂起函数, 会导致 [CancellationException] 异常, 因为执行这段代码的协程已被取消了.
@@ -256,8 +243,6 @@ main: Now I can quit.
 你可以使用 [withContext] 函数和 [NonCancellable] 上下文,
 把相应的代码包装在 `withContext(NonCancellable) {...}` 内,
 如下例所示:
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -282,14 +267,14 @@ fun main() = runBlocking {
     println("main: I'm tired of waiting!")
     job.cancelAndJoin() // 取消 job, 并等待它结束
     println("main: Now I can quit.")
-//sampleEnd    
+//sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-cancel-06.kt).
-{:.note}
+>
+{style="note"}
 
 ```text
 job: I'm sleeping 0 ...
@@ -308,8 +293,6 @@ main: Now I can quit.
 但 Kotlin 已经提供了一个 [withTimeout] 函数来完成这个任务.
 请看下面的例子:
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
-
 ```kotlin
 import kotlinx.coroutines.*
 
@@ -324,11 +307,11 @@ fun main() = runBlocking {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-cancel-07.kt).
-{:.note}
+>
+{style="note"}
 
 这个例子的运行结果是:
 
@@ -351,8 +334,6 @@ Exception in thread "main" kotlinx.coroutines.TimeoutCancellationException: Time
 可以将带有超时控制的代码封装在一个 `try {...} catch (e: TimeoutCancellationException) {...}` 代码块中,
 也可以使用 [withTimeoutOrNull] 函数, 它与 [withTimeout] 函数类似, 但在超时发生时, 它会返回 `null`, 而不是抛出异常:
 
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
-
 ```kotlin
 import kotlinx.coroutines.*
 
@@ -369,11 +350,11 @@ fun main() = runBlocking {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-cancel-08.kt).
-{:.note}
+>
+{style="note"}
 
 这段代码的运行结果不会有异常发生了:
 
@@ -399,8 +380,6 @@ Result is null
 在创建时增加 `acquired` 计数器, 并在 `close` 函数中减少计数器.
 现在我们来创建很多个协程, 每个协程在 `withTimeout` 代码段的末尾创建一个 `Resource`,  然后在代码段之外释放资源.
 我们添加一个小的延迟, 因此更可能在 `withTimeout` 代码段结束之后发生超时, 导致资源泄露.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -430,11 +409,11 @@ fun main() {
 }
 //sampleEnd
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-cancel-09.kt).
-{:.note}
+>
+{style="note"}
 
 <!--- CLEAR -->
 
@@ -444,11 +423,10 @@ fun main() {
 > 请注意, 这个例子中, 从 10K 个协程中增加和减少 `acquired` 计数器, 完全是线程安全的,
 > 因为这个处理永远发生在 `runBlocking` 所使用的同一个线程内.
 > 更多细节将在下一章, 关于协程上下文的部分中解释.
-{:.note}
+> 
+{style="note"}
 
 这个问题的解决方法是, 可以将资源的引用保存到一个变量中, 而不是从 `withTimeout` 代码段直接返回资源.
-
-<div class="sample" markdown="1" theme="idea" data-min-compiler-version="1.3">
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -483,17 +461,17 @@ fun main() {
 //sampleEnd
 }
 ```
-
-</div>
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 > 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-cancel-10.kt).
-{:.note}
+>
+{style="note"}
 
-这段示例程序永远会输出 0. 也就是说, 没有发生资源泄露.
+这段示例程序永远会输出 0. 也就是说, 没有发生资源泄露:
 
-<!--- TEST
+```text
 0
--->
+```
 
 <!--- MODULE kotlinx-coroutines-core -->
 <!--- INDEX kotlinx.coroutines -->

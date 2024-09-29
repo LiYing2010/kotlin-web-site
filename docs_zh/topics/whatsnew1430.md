@@ -1,22 +1,15 @@
----
-type: doc
-layout: reference
-category:
-title: "Kotlin 1.4.30 版中的新功能"
----
+[//]: # (title: Kotlin 1.4.30 版中的新功能)
 
-# Kotlin 1.4.30 版中的新功能
+最终更新: %latestDocDate%
 
-最终更新: {{ site.data.releases.latestDocDate }}
-
-_[发布日期: 2021/02/03](releases.html#release-details)_
+_[发布日期: 2021/02/03](releases.md#release-details)_
 
 Kotlin 1.4.30 提供了新的语言功能的预览版, 将 Kotlin/JVM 编译器的新的 IR 后端升级到 Beta,
 并带来了很多性能和功能的改进.
 
 关于这个版本的变更概要, 可以查看 [这篇 blog](https://blog.jetbrains.com/kotlin/2021/01/kotlin-1-4-30-released/).
 
-## 语言功能
+## 语言功能 {id="language-features"}
 
 Kotlin 1.5.0 将会发布一些新的语言功能 – 支持 JVM 记录类(Record), 封闭接口(Sealed Interface), 以及内联类(Inline Class)的稳定版.
 在 Kotlin 1.4.30 中, 你可以通过预览模式试用这些新功能和新改进.
@@ -31,12 +24,13 @@ Kotlin 1.5.0 将会发布一些新的语言功能 – 支持 JVM 记录类(Recor
 
 关于新功能预览, 详情请参见 [这篇 blog](https://blog.jetbrains.com/kotlin/2021/01/new-language-features-preview-in-kotlin-1-4-30).
 
-### 支持 JVM 记录类(Record)
+### 支持 JVM 记录类(Record) {id="jvm-records-support"}
 
-> JVM 记录类(Record)功能是 [实验性功能](components-stability.html). 它随时有可能变更或被删除.
+> JVM 记录类(Record)功能是 [实验性功能](components-stability.md). 它随时有可能变更或被删除.
 > 需要明确同意使用(Opt-in)(详情请参见下文), 请注意, 只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-42430) 提供你的反馈意见.
-{:.warning}
+>
+{style="warning"}
 
 [JDK 16 版](https://openjdk.java.net/projects/jdk/16/) 中计划稳定新类型的 Java 类, 名为 [Record](https://openjdk.java.net/jeps/395).
 为了充分利用 Kotlin 的功能, 并保证与 Java 的交互能力, Kotlin 会增加对记录类的支持(实验性功能).
@@ -44,7 +38,7 @@ Kotlin 1.5.0 将会发布一些新的语言功能 – 支持 JVM 记录类(Recor
 你可以在 Kotlin 中使用 Java 中声明的记录类, 就和其他有属性的类一样.
 不需要其他任何步骤.
 
-从 1.4.30 开始, 你可以在 Kotlin 中对一个 [数据类](data-classes.html) 使用 `@JvmRecord` 注解, 来声明记录类:
+从 1.4.30 开始, 你可以在 Kotlin 中对一个 [数据类](data-classes.md) 使用 `@JvmRecord` 注解, 来声明记录类:
 
 ```kotlin
 @JvmRecord
@@ -58,12 +52,13 @@ data class User(val name: String, val age: Int)
 
 关于这个功能的具体实现, 限制, 以及语法, 请参见 [KEEP](https://github.com/Kotlin/KEEP/blob/master/proposals/jvm-records.md).
 
-### 封闭接口(Sealed Interface)
+### 封闭接口(Sealed Interface) {id="sealed-interfaces"}
 
-> 封闭接口(Sealed Interface)是 [实验性功能](components-stability.html). 它随时有可能变更或被删除.
+> 封闭接口(Sealed Interface)是 [实验性功能](components-stability.md). 它随时有可能变更或被删除.
 > 需要明确同意使用(Opt-in)(详情请参见下文), 请注意, 只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-42433) 提供你的反馈意见.
-{:.warning}
+>
+{style="warning"}
 
 在 Kotlin 1.4.30 中, 我们发布了 _封闭接口(Sealed Interface)_ 的原型.
 这个功能是对封闭类的补充, 可以用来构建更加灵活的类层级关系约束.
@@ -82,7 +77,6 @@ fun draw(polygon: Polygon) = when (polygon) {
     is Rectangle -> // ...
     is Triangle -> // ...
 }
-
 ```
 
 另一种使用场景是: 使用封闭接口, 你可以从两个或多个封闭的超类继承一个类.
@@ -104,14 +98,15 @@ class Rectangle(override val vertices: List<Point>): Fillable, Polygon {
 切换到这个版本之后, 你就可以对接口使用 `sealed` 修饰符了.
 如果你能通过这个 [YouTrack ticket](https://youtrack.jetbrains.com/issue/KT-42433) 提供你的反馈意见, 我们会非常感谢.
 
-更多详情请参见 [封闭接口(Sealed Interface)](sealed-classes.html).
+更多详情请参见 [封闭接口(Sealed Interface)](sealed-classes.md).
 
-### 包范围内的封闭类(Sealed Class)层级结构
+### 包范围内的封闭类(Sealed Class)层级结构 {id="package-wide-sealed-class-hierarchies"}
 
-> 包范围内的封闭类(Sealed Class)层级结构是 [实验性功能](components-stability.html). 它随时有可能变更或被删除.
+> 包范围内的封闭类(Sealed Class)层级结构是 [实验性功能](components-stability.md). 它随时有可能变更或被删除.
 > 需要明确同意使用(Opt-in)(详情请参见下文), 请注意, 只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [YouTrack](https://youtrack.jetbrains.com/issue/KT-42433) 提供你的反馈意见.
-{:.warning}
+>
+{style="warning"}
 
 封闭类(Sealed Class)现在可以组成更加灵活的层级结构. 子类可以存在于同一个编译单元同一个包的所有源代码文件中.
 在以前的版本中, 所有子类必须存在于同一个源代码文件中.
@@ -122,16 +117,17 @@ class Rectangle(override val vertices: List<Point>): Fillable, Polygon {
 要试用包范围内的封闭类层级结构功能, 请添加编译器选项 `-language-version 1.5`.
 如果你能通过这个 [YouTrack ticket](https://youtrack.jetbrains.com/issue/KT-42433) 提供你的反馈意见, 我们会非常感谢.
 
-更多详情请参见 [包范围内的封闭类(Sealed Class)层级结构](sealed-classes.html#inheritance).
+更多详情请参见 [包范围内的封闭类(Sealed Class)层级结构](sealed-classes.md#inheritance).
 
-### 内联类(Inline Class)的改进
+### 内联类(Inline Class)的改进 {id="improved-inline-classes"}
 
-> 内联的数据类目前是 [Beta 版](components-stability.html).
+> 内联的数据类目前是 [Beta 版](components-stability.md).
 > 已经基本稳定, 但未来可能需要执行一些迁移工作. 我们会尽量减少需要你进行的代码变更工作. 
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-42434) 提供你的反馈意见.
-{:.warning}
+>
+{style="warning"}
 
-Kotlin 1.4.30 将 [内联类(Inline Class)](inline-classes.html) 升级到 [Beta 版](components-stability.html),
+Kotlin 1.4.30 将 [内联类(Inline Class)](inline-classes.md) 升级到 [Beta 版](components-stability.md),
 并带来以下功能和改进:
 
 * 由于内联类是 [基于值的](https://docs.oracle.com/en/java/javase/15/docs/api/java.base/java/lang/doc-files/ValueBased.html),
@@ -176,7 +172,7 @@ Kotlin 1.4.30 将 [内联类(Inline Class)](inline-classes.html) 升级到 [Beta
 * 在这个发布版中, 我们修改了对函数的代码混淆机制, 以便修正一些不正确的行为. 这些变更会导致 ABI 变化.
 
   从 1.4.30 开始, Kotlin 编译器默认使用新的代码混淆机制. 可以使用 `-Xuse-14-inline-classes-mangling-scheme`
-  编译器便器 来强制编译器使用使用旧的 1.4.0 代码混淆机制, 以保证二进制兼容性.
+  编译器 flag 来强制编译器使用使用旧的 1.4.0 代码混淆机制, 以保证二进制兼容性.
 
 Kotlin 1.4.30 将内联类升级为 Beta 版, 我们计划在未来的发布版中将它升级为稳定版.
 如果你能通过这个 [YouTrack ticket](https://youtrack.jetbrains.com/issue/KT-42434) 提供你的反馈意见, 我们会非常感谢.
@@ -185,14 +181,14 @@ Kotlin 1.4.30 将内联类升级为 Beta 版, 我们计划在未来的发布版�
 
 关于代码混淆算法, 更多详情请参见 [KEEP](https://github.com/Kotlin/KEEP/blob/master/proposals/inline-classes.md).
 
-更多详情请参见 [内联类](inline-classes.html).
+更多详情请参见 [内联类](inline-classes.md).
 
 ## Kotlin/JVM
 
 ### JVM IR 编译器后端升级为 Beta 版
 
-Kotlin/JVM 的 [基于 IR 的编译器后端](whatsnew14.html#unified-backends-and-extensibility),
-在 1.4.0 版引入时是 [Alpha 版](components-stability.html), 现在升级为 Beta 版.
+Kotlin/JVM 的 [基于 IR 的编译器后端](whatsnew14.md#unified-backends-and-extensibility),
+在 1.4.0 版引入时是 [Alpha 版](components-stability.md), 现在升级为 Beta 版.
 这是稳定版之前的最后一个测试版, 稳定版发布后, Kotlin/JVM 编译器会默认使用 IR 后端.
 
 我们现在会去掉使用 IR 编译器产生的二进制文件的限制. 以前的版本中, 你必须启用新的后端, 然后才能使用新的 JVM IR 后端编译的代码.
@@ -201,29 +197,27 @@ Kotlin/JVM 的 [基于 IR 的编译器后端](whatsnew14.html#unified-backends-a
 
 要启用新的 JVM IR 后端, 请向项目的构建脚本添加以下设置:
 * Gradle:
-  <div class="multi-language-sample" data-lang="kotlin">
-  <div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+
+  <tabs group="build-script">
+  <tab title="Kotlin" group-key="kotlin">
 
   ```kotlin
   tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile::class) {
     kotlinOptions.useIR = true
   }
   ```
-  
-  </div>
-  </div>
-  
-  <div class="multi-language-sample" data-lang="groovy">
-  <div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
 
+  </tab>
+  <tab title="Groovy" group-key="groovy">
+  
   ```groovy
   tasks.withType(org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile) {
     kotlinOptions.useIR = true
   }
   ```
-  
-  </div>
-  </div>
+
+  </tab>
+  </tabs>
 
 * Maven:
 
@@ -256,14 +250,15 @@ Kotlin/JVM 的 [基于 IR 的编译器后端](whatsnew14.html#unified-backends-a
 
 ## Kotlin/JS
 
-### 顶级属性(top-level property)的延迟初始化(Lazy initialization)
+### 顶级属性(top-level property)的延迟初始化(Lazy initialization) {id="lazy-initialization-of-top-level-properties"}
 
-> 顶级属性(top-level property)的延迟初始化(Lazy initialization)是 [实验性功能](components-stability.html). 它随时有可能变更或被删除.
+> 顶级属性(top-level property)的延迟初始化(Lazy initialization)是 [实验性功能](components-stability.md). 它随时有可能变更或被删除.
 > 需要明确同意使用(Opt-in)(详情请参见下文), 请注意, 只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-44320) 提供你的反馈意见.
-{:.warning}
+>
+{style="warning"}
 
-Kotlin/JS 的 [IR 后端](js/js-ir-compiler.html) 有了顶级属性(top-level property)的延迟初始化(Lazy initialization)功能的原型实现.
+Kotlin/JS 的 [IR 后端](js-ir-compiler.md) 有了顶级属性(top-level property)的延迟初始化(Lazy initialization)功能的原型实现.
 这个功能可以在应用程序启动时减少需要初始化的顶级属性, 可以显著改善应用程序的启动时间.
 
 我们会继续改进延迟初始化功能, 我们希望你试用目前的原型实现,
@@ -274,7 +269,7 @@ Kotlin/JS 的 [IR 后端](js/js-ir-compiler.html) 有了顶级属性(top-level p
 
 要使用延迟初始化功能, 请在使用 JS IR 编译器编译代码时添加 `-Xir-property-lazy-initialization` 编译器选项.
 
-## Gradle 项目的改进
+## Gradle 项目的改进 {id="gradle-project-improvements"}
 
 ### 支持 Gradle 配置缓存
 
@@ -289,10 +284,11 @@ Gradle 会缓存计算结果, 并在以后的构建中重用这些结果.
 
 ### 针对大写/小写文字的 Locale 无关 API 
 
-> Locale 无关 API 功能是 [实验性功能](components-stability.html). 它随时有可能变更或被删除.
+> Locale 无关 API 功能是 [实验性功能](components-stability.md). 它随时有可能变更或被删除.
 > 请注意, 只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-42437) 提供你的反馈意见.
-{:.warning}
+>
+{style="warning"}
 
 本次发布版增加了改变字符串和字符大小写的 Locale 无关 API (实验性功能).
 现在的 `toLowerCase()`, `toUpperCase()`, `capitalize()`, `decapitalize()` API 函数是与 Locale 相关的.
@@ -310,7 +306,7 @@ println("Needs to be capitalized".uppercase()) // 结果是: NEEDS TO BE CAPITAL
 Kotlin 1.4.30 提供了以下替代函数:
 
 * 对 `String` 函数:
-  
+
   | **以前的版本**                |**1.4.30 的替代函数**| 
 -------------------------| --- | --- |
   | `String.toUpperCase()`  |`String.uppercase()`|
@@ -327,16 +323,18 @@ Kotlin 1.4.30 提供了以下替代函数:
   |`Char.toTitleCase()`|`Char.titlecaseChar(): Char`<br/>`Char.titlecase(): String`|
 
 > 对于 Kotlin/JVM 平台, 还有明确使用 `Locale` 参数的 overload 版本的 `uppercase()`, `lowercase()`, 和 `titlecase()` 函数 
-{:.note}
+>
+{style="note"}
 
 关于文字处理函数的所有变更, 请参见 [KEEP](https://github.com/Kotlin/KEEP/blob/master/proposals/stdlib/locale-agnostic-string-conversions.md).
 
 ### 明确的 "字符到代码" 和 "字符到数值" 转换
 
-> 意义明确的 `Char` 转换 API 是 [实验性功能](components-stability.html). 它随时有可能变更或被删除.
+> 意义明确的 `Char` 转换 API 是 [实验性功能](components-stability.md). 它随时有可能变更或被删除.
 > 请注意, 只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-44333) 提供你的反馈意见.
-{:.warning}
+>
+{style="warning"}
 
 目前的 `Char` 到数值的转换函数, 返回不同数值类型表达的 UTF-16 代码,
 经常会与类似的字符串到整数值的转换混淆, 后一种转换会返回字符串表示的数值:
@@ -381,7 +379,7 @@ Kotlin 1.4.30 提供了以下替代函数:
 
 ### 支持内联类的序列化
 
-从 Kotlin 1.4.30 开始, 你可以让内联类 [可序列化](serialization.html):
+从 Kotlin 1.4.30 开始, 你可以让内联类 [可序列化](serialization.md):
 
 ```kotlin
 @Serializable
@@ -389,7 +387,8 @@ inline class Color(val rgb: Int)
 ```
 
 > 这个功能需要新的 1.4.30 IR 编译器.
-{:.note}
+>
+{style="note"}
 
 当可序列化内联类被用在另一个可序列化类之内时, 序列化框架不会对可序列化内联类装箱.
 

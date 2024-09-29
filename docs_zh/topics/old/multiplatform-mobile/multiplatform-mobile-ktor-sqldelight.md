@@ -1,12 +1,6 @@
----
-type: doc
-layout: reference
-title: "教程 - 使用 Ktor 和 SQLDelight 创建跨平台应用程序"
----
+[//]: # (title: 教程 - 使用 Ktor 和 SQLDelight 创建跨平台应用程序)
 
-# 教程 - 使用 Ktor 和 SQLDelight 创建跨平台应用程序
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 This tutorial demonstrates how to use Android Studio to create a mobile application for iOS and Android using Kotlin
 Multiplatform Mobile with Ktor and SQLDelight.

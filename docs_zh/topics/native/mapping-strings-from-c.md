@@ -1,25 +1,19 @@
----
-type: doc
-layout: reference
-category:
-title: "教程 - 映射 C 语言的字符串"
----
+[//]: # (title: 教程 - 映射 C 语言的字符串)
 
-# 教程 - 映射 C 语言的字符串
+最终更新: %latestDocDate%
 
-最终更新: {{ site.data.releases.latestDocDate }}
-
-> C 库导入是 [实验性功能](../components-stability.html#stability-levels-explained).
+> C 库导入是 [实验性功能](components-stability.md#stability-levels-explained).
 > `cinterop` 工具从 C 库生成的所有 Kotlin 声明都应该标注 `@ExperimentalForeignApi` 注解.
 >
 > Kotlin/Native 自带的原生平台库 (例如 Foundation, UIKit, 和 POSIX),
 > 只对一部分 API 需要使用者明确同意(Opt-in). 对于这样的情况, 你会在 IDE 中看到警告信息.
-{:.warning}
+>
+{style="warning"}
 
 这是本系列的最后 1 篇教程.
-第 1 篇教程是 [映射 C 语言的基本数据类型](mapping-primitive-data-types-from-c.html).
-此外还有教程 [映射 C 语言的结构(Struct)和联合(Union)类型](mapping-struct-union-types-from-c.html)
-和教程 [映射 C 语言的函数指针(Function Pointer)](mapping-function-pointers-from-c.html).
+第 1 篇教程是 [映射 C 语言的基本数据类型](mapping-primitive-data-types-from-c.md).
+此外还有教程 [映射 C 语言的结构(Struct)和联合(Union)类型](mapping-struct-union-types-from-c.md)
+和教程 [映射 C 语言的函数指针(Function Pointer)](mapping-function-pointers-from-c.md).
 
 本教程中, 你会看到在 Kotlin/Native 中如何处理 C 字符串.
 你将学习如何:
@@ -48,18 +42,18 @@ char* return_string();
 int copy_string(char* str, int size);
 
 #endif
-```  
+```
 
 在这个示例中, 你可以看到 C 语言中传递或接收一个字符串的最常见方式. 
 注意 `return_string` 的返回值. 通常, 最好确保你使用了正确的 `free(..)` 函数调用来释放返回的 `char*`.
 
 Kotlin/Native 带有 `cinterop` 工具; 这个工具会生成 C 语言和 Kotlin 之间的绑定.
 它使用一个 `.def` 文件来指定一个要导入的 C 库.
-详情请参见教程 [与 C 库交互](native-c-interop.html).
+详情请参见教程 [与 C 库交互](native-c-interop.md).
 试验 C API 映射的最快方法是, 将所有 C 声明都写在 `interop.def` 文件中, 完全不需要创建任何 `.h` 或 `.c` 文件.
 然后将 C 声明放在一个 `interop.def` 文件中, 在专门的 `---` 分割行之后:
 
-```c 
+```c
 headers = lib.h
 ---
 
@@ -67,20 +61,19 @@ void pass_string(char* str) {
 }
 
 char* return_string() {
-  return "C string";
+    return "C string";
 }
 
 int copy_string(char* str, int size) {
-  *str++ = 'C';
-  *str++ = ' ';
-  *str++ = 'K';
-  *str++ = '/';
-  *str++ = 'N';
-  *str++ = 0;
-  return 0;
+    *str++ = 'C';
+    *str++ = ' ';
+    *str++ = 'K';
+    *str++ = '/';
+    *str++ = 'N';
+    *str++ = 0;
+    return 0;
 }
-
-``` 
+```
 
 这个 `interop.def` 文件已经足以编译和运行应用程序, 或在 IDE 中打开它.
 现在来创建项目文件, 在 [IntelliJ IDEA](https://jetbrains.com/idea)中打开项目, 并运行它.
@@ -90,25 +83,25 @@ int copy_string(char* str, int size) {
 尽管可以直接使用命令行, 或者通过脚本文件(比如 `.sh` 或 `.bat` 文件), 但这种方法不适合于包含几百个文件和库的大项目.
 更好的方法是使用带有构建系统的 Kotlin/Native 编译器,
 因为它会帮助你下载并缓存 Kotlin/Native 编译器二进制文件, 传递依赖的库, 并运行编译器和测试.
-Kotlin/Native 能够通过 [kotlin-multiplatform](../gradle/gradle-configure-project.html#targeting-multiple-platforms) plugin
+Kotlin/Native 能够通过 [kotlin-multiplatform](gradle-configure-project.md#targeting-multiple-platforms) plugin
 使用 [Gradle](https://gradle.org) 构建系统.
 
-关于如何使用 Gradle 设置 IDE 兼容的项目, 请参见教程 [一个基本的 Kotlin/Native 应用程序](native-gradle.html).
+关于如何使用 Gradle 设置 IDE 兼容的项目, 请参见教程 [一个基本的 Kotlin/Native 应用程序](native-gradle.md).
 如果你想要寻找具体的步骤指南, 来开始一个新的 Kotlin/Native 项目并在 IntelliJ IDEA 中打开它, 请先阅读这篇教程.
 在本教程中, 我们关注更高级的 C 交互功能, 包括使用 Kotlin/Native,
-以及使用 Gradle 的 [跨平台](../gradle/gradle-configure-project.html#targeting-multiple-platforms) 构建.
+以及使用 Gradle 的 [跨平台](gradle-configure-project.md#targeting-multiple-platforms) 构建.
 
 首先, 创建一个项目文件夹. 本教程中的所有路径都是基于这个文件夹的相对路径.
 有时在添加任何新文件之前, 会需要创建缺少的目录.
 
 使用以下 `build.gradle(.kts)` Gradle 构建文件:
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 plugins {
-    kotlin("multiplatform") version "{{ site.data.releases.latest.version }}"
+    kotlin("multiplatform") version "%kotlinVersion%"
 }
 
 repositories {
@@ -116,34 +109,31 @@ repositories {
 }
 
 kotlin {
-  linuxX64("native") { // 用于 Linux 环境
-  // macosX64("native") { // 用于 x86_64 macOS 环境
-  // macosArm64("native") { // 用于 Apple Silicon macOS 环境
-  // mingwX64("native") { // 用于 Windows 环境
-    val main by compilations.getting
-    val interop by main.cinterops.creating
-    
-    binaries {
-      executable()
+    linuxX64("native") { // 用于 Linux 环境
+    // macosX64("native") { // 用于 x86_64 macOS 环境
+    // macosArm64("native") { // 用于 Apple Silicon macOS 环境
+    // mingwX64("native") { // 用于 Windows 环境
+        val main by compilations.getting
+        val interop by main.cinterops.creating
+
+        binaries {
+            executable()
+        }
     }
-  }
 }
 
 tasks.wrapper {
-  gradleVersion = "{{ site.data.releases.gradleVersion }}"
-  distributionType = Wrapper.DistributionType.BIN
+    gradleVersion = "%gradleVersion%"
+    distributionType = Wrapper.DistributionType.BIN
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 plugins {
-    id 'org.jetbrains.kotlin.multiplatform' version '{{ site.data.releases.latest.version }}'
+    id 'org.jetbrains.kotlin.multiplatform' version '%kotlinVersion%'
 }
 
 repositories {
@@ -151,28 +141,28 @@ repositories {
 }
 
 kotlin {
-  linuxX64('native') { // 用于 Linux 环境
-  // macosX64("native") { // 用于 x86_64 macOS 环境
-  // macosArm64("native") { // 用于 Apple Silicon macOS 环境
-  // mingwX64('native') { // 用于 Windows 环境
-    compilations.main.cinterops {
-      interop 
+    linuxX64('native') { // 用于 Linux 环境
+    // macosX64("native") { // 用于 x86_64 macOS 环境
+    // macosArm64("native") { // 用于 Apple Silicon macOS 环境
+    // mingwX64('native') { // 用于 Windows 环境
+        compilations.main.cinterops {
+            interop
+        }
+
+        binaries {
+            executable()
+        }
     }
-    
-    binaries {
-      executable()
-    }
-  }
 }
 
 wrapper {
-  gradleVersion = '{{ site.data.releases.gradleVersion }}'
-  distributionType = 'BIN'
+    gradleVersion = '%gradleVersion%'
+    distributionType = 'BIN'
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 项目文件将 C interop 配置为构建的一个额外步骤.
 下面将 `interop.def` 文件移动到 `src/nativeInterop/cinterop` 目录.
@@ -180,7 +170,7 @@ Gradle 推荐使用符合约定习惯的文件布局, 而不是使用额外的�
 比如, 源代码文件应该放在 `src/nativeMain/kotlin` 文件夹中.
 默认情况下, 来自 C 的所有符号会被导入到 `interop` 包,
 你可能想要在我们的 `.kt` 文件中导入整个包.
-请查看 [Multiplatform Gradle DSL 参考文档](../multiplatform/multiplatform-dsl-reference.html),
+请查看 [Multiplatform Gradle DSL 参考文档](multiplatform-dsl-reference.md),
 学习它的各种配置方法.
 
 创建一个 `src/nativeMain/kotlin/hello.kt` 桩(stub)文件, 内容如下,
@@ -190,15 +180,15 @@ Gradle 推荐使用符合约定习惯的文件布局, 而不是使用额外的�
 import interop.*
 
 fun main() {
-  println("Hello Kotlin/Native!")
-  
-  pass_string(/*fix me*/)
-  val useMe = return_string()
-  val useMe2 = copy_string(/*fix me*/)
+    println("Hello Kotlin/Native!")
+
+    pass_string(/*fix me*/)
+    val useMe = return_string()
+    val useMe2 = copy_string(/*fix me*/)
 }
 ```
 
-现在你可以 [在 IntelliJ IDEA 中打开项目](native-get-started.html), 看看如何修正示例项目.
+现在你可以 [在 IntelliJ IDEA 中打开项目](native-get-started.md), 看看如何修正示例项目.
 在这个过程中, 我们来看看 C 字符串如何映射为 Kotlin/Native 声明.
 
 ## 字符串在 Kotlin 中的映射结果
@@ -219,33 +209,33 @@ Kotlin 将 `char` 类型转换为 `kotlin.Byte` 类型, 因为它通常是 8 bit
 在生成的 Kotlin 声明中, 你可以看到 `str` 表达为 `CValuesRef<ByteVar/>?`.
 这个类型是可为 null 的, 你可以直接传递 Kotlin 的 `null` 作为参数值. 
 
-## 将 Kotlin 字符串传递到 C
+## 将 Kotlin 字符串传递到 C {id="pass-kotlin-string-to-c"}
 
 下面来试验在 Kotlin 程序中使用 API. 首先调用 `pass_string`:
 
 ```kotlin
 fun passStringToC() {
-  val str = "this is a Kotlin String"
-  pass_string(str.cstr)
+    val str = "this is a Kotlin String"
+    pass_string(str.cstr)
 }
 ```
 
 向 C 传递一个 Kotlin 字符串是很简单的, 感谢 Kotlin 的
-`String.cstr` [扩展属性](../extensions.html#extension-properties) 的帮助.
+`String.cstr` [扩展属性](extensions.md#extension-properties) 的帮助.
 此外还有 `String.wcstr`, 需要 UTF-16 宽字符的情况可以使用.
 
-## 在 Kotlin 中读取 C 字符串
+## 在 Kotlin 中读取 C 字符串 {id="read-c-strings-in-kotlin"}
 
 下面来接收从 `return_string` 函数返回的一个 `char *`, 并将它转换为一个 Kotlin 字符串.
 在 Kotlin 中需要编写以下代码:
 
 ```kotlin
 fun passStringToC() {
-  val stringFromC = return_string()?.toKString()
-  
-  println("Returned from C: $stringFromC")
+    val stringFromC = return_string()?.toKString()
+
+    println("Returned from C: $stringFromC")
 }
-``` 
+```
 
 上面这段代码使用 `toKString()` 扩展函数. 请不要与 `toString()` 函数混淆.
 Kotlin 中 `toKString()` 有 2 个重载版本扩展函数:
@@ -258,7 +248,7 @@ fun CPointer<ShortVar>.toKString(): String
 第 1 个扩展函数接收一个 `char *`, 将它作为 UTF-8 字符串, 转换为 Kotlin 字符串.
 第 2 个扩展函数对 UTF-16 宽字符串执行同样的操作.
 
-## 在 Kotlin 接收 C 字符串的字节
+## 在 Kotlin 接收 C 字符串的字节 {id="receive-c-string-bytes-from-kotlin"}
 
 下面我们要求一个 C 函数向一个指定的缓冲区写入一个 C 字符串.
 函数名为 `copy_string`. 它接受一个指针参数, 表示字符写入的位置, 以及允许的缓冲区大小参数.
@@ -267,18 +257,17 @@ fun CPointer<ShortVar>.toKString(): String
 
 ```kotlin
 fun sendString() {
-  val buf = ByteArray(255)
-  buf.usePinned { pinned ->
-    if (copy_string(pinned.addressOf(0), buf.size - 1) != 0) {
-      throw Error("Failed to read string from C")
+    val buf = ByteArray(255)
+    buf.usePinned { pinned ->
+        if (copy_string(pinned.addressOf(0), buf.size - 1) != 0) {
+            throw Error("Failed to read string from C")
+        }
     }
-  }
 
-  val copiedStringFromC = buf.decodeToString()
-  println("Message from C: $copiedStringFromC")
+    val copiedStringFromC = buf.decodeToString()
+    println("Message from C: $copiedStringFromC")
 }
-
-``` 
+```
 
 首先, 你需要有一个 native 指针传递给 C 函数. 使用 `usePinned` 扩展函数, 临时固定住字节数组的 native 内存地址.
 C 函数向这个字节数组填充数据.
@@ -287,7 +276,7 @@ C 函数向这个字节数组填充数据.
 ## 修正代码
 
 你已经看到了所有的定义, 现在我们来修正代码.
-[在 IDE 中](native-get-started.html) 运行 `runDebugExecutableNative` Gradle task,
+[在 IDE 中](native-get-started.md) 运行 `runDebugExecutableNative` Gradle task,
 或使用以下命令来运行代码:
 
 ```bash
@@ -295,36 +284,35 @@ C 函数向这个字节数组填充数据.
 ```
 
 最终的 `hello.kt` 文件中的代码大致如下:
- 
+
 ```kotlin
 import interop.*
 import kotlinx.cinterop.*
 
 fun main() {
-  println("Hello Kotlin/Native!")
+    println("Hello Kotlin/Native!")
 
-  val str = "this is a Kotlin String"
-  pass_string(str.cstr)
+    val str = "this is a Kotlin String"
+    pass_string(str.cstr)
 
-  val useMe = return_string()?.toKString() ?: error("null pointer returned")
-  println(useMe)
+    val useMe = return_string()?.toKString() ?: error("null pointer returned")
+    println(useMe)
 
-  val copyFromC = ByteArray(255).usePinned { pinned ->
+    val copyFromC = ByteArray(255).usePinned { pinned ->
+        val useMe2 = copy_string(pinned.addressOf(0), pinned.get().size - 1)
+        if (useMe2 != 0) throw Error("Failed to read string from C")
+        pinned.get().decodeToString()
+    }
 
-    val useMe2 = copy_string(pinned.addressOf(0), pinned.get().size - 1)
-    if (useMe2 != 0) throw Error("Failed to read string from C")
-    pinned.get().decodeToString()
-  }
-
-  println(copyFromC)
+    println(copyFromC)
 }
 ```
 
 ## 下一步
 
 阅读以下教程, 继续探索更多 C 语言数据类型, 以及它们在 Kotlin/Native 中的表达:
-- [映射 C 语言的基本数据类型](mapping-primitive-data-types-from-c.html)
-- [映射 C 语言的结构(Struct)和联合(Union)类型](mapping-struct-union-types-from-c.html)
-- [映射 C 语言的函数指针(Function Pointer)](mapping-function-pointers-from-c.html)
+- [映射 C 语言的基本数据类型](mapping-primitive-data-types-from-c.md)
+- [映射 C 语言的结构(Struct)和联合(Union)类型](mapping-struct-union-types-from-c.md)
+- [映射 C 语言的函数指针(Function Pointer)](mapping-function-pointers-from-c.md)
 
-[与 C 代码交互](native-c-interop.html) 文档还讲解了更多的高级使用场景.
+[与 C 代码交互](native-c-interop.md) 文档还讲解了更多的高级使用场景.

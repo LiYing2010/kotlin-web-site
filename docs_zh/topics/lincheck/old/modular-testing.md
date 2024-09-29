@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category: "Lincheck"
-title: "模块化测试"
----
+[//]: # (title: 模块化测试)
 
-# 模块化测试
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 在构建新的算法时, 经常会使用现有的数据结构作为底层工具.
 由于这些数据结构通常比较复杂, 因此发生冲突的可能性会显著的增加.
@@ -90,7 +83,8 @@ class MultiMapTest {
 ```
 
 > [请在这里查看完整代码](https://github.com/Kotlin/kotlinx-lincheck/blob/guide/src/jvm/test/org/jetbrains/kotlinx/lincheck/test/guide/MultiMapTest.kt).
-{:.note}
+>
+{style="note"}
 
 ## 下一步
 

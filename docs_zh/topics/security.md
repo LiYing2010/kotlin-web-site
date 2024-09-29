@@ -1,17 +1,10 @@
----
-type: doc
-layout: reference
-category:
-title: "安全性"
----
+[//]: # (title: 安全性)
 
-# 安全性
+最终更新: %latestDocDate%
 
-最终更新: {{ site.data.releases.latestDocDate }}
+我们尽力保证我们的产品不存在安全性漏洞. 为了减少发生安全性漏洞的风险, 请遵守以下原则:
 
-我们尽力保证我们的产品不存在安全性漏洞. 为了减少发生安全性漏洞的风险, 请遵守以下原则: 
-
-* 总是使用 Kotlin 的最新发布版. 为了安全性目的, 我们将发布版公布到 [Maven Central](https://central.sonatype.com/search?q=g:org.jetbrains.kotlin), 
+* 总是使用 Kotlin 的最新发布版. 为了安全性目的, 我们将发布版公布到 [Maven Central](https://central.sonatype.com/search?q=g:org.jetbrains.kotlin),
 使用以下 PGP key:
 
   * Key ID: **kt-a@jetbrains.com**

@@ -1,13 +1,6 @@
----
-type: doc
-layout: reference
-category:
-title: "为 Kotlin 项目贡献代码"
----
+[//]: # (title: 为 Kotlin 项目贡献代码)
 
-# 为 Kotlin 项目贡献代码
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 Kotlin 是一个开源项目, 使用 [Apache 2.0 许可协议](https://github.com/JetBrains/kotlin/blob/master/license/LICENSE.txt).
 源代码, 工具, 文档, 已经本网站, 都在 [GitHub](https://github.com/jetbrains/kotlin) 维护.
@@ -15,7 +8,7 @@ Kotlin 是一个开源项目, 使用 [Apache 2.0 许可协议](https://github.co
 
 ## 参加早期预览(Early Access Preview)项目
 
-你可以 [参加 Kotlin 早期预览(Early Access Preview, EAP) 项目](eap.html), 并想我们提供宝贵的反馈意见, 帮助我们改进 Kotlin.
+你可以 [参加 Kotlin 早期预览(Early Access Preview, EAP) 项目](eap.md), 并想我们提供宝贵的反馈意见, 帮助我们改进 Kotlin.
  
 对每一个正式发布版, Kotlin 都会发布几个预览版, 你可以在最新功能正式发布之前进行试用. 你可以向我们的问题追踪系统 [YouTrack](https://kotl.in/issue) 报告你发现的 bug, 我们会尝试在最终发布之前修复这些 bug. 通过这种方式, 你报告的 bug 可以比通常的 Kotlin 发布周期更快修复.
 

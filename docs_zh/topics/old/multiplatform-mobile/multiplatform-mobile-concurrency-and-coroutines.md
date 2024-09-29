@@ -1,16 +1,11 @@
----
-type: doc
-layout: reference
-title: "并发(Concurrency)与协程(Coroutine)"
----
+[//]: # (title: 并发(Concurrency)与协程(Coroutine))
 
-# 并发(Concurrency)与协程(Coroutine)
-
-最终更新: {{ site.data.releases.latestDocDate }}
+最终更新: %latestDocDate%
 
 > 本章描述的是旧的内存管理器的功能特性.
 > 从 Kotlin 1.7.20 开始会默认启用新的内存管理器, 详情请参见 [Kotlin/Native 内存管理](../native/native-memory-manager.html).
-{:.note}
+>
+{style="note"}
 
 在移动平台上工作时, 你可能需要编写同时运行的多线程代码.
 为了这个目的, 你可以使用 [标准的](#coroutines) `kotlinx.coroutines` 库, 或它的 [多线程版本](#multithreaded-coroutines),
@@ -222,7 +217,8 @@ implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:{{ site.data.relea
 
 > 使用多线程协程可能导致 _内存泄露_. 对于高负载的复杂协程场景, 这可能会成为问题.
 > 我们正在解决这个问题.
-{:.note}
+>
+{style="note"}
 
 参见 [在 Kotlin Multiplatform 应用程序中使用多线程协程的完整示例](https://github.com/touchlab/KaMPKit).
 
