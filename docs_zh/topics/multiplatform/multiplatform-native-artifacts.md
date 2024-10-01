@@ -2,14 +2,14 @@
 
 最终更新: %latestDocDate%
 
-> 本章介绍的新 DSL 是 [实验性功能](../components-stability.html). 它随时有可能变更.
+> 本章介绍的新 DSL 是 [实验性功能](components-stability.md). 它随时有可能变更.
 > 我们建议你只为评估和试验目的来使用这个功能.
 >
-> 如果你无法使用新 DSL, 请参见构建原生二进制文件的 [前一种方案](multiplatform-build-native-binaries.html).
+> 如果你无法使用新 DSL, 请参见构建原生二进制文件的 [前一种方案](multiplatform-build-native-binaries.md).
 >
 {style="warning"}
 
-[Kotlin/Native 编译目标](multiplatform-dsl-reference.html#native-targets) 会被编译为 `*.klib` 库的 Artifact,
+[Kotlin/Native 编译目标](multiplatform-dsl-reference.md#native-targets) 会被编译为 `*.klib` 库的 Artifact,
 这些库 Artifact 可以被 Kotlin/Native 本身用作依赖项, 但不能用作原生库.
 
 要声明最终的原生二进制文件, 请通过 `kotlinArtifacts` DSL, 使用新的二进制文件格式.
@@ -29,13 +29,13 @@ Kotlin Artifact DSL 可以帮助你解决一个常见问题: 你需要从你的 
 `kotlinArtifacts` 元素是 Gradle 构建脚本中用于 Artifact 配置的顶层代码块.
 请使用以下二进制文件类型来声明 `kotlinArtifacts` DSL 的元素:
 
-| 工厂方法           | 二进制文件类型                                                                                | 可用于                                     |
-|----------------|----------------------------------------------------------------------------------------|-----------------------------------------|
-| `sharedLib`    | [共享的原生库](../native/native-faq.html#how-do-i-create-a-shared-library)                   | 所有的原生编译目标, `WebAssembly` 除外             |
-| `staticLib`    | [静态的原生库](../native/native-faq.html#how-do-i-create-a-static-library-or-an-object-file) | 所有的原生编译目标, `WebAssembly` 除外             |
-| `framework`    | Objective-C 框架                                                                         | 只能用于 macOS, iOS, watchOS, 和 tvOS 编译目标   |
-| `fatFramework` | Universal fat 框架                                                                | 只能用于 macOS, iOS, watchOS, 和 tvOS 编译目标 |
-| `XCFramework`  | XCFramework 框架                                                                  | 只能用于 macOS, iOS, watchOS, 和 tvOS 编译目标 |
+| 工厂方法           | 二进制文件类型                                                                   | 可用于                                     |
+|----------------|---------------------------------------------------------------------------|-----------------------------------------|
+| `sharedLib`    | [共享的原生库](native-faq.md#how-do-i-create-a-shared-library)                  | 所有的原生编译目标, `WebAssembly` 除外             |
+| `staticLib`    | [静态的原生库](native-faq.md#how-do-i-create-a-static-library-or-an-object-file) | 所有的原生编译目标, `WebAssembly` 除外             |
+| `framework`    | Objective-C 框架                                                            | 只能用于 macOS, iOS, watchOS, 和 tvOS 编译目标   |
+| `fatFramework` | Universal fat 框架                                                          | 只能用于 macOS, iOS, watchOS, 和 tvOS 编译目标 |
+| `XCFramework`  | XCFramework 框架                                                            | 只能用于 macOS, iOS, watchOS, 和 tvOS 编译目标 |
 
 在 `kotlinArtifacts` 元素内, 你可以编写以下代码块:
 
@@ -53,8 +53,8 @@ Kotlin Artifact DSL 可以帮助你解决一个常见问题: 你需要从你的 
 在 `modes` 参数中, 你可以指定你想要为哪个构建类型创建二进制文件.
 默认值包括 `DEBUG` 和 `RELEASE` 的可执行二进制文件:
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlinArtifacts {
@@ -66,11 +66,8 @@ kotlinArtifacts {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 kotlinArtifacts {
@@ -82,13 +79,13 @@ kotlinArtifacts {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 你也可以使用自定义的名称来声明二进制文件 :
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlinArtifacts {
@@ -98,11 +95,8 @@ kotlinArtifacts {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 kotlinArtifacts {
@@ -112,8 +106,8 @@ kotlinArtifacts {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 这里的参数是名称前缀, 用作二进制文件的默认名称.
 例如, 对于 Windows, 上面的代码会 `mylib.dll` 文件.
@@ -122,29 +116,29 @@ kotlinArtifacts {
 
 对于二进制文件配置, 可以使用以下共通参数:
 
-| **名称**          | **说明**                                                                   |
-|-----------------|--------------------------------------------------------------------------|
-| `isStatic`      | 可选项, 定义库类型的链接类型. 默认值为 `false`, 库为动态库.                                    |
-| `modes`         | 可选项, 构建类型, 可指定的值是 `DEBUG` 和 `RELEASE`.                                   |
-| `kotlinOptions` | 可选项, 编译时使用的编译器选项. 参见可用的 [编译器选项](../gradle/gradle-compiler-options.html). |
-| `addModule`     | 除当前模块外, 你还可以向输出的 Artifact 添加其他模块.                                        |
-| `setModules`    | 你可以覆盖添加到输出的 Artifact 的模块列表. |
+| **名称**          | **说明**                                                       |
+|-----------------|--------------------------------------------------------------|
+| `isStatic`      | 可选项, 定义库类型的链接类型. 默认值为 `false`, 库为动态库.                        |
+| `modes`         | 可选项, 构建类型, 可指定的值是 `DEBUG` 和 `RELEASE`.                       |
+| `kotlinOptions` | 可选项, 编译时使用的编译器选项. 参见可用的 [编译器选项](gradle-compiler-options.md). |
+| `addModule`     | 除当前模块外, 你还可以向输出的 Artifact 添加其他模块.                            |
+| `setModules`    | 你可以覆盖添加到输出的 Artifact 的模块列表.                                  |
 
 ### 库和框架
 
 构建 Objective-C 框架或(共享的或静态的)原生库时, 你可能不仅当前项目中的类,
 而且还需要将其他跨平台模块中的类也打包到单个库中, 并且将所有的模块都导出到这个库.
 
-#### 库
+#### 库 {id="library"}
 
 对于库的配置, 除共通参数外, 还可以使用 `target` 参数:
 
-| **名称**        | **说明**                                                                          |
-|-----------------|---------------------------------------------------------------------------------|
-| `target`        | 指定项目的一个特定的编译目标. 可用的编译目标名称请参见 [编译目标](multiplatform-dsl-reference.html#targets) 小节. |
+| **名称**   | **说明**                                                                          |
+|----------|---------------------------------------------------------------------------------|
+| `target` | 指定项目的一个特定的编译目标. 可用的编译目标名称请参见 [编译目标](multiplatform-dsl-reference.md#targets) 小节. |
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlinArtifacts {
@@ -161,11 +155,8 @@ kotlinArtifacts {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 kotlinArtifacts {
@@ -182,22 +173,22 @@ kotlinArtifacts {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 以上代码注册的 Gradle 任务是 `assembleMyslibSharedLibrary`, 它会将所有已注册的 "myslib" 类型汇集到一个动态库.
 
-#### 框架
+#### 框架 {id="framework"}
 
 对于框架的配置, 除共通参数外, 还可以使用以下参数:
 
-| **名称**         | **说明**                                                                                        |
-|----------------|-----------------------------------------------------------------------------------------------|
-| `target`       | 指定项目的一个特定的编译目标. 可用的编译目标名称请参见 [编译目标](multiplatform-dsl-reference.html#targets) 小节.             |
+| **名称**         | **说明**                                                                                                |
+|----------------|-------------------------------------------------------------------------------------------------------|
+| `target`       | 指定项目的一个特定的编译目标. 可用的编译目标名称请参见 [编译目标](multiplatform-dsl-reference.md#targets) 小节.                       |
 | `embedBitcode` | 指定字节码的内嵌模式. 可以指定 `MARKER` 来内嵌字节码标记(用于 debug 构建), 或指定 `DISABLE` 来关闭字节码内嵌. 对于 Xcode 14 或更高版本, 不需要字节码内嵌. |
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlinArtifacts {
@@ -213,11 +204,8 @@ kotlinArtifacts {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 kotlinArtifacts {
@@ -233,17 +221,17 @@ kotlinArtifacts {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 以上代码注册的 Gradle 任务是 `assembleMyframeFramework`, 它会汇集所有已注册的 "myframe" 框架类型.
 
-> 如果你因为某些原因无法使用新 DSL, 请试用 [前一种方案](multiplatform-build-native-binaries.html#export-dependencies-to-binaries)
+> 如果你因为某些原因无法使用新 DSL, 请试用 [前一种方案](multiplatform-build-native-binaries.md#export-dependencies-to-binaries)
 > 来将依赖项导出到二进制文件.
 >
 {style="tip"}
 
-### Fat 框架
+### Fat 框架 {id="fat-frameworks"}
 
 默认情况下, 由 Kotlin/Native 生成的 Objective-C 框架只支持一个平台.
 但是, 你可以将这样的框架合并为单个通用(fat)二进制文件.
@@ -257,8 +245,8 @@ kotlinArtifacts {
 | `targets`      | 指定项目的所有编译目标.                                                                                                                                        |
 | `embedBitcode` | 指定字节码的内嵌模式. 可以指定 `MARKER` 来内嵌字节码标记(用于 debug 构建), 或指定 `DISABLE` 来关闭字节码内嵌. 对于 Xcode 14 或更高版本, 不需要字节码内嵌. |
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlinArtifacts {
@@ -272,11 +260,8 @@ kotlinArtifacts {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 kotlinArtifacts {
@@ -290,17 +275,17 @@ kotlinArtifacts {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 以上代码注册的 Gradle 任务是 `assembleMyfatframeFatFramework`, 它会汇集所有已注册的 "myfatframe" fat 框架类型.
 
-> 如果你因为某些原因无法使用新 DSL, 请试用 [前一种方案](multiplatform-build-native-binaries.html#build-universal-frameworks)
+> 如果你因为某些原因无法使用新 DSL, 请试用 [前一种方案](multiplatform-build-native-binaries.md#build-universal-frameworks)
 > 来构建 fat 框架.
 >
 {style="tip"}
 
-### XCFramework
+### XCFramework {id="xcframeworks"}
 
 所有的 Kotlin Multiplatform 项目都可以使用 XCFramework 作为输出, 将所有目标平台和架构的逻辑集合到单个 bundle 中.
 与 [通用(fat)框架](#fat-frameworks) 不同, 在将应用程序发布到 App Store 之前, 你不需要删除所有不需要的架构.
@@ -312,8 +297,8 @@ kotlinArtifacts {
 | `targets`      | 指定项目的所有编译目标.                                                                                                                                                                 |
 | `embedBitcode` | 指定字节码的内嵌模式. 可以指定 `MARKER` 来内嵌字节码标记 (用于 debug 构建), 或指定 `DISABLE` 来关闭字节码内嵌. 对于 Xcode 14 或更高版本, 不需要字节码内嵌. |
 
-<div class="multi-language-sample" data-lang="kotlin">
-<div class="sample" markdown="1" mode="kotlin" theme="idea" data-lang="kotlin" data-highlight-only>
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlinArtifacts {
@@ -327,11 +312,8 @@ kotlinArtifacts {
 }
 ```
 
-</div>
-</div>
-
-<div class="multi-language-sample" data-lang="groovy">
-<div class="sample" markdown="1" mode="groovy" theme="idea" data-lang="groovy">
+</tab>
+<tab title="Groovy" group-key="groovy">
 
 ```groovy
 kotlinArtifacts {
@@ -345,12 +327,12 @@ kotlinArtifacts {
 }
 ```
 
-</div>
-</div>
+</tab>
+</tabs>
 
 以上代码注册的 Gradle 任务是 `assembleSdkXCFramework`, 它会汇集所有已注册的 "sdk" XCFramework 类型.
 
-> 如果你因为某些原因无法使用新 DSL, 请试用 [前一种方案](multiplatform-build-native-binaries.html#build-xcframeworks)
+> 如果你因为某些原因无法使用新 DSL, 请试用 [前一种方案](multiplatform-build-native-binaries.md#build-xcframeworks)
 > 来构建 XCFramework.
 >
 {style="tip"}

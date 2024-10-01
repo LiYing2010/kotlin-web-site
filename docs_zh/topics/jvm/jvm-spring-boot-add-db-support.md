@@ -215,7 +215,7 @@ class MessageService(val db: JdbcTemplate) {
 1. 运行应用程序. 应用程序启动之后, 你可以执行 POST 请求来向数据库存储消息.
    在 `src/main/resources` 文件夹中创建 `requests.http` 文件, 并添加以下 HTTP 请求:
 
-   ```http_request
+   ```http request
    ### Post "Hello!"
    POST http://localhost:8080/
    Content-Type: application/json
@@ -418,7 +418,7 @@ Spring 应用程序已经可以运行了:
 
 2. 打开 `requests.http` 文件, 添加新的 GET 请求:
 
-    ```http_request
+    ```http request
     ### 根据 id 得到 message
     GET http://localhost:8080/id
     ```
@@ -427,7 +427,7 @@ Spring 应用程序已经可以运行了:
 
 4. 在 **Run** 工具窗口, 复制某个 message 的 id, 并添加到请求中, 例如:
 
-    ```http_request
+    ```http request
     ### 根据 id 得到 message
     GET http://localhost:8080/f16c1d2e-08dc-455c-abfe-68440229b84f
     ```

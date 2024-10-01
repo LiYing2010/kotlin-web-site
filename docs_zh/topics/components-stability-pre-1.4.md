@@ -5,7 +5,7 @@
 根据组件演进速度的不同, 可能存在几种不同的稳定性模式:
 <a name="moving-fast"></a>
 *   **快速变化 (Moving fast, MF)**:
-    即使在 [增量发布](kotlin-evolution.html#feature-releases-and-incremental-releases) 之间也不保证任何兼容性,
+    即使在 [增量发布](kotlin-evolution.md#feature-releases-and-incremental-releases) 之间也不保证任何兼容性,
     可能在没有警告的情况下增加, 删除, 或改变任何功能.
 
 *   **包括新功能的增量发布 (Additions in Incremental Releases, AIR)**:

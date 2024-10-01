@@ -14,17 +14,17 @@ Kotlin/Wasm 允许你在 Kotlin 中使用 JavaScript 代码, 也允许你在 Jav
 >
 {style="note"}
 
-## 在 Kotlin 中使用 JavaScript 代码
+## 在 Kotlin 中使用 JavaScript 代码 {id="use-javascript-code-in-kotlin"}
 
 本节介绍如何在 Kotlin 中使用 JavaScript 代码,
 方法是使用 `external` 声明, 带 JavaScript 代码块的函数, 以及 `@JsModule` 注解.
 
-### 外部声明
+### 外部声明 {id="external-declarations"}
 
 在 Kotlin 中默认无法使用外部的 JavaScript 代码.
 要在 Kotlin 中使用 JavaScript 代码, 你可以使用 `external` 声明来描述它的 API.
 
-#### JavaScript 函数
+#### JavaScript 函数 {id="javascript-functions"}
 
 对于这个 JavaScript 函数:
 
@@ -48,7 +48,7 @@ fun main() {
 }
 ```
 
-#### JavaScript 属性
+#### JavaScript 属性 {id="javascript-properties"}
 
 对于这个 JavaScript 全局变量:
 
@@ -64,7 +64,7 @@ external var globalCounter: Int
 
 这些属性会在外部初始化. 在 Kotlin 代码中, 属性不能带有 `= value` 这样的初始化代码.
 
-#### JavaScript 类
+#### JavaScript 类 {id="javascript-classes"}
 
 对于这个 JavaScript 类:
 
@@ -93,7 +93,7 @@ external class Rectangle(height: Double, width: Double) : JsAny {
 
 在 `external` 类之内的所有声明都会隐含的被认为是外部声明.
 
-#### 外部接口
+#### 外部接口 {id="external-interfaces"}
 
 你可以在 Kotlin 中描述 JavaScript 对象的行为.
 对于这个 JavaScript 函数和它的返回值:
@@ -122,7 +122,7 @@ external fun createUser(name: String, age: Int): User
 * 你不能将外部接口用做实体化的类型参数(Reified type parameter).
 * 使用 `as` 操作符, 将一个对象类型转换为外部接口时, 永远会成功.
 
-#### 外部对象
+#### 外部对象 {id="external-objects"}
 
 对于这些保存在对象中的 JavaScript 变量:
 
@@ -146,12 +146,12 @@ external object Counter : JsAny {
 }
 ```
 
-#### 外部的类型层次结构
+#### 外部的类型层次结构 {id="external-type-hierarchy"}
 
 与通常的类和接口相似, 你可以让外部声明扩展其他的外部类, 实现外部接口.
 但是, 你不能在同一个类型层次结构中混合使用外部声明和非外部声明.
 
-### 带有 JavaScript 代码的 Kotlin 函数
+### 带有 JavaScript 代码的 Kotlin 函数 {id="kotlin-functions-with-javascript-code"}
 
 你可以定义一个函数, 函数体为 `= js("code")` 形式, 这样就可以将 JavaScript 代码段添加到 Kotlin/Wasm 代码中:
 
@@ -230,7 +230,7 @@ external class User : JsAny {
 
 本节介绍在 JavaScript 中如何使用你的 Kotlin 代码, 方法是使用 `@JsExport` 注解.
 
-### 带 @JsExport 注解的函数
+### 带 @JsExport 注解的函数 {id="functions-with-the-jsexport-annotation"}
 
 要让一个 Kotlin/Wasm 函数可以被 JavaScript 代码使用, 请添加 `@JsExport` 注解:
 
@@ -274,7 +274,7 @@ exports.addOne(10)
 
 你也可以使用这些类型的可为 null 的版本.
 
-### JsAny 类型
+### JsAny 类型 {id="jsany-type"}
 
 JavaScript 值在 Kotlin 中使用 `JsAny` 类型和它的子类型来表示.
 
@@ -292,7 +292,7 @@ JavaScript 值在 Kotlin 中使用 `JsAny` 类型和它的子类型来表示.
 
 你也可以声明一个 `external` 接口或类, 创建自定义的 `JsAny` 子类型.
 
-### JsReference 类型
+### JsReference 类型 {id="jsreference-type"}
 
 使用 `JsReference` 类型, Kotlin 值可以作为不透明引用(Opaque Reference)传递给 JavaScript.
 
@@ -330,7 +330,7 @@ let user = UserLib.createUser("Bob");
 UserLib.setUserName(user, "Alice");
 ```
 
-### 类型参数
+### 类型参数 {id="type-parameters"}
 
 与 JavaScript 互操作的声明, 可以拥有类型参数, 类型参数的上界(Upper Bound)是 `JsAny` 或它的子类型.
 例如:
@@ -339,14 +339,14 @@ UserLib.setUserName(user, "Alice");
 external fun <T : JsAny> processData(data: JsArray<T>): T
 ```
 
-## 异常处理
+## 异常处理 {id="exception-handling"}
 
 Kotlin 的 `try-catch` 表达式不能捕获 JavaScript 的异常.
 
 如果你使用 JavaScript 的 `try-catch` 表达式来捕获 Kotlin/Wasm 的异常,
 那么捕获的异常会象是一个普通的 `WebAssembly.Exception`, 没有可以直接访问的错误消息和数据.
 
-## Kotlin/Wasm 互操作功能与 Kotlin/JS 互操作功能的区别
+## Kotlin/Wasm 互操作功能与 Kotlin/JS 互操作功能的区别 {id="kotlin-wasm-and-kotlin-js-interoperability-differences"}
 
 尽管 Kotlin/Wasm 互操作功能与 Kotlin/JS 互操作功能很类似, 但它们还是存在一些关键的差异需要注意:
 

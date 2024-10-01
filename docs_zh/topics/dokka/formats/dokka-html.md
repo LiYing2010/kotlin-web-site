@@ -169,14 +169,14 @@ java -jar dokka-cli-%dokkaVersion%.jar \
 
 下表包括所有可以使用的配置选项, 以及它们的用途.
 
-| **选项**                                  | **描述**                                                                                                                                         |
-|-----------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------|
-| `customAssets`                          | 要与文档绑定到一起的图片资源的路径列表. 图片资源可以使用任意的文件扩展名. 更多详情请参见 [自定义资源](#customize-assets).                                                                     |
-| `customStyleSheets`                     | 要与文档绑定到一起并在显示时使用的 `.css` 样式表的路径列表. 更多详情请参见 [自定义样式表](#customize-styles).                                                                        |
-| `templatesDir`                          | 包含自定义 HTML 模板的目录路径. 更多详情请参见 [模板](#templates).                                                                                                  |
-| `footerMessage`                         | 在页脚显示的文字.                                                                                                                                      |
-| `separateInheritedMembers`              | 这是一个 boolean 选项. 如果设置为 `true`, Dokka 会将属性/函数与继承的属性/继承的函数分开显示. 这个设置默认关闭.                                                                        |
-| `mergeImplicitExpectActualDeclarations` | 这是一个 boolean 选项. 如果设置为 `true`, Dokka 合并那些没有声明为 [expect/actual](multiplatform-connect-to-apis.md) 的声明, 但使用相同的完整限定名称. 这个设置对旧的代码库可能很有用. 这个设置默认关闭. |
+| **选项**                                  | **描述**                                                                                                                                                                                                   |
+|-----------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `customAssets`                          | 要与文档绑定到一起的图片资源的路径列表. 图片资源可以使用任意的文件扩展名. 更多详情请参见 [自定义资源](#customize-assets).                                                                                                                               |
+| `customStyleSheets`                     | 要与文档绑定到一起并在显示时使用的 `.css` 样式表的路径列表. 更多详情请参见 [自定义样式表](#customize-styles).                                                                                                                                  |
+| `templatesDir`                          | 包含自定义 HTML 模板的目录路径. 更多详情请参见 [模板](#templates).                                                                                                                                                            |
+| `footerMessage`                         | 在页脚显示的文字.                                                                                                                                                                                                |
+| `separateInheritedMembers`              | 这是一个 boolean 选项. 如果设置为 `true`, Dokka 会将属性/函数与继承的属性/继承的函数分开显示. 这个设置默认关闭.                                                                                                                                  |
+| `mergeImplicitExpectActualDeclarations` | 这是一个 boolean 选项. 如果设置为 `true`, Dokka 合并那些没有声明为 [expect/actual](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-connect-to-apis.html) 的声明, 但使用相同的完整限定名称. 这个设置对旧的代码库可能很有用. 这个设置默认关闭. |
 
 关于 Dokka plugin 配置的更多详情, 请参见 [配置 Dokka plugins](dokka-plugins.md#configure-dokka-plugins).
 

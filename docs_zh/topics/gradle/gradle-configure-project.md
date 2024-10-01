@@ -271,7 +271,7 @@ Java 工具链会:
   如果用户没有配置工具链, 那么 `jvmTarget` 会使用默认值.
   详情请参见 [JVM 编译目标兼容性](#check-for-jvm-target-compatibility-of-related-compile-tasks).
 * 设置由任何 Java compile, test 和 javadoc 任务使用的工具链.
-* 影响 [`kapt` 任务执行器](../kapt.html##run-kapt-tasks-in-parallel) 使用哪个 JDK.
+* 影响 [`kapt` 任务执行器](kapt.md#run-kapt-tasks-in-parallel) 使用哪个 JDK.
 
 可以使用以下代码来设置工具链. 请将占位符 `<MAJOR_JDK_VERSION>` 替换为你想要使用的 JDK 版本:
 
