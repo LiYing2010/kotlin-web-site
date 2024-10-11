@@ -169,11 +169,11 @@ class DontCreateMe private constructor() { /*...*/ }
 > class Customer(val customerName: String = "")
 > ```
 >
-{type="note"}
+{style="note"}
 
 ## Creating instances of classes
 
-To create an instance of a class, call the constructor as if it were a regular function:
+To create an instance of a class, call the constructor as if it were a regular function. You can assign the created instance to a [variable](basic-syntax.md#variables):
 
 ```kotlin
 val invoice = Invoice()
@@ -183,7 +183,7 @@ val customer = Customer("Joe Smith")
 
 > Kotlin does not have a `new` keyword.
 >
-{type="note"}
+{style="note"}
 
 The process of creating instances of nested, inner, and anonymous inner classes is described in [Nested classes](nested-classes.md).
 

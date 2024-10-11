@@ -5,6 +5,13 @@ import jetbrains.buildServer.configs.kotlin.BuildType
 import jetbrains.buildServer.configs.kotlin.*
 import jetbrains.buildServer.configs.kotlin.buildSteps.ScriptBuildStep
 import jetbrains.buildServer.configs.kotlin.buildSteps.script
+import java.io.File
+import java.nio.file.Paths
+
+private fun readScript(name: String): String {
+    val file = File(Paths.get("scripts/$name.mjs").toAbsolutePath().toString())
+    return file.readText()
+}
 
 object BuildReferenceDocs : BuildType({
   name = "Reference Docs"
@@ -18,7 +25,7 @@ object BuildReferenceDocs : BuildType({
   """.trimIndent()
 
   params {
-    param("WEBHELP_FRONTEND_VERSION", "6.4.0")
+    param("WEBHELP_FRONTEND_VERSION", "6.11.0-footer")
     param("WH_DOCS_PATH_REGEX", "docs")
     param("WH_PROJECT_NAME", "kotlin-reference")
   }

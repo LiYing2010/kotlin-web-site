@@ -1,57 +1,5 @@
 url: https://github.com/JetBrains/kotlin/releases
 
 latest:
-  version: 1.9.23
-  url: https://github.com/JetBrains/kotlin/releases/tag/v1.9.23
-  date: 2024/03/07
-
-  serialization:
-    version: 1.6.0
-
-  coroutines:
-    version: 1.7.3
-
-latestDocDate: 2024/03/21
-
-kotlinEapVersion: 2.0.0-Beta5
-kotlinEapReleaseDate: 2024/03/20
-
-coroutinesEapVersion: 1.7.3
-
-minGradleVersion: 6.8.3
-maxGradleVersion: 8.1.1
-minAndroidGradleVersion: 4.2.2
-maxAndroidGradleVersion: 7.4.0
-gradleVersion: 8.1.1
-
-gradleLanguageVersion: KOTLIN_2_0
-gradleApiVersion: KOTLIN_2_0
-
-defaultJvmTargetVersion: 1.8
-
-jvmLTSVersionSupportedByKotlin: 17
-
-webpackMajorVersion: 5
-webpackPreviousMajorVersion: 4
-
-sqlDelightVersion: 2.0.0
-
-kspSupportedKotlinVersion: 1.9.21
-kspVersion: 1.0.15
-
-ktorVersion: 2.3.5
-
-dateTimeVersion: 0.4.0
-
-foojayResolver: 0.5.0
-
-lincheckVersion: 2.28
-jctoolsVersion: 3.3.0
-
-lombokVersion: 1.18.22
-
-kotlinPluginVersion: 2022.2
-kotlinPreviousPluginVersion: 2022.1
-
-
-dokkaVersion: 1.9.20
+  version: 2.0.21
+  url: https://github.com/JetBrains/kotlin/releases/tag/v2.0.21

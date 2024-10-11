@@ -15,7 +15,7 @@ The Kotlin 1.8.20 release is out and here are some of its biggest highlights:
 
 You can also find a short overview of the changes in this video:
 
-<video href="R1JpkpPzyBU" title="What's new in Kotlin 1.8.20"/>
+<video src="https://www.youtube.com/v/R1JpkpPzyBU" title="What's new in Kotlin 1.8.20"/>
 
 ## IDE support
 
@@ -29,7 +29,7 @@ The Kotlin plugins that support 1.8.20 are available for:
 > To download Kotlin artifacts and dependencies properly, [configure Gradle settings](#configure-gradle-settings)
 > to use the Maven Central repository.
 >
-{type="warning"}
+{style="warning"}
 
 ## New Kotlin K2 compiler updates
 
@@ -74,7 +74,7 @@ The previous `-Xuse-k2` compiler option has been deprecated.
 > The Alpha version of the new K2 compiler only works with JVM and JS IR projects.
 > It doesn't support Kotlin/Native or any of the multiplatform projects yet.
 >
-{type="warning"}
+{style="warning"}
 
 ### Leave your feedback on the new K2 compiler
 
@@ -102,7 +102,7 @@ As Kotlin continues to evolve, we're introducing preview versions for new langua
 > It may be dropped or changed at any time. Opt-in is required (see details below). Use it only for evaluation purposes.
 > We would appreciate your feedback on it in [YouTrack](https://kotl.in/issue).
 >
-{type="warning"}
+{style="warning"}
 
 Enum classes have a synthetic `values()` function, which returns an array of defined enum constants. However, using an
 array can lead to [hidden performance issues](https://github.com/Kotlin/KEEP/blob/master/proposals/enum-entries.md#examples-of-performance-issues)
@@ -113,15 +113,14 @@ function. When called, the `entries` property returns a pre-allocated immutable 
 > The `values()` function is still supported, but we recommend that you use the `entries` property
 > instead.
 >
-{type="tip"}
+{style="tip"}
 
 ```kotlin
 enum class Color(val colorName: String, val rgb: String) {
-   RED("Red", "#FF0000"),
-   ORANGE("Orange", "#FF7F00"),
-   YELLOW("Yellow", "#FFFF00")
+    RED("Red", "#FF0000"),
+    ORANGE("Orange", "#FF7F00"),
+    YELLOW("Yellow", "#FFFF00")
 }
-
 
 @OptIn(ExperimentalStdlibApi::class)
 fun findByRgb(rgb: String): Color? = Color.entries.find { it.rgb == rgb }
@@ -131,7 +130,7 @@ fun findByRgb(rgb: String): Color? = Color.entries.find { it.rgb == rgb }
 #### How to enable the entries property
 
 To try this feature out, opt in with `@OptIn(ExperimentalStdlibApi)` and enable the `-language-version 1.9` compiler
-option. In a Gradle project, you can do so by adding the following to your build.gradle(.kts):
+option. In a Gradle project, you can do so by adding the following to your `build.gradle(.kts)` file:
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
@@ -156,8 +155,8 @@ tasks
     .withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask.class)
     .configureEach {
         compilerOptions.languageVersion =
-              org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_9
-}
+            org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_9
+    }
 ```
 
 </tab>
@@ -166,7 +165,7 @@ tasks
 > Starting with IntelliJ IDEA 2023.1, if you have opted in to this feature, the appropriate IDE
 > inspection will notify you about converting from `values()` to `entries` and offer a quick-fix.
 >
-{type="tip"}
+{style="tip"}
 
 For more information on the proposal, see the [KEEP note](https://github.com/Kotlin/KEEP/blob/master/proposals/enum-entries.md).
 
@@ -202,7 +201,7 @@ fun main() {
     println(Number(7)) // Number(number=7)
     println(EndOfFile) // EndOfFile
 }
-``` 
+```
 
 #### Semantics of data objects
 
@@ -282,7 +281,7 @@ We would appreciate your feedback on this feature in [YouTrack](https://youtrack
 #### How to enable the data objects preview
 
 To try this feature out, enable the `-language-version 1.9` compiler option. In a Gradle project, you can do so by
-adding the following to your build.gradle(.kts):
+adding the following to your `build.gradle(.kts)` file:
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
@@ -307,8 +306,8 @@ tasks
     .withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask.class)
     .configureEach {
         compilerOptions.languageVersion =
-              org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_9
-}
+            org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_9
+    }
 ```
 
 </tab>
@@ -319,7 +318,7 @@ tasks
 > This feature is [Experimental](components-stability.md#stability-levels-explained). It may be dropped or changed at any time.
 > Opt-in is required (see details below). Use it only for evaluation purposes. We would appreciate your feedback on it in [YouTrack](https://kotl.in/issue).
 >
-{type="warning"}
+{style="warning"}
 
 Kotlin 1.8.20 lifts restrictions on the use of secondary constructors with bodies
 in [inline classes](inline-classes.md).
@@ -334,13 +333,14 @@ allowing secondary constructors with bodies in preview mode:
 ```kotlin
 @JvmInline
 value class Person(private val fullName: String) {
-// Allowed since Kotlin 1.4.30:
+    // Allowed since Kotlin 1.4.30:
     init { 
         check(fullName.isNotBlank()) {
             "Full name shouldn't be empty"
         }
     }
-// Preview available since Kotlin 1.8.20:
+
+    // Preview available since Kotlin 1.8.20:
     constructor(name: String, lastName: String) : this("$name $lastName") {
         check(lastName.isNotBlank()) {
             "Last name shouldn't be empty"
@@ -377,8 +377,8 @@ tasks
     .withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask.class)
     .configureEach {
         compilerOptions.languageVersion =
-              org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_9
-}
+            org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_9
+    }
 ```
 
 </tab>
@@ -392,7 +392,7 @@ Learn more about the development of Kotlin inline classes in [this KEEP](https:/
 
 ## New Kotlin/Wasm target
 
-Kotlin/Wasm (Kotlin WebAssembly) goes [Experimental](components-stability.md#stability-levels-explained) in this preview
+Kotlin/Wasm (Kotlin WebAssembly) goes [Experimental](components-stability.md#stability-levels-explained) in this
 release. The Kotlin team finds [WebAssembly](https://webassembly.org/) to be a promising technology and wants to find
 better ways for you to use it and get all of the benefits of Kotlin.
 
@@ -409,7 +409,7 @@ We want to highlight the following advantages of the new Kotlin/Wasm target:
   easy-to-parse bytecode.
 * Improved application runtime performance compared to Kotlin/JS and JavaScript because Wasm is a statically typed language.
 
-Starting with the 1.8.20-RC2 preview release, you can use Kotlin/Wasm in your experimental projects.
+Starting with the 1.8.20 release, you can use Kotlin/Wasm in your experimental projects.
 We provide the Kotlin standard library (`stdlib`) and test library (`kotlin.test`) for Kotlin/Wasm out of the box.
 IDE support will be added in future releases.
 
@@ -421,7 +421,7 @@ To enable and test Kotlin/Wasm, update your `build.gradle.kts` file:
 
 ```kotlin
 plugins {
-    kotlin("multiplatform") version "1.8.20-RC2"
+    kotlin("multiplatform") version "1.8.20"
 }
 
 kotlin {
@@ -445,7 +445,7 @@ kotlin {
 
 > Check out the [GitHub repository with Kotlin/Wasm examples](https://github.com/Kotlin/kotlin-wasm-examples).
 >
-{type="tip"}
+{style="tip"}
 
 To run a Kotlin/Wasm project, you need to update the settings of the target environment:
 
@@ -500,7 +500,7 @@ and [support for the JVM IR backend in the kapt stub generating task by default]
 > It may be dropped or changed at any time. Use it only for evaluation purposes.
 > We would appreciate your feedback on it in [YouTrack](https://kotl.in/issue).
 >
-{type="warning"}
+{style="warning"}
 
 Kotlin 1.8.20 introduces the ability to create references to Java synthetic properties, for example, for such Java code:
 
@@ -529,12 +529,11 @@ Now, you can also create references to `Person::age` and `person::age`. All the 
 
 ```kotlin
 val persons = listOf(Person("Jack", 11), Person("Sofie", 12), Person("Peter", 11))
-    Persons
+    persons
         // Call a reference to Java synthetic property:
         .sortedBy(Person::age)
         // Call Java getter via the Kotlin property syntax:
         .forEach { person -> println(person.name) }
-}
 ```
 {validate="false"}
 
@@ -566,8 +565,8 @@ tasks
     .withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask.class)
     .configureEach {
         compilerOptions.languageVersion =
-             org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_9
-}
+            org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_9
+    }
 ```
 
 </tab>
@@ -636,7 +635,7 @@ deprecated [starting with this release](#update-for-kotlin-native-targets) and w
 > It may be dropped or changed at any time. Opt-in is required (see details below). Use it only for evaluation purposes.
 > We would appreciate your feedback on it in [YouTrack](https://kotl.in/issue).
 >
-{type="warning"}
+{style="warning"}
 
 Kotlin/Native can now import Objective-C headers with `@import` directives. This feature is useful for consuming Swift
 libraries that have auto-generated Objective-C headers or classes of CocoaPods dependencies written in Swift.
@@ -683,7 +682,7 @@ To enable the feature, use the `linkOnly` option or a builder property when addi
 cocoapods {
     summary = "CocoaPods test library"
     homepage = "https://github.com/JetBrains/kotlin"
-   
+
     pod("Alamofire", linkOnly = true) {
         version = "5.7.0"
     }
@@ -693,7 +692,7 @@ cocoapods {
 > If you use this option with static frameworks, it will remove the Pod dependency entirely because Pods are not used
 > for static framework linking.
 >
-{type="note"}
+{style="note"}
 
 ### Import Objective-C extensions as class members in UIKit
 
@@ -748,7 +747,7 @@ Kotlin 1.8.20 strives to improve the developer experience with the following upd
 > It may be changed in future Kotlin releases without prior notice. Opt-in is required (see the details below).
 > We would appreciate your feedback in [YouTrack](https://kotl.in/issue).
 >
-{type="warning"}
+{style="warning"}
 
 Kotlin 1.8.20 offers a new way of setting up source set hierarchy in your multiplatform projects − the default target
 hierarchy. The new approach is intended to replace target shortcuts like `ios`, which have their [design flaws](#why-replace-shortcuts).
@@ -792,9 +791,9 @@ You can find the complete scheme for the default target hierarchy in the [docume
 > This might be counter-intuitive for source sets like `native`, as you may expect that only APIs available on all
 > native targets are accessible in this source set. This behavior may change in the future.
 >
-{type="note"}
+{style="note"}
 
-#### Why replace shortcuts {initial-collapse-state="collapsed"}
+#### Why replace shortcuts {initial-collapse-state="collapsed" collapsible="true"}
 
 Creating source sets hierarchies can be verbose, error-prone, and unfriendly for beginners. Our previous solution was to
 introduce shortcuts like `ios` that create a part of the hierarchy for you. However, working with shortcuts proved they
@@ -837,13 +836,13 @@ help make it even better.
 > This feature has been supported in Gradle builds since Kotlin Gradle Plugin 1.8.20. For IDE support, use IntelliJ IDEA
 > 2023.1 Beta 2 (231.8109.2) or later and the Kotlin Gradle plugin 1.8.20 with any Kotlin IDE plugin.
 >
-{type="note"}
+{style="note"}
 
-Starting with 1.8.20-RC2, Kotlin Multiplatform supports [Gradle composite builds](https://docs.gradle.org/current/userguide/composite_builds.html).
+Starting with 1.8.20, Kotlin Multiplatform supports [Gradle composite builds](https://docs.gradle.org/current/userguide/composite_builds.html).
 Composite builds allow you to include builds of separate projects or parts of the same project into a single build.
 
 Due to some technical challenges, using Gradle composite builds with Kotlin Multiplatform was only partially supported.
-Kotlin 1.8.20-RC2 contains a preview of the improved support that should work with a larger variety of projects.
+Kotlin 1.8.20 contains a preview of the improved support that should work with a larger variety of projects.
 To try it out, add the following option to your `gradle.properties`:
 
 ```none
@@ -860,7 +859,7 @@ It's still a preview version that needs further stabilization, and you might enc
 way. Here are some known issues we're planning to fix before the final release of Kotlin 1.8.20:
 
 * There's no Kotlin 1.8.20 plugin available for IntelliJ IDEA 2023.1 EAP yet. Despite that, you can still set the Kotlin
-  Gradle plugin version to 1.8.20-RC2 and try out composite builds in this IDE.
+  Gradle plugin version to 1.8.20 and try out composite builds in this IDE.
 * If your projects include builds with a specified `rootProject.name`, composite builds may fail to resolve the Kotlin metadata.
   For the workaround and details, see this [Youtrack issue](https://youtrack.jetbrains.com/issue/KT-56536).
 
@@ -873,7 +872,7 @@ If you had issues building your multiplatform projects in Xcode, you might have 
 PhaseScriptExecution failed with a nonzero exit code" error.
 This message signals that the Gradle invocation has failed, but it's not very helpful when trying to detect the problem.
 
-Starting with Kotlin 1.8.20-RC2, Xcode can parse the output from the Kotlin/Native compiler. Furthermore, in case the
+Starting with Kotlin 1.8.20, Xcode can parse the output from the Kotlin/Native compiler. Furthermore, in case the
 Gradle build fails, you'll see an additional error message from the root cause exception in Xcode. In most cases,
 it'll help to identify the root problem.
 
@@ -904,7 +903,7 @@ our [Dukat tool](https://github.com/Kotlin/dukat) instead.
 > The Dukat tool is [Experimental](components-stability.md#stability-levels-explained).
 > It may be dropped or changed at any time.
 >
-{type="warning"}
+{style="warning"}
 
 ### Kotlin variable and function names in source maps
 
@@ -936,7 +935,7 @@ map to improve the readability of your stack trace. Happy debugging!
 > The addition of variable and function names in source maps is [Experimental](components-stability.md#stability-levels-explained).
 > It may be dropped or changed at any time.
 >
-{type="warning"}
+{style="warning"}
 
 ### Opt in for generation of TypeScript definition files
 
@@ -950,12 +949,12 @@ your `build.gradle.kts.file` in the [`js` section](js-project-setup.md#execution
 
 ```kotlin
 kotlin {
-   js {
-       binaries.executable()
-       browser {
-       }
-       generateTypeScriptDefinitions()
-   }
+    js {
+        binaries.executable()
+        browser {
+        }
+        generateTypeScriptDefinitions()
+    }
 }
 ```
 {validate="false"}
@@ -963,7 +962,7 @@ kotlin {
 > The generation of TypeScript definitions (`d.ts`)
 > is [Experimental](components-stability.md#stability-levels-explained). It may be dropped or changed at any time.
 >
-{type="warning"}
+{style="warning"}
 
 ## Gradle
 
@@ -1002,7 +1001,7 @@ We would appreciate your feedback on this. You can [file an issue](https://kotl.
 > To use it, add `kotlin.compiler.preciseCompilationResultsBackup=true` to `gradle.properties`.
 > We would appreciate your feedback on it in [YouTrack](https://kotl.in/issue/experimental-ic-optimizations).
 >
-{type="warning"}
+{style="warning"}
 
 Starting with Kotlin 1.8.20, you can enable precise backup, whereby only those classes that Kotlin recompiles in
 the [incremental compilation](gradle-compilation-and-caches.md#incremental-compilation) will be backed up.
@@ -1017,7 +1016,7 @@ Gradle property to the `gradle.properties` file:
 kotlin.compiler.preciseCompilationResultsBackup=true
 ```
 
-#### Example of precise backup usage in JetBrains {initial-collapse-state="collapsed"}
+#### Example of precise backup usage in JetBrains {initial-collapse-state="collapsed" collapsible="true"}
 
 In the following charts, you can see examples of using precise backup compared to full backup:
 
@@ -1043,7 +1042,7 @@ different results. The factors affecting performance include but are not limited
 * Which modules are affected by the changes and how big these modules are.
 * Whether the changes are ABI or non-ABI.
 
-#### Evaluating optimizations with build reports {initial-collapse-state="collapsed"}
+#### Evaluating optimizations with build reports {initial-collapse-state="collapsed" collapsible="true"}
 
 To estimate the impact of the optimization on your computer for your project and your scenarios,
 you can use [Kotlin build reports](gradle-compilation-and-caches.md#build-reports).
@@ -1083,8 +1082,8 @@ Time metrics:
 
 ### Lazy Kotlin/JVM tasks creation for all Gradle versions
 
-For projects with the "org.jetbrains.kotlin.gradle.jvm" plugin on Gradle 7.3+, the Kotlin Gradle plugin no longer
-creates and configures the task "compileKotlin" eagerly. On lower Gradle versions, it simply registers all the tasks and
+For projects with the `org.jetbrains.kotlin.gradle.jvm` plugin on Gradle 7.3+, the Kotlin Gradle plugin no longer
+creates and configures the task `compileKotlin` eagerly. On lower Gradle versions, it simply registers all the tasks and
 doesn't configure them on a dry run. The same behavior is now in place when using Gradle 7.3+.
 
 ### Non-default location of compile tasks' destinationDirectory
@@ -1097,10 +1096,10 @@ Update your build script with some additional code if you do one of the followin
 
 You need to explicitly add `sourceSets.main.kotlin.classesDirectories` to `sourceSets.main.outputs` in your JAR file:
 
-```
+```groovy
 tasks.jar(type: Jar) {
-     from sourceSets.main.outputs
-     from sourceSets.main.kotlin.classesDirectories
+    from sourceSets.main.outputs
+    from sourceSets.main.kotlin.classesDirectories
 }
 ```
 
@@ -1128,7 +1127,7 @@ Kotlin 1.8.20 adds a variety of new features, including some that are particular
 > you need to opt in with `@OptIn(ExperimentalStdlibApi::class)` or the compiler argument `-opt-in=kotlin.ExperimentalStdlibApi`.
 >
 
-{type="warning"}
+{style="warning"}
 
 The `AutoCloseable` interface has been added to the common standard library so that you can use one common interface for
 all libraries to close resources. In Kotlin/JVM, the `AutoCloseable` interface is an alias
@@ -1181,7 +1180,7 @@ fun writeBooksTo(writer: XMLWriter) {
 > and to use it, you need to opt in with `@OptIn(ExperimentalEncodingApi::class)` or the
 > compiler argument `-opt-in=kotlin.io.encoding.ExperimentalEncodingApi`.
 >
-{type="warning"}
+{style="warning"}
 
 We've added support for Base64 encoding and decoding. We provide 3 class instances, each using different encoding
 schemes and displaying different behaviors. Use the `Base64.Default` instance for the standard [Base64 encoding scheme](https://www.rfc-editor.org/rfc/rfc4648#section-4).
@@ -1196,7 +1195,7 @@ decoding, any illegal characters are skipped and don't throw an exception.
 > The `Base64.Default` instance is the companion object of the `Base64` class. As a result, you can call its functions
 > via `Base64.encode()` and  `Base64.decode()` instead of `Base64.Default.encode()` and `Base64.Default.decode()`.
 >
-{type="tip"}
+{style="tip"}
 
 ```kotlin
 val foBytes = "fo".map { it.code.toByte() }.toByteArray()
@@ -1227,13 +1226,13 @@ Base64 encoding and decoding with input and output streams.
 > It may be dropped or changed at any time. Opt-in is required (see details below).
 > Use it only for evaluation purposes. We would appreciate your feedback on it in [YouTrack](https://kotl.in/issue).
 >
-{type="warning"}
+{style="warning"}
 
 If you annotate a `var` property with `@Volatile`, then the backing field is marked so that any reads or writes to this
 field are atomic, and writes are always made visible to other threads.
 
 Prior to 1.8.20, the [`kotlin.jvm.Volatile` annotation](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-volatile/)
-was only available in the common standard library. However, this annotation is only effective in the JVM.
+was available in the common standard library. However, this annotation is only effective in the JVM.
 If you use it in Kotlin/Native, it is ignored, which can lead to errors.
 
 In 1.8.20, we've introduced a common annotation, `kotlin.concurrent.Volatile`, that you can use in both the JVM and
@@ -1242,7 +1241,7 @@ Kotlin/Native.
 #### How to enable
 
 To try this feature out, opt in with `@OptIn(ExperimentalStdlibApi)` and enable the `-language-version 1.9` compiler
-option. In a Gradle project, you can do so by adding the following to your build.gradle(.kts):
+option. In a Gradle project, you can do so by adding the following to your `build.gradle(.kts)` file:
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
@@ -1267,8 +1266,8 @@ tasks
     .withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask.class)
     .configureEach {
         compilerOptions.languageVersion =
-              org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_9
-}
+            org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_9
+    }
 ```
 
 </tab>
@@ -1291,7 +1290,7 @@ and [prohibits serializer customization via companion object](#prohibit-implicit
 > [Alpha](components-stability.md#stability-levels-explained). To use it,
 > [enable the Kotlin K2 compiler](#how-to-enable-the-kotlin-k2-compiler).
 >
-{type="warning"}
+{style="warning"}
 
 Starting with 1.8.20, the serialization compiler plugin works with the Kotlin K2 compiler.
 Give it a try and [share your feedback with us](#leave-your-feedback-on-the-new-k2-compiler)!
@@ -1306,13 +1305,12 @@ For example:
 ```kotlin
 import kotlinx.serialization.*
 
-
 @Serializable
 class Foo(val a: Int) {
-   @Serializer(Foo::class)
-   companion object {
-       // Custom implementation of KSerializer<Foo>
-   }
+    @Serializer(Foo::class)
+    companion object {
+        // Custom implementation of KSerializer<Foo>
+    }
 }
 ```
 
@@ -1327,13 +1325,12 @@ If you use such constructs in your code, we recommend updating them to the below
 ```kotlin
 import kotlinx.serialization.*
 
-
 @Serializable(Foo.Companion::class)
 class Foo(val a: Int) {
-   // Doesn't matter if you use @Serializer(Foo::class) or not
-   companion object: KSerializer<Foo> {
-       // Custom implementation of KSerializer<Foo>
-   }
+    // Doesn't matter if you use @Serializer(Foo::class) or not
+    companion object: KSerializer<Foo> {
+        // Custom implementation of KSerializer<Foo>
+    }
 }
 ```
 
@@ -1343,7 +1340,7 @@ more information, see our [YouTrack ticket](https://youtrack.jetbrains.com/issue
 > In Kotlin 2.0, we plan to promote the compile warning to a compiler error. We recommend
 > that you migrate your code if you see this warning.
 >
-{type="tip"}
+{style="tip"}
 
 ## Documentation updates
 

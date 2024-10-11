@@ -21,7 +21,7 @@ times by up to 25% when compared to kapt.
 KSP is itself implemented as a compiler plugin. There are prebuilt packages on Google's Maven repository that you can
 download and use without having to build the project yourself.
 
-## Comparison to `kotlinc` compiler plugins
+## Comparison to kotlinc compiler plugins
 
 `kotlinc` compiler plugins have access to almost everything from the compiler and therefore have maximum power and flexibility.
 On the other hand, because these plugins can potentially depend on anything in the compiler, they are sensitive to
@@ -58,7 +58,7 @@ is fairly quick. Almost all of the build overhead resides in the stub generation
 reduce the time spent in the compiler by 25%.
 
 For performance evaluation, we implemented a [simplified version](https://github.com/google/ksp/releases/download/1.4.10-dev-experimental-20200924/miniGlide.zip)
-of [Glide](https://github.com/bumptech/glide) in KSP to make it generate code for the [Tachiyomi](https://github.com/inorichi/tachiyomi) project.
+of [Glide](https://github.com/bumptech/glide) in KSP to make it generate code for the [Tachiyomi](https://github.com/tachiyomiorg) project.
 While the total Kotlin compilation time of the project is 21.55 seconds on our test device, it took 8.67 seconds for kapt
 to generate the code, and it took 1.15 seconds for our KSP implementation to generate the code.
 

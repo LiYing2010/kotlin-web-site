@@ -17,7 +17,7 @@ The Kotlin 1.9.0 release is out and the K2 compiler for the JVM is now in **Beta
 
 You can also find a short overview of the updates in this video:
 
-<video href="fvwTZc-dxsM" title="What's new in Kotlin 1.9.0"/>
+<video src="https://www.youtube.com/v/fvwTZc-dxsM" title="What's new in Kotlin 1.9.0"/>
 
 ## IDE support
 
@@ -34,7 +34,7 @@ The Kotlin 1.9.0 plugin will be included with IntelliJ IDEA 2023.2 in the upcomi
 
 > To download Kotlin artifacts and dependencies, [configure your Gradle settings](#configure-gradle-settings) to use the Maven Central Repository.
 >
-{type="warning"}
+{style="warning"}
 
 ## New Kotlin K2 compiler updates
 
@@ -96,7 +96,7 @@ Task info:
 > If you use Gradle 8.0, you might come across some problems with build reports, especially when Gradle configuration 
 > caching is enabled. This is a known issue, fixed in Gradle 8.1 and later.
 >
-{type="note"}
+{style="note"}
 
 ### Current K2 compiler limitations
 
@@ -147,7 +147,7 @@ a modern and performant replacement for the synthetic `values()` function. In 1.
 > The `values()` function is still supported, but we recommend that you use the `entries`
 > property instead.
 >
-{type="tip"}
+{style="tip"}
 
 ```kotlin
 enum class Color(val colorName: String, val rgb: String) {
@@ -223,7 +223,7 @@ development of Kotlin inline classes in [this KEEP](https://github.com/Kotlin/KE
 Starting with version 1.9.0, the compiler can generate classes with a bytecode version corresponding to JVM 20. In addition,
 the deprecation of the `JvmDefault` annotation and legacy `-Xjvm-default` modes continues.
 
-### Deprecation of `JvmDefault` annotation and legacy `-Xjvm-default` modes
+### Deprecation of JvmDefault annotation and legacy -Xjvm-default modes
 
 Starting from Kotlin 1.5, the usage of the `JvmDefault` annotation has been deprecated in favor of the newer `-Xjvm-default`
 modes: `all` and `all-compatibility`. With the introduction of `JvmDefaultWithoutCompatibility` in Kotlin 1.4 and 
@@ -498,7 +498,7 @@ The new layout requires the Android Gradle plugin version 7.0 or later and is su
 
 ### Preview of the Gradle configuration cache
 
-<anchor name="preview-of-gradle-configuration-cache"></anchor>
+<anchor name="preview-of-gradle-configuration-cache"/>
 
 Kotlin 1.9.0 comes with support for the [Gradle configuration cache](https://docs.gradle.org/current/userguide/configuration_cache.html)
 in multiplatform libraries. If you're a library author, you can already benefit from the improved build performance.
@@ -509,7 +509,7 @@ builds. The feature has become Stable since Gradle 8.1. To enable it, follow the
 > The Kotlin Multiplatform plugin still doesn't support the Gradle configuration cache with Xcode integration tasks or the
 > [Kotlin CocoaPods Gradle plugin](native-cocoapods-dsl-reference.md). We expect to add this feature in future Kotlin releases.
 >
-{type="note"}
+{style="note"}
 
 ## Kotlin/Wasm
 
@@ -566,7 +566,7 @@ You can write, run, and share your Kotlin code that targets the Kotlin/Wasm. [Ch
 >
 > [Learn more about how to enable these features](wasm-troubleshooting.md).
 >
-{type="note"}
+{style="note"}
 
 ```kotlin
 import kotlin.time.*
@@ -598,19 +598,18 @@ fun computeAck(m: Int, n: Int) {
 ## Kotlin/JS
 
 This release introduces updates for Kotlin/JS, including the removal of the old Kotlin/JS compiler, Kotlin/JS Gradle plugin deprecation and Experimental
-support for ES6:
+support for ES2015:
 
 * [Removal of the old Kotlin/JS compiler](#removal-of-the-old-kotlin-js-compiler)
 * [Deprecation of the Kotlin/JS Gradle plugin](#deprecation-of-the-kotlin-js-gradle-plugin)
 * [Deprecation of external enum](#deprecation-of-external-enum)
-* [Experimental support for ES6 classes and modules](#experimental-support-for-es6-classes-and-modules)
+* [Experimental support for ES2015 classes and modules](#experimental-support-for-es2015-classes-and-modules)
 * [Changed default destination of JS production distribution](#changed-default-destination-of-js-production-distribution)
 * [Extract org.w3c declarations from stdlib-js](#extract-org-w3c-declarations-from-stdlib-js)
 
 > Starting from version 1.9.0, [partial library linkage](#library-linkage-in-kotlin-native) is also enabled for Kotlin/JS.
 >
-{type="note"}
-
+{style="note"}
 
 ### Removal of the old Kotlin/JS compiler
 
@@ -653,9 +652,9 @@ while avoiding the problems associated with default methods.
 Starting from Kotlin 1.9.0, the use of external enums will be marked as deprecated. We encourage you to update your code
 to utilize the suggested external sealed class implementation for compatibility and future maintenance.
 
-### Experimental support for ES6 classes and modules
+### Experimental support for ES2015 classes and modules
 
-This release introduces [Experimental](components-stability.md#stability-levels-explained) support for ES6 modules and generation of ES6 classes:
+This release introduces [Experimental](components-stability.md#stability-levels-explained) support for ES2015 modules and generation of ES2015 classes:
 * Modules offer a way to simplify your codebase and improve maintainability.
 * Classes allow you to incorporate object-oriented programming (OOP) principles, resulting in cleaner and more intuitive code.
 
@@ -665,12 +664,12 @@ To enable these features, update your `build.gradle.kts` file accordingly:
 // build.gradle.kts
 kotlin { 
     js(IR) { 
-        useEsModules() // Enables ES6 modules
+        useEsModules() // Enables ES2015 modules
         browser()
         }
     }
 
-// Enables ES6 classes generation
+// Enables ES2015 classes generation
 tasks.withType<KotlinJsCompile>().configureEach {
     kotlinOptions {
         useEsClasses = true
@@ -679,7 +678,7 @@ tasks.withType<KotlinJsCompile>().configureEach {
 ```
 {validate="false"}
 
-[Learn more about ECMAScript 2015 (ES6) in the official documentation](https://262.ecma-international.org/6.0/).
+[Learn more about ES2015 (ECMAScript 2015, ES6) in the official documentation](https://262.ecma-international.org/6.0/).
 
 ### Changed default destination of JS production distribution
 
@@ -691,7 +690,7 @@ For example, `productionExecutable` was in `build/distributions`. In Kotlin 1.9.
 
 > If you have a pipeline in place that uses the results of these builds, make sure to update the directory.
 >
-{type="warning"}
+{style="warning"}
 
 ### Extract org.w3c declarations from stdlib-js
 
@@ -844,7 +843,7 @@ the Kotlin compilation task. This behavior has been fixed in Kotlin 1.9.0. If yo
 >```
 > {validate="false"}
 > 
-{type="warning"}
+{style="warning"}
 
 For more information, see our [YouTrack ticket](https://youtrack.jetbrains.com/issue/KT-54468/KAPT-Gradle-plugin-causes-eager-task-creation).
 
@@ -911,7 +910,7 @@ fun main() {
 > From IntelliJ IDEA version 2023.1.1, a new code inspection is available that highlights when you
 > can use the `..<` operator.
 >
-{type="note"}
+{style="note"}
 
 For more information about what you can do with this operator, see [What's new in Kotlin 1.7.20](whatsnew1720.md#preview-of-the-operator-for-creating-open-ended-ranges).
 
@@ -1033,7 +1032,7 @@ Based on these considerations, we made one of the following decisions:
 > * Deprecated, then it's been deprecated with deprecation level: `WARNING`.
 > * Marked as obsolete, then you can keep using it, but it will be replaced in future.
 >
-{type="note"}
+{style="note"}
 
 We won't list all of the results of the review here, but here are some of the highlights:
 * We stabilized the Atomics API.
@@ -1057,7 +1056,7 @@ To use the remainder of `kotlinx.cinterop`, which covers Objective-C/Swift inter
 `@OptIn(BetaInteropApi)`. If you try to use this API without the opt-in, your code will compile but the compiler will 
 raise warnings that provide a clear explanation of what behavior you can expect.
 
-For more information about these annotations, see our source code for [`Annotations.kt`](https://github.com/JetBrains/kotlin/blob/56b729f1812733cb6a79673684c2fa5c4c6b3475/kotlin-native/Interop/Runtime/src/main/kotlin/kotlinx/cinterop/Annotations.kt).
+For more information about these annotations, see our source code for [`Annotations.kt`](https://github.com/JetBrains/kotlin/blob/master/kotlin-native/Interop/Runtime/src/main/kotlin/kotlinx/cinterop/Annotations.kt).
 
 For more information on **all** of the changes as part of this review, see our [YouTrack ticket](https://youtrack.jetbrains.com/issue/KT-55765).
 
@@ -1131,9 +1130,9 @@ sourcePath.copyToRecursively(
 > and to use them, you can opt in with `@OptIn(ExperimentalStdlibApi::class)` or the compiler argument
 > `-opt-in=kotlin.ExperimentalStdlibApi`.
 >
-{type="warning"}
+{style="warning"}
 
-In 1.9.0, the [`HexFormat`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-hexformat/) class and its related 
+In 1.9.0, the [`HexFormat`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-hex-format/) class and its related 
 extension functions are provided as an Experimental feature that allows you to convert between numerical values and 
 hexadecimal strings. Specifically, you can use the extension functions to convert between hexadecimal strings and 
 `ByteArrays` or other numeric types (`Int`, `Short`, `Long`).
@@ -1201,7 +1200,6 @@ The Kotlin documentation has received some notable changes:
 * [Android source set layout](multiplatform-android-layout.md) – Learn about the new Android source set layout.
 * [Compatibility guide for Kotlin Multiplatform](multiplatform-compatibility-guide.md) – Learn about the incompatible changes you might encounter while developing projects with Kotlin Multiplatform.
 * [Kotlin Wasm](wasm-overview.md) – Learn about Kotlin/Wasm and how you can use it in your Kotlin Multiplatform projects.
-* [Add dependencies on Kotlin libraries to Kotlin/Wasm project](wasm-libraries.md) – Learn about the supported Kotlin libraries for Kotlin/Wasm.
 
 ## Install Kotlin 1.9.0
 
@@ -1232,6 +1230,6 @@ If the repository is not specified, Gradle uses the sunset JCenter repository, w
 
 ## Compatibility guide for Kotlin 1.9.0
 
-Kotlin 1.9.0 is a [feature release](kotlin-evolution.md#feature-releases-and-incremental-releases) and can, therefore, 
+Kotlin 1.9.0 is a [feature release](kotlin-evolution-principles.md#language-and-tooling-releases) and can, therefore, 
 bring changes that are incompatible with your code written for earlier versions of the language. Find the detailed list 
 of these changes in the [Compatibility guide for Kotlin 1.9.0](compatibility-guide-19.md).

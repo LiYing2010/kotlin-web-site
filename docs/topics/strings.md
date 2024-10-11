@@ -4,7 +4,7 @@ Strings in Kotlin are represented by the type [`String`](https://kotlinlang.org/
 
 > On the JVM, an object of `String` type in UTF-16 encoding uses approximately 2 bytes per character.
 > 
-{type="note"}
+{style="note"}
 
 Generally, a string value is a sequence of characters in double quotes (`"`):
 
@@ -63,7 +63,7 @@ fun main() {
 
 > In most cases using [string templates](#string-templates) or [multiline strings](#multiline-strings) is preferable to string concatenation.
 > 
-{type="note"}
+{style="note"}
 
 ## String literals
 
@@ -110,8 +110,9 @@ By default, a pipe symbol `|` is used as margin prefix, but you can choose anoth
 
 ## String templates
 
-String literals may contain _template expressions_ – pieces of code that are evaluated and whose results are concatenated into the string.
-A template expression starts with a dollar sign (`$`) and consists of either a name:
+String literals may contain _template expressions_ – pieces of code that are evaluated and whose results are concatenated into a string.
+When a template expression is processed, Kotlin automatically calls the `.toString()` function on the expression's result
+to convert it into a string. A template expression starts with a dollar sign (`$`) and consists of either a variable name:
 
 ```kotlin
 fun main() {
@@ -119,6 +120,11 @@ fun main() {
     val i = 10
     println("i = $i") 
     // i = 10
+    
+    val letters = listOf("a","b","c","d","e")
+    println("Letters: $letters") 
+    // Letters: [a, b, c, d, e]
+
 //sampleEnd
 }
 ```
@@ -152,7 +158,7 @@ ${'$'}_9.99
 
 > String formatting with the `String.format()` function is only available in Kotlin/JVM.
 >
-{type="note"}
+{style="note"}
 
 To format a string to your specific requirements, use the [`String.format()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/format.html) 
 function. 
@@ -166,7 +172,7 @@ to reference the same argument multiple times within the format string in differ
 
 > For a detailed understanding and an extensive list of format specifiers, see [Java's Class Formatter documentation](https://docs.oracle.com/javase/8/docs/api/java/util/Formatter.html#summary).
 >
-{type="note"}
+{style="note"}
 
 Let's look at an example:
 

@@ -7,7 +7,7 @@ inline markup.
 > Kotlin's documentation engine: Dokka, understands KDoc and can be used to generate documentation in various formats.
 > For more information, read our [Dokka documentation](dokka-introduction.md).
 >
-{type="note"}
+{style="note"}
 
 ## KDoc syntax
 
@@ -50,7 +50,7 @@ Documents a value parameter of a function or a type parameter of a class, proper
 To better separate the parameter name from the description, if you prefer, you can enclose the name of the
 parameter in brackets. The following two syntaxes are therefore equivalent:
 
-```
+```none
 @param name description.
 @param[name] description.
 ```
@@ -101,9 +101,9 @@ Specifies the version of the software in which the element being documented was 
 Excludes the element from the generated documentation. Can be used for elements which are not part of the official
 API of a module but still have to be visible externally.
 
-> KDoc does not support the `@deprecated` tag. Instead, please use the `@Deprecated` annotation.
+> KDoc does not support the `@deprecated` tag. Instead, please use the [`@Deprecated`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-deprecated/) annotation.
 >
-{type="note"}
+{style="note"}
 
 ## Inline markup
 

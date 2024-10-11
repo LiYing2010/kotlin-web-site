@@ -39,12 +39,16 @@ google-credentials.json
 .env
 pages/api/
 external/
-assets/docs/
 assets/externals
 pages/docs/tutorials/kotlin-for-py/
 _teamcity
 dist
+libs
 generated
 .next
 .teamcity/*.iml
 /old/
+
+scripts/doindex/package-lock.json
+search-report*
+data/page_views_map.json

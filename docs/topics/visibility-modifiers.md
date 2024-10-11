@@ -28,7 +28,7 @@ class Bar { ... }
 
 >To use a visible top-level declaration from another package, you should [import](packages.md#imports) it.
 >
-{type="note"}
+{style="note"}
 
 Examples:
 
@@ -55,7 +55,7 @@ For members declared inside a class:
 
 > In Kotlin, an outer class does not see private members of its inner classes.
 >
-{type="note"}
+{style="note"}
 
 If you override a `protected` or an `internal` member and do not specify the visibility explicitly, the overriding member
 will also have the same visibility as the original.
@@ -96,13 +96,13 @@ Use the following syntax to specify the visibility of the primary constructor of
 
 > You need to add an explicit `constructor` keyword.
 >
-{type="note"}
+{style="note"}
 
 ```kotlin
 class C private constructor(a: Int) { ... }
 ```
 
-Here the constructor is private. By default, all constructors are `public`, which effectively
+Here the constructor is `private`. By default, all constructors are `public`, which effectively
 amounts to them being visible everywhere the class is visible (this means that a constructor of an `internal` class is only
 visible within the same module).
 
@@ -121,4 +121,3 @@ a module is a set of Kotlin files compiled together, for example:
 * A Maven project.
 * A Gradle source set (with the exception that the `test` source set can access the internal declarations of `main`).
 * A set of files compiled with one invocation of the `<kotlinc>` Ant task.
-

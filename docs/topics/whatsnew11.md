@@ -688,7 +688,7 @@ engine.eval("val x = 3")
 println(engine.eval("x + 2"))  // Prints out 5
 ```
 
-See [here](https://github.com/JetBrains/kotlin/tree/master/libraries/examples/kotlin-jsr223-local-example)
+See [here](https://github.com/JetBrains/kotlin/tree/1.1.0/libraries/examples/kotlin-jsr223-local-example)
 for a larger example project using the API.
 
 ### kotlin.reflect.full
@@ -712,7 +712,7 @@ aliases for the corresponding JDK classes, and on the JS, the classes are implem
 JavaScript backend now generates more statically checkable code, which is friendlier to JS code processing tools,
 like minifiers, optimisers, linters, etc.
 
-### The `external` modifier
+### The external modifier
 
 If you need to access a class implemented in JavaScript from Kotlin in a typesafe way, you can write a Kotlin
 declaration using the `external` modifier. (In Kotlin 1.0, the `@native` annotation was used instead.)

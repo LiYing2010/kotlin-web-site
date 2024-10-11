@@ -7,7 +7,7 @@
 > Native platform libraries shipped with Kotlin/Native (like Foundation, UIKit, and POSIX),
 > require opt-in only for some APIs. In such cases, you get an IDE warning.
 >
-{type="warning"}
+{style="warning"}
 
 Kotlin/Native provides bi-directional interoperability with Objective-C/Swift. 
 Objective-C frameworks and libraries can be used in Kotlin code.
@@ -190,7 +190,7 @@ It contains the definitions for our Kotlin code and a few Kotlin-wide declaratio
 
 >The way Kotlin/Native exports symbols is subject to change without notice.
 
-{type="note"}
+{style="note"}
 
 ### Kotlin/Native runtime declarations
 
@@ -224,7 +224,7 @@ __attribute__((swift_name("KotlinMutableDictionary")))
 ```
 
 Kotlin classes have a `KotlinBase` base class in Objective-C, the class extends
-the `NSObject` class there. There are also have wrappers for collections and exceptions. 
+the `NSObject` class there. There are also wrappers for collections and exceptions. 
 Most of the collection types are mapped to similar collection types from the other side:
 
 |Kotlin|Swift|Objective-C|
