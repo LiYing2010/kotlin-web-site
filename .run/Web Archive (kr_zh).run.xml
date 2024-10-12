@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Web Archive (kr_zh)" type="StardustRunConfiguration" factoryName="save-as-zip">
+    <option name="folderPath" value="$PROJECT_DIR$/build" />
+    <option name="instanceId" value="kr_zh" />
+    <option name="instanceName" value="Kotlin 语言参考文档 中文版" />
+    <method v="2" />
+  </configuration>
+</component>

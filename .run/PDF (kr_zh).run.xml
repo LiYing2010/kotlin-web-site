@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="PDF (kr_zh)" type="StardustRunConfiguration" factoryName="build-pdf">
+    <option name="copyright" />
+    <option name="description" />
+    <option name="folderPath" value="$PROJECT_DIR$/build/resources" />
+    <option name="footer" />
+    <option name="header" />
+    <option name="instanceId" value="kr_zh" />
+    <option name="instanceName" value="Kotlin 语言参考文档 中文版" />
+    <option name="layout" />
+    <option name="logoPath" />
+    <option name="title" />
+    <method v="2" />
+  </configuration>
+</component>
