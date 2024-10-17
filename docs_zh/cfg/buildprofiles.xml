@@ -2,8 +2,7 @@
 
 <buildprofiles>
     <variables>
-        <enable-browser-edits>true</enable-browser-edits>
-        <browser-edits-url>https://github.com/LiYing2010/kotlin-web-site/edit/master/docs_zh/</browser-edits-url>
+        <enable-browser-edits>false</enable-browser-edits>
         <kotlin-latest-url>%kotlinLatestUrl%</kotlin-latest-url>
         <product-web-url>%kotlinLatestUrl%</product-web-url>
         <generate-only-default-anchors>true</generate-only-default-anchors>
@@ -53,7 +52,7 @@
         </variables>
     </build-profile>
     <footer>
-        <copyright>李颖, 最终更新: 2024/10/17</copyright>
+        <copyright>李 颖</copyright>
         <link href="about-translation.html">关于翻译</link>
         <link href="https://github.com/LiYing2010/kotlin-web-site">本文档的代码库</link>
     </footer>
