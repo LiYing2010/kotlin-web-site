@@ -1,7 +1,5 @@
 [//]: # (title: Kotlin 品牌资产)
 
-最终更新: %latestDocDate%
-
 ## Kotlin Logo
 
 我们的 Logo 包括一个标志和一个字体. 主 Logo 是全彩色版本, 大多数情况下应该使用这个版本.

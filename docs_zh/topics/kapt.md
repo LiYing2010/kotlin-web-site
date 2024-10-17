@@ -1,7 +1,5 @@
 [//]: # (title: kapt 编译器插件)
 
-最终更新: %latestDocDate%
-
 > kapt 已进入维护模式. 我们会继续保证它兼容最新版的 Kotlin 和 Java, 但不会再实现新的功能特性.
 > 请改用 [Kotlin 符号处理(Symbol Processing) API (KSP)](ksp-overview.md) 来处理注解.
 > 详情请参见 [KSP 支持的注解库列表](ksp-overview.md#supported-libraries).

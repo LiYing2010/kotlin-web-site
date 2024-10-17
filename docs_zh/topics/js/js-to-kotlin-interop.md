@@ -1,7 +1,5 @@
 [//]: # (title: 在 JavaScript 中使用 Kotlin 代码)
 
-最终更新: %latestDocDate%
-
 根据选择的 [JavaScript 模块](js-modules.md) 系统不同, Kotlin/JS 编译期会产生不同的输出.
 但通常 Kotlin 编译器会生成通常的 JavaScript 类, 函数, 和属性, 你可以在 JavaScript 代码中自由地使用它们.
 但是, 有一些细节问题, 你需要记住.

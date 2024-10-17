@@ -1,7 +1,5 @@
 [//]: # (title: Kotlin 1.4.30 版中的新功能)
 
-最终更新: %latestDocDate%
-
 _[发布日期: 2021/02/03](releases.md#release-details)_
 
 Kotlin 1.4.30 提供了新的语言功能的预览版, 将 Kotlin/JVM 编译器的新的 IR 后端升级到 Beta,

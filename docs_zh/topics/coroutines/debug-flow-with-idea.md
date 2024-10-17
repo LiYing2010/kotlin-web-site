@@ -1,7 +1,5 @@
 [//]: # (title: 教程 - 使用 IntelliJ IDEA 调试 Kotlin 数据流(Flow))
 
-最终更新: %latestDocDate%
-
 本教程演示如何创建 Kotlin 数据流(Flow), 并使用 IntelliJ IDEA 调试它.
 
 本教程假定你已经具备了 [协程](coroutines-guide.md) 和 [Kotlin 数据流(Flow)](flow.md#flows) 的相关知识.

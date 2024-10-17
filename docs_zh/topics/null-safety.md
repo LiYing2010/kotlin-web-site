@@ -1,7 +1,5 @@
 [//]: # (title: Null 值安全性)
 
-最终更新: %latestDocDate%
-
 ## 可为 null 的类型与不可为 null 的类型 {id="nullable-types-and-non-nullable-types"}
 
 Kotlin 类型系统的设计目标就是希望消除 null 引用带来的危险,

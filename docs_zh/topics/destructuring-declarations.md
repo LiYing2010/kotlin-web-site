@@ -1,7 +1,5 @@
 [//]: # (title: 解构声明)
 
-最终更新: %latestDocDate%
-
 有些时候, 能够将一个对象 *解构(destructure)* 为多个变量, 将会很方便, 比如:
 
 ```kotlin

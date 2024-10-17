@@ -1,7 +1,5 @@
 [//]: # (title: 配置 Gradle 项目)
 
-最终更新: %latestDocDate%
-
 要 [Gradle](https://docs.gradle.org/current/userguide/userguide.html) 使用来构建 Kotlin 项目,
 你需要向你的构建脚本文件 `build.gradle(.kts)` 添加 [Kotlin Gradle plugin](#apply-the-plugin),
 并在构建脚本文件中 [配置项目的依赖项](#configure-dependencies).

@@ -1,7 +1,5 @@
 [//]: # (title: Lombok 编译器插件)
 
-最终更新: %latestDocDate%
-
 > Lombok 编译器插件是 [实验性功能](components-stability.md).
 > 它随时有可能变更或被删除. 请注意, 只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-7112) 提供你的反馈意见.

@@ -1,7 +1,5 @@
 [//]: # (title: 集合写入操作)
 
-最终更新: %latestDocDate%
-
 [可变集合](collections-overview.md#collection-types) 允许执行改变集合内容的操作, 比如, 可以添加或删除元素.
 本节中, 我们会介绍所有 `MutableCollection` 都支持的共通的写入操作.
 `List` 和 `Map` 的专有的写入操作, 请分别参见 [List 相关操作](list-operations.md) 和 [Map 相关操作](map-operations.md).

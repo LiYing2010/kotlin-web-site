@@ -1,7 +1,5 @@
 [//]: # (title: 学习资料概述)
 
-最终更新: %latestDocDate%
-
 你可以通过以下资料学习 Kotlin:
 * [基本语法](basic-syntax.md) – Kotlin 语法简要介绍.
 * [惯用法](idioms.md) – 针对常见场景, 学习如何编写符合 Kotlin 习惯代码.

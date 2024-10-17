@@ -1,7 +1,5 @@
 [//]: # (title: 分组(Grouping))
 
-最终更新: %latestDocDate%
-
 Kotlin 标准库提供了扩展函数, 用于对集合中的元素进行分组操作.
 最基本的函数是
 [`groupBy()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/group-by.html),

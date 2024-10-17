@@ -1,8 +1,6 @@
 [//]: # (title: 为 Spring Boot 项目添加数据库支持)
 [//]: # (description: 使用 JDBC Template, 为使用 Kotlin 开发的 Sprint Boot 项目添加数据库支持.)
 
-最终更新: %latestDocDate%
-
 <tldr>
     <p>
         这是 <strong>Spring Boot 和 Kotlin 入门</strong> 教程的第 3 部分.

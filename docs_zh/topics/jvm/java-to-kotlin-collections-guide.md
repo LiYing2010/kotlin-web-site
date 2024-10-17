@@ -1,8 +1,6 @@
 [//]: # (title: Java 和 Kotlin 中的集合(Collection))
 [//]: # (学习如何将 Java 的集合迁移到 Kotlin 集合. 这篇向导讨论 Kotlin 和 Java 中的这类数据结构, 包括 List, ArrayList, Map, Set, 等等)
 
-最终更新: %latestDocDate%
-
 _集合_ 是一组可变数量(可以为 0)的元素, 解决问题时起到重要作用, 而且经常被用到.
 本文解释并比较 Java 和 Kotlin 中集合的概念以及操作方式.
 本文将帮助你从 Java 迁移到 Kotlin, 并以真正 Kotlin 的方式编写你的代码.

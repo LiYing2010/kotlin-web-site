@@ -1,7 +1,5 @@
 [//]: # (title: 添加 Android 依赖项)
 
-最终更新: %latestDocDate%
-
 向一个 Kotlin Multiplatform 模块添加 Android 专有依赖项的流程, 与纯 Android 项目是相同的:
 在你的 Gradle 文件中声明依赖项, 然后导入项目.
 然后在你的 Kotlin 代码中就可以使用这个依赖项了.

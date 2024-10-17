@@ -1,7 +1,5 @@
 [//]: # (title: 符号化(Symbolicate) iOS 崩溃报告(Crash Report))
 
-最终更新: %latestDocDate%
-
 要对 iOS 应用程序的崩溃进行调试, 有时需要分析崩溃报告.
 关于崩溃报告的详情, 请参见
 [Apple 文档](https://developer.apple.com/library/archive/technotes/tn2151/_index.html).

@@ -1,7 +1,5 @@
 [//]: # (title: 类)
 
-最终更新: %latestDocDate%
-
 Kotlin 中的类使用 `class` 关键字定义:
 
 ```kotlin

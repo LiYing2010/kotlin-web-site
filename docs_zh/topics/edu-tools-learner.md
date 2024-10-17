@@ -1,7 +1,5 @@
 [//]: # (title: 使用 JetBrains Academy plugin 学习 Kotlin)
 
-最终更新: %latestDocDate%
-
 [JetBrains Academy plugin](https://plugins.jetbrains.com/plugin/10081-jetbrains-academy) 可用于
 [Android Studio](https://developer.android.com/studio)
 和 [IntelliJ IDEA](https://www.jetbrains.com/idea/),

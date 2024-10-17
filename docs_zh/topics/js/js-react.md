@@ -1,7 +1,5 @@
 [//]: # (title: 教程 - 使用 React 和 Kotlin/JS 创建 Web 应用程序)
 
-最终更新: %latestDocDate%
-
 This tutorial will teach you how to build a browser application with Kotlin/JS and the [React](https://reactjs.org/)
 framework. You will:
 

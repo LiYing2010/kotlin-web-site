@@ -1,7 +1,5 @@
 [//]: # (title: 入门)
 
-最终更新: %latestDocDate%
-
 一个好的库应该具备以下特征:
 * 向后兼容性(Backward Compatibility)
 * 完整而且易于理解的文档

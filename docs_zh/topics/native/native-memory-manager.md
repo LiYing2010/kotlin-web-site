@@ -1,7 +1,5 @@
 [//]: # (title: Kotlin/Native 内存管理)
 
-最终更新: %latestDocDate%
-
 Kotlin/Native 使用一个现代化的内存管理器, 类似于 JVM, Go, 以及其它主流技术, 包括以下功能:
 
 * 对象存储在共享的堆(heap)中, 可以在任何线程中访问.

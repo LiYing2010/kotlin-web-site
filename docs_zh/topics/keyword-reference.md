@@ -1,7 +1,5 @@
 [//]: # (title: 关键字与操作符)
 
-最终更新: %latestDocDate%
-
 ## 硬关键字(Hard Keyword)
 
 以下符号始终会被解释为关键字, 不能用作标识符(identifiers):

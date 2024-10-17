@@ -1,7 +1,5 @@
 [//]: # (title: HTML)
 
-最终更新: %latestDocDate%
-
 HTML 是 Dokka 的默认并且推荐的输出格式. 目前处于 Beta 版, 正在接近稳定发布版.
 
 你可以浏览

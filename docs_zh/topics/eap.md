@@ -1,7 +1,5 @@
 [//]: # (title: 参加 Kotlin EAP 项目)
 
-最终更新: %latestDocDate%
-
 你可以参加 Kotlin 早期预览(EAP) 项目, 试用 Kotlin 还未发布的最新功能.
 
 在每个功能发布版 (_1.x_) 和增量发布版 (_1.x.y_)之前, 我们会发布少量的 Beta (_Beta_) 和 Release Candidate (_RC_) 版本.

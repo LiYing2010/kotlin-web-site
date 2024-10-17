@@ -1,8 +1,6 @@
 [//]: # (title: Java 和 Kotlin 中的字符串)
 [//]: # (description: 学习如何将 Java 字符串迁移到 Kotlin 字符串. 这篇向导讨论 Java StringBuilder, 字符串拼接和切分, 多行字符串, 流, 以及其它问题.)
 
-最终更新: %latestDocDate%
-
 这篇向导通过示例程序演示如何在 Java 和 Kotlin 中进行通常的字符串处理.
 将会帮助你从 Java 迁移到 Kotlin, 并以 Kotlin 的方式来编写代码.
 

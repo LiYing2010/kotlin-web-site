@@ -1,7 +1,5 @@
 [//]: # (title: 注解)
 
-最终更新: %latestDocDate%
-
 注解是用来为代码添加元数据(metadata)的一种手段.
 要声明一个注解, 需要在类之前添加 `annotation` 修饰符:
 

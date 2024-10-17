@@ -1,8 +1,6 @@
 [//]: # (title: 原生(Native)应用程序开发与跨平台(cross-platform)移动应用程序开发: 如何选择?)
 [//]: # (description: 在原生(Native)应用程序开发与跨平台(cross-platform)移动应用程序开发之间做选择时, 请考虑这 6 个因素, 选择最适合你的 App 的解决方案.)
 
-最终更新: %latestDocDate%
-
 人们醒着的时间大量用在他们的移动设备上. 他们还 [每天在移动应用程序上花费 4.8 小时](https://www.data.ai/en/insights/market-data/state-of-mobile-2022/),
 因此移动平台对任何商业类型都非常具有吸引力.
 

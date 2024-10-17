@@ -1,7 +1,5 @@
 [//]: # (title: Gradle)
 
-最终更新: %latestDocDate%
-
 要为基于 Gradle 的项目要生成文档, 你可以使用
 [Gradle plugin for Dokka](https://plugins.gradle.org/plugin/org.jetbrains.dokka).
 

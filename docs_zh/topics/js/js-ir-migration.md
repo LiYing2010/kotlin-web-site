@@ -1,7 +1,5 @@
 [//]: # (title: 将 Kotlin/JS 项目迁移到 IR 编译器)
 
-最终更新: %latestDocDate%
-
 我们已经用 [基于 IR 的编译器](js-ir-compiler.md) 替代了旧的 Kotlin/JS 编译器,
 原因是为了在所有的平台上统一 Kotlin 的行为, 以及能够实现新的 JS 专有的优化, 还有其他一些原因.
 关于两种编译器的内部区别, 请参见 Sebastian Aigner 的 Blog

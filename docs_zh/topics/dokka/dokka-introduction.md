@@ -1,7 +1,5 @@
 [//]: # (title: 介绍)
 
-最终更新: %latestDocDate%
-
 Dokka 是一个用于 Kotlin 的 API 文档引擎.
 
 和 Kotlin 本身一样, Dokka 支持混合语言的项目.

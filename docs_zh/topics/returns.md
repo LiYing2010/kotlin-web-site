@@ -1,7 +1,5 @@
 [//]: # (title: 返回与跳转: break 与 continue)
 
-最终更新: %latestDocDate%
-
 Kotlin 中存在 3 种跳出程序流程的表达式:
 
 * `return` 的默认行为是, 从最内层的函数或 [匿名函数](lambdas.md#anonymous-functions) 中返回.

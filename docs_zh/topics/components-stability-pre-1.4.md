@@ -1,7 +1,5 @@
 [//]: # (title: Kotlin 各部分组件的稳定性 (1.4 版以前))
 
-最终更新: %latestDocDate%
-
 根据组件演进速度的不同, 可能存在几种不同的稳定性模式:
 <a name="moving-fast"></a>
 *   **快速变化 (Moving fast, MF)**:

@@ -1,7 +1,5 @@
 [//]: # (title: Kotlin/Native 支持的目标平台)
 
-最终更新: %latestDocDate%
-
 Kotlin/Native 编译器支持大量的编译目标, 但是, 很难对所有编译目标提供同等程度的支持.
 本文档描述 Kotlin/Native 支持哪些编译目标, 并根据编译器支持程度的不同, 将它们分为几个层级.
 

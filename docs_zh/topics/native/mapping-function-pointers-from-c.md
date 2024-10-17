@@ -1,7 +1,5 @@
 [//]: # (title: 教程 - 映射 C 语言的函数指针(Function Pointer))
 
-最终更新: %latestDocDate%
-
 > C 库导入是 [实验性功能](components-stability.md#stability-levels-explained).
 > `cinterop` 工具从 C 库生成的所有 Kotlin 声明都应该标注 `@ExperimentalForeignApi` 注解.
 >

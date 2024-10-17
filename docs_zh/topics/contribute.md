@@ -1,7 +1,5 @@
 [//]: # (title: 为 Kotlin 项目贡献代码)
 
-最终更新: %latestDocDate%
-
 Kotlin 是一个开源项目, 使用 [Apache 2.0 许可协议](https://github.com/JetBrains/kotlin/blob/master/license/LICENSE.txt).
 源代码, 工具, 文档, 已经本网站, 都在 [GitHub](https://github.com/jetbrains/kotlin) 维护.
 尽管 Kotlin 主要由 JetBrains 开发, 但 Kotlin 项目还有几百名外部贡献者, 而且我们始终希望更多的开发者帮助我们.

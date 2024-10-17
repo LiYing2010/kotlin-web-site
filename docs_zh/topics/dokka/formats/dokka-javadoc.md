@@ -1,7 +1,5 @@
 [//]: # (title: Javadoc)
 
-最终更新: %latestDocDate%
-
 > Javadoc 输出格式还处于 Alpha 状态, 因此你在使用时可能遇到 bug, 或迁移问题.
 > 我们不保证能够与那些接受 Java 的 Javadoc HTML 格式作为输入的工具成功的集成.
 > **使用这个功能时, 请自行承担风险.**

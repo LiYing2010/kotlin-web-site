@@ -1,8 +1,6 @@
 [//]: # (title: 支持 Kotlin 开发的 IDE)
 [//]: # (description: JetBrains 为 IntelliJ IDEA, Fleet 和 Android Studio 提供了 Kotlin plugin . Eclipse 有社区支持的 Kotlin plugin.)
 
-最终更新: %latestDocDate%
-
 JetBrains 为 [IntelliJ IDEA](#intellij-idea), [JetBrains Fleet](#fleet), 和 [Android Studio](#android-studio)
 提供了官方的 Kotlin plugin.
 

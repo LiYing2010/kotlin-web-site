@@ -1,7 +1,5 @@
 [//]: # (title: 添加 Pod 库依赖项)
 
-最终更新: %latestDocDate%
-
 要添加 Kotlin 项目对 Pod 库的依赖项, 需要 [完成初始配置](native-cocoapods.md#set-up-an-environment-to-work-with-cocoapods).
 然后你就可以添加各种类型的 Pod 库依赖项.
 

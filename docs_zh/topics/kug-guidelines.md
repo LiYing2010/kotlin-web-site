@@ -1,7 +1,5 @@
 [//]: # (title: KUG 指南)
 
-最终更新: %latestDocDate%
-
 Kotlin User Group, 简称 KUG, 是一个专注于 Kotlin 的开发社区, 你可以在这里与其他志趣相投的人分享你的 Kotlin 编程经验.
 
 要成为 KUG, 你的开发社区需要满足每个 KUG 都必须的特定的条件. 包括:

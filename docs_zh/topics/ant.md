@@ -1,7 +1,5 @@
 [//]: # (title: Ant)
 
-最终更新: %latestDocDate%
-
 ## 安装 Ant Task {id="getting-the-ant-tasks"}
 
 Kotlin 提供了 3 个 Ant Task:

@@ -1,7 +1,5 @@
 [//]: # (title: 字符串)
 
-最终更新: %latestDocDate%
-
 Kotlin 中的字符串由 [`String`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/) 类型表达.
 
 > 在 JVM 平台, 使用 UTF-16 编码的 `String` 类型的对象, 大约使用每字符 2 个字节.

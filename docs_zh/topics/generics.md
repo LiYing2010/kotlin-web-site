@@ -1,7 +1,5 @@
 [//]: # (title: 泛型(Generic): in, out, where)
 
-最终更新: %latestDocDate%
-
 Kotlin 中的类也可以有类型参数, 与 Java 一样:
 
 ```kotlin

@@ -1,7 +1,5 @@
 [//]: # (title: this 表达式)
 
-最终更新: %latestDocDate%
-
 为了表示当前函数的 _接收者(receiver)_, 你可以使用 `this` 表达式:
 
 * 在 [类](classes.md#inheritance) 的成员函数中, `this` 指向这个类的当前对象实例.

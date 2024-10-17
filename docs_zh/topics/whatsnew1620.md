@@ -1,7 +1,5 @@
 [//]: # (title: Kotlin 1.6.20 版中的新功能)
 
-最终更新: %latestDocDate%
-
 _[发布日期: 2022/04/04](releases.md#release-details)_
 
 Kotlin 1.6.20 带来了一些未来语言功能的预览版, 对跨平台项目默认使用层级结构, 还带来了对其它组件的改进.

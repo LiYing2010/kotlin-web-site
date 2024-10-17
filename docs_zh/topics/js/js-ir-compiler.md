@@ -1,7 +1,5 @@
 [//]: # (title: 使用 IR 编译器)
 
-最终更新: %latestDocDate%
-
 Kotlin/JS IR 编译器后端是 Kotlin/JS 的主要创新方向, 并为以后的技术发展探索道路.
 
 Kotlin/JS IR 编译器后端不是从 Kotlin 源代码直接生成 JavaScript 代码, 而是使用一种新方案.

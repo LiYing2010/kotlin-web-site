@@ -1,7 +1,5 @@
 [//]: # (title: 针对 EAP 进行构建配置)
 
-最终更新: %latestDocDate%
-
 如果你使用 Kotlin 的 EAP 版创建新的项目, 你不需要进行任何额外的设置.
 [Kotlin Plugin](install-eap-plugin.md) 会为你配置好一切!
 

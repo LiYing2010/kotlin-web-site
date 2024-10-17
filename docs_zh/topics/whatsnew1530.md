@@ -1,7 +1,5 @@
 [//]: # (title: Kotlin 1.5.30 版中的新功能)
 
-最终更新: %latestDocDate%
-
 _[发布日期: 2021/08/24](releases.md#release-details)_
 
 Kotlin 1.5.30 带来语言更新, 包括功能变更的预览, 平台支持与工具方面的大量改进, 以及新的标准库函数.

@@ -1,7 +1,5 @@
 [//]: # (title: Kotlin 1.4.20 版中的新功能)
 
-最终更新: %latestDocDate%
-
 _[发布日期: 2020/11/23](releases.md#release-details)_
 
 Kotlin 1.4.20 带来了很多新的实验性功能特性, 并对既有的提供了功能特性很多 bug 修正和改进,

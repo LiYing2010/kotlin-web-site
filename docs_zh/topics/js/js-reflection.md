@@ -1,7 +1,5 @@
 [//]: # (title: Kotlin/JS 的反射(Reflection))
 
-最终更新: %latestDocDate%
-
 Kotlin/JS 只对 Kotlin [反射 API](reflection.md) 提供有限的支持.
 目前仅支持以下 API:
 * [类引用(class reference)](reflection.md#class-references) (`::class`).

@@ -1,7 +1,5 @@
 [//]: # (title: 在 Java 中调用 Kotlin 代码)
 
-最终更新: %latestDocDate%
-
 在 Java 中可以很容易地调用 Kotlin 代码.
 比如, 在 Java 方法中可以非常自然的创建 Kotlin 类的实例, 并操作这些实例.
 但是 Java 和 Kotlin 之间还是存在一些差异, 在 Java 中集成 Kotlin 代码时, 需要注意这些问题.

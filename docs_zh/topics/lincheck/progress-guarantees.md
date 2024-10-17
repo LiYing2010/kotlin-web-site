@@ -1,7 +1,5 @@
 [//]: # (title: 进度保证)
 
-最终更新: %latestDocDate%
-
 很多并发算法会提供非阻塞的进度保证, 例如无锁(lock-freedom)和无等待(wait-freedom).
 由于算法通常比较复杂, 因此很容易加入 bug, 导致算法阻塞.
 使用模型检查策略, Lincheck 可以帮助你找到这种存活 bug.

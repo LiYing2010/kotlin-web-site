@@ -1,7 +1,5 @@
 [//]: # (title: Kotlin/Native 二进制文件的许可证)
 
-最终更新: %latestDocDate%
-
 和其它很多开源项目一样, Kotlin 依赖于第三方代码, 也就是说, Kotlin 项目包含一部分并不是由 JetBrains 或 Kotlin 编程语言贡献者们开发的代码.
 有时这些代码是派生作品, 例如将 C++ 代码重写为 Kotlin.
 

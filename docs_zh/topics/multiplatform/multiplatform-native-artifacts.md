@@ -1,7 +1,5 @@
 [//]: # (title: [实验性 DSL] 构建最终的原生二进制文件)
 
-最终更新: %latestDocDate%
-
 > 本章介绍的新 DSL 是 [实验性功能](components-stability.md). 它随时有可能变更.
 > 我们建议你只为评估和试验目的来使用这个功能.
 >

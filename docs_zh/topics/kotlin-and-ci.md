@@ -1,7 +1,5 @@
 [//]: # (title: 使用 TeamCity 对 Kotlin 项目进行持续集成(Continuous Integration))
 
-最终更新: %latestDocDate%
-
 在本章中, 你将学习如何设置 [TeamCity](https://www.jetbrains.com/teamcity/) 来构建你的 Kotlin 项目.
 关于 TeamCity 的基本知识和更多信息, 请参见 [官方文档](https://www.jetbrains.com/teamcity/documentation/),
 其中包括如何安装, 基本配置, 等等.

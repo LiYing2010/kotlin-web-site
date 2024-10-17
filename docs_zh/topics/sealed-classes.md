@@ -1,7 +1,5 @@
 [//]: # (title: 封闭类(Sealed Class)与封闭接口(Sealed Interface))
 
-最终更新: %latestDocDate%
-
 _封闭_ 类和接口提供了对类的继承关系进行控制的方式.
 一个封闭类的所有的直接子类(Direct Subclass)在编译时刻就能够确定.
 在定义封闭类的模块和包之外, 不可能再出现其他子类.

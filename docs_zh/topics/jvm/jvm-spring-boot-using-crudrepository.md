@@ -1,8 +1,6 @@
 [//]: # (title: 使用 Spring Data CrudRepository 进行数据库访问)
 [//]: # (description: 在 Kotlin 编写的 Spring Boot 项目中使用 Spring Data.)
 
-最终更新: %latestDocDate%
-
 <tldr>
     <p>
         这是 <strong>Spring Boot 和 Kotlin 入门</strong> 教程的最后部分.

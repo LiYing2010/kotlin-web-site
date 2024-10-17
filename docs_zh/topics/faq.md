@@ -1,7 +1,5 @@
 [//]: # (title: FAQ)
 
-最终更新: %latestDocDate%
-
 ### 什么是 Kotlin? {id="what-is-kotlin"}
 
 Kotlin 是一种开源的, 静态类型的编程语言, 针对的目标平台是 JVM, Android, JavaScript, Wasm, 以及 Native 应用.

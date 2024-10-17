@@ -1,7 +1,5 @@
 [//]: # (title: 函数式 (SAM) 接口)
 
-最终更新: %latestDocDate%
-
 只有一个抽象方法的接口称为 _函数式接口 (Functional Interface)_, 或者叫做 _单抽象方法(SAM, Single Abstract Method) 接口_.
 函数式接口可以拥有多个非抽象的成员, 但只能拥有一个抽象成员.
 

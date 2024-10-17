@@ -1,7 +1,5 @@
 [//]: # (title: 字符)
 
-最终更新: %latestDocDate%
-
 字符使用 `Char` 类型表达.
 字符的字面值(literal)使用单引号表达: `'1'`.
 

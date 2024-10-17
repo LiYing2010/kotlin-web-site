@@ -1,7 +1,5 @@
 [//]: # (title: 对 Gradle plugin 变体的支持)
 
-最终更新: %latestDocDate%
-
 Gradle 7.0 为 Gradle plugin 开发者引入了一个新功能
 — [带变体(variant)的 plugin](https://docs.gradle.org/7.0/userguide/implementing_gradle_plugins.html#plugin-with-variants).
 使用这个功能, 可以在 plugin 中支持最新的 Gradle 功能, 同时保持与旧版本 Gradle 的兼容性.

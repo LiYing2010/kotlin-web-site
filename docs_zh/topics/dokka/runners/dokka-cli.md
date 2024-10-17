@@ -1,7 +1,5 @@
 [//]: # (title: CLI)
 
-最终更新: %latestDocDate%
-
 如果你由于某些原因无法使用 [Gradle](dokka-gradle.md) 或 [Maven](dokka-maven.md) 构建工具,
 Dokka 有一个命令行(CLI)运行器用来生成文档.
 

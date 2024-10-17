@@ -1,7 +1,5 @@
 [//]: # (title: 条件与循环)
 
-最终更新: %latestDocDate%
-
 ## if 表达式 {id="if-expression"}
 
 在 Kotlin 中, `if` 是一个表达式: 它有返回值.

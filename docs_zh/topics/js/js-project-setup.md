@@ -1,7 +1,5 @@
 [//]: # (title: 创建 Kotlin/JS 工程(Project))
 
-最终更新: %latestDocDate%
-
 Kotlin JavaScript 工程(Project) 使用 Gradle 进行编译.
 为了方便开发者管理 Kotlin JavaScript 工程, 我们提供了 `kotlin.multiplatform` Gradle 插件, 其中包括工程配置工具,
 以及对 JavaScript 开发中常见业务进行自动化处理的帮助性任务.

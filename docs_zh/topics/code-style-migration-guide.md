@@ -1,7 +1,5 @@
 [//]: # (title: 迁移到 Kotlin 编码风格)
 
-最终更新: %latestDocDate%
-
 ## Kotlin 编码规约与 IntelliJ IDEA 源代码格式化 {id="kotlin-coding-conventions-and-intellij-idea-formatter"}
 
 关于如何编写符合 Kotlin 习惯的代码, [Kotlin 编码规约](coding-conventions.md) 讲到了很多方面的内容,

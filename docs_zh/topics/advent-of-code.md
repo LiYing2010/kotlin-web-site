@@ -1,7 +1,5 @@
 [//]: # (title: 使用 Kotlin 惯用法的 Advent of Code)
 
-最终更新: %latestDocDate%
-
 [Advent of Code](https://adventofcode.com/) 是每年 12 月举办一次的活动, 从 12 月 1 日开始到 25 日, 每天发布一道节日主题的谜题.
 经 Advent of Code 创建者 [Eric Wastl](http://was.tl/) 授权, 我们演示如何使用 Kotlin 风格的惯用法来解决这些谜题:
 

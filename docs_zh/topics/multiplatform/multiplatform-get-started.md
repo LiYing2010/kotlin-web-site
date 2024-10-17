@@ -1,8 +1,6 @@
 [//]: # (title: Kotlin 跨平台程序开发入门)
 [//]: # (description: 学校如何利用 Kotlin Multiplatform 来创建你的第一个 Kotlin 跨平台应用程序, 或跨平台库.)
 
-最终更新: %latestDocDate%
-
 支持跨平台程序开发是 Kotlin 的关键益处之一.
 它可以减少对 [不同的平台](multiplatform-dsl-reference.md#targets) 编写和维护相同的代码从头开始,
 同时又保持原生程序开发的灵活性和益处.

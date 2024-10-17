@@ -1,7 +1,5 @@
 [//]: # (title: Kotlin 1.8.0 版中的新功能)
 
-最终更新: %latestDocDate%
-
 _[发布日期: 2022/12/28](releases.md#release-details)_
 
 Kotlin 1.8.0 已经发布了, 以下是它的一些最重要的功能:

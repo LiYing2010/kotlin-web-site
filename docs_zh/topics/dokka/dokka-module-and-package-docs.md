@@ -1,7 +1,5 @@
 [//]: # (title: 模块文档)
 
-最终更新: %latestDocDate%
-
 针对模块整体的文档, 以及针对模块内包的文档, 可以通过单独的 Markdown 文件的形式提供.
 
 ## 文件格式 {id="file-format"}

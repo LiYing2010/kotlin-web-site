@@ -1,7 +1,5 @@
 [//]: # (title: Kotlin 1.5.0 版中的新功能)
 
-最终更新: %latestDocDate%
-
 _[发布日期: 2021/05/05](releases.md#release-details)_
 
 Kotlin 1.5.0 引入了新的语言功能, 基于 IR 的 JVM 编译器后端的稳定版, 以及性能改善,

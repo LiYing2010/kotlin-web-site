@@ -1,7 +1,5 @@
 [//]: # (title: No-arg 编译器插件)
 
-最终更新: %latestDocDate%
-
 对带有指定注解的类, *no-arg* 编译器插件会为它生成一个额外的无参数构造器.
 
 生成的构造器是合成的(Synthetic), 因此不能在 Java 或 Kotlin 代码中直接调用, 但可以使用反射调用.

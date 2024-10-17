@@ -1,7 +1,5 @@
 [//]: # (title: 兼容模式)
 
-最终更新: %latestDocDate%
-
 当一个大的开发组迁移到一个新的版本时, 某些时候可能会出现一种 "不一致状态", 一部分开发组已经更新, 但其他开发组还没有.
 为了避免前一部分开发者编写并提交的代码, 导致其他人无法编译, 我们提供以下命令行选项
 (在 IDE 和 [Gradle](gradle-compiler-options.md) / [Maven](maven.md#specify-compiler-options) 中也可以使用):

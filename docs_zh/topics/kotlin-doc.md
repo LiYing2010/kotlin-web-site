@@ -1,7 +1,5 @@
 [//]: # (title: 为 Kotlin 代码编写文档: KDoc)
 
-最终更新: %latestDocDate%
-
 为 Kotlin 代码编写文档使用的语言 (相当于 Java 中的 Javadoc) 称为 **KDoc**.
 本质上, KDoc 结合了 Javadoc 和 Markdown, 它在块标签(block tag)使用 Javadoc 语法(但做了扩展, 以便支持 Kotlin 特有的概念),
 Markdown 则用来表示内联标记(inline markup).

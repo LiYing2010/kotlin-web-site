@@ -1,7 +1,5 @@
 [//]: # (title: 添加 iOS 依赖项)
 
-最终更新: %latestDocDate%
-
 在 Kotlin Multiplatform 项目中, Apple SDK 依赖项(比如 Foundation 或 Core Bluetooth) 可以作为一组预构建的库来使用.
 不需要额外的配置.
 

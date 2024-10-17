@@ -1,7 +1,5 @@
 [//]: # (title: 教程 - 在同一个项目中混合使用 Java 和 Kotlin)
 
-最终更新: %latestDocDate%
-
 Kotlin 对 Java 的交互功能提供了一级支持, 现代化的 IDE 还使得这个功能更加便利.
 本教程中, 你将会学习在 IntelliJ IDEA 如何在同一个项目内同时使用 Kotlin 和 Java 代码.
 关于在 IntelliJ IDEA 中如何启动一个新的 Kotlin 项目, 请参见 [IntelliJ IDEA 中使用 Kotlin 入门](jvm-get-started.md).

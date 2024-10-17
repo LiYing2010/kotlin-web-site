@@ -1,7 +1,5 @@
 [//]: # (title: 与 JavaScript 交互)
 
-最终更新: %latestDocDate%
-
 Kotlin/Wasm 允许你在 Kotlin 中使用 JavaScript 代码, 也允许你在 JavaScript 中使用 Kotlin 代码.
 
 和 [Kotlin/JS](js-overview.md) 一样, Kotlin/Wasm 编译器也具有与 JavaScript 互操作的能力.

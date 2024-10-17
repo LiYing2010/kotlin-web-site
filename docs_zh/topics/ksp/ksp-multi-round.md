@@ -1,7 +1,5 @@
 [//]: # (title: 多轮(Multiple Round)处理)
 
-最终更新: %latestDocDate%
-
 KSP 支持 _多轮(Multiple Round)处理_, 也就是通过多次步骤处理文件.
 因此前一轮处理的输出可以供后一轮处理作为额外的输入.
 

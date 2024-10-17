@@ -1,7 +1,5 @@
 [//]: # (title: 教程 - 使用 IntelliJ IDEA 调试协程)
 
-最终更新: %latestDocDate%
-
 本教程演示如何创建 Kotlin 协程, 并使用 IntelliJ IDEA 调试这些协程.
 
 本教程假定你已经了解了 [协程](coroutines-guide.md) 的基本概念.

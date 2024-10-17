@@ -1,7 +1,5 @@
 [//]: # (title: Kotlin 1.6.0 版中的新功能)
 
-最终更新: %latestDocDate%
-
 _[发布日期: 2021/11/16](releases.md#release-details)_
 
 Kotlin 1.6.0 引入了新的语言功能, 优化并改进了现有的功能, 并对 Kotlin 标准库进行了大量的改进.

@@ -1,7 +1,5 @@
 [//]: # (title: 协程上下文与派发器(Dispatcher))
 
-最终更新: %latestDocDate%
-
 协程总是在某个上下文环境执行, 上下文环境通过 Kotlin 标准库中定义的
 [CoroutineContext](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.coroutines/-coroutine-context/)
 类型的值来表示.

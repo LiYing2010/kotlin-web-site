@@ -1,7 +1,5 @@
 [//]: # (title: 预期声明与实际声明)
 
-最终更新: %latestDocDate%
-
 预期声明(Expected Declaration)与实际声明(Actual Declaration), 让你能够在 Kotlin Multiplatform 模块中访问平台相关的 API.
 你可以在共通代码中提供平台无关的 API.
 

@@ -1,7 +1,5 @@
 [//]: # (title: Spring Boot 和 Kotlin 入门)
 
-最终更新: %latestDocDate%
-
 通过完成这个教程, 学习使用 Spring Boot 和 Kotlin:
 本教程将会带领你使用 Spring Boot 创建一个简单的应用程序, 并添加数据库来存储信息.
 

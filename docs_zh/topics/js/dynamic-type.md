@@ -1,7 +1,5 @@
 [//]: # (title: 动态类型)
 
-最终更新: %latestDocDate%
-
 > 当编译目标平台为 JVM 时, 不支持动态类型.
 >
 {style="note"}

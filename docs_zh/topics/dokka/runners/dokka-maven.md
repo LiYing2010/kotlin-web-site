@@ -1,7 +1,5 @@
 [//]: # (title: Maven)
 
-最终更新: %latestDocDate%
-
 要为基于 Maven 的项目生成文档, 你可以使用 Maven plugin for Dokka.
 
 > 与 [Gradle plugin for Dokka](dokka-gradle.md) 相比, Maven plugin 只包括基本的功能, 不支持多模块构建.

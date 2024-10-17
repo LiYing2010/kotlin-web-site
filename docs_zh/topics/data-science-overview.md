@@ -1,7 +1,5 @@
 [//]: # (title: 在数据科学(Data Science)中使用 Kotlin)
 
-最终更新: %latestDocDate%
-
 无论是创建数据管道(data pipeline), 还是构建真实生产环境的机器学习模型(machine learning model), Kotlin 都可以是很好的数据处理工具:
 * Kotlin 代码简洁, 易读, 而且易于学习.
 * 静态类型系统, 以及 null 值安全性, 有助于创建可靠, 易于维护的代码, 而且易于追中错误.

@@ -1,7 +1,5 @@
 [//]: # (title: 向 Spring Boot 项目添加数据类)
 
-最终更新: %latestDocDate%
-
 <tldr>
     <p>
          这是 <strong>Spring Boot 和 Kotlin 入门</strong> 教程的第 2 部分.

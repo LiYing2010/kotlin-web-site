@@ -1,7 +1,5 @@
 [//]: # (title: Dokka 入门)
 
-最终更新: %latestDocDate%
-
 下面你可以看到一段简单的指南, 帮助你开始学习使用 Dokka.
 
 <tabs group="build-script">

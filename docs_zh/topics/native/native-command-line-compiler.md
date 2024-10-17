@@ -1,7 +1,5 @@
 [//]: # (title: Kotlin/Native 开发入门 - 使用命令行编译器)
 
-最终更新: %latestDocDate%
-
 ## 获取编译器
 
 Kotlin/Native 编译器可以运行于 macOS, Linux, 以及 Windows 环境. 它是一个命令行工具, 作为 Kotlin 的一部分发布,

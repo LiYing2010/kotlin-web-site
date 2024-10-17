@@ -1,7 +1,5 @@
 [//]: # (title: 委托)
 
-最终更新: %latestDocDate%
-
 [委托模式](https://en.wikipedia.org/wiki/Delegation_pattern) 已被实践证明为类继承模式之外的另一种很好的替代方案,
 Kotlin 直接支持委托模式, 因此你不必再为了实现委托模式而手动编写那些无聊的样板代码(Boilerplate Code)了.
 

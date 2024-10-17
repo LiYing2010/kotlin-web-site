@@ -1,7 +1,5 @@
 [//]: # (title: Kotlin 符号处理(Kotlin Symbol Processing) API)
 
-最终更新: %latestDocDate%
-
 Kotlin 符号处理(Kotlin Symbol Processing, _KSP_) 是一组 API, 你可以使用它开发轻量的编译器插件.
 KSP 提供一组简化的编译器插件 API, 利用 Kotlin 的能力, 同时保持最小的学习曲线.
 与 [kapt](kapt.md) 相比, 使用 KSP 的注解处理器运行速度可以快 2 倍.

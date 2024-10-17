@@ -1,7 +1,5 @@
 [//]: # (title: 发布跨平台的库)
 
-最终更新: %latestDocDate%
-
 你可以使用 [`maven-publish` Gradle plugin](https://docs.gradle.org/current/userguide/publishing_maven.html),
 将跨平台的库发布到本地的 Maven 仓库.
 只需要在 `shared/build.gradle.kts` 文件中, 指定库的 group, version, 以及需要发布到的

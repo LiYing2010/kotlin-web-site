@@ -1,7 +1,5 @@
 [//]: # (title: KSP FAQ)
 
-最终更新: %latestDocDate%
-
 ### 为什么需要使用 KSP? {id="why-ksp"}
 
 KSP 相比 [kapt](kapt.md) 具有很多优点:

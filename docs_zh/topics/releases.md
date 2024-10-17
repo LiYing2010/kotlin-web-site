@@ -1,7 +1,5 @@
 [//]: # (title: Kotlin 的发布版本)
 
-最终更新: %latestDocDate%
-
 我们的发布版本包括几种不同的类型:
 
 * _功能发布版(Feature release)_ (1._x_) 其中包括语言的重要变化.

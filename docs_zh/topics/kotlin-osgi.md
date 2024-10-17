@@ -1,7 +1,5 @@
 [//]: # (title: Kotlin 与 OSGi)
 
-最终更新: %latestDocDate%
-
 要在你的项目中使用 Kotlin 的 [OSGi](https://www.osgi.org/) 支持功能,
 需要使用 `kotlin-osgi-bundle`, 而不是通常的 Kotlin 库文件.
 此外还建议你删除 `kotlin-runtime`, `kotlin-stdlib` 和 `kotlin-reflect` 依赖,

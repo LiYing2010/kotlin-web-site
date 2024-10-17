@@ -1,7 +1,5 @@
 [//]: # (title: 布尔(Boolean)类型)
 
-最终更新: %latestDocDate%
-
 `Boolean` 类型用来表示布尔型对象, 有两个可能的值: `true` 和 `false`.
 `Boolean` 还有对应的 [可为 null](null-safety.md) 的类型, 声明为 `Boolean?`.
 

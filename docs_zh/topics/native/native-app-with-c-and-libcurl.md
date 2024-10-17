@@ -1,7 +1,5 @@
 [//]: # (title: 教程 - 使用 C Interop 和 libcurl 创建应用程序)
 
-最终更新: %latestDocDate%
-
 本教程演示如何使用 IntelliJ IDEA 创建一个命令行应用程序.
 你将学习如何创建一个简单的 HTTP 客户端程序, 它使用 Kotlin/Native 和 `libcurl` 库, 可以作为原生程序运行在指定的平台上.
 

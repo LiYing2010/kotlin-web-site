@@ -1,7 +1,5 @@
 [//]: # (title: 安装 Kotlin EAP Plugin)
 
-最终更新: %latestDocDate%
-
 <tldr>
     <p>最新的 Kotlin EAP 版本: <strong>%kotlinEapVersion%</strong></p>
     <p><a href="eap.md#build-details">查看 Kotlin EAP 版</a></p>

@@ -1,7 +1,5 @@
 [//]: # (title: List 相关操作)
 
-最终更新: %latestDocDate%
-
 [`List`](collections-overview.md#list) 是 Kotlin 内建集合中最常用的类型.
 基于下标的元素访问, 为 list 提供了很多功能强大的操作.
 

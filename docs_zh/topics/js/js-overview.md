@@ -1,7 +1,5 @@
 [//]: # (title: 使用 Kotlin 进行 JavaScript 开发)
 
-最终更新: %latestDocDate%
-
 Kotlin/JS 能够将你的 Kotlin 代码, Kotlin 标准库, 以及所有兼容的依赖项转换为 JavaScript.
 Kotlin/JS 目前的实现针对 [ES5](https://www.ecma-international.org/ecma-262/5.1/) 标准.
 

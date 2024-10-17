@@ -1,7 +1,5 @@
 [//]: # (title: 类型安全的构建器)
 
-最终更新: %latestDocDate%
-
 通过将恰当命名的函数用做构建器, 结合 [带接受者的函数字面值](lambdas.md#function-literals-with-receiver),
 我们可以在 Kotlin 中创建出类型安全的, 静态类型的构建器.
 

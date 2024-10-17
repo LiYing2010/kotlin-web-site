@@ -1,7 +1,5 @@
 [//]: # (title: 迁移到新的内存管理器)
 
-最终更新: %latestDocDate%
-
 本向导会对新的 [Kotlin/Native 内存管理器](native-memory-manager.md) 与旧的内存管理器进行比较, 并介绍如何迁移你的项目.
 
 新内存管理器最重要的变化是解除了对象共享的限制.

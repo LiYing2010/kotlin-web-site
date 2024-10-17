@@ -1,7 +1,5 @@
 [//]: # (title: 函数)
 
-最终更新: %latestDocDate%
-
 Kotlin 中的函数使用 `fun` 关键字定义:
 
 ```kotlin

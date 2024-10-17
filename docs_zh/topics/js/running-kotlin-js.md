@@ -1,7 +1,5 @@
 [//]: # (title: 运行 Kotlin/JS 代码)
 
-最终更新: %latestDocDate%
-
 Kotlin/JS 项目是通过 Kotlin Multiplatform Gradle plugin 管理的, 因此你可以使用适当的 Gradle 任务来运行你的项目.
 如果你从一个空的项目开始, 请确认你已有一些示例代码可以运行.
 创建文件 `src/jsMain/kotlin/App.kt`, 并在其内容中输入一段 "Hello, World" 式的代码:

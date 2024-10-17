@@ -1,7 +1,5 @@
 [//]: # (title: 操作参数)
 
-最终更新: %latestDocDate%
-
 本教程中, 你将会学习如何配置操作参数.
 
 以下面这个简单的 `MultiMap` 实现为例子. 它内部使用 `ConcurrentHashMap`, 其中保存的是一个值列表:

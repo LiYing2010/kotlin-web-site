@@ -1,7 +1,5 @@
 [//]: # (title: 无符号整数(Unsigned Integer)类型)
 
-最终更新: %latestDocDate%
-
 除 [整数类型](numbers.md#integer-types) 外, Kotlin 还提供了以下无符号整数类型:
 
 | 类型       | 大小 (位) | 最小值 | 最大值                                       |

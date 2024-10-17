@@ -1,7 +1,5 @@
 [//]: # (title: 关于翻译)
 
-最终更新: %latestDocDate%
-
 本文是 Kotlin 语言参考文档的中文翻译版.
 
 原文

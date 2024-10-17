@@ -1,7 +1,5 @@
 [//]: # (title: Kotlin Night 指南)
 
-最终更新: %latestDocDate%
-
 Kotlin Night 是一种聚会, 包含 3 到 4 次关于 Kotlin 或相关技术的演讲.
 
 > 关于 Kotlin Night 的品牌资产, 请参见 [Kotlin 品牌资产文档](kotlin-brand-assets.md#kotlin-night-brand-assets).

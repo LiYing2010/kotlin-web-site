@@ -1,7 +1,5 @@
 [//]: # (title: Set 相关操作)
 
-最终更新: %latestDocDate%
-
 Kotlin 的集合包中包含着很多扩展函数, 用来实现常见的 set 操作:
 计算两个 set 的交集, 合并两个 set, 或者从一个 set 中减去另一个集合.
 

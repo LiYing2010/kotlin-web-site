@@ -1,7 +1,5 @@
 [//]: # (title: 嵌套类与内部类)
 
-最终更新: %latestDocDate%
-
 类可以嵌套在另一个类之内:
 
 ```kotlin

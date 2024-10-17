@@ -1,7 +1,5 @@
 [//]: # (title: Kotlin Multiplatform 项目结构的基础知识)
 
-最终更新: %latestDocDate%
-
 使用 Kotlin Multiplatform, 你可以在不同的平台之间共用代码.
 本文解释共用代码的限制, 如何区分代码的共用部分和平台相关部分, 以及如何指定这些共用代码运行的平台.
 

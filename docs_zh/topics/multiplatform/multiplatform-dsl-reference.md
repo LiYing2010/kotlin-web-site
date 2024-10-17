@@ -1,7 +1,5 @@
 [//]: # (title: 跨平台程序的 Gradle DSL 参考文档)
 
-最终更新: %latestDocDate%
-
 Kotlin Multiplatform Gradle plugin, 是一个用来创建 [Kotlin Multiplatform](multiplatform.md) 项目的工具.
 本章我们提供关于它的参考文档; 当你为 Kotlin Multiplatform 项目编写 Gradle 编译脚本时可以参考本文档.
 详情请参见 [关于 Kotlin Multiplatform 项目的基本概念, 如何创建和配置跨平台项目](multiplatform-get-started.md).

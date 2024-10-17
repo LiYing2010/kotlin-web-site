@@ -1,7 +1,5 @@
 [//]: # (title: 在命令行运行 KSP)
 
-最终更新: %latestDocDate%
-
 KSP 是一个 Kotlin 编译器 plugin, 需要与 Kotlin 编译器一起运行. 请下载并解压缩它们.
 
 ```bash

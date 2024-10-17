@@ -1,7 +1,5 @@
 [//]: # (title: 层级项目结构)
 
-最终更新: %latestDocDate%
-
 Kotlin Multiplatform 项目支持层级的源代码集结构.
 也就是说, 你可以安排中间源代码集的层级结构, 用于在部分的, 但不是全部的 [支持的编译目标](multiplatform-dsl-reference.md#targets),
 之间共用共通的代码.

@@ -1,7 +1,5 @@
 [//]: # (title: 压力测试与模型检查)
 
-最终更新: %latestDocDate%
-
 Lincheck 提供了 2 种测试策略: 压力测试与模型检查.
 下面我们使用 [前一章](introduction.md) 中在 `BasicCounterTest.kt` 文件中编写的 `Counter`, 来学习这 2 种策略的内部机制:
 

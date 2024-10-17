@@ -1,7 +1,5 @@
 [//]: # (title: Kotlin/Native 开发入门 - 使用 IntelliJ IDEA)
 
-最终更新: %latestDocDate%
-
 本教程演示如何使用 IntelliJ IDEA 创建一个 Kotlin/Native 应用程序.
 
 开始之前, 首先请安装 [IntelliJ IDEA](https://www.jetbrains.com/idea/download/index.html) 的最新版.

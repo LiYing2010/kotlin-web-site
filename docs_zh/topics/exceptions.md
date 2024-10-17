@@ -1,7 +1,5 @@
 [//]: # (title: 异常(Exception))
 
-最终更新: %latestDocDate%
-
 ## 异常类
 
 Kotlin 中所有的异常类都继承自 `Throwable` 类.

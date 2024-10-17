@@ -1,7 +1,5 @@
 [//]: # (title: 教程 - Kotlin 自定义脚本(Custom Scripting) 入门)
 
-最终更新: %latestDocDate%
-
 > Kotlin 脚本是 [实验性功能](components-stability.md).
 > 它随时有可能变更或被删除.
 > 请注意, 只为评估和试验目的来使用这个功能.

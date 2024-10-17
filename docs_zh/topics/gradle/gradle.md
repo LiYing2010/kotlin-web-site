@@ -1,7 +1,5 @@
 [//]: # (title: Gradle)
 
-最终更新: %latestDocDate%
-
 Gradle 是一个构建系统, 帮助你自动化并管理你的构建过程. 它会下载需要的依赖项, 打包你的代码, 并做好编译前的准备工作.
 关于 Gradle 的基本概念与详细信息, 请参见 [Gradle 网站](https://docs.gradle.org/current/userguide/userguide.html).
 

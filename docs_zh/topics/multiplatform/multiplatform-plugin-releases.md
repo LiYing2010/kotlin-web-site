@@ -1,7 +1,5 @@
 [//]: # (title: Kotlin Multiplatform Mobile Plugin 的发布版本)
 
-最终更新: %latestDocDate%
-
 我们正在努力开发 [Kotlin Multiplatform Mobile plugin for Android Studio](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform-mobile)
 的稳定版, 我们会不断发布新的版本, 包含新的功能, 改进, 和 bug 修正.
 

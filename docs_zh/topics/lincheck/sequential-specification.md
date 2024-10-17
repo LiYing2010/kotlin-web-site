@@ -1,7 +1,5 @@
 [//]: # (title: 顺序规格)
 
-最终更新: %latestDocDate%
-
 为了确认算法实现了正确的顺序行为, 你可以为测试数据结构编写一个简单的顺序化实现,
 用来定义算法的 _顺序规格(sequential specification)_.
 

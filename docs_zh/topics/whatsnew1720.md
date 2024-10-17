@@ -1,7 +1,5 @@
 [//]: # (title: Kotlin 1.7.20 版中的新功能)
 
-最终更新: %latestDocDate%
-
 <tldr>
    <p>IDE 从 IntelliJ IDEA 2021.3, 2022.1, 和 2022.2 开始支持 Kotlin 1.7.20.</p>
 </tldr>

@@ -1,7 +1,5 @@
 [//]: # (title: 数值类型)
 
-最终更新: %latestDocDate%
-
 ## 整数类型 {id="integer-types"}
 
 Kotlin 提供了一组内建数据类型来表达数值.

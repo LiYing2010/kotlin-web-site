@@ -1,7 +1,5 @@
 [//]: # (title: 使用 Kotlin/Native 进行原生(Native)程序开发)
 
-最终更新: %latestDocDate%
-
 Kotlin/Native 是一种代码编译技术, 可以将 Kotlin 代码编译为原生二进制代码(native binary), 脱离 VM 运行.
 它包含一个基于 [LLVM](https://llvm.org/) 的后端, 用于编译 Kotlin 源代码, 以及一个原生代码实现的 Kotlin 运行库.
 

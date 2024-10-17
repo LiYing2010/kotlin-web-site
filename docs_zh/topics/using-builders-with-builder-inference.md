@@ -1,7 +1,5 @@
 [//]: # (title: 通过构建器类型推断(Builder Type Inference)使用构建器)
 
-最终更新: %latestDocDate%
-
 Kotlin 支持 _构建器类型推断(Builder Type Inference)_ (或者叫构建器推断),
 当你使用泛型构建器时, 这个功能可以很有用.
 它能够帮助编译器, 通过构建器的 Lambda 表达式参数内的其它调用的类型信息, 推断出构建器调用的类型参数.

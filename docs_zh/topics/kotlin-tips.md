@@ -1,7 +1,5 @@
 [//]: # (title: Kotlin 小技巧)
 
-最终更新: %latestDocDate%
-
 Kotlin 小技巧是一系列的短视频, Kotlin 开发组成员向你演示, 使用 Kotlin 编写代码时更加高效, 更加符合惯用法, 更加有趣的方式.
 
 不要错过新的 Kotlin 小技巧视频, [订阅我们的 YouTube 频道](https://www.youtube.com/channel/UCP7uiEZIqci43m22KDl0sNw).

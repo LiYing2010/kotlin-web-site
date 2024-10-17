@@ -1,7 +1,5 @@
 [//]: # (title: 在编程竞赛(Competitive Programming)中使用 Kotlin)
 
-最终更新: %latestDocDate%
-
 本教程针对的读者是以前未使用过 Kotlin 的编程竞赛参加者, 以及以前未参加过编程竞赛的 Kotlin 开发者.
 对这两种情况, 我们假设读者已经具备相应的编程技能.
 

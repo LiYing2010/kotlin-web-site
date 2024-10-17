@@ -1,7 +1,5 @@
 [//]: # (title: 属性(Property))
 
-最终更新: %latestDocDate%
-
 ## 声明属性
 
 Kotlin 类的属性可以使用 `var` 关键字声明为可变(mutable)属性, 也可以使用 `val` 关键字声明为只读属性.

@@ -1,7 +1,5 @@
 [//]: # (title: SAM-with-receiver 编译器插件)
 
-最终更新: %latestDocDate%
-
 *sam-with-receiver* 编译器插件可以将带注解的 Java "single abstract method" (SAM) 接口方法的第一个参数变成 Kotlin 中的接受者.
 只有在使用 SAM 适配器(Adapter) 和 SAM 构造器(Constructor), 将 Kotlin Lambda 表达式作为 SAM 接口传递时, 这个变换才有效.
  (详情请参见 [SAM 变换文档](java-interop.md#sam-conversions)).

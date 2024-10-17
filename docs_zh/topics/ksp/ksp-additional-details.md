@@ -1,7 +1,5 @@
 [//]: # (title: KSP 如何将 Kotlin 代码组织为模型)
 
-最终更新: %latestDocDate%
-
 可以在
 [KSP GitHub 代码仓库](https://github.com/google/ksp/tree/main/api/src/main/kotlin/com/google/devtools/ksp)
 找到 API 定义 .

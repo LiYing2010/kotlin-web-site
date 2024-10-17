@@ -1,7 +1,5 @@
 [//]: # (title: JavaScript 死代码剔除工具)
 
-最终更新: %latestDocDate%
-
 Kotlin Multiplatform Gradle 插件包含一个 _[死代码剔除(Dead Code Elimination)](https://wikipedia.org/wiki/Dead_code_elimination)_ (_DCE_) 工具.
 死代码剔除通常又被称为 _摇树(Tree Shaking)_.
 它可以删除未被使用的属性, 函数, 以及类, 减少最终编译输出结果的 JavaScript 代码大小.

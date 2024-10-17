@@ -1,7 +1,5 @@
 [//]: # (title: KSP 快速入门)
 
-最终更新: %latestDocDate%
-
 要快速入门 KSP, 你可以创建自己的处理器, 或者参考 [示例代码](https://github.com/google/ksp/tree/main/examples/playground).
 
 ## 创建一个你自己的处理器

@@ -1,7 +1,5 @@
 [//]: # (title: 向 Kotlin/Wasm 项目添加 Kotlin 库依赖项)
 
-最终更新: %latestDocDate%
-
 你可以在 Kotlin/Wasm 中使用最流行的 Kotlin 库, 这个功能开箱即用, 不需要额外的设置.
 
 ## Kotlin/Wasm 支持的 Kotlin 库

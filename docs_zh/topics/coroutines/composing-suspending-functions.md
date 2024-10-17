@@ -1,7 +1,5 @@
 [//]: # (title: 挂起函数(Suspending Function)的组合)
 
-最终更新: %latestDocDate%
-
 本章介绍将挂起函数组合起来的几种不同方式.
 
 ## 默认的连续执行 {id="sequential-by-default"}

@@ -1,7 +1,5 @@
 [//]: # (title: 改进 Kotlin/Native 编译速度)
 
-最终更新: %latestDocDate%
-
 Kotlin/Native 编译器正在不断更新, 并改进它的性能.
 使用最新的 Kotlin/Native 编译器, 以及正确配置的构建环境, 对于使用 Kotlin/Native 编译目标的项目, 你可以显著的改进编译速度.
 

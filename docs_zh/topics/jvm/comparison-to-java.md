@@ -1,7 +1,5 @@
 [//]: # (title: 与 Java 比较)
 
-最终更新: %latestDocDate%
-
 ## Kotlin 中得到解决的一些 Java 问题 {id="some-java-issues-addressed-in-kotlin"}
 
 Java 中长期困扰的一系列问题, 在 Kotlin 得到了解决:

@@ -1,7 +1,5 @@
 [//]: # (title: Kotlin Koan)
 
-最终更新: %latestDocDate%
-
 Kotlin Koan 是一系列练习, 主要针对 Java 开发者, 帮助你熟悉 Kotlin 语法.
 每个练习从一个失败的 unit test 开始, 你的任务是让测试通过.
 你可以通过以下任何一种方式来完成 Kotlin Koan 任务:

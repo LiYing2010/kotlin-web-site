@@ -1,7 +1,5 @@
 [//]: # (title: 增量式处理(Incremental Processing))
 
-最终更新: %latestDocDate%
-
 增量式处理是一种处理技术, 尽可能的避免重新处理源代码.
 增量式处理的主要目的是减少典型的修改-编译-测试循环的处理时间.
 请参见 Wikipedia 词条 [增量计算](https://en.wikipedia.org/wiki/Incremental_computing).

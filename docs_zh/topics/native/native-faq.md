@@ -1,7 +1,5 @@
 [//]: # (title: Kotlin/Native FAQ)
 
-最终更新: %latestDocDate%
-
 ## 怎样运行程序? {id="how-do-i-run-my-program"}
 
 你需要定义一个顶层的函数 `fun main(args: Array<String>)`,

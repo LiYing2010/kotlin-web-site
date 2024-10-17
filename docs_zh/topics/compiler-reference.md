@@ -1,7 +1,5 @@
 [//]: # (title: Kotlin 编译器选项)
 
-最终更新: %latestDocDate%
-
 Kotlin 的各个发布版都带有针对各种编译目标的编译器:
 JVM, JavaScript, 以及
 [所支持的各种平台](native-overview.md#target-platforms)

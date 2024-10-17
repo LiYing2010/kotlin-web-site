@@ -1,7 +1,5 @@
 [//]: # (title: CocoaPods 概述与设置)
 
-最终更新: %latestDocDate%
-
 Kotlin/Native 提供了与 [CocoaPods 依赖管理器](https://cocoapods.org/) 的集成功能.
 你可以添加对 Pod 库的依赖项, 也可以使用跨平台项目的原生编译目标作为 CocoaPods 依赖项.
 

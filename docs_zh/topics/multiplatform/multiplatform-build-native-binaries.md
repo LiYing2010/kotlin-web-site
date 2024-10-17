@@ -1,7 +1,5 @@
 [//]: # (title: 构建最终的原生二进制文件)
 
-最终更新: %latestDocDate%
-
 Kotlin/Native 编译目标默认会被编译输出为 `*.klib` 库文件,
 这种库文件可以被 Kotlin/Native 用作依赖项, 但它不能执行, 也不能被用作一个原生的库.
 

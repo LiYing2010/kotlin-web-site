@@ -1,7 +1,5 @@
 [//]: # (title: 使用 Kotlin 进行 Android 开发)
 
-最终更新: %latestDocDate%
-
 2019 年的 Google I/O 大会宣布, [Kotlin 成为 Android 移动应用开发的首选语言](https://developer.android.com/kotlin/first).
 
 超过 50% 的专业 Android 开发者使用 Kotlin 作为主要开发语言, 而使用 Java 作为主要语言的只有 30%.

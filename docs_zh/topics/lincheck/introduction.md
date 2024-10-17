@@ -1,7 +1,5 @@
 [//]: # (title: 使用 Lincheck 编写你的第一个测试)
 
-最终更新: %latestDocDate%
-
 本教程演示如何编写你的第一个 Lincheck 测试, 设置 Lincheck 框架, 并使用它的基本 API.
 你将会创建一个新的 IntelliJ IDEA 项目, 其中包含不正确的并发计数器实现,
 为它编写一个测试, 然后查找并分析 bug.

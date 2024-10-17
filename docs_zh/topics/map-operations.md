@@ -1,7 +1,5 @@
 [//]: # (title: Map 相关操作)
 
-最终更新: %latestDocDate%
-
 在 [map](collections-overview.md#map) 中, 键(key)和值(value)的类型都是用户指定的.
 通过键(key)对 map 条目(entry) 的访问, 可以实现各种 Map 相关操作,
 比如通过键(key)得到值(value), 以及分别过滤键(key)和值(value).

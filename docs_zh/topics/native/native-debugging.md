@@ -1,7 +1,5 @@
 [//]: # (title: 调试 Kotlin/Native 代码)
 
-最终更新: %latestDocDate%
-
 Kotlin/Native 编译器目前输出的调试信息兼容于 DWARF 2 规范,
 因此现代的调试工具可以执行以下操作:
 - 设置断点

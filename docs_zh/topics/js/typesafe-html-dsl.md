@@ -1,7 +1,5 @@
 [//]: # (title: 类型安全的 HTML DSL)
 
-最终更新: %latestDocDate%
-
 [kotlinx.html 库](https://www.github.com/kotlin/kotlinx.html) 提供了使用静态类型的 HTML 构建器生成 DOM 元素的能力
 (而且除 JavaScript 之外, 它甚至能在 JVM 平台使用!)
 要使用这个库, 请在我们的 `build.gradle.kts` 文件中包含对应的仓库和依赖项:

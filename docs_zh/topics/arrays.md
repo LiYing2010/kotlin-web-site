@@ -1,7 +1,5 @@
 [//]: # (title: 数组)
 
-最终更新: %latestDocDate%
-
 数组是一种数据结构, 其中包含固定数量的值, 所有的值为同一个类型, 或这个类型的子类型.
 Kotlin 中最常见的数组类型是对象类型的数组, 使用 [`Array`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/) 类表达.
 

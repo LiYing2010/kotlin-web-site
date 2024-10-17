@@ -1,7 +1,5 @@
 [//]: # (title: 教程 - 使用 Kotlin/Native 开发动态库)
 
-最终更新: %latestDocDate%
-
 通过本教程, 你将学习如何在既有的原生应用程序或库中使用 Kotlin/Native 代码.
 为了这个目的, 你需要将 Kotlin 代码编译为一个动态库, `.so`, `.dylib`, 和 `.dll`.
 

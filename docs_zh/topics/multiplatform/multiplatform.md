@@ -1,8 +1,6 @@
 [//]: # (title: Kotlin Multiplatform)
 [//]: # (description: Kotlin Multiplatform 可以创建跨平台应用程序, 运行在桌面, Web, 以及移动设备上在共用应用程序逻辑的同时, 还能保持原生应用程序的用户体验.)
 
-最终更新: %latestDocDate%
-
 Kotlin Multiplatform 技术的设计目的是为了简化跨平台项目的开发工作.
 它可以减少对 [不同的平台](#kotlin-multiplatform-use-cases) 编写和维护重复代码所耗费的时间,
 同时又保持了原生程序开发的灵活性和其他益处.

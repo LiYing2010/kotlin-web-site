@@ -1,7 +1,5 @@
 [//]: # (title: 加法(Plus)和减法(Minus)操作符)
 
-最终更新: %latestDocDate%
-
 在 Kotlin 中, 也为集合定义了
 [`加法(Plus)`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/plus.html) (`+`)
 和

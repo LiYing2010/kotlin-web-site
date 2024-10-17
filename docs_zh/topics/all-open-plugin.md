@@ -1,7 +1,5 @@
 [//]: # (title: All-open 编译器插件)
 
-最终更新: %latestDocDate%
-
 Kotlin 的类和成员默认都是 `final` 的, 但有些框架和库, 比如 Spring AOP, 需要类是 `open` 的, 因此造成一些不便.
 `all-open` 编译器插件会调整 Kotlin 类, 以这些框架的需求,
 它会将标记了特定注解的类及其成员变为 open , 而不需要在代码中明确标记 `open` 关键字.

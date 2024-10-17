@@ -1,7 +1,5 @@
 [//]: # (title: 在 Kotlin 中调用 Java 代码)
 
-最终更新: %latestDocDate%
-
 Kotlin 的设计过程中就考虑到了与 Java 的互操作性.
 在 Kotlin 中可以通过很自然的方式调用既有的 Java 代码, 反过来在 Java 中也可以很流畅地使用 Kotlin 代码.
 本章中我们介绍在 Kotlin 中调用 Java 代码的一些细节问题.

@@ -1,7 +1,5 @@
 [//]: # (title: 使用 IntelliJ IDEA 开发 Kotlin/Wasm 入门)
 
-最终更新: %latestDocDate%
-
 > Kotlin/Wasm 功能处于 [Alpha 阶段](components-stability.md).
 > 它随时有可能变更.
 >

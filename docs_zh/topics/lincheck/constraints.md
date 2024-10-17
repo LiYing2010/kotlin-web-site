@@ -1,7 +1,5 @@
 [//]: # (title: 数据结构约束)
 
-最终更新: %latestDocDate%
-
 有些数据结构可能要求一部分操作不能并发执行, 例如单生成者(single-producer)/单消费者(single-consumer) 队列.
 Lincheck 对这样的约束提供了现成的支持, 会根据约束条件生成并发场景.
 

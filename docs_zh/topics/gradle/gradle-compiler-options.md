@@ -1,7 +1,5 @@
 [//]: # (title: Kotlin Gradle plugin 中的编译器选项)
 
-最终更新: %latestDocDate%
-
 Kotlin 的每一个发布版本都包含它所支持的各个编译目标的编译器:
 JVM, JavaScript, 以及 [支持的平台的](native-overview.md#target-platforms) 原生二进制文件.
 

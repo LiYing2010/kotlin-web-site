@@ -1,7 +1,5 @@
 [//]: # (title: 集合(Collection))
 
-最终更新: %latestDocDate%
-
 <tldr>
     <p><img src="icon-1-done.svg" width="20" alt="第 1 步" /> <a href="kotlin-tour-hello-world.md">Hello world</a><br />
         <img src="icon-2-done.svg" width="20" alt="第 2 步" /> <a href="kotlin-tour-basic-types.md">基本类型</a><br />

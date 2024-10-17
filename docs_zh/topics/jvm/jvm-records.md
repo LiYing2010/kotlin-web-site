@@ -1,7 +1,5 @@
 [//]: # (title: 在 Kotlin 中使用 Java 记录类(Record))
 
-最终更新: %latestDocDate%
-
 在 Java 中 _记录类(Record)_ 是用于存储不可变数据的 [类](https://openjdk.java.net/jeps/395).
 记录类携带一组固定的值 – _记录组件(Records Components)_.
 在 Java 中记录类的语法很简洁, 可以为你节省编写样板代码的时间:

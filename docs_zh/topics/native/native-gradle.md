@@ -1,7 +1,5 @@
 [//]: # (title: Kotlin/Native 开发入门 - 使用 Gradle)
 
-最终更新: %latestDocDate%
-
 [Gradle](https://gradle.org) 是在 Java, Android, 和其他开发环境中广泛使用的一个构建系统.
 Kotlin/Native 和 Multiplatform 的构建默认使用 Gradle.
 

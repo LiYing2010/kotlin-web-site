@@ -1,7 +1,5 @@
 [//]: # (title: 问题分析)
 
-最终更新: %latestDocDate%
-
 Kotlin/Wasm 依赖于新的 [WebAssembly 提案](https://webassembly.org/roadmap/),
 例如垃圾收集和异常处理, 这些提案会为 WebAssembly 带来改进和新功能.
 

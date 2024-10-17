@@ -2,8 +2,6 @@
 
 [//]: # (title: 选择表达式(Select expression) (实验性功能))
 
-最终更新: %latestDocDate%
-
 使用选择表达式, 我们可以同时等待多个挂起函数, 并且 _选择_ 其中第一个执行完毕的结果.
 
 > 选择表达式是 `kotlinx.coroutines` 中的一个实验性功能.

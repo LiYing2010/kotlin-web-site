@@ -1,7 +1,5 @@
 [//]: # (title: Kotlin 1.9.20 版中的新功能)
 
-最终更新: %latestDocDate%
-
 _[发布日期: 2023/11/01](releases.md#release-details)_
 
 Kotlin 1.9.20 已经发布了, [K2 编译器对于所有编译目标已进入 Beta 版](#new-kotlin-k2-compiler-updates),

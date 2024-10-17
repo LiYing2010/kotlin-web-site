@@ -1,7 +1,5 @@
 [//]: # (title: 值范围(Range)与数列(Progression))
 
-最终更新: %latestDocDate%
-
 Kotlin 允许你非常便利的创建值范围, 方法是使用 `kotlin.ranges` 包中的
 [`.rangeTo()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/range-to.html)
 和 [`.rangeUntil()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/range-until.html)

@@ -1,7 +1,5 @@
 [//]: # (title: 跨平台项目结构的高级概念)
 
-最终更新: %latestDocDate%
-
 本文解释 Kotlin Multiplatform 项目结构的高级概念, 以及如何对应到 Gradle 实现.
 
 如果你正在进行下面的工作, 这些信息会对你很有用:

@@ -1,7 +1,5 @@
 [//]: # (title: Kotlin 1.5.20 版中的新功能)
 
-最终更新: %latestDocDate%
-
 _[发布日期: 2021/06/24](releases.md#release-details)_
 
 Kotlin 1.5.20 修复了在 1.5.0 新功能中发现的问题, 还包含很多工具改进.

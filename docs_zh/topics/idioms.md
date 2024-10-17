@@ -1,7 +1,5 @@
 [//]: # (title: 惯用法)
 
-最终更新: %latestDocDate%
-
 本章介绍 Kotlin 中的一些常见的习惯用法. 如果你有自己的好的经验, 可以将它贡献给我们. 你可以将你的修正提交到 git, 并创建一个 Pull Request.
 
 ## 创建 DTO 类(或者叫 POJO/POCO 类)

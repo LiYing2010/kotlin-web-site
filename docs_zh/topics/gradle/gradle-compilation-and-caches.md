@@ -1,7 +1,5 @@
 [//]: # (title: Kotlin Gradle plugin 中的编译与缓存)
 
-最终更新: %latestDocDate%
-
 在本章中, 你将学习以下内容:
 * [增量编译(Incremental compilation)](#incremental-compilation)
 * [对 Gradle 构建缓存的支持](#gradle-build-cache-support)

@@ -1,8 +1,6 @@
 [//]: # (title: Java 和 Kotlin 中的可空性(Nullability))
 [//]: # (description: 学习如何将 Java 的可空结构迁移到 Kotlin. 这篇向导讨论 Kotlin 中对可空类型的支持, Kotlin 如何处理来自 Java 的可空注解, 等等.)
 
-最终更新: %latestDocDate%
-
 _可空性(Nullability)_ 是指一个变量能否为 `null` 值的能力.
 当变量值为 `null`, 使用这个变量指向的对象将会导致 `NullPointerException` 异常.
 有很多种方法来编写代码, 来尽量减少发生指针异常的可能.

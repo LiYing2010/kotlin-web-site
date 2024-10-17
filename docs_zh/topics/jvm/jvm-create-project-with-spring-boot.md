@@ -1,7 +1,5 @@
 [//]: # (title: 使用 Kotlin 创建 Spring Boot 项目)
 
-最终更新: %latestDocDate%
-
 <tldr>
     <p>
         这是 <strong>Spring Boot 和 Kotlin 入门</strong> 教程的第 1 部分:

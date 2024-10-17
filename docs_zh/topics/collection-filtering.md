@@ -1,7 +1,5 @@
 [//]: # (title: 过滤(Filtering)集合)
 
-最终更新: %latestDocDate%
-
 在对集合的处理中, 过滤是最常见的任务之一.
 Kotlin 中, 过滤条件使用 _判定条件(predicate)_ 来表示 –
 它是一个 lambda 函数, 接受的参数是集合元素, 返回结果是布尔值:

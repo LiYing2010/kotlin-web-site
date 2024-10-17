@@ -1,7 +1,5 @@
 [//]: # (title: 使用 Kotlin 进行 Wasm 开发)
 
-最终更新: %latestDocDate%
-
 > Kotlin Wasm 目前处于 [Alpha 阶段](components-stability.md).
 > 它随时有可能变更. 你可以将它用于正式产品之前的各种场景.
 > 希望你能通过我们的 [问题追踪系统](https://kotl.in/issue) 提供你的反馈意见.

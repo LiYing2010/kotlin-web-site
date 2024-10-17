@@ -1,6 +1,5 @@
 [//]: # (title: Kotlin 吉祥物)
 
-最终更新: %latestDocDate%
 ---
 
 # Kotlin 吉祥物

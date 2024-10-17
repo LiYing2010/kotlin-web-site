@@ -1,7 +1,5 @@
 [//]: # (title: JavaScript 模块)
 
-最终更新: %latestDocDate%
-
 你可以将你的 Kotlin 工程编译为 JavaScript 模块(module), 支持几种常见的 JavaScript 模块系统.
 目前我们支持以下几种 JavaScript 模块设置:
 

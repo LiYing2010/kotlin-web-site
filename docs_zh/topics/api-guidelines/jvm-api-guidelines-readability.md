@@ -1,7 +1,5 @@
 [//]: # (title: 可读性)
 
-最终更新: %latestDocDate%
-
 本章介绍关于 [API 一致性](#api-consistency) 需要注意的问题, 并提供以下建议:
 * [使用构建器 DSL](#use-a-builder-dsl)
 * [在适当的情况下, 使用类似构造器风格的函数](#use-constructor-like-functions-where-applicable)

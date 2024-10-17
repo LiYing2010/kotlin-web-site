@@ -1,7 +1,5 @@
 [//]: # (title: 对象表达式,对象声明,以及同伴对象)
 
-最终更新: %latestDocDate%
-
 有时你需要创建一个对象, 这个对象在某个类的基础上略做修改, 但又不希望仅仅为了这一点点修改就明确地声明一个新类.
 Kotlin 对这种问题使用 _对象表达式(object expression)_ 和 _对象声明(object declaration)_ 来解决.
 

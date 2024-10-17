@@ -1,7 +1,5 @@
 [//]: # (title: 包(Package)与导入(Import))
 
-最终更新: %latestDocDate%
-
 源代码文件的开始部分可以是包声明:
 
 ```kotlin

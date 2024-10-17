@@ -1,7 +1,5 @@
 [//]: # (title: 序列(Sequence))
 
-最终更新: %latestDocDate%
-
 除集合之外, Kotlin 还提供了另一种类型 – _序列(sequence)_
 ([`Sequence<T>`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.sequences/-sequence/index.html)).
 与集合(Collection)不同, 序列并不包含元素, 而是在迭代时生成元素.

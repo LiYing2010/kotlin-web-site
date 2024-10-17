@@ -1,7 +1,5 @@
 [//]: # (title: 在 Kotlin/JS 平台进行测试)
 
-最终更新: %latestDocDate%
-
 Kotlin Multiplatform Gradle plugin 允许你使用多种不同的测试运行器来运行测试, 测试运行器可以通过 Gradle 配置来指定.
 
 当你创建跨平台项目时, 你可以在 `commonTest` 中使用一个依赖项, 对所有的源代码集添加测试依赖项, 包括 JavaScript 编译目标:

@@ -1,7 +1,5 @@
 [//]: # (title: 可预测性)
 
-最终更新: %latestDocDate%
-
 本章包含以下建议:
 * [使用封闭接口(Sealed Interface) ](#use-sealed-interfaces)
 * [通过封闭类(Sealed Class)隐藏具体实现](#hide-implementations-with-sealed-classes)

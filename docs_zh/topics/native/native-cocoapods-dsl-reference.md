@@ -1,7 +1,5 @@
 [//]: # (title: CocoaPods Gradle plugin DSL 参考文档)
 
-最终更新: %latestDocDate%
-
 Kotlin CocoaPods Gradle plugin 是一个用来创建 Podspec 文件的工具.
 将你的 Kotlin 项目与 [CocoaPods 依赖项管理器](https://cocoapods.org/) 集成时, 会需要这些文件.
 

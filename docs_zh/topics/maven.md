@@ -1,7 +1,5 @@
 [//]: # (title: Maven)
 
-最终更新: %latestDocDate%
-
 Maven 是一个构建系统, 你可以使用它来构建和管理基于 Java 的项目.
 
 ## 配置并启用插件

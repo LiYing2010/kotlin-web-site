@@ -1,7 +1,5 @@
 [//]: # (title: 与 iOS 集成)
 
-最终更新: %latestDocDate%
-
 Kotlin/Native 垃圾收集器能够与 Swift/Objective-C ARC 无缝集成, 通常不需要额外的工作.
 详情请参见 [与 Swift/Objective-C 代码交互](native-objc-interop.md).
 

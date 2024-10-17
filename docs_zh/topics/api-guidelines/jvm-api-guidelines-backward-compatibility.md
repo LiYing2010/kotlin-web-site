@@ -1,7 +1,5 @@
 [//]: # (title: 向后兼容性(Backward Compatibility))
 
-最终更新: %latestDocDate%
-
 本章介绍关于 [向后兼容性(Backward Compatibility)](#definition-of-backward-compatibility) 需要注意的问题.
 下面是 "不要做" 的建议:
 * [不要向既有的 API 函数添加参数](#don-t-add-arguments-to-existing-api-functions)

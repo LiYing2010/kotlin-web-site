@@ -1,7 +1,5 @@
 [//]: # (title: KSP 示例程序)
 
-最终更新: %latestDocDate%
-
 ## 得到所有成员函数
 
 ```kotlin

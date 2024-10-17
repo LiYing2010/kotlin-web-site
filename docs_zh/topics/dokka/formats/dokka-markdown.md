@@ -1,7 +1,5 @@
 [//]: # (title: Markdown)
 
-最终更新: %latestDocDate%
-
 > Markdown 输出格式还处于 Alpha 状态, 因此你在使用时可能遇到 bug, 或迁移问题.
 > **使用这个功能时, 请自行承担风险.**
 >

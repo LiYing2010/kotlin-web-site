@@ -1,7 +1,5 @@
 [//]: # (title: Dokka Plugin)
 
-最终更新: %latestDocDate%
-
 Dokka 的设计思想是易于扩展, 而且高度可定制化,
 因此对于 Dokka 缺少的, 或者没有默认提供的细节功能, 社区开发者可以实现 plugin.
 

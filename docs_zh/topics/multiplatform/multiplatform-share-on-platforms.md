@@ -1,7 +1,5 @@
 [//]: # (title: 在不同的平台之间共用代码)
 
-最终更新: %latestDocDate%
-
 通过 Kotlin Multiplatform, 你可以使用 Kotlin 提供的以下机制共用代码:
 
 * [在你的项目中使用的所有平台上共用代码](#share-code-on-all-platforms).

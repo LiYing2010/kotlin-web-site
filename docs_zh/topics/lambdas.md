@@ -1,7 +1,5 @@
 [//]: # (title: 高阶函数与 Lambda 表达式)
 
-最终更新: %latestDocDate%
-
 在 Kotlin 中函数是 [一级公民](https://en.wikipedia.org/wiki/First-class_function),
 也就是说, 函数可以保存在变量和数据结构中, 也可以作为参数来传递给 [高阶函数](#higher-order-functions),
 也可以作为 [高阶函数](#higher-order-functions) 的返回值.

@@ -1,7 +1,5 @@
 [//]: # (title: Kotlin 1.4.0 版中的新功能)
 
-最终更新: %latestDocDate%
-
 _[发布日期: 2020/08/17](releases.md#release-details)_
 
 在 Kotlin 1.4.0 中, 我们对所有组件发布了许多改进, [专注于改善质量和性能](https://blog.jetbrains.com/kotlin/2020/08/kotlin-1-4-released-with-a-focus-on-quality-and-performance/).

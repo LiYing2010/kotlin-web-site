@@ -1,7 +1,5 @@
 [//]: # (title: Kotlin/Native 库)
 
-最终更新: %latestDocDate%
-
 ## Kotlin 编译器使用方法
 
 要通过 Kotlin/Native 编译器编译产生库文件, 请使用 `-produce library` 或 `-p library` 参数.
