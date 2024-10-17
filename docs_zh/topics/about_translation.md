@@ -2,17 +2,17 @@
 
 本文是 Kotlin 语言参考文档的中文翻译版.
 
-原文
+## 原文
 
-网址: [https://kotlinlang.org/docs/reference/](https://kotlinlang.org/docs/reference/)
+网址: [](https://kotlinlang.org/docs/)
 
-代码库: [https://github.com/JetBrains/kotlin-web-site](https://github.com/JetBrains/kotlin-web-site)
+代码库: [](https://github.com/JetBrains/kotlin-web-site)
 
-中文翻译版
+## 中文翻译版
 
-网址: [https://kotlin.liying-cn.net/docs/reference_zh/](https://kotlin.liying-cn.net/docs/reference_zh/)
+网址: [](https://kotlin.liying-cn.net/)
 
-代码库: [https://github.com/LiYing2010/kotlin-web-site](https://github.com/LiYing2010/kotlin-web-site)
+代码库: [](https://github.com/LiYing2010/kotlin-web-site)
 
 翻译者: 李 颖 [liying.cn.2010@gmail.com](mailto:liying.cn.2010@gmail.com)
 
