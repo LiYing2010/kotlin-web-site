@@ -52,4 +52,9 @@
             <noindex-content>true</noindex-content>
         </variables>
     </build-profile>
+    <footer>
+        <copyright>李颖, 最终更新: 2024/10/17</copyright>
+        <link href="about-translation.html">关于翻译</link>
+        <link href="https://github.com/LiYing2010/kotlin-web-site">本文档的代码库</link>
+    </footer>
 </buildprofiles>
