@@ -8,7 +8,7 @@
 Dokka 能够生成 [GitHub 风格](#gfm) 和 [Jekyll](#jekyll) 兼容的 Markdown 格式文档.
 
 使用这些格式, 你可以更加自由的将文档发布到网站, 因为输出可以嵌入到你的文档页面之内.
-例如, 象 [OkHttp's API 参考文档](https://square.github.io/okhttp/4.x/okhttp/okhttp3/) 页面.
+例如, 象 [OkHttp 的 API 参考文档](https://square.github.io/okhttp/5.x/okhttp/okhttp3/) 页面.
 
 Markdown 输出格式作为 [Dokka plugins](dokka-plugins.md) 来实现, 由 Dokka 开发组维护, 并且是开源的.
 
