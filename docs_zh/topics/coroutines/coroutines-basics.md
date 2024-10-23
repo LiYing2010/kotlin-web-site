@@ -25,7 +25,7 @@ fun main() = runBlocking { // this: CoroutineScope
 //sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
+<!--- KNIT example-basic-01.kt -->
 > 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-basic-01.kt).
 >
 {style="note"}
@@ -54,7 +54,7 @@ IDE 会在 `runBlocking` 的开括号之后会提示 `this: CoroutineScope`.
 如果你在这段代码中删除或者忘记了 `runBlocking`, 那么会在 [launch] 调用处发生错误,
 因为 `launch` 声明在 [CoroutineScope] 上:
 
-```text
+```
 Unresolved reference: launch
 ```
 
@@ -98,7 +98,7 @@ suspend fun doWorld() {
 //sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
+<!--- KNIT example-basic-02.kt -->
 > 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-basic-02.kt).
 >
 {style="note"}
@@ -139,7 +139,7 @@ suspend fun doWorld() = coroutineScope {  // this: CoroutineScope
 //sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
+<!--- KNIT example-basic-03.kt -->
 > 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-basic-03.kt).
 >
 {style="note"}
@@ -183,7 +183,7 @@ suspend fun doWorld() = coroutineScope { // this: CoroutineScope
 //sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
+<!--- KNIT example-basic-04.kt -->
 > 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-basic-04.kt).
 >
 {style="note"}
@@ -222,7 +222,7 @@ fun main() = runBlocking {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
+<!--- KNIT example-basic-05.kt -->
 > 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-basic-05.kt).
 >
 {style="note"}
@@ -257,7 +257,7 @@ fun main() = runBlocking {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
+<!--- KNIT example-basic-06.kt -->
 > 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-basic-06.kt).
 >
 {style="note"}

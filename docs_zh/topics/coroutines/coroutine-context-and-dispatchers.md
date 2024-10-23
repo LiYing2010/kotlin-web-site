@@ -40,8 +40,8 @@ fun main() = runBlocking<Unit> {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-01.kt).
+<!--- KNIT example-context-01.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-01.kt).
 >
 {style="note"}
 
@@ -101,8 +101,8 @@ fun main() = runBlocking<Unit> {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-02.kt).
+<!--- KNIT example-context-02.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-02.kt).
 >
 {style="note"}
 
@@ -189,8 +189,8 @@ fun main() = runBlocking<Unit> {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-03.kt).
+<!--- KNIT example-context-03.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-03.kt).
 >
 {style="note"}
 
@@ -226,7 +226,6 @@ import kotlinx.coroutines.*
 fun log(msg: String) = println("[${Thread.currentThread().name}] $msg")
 
 fun main() {
-//sampleStart
     newSingleThreadContext("Ctx1").use { ctx1 ->
         newSingleThreadContext("Ctx2").use { ctx2 ->
             runBlocking(ctx1) {
@@ -238,12 +237,10 @@ fun main() {
             }
         }
     }
-//sampleEnd
 }
 ```
-{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-04.kt).
+<!--- KNIT example-context-04.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-04.kt).
 >
 {style="note"}
 
@@ -277,8 +274,8 @@ fun main() = runBlocking<Unit> {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-05.kt).
+<!--- KNIT example-context-05.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-05.kt).
 >
 {style="note"}
 
@@ -338,8 +335,8 @@ fun main() = runBlocking<Unit> {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-06.kt).
+<!--- KNIT example-context-06.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-06.kt).
 >
 {style="note"}
 
@@ -380,8 +377,8 @@ fun main() = runBlocking<Unit> {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-07.kt).
+<!--- KNIT example-context-07.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-07.kt).
 >
 {style="note"}
 
@@ -418,20 +415,20 @@ fun main() = runBlocking(CoroutineName("main")) {
     val v1 = async(CoroutineName("v1coroutine")) {
         delay(500)
         log("Computing v1")
-        252
+        6
     }
     val v2 = async(CoroutineName("v2coroutine")) {
         delay(1000)
         log("Computing v2")
-        6
+        7
     }
-    log("The answer for v1 / v2 = ${v1.await() / v2.await()}")
+    log("The answer for v1 * v2 = ${v1.await() * v2.await()}")
 //sampleEnd
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-08.kt).
+<!--- KNIT example-context-08.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-08.kt).
 >
 {style="note"}
 
@@ -441,7 +438,7 @@ fun main() = runBlocking(CoroutineName("main")) {
 [main @main#1] Started main coroutine
 [main @v1coroutine#2] Computing v1
 [main @v2coroutine#3] Computing v2
-[main @main#1] The answer for v1 / v2 = 42
+[main @main#1] The answer for v1 * v2 = 42
 ```
 
 <!--- TEST FLEXIBLE_THREAD -->
@@ -463,8 +460,8 @@ fun main() = runBlocking<Unit> {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-09.kt).
+<!--- KNIT example-context-09.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-09.kt).
 >
 {style="note"}
 
@@ -502,7 +499,7 @@ class Activity {
     // 以下代码省略 ...
 ```
 
-下面, 我们在这个 `Activity` 之内使用指定的 `scope` 来启动协程.
+下面, 我们在这个 `Activity` 之内使用上面定义的 `mainScope` 来启动协程.
 在这个示例程序中, 我们启动 10 个协程, 分别延迟一段不同长度的时间:
 
 ```kotlin
@@ -559,8 +556,8 @@ fun main() = runBlocking<Unit> {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-10.kt).
+<!--- KNIT example-context-10.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-10.kt).
 >
 {style="note"}
 
@@ -614,8 +611,8 @@ fun main() = runBlocking<Unit> {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-11.kt).
+<!--- KNIT example-context-11.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-context-11.kt).
 >
 {style="note"}
 
