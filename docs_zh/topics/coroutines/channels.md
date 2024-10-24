@@ -19,7 +19,8 @@ fun main() = runBlocking {
 //sampleStart
     val channel = Channel<Int>()
     launch {
-        // 这里可能是非常消耗 CPU 的计算工作, 或者是一段异步逻辑, 但在这个例子中我们只是简单地发送 5 个平方数
+        // 这里可能是非常消耗 CPU 的计算工作, 或者是一段异步逻辑
+        // 但在这个例子中我们只是简单地发送 5 个平方数
         for (x in 1..5) channel.send(x * x)
     }
     // 我们在这里输出收到的整数:
@@ -29,8 +30,8 @@ fun main() = runBlocking {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-channel-01.kt).
+<!--- KNIT example-channel-01.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-channel-01.kt).
 >
 {style="note"}
 
@@ -73,8 +74,8 @@ fun main() = runBlocking {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-channel-02.kt).
+<!--- KNIT example-channel-02.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-channel-02.kt).
 >
 {style="note"}
 
@@ -114,8 +115,8 @@ fun main() = runBlocking {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-channel-03.kt).
+<!--- KNIT example-channel-03.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-channel-03.kt).
 >
 {style="note"}
 
@@ -178,8 +179,8 @@ fun CoroutineScope.square(numbers: ReceiveChannel<Int>): ReceiveChannel<Int> = p
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-channel-04.kt).
+<!--- KNIT example-channel-04.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-channel-04.kt).
 >
 {style="note"}
 
@@ -220,7 +221,7 @@ fun CoroutineScope.filter(numbers: ReceiveChannel<Int>, prime: Int) = produce<In
 
 下面我们来构建整个管道, 首先从 2 开始产生无限的整数流, 然后从当前通道中取得质数, 并对找到的每个质数执行管道的下一步:
 
-```text
+```
 numbersFrom(2) -> filter(2) -> filter(3) -> filter(5) -> filter(7) ...
 ```
 
@@ -257,8 +258,8 @@ fun CoroutineScope.filter(numbers: ReceiveChannel<Int>, prime: Int) = produce<In
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-channel-05.kt).
+<!--- KNIT example-channel-05.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-channel-05.kt).
 >
 {style="note"}
 
@@ -349,8 +350,8 @@ fun CoroutineScope.launchProcessor(id: Int, channel: ReceiveChannel<Int>) = laun
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-channel-06.kt).
+<!--- KNIT example-channel-06.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-channel-06.kt).
 >
 {style="note"}
 
@@ -421,8 +422,8 @@ suspend fun sendString(channel: SendChannel<String>, s: String, time: Long) {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-channel-07.kt).
+<!--- KNIT example-channel-07.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-channel-07.kt).
 >
 {style="note"}
 
@@ -470,8 +471,8 @@ fun main() = runBlocking<Unit> {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-channel-08.kt).
+<!--- KNIT example-channel-08.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-channel-08.kt).
 >
 {style="note"}
 
@@ -523,8 +524,8 @@ suspend fun player(name: String, table: Channel<Ball>) {
 //sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-channel-09.kt).
+<!--- KNIT example-channel-09.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-channel-09.kt).
 >
 {style="note"}
 
@@ -562,33 +563,33 @@ import kotlinx.coroutines.channels.*
 
 //sampleStart
 fun main() = runBlocking<Unit> {
-    val tickerChannel = ticker(delayMillis = 100, initialDelayMillis = 0) // 创建定时器通道
+    val tickerChannel = ticker(delayMillis = 200, initialDelayMillis = 0) // 创建定时器通道
     var nextElement = withTimeoutOrNull(1) { tickerChannel.receive() }
     println("Initial element is available immediately: $nextElement") // 没有初始延迟
 
-    nextElement = withTimeoutOrNull(50) { tickerChannel.receive() } // 之后产生的所有数据的延迟时间都是 100ms
-    println("Next element is not ready in 50 ms: $nextElement")
+    nextElement = withTimeoutOrNull(100) { tickerChannel.receive() } // 之后产生的所有数据的延迟时间都是 200ms
+    println("Next element is not ready in 100 ms: $nextElement")
 
-    nextElement = withTimeoutOrNull(60) { tickerChannel.receive() }
-    println("Next element is ready in 100 ms: $nextElement")
+    nextElement = withTimeoutOrNull(120) { tickerChannel.receive() }
+    println("Next element is ready in 200 ms: $nextElement")
 
     // 模拟消费者端的长时间延迟
-    println("Consumer pauses for 150ms")
-    delay(150)
+    println("Consumer pauses for 300ms")
+    delay(300)
     // 下一个元素已经产生了
     nextElement = withTimeoutOrNull(1) { tickerChannel.receive() }
     println("Next element is available immediately after large consumer delay: $nextElement")
-    // 注意, `receive` 调用之间的暂停也会被计算在内,因此下一个元素产生得更快
-    nextElement = withTimeoutOrNull(60) { tickerChannel.receive() }
-    println("Next element is ready in 50ms after consumer pause in 150ms: $nextElement")
+    // 注意, `receive` 调用之间的暂停也会被计算在内, 因此下一个元素产生得更快
+    nextElement = withTimeoutOrNull(120) { tickerChannel.receive() }
+    println("Next element is ready in 100ms after consumer pause in 300ms: $nextElement")
 
     tickerChannel.cancel() // 告诉通道, 不需要再产生更多元素了
 }
 //sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-channel-10.kt).
+<!--- KNIT example-channel-10.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-channel-10.kt).
 >
 {style="note"}
 
@@ -596,11 +597,11 @@ fun main() = runBlocking<Unit> {
 
 ```text
 Initial element is available immediately: kotlin.Unit
-Next element is not ready in 50 ms: null
-Next element is ready in 100 ms: kotlin.Unit
-Consumer pauses for 150ms
+Next element is not ready in 100 ms: null
+Next element is ready in 200 ms: kotlin.Unit
+Consumer pauses for 300ms
 Next element is available immediately after large consumer delay: kotlin.Unit
-Next element is ready in 50ms after consumer pause in 150ms: kotlin.Unit
+Next element is ready in 100ms after consumer pause in 300ms: kotlin.Unit
 ```
 
 <!--- TEST -->

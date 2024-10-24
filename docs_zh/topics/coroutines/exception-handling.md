@@ -49,8 +49,8 @@ fun main() = runBlocking {
 //sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-exceptions-01.kt).
+<!--- KNIT example-exceptions-01.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-exceptions-01.kt).
 >
 {style="note"}
 
@@ -58,7 +58,7 @@ fun main() = runBlocking {
 
 ```text
 Throwing exception from launch
-Exception in thread "DefaultDispatcher-worker-2 @coroutine#2" java.lang.IndexOutOfBoundsException
+Exception in thread "DefaultDispatcher-worker-1 @coroutine#2" java.lang.IndexOutOfBoundsException
 Joined failed job
 Throwing exception from async
 Caught ArithmeticException
@@ -71,7 +71,7 @@ Caught ArithmeticException
 对于 **未捕获的(uncaught)** 异常, 默认的处理方式是输出到控制台, 但也可以自定义如何处理.
 _根_ 协程的上下文元素 [CoroutineExceptionHandler] 可以用作这个根协程以及所有子协程的通用的 `catch` 块,
 我们可以在这里实现自定义的异常处理逻辑.
-它的使用方法类似于 [`Thread.uncaughtExceptionHandler`](https://docs.oracle.com/javase/8/docs/api/java/lang/Thread.html#setUncaughtExceptionHandler(java.lang.Thread.UncaughtExceptionHandler)).
+它的使用方法类似于 [`Thread.uncaughtExceptionHandler`](https://docs.oracle.com/javase/8/docs/api/java/lang/Thread.html#setUncaughtExceptionHandler-java.lang.Thread.UncaughtExceptionHandler-).
 在 `CoroutineExceptionHandler` 内, 你无法从异常中恢复.
 当异常处理器被调用时, 协程已经结束运行, 并返回了相应的异常.
 通常, 异常处理器会用来将异常输出到日志, 显示某些错误信息, 结束程序运行, 或重启应用程序.
@@ -108,8 +108,8 @@ fun main() = runBlocking {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-exceptions-02.kt).
+<!--- KNIT example-exceptions-02.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-exceptions-02.kt).
 >
 {style="note"}
 
@@ -153,8 +153,8 @@ fun main() = runBlocking {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-exceptions-03.kt).
+<!--- KNIT example-exceptions-03.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-exceptions-03.kt).
 >
 {style="note"}
 
@@ -215,8 +215,8 @@ fun main() = runBlocking {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-exceptions-04.kt).
+<!--- KNIT example-exceptions-04.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-exceptions-04.kt).
 >
 {style="note"}
 
@@ -268,8 +268,8 @@ fun main() = runBlocking {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-exceptions-05.kt).
+<!--- KNIT example-exceptions-05.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-exceptions-05.kt).
 >
 {style="note"}
 
@@ -318,8 +318,8 @@ fun main() = runBlocking {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-exceptions-06.kt).
+<!--- KNIT example-exceptions-06.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-exceptions-06.kt).
 >
 {style="note"}
 
@@ -384,8 +384,8 @@ fun main() = runBlocking {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-supervision-01.kt).
+<!--- KNIT example-supervision-01.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-supervision-01.kt).
 >
 {style="note"}
 
@@ -434,8 +434,8 @@ fun main() = runBlocking {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-supervision-02.kt).
+<!--- KNIT example-supervision-02.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-supervision-02.kt).
 >
 {style="note"}
 
@@ -480,8 +480,8 @@ fun main() = runBlocking {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-supervision-03.kt).
+<!--- KNIT example-supervision-03.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-supervision-03.kt).
 >
 {style="note"}
 

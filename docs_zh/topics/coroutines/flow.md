@@ -17,8 +17,8 @@ fun main() {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-01.kt).
+<!--- KNIT example-flow-01.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-01.kt).
 >
 {style="note"}
 
@@ -50,8 +50,8 @@ fun main() {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-02.kt).
+<!--- KNIT example-flow-02.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-02.kt).
 >
 {style="note"}
 
@@ -84,8 +84,8 @@ fun main() = runBlocking<Unit> {
 //sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-03.kt).
+<!--- KNIT example-flow-03.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-03.kt).
 >
 {style="note"}
 
@@ -129,8 +129,8 @@ fun main() = runBlocking<Unit> {
 //sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-04.kt).
+<!--- KNIT example-flow-04.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-04.kt).
 >
 {style="note"}
 
@@ -192,8 +192,8 @@ fun main() = runBlocking<Unit> {
 //sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-05.kt).
+<!--- KNIT example-flow-05.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-05.kt).
 >
 {style="note"}
 
@@ -248,8 +248,8 @@ fun main() = runBlocking<Unit> {
 //sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-06.kt).
+<!--- KNIT example-flow-06.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-06.kt).
 >
 {style="note"}
 
@@ -289,8 +289,8 @@ fun main() = runBlocking<Unit> {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-07.kt).
+<!--- KNIT example-flow-07.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-07.kt).
 >
 {style="note"}
 
@@ -331,8 +331,8 @@ fun main() = runBlocking<Unit> {
 //sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-08.kt).
+<!--- KNIT example-flow-08.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-08.kt).
 >
 {style="note"}
 
@@ -376,8 +376,8 @@ fun main() = runBlocking<Unit> {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-09.kt).
+<!--- KNIT example-flow-09.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-09.kt).
 >
 {style="note"}
 
@@ -424,8 +424,8 @@ fun main() = runBlocking<Unit> {
 //sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-10.kt).
+<!--- KNIT example-flow-10.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-10.kt).
 >
 {style="note"}
 
@@ -465,8 +465,8 @@ fun main() = runBlocking<Unit> {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-11.kt).
+<!--- KNIT example-flow-11.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-11.kt).
 >
 {style="note"}
 
@@ -509,8 +509,8 @@ fun main() = runBlocking<Unit> {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-12.kt).
+<!--- KNIT example-flow-12.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-12.kt).
 >
 {style="note"}
 
@@ -571,8 +571,8 @@ fun main() = runBlocking<Unit> {
 //sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-13.kt).
+<!--- KNIT example-flow-13.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-13.kt).
 >
 {style="note"}
 
@@ -621,8 +621,8 @@ fun main() = runBlocking<Unit> {
 //sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-14.kt).
+<!--- KNIT example-flow-14.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-14.kt).
 >
 {style="note"}
 
@@ -667,21 +667,23 @@ fun main() = runBlocking<Unit> {
 //sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-15.kt).
+<!--- KNIT example-flow-15.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-15.kt).
 >
 {style="note"}
 
 注意 `flow { ... }` 工作在后台线程中, 而数据收集发生在主线程中:
 
-<!--- TEST FLEXIBLE_THREAD
+```text
 [DefaultDispatcher-worker-1 @coroutine#2] Emitting 1
 [main @coroutine#1] Collected 1
 [DefaultDispatcher-worker-1 @coroutine#2] Emitting 2
 [main @coroutine#1] Collected 2
 [DefaultDispatcher-worker-1 @coroutine#2] Emitting 3
 [main @coroutine#1] Collected 3
--->
+```
+
+<!--- TEST FLEXIBLE_THREAD -->
 
 另外还值得注意的是, [flowOn] 操作符改变了数据流默认的顺序性(sequential)特性.
 现在, 数据的收集发生在一个线程内("coroutine#1"), 而数据的发射发生在另一个协程内("coroutine#2"),
@@ -720,8 +722,8 @@ fun main() = runBlocking<Unit> {
 //sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-16.kt).
+<!--- KNIT example-flow-16.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-16.kt).
 >
 {style="note"}
 
@@ -766,8 +768,8 @@ fun main() = runBlocking<Unit> {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-17.kt).
+<!--- KNIT example-flow-17.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-17.kt).
 >
 {style="note"}
 
@@ -823,8 +825,8 @@ fun main() = runBlocking<Unit> {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-18.kt).
+<!--- KNIT example-flow-18.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-18.kt).
 >
 {style="note"}
 
@@ -873,8 +875,8 @@ fun main() = runBlocking<Unit> {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-19.kt).
+<!--- KNIT example-flow-19.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-19.kt).
 >
 {style="note"}
 
@@ -914,8 +916,8 @@ fun main() = runBlocking<Unit> {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-20.kt).
+<!--- KNIT example-flow-20.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-20.kt).
 >
 {style="note"}
 
@@ -961,8 +963,8 @@ fun main() = runBlocking<Unit> {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-21.kt).
+<!--- KNIT example-flow-21.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-21.kt).
 >
 {style="note"}
 
@@ -991,8 +993,8 @@ fun main() = runBlocking<Unit> {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-22.kt).
+<!--- KNIT example-flow-22.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-22.kt).
 >
 {style="note"}
 
@@ -1066,8 +1068,8 @@ fun main() = runBlocking<Unit> {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-23.kt).
+<!--- KNIT example-flow-23.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-23.kt).
 >
 {style="note"}
 
@@ -1114,8 +1116,8 @@ fun main() = runBlocking<Unit> {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-24.kt).
+<!--- KNIT example-flow-24.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-24.kt).
 >
 {style="note"}
 
@@ -1166,8 +1168,8 @@ fun main() = runBlocking<Unit> {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-25.kt).
+<!--- KNIT example-flow-25.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-25.kt).
 >
 {style="note"}
 
@@ -1222,8 +1224,8 @@ fun main() = runBlocking<Unit> {
 //sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-26.kt).
+<!--- KNIT example-flow-26.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-26.kt).
 >
 {style="note"}
 
@@ -1273,8 +1275,8 @@ fun main() = runBlocking<Unit> {
 //sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-27.kt).
+<!--- KNIT example-flow-27.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-27.kt).
 >
 {style="note"}
 
@@ -1331,8 +1333,8 @@ fun main() = runBlocking<Unit> {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-28.kt).
+<!--- KNIT example-flow-28.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-28.kt).
 >
 {style="note"}
 
@@ -1374,8 +1376,8 @@ fun main() = runBlocking<Unit> {
 //sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-29.kt).
+<!--- KNIT example-flow-29.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-29.kt).
 >
 {style="note"}
 
@@ -1421,8 +1423,8 @@ fun main() = runBlocking<Unit> {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-30.kt).
+<!--- KNIT example-flow-30.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-30.kt).
 >
 {style="note"}
 
@@ -1463,8 +1465,8 @@ fun main() = runBlocking<Unit> {
 //sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-31.kt).
+<!--- KNIT example-flow-31.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-31.kt).
 >
 {style="note"}
 
@@ -1500,8 +1502,8 @@ fun main() = runBlocking<Unit> {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-32.kt).
+<!--- KNIT example-flow-32.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-32.kt).
 >
 {style="note"}
 
@@ -1535,8 +1537,8 @@ fun main() = runBlocking<Unit> {
 //sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-33.kt).
+<!--- KNIT example-flow-33.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-33.kt).
 >
 {style="note"}
 
@@ -1577,8 +1579,8 @@ fun main() = runBlocking<Unit> {
 //sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-34.kt).
+<!--- KNIT example-flow-34.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-34.kt).
 >
 {style="note"}
 
@@ -1626,8 +1628,8 @@ fun main() = runBlocking<Unit> {
 //sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-35.kt).
+<!--- KNIT example-flow-35.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-35.kt).
 >
 {style="note"}
 
@@ -1663,8 +1665,8 @@ fun main() = runBlocking<Unit> {
 //sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-36.kt).
+<!--- KNIT example-flow-36.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-36.kt).
 >
 {style="note"}
 
@@ -1719,8 +1721,8 @@ fun main() = runBlocking<Unit> {
 //sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-37.kt).
+<!--- KNIT example-flow-37.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-37.kt).
 >
 {style="note"}
 
@@ -1757,8 +1759,8 @@ fun main() = runBlocking<Unit> {
 //sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-38.kt).
+<!--- KNIT example-flow-38.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-38.kt).
 >
 {style="note"}
 
@@ -1795,8 +1797,8 @@ fun main() = runBlocking<Unit> {
 //sampleEnd
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的示例代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-39.kt).
+<!--- KNIT example-flow-39.kt -->
+> 完整的示例代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-flow-39.kt).
 >
 {style="note"}
 
