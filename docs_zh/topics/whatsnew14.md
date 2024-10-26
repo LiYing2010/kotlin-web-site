@@ -645,7 +645,7 @@ class A {
 关于可执行的 Kotlin/JS 及其环境, 更多详情请阅读 [Kotlin/JS 的运行及其环境](js-project-setup.md#execution-environments).
 - 在 Gradle 配置内, 通过 `cssSupport` 来配置 webpack 的 CSS 和样式装载器.
 关于如何使用这些功能, 更多详情请阅读 [使用 CSS 与样式装载器(Style Loader)](js-project-setup.md#css).
-- 对 npm 依赖项管理的改进, 需要指定版本号, 或者 [semver](https://docs.npmjs.com/misc/semver#versions) 版本范围,
+- 对 npm 依赖项管理的改进, 需要指定版本号, 或者 [semver](https://docs.npmjs.com/about-semantic-versioning) 版本范围,
 以及使用 `devNpm`, `optionalNpm` 和 `peerNpm` 支持 _development_, _peer_, 和 _optional_ npm 依赖项.
 关于 npm 包的依赖项管理, 更多详情请阅读 [直接使用 Gradle 管理 npm 的包依赖项目](js-project-setup.md#npm-dependencies).
 - 对 Kotlin 外部声明生成器 [Dukat](https://github.com/Kotlin/dukat) 提供了更强的集成.
@@ -817,9 +817,9 @@ Kotlin/Native 完成了很多性能改进, 提高了开发速度, 也提高了�
 > 在未来的 Kotlin 版本中, 这个功能的兼容性可能会改变, 需要手工迁移.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issues/KT) 提供你的反馈意见.
 >
-{style="note"}
+{style="warning"}
 
-[Kotlin Multiplatform](multiplatform.md) 可以减少对 [不同的平台](multiplatform-dsl-reference.md#targets) 编写和维护相同代码的时间,
+[Kotlin Multiplatform](multiplatform-intro.md) 可以减少对 [不同的平台](multiplatform-dsl-reference.md#targets) 编写和维护相同代码的时间,
 又能同时保持原生程序开发的灵活性便利. 我们一直在努力开发各种跨平台的新功能特性和改进:
 
 * [使用层级项目结构在多个编译目标中共用代码](#sharing-code-in-several-targets-with-the-hierarchical-project-structure)
@@ -868,7 +868,7 @@ kotlin {
 关于编译目标的其他组合, 请使用 `dependsOn` 关系连接源代码集,
 来 [手动创建层级结构](multiplatform-hierarchy.md#manual-configuration).
 
-![层级结构](manual-hierarchical-structure.png)
+![层级结构](manual-hierarchical-structure.svg)
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
@@ -1529,9 +1529,9 @@ Kotlin plugin 的迁移工具, 可以帮助你将项目从更早的 Kotlin 版�
 
 ![迁移审查](migration-inspection-wn.png)
 
-Kotlin 1.4.0 是一个 [功能性发布版(Feature Release)](kotlin-evolution.md#feature-releases-and-incremental-releases),
+Kotlin 1.4.0 是一个 [功能性发布版(Feature Release)](kotlin-evolution-principles.md#language-and-tooling-releases),
 因此会对语言带来一些不兼容的变更.
-关于这些变更的详情, 请参加 **[Kotlin 1.4 兼容性指南](compatibility-guide-14.md)**.
+关于这些变更的详情, 请参见 **[Kotlin 1.4 兼容性指南](compatibility-guide-14.md)**.
 
 <!-- ### 迁移跨平台项目
 

@@ -205,7 +205,7 @@ Kotlin 1.8.0 引入了新的 Android 源代码集布局, 替换了以前的目�
 | test        | src/androidTest/kotlin, src/test/kotlin, src/test/java     | src/android<b>Unit</b>Test/kotlin, src/test/kotlin, src/test/java                              |
 | androidTest | src/android<b>Android</b>Test/kotlin, src/androidTest/java | src/android<b>Instrumented</b>Test/kotlin, src/androidTest/java, <b>src/androidTest/kotlin</b> |
 
-#### `AndroidManifest.xml` 文件位置
+#### AndroidManifest.xml 文件的位置
 
 | 当前源代码集布局                                         | 新的源代码集布局                                         |
 |--------------------------------------------------------|-------------------------------------------------------|
@@ -792,7 +792,7 @@ Kotlin 文档有了很大的变更:
   使用 IntelliJ IDEA 和 Gradle 创建一个控制台应用程序.
 * [使用 Ktor 和 SQLDelight 创建跨平台应用程序](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-ktor-sqldelight.html) –
   使用 Kotlin Multiplatform Mobile, 创建一个运行于 iOS 和 Android 的移动应用程序.
-* [Kotlin Multiplatform 入门](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-getting-started.html) –
+* [Kotlin Multiplatform 入门](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-create-first-app.html) –
   学习使用 Kotlin 进行跨平台移动应用程序开发, 并创建一个可以同时运行于 Android 和 iOS 平台的应用程序.
 
 ## 安装 Kotlin 1.8.0 {id="install-kotlin-1-8-0"}
@@ -812,6 +812,6 @@ Android Studios 的后续更新会带有 Kotlin plugin 的 1.8.0 版本.
 
 ## Kotlin 1.8.0 的兼容性指南 {id="compatibility-guide-for-kotlin-1-8-0"}
 
-Kotlin 1.8.0 是一个 [功能性发布版(Feature Release)](kotlin-evolution.md#feature-releases-and-incremental-releases),
+Kotlin 1.8.0 是一个 [功能性发布版(Feature Release)](kotlin-evolution-principles.md#language-and-tooling-releases),
 因此可能带来一些变更, 与你针对旧版本编写的代码不兼容.
 关于这些不兼容的变更, 详情请参见 [Kotlin 1.8.0 兼容性指南](compatibility-guide-18.md).

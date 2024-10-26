@@ -507,7 +507,7 @@ IDE 检查还会推荐使用新函数代替旧的 `readLine()` 函数.
 
 我们计划在未来的发布版中逐渐废弃 `readLine()` 函数.
 
-### `typeOf()` 的稳定版 {id="stable-typeof"}
+### typeOf() 的稳定版 {id="stable-typeof"}
 
 Kotlin 1.6.0 版带来了
 [`typeOf()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/type-of.html)
@@ -735,7 +735,7 @@ fun main() {
 更多详情请参见 Kover 的 [GitHub 代码仓库](https://github.com/Kotlin/kotlinx-kover),
 或这个视频:
 
-<video src="https://youtu.be/jNu5LY9HIbw" title="Kover – 代码覆盖率 Plugin"/>
+<video src="https://www.youtube.com/v/jNu5LY9HIbw" title="Kover – 代码覆盖率 Plugin"/>
 
 ## 协程 1.6.0-RC 版
 
@@ -756,12 +756,12 @@ fun main() {
 IntelliJ IDEA 和 Android Studio 会建议你将 Kotlin plugin 更新到 1.6.0.
 
 要将既有的项目迁移到 Kotlin 1.6.0, 请将 Kotlin 版本修改为 `1.6.0`, 然后重新导入你的 Gradle 或 Maven 项目.
-更多详情请参见 [如何更新到 Kotlin 1.6.0](releases.md#update-to-a-new-release).
+更多详情请参见 [如何更新到 Kotlin 1.6.0](releases.md#update-to-a-new-kotlin-version).
 
 要使用 Kotlin 1.6.0 创建新项目, 请更新 Kotlin plugin, 然后通过菜单 **File** | **New** | **Project** 运行项目向导.
 
 新的命令行编译器可以通过 [GitHub 发布页面](https://github.com/JetBrains/kotlin/releases/tag/v1.6.0) 下载.
 
-Kotlin 1.6.0 是一个 [功能发布版](kotlin-evolution.md#feature-releases-and-incremental-releases)
+Kotlin 1.6.0 是一个 [功能发布版](kotlin-evolution-principles.md#language-and-tooling-releases)
 因此可能带来一些变化, 造成与你使用以前版本编写的代码不兼容.
 关于这些不兼容的变化, 详情请参见 [Kotlin 1.6 兼容性指南](compatibility-guide-16.md).

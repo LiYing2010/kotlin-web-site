@@ -679,7 +679,7 @@ engine.eval("val x = 3")
 println(engine.eval("x + 2"))  // 输出结果为: 5
 ```
 
-[这里](https://github.com/JetBrains/kotlin/tree/master/libraries/examples/kotlin-jsr223-local-example) 是使用这个 API 的一个更详细的示例工程.
+[这里](https://github.com/JetBrains/kotlin/tree/1.1.0/libraries/examples/kotlin-jsr223-local-example) 是使用这个 API 的一个更详细的示例工程.
 
 ### kotlin.reflect.full
 
@@ -701,7 +701,7 @@ println(engine.eval("x + 2"))  // 输出结果为: 5
 
 JavaScript 环境生成的代码现在更容易进行静态检查了, 因此对于 JS 的代码处理工具更加友好, 比如代码压缩器(minifier), 优化器(optimiser), 校验检查器(linter), 等等.
 
-### `external` 修饰符
+### external 修饰符
 
 如果你需要在 Kotlin 中以类型安全的方式来访问一个 JavaScript 中实现的类, 你可以使用 `external` 修饰符编写一个 Kotlin 声明. (在 Kotlin 1.0 中, 使用的是 `@native` 注解.)
 与 JVM 编译对象不同, JS 编译对象允许对类和属性使用 `external` 修饰符.

@@ -55,7 +55,7 @@ actual fun hello(world: String): String =
 actual typealias URL = java.net.URL
 ```
 
-关于创建跨平台项目的详细步骤, 请参见 [跨平台程序开发相关文档](multiplatform.md).
+关于创建跨平台项目的详细步骤, 请参见 [跨平台程序开发相关文档](multiplatform-intro.md).
 
 ## 语言层的其他特性 {id="other-language-features"}
 
