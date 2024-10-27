@@ -144,6 +144,8 @@ public val table: Map<String, Int>
 
 > 对于 JVM 平台: 如果私有属性的取值方法与设值方法都使用默认实现, 那么对这个属性的访问将被编译器优化,
 > 变为直接读写后端域变量, 以避免不必要的函数调用造成性能损失.
+>
+{style="note"}
 
 ## 编译期常数值 {id="compile-time-constants"}
 
@@ -196,7 +198,7 @@ public class MyTest {
 
 在一个 `lateinit` 属性被初始化之前访问它, 会抛出一个特别的异常, 这个异常将会指明被访问的属性, 以及它没有被初始化这一错误.
 
-### 检查 `lateinit var` 是否已完成初始化
+### 检查 lateinit var 是否已完成初始化
 
 为了检查一个 `lateinit var` 是否已经初始化完成,
 可以对 [属性的引用](reflection.md#property-references) 调用 `.isInitialized`:
