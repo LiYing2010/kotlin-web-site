@@ -1,9 +1,11 @@
 [//]: # (title: Kotlin 各部分组件的稳定性 (1.4 版以前))
 
 根据组件演进速度的不同, 可能存在几种不同的稳定性模式:
-<a name="moving-fast"></a>
+
+<a name="moving-fast"/>
+
 *   **快速变化 (Moving fast, MF)**:
-    即使在 [增量发布](kotlin-evolution.md#feature-releases-and-incremental-releases) 之间也不保证任何兼容性,
+    即使在 [增量发布](kotlin-evolution-principles.md#language-and-tooling-releases) 之间也不保证任何兼容性,
     可能在没有警告的情况下增加, 删除, 或改变任何功能.
 
 *   **包括新功能的增量发布 (Additions in Incremental Releases, AIR)**:
@@ -11,14 +13,14 @@
 
 *   **稳定的增量发布 (Stable Incremental Releases, SIR)**:
     增量发布保证完全兼容, 只进行代码优化和 bug 修正.
-    任何其他变化都应该通过 [功能发布](kotlin-evolution.md#feature-releases-and-incremental-releases) 来进行.
+    任何其他变化都应该通过 [语言发布](kotlin-evolution-principles.md#language-and-tooling-releases) 来进行.
 
-<a name="fully-stable"></a>
+<a name="fully-stable"/>
 *   **完全稳定 (Fully Stable, FS)**: 增量发布保证完全兼容, 只进行代码优化和 bug 修正. 功能发布保证向后兼容.
 
 对于同一个组件, 源代码和二进制发布版可以有不同的稳定模式, 例如, 源代码可以比二进制版更早到达完全稳定状态, 或者反过来.
 
-只对那些达到了完全稳定 (Fully Stable, FS) 的组件, 才完全适用 [Kotlin 演进政策](kotlin-evolution.md) 的条款.
+只对那些达到了完全稳定 (Fully Stable, FS) 的组件, 才完全适用 [Kotlin 演进政策](kotlin-evolution-principles.md) 的条款.
 在此之后的一切导致不兼容的变更, 都必须经过 Kotlin 语言委员会的审批.
 
 | **     组件     **    | ** 进入该状态的版本 ** | ** 源代码稳定性 ** | ** 二进制发布版稳定性 ** |

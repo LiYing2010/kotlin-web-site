@@ -353,7 +353,7 @@ fun main() {
 ```kotlin
 fun main() {
 //sampleStart
-    // 创建一个数组, 元素类型为 Int, 大小为 5, 元素值为 0
+    // 创建一个数组, 元素类型为 Int, 大小为 5, 元素值初始化为 0
     val exampleArray = IntArray(5)
     println(exampleArray.joinToString())
     // 输出结果为 0, 0, 0, 0, 0

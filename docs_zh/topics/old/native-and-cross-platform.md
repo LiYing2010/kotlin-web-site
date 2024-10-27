@@ -58,7 +58,7 @@
 性能低下长期被认为是多平台应用程序的主要劣势. 但是, 你的产品的性能和质量 很大程度上依赖于你用来构建 App 的工具.
 最新的跨平台框架提供了开发出类似于原生程序一样的用户体验的 App 所需要的所有工具.
 
-通过使用不同的编译器后端, [Kotlin](multiplatform.md#code-sharing-between-platforms) 代码被编译为平台格式
+通过使用不同的编译器后端, [Kotlin](multiplatform-intro.md#use-code-sharing-mechanisms) 代码被编译为平台格式
 – 在 Android 平台是 JVM 字节码, 在 iOS 平台是原生二进制代码.
 因此, 你的共用代码的性能, 和你使用原生代码编写它们是一样的.
 
