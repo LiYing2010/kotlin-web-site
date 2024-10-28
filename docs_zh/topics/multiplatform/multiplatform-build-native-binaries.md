@@ -348,8 +348,8 @@ import org.jetbrains.kotlin.gradle.tasks.FatFrameworkTask
 
 kotlin {
     // 创建并配置编译目标.
-    val ios32 = watchosArm32("watchos32")
-    val ios64 = watchosArm64("watchos64")
+    val watchos32 = watchosArm32("watchos32")
+    val watchos64 = watchosArm64("watchos64")
     configure(listOf(watchos32, watchos64)) {
         binaries.framework {
             baseName = "my_framework"
@@ -363,8 +363,8 @@ kotlin {
         destinationDir = buildDir.resolve("fat-framework/debug")
         // 指定需要合并的框架.
         from(
-            ios32.binaries.getFramework("DEBUG"),
-            ios64.binaries.getFramework("DEBUG")
+            watchos32.binaries.getFramework("DEBUG"),
+            watchos64.binaries.getFramework("DEBUG")
         )
     }
 }
@@ -395,8 +395,8 @@ kotlin {
         destinationDir = file("$buildDir/fat-framework/debug")
         // 指定需要合并的框架.
         from(
-            targets.ios32.binaries.getFramework("DEBUG"),
-            targets.ios64.binaries.getFramework("DEBUG")
+            targets.watchos32.binaries.getFramework("DEBUG"),
+            targets.watchos64.binaries.getFramework("DEBUG")
         )
     }
 }
@@ -464,6 +464,8 @@ kotlin {
 * `assembleXCFramework`
 * `assembleDebugXCFramework` (额外的 debug artifact, 其中包含 [dSYMs](native-ios-symbolication.md))
 * `assembleReleaseXCFramework`
+
+<anchor name="build-frameworks"/>
 
 如果在你的项目中使用 [CocoaPods 集成](native-cocoapods.md), 那么可以使用 Kotlin CocoaPods Gradle plugin 构建 XCFramework.
 它包含以下 task, 使用所有已注册的编译目标构建 XCFramework, 并生成 podspec 文件:

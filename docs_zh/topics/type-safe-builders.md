@@ -174,7 +174,7 @@ operator fun String.unaryPlus() {
 以上所有类和函数都定义在 `com.example.html` 包中, 上面的构建器示例程序的最上部引入了这个包.
 在最后一节中, 你可以读到这个包的完整定义.
 
-## 控制接受者的作用范围: `@DslMarker`
+## 控制接受者的作用范围: @DslMarker
 
 使用 DSL 时, 可能遇到的一个问题就是, 当前上下文中存在太多可供调用的函数.
 在 Lambda 表达式内, 你可以调用所有隐含接受者的所有方法,
@@ -243,7 +243,7 @@ html {
 }
 ```
 
-## `com.example.html` 包的完整定义 {id="full-definition-of-the-com-example-html-package"}
+## com.example.html 包的完整定义 {id="full-definition-of-the-com-example-html-package"}
 
 下面是 `com.example.html` 包的完整定义(但只包含上文示例程序使用到的元素).
 它可以构建一个 HTML 树.

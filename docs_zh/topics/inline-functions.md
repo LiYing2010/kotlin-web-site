@@ -35,7 +35,7 @@ inline fun <T> lock(lock: Lock, body: () -> T): T { ... }
 但只要你合理的使用(不要内联太大的函数), 就可以换来性能的提高, 尤其是在循环内发生的 "megamorphic" 函数调用.
 (译注: 关于 megamorphic 请参见 [Inline caching](https://en.wikipedia.org/wiki/Inline_caching#Megamorphic_inline_caching))
 
-## `noinline`
+## noinline
 
 如果一个内联函数的参数中有多个 Lambda 表达式, 而你只希望内联其中的一部分,
 可以对函数的一部分参数添加 `noinline` 修饰符:
