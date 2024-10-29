@@ -30,8 +30,8 @@ Java 中长期困扰的一系列问题, 在 Kotlin 得到了解决:
 * [条件(三元)运算符 `a ? b : c`](control-flow.md#if-expression)
   在 Kotlin 中由以下功能代替: [if 表达式](control-flow.md#if-expression).
 * [记录类(Record)](https://openjdk.org/jeps/395)
-* [记录模式(Record Pattern)](https://openjdk.org/jeps/440)
-* **Java 22**: [未命名变量和模式](https://openjdk.org/jeps/456)
+* [模式匹配](https://openjdk.org/projects/amber/design-notes/patterns/pattern-matching-for-java)
+* 包内的 private [可见度修饰符](visibility-modifiers.md)
 
 ## Kotlin 中有, 而 Java 中没有的功能
 
@@ -56,6 +56,7 @@ Java 中长期困扰的一系列问题, 在 Kotlin 得到了解决:
 * [命名参数](functions.md#named-arguments)
 * [中缀(Infix)函数](functions.md#infix-notation)
 * [预期声明与实际声明](multiplatform-expect-actual.md)
+* [明确 API 模式](whatsnew14.md#explicit-api-mode-for-library-authors) 和 [更好的控制 API 暴露层(API Surface)](opt-in-requirements.md)
 
 ## 下一步做什么?
 

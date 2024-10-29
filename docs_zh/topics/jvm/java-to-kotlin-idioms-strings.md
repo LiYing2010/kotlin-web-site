@@ -319,6 +319,7 @@ System.out.println(result);
 {id="join-strings-15-java"}
 
 输出结果是:
+
 ![Java 15 的多行字符串输出](java-15-multiline-output.png){width=700}
 
 如果你将三重引号放在最后一个词的同一行, 那么这个差别会消失.
@@ -342,6 +343,7 @@ fun main() {
 {kotlin-runnable="true" id="join-strings-kotlin"}
 
 输出结果是:
+
 ![Kotlin 的多行字符串输出](kotlin-multiline-output.png){width=700}
 
 如果要输出额外的空行, 你需要在你的多行字符串中明确的添加这个空行.

@@ -348,11 +348,11 @@ public class BB8 implements Robot {
 
 兼容模式的详细解释:
 
-#### disable 模式
+#### disable 模式 {initial-collapse-state="collapsed" collapsible="true"}
 
 这是默认的模式. 不会生成 JVM 默认方法, 并禁止使用 `@JvmDefault` 注解.
 
-#### all 模式
+#### all 模式 {initial-collapse-state="collapsed" collapsible="true"}
 
 对模块中所有带有函数体的接口声明生成 JVM 默认方法.
 不会对带有函数体的接口声明生成
@@ -368,7 +368,7 @@ public class BB8 implements Robot {
 >
 {style="note"}
 
-#### all-compatibility 模式
+#### all-compatibility 模式 {initial-collapse-state="collapsed" collapsible="true"}
 
 与 `all` 模式相比, 还会在
 [`DefaultImpls`](https://blog.jetbrains.com/kotlin/2020/07/kotlin-1-4-m3-generating-default-methods-in-interfaces/)
@@ -612,7 +612,7 @@ fun unboxBase(box: Box<@JvmSuppressWildcards Base>): Base = box.value
 >
 {style="note"}
 
-### `Nothing` 类型的翻译
+### Nothing 类型的翻译
 
 [`Nothing`](exceptions.md#the-nothing-type) 类型是很特殊的, 因为它在 Java 中没有对应的概念.
 所有的 Java 引用类型, 包括`java.lang.Void`, 都可以接受 `null` 作为它的值,
