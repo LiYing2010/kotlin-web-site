@@ -354,7 +354,7 @@ fun main() {
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 `let` 经常用来对非 null 值执行一段代码.
-如果要对可为 null 的对象进行操作, 请使用 [null 值安全的调用操作符 `?.`](null-safety.md#safe-calls),
+如果要对可为 null 的对象进行操作, 请使用 [null 值安全的调用操作符 `?.`](null-safety.md#safe-call-operator),
 然后再通过 `let` 函数, 在 Lambda 表达式内执行这段操作.
 
 ```kotlin

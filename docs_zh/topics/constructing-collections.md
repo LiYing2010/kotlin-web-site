@@ -185,8 +185,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-[映射(Mapping)](collection-transformations.md#map) 函数会创建一个新的 list,
-其中包含各个元素变换后的结果:
+[映射(Mapping)](collection-transformations.md#map) 函数会使用变换的结果创建一个新的 List:
 
 ```kotlin
 fun main() {
