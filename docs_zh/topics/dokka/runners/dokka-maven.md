@@ -7,7 +7,7 @@
 {style="note"}
 
 你可以访问我们的
-[Maven 示例](https://github.com/Kotlin/dokka/tree/{{ site.data.releases.dokkaVersion }}/examples/maven) 项目,
+[Maven 示例](https://github.com/Kotlin/dokka/tree/%dokkaVersion%/examples/maven) 项目,
 实际接触一下 Dokka, 看看它如何对 Maven 项目进行配置.
 
 ## 应用 Dokka {id="apply-dokka"}

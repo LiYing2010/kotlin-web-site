@@ -85,8 +85,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile // 用于下面的 `Kotli
 plugins {
     id("org.springframework.boot") version "3.1.2"
     id("io.spring.dependency-management") version "1.1.2"
-    kotlin("jvm") version "{{ site.data.releases.latest.version }}" // 使用的 Kotlin 版本
-    kotlin("plugin.spring") version "{{ site.data.releases.latest.version }}" // Kotlin Spring plugin
+    kotlin("jvm") version "1.9.24" // 使用的 Kotlin 版本
+    kotlin("plugin.spring") version "1.9.24" // Kotlin Spring plugin
 }
 
 group = "com.example"

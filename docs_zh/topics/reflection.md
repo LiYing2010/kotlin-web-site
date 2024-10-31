@@ -34,7 +34,7 @@ _反射_ 是语言与库中的一组功能, 允许你在运行时刻获取程序
 
     ```groovy
     dependencies {
-        implementation "org.jetbrains.kotlin:kotlin-reflect:{{site.data.releases.latest.version}}"
+        implementation "org.jetbrains.kotlin:kotlin-reflect:%kotlinVersion%"
     }
     ```
 
