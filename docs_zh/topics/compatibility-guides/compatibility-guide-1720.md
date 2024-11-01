@@ -1,6 +1,6 @@
 [//]: # (title: Kotlin 1.7.20 兼容性指南)
 
-_[保证语言的现代化](kotlin-evolution.md)_ and _[语言版本升级平滑便利](kotlin-evolution.md)_
+_[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版本升级平滑便利](kotlin-evolution-principles.md)_
 是 Kotlin 语言设计时的基本原则之一.
 第一条原则认为, 阻碍语言演进的那些元素应该删除,
 后一条原则则认为, 这些删除必须事先与使用者良好沟通, 以便让源代码的迁移尽量平滑.

@@ -5,7 +5,7 @@
 
 以下只是我们审阅过, 并推荐用来学习 Kotlin 的少部分书籍. 你可以在 [我们的社区网站](https://kotlin.link/) 找到更多书籍.
 
-<table header-style="none">
+<table style="none">
 <tr>
 <td>
 <img src="atomic-kotlin.png" alt="Atomic Kotlin" width="250"/>

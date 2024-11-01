@@ -16,7 +16,7 @@
 * 使用 [这个 GitHub 模板](https://github.com/kotlin-hands-on/advent-of-code-kotlin-template) 来创建项目
 * 观看 Kotlin Developer Advocate, Sebastian Aigner 的入门视频:
 
-<video width="560" height="315" src="https://youtu.be/6-XSehwRgSY" title="Get Ready for Advent of Code 2021"/>
+<video width="560" height="315" src="https://www.youtube.com/v/6-XSehwRgSY" title="Get Ready for Advent of Code 2021"/>
 
 ## Advent of Code 2022
 
