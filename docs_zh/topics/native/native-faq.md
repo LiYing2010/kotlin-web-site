@@ -102,32 +102,13 @@ kotlin {
 
 ## 怎样对 Kotlin 框架启用 bitcode? {id="how-do-i-enable-bitcode-for-my-kotlin-framework"}
 
-gradle plugin 默认会将 bitcode 添加到 iOS 编译目标中.
- * 对于 debug 版, gradle plugin 会将 LLVM IR 数据占位器(placeholder)作为标记(marker)嵌入.
- * 对于 release 版, gradle plugin 会将 bitcode 作为数据嵌入.
+对所有的 Apple 编译目标, Bitcode 内嵌功能(Bitcode embedding)在 Xcode 14 中已被废弃, 在 Xcode 15 中已被删除.
+从 Kotlin 2.0.20 开始, Kotlin/Native 编译器不支持 Bitcode 内嵌功能.
 
-或者使用编译器参数: `-Xembed-bitcode` (用于 release 版) 和 `-Xembed-bitcode-marker` (用于 debug 版)
+如果你在使用旧版本的 Xcode, 但想要升级到 Kotlin 2.0.20 或更高版本,
+请在你的 Xcode 项目中禁用 Bitcode 内嵌功能.
 
-使用 Gradle DSL 的设置如下:
-
-```kotlin
-kotlin {
-    iosArm64("myapp") {
-        binaries {
-            framework {
-                // 使用 "marker" 嵌入 bitcode 标记 (用于 debug 版构建).
-                // 使用 "disable" 关闭嵌入.
-                embedBitcode("bitcode") // 用于 release 版构建.
-            }
-        }
-    }
-}
-```
-
-这个选项的效果几乎等于 clang 的 `-fembed-bitcode`/`-fembed-bitcode-marker`
-和 swiftc 的 `-embed-bitcode`/`-embed-bitcode-marker`.
-
-## 为什么会遇到 `InvalidMutabilityException` 异常? {id="why-do-i-see-invalidmutabilityexception"}
+## 为什么会遇到 InvalidMutabilityException 异常? {id="why-do-i-see-invalidmutabilityexception"}
 
 > 这个问题只会在旧的内存管理器中发生.
 > 从 Kotlin 1.7.20 开始会默认启用新的内存管理器, 详情请参见 [Kotlin/Native 内存管理](native-memory-manager.md).

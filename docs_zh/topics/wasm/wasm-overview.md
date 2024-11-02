@@ -2,13 +2,14 @@
 
 > Kotlin Wasm 目前处于 [Alpha 阶段](components-stability.md).
 > 它随时有可能变更. 你可以将它用于正式产品之前的各种场景.
-> 希望你能通过我们的 [问题追踪系统](https://kotl.in/issue) 提供你的反馈意见.
+> 希望你能通过 [YouTrack](https://youtrack.jetbrains.com/issue/KT-56492) 提供你的反馈意见.
 >
 > [加入 Kotlin/Wasm 社区](https://slack-chats.kotlinlang.org/c/webassembly).
 >
 {style="note"}
 
-Kotlin 能够构建应用程序, 并通过 Compose Multiplatform 和 Kotlin/Wasm, 将移动应用和桌面应用中的用户界面(UI) 重用在你的 Web 项目中.
+使用 Kotlin, 你能够构建应用程序, 并通过 Compose Multiplatform 和 Kotlin/Wasm,
+将移动应用和桌面应用中的用户界面(UI) 在你的 Web 项目中重用.
 
 [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/) 是一个声明式框架,
 基于 Kotlin 和 [Jetpack Compose](https://developer.android.com/jetpack/compose),
@@ -31,9 +32,13 @@ Wasm 为 Kotlin 和其他编程语言提供了在 Web 上运行的编译目标.
 Kotlin/Wasm 会将你的 Kotlin 代码编译为 Wasm 格式.
 使用 Kotlin/Wasm, 你可以创建应用程序, 运行在不同的环境和设备上, 只要这些环境和设备支持 Wasm, 并满足 Kotlin 的要求.
 
+另外, 在 Kotlin/Wasm 中你还可以直接使用最流行的 Kotlin 库.
+和其他的 Kotlin 和 Multiplatform 项目一样, 你可以在构建脚本中包含依赖项声明.
+详情请参见 [添加跨平台库依赖项](multiplatform-add-dependencies.md).
+
 你想自己尝试一下吗?
 
-<a href="wasm-get-started.md"><img src="wasm-get-started-button.svg" width="700" alt="Kotlin/Wasm 入门"/></a>
+<a href="wasm-get-started.md"><img src="wasm-get-started-button.svg" width="700" alt="Kotlin/Wasm 入门" style="block"/></a>
 
 ## Kotlin/Wasm 的性能 {id="kotlin-wasm-performance"}
 
@@ -46,15 +51,14 @@ Kotlin/Wasm 会将你的 Kotlin 代码编译为 Wasm 格式.
 
 ## 对浏览器 API 的支持
 
-Kotlin/Wasm 的标准库提供了浏览器 API 的声明 (包括 DOM API).
+Kotlin/Wasm 的标准库提供了浏览器 API 的声明, 包括 DOM API.
 通过这些声明, 你可以直接使用 Kotlin API 来访问和使用浏览器的各种功能.
-例如, 在你的 Kotlin/Wasm 应用程序中, 你可以操作 DOM 元素, 或使用 fetch API,
-而不需要从头开始定义这些声明.
+例如, 在你的 Kotlin/Wasm 应用程序中, 你可以操作 DOM 元素, 访问 API, 而不需要从头开始定义这些声明.
 更多详情请参见我们的 [Kotlin/Wasm 浏览器示例](https://github.com/Kotlin/kotlin-wasm-examples/tree/main/browser-example).
 
 用于支持浏览器 API 的声明是通过 JavaScript [互操作能力](wasm-js-interop.md) 来定义的.
 你可以使用同样的功能来定义你自己的声明.
-此外, Kotlin/Wasm 与 JavaScript 互操作能力还允许你在 JavaScript 中使用 Kotlin 代码.
+此外, Kotlin/Wasm 与 JavaScript 的互操作能力还允许你在 JavaScript 中使用 Kotlin 代码.
 详情请参见 [在 JavaScript 中使用 Kotlin 代码](wasm-js-interop.md#use-kotlin-code-in-javascript).
 
 ## 留下你的意见反馈
@@ -62,7 +66,8 @@ Kotlin/Wasm 的标准库提供了浏览器 API 的声明 (包括 DOM API).
 ### Kotlin/Wasm 意见反馈
 
 * ![Slack](slack.svg){width=25}{type="joined"} Slack:
-  在我们的 [#webassembly](https://kotlinlang.slack.com/archives/CDFP59223) 频道, 直接向开发者提供你的意见反馈.
+  [获得 Slack 邀请](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up),
+  然后在我们的 [#webassembly](https://kotlinlang.slack.com/archives/CDFP59223) 频道, 直接向开发者提供你的意见反馈.
   [获得 Slack 邀请](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up).
 * 在 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-56492) 中报告问题.
 

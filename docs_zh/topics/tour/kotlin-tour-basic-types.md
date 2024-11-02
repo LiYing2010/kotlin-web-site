@@ -10,13 +10,13 @@
         <img src="icon-7-todo.svg" width="20" alt="第 7 步" /> <a href="kotlin-tour-null-safety.md">Null 值安全性</a></p>
 </tldr>
 
-在 Kotlin 中, 每个变量和数据结构都有一个数据类型.
-数据类型很重要, 因为它告诉编译器你可以对这个变量或数据结构做什么样的操作.
+在 Kotlin 中, 每个变量和数据结构都有一个类型.
+类型很重要, 因为它告诉编译器你可以对这个变量或数据结构做什么样的操作.
 也就是说, 这个变量或数据结构有什么函数和属性.
 
-在上一章中, Kotlin 能够知道上一个示例程序中的 `customers` 的类型是: [`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/).
-Kotlin **推断** 数据类型的能力称为 **类型推断**.
-`customers` 被赋值了一个整数值. 根据这一点, Kotlin 推断 `customers` 拥有数值型的数据类型: `Int`.
+在上一章中, Kotlin 能够知道上一个示例程序中的 `customers` 的类型是 [`Int`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/).
+Kotlin **推断** 类型的能力称为 **类型推断**.
+`customers` 被赋值了一个整数值. 根据这一点, Kotlin 推断 `customers` 拥有数值类型 `Int`.
 结果是, 编译器知道你可以对 `customers` 执行算数操作:
 
 ```kotlin
@@ -46,14 +46,14 @@ fun main() {
 
 总的来说, Kotlin 有以下数据类型:
 
-| **类别** | **基本类型**                           |
-|--------|------------------------------------|
-| 整数     | `Byte`, `Short`, `Int`, `Long`     |
-| 无符号整数  | `UByte`, `UShort`, `UInt`, `ULong` |
-| 浮点数    | `Float`, `Double`                  |
-| 布尔值    | `Boolean`                          |
-| 字符     | `Char`                             |
-| 字符串    | `String`                           |
+| **类别** | **基本类型**                           | **示例代码**                                                      |
+|--------|------------------------------------|---------------------------------------------------------------|
+| 整数     | `Byte`, `Short`, `Int`, `Long`     | `val year: Int = 2020`                                        |
+| 无符号整数  | `UByte`, `UShort`, `UInt`, `ULong` | `val score: UInt = 100u`                                      |
+| 浮点数    | `Float`, `Double`                  | `val currentTemp: Float = 24.5f`, `val price: Double = 19.99` |
+| 布尔值    | `Boolean`                          | `val isEnabled: Boolean = true`                               |
+| 字符     | `Char`                             | `val separator: Char = ','`                                   |
+| 字符串    | `String`                           | `val message: String = "Hello, world!"`                       |
 
 关于基本类型和它们的属性, 详情请参见 [基本类型](basic-types.md).
 
@@ -61,7 +61,6 @@ fun main() {
 只要变量在第一次读取之前初始化, Kotlin 就能够正确处理这些变量.
 
 要声明一个变量但不初始化, 请使用 `:` 来指定它的类型.
-
 例如:
 
 ```kotlin
@@ -83,18 +82,34 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-basic-types-initialization"}
 
+如果一个变量在读取之前没有初始化, 会发生错误:
+
+```kotlin
+fun main() {
+//sampleStart
+    // 声明变量, 但没有初始化
+    val d: Int
+    
+    // 这里会发生错误
+    println(d)
+    // 错误: Variable 'd' must be initialized
+//sampleEnd
+}
+```
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-basic-types-no-initialization" validate="false"}
+
 现在你已经知道了如何声明基本类型, 下面我们来学习 [集合(Collection)](kotlin-tour-collections.md).
 
 ## 实际练习
 
-### 习题 {collapsible="true"}
+### 习题 {id="exercise" initial-collapse-state="collapsed" collapsible="true"}
 
 为每个变量明确声明正确的类型:
 
 |---|---|
 ```kotlin
 fun main() {
-    val a = 1000
+    val a: Int = 1000
     val b = "log message"
     val c = 3.14
     val d = 100_000_000_000_000
@@ -110,12 +125,12 @@ fun main() {
     val a: Int = 1000
     val b: String = "log message"
     val c: Double = 3.14
-    val d: Long = 100_000_000_000
+    val d: Long = 100_000_000_000_000
     val e: Boolean = false
     val f: Char = '\n'
 }
 ```
-{collapsible="true" collapsed-title="参考答案" id="kotlin-tour-basic-types-solution"}
+{initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-basic-types-solution"}
 
 ## 下一步
 

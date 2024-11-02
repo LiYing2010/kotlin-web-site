@@ -3,7 +3,7 @@
 要添加 Kotlin 项目对 Pod 库的依赖项, 需要 [完成初始配置](native-cocoapods.md#set-up-an-environment-to-work-with-cocoapods).
 然后你就可以添加各种类型的 Pod 库依赖项.
 
-添加新的依赖项, 并在 IntelliJ IDEA 并重新导入项目之后, 新的依赖项会被自动添加进来.
+添加新的依赖项, 并在你的 IDE 中重新导入项目之后, 新的依赖项会被自动添加进来.
 不需要其他步骤.
 
 要让你的 Kotlin 项目与 Xcode 协同工作, 应该 [修改项目的 Podfile 文件](native-cocoapods.md#update-podfile-for-xcode).
@@ -33,10 +33,10 @@ Kotlin 项目需要在 `build.gradle(.kts)` 中调用 `pod()` 函数来添加 Po
 
     ```kotlin
     kotlin {
-        ios()
+        iosArm64()
 
         cocoapods {
-            ios.deploymentTarget = "13.5"
+            iosArm64.deploymentTarget = "13.5"
 
             summary = "CocoaPods test library"
             homepage = "https://github.com/JetBrains/kotlin"
@@ -48,7 +48,8 @@ Kotlin 项目需要在 `build.gradle(.kts)` 中调用 `pod()` 函数来添加 Po
     }
     ```
 
-3. 重新导入项目.
+3. 在 IntelliJ IDEA 中, 运行 **Reload All Gradle Projects** (如果是 Android Studio, 请运行 **Sync Project with Gradle Files**),
+   重新导入项目.
 
 要在 Kotlin 代码中使用这些依赖项, 需要导入 `cocoapods.<library-name>` 包:
 
@@ -71,13 +72,13 @@ import cocoapods.FirebaseAuth.*
 
     ```kotlin
     kotlin {
-        ios()
+        iosArm64()
 
         cocoapods {
             summary = "CocoaPods test library"
             homepage = "https://github.com/JetBrains/kotlin"
 
-            ios.deploymentTarget = "13.5"
+            iosArm64.deploymentTarget = "13.5"
 
             pod("pod_dependency") {
                 version = "1.0"
@@ -99,7 +100,8 @@ import cocoapods.FirebaseAuth.*
    >
    {style="note"}
 
-3. 重新导入项目.
+3. 在 IntelliJ IDEA 中, 运行 **Reload All Gradle Projects** (如果是 Android Studio, 请运行 **Sync Project with Gradle Files**),
+   重新导入项目.
 
 要在 Kotlin 代码中使用这些依赖项, 需要导入 `cocoapods.<library-name>` 包:
 
@@ -131,13 +133,13 @@ import cocoapods.FirebaseAuth.*
 
     ```kotlin
     kotlin {
-        ios()
+        iosArm64()
 
         cocoapods {
             summary = "CocoaPods test library"
             homepage = "https://github.com/JetBrains/kotlin"
 
-            ios.deploymentTarget = "13.5"
+            iosArm64.deploymentTarget = "13.5"
 
             pod("FirebaseAuth") {
                 source = git("https://github.com/firebase/firebase-ios-sdk") {
@@ -160,7 +162,8 @@ import cocoapods.FirebaseAuth.*
     }
     ```
 
-3. 重新导入项目.
+3. 在 IntelliJ IDEA 中, 运行 **Reload All Gradle Projects** (如果是 Android Studio, 请运行 **Sync Project with Gradle Files**),
+   重新导入项目.
 
 要在 Kotlin 代码中使用这些依赖项, 需要导入 `cocoapods.<library-name>` 包:
 
@@ -173,20 +176,18 @@ import cocoapods.CocoaLumberjack.*
 ## 从自定义 Podspec 仓库添加 Pod 库依赖项 {id="from-a-custom-podspec-repository"}
 
 1. 在 `specRepos` 代码段之内, 使用 `url()` 函数, 指定自定义 Podspec 仓库的 HTTP 地址.
-
 2. 在 `pod()` 函数内指定 Pod 库名称.
-
 3. 指定 Pod 库的部署目标(deployment target)最小版本.
 
     ```kotlin
     kotlin {
-        ios()
+        iosArm64()
 
         cocoapods {
             summary = "CocoaPods test library"
             homepage = "https://github.com/JetBrains/kotlin"
 
-            ios.deploymentTarget = "13.5"
+            iosArm64.deploymentTarget = "13.5"
 
             specRepos {
                 url("https://github.com/Kotlin/kotlin-cocoapods-spec.git")
@@ -196,7 +197,8 @@ import cocoapods.CocoaLumberjack.*
     }
     ```
 
-4. 重新导入项目.
+4. 在 IntelliJ IDEA 中, 运行 **Reload All Gradle Projects** (如果是 Android Studio, 请运行 **Sync Project with Gradle Files**),
+   重新导入项目.
 
 > 要与 Xcode 正确的协同工作, 需要在你的 Podfile 文件的最开始指定 spec 的位置.
 > 例如:
@@ -225,13 +227,13 @@ import cocoapods.example.*
 
     ```kotlin
     kotlin {
-        ios()
+        iosArm64()
 
         cocoapods {
             summary = "CocoaPods test library"
             homepage = "https://github.com/JetBrains/kotlin"
 
-            ios.deploymentTarget = "13.5"
+            iosArm64.deploymentTarget = "13.5"
 
             pod("YandexMapKit") {
                 packageName = "YandexMK"
@@ -240,7 +242,8 @@ import cocoapods.example.*
     }
     ```
 
-3. 重新导入项目.
+3. 在 IntelliJ IDEA 中, 运行 **Reload All Gradle Projects** (如果是 Android Studio, 请运行 **Sync Project with Gradle Files**),
+   重新导入项目.
 
 要在 Kotlin 代码中使用这些依赖项, 需要导入 `cocoapods.<library-name>` 包:
 
@@ -270,13 +273,13 @@ import YandexMK.YMKDistance
 
 ```kotlin
 kotlin {
-    ios()
+    iosArm64()
 
     cocoapods {
         summary = "CocoaPods test library"
         homepage = "https://github.com/JetBrains/kotlin"
 
-        ios.deploymentTarget = "13.5"
+        iosArm64.deploymentTarget = "13.5"
 
         pod("PodName") {
             extraOpts = listOf("-compiler-option", "-fmodules")

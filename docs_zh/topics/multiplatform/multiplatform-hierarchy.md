@@ -23,7 +23,7 @@ Kotlin 工具链会确保, 每个源代码集只能访问这个源代码集编�
 
 ## 默认层级结构模板 {id="default-hierarchy-template"}
 
-从 Kotlin 1.9.20 开始, Kotlin Gradle plugin 包含内建的默认 [层级结构模板](#see-the-full-hierarchy-template).
+Kotlin Gradle plugin 包含内建的默认 [层级结构模板](#see-the-full-hierarchy-template).
 对于一些常见的情况, 模板包含了预定义的中间源代码集.
 Plugin 会根据你项目中指定的编译目标, 自动设置这些源代码集.
 
@@ -58,16 +58,18 @@ kotlin {
 Kotlin Gradle plugin 会从模板中找到合适的共享源代码集, 并为你创建这些源代码集.
 最后产生的层级结构类似下图:
 
-![使用默认的层级结构模板的示例](default-hierarchy-example.svg){thumbnail="true" width="350" thumbnail-same-file="true"}
+![使用默认的层级结构模板的示例](default-hierarchy-example.svg)
 
-绿色的源代码集会自动创建并包含到项目中, 同时, 默认模板中的灰色的源代码集会被忽略.
+彩色的源代码集会自动创建并包含到项目中, 同时, 默认模板中的灰色的源代码集会被忽略.
 Kotlin Gradle plugin 没有创建一些源代码集, 例如 `watchos`, 因为项目中没有 watchOS 编译目标.
 
 如果你添加一个 watchOS 编译目标, 例如 `watchosArm64`, `watchos` 源代码集就会被创建,
 来自 `apple`, `native`, 和 `common` 源代码集的代码也会被编译到 `watchosArm64`.
 
-Kotlin Gradle plugin 会为来自默认层级结构模板的所有源代码集创建类型安全的访问器,
-因此, 与 [手动配置](#manual-configuration) 相比, 你可以引用这些源代码集, 不需要使用 `by getting` 或 `by creating` 构建器:
+Kotlin Gradle plugin 会为来自默认层级结构模板的所有源代码集提供类型安全的访问器和静态的访问器,
+因此, 与 [手动配置](#manual-configuration) 相比, 你可以引用这些源代码集, 不需要使用 `by getting` 或 `by creating` 构建器.
+
+如果你试图访问源代码集, 但在此之前没有声明对应的编译目标, 你会看到警告信息:
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
@@ -82,6 +84,8 @@ kotlin {
         iosMain.dependencies {
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:%coroutinesVersion%")
         }
+        // 警告信息: accessing source set without declaring the target
+        linuxX64Main { }
     }
 }
 ```
@@ -101,6 +105,8 @@ kotlin {
                 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:%coroutinesVersion%'
             }
         }
+        // 警告信息: accessing source set without declaring the target
+        linuxX64Main { }
     }
 }
 ```
@@ -235,7 +241,7 @@ Learn more about hierarchy templates: https://kotl.in/hierarchy-template
 >
 {style="tip"}
 
-#### 查看完整的层级结构模板 {id="see-the-full-hierarchy-template"}
+#### 查看完整的层级结构模板 {id="see-the-full-hierarchy-template" initial-collapse-state="collapsed" collapsible="true"}
 
 当你声明你的项目的编译目标时, plugin 会根据指定的编译目标, 从模板中选择共用的源代码集, 并在你的项目中创建这些源代码集.
 
@@ -308,7 +314,7 @@ kotlin {
 
 最后产生的层级结构类似下图:
 
-![手动配置的层级结构](manual-hierarchical-structure.png)
+![手动配置的层级结构](manual-hierarchical-structure.svg)
 
 对以下编译目标组合, 可以共用源代码集:
 

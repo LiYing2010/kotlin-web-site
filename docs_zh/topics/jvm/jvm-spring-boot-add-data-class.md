@@ -18,9 +18,12 @@
 
 ## 更新你的应用程序
 
-1. 在 `DemoApplication.kt` 文件中, 创建一个 `Message` 数据类, 包含 2 个属性: `id` 和 `text`:
+1. 在同一个包中, 创建一个 `Message.kt` 文件, 其中包含一个数据类, 包含 2 个属性: `id` 和 `text`:
 
     ```kotlin
+    // Message.kt
+    package demo
+
     data class Message(val id: String?, val text: String)
     ```
 
@@ -61,18 +64,26 @@
             这里, <code>Message</code> 类的 <code>id</code> 属性声明为可为 null 的类型.
             因此, 可以对 <code>id</code> 传递 `null` 来创建一个 <code>Message</code> 类的实例:
           </p>
-          <code style="block" lang="kotlin">
+          <code-block lang="kotlin">
           Message(null, "Hello!")
-          </code>
+          </code-block>
        </def>
    </deflist>
-2. 在同一个文件内, 修改 `MessageController` 类的 `index()` 函数, 让它返回 `Message` 对象的 List:
+2. 在 `MessageController.kt` 文件中, 将 `index()` 函数改为 `listMessages()` 函数, 返回 `Message` 对象的 List:
 
     ```kotlin
+    // MessageController.kt
+    package demo
+
+    import org.springframework.web.bind.annotation.GetMapping
+    import org.springframework.web.bind.annotation.RequestMapping
+    import org.springframework.web.bind.annotation.RestController
+
     @RestController
+    @RequestMapping("/")
     class MessageController {
-        @GetMapping("/")
-        fun index() = listOf(
+        @GetMapping
+        fun listMessages() = listOf(
             Message("1", "Hello!"),
             Message("2", "Bonjour!"),
             Message("3", "Privet!"),
@@ -106,11 +117,11 @@
        <def title="尾随逗号(Trailing Comma)">
           <p>
             <a href="coding-conventions.md#trailing-commas">尾随逗号(Trailing Comma)</a> 是指在一系列元素的 <b>最终元素</b> 之后的逗号:
-            <br/>
-            <code style="block" lang="kotlin">
+          </p>
+          <code-block lang="kotlin">
             Message("3", "Privet!"),
-            </code>
-            <br/>
+          </code-block>
+          <p>
             这是 Kotlin 语法中的一个便利的功能, 而且它是可选的 – 不使用尾随逗号, 你的代码也能正常运行.
           </p>
           <p>
@@ -127,16 +138,14 @@
 >
 {style="note"}
 
-下面是 `DemoApplication.kt` 的完整代码:
+下面是 `DemoApplication.kt`, `MessageController.kt`, 以及 `Message.kt` 文件的完整代码:
 
 ```kotlin
-package com.example.demo
+// DemoApplication.kt
+package demo
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
-import org.springframework.data.annotation.Id
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RestController
 
 @SpringBootApplication
 class DemoApplication
@@ -144,20 +153,37 @@ class DemoApplication
 fun main(args: Array<String>) {
     runApplication<DemoApplication>(*args)
 }
+```
+{initial-collapse-state="collapsed" collapsible="true"}
+
+```kotlin
+// MessageController.kt
+package demo
+
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
+@RequestMapping("/")
 class MessageController {
-    @GetMapping("/")
-    fun index() = listOf(
+    @GetMapping
+    fun listMessages() = listOf(
         Message("1", "Hello!"),
         Message("2", "Bonjour!"),
         Message("3", "Privet!"),
     )
 }
+```
+{initial-collapse-state="collapsed" collapsible="true"}
+
+```kotlin
+// Message.kt
+package demo
 
 data class Message(val id: String?, val text: String)
 ```
-{collapsible="true"}
+{initial-collapse-state="collapsed" collapsible="true"}
 
 ## 运行应用程序
 
