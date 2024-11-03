@@ -21,20 +21,25 @@ fun main() {
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="hello-world-kotlin"}
 
 在 Kotlin 中:
+
 * `fun` 用来声明一个函数
 * `main()` 函数是你的程序开始的位置
 * 函数体写在大括号 `{}` 之内
 * [`println()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/println.html) 和 [`print()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/print.html) 函数将它们的参数打印到标准输出
 
-> 函数会在后面的各章中详细介绍. 在此之前, 所有的示例程序都使用 `main()` 函数.
->
-{style="note"}
+函数是一组指令, 执行特定的任务. 创建一个函数后, 你就可以在需要执行这个任务时使用这个函数, 而不必反复编写这些指令.
+函数会在后面的各章中详细介绍. 在此之前, 所有的示例程序都使用 `main()` 函数.
 
 ## 变量
 
 所有的程序都需要存储数据, 变量可以帮助你实现这个目的. 在 Kotlin 中, 你可以:
+
 * 使用 `val`, 声明只读的变量
 * 使用 `var`, 声明可变的变量
+
+> 在为只读变量初次赋值之后, 就不能再修改它的值.
+>
+{type ="note"}
 
 要为变量赋值, 请使用赋值操作符 `=`.
 
@@ -99,7 +104,7 @@ fun main() {
 
 ## 实际练习
 
-### 习题 {collapsible="true"}
+### 习题 {initial-collapse-state="collapsed" collapsible="true"}
 
 完成以下代码, 让程序打印 `"Mary is 20 years old"` 到标准输出:
 
@@ -121,7 +126,7 @@ fun main() {
     println("$name is $age years old")
 }
 ```
-{collapsible="true" collapsed-title="参考答案" id="kotlin-tour-hello-world-solution"}
+{initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-hello-world-solution"}
 
 ## 下一步
 

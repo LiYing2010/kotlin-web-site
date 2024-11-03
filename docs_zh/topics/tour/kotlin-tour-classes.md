@@ -22,12 +22,13 @@ class Customer
 
 ## 属性
 
-可以在属性中声明一个类的对象的特性.
-你可以为一个类声明属性:
+可以在属性中声明一个类的对象的特性. 你可以为一个类声明属性:
+
 * 放在类的名称之后的小括号 `()` 之内.
 ```kotlin
 class Contact(val id: Int, var email: String)
 ```
+
 * 放在大括号 `{}` 定义的类的 body 部之内.
 ```kotlin
 class Contact(val id: Int, var email: String) {
@@ -68,6 +69,7 @@ fun main() {
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-class-create-instance"}
 
 在上面的示例中:
+
 * `Contact` 是一个类.
 * `contact` 是 `Contact` 类的一个实例.
 * `id` 和 `email` 是属性.
@@ -141,35 +143,37 @@ Kotlin 有 **数据类(Data Class)**, 非常适合于存储数据.
 由于这些函数是自动存在的, 因此你不必耗费时间为每个类编写相同的样板代码(Boilerplate Code).
 
 要声明一个数据类, 请使用关键字 `data`:
+
 ```kotlin
 data class User(val name: String, val id: Int)
 ```
 
 数据类的预先定义的成员函数中, 最有用的是:
 
-| **函数**             | **描述**                         |
-|--------------------|--------------------------------|
-| `.toString()`      | 将类实例和它的属性打印为一个易于阅读的字符串.        |
-| `.equals()` 或 `==` | 比较一个类的实例.                      |
-| `.copy()`          | 创建一个类的实例, 从另一个实例复制, 一部分属性可以不同. |
+| **函数**            | **描述**                         |
+|-------------------|--------------------------------|
+| `toString()`      | 将类实例和它的属性打印为一个易于阅读的字符串.        |
+| `equals()` 或 `==` | 比较一个类的实例.                      |
+| `copy()`          | 创建一个类的实例, 从另一个实例复制, 一部分属性可以不同. |
 
 关于这些函数的使用示例, 请参见以下小节:
+
 * [打印为字符串](#print-as-string)
 * [比较实例](#compare-instances)
 * [复制实例](#copy-instance)
 
 ### 打印为字符串 {id="print-as-string"}
 
-要将一个类的实例打印为易于阅读的字符串, 你可以明确调用 `.toString()` 函数,
-或使用打印函数(`println()` 和 `print()`), 这些函数会自动为你调用 `.toString()`:
+要将一个类的实例打印为易于阅读的字符串, 你可以明确调用 `toString()` 函数,
+或使用打印函数(`println()` 和 `print()`), 这些函数会自动为你调用 `toString()`:
 
 ```kotlin
 data class User(val name: String, val id: Int)
 
 fun main() {
+    //sampleStart
     val user = User("Alex", 1)
 
-    //sampleStart
     // 自动使用 toString() 函数, 让输出结果易于阅读
     println(user)
     // 输出结果为 User(name=Alex, id=1)
@@ -207,9 +211,9 @@ fun main() {
 
 ### 复制实例 {id="copy-instance"}
 
-要对一个数据类的实例创建一个完全相同的复制, 请对这个实例调用 `.copy()` 函数.
+要对一个数据类的实例创建一个完全相同的复制, 请对这个实例调用 `copy()` 函数.
 
-要对一个数据类的实例创建一个复制, **并且** 改变一部分属性, 请对这个实例调用 `.copy()` 函数,
+要对一个数据类的实例创建一个复制, **并且** 改变一部分属性, 请对这个实例调用 `copy()` 函数,
 **并** 加上要替换的属性值, 作为函数的参数.
 
 例如:
@@ -248,7 +252,7 @@ fun main() {
 
 ## 实际练习
 
-### 习题 1 {collapsible="true"}
+### 习题 1 {initial-collapse-state="collapsed" collapsible="true"}
 
 定义一个数据类 `Employee`, 带有两个属性: 一个是姓名, 一个是工资.
 请确保工资的属性是可变的, 否则你在年底就不可能涨工资了!
@@ -278,24 +282,67 @@ fun main() {
     println(emp)
 }
 ```
-{collapsible="true" collapsed-title="参考答案" id="kotlin-tour-classes-solution-1"}
+{initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-classes-solution-1"}
 
-### 习题 2 {collapsible="true"}
+### 习题 2 {initial-collapse-state="collapsed" collapsible="true"}
+
+为了让下面的代码能够编译, 声明所需要的数据类.
+
+|---|---|
+```kotlin
+data class Person(val name: Name, val address: Address, val ownsAPet: Boolean = true)
+// 在这里编写你的代码
+// data class Name(...)
+
+fun main() {
+    val person = Person(
+        Name("John", "Smith"),
+        Address("123 Fake Street", City("Springfield", "US")),
+        ownsAPet = false
+    )
+}
+```
+{validate="false" kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-classes-exercise-2"}
+
+|---|---|
+```kotlin
+data class Person(val name: Name, val address: Address, val ownsAPet: Boolean = true)
+data class Name(val first: String, val last: String)
+data class Address(val street: String, val city: City)
+data class City(val name: String, val countryCode: String)
+
+fun main() {
+    val person = Person(
+        Name("John", "Smith"),
+        Address("123 Fake Street", City("Springfield", "US")),
+        ownsAPet = false
+    )
+}
+```
+{initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-classes-solution-2"}
+
+### 习题 3 {initial-collapse-state="collapsed" collapsible="true"}
 
 为了测试你的代码, 你需要一个生成器, 它能够创建随机的员工数据.
-定义一个类, 其中包括可用的姓名的固定列表 (包含在类的 body 部之内),
-还可以指定工资的最小值和最大值 (包含在类头部之内).
+定义一个 `RandomEmployeeGenerator` 类, 其中包括可用的姓名的固定列表 (包含在类的 body 部之内).
+还可以指定工资的最小值和最大值 (包含在类头部之内) 来配置这个类.
+在类的 body 部之内, 定义 `generateEmployee()` 函数.
 这次也一样, 主函数演示你如何使用这个类.
 
-<deflist collapsible="true" id="kotlin-tour-classes-exercise-2-hint-1">
-    <def title="提示">
+> 在这个习题中, 你会导入一个包, 这样就可以使用 [`Random.nextInt()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.random/-random/next-int.html) 函数.
+> 关于包的导入, 更多详情请参见 [包(Package)与导入(Import)](packages.md).
+>
+{type = "tip"}
+
+<deflist collapsible="true" id="kotlin-tour-classes-exercise-3-hint-1">
+    <def title="提示 1">
         List 有一个名为 <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/random.html"><code>.random()</code></a> 的扩展函数,
         它返回 List 内的一个随机元素.
     </def>
 </deflist>
 
-<deflist collapsible="true" id="kotlin-tour-classes-exercise-2-hint-2">
-    <def title="提示">
+<deflist collapsible="true" id="kotlin-tour-classes-exercise-3-hint-2">
+    <def title="提示 2">
         <code>Random.nextInt(from = ..., until = ...)</code> 返回给你一个随机的 <code>Int</code> 值, 它在指定的上下限值之内.
     </def>
 </deflist>
@@ -318,7 +365,7 @@ fun main() {
     println(empGen.generateEmployee())
 }
 ```
-{validate="false" kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-classes-exercise-2"}
+{validate="false" kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-classes-exercise-3"}
 
 |---|---|
 ```kotlin
@@ -343,7 +390,7 @@ fun main() {
     println(empGen.generateEmployee())
 }
 ```
-{collapsible="true" collapsed-title="参考答案" id="kotlin-tour-classes-solution-2"}
+{initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-classes-solution-2"}
 
 ## 下一步
 

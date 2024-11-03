@@ -15,7 +15,7 @@ Kotlin 1.8.20 已经发布了, 其中一些重要更新如下:
 
 关于本次更新的概要介绍, 你可以观看以下视频:
 
-<video src="https://youtu.be/R1JpkpPzyBU" title="Kotlin 1.8.20 版中的新功能"/>
+<video src="https://www.youtube.com/v/R1JpkpPzyBU" title="Kotlin 1.8.20 版中的新功能"/>
 
 ## IDE 支持 {id="ide-support"}
 
@@ -336,6 +336,7 @@ value class Person(private val fullName: String) {
             "Full name shouldn't be empty"
         }
     }
+
     // 从 Kotlin 1.8.20 开始可以使用 (预览版):
     constructor(name: String, lastName: String) : this("$name $lastName") {
         check(lastName.isNotBlank()) {
@@ -525,7 +526,7 @@ Kotlin 允许你使用 `person.age`, 其中 `age` 是一个合成属性.
 
 ```kotlin
 val persons = listOf(Person("Jack", 11), Person("Sofie", 12), Person("Peter", 11))
-    Persons
+    persons
         // 调用 Java 合成属性的引用:
         .sortedBy(Person::age)
         // 通过 Kotlin 的属性语法, 调用 Java 取值方法:
@@ -606,7 +607,7 @@ Kotlin 开发组决定重新审查 Kotlin/Native 支持的目标平台,
 对于剩下的目标平台, 根据 Kotlin/Native 编译器中支持和测试程度的不同, 现在分为 3 个支持层级.
 一个目标平台可能被移动到不同的层级.
 例如, 将来我们会尽最大努力对 `iosArm64` 提供完全的支持, 因为它对
-[Kotlin Multiplatform](multiplatform-get-started.md) 非常重要.
+[Kotlin Multiplatform](multiplatform-intro.md) 非常重要.
 
 如果你是库的作者, 这 3 个支持层级能够帮助你决定在 CI 工具中测试哪些目标平台, 略过哪些目标平台.
 Kotlin 开发组在 Kotlin 官方库的开发中也使用这个方案, 例如 [kotlinx.coroutines](coroutines-guide.md).
@@ -790,7 +791,7 @@ Kotlin Gradle plugin 会从模板中找到合适的共用源代码集, 并为你
 >
 {style="note"}
 
-#### 为什么要替换简写(shortcut) {id="why-replace-shortcuts"}
+#### 为什么要替换简写(shortcut) {id="why-replace-shortcuts" initial-collapse-state="collapsed" collapsible="true"}
 
 创建源代码集层级结构, 可能繁琐, 易出错, 而且对初学者不友好.
 我们之前的解决方案是, 引入 `ios` 这样的简写(shortcut), 它会为你创建层级结构的一部分.
@@ -853,7 +854,7 @@ kotlin.mpp.import.enableKgpDependencyResolution=true
 下面是一些已知的问题, 我们计划在 Kotlin 1.8.20 最终发布之前修复:
 
 * 对于 IntelliJ IDEA 2023.1 EAP 目前还没有 Kotlin 1.8.20 plugin 可用.
-  尽管如此, 你还是可以将 Kotlin Gradle plugin 版本设置为 1.8.20-RC2, 在这个 IDE 中试用复合构建.
+  尽管如此, 你还是可以将 Kotlin Gradle plugin 版本设置为 1.8.20, 在这个 IDE 中试用复合构建.
 * 如果你的项目包含指定了 `rootProject.name` 的构建, 复合构建可能会无法解析 Kotlin metadata.
   关于这个问题的详细情况, 以及变通方法, 请参见这个 [Youtrack issue](https://youtrack.jetbrains.com/issue/KT-56536).
 
@@ -1006,7 +1007,7 @@ Kotlin 1.8.20 也采用了这个方案.
 kotlin.compiler.preciseCompilationResultsBackup=true
 ```
 
-#### JetBrains 使用精确备份的例子
+#### JetBrains 使用精确备份的例子 {initial-collapse-state="collapsed" collapsible="true"}
 
 在下面的图表中, 你可以看到使用精确备份与完整备份相对比的示例:
 
@@ -1032,7 +1033,7 @@ kotlin.compiler.preciseCompilationResultsBackup=true
 * 哪些模块受到变更的影响, 以及这些模块有多大.
 * 是 ABI 变更还是非 ABI 变更.
 
-#### 使用构建报告来评估优化
+#### 使用构建报告来评估优化 {initial-collapse-state="collapsed" collapsible="true"}
 
 要对你的项目和场景, 评估优化在你的计算机上的影响, 你可以使用 [Kotlin 构建报告](gradle-compilation-and-caches.md#build-reports).
 请向你的 `gradle.properties` 文件添加下面的属性, 启用文本文件格式的构建报告:
@@ -1084,9 +1085,9 @@ Kotlin Gradle plugin 不会过早的创建和配置 `compileKotlin` 任务.
 * 使用了废弃的 Kotlin/JS/非 IR [变体(variant)](gradle-plugin-variants.md), 并覆盖了 `Kotlin2JsCompile`
   任务的 `destinationDirectory`.
 
-在你的 JAR 文件中, 除 `sourceSets.main.outputs` 之外, 你需要明确的添加 `sourceSets.main.kotlin.classesDirectories`  :
+在你的 JAR 文件中, 除 `sourceSets.main.outputs` 之外, 你需要明确的添加 `sourceSets.main.kotlin.classesDirectories` :
 
-```
+```groovy
 tasks.jar(type: Jar) {
     from sourceSets.main.outputs
     from sourceSets.main.kotlin.classesDirectories
@@ -1257,7 +1258,7 @@ tasks
     .configureEach {
         compilerOptions.languageVersion =
             org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_9
-}
+    }
 ```
 
 </tab>
