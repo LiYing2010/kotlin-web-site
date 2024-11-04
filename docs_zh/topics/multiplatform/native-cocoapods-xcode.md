@@ -33,12 +33,12 @@
 4. 指定 Pod 库的部署目标(deployment target)最小版本.
     ```kotlin
     kotlin {
-        ios()
+        iosArm64()
 
         cocoapods {
             summary = "CocoaPods test library"
             homepage = "https://github.com/JetBrains/kotlin"
-            ios.deploymentTarget = "13.5"
+            iosArm64.deploymentTarget = "13.5"
             pod("FirebaseAuth") {
                 version = "10.16.0"
             }
@@ -59,7 +59,13 @@
     end
     ```
 
-6. 重新导入项目.
+6. 在你的项目目录中运行 `pod install`.
+
+   在你第一次运行 `pod install` 时, 它会创建 `.xcworkspace` 文件.
+   这个文件包含你原来的 `.xcodeproj` 和 CocoaPods 项目.
+7. 关闭你的 `.xcodeproj`, 改为打开新的 `.xcworkspace` 文件. 这样你就可以避免项目依赖的问题.
+8. 在 IntelliJ IDEA 中, 运行 **Reload All Gradle Projects** (如果是 Android Studio, 请运行 **Sync Project with Gradle Files**),
+   重新导入项目.
 
 ## 多个编译目标的 Xcode 项目 {id="xcode-project-with-several-targets"}
 
@@ -72,14 +78,14 @@
 
     ```kotlin
     kotlin {
-        ios()
-        tvos()
+        iosArm64()
+        tvosArm64()
 
         cocoapods {
             summary = "CocoaPods test library"
             homepage = "https://github.com/JetBrains/kotlin"
-            ios.deploymentTarget = "13.5"
-            tvos.deploymentTarget = "13.4"
+            iosArm64.deploymentTarget = "13.5"
+            tvosArm64.deploymentTarget = "13.4"
 
             pod("FirebaseAuth") {
                 version = "10.16.0"
@@ -108,6 +114,17 @@
     end
     ```
 
-6. 重新导入项目.
+6. 在你的项目目录中运行 `pod install`.
+
+   在你第一次运行 `pod install` 时, 它会创建 `.xcworkspace` 文件.
+   这个文件包含你原来的 `.xcodeproj` 和 CocoaPods 项目.
+7. 关闭你的 `.xcodeproj`, 改为打开新的 `.xcworkspace` 文件. 这样你就可以避免项目依赖的问题.
+8. 在 IntelliJ IDEA 中, 运行 **Reload All Gradle Projects** (如果是 Android Studio, 请运行 **Sync Project with Gradle Files**),
+   重新导入项目.
 
 参见 [示例项目](https://github.com/Kotlin/kmm-with-cocoapods-multitarget-xcode-sample).
+
+## 下一步做什么?
+
+阅读 [将框架连接到你的 iOS 项目](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-integrate-in-existing-app.html#connect-the-framework-to-your-ios-project),
+学习如何在 Xcode 项目中向构建阶段(build phase)添加自定义的构建脚本.

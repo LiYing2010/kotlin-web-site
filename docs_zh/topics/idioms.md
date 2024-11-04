@@ -53,6 +53,22 @@ println("Name $name")
 
 详情请参见 [Java 与 Kotlin 字符串拼接处理的区别](java-to-kotlin-idioms-strings.md#concatenate-strings).
 
+## 安全的读取标准输入
+
+```kotlin
+// 读取一个字符串, 如果输入不能转换为整数, 返回 null. 例如: Hi there!
+val wrongInt = readln().toIntOrNull()
+println(wrongInt)
+// 输出结果为 null
+
+// 读取一个能够转换为整数的字符串, 返回整数值. 例如: 13
+val correctInt = readln().toIntOrNull()
+println(correctInt)
+// 输出结果为 13
+```
+
+详情请参见 [读取标准输入](read-standard-input.md).
+
 ## 类型实例检查
 
 ```kotlin
@@ -125,6 +141,22 @@ object Resource {
     val name = "Name"
 }
 ```
+
+## 使用内联的值类(Inline value class) 创建类型安全的值
+
+```kotlin
+@JvmInline
+value class EmployeeId(private val id: String)
+
+@JvmInline
+value class CustomerId(private val id: String)
+```
+
+如果你不小心混淆了 `EmployeeId` 和 `CustomerId`, 会发生编译错误.
+
+> 只对 JVM 后端需要 `@JvmInline` 注解.
+>
+{style="note"}
 
 ## 为抽象类(Abstract Class)创建实例
 

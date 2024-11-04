@@ -1,4 +1,4 @@
-[//]: # (title: Read standard input)
+[//]: # (title: 读取标准输入)
 
 Use the `readln()` function to read data from the standard input. It reads the whole line as a string:
 

@@ -31,7 +31,7 @@ plugins {
 </tab>
 </tabs>
 
-## 顶级代码块
+## 顶级代码块 {id="top-level-blocks"}
 
 Gradle 编译脚本中跨平台项目配置的顶级代码块是 `kotlin`.
 在 `kotlin` 之内, 你可以使用以下代码块:

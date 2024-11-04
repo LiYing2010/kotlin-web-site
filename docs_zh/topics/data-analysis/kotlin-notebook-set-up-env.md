@@ -1,33 +1,33 @@
-[//]: # (title: Set up an environment)
+[//]: # (title: 设置环境)
 
 <tldr>
-   <p>This is the first part of the <strong>Getting started with Kotlin Notebook</strong> tutorial:</p>
-   <p><img src="icon-1.svg" width="20" alt="First step"/> <strong>Set up an environment</strong><br/>
-      <img src="icon-2-todo.svg" width="20" alt="Second step"/> Create a Kotlin Notebook<br/>
-      <img src="icon-3-todo.svg" width="20" alt="Third step"/> Add dependencies to a Kotlin Notebook<br/>      
-      <img src="icon-4-todo.svg" width="20" alt="Fourth step"/> Share a Kotlin Notebook<br/>
+   <p>这是 <strong>Kotlin Notebook 入门</strong> 教程的第 1 部分:</p>
+   <p><img src="icon-1.svg" width="20" alt="第 1 步"/> <strong>设置环境</strong><br/>
+      <img src="icon-2-todo.svg" width="20" alt="第 2 步"/> 创建 Kotlin Notebook<br/>
+      <img src="icon-3-todo.svg" width="20" alt="第 3 步"/> 向 Kotlin Notebook 添加依赖项<br/>
+      <img src="icon-4-todo.svg" width="20" alt="第 4 步"/> 共享 Kotlin Notebook<br/>
   </p>
 </tldr>
 
-Before you create your first Kotlin Notebook, you need to set up an environment.
+在创建你的第一个 Kotlin Notebook 之前, 你需要设置环境.
 
-## Set up the environment
+## 设置环境
 
-1. Download and install the latest version of [IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/download/index.html).
-2. In IntelliJ IDEA, select **IntelliJ IDEA | Settings | Plugins** or **File | Settings | Plugins**.
-3. In the **Marketplace** tab, browse the **Kotlin Notebook** plugin and install it.
+1. 下载并安装最新版的 [IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/download/index.html).
+2. 在 IntelliJ IDEA 中, 选择 **IntelliJ IDEA | Settings | Plugins** 或 **File | Settings | Plugins**.
+3. 在 **Marketplace** 页面中, 查找 **Kotlin Notebook** plugin, 并安装.
 
-   ![Install Kotlin Notebook from the marketplace](kotlin-notebook-plugin.png){width=700}
+   ![从 Marketplace 安装 Kotlin Notebook](kotlin-notebook-plugin.png){width=700}
 
-   > Alternatively, you can download the [Kotlin Notebook plugin](https://plugins.jetbrains.com/plugin/16340-kotlin-notebook)
-   > and install it manually.
+   > 或者, 你也可以手动下载 [Kotlin Notebook plugin](https://plugins.jetbrains.com/plugin/16340-kotlin-notebook),
+   > 并安装.
    >
    {style="note"}
 
-4. Click **OK** to apply the changes and restart your IDE if prompted.
+4. 点击 **OK**, 适用变更, 如果有提示, 请重启你的 IDE.
 
-## Next step
+## 下一步
 
-In the next part of the tutorial, you will learn how to create a Kotlin Notebook.
+在本教程的下一部分, 你将会学习如何创建一个 Kotlin Notebook.
 
-**[Proceed to the next chapter](kotlin-notebook-create.md)**
+**[进入到下一章](kotlin-notebook-create.md)**

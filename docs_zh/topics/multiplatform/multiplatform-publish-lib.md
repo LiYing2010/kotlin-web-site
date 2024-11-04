@@ -58,7 +58,7 @@ Android 编译目标除外, 因为它需要 [更多步骤来配置发布任务](
 
   例如, Maven Central, 明确禁止重复发布, 并会让发布过程失败. <!-- TBD: add the actual error -->
 
-### 如果你使用 Kotlin 1.7.0 或更早版本
+### 如果你使用 Kotlin 1.7.0 或更早版本 {initial-collapse-state="collapsed" collapsible="true"}
 
 在 1.7.20 之前, Kotlin/Native 编译器不支持全部的交叉编译(cross-compilation)选项.
 如果你使用更早的版本, 你可能需要从多个主机发布跨平台项目:
@@ -129,15 +129,14 @@ kotlin {
 默认情况下, 没有任何 Android 库的 artifact 会发布.
 要发布一组
 [Android 编译变体(variant)](https://developer.android.com/studio/build/build-variants)
-生成的 artifact, 需要在 `shared/build.gradle.kts` 文件的 Android 编译目标代码段内指定编译变体名称  :
+生成的 artifact, 需要在 `shared/build.gradle.kts` 文件的 Android 编译目标代码段内指定编译变体名称:
 
 ```kotlin
 kotlin {
-    android {
+    androidTarget {
         publishLibraryVariants("release", "debug")
     }
 }
-
 ```
 
 上面的示例适用于没有 [产品风格(Product Flavor)](https://developer.android.com/studio/build/build-variants#product-flavors) 的 Android 库.
@@ -160,7 +159,7 @@ kotlin {
 
 ```kotlin
 kotlin {
-    android {
+    androidTarget {
         publishLibraryVariantsGroupedByFlavor = true
     }
 }
@@ -212,3 +211,16 @@ Kotlin Multiplatform Gradle plugin 默认会对所有指定的编译目标发布
       linuxX64()
   }
   ```
+
+## 禁用 JVM 环境属性的发布
+
+从 Kotlin 2.0.0 开始, Gradle 属性 [`org.gradle.jvm.environment`](https://docs.gradle.org/current/userguide/variant_attributes.html#sub:jvm_default_attributes)
+会自动随所有的 Kotlin 变体一起发布, 以便帮助区分 Kotlin Multiplatform 库的 JVM 和 Android 变体.
+这个属性指明哪个库变体适用于哪个 JVM 环境, Gradle 使用这个信息在你的项目中进行依赖项解析.
+目标环境可以是 "android", "standard-jvm", 或 "no-jvm".
+
+你可以禁用这个属性的发布, 方法是向你的 `gradle.properties` 文件添加以下 Gradle 属性:
+
+```none
+kotlin.publishJvmEnvironmentAttribute=false
+```
