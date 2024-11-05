@@ -1,6 +1,6 @@
 [//]: # (title: Kotlin 1.3 兼容性指南)
 
-_[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平滑便利](kotlin-evolution.md)_
+_[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版本升级平滑便利](kotlin-evolution-principles.md)_
 是 Kotlin 语言设计时的基本原则之一.
 第一条原则认为, 阻碍语言演进的那些元素应该删除,
 后一条原则则认为, 这些删除必须事先与使用者良好沟通, 以便让源代码的迁移尽量平滑.
@@ -21,7 +21,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 
 ## 不兼容的变化
 
-### 调用 `<clinit>` 时的构造器参数计算顺序
+### 调用 &lt;clinit&gt; 时的构造器参数计算顺序
 
 > **Issue**: [KT-19532](https://youtrack.jetbrains.com/issue/KT-19532)
 >
@@ -52,7 +52,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 > - <1.3: 针对注解的构造器参数的属性取值方法的注解不会正确标注
 > - &gt;=1.3: 针对注解的构造器参数的属性取值方法的注解会正确地标注, 并写入到编译生成的代码中
 
-### 类构造器的 `@get:` 注解的错误丢失问题
+### 类构造器的 @get: 注解的错误丢失问题
 
 > **Issue**: [KT-19628](https://youtrack.jetbrains.com/issue/KT-19628)
 >
@@ -68,7 +68,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 > - 1.2.x: 只会通过工具报告错误, 编译器本身仍然会编译这些代码, 没有任何警告
 > - &gt;=1.3: 编译器也会报告错误, 不正确的代码会被编译器拒绝
 
-### 访问 `@NotNull` 注解标注的 Java 类型时的可空性断言
+### 访问 @NotNull 注解标注的 Java 类型时的可空性断言
 
 > **Issue**: [KT-20830](https://youtrack.jetbrains.com/issue/KT-20830)
 >
@@ -100,7 +100,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 > - &gt;=1.3: 智能类型转换将会正确地, 只适用于这个枚举值的成员.
 可以使用 `-XXLanguage:-Sound智能类型转换ForEnumEntries` 参数临时退回到 1.3 以前的行为. 到下一个主版本发布时, 将会删除这个参数.
 
-### 在取值方法中对`val` 型属性的后端域变量再次赋值
+### 在取值方法中对 val 型属性的后端域变量再次赋值
 
 > **Issue**: [KT-16681](https://youtrack.jetbrains.com/issue/KT-16681)
 >
@@ -116,7 +116,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 > - 1.2.X: 对 `val` 型属性的后端域变量赋值的代码, 会产生废弃警告
 > - &gt;=1.3: 废弃警告升级为编译错误
 
-### 在对数组的 `for` 循环之前捕获数组
+### 在对数组的 for 循环之前捕获数组
 
 > **Issue**: [KT-21354](https://youtrack.jetbrains.com/issue/KT-21354)
 >
@@ -148,7 +148,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 > - 1.2.X: 对嵌套类型会产生废弃警告
 > - &gt;=1.3: 废弃警告升级为编译错误
 
-### 数据类覆盖 `copy` 方法
+### 数据类覆盖 copy 方法
 
 > **Issue**: [KT-19618](https://youtrack.jetbrains.com/issue/KT-19618)
 >
@@ -164,7 +164,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 > - 1.2.X: 对于覆盖 `copy()` 方法的数据类, 产生废弃警告
 > - &gt;=1.3: 废弃警告升级为编译错误
 
-### 继承 `Throwable` 的内部类从外部类中捕获泛型参数
+### 继承 Throwable 的内部类从外部类中捕获泛型参数
 
 > **Issue**: [KT-17981](https://youtrack.jetbrains.com/issue/KT-17981)
 >
@@ -244,7 +244,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 > - 1.2.X: 对局部的委托属性的智能类型转换, 将会被警告为已废弃 (编译器产生警告信息)
 > - &gt;=1.3: 废弃警告升级为编译错误
 
-### `mod` 运算符规约
+### mod 运算符规约
 
 > **Issues**: [KT-24197](https://youtrack.jetbrains.com/issue/KT-24197)
 >
@@ -277,7 +277,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 > - 1.3.X: 警告升级为编译错误
 > - &gt;=1.4: 将会改变将单个元素赋值给 vararg 的语法含义, 使得以数组赋值等价于以数组的展开赋值
 
-### 目标为 `EXPRESSION` 的注解的 retention 设置
+### 目标为 EXPRESSION 的注解的 retention 设置
 
 > **Issue**: [KT-13762](https://youtrack.jetbrains.com/issue/KT-13762)
 >
@@ -293,7 +293,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 > - 1.2.X: 对这样的注解声明会产生废弃警告
 > - &gt;=1.3: 警告升级为编译错误
 
-### 目标为 `PARAMETER` 的注解不应该用在参数的类型上
+### 目标为 PARAMETER 的注解不应该用在参数的类型上
 
 > **Issue**: [KT-9580](https://youtrack.jetbrains.com/issue/KT-9580)
 >
@@ -309,7 +309,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 > - 1.2.X: 对注解的这种错误使用会产生废弃警告
 > - &gt;=1.3: 警告升级为编译错误
 
-###  当下标越界时 `Array.copyOfRange` 抛出异常, 而不是扩大返回的数组大小
+###  当下标越界时 Array.copyOfRange 抛出异常, 而不是扩大返回的数组大小
 
 > **Issue**: [KT-19489](https://youtrack.jetbrains.com/issue/KT-19489)
 >
@@ -324,7 +324,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 > - <1.3: 如果调用 `Array.copyOfRange` 时的 `toIndex` 参数大于数组大小, 那么指定的复制范围内缺少的数组元素会被填充为 `null` 值, 这会违反 Kotlin 的类型系统规则.
 > - &gt;=1.3: 检查 `toIndex` 是否在数组边界内, 否则会抛出异常
 
-### 步长(step)为 `Int.MIN_VALUE` 和 `Long.MIN_VALUE` 的整数和长整数的数列(progression)会被判定为非法, 并禁止创建
+### 步长(step)为 Int.MIN_VALUE 和 Long.MIN_VALUE 的整数和长整数的数列(progression)会被判定为非法, 并禁止创建
 
 > **Issue**: [KT-17176](https://youtrack.jetbrains.com/issue/KT-17176)
 >

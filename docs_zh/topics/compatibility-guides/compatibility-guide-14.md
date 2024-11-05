@@ -1,6 +1,6 @@
 [//]: # (title: Kotlin 1.4 兼容性指南)
 
-_[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平滑便利](kotlin-evolution.md)_
+_[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版本升级平滑便利](kotlin-evolution-principles.md)_
 是 Kotlin 语言设计时的基本原则之一.
 第一条原则认为, 阻碍语言演进的那些元素应该删除,
 后一条原则则认为, 这些删除必须事先与使用者良好沟通, 以便让源代码的迁移尽量平滑.
@@ -21,7 +21,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 
 ## 语言与标准库
 
-### `ConcurrentHashMap` 的 `in` 中缀操作符的不正常行为
+### ConcurrentHashMap 和 in 中缀操作符的不正常行为
 
 > **Issue**: [KT-18053](https://youtrack.jetbrains.com/issue/KT-18053)
 >
@@ -102,7 +102,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 > 可以暂时使用 `-XXLanguage:-NewInference` 回退到 1.4 以前的行为.
 > 注意, 这个标记还会同时关闭其他几个新语言特性.
 
-### 不再根据 Lambda 表达式参数的顺序将类型强制解释为 `Unit`
+### 不再根据 Lambda 表达式参数的顺序将类型强制解释为 Unit
 
 > **Issue**: [KT-36045](https://youtrack.jetbrains.com/issue/KT-36045)
 >
@@ -170,7 +170,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 > 可以暂时使用 `-XXLanguage:-NewInference` 回退到 1.4 以前的行为.
 > 注意, 这个标记还会同时关闭其他几个新语言特性.
 
-### 在 Lambda 表达式之内的空 `when` 表达式没有类型不匹配
+### 在 Lambda 表达式之内的空 when 表达式没有类型不匹配
 
 > **Issue**: [KT-17995](https://youtrack.jetbrains.com/issue/KT-17995)
 >
@@ -187,7 +187,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 > 可以暂时使用 `-XXLanguage:-NewInference` 回退到 1.4 以前的行为.
 > 注意, 这个标记还会同时关闭其他几个新语言特性.
 
-### 如果 Lambda 表达式可能的返回值之一是使用 integer 字面类型的快速返回, 推断的 Lambda 表达式返回类型为 `Any`
+### 如果 Lambda 表达式可能的返回值之一是使用 integer 字面类型的快速返回, 推断的 Lambda 表达式返回类型为 Any
 
 > **Issue**: [KT-20226](https://youtrack.jetbrains.com/issue/KT-20226)
 >
@@ -273,7 +273,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 > 可以暂时使用 `-XXLanguage:-NewInference` 回退到 1.4 以前的行为.
 > 注意, 这个标记还会同时关闭其他几个新语言特性.
 
-### 使用 `this` 表达式导致构造器推断中缺少类型变量
+### 使用 this 表达式导致构造器推断中缺少类型变量
 
 > **Issue**: [KT-32126](https://youtrack.jetbrains.com/issue/KT-32126)
 >
@@ -344,7 +344,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 > 可以暂时使用 `-XXLanguage:-NewInference` 回退到 1.4 以前的行为.
 > 注意, 这个标记还会同时关闭其他几个新语言特性.
 
-### 对 `open` 函数禁止使用 `tailrec` 标识符
+### 对 open 函数禁止使用 tailrec 标识符
 
 > **Issue**: [KT-18541](https://youtrack.jetbrains.com/issue/KT-18541)
 >
@@ -359,7 +359,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 > - < 1.4: 对同时存在 `open` 和 `tailrec` 标识符的函数报告警告 (渐进模式(progressive mode) 下会报告错误).
 > - &gt;= 1.4: 将这个警告提升为错误.
 
-### 同伴对象的 `INSTANCE` 域可见度超过同伴对象的类本身
+### 同伴对象的 INSTANCE 域可见度超过同伴对象的类本身
 
 > **Issue**: [KT-11567](https://youtrack.jetbrains.com/issue/KT-11567)
 >
@@ -374,7 +374,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 > - < 1.4: 编译器生成对象的 `INSTANCE` 带有废弃标记
 > - &gt;= 1.4: 同伴对象的 `INSTANCE` 域带有正确的可见度
 
-### 插入在 `return` 之前的外层 `finally` 代码段, 没有从不带 `finally` 的内层 `try` 代码段的 `catch` 分支中排除
+### 插入在 return 之前的外层 finally 代码段, 没有从不带 finally 的内层 try 代码段的 catch 分支中排除
 
 > **Issue**: [KT-31923](https://youtrack.jetbrains.com/issue/KT-31923)
 >
@@ -484,7 +484,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 > - &gt;= 1.4: 行为有变化,
 > 可以暂时使用 `-XXLanguage:-ProperComputationOrderOfTailrecDefaultParameters` 回退到 1.4 以前的行为
 
-### 对非 `const` 的 `val`, 不生成 `ConstantValue` 属性
+### 对非 const 的 val, 不生成 ConstantValue 属性
 
 > **Issue**: [KT-16615](https://youtrack.jetbrains.com/issue/KT-16615)
 >
@@ -500,7 +500,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 > - &gt;= 1.4: 行为有变化,
 > 可以暂时使用 `-XXLanguage:-NoConstantValueAttributeForNonConstVals` 回退到 1.4 以前的行为
 
-### 对 `open` 方法上的 `@JvmOverloads` 生成的 overload 应该是 `final`
+### 对 open 方法上的 @JvmOverloads 生成的 overload 应该是 final
 
 > **Issue**: [KT-33240](https://youtrack.jetbrains.com/issue/KT-33240)
 >
@@ -516,7 +516,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 > - &gt;= 1.4: 行为有变化,
 > 可以暂时使用 `-XXLanguage:-GenerateJvmOverloadsAsFinal` 回退到 1.4 以前的行为
 
-### 返回 `kotlin.Result` 的 Lambda 表达式, 现在会返回装箱(box)的值, 而不是未装箱(unbox)的值
+### 返回 kotlin.Result 的 Lambda 表达式, 现在会返回装箱(box)的值, 而不是未装箱(unbox)的值
 
 > **Issue**: [KT-39198](https://youtrack.jetbrains.com/issue/KT-39198)
 >
@@ -548,7 +548,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 > - &gt;= 1.4: all 运行时 null 检查抛出 `java.lang.NullPointerException` 异常.
 > 可以暂时使用 `-Xno-unified-null-checks` 回退到 1.4 以前的行为
 
-### 在 array/list 的 `contains`, `indexOf`, `lastIndexOf` 操作中的浮点值比较: 使用 IEEE 754 标准还是全顺序(total order)标准
+### 在 array/list 的 contains, indexOf, lastIndexOf 操作中的浮点值比较: 使用 IEEE 754 标准还是全顺序(total order)标准
 
 > **Issue**: [KT-28753](https://youtrack.jetbrains.com/issue/KT-28753)
 >
@@ -564,7 +564,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 > - < 1.4: 旧行为 (详情请参见 issue)
 > - &gt;= 1.4: 行为有变化
 
-### 将集合的 `min` 和 `max` 函数返回类型逐渐改变为非 null
+### 将集合的 min 和 max 函数返回类型逐渐改变为非 null
 
 > **Issue**: [KT-38854](https://youtrack.jetbrains.com/issue/KT-38854)
 >
@@ -580,7 +580,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 > - 1.5.x: 将受影响的 API 的废弃级别提升为错误
 > - &gt;=1.6: 重新引入受影响的 API, 但返回类型为非 null
 
-### 废弃 `appendln`, 改为使用 `appendLine`
+### 废弃 appendln, 改为使用 appendLine
 
 > **Issue**: [KT-38754](https://youtrack.jetbrains.com/issue/KT-38754)
 >
@@ -595,7 +595,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 > - 1.4: 引入 `appendLine` 函数, 替代 `appendln`, 并废弃 `appendln`
 > - &gt;=1.5: 将废弃级别提升为错误
 
-### 废弃浮点类型向 `Short` 和 `Byte` 的转换
+### 废弃浮点类型向 Short 和 Byte 的转换
 
 > **Issue**: [KT-30360](https://youtrack.jetbrains.com/issue/KT-30360)
 >
@@ -610,7 +610,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 > - 1.4: 废弃 `Double.toShort()/toByte()` 和 `Float.toShort()/toByte()`, 并提供替代函数
 > - &gt;=1.5: 将废弃级别提升为错误
 
-### 在 `Regex.findAll` 中使用不正确的 `startIndex` 时快速失败
+### 在 Regex.findAll 中使用不正确的 startIndex 时快速失败
 
 > **Issue**: [KT-28356](https://youtrack.jetbrains.com/issue/KT-28356)
 >
@@ -626,7 +626,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 > - < 1.4: 旧行为 (详情请参见 issue)
 > - &gt;= 1.4: 行为有变化
 
-### 删除废弃的 `kotlin.coroutines.experimental`
+### 删除废弃的 kotlin.coroutines.experimental
 
 > **Issue**: [KT-36083](https://youtrack.jetbrains.com/issue/KT-36083)
 >
@@ -642,7 +642,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 > - &gt;= 1.4: `kotlin.coroutines.experimental` 被从标准库删除.
 >     在 JVM 平台, 提供了一个单独的兼容库(详情请参见 issue).
 
-### 删除废弃的 `mod` 操作符
+### 删除废弃的 mod 操作符
 
 > **Issue**: [KT-26654](https://youtrack.jetbrains.com/issue/KT-26654)
 >
@@ -657,7 +657,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 > - < 1.4: `mod` 被废弃, 级别为 `ERROR`
 > - &gt;= 1.4: `mod` 被从标准库删除
 
-### 隐藏 `Throwable.addSuppressed` 成员函数, 改为使用扩展函数
+### 隐藏 Throwable.addSuppressed 成员函数, 改为使用扩展函数
 
 > **Issue**: [KT-38777](https://youtrack.jetbrains.com/issue/KT-38777)
 >
@@ -672,7 +672,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 > - < 1.4: 旧行为 (详情请参见 issue)
 > - &gt;= 1.4: 行为有变化
 
-### `capitalize` 应该将二合字母(Digraph)转换为标题格式(title case)
+### capitalize 应该将二合字母(Digraph)转换为标题格式(title case)
 
 > **Issue**: [KT-38817](https://youtrack.jetbrains.com/issue/KT-38817)
 >
@@ -706,7 +706,7 @@ _[保证语言的现代化](kotlin-evolution.md)_ 以及 _[语言版本升级平
 > - < 1.4: 所有的编译器参数都不使用引号
 > - &gt;= 1.4: 包含分隔字符的编译器参数 (空格, `=`, `;`, `,`) 需要双引号(`"`)括起
 
-### KAPT: 属性的合成 `$annotations()` 方法名称有变化
+### KAPT: 属性的合成 $annotations() 方法名称有变化
 
 > **Issue**: [KT-36926](https://youtrack.jetbrains.com/issue/KT-36926)
 >
