@@ -8,7 +8,7 @@ Kotlin/Wasm 允许你在 Kotlin 中使用 JavaScript 代码, 也允许你在 Jav
 
 > Kotlin/Wasm 功能处于 [Alpha 阶段](components-stability.md). 它随时有可能变更.
 > 请不要将这个功能用于正式产品.
-> 希望你能通过我们的 [问题追踪系统](https://kotl.in/issue) 提供你的反馈意见.
+> 希望你能通过 [YouTrack](https://youtrack.jetbrains.com/issue/KT-56492) 提供你的反馈意见.
 >
 {style="note"}
 
@@ -250,6 +250,30 @@ import exports from "./module.mjs"
 exports.addOne(10)
 ```
 
+Kotlin/Wasm 编译器能够通过你的 Kotlin 代码中的任何 `@JsExport` 声明生成 TypeScript 定义.
+这些定义能够被 IDE 和 JavaScript 工具使用, 提供代码自动完成, 帮助类型检查,
+使得在 JavaScript 和 TypeScript 中可以更加容易的使用 Kotlin 代码.
+
+Kotlin/Wasm 编译器会收集所有标注了 `@JsExport` 注解的顶层函数, 并自动在一个 `.d.ts` 文件中生成 TypeScript 定义.
+
+要生成 TypeScript 定义, 请在你的 `build.gradle.kts` 文件的 `wasmJs{}` 代码块中, 添加 `generateTypeScriptDefinitions()` 函数:
+
+```kotlin
+kotlin {
+    wasmJs {
+        binaries.executable()
+        browser {
+        }
+        generateTypeScriptDefinitions()
+    }
+}
+```
+
+> Kotlin/Wasm 的 TypeScript 声明文件生成功能是 [实验性功能](components-stability.md#stability-levels-explained).
+> 它随时有可能变更或被删除.
+>
+{style="warning"}
+
 ## 类型的对应关系 {id="type-correspondence"}
 
 在与 JavaScript 交互的声明中, Kotlin/Wasm 只允许使用某些类型.
@@ -257,18 +281,18 @@ exports.addOne(10)
 
 下面是 Kotlin 类型对应的 Javascript 类型:
 
-| Kotlin                         | JavaScript                           |
-|--------------------------------|--------------------------------------|
-| `Byte`, `Short`, `Int`, `Char` | `Number`                             |
-| `Float`, `Double`,             | `Number`                             |
-| `Long`,                        | `BigInt`                             |
-| `Boolean`,                     | `Boolean`                            |
-| `String`,                      | `String`                             |
-| 在 return 语句中的 `Unit`           | `undefined`                          |
-| 函数类型, 例如 `(String) → Int`      | Function                             |
-| `JsAny` 和子类型                   | 任何 JavaScript 值                      |
-| `JsReference`                  | 指向 Kotlin 对象的不透明引用(Opaque Reference) |
-| 其他类型                           | 不支持                                  |
+| Kotlin                                                     | JavaScript                           |
+|------------------------------------------------------------|--------------------------------------|
+| `Byte`, `Short`, `Int`, `Char`, `UByte`, `UShort`, `UInt`, | `Number`                             |
+| `Float`, `Double`,                                         | `Number`                             |
+| `Long`, `ULong`,                                           | `BigInt`                             |
+| `Boolean`,                                                 | `Boolean`                            |
+| `String`,                                                  | `String`                             |
+| 在 return 语句中的 `Unit`                                       | `undefined`                          |
+| 函数类型, 例如 `(String) -> Int`                                 | Function                             |
+| `JsAny` 和子类型                                               | 任何 JavaScript 值                      |
+| `JsReference`                                              | 指向 Kotlin 对象的不透明引用(Opaque Reference) |
+| 其他类型                                                       | 不支持                                  |
 
 你也可以使用这些类型的可为 null 的版本.
 
@@ -346,21 +370,23 @@ Kotlin 的 `try-catch` 表达式不能捕获 JavaScript 的异常.
 
 ## Kotlin/Wasm 互操作功能与 Kotlin/JS 互操作功能的区别 {id="kotlin-wasm-and-kotlin-js-interoperability-differences"}
 
+<a name="differences"/>
+
 尽管 Kotlin/Wasm 互操作功能与 Kotlin/JS 互操作功能很类似, 但它们还是存在一些关键的差异需要注意:
 
-|                 | **Kotlin/Wasm**                                                                                                                   | **Kotlin/JS**                                                                                             |
-|-----------------|-----------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
-| **外部枚举类型**      | 不支持外部枚举类.                                                                                                                         | 支持外部枚举类.                                                                                                  |
-| **类型扩展**        | 不支持非外部类型扩展外部类型.                                                                                                                   | 支持非外部类型.                                                                                                  |
-| **`JsName` 注解** | 这个注解时只有对外部声明标注时才有效.                                                                                                               | 可以用来修改通常的非外部声明的名称.                                                                                        |
-| **`js()` 函数**   | 只允许包级(package-level)函数调用 `js("code")` 函数, 而且`js()` 函数调用必须是函数体中唯一的表达式.                                                             | `js("code")` 函数可以在任何地方调用, 并返回一个 `dynamic` 值.                                                              |
-| **模块系统**        | 只支持 ES 模块. 没有类似的 `@JsNonModule` 注解. 会导出为 `default` 对象上的属性. 只允许导出包级函数.                                                             | 支持 ES 模块, 以及其它旧的模块系统. 提供有名称的 ESM 导出. 允许导出类和对象.                                                            |
-| **类型**          | 对所有的互操作性声明 `external`, `= js("code")`, 和 `@JsExport`, 统一适用更严格的类型限制. 只允许使用一部分的 [内建的 Kotlin 类型和 `JsAny` 子类型](#type-correspondence). | 在 `external` 声明中允许使用所有的类型. [在 `@JsExport` 中可以使用限定的类型](js-to-kotlin-interop.md#kotlin-types-in-javascript). |
-| **Long**        | 对应于 JavaScript 的 `BigInt` 类型.                                                                                                     | 在 JavaScript 中会成为一个自定义的类.                                                                                 |
-| **Arrays**      | 在互操作功能中目前还不直接支持. 你可以改为使用新的 `JsArray` 类型.                                                                                          | 实现为 JavaScript 数组.                                                                                        |
-| **其他类型**        | 需要使用 `JsReference<>` 来将 Kotlin 对象传递给 JavaScript.                                                                                  | 允许在外部声明中使用非外部的 Kotlin 类类型.                                                                                |
-| **异常处理**        | 不能捕获 JavaScript 的异常.                                                                                                              | 能够通过 `Throwable` 类型捕获 JavaScript 的 `Error`. 可以使用 `dynamic` 类型捕获 JavaScript 的任何异常.                         |
-| **动态类型(Dynamic Type)**  | 不支持 `dynamic` 类型. 请改为使用 `JsAny` (参见下面的示例代码).                                                                 | 支持 `dynamic` 类型.                                                                                          |
+|                        | **Kotlin/Wasm**                                                                                                                   | **Kotlin/JS**                                                                                              |
+|------------------------|-----------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
+| **外部枚举类型**             | 不支持外部枚举类.                                                                                                                         | 支持外部枚举类.                                                                                                   |
+| **类型扩展**               | 不支持非外部类型扩展外部类型.                                                                                                                   | 支持非外部类型.                                                                                                   |
+| **`JsName` 注解**        | 这个注解时只有对外部声明标注时才有效.                                                                                                               | 可以用来修改通常的非外部声明的名称.                                                                                         |
+| **`js()` 函数**          | 只允许包级(package-level)函数调用 `js("code")` 函数, 而且`js()` 函数调用必须是函数体中唯一的表达式.                                                             | `js("code")` 函数可以在任何地方调用, 并返回一个 `dynamic` 值.                                                               |
+| **模块系统**               | 只支持 ES 模块. 没有类似的 `@JsNonModule` 注解. 会导出为 `default` 对象上的属性. 只允许导出包级函数.                                                             | 支持 ES 模块, 以及其它旧的模块系统. 提供有名称的 ESM 导出. 允许导出类和对象.                                                             |
+| **类型**                 | 对所有的互操作性声明 `external`, `= js("code")`, 和 `@JsExport`, 统一适用更严格的类型限制. 只允许使用一部分的 [内建的 Kotlin 类型和 `JsAny` 子类型](#type-correspondence). | 在 `external` 声明中允许使用所有的类型. [在 `@JsExport` 中可以使用限定的类型](js-to-kotlin-interop.md#kotlin-types-in-javascript). |
+| **Long**               | 对应于 JavaScript 的 `BigInt` 类型.                                                                                                     | 在 JavaScript 中会成为一个自定义的类.                                                                                  |
+| **Arrays**             | 在互操作功能中目前还不直接支持. 你可以改为使用新的 `JsArray` 类型.                                                                                          | 实现为 JavaScript 数组.                                                                                         |
+| **其他类型**               | 需要使用 `JsReference<>` 来将 Kotlin 对象传递给 JavaScript.                                                                                  | 允许在外部声明中使用非外部的 Kotlin 类类型.                                                                                 |
+| **异常处理**               | 从 Kotlin 2.0.0 开始, 能够通过 `JsException` 和 `Throwable` 类型捕获 JavaScript 的任何异常.                                                        | 能够通过 `Throwable` 类型捕获 JavaScript 的 `Error`. 能够使用 `dynamic` 类型捕获 JavaScript 的任何异常.                          |
+| **动态类型(Dynamic Type)** | 不支持 `dynamic` 类型. 请改为使用 `JsAny` (参见下面的示例代码).                                                                                      | 支持 `dynamic` 类型.                                                                                           |
 
 > Kotlin/JS 用于互操作的 [动态类型(Dynamic Type)](dynamic-type.md), 使用无类型的, 或松散类型的对象, 在 Kotlin/Wasm 中不支持这个功能.
 > 你可以使用 `JsAny` 类型来替代 `dynamic` 类型:

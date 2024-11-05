@@ -1,5 +1,10 @@
 [//]: # (title: 迁移到新的内存管理器)
 
+> 对旧内存管理器的支持在 Kotlin 1.9.20 中已经完全删除.
+> 请将你的项目迁移到现在的内存模式, 它从 Kotlin 1.7.20 开始默认启用.
+>
+{style="note"}
+
 本向导会对新的 [Kotlin/Native 内存管理器](native-memory-manager.md) 与旧的内存管理器进行比较, 并介绍如何迁移你的项目.
 
 新内存管理器最重要的变化是解除了对象共享的限制.
@@ -19,15 +24,14 @@
 * `by lazy {}` 属性支持线程安全模式, 而且不处理无限递归.
 * 从 `Worker.executeAfter` 的 `operation` 中抛出的异常, 会和运行时的其它部分一样进行处理,
   尝试执行一个用户自定义的、未被处理的异常处理程序, 如果没有找到异常处理程序, 或异常处理程序自身也抛出异常而失败, 则终止程序.
-* 冻结功能已被废弃, 默认禁用, 会在将来的发布版中删除.
-  如果你不需要你的代码在 [旧的内存管理器](#support-both-new-and-legacy-memory-managers) 下工作, 请不要使用冻结.
+* 冻结功能已被废弃, 而且始终禁用.
 
 要从旧的内存管理器迁移你的项目, 请遵循下面的步骤:
 
 ## 更新 Kotlin
 
 从 Kotlin 1.7.20 开始会默认启用新的 Kotlin/Native 内存管理器.
-请检查 Kotlin 版本, 如果需要的话, 请 [更新到最新版](releases.md#update-to-a-new-release).
+请检查 Kotlin 版本, 如果需要的话, 请 [更新到最新版](releases.md#update-to-a-new-kotlin-version).
 
 ## 更新依赖项
 
@@ -64,35 +68,22 @@
 
 要支持新的内存管理器, 请删除对受影响的 API 的调用:
 
-| 旧 API                                                                                                                                           | 应该如何更新                                                                                                                       |
-|-------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
-| [`@SharedImmutable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/-shared-immutable/)                                  | 你可以删除所有使用它的代码, 尽管在新的内存管理器中使用这个 API 也没有警告.                                                                                    |
-| [`FreezableAtomicReference` 类](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/-freezable-atomic-reference/)              | 请改为使用 [`AtomicReference`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/-atomic-reference/).         |
-| [`FreezingException` 类](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/-freezing-exception/)                         | 删除所有使用它的代码.                                                                                                                  |                                                                                                      |
-| [`InvalidMutabilityException` 类](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/-invalid-mutability-exception/)      | 删除所有使用它的代码.                                                                                                                  |
-| [`IncorrectDereferenceException` 类](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native/-incorrect-dereference-exception/)           | 删除所有使用它的代码.                                                                                                                  |
-| [`freeze()` 函数](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/freeze.html)                                          | 删除所有使用它的代码.                                                                                                                  |
-| [`isFrozen` 属性](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/is-frozen.html)                                       | 你可以删除所有使用它的代码. 由于冻结功能已被废弃, 这个属性永远返回 `false`.                                                                                 |
-| [`ensureNeverFrozen()` 函数](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/ensure-never-frozen.html)                  | 删除所有使用它的代码.                                                                                                                  |
-| [`atomicLazy()` 函数](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/atomic-lazy.html)                                 | 请改为使用 [`lazy()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/lazy.html).                                             |
-| [`MutableData` 类](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/-mutable-data/)                                     | 请改为使用通常的集合.                                                                                                                  |
-| [`WorkerBoundReference<out T : Any>` 类](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/-worker-bound-reference/) | 请直接使用 `T`.                                                                                                                   |
+| 旧 API                                                                                                                                   | 应该如何更新                                                                                                                   |
+|-----------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
+| [`@SharedImmutable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/-shared-immutable/)                          | 你可以删除所有使用它的代码, 尽管在新的内存管理器中使用这个 API 也没有警告.                                                                                |
+| [`FreezableAtomicReference` 类](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/-freezable-atomic-reference/)      | 请改为使用 [`AtomicReference`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/-atomic-reference/).     |
+| [`FreezingException` 类](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/-freezing-exception/)                     | 删除所有使用它的代码.                                                                                                              |                                                                                                      |
+| [`InvalidMutabilityException` 类](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/-invalid-mutability-exception/)  | 删除所有使用它的代码.                                                                                                              |
+| [`IncorrectDereferenceException` 类](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native/-incorrect-dereference-exception/)       | 删除所有使用它的代码.                                                                                                              |
+| [`freeze()` 函数](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/freeze.html)                                      | 删除所有使用它的代码.                                                                                                              |
+| [`isFrozen` 属性](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/is-frozen.html)                                   | 你可以删除所有使用它的代码. 由于冻结功能已被废弃, 这个属性永远返回 `false`.                                                                             |
+| [`ensureNeverFrozen()` 函数](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/ensure-never-frozen.html)              | 删除所有使用它的代码.                                                                                                              |
+| [`atomicLazy()` 函数](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/atomic-lazy.html)                             | 请改为使用 [`lazy()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/lazy.html).                                         |
+| [`MutableData` 类](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/-mutable-data/)                                 | 请改为使用通常的集合.                                                                                                              |
+| [`WorkerBoundReference<out T : Any>` 类](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/-worker-bound-reference/) | 请直接使用 `T`.                                                                                                               |
 | [`DetachedObjectGraph<T>` 类](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/-detached-object-graph/)             | 请直接使用 `T`. 要通过 C 代码交互传递值, 请使用 [StableRef 类](https://kotlinlang.org/api/latest/jvm/stdlib/kotlinx.cinterop/-stable-ref/). |
-
-## 同时支持新的和旧的内存管理器 {id="support-both-new-and-legacy-memory-managers"}
-
-如果你是库的作者, 需要维护你的代码支持旧的内存管理器, 或者在新的内存管理器出现问题时希望能够回退到旧的内存管理器,
-你可以临时的支持新的和旧的内存管理器.
-
-要忽略编译器的废弃警告, 请进行以下任何一种操作:
-
-* 使用已废弃的 API 时添加 `@OptIn(FreezingIsDeprecated::class)` 注解.
-* 在 Gradle 中, 对所有的 Kotlin 源代码集添加 `languageSettings.optIn("kotlin.native.FreezingIsDeprecated")`.
-* 传递编译器选项 `-opt-in=kotlin.native.FreezingIsDeprecated`.
-
-详情请参见 [明确要求使用者同意的功能](opt-in-requirements.md).
 
 ## 下一步做什么
 
-* [关于新的内存管理器](native-memory-manager.md)
-* [配置与 iOS 的集成](native-ios-integration.md)
+* [关于新的内存管理器的更多信息](native-memory-manager.md)
+* [了解与 Swift/Objective-C ARC 的集成的细节](native-arc-integration.md)

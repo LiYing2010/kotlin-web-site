@@ -5,6 +5,12 @@
 开始之前, 首先请安装 [IntelliJ IDEA](https://www.jetbrains.com/idea/download/index.html) 的最新版.
 本教程适用于 IntelliJ IDEA Community 版和 Ultimate 版.
 
+> 如果你使用的是 macOS 操作系统的 Mac 机, 想要创建并运行 iOS 应用程序或桌面应用程序,
+> 你还需要 [安装 Xcode 命令行工具](https://developer.apple.com/download/).
+> 详情请参见 [设置开发环境](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-setup.html).
+>
+{style="note"}
+
 ## 开始前的准备工作
 
 1. 下载并安装最新版本的 [IntelliJ IDEA](https://www.jetbrains.com/idea/) 和 [Kotlin plugin](releases.md).
@@ -20,6 +26,10 @@
    }
    ```
 
+4. 遵循下图中的建议, 重新载入 Gradle 文件:
+
+   ![载入 Gradle 变更按钮](load-gradle-changes.png){width=295}
+
 > * 关于这些设置, 详情请参见 [跨平台程序的 Gradle DSL 参考文档](multiplatform-dsl-reference.md).
 > * 关于 Gradle 构建系统, 详情请参见 [Gradle 文档](gradle.md).
 >
@@ -27,12 +37,22 @@
 
 ## 构建并运行应用程序
 
-点击屏幕顶部运行配置旁边的 **Run**, 启动应用程序:
+打开 `src/nativeMain/kotlin/` 目录中的 `Main.kt` 文件, 然后按下侧栏中的绿色图标, 运行代码:
 
-![运行应用程序](native-run-app.png){width=500}
+![运行应用程序](native-run-gutter.png){width=478}
 
-IntelliJ IDEA 会打开 **Run** tab, 并显示输出:
-![应用程序的输出](native-output-1.png){width=700}
+IntelliJ IDEA 会使用 Gradle 任务运行代码. 你会在 **Run** Tab 中看到运行结果:
+
+![应用程序的输出](native-output-gutter-1.png){width=331}
+
+初次运行之后, 你会在 IDE 的顶栏中看到对应的运行配置:
+
+![Gradle 运行配置](native-run-config.png){width=503}
+
+> IntelliJ IDEA Ultimate 用户可以安装 [Native Debugging Support](https://plugins.jetbrains.com/plugin/12775-native-debugging-support) plugin,
+> 这个 plugin 可以调试编译后的原生可执行文件, 还可以为导入的 Kotlin/Native 项目自动创建运行配置.
+>
+{style="tip"}
 
 你可以 [配置 IntelliJ IDEA](https://www.jetbrains.com/help/idea/compiling-applications.html#auto-build),
 让它自动构建你的项目:
@@ -50,9 +70,8 @@ IntelliJ IDEA 会自动对项目执行增量构建(Incremental Build).
 
 1. 打开 `src/nativeMain/kotlin` 中的 `Main.kt` 文件.
 
-   `src` 目录包含 Kotlin 源代码文件和资源. `Main.kt` 文件包含示例代码, 它使用
-   [`println()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/println.html) 函数
-   打印 "Hello, Kotlin/Native!".
+   `src` 目录包含 Kotlin 源代码文件. `Main.kt` 文件包含代码,
+   使用 [`println()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/println.html) 函数打印 "Hello, Kotlin/Native!".
 
 2. 添加代码读取输入. 使用
    [`readln()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/readln.html) 函数
@@ -66,7 +85,8 @@ IntelliJ IDEA 会自动对项目执行增量构建(Incremental Build).
    }
    ```
 
-3. 在 `build.gradle.kts` 文件中, 指定 `System.in` 作为运行项目时的输入:
+3. 要使用 Gradle 运行这个应用程序, 请在 `build.gradle.kts` 文件中指定 `System.in` 作为运行项目时的输入, 并重新载入 Gradle:
+
    ```kotlin
    kotlin {
        // ...
@@ -81,6 +101,7 @@ IntelliJ IDEA 会自动对项目执行增量构建(Incremental Build).
        // ...
    }
    ```
+   {initial-collapse-state="collapsed" collapsible="true" collapsed-title="runTask?.standardInput = System.`in`"}
 
 4. 删除空白字符, 计算字母数量:
    * 使用
@@ -105,10 +126,10 @@ IntelliJ IDEA 会自动对项目执行增量构建(Incremental Build).
    }
    ```
 
-5. 保存变更, 运行应用程序.
+5. 运行应用程序.
 6. 输入你的名字, 查看结果:
 
-   ![应用程序的输出](native-output-2.png){width=700}
+   ![应用程序的输出](native-output-gutter-2.png){width=422}
 
 ### 计算你的名字中的不重复的字母数量
 
@@ -150,10 +171,10 @@ IntelliJ IDEA 会自动对项目执行增量构建(Incremental Build).
    }
    ```
 
-4. 保存变更, 运行应用程序.
+4. 运行应用程序.
 5. 输入你的名字, 查看结果:
 
-   ![应用程序的输出](native-output-3.png){width=700}
+   ![应用程序的输出](native-output-gutter-3.png){width=422}
 
 ## 下一步做什么?
 
