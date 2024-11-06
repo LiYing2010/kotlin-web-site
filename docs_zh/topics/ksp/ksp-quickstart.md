@@ -2,6 +2,106 @@
 
 要快速入门 KSP, 你可以创建自己的处理器, 或者参考 [示例代码](https://github.com/google/ksp/tree/main/examples/playground).
 
+## 添加一个处理器
+
+要添加一个处理器, 你需要包含 KSP Gradle Plugin, 并添加对这个处理器的依赖项:
+
+1. 向你的 `build.gradle(.kts)` 文件添加 KSP Gradle Plugin `com.google.devtools.ksp`:
+
+   <tabs group="build-script">
+   <tab title="Kotlin" group-key="kotlin">
+
+   ```kotlin
+   plugins {
+       id("com.google.devtools.ksp") version "%kspSupportedKotlinVersion%-%kspVersion%"
+   }
+   ```
+
+   </tab>
+   <tab title="Groovy" group-key="groovy">
+
+   ```groovy
+   plugins {
+       id 'com.google.devtools.ksp' version '%kspSupportedKotlinVersion%-%kspVersion%'
+   }
+   ```
+
+   </tab>
+   </tabs>
+
+2. 添加对处理器的依赖项.
+   这个示例使用 [Dagger](https://dagger.dev/dev-guide/ksp.html). 请将它替换为你想要添加的处理器.
+
+   <tabs group="build-script">
+   <tab title="Kotlin" group-key="kotlin">
+
+   ```kotlin
+   dependencies {
+       implementation("com.google.dagger:dagger-compiler:2.51.1")
+       ksp("com.google.dagger:dagger-compiler:2.51.1")
+   }
+   ```
+
+   </tab>
+   <tab title="Groovy" group-key="groovy">
+   
+   ```groovy
+   dependencies {
+       implementation 'com.google.dagger:dagger-compiler:2.51.1'
+       ksp 'com.google.dagger:dagger-compiler:2.51.1'
+   }
+   ```
+
+   </tab>
+   </tabs>
+
+3. 运行 `./gradlew build`. 你可以在 `build/generated/ksp` 目录下看到生成的代码.
+
+下面是完整的示例:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+plugins {
+    id("com.google.devtools.ksp") version "%kspSupportedKotlinVersion%-%kspVersion%"
+    kotlin("jvm")
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation(kotlin("stdlib-jdk8"))
+    implementation("com.google.dagger:dagger-compiler:2.51.1")
+    ksp("com.google.dagger:dagger-compiler:2.51.1")
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+plugins {
+    id 'com.google.devtools.ksp' version '%kspSupportedKotlinVersion%-%kspVersion%'
+    id 'org.jetbrains.kotlin.jvm' version '%kotlinVersion%'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:%kotlinVersion%'
+    implementation 'com.google.dagger:dagger-compiler:2.51.1'
+    ksp 'com.google.dagger:dagger-compiler:2.51.1'
+}
+```
+
+</tab>
+</tabs>
+
 ## 创建一个你自己的处理器
 
 1. 创建一个空的 gradle 项目.
@@ -101,7 +201,7 @@
         * `src/main/kotlin/BuilderProcessor.kt`
         * `src/main/kotlin/TestProcessor.kt`
     * 编写完你自己的处理器之后, 需要向包注册你的处理器 provider, 方法是在
-      `resources/META-INF/services/com.google.devtools.ksp.processing.SymbolProcessorProvider`
+      `src/main/resources/META-INF/services/com.google.devtools.ksp.processing.SymbolProcessorProvider`
       中包含它的完全限定名称.
 
 ## 在一个项目中使用你自己的处理器
@@ -168,7 +268,7 @@
    </tab>
    </tabs>
 
-3. 运行 `./gradlew build`. 你可以在 `build/generated/source/ksp` 目录下看到生成的代码.
+3. 运行 `./gradlew build`. 你可以在 `build/generated/ksp` 目录下看到生成的代码.
 
 下面是一个构建脚本示例, 它对工作程序使用 KSP plugin:
 
