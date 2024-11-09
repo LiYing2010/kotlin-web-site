@@ -51,7 +51,7 @@
     </toc-element>
     <toc-element toc-title="发布版本与发展路线图">
         <toc-element topic="roadmap.md"/>
-		<toc-element toc-title="语言的功能特性与提议" topic="kotlin-language-features-and-proposals.md"/>
+		<toc-element toc-title="语言的功能特性与提案" topic="kotlin-language-features-and-proposals.md"/>
 		<toc-element toc-title="语言的演化原则" accepts-web-file-names="kotlin-evolution.html" topic="kotlin-evolution-principles.md"/>
 		<toc-element topic="components-stability.md"/>
 		<toc-element topic="components-stability-pre-1.4.md"/>
