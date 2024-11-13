@@ -1,8 +1,9 @@
-[//]: # (title: 与 iOS 集成)
+[//]: # (title: 与 Swift/Objective-C ARC 集成)
 
-Kotlin/Native 垃圾收集器能够与 Swift/Objective-C ARC 无缝集成, 通常不需要额外的工作.
-详情请参见 [与 Swift/Objective-C 代码交互](native-objc-interop.md).
+Kotlin 与 Objective-C 使用不同的内存管理方案. Kotlin 使用跟踪垃圾收集器,
+Objective-C 则使用自动引用计数(Automatic Reference Counting, ARC).
 
+这两种方案之间通常可以无缝集成, 不需要额外的工作.
 但是, 仍然有一些问题需要注意:
 
 ## 线程
@@ -56,7 +57,7 @@ deinit on <_NSMainThread: 0x600003bc0000>{number = 1, name = main}
 这个选项会允许在特殊的 GC 线程中调用销毁处理,
 即使 Swift/Objective-C 对象在主线程中传递给 Kotlin 也是如此.
 
-特殊的 GC 线程会与 Objective-C 运行库一起编译, 也就是说它拥有一个运行循环(run loop),
+一个特殊的 GC 线程会与 Objective-C 运行库一起编译, 也就是说它拥有一个运行循环(run loop),
 以及空的自动释放池(drain autorelease pool).
 
 ### 事件完成处理器(Completion handler)
@@ -92,19 +93,6 @@ Running test on <_NSMainThread: 0x600001b100c0>{number = 1, name = main}
 Hello
 World!
 Running completion handler on <NSThread: 0x600001b45bc0>{number = 7, name = (null)}
-```
-
-### 调用 Kotlin 挂起函数
-
-如果从 Swift 和 Objective-C 的主线程以外的其它线程来调用 Kotlin 挂起函数, Kotlin/Native 内存管理器对于这样的情况存在限制.
-
-这个限制最初是在旧的内存管理器出现的, 针对的是, 代码将挂起后的协程派发到原来的线程上恢复运行.
-如果这个线程并没有支持的事件循环, 那么任务将无法运行, 因此协程永远无法恢复.
-
-某些情况下, 不再需要这样的限制. 你可以在你的 `gradle.properties` 文件添加以下选项, 删除这个限制:
-
-```none
-kotlin.native.binary.objcExportSuspendFunctionLaunchThreadRestriction=none
 ```
 
 ## 垃圾收集与生存周期
@@ -256,6 +244,27 @@ func test() {
 需要 2 次 GC 周期才能回收这 4 个对象, 因为 Swift 和 Objective-C 对象的销毁过程发生在 GC 周期之后.
 这个限制是由于 `deinit` 造成的, 它可以调用任意的代码, 包括在 GC 造成的应用程序暂停时期无法运行的 Kotlin 代码.
 
+### 循环引用
+
+在 _循环引用_ 中, 多个对象使用强引用相互引用, 形成引用的循环:
+
+![循环引用](native-retain-cycle.png){height=200}
+
+Kotlin 的追踪 GC 和 Objective-C 的 ARC 使用不同的方式处理循环引用.
+当对象不可到达时, Kotlin 的 GC 能够正确的回收这样的循环引用, 而 Objective-C 的 ARC 则不能.
+因此, Kotlin 对象的循环引用能够被回收,
+而 [Swift/Objective-C 对象的循环引用无法被回收](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/automaticreferencecounting/#Strong-Reference-Cycles-Between-Class-Instances).
+
+考虑这样的情况, 如果一个循环引用同时包含 Objective-C 和 Kotlin 对象:
+
+![Retain cycles with Objective-C and Kotlin objects](native-objc-kotlin-retain-cycles.png){height=150}
+
+这就牵涉到将 Kotlin 和 Objective-C 的内存管理模型组合到一起, 而 Objective-C 不能处理 (回收) 循环引用.
+也就是说, 只要出现了一个 Objective-C 对象, 整个对象图的循环引用都将无法回收, 而且不可能从 Kotlin 端打破这个循环引用.
+
+不幸的是, 在 Kotlin/Native 的代码中, 目前没有专门的手段能够自动检测循环引用.
+为了避免循环引用, 请使用 [弱引用(weak reference)或无主引用(unowned reference)](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/automaticreferencecounting/#Resolving-Strong-Reference-Cycles-Between-Class-Instances).
+
 ## 支持后台状态和 App 扩展
 
 目前的内存管理器默认不追踪应用程序状态, 而且没有集成 [App 扩展](https://developer.apple.com/app-extensions/).
@@ -268,3 +277,7 @@ kotlin.native.binary.appStateTracking=enabled
 ```
 
 这个选项会在应用程序处于后台状态时关闭对垃圾收集器的定时调用, 因此只有当内存消耗量过高时才会调用 GC.
+
+## 下一步做什么?
+
+了解 [与 Swift/Objective-C 交互](native-objc-interop.md).
