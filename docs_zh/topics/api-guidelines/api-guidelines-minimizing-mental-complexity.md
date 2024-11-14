@@ -1,21 +1,35 @@
-[//]: # (title: Minimizing mental complexity overview)
+[//]: # (title: 减少认知复杂度 (Mental Complexity) 概述)
 
-Users need to quickly and accurately build a mental model of your library's functions and abstractions before using it. 
-The best way to achieve this is by minimizing the amount of complexity they encounter.
+用户在使用你的库之前, 需要快速并准确的对库的函数和抽象建立一个认知模型.
+实现这个目标的最好方式, 是减少他们遇到的认知复杂度.
 
-Strategies for minimizing mental complexity include:
+减少认知复杂度的方法包括:
 
-* **Simplicity:** Strive for an API that provides the most functionality with the fewest components, reusing existing Kotlin types and structures to avoid redundancy. Where possible, create a small set of core abstractions and build additional functionality on top of them.
-* **Readability:** Write the API in a declarative style to make the code's intent clear. Choose names for abstractions directly from the problem domain, unless it's absolutely necessary to invent new ones. Use basic data types for their intended purposes. Clearly distinguish between core and optional functionality.
-* **Consistency:** Maintain a single, clear approach for every design aspect of your API. Use uniform naming conventions, error handling strategies, and patterns, whether they are object-oriented or functional.
-* **Predictability:** Design your library to adhere to [the ‘principle of least surprise'](https://en.wikipedia.org/wiki/Principle_of_least_astonishment). Ensure the default settings match the most common use cases, allowing users to accomplish their tasks with the simplest and shortest code. Allow extensions to your library only in clearly specified ways to maintain consistency and predictability.
-* **Debuggability:** Ensure your library aids users in troubleshooting by facilitating the extraction of information and navigation through nested function calls. When exceptions are thrown, both the type and content of the exception should match the underlying issue, providing all necessary details to effectively diagnose and resolve problems. It should be possible to capture and output the state of domain objects, and to view any intermediate representations.
-* **Testability:** Ensure that your library, as well as the code that uses it, can be easily tested.
+* **简单性:**
+  要尽量使用最少的组件实现提供最多功能的 API, 重用已有的 Kotlin 类型和结构, 避免冗余.
+  尽可能, 创建一小群核心抽象, 并以此为基础构建更多功能.
+* **可读性:**
+  用宣言的风格来编写 API, 使得代码的意图清晰易懂.
+  直接从问题域中选择抽象的名称, 除非绝对有必要, 否则不要使用新的名称.
+  基本数据类型只用于它们本来应该的使用意图. 清楚的区分核心功能和可选功能.
+* **一致性:**
+  为你的 API 的每个设计方面保持单一, 清晰的方案.
+  使用统一的命名约定, 错误处理方式, 以及模式, 无论是面向对象的模式, 还是函数式模式.
+* **可预测性:**
+  设计你的库要遵循 ["最小惊讶原则(principle of least surprise)"](https://en.wikipedia.org/wiki/Principle_of_least_astonishment).
+  确保默认设置符合最常见的使用场景, 让用户能够通过最简单最少量的代码完成他们的任务.
+  只允许通过明确指定的方式来扩展你的库, 以维持一致性和可预测性.
+* **可调试性:**
+  确保你的库能够便利的抽取信息和追溯函数的嵌套调用, 帮助用户解决故障.
+  抛出异常时, 异常的类型和内容应该与底层的错误相匹配, 提供所有必须的细节信息, 帮助用户高效的诊断和解决问题.
+  应该能够捕捉并输出问题域对象的状态, 并查看它们的任何中间表达.
+* **可测试性:**
+  确保你的库, 以及使用它的代码, 能够容易的进行测试.
 
-The following sections give more detailed information on implementing these strategies in Kotlin.
+关于如何在 Kotlin 中实现这些方法, 后续的章节包含更多详细信息.
 
-## Next step
+## 下一步
 
-To begin exploring these strategies in depth, you can start with learning about simplicity in the next section.
+要更加深入的探索这些方法, 你可以从学习下一章 "简单性" 开始.
 
-[Proceed to the next part](api-guidelines-simplicity.md)
+[进入下一部分](api-guidelines-simplicity.md)

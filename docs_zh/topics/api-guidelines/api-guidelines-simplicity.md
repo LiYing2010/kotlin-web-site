@@ -1,4 +1,4 @@
-[//]: # (title: Simplicity)
+[//]: # (title: 简单性)
 
 The fewer concepts your users need to understand and the more explicitly these are communicated, the simpler their mental
 model is likely to be. This can be achieved by limiting the number of operations and abstractions in the API.

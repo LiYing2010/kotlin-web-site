@@ -1,4 +1,4 @@
-[//]: # (title: Consistency)
+[//]: # (title: 一致性)
 
 Consistency is crucial in API design to ensure ease of use. By maintaining consistent parameter order, naming conventions,
 and error handling mechanisms, your library will be more intuitive and reliable for users. Following these best practices

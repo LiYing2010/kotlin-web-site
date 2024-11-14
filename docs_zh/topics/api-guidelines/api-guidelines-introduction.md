@@ -1,70 +1,37 @@
-[//]: # (title: 入门)
+[//]: # (title: 库开发者指南简介)
 
-一个好的库应该具备以下特征:
-* 向后兼容性(Backward Compatibility)
-* 完整而且易于理解的文档
-* 最低的 [认知复杂度(cognitive complexity)](#cognitive-complexity)
-* API 保持一贯
+这篇指南包含设计库时的一些最佳实践, 以及需要考虑的问题.
 
-这篇向导概要性的介绍为你的库编写 API 时的最佳实践, 以及需要考虑的问题.
-包含以下几章:
-* [可读性](jvm-api-guidelines-readability.md)
-* [可预测性](jvm-api-guidelines-predictability.md)
-* [可调试性](jvm-api-guidelines-debuggability.md)
-* [向后兼容性(Backward Compatibility)](jvm-api-guidelines-backward-compatibility.md)
+为了有效运作, 一个库必须达到某些基本目标. 具体来说, 它应该:
 
-下面的许多最佳实践提供了一些建议, 告诉你如何如何降低 API 的认知复杂度.
-因此, 在进入到最佳实践之前, 我们先来解释一下认知复杂度.
+* 定义清楚它的问题域, 并实现一组相关的功能需求, 解决它定义的那些问题.
+  例如, 一个 HTTP Client 的目标可能是支持所有的 HTTP 请求类型, 并了解各种 Header, 内容类型, 以及状态码.
+* 满足适合于问题域的非功能性标准. 这些标准通常涉及性能, 可靠性, 安全性, 以及可用性.
+  这些标准的相对重要性差别很大. 例如, 为批处理设计的库, 它的性能可能不需要达到日常交易的库相同的程度.
 
-### 认知复杂度(Cognitive complexity)
+这篇指南的重点是探索一个库必须具备哪些特性, 才能紧贴用户, 并受到用户欢迎.
+这些特性包括:
 
-认知复杂度是指, 一个人为了理解一段代码所耗费的脑力劳动的多少.
-认知复杂度高的代码库, 会更难理解更难维护, 因此导致发生 bug, 以及开发进度延迟.
+* **减少认知复杂度 (Mental Complexity):**
+  所有的开发者必须考虑他们代码的可读性和可维护性. 减少其他人阅读, 理解, 以及使用你的 API 时所需要的脑力劳动, 这是非常重要的.
+  要实现这个目标, 需要创建清晰, 一致, 可预测, 以及易于调试的库.
+* **向后兼容性(Backward Compatibility):** 
+  在发布一个 API 的新版本时, 要确保既有的 API 能够继续工作. 要提前沟通清楚, 并为所有的破坏性变更(Breaking Change)编写文档.
+  要为用户提供直接, 清楚, 并且循序渐进的途径, 来采用新的 API 或设计变更.
+* **信息丰富的文档:**
+  随库一起发布的文档不能仅仅是重复库的函数和类型声明. 文档应该包含全面的信息, 并专门针对库的使用者.
+  它应该准确反映各种用户角色的需求和使用场景, 确保提供必要的信息, 不能过分简单, 也不能过分复杂.
+  应该始终包含清晰的示例, 解释性文字和实际代码示例要保持平衡.
 
-一个没有遵循 [单一功能原则](https://en.wikipedia.org/wiki/Single-responsibility_principle) 的类或模块,
-就是认知复杂度高的一个例子.
-一个类或模块如果做了太多太多的事情, 就会难于理解和修改.
-相反, 一个类或模块如果只包含一个清楚的, 明确定义的功能, 它就会更易于使用和维护.
+> 功能性和非功能性需求的识别和定义过程是一个复杂的问题, 在软件工程中已有广泛的研究.
+> 这篇指南不会深入介绍这些问题, 因为超出了这篇指南的范围.
+>
+{style="note"}
 
-函数也可能会有很高的认知复杂度. "写得不好" 的函数, 常见的特征是:
-* 太多参数, 变量, 或循环.
-* 太多嵌套的 if-else 语句构成的复杂的逻辑.
+后续章节会更加深入的研究这 3 个特性, 并对如何为你的库使用者提供最佳体验, 给出一些实用的建议.
 
-与逻辑清楚而且简单的函数(参数很少, 控制流易于理解) 相比, 这种认知复杂度高的函数更难于理解和维护.
-认知复杂度高的函数的一个示例如下:
+## 下一步做什么
 
-```kotlin
-fun processData(
-    data: List<String>,
-    delimiter: String,
-    ignoreCase: Boolean,
-    sort: Boolean,
-    maxLength: Int
-) {
-    // 一些复杂的处理逻辑
-}
-```
-
-分解这些功能, 降低认知复杂度:
-
-```kotlin
-fun delimit(data: List<String>, delimiter: String) { ... }
-fun ignoreCase(data: List<String>) { ... }
-fun sortAscending(data: List<String>) { ... }
-fun sortDescending(data: List<String>) { ... }
-fun maxLength(data: List<String>, maxLength: Int) { ... }
-```
-
-通过 [扩展函数](extensions.md) 的帮助, 你可以更加简化上面的代码:
-
-```kotlin
-fun List<String>.delimit(delimiter: String): List<String> { ... }
-fun List<String>.sortAscending(): List<String> { ... }
-fun List<String>.sortDescending(): List<String> { ... }
-fun List<String>.maxLength(maxLength: Int): List<String> { ... }
-...
-```
-
-## 下一步做什么?
-
-学习 API 的 [可读性](jvm-api-guidelines-readability.md).
+* 关于如何减少认知复杂度, 请阅读 [减少认知复杂度](api-guidelines-minimizing-mental-complexity.md) 章节.
+* 关于维护向后兼容性(Backward Compatibility), 请阅读 [向后兼容性](api-guidelines-backward-compatibility.md) 章节.
+* 关于编写高效文档的实践, 请阅读 [信息丰富的文档](api-guidelines-informative-documentation.md) 章节.
