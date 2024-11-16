@@ -18,12 +18,12 @@
    ![创建一个控制台应用程序](jvm-new-gradle-project.png){width=700}
 
 4. 选择 **Gradle** 构建系统.
-5. 在 **JDK list** 选项中, 选择你的项目希望使用的 [JDK](https://www.oracle.com/java/technologies/downloads/).
+5. 在 **JDK** 列表中, 选择你的项目希望使用的 [JDK](https://www.oracle.com/java/technologies/downloads/).
     * 如果在你的计算机上已经安装了 JDK, 但在 IDE 中没有定义它, 请选择 **Add JDK**, 并指定 JDK home 目录的路径.
     * 如果在你的计算机上还没有安装需要的 JDK, 请选择 **Download JDK**.
 
 6. 选择 **Kotlin** 作为 Gradle DSL.
-7. 选中 **Add sample code** 选项, 创建一个文件, 其中包含一个 `"Hello World!"` 示例程序.
+7. 启用 **Add sample code** 选项, 创建一个文件, 其中包含 `"Hello World!"` 示例程序.
 
    > 你也可以启用 **Generate code with onboarding tips** 选项, 向你的示例代码添加一些有用的注释.
    >

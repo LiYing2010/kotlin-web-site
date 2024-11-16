@@ -1,90 +1,87 @@
-[//]: # (title: Add dependencies to your Kotlin Notebook)
+[//]: # (title: 向你的 Kotlin Notebook 添加依赖项)
 
 <tldr>
-   <p>This is the third part of the <strong>Getting started with Kotlin Notebook</strong> tutorial. Before proceeding, make sure you've completed the previous steps.</p>
-   <p><img src="icon-1-done.svg" width="20" alt="First step"/> <a href="kotlin-notebook-set-up-env.md">Set up an environment</a><br/>
-      <img src="icon-2-done.svg" width="20" alt="Second step"/> <a href="kotlin-notebook-create.md">Create a Kotlin Notebook</a><br/>
-      <img src="icon-3.svg" width="20" alt="Third step"/> <strong>Add dependencies to a Kotlin Notebook</strong><br/>      
-      <img src="icon-4-todo.svg" width="20" alt="Fourth step"/> Share a Kotlin Notebook<br/>
+   <p>本章是 <strong>Kotlin Notebook 入门</strong> 教程的第 3 部分. 阅读本章之前, 请确认你已完成了之前的章节.</p>
+   <p><img src="icon-1-done.svg" width="20" alt="First step"/> <a href="kotlin-notebook-set-up-env.md">设置环境</a><br/>
+      <img src="icon-2-done.svg" width="20" alt="Second step"/> <a href="kotlin-notebook-create.md">创建 Kotlin Notebook</a><br/>
+      <img src="icon-3.svg" width="20" alt="Third step"/> <strong>向 Kotlin Notebook 添加依赖项</strong><br/>
+      <img src="icon-4-todo.svg" width="20" alt="Fourth step"/> 共享 Kotlin Notebook<br/>
   </p>
 </tldr>
 
-You've already created your first Kotlin Notebook! Now let's learn how to add dependencies to libraries, which
-is necessary to unlock advanced features.
+你已经创建了你的第一个 Kotlin Notebook! 现在我们来学习如何添加库的依赖项, 在使用高级功能时必须用到这些库.
 
-> The Kotlin standard library can be used out of the box, so you don't have to import it.
+> Kotlin 标准库直接可以使用, 因此你不必导入这些库.
 > 
 {style="note"}
 
-You can load any library from the Maven repository by specifying its coordinates using Gradle-style
-syntax in any code cell. 
-However, Kotlin Notebook has a simplified method to load popular libraries in the form of the `%use` statement:
+在任何代码单元中, 你可以使用 Gradle 风格的语法, 指定库的座标(coordinate), 载入 Maven 仓库中的任何库.
+但是, Kotlin Notebook 有一个简化的方法, 可以使用 `%use` 语句载入常用的库:
 
 ```kotlin
-// Replace libraryName with the library dependency you want to add
+// 请将 libraryName 替换为你想要添加的库依赖项
 %use libraryName
 ```
 
-You can also use the autocompletion feature in Kotlin Notebook to quickly access available libraries:
+你也可以在 Kotlin Notebook 中使用自动完成功能, 快速找到可用的库:
 
-![Autocompletion feature in Kotlin Notebook](autocompletion-feature-notebook.png){width=700}
+![Kotlin Notebook 中的自动完成功能](autocompletion-feature-notebook.png){width=700}
 
-## Add Kotlin DataFrame and Kandy libraries to your Kotlin Notebook
+## 向你的 Kotlin Notebook 添加 Kotlin DataFrame 和 Kandy 库
 
-Let's add two popular Kotlin library dependencies to your Kotlin Notebook:
-* The [Kotlin DataFrame library](https://kotlin.github.io/dataframe/gettingstarted.html) gives you the power to manipulate data in your Kotlin projects. 
-You can use it to retrieve data from [APIs](data-analysis-work-with-api.md), [SQL databases](data-analysis-connect-to-db.md), and [various file formats](data-analysis-work-with-data-sources.md), such as CSV or JSON.
-* The [Kandy library](https://kotlin.github.io/kandy/welcome.html) provides a powerful and flexible DSL for [creating charts](data-analysis-visualization.md).
+我们来向你的 Kotlin Notebook 添加两个常用的 Kotlin 库依赖项:
+* [Kotlin DataFrame 库](https://kotlin.github.io/dataframe/gettingstarted.html) 让你能够在你的 Kotlin 项目中操纵数据.
+  你可以使用它 从 [API](data-analysis-work-with-api.md), [SQL 数据库](data-analysis-connect-to-db.md), 以及 [各种文件格式](data-analysis-work-with-data-sources.md)(例如 CSV 或 JSON) 获取数据.
+* [Kandy 库](https://kotlin.github.io/kandy/welcome.html) 为 [创建图表](data-analysis-visualization.md) 提供了一种强大而且灵活的 DSL.
 
-To add these libraries:
+要添加库, 请执行以下步骤:
 
-1. Click **Add Code Cell** to create a new code cell.
-2. Enter the following code in the code cell:
+1. 点击 **Add Code Cell**, 创建一个新的代码单元.
+2. 在代码单元中输入以下代码:
 
     ```kotlin
-    // Ensures that the latest available library versions are used
+    // 确保使用库的最新版本
     %useLatestDescriptors
     
-    // Imports the Kotlin DataFrame library
+    // 导入 Kotlin DataFrame 库
     %use dataframe
     
-    // Imports the Kotlin Kandy library
+    // 导入 Kotlin Kandy 库
     %use kandy
     ```
 
-3. Run the code cell.
+3. 运行这个代码单元.
 
-    When a `%use` statement is executed, it downloads the library dependencies and adds the default imports to your notebook.
+    在 `%use` 语句执行时, 它会下载库依赖项, 并向你的 Notebook 添加默认的 import.
 
-    > Make sure to run the code cell with the `%use libraryName` line before you run any other code cells that rely on the 
-    > library.
+    > 在你运行任何依赖于库的代码单元之前, 要确保运行了带有 `%use libraryName` 行的那个代码单元.
     >
     {style="note"}
 
-4. To import data from a CSV file using the Kotlin DataFrame library, use the `.read()` function in a new code cell:
+4. 要使用 Kotlin DataFrame 库从 CSV 文件导入数据, 请在一个新的代码单元中使用 `.read()` 函数:
 
     ```kotlin
-    // Creates a DataFrame by importing data from the "netflix_titles.csv" file.
+    // 从 "netflix_titles.csv" 文件导入数据, 创建一个 DataFrame.
     val rawDf = DataFrame.read("netflix_titles.csv")
     
-    // Displays the raw DataFrame data
+    // 显示 DataFrame 的原始数据
     rawDf
     ```
 
-    > You can download this example CSV from the [Kotlin DataFrame examples GitHub repository](https://github.com/Kotlin/dataframe/blob/master/examples/notebooks/netflix/netflix_titles.csv).
-    > Add it to your project directory.
+    > 你可以从 [Kotlin DataFrame 示例的 GitHub 仓库](https://github.com/Kotlin/dataframe/blob/master/examples/notebooks/netflix/netflix_titles.csv) 下载这个示例 CSV.
+    > 将它添加到你的项目目录中.
     > 
     {style="tip"}
 
-    ![Using DataFrame to display data](add-dataframe-dependency.png){width=700}
+    ![使用 DataFrame 显示数据](add-dataframe-dependency.png){width=700}
 
-5. In a new code cell, use the `.plot` method to visually represent the distribution of TV shows and Movies in your DataFrame.:
+5. 在一个新的代码单元中, 使用 `.plot` 方法, 可视化显示你的 DataFrame 中的电视剧和电影的分布状况:
 
     ```kotlin
     rawDf
-        // Counts the occurrences of each unique value in the column named "type"
+        // 计算名为 "type" 的列中出现的各个值的个数
         .valueCounts(sort = false) { type }
-        // Visualizes data in a bar chart specifying the colors
+        // 使用指定颜色的条状图(Bar Chart) 可视化显示数据
         .plot {
             bars {
                 x(type)
@@ -94,7 +91,7 @@ To add these libraries:
                 }
             }
     
-            // Configures the layout of the chart and sets the title
+            // 配置图表的布局, 并设置标题
             layout {
                 title = "Count of TV Shows and Movies"
                 size = 900 to 550
@@ -102,18 +99,18 @@ To add these libraries:
         }
     ```
 
-The resulting chart:
+运行结果产生的图表如下:
 
-![Visualization using the Kandy library](kandy-library.png){width=700}
+![使用 Kandy 库可视化显示数据](kandy-library.png){width=700}
 
-Congratulations on adding and utilizing these libraries in your Kotlin Notebook!
-This is just a glimpse into what you can achieve with Kotlin Notebook and its [supported libraries](data-analysis-libraries.md).
+恭喜你, 你已经在你的 Kotlin Notebook 中添加并使用了这些库!
+这只是你使用 Kotlin Notebook 和它 [支持的库](data-analysis-libraries.md) 所能实现的功能的一个非常简单的介绍.
 
-For a more extensive guide using the Kotlin DataFrame library, see 
-[Retrieve data from files](data-analysis-work-with-data-sources.md), and explore [Data visualization in Kotlin Notebook with Kandy](data-analysis-visualization.md) for advanced data visualization.
+关于 Kotlin DataFrame 库的使用, 更加详细的介绍请参见 [从文件获取数据](data-analysis-work-with-data-sources.md),
+关于数据可视化的高级功能, 请参见 [在 Kotlin Notebook 中使用 Kandy 可视化显示数据](data-analysis-visualization.md).
 
-## Next step
+## 下一步
 
-In the next part of the tutorial, you will learn how to share a Kotlin Notebook.
+在本教程的下一部分, 你将学习如何共享 Kotlin Notebook.
 
-**[Proceed to the next chapter](kotlin-notebook-share.md)**
+**[进入下一章](kotlin-notebook-share.md)**

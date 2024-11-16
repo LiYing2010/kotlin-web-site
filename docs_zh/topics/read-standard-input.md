@@ -1,77 +1,79 @@
 [//]: # (title: 读取标准输入)
 
-Use the `readln()` function to read data from the standard input. It reads the whole line as a string:
+请使用 `readln()` 函数从标准输入(Standard Input)读取数据.
+这个函数将整个行读取为字符串.
 
 ```kotlin
-// Reads and stores the user input in a variable. For example: Hi there!
+// 读取用户的输入, 并保存到一个变量中. 例如: Hi there!
 val myInput = readln()
 
 println(myInput)
-// Hi there!
+// 输出结果为: Hi there!
 
-// Reads and prints the user input without storing it in a variable. For example: Hi, Kotlin!
+// 读取并带音用户的输入, 不保存在变量中. 例如: Hi, Kotlin!
 println(readln())
-// Hi, Kotlin!
+// 输出结果为: Hi, Kotlin!
 ```
 
-To work with data types other than strings, you can convert the input using conversion functions like `.toInt()`, `.toLong()`, `.toDouble()`, `.toFloat()`, or `.toBoolean()`.
-It is possible to read multiple inputs of different data types and store each input in a variable:
+要使用字符串之外的数据类型, 你可以使用转换函数对输入进行类型转换,
+例如 `.toInt()`, `.toLong()`, `.toDouble()`, `.toFloat()`, 或 `.toBoolean()`.
+可以读取多个不同数据类型的输入, 并将每个输入保存到一个变量中:
 
 ```kotlin
-// Converts the input from a string to an integer value. For example: 12
+// 将输入从字符串转换为整数值. 例如: 12
 val myNumber = readln().toInt()
 println(myNumber)
-// 12
+// 输出结果为: 12
 
-// Converts the input from a string to a double value. For example: 345 
+// 将输入从字符串转换为 Double 值. 例如: 345 
 val myDouble = readln().toDouble()
 println(myDouble)
-// 345.0
+// 输出结果为: 345.0
 
-// Converts the input from a string to a boolean value. For example: true
+// 将输入从字符串转换为 Boolean 值. 例如: true
 val myBoolean = readln().toBoolean()
 println(myBoolean)
-// true
+// 输出结果为: true
 ```
 
-These conversion functions assume the user enters a valid representation of the target data type. For example, converting
-"hello" to an integer using `.toInt()` would result in an exception as the function expects a number in the string input.
+这些转换函数会假定用户输入的是目标数据类型的正确格式.
+例如, 使用 `.toInt()` 将 "hello" 转换为整数, 会导致一个异常, 因为函数期待的输入字符串应该是数字.
 
-To read several input elements separated by a delimiter, use the `.split()` function specifying the delimiter. The following code sample
-reads from the standard input, splits the input into a list of elements based on the delimiter, and converts each element of the list into a specific type:
+要读取分隔符号分隔的多个输入元素, 请使用 `.split()` 函数, 并指定分隔符.
+下面的代码演示如何从标准输入读取, 并按照分隔符将输入切分为一组元素的 List, 再将 List 中的各个元素转换为指定的类型:
 
 ```kotlin
-// Reads the input, assuming the elements are separated by spaces, and converts them into integers. For example: 1 2 3 
+// 读取输入, 假定元素以空格分隔, 并转换为整数. 例如: 1 2 3 
 val numbers = readln().split(' ').map { it.toInt() }
 println(numbers)
-//[1, 2, 3] 
+// 输出结果为: [1, 2, 3]
 
-// Reads the input, assuming the elements are separated by commas, and converts them into doubles. For example: 4,5,6
+// 读取输入, 假定元素以逗号分隔, 并转换为 Double. 例如: 4,5,6
 val doubles = readln().split(',').map { it.toDouble() }
 println(doubles)
-//[4.0, 5.0, 6.0]
+// 输出结果为: [4.0, 5.0, 6.0]
 ```
 
-> For an alternative way to read user input in Kotlin/JVM, see [Standard input with Java Scanner](standard-input.md).
+> 关于在 Kotlin/JVM 中读取用户输入的另一种方式, 请参见 [使用 Java Scanner 读取标准输入](standard-input.md).
 >
 {style="note"}
 
-## Handle standard input safely
+## 以安全的方式处理标准输入
 
-You can use the `.toIntOrNull()` function to safely convert user input from a string to an integer. This function returns an
-integer if the conversion is successful. However, if the input is not a valid representation of an integer, it returns `null`:
+你可以使用 `.toIntOrNull()` 函数, 以安全的方式将用户输入从字符串转换为整数.
+如果转换成功, 这个函数返回一个整数. 但是, 如果输入不是一个有效的整数, 它会返回 `null`:
 
 ```kotlin
-// Returns null if the input is invalid. For example: Hello!
+// 如果输入无效, 返回 null. 例如: Hello!
 val wrongInt = readln().toIntOrNull()
 println(wrongInt)
-// null
+// 输出结果为: null
 
-// Converts a valid input from a string to an integer. For example: 13
+// 将有效的输入从字符串转换为整数. 例如: 13
 val correctInt = readln().toIntOrNull()
 println(correctInt)
-// 13
+// 输出结果为: 13
 ```
 
-The `readlnOrNull()` function is also helpful in safely handling the user input. The `readlnOrNull()` function reads from the 
-standard input and returns null if the end of the input is reached, whereas `readln()` throws an exception in such a case.
+`readlnOrNull()` 函数也有助于安全的处理用户输入.
+`readlnOrNull()` 函数会读取标准输入, 如果遇到输入结束, 这个函数会返回 null, 而 `readln()` 对这样的情况会抛出异常.

@@ -17,18 +17,18 @@ Kotlin 与这些工具集成, 可以帮助你研究数据, 将你的发现与同
 ### Kotlin Notebook
 
 [Kotlin Notebook](https://plugins.jetbrains.com/plugin/16340-kotlin-notebook)
-是一个 IntelliJ IDEA plugin, 可以使用 Kotlin 来创建 notebook.
+是一个 IntelliJ IDEA plugin, 可以使用 Kotlin 来创建 Notebook.
 它利用了 [Kotlin Kernel](#jupyter-kotlin-kernel) 来执行各个单元(cell),
 并利用强大的 Kotlin IDE 支持, 实现实时的代码查看.
-它现在是 Kotlin notebook 开发的推荐方式.
+它现在是 Kotlin Notebook 开发的推荐方式.
 更多详情, 请阅读我们的 [Blog](https://blog.jetbrains.com/kotlin/2023/07/introducing-kotlin-notebook/).
 
 ![Kotlin Notebook](kotlin-notebook.png){width=800}
 
-### Datalore 的 Kotlin Notebooks
+### Datalore 的 Kotlin Notebook
 
 通过 Datalore, 你可以直接 在浏览器中使用 Kotlin, 不需要额外安装.
-你还可以通过 Kotlin notebooks 实时的协作, 编写代码时得到智能的代码辅助, 以及通过交互式报告或静态报告共享结果.
+你还可以通过 Kotlin Notebook 实时的协作, 编写代码时得到智能的代码辅助, 以及通过交互式报告或静态报告共享结果.
 请参见 [示例报告](https://datalore.jetbrains.com/view/report/9YLrg20eesVX2cQu1FKLiZ).
 
 ![Kotlin in Datalore](kotlin-datalore.png){width=800}

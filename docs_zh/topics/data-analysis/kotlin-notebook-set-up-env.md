@@ -1,7 +1,7 @@
 [//]: # (title: 设置环境)
 
 <tldr>
-   <p>这是 <strong>Kotlin Notebook 入门</strong> 教程的第 1 部分:</p>
+   <p>本章是 <strong>Kotlin Notebook 入门</strong> 教程的第 1 部分:</p>
    <p><img src="icon-1.svg" width="20" alt="第 1 步"/> <strong>设置环境</strong><br/>
       <img src="icon-2-todo.svg" width="20" alt="第 2 步"/> 创建 Kotlin Notebook<br/>
       <img src="icon-3-todo.svg" width="20" alt="第 3 步"/> 向 Kotlin Notebook 添加依赖项<br/>
@@ -30,4 +30,4 @@
 
 在本教程的下一部分, 你将会学习如何创建一个 Kotlin Notebook.
 
-**[进入到下一章](kotlin-notebook-create.md)**
+**[进入下一章](kotlin-notebook-create.md)**
