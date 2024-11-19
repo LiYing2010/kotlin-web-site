@@ -136,7 +136,7 @@
             <toc-element toc-title="iOS 目标平台" topic="multiplatform-ios-dependencies.md"/>
         </toc-element>
         <toc-element toc-title="设置与 iOS 的集成">
-            <toc-element toc-title="Choose integration method" topic="multiplatform-ios-integration-overview.md"/>
+            <toc-element toc-title="选择集成方法" topic="multiplatform-ios-integration-overview.md"/>
             <toc-element topic="multiplatform-direct-integration.md"/>
             <toc-element toc-title="Remote SPM export" topic="native-spm.md"/>
             <toc-element toc-title="与 CocoaPods 集成">
