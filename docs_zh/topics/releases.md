@@ -1,61 +1,162 @@
 [//]: # (title: Kotlin 的发布版本)
 
-我们的发布版本包括几种不同的类型:
+从 Kotlin 2.0.0 开始, 我们的发布版本包括几种不同的类型:
 
-* _功能发布版(Feature release)_ (1._x_) 其中包括语言的重要变化.
-* _增量发布版(Incremental release)_ (1._x_._y_) 在功能发布版之间发布, 其中包括工具更新, 性能改善, 以及 bug 修复.
-* _Bug 修复发布版(Bug fix release)_ (1._x_._yz_) 其中包括针对增量发布版的 bug 修复.
+* _语言发布版(Language Release)_ (2._x_._0_)
+  其中包括语言的重要变化, 并包含工具的更新.
+  每 6 个月发布一次.
+* _工具发布版(Tooling Release)_ (2._x_._20_)
+  在语言发布版之间发布, 其中包括工具更新, 性能改善, 以及 bug 修复.
+  在对应的 _语言发布版_ 之后的 3 个月内发布.
+* _Bug 修复发布版(Bug fix Release)_ (2._x_._yz_)
+  其中包括针对 _工具发布版_ 的 bug 修复.
+  对这样的发布版, 没有固定的发布时间.
 
-比如, 对于功能发布版 1.3, 我们有几个增量发布版, 包括 1.3.10, 1.3.20, 以及 1.3.70.
-对于 1.3.70, 我们有 2 个 bug 修复发布版 – 1.3.71 和 1.3.72.
-
-对于每个增量发布版和功能发布版, 我们还会发布几个预览 (_EAP_) 版, 供开发者在正式发布之前试用新功能.
+对于每个语言发布版和工具发布版, 我们还会发布几个预览 (_EAP_) 版, 供开发者在正式发布之前试用新功能.
 详情请参见 [早期预览(Early Access Preview)](eap.md).
 
-关于 Kotlin 的发布版本, 详情请参见
-[Kotlin 发布版的类型, 以及它们的兼容性](kotlin-evolution.md#feature-releases-and-incremental-releases).
-
-## 更新到新的发布版 {id="update-to-a-new-release"}
-
-> 从 IntelliJ IDEA 2023.3 和 Android Studio Iguana (2023.2.1) Canary 15 开始, Kotlin plugin 会自动更新.
-> 你只需要在你的项目中更新 Kotlin 版本.
+> 如果你想要收到关于 Kotlin 新发布版的通知, 请订阅 [Kotlin newsletter](https://lp.jetbrains.com/subscribe-to-kotlin-news/),
+> 追随 [X 上的 Kotlin 官方帐号](https://x.com/kotlin),
+> 或者启用 [Kotlin GitHub 代码仓库](https://github.com/JetBrains/kotlin) 的 **Watch | Custom | Releases** 选项.
 >
 {style="note"}
 
-新的发布版发布之后, IntelliJ IDEA 和 Android Studio 会建议你升级.
-如果你接受建议, IDE 会自动将 Kotlin 插件更新到最新版本.
-在 **Tools** | **Kotlin** | **Configure Kotlin Plugin Updates** 菜单中, 你可以选择 Kotlin 版本.
+## 更新到新的 Kotlin 版本 {id="update-to-a-new-kotlin-version"}
+
+要将你的项目更新到新的发布版本, 你需要更新你的构建脚本文件.
+例如, 要更新到 Kotlin %kotlinVersion%, 要在你的 `build.gradle(.kts)` 文件中修改 Kotlin Gradle plugin 版本:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+plugins {
+    // 请将 `<...>` 替换为适合于你的编译目标环境的 plugin 名称
+    kotlin("<...>") version "%kotlinVersion%"
+    // 例如, 如果你的编译目标环境是 JVM:
+    // kotlin("jvm") version "%kotlinVersion%"
+    // 如果你的编译目标是 Kotlin Multiplatform:
+    // kotlin("multiplatform") version "%kotlinVersion%"
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+plugins {
+    // 请将 `<...>` 替换为适合于你的编译目标环境的 plugin 名称
+    id 'org.jetbrains.kotlin.<...>' version '%kotlinVersion%'
+    // 例如, 如果你的编译目标环境是 JVM:
+    // id 'org.jetbrains.kotlin.jvm' version '%kotlinVersion%'
+    // 如果你的编译目标是 Kotlin Multiplatform:
+    // id 'org.jetbrains.kotlin.multiplatform' version '%kotlinVersion%'
+}
+```
+
+</tab>
+</tabs>
 
 如果你的项目创建时使用了较早的 Kotlin 版本, 那么有可能需要在你的项目中改变 Kotlin 版本, 并更新 kotlinx 库.
 
-如果你要迁移到新的功能发布版, Kotlin 插件的迁移工具可以帮助你进行迁移.
+如果你要迁移到新的语言发布版, Kotlin 插件的迁移工具可以帮助你进行迁移.
 
 ## IDE 支持 {id="ide-support"}
 
-以下版本的 IntelliJ IDEA 和 Android Studio 支持 Kotlin 语言最新版本:
-* IntelliJ IDEA:
-    * 最新的稳定版本
-    * 前一个稳定版本
-    * [早期预览](https://www.jetbrains.com/resources/eap/) 版
-* Android Studio:
-    * [最新发布版](https://developer.android.com/studio)
-    * [早期预览版](https://developer.android.com/studio/preview)
+尽管 K2 编译器已经发布了, 但 IntelliJ IDEA 和 Android Studio 仍然会默认使用之前的编译器,
+进行代码分析, 代码完成, 高亮度显示, 以及其它 IDE 相关功能.
 
-> 关于 IntelliJ IDEA 中 Kotlin 相关的最新更新,
-> 请参见 [IntelliJ IDEA 最新功能](https://www.jetbrains.com/idea/whatsnew/) 的 **Kotlin** 小节.
+从 2024.1 开始, IntelliJ IDEA 可以使用新的 K2 编译器, 以它的 K2 模式分析你的代码.
+要启用这个功能, 请进入 **Settings** | **Languages & Frameworks** | **Kotlin**, 并选中 **Enable K2 mode** 选项.
+
+> 从 2024.2 开始, K2 mode 处于 Beta 阶段.
+> 我们正在努力改进稳定性和代码分析功能, 但目前还没有支持所有的 IDE 功能.
 >
-{style="tip"}
+{style="warning"}
+
+启用 K2 模式之后, 你可能会注意到 IDE 分析会有一些不同, 因为编译器的动作发生了变化.
+关于新的 K2 编译器与之前的编译器的区别, 请参见 [迁移向导](k2-compiler-migration-guide.md).
+
+## Kotlin 发布版的兼容性
+
+详情请参见 [Kotlin 发布版的类型和它们的兼容性](kotlin-evolution-principles.md#language-and-tooling-releases)
 
 ## 各发布版详情 {id="release-details"}
 
-下表是 Kotlin 最新发布版的详情.
+下表是 Kotlin 最新发布版的详情:
 
-你也可以使用 [Kotlin 的预览版](eap.md#build-details).
+> 你也可以试用 [Kotlin 的预览版(Early Access Preview, EAP)](eap.md#build-details).
+>
+{style="tip"}
 
 <table>
     <tr>
         <th>构建信息</th>
         <th>主要内容</th>
+    </tr>
+    <tr>
+        <td><strong>2.0.21</strong>
+            <p>发布日期: <strong>2024/10/10</strong></p>
+            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v2.0.21" target="_blank">GitHub 发布链接</a></p>
+        </td>
+        <td>
+            <p>针对 Kotlin 2.0.20 的 Bug 修复发布版.</p>
+            <p>详情请参见 <a href="https://github.com/JetBrains/kotlin/releases/tag/v2.0.21">changelog</a>.</p>
+        </td>
+    </tr>
+    <tr>
+        <td><strong>2.0.20</strong>
+            <p>发布日期: <strong>2024/08/22</strong></p>
+            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v2.0.20" target="_blank">GitHub 发布链接</a></p>
+        </td>
+        <td>
+           <p>一个针对 Kotlin 2.0.0 的工具发布版, 包含性能改进和 Bug 修复.
+              还包含以下功能:
+              Kotlin/Native 的垃圾收集器中支持并发的标记, Kotlin 共通标准库中支持 UUID,
+              Compose 编译器更新, 以及支持 Gradle 8.8.
+            </p>
+            <p>关于 Kotlin 2.0.20, 请参见 <a href="whatsnew2020.md" target="_blank">Kotlin 2.0.20 中的新功能</a>.</p>
+        </td>
+    </tr>
+    <tr>
+        <td><strong>2.0.10</strong>
+            <p>发布日期: <strong>2024/08/06</strong></p>
+            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v2.0.10" target="_blank">GitHub 发布链接</a></p>
+        </td>
+        <td>
+            <p>针对 Kotlin 2.0.0 的 Bug 修复发布版.</p>
+            <p>关于 Kotlin 2.0.0, 请参见 <a href="whatsnew20.md" target="_blank">Kotlin 2.0.0 中的新功能</a>.</p>
+        </td>
+    </tr>
+    <tr>
+        <td><strong>2.0.0</strong>
+            <p>发布日期: <strong>2024/05/21</strong></p>
+            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v2.0.0" target="_blank">GitHub 发布链接</a></p>
+        </td>
+        <td>
+            <p>一个语言发布版, 包含 Kotlin K2 编译器的稳定版.</p>
+            <p>关于 Kotlin 2.0.0, 请参见 <a href="whatsnew20.md" target="_blank">Kotlin 2.0.0 中的新功能</a>.</p>
+        </td>
+    </tr>
+    <tr>
+        <td><strong>1.9.25</strong>
+            <p>发布日期: <strong>2024/07/19</strong></p>
+            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v1.9.25" target="_blank">GitHub 发布链接</a></p>
+        </td>
+        <td>
+            <p>针对 Kotlin 1.9.20, 1.9.21, 1.9.22, 1.9.23, 和 1.9.24 的 Bug 修复发布版.</p>
+            <p>关于 Kotlin 1.9.20, 请参见 <a href="whatsnew1920.md" target="_blank">Kotlin 1.9.20 中的新功能</a>.</p>
+        </td>
+    </tr>
+    <tr>
+        <td><strong>1.9.24</strong>
+            <p>发布日期: <strong>2024/05/07</strong></p>
+            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v1.9.24" target="_blank">GitHub 发布链接</a></p>
+        </td>
+        <td>
+            <p>针对 Kotlin 1.9.20, 1.9.21, 1.9.22, 和 1.9.23 的 Bug 修复发布版.</p>
+            <p>关于 Kotlin 1.9.20, 请参见 <a href="whatsnew1920.md" target="_blank">Kotlin 1.9.20 中的新功能</a>.</p>
+        </td>
     </tr>
     <tr>
         <td><strong>1.9.23</strong>
