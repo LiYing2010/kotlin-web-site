@@ -1,18 +1,17 @@
 [//]: # (title: Kotlin 语言的功能特性与提案)
 [//]: # (description: Learn about the lifecycle of Kotlin features. The page contains the full list of Kotlin language features and design proposals.)
 
-JetBrains evolves the Kotlin language according to the [Kotlin language evolution principles](kotlin-evolution-principles.md),
-guided by pragmatic design.
+JetBrains 根据 [Kotlin 语言演化原则](kotlin-evolution-principles.md), 以务实的设计为指导, 对 Kotlin 语言进行演进.
 
-> Language feature proposals are listed from Kotlin 1.7.0. 
+> 从 Kotlin 1.7.0 开始列出语言的功能特性提案.
 > 
-> See the explanation of language feature statuses in the 
+> 关于各个语言功能特性的状态, 详细的解释请参见
 > [Kotlin evolution principles documentation](kotlin-evolution-principles.md#pre-stable-features).
 > 
 {style="note"}
 
 <tabs>
-<tab id="all-proposals" title="All">
+<tab id="所有提案" title="All">
 
 <!-- <include element-id="all-proposals" from="all-proposals.topic"/> -->
 
@@ -24,14 +23,14 @@ guided by pragmatic design.
 <tr filter="exploration-and-design">
 <td width="200">
 
-**Exploration and design**
+**探索与设计**
 
 </td>
 <td>
 
-**Kotlin statics and static extensions**
+**Kotlin 静态成员与静态扩展**
 
-* KEEP proposal: [statics.md](https://github.com/Kotlin/KEEP/blob/statics/proposals/statics.md)
+* KEEP 提案: [statics.md](https://github.com/Kotlin/KEEP/blob/statics/proposals/statics.md)
 * YouTrack issue: [KT-11968](https://youtrack.jetbrains.com/issue/KT-11968)
 
 </td>
@@ -40,14 +39,14 @@ guided by pragmatic design.
 <tr filter="exploration-and-design">
 <td>
 
-**Exploration and design**
+**探索与设计**
 
 </td>
 <td>
 
-**Collection literals**
+**集合的字面值**
 
-* KEEP proposal: Not defined
+* KEEP 提案: 未定义
 * YouTrack issue: [KT-43871](https://youtrack.jetbrains.com/issue/KT-43871)
 
 </td>
@@ -56,14 +55,14 @@ guided by pragmatic design.
 <tr filter="exploration-and-design">
 <td>
 
-**Exploration and design**
+**探索与设计**
 
 </td>
 <td>
 
-**Union types for errors and exceptions**
+**用于错误和异常的联合类型(Union type)**
 
-* KEEP proposal: Not defined
+* KEEP 提案: 未定义
 * YouTrack issue: [KT-68296](https://youtrack.jetbrains.com/issue/KT-68296)
 
 </td>
@@ -72,14 +71,14 @@ guided by pragmatic design.
 <tr filter="exploration-and-design">
 <td>
 
-**Exploration and design**
+**探索与设计**
 
 </td>
 <td>
 
-**Name-based destructuring**
+**基于名称的解构**
 
-* KEEP proposal: Not defined
+* KEEP 提案: 未定义
 * YouTrack issue: [KT-19627](https://youtrack.jetbrains.com/issue/KT-19627)
 
 </td>
@@ -88,14 +87,14 @@ guided by pragmatic design.
 <tr filter="exploration-and-design">
 <td>
 
-**Exploration and design**
+**探索与设计**
 
 </td>
 <td>
 
-**Support immutability**
+**支持不可变性(Immutability)**
 
-* KEEP notes: [immutability](https://github.com/Kotlin/KEEP/blob/master/notes/value-classes.md#immutability-and-value-classes)
+* KEEP 备忘录: [immutability](https://github.com/Kotlin/KEEP/blob/master/notes/value-classes.md#immutability-and-value-classes)
 * YouTrack issue: [KT-1179](https://youtrack.jetbrains.com/issue/KT-1179)
 
 </td>
@@ -108,14 +107,14 @@ guided by pragmatic design.
 <tr filter="keep">
 <td width="200">
 
-**KEEP discussion**
+**KEEP 讨论**
 
 </td>
 <td>
 
-**KMP Kotlin-to-Java direct actualization**
+**KMP Kotlin 到 Java 的直接实际化(direct actualization)**
 
-* KEEP proposal: [kmp-kotlin-to-java-direct-actualization.md](https://github.com/Kotlin/KEEP/blob/kotlin-to-java-direct-actualization/proposals/kmp-kotlin-to-java-direct-actualization.md)
+* KEEP 提案: [kmp-kotlin-to-java-direct-actualization.md](https://github.com/Kotlin/KEEP/blob/kotlin-to-java-direct-actualization/proposals/kmp-kotlin-to-java-direct-actualization.md)
 * YouTrack issue: [KT-67202](https://youtrack.jetbrains.com/issue/KT-67202)
 
 </td>
@@ -124,14 +123,14 @@ guided by pragmatic design.
 <tr filter="keep">
 <td>
 
-**KEEP discussion**
+**KEEP 讨论**
 
 </td>
 <td>
 
-**Streamline KDoc ambiguity links**
+**提高 KDoc 歧义链接解析的效率**
 
-* KEEP proposal: [streamline-KDoc-ambiguity-references.md](https://github.com/Kotlin/KEEP/blob/kdoc/Streamline-KDoc-ambiguity-references/proposals/kdoc/streamline-KDoc-ambiguity-references.md)
+* KEEP 提案: [streamline-KDoc-ambiguity-references.md](https://github.com/Kotlin/KEEP/blob/kdoc/Streamline-KDoc-ambiguity-references/proposals/kdoc/streamline-KDoc-ambiguity-references.md)
 * GitHub issues: [dokka/#3451](https://github.com/Kotlin/dokka/issues/3451), [dokka/#3179](https://github.com/Kotlin/dokka/issues/3179), [dokka/#3334](https://github.com/Kotlin/dokka/issues/3334)
 
 </td>
@@ -140,14 +139,14 @@ guided by pragmatic design.
 <tr filter="keep">
 <td>
 
-**KEEP discussion**
+**KEEP 讨论**
 
 </td>
 <td>
 
-**Resolution of links to extensions in KDoc**
+**KDoc 中对扩展的链接的解析**
 
-* KEEP proposal: [links-to-extensions.md](https://github.com/Kotlin/KEEP/blob/kdoc/extension-links/proposals/kdoc/links-to-extensions.md)
+* KEEP 提案: [links-to-extensions.md](https://github.com/Kotlin/KEEP/blob/kdoc/extension-links/proposals/kdoc/links-to-extensions.md)
 * GitHub issue: [dokka/#3555](https://github.com/Kotlin/dokka/issues/3555)
 
 </td>
@@ -156,14 +155,14 @@ guided by pragmatic design.
 <tr filter="keep">
 <td>
 
-**KEEP discussion**
+**KEEP 讨论**
 
 </td>
 <td>
 
 **Uuid**
 
-* KEEP proposal: [uuid.md](https://github.com/Kotlin/KEEP/blob/uuid/proposals/stdlib/uuid.md)
+* KEEP 提案: [uuid.md](https://github.com/Kotlin/KEEP/blob/uuid/proposals/stdlib/uuid.md)
 * YouTrack issue: [KT-31880](https://youtrack.jetbrains.com/issue/KT-31880)
 
 </td>
@@ -172,14 +171,14 @@ guided by pragmatic design.
 <tr filter="keep">
 <td>
 
-**KEEP discussion**
+**KEEP 讨论**
 
 </td>
 <td>
 
-**Improve resolution using expected type**
+**改善使用预期类型时的解析**
 
-* KEEP proposal: [improved-resolution-expected-type.md](https://github.com/Kotlin/KEEP/blob/improved-resolution-expected-type/proposals/improved-resolution-expected-type.md)
+* KEEP 提案: [improved-resolution-expected-type.md](https://github.com/Kotlin/KEEP/blob/improved-resolution-expected-type/proposals/improved-resolution-expected-type.md)
 * YouTrack issue: [KT-16768](https://youtrack.jetbrains.com/issue/KT-16768)
 
 </td>
@@ -188,14 +187,14 @@ guided by pragmatic design.
 <tr filter="keep">
 <td>
 
-**KEEP discussion**
+**KEEP 讨论**
 
 </td>
 <td>
 
-**Explicit backing fields: both `public` and `private` type for the same property**
+**明确的后端域变量(Backing Field): 对同一个属性同时支持 `public` 和 `private` 类型**
 
-* KEEP proposal: [explicit-backing-fields.md](https://github.com/Kotlin/KEEP/blob/explicit-backing-fields-re/proposals/explicit-backing-fields.md)
+* KEEP 提案: [explicit-backing-fields.md](https://github.com/Kotlin/KEEP/blob/explicit-backing-fields-re/proposals/explicit-backing-fields.md)
 * YouTrack issue: [KT-14663](https://youtrack.jetbrains.com/issue/KT-14663)
 
 </td>
@@ -204,14 +203,14 @@ guided by pragmatic design.
 <tr filter="keep">
 <td>
 
-**KEEP discussion**
+**KEEP 讨论**
 
 </td>
 <td>
 
-**Context parameters: support for context-dependent declarations**
+**上下文参数: 支持依赖于上下文的声明**
 
-* KEEP proposal: [context-parameters.md](https://github.com/Kotlin/KEEP/blob/context-parameters/proposals/context-parameters.md)
+* KEEP 提案: [context-parameters.md](https://github.com/Kotlin/KEEP/blob/context-parameters/proposals/context-parameters.md)
 * YouTrack issue: [KT-14663](https://youtrack.jetbrains.com/issue/KT-10468)
 
 </td>
@@ -220,16 +219,16 @@ guided by pragmatic design.
 <tr filter="keep">
 <td>
 
-**KEEP discussion**
+**KEEP 讨论**
 
 </td>
 <td>
 
-**Guard conditions in when-with-subject**
+**在带有判断对象的 when 语句中的保护条件**
 
-* KEEP proposal: [guards.md](https://github.com/Kotlin/KEEP/blob/guards/proposals/guards.md)
+* KEEP 提案: [guards.md](https://github.com/Kotlin/KEEP/blob/guards/proposals/guards.md)
 * YouTrack issue: [KT-13626](https://youtrack.jetbrains.com/issue/KT-13626)
-* Target version: 2.1.0
+* 目标版本: 2.1.0
 
 </td>
 </tr>
@@ -237,16 +236,16 @@ guided by pragmatic design.
 <tr filter="keep">
 <td>
 
-**KEEP discussion**
+**KEEP 讨论**
 
 </td>
 <td>
 
-**Stabilized `@SubclassOptInRequired`**
+**稳定 `@SubclassOptInRequired`**
 
-* KEEP proposal: [subclass-opt-in-required.md](https://github.com/Kotlin/KEEP/blob/master/proposals/subclass-opt-in-required.md)
+* KEEP 提案: [subclass-opt-in-required.md](https://github.com/Kotlin/KEEP/blob/master/proposals/subclass-opt-in-required.md)
 * YouTrack issue: [KT-54617](https://youtrack.jetbrains.com/issue/KT-54617)
-* Target version: 2.1.0
+* 目标版本: 2.1.0
 
 </td>
 </tr>
@@ -254,16 +253,16 @@ guided by pragmatic design.
 <tr filter="keep">
 <td>
 
-**KEEP discussion**
+**KEEP 讨论**
 
 </td>
 <td>
 
-**Multidollar interpolation: improved handling of `$` in string literals**
+**多 `$` 插入: 改进字符串字面值中的 `$` 处理**
 
-* KEEP proposal: [dollar-escape.md](https://github.com/Kotlin/KEEP/blob/master/proposals/dollar-escape.md)
+* KEEP 提案: [dollar-escape.md](https://github.com/Kotlin/KEEP/blob/master/proposals/dollar-escape.md)
 * YouTrack issue: [KT-2425](https://youtrack.jetbrains.com/issue/KT-2425)
-* Target version: 2.1.0
+* 目标版本: 2.1.0
 
 </td>
 </tr>
@@ -271,16 +270,16 @@ guided by pragmatic design.
 <tr filter="keep">
 <td>
 
-**KEEP discussion**
+**KEEP 讨论**
 
 </td>
 <td>
 
-**Non-local `break` and `continue`**
+**非局部的 `break` 和 `continue`**
 
-* KEEP proposal: [break-continue-in-inline-lambdas.md](https://github.com/Kotlin/KEEP/blob/master/proposals/break-continue-in-inline-lambdas.md)
+* KEEP 提案: [break-continue-in-inline-lambdas.md](https://github.com/Kotlin/KEEP/blob/master/proposals/break-continue-in-inline-lambdas.md)
 * YouTrack issue: [KT-1436](https://youtrack.jetbrains.com/issue/KT-1436)
-* Target version: 2.1.0
+* 目标版本: 2.1.0
 
 </td>
 </tr>
@@ -288,16 +287,16 @@ guided by pragmatic design.
 <tr filter="keep">
 <td>
 
-**KEEP discussion**
+**KEEP 讨论**
 
 </td>
 <td>
 
-**Java synthetic property references**
+**对 Java 合成属性的引用**
 
-* KEEP proposal: [references-to-java-synthetic-properties.md](https://github.com/Kotlin/KEEP/blob/master/proposals/references-to-java-synthetic-properties.md)
+* KEEP 提案: [references-to-java-synthetic-properties.md](https://github.com/Kotlin/KEEP/blob/master/proposals/references-to-java-synthetic-properties.md)
 * YouTrack issue: [KT-8575](https://youtrack.jetbrains.com/issue/KT-8575)
-* Target version: 2.1.0
+* 目标版本: 2.1.0
 
 </td>
 </tr>
@@ -315,16 +314,16 @@ guided by pragmatic design.
 <tr filter="stable">
 <td width="200">
 
-**Stable**
+**稳定**
 
 </td>
 <td>
 
-**`Enum.entries`: performant replacement of the `Enum.values()`**
+**`Enum.entries`: 对 `Enum.values()` 的性能更好的替代**
 
-* KEEP proposal: [enum-entries.md](https://github.com/Kotlin/KEEP/blob/master/proposals/enum-entries.md)
+* KEEP 提案: [enum-entries.md](https://github.com/Kotlin/KEEP/blob/master/proposals/enum-entries.md)
 * YouTrack issue: [KT-48872](https://youtrack.jetbrains.com/issue/KT-48872)
-* Target version: 2.0.0
+* 目标版本: 2.0.0
 
 </td>
 </tr>
@@ -332,16 +331,16 @@ guided by pragmatic design.
 <tr filter="stable">
 <td>
 
-**Stable**
+**稳定**
 
 </td>
 <td>
 
-**Data objects**
+**数据对象**
 
-* KEEP proposal: [data-objects.md](https://github.com/Kotlin/KEEP/blob/master/proposals/data-objects.md)
+* KEEP 提案: [data-objects.md](https://github.com/Kotlin/KEEP/blob/master/proposals/data-objects.md)
 * YouTrack issue: [KT-4107](https://youtrack.jetbrains.com/issue/KT-4107)
-* Target version: 1.9.0
+* 目标版本: 1.9.0
 
 </td>
 </tr>
@@ -349,16 +348,16 @@ guided by pragmatic design.
 <tr filter="stable">
 <td>
 
-**Stable**
+**稳定**
 
 </td>
 <td>
 
-**RangeUntil operator `..<`**
+**RangeUntil 操作符 `..<`**
 
-* KEEP proposal: [open-ended-ranges.md](https://github.com/kotlin/KEEP/blob/open-ended-ranges/proposals/open-ended-ranges.md)
+* KEEP 提案: [open-ended-ranges.md](https://github.com/kotlin/KEEP/blob/open-ended-ranges/proposals/open-ended-ranges.md)
 * YouTrack issue: [KT-15613](https://youtrack.jetbrains.com/issue/KT-15613)
-* Target version: 1.7.20
+* 目标版本: 1.7.20
 
 </td>
 </tr>
@@ -366,16 +365,16 @@ guided by pragmatic design.
 <tr filter="stable">
 <td>
 
-**Stable**
+**稳定**
 
 </td>
 <td>
 
-**Definitely non-nullable types**
+**确定不为 null 的类型**
 
-* KEEP proposal: [definitely-non-nullable-types.md](https://github.com/Kotlin/KEEP/blob/master/proposals/definitely-non-nullable-types.md)
+* KEEP 提案: [definitely-non-nullable-types.md](https://github.com/Kotlin/KEEP/blob/master/proposals/definitely-non-nullable-types.md)
 * YouTrack issue: [KT-26245](https://youtrack.jetbrains.com/issue/KT-26245)
-* Target version: 1.7.0
+* 目标版本: 1.7.0
 
 </td>
 </tr>
@@ -387,14 +386,14 @@ guided by pragmatic design.
 <tr filter="revoked">
 <td width="200">
 
-**Revoked**
+**撤销**
 
 </td>
 <td>
 
-**Context receivers**
+**上下文接收者**
 
-* KEEP proposal: [context-receivers.md](https://github.com/Kotlin/KEEP/blob/master/proposals/context-receivers.md)
+* KEEP 提案: [context-receivers.md](https://github.com/Kotlin/KEEP/blob/master/proposals/context-receivers.md)
 * YouTrack issue: [KT-10468](https://youtrack.jetbrains.com/issue/KT-10468)
 
 </td>
@@ -407,31 +406,31 @@ guided by pragmatic design.
 
 </tab>
 
-<tab id="exploration-and-design" title="Exploration and design">
+<tab id="exploration-and-design" title="探索与设计">
 
 <include element-id="source" use-filter="empty,exploration-and-design" from="kotlin-language-features-and-proposals.md"/>
 
 </tab>
 
-<tab id="keep-preparation" title="KEEP discussion">
+<tab id="keep-preparation" title="KEEP 讨论">
 
 <include element-id="source" use-filter="empty,keep" from="kotlin-language-features-and-proposals.md"/>
 
 </tab>
 
-<tab id="in-preview" title="In preview">
+<tab id="in-preview" title="预览中">
 
 <include element-id="source" use-filter="empty,in-preview" from="kotlin-language-features-and-proposals.md"/>
 
 </tab>
 
-<tab id="stable" title="Stable">
+<tab id="stable" title="稳定">
 
 <include element-id="source" use-filter="empty,stable" from="kotlin-language-features-and-proposals.md"/>
 
 </tab>
 
-<tab id="revoked" title="Revoked">
+<tab id="revoked" title="撤销">
 
 <include element-id="source" use-filter="empty,revoked" from="kotlin-language-features-and-proposals.md"/>
 
