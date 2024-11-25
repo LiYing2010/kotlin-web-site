@@ -18,7 +18,7 @@
 我们推荐使用以下平台来共享 Kotlin Notebook:
 
 * **JetBrains Datalore:**
-  这个平台不仅促进 Kotlin Notebook 的分享, 而且还能提高它们的可用性.
+  这个平台不仅便于共享 Kotlin Notebook, 而且还能提高它们的可用性.
   [Datalore](https://datalore.jetbrains.com/) 允许你运行并编辑 Notebook, 并包含很多高级功能, 例如创建互动报表, 安排 Notebook 的运行时刻.
   关于它的实际应用, 请参见 [使用 DataFrame 的 Kotlin Datalore 示例](https://datalore.jetbrains.com/report/static/KQKedA4jDrKu63O53gEN0z/B5YeMMONSAR78FgKQ9yJyW).
   ![Datalore Notebook example](datalore-example.png){width=700}

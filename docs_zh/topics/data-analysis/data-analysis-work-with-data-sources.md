@@ -1,96 +1,93 @@
-[//]: # (title: Retrieve data from files)
+[//]: # (title: 从文件获取数据)
 
-Kotlin Notebook, coupled with the [Kotlin DataFrame library](https://kotlin.github.io/dataframe/gettingstarted.html), enables 
-you to work with both non-structured and structured data. This combination offers the flexibility to transform non-structured data, 
-such as data found in TXT files, into structured datasets. 
+Kotlin Notebook, 结合 [Kotlin DataFrame 库](https://kotlin.github.io/dataframe/gettingstarted.html),
+让你能够处理非结构化数据和结构化数据.
+这样的组合提供了一种灵活性, 能够将非结构化数据, 例如来自 TXT 文件的数据, 转换为结构化数据集.
 
-For data transformations, you can use such methods as [`add`](https://kotlin.github.io/dataframe/adddf.html), [`split`](https://kotlin.github.io/dataframe/split.html),
-[`convert`](https://kotlin.github.io/dataframe/convert.html), and [`parse`](https://kotlin.github.io/dataframe/parse.html). 
-Additionally, this toolset enables the retrieval and manipulation of data from various structured file formats, 
-including CSV, JSON, XLS, XLSX, and Apache Arrow.
+对于数据转换, 你可以使用各种方法, 例如 [`add`](https://kotlin.github.io/dataframe/adddf.html), [`split`](https://kotlin.github.io/dataframe/split.html), [`convert`](https://kotlin.github.io/dataframe/convert.html), 和 [`parse`](https://kotlin.github.io/dataframe/parse.html).
+此外, 这个工具集还能够获取和操作来自各种结构化文件格式的数据, 包括 CSV, JSON, XLS, XLSX, 和 Apache Arrow.
 
-In this guide, you can learn how to retrieve, refine, and handle data through multiple examples.
+在这篇向导中, 你会通过多个示例, 学习如何获取, 优化(Refine), 并处理数据.
 
-## Before you start
+## 开始前的准备工作
 
-1. Download and install the latest version of [IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/download/?section=mac).
-2. Install the [Kotlin Notebook plugin](https://plugins.jetbrains.com/plugin/16340-kotlin-notebook) in IntelliJ IDEA.
+1. 下载并安装最新版的 [IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/download/?section=mac).
+2. 在 IntelliJ IDEA 中安装 [Kotlin Notebook plugin](https://plugins.jetbrains.com/plugin/16340-kotlin-notebook).
 
-   > Alternatively, access the Kotlin Notebook plugin from **Settings** | **Plugins** | **Marketplace** within IntelliJ IDEA.
+   > 或者, 也可以在 IntelliJ IDEA 中, 通过菜单 **Settings** | **Plugins** | **Marketplace**, 找到 Kotlin Notebook plugin.
    >
    {style="tip"}
 
-3. Create a new Kotlin Notebook by selecting **File** | **New** | **Kotlin Notebook**.
-4. In the Kotlin Notebook, import the Kotlin DataFrame library by running the following command:
+3. 选择 **File** | **New** | **Kotlin Notebook**, 创建一个新的 Kotlin Notebook.
+4. 在 Kotlin Notebook 中, 运行以下命令, 导入 Kotlin DataFrame 库:
 
    ```kotlin
    %use dataframe
    ```
 
-## Retrieve data from a file
+## 从文件获取数据 {id="retrieve-data-from-a-file"}
 
-To retrieve data from a file in Kotlin Notebook:
+在 Kotlin Notebook 中, 要从文件获取数据, 请执行以下操作:
 
-1. Open your Kotlin Notebook file (`.ipynb`).
-2. Import the Kotlin DataFrame library by adding `%use dataframe` in a code cell at the start of your notebook.
-   > Make sure to run the code cell with the `%use dataframe` line before you run any other code cells that rely on the Kotlin DataFrame library.
+1. 打开你的 Kotlin Notebook 文件 (`.ipynb`).
+2. 在你的 Notebook 开头的代码单元(code cell)中, 添加 `%use dataframe`, 导入 Kotlin DataFrame 库.
+   > 在运行依赖于 Kotlin DataFrame 库的任何其它代码单元之前, 要确保运行了带有 `%use dataframe` 的代码单元.
    >
    {style="note"}
 
-3. Use the [`.read()`](https://kotlin.github.io/dataframe/read.html) function from the Kotlin DataFrame library to retrieve data. 
-For example, to read a CSV file, use: `DataFrame.read("example.csv")`.
+3. 使用 Kotlin DataFrame 库的 [`.read()`](https://kotlin.github.io/dataframe/read.html) 函数获取数据.
+   例如, 要读取一个 CSV 文件, 请使用: `DataFrame.read("example.csv")`.
 
-The `.read()` function automatically detects the input format based on the file extension and content.
-You can also add other arguments to customize the function, such as specifying the delimiter with `delimiter = ';'`.
+`.read()` 函数会根据文件扩展名和内容自动检测输入格式.
+你也可以添加其它参数来定制这个函数, 例如, 使用 `delimiter = ';'` 指定分隔符.
 
-> For a comprehensive overview of additional file formats and a variety of read functions, see the 
-> [Kotlin DataFrame library documentation](https://kotlin.github.io/dataframe/read.html).
+> 关于其它文件格式以及各种读取函数的全面概述, 请参见
+> [Kotlin DataFrame 库文档](https://kotlin.github.io/dataframe/read.html).
 > 
 {style="tip"}
 
-## Display data
+## 显示数据
 
-Once you [have the data in your notebook](#retrieve-data-from-a-file), you can easily store it in a variable and access it by running the 
-following in a code cell: 
+[在你的 Notebook 中得到了数据](#retrieve-data-from-a-file) 之后,
+你可以很容易的将数据保存在变量中, 并在代码单元中运行以下代码访问它:
 
 ```kotlin
 val dfJson = DataFrame.read("jsonFile.json")
 dfJson
 ```
 
-This code displays the data from the file of your choice, such as CSV, JSON, XLS, XLSX, or Apache Arrow.
+这段代码显示从你选择的文件得到的数据, 例如 CSV, JSON, XLS, XLSX, 或 Apache Arrow.
 
-![Display data](display-data.png){width=700}
+![显示数据](display-data.png){width=700}
 
-To gain insights into the structure or schema of your data, apply the `.schema()` function on your DataFrame variable. 
-For example, `dfJson.schema()` lists the type of each column in your JSON dataset.
+要深入了解你的数据的结构或模式, 请对你的 DataFrame 变量使用 `.schema()` 函数.
+例如, `dfJson.schema()` 会列出你的 JSON 数据集中每个列的类型.
 
-![Schema example](schema-data-analysis.png){width=700}
+![Schema 示例](schema-data-analysis.png){width=700}
 
-You can also use the autocompletion feature in Kotlin Notebook to quickly access and manipulate the properties of your 
-DataFrame. After loading your data, simply type the DataFrame variable followed by a dot to see a list of available columns 
-and their types.
+在 Kotlin Notebook 中, 你也可以使用自动完成功能, 快速的访问和操作你的 DataFrame 的属性.
+载入你的数据之后, 只需要输入 DataFrame 变量, 和一个点号, 就可以看到可以访问的列, 以及它们的类型的列表.
 
-![Available properties](auto-completion-data-analysis.png){width=700}
+![可以访问的属性](auto-completion-data-analysis.png){width=700}
 
-## Refine data
+## 优化数据(Refine Data)
 
-Among the various operations available in the Kotlin DataFrame library for refining your dataset, key examples include [grouping](https://kotlin.github.io/dataframe/group.html),
-[filtering](https://kotlin.github.io/dataframe/filter.html), [updating](https://kotlin.github.io/dataframe/update.html), 
-and [adding new columns](https://kotlin.github.io/dataframe/add.html). These functions are essential for data analysis, allowing you to organize, clean, and 
-transform your data effectively. 
+Kotlin DataFrame 库中有很多种操作能够优化你的数据集, 重要的例子包括
+[分组](https://kotlin.github.io/dataframe/group.html), [过滤](https://kotlin.github.io/dataframe/filter.html), [更新](https://kotlin.github.io/dataframe/update.html),
+以及 [添加新的列](https://kotlin.github.io/dataframe/add.html).
+这些函数对于数据分析非常重要, 让你能够高效的组织, 清理, 并转换你的数据.
 
-Let's look at an example where the data includes movie titles and their corresponding release year in the same cell. 
-The goal is to refine this dataset for easier analysis:
+我们来看一个示例, 这个示例中的数据在同一个单元格中包含电影名称以及对应的发布年份.
+我们的目的是要优化这个数据集, 以便于分析:
 
-1. Load your data into the notebook using the `.read()` function. This example involves reading data from a CSV file named 
-`movies.csv` and creating a DataFrame called `movies`:
+1. 使用 `.read()` 函数将你的数据装载到 Notebook 中.
+   这个示例会从名为 `movies.csv` 的CSV 文件读取数据, 并创建一个 DataFrame, 名为 `movies`:
 
    ```kotlin
    val movies = DataFrame.read("movies.csv")
    ```
 
-2. Extract the release year from the movie titles using regex and add it as a new column:
+2. 使用正规表达式, 从电影标题中抽取发布年份, 并添加为一个新的列:
 
    ```kotlin
    val moviesWithYear = movies
@@ -104,8 +101,8 @@ The goal is to refine this dataset for easier analysis:
        }
    ```
 
-3. Modify the movie titles by removing the release year from each title. 
-This cleans up the titles for consistency:
+3. 修改电影标题, 从每个标题中删除发布年份.
+   这一步能够清理标题, 保持一致性:
 
    ```kotlin
    val moviesTitle = moviesWithYear
@@ -114,75 +111,72 @@ This cleans up the titles for consistency:
        }
    ```
 
-4. Use the `filter` method to focus on specific data. 
-In this case, the dataset is filtered to focus on movies that were released after the year 1996:
+4. 使用 `filter` 方法, 只关注特定的数据.
+   在这个示例中, 我们过滤数据集, 只关注 1996 年之后发布的电影:
 
    ```kotlin
    val moviesNew = moviesWithYear.filter { year >= 1996 }
    moviesNew
    ```
 
-For comparison, here is the dataset before refinement:
+我们来比较一下, 下面是优化之前的数据集:
 
-![Original dataset](original-dataset.png){width=700}
+![原始数据集](original-dataset.png){width=700}
 
-The refined dataset:
+下面是优化后的数据集:
 
-![Data refinement result](refined-data.png){width=700}
+![数据优化的结果](refined-data.png){width=700}
 
-This is a practical demonstration of how you can use the Kotlin DataFrame library's methods, like `add`, `update`, and `filter` to 
-effectively refine and analyze data in Kotlin.
+这是一个实际演示, 展示如何使用 Kotlin DataFrame 库的方法, 例如 `add`, `update`, 以及 `filter`,
+在 Kotlin 中高效的优化和分析数据.
 
-> For additional use cases and detailed examples, see [Examples of Kotlin Dataframe](https://github.com/Kotlin/dataframe/tree/master/examples).
+> 更多使用场景和详细示例, 请参见 [Kotlin Dataframe 示例](https://github.com/Kotlin/dataframe/tree/master/examples).
 > 
 {style="tip"}
 
-## Save DataFrame
+## 保存 DataFrame
 
-After [refining data in Kotlin Notebook](#refine-data) using the Kotlin DataFrame library, you can easily export your processed 
-data. You can utilize a variety of [`.write()`](https://kotlin.github.io/dataframe/write.html) functions for this purpose, which support saving in multiple formats,
-including CSV, JSON, XLS, XLSX, Apache Arrow, and even HTML tables.
-This can be particularly useful for sharing your findings, creating reports, or making your data available for further analysis.
+使用 Kotlin DataFrame 库 [在 Kotlin Notebook 中优化数据](#refine-data) 之后, 你可以轻松的导出处理后的数据.
+你可以使用各种 [`.write()`](https://kotlin.github.io/dataframe/write.html) 函数来实现这个目的, 它支持保存为各种格式,
+包括 CSV, JSON, XLS, XLSX, Apache Arrow, 甚至还有 HTML 表格.
+在共享你的发现, 创建报表, 或者将你的数据用于进一步分析时, 这会非常有用.
 
-Here's how you can filter a DataFrame, remove a column, save the refined data to a JSON file, and open an HTML table 
-in your browser:
+下面是如何过滤 DataFrame, 删除一个列, 将优化后的数据保存到 JSON 文件, 并在你的浏览器中打开一个 HTML 表格:
 
-1. In Kotlin Notebook, use the `.read()` function to load a file named
-`movies.csv` into a DataFrame named `moviesDf`:
+1. 在 Kotlin Notebook 中, 使用 `.read()` 函数, 将 `movies.csv` 文件装载到一个 DataFrame, 名为 `moviesDf`:
 
    ```kotlin
    val moviesDf = DataFrame.read("movies.csv")
    ```
 
-2. Filter the DataFrame to only include movies that belong to the "Action" genre using the `.filter` method:
+2. 使用 `.filter` 方法过滤 DataFrame, 只包含属于 "Action" 体裁的电影:
 
    ```kotlin
    val actionMoviesDf = moviesDf.filter { genres.equals("Action") }
    ```
 
-3. Remove the `movieId` column from the DataFrame using `.remove`:
+3. 使用 `.remove`, 从 DataFrame 删除 `movieId` 列:
 
    ```kotlin
    val refinedMoviesDf = actionMoviesDf.remove { movieId }
    refinedMoviesDf
    ```
 
-4. The Kotlin DataFrame library offers various write functions to save data in different formats. In this example, 
-the [`.writeJson()`](https://kotlin.github.io/dataframe/write.html#writing-to-json) function is used to save the modified `movies.csv` as a JSON file:
+4. Kotlin DataFrame 库提供了多种 write 函数, 可以将数据保存为不同的格式.
+   在这个示例中, 使用 [`.writeJson()`](https://kotlin.github.io/dataframe/write.html#writing-to-json) 函数, 将修改过的 `movies.csv` 保存到一个 JSON 文件:
 
    ```kotlin
    refinedMoviesDf.writeJson("movies.json")
    ```
 
-5. Use the `.toStandaloneHTML()` function to convert the DataFrame into a standalone HTML 
-table and open it in your default web browser:
+5. 使用 `.toStandaloneHTML()` 函数, 将 DataFrame 转换为独立的 HTML 表格, 并在你的默认 Web 浏览器中打开它:
 
    ```kotlin
    refinedMoviesDf.toStandaloneHTML(DisplayConfiguration(rowsLimit = null)).openInBrowser()
    ```
 
-## What's next
+## 下一步做什么
 
-* Explore data visualization using the [Kandy library](https://kotlin.github.io/kandy/examples.html).
-* Find additional information about data visualization in [Data visualization in Kotlin Notebook with Kandy](data-analysis-visualization.md).
-* For an extensive overview of tools and resources available for data science and analysis in Kotlin, see [Kotlin and Java libraries for data analysis](data-analysis-libraries.md).
+* 学习使用 [Kandy 库](https://kotlin.github.io/kandy/examples.html) 进行数据可视化.
+* 阅读 [在 Kotlin Notebook 中使用 Kandy 进行数据可视化](data-analysis-visualization.md), 学习数据可视化的更多知识.
+* 关于 Kotlin 中用于数据科学和分析的工具和资源的广泛的概述, 请参见 [用于数据分析的 Kotlin 和 Java 库](data-analysis-libraries.md).

@@ -1,38 +1,36 @@
-[//]: # (title: Data visualization in Kotlin Notebook with Kandy)
+[//]: # (title: 在 Kotlin Notebook 中使用 Kandy 进行数据可视化)
 
-Kotlin offers an all-in-one-place solution for powerful and flexible data visualization, providing an intuitive way to present and explore data 
-before diving into complex models.
+Kotlin 为强大而且灵活的数据可视化提供了一站式解决方案, 在深入研究复杂的模型之前, 提供一种直观的方式展现和浏览数据.
 
-This tutorial demonstrates how to create different chart types in IntelliJ IDEA using [Kotlin Notebook](https://plugins.jetbrains.com/plugin/16340-kotlin-notebook) with
-the [Kandy](https://kotlin.github.io/kandy/welcome.html) and [Kotlin DataFrame](https://kotlin.github.io/dataframe/gettingstarted.html) libraries.
+本教程演示如何在 IntelliJ IDEA 中使用 [Kotlin Notebook](https://plugins.jetbrains.com/plugin/16340-kotlin-notebook) 和 [Kandy](https://kotlin.github.io/kandy/welcome.html), [Kotlin DataFrame](https://kotlin.github.io/dataframe/gettingstarted.html) 库创建各种图表.
 
-## Before you start
+## 开始前的准备工作
 
-1. Download and install the latest version of [IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/download/?section=mac).
-2. Install the [Kotlin Notebook plugin](https://plugins.jetbrains.com/plugin/16340-kotlin-notebook) in IntelliJ IDEA.
+1. 下载并安装最新版的 [IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/download/?section=mac).
+2. 在 IntelliJ IDEA 中安装 [Kotlin Notebook plugin](https://plugins.jetbrains.com/plugin/16340-kotlin-notebook).
    
-    > Alternatively, access the Kotlin Notebook plugin from **Settings** | **Plugins** | **Marketplace** within IntelliJ IDEA.
+    > 或者, 也可以在 IntelliJ IDEA 中, 通过菜单 **Settings** | **Plugins** | **Marketplace**, 找到 Kotlin Notebook plugin.
     >
     {style="tip"}
 
-3. Create a new notebook by selecting **File** | **New** | **Kotlin Notebook**.
-4. In your notebook, import the Kandy and Kotlin DataFrame libraries by running the following command:
+3. 选择 **File** | **New** | **Kotlin Notebook**, 创建一个新的 Kotlin Notebook.
+4. 在你的 Notebook 中, 运行以下命令, 导入 Kandy 和 Kotlin DataFrame 库:
 
     ```kotlin
     %use kandy
     %use dataframe
     ```
 
-## Create the DataFrame
+## 创建 DataFrame
 
-Start by creating the DataFrame containing the records to visualize. This DataFrame stores simulated numbers of the 
-monthly average temperature in three cities: Berlin, Madrid, and Caracas.
+首先创建 DataFrame, 其中包含需要可视化的记录.
+这个 DataFrame 存储 3 个城市月平均气温的模拟数字: 柏林, 马德里, 和加拉加斯.
 
-Use the `dataFrameOf()` function from the Kotlin DataFrame library
-to generate the DataFrame. Run the following code snippet in Kotlin Notebook:
+使用 Kotlin DataFrame 库的 `dataFrameOf()` 函数生成 DataFrame.
+请在 Kotlin Notebook 中运行下面的代码片段:
 
 ```kotlin
-// The months variable stores a list with the 12 months of the year
+// months 变量保存一年中 12 个月份的列表
 val months = listOf(
     "January", "February",
     "March", "April", "May",
@@ -40,7 +38,7 @@ val months = listOf(
     "September", "October", "November",
     "December"
 )
-// The tempBerlin, tempMadrid, and tempCaracas variables store a list with temperature values for each month
+// tempBerlin, tempMadrid, 和 tempCaracas 变量保存每个月的气温值的列表
 val tempBerlin =
     listOf(-0.5, 0.0, 4.8, 9.0, 14.3, 17.5, 19.2, 18.9, 14.5, 9.7, 4.7, 1.0)
 val tempMadrid =
@@ -48,7 +46,7 @@ val tempMadrid =
 val tempCaracas =
     listOf(27.5, 28.9, 29.6, 30.9, 31.7, 35.1, 33.8, 32.2, 31.3, 29.4, 28.9, 27.6)
 
-// The df variable stores a DataFrame of three columns, including records of months, temperature, and cities
+// df 变量保存一个 DataFrame, 包含 3 个列, 分布是月份, 气温, 城市的记录
 val df = dataFrameOf(
     "Month" to months + months + months,
     "Temperature" to tempBerlin + tempMadrid + tempCaracas,
@@ -56,95 +54,95 @@ val df = dataFrameOf(
 )
 ```
 
-Explore the structure of the new DataFrame by looking into the first four rows:
+查看前 4 行, 浏览新创建的 DataFrame 的结构:
 
 ```kotlin
 df.head(4)
 ```
 
-You can see that the DataFrame has three columns: Month, Temperature, and City. 
-The first four rows of the DataFrame contain records of the temperature in Berlin from January to April:
+你可以看到, DataFrame 有 3 个列: Month, Temperature, 和 City.
+DataFrame 的前 4 行包含柏林从 1 月到 4 月的温度的记录:
 
-![Dataframe exploration](visualization-dataframe-temperature.png){width=600}
+![浏览 DataFrame](visualization-dataframe-temperature.png){width=600}
 
-> There are different options to access a column's records that can help you increase type safety when working with the Kandy and Kotlin DataFrame libraries together.
-> For more information, see [Access APIs](https://kotlin.github.io/dataframe/apilevels.html).
+> 在一起使用 Kandy 和 Kotlin DataFrame 库时, 有很多选项来访问一个列的记录, 能够帮助你增加类型安全性.
+> 详情请参见 [Access API](https://kotlin.github.io/dataframe/apilevels.html).
 >
 {style="tip"}
 
-## Create a line chart
+## 创建折线图(Line Chart)
 
-Let's create a line chart in Kotlin Notebook using the `df` DataFrame from the previous section.
+下面我们在 Kotlin Notebook 中, 使用前一节中的 `df` DataFrame, 创建一个折线图(Line Chart).
 
-Use the `plot()` function from the Kandy library. Within the `plot()` function, specify the type of chart (in this case, it's `line`) 
-and the values for the X and Y axes. You can customize colors and sizes:
+使用 Kandy 库的 `plot()` 函数. 在 `plot()` 函数中, 指定图表类型 (这个示例中是 `line`), 以及用于 X 轴和 Y 轴的值.
+你可以定制颜色和大小:
 
 ```kotlin
 df.plot {
     line {
-        // Accesses the DataFrame's columns used for the X and Y axes 
+        // 访问 DataFrame 的列, 用于 X 轴和 Y 轴
         x(Month)
         y(Temperature)
-        // Accesses the DataFrame's column used for categories and sets colors for these categories 
+        // 访问 DataFrame 的列, 用于分组, 并为这些分组设置颜色
         color(City) {
             scale = categorical("Berlin" to Color.PURPLE, "Madrid" to Color.ORANGE, "Caracas" to Color.GREEN)
         }
-        // Customizes the line's size
+        // 定制线条的大小
         width = 1.5
     }
-    // Customizes the chart's layout size
+    // 定制图表布局的大小
     layout.size = 1000 to 450
 }
 ```
 
-Here's the result:
+结果如下:
 
-![Line chart](visualization-line-chart.svg){width=600}
+![折线图(Line Chart)](visualization-line-chart.svg){width=600}
 
-## Create a points chart
+## 创建点图(Point Chart)
 
-Now, let's visualize the `df` DataFrame in a points (scatter) chart. 
+下面, 我们使用一个点图(Point Chart), (或者叫散点图 (Scatter Chart)) 对 `df` DataFrame 进行可视化.
 
-Within the `plot()` function, specify the `points` chart type. Add the X and Y axes' values and the categorical values from the `df` columns.
-You can also include a heading to your chart:
+在 `plot()` 函数中, 指定图表类型为 `points`. 从 `df` 的列添加 X 轴和 Y 轴的值, 以及分组值.
+你也可以为图表添加标题:
 
 ```kotlin
 df.plot {
     points {
-        // Accesses the DataFrame's columns used for the X and Y axes 
+        // 访问 DataFrame 的列, 用于 X 轴和 Y 轴
         x(Month) { axis.name = "Month" }
         y(Temperature) { axis.name = "Temperature" }
-        // Customizes the point's size
+        // 定制点的大小
         size = 5.5
-        // Accesses the DataFrame's column used for categories and sets colors for these categories 
+        // 访问 DataFrame 的列, 用于分组, 并为这些分组设置颜色
         color(City) {
             scale = categorical("Berlin" to Color.LIGHT_GREEN, "Madrid" to Color.BLACK, "Caracas" to Color.YELLOW)
         }
     }
-    // Adds a chart heading
+    // 添加图表标题
     layout.title = "Temperature per month"
 }
 ```
 
-Here's the result:
+结果如下:
 
-![Points chart](visualization-points-chart.svg){width=600}
+![点图(Point Chart)](visualization-points-chart.svg){width=600}
 
-## Create a bar chart
+## 创建柱状图(Bar Chart)
 
-Finally, let's create a bar chart grouped by city using the same data as in the previous charts. 
-For colors, you can also use hexadecimal codes: 
+最后, 我们创建一个柱状图(Bar Chart), 按照城市分组, 使用与前面的图表相同的数据.
+对于颜色, 你也可以使用 16 进制代码:
 
 ```kotlin
-// Groups by cities  
+// 按照城市分组
 df.groupBy { City }.plot {
-    // Adds a chart heading
+    // 添加图表标题
     layout.title = "Temperature per month"
     bars {
-        // Accesses the DataFrame's columns used for the X and Y axes 
+        // 访问 DataFrame 的列, 用于 X 轴和 Y 轴
         x(Month)
         y(Temperature)
-        // Accesses the DataFrame's column used for categories and sets colors for these categories 
+        // 访问 DataFrame 的列, 用于分组, 并为这些分组设置颜色
         fillColor(City) {
             scale = categorical(
                 "Berlin" to Color.hex("#6F4E37"),
@@ -156,13 +154,13 @@ df.groupBy { City }.plot {
 }
 ```
 
-Here's the result:
+结果如下:
 
 ![Bar chart](visualization-bar-chart.svg){width=600}
 
-## What's next
+## 下一步做什么
 
-* Explore more chart examples in the [Kandy library documentation](https://kotlin.github.io/kandy/examples.html).
-* Explore more advanced plotting options in the [Lets-Plot library documentation](lets-plot.md).
-* Find additional information about creating, exploring, and managing data frames in the [Kotlin DataFrame library documentation](https://kotlin.github.io/dataframe/info.html).
-* Learn more about data visualization in Kotlin Notebook in this [YouTube video]( https://www.youtube.com/watch?v=m4Cqz2_P9rI&t=4s).
+* 阅读 [Kandy 库文档](https://kotlin.github.io/kandy/examples.html), 查看更多图表示例.
+* 阅读 [Lets-Plot 库文档](lets-plot.md), 查看更多高级绘图选项.
+* 阅读 [Kotlin DataFrame 库文档](https://kotlin.github.io/dataframe/info.html), 了解创建, 浏览, 管理数据帧(Data Frame)的更多信息.
+* 观看 [YouTube video]( https://www.youtube.com/watch?v=m4Cqz2_P9rI&t=4s), 了解 Kotlin Notebook 中的数据可视化的更多信息.
