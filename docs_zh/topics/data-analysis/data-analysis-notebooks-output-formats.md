@@ -1,32 +1,33 @@
-[//]: # (title: Output formats supported by Kotlin Notebook)
+[//]: # (title: Kotlin Notebook 支持的输出格式)
 
-Kotlin Notebook supports a variety of output types, including text, HTML, and images. With the help of external libraries,
-you can expand your output options and visualize your data with charts, spreadsheets, and more.
+Kotlin Notebook 支持很多种输出类型, 包括文本, HTML, 和图片.
+通过使用外部库, 你可以选择更多的输出类型, 并使用图表, 电子表格, 等等形式, 可视化你的数据.
 
-Each output is a JSON object that maps the [Jupiter MIME type](https://jupyterlab.readthedocs.io/en/latest/user/file_formats.html)
-to some data. From this map, Kotlin Notebook selects the supported MIME type with the highest priority among other
-types and renders it like this:
+每个输出都是一个 JSON 对象,
+将 [Jupiter MIME 类型](https://jupyterlab.readthedocs.io/en/latest/user/file_formats.html) 对应到一些数据.
+通过这个对应 map, Kotlin Notebook 从支持的 MIME 类型中选择最高优先级的类型, 并通过以下方式展现它:
 
-* [Text](#texts) uses the `text/plain` MIME type.
-* The [BufferedImage class](#buffered-images) uses the `image/png` MIME type that is mapped to a Base64 string.
-* The [Image class](#loaded-images), as well as the [LaTeX format](#math-formulas-and-equations), use the `text/html` MIME
-  type with the `img` tag inside.
-* [Kotlin DataFrame tables](#data-frames) and [Kandy plots](#charts) use their own internal MIME types, which are backed
-  by static HTML or images. This way, you can display them on GitHub.
+* [Text](#texts) 使用 `text/plain` MIME 类型.
+* [BufferedImage 类](#buffered-images) 使用 `image/png` MIME 类型, 对应到一个 Base64 字符串.
+* [Image 类](#loaded-images), 以及 [LaTeX 格式](#math-formulas-and-equations), 使用 `text/html` MIME
+  类型, 内部包含一个 `img` 标签.
+* [Kotlin DataFrame 表格](#data-frames) 和 [Kandy 绘图](#charts) 使用它们自己的内部 MIME 类型, 通过静态的 HTML 或图片实现.
+  通过这种方式, 你可以在 GitHub 上显示它们.
 
-You can set up the mapping manually, for example, to use Markdown as a cell output:
+你可以手动设置这个对应关系, 例如, 要使用 Markdown 作为 cell 的输出:
 
 ```kotlin
 MimeTypedResult(
     mapOf(
         "text/plain" to "123",
         "text/markdown" to "# HEADER",
-        //other mime:value pairs
+        // 其它 mime:value 对
     )
 )
 ```
 
-To display any kind of output, use the `DISPLAY()` function. It also enables the combination of several outputs:
+要显示任何类型的输出, 请使用 `DISPLAY()` 函数.
+它还能够使用多种输出的组合:
 
 ```kotlin
 DISPLAY(HTML("<h2>Gaussian distribution</h2>"))
@@ -43,14 +44,13 @@ DISPLAY(plot {
 })
 ```
 
-![Different outputs for Gaussian distribution](gaussian-distribution-output.png){width=700}
+![高斯分布的不同输出](gaussian-distribution-output.png){width=700}
 
-## Texts
+## 文本 {id="texts"}
 
-### Plain text
+### 纯文本(Plain Text)
 
-The simplest output type is plain text. It's used in printed statements, variable values, or any text-based output from
-your code:
+最简单的输出类型是纯文本. 它可以用于打印输出文字, 变量值, 或者你的代码中的任何文本输出:
 
 ```kotlin
 val a1: Int = 1
@@ -60,16 +60,17 @@ var a3: Int? = a1 + a2
 "My answer is $a3"
 ```
 
-![Plain text code output](plain-text-output.png){width=300}
+![纯文本代码输出](plain-text-output.png){width=300}
 
-* If a cell's result cannot be [rendered](https://github.com/Kotlin/kotlin-jupyter?tab=readme-ov-file#rendering)
-  and displayed as any of the output types, it will be printed as plain text using the `toString()` function.
-* If your code contains errors, Kotlin Notebook displays an error message and a traceback, providing insights for debugging.
+* 如果一个 cell 的结果无法 [展现](https://github.com/Kotlin/kotlin-jupyter?tab=readme-ov-file#rendering)
+  并显示为任何一种输出类型, 那么它会被使用 `toString()` 函数打印输出为纯文本.
+* 如果你的代码包含错误, Kotlin Notebook 会显示一个错误信息, 和一个错误追溯(traceback), 提供调试信息.
 
-### Rich text
+### 富文本(Rich Text) {id="rich-text"}
 
-Choose cells of the Markdown type to use rich text. This way, you can format the content with Markdown and HTML markup,
-using lists, tables, font styles, code blocks, and more. HTML can contain CSS styles and JavaScript.
+请选择 Markdown 类型的 cell 来使用 富文本.
+通过这种方式, 你可以使用 Markdown 和 HTML 标记格式化内容, 使用列表, 表格, 字体, 代码块, 等等.
+HTML 可以包含 CSS 样式 和 JavaScript.
 
 ```none
 ## Line magics
@@ -87,11 +88,11 @@ using lists, tables, font styles, code blocks, and more. HTML can contain CSS st
 <li><a href="https://github.com/Kotlin/kotlin-jupyter/blob/master/docs/magics.md">See the full list of supported libraries</a>.</li></ul>
 ```
 
-![Rich text in Markdown cells](markdown-cells-output.png){width=700}
+![Markdown cell 中的富文本](markdown-cells-output.png){width=700}
 
-## HTML
+## HTML {id="html"}
 
-Kotlin Notebook can render HTML directly, executing scripts or even embedding websites:
+Kotlin Notebook 能够直接展现 HTML, 执行脚本, 甚至还能嵌入 Web 站点:
 
 ```none
 HTML("""
@@ -105,21 +106,21 @@ HTML("""
 """)
 ```
 
-![Using HTML script](direct-html-output.png){width=300}
+![使用 HTML 脚本](direct-html-output.png){width=300}
 
 
-> Mark your notebook as **Trusted** at the top of the file to be able to execute scripts.
+> 请在文件的最上部将你的 Notebook 标记为 **Trusted**, 这样才能执行脚本.
 >
 {style="note"}
 
-## Images
+## 图片 {id="images"}
 
-With Kotlin Notebook, you can display images from files, generated graphs, or any other visual media.
-Static images can be displayed in formats such as `.png`, `jpeg`, and `.svg`.
+使用 Kotlin Notebook, 你可以显示图片, 图片可以来自文件, 生成的图形, 或者任何其他视觉媒体.
+可以显示各种格式的静态图片, 例如 `.png`, `jpeg`, 和 `.svg`.
 
-### Buffered images
+### 缓冲的图片 {id="buffered-images"}
 
-By default, you can use `BufferedImage` class to display images:
+默认情况下, 你可以使用 `BufferedImage` 类显示图片:
 
 ```kotlin
 import java.awt.Color
@@ -142,12 +143,11 @@ graphics.fillRect(width / 10, height * 8 / 10, width * 10 / 20, height / 10)
 graphics.dispose()
 ```
 
-![Using default BufferedImage to display images](bufferedimage-output.png){width=400}
+![使用默认的 BufferedImage 显示图片](bufferedimage-output.png){width=400}
 
-### Loaded images
+### 从外部加载的图片 {id="loaded-images"}
 
-With the help of the `lib-ext` library, you can extend the standard Jupyter functionality and display images loaded
-from the network:
+通过使用 `lib-ext` 库, 你可以扩展标准的 Jupyter 的功能, 显示从网络加载的图片:
 
 ```none
 %use lib-ext(0.11.0-398)
@@ -157,49 +157,49 @@ from the network:
 Image("https://kotlinlang.org/docs/images/kotlin-logo.png", embed = false).withWidth(300)
 ```
 
-![Using external image links](external-images-output.png){width=400}
+![使用外部图片链接](external-images-output.png){width=400}
 
-### Embedded images
+### 内嵌的图片 {id="embedded-images"}
 
-A disadvantage of images loaded from the network is that the image disappears if the link breaks or if you lose
-the network connection. To work around that, use embedded images, for example:
+从网络加载图片的一个缺点是, 如果链接错误, 或者失去网络连接, 图片就会消失.
+要解决这个问题, 请使用内嵌的图片, 例如:
 
 ```kotlin
 val kotlinMascot = Image("https://blog.jetbrains.com/wp-content/uploads/2023/04/DSGN-16174-Blog-post-banner-and-promo-materials-for-post-about-Kotlin-mascot_3.png", embed = true).withWidth(400)
 kotlinMascot
 ```
 
-![Using embedded images](embedded-images-output.png){width=400}
+![使用内嵌的图片](embedded-images-output.png){width=400}
 
-## Math formulas and equations
+## 数学公式和方程式 {id="math-formulas-and-equations"}
 
-You can render mathematical formulas and equations using the LaTeX format, a typesetting system widely used in academia:
+你可以使用 LaTeX 格式展现数学公式和方程式, 这是一种在学术界广泛使用的排版系统:
 
-1. Add the `lib-ext` library that extends the functionality of the Jupyter kernel to your notebook:
+1. 添加 `lib-ext` 库, 它会向你的 Notebook 扩展 Jupyter Kernel 的功能:
 
    ```none
    %use lib-ext(0.11.0-398)
    ```
 
-2. In the new cell, run your formula:
+2. 在新的 cell 中, 运行你的公式:
 
    ```none
    LATEX("c^2 = a^2 + b^2 - 2 a b \\cos\\alpha")
    ```
 
-   ![Using LaTeX to render mathematical formulas](latex-output.png){width=300}
+   ![使用 LaTeX 展现数学公式](latex-output.png){width=300}
 
-## Data frames
+## 数据帧(Data Frame) {id="data-frames"}
 
-With Kotlin Notebook, you can visualize structured data with data frames:
+使用 Kotlin Notebook, 你可以通过数据帧可视化结构化的数据:
 
-1. Add the [Kotlin DataFrame](https://kotlin.github.io/dataframe/gettingstarted.html) library to your notebook:
+1. 向你的 Notebook 添加 [Kotlin DataFrame](https://kotlin.github.io/dataframe/gettingstarted.html) 库:
 
    ```none
    %use dataframe
    ```
 
-2. Create the data frame and run it in the new cell:
+2. 在新的 cell 中, 创建数据帧, 并运行它:
 
    ```kotlin
    val months = listOf(
@@ -210,12 +210,12 @@ With Kotlin Notebook, you can visualize structured data with data frames:
        "December"
    )
 
-   // Sales data for different products and regions:
+   // 各种产品/各个月份的销售数据:
    val salesLaptop = listOf(120, 130, 150, 180, 200, 220, 240, 230, 210, 190, 160, 140)
    val salesSmartphone = listOf(90, 100, 110, 130, 150, 170, 190, 180, 160, 140, 120, 100)
    val salesTablet = listOf(60, 70, 80, 90, 100, 110, 120, 110, 100, 90, 80, 70)
     
-   // A data frame with columns for Month, Sales, and Product
+   // 一个数据帧, 包含 Month, Sales, 和 Product 的列
    val dfSales = dataFrameOf(
        "Month" to months + months + months,
        "Sales" to salesLaptop + salesSmartphone + salesTablet,
@@ -223,43 +223,42 @@ With Kotlin Notebook, you can visualize structured data with data frames:
    )
    ```
 
-   The data frame uses the `dataFrameOf()` function and includes the number of products (laptops, smartphones,
-   and tablets) sold in a 12-month period.
+   这个数据帧使用 `dataFrameOf()` 函数, 包含几种产品 (笔记本电脑, 手机, 以及平板电脑) 在 12 个月内的销售数量.
 
-3. Explore the data in your frame, for example, by finding the product and month with the highest sales:
+3. 浏览你的数据帧中的数据, 例如, 查找销售数量最高的产品和月份:
 
    ```none
    dfSales.maxBy("Sales")
    ```
 
-   ![Using DataFrame to visualize data](dataframe-output.png){width=500}
+   ![使用 DataFrame 来可视化数据](dataframe-output.png){width=500}
 
-4. You can also export your data frame as a CSV file:
+4. 你也可以将你的数据帧导出为 CSV 文件:
 
    ```kotlin
-   // Export your data to CSV format
+   // 将你的数据导出为 CSV 格式
    dfSales.writeCSV("sales-stats.csv")
    ```
 
-## Charts
+## 图表 {id="charts"}
 
-You can create various charts directly in your Kotlin Notebook to visualize your data:
+你可以在你的 Kotlin Notebook 中直接创建各种图表, 来可视化你的数据:
 
-1. Add the [Kandy](https://kotlin.github.io/kandy/welcome.html) plotting library to your notebook:
+1. 向你的 Notebook添加 [Kandy](https://kotlin.github.io/kandy/welcome.html) 绘图库:
 
    ```none
    %use kandy
    ```
 
-2. Use the same data frame and run the `plot()` function in the new cell:
+2. 在新的 cell 中使用同一个数据帧, 运行 `plot()` 函数:
  
    ```kotlin
    val salesPlot = dfSales.groupBy { Product }.plot {
        bars {
-           // Access the data frame's columns used for the X and Y axes
+           // 访问数据帧的列, 用于 X 轴和 Y 轴
            x(Month)
            y(Sales)
-           // Access the data frame's column used for categories and sets colors for these categories
+           // 访问数据帧的列, 用于分组, 并为这些分组设置颜色
            fillColor(Product) {
                scale = categorical(
                    "Laptop" to Color.PURPLE,
@@ -269,7 +268,7 @@ You can create various charts directly in your Kotlin Notebook to visualize your
                legend.name = "Product types"
            }
        }
-       // Customize the chart's appearance
+       // 定制图表的外观
        layout.size = 1000 to 450
        layout.title = "Yearly Gadget Sales Results"
    }
@@ -277,17 +276,17 @@ You can create various charts directly in your Kotlin Notebook to visualize your
    salesPlot
    ```
 
-   ![Using Kandy to render visualize data](kandy-output.png){width=700}
+   ![使用 Kandy 展现可视化数据](kandy-output.png){width=700}
 
-3. You can also export your plot in the `.png`, `jpeg`, `.html`, or `.svg` format:
+3. 你也可以将你的图表导出为 `.png`, `jpeg`, `.html`, 或 `.svg` 格式:
 
    ```kotlin
-   // Specify the output format for the plot file:
+   // 为图表文件指定输出格式:
    salesPlot.save("sales-chart.svg")
    ```
 
-## What's next
+## 下一步做什么
 
-* [Visualize data using the DataFrame and Kandy libraries](data-analysis-visualization.md)
-* [Retrieve data from the CSV and JSON files](data-analysis-work-with-data-sources.md)
-* [Check out the list of recommended libraries](data-analysis-libraries.md)
+* [使用 DataFrame 和 Kandy 库进行数据可视化](data-analysis-visualization.md)
+* [从 CSV 和 JSON 文件获取数据](data-analysis-work-with-data-sources.md)
+* [查看推荐的库](data-analysis-libraries.md)

@@ -138,14 +138,14 @@
         <toc-element toc-title="设置与 iOS 的集成">
             <toc-element toc-title="选择集成方法" topic="multiplatform-ios-integration-overview.md"/>
             <toc-element topic="multiplatform-direct-integration.md"/>
-            <toc-element toc-title="Remote SPM export" topic="native-spm.md"/>
+            <toc-element toc-title="远程 SPM 导出" topic="native-spm.md"/>
             <toc-element toc-title="与 CocoaPods 集成">
                 <toc-element topic="native-cocoapods.md"/>
                 <toc-element topic="native-cocoapods-libraries.md"/>
                 <toc-element topic="native-cocoapods-xcode.md"/>
                 <toc-element topic="native-cocoapods-dsl-reference.md"/>
             </toc-element>
-            <toc-element toc-title="Local integration with SPM" topic="multiplatform-spm-local-integration.md"/>
+            <toc-element toc-title="使用 SPM 进行本地集成" topic="multiplatform-spm-local-integration.md"/>
         </toc-element>
         <toc-element toc-title="编译 Artifact">
             <toc-element accepts-web-file-names="mpp-configure-compilations.html" topic="multiplatform-configure-compilations.md"/>
