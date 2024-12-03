@@ -46,7 +46,7 @@ val tempMadrid =
 val tempCaracas =
     listOf(27.5, 28.9, 29.6, 30.9, 31.7, 35.1, 33.8, 32.2, 31.3, 29.4, 28.9, 27.6)
 
-// df 变量保存一个 DataFrame, 包含 3 个列, 分布是月份, 气温, 城市的记录
+// df 变量保存一个 DataFrame, 包含 3 个列, 分别是月份, 气温, 城市的记录
 val df = dataFrameOf(
     "Month" to months + months + months,
     "Temperature" to tempBerlin + tempMadrid + tempCaracas,

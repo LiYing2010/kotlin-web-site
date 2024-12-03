@@ -1,42 +1,43 @@
-[//]: # (title: Data visualization with Lets-Plot for Kotlin)
+[//]: # (title: 使用 Lets-Plot for Kotlin 进行数据可视化)
 
-[Lets-Plot for Kotlin (LPK)](https://lets-plot.org/kotlin/get-started.html) is a multiplatform plotting library that ports the [R's ggplot2 library](https://ggplot2.tidyverse.org/) to
-Kotlin. LPK brings the feature-rich ggplot2 API to the Kotlin ecosystem,
-making it suitable for scientists and statisticians who require sophisticated data visualization capabilities.
+[Lets-Plot for Kotlin (LPK)](https://lets-plot.org/kotlin/get-started.html) 是一个跨平台的绘图库,
+它将 [R 的 ggplot2 库](https://ggplot2.tidyverse.org/) 移植到 Kotlin.
+LPK 将功能丰富的 ggplot2 API 带入 Kotlin 生态系统, 适合于需要复杂的数据可视化功能的科学家和统计学家.
 
-LPK targets various platforms, including [Kotlin notebooks](data-analysis-overview.md#notebooks), [Kotlin/JS](js-overview.md), [JVM's Swing](https://docs.oracle.com/javase/8/docs/technotes/guides/swing/), [JavaFX](https://openjfx.io/), and [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/).
-Additionally, LPK has seamless integration with [IntelliJ](https://www.jetbrains.com/idea/), [DataGrip](https://www.jetbrains.com/datagrip/), [DataSpell](https://www.jetbrains.com/dataspell/), and [PyCharm](https://www.jetbrains.com/pycharm/).
+LPK 可用于各种平台, 包括 [Kotlin Notebooks](data-analysis-overview.md#notebooks), [Kotlin/JS](js-overview.md), [JVM 的 Swing](https://docs.oracle.com/javase/8/docs/technotes/guides/swing/), [JavaFX](https://openjfx.io/), 以及 [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/).
+此外, LPK 还能与 [IntelliJ](https://www.jetbrains.com/idea/), [DataGrip](https://www.jetbrains.com/datagrip/), [DataSpell](https://www.jetbrains.com/dataspell/), 和 [PyCharm](https://www.jetbrains.com/pycharm/) 无缝集成.
 
 ![Lets-Plot](lets-plot-overview.png){width=700}
 
-This tutorial demonstrates how to create different plot types with
-the LPK and [Kotlin DataFrame](https://kotlin.github.io/dataframe/gettingstarted.html) libraries using Kotlin Notebook in IntelliJ IDEA.
+本教程演示如何在 IntelliJ IDEA 中, 通过 Kotlin Notebook,
+使用 LPK 和 [Kotlin DataFrame](https://kotlin.github.io/dataframe/gettingstarted.html) 库创建各种类型的绘图.
 
-## Before you start
+## 开始前的准备工作
 
-1. Download and install the latest version of [IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/download/?section=mac).
-2. Install the [Kotlin Notebook plugin](https://plugins.jetbrains.com/plugin/16340-kotlin-notebook) in IntelliJ IDEA.
+1. 下载并安装最新版的 [IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/download/?section=mac).
+2. 在 IntelliJ IDEA 中安装 [Kotlin Notebook plugin](https://plugins.jetbrains.com/plugin/16340-kotlin-notebook).
 
-   > Alternatively, access the Kotlin Notebook plugin from **Settings** | **Plugins** | **Marketplace** within IntelliJ IDEA.
+   > 或者, 也可以在 IntelliJ IDEA 中, 通过菜单 **Settings** | **Plugins** | **Marketplace**, 找到 Kotlin Notebook plugin.
    >
    {style="tip"}
 
-3. Create a new notebook by selecting **File** | **New** | **Kotlin Notebook**.
-4. In your notebook, import the LPK and Kotlin DataFrame libraries by running the following command:
+3. 选择 **File** | **New** | **Kotlin Notebook**, 创建一个新的 Notebook.
+4. 在你的 Notebook 中, 运行以下命令, LPK 和 Kotlin DataFrame 库:
 
     ```kotlin
     %use lets-plot
     %use dataframe
     ```
 
-## Prepare the data
+## 准备数据 {id="prepare-the-data"}
 
-Let's create a DataFrame that stores simulated numbers of the monthly average temperature in three cities: Berlin, Madrid, and Caracas.
+我们来创建一个 DataFrame, 存储 3 个城市月平均气温的模拟数字: 柏林, 马德里, 和加拉加斯.
 
-Use the [`dataFrameOf()`](https://kotlin.github.io/dataframe/createdataframe.html#dataframeof) function from the Kotlin DataFrame library to generate the DataFrame. Paste and run the following code snippet in your Kotlin Notebook:
+使用 Kotlin DataFrame 库的 [`dataFrameOf()`](https://kotlin.github.io/dataframe/createdataframe.html#dataframeof) 函数生成 DataFrame.
+在你的 Kotlin Notebook中, 粘贴并运行下面的代码片段:
 
 ```kotlin
-// The months variable stores a list with 12 months of the year
+// months 变量保存一年中 12 个月份的列表
 val months = listOf(
     "January", "February",
     "March", "April", "May",
@@ -44,7 +45,7 @@ val months = listOf(
     "September", "October", "November",
     "December"
 )
-// The tempBerlin, tempMadrid, and tempCaracas variables store a list with temperature values for each month
+// tempBerlin, tempMadrid, 和 tempCaracas 变量保存每个月的气温值的列表
 val tempBerlin =
     listOf(-0.5, 0.0, 4.8, 9.0, 14.3, 17.5, 19.2, 18.9, 14.5, 9.7, 4.7, 1.0)
 val tempMadrid =
@@ -52,7 +53,7 @@ val tempMadrid =
 val tempCaracas =
     listOf(27.5, 28.9, 29.6, 30.9, 31.7, 35.1, 33.8, 32.2, 31.3, 29.4, 28.9, 27.6)
 
-// The df variable stores a DataFrame of three columns, including monthly records, temperature, and cities
+// df 变量保存一个 DataFrame, 包含 3 个列, 分别是月份, 气温, 城市的记录
 val df = dataFrameOf(
     "Month" to months + months + months,
     "Temperature" to tempBerlin + tempMadrid + tempCaracas,
@@ -61,62 +62,63 @@ val df = dataFrameOf(
 df.head(4)
 ```
 
-You can see that the DataFrame has three columns: Month, Temperature, and City. The first four rows of the DataFrame
-contain records of the temperature in Berlin from January to April:
+你可以看到, DataFrame 有 3 个列: Month, Temperature, 和 City.
+DataFrame 的前 4 行包含柏林从 1 月到 4 月的温度的记录:
 
-![Dataframe exploration](visualization-dataframe-temperature.png){width=600}
+![浏览 DataFrame](visualization-dataframe-temperature.png){width=600}
 
-To create a plot using the LPK library, you need to convert your data (`df`) into a `Map` type that stores the
-data in key-value pairs. You can easily convert a DataFrame into a `Map` using the [`.toMap()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/to-map.html) function:
+要使用 LPK 库创建一个绘图, 你需要将你的 data (`df`) 转换为 `Map` 类型, 以键-值对的形式保存数据.
+你可以使用 [`.toMap()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/to-map.html) 函数, 很容易的将 DataFrame 转换为 `Map`:
 
 ```kotlin
 val data = df.toMap()
 ```
 
-## Create a scatter plot
+## 创建散点图(Scatter Plot)
 
-Let's create a scatter plot in Kotlin Notebook with the LPK library. 
+我们在 Kotlin Notebook 中使用 LPK 库创建一个散点图.
 
-Once you have your data in the `Map` format, use the [`geomPoint()`](https://lets-plot.org/kotlin/api-reference/-lets--plot--kotlin/org.jetbrains.letsPlot.geom/geom-point/index.html) function from the LPK library to generate the scatter plot. 
-You can specify the values for the X and Y axes, as well as define categories and their color. Additionally, 
-you can [customize](https://lets-plot.org/kotlin/aesthetics.html#point-shapes) the plot's size and point shapes to suit your needs:
+有了 `Map` 格式的数据之后, 请使用 LPK 库的 [`geomPoint()`](https://lets-plot.org/kotlin/api-reference/-lets--plot--kotlin/org.jetbrains.letsPlot.geom/geom-point/index.html) 函数生成散点图.
+你可以为 X 轴和 Y 轴指定值, 并定义分组, 以及分组的颜色.
+此外, 你还可以 [定制](https://lets-plot.org/kotlin/aesthetics.html#point-shapes)
+绘图的大小, 点的形状, 以符合你的需要:
 
 ```kotlin
-// Specifies X and Y axes, categories and their color, plot size, and plot type
+// 指定X 轴和 Y 轴, 分组和分组的颜色, 绘图大小, 以及绘图类型
 val scatterPlot =
     letsPlot(data) { x = "Month"; y = "Temperature"; color = "City" } + ggsize(600, 500) + geomPoint(shape = 15)
 scatterPlot
 ```
 
-Here's the result:
+结果如下:
 
-![Scatter plot](lets-plot-scatter.svg){width=600}
+![散点图](lets-plot-scatter.svg){width=600}
 
-## Create a box plot
+## 创建箱形图(Box Plot)
 
-Let's visualize the [data](#prepare-the-data) in a box plot. Use the [`geomBoxplot()`](https://lets-plot.org/kotlin/api-reference/-lets--plot--kotlin/org.jetbrains.letsPlot.geom/geom-boxplot.html) 
-function from the LPK library to generate the plot and [customize](https://lets-plot.org/kotlin/aesthetics.html#point-shapes) colors with the [`scaleFillManual()`](https://lets-plot.org/kotlin/api-reference/-lets--plot--kotlin/org.jetbrains.letsPlot.scale/scale-fill-manual.html)
-function:
+我们来使用箱形图对 [数据](#prepare-the-data) 进行可视化.
+请使用 LPK 库的 [`geomBoxplot()`](https://lets-plot.org/kotlin/api-reference/-lets--plot--kotlin/org.jetbrains.letsPlot.geom/geom-boxplot.html) 函数来生成绘图,
+并使用 [`scaleFillManual()`](https://lets-plot.org/kotlin/api-reference/-lets--plot--kotlin/org.jetbrains.letsPlot.scale/scale-fill-manual.html) 函数 [定制](https://lets-plot.org/kotlin/aesthetics.html#point-shapes) 颜色:
 
 ```kotlin
-// Specifies X and Y axes, categories, plot size, and plot type
+// 指定X 轴和 Y 轴, 分组, 绘图大小, 以及绘图类型
 val boxPlot = ggplot(data) { x = "City"; y = "Temperature" } + ggsize(700, 500) + geomBoxplot { fill = "City" } +
-    // Customizes colors        
+    // 定制颜色
     scaleFillManual(values = listOf("light_yellow", "light_magenta", "light_green"))
 boxPlot
 ```
 
-Here's the result:
+结果如下:
 
-![Box plot](box-plot.svg){width=600}
+![箱形图](box-plot.svg){width=600}
 
-## Create a 2D density plot
+## 创建 2D 密度图(Density Plot)
 
-Now, let's create a 2D density plot to visualize the distribution and concentration of some random data.
+现在, 我们来创建一个 2D 密度图, 对一些随机数据的分布和集中度进行可视化.
 
-### Prepare the data for the 2D density plot
+### 为 2D 密度图准备数据
 
-1. Import the dependencies to process the data and generate the plot:
+1. 导入处理数据和生成绘图所需要的依赖项:
 
    ```kotlin
    %use lets-plot
@@ -125,45 +127,45 @@ Now, let's create a 2D density plot to visualize the distribution and concentrat
    import org.apache.commons.math3.distribution.MultivariateNormalDistribution
    ```
 
-   > For more information about importing dependencies to Kotlin Notebook, see the [Kotlin Notebook documentation](https://www.jetbrains.com/help/idea/kotlin-notebook.html#add-dependencies).
+   > 关于对 Kotlin Notebook 导入依赖项, 详情请参见 [Kotlin Notebook 文档](https://www.jetbrains.com/help/idea/kotlin-notebook.html#add-dependencies).
    > {style="tip"}
 
-2. Paste and run the following code snippet in your Kotlin Notebook to create sets of 2D data points:
+2. 在你的 Kotlin Notebook 中, 粘贴并运行下面的代码片段, 创建一组 2D 数据点:
 
    ```kotlin
-   // Defines covariance matrices for three distributions
+   // 为三个分布定义协方差矩阵
    val cov0: Array<DoubleArray> = arrayOf(
        doubleArrayOf(1.0, -.8),
        doubleArrayOf(-.8, 1.0)
    )
-   
+
    val cov1: Array<DoubleArray> = arrayOf(
        doubleArrayOf(1.0, .8),
        doubleArrayOf(.8, 1.0)
    )
-   
+
    val cov2: Array<DoubleArray> = arrayOf(
        doubleArrayOf(10.0, .1),
        doubleArrayOf(.1, .1)
    )
-   
-   // Defines the number of samples
+
+   // 定义样本数量
    val n = 400
-   
-   // Defines means for three distributions
+
+   // 为三个分布定义均值
    val means0: DoubleArray = doubleArrayOf(-2.0, 0.0)
    val means1: DoubleArray = doubleArrayOf(2.0, 0.0)
    val means2: DoubleArray = doubleArrayOf(0.0, 1.0)
-   
-   // Generates random samples from three multivariate normal distributions
+
+   // 从三个多元正态分布中生成随机样本
    val xy0 = MultivariateNormalDistribution(means0, cov0).sample(n)
    val xy1 = MultivariateNormalDistribution(means1, cov1).sample(n)
    val xy2 = MultivariateNormalDistribution(means2, cov2).sample(n)
    ```
 
-   From the code above, the `xy0`, `xy1`, and `xy2` variables store arrays with 2D (`x, y`) data points.
+   在上面的代码中, `xy0`, `xy1`, 和 `xy2` 变量存储了包含 2D (`x, y`) 数据点的数组.
 
-3. Convert your data into a `Map` type:
+3. 将你的数据转换为 `Map` 类型:
 
    ```kotlin
    val data = mapOf(
@@ -172,10 +174,11 @@ Now, let's create a 2D density plot to visualize the distribution and concentrat
    )
    ```
 
-### Generate the 2D density plot
+### 生成 2D 密度图
 
-Using the `Map` from the previous step, create a 2D density plot (`geomDensity2D`) with a scatter plot (`geomPoint`) in the background to better visualize the
-data points and outliers. You can use the [`scaleColorGradient()`](https://lets-plot.org/kotlin/api-reference/-lets--plot--kotlin/org.jetbrains.letsPlot.scale/scale-color-gradient.html) function to customize the scale of colors:
+使用前面步骤中得到的 `Map`, 创建一个 2D 密度图 (`geomDensity2D`),
+以散点图 (`geomPoint`) 作为背景, 这样可以更好的可视化数据点和异常值.
+你可以使用 [`scaleColorGradient()`](https://lets-plot.org/kotlin/api-reference/-lets--plot--kotlin/org.jetbrains.letsPlot.scale/scale-color-gradient.html) 函数来定制颜色的梯度比例:
 
 ```kotlin
 val densityPlot = letsPlot(data) { x = "x"; y = "y" } + ggsize(600, 300) + geomPoint(
@@ -187,13 +190,13 @@ val densityPlot = letsPlot(data) { x = "x"; y = "y" } + ggsize(600, 300) + geomP
 densityPlot
 ```
 
-Here's the result:
+结果如下:
 
-![2D density plot](2d-density-plot.svg){width=600}
+![2D 密度图](2d-density-plot.svg){width=600}
 
-## What's next
+## 下一步做什么
 
-* Explore more plot examples in the [Lets-Plot for Kotlin's documentation](https://lets-plot.org/kotlin/charts.html).
-* Check the Lets-Plot for Kotlin's [API reference](https://lets-plot.org/kotlin/api-reference/). 
-* Learn about transforming and visualizing data with Kotlin in the [Kotlin DataFrame](https://kotlin.github.io/dataframe/info.html) and [Kandy](https://kotlin.github.io/kandy/welcome.html) library documentation.
-* Find additional information about the [Kotlin Notebook's usage and key features](https://www.jetbrains.com/help/idea/kotlin-notebook.html).
+* 查看 [Lets-Plot for Kotlin 的文档](https://lets-plot.org/kotlin/charts.html) 中的更多绘图示例.
+* 阅读 Lets-Plot for Kotlin 的 [API 参考文档](https://lets-plot.org/kotlin/api-reference/).
+* 阅读 [Kotlin DataFrame](https://kotlin.github.io/dataframe/info.html) 和 [Kandy](https://kotlin.github.io/kandy/welcome.html) 库的文档, 学习如何使用 Kotlin 进行数据转换和可视化.
+* 阅读 [Kotlin Notebook 的使用方法和主要功能](https://www.jetbrains.com/help/idea/kotlin-notebook.html) 的更多信息.
