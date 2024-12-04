@@ -1,18 +1,18 @@
-[//]: # (title: Power-assert compiler plugin)
+[//]: # (title: Power-assert 编译器插件)
 
-> The Power-assert compiler plugin is [Experimental](components-stability.md).
-> It may be changed at any time. Use it only for evaluation purposes.
-> We would appreciate your feedback in [YouTrack](https://kotl.in/issue).
+> Power-assert 编译器插件是 [实验性功能](components-stability.md).
+> 它随时有可能变更.
+> 请注意, 只为评估目的来使用这个功能.
+> 希望你能通过 [YouTrack](https://kotl.in/issue) 提供你的反馈意见.
 >
 {style="warning"}
 
-The Kotlin Power-assert compiler plugin improves the debugging experience
-by providing detailed failure messages with contextual information.
-It simplifies the process of writing tests by automatically generating 
-intermediate values in failure messages. 
-It helps you understand why a test failed without needing complex assertion libraries.
+Kotlin Power-assert 编译器插件通过提供带有上下文信息的详细失败消息,
+改善调试的体验.
+它通过在失败消息中自动生成中间值, 简化测试代码的编写过程.
+它帮助你理解测试失败的原因, 而不需要使用复杂的断言库.
 
-This is an example message provided by the plugin:
+下面是插件提供的消息的示例:
 
 ```text
 Incorrect length
@@ -26,18 +26,18 @@ assert(hello.length == world.substring(1, 4).length) { "Incorrect length" }
        Hello
 ```
 
-The Power-assert plugin key features:
+Power-assert 插件的主要功能:
 
-* **Enhanced error messages**: The plugin captures and displays the values of variables and 
-   sub-expressions within the assertion to clearly identify the cause of failure.
-* **Simplified testing**: Automatically generates informative failure messages,
-   reducing the need for complex assertion libraries.
-* **Support for multiple functions**: By default, it transforms `assert()` function calls but can also transform other functions,
-   such as `require()`, `check()`, and `assertTrue()`.
+* **增强错误消息**:
+  插件捕获并显示断言中的变量和子表达式的值, 清楚的识别失败的原因.
+* **简化测试**:
+  自动生成信息丰富的失败消息, 减少使用复杂的断言库的必要.
+* **支持多种函数**:
+  默认情况下, 它会转换 `assert()` 函数调用, 但也能够转换其它函数, 例如 `require()`, `check()`, 和 `assertTrue()`.
 
-## Apply the plugin
+## 适用插件
 
-To enable the Power-assert plugin, configure your `build.gradle(.kts)` file as follows:
+要启用 Power-assert 插件, 请配置你的 `build.gradle(.kts)` 文件, 如下:
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
@@ -64,14 +64,18 @@ plugins {
 </tab>
 </tabs>
 
-## Configure the plugin
+## 配置插件
 
-The Power-assert plugin provides several options to customize its behavior:
+Power-assert 插件提供了几种选项来定制它的行为:
 
-* **`functions`**: A list of fully-qualified function paths. The Power-assert plugin will transform the calls to these functions. If not specified, only `kotlin.assert()` calls will be transformed by default.
-* **`includedSourceSets`**: A list of Gradle source sets that the Power-assert plugin will transform. If not specified, all _test source sets_ will be transformed by default.
+* **`functions`**:
+  一组完全限定的函数路径的列表. Power-assert 插件将会转换对这些函数的调用.
+  如果没有指定这个选项, 默认只有对 `kotlin.assert()` 的调用会被转换.
+* **`includedSourceSets`**:
+  一组 Power-assert 插件将会转换的 Gradle 源代码集的列表.
+  如果没有指定这个选项, 默认所有的 _测试源代码集_ 会被转换.
 
-To customize the behavior, add the `powerAssert {}` block to you build script file:
+要定制 Power-assert 插件的行为, 请向你的构建脚本文件添加 `powerAssert {}` 代码块:
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
@@ -98,8 +102,8 @@ powerAssert {
 </tab>
 </tabs>
 
-Since the plugin is Experimental, you will see warnings every time you build your app.
-To exclude these warnings, add this `@OptIn` annotation before declaring the `powerAssert {}` block:
+由于这个插件是实验性功能, 你会在每次构建你的 App 时看到警告.
+要排除这些警告, 请在声明 `powerAssert {}` 代码块之前添加 `@OptIn` 注解:
 
 ```kotlin
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
@@ -110,11 +114,11 @@ powerAssert {
 }
 ```
 
-## Use the plugin
+## 使用插件
 
-This section provides examples of using the Power-assert compiler plugin.
+本节提供一些使用 Power-assert 编译器插件的示例.
 
-See the complete code of the build script file `build.gradle.kts` for all these examples:
+下面是所有这些示例的构建脚本文件 `build.gradle.kts` 的完整代码:
 
 ```kotlin
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
@@ -146,15 +150,14 @@ powerAssert {
 ```
 {initial-collapse-state="collapsed" collapsible="true"}
 
-### Assert function
+### Assert 函数
 
-Consider the following test with the `assert()` function:
+我们来看看下面的测试, 使用 `assert()` 函数:
 
 ```kotlin
 import kotlin.test.Test
 
 class SampleTest {
-
     @Test
     fun testFunction() {
         val hello = "Hello"
@@ -164,7 +167,7 @@ class SampleTest {
 }
 ```
 
-If you run the `testFunction()` test with the Power-assert plugin enabled, you get the explicit failure message:
+如果你启用 Power-assert 插件来运行 `testFunction()` 测试, 你会得到明确的失败消息:
 
 ```text
 Incorrect length
@@ -178,14 +181,13 @@ assert(hello.length == world.substring(1, 4).length) { "Incorrect length" }
        Hello
 ```
 
-To get a more complete error message, always inline the variable into the test function parameters.
-Consider the following test function:
+要得到更加完整的错误消息, 一定要将变量内联到测试函数的参数中.
+我们来看看下面的测试函数:
 
 ```kotlin
 class ComplexExampleTest {
-
     data class Person(val name: String, val age: Int)
- 
+
     @Test
     fun testComplexAssertion() {
         val person = Person("Alice", 10)
@@ -196,7 +198,7 @@ class ComplexExampleTest {
 }
 ```
 
-The output of the executed code doesn't provide enough information to find the cause of the problem:
+执行代码的输出不能提供足够的信息找出问题的原因:
 
 ```text
 Assertion failed
@@ -206,11 +208,10 @@ assert(isValidName && isValidAge)
        true
 ```
 
-Inline the variable into the `assert()` function:
+下面将变量内联到 `assert()` 函数中:
 
 ```kotlin
 class ComplexExampleTest {
-
     data class Person(val name: String, val age: Int)
 
     @Test
@@ -221,7 +222,7 @@ class ComplexExampleTest {
 }
 ```
 
-After execution, you get more explicit information about what went wrong:
+执行后, 你会得到关于错误的更加明确的信息:
 
 ```text
 Assertion failed
@@ -239,14 +240,14 @@ assert(person.name.startsWith("A") && person.name.length > 3 && person.age > 20 
        Person(name=Alice, age=10)
 ```
 
-### Beyond assert function
+### 除 assert 之外的其它函数
 
-The Power-assert plugin can transform various functions beyond `assert` which is transformed by default.
-Functions like `require()`, `check()`, `assertTrue()`, `assertEqual()` and others can also be transformed,
-if they have a form that allows taking a `String` or `() -> String` value as the last parameter.
+Power-assert 插件 默认转换 `assert`, 但也能够转换各种其它函数.
+例如 `require()`, `check()`, `assertTrue()`, `assertEqual()` 以及其它函数, 都可以转换,
+只要这些函数存在一种形式, 允许接受一个 `String` 或 `() -> String` 值, 作为最后一个参数.
 
-Before using a new function in a test, specify the function in the `powerAssert {}` block of your build script file.
-For example, the `require()` function:
+在测试中使用新的函数之前, 要在你的构建脚本文件的 `powerAssert {}` 代码块中指定这个函数.
+例如, 对 `require()` 函数:
 
 ```kotlin
 // build.gradle.kts
@@ -258,11 +259,10 @@ powerAssert {
 }
 ```
 
-After adding the function, you can use it in your tests:
+添加这个函数之后, 你可以在你的测试中使用它:
 
 ```kotlin
 class RequireExampleTest {
-
     @Test
     fun testRequireFunction() {
         val value = ""
@@ -271,17 +271,16 @@ class RequireExampleTest {
 }
 ```
 
-The output for this example uses the Power-assert plugin to provide detailed information about the failed test:
+这个示例的输出使用 Power-assert 插件, 为失败的测试提供详细的信息:
 
 ```text
 Value should not be empty
 require(value.isNotEmpty()) { "Value should not be empty" }
         |     |
         |     false
-        
 ```
 
-The message shows the intermediate values that lead to the failure, making it easier to debug.
+这段消息显示导致失败的中间值, 使得调试更加容易.
 
 <!-- ### Function call tracing
 
@@ -302,7 +301,7 @@ class FunctionTrailingExampleTest {
 }
 ```
 
-The output shows the intermediate results of functions calls:
+The output shows the intermediate results of 函数 calls:
 
 ```text
 Assertion failed
@@ -317,13 +316,12 @@ assert(exampleFunction(2, 3) + exampleFunction(1, 2) == 9)
 ```
 -->
 
-### Soft assertions
+### 软断言(Soft Assertion)
 
-The Power-assert plugin supports soft assertions, which do not immediately fail the test but instead collect
-assertion failures and report them at the end of the test run.
-This can be useful when you want to see all assertion failures in a single run without stopping at the first failure.
+Power-assert 插件支持软断言(Soft Assertion), 软断言不会让测试立即失败, 而是收集失败的断言, 并在测试运行结束时报告错误.
+如果你想要通过一次运行看到所有失败的断言, 而不要在第一个失败的地方停止运行, 那么这个功能会很有用.
 
-To enable soft assertions, implement the way you will collect error messages:
+要启用软断言, 请实现收集错误消息的方法:
 
 ```kotlin
 fun <R> assertSoftly(block: AssertScope.() -> R): R {
@@ -349,7 +347,7 @@ class AssertScopeImpl : AssertScope {
 }
 ```
 
-Add these functions to the `powerAssert {}` block to make them available for the Power-assert plugin:
+添加这些函数到 `powerAssert {}` 代码块, 让 Power-assert 插件能够使用它们:
 
 ```kotlin
 @OptIn(ExperimentalKotlinGradlePluginApi::class)
@@ -358,18 +356,17 @@ powerAssert {
 }
 ```
 
-> You should specify the full name of the package where you declare the `AssertScope.assert()` function.
+> 你应该指定声明 `AssertScope.assert()` 函数的包的完整名称.
 >
 {style="tip"}
 
-After that, you could use it in your test code:
+然后, 你可以在你的测试代码中使用它:
 
 ```kotlin
-// Import the assertSoftly() function
+// 导入 assertSoftly() 函数
 import org.example.assertSoftly
-        
-class SoftAssertExampleTest1 {
 
+class SoftAssertExampleTest1 {
     data class Employee(val name: String, val age: Int, val salary: Int)
 
     @Test
@@ -391,7 +388,7 @@ class SoftAssertExampleTest1 {
 }
 ```
 
-In the output, all the `assert()` function error messages will be printed one after another:
+在输出中, 所有的 `assert()` 函数错误消息将会逐个打印输出:
 
 ```text
 Charlie has an invalid salary: 40000
@@ -408,7 +405,7 @@ assert(employee.age < 100) { "${employee.name} has an invalid age: ${employee.ag
        Employee(name=Dave, age=150, salary=70000)
 ```
 
-## What's next
+## 下一步做什么
 
-* Look through a [simple project with the plugin enabled](https://github.com/JetBrains/kotlin/tree/master/libraries/tools/kotlin-gradle-plugin-integration-tests/src/test/resources/testProject/powerAssertSourceSets)
-   and a more [complex project with multiple source sets](https://github.com/JetBrains/kotlin/tree/master/libraries/tools/kotlin-gradle-plugin-integration-tests/src/test/resources/testProject/powerAssertSimple).
+* 查看一个 [启用了这个插件的简单项目](https://github.com/JetBrains/kotlin/tree/master/libraries/tools/kotlin-gradle-plugin-integration-tests/src/test/resources/testProject/powerAssertSourceSets),
+   以及更多 [有多个源代码集的复杂项目](https://github.com/JetBrains/kotlin/tree/master/libraries/tools/kotlin-gradle-plugin-integration-tests/src/test/resources/testProject/powerAssertSimple).
