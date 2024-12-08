@@ -58,7 +58,7 @@ cd samples/gitchurn
 
 要对一个新的库创建绑定, 首先要创建并配置一个 [定义文件](native-definition-file.md).
 
-## 绑定
+## 绑定 {id="bindings"}
 
 ### 基本的 interop 数据类型
 
