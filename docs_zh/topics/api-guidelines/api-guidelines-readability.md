@@ -1,259 +1,199 @@
 [//]: # (title: 可读性)
 
-本章介绍关于 [API 一致性](#api-consistency) 需要注意的问题, 并提供以下建议:
-* [使用构建器 DSL](#use-a-builder-dsl)
-* [在适当的情况下, 使用类似构造器风格的函数](#use-constructor-like-functions-where-applicable)
-* [适当的使用成员函数和扩展函数](#use-member-and-extension-functions-appropriately)
-* [避免在函数中使用 Boolean 参数](#avoid-using-boolean-arguments-in-functions)
+要创建一个具有可读性的 API, 比起仅仅是编写清晰的代码, 涉及更多的问题.
+它需要考虑周全的设计, 能够简化集成和使用.
+本章讨论如何增强 API 的可读性, 方法包括在构建你的库时考虑可组合能力,
+利用特定领域专用语言(Domain-Specific Language, DSL) 实现简洁而且表现力强大的设置,
+以及使用扩展函数和属性实现清晰而且易维护的代码.
 
-## API 一致性 {id="api-consistency"}
+## 优先使用明确的可组合能力
 
-API 保持一致, 并提供良好的文档, 对于良好的开发体验来说是非常重要的.
-参数顺序, 整体的命名风格, 超载(overload) 也非常重要.
-而且, 对于所有的惯例规约, 也应该编写文档.
+库通常会提供一些高级操作, 用于进行自定义.
+例如, 某个操作可能允许使用者提供他们自己的数据结构, 网络通道, 计时器, 或生存周期观察器.
+但是, 通过额外的函数参数引入这些自定义选项, 可能显著的增加 API 的复杂度.
 
-例如, 如果你的一个方法接受 `offset` 和 `length` 参数, 那么其它方法也应该使用相同的参数, 而不是, 比如, 接受 `startIndex` 和 `endIndex` 参数.
-这样的参数很可能是 `Int` 或 `Long` 类型, 因此很容易搞混它们.
+除了添加更多参数用于自定义之外, 设计一个 API, 让不同的行为可以组合在一起, 这样的方式会更加有效.
+例如, 在协程的 Flow API 中, [buffering](flow.md#buffering) 和 [conflation](flow.md#conflation) 都实现为单独的函数.
+这些函数可以与更加基础的操作连接在一起, 例如 [`filter`](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/filter.html) 和 [`map`](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/map.html),
+而不是每个基础操作接受参数来控制缓冲和合并.
 
-对于参数顺序也是如此: 在各个方法之间, 以及超载的方法直接, 应该保持参数顺序一致.
-否则, 库的使用者在传递参数时可能猜错参数的顺序.
-
-下面是一个例子, 它保持了一致的参数顺序和名称:
-
-```kotlin
-fun String.chop(length: Int): String = substring(0, length)
-fun String.chop(length: Int, startIndex: Int) =
-    substring(startIndex, length + startIndex)
-```
-
-如果你有很多类似的方法, 应该对它们使用一致并且易于预见的名称.
-`stdlib` API 是这样做的:
-有 `first()` 和 `firstOrNull()` 方法, `single()` 和 `singleOrNull()` 方法, 等等.
-从它们的名称可以看出这些方法是成对的, 而且有些方法可能返回 `null`, 其它方法可能抛出异常.
-
-## 使用构建器 DSL {id="use-a-builder-dsl"}
-
-在程序开发中, ["构建器(Builder)"](https://en.wikipedia.org/wiki/Builder_pattern#:~:text=The%20builder%20pattern%20is%20a,Gang%20of%20Four%20design%20patterns)
-是一个很著名的模式.
-你可以用它来构建复杂的实体对象, 不是使用单个表达式一次性构建, 而是逐步的获得更多信息来构建.
-当你需要使用构建器时, 最好使用构建器 DSL 语法, 它在二进制上是兼容的, 而且更符合语言习惯.
-
-Kotlin 构建器 DSL 的典型例子是 `kotlinx.html`. 请看下面的示例:
+另一个例子是 [Jetpack Compose 中的 Modifiers API](https://developer.android.com/develop/ui/compose/modifiers).
+它允许 Composable 组件接受单个 `Modifier` 参数, 处理共通的自定义选项, 例如填充(padding), 大小, 以及背景颜色.
+这种方案避免了每个 Composable 组件都需要为这些自定义接受单独的参数, 简化了 API, 减少了复杂度.
 
 ```kotlin
-header("modal-card-head") {
-    p("modal-card-title") {
-        +book.book.name
-    }
-    button(classes = "delete") {
-        attributes["aria-label"] = "close"
-        attributes["_"] = closeModalScript
-    }
+Box(
+    modifier = Modifier
+        .padding(10.dp)
+        .onClick { println("Box clicked!") }
+        .fillMaxWidth()
+        .fillMaxHeight()
+        .verticalScroll(rememberScrollState())
+        .horizontalScroll(rememberScrollState())
+) {
+    // Box 的内容放在这里
 }
 ```
 
-也可以通过传统的构建器的方式来实现, 但代码会明显的更冗长:
+## 使用 DSL
+
+一个 Kotlin 库能够通过提供构建器 DSL, 显著的增强可读性.
+使用 DSL 让你能够 以简洁的方式重复进行特定领域专用数据的声明.
+例如, 考虑下面的示例, 它来自一个基于 Ktor 的服务器应用程序:
 
 ```kotlin
-headerBuilder()
-    .addClasses("modal-card-head")
-    .addElement(
-        pBuilder()
-            .addClasses("modal-card-title")
-            .addContent(book.book.name)
-            .build()
-    )
-    .addElement(
-        buttonBuilder()
-            .addClasses("delete")
-            .addAttribute("aria-label", "close")
-            .addAttribute("_", closeModalScript)
-            .build()
-    )
-    .build()
-```
-
-这样的实现存在太多你并不需要知道的细节, 而且它要求你构建每一个实体.
-
-如果你需要在一个循环中动态的生成构建器的内容, 情况就变得更糟了.
-在这样的情况下, 你必须创建变量实例, 并动态的覆盖它:
-
-```kotlin
-var buttonBuilder = buttonBuilder()
-    .addClasses("delete")
-for ((attributeName, attributeValue) in attributes) {
-    buttonBuilder = buttonBuilder.addAttribute(attributeName, attributeValue)
-}
-buttonBuilder.build()
-```
-
-在构建器 DSL 中, 你可以直接使用循环, 以及所有需要的 DSL 调用:
-
-```kotlin
-div("tags") {
-    for (genre in book.genres) {
-        span("tag is-rounded is-normal is-info is-light") {
-            +genre
+fun Application.module() {
+    install(ContentNegotiation) {
+        json(Json {
+            prettyPrint = true
+            isLenient = true
+        })
+    }
+    routing {
+        post("/article") {
+            call.respond<String>(HttpStatusCode.Created, ...)
+        }
+        get("/article/list") {
+            call.respond<List<CreateArticle>>(...)
+        }
+        get("/article/{id}") {
+            call.respond<Article>(...)
         }
     }
 }
 ```
 
-请记住, 在大括号内, 无法在编译期检查你是否设置了所有必须的属性.
-为了避免这个问题, 请将必须的属性作为函数的参数, 而不是构建器的属性.
-例如,
-如果你希望 `href` 是一个必须的 HTML 属性, 你的函数应该是这样的:
+这段代码设置一个应用程序, 安装 `ContentNegotiation` plugin, 配置为使用 Json 序列化,
+并设置路由, 让应用程序应答多个 `/article` endpoint 上的请求.
+
+关于创建 DSL 的详细介绍, 请参见 [类型安全的构建器](type-safe-builders.md).
+在创建库时, 以下几点值得注意:
+
+* DSL 中使用的函数是构建器函数, 这类函数接受一个带接受者的 Lambda 表达式作为最后参数.
+  这种设计允许调用这些函数时不使用括号, 让语法更加清晰.
+  作为参数传递的 Lambda 表达式可以用来配置正在创建的实体.
+  在上面的示例中, 传递给 `routing` 函数的 Lambda 表达式, 用来配置路由的细节.
+* 创建类的实例的工厂函数应该使用与它的返回类型相同的名称, 并以大写字母开头.
+  在上面的示例中, 你可以在创建 `Json` 实例的地方看到这种工厂函数.
+  这些函数也可以接受 Lambda 表达式参数进行配置.
+  更多详情请参见 [编码规约](coding-conventions.md#function-names).
+* 由于在编译期间, 在提供给构建器函数的 Lambda 表达式内部, 无法确定是否已经设置了必须的属性,
+  我们建议将必须的值作为函数参数来传递.
+
+使用 DSL 构建对象不仅能够提高可读性, 还能够改善向后兼容性, 并简化文档过程.
+例如, 以下面的函数为例:
 
 ```kotlin
-fun a(href: String, block: A.() -> Unit): A
+fun Json(prettyPrint: Boolean, isLenient: Boolean): Json
 ```
 
-而不仅仅是:
+这个函数可以代替 `Json{}` DSL 构建器. 但是, DSL 方案具有明显的优点:
+
+* DSL 构建器比这个函数更容易维持向后兼容性, 因为添加新的配置选项只需要添加新的属性 (或者在另其它示例中, 是添加新的函数),
+  这是向后兼容的变更, 而修改一个既有函数的参数列表则不是.
+* 它还使创建和维护文档更加容易.
+  你可以对每个属性在它的声明处分别编写文档, 而不是在同一个地方, 对一个函数的很多参数编写文档.
+
+## 使用扩展函数和属性
+
+我们推荐使用 [扩展函数和属性](extensions.md) 提高可读性.
+
+类和接口应该定义定义类型的核心概念.
+附加的功能和信息应该写成扩展函数和属性.
+这样可以让代码的阅读者清楚的知道, 附加的功能可以在核心概念的基础上实现, 附加的信息可以通过类型中的数据计算得到.
+
+例如, [`CharSequence`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-char-sequence/) 类型 (`String` 也实现这个接口) 只包含最基本的信息, 以及访问它的内容的最基本的操作符:
 
 ```kotlin
-fun a(block: A.() -> Unit): A
-```
-
-> 只要你不从构建器 DSL 中删除什么东西, 那么它就是 [向后兼容的](jvm-api-guidelines-backward-compatibility.md).
-> 通常情况下不会发生问题, 因为随着时间的推移, 大多数开发者只会向他们的构建器类添加更多的属性.
->
-{style="note"}
-
-## 在适当的情况下, 使用类似构造器风格的函数 {id="use-constructor-like-functions-where-applicable"}
-
-有时候, 你可以通过使用类似构造器风格的函数, 简化你的 API 的外观.
-一个类似构造器风格的函数, 是指函数名称以大写字母开头, 因此看起来象一个类的构造器.
-这种方式可以让你的库更易于理解.
-
-假设你想要在你的库中引入一个 [可选类型(Option Type)](https://en.wikipedia.org/wiki/Option_type) :
-
-```kotlin
-sealed interface Option<T>
-class Some<T : Any>(val t: T) : Option<T>
-object None : Option<Nothing>
-```
-
-你可以为所有的 `Option` 接口方法定义实现 – `map()`, `flatMap()`, 等等.
-但是, 每次你的 API 使用者创建一个这样的 `Option` 时, 他们都必须写一些额外的逻辑, 来检查应该创建什么.
-例如:
-
-```kotlin
-fun findById(id: Int): Option<Person> {
-    val person = db.personById(id)
-    return if (person == null) None else Some(person)
+interface CharSequence {
+    val length: Int
+    operator fun get(index: Int): Char
+    fun subSequence(startIndex: Int, endIndex: Int): CharSequence
 }
 ```
 
-为了让你的用户不必每次都编写这些相同的检查代码, 你只需要在你的 API 中添加 1 行:
+与字符串相关的共通功能通常定义为扩展函数, 这些函数都可以在类型的核心概念和基本 API 的基础上实现:
 
 ```kotlin
-fun <T> Option(t: T?): Option<out T & Any> =
-    if (t == null) None else Some(t)
+inline fun CharSequence.isEmpty(): Boolean = length == 0
+inline fun CharSequence.isNotEmpty(): Boolean = length > 0
 
-// 上面代码的使用方式:
-fun findById(id: Int): Option<Person> = Option(db.personById(id))
-```
-
-现在, 创建一个正确的 `Option` 变得非常简单: 只需要调用 `Option(x)`, 然后你就有了 null 值安全的, 功能正确的 Option 语法.
-
-类似构造器风格的函数的另一种使用场景是, 当你需要返回某种 "隐藏的" 信息的时候, 例如 private 实例, 或 internal 对象.
-作为例子, 我们来看看标准库中的一个方法:
-
-```kotlin
-public fun <T> listOf(vararg elements: T): List<T> =
-    if (elements.isNotEmpty()) elements.asList() else emptyList()
-```
-
-在上面的例子中, `emptyList()` 返回下面的内容:
-
-```kotlin
-internal object EmptyList : List<Nothing>, Serializable, RandomAccess
-```
-
-你可以编写一个类似构造器风格的函数, 降低你的代码的 [认知复杂度](jvm-api-guidelines-introduction.md#cognitive-complexity),
-并减少你的 API 的大小:
-
-```kotlin
-fun <T> List(): List<T> = EmptyList
-
-// 上面代码的使用方式:
-public fun <T> listOf(vararg elements: T): List<T> =
-    if (elements.isNotEmpty()) elements.asList() else List()
-```
-
-## 适当的使用成员函数和扩展函数 {id="use-member-and-extension-functions-appropriately"}
-
-只有 API 的非常核心的部分才应该写成 [成员函数](functions.md#member-functions),
-其他所有功能应该写成 [扩展函数](extensions.md#extension-functions).
-这样可以帮助你告诉阅读代码的人, 什么是核心功能, 什么不是.
-
-例如, 看看下面的 Graph 类:
-
-```kotlin
-class Graph {
-    private val _vertices: MutableSet<Int> = mutableSetOf()
-    private val _edges: MutableMap<Int, MutableSet<Int>> = mutableMapOf()
-
-    fun addVertex(vertex: Int) {
-        _vertices.add(vertex)
-    }
-
-    fun addEdge(vertex1: Int, vertex2: Int) {
-        _vertices.add(vertex1)
-        _vertices.add(vertex2)
-        _edges.getOrPut(vertex1) { mutableSetOf() }.add(vertex2)
-        _edges.getOrPut(vertex2) { mutableSetOf() }.add(vertex1)
-    }
-
-    val vertices: Set<Int> get() = _vertices
-    val edges: Map<Int, Set<Int>> get() = _edges
+inline fun CharSequence.trimStart(predicate: (Char) -> Boolean): CharSequence {
+    for (index in this.indices)
+        if (!predicate(this[index]))
+           return subSequence(index, length)
+    return ""
 }
 ```
 
-这个类只包含最少量的内容: vertices 和 edges 的 private 变量, 用于添加 vertices 和 edges 的函数,
-以及访问函数, 返回当前状态的不可变的表达.
+应该考虑将计算得到的属性和一般的方法声明为扩展.
+默认情况下, 只有常规属性, 覆盖, 以及重载操作符, 才应该声明为成员.
 
-你可以在类之外添加所有其他功能:
+## 不要使用 boolean 类型作为参数
 
-```kotlin
-fun Graph.getNumberOfVertices(): Int = vertices.size
-fun Graph.getNumberOfEdges(): Int = edges.size
-fun Graph.getDegree(vertex: Int): Int = edges[vertex]?.size ?: 0
-```
-
-只有属性, 覆盖, 以及访问器才应该作为类的成员.
-
-## 避免在函数中使用 Boolean 参数 {id="avoid-using-boolean-arguments-in-functions"}
-
-理想情况下, 读者应该只靠阅读代码就能够判断函数参数的目的.
-然而, 如果使用 `Boolean` 参数, 这就不太可能了, 尤其是如果你没有使用 IDE (例如, 如果你在某个版本管理系统中审查代码).
-使用 [命名的参数](functions.md#named-arguments) 有助于说明参数的目的, 但目前不可能强迫开发者在 IDE 中使用命名的参数.
-另一个方案是, 创建一个函数, 让它执行 `Boolean` 参数对应的功能, 并给这个函数一个非常有描述性的名称.
-
-例如, 在标准库中, 有两个 `map()` 函数:
+考虑下面的函数:
 
 ```kotlin
-fun map(transform: (T) -> R): List<R>
-
-fun mapNotNull(transform: (T) -> R?): List<R>
+fun doWork(optimizeForSpeed: Boolean) { ... }
 ```
 
-我们可以添加一个 `map(filterNulls: Boolean)` 函数, 然后编写这样的代码:
+如果在你的 API 中提供这个函数, 它可能会被这样调用:
 
 ```kotlin
-listOf(1, null, 2).map(false) { it.toString() }
+doWork(true)
+doWork(optimizeForSpeed=true)
 ```
 
-只看这段代码, 很难推测出 `false` 到底代表什么意思.
-但是, 如果你使用 `mapNotNull()` 函数, 读者就能立即理解它的逻辑:
+在第一个调用中, 无法推断出这个 boolean 参数代表什么, 除非你在开启了参数名称提示功能的 IDE 中阅读代码.
+使用命名参数确实清楚的表示了参数的意图, 但没有办法强制你的使用者采用这样的编码风格.
+因此, 为了提高可读性, 你的代码不应该使用 boolean 类型的参数.
+
+另一种选择是, API 可以创建一个单独的函数, 专门执行由 boolean 参数控制的任务.
+这个函数应该使用一个描述性的名称, 表明它的功能.
+
+例如, [`Iterable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-iterable/) 接口有下面的扩展:
 
 ```kotlin
-listOf(1, null, 2).mapNotNull { it.toString() }
+fun <T, R> Iterable<T>.map(transform: (T) -> R): List<R>
+fun <T, R : Any> Iterable<T>.mapNotNull(
+    transform: (T) -> R?
+): List<R>
 ```
 
-## 下一步做什么?
+而不是单个的方法:
 
-学习 API 的:
-* [可预测性](jvm-api-guidelines-predictability.md)
-* [可调试性](jvm-api-guidelines-debuggability.md)
-* [向后兼容性(Backward Compatibility)](jvm-api-guidelines-backward-compatibility.md)
+```kotlin
+fun <T, R> Iterable<T>.map(
+    includeNullResults: Boolean = true, 
+    transform: (T) -> R
+): List<R>
+```
+
+另一种好的方案是使用 `enum` 类定义不同的操作模式.
+如果存在多种操作模式, 或者你期望这些模式未来会随着时间的推移发生变化, 那么这种方案会很有用.
+
+## 适当使用数字类型
+
+Kotlin 定义了一组数字类型, 你可以使用它们作为你的 API 的一部分.
+下面是正确使用数字类型的方法:
+
+* 使用 `Int`,` Long` 和 `Double` 类型作为算数类型.
+  它们表示执行计算的值.
+* 不要对非算数的实体使用算数类型.
+  例如, 如果你将 ID 表示为 `Long`, 你的使用者可能会假设 ID 是按顺序分配的, 并因此比较 ID.
+  这肯能导致不可靠的或无意义的结果, 或造成对具体实现的依赖, 而具体实现可能会在没有警告的情况下发生变更.
+  更好的策略是为 ID 的抽象定义一个专用的类.
+  你可以使用 [内联的值类(Inline value class)](inline-classes.md) 来构建这样的抽象, 而不会影响性能.
+  具体的例子请参见 [`Duration`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.time/-duration/) 类.
+* `Byte`, `Float` 和 `Short` 类型是内存布局类型.
+  它们用来限制存储值时使用的内存容量, 例如, 在缓存中存储数据时, 或通过网络传输数据时.
+  只有当底层数据可靠的适合这些类型, 并且不需要进行计算时, 才应该使用这些类型.
+* 应该使用无符号整数类型 `UByte`, `UShort`, `UInt` 和 `ULong` 来利用给定格式的全部正数值范围.
+  这些类型适合于需要的值超过有符号类型数值范围的情况, 或与原生库交互的的情况.
+  但是, 对于领域问题只需要 [无符号整数](unsigned-integer-types.md#non-goals) 的情况, 不要使用这些类型.
+
+## 下一步
+
+在本向导的下一部分, 你将学习一致性.
+
+[进入下一部分](api-guidelines-consistency.md)
