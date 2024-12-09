@@ -56,7 +56,7 @@ Kotlin 同时支持面向对象式和函数式两种编程风格.
 如果需要的所有状态都可以作为参数传递, 应该优先使用顶层(top-level) 函数.
 如果会对这些函数进行链式调用, 应该考虑将函数写成扩展函数, 以增加可读性.
 
-## 选择适当的错误处理机制
+## 选择适当的错误处理机制 {id="choose-the-appropriate-error-handling-mechanism"}
 
 Kotlin 提供了几种错误处理的机制.
 你的 API 可以抛出异常, 返回 `null` 值, 使用一个自定义的结果类型, 或者使用内建的 [`Result`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-result/) 类型.
@@ -75,7 +75,7 @@ Kotlin 提供了几种错误处理的机制.
 [命令 / 查询 分离](https://martinfowler.com/bliki/CommandQuerySeparation.html)
 是一种有用的模式, 可以应用于这种情况.
 
-## 保持规约和质量
+## 保持规约和质量 {id="maintain-conventions-and-quality"}
 
 一致性的最后一个方面, 不是关于库本身的设计, 而是要保持高水准的质量.
 
