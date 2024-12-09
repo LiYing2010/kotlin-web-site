@@ -1,18 +1,18 @@
 [//]: # (title: 一致性)
 
-Consistency is crucial in API design to ensure ease of use. By maintaining consistent parameter order, naming conventions,
-and error handling mechanisms, your library will be more intuitive and reliable for users. Following these best practices
-helps avoid confusion and misuse, leading to a better developer experience and more robust applications.
+在 API 设计中, 为了确保易用性, 一致性是非常重要的.
+通过维护一致的参数顺序, 命名规约, 以及错误处理机制, 你的库对于使用者会更加直观, 更加可靠.
+遵循这些最佳实践, 有助于避免混乱和错误使用, 带来更好的开发者体验, 使应用程序更加健壮.
 
-## Preserve parameter order, naming and usage
+## 保持参数顺序, 命名, 以及使用的一致性
 
-When designing a library, maintain consistency in the ordering of arguments, the naming scheme, and the use of overloading.
-For example, if one of your existing methods has `offset` and `length` parameters, you should not switch to alternatives like
-`startIndex` and `endIndex` for a new method unless there is a compelling reason.
+在设计一个库时, 要保持参数顺序, 命名方式, 以及重载的使用的一致性.
+例如, 如果你的某个既有方法具有 `offset` 和 `length` 参数,
+那么对于新的方法, 除非存在重要原因, 否则你不应该改为使用其它参数风格, 例如 `startIndex` 和 `endIndex`.
 
-Overloaded functions provided by the library should behave identically.
-Users expect the behavior to remain consistent when they change the type of a value they pass into your library.
-For example, these calls all create identical instances, as the input is semantically the same:
+库提供的重载函数的行为应该相同.
+当使用者改变传递给你的库的参数值类型时, 他们会期望函数行为保持一致的.
+例如, 下面这些调用都会创建相同的实例, 因为输入在语义上是相同的:
 
 ```kotlin
 BigDecimal(200)
@@ -20,16 +20,16 @@ BigDecimal(200L)
 BigDecimal("200")
 ```
 
-Avoid mixing parameter names like `startIndex` and `stopIndex` with synonyms like `beginIndex` and `endIndex`.
-Similarly, choose one term for values in collections, such as `element`, `item`, `entry`, or `entity`, and stick with it.
+不要将 `startIndex` 和 `stopIndex` 这样的参数名称与同义词混合使用, 例如 `beginIndex` 和 `endIndex`.
+类似的, 要对集合中的值选择一个用语, 例如 `element`, `item`, `entry`, 或 `entity`, 并且在所有地方使用相同的用语.
 
-Name related methods consistently and predictably. As an example, the Kotlin standard library contains pairs like
-`first` and `firstOrNull`, `single` or `singleOrNull`.
-These pairs clearly indicate that some might return `null` while others might throw an exception.
-Parameters should be declared from the general to the specific, so essential inputs appear first and optional inputs last.
-For example, in [`CharSequence.findAnyOf`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/find-any-of.html) the `strings` collection goes first, followed by the `startIndex`, and finally the `ignoreCase` flag.
+对相关的方法的命名要一致的, 并且易于预测.
+例如, Kotlin 标准库包含一些成对的函数, 例如 `first` 和 `firstOrNull`, `single` 和 `singleOrNull`.
+这些成对的函数清楚的表示, 有些函数可能返回 `null` 值, 另一些函数则可能抛出异常.
+参数声明的顺序应该从一般到具体, 因此必须的输入应该最先出现, 可选的输入在最后.
+例如, 在 [`CharSequence.findAnyOf`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/find-any-of.html) 中, `strings` 集合是最前面的参数, 之后是 `startIndex`, 最后是 `ignoreCase` 选项.
 
-Consider a library managing employee records, and provides the following API to search for employees:
+考虑一个库, 它管理雇员记录, 提供下面的 API 来检索雇员:
 
 ```kotlin
 fun findStaffBySeniority(
@@ -43,52 +43,54 @@ fun findStaffByAge(
 ): List<Employee>
 ```
 
-This API would be extremely hard to use correctly.
-There are multiple parameters of the same type presented in an inconsistent order, and used in an inconsistent way.
-Users of your library will likely make incorrect assumptions about new functions based on their experience with existing ones.
+要正确使用这个 API 会非常困难.
+有多个相同类型的参数出现, 顺序不一致, 而且使用方式也不一致.
+你的库的使用者很可能会根据他们对旧函数的经验, 对于新函数作出错误的假设.
 
-## Use Object-Oriented design for data and state
+## 对数据和状态使用面向对象的设计
 
-Kotlin supports both the Object-Oriented and Functional programming styles.
-Use classes to represent data and state in your API. When the data and state is hierarchical, consider using inheritance.
+Kotlin 同时支持面向对象式和函数式两种编程风格.
+在你的 API 中, 应该使用类来表达数据和状态.
+当数据和状态是层级结构时, 应该考虑使用继承.
 
-If all the state required can be passed as parameters, prefer using top-level functions.
-When calls to these functions will be chained, consider writing them as extension functions to improve readability.
+如果需要的所有状态都可以作为参数传递, 应该优先使用顶层(top-level) 函数.
+如果会对这些函数进行链式调用, 应该考虑将函数写成扩展函数, 以增加可读性.
 
-## Choose the appropriate error handling mechanism
+## 选择适当的错误处理机制
 
-Kotlin provides several mechanisms for error handling.
-Your API can throw an exception, return a `null` value, use a custom result type, or use the built-in [`Result`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-result/) type.
-Ensure that your library uses these options consistently and appropriately.
+Kotlin 提供了几种错误处理的机制.
+你的 API 可以抛出异常, 返回 `null` 值, 使用一个自定义的结果类型, 或者使用内建的 [`Result`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-result/) 类型.
+要确保你的库一致并且正确的使用这些选项.
 
-When data cannot be fetched or calculated, use a nullable return type and return `null` to indicate missing data.
-In other cases, throw an exception or return a `Result` type.
+当不能获取或计算数据时, 要使用可为 null 的返回类型, 并返回 `null` 来表示数据缺失.
+其它情况下, 请抛出一个异常, 或者返回一个 `Result` 类型.
 
-Consider providing overloads of functions, where one throws an exception, while the other wraps it in a result type instead.
-In these cases, use the `Catching` suffix to indicate that exceptions are caught in the function.
-For example, the standard library has the [`run`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/run.html) and [`runCatching`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/run-catching.html) functions using this convention,
-and the coroutines library has [`receive`](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.channels/-receive-channel/receive.html) and [`receiveCatching`](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.channels/-receive-channel/receive-catching.html) methods for channels.
+可以考虑提供函数重载, 其中一个函数抛出异常, 另一个函数则将异常封装在结果类型中.
+这种情况下, 可以使用 `Catching` 后缀表示异常会在函数内捕获.
+例如, 标准库的 [`run`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/run.html) 和 [`runCatching`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/run-catching.html) 函数就使用了这样的规约,
+协程库则有对 channel 的 [`receive`](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.channels/-receive-channel/receive.html) 和 [`receiveCatching`](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.channels/-receive-channel/receive-catching.html) 方法.
 
-Avoid using exceptions for normal control flow. Design your API to allow for condition checks before attempting operations,
-thus preventing unnecessary error handling.
-[Command / Query Separation](https://martinfowler.com/bliki/CommandQuerySeparation.html) is a useful pattern that can be applied here.
+不要对正常的控制流使用异常. 应该设计你的 API, 允许在进行操作之前进行条件检查,
+以避免不必要的错误处理.
+[命令 / 查询 分离](https://martinfowler.com/bliki/CommandQuerySeparation.html)
+是一种有用的模式, 可以应用于这种情况.
 
-## Maintain conventions and quality
+## 保持规约和质量
 
-The final aspect of consistency relates, not to the design of the library itself, but to maintaining a high level of quality.
+一致性的最后一个方面, 不是关于库本身的设计, 而是要保持高水准的质量.
 
-You should use automated tools (linters) for static analysis to ensure your code follows both general Kotlin conventions
-and project-specific conventions.
+你应该使用自动化工具 (校验检查器 linter) 进行静态分析, 确保你的代码遵循 Kotlin 的一般规约, 以及你的项目专用的规约.
 
-A Kotlin library should also provide a suite of unit and integration tests covering all documented behaviors of all the API entry points.
-Tests should include a wide range of inputs, especially known boundary and edge cases. Any untested behavior should be assumed to be (at best) unreliable.
+一个 Kotlin 库还应该提供一组单元测试和集成测试, 涵盖所有的 API 入口点的有文档说明的行为.
+测试应该包含广泛的输入, 尤其是已知的边界情况和边缘情况.
+任何未测试的行为都应该被认为 (最好情况下) 是不可靠的.
 
-Use this suite of tests during development to verify that changes do not break existing behavior.
-Run these tests on every release as part of a standardized build and release pipeline.
-Tools like [Kover](https://github.com/Kotlin/kotlinx-kover) can be integrated into your build process to measure coverage and generate reports.
+在开发过程中要使用这组测试来验证修改没有破坏原有的行为.
+要对每一个发布版运行这些测试, 作为构建和发布的标准化流程的一部分.
+在你的构建过程中可以集成 [Kover](https://github.com/Kotlin/kotlinx-kover) 之类的工具, 用来测量覆盖率, 并生成报告.
 
-## Next step
+## 下一步
 
-In the next part of the guide, you'll learn about predictability.
+在本向导的下一部分, 你将学习可预测性.
 
-[Proceed to the next part](api-guidelines-predictability.md)
+[进入下一部分](api-guidelines-predictability.md)

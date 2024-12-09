@@ -1,27 +1,60 @@
 [//]: # (title: 可预测性)
 
-本章包含以下建议:
-* [使用封闭接口(Sealed Interface) ](#use-sealed-interfaces)
-* [通过封闭类(Sealed Class)隐藏具体实现](#hide-implementations-with-sealed-classes)
-* [对你的输入和状态进行验证](#validate-your-inputs-and-state)
-  * [使用 require() 函数验证输入](#validate-inputs-with-the-require-function)
-  * [使用 check() 函数验证状态](#validate-state-with-the-check-function)
-* [在 public 签名中不要使用数组](#avoid-arrays-in-public-signatures)
-* [不要使用 varargs](#avoid-varargs)
+设计一个健壮而且对使用者友好的 Kotlin 库, 关键在于预见常见的使用场景, 允许扩展, 强制正确的使用.
+要遵循那些关于默认设置, 错误处理, 以及状态管理的最佳实践, 确保使用者获得无缝的使用体验,
+同时保持库的完整性和质量.
 
-## 使用封闭接口(Sealed Interface) {id="use-sealed-interfaces"}
+## 默认完整正确的功能
 
-当你需要对具体的实现进行功能抽象时, 你的 API 中通常会需要接口.
-如果你需要使用接口, 请考虑使用 [封闭接口(Sealed Interface)](sealed-classes.md).
-如果你不希望你的 API 使用者扩展你的类层次结构, 这一点是非常重要的.
+你的库应该对各种使用场景预见到 "幸福路径(happy path)", 并提供相应的默认设置.
+要让库正常工作, 使用者应该不需要提供默认的值.
 
-> 请记住, 如果向一个封闭接口添加一个新的实现类, 会立即导致用户的现有代码变得不正确.
->
-{style="warning"}
+例如, 在使用 [Ktor `HttpClient`](https://ktor.io/docs/client-create-new-application.html) 时, 最常见的使用场景是, 向服务器发送一个 GET 请求.
+这个功能可以使用下面的代码完成, 只需要指定必须的信息:
 
-例如, JSON 类型可能是 6 种类型: 对象, 数组, 数值, 字符串, Boolean, 以及 null.
-创建通常的 `interface JsonElement` 可能会导致错误, 因为使用者可能不小心定义一个新的 `JsonElement` 的实现类, 然后就会破坏你的代码.
-相反, 你可以让 `interface JsonElement` _封闭_, 并为每个 JSON 类型添加实现类:
+```kotlin
+val client = HttpClient(CIO)
+val response: HttpResponse = client.get("https://ktor.io/")
+```
+
+不需要为必须的 HTTP 头指定值, 也不需要为应答中可能的的状态码提供自定义的事件处理器.
+
+如果对于一个使用场景, 没有明显的 "幸福路径(happy path)", 或者参数应该有默认值, 但不存在没有争议的选项,
+那么可能说明需求分析存在问题.
+
+## 提供扩展能力
+
+如果无法预见正确的选择, 那么应该允许使用者指定他们喜欢的方案.
+你的库还应该允许使用者提供他们自己的方案, 或者使用第三方扩展.
+
+例如, 使用 [Ktor `HttpClient`](https://ktor.io/docs/client-serialization.html) 时, 会鼓励使用者在配置 client 时安装对内容协商的支持, 并指定他们喜欢的序列化格式:
+
+```kotlin
+val client = HttpClient(CIO) {
+    install(ContentNegotiation) {
+        json(Json {
+            prettyPrint = true
+            isLenient = true
+        })
+    }
+}
+```
+
+使用者可以选择安装哪些 plugin, 也可以使用 [用于定义 client plugin 的专用 API](https://ktor.io/docs/client-custom-plugins.html) 创建他们自己的 plugin.
+
+此外, 使用者还可以对库中的类型定义扩展函数和属性.
+作为库的作者, 你可以 [在设计时考虑扩展](api-guidelines-readability.md#use-extension-functions-and-properties),
+并确保你的库的类型具有清晰的核心概念, 让使用者的扩展更加容易.
+
+## 防止不期望的和不正确的扩展
+
+使用者不应该能够以违反原来设计的方式, 或者问题域的规则所不允许的方式, 扩展你的库.
+
+例如, 在将数据与 JSON 进行相互转换时, 输出格式只支持 6 种类型:
+`object`, `array`, `number`, `string`, `boolean`, 和 `null`.
+
+如果你创建一个 open 的类或接口, 名为 `JsonElement`, 使用者就可以创建不正确的派生类型, 例如 `JsonDate`.
+相反, 你可以将 `JsonElement` 定义为封闭接口, 并为每种类型提供一个实现:
 
 ```kotlin
 sealed interface JsonElement
@@ -34,180 +67,94 @@ class JsonString(val value: String) : JsonElement
 object JsonNull : JsonElement
 ```
 
-这种方案可以帮助你避免错误, 既包括库本身的错误, 也包括使用者的错误.
+封闭类型还能够让编译器确保你的 `when` 表达式穷尽了所有的可能分支, 因此不需要提供 `else` 语句, 这样就提高了可读性和一致性.
 
-使用封闭类型最大的好处是在 `when` 表达式中.
-如果能够确定条件分支语句覆盖了所有的情况, 你就不必添加 `else` 分支了:
+## 不要暴露可变的状态
+
+在管理可变的值时, 只要有可能, 你的 API 就应该接受并返回只读的集合.
+可变的集合是线程不安全的, 并且会对你的库带来复杂性和不可预测性.
+
+例如, 如果一个 API 入口点返回了可变集合, 然后使用者修改这个集合,
+那就不清楚使用者修改的是 API 实现中使用的底层数据结构, 还是一个 copy.
+类似的, 如果使用者将集合传递给库之后, 又能够修改集合中的值,
+那就不清楚这样的修改是否会影响 API 的实现.
+
+由于数组是可变集合, 因此在你的 API 中要避免使用数组.
+如果必须使用数据, 那么在使用者与共享数据之前, 要制造防御性的 copy.
+这样可以确保你的数据结构保持不变.
+
+编译器会对 `vararg` 参数自动执行这种制造防御性的 copy 的策略.
+如果使用展开(spread)操作符, 在需要 `vararg` 参数的地方传递一个已有的数组, 会对你的数组自动创建一个 copy.
+
+下面的示例演示这个行为:
 
 ```kotlin
-fun processJson(json: JsonElement) = when (json) {
-    is JsonNumber -> { /* 作为数值进行处理 */ }
-    is JsonObject -> { /* 作为对象进行处理 */ }
-    is JsonArray -> { /* 作为数组进行处理 */ }
-    is JsonBoolean -> { /* 作为 Boolean 值进行处理 */ }
-    is JsonString -> { /* 作为字符串进行处理 */ }
-    is JsonNull -> { /* 作为 null 进行处理 */ }
-    // 不需要 `else` 分支, 因为已经覆盖了所有的情况
+fun main() {
+    fun demo(vararg input: String): Array<out String> = input
+
+    val originalArray = arrayOf("one", "two", "three", "four")
+    val newArray = demo(*originalArray)
+
+    originalArray[1] = "ten"
+
+    // 输出结果为 "one, ten, three, four"
+    println(originalArray.joinToString())
+
+    // 输出结果为 "one, two, three, four"
+    println(newArray.joinToString())
 }
 ```
 
-## 通过封闭类(Sealed Class)隐藏具体实现 {id="hide-implementations-with-sealed-classes"}
+## 校验输入和状态
 
-如果你的 API 中存在封闭接口, 并不代表你也应该在 API 中暴露所有的实现类.
-公开最少的内容通常更好一些.
-如果你需要避免抽象泄漏(Leaky Abstraction), 或者想要避免 API 的使用者扩展你的接口,
-可以考虑对你的具体实现也使用封闭类(Sealed Class)或封闭接口(Sealed Interface).
+在实现代码执行之前, 要校验输入和既存的状态, 确保使用者正确的使用你的库.
+可以使用 [`require`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/require.html) 函数来校验输入, 使用 [`check`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/check.html) 函数来校验既存的状态.
 
-例如, 一个库与多种不同的数据库共通工作, 它可能包含一个数据库应答的接口, 如下:
-
-```kotlin
-sealed interface DBResponse {
-    operator fun <T> get(columnName: String): Sequence<T>
-}
-```
-
-向 API 使用者暴露这个接口的实现类, 例如 `SQLiteResponse` 或 `MongoResponse`,
-是一种 **抽象泄漏(Leaky Abstraction)**, 会使得支持这个 API 变得更加复杂.
-在这样的库中, 你可能只处理了你的 `DBResponse` 实现类.
-对于一个能够接受 `DBResponse` 的库方法, 如果使用者传入一个他们的 `DBResponse` 实现类, 就可能造成错误.
-使用封闭接口和封闭类可以避免这种错误.
-
-## 对你的输入和状态进行验证 {id="validate-your-inputs-and-state"}
-
-### 使用 require() 函数验证输入 {id="validate-inputs-with-the-require-function"}
-
-使用者有可能会误用一个 API. 为了帮助你的使用者正确使用你的 API, 你应该尽可能早的使用
-[require()](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/require.html) 函数验证输入.
-
-例如, 这是一个简单的库函数, 将保存用户到某个外部 API:
-
-```kotlin
-fun saveUser(username: String, password: String) {
-    api.saveUser(User(username, password))
-}
-```
-
-你应该对函数的参数进行验证, 确保输入符合要求.
-例如, 要检查 `username` 是唯一的, 而且不为空, 即使你已经在你的数据库中定义了约束, 也要进行验证:
+如果条件的判断结果为 `false`, `require` 函数会抛出 [`IllegalArgumentException`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-illegal-argument-exception/#kotlin.IllegalArgumentException) 异常,
+导致函数立即失败, 并显示适当的错误消息:
 
 ```kotlin
 fun saveUser(username: String, password: String) {
     require(username.isNotBlank()) { "Username should not be blank" }
-    require(api.usernameAvailable(username)) { "Username $username is already taken" }
+    require(username.all { it.isLetterOrDigit() }) {
+        "Username can only contain letters and digits, was: $username"
+    }
     require(password.isNotBlank()) { "Password should not be blank" }
-    require(password.length > 6) { "Password should contain at least 7 letters" }
-    require(
-        /* 某些复杂的检查 */
-    ) { "..." }
+    require(password.length >= 7) {
+        "Password must contain at least 7 characters"
+    }
 
-    api.saveUser(User(username, password))
+    /* 校验完成, 实现代码可以继续执行 */
 }
 ```
 
-通过这样的方法, 你可以确保你的使用者在遇到错误时不需要深入的分析复杂的、牵涉到数据库的 Stack Trace 信息.
-如果出现异常, 将会是一个 `IllegalArgumentException`, 带有能够理解的错误消息, 而不是一个抽象的数据库异常.
+错误消息应该包含相关的输入, 以帮助使用者确定失败的原因,
+如上面的示例所示, 表示用户名称包含无效字符的错误消息, 其中包含了不正确的用户名称.
+对这种实践的一个例外情况是, 在错误消息中包含值会泄露信息, 可能被恶意使用, 造成安全漏洞.
+因此, 对密码长度的错误消息不应该包含输入的密码.
 
-> 如果你实现了输入验证, 那么应该对这些检查规则编写文档.
->
-{style="tip"}
-
-### 使用 check() 函数验证状态 {id="validate-state-with-the-check-function"}
-
-同样的建议也适用于检查内部状态. 最明显的例子是 `InputStream`, 因为你不能从已经关闭的输入流读取数据.
-
-看看下面的 `InputStream` 类, 它带有 `readByte()` 方法, 使用如下:
+类似的, 如果条件的判断结果为 `false`, `check` 函数抛出 [`IllegalStateException`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-illegal-state-exception/#kotlin.IllegalStateException) 异常.
+请使用这个函数来校验一个实例的状态, 如下面的示例所示:
 
 ```kotlin
-class InputStream : Closeable {
-    private var open = true
-    fun readByte(): Byte { /* 读取并返回一个 byte */ }
-    override fun close() {
-        // 销毁底层资源
-        open = false
+class ShoppingCart {
+    private val contents = mutableListOf<Item>()
+
+    fun addItem(item: Item) {
+        contents.add(item)
+    }
+
+    fun purchase(): Amount {
+        check(contents.isNotEmpty()) {
+            "Cannot purchase an empty cart"
+        }
+        // 计算并返回金额
     }
 }
-
-fun readTwoBytes(inputStream: InputStream): Pair<Byte, Byte> {
-    val first = inputStream.use { it.readByte() }
-    val second = inputStream.readByte()
-    return Pair(first, second)
-}
 ```
 
-`readTwoBytes()` 方法必须抛出 `IllegalStateException`, 因为 [`use{}`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/use.html)
-会关闭 `Closeable` 的输入流, 使用者不应该能够从已关闭的流中读取数据.
-要实现这一点, 需要修改 `readByte()` 函数的代码:
+## 下一步
 
-```kotlin
-fun readByte(): Byte {
-    check(open) { "Can't read from the already closed stream" }
-    // 读取并返回一个 byte
-}
-```
+在本向导的下一部分, 你将学习可调试性.
 
-在上面的示例中, 使用了 `check()` 函数, 而不是 `require()`.
-这些函数会抛出不同的异常:
-`require()` 抛出 `IllegalArgumentException`, 而 `check()` 抛出 `IllegalStateException`.
-在调试代码时, 这个区别可能会变得非常重要.
-
-## 在 public 签名中不要使用数组 {id="avoid-arrays-in-public-signatures"}
-
-数组永远是可修改的, 而 Kotlin 的基础是安全的 – 只读的, 或者说值不可变的 – 对象.
-如果必须在你的 API 中使用数组,
-在将它们传递给其他代码之前, 请先复制数组, 这样你就能够数组不会被修改.
-另一个选择方案是, 根据你的意图, 使用只读的或可变的集合(Collection).
-一般来说, 最好避免使用数组, 如果你必须要用, 需要特别小心.
-
-例如, Kotlin 中的枚举类有 `values()` 函数, 返回一个数组, 其中包含所有的枚举值.
-如果数组没有复制, 使用者就可以重写数组中的元素:
-
-```kotlin
-enum class Test { A, B }
-
-fun main() { Test.values()[0] = Test.B }
-```
-
-如果你在枚举类中缓存了这些值, 运行上面的代码之后, 缓存就会被损坏.
-如果没有缓存这些值, 那么每次调用 `values()` 函数都会产生额外的运行时开销.
-
-由于这个原因, Kotlin 从 1.9 开始废弃了 `values()` 函数, 并 [引入了](https://youtrack.jetbrains.com/issue/KT-48872/Provide-modern-and-performant-replacement-for-Enum.values)
-`entries()` 函数, 它返回一个不可变的 Set.
-
-## 不要使用 varargs {id="avoid-varargs"}
-
-`vararg` – [不定数量参数](functions.md#variable-number-of-arguments-varargs) – 底层以数组的方式工作,
-但数组元素会单独传递给函数, 而不是传递整个数组.
-这个操作的成本很高, 因为它会不断复制同一个数组.
-
-请看下面的代码:
-
-```kotlin
-fun printElements(delimiter: String, vararg elements: String) {
-    for (i in elements.indices) {
-        print(elements[i])
-        if (i < elements.lastIndex) print(delimiter)
-    }
-}
-
-fun printWithSpace(vararg elements: String) {
-    printElements(" ", *elements)
-}
-
-fun main() {
-    printWithSpace("x", "y", "z")
-}
-```
-{kotlin-runnable="true" id ="jvm-api-guide-print-elements"}
-
-`printElements()` 函数打印 `vararg` 参数 `elements` 中的所有字符串, 中间加上分隔符,
-而 `printWithSpace()` 函数调用 `printElements()`, 将分隔符定义为空格.
-代码看起来似乎没问题: 你只是将 `elements` 从 `printWithSpace()` 传递给 `printElements()` 而已.
-如果没有展开(spread)操作符 `*`, 这段代码将无法编译,
-但加上这个操作符, 在传递给 `printElements()` 函数之前, **数组实际上会被复制**.
-函数之间的调用链条越长, 就会创建越多的复制, 造成的意外的内存开销也就越大.
-
-## 下一步做什么?
-
-学习 API 的:
-* [可调试性](jvm-api-guidelines-debuggability.md)
-* [向后兼容性(Backward Compatibility)](jvm-api-guidelines-backward-compatibility.md)
+[进入下一部分](api-guidelines-debuggability.md)
