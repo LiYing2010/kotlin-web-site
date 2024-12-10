@@ -1105,7 +1105,7 @@ fun main() {
 Kotlin 提供了一组函数, 用来在某个指定的对象上下文中执行一段代码, 这些函数包括: `let`, `run`, `with`, `apply`, 以及 `also`.
 对于具体的问题, 应该如何选择正确的作用域函数, 详情请参见 [作用域函数(Scope Function)](scope-functions.md).
 
-## 针对库开发的编码规约
+## 针对库开发的编码规约 {id="coding-conventions-for-libraries"}
 
 开发库时, 为了保证 API 的稳定性, 建议还要遵守以下规约:
 

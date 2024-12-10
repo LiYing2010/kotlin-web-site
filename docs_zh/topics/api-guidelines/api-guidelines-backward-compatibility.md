@@ -1,163 +1,224 @@
-[//]: # (title: 向后兼容性(Backward Compatibility))
+[//]: # (title: 针对库开发者的向后兼容性(Backward Compatibility) 指南)
 
-本章介绍关于 [向后兼容性(Backward Compatibility)](#definition-of-backward-compatibility) 需要注意的问题.
-下面是 "不要做" 的建议:
-* [不要向既有的 API 函数添加参数](#don-t-add-arguments-to-existing-api-functions)
-* [不要在 API 中使用数据类](#don-t-use-data-classes-in-an-api)
-* [不要降低返回值类型的范围](#don-t-make-return-types-narrower)
+创建一个库的最常见的动机, 是向一个更广大的社区公开一些功能.
+这个社区可能是一个小组, 一家公司, 一个特定的行业, 或者一个技术平台.
+对每一种情况, 向后兼容性(Backward Compatibility) 都是需要考虑的重要因素.
+社区越大, 向后兼容性就越重要, 因为你会更少了解你的使用者是谁, 以及他们在什么样的约束条件下工作.
 
-要考虑使用:
-* [@PublishedApi 注解](#the-publishedapi-annotation)
-* [@RequiresOptIn 注解](#the-requiresoptin-annotation)
-* [明确 API 模式(Explicit API Mode)](#explicit-api-mode)
+向后兼容性不是一个单一的词汇, 而是通过二进制层面, 源代码层面, 以及行为层面进行定义.
+本章会详细讨论这些类型的向后兼容性.
 
-详情请参见 [用于增强向后兼容性的工具](#tools-designed-to-enforce-backward-compatibility).
+注意:
 
-## 向后兼容性(Backward Compatibility)的定义 {id="definition-of-backward-compatibility"}
+* 在不破坏源代码兼容性的情况下, 也有可能破坏二进制兼容性, 反过来也是如此.
+* 保证源代码兼容性是最好的, 但很困难.
+  作为库的开发者, 你必须考虑到库的使用者调用函数或实例化类型的所有的可能方式.
+  源代码兼容性通常是一种理想, 而不是一种保证.
 
-一个好的 API, 非常重要的一点就是向后兼容性.
-向后兼容的代码, 使得新 API 版本的客户能够使用他们过去在旧 API 版本中曾经使用过的相同的 API 代码.
-本节介绍为了让你的 API 保持向后兼容性所应该考虑的要点.
+本章其余的部分描述你能够采用那些手段, 使用哪些工具, 来帮助确保各种类型的兼容性.
 
-在我们讨论 API 时, 至少有三种类型的兼容性:
-* 源代码兼容(Source)
-* 行为兼容(Behavioral)
-* 二进制兼容(Binary)
+## 兼容性类型 {id="compatibility-types" initial-collapse-state="collapsed" collapsible="true"}
 
-### 关于兼容性类型的详细讨论
-
-如果你能够确信你的客户的应用程序能够使用你的库的新版本正确的重新编译, 那么你可以认为库的版本之间是 **源代码兼容的(Source-compatible)**.
-通常来说, 除非变更非常微小, 否则源代码兼容的实现和自动检查都是非常困难的.
-在任何 API 中, 总是会存在一些特殊情况, 某些修改会导致破坏源代码兼容性.
-
-**行为兼容性(Behavioral Compatibility)** 保证任何新的代码都不会改变原来代码行为的语义, Bug 修正除外.
-
-库的 **二进制向后兼容(Binary Backward-compatible)** 版本可以替换这个库以前编译的版本.
+**二进制兼容性** 是指, 库的新版本能够替换这个库以前编译的版本.
 使用这个库的以前版本编译的任何软件, 都应该能够继续正确工作.
 
-在不破坏源代码兼容性的情况下, 也有可能会破坏二进制兼容性, 反过来也是如此.
+> 关于二进制兼容性, 详情请参见 [二进制兼容性验证器的 README](https://github.com/Kotlin/binary-compatibility-validator?tab=readme-ov-file#what-makes-an-incompatible-change-to-the-public-binary-api),
+> 或 [基于 Java 的 API 的演进方式](https://github.com/eclipse-platform/eclipse.platform/blob/master/docs/Evolving-Java-based-APIs-2.md) 文档.
+>
+{style="tip"}
 
-保持二进制兼容性的某些原则是非常显而易见: 不要直接删除 Public API 的某些部分; 相反, 应该 [废弃(deprecate)](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/) 它们.
-后面的各节介绍一些比较少为人了解的原则.
+**源代码兼容性** 是指, 库的新版本能够替换之前的版本, 而不需要修改使用这个库的任何源代码.
+但是, 编译这些客户端代码产生的输出, 可能不再兼容于库编译的输出,
+因此客户端代码必须使用库的新版本重新构建, 以保证兼容性.
 
-## "不要做" 的建议
+**行为兼容性** 是指, 库的新版本不会修改原有的功能, Bug 修正除外.
+功能特性是相同的, 语义也是相同的.
 
-### 不要向既有的 API 函数添加参数 {id="don-t-add-arguments-to-existing-api-functions"}
+## 使用二进制兼容性验证器 {id="use-the-binary-compatibility-validator"}
 
-向一个 Public API 添加无默认值的参数, 是一种破坏性变更(Breaking Change),
-因为既有的代码将没有足够的信息来调用变更后的方法.
-即使添加 [默认参数](functions.md#default-arguments) 也有可能会破坏你的使用者的代码.
+JetBrains 提供了一个 [二进制兼容性验证器](https://github.com/Kotlin/binary-compatibility-validator) 工具,
+它可以用来确保你的 API 的不同版本之间的二进制兼容性.
 
-下面的例子演示向后兼容性如何被破坏, 其中包含两个类: `lib.kt` 表示一个 "库", `client.kt` 表示这个 "库" 的一个 "客户端".
-在真正的应用程序中, 这样的 "库/客户端" 结构是很常见的.
-在这个示例中, "库" 有一个函数, 计算 Fibonacci 数列的第 5 个元素.
-`lib.kt` 文件内容如下:
+这个工具是一个 Gradle plugin, 它会向你的构建添加 2 个 task:
+
+* `apiDump` task 创建一个适合人类阅读的 `.api` 文件, 描述你的 API.
+* `apiCheck` task 对之前保存的 API 描述, 与当前构建中编译产生的类进行比较.
+
+在构建期间, `apiCheck` task 会被标准的 Gradle `check` task 调用.
+如果兼容性被破坏, 构建会失败.
+这个时候, 你应该手动运行 `apiDump` task, 并比较旧版本与新版本的不同之处.
+如果你认为变更是正确的, 你可以更新保存在你的 VCS 中的, 原有的 `.api` 文件.
+
+这个验证器 [实验性的支持验证跨平台库产生的 KLib](https://github.com/Kotlin/binary-compatibility-validator?tab=readme-ov-file#experimental-klib-abi-validation-support).
+
+## 明确指定返回类型 {id="specify-return-types-explicitly"}
+
+在 [Kotlin 编码规约](coding-conventions.md#coding-conventions-for-libraries) 中讨论过,
+你应该总是明确的指定 API 中函数的返回类型和属性类型.
+也请参见 [明确 API 模式](api-guidelines-simplicity.md#use-explicit-api-mode) 章节.
+
+我们来看看下面的示例, 库的开发者创建了一个 `JsonDeserializer`, 而且为了方便, 使用一个扩展函数将它与 `Int` 类型关联起来:
 
 ```kotlin
-fun fib() = ... // 返回第 5 个元素
+class JsonDeserializer<T>(private val fromJson: (String) -> T) {
+    fun deserialize(input: String): T {
+        ...
+    }
+}
+
+fun Int.defaultDeserializer() = JsonDeserializer { ... }
 ```
 
-我们从另一个文件 `client.kt` 中调用这个函数:
+假定库的开发者将这个实现替换为 `JsonOrXmlDeserializer`:
+
+```kotlin
+class JsonOrXmlDeserializer<T>(
+    private val fromJson: (String) -> T,
+    private val fromXML: (String) -> T
+) {
+    fun deserialize(input: String): T {
+        ...
+    }
+}
+
+fun Int.defaultDeserializer() = JsonOrXmlDeserializer({ ... }, { ... })
+```
+
+原有的功能可以继续工作, 并增加了序列化到 XML 的能力.
+但是, 这样的变更破坏了二进制兼容性.
+
+## 不要向既有的 API 函数添加参数 {id="avoid-adding-arguments-to-existing-api-functions"}
+
+向 public API 添加非默认的参数会同时破坏二进制兼容性和源代码兼容性, 因为使用者需要对一个函数调用提供比以前更多的信息.
+但是, 即使是添加 [默认参数](functions.md#default-arguments) 也可能破坏兼容性.
+
+例如, 假设你在 `lib.kt` 中有下面的函数:
+
+```kotlin
+fun fib() = ... // 返回 0
+```
+
+在 `client.kt` 中有下面的函数:
 
 ```kotlin
 fun main() {
-    println(fib()) // 返回 3
+    println(fib()) // 输出结果为 0
 }
 ```
+在 JVM 上编译这 2 个文件会输出 `LibKt.class` 和 `ClientKt.class`.
 
-我们来编译这些类:
-
-```none
-kotlinc lib.kt client.kt
-```
-
-编译结果是 2 个文件: `LibKt.class` 和 `ClientKt.class`.
-
-我们来调用客户端, 确认它能正常工作:
-
-```none
-$ kotlin ClientKt.class
-3
-```
-
-这段代码的设计远远不够完美, 而且出于学习的目的, 使用了硬编码.
-它预先定义了你想要从数列中获取哪个元素, 这样做是不正确的, 而且违反了代码清晰的原则.
-我们来重写这段代码, 保持相同的默认行为: 默认情况下它会返回第 5 个元素, 但也可以指定你想要取得的元素序号.
-
-`lib.kt`:
+假设你重新实现并编译了 `fib` 函数, 实现了 Fibonacci 数列, 例如 `fib(3)` 返回 2, `fib(4)` 返回 3, 等等.
+你添加了一个参数, 但为它指定了默认值 0, 以保持原来的行为不变:
 
 ```kotlin
-fun fib(numberOfElement: Int = 5) = ... // 返回指定的元素
+fun fib(input: Int = 0) = ... // 返回 Fibonacci 数列中的元素
 ```
 
-我们只编译 "库": `kotlinc lib.kt`.
+现在你需要重新编译 `lib.kt` 文件. 你可能期望 `client.kt` 文件 不需要重新编译, 相应的 class 文件可以这样调用:
 
-我们来运行 "客户端":
-
-```none
+```shell
 $ kotlin ClientKt.class
 ```
 
-结果是:
+但如果你这样做, 会发生 `NoSuchMethodError` 错误:
 
-```none
+```text
 Exception in thread "main" java.lang.NoSuchMethodError: 'int LibKt.fib()'
        at LibKt.main(fib.kt:2)
        at LibKt.main(fib.kt)
-       …
+       ...
 ```
 
-发生了 `NoSuchMethodError` 错误, 因为编译之后 `fib()` 函数的签名发生了变化.
+这是因为在 Kotlin/JVM 编译器生成的字节码中, 方法的签名已经改变了, 破坏了二进制兼容性.
 
-如果你重新编译 `client.kt`, 它又可以正常工作了, 因为它会注意到新的函数签名.
-在这个示例中, **在保持源代码兼容性的同时, 破坏了二进制兼容性**.
+但是, 保持了源代码兼容性. 如果你重新编译两个文件, 程序就能够象以前一样运行.
 
-##### 使用反编译(decompilation)来理解具体细节
+### 使用重载(overload)保持兼容性 {id="use-overloads-to-preserve-compatibility" initial-collapse-state="collapsed" collapsible="true"}
 
-> 这段解释只适用于 JVM 平台.
->
-{style="note"}
+在针对 JVM 编写 Kotlin 代码时, 你可以对带有默认参数的函数使用 [`@JvmOverloads`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/) 注解.
+这样会产生这个函数的重载(overload), 对于每个带有默认值, 能够从参数列表最末尾省略的的参数, 都会生成一个对应的重载方法.
+通过这些分别生成的函数, 在参数列表的末尾添加一个新参数能够保持二进制兼容性, 因为它不会改变编译输出中任何原有的函数, 只是添加一个新的函数.
 
-让我们对修改前的 `LibKt` 类调用 [`javap`](https://docs.oracle.com/en/java/javase/20/docs/specs/man/javap.html):
+例如, 上面的函数可以这样添加注解:
 
-```none
-> javap LibKt
-Compiled from "lib.kt"
-public final class LibKt {
- public static final int fib();
+```kotlin
+@JvmOverloads
+fun fib(input: Int = 0) = ...
+```
+
+这样, 在输出的字节码中会生成 2 个方法, 一个没有参数, 另一个有一个 `Int` 参数:
+
+```kotlin
+public final static fib()I
+public final static fib(I)I
+```
+
+对于所有的 Kotlin 编译目标, 你可以选择为你的函数手动创建多个重载, 而不是接受默认参数的单个函数, 以保持二进制兼容性.
+在上面的示例中, 这就代表对希望接受 `Int` 参数的情况, 创建单独的 `fib` 函数:
+
+```kotlin
+fun fib() = ...
+fun fib(input: Int) = ...
+```
+
+## 不要扩大或缩小返回类型的范围 {id="avoid-widening-or-narrowing-return-types"}
+
+在 API 的演化过程中, 经常会希望扩大或缩小一个函数的返回类型的范围.
+例如, 在你的 API 的下一个版本中, 你可能希望将一个返回类型从 `List` 修改为 `Collection`, 或者从 `Collection` 修改为 `List`.
+
+你可能想要将类型缩小为 `List`, 以满足使用者的要求, 支持按索引访问.
+相反, 你可能想要将类型扩大为 `Collection`, 因为你发现你处理的数据没有自然的顺序.
+
+很容易看出, 扩大返回类型会破坏兼容性.
+例如, 从 `List` 转换到 `Collection` 会破坏所有使用索引的代码.
+
+你可能认为缩小返回 类型, 例如从 `Collection` 变为 `List`, 能够保持兼容性.
+不幸的是, 能够保持源代码兼容性, 但会破坏二进制兼容性.
+
+假设你在 `Library.kt` 文件中有一个 demo 函数:
+
+```kotlin
+public fun demo(): Number = 3
+```
+
+在 `Client.kt` 有使用这个函数的客户端代码:
+
+```kotlin
+fun main() {
+    println(demo()) // 输出结果为 3
 }
 ```
 
-对修改后的类也做同样的调用:
+我们想象一种场景, 你修改了 demo 的返回类型, 并且只重编译 `Library.kt`:
 
-```none
-> javap LibKt
-Compiled from "lib.kt"
-public final class LibKt {
- public static final int fib(int);
- public static int fib$default(int, int, java.lang.Object);
-}
+```kotlin
+fun demo(): Int = 3
 ```
 
-签名为 `public static final int fib()` 的方法被替换为一个新的方法, 签名为 `public static final int fib(int)`.
-同时, 一个代理方法 `fib$default` 将调用委托给 `fib(int)`.
-对于 JVM 平台, 可以绕过这个问题: 你需要添加 [`@JvmOverloads`](java-to-kotlin-interop.md#overloads-generation) 注解.
-对于跨平台项目, 没有变通方法.
+当你重新运行客户端, (在 JVM 上)会发生下面的错误:
 
-### 不要在 API 中使用数据类 {id="don-t-use-data-classes-in-an-api"}
+```text
+Exception in thread "main" java.lang.NoSuchMethodError: 'java.lang.Number Library.demo()'
+        at ClientKt.main(call.kt:2)
+        at ClientKt.main(call.kt)
+        ...
+```
 
-我们通常会使用 [数据类(Data Class)](data-classes.md), 因为它们代码短, 简洁, 而且自动提供了很多好的功能.
-但是, 由于数据类工作方式的某些细节, 在库的 API 中最好不要使用它们.
-几乎任何变更都会导致 API 不能向后兼容.
+发生这个错误, 是由于 `main` 方法生成的字节码中的以下指令:
 
-一般来说, 很难预测随着时间的推移你将会需要如何修改一个类.
-即使今天你认为这个类是独立的, 但没有办法确信你的需求在未来不会变化.
-因此, 只有在你决定修改一个这样的类的时候, 数据类的这些问题才会发生.
+```text
+0: invokestatic  #12 // Method Library.demo:()Ljava/lang/Number;
+```
 
-首先, 上一节中介绍过的需要注意的问题, [不要向既有的 API 函数添加参数](#don-t-add-arguments-to-existing-api-functions),
-同样适用于构造器, 因为它也是一个方法.
-第二, 即使你添加了次级构造器(Secondary Constructor), 也不能解决兼容性问题.
-我们来看看下面的数据类:
+JVM 尝试调用一个名为 demo, 返回 `Number` 的静态方法.
+但是, 由于这个方法不再存在, 你就破坏了二进制兼容性.
+
+## 不要在你的 API 中使用数据类 {id="avoid-using-data-classes-in-your-api"}
+
+在通常的开发中, 数据类的力量在于, 会为你生成额外的函数.
+在 API 设计中, 这个优点会变成缺点.
+
+例如, 假如你在你的 API 中使用下面的数据类:
 
 ```kotlin
 data class User(
@@ -166,12 +227,7 @@ data class User(
 )
 ```
 
-例如, 随着时间的推移, 你发现用户需要办理一个激活过程,
-因此你想要添加一个新的域变量, "active", 默认值为 "true".
-这个新的域变量应该能够让既有的代码不需要修改就能正常工作.
-
-在 [上一节](#don-t-add-arguments-to-existing-api-functions) 中我们已经讨论过,
-你不能仅仅只是添加新的域变量, 如下:
+之后, 你可能想要添加一个属性, 名为 `active`:
 
 ```kotlin
 data class User(
@@ -181,220 +237,82 @@ data class User(
 )
 ```
 
-因为这个变更是 **二进制不兼容的**.
+这会从两方面破坏二进制兼容性.
+首先, 生成的构造器会带有不同的签名.
+此外, 生成的 `copy` 方法的签名也会改变.
 
-我们来添加一个新的构造器, 它只接受 2 个参数, 并对第 3 个参数使用默认值来调用主构造器:
+(在 Kotlin/JVM 上) 原来的签名是:
 
-```kotlin
-data class User(
-    val name: String,
-    val email: String,
-    val active: Boolean = true
-) {
-    constructor(name: String, email: String) :
-            this(name, email, active = true)
-}
+```text
+public final User copy(java.lang.String, java.lang.String)
 ```
 
-现在有了 2 个构造器, 而且其中一个的签名与修改之前的类的构造器一致:
+添加 `active` 属性之后, 签名变为:
 
-```java
-public User(java.lang.String, java.lang.String);
+```text
+public final User copy(java.lang.String, java.lang.String, boolean)
 ```
 
-但问题不在于构造器 – 而出在 `copy` 函数. 它的签名发生了变更, 之前是:
+和构造函数一样, 这也会破坏二进制兼容性.
 
-```java
-public final User copy(java.lang.String, java.lang.String);
-```
+通过手动编写次级构造器, 并覆盖 `copy` 方法, 可以绕过这些问题.
+但是, 这样造成的负担就抵消了使用数据类代理的便利.
 
-现在是:
+数据类的另一个问题是, 改变构造器参数的顺序会影响生成的 `componentX` 方法, 解构时会用到这些方法.
+即使如果不破坏二进制兼容性, 改变顺序也一定会破坏行为兼容性.
 
-```java
-public final User copy(java.lang.String, java.lang.String, boolean);
-```
+## 使用 PublishedApi 注解时的注意事项 {id="considerations-for-using-the-publishedapi-annotation"}
 
-这个变更导致代码 **二进制不兼容**.
+Kotlin 允许内联函数成为你的库的 API 的一部分.
+对这些函数的调用将被内联到你的使用者编写的客户端代码内部.
+这可能带来兼容性问题, 因此这些函数不允许调用非 public API 的声明.
 
-当然, 可以数据类的内部添加一个属性, 但这样就失去了数据类的所有优点.
-因此, 在你的 API 中最好不要使用数据类, 因为对数据类的几乎所有变更都会破坏源代码兼容性, 二进制兼容性, 或行为兼容性.
+如果你需要在一个内联的 public 函数中调用你的库的一个 internal API, 你可以对 internal API 添加 [`@PublishedApi`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-published-api/) 注解来实现.
+这样可以让 internal 声明事实上变成 public, 因为对它的引用最终会进入编译后的客户端代码中.
+因此, 在对它进行修改时, 必须和 public 声明一样对待, 因为这些修改可能影响二进制兼容性.
 
-如果你出于某种原因必须使用数据类, 那么你需要覆盖构造器和 `copy()` 方法.
-此外, 如果你向类的 Body 部添加一个域变量, 你需要覆盖 `hashCode()` 和 `equals()` 方法.
+## 务实的演进 API {id="evolve-apis-pragmatically"}
 
-> 交换参数的顺序永远是一种不兼容的变更, 因为 `componentX()` 方法发生了变化.
-> 这样的变更会破坏源代码兼容性, 可能也会破坏二进制兼容性.
->
-{style="warning"}
+在某些情况下, 随着时间的推移, 你会需要对你的库 API 进行破坏性的变更, 删除或修改原有的声明.
+这一节, 我们讨论如何务实的处理这样的情况.
 
-### 不要降低返回值类型的范围 {id="don-t-make-return-types-narrower"}
+当使用者升级到你的库的新版本时, 在他们的项目源代码中, 不应该出现对你的库的 API 的无法解析的引用.
+不要立即从你的库的 public API 中删除某些内容, 你应该遵循一个废弃周期.
+通过这种方式, 你可以给你的使用者时间, 迁移到替代方案.
 
-有些情况下, 尤其是如果你没有使用 [明确 API 模式(Explicit API Mode)](whatsnew14.md#explicit-api-mode-for-library-authors),
-返回值类型声明可能发生隐含的变化.
-但即使在这样的情况之外, 你也可能会降低返回值类型的范围.
-例如, 你可能发现需要使用下标索引来访问你的集合中的元素, 并且希望将返回值类型从 `Collection` 修改为 `List`.
-放宽返回值类型的范围通常会破坏源代码兼容性; 例如, 将 `List` 转换为 `Collection`, 会破坏所有使用下标索引访问元素的代码.
-降低返回值类型的范围通常是源代码兼容的变更, 但会破坏二进制兼容性, 本节会进行解释.
+应该对旧的声明使用 [`@Deprecated`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/) 注解, 表示它正在被替代.
+这个注解的参数提供了关于废弃的重要细节信息:
 
-我们来看看 `library.kt` 文件中的一个库函数:
+* `message` 应该解释发生了什么变更, 以及变更的理由.
+* 如果有可能, 应该使用 `replaceWith` 参数, 提供到新 API 的自动迁移.
+* 应该使用废弃的级别, 逐步的废弃 API. 详情请参见 [Kotlin 文档关于 Deprecated 的页面](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-deprecated/).
 
-```kotlin
-public fun x(): Number = 3
-```
+一般来说, 废弃应该首先产生警告信息, 然后升级到错误, 之后隐藏声明.
+这个过程应该在几个小的发布版本中进行, 给使用者时间, 在他们的项目中进行必要的修改.
+破坏性的变更, 例如删除 API, 应该只在大的发布版本中发生.
+一个库可能会采用不同的版本策略和废弃策略, 但必须与使用者沟通, 让使用者产生正确的期望.
 
-在 `client.kt` 文件中对这个函数的使用示例:
+更多详情请参见 [Kotlin 的演化原则文档](kotlin-evolution-principles.md#libraries),
+以及 Leonid Startsev 在 KotlinConf 2023 上的演讲, [针对客户端不造成负担的演进你的 Kotlin API](https://www.youtube.com/watch?v=cCgXtpVPO-o&t=1468s).
 
-```kotlin
-fun main() {
-    println(x()) // 输出结果为 3
-}
-```
+## 使用 RequiresOptIn 机制 {id="use-the-requiresoptin-mechanism"}
 
-我们使用 `kotlinc library.kt client.kt` 编译它, 并确认它能够正确工作:
+Kotlin 标准库 [提供了 opt-in 机制](opt-in-requirements.md), 要求使用者在使用你的 API 的某个部分之前, 明确的表示同意.
+这是通过创建标记注解来实现的, 这些注解本身需要标注 [`@RequiresOptIn`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-requires-opt-in/) 注解.
+你应该使用这个机制, 来管理使用者对源代码兼容性和行为兼容性的期望, 尤其是向你的库引入新的 API 的情况.
 
-```none
-$ kotlin ClientKt
-3
-```
+如果你选择使用这个机制, 我们推荐下面这些最佳实践:
 
-下面我们将 "库" 函数 `x()` 返回值类型从 `Number` 改为 `Int`:
+* 使用 opt-in 机制, 对 API 的不同部分提供不同的保证. 例如, 你可以将功能标记为 _Preview_, _Experimental_, 以及 _Delicate_.
+  每个类别应该在你的文档和 [KDoc 注释](kotlin-doc.md) 中清楚的解释, 并带有适当的警告信息.
+* 如果你的库使用一个实验性的 API, 要将 [注解传播](opt-in-requirements.md#propagating-opt-in) 给你自己的使用者.
+  这样可以保证你的使用者认识到, 你依赖于某些正在演化中的功能.
+* 不要使用 opt-in 机制来废弃你的库中已经存在的声明.
+  要使用 `@Deprecated`, 如 [务实的演进 API](#evolve-apis-pragmatically) 小节所述.
 
-```kotlin
-fun x(): Int = 3
-```
+## 下一步做什么 {id="what-s-next"}
 
-并且只重编译客户端: `kotlinc client.kt`.
-现在 `ClientKt` 不能再象期望的那样工作了.
-它不会输出 `3`, 而是抛出一个异常:
+如果你还没有阅读过, 请阅读这些章节:
 
-```none
-Exception in thread "main" java.lang.NoSuchMethodError: 'java.lang.Number Library.x()'
-    	at ClientKt.main(call.kt:2)
-    	at ClientKt.main(call.kt)
-    	...
-```
-
-发生这个问题是因为字节码中下面的这行:
-
-```none
-0: invokestatic  #12 // 方法 Library.x:()Ljava/lang/Number;
-```
-
-这行的意思是, 你调用返回类型为 `Number` 的静态方法 `x()`.
-但这个方法已经不存在了, 因此 **二进制兼容性被破坏了**.
-
-## @PublishedApi 注解 {id="the-publishedapi-annotation"}
-
-有些时候, 你可能需要使用你的一部分内部 API, 来实现 [内联函数(Inline Function)](inline-functions.md).
-你可以通过 [`@PublishedApi`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-published-api) 注解达到这个目的.
-你应该将标注了 `@PublishedApi` 的代码看作是 Public API 的一部分,
-因此, 你应该小心注意向后兼容性问题.
-
-## @RequiresOptIn 注解 {id="the-requiresoptin-annotation"}
-
-有些时候, 你可能想要让用户试用你的 API.
-在 Kotlin 中, 有很好的方法将某些 API 定义为不稳定状态 – 使用 [`@RequiresOptIn` 注解](opt-in-requirements.md#require-opt-in-for-api).
-但是, 要注意以下问题:
-1. 如果你很长时间没有修改你的 API 的某个部分, 而且它已经处于稳定状态, 你应该重新考虑是否使用 `@RequiresOptIn` 注解.
-2. 你可以使用 `@RequiresOptIn` 注解来对 API 的不同部分定义不同的保证级别:
-   预览版, 实验版, 内部版, Delicate, 或 Alpha, Beta, RC.
-3. 你应该明确定义各个 [级别](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-requires-opt-in/-level/)
-   代表什么含义, 编写 [KDoc](kotlin-doc.md) 注释, 并添加警告信息.
-
-如果你依赖于一个 API 明确要求使用者同意, 不要使用 `@OptIn` 注解.
-要使用 `@RequiresOptIn` 注解, 这样可以让你的用户能够有意识的选择他们想要哪个 API, 不想要哪个 API.
-
-`@RequiresOptIn` 的另一个例子是, 如果你想要在使用者使用某个 API 时明确的提出警告.
-例如, 如果你在维护一个库, 它利用了 Kotlin 的反射功能, 你可以对这个库中的类添加 `@RequiresFullKotlinReflection` 注解.
-
-## 明确 API 模式(Explicit API Mode) {id="explicit-api-mode"}
-
-你应该让你的 API 保持尽可能的清楚明白.
-为了强制让 API 清楚明白, 请使用 [明确 API 模式(Explicit API Mode)](whatsnew14.md#explicit-api-mode-for-library-authors).
-
-Kotlin 给了你很大的自由度来决定如何编写代码.
-可以省略类型定义, 可见度声明, 或文档.
-明确 API 模式强制要求你(作为开发者), 将这些隐含的信息明确的定义清楚.
-在上面的链接中, 你可以看到如何启用这个功能.
-我们来理解一下你为什么需要这个功能:
-
-1. 不使用明确 API 模式, 会很容易破坏向后兼容性:
-
-   ```kotlin
-   // 版本 1
-   fun getToken() = 1
-
-   // 版本 1.1
-   fun getToken() = "1"
-   ```
-
-   `getToken()` 的返回类型发生了变化, 而你甚至不需要修改它的签名, 就破坏了使用者的代码.
-   他们期望的返回值是 `Int`, 但实际得到的是 `String`.
-
-2. 对可见度也是如此. 如果 `getToken()` 函数是 `private`, 那么向后兼容性不会被破坏.
-   但如果没有明确的可见度声明, 就不清楚 API 的使用者是否应该能够访问它.
-   如果使用者应该可以访问, 那么应该声明为 `public`, 并添加文档; 这种情况下, 上面的变更会破坏向后兼容性.
-   如果使用者不应该可以访问, 那么应该声明为 `private` 或 `internal`, 上面的变更就不会造成破坏.
-
-## 用于增强向后兼容性的工具 {id="tools-designed-to-enforce-backward-compatibility"}
-
-在软件开发中, 向后兼容性是一个至关重要的方面, 因为它能够确保库或框架的新版本能够与既有的代码一起使用, 而不引起任何问题.
-维护向后兼容性可能成为一项困难而且耗费时间的任务, 尤其是在处理大型代码库, 或复杂 API 的时候.
-向后兼容性很难手动维护, 而且开发者经常需要依赖于测试和手动检查来确保新的变更不会破坏既有的代码.
-为了解决这个问题, JetBrains 创建了 [二进制兼容性验证器](#binary-compatibility-validator),
-此外还有另一个解决方案: [japicmp](#japicmp).
-
-> 目前, 这两个工具都只能用于 JVM 平台.
->
-{style="note"}
-
-这两个解决方案都有它们的优点和缺点. japicmp 可以用于任何 JVM 语言, 而且它既是一个 CLI 工具, 也是一个构建系统 plugin.
-但是, 它要求应用程序的旧版本和新版本都以 JAR 文件形式提供.
-如果你不能得到你的库的旧版本的构建, 它就不那么容易使用了.
-而且, japicmp 会给出 Kotlin metadata 的变更信息, 你可能并不需要 (因为 metadata 格式并没有明确的规格, 而且它只供 Kotlin 内部使用).
-
-二进制兼容性验证器只能作为 Gradle plugin 使用, 而且它还处于 [Alpha 阶段](components-stability.md#stability-levels-explained).
-它不需要访问 JAR 文件. 它只需要以前的 API 和当前 API 的特定的 dump. 它能够自己收集这些 dump.
-关于这些工具, 详情请阅读下文.
-
-### 二进制兼容性验证器 {id="binary-compatibility-validator"}
-
-[二进制兼容性验证器](https://github.com/Kotlin/binary-compatibility-validator) 是一个工具,
-它自动检测并报告 API 中的破坏性变更, 帮助确保你的库和框架的向后兼容性.
-这个工具分析你进行修改之前和之后的库的字节码, 并比较两个版本, 找出可能破坏既有代码的变更.
-这使得你可以在问题暴露给使用者之前, 更加容易的检测并修复问题.
-
-这个工具可以节约你在手动测试和检查上耗费的大量的时间和精力.
-它还能帮助防止 API 中的破坏性变更可能造成的问题.
-最终可以带来更好的用户体验, 因为用户能够依赖于库和框架的稳定性和兼容性.
-
-### japicmp
-
-如果你的开发平台只有 JVM, 你也可以使用 [japicmp](https://siom79.github.io/japicmp/).
-japicmp 工作的层级与二进制兼容性验证器不同: 它比较两个 jar 文件 – 旧版本和新版本 – 并报告它们之间的不兼容性.
-
-要注意, japicmp 不仅仅报告不兼容性, 还包括不会对使用者造成任何影响的变更.
-例如, 对于下面的代码:
-
-```kotlin
-class Calculator {
-    fun add(a: Int, b: Int): Int = a + b
-    fun multiply(a: Int, b: Int): Int = a * b
-}
-```
-
-如果你添加一个新的方法, 并不破坏兼容性, 如下:
-
-```kotlin
-class Calculator {
-    fun add(a: Int, b: Int): Int = a + b
-    fun multiply(a: Int, b: Int): Int = a * b
-    fun divide(a: Int, b: Int): Int = a / b
-}
-```
-
-japicmp 会报告以下变更:
-
-<img src="japicmp-calculator-output.png" alt="japicmp 兼容性检查的输出" width="700"/>
-
-这仅仅是在 `@Metadata` 注解中的变更, 并没有什么重要意义, 但 japicmp 并不理解 JVM 语言, 必须报告它发现的一切变更.
+* 阅读 [减少认知复杂度 (Mental Complexity)](api-guidelines-minimizing-mental-complexity.md), 学习减少认知复杂度的各种策略.
+* 关于有效的文档的实践, 请参见 [信息丰富的文档](api-guidelines-informative-documentation.md).

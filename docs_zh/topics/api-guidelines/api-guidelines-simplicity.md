@@ -8,7 +8,7 @@
 
 In the next part of the guide, we'll discuss some guidelines for promoting simplicity.
 
-## 使用明确 API 模式(Explicit API Mode)
+## 使用明确 API 模式(Explicit API Mode) {id="use-explicit-api-mode"}
 
 我们推荐使用 Kotlin 编译器的 [明确 API 模式(Explicit API Mode)](whatsnew14.md#explicit-api-mode-for-library-authors) 功能,
 它会强迫你在为你的库设计 API 时明确的说明你的意图.

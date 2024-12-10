@@ -165,7 +165,7 @@ Kotlin 的一个语言功能, 可能是以下几种状态:
 请参见 [Kotlin 中各部分组件的稳定性状态](components-stability.md),
 例如 Kotlin/JVM, JS, Native 编译器, 以及各种库.
 
-## 库
+## 库 {id="libraries"}
 
 离开了它的生态系统, 一个编程语言就毫无用处了, 因此我们付出了很大的努力, 来确保 Kotlin 库的平滑演进.
 

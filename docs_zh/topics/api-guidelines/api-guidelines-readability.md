@@ -94,9 +94,9 @@ fun Json(prettyPrint: Boolean, isLenient: Boolean): Json
 * 它还使创建和维护文档更加容易.
   你可以对每个属性在它的声明处分别编写文档, 而不是在同一个地方, 对一个函数的很多参数编写文档.
 
-## 使用扩展函数和属性
+## 使用扩展函数和扩展属性 {id="use-extension-functions-and-properties"}
 
-我们推荐使用 [扩展函数和属性](extensions.md) 提高可读性.
+我们推荐使用 [扩展函数和扩展属性](extensions.md) 提高可读性.
 
 类和接口应该定义定义类型的核心概念.
 附加的功能和信息应该写成扩展函数和属性.

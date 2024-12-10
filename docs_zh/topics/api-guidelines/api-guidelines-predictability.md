@@ -43,7 +43,7 @@ val client = HttpClient(CIO) {
 使用者可以选择安装哪些 plugin, 也可以使用 [用于定义 client plugin 的专用 API](https://ktor.io/docs/client-custom-plugins.html) 创建他们自己的 plugin.
 
 此外, 使用者还可以对库中的类型定义扩展函数和属性.
-作为库的作者, 你可以 [在设计时考虑扩展](api-guidelines-readability.md#use-extension-functions-and-properties),
+作为库的开发者, 你可以 [在设计时考虑扩展](api-guidelines-readability.md#use-extension-functions-and-properties),
 并确保你的库的类型具有清晰的核心概念, 让使用者的扩展更加容易.
 
 ## 防止不期望的和不正确的扩展
