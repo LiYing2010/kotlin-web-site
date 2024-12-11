@@ -109,7 +109,7 @@ KDoc 目前支持以下块标签:
 [Markdown](https://daringfireball.net/projects/markdown/syntax)
 语法, 但添加了一种缩写语法来生成指向代码内其他元素的链接.
 
-### 指向元素的链接
+### 指向元素的链接 {id="links-to-elements"}
 
 要生成指向其他元素(类, 方法, 属性, 或参数)的链接, 只需要简单地将它的名称放在方括号内:
 

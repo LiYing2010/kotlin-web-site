@@ -13,6 +13,6 @@
             <toc-element topic="api-guidelines-testability.md"/>
         </toc-element>
         <toc-element toc-title="向后兼容性" accepts-web-file-names="jvm-api-guidelines-backward-compatibility.html" topic="api-guidelines-backward-compatibility.md"/>
-        <toc-element toc-title="Informative documentation" topic="api-guidelines-informative-documentation.md"/>
+        <toc-element toc-title="信息丰富的文档" topic="api-guidelines-informative-documentation.md"/>
     </snippet>
 </instance-profile>

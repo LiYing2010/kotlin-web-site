@@ -1,158 +1,165 @@
-[//]: # (title: Best practices for library authors to create informative documentation)
+[//]: # (title: 针对库开发者的创建信息丰富的文档的最佳实践)
 
-The documentation you provide for your library is crucial.
-It can determine whether users investigate your library, adopt it within their projects, and persevere when they encounter difficulties.
-Developers today have unprecedented choice between languages, libraries, frameworks and platforms.
-Therefore, it is essential to engage and inform your users; otherwise they may pursue other options.
+你为你的库提供的文档是非常重要的.
+它可以决定使用者是否深入了解你的库, 是否在他们的项目中采用它, 在遇到困难时是否会继续坚持下去.
+现在的开发者在各种语言, 库, 框架和平台之间, 拥有前所未有的选择.
+因此, 吸引你的使用者, 并为他们提供各种信息, 是非常重要的; 否则, 他们可能会寻求其他的选择.
 
-In the earliest versions of your library, feedback from users will be scarce.
-Fortunately, creating and refining documentation can serve as a feedback loop to greatly increase the quality of your project.
-As such, creating documentation should never be seen as a burden, and should not be pushed down the list of priorities when creating a library.
+在你的库的最早的版本中, 来自使用者的反馈会非常稀少.
+幸运的事, 创建并完善文档可以形成一个反馈循环, 大大提升你的项目的质量.
+因此, 创建文档不应该看作一种负担, 也不应该在创建库时放在优先事项中较低的位置.
 
-Effective documentation not only informs users but also drives the development and refinement of your library.
-Here are several key ways documentation can guide your development process:
+有效的文档不仅可以为使用者提供信息, 而且还能推动你的库的开发和完善.
+下面是文档指导你的开发过程的几种主要方式:
 
-* You should be able to explain, in a couple of paragraphs, what your library does, who will benefit from using it, and what the advantages are over alternative approaches. If you cannot do this, reconsider the scope and objectives of your project.
-* You should be able to create a "Getting Started" guide that can get a potential user up and running as quickly as possible. What counts as *quickly* will depend on the problem domain, but you can compare against similar libraries on other platforms. The guide should hook the user into a feedback loop that keeps getting easier and faster while always producing reliable results. Creating this guide will help you identify sudden increases in complexity (cliff edges) that could hinder the user's progress.
-* The act of documenting a function forces you to consider all the edge cases, such as valid ranges of inputs, exceptions that might be thrown, and how performance degrades as the work increases. This can often lead to improvements in the function signatures and the underlying implementation.
-* If the code required to initialize your library always eclipses the code required to accomplish a task, rethink your configuration options.
-* If you cannot create clear examples of performing basic tasks with standard options, consider optimizing your API for day-to-day use.
-* If you cannot demonstrate how to test your library without using real data sources and online services, consider providing test doubles for components that access the network (and the outside world in general).
+* 你应该能够通过几段文字解释, 你的库做什么, 谁能够从中受益, 以及与其它方案相比有什么优势.
+  如果你做不到, 那么请重新考虑你的项目的范围和目标.
+* 你应该能够创建一个 "入门" 指南, 让潜在的使用者能够尽量快速的启动.
+  怎么样才叫做 *快速*, 取决于问题领域, 但你可以与其他平台上类似的库进行比较.
+  这个指南应该引导使用者进入反馈循环, 这个循环会变得更加简单, 更加快速, 而且始终产生可靠的结果.
+  创建这个指南能够帮助你识别出那些阻碍使用者进步的突然增加的复杂性(悬崖边缘).
+* 为函数编写文档的过程会迫使你考虑所有的边缘情况, 例如输入的有效范围, 可能抛出的异常, 以及随着负载的增加性能会如何下降.
+  这个过程经常会导致函数签名的改进, 以及底层实现的改进.
+* 如果初始化你的库所需要的代码总是超过完成一个任务所需要的代码, 请重新考虑你的配置选项.
+* 如果你不能创建清晰的示例, 使用标准选项执行基本任务, 请考虑为日常的使用优化你的 API.
+* 如果你不能演示如何在不使用真实的数据源和在线服务的情况下测试你的库, 请考虑为访问网络(一般来说, 访问外部世界)的组件提供测试替身.
 
-The sooner you provide documentation for your library, the sooner it can be tested by real-world users.
-Feedback from these tests can then be used to improve the design.
+你越早为你的库提供文档 , 它就能够越早供真实世界的使用者测试.
+然后就能够利用来自这些测试的反馈改进库的设计.
 
-## Provide comprehensive documentation
+## 提供全面的文档 {id="provide-comprehensive-documentation"}
 
-Your library must provide sufficient documentation to let users adopt it with minimum effort.
-This documentation should include:
+你的库必须提供充足的文档, 让使用者能够以最小的负担来使用它.
+这个文档应该包括:
 
-* A Getting Started guide
-* An in-depth description of the API
-* Longer examples for common use cases (also known as recipes)
-* Links to resources such as blogs, articles, webinars, and conference talks
+* 入门指南
+* 的深入描述
+* 针对常见使用场景的更长的示例 (也称做菜谱)
+* 各种资源的链接, 例如 Blog, 文章, 在线研讨会, 会议演讲等等
 
-The Getting Started guide should cover how your library integrates with the supported build systems.
-It should include a brief description of the most commonly used entities, with small examples of how they are used.
-At each point where the library interacts with the outside world, specify the necessary steps to configure the environment
-and how to verify that these steps have been completed successfully.
-State explicitly if no steps are necessary.
+入门指南应该包括你的库如何与它支持的构建系统集成.
+应该包括对最常使用的实体的简要描述, 以及如何使用这些实体的小示例.
+在库与外部世界交互的每个地方, 要指定配置环境的必要步骤, 以及如何验证是否成功完成了这些步骤.
+如果不需要任何步骤, 也要明确说明.
 
-If possible, provide separate versions of the documentation for each version of the library you support.
-This prevents users from viewing information that is either outdated or too recent.
-When this is not possible, clearly mark sections of the documentation that relate to parts of the API that have been redesigned.
+如果可能, 要对你支持的每个库版本提供单独版本的文档.
+这样可以防止使用者查看过期的信息, 或太新的信息.
+如果做不到这一点, 要清楚的标记与 API 中已被重新设计的部分相关的文档章节.
 
-## Create personas for your users
+## 为你的使用者创建角色 {id="create-personas-for-your-users"}
 
-Creating and evaluating documentation without a clear understanding of the intended audience is challenging.
-Defining multiple personas for the types of users who will read your documentation can be helpful.
+对目标受众没有清楚了解的情况下, 创建和评估文档是很困难的.
+对阅读你的文档的使用者类型定义几种角色, 会有所帮助.
 
-Consider the user's constraints, such as the pre-existing software stack within which they need to operate.
-Reviewers of the documentation can adopt these personas to make their conclusions more meaningful.
+要考虑使用者的限制条件, 例如他们需要操作的原有的软件栈.
+文档的审阅者能够采用这些角色, 让他们的结论更加有意义.
 
-When you lack specific information about your users, it's best to be pessimistic.
-For example, do not assume expertise in the latest or most advanced features of Kotlin.
-Keep your code examples as simple as possible.
+如果你缺乏关于使用者的具体信息, 最好保持悲观态度.
+例如, 不要假设他们精通 Kotlin 的最新或最先进的功能.
+要让你的代码示例尽可能的简单.
 
-Personas are especially useful when real-world users cannot be consulted due to time, budgetary constraints,
-or confidentiality agreements.
-Over time, as you gain a better understanding of your users, refine the personas to match their needs more accurately.
+由于时间, 预算的限制, 或者由于保密协议的原因, 无法咨询真实世界的使用者时, 角色会非常有用.
+随着时间的推移, 你对使用者的理解更加深入之后, 可以进一步改进角色, 更加准确的满足他们的需求.
 
-## Document by example whenever possible
+## 尽可能使用示例来创建文档 {id="document-by-example-whenever-possible"}
 
-Documentation by example is one of the most cost-effective ways to explain basic concepts to users.
-Whenever possible, provide simple and clear code examples that help to explain or demonstrate the current topic or concept being discussed.
+使用示例的文档, 是向使用者解释基本概念的成本-效益最好的方式之一.
+要尽可能的提供简单而且清晰的代码示例, 帮助解释或演示当前正在讨论的主题或概念.
 
-The KDoc documentation format lets you use [inline markup using Markdown](kotlin-doc.md#inline-markup) in your documentation comments.
-Use inline code snippets in comments to showcase the usage of an API.
-For an example, see the [source code](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-test/common/src/TestCoroutineDispatchers.kt) and [rendered documentation](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-test/kotlinx.coroutines.test/-unconfined-test-dispatcher.html) of the test dispatchers of the coroutines library.
+通过 KDoc 文档格式, 你可以在你的文档注释中 [使用 Markdown 实现内联的标记](kotlin-doc.md#inline-markup).
+要在注释中使用内联的代码片段来演示 API 的使用方法.
+相关的示例, 请参见协程库的测试调度器的 [源代码](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-test/common/src/TestCoroutineDispatchers.kt) 和 [展示的文档](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-test/kotlinx.coroutines.test/-unconfined-test-dispatcher.html).
 
-Providing examples like this can avoid the need to write lengthy descriptions of expected inputs, possible outputs,
-and failure modes.
-However, the context for each example needs to be clear, as do the circumstances in which it is relevant.
-Simply providing a folder of uncommented sample programs does not qualify as documentation.
+提供这样的示例, 可以不必编写冗长的描述文字, 来解释期望的输入, 可能的输出, 以及失败模式.
+但是, 每个示例的上下文, 以及它相关的情况, 都必须清晰.
+简单的提供一个文件夹, 包含一些没有注释的例子程序, 这样做不能称作文档.
 
-## Thoroughly document your API
+## 为你的 API 全部创建文档 {id="thoroughly-document-your-api"}
 
-Every supported API entry point should be documented using [KDoc](kotlin-doc.md).
+你的库支持的每个 API 入口点都应该使用 [KDoc](kotlin-doc.md) 编写文档.
 
-Kotlin's documentation engine, [Dokka](dokka-introduction.md), includes only public declarations in its outputs by default. As discussed in the [Simplicity](api-guidelines-simplicity.md) section,
-you should minimize your public API and remove public entry points that you don't want users to access.
-If there are APIs you cannot hide from users by controlling their visibility, omit them from the documentation using the [suppress directive](kotlin-doc.md#suppress).
+Kotlin 的文档引擎, [Dokka](dokka-introduction.md), 在它的输出中默认只包含 public 声明.
+我们在 [简单性](api-guidelines-simplicity.md) 中讨论过,
+你应该最小化你的 public API, 删除你不希望使用者使用的 public 入口点.
+如果存在某些 API,  你不能通过控制可见度来向使用者隐藏它们, 请使用 [suppress 指令](kotlin-doc.md#suppress), 在文档中省略它们.
 
-Begin the description of entry points with a clear, high-level description of what the function does.
-Avoid simply restating the signature in natural language.
+要对函数的功能进行清晰, 高层级的描述, 以此开始描述入口点.
+不要简单的用自然语言把函数签名重复一遍.
 
-For example, don't say “takes a `String` and returns a `Connection`” but instead perhaps
-“Attempts to connect to the database specified by the input string, returning a `Connection` if successful, and throwing a `ConnectionTimeoutException` otherwise”.
+例如, 不要说 “接受一个 `String` 参数, 返回一个 `Connection`”, 而应该说
+“尝试连接到输入字符串指定的数据库, 如果成功, 则返回 `Connection`, 否则抛出 `ConnectionTimeoutException` 异常”.
 
-Specify each input's expected values and behavior with different inputs.
-Explain the range of valid values and what happens when invalid values are provided.
-For example, if a string input is supposed to be a URL, describe what happens when the string is empty, invalid, uses an unsupported protocol,
-or refers to a location that does not exist.
+要指明每个输入的预期值, 以及对各种输入的行为.
+要解释有效值的范围, 以及提供不正确的值时会发生什么结果.
+例如, 如果一个字符串输入应该是一个 URL, 要描述清楚, 如果字符串为空, 不合法, 使用不支持的协议,
+或指向不存在的位置, 各种情况下会发生什么结果.
 
-Document every exception an API entry point may throw. Discuss failure conditions in the general description and reserve the exception section for detailed information. This enhances readability and helps the reader focus. Instead, include this information organically into the general description. Providing usage examples whenever possible also helps users understand how to implement the API correctly.
+要对一个 API 入口点可能抛出的每个异常编写文档.
+在一般描述中讨论失败条件, 详细信息留到异常部分讨论.
+这样可以增加可读性, 并帮助读者集中注意力.
+相反, 要将这些信息有机的包含到一般描述中(译注: 原文疑似有错误).
+尽量提供使用示例, 也能够帮助使用者理解如何正确的使用 API.
 
-> We recommend learning about technical writing to improve the clarity and effectiveness of your documentation. 
-> Consider exploring resources, such as this course from Google ([part one](https://developers.google.com/tech-writing/one) and [part two](https://developers.google.com/tech-writing/two)).
+> 我们建议学习技术写作, 以提升你的文档的清晰度和有效性.
+> 可以阅读外部资源, 例如 Google 的这个课程 ([第 1 部分](https://developers.google.com/tech-writing/one) 和 [第 2 部分](https://developers.google.com/tech-writing/two)).
 > 
 {style="tip"}
 
-## Document lambda parameters
+## 为 Lambda 表达式参数创建文档 {id="document-lambda-parameters"}
 
-When an API entry point takes a lambda, the user is providing some functionality that your library will execute on their behalf.
-This requires extra documentation in at least two areas.
+当一个 API 入口点接受 Lambda 表达式作为参数时, 使用者会提供某种功能, 你的库将会为他们执行这个功能.
+这就要求提供至少两方面的额外的文档.
 
-First, document what happens if the lambda throws an exception. Consider addressing the following questions:
+首先, 要对如果 Lambda 表达式抛出异常会发生什么编写文档.
+要解决以下问题:
 
-* Will this cause an immediate failure, will the lambda be invoked repeatedly, or is there a fallback behavior?
-* If the calling function needs to exit, will it rethrow the exception thrown from the lambda or a different one?
-* If the exception is different, will it include the original?
+* 这会导致立即失败吗, Lambda 表达式会被重复调用吗, 是否存在回退(fallback) 行为?
+* 如果调用的函数需要退出, 它是否会重新抛出 Lambda 表达式抛出的异常, 或者抛出另一个异常?
+* 如果抛出另一个异常, 它是否包含原来的异常?
 
-Additionally, unless the function is declared as inline,document any special behavior relating to concurrency.
-Ensure the following are covered:
+此外, 除非函数被声明为内联, 否则要对与并发有关的任何特殊行为创建文档.
+确保涵盖了以下内容:
 
-* Will the lambda be invoked in the same thread as the caller?
-* If the lambda is not invoked in the same thread as the caller, which thread (or thread pool) will it be invoked in?
-* Could multiple copies of the lambda be run in parallel?
-* Which other jobs of work may be using that thread?
-* Can the user specify a thread for the library to use?
-* Where multiple lambdas are being invoked, what guarantees are provided regarding sequencing?
+* Lambda 表达式是否会在与调用者相同的线程中被调用?
+* 如果 Lambda 表达式不在与调用者相同的线程中被调用, 那么会在哪个线程 (或线程池) 中被调用?
+* Lambda 表达式的多个副本能够并行运行吗?
+* 还有哪些其它工作可能会正在使用这个线程?
+* 使用者能否指定一个线程让库使用?
+* 当多个 Lambda 表达式被调用时, 对执行顺序提供什么样的保证?
 
-## Use explicit links in documentation
+## 在文档中使用明确的链接 {id="use-explicit-links-in-documentation"}
 
-It is very rare for an API entry point to be completely independent of other functionality in your library.
-Typically, calls must be made in a specific sequence, there are multiple options for performing a particular task,
-and entry points that perform related tasks are used in similar ways.
-For example, functions like `format` and `parse` mirror each other.
+一个 API 入口点完全独立于你的库中的其它功能的情况是非常少见的.
+通常来说, 调用必须按照某种顺序进行, 对于执行某个特定的任务存在多种选项, 执行相关任务的入口点也以类似的方式使用.
+例如, `format` 函数和 `parse` 函数相互之间成为镜像.
 
-Use the [`@see`](kotlin-doc.md#see-identifier) tag or [internal links](kotlin-doc.md#links-to-elements) to make these relationships explicit in your documentation.
-This helps the reader by enabling them to [chunk](https://en.wikipedia.org/wiki/Chunking_(psychology)) the information together, building a better-integrated mental map of the library.
+应该使用 [`@see`](kotlin-doc.md#see-identifier) 标记, 或 [内部链接](kotlin-doc.md#links-to-elements),
+在你的文档中明确说明这些关系.
+这样可以帮助读者将信息 [整合](https://en.wikipedia.org/wiki/Chunking_(psychology)) 在一起,
+构建一个更加整体性的库的认知图景.
 
-## Be self-contained where possible
+## 尽量保持独立(self-contained) {id="be-self-contained-where-possible"}
 
-When describing what makes an input valid, it is tempting to simply refer to the relevant standard, such as those produced
-by the W3C, IEEE, or Unicode Consortium.
-While providing these links can be helpful, the reader should not be forced to refer to an external specification to discover basic information,
-like the set of whitespace characters.
+在描述什么样的输入有效时, 人们倾向于直接参考相关标准, 例如由 W3C, IEEE, 或 Unicode 联盟指定的标准.
+尽管提供这些链接可能有所帮助, 但不应该强迫读者为了理解基本信息而去参考外部的规范, 例如空白字符集.
 
-Wherever possible, the documentation should be self-contained.
-It should provide enough information for the user to understand the typical use of each API entry point.
-You can refer the user to external documents for edge cases that will not happen in common use.
+只要有可能, 文档应该保持独立.
+它应该为使用者提供足够的信息, 来理解每个 API 入口点典型的使用方法.
+通常的使用不会发生的对边缘情况, 你可以让使用者参考外部文档.
 
-## Use simple English
+## 使用简单的英语 {id="use-simple-english"}
 
-It's important to use simple and clear English when creating documentation.
-This ensures that your content is accessible to a global audience, including those whose first language is not English.
-Avoid using complex words, jargon, Latin phrases, or idiomatic expressions that might confuse readers.
-Instead, use straightforward language and concise sentences.
+在创建文档时, 使用简单而且清晰的英语, 是非常重要的.
+这可以保证你的内容能够供全球的受众阅读, 包括那些非英语母语的人们.
+不要使用复杂的词汇, 行话, 拉丁短语, 或惯用表达, 这些都可能让读者感到困惑.
+相反, 要使用直白的语言, 和简洁的句子.
 
-Simple English also makes the documentation easier to translate if needed.
-Clear, unambiguous text reduces the risk of misinterpretation and improves the overall readability. 
+简单的英语还能让文档在需要的时候更容易翻译.
+清晰, 没有歧义的文字能够减少误解的风险, 提高整体的可读性.
 
-## What's next
+## 下一步做什么 {id="what-s-next"}
 
-If you haven't already, consider checking out these pages:
+如果你还没有阅读过, 请阅读这些章节:
 
-* Explore strategies for minimizing mental complexity in the [Minimizing mental complexity](api-guidelines-minimizing-mental-complexity.md) page.
-* Learn about maintaining backward compatibility in the [Backward compatibility](api-guidelines-backward-compatibility.md) page.
+* 阅读 [减少认知复杂度 (Mental Complexity)](api-guidelines-minimizing-mental-complexity.md), 学习减少认知复杂度的各种策略.
+* 阅读 [向后兼容性](api-guidelines-backward-compatibility.md), 学习如何维护向后兼容性.
