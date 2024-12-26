@@ -154,7 +154,7 @@ kotlin {
 >
 {style="warning"}
 
-### JVM 编译目标
+### JVM 编译目标 {id="jvm-targets"}
 
 除 [所有编译目标的共通配置](#common-target-configuration) 之外, `jvm` 编译目标还支持以下专有函数:
 
@@ -175,7 +175,7 @@ kotlin {
 }
 ```
 
-### Web 编译目标
+### Web 编译目标 {id="web-targets"}
 
 `js {}` 代码块描述 Kotlin/JS 编译目标的配置, `wasmJs {}` 代码块描述与 JavaScript 交互的 Kotlin/Wasm 编译目标的配置.
 根据编译目标的执行环境不同, 它们可以包含以下两个代码块之一:
@@ -203,7 +203,7 @@ kotlin {
 这个调用明确的指示 Kotlin 编译器生成可执行文件.
 更多详情请参见 Kotlin/JS 文档中的 [执行环境](js-project-setup.md#execution-environments) 部分.
 
-#### 浏览器
+#### 浏览器 {id="browser"}
 
 `browser {}` 代码块包含以下配置代码块:
 
@@ -226,7 +226,7 @@ kotlin {
 }
 ```
 
-#### Node.js
+#### Node.js {id="node-js"}
 
 `nodejs {}` 代码块包含测试和运行任务的配置:
 
@@ -367,7 +367,7 @@ binaries {
 
 详情请参见 [构建原生二进制文件](multiplatform-build-native-binaries.md).
 
-#### CInterops
+#### CInterops {id="cinterops"}
 
 `cinterops` 用于描述与原生库的交互.
 要与一个库交互, 请添加一个 `cinterops` 代码块, 并定义它的参数, 如下:
@@ -458,7 +458,7 @@ kotlin {
 
 关于 cinterop 的属性, 更多详情请参见 [定义文件](native-definition-file.md#properties).
 
-### Android 编译目标
+### Android 编译目标 {id="android-targets"}
 
 Kotlin Multiplatform plugin 针对 Android 编译目标提供了两个专有的函数.
 这两个函数帮助你设置 [构建变体(build variants)](https://developer.android.com/studio/build/build-variants):
