@@ -655,7 +655,7 @@ external sealed class ExternalEnum {
 从 Kotlin 1.9.0 开始, 外部枚举类型的使用将被标记为废弃.
 我们建议你更新你的代码, 使用上面建议的外部封闭类来实现, 以保证兼容性, 并有利于未来的维护.
 
-### 实验性的支持 ES2015 类和模块 {id="experimental-support-for-es6-classes-and-modules"}
+### 实验性的支持 ES2015 类和模块 {id="experimental-support-for-es2015-classes-and-modules"}
 
 本次发布引入了对 ES2015 模块和生成 ES2015 类的 [实验性](components-stability.md#stability-levels-explained) 支持:
 * 模块提供了一种方式, 简化你的代码库, 并提高可维护性.

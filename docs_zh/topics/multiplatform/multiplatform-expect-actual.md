@@ -8,7 +8,7 @@
 >
 {style="tip"}
 
-## 预期声明与实际声明的规则
+## 预期声明与实际声明的规则 {id="rules-for-expected-and-actual-declarations"}
 
 要定义预期声明与实际声明, 请遵循这些规则:
 
@@ -46,14 +46,14 @@ IDE 可以帮助解决常见的问题, 包括:
 
 ![IDE 中从预期声明到实际声明之间的导航](expect-actual-gutter.png){width=500}
 
-## 使用预期声明与实际声明的各种方案
+## 使用预期声明与实际声明的各种方案 {id="different-approaches-for-using-expected-and-actual-declarations"}
 
 下面我们来探索各种不同的方案, 使用 expect/actual 机制来解决访问平台 API 的问题, 同时仍然提供一种方法, 使得可以在公共代码中使用这些 API.
 
 考虑一个 Kotlin Multiplatform 项目, 你需要实现 `Identity` 类型, 其中包含用户的登录名和当前进程 ID.
 这个项目具有 `commonMain`, `jvmMain` 和 `nativeMain` 源代码集, 让应用程序可以在 JVM 运行, 也可以在 iOS 等原生环境中运行.
 
-### 预期函数与实际函数
+### 预期函数与实际函数 {id="expected-and-actual-functions"}
 
 你可以定义一个 `Identity` 类型, 和一个工厂函数 `buildIdentity()`, 这个函数在共通源代码集中声明, 并在平台源代码集中以不同的方式实现:
 
@@ -102,7 +102,7 @@ IDE 可以帮助解决常见的问题, 包括:
 >
 {style="note"}
 
-### 接口加上预期函数与实际函数
+### 接口加上预期函数与实际函数 {id="interfaces-with-expected-and-actual-functions"}
 
 如果工厂函数变得太大, 可以考虑使用共通的 `Identity` 接口, 并在不同平台上以不同方式实现它.
 
@@ -144,7 +144,7 @@ IDE 可以帮助解决常见的问题, 包括:
 
 这些平台函数返回平台相关的 `Identity` 实例, 这些实例通过 `JVMIdentity` 和 `NativeIdentity` 平台类型来实现.
 
-#### 预期属性与实际属性
+#### 预期属性与实际属性 {id="expected-and-actual-properties"}
 
 你可以修改上面的示例, 使用一个预期的 `val` 属性来存储 `Identity`.
 
@@ -180,7 +180,7 @@ class NativeIdentity(
 ) : Identity
 ```
 
-#### 预期对象与实际对象
+#### 预期对象与实际对象 {id="expected-and-actual-objects"}
 
 如果 `IdentityBuilder` 预期在每个平台上都是单子(singleton),
 你可以将它定义为一个预期对象, 然后让每个平台实现它的实际对象:
@@ -217,7 +217,7 @@ actual object IdentityBuilder {
 }
 ```
 
-#### 关于依赖注入的建议
+#### 关于依赖注入的建议 {id="recommendations-on-dependency-injection"}
 
 为了创建一种松散耦合的架构, 许多 Kotlin 项目都采用了依赖注入(DI, Dependency Injection)框架.
 DI 框架可以根据当前的环境将依赖注入到组件中.
@@ -235,7 +235,7 @@ DI 框架可以根据当前的环境将依赖注入到组件中.
 使用这样的方案, 你只需要使用接口和工厂函数, 就可以便利的使用 Kotlin Multiplatform.
 如果你已经使用了 DI 框架来管理你的项目中的依赖, 我们推荐使用同样的方案来管理平台相关的依赖.
 
-### 预期类与实际类
+### 预期类与实际类 {id="expected-and-actual-classes"}
 
 > 预期类与实际类功能处于 [Beta 版](components-stability.md).
 > 这个功能已经基本稳定, 但将来可能需要进行一些手动的源代码迁移工作.
@@ -289,7 +289,7 @@ kotlin {
 }
 ```
 
-#### 从平台类继承
+#### 从平台类继承 {id="inheritance-from-platform-classes"}
 
 有几种特殊情况, 对类使用 `expect` 关键字可能是最好的方案.
 假设 `Identity` 类型在 JVM 中已经存在了:
@@ -332,7 +332,7 @@ open class Identity {
 
 这里, `CommonIdentity` 类型与你自己的设计相兼容, 同时又利用了 JVM 上既有类型的便利.
 
-#### 框架中的应用程序
+#### 框架中的应用程序 {id="application-in-frameworks"}
 
 作为框架的作者, 你也会发现预期声明和实际声明对你的框架非常有用.
 
@@ -383,11 +383,11 @@ typically provides an expected `CommonViewModel` class whose actual Android coun
 from the Android framework. See [Use platform-specific APIs](multiplatform-connect-to-apis.md#adapting-to-an-existing-hierarchy-using-expected-actual-classes)
 for a detailed description of this example. -->
 
-## 高级使用场景
+## 高级使用场景 {id="advanced-use-cases"}
 
 关于预期声明和实际声明, 存在一些特殊情况.
 
-### 使用类型别名(type alias) 实现实际声明
+### 使用类型别名(type alias) 实现实际声明 {id="using-type-aliases-to-satisfy-actual-declarations"}
 
 实际声明的实现不一定需要从头编写.
 它可以是一个既有的类型, 例如由第三方库提供的一个类.
@@ -427,7 +427,7 @@ actual typealias MyDate = java.time.LocalDate
 <!-- See [Using platform-specific APIs](multiplatform-connect-to-apis.md#actualizing-an-interface-or-a-class-with-an-existing-platform-class-using-typealiases)
 for an Android-specific example of this pattern. -->
 
-### 在实际声明中扩大可见度
+### 在实际声明中扩大可见度 {id="expanded-visibility-in-actual-declarations"}
 
 你可以让实际实现的可见度超过对应的预期声明.
 如果你不想将你的 API 公开给一般用户, 这个功能会非常有用.
@@ -453,7 +453,7 @@ public actual typealias Messenger = MyMessenger
 
 这里, 预期类的可见度为 internal, 通过类型别名, 它的实际实现是既有的 `MyMessenger` 类, 可见度为 public.
 
-### 在实际声明中增加枚举值
+### 在实际声明中增加枚举值 {id="additional-enumeration-entries-on-actualization"}
 
 如果在共通源代码集中使用 `expect` 声明了一个枚举类, 每个平台模块都应该有一个对应的 `actual` 声明.
 这些声明必须包含相同的枚举值常数, 但也可以包含额外的枚举值常数.
@@ -497,7 +497,7 @@ fun matchOnDepartment(dept: Department) {
 
 <!-- If you'd like to forbid adding new constants in the actual enum, please vote for this issue [TODO]. -->
 
-### 预期注解类
+### 预期注解类 {id="expected-annotation-classes"}
 
 预期声明和实际声明可以与注解一起使用.
 例如, 你可以声明一个 `@XmlSerializable` 注解, 它在每个平台源代码集中需要存在对应的实际声明:
@@ -539,6 +539,6 @@ expect annotation class XmlSerializable()
 
 在没有使用这个注解的平台上, 如果缺少实际声明, 编译器不会产生错误.
 
-## 下一步做什么?
+## 下一步做什么? {id="what-s-next"}
 
 关于使用平台相关 API 的各种方法的一般性建议, 请参见 [使用平台相关的 API](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-connect-to-apis.html).

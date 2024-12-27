@@ -44,7 +44,7 @@ K2 目前对所有的编译目标都处于 **Beta 版**.
 从这个发布版开始, Kotlin/Wasm 支持新的 K2 编译器.
 参见 [如何在你的项目中启用它](#how-to-enable-the-kotlin-k2-compiler).
 
-### 针对 K2 的 kapt 编译器 plugin 预览版
+### 针对 K2 的 kapt 编译器 plugin 预览版 {id="preview-kapt-compiler-plugin-with-k2"}
 
 > 在 kapt 编译器 plugin 中对 K2 的支持是 [实验性功能](components-stability.md).
 > 需要使用者同意(Opt-in) (详情见下文),
