@@ -133,7 +133,7 @@ fun main() {
 `enumEntries<T>()` 函数会对指定的枚举类型 `T` 返回一个 List, 包含所有的枚举值.
 
 Kotlin 仍然支持 `enumValues<T>()` 函数, 但我们推荐你改为使用 `enumEntries<T>()` 函数, 因为它的性能损失较少.
-每次调用 `enumValues<T>()` 都会创建一个新的数组, 而每次调用 `enumEntries<T>()` 都会返回相同的 List, 这样的性能要高效得多.
+每次调用 `enumValues<T>()` 都会创建一个新的数组, 而每次调用 `enumEntries<T>()` 都会返回相同的 List, 这样要高效得多.
 
 例如:
 

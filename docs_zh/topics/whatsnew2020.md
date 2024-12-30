@@ -901,8 +901,8 @@ Kotlin 文档有了一些重要的更新:
 ## 安装 Kotlin 2.0.20 {id="install-kotlin-2-0-20"}
 
 从 IntelliJ IDEA 2023.3 和 Android Studio Iguana (2023.2.1) Canary 15 开始,
-Kotlin plugin 作为一个包含在你的 IDE 中的捆绑 plugin 发布.
-这意味着你不能通过 JetBrains Marketplace 安装这个 plugin.
+Kotlin plugin 作为一个包含在 IDE 中的捆绑 plugin 发布.
+这意味着你不再能够通过 JetBrains Marketplace 安装这个 plugin.
 
 要更新到新的 Kotlin 版本, 请在你的构建脚本中 [变更 Kotlin 版本](releases.md#update-to-a-new-kotlin-version)
 到 2.0.20.
