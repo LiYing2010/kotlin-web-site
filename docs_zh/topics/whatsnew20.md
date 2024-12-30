@@ -1252,27 +1252,27 @@ kotlin {
 
 Jetpack Compose 编译器, 负责将可组合项(composable)翻译为 Kotlin 代码, 现在已被合并进入 Kotlin 代码仓库.
 这将帮助 Compose 项目过渡到 Kotlin 2.0.0, 因为 Compose 编译器将会始终与 Kotlin 同时发布.
-This 也 bumps the Compose 编译器 版本 to 2.0.0.
+这也会将 Compose 编译器版本提升为 2.0.0.
 
-To 使用 the 新的 Compose 编译器 在 中 你的 项目, apply the `org.jetbrains.kotlin.plugin.compose` Gradle plugin in
-你的 `build.gradle(.kts)` 文件 and set its 版本 equal to Kotlin 2.0.0.
+要在你的项目中使用新的 Compose 编译器, 请在你的 `build.gradle(.kts)` 文件中适用 `org.jetbrains.kotlin.plugin.compose` Gradle plugin,
+并将它的版本设置为与 Kotlin 2.0.0 相同.
 
-To learn more about this change and see the migration instructions, see the [Compose 编译器](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-compiler.html) 文档.
+关于这个变更, 以及迁移指南, 详情请参见 [Compose 编译器](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-compiler.html) 文档.
 
 ### 新的属性, 用于区分 JVM 和 Android 发布的库 {id="new-attribute-to-distinguish-jvm-and-android-published-libraries"}
 
-从 开始 Kotlin 2.0.0, the [`org.gradle.jvm.environment`](https://docs.gradle.org/current/userguide/variant_attributes.html#sub:jvm_default_attributes)
-Gradle attribute is published by default with all Kotlin variants.
+从 Kotlin 2.0.0 开始, [`org.gradle.jvm.environment`](https://docs.gradle.org/current/userguide/variant_attributes.html#sub:jvm_default_attributes)
+Gradle 属性默认会和所有的 Kotlin 变体一起发布.
 
-The attribute helps distinguish JVM and Android variants of Kotlin Multiplatform 库. It indicates that a certain
-库 variant is better suited for a certain JVM environment. The target environment could be "android", "standard-jvm",
-or "no-jvm".
+这个属性有助于发布 Kotlin Multiplatform 库的 JVM 和 Android 变体.
+它指明某个库变体更加适合于某个 JVM 环境.
+目标环境可以是 "android", "standard-jvm", 或 "no-jvm".
 
-Publishing this attribute should make consuming Kotlin Multiplatform 库 with JVM and Android targets more robust
-from non-跨平台 clients as well, such as Java-only 项目.
+发布这个属性, 可以让非跨平台的客户端, 例如只用于 Java 的项目,
+在使用带有 JVM 和 Android 编译目标的 Kotlin Multiplatform 库时更加健壮.
 
-如果 necessary, 你 可以 disable attribute publication. To do that, 添加 the 以下 Gradle 选项 to
-你的 `gradle.properties` 文件:
+如果必要, 你可以禁止发布这个属性.
+要做到这一点, 请向你的 `gradle.properties` 文件添加以下 Gradle 选项:
 
 ```none
 kotlin.publishJvmEnvironmentAttribute=false
@@ -1280,11 +1280,10 @@ kotlin.publishJvmEnvironmentAttribute=false
 
 ### 在 Kotlin/Native 中, 改进了对 CInteropProcess 的 Gradle 依赖项处理 {id="improved-gradle-dependency-handling-for-cinteropprocess-in-kotlin-native"}
 
-In this release, 我们 enhanced the 处理 of the `defFile` 属性 to ensure better Gradle task 依赖项 management
-in Kotlin/Native 项目.
+在这个发布版中, 我们增强了 `defFile` 属性的处理, 以确保在 Kotlin/Native 项目中更好的管理 Gradle task 依赖项.
 
-Before this 更新, Gradle 构建 could fail 如果 the `defFile` 属性 was designated as an 输出
-of another task that hadn't been executed yet. The workaround for this issue was to 添加 a 依赖项 on this task:
+在这个更新之前, 如果 `defFile` 属性被指定为另一个还未执行的 task 的输出, 那么 Gradle 构建可能失败.
+对这个问题的变通方法是, 添加一个对这个 task 的依赖项:
 
 ```kotlin
 kotlin {
@@ -1303,12 +1302,11 @@ kotlin {
 }
 ```
 
-To fix this, there is a 新的 `RegularFileProperty` 属性 called `definitionFile`. 现在, Gradle lazily verifies the
-presence of the `definitionFile` 属性 after the connected task has run later 在 中 the 构建 process. This 新的 approach
-eliminates the need for additional 依赖项.
+为了解决这个问题, 有了一个新的 `RegularFileProperty` 属性, 名为 `definitionFile`.
+现在, Gradle 会在关联的 task 在构建过程的稍后阶段运行之后, 延迟验证 `definitionFile` 属性是否存在.
+通过这个新方案, 不再需要额外的依赖项.
 
-The `CInteropProcess` task and the `CInteropSettings` 类 使用 the `definitionFile` 属性 instead of `defFile` and
-`defFileProperty`:
+`CInteropProcess` task 和 `CInteropSettings` 类使用 `definitionFile` 属性, 而不是 `defFile` 和 `defFileProperty`:
 
 <tabs group ="build-script">
 <tab id="kotlin" title="Kotlin" group-key="kotlin">
@@ -1347,57 +1345,55 @@ kotlin {
 </tab>
 </tabs>
 
-> `defFile` and `defFileProperty` parameters are deprecated.
+> `defFile` 和 `defFileProperty` 参数已废弃.
 >
 {style="warning"}
 
 ### Gradle 中的可见度变更 {id="visibility-changes-in-gradle"}
 
-> This change impacts only Kotlin DSL users.
+> 这个变更只影响 Kotlin DSL 使用者.
 >
 {style="note"}
 
-In Kotlin 2.0.0, we've modified the Kotlin Gradle Plugin for better control and safety 在 中 你的 构建 脚本. 之前,
-certain Kotlin DSL 函数 and 属性 intended for a specific DSL context would inadvertently leak into other DSL
-contexts. This leakage could lead to the 使用 of incorrect 编译器 选项, 设置 being applied multiple times,
-and other misconfigurations:
+在 Kotlin 2.0.0 中, 我们修改了 Kotlin Gradle Plugin, 以便在你的构建脚本中得到更好的控制, 以及更高的安全性.
+之前, 用于特定的 DSL 上下文的某些 Kotlin DSL 函数和属性, 会被无意中泄露到其它 DSL 上下文中.
+这种泄露可能导致, 使用错误的编译器选项, 设置被多次适用, 以及其它配置错误:
 
 ```kotlin
 kotlin {
-    // Target DSL couldn't access 方法 and 属性 defined 在 中 the
-    // kotlin{} 扩展 DSL
+    // 编译目标 DSL 不能访问
+    // 定义在 kotlin{} 扩展 DSL 中的方法和属性
     jvm {
-        // 编译 DSL couldn't access 方法 and 属性 defined
-        // 在 中 the kotlin{} 扩展 DSL and Kotlin jvm{} target DSL
+        // 编译 DSL 不能访问
+        // 定义在 kotlin{} 扩展 DSL 和 Kotlin jvm{} 编译目标 DSL 中的方法和属性
         compilations.configureEach {
-            // 编译 task DSLs couldn't access 方法 and
-            // 属性 defined 在 中 the kotlin{} 扩展, Kotlin jvm{}
-            // target or Kotlin 编译 DSL
+            // 编译 task DSL 不能访问
+            // 定义在 kotlin{} 扩展, Kotlin jvm{} 编译目标, 或 Kotlin 编译 DSL 中的方法和属性
             compileTaskProvider.configure {
                 // 例如:
                 explicitApi()
-                // 错误 as it is defined 在 中 the kotlin{} 扩展 DSL
+                // 错误, 因为它定义在 kotlin{} 扩展 DSL 中
                 mavenPublication {}
-                // 错误 as it is defined 在 中 the Kotlin jvm{} target DSL
+                // 错误, 因为它定义在 Kotlin jvm{} target DSL 中
                 defaultSourceSet {}
-                // 错误 as it is defined 在 中 the Kotlin 编译 DSL
+                // 错误, 因为它定义在 Kotlin 编译 DSL 中
             }
         }
     }
 }
 ```
 
-To fix this issue, we've added the `@KotlinGradlePluginDsl` 注解, preventing the exposure of the Kotlin Gradle
-plugin DSL 函数 and 属性 to levels where they are not intended to be available. The 以下 levels are
-separated from each other:
+为了解决这个问题, 我们添加了 `@KotlinGradlePluginDsl` 注解,
+防止 Kotlin Gradle plugin DSL 函数和属性暴露到它们不应该能够使用的层级.
+以下层级之间会相互分离:
 
 * Kotlin 扩展
-* Kotlin target
+* Kotlin 编译目标
 * Kotlin 编译
 * Kotlin 编译 task
 
-For the most popular cases, we've added 编译器 警告 with suggestions on how to fix them 如果 你的 构建 脚本 is
-配置 incorrectly. 例如:
+对于最常见的情况, 我们添加了编译器警告, 其中包含当你的构建脚本配置不正确时如何修正的建议.
+例如:
 
 ```kotlin
 kotlin {
@@ -1409,80 +1405,78 @@ kotlin {
 }
 ```
 
-In this case, the 警告 消息 for `sourceSets` is:
+这种情况下, 对 `sourceSets` 的警告消息是:
 
 ```none
 [DEPRECATION] 'sourceSets: NamedDomainObjectContainer<KotlinSourceSet>' is deprecated.Accessing 'sourceSets' container on the Kotlin target level DSL is deprecated. Consider configuring 'sourceSets' on the Kotlin extension level.
 ```
 
-我们 would appreciate 你的 feedback on this change! Share 你的 comments directly to Kotlin developers in
-我们的 [#gradle Slack channel](https://kotlinlang.slack.com/archives/C19FD9681). [Get a Slack invite](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up).
+对于这个变更, 希望你能提供反馈意见!
+请在我们的 [#gradle Slack channel](https://kotlinlang.slack.com/archives/C19FD9681) 中, 直接向 Kotlin 开发者分享你的评论.
+[请到这里获取 Slack 邀请](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up).
 
 ### Gradle 项目中, Kotlin 数据使用新的目录 {id="new-directory-for-kotlin-data-in-gradle-projects"}
 
-> Do not commit the `.kotlin` 目录 to 版本 control.
-> 例如, 如果 你 are 使用 Git, 添加 `.kotlin` to 你的 项目 的 `.gitignore` 文件.
+> 不要将 `.kotlin` 目录提交到版本控制系统.
+> 例如, 如果你使用 Git, 请将 `.kotlin` 添加到你的项目的 `.gitignore` 文件.
 >
 {style="warning"}
 
-In Kotlin 1.8.20, the Kotlin Gradle plugin switched to storing its data 在 中 the Gradle 项目 缓存
-目录: `<project-root-directory>/.gradle/kotlin`. However, the `.gradle` 目录 is reserved for Gradle only,
-and as a result it's not future-proof.
+在 Kotlin 1.8.20 中, Kotlin Gradle plugin 将它的数据存储切换到了 Gradle 项目缓存目录中: `<project-root-directory>/.gradle/kotlin`.
+但是, `.gradle` 目录被保留为专供 Gradle 使用, 因此不能保证它未来能够正常使用.
 
-To solve this, as of Kotlin 2.0.0, 我们 will store Kotlin data 在 中 你的 `<project-root-directory>/.kotlin` by default.
-我们 will continue to store some data 在 中 the `.gradle/kotlin` 目录 for backward compatibility.
+为了解决这个问题, 从 Kotlin 2.0.0 开始, 我们默认将 Kotlin 数据存储在你的 `<project-root-directory>/.kotlin` 中.
+我们会继续将一些数据存储在 `.gradle/kotlin` 目录中, 以保证向后兼容性.
 
-The 新的 Gradle 属性 你 可以 配置 are:
+你可以配置的新的 Gradle 属性是:
 
-| Gradle 属性                                     | Description                                                                                                        |
-|-----------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|
-| `kotlin.project.persistent.dir`                     | 配置 the location where 你的 项目-level data is stored. Default: `<project-root-directory>/.kotlin`       |
-| `kotlin.project.persistent.dir.gradle.disableWrite` | A boolean 值 that controls whether writing Kotlin data to the `.gradle` 目录 is disabled. Default: `false` |
+| Gradle 属性                                           | 描述                                                           |
+|-----------------------------------------------------|--------------------------------------------------------------|
+| `kotlin.project.persistent.dir`                     | 配置你的项目级数据的存储位置. 默认值: `<project-root-directory>/.kotlin`      |
+| `kotlin.project.persistent.dir.gradle.disableWrite` | 一个 boolean 值, 控制是否禁止将 Kotlin 数据写入 `.gradle` 目录. 默认值: `false` |
 
-Add 这些 属性 to the `gradle.properties` 文件 在 中 你的 项目 for them to take effect.
+要让这些属性生效, 请将它们添加到你的项目的 `gradle.properties` 文件.
 
 ### 在需要时下载 Kotlin/Native 编译器 {id="kotlin-native-compiler-downloaded-when-needed"}
 
-Before Kotlin 2.0.0, 如果 你 had a [Kotlin/Native target](native-target-support.md) 配置 在 中 the Gradle 构建 脚本 of 你的 跨平台
-项目, Gradle would always 下载 the Kotlin/Native 编译器 在 中 the [配置 phase](https://docs.gradle.org/current/userguide/build_lifecycle.html#sec:configuration).
+在 Kotlin 2.0.0 之前, 如果在你的跨平台项目的 Gradle 构建脚本中, 存在 [Kotlin/Native 编译目标](native-target-support.md) 配置,
+Gradle 总是会在 [配置阶段](https://docs.gradle.org/current/userguide/build_lifecycle.html#sec:configuration)
+下载 Kotlin/Native 编译器.
 
-This happened even 如果 there was no task to compile 代码 for a Kotlin/Native target that was due to run 在 中 the [execution phase](https://docs.gradle.org/current/userguide/build_lifecycle.html#sec:execution).
-下载 the Kotlin/Native 编译器 在 中 this way was particularly inefficient for users who only wanted to 检查 the
-JVM or JavaScript 代码 在 中 their 项目. 例如, to 进行 测试 or 检查 with their Kotlin 项目 as part of a
-CI process.
+即使不存在 [执行阶段](https://docs.gradle.org/current/userguide/build_lifecycle.html#sec:execution) 运行的,
+对 Kotlin/Native 编译目标编译代码的 task, 也会发生这种情况.
+对于只想查看他们项目中的 JVM 或 JavaScript 代码的使用者来说, 通过这种方式下载 Kotlin/Native 编译器是非常低效的.
+例如, 作为 CI 流程的一部分, 对他们的 Kotlin 项目执行测试或检查的情况.
 
-In Kotlin 2.0.0, 我们 changed this behavior 在 中 the Kotlin Gradle plugin so that the Kotlin/Native
-编译器 is 下载 在 中 the [execution phase](https://docs.gradle.org/current/userguide/build_lifecycle.html#sec:execution)
-and **only** when a 编译 is requested for a Kotlin/Native target.
+在 Kotlin 2.0.0 中, 我们修改了 Kotlin Gradle plugin 中的这个行为,
+让 Kotlin/Native 编译器在 [执行阶段](https://docs.gradle.org/current/userguide/build_lifecycle.html#sec:execution) 下载,
+并且 **只有** 要求对 Kotlin/Native 编译目标进行编译时才会下载.
 
-In turn, the Kotlin/Native 编译器 的 依赖项 are 现在 下载 not as a part of the 编译器, but 在 中 the
-execution phase as well.
+反过来, Kotlin/Native 编译器的依赖项, 现在也不会作为编译器的一部分下载, 而是在执行阶段中下载.
 
-如果 你 encounter any issues with the 新的 behavior, 你 可以 temporarily switch back to the previous behavior by adding
-the 以下 Gradle 属性 to 你的 `gradle.properties` 文件:
+如果你遇到与这个新行为相关的任何问题, 你可以向你的 `gradle.properties` 文件添加以下 Gradle 属性, 暂时切换回之前的行为:
 
 ```none
 kotlin.native.toolchain.enabled=false
 ```
 
-从 开始 Kotlin 1.9.20-Beta, the Kotlin/Native distribution is published to [Maven Central](https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-native-prebuilt/)
-along with the CDN.
+从 Kotlin 1.9.20-Beta 开始, 除 CDN 之外, Kotlin/Native 的发行版还会发布到 [Maven Central](https://repo.maven.apache.org/maven2/org/jetbrains/kotlin/kotlin-native-prebuilt/).
 
-This allowed us to change how Kotlin looks for and 下载 the necessary artifacts. Instead of the CDN, by default,
-it 现在 使用 the Maven repositories that 你 specified 在 中 the `repositories {}` 代码块 of 你的 项目.
+这使得我们能够改变 Kotlin 查找并下载必要的 artifact 的方式.
+默认情况下, 它现在使用你在项目的 `repositories {}` 代码块中指定的 Maven 仓库, 而不是 CDN.
 
-你 可以 temporarily switch this behavior back by setting the 以下 Gradle 属性 在 中 你的 `gradle.properties` 文件:
+你可以在你的 `gradle.properties` 文件中设置以下 Gradle 属性, 暂时切换到以前的行为:
 
 ```none
 kotlin.native.distribution.downloadFromMaven=false
 ```
 
-Please 报告 any problems to 我们的 issue tracker [YouTrack](https://kotl.in/issue). Both of 这些 Gradle 属性 that
-change the default behavior are temporary and will be removed 在 中 future releases.
+如果遇到任何问题, 请报告到我们的问题追踪系统 [YouTrack](https://kotl.in/issue).
+这两个修改默认行为的 Gradle 属性都只是临时的, 会在未来的发布版中删除.
 
 ### 废弃编译器选项的旧的定义方式 {id="deprecated-old-ways-of-defining-compiler-options"}
 
-In this release, 我们 continue to refine how 你 可以 设置 编译器 选项. It should resolve ambiguity between
+在这个发布版中, 我们 continue to refine how 你 可以 设置 编译器 选项. It should resolve ambiguity between
 different ways and make the 项目 配置 more straightforward.
 
 Since Kotlin 2.0.0, the 以下 DSLs for specifying 编译器 选项 are deprecated:
