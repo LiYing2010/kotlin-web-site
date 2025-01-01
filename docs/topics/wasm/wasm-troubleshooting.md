@@ -63,13 +63,25 @@ Including Chromium-based browsers such as Edge, Brave, Opera, or Samsung Interne
 
 ### Safari/WebKit
 
-WebAssembly garbage collection support is currently under
-[active development](https://bugs.webkit.org/show_bug.cgi?id=247394).
+* **For version 18.2 or later:**
+
+  Works by default.
+
+* **For older versions:**
+
+   Not supported.
+
+> Safari 18.2 is available for iOS 18.2, iPadOS 18.2, visionOS 2.2, macOS 15.2, macOS Sonoma, and macOS Ventura.
+> On iOS and iPadOS, Safari 18.2 is bundled with the operating system. To get it, update your device to version 18.2 or later.
+>
+> For more information, see the [Safari release notes](https://developer.apple.com/documentation/safari-release-notes/safari-18_2-release-notes#Overview).
+>
+{style="note"}
 
 ## Wasm proposals support
 
 Kotlin/Wasm improvements are based on [WebAssembly proposals](https://webassembly.org/roadmap/). Here you can find details about the support for WebAssembly's 
-garbage collection and exception handling proposals. 
+garbage collection and (legacy) exception handling proposals. 
 
 ### Garbage collection proposal
 
@@ -78,6 +90,8 @@ Since Kotlin 1.9.20, the Kotlin toolchain uses the latest version of the [Wasm g
 For this reason, we strongly recommend that you update your Wasm projects to the latest version of Kotlin. We also recommend you use the latest versions of browsers with the Wasm environment.
 
 ### Exception handling proposal
+
+The Kotlin toolchain uses the [legacy exception handling proposal](https://github.com/WebAssembly/exception-handling/blob/master/proposals/exception-handling/legacy/Exceptions.md) by default which allows running produced Wasm binaries in wider range of environments.
 
 Since Kotlin 2.0.0, we have introduced support for the new version of Wasm [exception handling proposal](https://github.com/WebAssembly/exception-handling/blob/main/proposals/exception-handling/Exceptions.md) within Kotlin/Wasm.
 
@@ -109,3 +123,26 @@ You can place your new `.mjs` file in the resources folder, and it will automati
 
 You can also place your `.mjs` file in a custom location. In this case, you need to either manually move it next to the main `.mjs` file or 
 adjust the path in the import statement to match its location.
+
+## Slow Kotlin/Wasm compilation
+
+When working on Kotlin/Wasm projects, you may experience slow compilation times. This happens because the Kotlin/Wasm 
+toolchain recompiles the entire codebase every time you make a change.
+
+To mitigate this issue, Kotlin/Wasm targets support incremental compilation, which enables the compiler to recompile only 
+those files relevant to changes from the last compilation.
+
+Using incremental compilation reduces the compilation time. It doubles 
+the development speed for now, with plans to improve it further in future releases.
+
+In the current setup, incremental compilation for the Wasm targets is disabled by default.
+To enable it, add the following line to your project's `local.properties` or `gradle.properties` file:
+
+```text
+kotlin.incremental.wasm=true
+```
+
+> Try out the Kotlin/Wasm incremental compilation and [share your feedback](https://youtrack.jetbrains.com/issue/KT-72158/Kotlin-Wasm-incremental-compilation-feedback).
+> Your insights help make the feature stable and enabled by default sooner.
+>
+{style="note"}

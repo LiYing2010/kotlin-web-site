@@ -1,5 +1,14 @@
 [//]: # (title: CocoaPods overview and setup)
 
+<tldr>
+   This is a local integration method. It can work for you if:<br/>
+
+   * You have a mono repository setup with an iOS project that uses CocoaPods.
+   * Your Kotlin Multiplatform project has CocoaPods dependencies.<br/>
+
+   [Choose the integration method that suits you best](multiplatform-ios-integration-overview.md)
+</tldr>
+
 Kotlin/Native provides integration with the [CocoaPods dependency manager](https://cocoapods.org/). You can add dependencies
 on Pod libraries as well as use a multiplatform project with native targets as a CocoaPods dependency.
 
@@ -185,7 +194,8 @@ If you already have a project, you can add and configure the Kotlin CocoaPods Gr
                 // Specify the framework linking type. It's dynamic by default. 
                 isStatic = false
                 // Dependency export
-                export(project(":anotherKMMModule"))
+                // Uncomment and specify another project module if you have one:
+                // export(project(":<your other KMP module>"))
                 transitiveExport = false // This is default.
             }
 

@@ -49,6 +49,7 @@ generated
 .teamcity/*.iml
 /old/
 
-scripts/doindex/package-lock.json
-search-report*
-data/page_views_map.json
+/scripts/doindex/package-lock.json
+/search-report*
+/reports
+/data/page_views_map.json

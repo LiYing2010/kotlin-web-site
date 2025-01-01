@@ -13,11 +13,21 @@ On this page, you can learn about the following topics:
 
 ## Incremental compilation
 
-The Kotlin Gradle plugin supports incremental compilation. Incremental compilation tracks changes to files in the classpath
-between builds so that only the files affected by these changes are compiled. Incremental compilation works with [Gradle's
-build cache](#gradle-build-cache-support) and supports [compilation avoidance](https://docs.gradle.org/current/userguide/java_plugin.html#sec:java_compile_avoidance).
+The Kotlin Gradle plugin supports incremental compilation, which is enabled by default for Kotlin/JVM and Kotlin/JS projects.
+Incremental compilation tracks changes to files in the classpath between builds so that only the files affected
+by these changes are compiled.
+This approach works with [Gradle's build cache](#gradle-build-cache-support) and supports [compilation avoidance](https://docs.gradle.org/current/userguide/java_plugin.html#sec:java_compile_avoidance).
 
-Incremental compilation is supported for Kotlin/JVM and Kotlin/JS projects, and is enabled by default.
+For Kotlin/JVM, incremental compilation relies on classpath snapshots,
+which capture the API structure of modules to determine when recompilation is necessary.
+To optimize the overall pipeline, the Kotlin compiler uses two types of classpath snapshots:
+
+* **Fine-grained snapshots:** include detailed information about class members, such as properties or functions.
+When member-level changes are detected, the Kotlin compiler recompiles only the classes that depend on the modified members.
+To maintain performance, the Kotlin Gradle plugin creates coarse-grained snapshots for `.jar` files in the Gradle cache.
+* **Coarse-grained snapshots:** only contain the class [ABI](https://en.wikipedia.org/wiki/Application_binary_interface) hash.
+When a part of ABI changes, the Kotlin compiler recompiles all classes that depend on the changed class.
+This is useful for classes that change infrequently, such as external libraries.
 
 > Kotlin/JS projects use a different incremental compilation approach based on history files. 
 >
@@ -31,97 +41,15 @@ There are several ways to disable incremental compilation:
 
   The parameter should be added to each subsequent build.
 
-Note: Any build with incremental compilation disabled invalidates incremental caches. The first build is never incremental.
+When you disable incremental compilation, incremental caches become invalid after the build. The first build is never incremental.
 
 > Sometimes problems with incremental compilation become visible several rounds after the failure occurs. Use [build reports](#build-reports)
 > to track the history of changes and compilations. This can help you to provide reproducible bug reports.
 >
 {style="tip"}
 
-If you'd like to learn more about how our current incremental compilation approach works and compares to the previous one,
+To learn more about how our current incremental compilation approach works and compares to the previous one,
 see our [blog post](https://blog.jetbrains.com/kotlin/2022/07/a-new-approach-to-incremental-compilation-in-kotlin/).
-
-### Precise backup of compilation tasks' outputs
-
-> Precise backup of compilation tasks' outputs is [Experimental](components-stability.md#stability-levels-explained).
-> We would appreciate your feedback on it in [YouTrack](https://kotl.in/issue/experimental-ic-optimizations).
->
-{style="warning"}
-
-Starting with Kotlin 1.8.20, you can enable precise backup, whereby only those classes that Kotlin recompiles in 
-the incremental compilation are backed up. Both full and precise backups help to run builds incrementally again 
-after compilation errors. A precise backup takes less build time compared to a full backup. 
-A full backup may take **noticeably** more build time in large projects or if many tasks are creating backups, 
-especially if a project is located on a slow HDD.
-
-Enable this optimization by adding the `kotlin.compiler.preciseCompilationResultsBackup` Gradle property to 
-the `gradle.properties` file:
-
-```none
-kotlin.compiler.preciseCompilationResultsBackup=true
-```
-
-#### Example of using precise backup at JetBrains {initial-collapse-state="collapsed" collapsible="true"}
-
-In the following charts, you can see examples of using precise backup compared to full backup:
-
-<img src="comparison-of-full-and-precise-backups.png" alt="Comparison of full and precise backups" width="700"/>
-
-The first and second charts show how using precise backup in a Kotlin project affects building the Kotlin Gradle plugin:
-
-1. After making a small [ABI](https://en.wikipedia.org/wiki/Application_binary_interface) change: adding a new public method to a module that lots of modules depend on.
-2. After making a small non-ABI change: adding a private function to a module that no other modules depend on.
-   
-The third chart shows how precise backup in the [Space](https://www.jetbrains.com/space/) project affects building a web 
-frontend after a small non-ABI change: adding a private function to a Kotlin/JS module that lots of modules depend on.
-
-These measurements were performed on a computer with an Apple M1 Max CPU; different computers will yield slightly 
-different results. The factors affecting performance include but are not limited to:
-
-* How warm the [Kotlin daemon](#the-kotlin-daemon-and-how-to-use-it-with-gradle) 
-  and the [Gradle daemon](https://docs.gradle.org/current/userguide/gradle_daemon.html) are.
-* How fast or slow the disk is.
-* The CPU model and how busy it is.
-* Which modules are affected by the changes and how big these modules are.
-* Whether the changes are ABI or non-ABI.
-
-#### Evaluating optimizations with build reports {initial-collapse-state="collapsed" collapsible="true"}
-
-To estimate the impact of the optimization on your computer for your project and your scenarios, you can use 
-[Kotlin build reports](#build-reports). Enable reports in text file format by adding the following property 
-to your `gradle.properties` file:
-
-```
-kotlin.build.report.output=file
-```
-
-Here is an example of a relevant part of the report **before** enabling precise backup:
-
-```
-Task ':kotlin-gradle-plugin:compileCommonKotlin' finished in 0.59 s
-<...>
-Time metrics:
- Total Gradle task time: 0.59 s
- Task action before worker execution: 0.24 s
-  Backup output: 0.22 s // Pay attention to this number 
-<...>
-```
-
-And here is an example of a relevant part of the report **after** enabling precise backup:
-
-```
-Task ':kotlin-gradle-plugin:compileCommonKotlin' finished in 0.46 s
-<...>
-Time metrics:
- Total Gradle task time: 0.46 s
- Task action before worker execution: 0.07 s
-  Backup output: 0.05 s // The time has reduced
- Run compilation in Gradle worker: 0.32 s
-  Clear jar cache: 0.00 s
-  Precise backup output: 0.00 s // Related to precise backup
-  Cleaning up the backup stash: 0.00 s // Related to precise backup
-<...>
-```
 
 ## Gradle build cache support
 
@@ -163,11 +91,22 @@ Each of the following ways to set arguments overrides the ones that came before 
 
 #### Gradle daemon arguments inheritance
 
-If nothing is specified, the Kotlin daemon inherits arguments from the Gradle daemon. For example, in the `gradle.properties` file:
+By default, the Kotlin daemon inherits a specific set of arguments from the Gradle daemon but overwrites them with any 
+JVM arguments specified directly for the Kotlin daemon. For example, if you add the following JVM arguments in the `gradle.properties` file:
 
 ```none
-org.gradle.jvmargs=-Xmx1500m -Xms500m
+org.gradle.jvmargs=-Xmx1500m -Xms500m -XX:MaxMetaspaceSize=1g
 ```
+
+These arguments are then added to the Kotlin daemon's JVM arguments:
+
+```none
+-Xmx1500m -XX:ReservedCodeCacheSize=320m -XX:MaxMetaspaceSize=1g -XX:UseParallelGC -ea -XX:+UseCodeCacheFlushing -XX:+HeapDumpOnOutOfMemoryError -Djava.awt.headless=true -Djava.rmi.server.hostname=127.0.0.1 --add-exports=java.base/sun.nio.ch=ALL-UNNAMED
+```
+
+> To learn more about the Kotlin daemon's default behavior with JVM arguments, see [Kotlin daemon's behavior with JVM arguments](#kotlin-daemon-s-behavior-with-jvm-arguments).
+>
+{style="note"}
 
 #### kotlin.daemon.jvm.options system property
 
@@ -197,6 +136,12 @@ You can add the `kotlin.daemon.jvmargs` property in the `gradle.properties` file
 
 ```none
 kotlin.daemon.jvmargs=-Xmx1500m -Xms500m
+```
+
+Note that if you don't specify the `ReservedCodeCacheSize` argument here or in Gradle's JVM arguments, the Kotlin Gradle plugin applies a default value of `320m`:
+
+```none
+-Xmx1500m -XX:ReservedCodeCacheSize=320m -Xms500m
 ```
 
 #### kotlin extension
@@ -265,7 +210,24 @@ When configuring the Kotlin daemon's JVM arguments, note that:
   > even if other requested JVM arguments are different, this daemon will be reused instead of starting a new one.
   >
   {style="note"}
-* If the `Xmx` argument is not specified, the Kotlin daemon will inherit it from the Gradle daemon.
+
+If the following arguments aren't specified, the Kotlin daemon inherits them from the Gradle daemon:
+
+* `-Xmx`
+* `-XX:MaxMetaspaceSize`
+* `-XX:ReservedCodeCacheSize`. If not specified or inherited, the default value is `320m`.
+
+The Kotlin daemon has the following default JVM arguments:
+* `-XX:UseParallelGC`. This argument is only applied if no other garbage collector is specified.
+* `-ea`
+* `-XX:+UseCodeCacheFlushing`
+* `-Djava.awt.headless=true`
+* `-D{java.servername.property}={localhostip}`
+* `--add-exports=java.base/sun.nio.ch=ALL-UNNAMED`. This argument is only applied for JDK versions 16 or higher.
+
+> The list of default JVM arguments for the Kotlin daemon may vary between versions. You can use a tool like [VisualVM](https://visualvm.github.io/) to check the actual settings of a running JVM process, like the Kotlin daemon.
+>
+{style="note"}
 
 ## Rolling back to the previous compiler
 
@@ -273,7 +235,7 @@ From Kotlin 2.0.0, the K2 compiler is used by default.
 
 To use the previous compiler from Kotlin 2.0.0 onwards, either:
 
-* In your `build.gradle.kts` file, [set your language version](gradle-compiler-options.md#example-of-setting-a-languageversion) to `1.9`.
+* In your `build.gradle.kts` file, [set your language version](gradle-compiler-options.md#example-of-setting-languageversion) to `1.9`.
 
   OR
 * Use the following compiler option: `-language-version 1.9`.

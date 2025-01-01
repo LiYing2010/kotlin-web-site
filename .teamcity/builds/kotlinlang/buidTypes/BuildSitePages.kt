@@ -1,7 +1,8 @@
 package builds.kotlinlang.buidTypes
 
+import BuildParams.API_URLS
 import builds.kotlinlang.templates.DockerImageBuilder
-import jetbrains.buildServer.configs.kotlin.AbsoluteId
+import builds.scriptDistAnalyze
 import jetbrains.buildServer.configs.kotlin.BuildType
 import jetbrains.buildServer.configs.kotlin.FailureAction
 import jetbrains.buildServer.configs.kotlin.buildSteps.ScriptBuildStep
@@ -36,6 +37,7 @@ object BuildSitePages : BuildType({
     steps {
         script {
             name = "Build html pages"
+            // language=bash
             scriptContent = """
                 #!/bin/bash
                 
@@ -62,6 +64,7 @@ object BuildSitePages : BuildType({
         script {
             name = "Override with external source"
             dockerImage = "alpine"
+            //language=bash
             scriptContent = """
                 cp -fR _webhelp/reference/* build/docs/
                 #cp -fR _webhelp/mobile build/docs/
@@ -73,27 +76,30 @@ object BuildSitePages : BuildType({
                 
                 cp -fR out/* dist/
                 cp -fR out/_next dist/_next/
+                
+                mkdir -p "dist/api/latest/jvm/stdlib"
+                cp package-list-stdlib dist/api/latest/jvm/stdlib/package-list
+                
+                mkdir -p "dist/api/latest/kotlin.test"
+                cp package-list-kotlin-test dist/api/latest/kotlin.test/package-list
             """.trimIndent()
         }
+        step(scriptDistAnalyze {})
         script {
-            name = "Build Sitemap"
-
-            conditions {
-                equals("teamcity.build.branch.is_default", "true")
-            }
-
+            name = "Collect sitemap_index.xml"
+            // language=sh
             scriptContent = """
-                #!/bin/bash
-                pip install -r requirements.txt
-                python kotlin-website.py sitemap
+                set -x
+                echo '<?xml version="1.0" encoding="UTF-8"?><sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' > dist/sitemap_index.xml
+                echo '<sitemap><loc>https://kotlinlang.org/sitemap.xml</loc></sitemap>' >> dist/sitemap_index.xml
+                ${API_URLS.joinToString("\n") { id -> "echo '<sitemap><loc>https://kotlinlang.org/$id/sitemap.xml</loc></sitemap>' >> dist/sitemap_index.xml" }}
+                echo '</sitemapindex>' >> dist/sitemap_index.xml
             """.trimIndent()
-
-            dockerImage = "%dep.Kotlin_KotlinSites_Builds_KotlinlangOrg_BuildPythonContainer.kotlin-website-image%"
-            dockerImagePlatform = ScriptBuildStep.ImagePlatform.Linux
-            dockerPull = true
+            dockerImage = "alpine"
         }
         script {
             name = "Update build status"
+            // language=bash
             scriptContent = """
                 #!/bin/bash
                 
@@ -142,17 +148,6 @@ object BuildSitePages : BuildType({
             artifacts {
                 artifactRules = "+:docs.zip!** => _webhelp/reference/"
             }
-        }
-
-        artifacts(AbsoluteId("Kotlin_KotlinRelease_2020_LibraryReferenceLegacyDocs")) {
-            buildRule = tag("publish", """
-                +:<default>
-                +:*
-            """.trimIndent())
-            artifactRules = """
-                kotlin.test.zip!** => api/latest/kotlin.test
-                kotlin-stdlib.zip!** => api/latest/jvm/stdlib
-            """.trimIndent()
         }
     }
 })

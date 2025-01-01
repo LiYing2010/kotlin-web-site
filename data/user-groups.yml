@@ -359,7 +359,7 @@
       lng: 72.9903
   - name: KUG Sambhajinagar (Aurangabad) 
     country: India
-    url: https://www.commudle.com/communities/kug-sambhajinagar/
+    url: https://lu.ma/kug-sambhajinagar
     position:
       lat: 19.876165
       lng: 75.343315
@@ -1092,3 +1092,9 @@
     position:
       lat: 31.791702
       lng: -7.09262
+  - name: Kotlin Cameroun User Group
+    country: Cameroun
+    url: https://www.linkedin.com/company/kotlin-cameroun
+    position:
+      lat: 4.0511
+      lng: 9.7085

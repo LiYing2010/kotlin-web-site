@@ -2,4 +2,4 @@ User-agent: *
 Host: kotlinlang.org
 
 # Sitemaps
-sitemap: https://kotlinlang.org/sitemap.xml
+sitemap: https://kotlinlang.org/sitemap_index.xml

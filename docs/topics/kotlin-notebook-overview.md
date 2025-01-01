@@ -3,6 +3,10 @@
 [Kotlin Notebook](https://plugins.jetbrains.com/plugin/16340-kotlin-notebook) is a dynamic plugin for IntelliJ IDEA that 
 provides an interactive environment to create and edit notebooks, leveraging the full potential of Kotlin's capabilities.
 
+> The Kotlin Notebook plugin requires IntelliJ IDEA Ultimate.
+> 
+{style="note"}
+
 Get ready for a seamless coding experience where you can develop and experiment with Kotlin code, receive immediate outputs, and integrate code, 
 visuals, and text within the IntelliJ IDEA ecosystem.
 
@@ -19,7 +23,7 @@ The Kotlin Notebook plugin comes with [various features](https://www.jetbrains.c
 * Getting insights for debugging with error messages and traceback
 
 Kotlin Notebook is based on our [Kotlin Kernel for Jupyter Notebooks](https://github.com/Kotlin/kotlin-jupyter?tab=readme-ov-file#kotlin-kernel-for-ipythonjupyter), 
-making it easy to integrate with other [Kotlin notebook solutions](https://kotlinlang.org/docs/data-analysis-overview.html#notebooks).
+making it easy to integrate with other [Kotlin notebook solutions](data-analysis-overview.md#notebooks).
 Without compatibility issues, you can effortlessly share your work among Kotlin Notebook,
 [Datalore](https://datalore.jetbrains.com/), and [Kotlin-Jupyter Notebook](https://github.com/Kotlin/kotlin-jupyter).
 

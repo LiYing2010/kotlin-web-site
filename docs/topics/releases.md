@@ -74,10 +74,7 @@ for code analysis, code completion, highlighting, and other IDE-related features
 Starting from 2024.1, IntelliJ IDEA can use the new K2 compiler to analyze your code with its K2 mode.
 To enable it, go to **Settings** | **Languages & Frameworks** | **Kotlin** and select the **Enable K2 mode** option.
 
-> The K2 mode is in Beta from 2024.2. We are working on stability and code analysis improvements, but not all IDE features
-> are supported yet.
->
-{style="warning"}
+![Enable K2 mode](k2-mode.png){width=200}
 
 After enabling K2 mode, you may notice differences in IDE analysis due to changes in compiler behavior.
 Learn how the new K2 compiler differs from the previous one in the [migration guide](k2-compiler-migration-guide.md).
@@ -98,6 +95,16 @@ The following table lists details of the latest Kotlin releases:
     <tr>
         <th>Build info</th>
         <th>Build highlights</th>
+    </tr>
+    <tr>
+        <td><strong>2.1.0</strong>
+            <p>Released: <strong>November 27, 2024</strong></p>
+            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v2.1.0" target="_blank">Release on GitHub</a></p>
+        </td>
+        <td>
+            <p>A language release introducing new language features.</p>
+            <p>Learn more about Kotlin 2.1.0 in <a href="whatsnew21.md" target="_blank">What's new in Kotlin 2.1.0</a>.</p>
+        </td>
     </tr>
     <tr>
         <td><strong>2.0.21</strong>

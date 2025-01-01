@@ -561,12 +561,6 @@ For more information on what is possible with build reports, see [Build reports]
 
 ## Support in IDEs
 
-> K2 mode is in [Beta](components-stability.md#stability-levels-explained) and enabling it is optional.
-> We are working on stability and code analysis improvements, but not all IDE features are 
-> supported yet.
->
-{style="warning"}
-
 By default, both IntelliJ IDEA and Android Studio 2024.1 use the previous compiler for code analysis, code completion,
 highlighting, and other IDE-related features. This is to ensure performance and stability while we work on integrating 
 the new Kotlin K2 compiler.
@@ -577,7 +571,7 @@ Android Studio 2024.1. To enable K2 mode:
 1. In your IDE, go to **Settings** | **Languages & Frameworks** | **Kotlin**.
 2. Select the **Enable K2 mode** option.
 
-Learn more about the K2 mode in our [blog](https://blog.jetbrains.com/idea/2024/08/meet-the-renovated-kotlin-support-k2-mode/).
+Learn more about K2 mode in our [blog](https://blog.jetbrains.com/idea/2024/11/k2-mode-becomes-stable/).
 
 > We plan to introduce [Stable](components-stability.md#stability-levels-explained) language features after Kotlin 2.1.0.
 > Until then, you can continue to use the previous compiler for code analysis, and you won't encounter any code highlighting
@@ -598,7 +592,7 @@ The Kotlin Playground supports Kotlin 2.0.0 and later releases. [Check it out!](
 
 To use the previous compiler in Kotlin 2.0.0 and later releases, either:
 
-* In your `build.gradle.kts` file, [set your language version](gradle-compiler-options.md#example-of-setting-a-languageversion) to `1.9`.
+* In your `build.gradle.kts` file, [set your language version](gradle-compiler-options.md#example-of-setting-languageversion) to `1.9`.
 
   OR
 * Use the following compiler option: `-language-version 1.9`.

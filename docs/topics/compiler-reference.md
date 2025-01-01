@@ -54,6 +54,11 @@ Suppress the compiler from displaying warnings during compilation.
 
 Turn any warnings into a compilation error. 
 
+### -Wextra
+
+Enable [additional declaration, expression, and type compiler checks](whatsnew21.md#extra-compiler-checks) that
+emit warnings if true.
+
 ### -verbose
 
 Enable verbose logging output which includes details of the compilation process.
@@ -80,7 +85,7 @@ Specify a custom path to the Kotlin compiler used for the discovery of runtime l
 ### -P plugin:pluginId:optionName=value
 
 Pass an option to a Kotlin compiler plugin.
-Available plugins and their options are listed in the **Tools > Compiler plugins** section of the documentation.
+Core plugins and their options are listed in the [Core compiler plugins](components-stability.md#core-compiler-plugins) section of the documentation.
   
 ### -language-version _version_
 
@@ -130,6 +135,14 @@ $ kotlinc @options/compiler.options hello.kt
 
 Enable usages of API that [requires opt-in](opt-in-requirements.md) with a requirement annotation with the given 
 fully qualified name.
+
+### -Xsuppress-warning
+
+Suppresses specific warnings [globally across the whole project](whatsnew-eap.md), for example:
+
+```bash
+kotlinc -Xsuppress-warning=NOTHING_TO_INLINE -Xsuppress-warning=NO_TAIL_CALLS_FOUND main.kt
+```
 
 ## Kotlin/JVM compiler options
 

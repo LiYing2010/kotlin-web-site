@@ -649,15 +649,12 @@ highlighting, and other IDE-related features. To get the full Kotlin 2.0 experie
 In your IDE, go to **Settings** | **Languages & Frameworks** | **Kotlin** and select the **Enable K2 mode** option.
 The IDE will analyze your code using its K2 mode.
 
-> The K2 mode is in Beta from 2024.2. We are working on stability and code analysis improvements, but not all IDE features
-> are supported yet.
->
-{style="warning"}
+![Enable K2 mode](k2-mode.png){width=200}
 
 After enabling K2 mode, you may notice differences in IDE analysis due to changes in compiler behavior. Learn how the
 new K2 compiler differs from the previous one in our [migration guide](k2-compiler-migration-guide.md).
 
-* Learn more about the K2 mode in [our blog](https://blog.jetbrains.com/idea/2024/08/meet-the-renovated-kotlin-support-k2-mode/).
+* Learn more about K2 mode in [our blog](https://blog.jetbrains.com/idea/2024/11/k2-mode-becomes-stable/).
 * We are actively collecting feedback about K2 mode, so please share your thoughts in our [public Slack channel](https://kotlinlang.slack.com/archives/C0B8H786P).
 
 ### Leave your feedback on the new K2 compiler
@@ -1526,7 +1523,7 @@ Since Kotlin 2.0.0, the following DSLs for specifying compiler options are depre
 
 * The `kotlinOptions` DSL from the `KotlinCompile` interface that implements all Kotlin compilation tasks. Use
   `KotlinCompilationTask<CompilerOptions>` instead.
-* The `compilerOptions` property with the `HasCompilerOptions` type from the `KotlinCompiation` interface. This DSL was
+* The `compilerOptions` property with the `HasCompilerOptions` type from the `KotlinCompilation` interface. This DSL was
   inconsistent with other DSLs and configured the same `KotlinCommonCompilerOptions` object as `compilerOptions` inside
   the `KotlinCompilation.compileTaskProvider` compilation task, which was confusing.
 

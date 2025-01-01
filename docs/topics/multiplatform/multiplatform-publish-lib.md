@@ -49,15 +49,32 @@ in the publication's scope.
 
 ## Host requirements
 
-Except for Apple platform targets, Kotlin/Native supports cross-compilation, allowing any host to produce needed artifacts.
+Kotlin/Native supports cross-compilation, allowing any host to produce necessary `.klib` artifacts.
+However, there are still some specifics you should keep in mind.
 
-To avoid any issues during publication:
-* Publish only from an Apple host when your project targets Apple operating systems.
-* Publish all artifacts from one host only to avoid duplicating publications in the repository.
+### Compilation for Apple targets
+<primary-label ref="experimental-opt-in"/>
+
+To produce artifacts for projects with Apple targets, you'd normally need an Apple machine.
+However, if you want to use other hosts, set this option in your `gradle.properties` file:
+
+```none
+kotlin.native.enableKlibsCrossCompilation=true
+```
+
+Cross-compilation is currently Experimental and has some limitations. You still need to use a Mac machine if:
+
+* Your library has a [cinterop dependency](native-c-interop.md).
+* You have [CocoaPods integration](native-cocoapods.md) set up in your project.
+* You need to build or test [final binaries](multiplatform-build-native-binaries.md) for Apple targets.
+
+### Duplicating publications
+
+To avoid any issues during publication, publish all artifacts from a single host to avoid duplicating publications in the
+repository. Maven Central, for example, explicitly forbids duplicate publications and fails the process.
+<!-- TBD: add the actual error -->
   
-  Maven Central, for example, explicitly forbids duplicate publications and fails the process. <!-- TBD: add the actual error -->
-  
-### If you use Kotlin 1.7.0 or earlier {initial-collapse-state="collapsed" collapsible="true"}
+#### If you use Kotlin 1.7.0 or earlier {initial-collapse-state="collapsed" collapsible="true"}
 
 Before 1.7.20, the Kotlin/Native compiler didn't support all cross-compilation options. If you use earlier versions, you may need
 to publish multiplatform projects from multiple hosts: a Windows host to compile a Windows target, a Linux host to compile a Linux target, and so on.
@@ -130,7 +147,7 @@ specify the variant names in the Android target block in the `shared/build.gradl
 ```kotlin
 kotlin {
     androidTarget {
-        publishLibraryVariants("release", "debug")
+        publishLibraryVariants("release")
     }
 }
 
@@ -221,3 +238,15 @@ You can disable the publication of this attribute by adding the following Gradle
 ```none
 kotlin.publishJvmEnvironmentAttribute=false
 ```
+
+## Promote your library
+
+Your library can be featured on the [JetBrains' search platform](https://klibs.io/).
+It's designed to make it easy to look for Kotlin Multiplatform libraries based on their target platforms.
+
+Libraries that meet the criteria are added automatically. For more information on how to add your library, see [FAQ](https://klibs.io/faq).
+
+## What's next
+
+See the [Library authors' guidelines](api-guidelines-build-for-multiplatform.md) for best practices and tips
+on designing a library for Kotlin Multiplatform.

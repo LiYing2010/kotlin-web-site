@@ -25,7 +25,6 @@ and the target-specific source set.
 For more details on this topic, see:
 
 * [The basics of Kotlin Multiplatform project structure](multiplatform-discover-project.md)
-* [Set up targets manually](multiplatform-set-up-targets.md)
 * [Advanced concepts of the multiplatform project structure](multiplatform-advanced-project-structure.md)
 
 ## Use code sharing mechanisms
@@ -62,6 +61,19 @@ For more details on this topic, see:
 * [Add dependencies on multiplatform libraries](multiplatform-add-dependencies.md)
 * [Add dependencies on Android libraries](multiplatform-android-dependencies.md)
 * [Add dependencies on iOS libraries](multiplatform-ios-dependencies.md)
+
+## Set up integration with iOS
+
+If your multiplatform project targets iOS, you can set up integration of the Kotlin Multiplatform shared module with
+your iOS app.
+
+For that, you generate an iOS framework and then add it as a local or remote dependency to the iOS project:
+
+* **Local integration**: connect your multiplatform and Xcode projects directly with a special script or use the CocoaPods
+  dependency manager for setups involving local Pod dependencies.
+* **Remote integration**: set up an SPM dependency using XCFrameworks or distribute shared modules through CocoaPods.
+
+For more details on this topic, see [iOS integration methods](multiplatform-ios-integration-overview.md).
 
 ## Configure compilations
 
