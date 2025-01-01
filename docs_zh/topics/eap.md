@@ -1,8 +1,14 @@
 [//]: # (title: 参加 Kotlin EAP 项目)
 
+<!--
+<tldr>
+    <p>Latest Kotlin EAP release: <strong>%kotlinEapVersion%</strong></p>
+</tldr>
+-->
+
 你可以参加 Kotlin 早期预览(EAP) 项目, 试用 Kotlin 还未发布的最新功能.
 
-在每个功能发布版 (_1.x_) 和增量发布版 (_1.x.y_)之前, 我们会发布少量的 Beta (_Beta_) 和 Release Candidate (_RC_) 版本.
+在每个语言发布版 (_2.x.0_) 和工具发布版 (_2.x.20_)之前, 我们会发布少量的 Beta (_Beta_) 和 Release Candidate (_RC_) 版本.
 
 如果你发现并报告 bug 到我们的问题追踪系统 [YouTrack](https://kotl.in/issue), 我们非常感谢.
 我们很可能会在最终发布版之前修正这些 bug, 因此为了解决你的问题, 不需要等到 Kotlin 的下个发布版.
@@ -58,20 +64,14 @@
         <th>重要功能</th>
     </tr>
     <tr>
-        <td><strong>2.0.0-Beta5</strong>
-            <p>发布日期: <strong>2024/03/20</strong></p>
-            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v2.0.0-Beta4" target="_blank">GitHub 上的 Release 页面</a></p>
+        <td><strong>2.1.0-Beta2</strong>
+            <p>发布日期: <strong>2024/10/14</strong></p>
+            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v2.1.0-Beta2" target="_blank">GitHub 上的 Release 页面</a></p>
         </td>
         <td>
-            <p>Kotlin K2 编译器的稳定发布版.</p>
-            <p>包括 Gradle 构建工具的改进.</p>
-            <p>Kotlin/Wasm 与 JavaScript 交互能力的改进.</p>
-            <p>更多详情, 请参见 <a href="https://github.com/JetBrains/kotlin/releases/tag/v2.0.0-Beta5">changelog</a> 或 <a href="whatsnew-eap.md">Kotlin 2.0.0-Beta5 中的新功能</a>.</p>
+            <p>语言发布版, 包含一些新功能的预览版, 以及工具的更新.</p>
+            <p>更多详情请参见 <a href="https://github.com/JetBrains/kotlin/releases/tag/v2.1.0-Beta2">changelog</a>
+               或 <a href="whatsnew-eap.md">Kotlin 2.1.0-Beta2 版中的新功能</a>.</p>
         </td>
     </tr>
 </table>
-
-> 如果 Kotlin EAP plugin 无法找到最新的 EAP 版, 请检查你使用的是不是最新版的 [IntelliJ IDEA](https://www.jetbrains.com/help/idea/update.html)
-> 或 [Android Studio](https://developer.android.com/studio/intro/update).
->
-{style="note"}

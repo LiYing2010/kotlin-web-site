@@ -81,7 +81,7 @@ Kotlin 编译器带有很多选项, 用于控制编译过程.
 
 对 Kotlin 编译器指定一个自定义的路径, 用来查找运行时期的库文件.
 
-### -P plugin:_pluginId_:_optionName_=_value_
+### -P plugin:pluginId:optionName=value
 
 向 Kotlin 编译器插件传递一个选项.
 相关的编译器插件, 以及它们的选项, 请参见本文档的 **工具 > 编译器插件** 章节.
@@ -101,14 +101,13 @@ Kotlin 编译器带有很多选项, 用于控制编译过程.
 在渐进模式下, 对不稳定代码中功能废弃和 bug 修正, 会立即生效, 而不会等待完整的版本迁移周期完成.
 渐进模式下编写的代码可以向后兼容(backwards compatible); 但是, 非渐进模式下编写的代码, 在渐进模式下编译时, 可能导致编译错误.
 
-### @_argfile_
+### @argfile
 
 从指定的文件中读取编译器选项. 这样的文件可以包含编译器选项, 相应的值, 以及源代码文件的路径.
 选项和文件路径使用空格分隔. 比如:
 
 ```bash
--include-runtime -d hello.jar
-hello.kt
+-include-runtime -d hello.jar hello.kt
 ```
 
 如果想要传递的参数值本身包含空格, 请使用单引号 (**'**) 或双引号 (**"**) 将参数值括起.
@@ -166,7 +165,6 @@ classpath 可以包含文件路径, 目录路径, ZIP 文件, 或 JAR 文件.
 指定生成的 JVM 字节码的目标版本. 将类路径中的 JDK API 限制为指定的 Java 版本.
 自动设置 [`-jvm-target version`](#jvm-target-version).
 可以指定的值是 `1.8`, `9`, `10`, ..., `21`.
-默认值是 `{{ site.data.releases.defaultJvmTargetVersion }}`.
 
 > 这个选项 [不保证](https://youtrack.jetbrains.com/issue/KT-29974) 对所有的 JDK 发布版都有效.
 >
@@ -176,7 +174,7 @@ classpath 可以包含文件路径, 目录路径, ZIP 文件, 或 JAR 文件.
 
 指定编译产生的 JVM 字节码(bytecode)版本.
 可以指定的值是 `1.8`, `9`, `10`, ..., `21`.
-默认值是 `{{ site.data.releases.defaultJvmTargetVersion }}`.
+默认值是 `%defaultJvmTargetVersion%`.
 
 ### -java-parameters
 
@@ -292,6 +290,7 @@ Kotlin/Native 编译的命令行工具是 `kotlinc-native`.
 ### -g
 
 允许编译产生 debug 信息.
+这个选项会降低代码优化的级别, 并且不应该与 [`-opt`](#opt) 选项组合使用.
 
 ### -generate-test-runner (-tr)
 
@@ -358,7 +357,8 @@ Kotlin/Native 编译的命令行工具是 `kotlinc-native`.
 
 ### -opt
 
-允许编译优化(compilation optimization).
+允许编译优化(compilation optimization), 产生运行期性能更好的二进制文件.
+不推荐将与 [`-g`](#g) 选项组合使用, `-g` 选项会降低优化级别.
 
 ### -output _name_ (-o _name_)
 

@@ -94,14 +94,14 @@
 在其他场合可以用作标识符:
 
  * `abstract` 将一个类或一个成员标注为 [抽象元素](classes.md#abstract-classes).
- * `actual` 在 [跨平台项目](multiplatform.md) 中, 表示某个特定平台上的具体实现.
+ * `actual` 在 [跨平台项目](multiplatform-expect-actual.md) 中, 表示某个特定平台上的具体实现.
  * `annotation` 声明一个 [注解类](annotations.md).
  * `companion` 声明一个 [同伴对象](object-declarations.md#companion-objects).
  * `const` 将一个属性标注为 [编译期常数值](properties.md#compile-time-constants).
  * `crossinline` 禁止 [传递给内联函数的 lambda 表达式中的非局部的返回](inline-functions.md#non-local-returns).
  * `data` 指示编译器, [为类生成常用的成员函数](data-classes.md).
  * `enum` 声明一个 [枚举类](enum-classes.md).
- * `expect` 标注一个 [与平台相关的声明](multiplatform.md), 在各个平台模块中, 需要存在对应的具体实现.
+ * `expect` 标注一个 [与平台相关的声明](multiplatform-expect-actual.md), 在各个平台模块中, 需要存在对应的具体实现.
  * `external` 标注一个声明在 Kotlin 代码之外 (可以通过 [JNI](java-interop.md#using-jni-with-kotlin) 实现,
     或者用 [JavaScript](js-interop.md#external-modifier) 实现).
  * `final` 禁止 [覆盖成员](inheritance.md#overriding-methods).
@@ -155,8 +155,8 @@ Kotlin 支持以下操作符与特殊符号:
     (对非基本类型, 会翻译为对 `compareTo()` 函数的调用).
  * `[`, `]` - [下标访问操作符](operator-overloading.md#indexed-access-operator)
     (会翻译为对 `get` 和 `set` 函数的调用).
- * `!!` [断言一个表达式的值不为 null](null-safety.md#the-operator).
- * `?.` 执行一个 [安全调用](null-safety.md#safe-calls) (如果接受者不为 null, 则调用一个方法, 或调用一个属性的访问函数).
+ * `!!` [断言一个表达式的值不为 null](null-safety.md#not-null-assertion-operator).
+ * `?.` 执行一个 [安全调用](null-safety.md#safe-call-operator) (如果接受者不为 null, 则调用一个方法, 或调用一个属性的访问函数).
  * `?:` 如果这个运算符左侧的表达式值为 null, 则返回右侧的表达式值(也就是 [elvis 操作符](null-safety.md#elvis-operator)).
  * `::` 创建一个 [成员的引用](reflection.md#function-references), 或者一个 [类引用](reflection.md#class-references).
  * `..`, `..<` 创建 [值范围](ranges.md).

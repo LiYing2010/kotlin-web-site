@@ -94,7 +94,7 @@ dependencies {
 ### 为什么不直接向所有的 Kotlin 库添加需要的 manifest 设值呢?
 
 虽然这是提供 OSGi 支持时最优先的方法, 但很不幸, 目前我们无法做到这一点,
-原因是所谓的 ["包分裂(package split)" 问题](http://wiki.osgi.org/wiki/Split_Packages),
+原因是所谓的 ["包分裂(package split)" 问题](https://docs.osgi.org/specification/osgi.core/7.0.0/framework.module.html#d0e5999),
 这个问题很难解决, 所以目前我们不打算进行这样巨大的变更.
 另外还有一种 `Require-Bundle` 功能, 但也不是最好的选择, 而且并不推荐采用这种方案.
 因此我们决定为 OSGi 创建一个独立的库文件.

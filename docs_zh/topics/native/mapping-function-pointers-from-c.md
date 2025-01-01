@@ -197,8 +197,9 @@ fun myFun() {
 这个调用使用 Kotlin/Native 的 `staticCFunction{..}` 帮助函数, 将一个 Kotlin Lambda 表达式函数封装为一个 C 函数指针.
 它只允许使用无绑定(unbound), 并且无捕获(non-capturing)的 Lambda 表达式函数.
 比如, 函数内不能使用局部变量. 你只能使用全局可见的声明.
+
+必须保证函数不抛出任何异常.
 从 `staticCFunction{..}` 之内抛出异常将会导致不确定的副作用.
-因此必须保证你的代码内部不会抛出任何异常.
 
 ## 在 Kotlin 中使用 C 函数指针 {id="use-the-c-function-pointer-from-kotlin"}
 

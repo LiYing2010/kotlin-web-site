@@ -50,7 +50,7 @@
         <td><a href="https://github.com/microsoft/mimalloc">mimalloc</a></td>
         <td>
           <p><a href="https://github.com/JetBrains/kotlin/blob/master/kotlin-native/licenses/third_party/mimalloc_LICENSE.txt">MIT license</a></p>
-          <p>如果你使用 mimaloc 内存分配器而不是默认分配器(设置了 <code>-Xallocator=mimalloc</code> 编译器选项), 请包含这个许可证文件.</p>
+          <p>如果你使用 mimalloc 内存分配器而不是默认分配器(设置了 <code>-Xallocator=mimalloc</code> 编译器选项), 请包含这个许可证文件.</p>
           <p>关于内存分配器, 更多详情请参见 <a href="native-memory-manager.md">Kotlin/Native 内存管理</a></p>
         </td>
    </tr>

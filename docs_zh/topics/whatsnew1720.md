@@ -15,7 +15,7 @@ Kotlin 1.7.20 已经发布了! 以下是它的一些重要功能:
 
 关于这个版本的变更概要, 请参见以下视频:
 
-<video src="https://youtu.be/OG9npowJgE8" title="Kotlin 1.7.20 版中的新功能"/>
+<video src="https://www.youtube.com/v/OG9npowJgE8" title="Kotlin 1.7.20 版中的新功能"/>
 
 ## 对 Kotlin K2 编译器 plugin 的支持 {id="support-for-kotlin-k2-compiler-plugins"}
 
@@ -101,7 +101,7 @@ Kotlin 1.7.20 引入了一些新的语言功能特性的预览版, 并对构建�
 这个发布版引入了新的 `..<` 操作符. Kotlin 已经有了 `..` 操作符来表达一个值范围.
 新的 `..<` 操作符与 `until` 函数类似, 帮助你定义终止端开放的值范围.
 
-<video src="https://youtu.be//vv0AHdAIBnbs" title="用于创建终止端开放的值范围(open-ended range)的新操作符"/>
+<video src="https://www.youtube.com/watch?v=v0AHdAIBnbs" title="用于创建终止端开放的值范围(open-ended range)的新操作符"/>
 
 我们的研究显示, 这个新操作符更适合表示终止端开放的值范围, 更清楚的表示值范围的上界没有包含在内.
 
@@ -121,7 +121,7 @@ when (value) {
 
 在共通的 Kotlin 标准库的 `kotlin.ranges` 包中, 将会引入以下新的类型和操作:
 
-##### 新的 `OpenEndRange<T>` 接口
+##### 新的 OpenEndRange&lt;T&gt; 接口
 
 用于表达终止端开放的值范围的新接口与已有的 `ClosedRange<T>` 接口非常类似:
 
@@ -158,7 +158,7 @@ class IntRange : IntProgression(...), ClosedRange<Int>, OpenEndRange<Int> {
 对于目前由 `rangeTo` 操作符定义的类型及其组合, 还会提供 `rangeUntil` 操作符.
 作为原型, 我们以扩展函数的形式提供这些操作符, 但为了保持一致性, 在终止端开放的值范围 API 的稳定版发布之前, 我们计划让它们成为类的成员.
 
-#### 如何启用 `..<` 操作符
+#### 如何启用 ..&lt; 操作符
 
 要使用 `..<` 操作符, 或为你自己的类型实现这个操作符, 你需要启用 `-language-version 1.8` 编译器选项.
 
@@ -178,7 +178,7 @@ class IntRange : IntProgression(...), ClosedRange<Int>, OpenEndRange<Int> {
 [Data object](https://youtrack.jetbrains.com/issue/KT-4107)
 的行为与通常的 `object` 声明相同, 但默认带有更加良好格式化的 `toString` 表示.
 
-<video src="https://youtu.be/ovAqcwFhEGc" title="Kotlin 1.7.20 中的数据对象"/>
+<video src="https://www.youtube.com/v/ovAqcwFhEGc" title="Kotlin 1.7.20 中的数据对象"/>
 
 ```kotlin
 package org.example
@@ -355,7 +355,7 @@ Kotlin 1.7.20 引入了泛型的内联类(Generic Inline Class), 对委托属性
 Kotlin 1.7.20 允许 JVM 内联类使用类型参数作为它的内部数据的类型.
 编译器会将它映射为 `Any?`, 或者, 一般来说, 映射为类型参数的上界.
 
-<video src="https://youtu.be/0JRPA0tt9og" title="Kotlin 1.7.20 中的泛型的内联类"/>
+<video src="https://www.youtube.com/v/0JRPA0tt9og" title="Kotlin 1.7.20 中的泛型的内联类"/>
 
 请参考下面的示例:
 
@@ -750,7 +750,7 @@ Kotlin 1.7.20 对 `java.nio.file.Path` 类提供了新的 [扩展函数](extensi
 
 ### 教程的改进和新增
 
-* [Kotlin Multiplatform 入门](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-getting-started.html)
+* [Kotlin Multiplatform 入门](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-create-first-app.html)
   – 学习使用 Kotlin 进行跨平台移动应用程序开发, 并创建一个可以同时运行于 Android 和 iOS 平台的应用程序.
 * [使用 React 和 Kotlin/JS 创建 Web 应用程序](js-react.md)
   – 创建一个浏览器应用程序, 学习一个典型的 React 程序中用到的 Kotlin 的 DSL 和功能特性.

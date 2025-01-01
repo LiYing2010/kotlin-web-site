@@ -1,13 +1,11 @@
-[//]: # (title: Kotlin Multiplatform Mobile Plugin 的发布版本)
+[//]: # (title: Kotlin Multiplatform Plugin 的发布版本)
 
-我们正在努力开发 [Kotlin Multiplatform Mobile plugin for Android Studio](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform-mobile)
-的稳定版, 我们会不断发布新的版本, 包含新的功能, 改进, 和 bug 修正.
-
-请确认你安装了最新版的 Kotlin Multiplatform Mobile plugin!
+请确认你安装了 [Kotlin Multiplatform plugin](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform-mobile)
+的最新版本, 以便在 Android Studio 中继续使用 Kotlin Multiplatform 项目.
 
 ## 更新到新的发布版
 
-如果出现了新的 Kotlin Multiplatform Mobile plugin 发布版, Android Studio 会建议你更新.
+如果出现了新的 Kotlin Multiplatform plugin 发布版, Android Studio 会建议你更新.
 如果你接受建议, 它会自动更新 plugin 到最新版本.
 你将会需要重新启动 Android Studio 来完成 plugin 的安装.
 
@@ -17,14 +15,14 @@
 你可以通过菜单 **Settings/Preferences** | **Plugins**, 或 **Tools** | **Kotlin** | **Configure Kotlin Plugin Updates**,
 查看你的 Kotlin 版本, 并更新它.
 
-> 如果你没有安装兼容的 Kotlin 版本, Kotlin Multiplatform Mobile plugin 将会被禁用. 你需要更新你的 Kotlin,
+> 如果你没有安装兼容的 Kotlin 版本, Kotlin Multiplatform plugin 将会被禁用. 你需要更新你的 Kotlin,
 > 然后通过菜单 **Settings/Preferences** | **Plugins**, 启用 plugin.
 >
 {style="note"}
 
 ## 发布版本详情 {id="release-details"}
 
-下表列出了 Kotlin Multiplatform Mobile plugin 最新发布版的详细信息:
+下表列出了 Kotlin Multiplatform plugin 最新发布版的详细信息:
 
 <table>
 <tr>
@@ -41,14 +39,33 @@
 <tr>
 <td>
 
-**0.8.2**
+**0.8.3**
 
-发布日期: 2024/01/25
+发布日期: 2024/07/23
 
 </td>
 <td>
 
-* 支持新的 Canary 版 Android Studio Jellyfish.
+* 修正了对 Xcode 的兼容性问题.
+
+</td>
+<td>
+
+* [Kotlin plugin 的任何版本](releases.md#release-details)
+
+</td>
+</tr>
+<tr>
+<td>
+
+**0.8.2**
+
+发布日期: 2024/05/16
+
+</td>
+<td>
+
+* 支持 Android Studio Jellyfish, 以及新的 Canary 版, Koala.
 * 在共用模块中添加 `sourceCompatibility` 和 `targetCompatibility` 声明.
 </td>
 <td>

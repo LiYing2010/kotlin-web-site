@@ -83,15 +83,14 @@ Kotlin 允许你使用 `person.age`, 其中 `age` 是一个合成属性. 现在,
 
 ```kotlin
 val persons = listOf(Person("Jack", 11), Person("Sofie", 12), Person("Peter", 11))
-    Persons
+    persons
          // 调用 Java 合成属性的引用:
         .sortedBy(Person::age)
          // 通过 Kotlin 属性语法调用 Java 的 get 方法:
         .forEach { person -> println(person.name) }
-}
 ```
 
-### 如何启动用 Java 合成属性的引用 {id="how-to-enable-java-synthetic-property-references" collapsible="true"}
+### 如何启动用 Java 合成属性的引用 {id="how-to-enable-java-synthetic-property-references" initial-collapse-state="collapsed" collapsible="true"}
 
 要启用这个功能, 请设置 `-language-version 2.1` 编译器选项.
 在 Gradle 项目中, 你可以在你的 `build.gradle(.kts)` 文件中添加以下设置:
@@ -561,10 +560,10 @@ Java 中的装箱的基本类型(boxed primitive type), 会被映射为 Kotlin �
 
 Java 数据的映射如下, 详情参见 [下文](#java-arrays):
 
-| **Java 类型** | **Kotlin 类型**  |
-|---------------|------------------|
-| `int[]`       | `kotlin.IntArray!` |
-| `String[]`    | `kotlin.Array<(out) String>!` |
+| **Java 类型** | **Kotlin 类型**                  |
+|-------------|--------------------------------|
+| `int[]`     | `kotlin.IntArray!`             |
+| `String[]`  | `kotlin.Array<(out) String!>!` |
 
 > 这些 Java 类型的静态成员, 无法通过 Kotlin 类型的[同伴对象](object-declarations.md#companion-objects)直接访问.
 > 要访问这些静态成员, 需要使用 Java 类型的完整限定名称, 比如 `java.lang.Integer.toHexString(foo)`.

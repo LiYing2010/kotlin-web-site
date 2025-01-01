@@ -7,7 +7,7 @@ Kotlin 1.5.20 修复了在 1.5.0 新功能中发现的问题, 还包含很多工
 关于这个版本的变更概要, 可以查看 [release blog](https://blog.jetbrains.com/kotlin/2021/06/kotlin-1-5-20-released/)
 和以下视频:
 
-<video src="https://youtu.be/SV8CgSXQe44" title="Kotlin 1.5.20"/>
+<video src="https://www.youtube.com/v/SV8CgSXQe44" title="Kotlin 1.5.20"/>
 
 ## Kotlin/JVM
 
@@ -36,7 +36,7 @@ Kotlin 编译器可以读取多种类型的 [可否为 null 注解](java-interop
 
 通过 JSpecify, 你可以提供更加详细的可否为 null 信息, 帮助 Kotlin 与 Java 代码交互时保证 null 值安全性.
 你可以对声明, 包, 或模块范围设置默认的可否为 null 设定, 也可以通过参数指定可否为 null, 以及其他功能.
-详细的功能请参见 [JSpecify 用户指南](https://jspecify.dev/user-guide.html).
+详细的功能请参见 [JSpecify 用户指南](https://jspecify.dev/docs/user-guide).
 
 下面是一个示例, 演示 Kotlin 如何处理 JSpecify 注解:
 
@@ -85,7 +85,7 @@ Lombok 注解 只能用于 Java 源代码, 如果你在 Kotlin 代码中使用, 
 * `@With`
 * `@Value`
 
-我们还在继续完善这个插件. 关于目前的开发状态, 详情请参见 [Lombok 编译器插件的 README](https://github.com/JetBrains/kotlin/blob/master/plugins/lombok/lombok-compiler-plugin/README.md).
+我们还在继续完善这个插件. 关于目前的开发状态, 详情请参见 [Lombok 编译器插件的 README](https://github.com/JetBrains/kotlin/tree/master/plugins/lombok).
 
 目前, 我们不计划支持 `@Builder` 注解.
 但如果你 [在 YouTrack 投票支持 `@Builder`](https://youtrack.jetbrains.com/issue/KT-46959), 我们可以考虑增加这个功能.

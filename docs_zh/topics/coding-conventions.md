@@ -40,8 +40,8 @@
 如果 Kotlin 源代码文件只包含单个类或接口 (以及相关的顶级声明), 那么源代码文件的名称应该与类名相同, 再加上 `.kt` 扩展名.
 这个规则适用于所有类型的类和接口.
 如果源代码文件包含多个类, 或者只包含顶级声明, 请选择一个能够描述文件所包含内容的名称, 用这个名称作为源代码文件名.
-文件名如果包含多个单词, 请使用 [驼峰式大小写](https://en.wikipedia.org/wiki/Camel_case),
-将首字母大写(又叫做 Pascal 风格大小写), 比如, `ProcessDeclarations.kt`.
+文件名如果包含多个单词, 请使用 [驼峰式大小写](https://en.wikipedia.org/wiki/Camel_case), 将每个单词的首字母大写.
+例如, `ProcessDeclarations.kt`.
 
 文件的名称应该描述其中包含的代码的功能. 因此, 应该避免在文件名中使用无意义的单词, 比如 `Util`.
 
@@ -57,7 +57,7 @@
 对于 common 源代码集, 带有顶级声明的文件不应该带有后缀.
 例如, `commonMain/kotlin/Platform.kt`.
 
-##### 技术细节
+##### 技术细节 {initial-collapse-state="collapsed" collapsible="true"}
 
 我们推荐在跨平台项目中遵循这样的文件命名风格, 是因为 JVM 的限制: 它不允许存在顶层成员 (函数, 属性).
 
@@ -79,7 +79,7 @@ root
 避免这个错误的最简单的方法是, 遵照上面所说的规约, 将某个文件改名.
 这样的命名规约可以帮助避免名称冲突, 同时保持代码的可读性.
 
-> 在两种情况下, 上面的命名规约可以省略, 但我们仍然建议遵循这种命名规约:
+> 在两种场景下, 上面的命名规约可以省略, 但我们仍然建议遵循这种命名规约:
 >
 > * 非 JVM 平台 对重复的 File Facade 不会发生错误. 但是, 这种命名规约可以帮助你保持文件名称的一致性.
 > * 在 JVM 平台上, 如果源代码文件不包含顶层声明, 就不会生成File Facade, 因此你不会遇到名称冲突的问题.
@@ -129,7 +129,7 @@ Kotlin 中的包和类的命名规则非常简单:
 通常不鼓励使用多个单词的名称, 但如果的确需要,
 你可以将多个单词直接连接在一起, 或者使用驼峰式大小写(`org.example.myProject`).
 
-* 类和对象的名称以大写字母开头, 并且使用驼峰式大小写:
+* 类和对象的名称使用首字母大写的驼峰式大小写:
 
 ```kotlin
 open class DeclarationProcessor { /*...*/ }
@@ -139,7 +139,7 @@ object EmptyDeclarationProcessor : DeclarationProcessor() { /*...*/ }
 
 ### 函数名称 {id="function-names"}
 
-函数, 属性, 以及局部变量的名称以小写字母开头, 并且使用驼峰式大小写, 而且不使用下划线:
+函数, 属性, 以及局部变量的名称以小写字母开头, 使用驼峰式大小写, 不使用下划线:
 
 ```kotlin
 fun processDeclarations() { /*...*/ }
@@ -172,8 +172,8 @@ class MyTestCase {
 
 ### 属性名称
 
-对于常数 (标记了 `const` 的属性, 或者不存在自定义的 `get` 函数顶级的 `val` 属性, 或对象的 `val` 属性, 并且其值是深层不可变数据),
-应该使用下划线分隔的大写 ([吼叫式蛇形大小写](https://en.wikipedia.org/wiki/Snake_case)) 名称:
+对于常数 (标记了 `const` 的属性, 或不存在自定义的 `get` 函数的顶级 `val` 属性, 或对象的 `val` 属性, 并且其值是深层不可变数据),
+应该使用下划线分隔的全大写名称, 遵循 [吼叫式蛇形大小写](https://en.wikipedia.org/wiki/Snake_case) 规则:
 
 ```kotlin
 const val MAX_COUNT = 8
@@ -192,7 +192,7 @@ val mutableCollection: MutableSet<String> = HashSet()
 val PersonComparator: Comparator<Person> = /*...*/
 ```
 
-对于枚举常数, 可以使用下划线分隔的大写名称 ([吼叫式蛇形大小写](https://en.wikipedia.org/wiki/Snake_case))
+对于枚举常数, 可以使用下划线分隔的全大写([吼叫式蛇形大小写](https://en.wikipedia.org/wiki/Snake_case)) 名称
 (`enum class Color { RED, GREEN }`), 也可以使用首字母大写的驼峰式大小写名称, 由你的具体用法来决定.
 
 ### 后端属性名称
@@ -245,11 +245,8 @@ if (elements != null) {
 ### 水平空格
 
 * 二元运算符前后应该加入空格 (`a + b`). 例外情况是: 不要在 "值范围" 运算符前后加入空格 (`0..i`).
-
 * 一元运算符前后不要加入空格 (`a++`)
-
 * 流程控制关键字(`if`, `when`, `for` 以及 `while`) 以及对应的开括号之间, 要加入空格.
-
 * 对于主构造器声明, 方法声明, 以及方法调用, 不要在开括号之前加入空格.
 
 ```kotlin
@@ -263,26 +260,21 @@ fun bar() {
 ```
 
 * 不要在 `(`, `[` 之后加入空格, 也不要在 `]`, `)` 之前加入空格.
-
-* 不要在 `.` 或 `?.` 前后加入空格: `foo.bar().filter { it > 2 }.joinToString()`, `foo?.bar()`
-
-* 在 `//` 之后加入空格: `// 这是一段注释`
-
-* 对于用来表示类型参数的尖括号, 不要在它前后加入空格: `class Map<K, V> { ... }`
-
-* 不要在 `::` 前后加入空格: `Foo::class`, `String::length`
-
-* 对于用来表示可空类型的 `?`, 不要在它之前加入空格: `String?`
+* 不要在 `.` 或 `?.` 前后加入空格: `foo.bar().filter { it > 2 }.joinToString()`, `foo?.bar()`.
+* 在 `//` 之后要加入空格: `// 这是一段注释`.
+* 对于用来表示类型参数的尖括号, 不要在它前后加入空格: `class Map<K, V> { ... }`.
+* 不要在 `::` 前后加入空格: `Foo::class`, `String::length`.
+* 对于用来表示可空类型的 `?`, 不要在它之前加入空格: `String?`.
 
 一般来说, 不要进行任何形式的水平对其. 如果将一个标识符改为不同长度的名称, 不应该影响到它的任何声明, 以及任何使用的格式.
 
 ### 冒号
 
-以下情况, 要在 `:` 之前加入空格:
+以下场景, 要在 `:` 之前加入空格:
 
-* 用作类型与父类型之间的分隔符时
-* 委托给超类的构造器, 或者委托给同一个类的另一个构造器时
-* 用在 `object` 关键字之后时
+* 用作类型与父类型之间的分隔符时.
+* 委托给超类的构造器, 或者委托给同一个类的另一个构造器时.
+* 用在 `object` 关键字之后时.
 
 如果 `:` 用作某个声明与它的类型之间的分隔符时, 不要它前面加入空格.
 
@@ -629,7 +621,7 @@ Kotlin 编码风格向导鼓励在声明处使用尾随逗号, 在调用处则�
 要在 IntelliJ IDEA 的代码格式化工具中启用尾随逗号, 请进入设置界面 **Settings/Preferences | Editor | Code Style | Kotlin**,
 打开 **Other** 页, 然后选中 **Use trailing comma** 选项.
 
-#### 枚举
+#### 枚举 {initial-collapse-state="collapsed" collapsible="true"}
 
 ```kotlin
 enum class Direction {
@@ -640,7 +632,7 @@ enum class Direction {
 }
 ```
 
-#### 值参数
+#### 值参数 {initial-collapse-state="collapsed" collapsible="true"}
 
 ```kotlin
 fun shift(x: Int, y: Int) { /*...*/ }
@@ -655,7 +647,7 @@ val colors = listOf(
 )
 ```
 
-#### 类的属性和参数
+#### 类的属性和参数 {initial-collapse-state="collapsed" collapsible="true"}
 
 ```kotlin
 class Customer(
@@ -668,7 +660,7 @@ class Customer(
 )
 ```
 
-#### 函数值参数
+#### 函数值参数 {initial-collapse-state="collapsed" collapsible="true"}
 
 ```kotlin
 fun powerOf(
@@ -685,7 +677,7 @@ fun print(
 ) {}
 ```
 
-#### 带有可选类型的参数 (包括属性的 set 函数)
+#### 带有可选类型的参数 (包括属性的 set 函数) {initial-collapse-state="collapsed" collapsible="true"}
 
 ```kotlin
 val sum: (Int, Int, Int) -> Int = fun(
@@ -698,7 +690,7 @@ val sum: (Int, Int, Int) -> Int = fun(
 println(sum(8, 8, 8))
 ```
 
-#### 下标后缀
+#### 下标后缀 {initial-collapse-state="collapsed" collapsible="true"}
 
 ```kotlin
 class Surface {
@@ -711,7 +703,7 @@ fun getZValue(mySurface: Surface, xValue: Int, yValue: Int) =
     ]
 ```
 
-#### Lambda 表达式的参数 {id="parameters-in-lambdas"}
+#### Lambda 表达式的参数 {id="parameters-in-lambdas" initial-collapse-state="collapsed" collapsible="true"}
 
 ```kotlin
 fun main() {
@@ -725,7 +717,7 @@ fun main() {
 }
 ```
 
-#### `when` 语句的分支条件
+#### when 语句的分支条件 {initial-collapse-state="collapsed" collapsible="true"}
 
 ```kotlin
 fun isReferenceApplicable(myReference: KClass<*>) = when (myReference) {
@@ -737,7 +729,7 @@ fun isReferenceApplicable(myReference: KClass<*>) = when (myReference) {
 }
 ```
 
-#### 集合字面值 (在注解中)
+#### 集合字面值 (在注解中) {initial-collapse-state="collapsed" collapsible="true"}
 
 ```kotlin
 annotation class ApplicableFor(val services: Array<String>)
@@ -750,7 +742,7 @@ annotation class ApplicableFor(val services: Array<String>)
 fun run() {}
 ```
 
-#### 类型参数(Type argument)
+#### 类型参数(Type argument) {initial-collapse-state="collapsed" collapsible="true"}
 
 ```kotlin
 fun <T1, T2> foo() {}
@@ -763,7 +755,7 @@ fun main() {
 }
 ```
 
-#### 类型参数(Type parameter)
+#### 类型参数(Type parameter) {initial-collapse-state="collapsed" collapsible="true"}
 
 ```kotlin
 class MyMap<
@@ -772,7 +764,7 @@ class MyMap<
         > {}
 ```
 
-#### 解构声明
+#### 解构声明 {initial-collapse-state="collapsed" collapsible="true"}
 
 ```kotlin
 data class Car(val manufacturer: String, val model: String, val year: Int)
@@ -1045,14 +1037,14 @@ fun main() {
 
 ### 函数 vs 属性
 
-有些情况下, 无参数的函数可以与只读属性相互替代.
+有些场景下, 无参数的函数可以与只读属性相互替代.
 虽然它们在语义上是相似的, 但从编程风格上的角度看, 存在一些规约来决定在什么时候应该使用函数, 什么时候应该使用属性.
 
 当底层算法满足以下条件时, 应该选择使用只读属性, 而不是使用函数:
 
-* 不会抛出异常
-* 计算过程消费的资源不多(或者在初次运行时缓存了计算结果)
-* 对象状态没有发生变化时, 多次调用会返回相同的结果
+* 不会抛出异常.
+* 计算过程消费的资源不多(或者在初次运行时缓存了计算结果).
+* 对象状态没有发生变化时, 多次调用会返回相同的结果.
 
 ### 扩展函数
 
@@ -1113,13 +1105,13 @@ fun main() {
 Kotlin 提供了一组函数, 用来在某个指定的对象上下文中执行一段代码, 这些函数包括: `let`, `run`, `with`, `apply`, 以及 `also`.
 对于具体的问题, 应该如何选择正确的作用域函数, 详情请参见 [作用域函数(Scope Function)](scope-functions.md).
 
-## 针对库开发的编码规约
+## 针对库开发的编码规约 {id="coding-conventions-for-libraries"}
 
 开发库时, 为了保证 API 的稳定性, 建议还要遵守以下规约:
 
- * 始终明确指定成员的可见度 (以免不小心将某个声明暴露成 public API)
- * 始终明确指定函数的返回类型, 以及属性类型 (以免修改实现代码时, 不小心改变了返回类型)
+ * 始终明确指定成员的可见度 (以免不小心将某个声明暴露成 public API).
+ * 始终明确指定函数的返回类型, 以及属性类型 (以免修改实现代码时, 不小心改变了返回类型).
  * 对所有的 public 成员编写 [KDoc](kotlin-doc.md) 文档注释 (这是为了对库生成文档),
-   例外情况是, 方法或属性的覆盖不需要提供新的注释
+   例外情况是, 方法或属性的覆盖不需要提供新的注释.
 
-关于为你的库编写 API 时的最佳实践, 以及需要考虑的问题, 请参见 [库开发者指南](jvm-api-guidelines-introduction.md).
+关于为你的库编写 API 时的最佳实践, 以及需要考虑的问题, 请参见 [库开发者指南](api-guidelines-introduction.md).

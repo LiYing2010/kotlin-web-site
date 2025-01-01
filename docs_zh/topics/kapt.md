@@ -87,13 +87,8 @@ Kotlin 使用 _kapt_ 编译器插件来支持注解处理器(参见 [JSR 269](ht
 K2 编译器带来了性能改进和很多其它优点. 要在你的项目中使用 K2 编译器, 请在你的 `gradle.properties` 文件中添加以下选项:
 
 ```kotlin
-kotlin.experimental.tryK2=true
 kapt.use.k2=true
 ```
-
-或者, 你也可以通过以下步骤, 对 kapt 启用 K2 编译器:
-1. 在你的 `build.gradle.kts` 文件中, 将 [语言版本](gradle-compiler-options.md#example-of-setting-a-languageversion) 设置为 `2.0`.
-2. 在你的 `gradle.properties` 文件中, 添加 `kapt.use.k2=true`.
 
 如果你在对 K2 编译器使用 kapt 插件时遇到任何问题, 请报告到我们的 [问题追踪系统](http://kotl.in/issue).
 
@@ -286,6 +281,30 @@ kapt.incremental.apt=false
 注意, 增量式注解处理同时还需要启用
 [增量式编译(Incremental Compilation)](gradle-compilation-and-caches.md#incremental-compilation).
 
+## 从父配置(superconfiguration)继承注解处理器
+
+你可以在一个单独的 Gradle 配置中, 定义注解处理器的一组共通设置, 作为父配置(superconfiguration),
+然后对你的子项目扩展这些父配置, 进行更多的 kapt 相关的配置.
+
+例如, 对一个使用 [Dagger](https://dagger.dev/) 的子项目, 在你的 `build.gradle(.kts)` 文件中, 使用下面的配置:
+
+```kotlin
+val commonAnnotationProcessors by configurations.creating
+configurations.named("kapt") { extendsFrom(commonAnnotationProcessors) }
+
+dependencies {
+    implementation("com.google.dagger:dagger:2.48.1")
+    commonAnnotationProcessors("com.google.dagger:dagger-compiler:2.48.1")
+}
+```
+
+在这个示例中, `commonAnnotationProcessors` Gradle 配置,
+是你想要在所有的项目中使用的, 关于注解处理的共通父配置.
+你使用 [`extendsFrom()`](https://docs.gradle.org/current/dsl/org.gradle.api.artifacts.Configuration.html#org.gradle.api.artifacts.Configuration:extendsFrom)
+方法, 将 `commonAnnotationProcessors` 添加为一个父配置.
+kapt 看到 `commonAnnotationProcessors` Gradle 配置存在对 Dagger 注解处理器的依赖项.
+因此, kapt 会在它关于注解处理的配置中包含 Dagger 注解处理器.
+
 ## Java 编译器选项 {id="java-compiler-options"}
 
 kapt 使用 Java 编译器来运行注解处理器.
@@ -390,7 +409,7 @@ kapt 编译器插件随 Kotlin 编译器的二进制发布版一同发布.
     * `stubs` – 只生成注解处理所需要的桩代码.
     * `apt` – 只进行注解处理.
     * `stubsAndApt` – 生成桩代码, 并且进行注解处理.
-* `correctErrorTypes`: 详情请参见 [下文](#use-in-gradle). 默认关闭.
+* `correctErrorTypes`: 详情请参见 [对不存在的类型进行纠正](#non-existent-type-correction). 默认关闭.
 * `dumpFileReadHistory`: 输出路径, 用于输出每个文件的注解处理过程中使用的类的列表.
 
 plugin 的命令行选项格式是: `-P plugin:<plugin id>:<key>=<value>`. 命令行选项可以重复.

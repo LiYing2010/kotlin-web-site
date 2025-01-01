@@ -69,51 +69,41 @@ kotlin.incremental.js.ir=false // 默认为 true
 >
 {style="note"}
 
-## 输出 .js 文件: 对每模块输出一个文件, 或对整个项目输出一个文件
+## 输出模式
 
-作为编译结果, JS IR 编译器对项目的每个模块输出单独的 `.js` 文件.
-你也可以选择将整个项目编译为单个 `.js` 文件, 方法是向 `gradle.properties` 添加以下设置:
+你可以选择让 JS IR 编译器在你的项目中如何输出 `.js` 文件:
 
-```none
-kotlin.js.ir.output.granularity=whole-program // 默认为 'per-module'
-```
+* **对每个模块输出 `.js` 文件**. 默认情况下, JS 编译器的编译结果是对项目的每个模块输出单独的 `.js` 文件.
+* **对每个项目输出 `.js` 文件**. 你也可以将整个项目编译为单个 `.js` 文件, 方法是向 `gradle.properties` 添加以下设置:
 
-## 忽略编译错误 {id="ignoring-compilation-errors"}
+  ```none
+  kotlin.js.ir.output.granularity=whole-program // 默认值是 'per-module'
+  ```
 
-> _忽略编译错误_ 模式还处于 [实验阶段](components-stability.md).
-> 它随时有可能变更或被删除.
-> 使用这个功能需要明确要求使用者同意(详情请见下文), 而且你应该只用来进行功能评估, 不要用在你的正式产品中.
-> 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issues/KT) 提供你的反馈意见.
->
-{style="warning"}
+* **对每个文件输出 `.js` 文件**. 你也可以设置更加细粒度的输出, 为每个 Kotlin 文件生成 1 个 JavaScript 文件
+  (如果 Kotlin 文件包含导出的声明, 则会生成 2 个 JavaScript 文件). 启用这个模式的方法如下:
 
-Kotlin/JS IR 编译器提供了一个在默认的编译器后端中没有的新编译模式 – _忽略编译错误_ 模式.
-在这个模式下, 即使代码包含错误, 你也可以试用你的应用程序.
-比如, 你可能在进行一个非常复杂的代码重构时, 或者在编写系统的某一部分, 与发生编译错误的另一部分完全无关.
+  1. 向你的构建文件, 添加 `useEsModules()` 函数, 支持 ECMAScript 模块:
 
-在这个新的编译器模式下, 编译器会忽略所有的错误代码. 因此, 你可以运行应用程序, 并试用与错误代码无关的那部分功能.
-如果你试图运行那些存在编译错误的代码, 那么将会发生运行期异常.
+     ```kotlin
+     // build.gradle.kts
+     kotlin {
+         js(IR) {
+             useEsModules() // 启用 ES2015 模块
+             browser()
+         }
+     }
+     ```
 
-要忽略你代码中的编译错误, 可以选择两种错误宽容策略:
-- `SEMANTIC`. 编译器会接受语法正确但语义上无意义的代码.
-  比如, 将数值赋值给字符串变量 (类型不匹配).
-- `SYNTAX`. 编译器会接受任何代码, 即使包含语法错误.
-  无论你编写什么样的代码, 编译器都会尝试生成可执行的代码.
+     或者, 你也可以使用 `es2015` [编译目标](js-project-setup.md#support-for-es2015-features),
+     在你的项目中支持 ES2015 功能.
 
-作为一个试验性的功能, 忽略编译错误需要使用者同意(Opt-in).
-要开始这个模式, 需要添加 `-Xerror-tolerance-policy={SEMANTIC|SYNTAX}` 编译器选项:
+  2. 使用 `-Xir-per-file` 编译器选项, 或者更新你的 `gradle.properties` 文件, 如下:
 
-```kotlin
-kotlin {
-    js(IR) {
-        compilations.all {
-            compileTaskProvider.configure {
-                compilerOptions.freeCompilerArgs.add("-Xerror-tolerance-policy=SYNTAX")
-            }
-        }
-    }
-}
-```
+     ```none
+     # gradle.properties
+     kotlin.js.ir.output.granularity=per-file // 默认值是 `per-module`
+     ```
 
 ## 在产品(Production)模式中对成员名称的极简化(Minification)
 
@@ -136,7 +126,7 @@ kotlin {
 }
 ```
 
-## 预览: 生成 TypeScript 声明文件 (d.ts) {id="preview-generation-of-typescript-declaration-files-d-ts"}
+## 预览功能: 生成 TypeScript 声明文件 (d.ts) {id="preview-generation-of-typescript-declaration-files-d-ts"}
 
 > 生成 TypeScript 声明文件 (`d.ts`)功能还处于 [实验阶段](components-stability.md).
 > 它随时有可能变更或被删除.

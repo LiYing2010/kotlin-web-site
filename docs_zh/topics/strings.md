@@ -111,6 +111,7 @@ val text = """
 ## 字符串模板 {id="string-templates"}
 
 字符串字面值内可以包含 _模板表达式_, 它是一小段代码, 会被执行, 其计算结果将被拼接为字符串内容的一部分.
+在处理模板中的表达式时, Kotlin 会自动对表达式的计算结果调用 `.toString()` 函数, 将它转换为字符串.
 模板表达式以 `$` 符号开始, `$` 符号之后可以是一个变量名:
 
 ```kotlin
@@ -119,6 +120,11 @@ fun main() {
     val i = 10
     println("i = $i")
     // 输出结果为 i = 10
+
+    val letters = listOf("a","b","c","d","e")
+    println("Letters: $letters")
+    // 输出结果为 Letters: [a, b, c, d, e]
+
 //sampleEnd
 }
 ```

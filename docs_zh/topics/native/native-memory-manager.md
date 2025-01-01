@@ -3,23 +3,30 @@
 Kotlin/Native 使用一个现代化的内存管理器, 类似于 JVM, Go, 以及其它主流技术, 包括以下功能:
 
 * 对象存储在共享的堆(heap)中, 可以在任何线程中访问.
-* 定期执行追踪垃圾收集器(Garbage Collector, GC), 回收那些从 "根(roots)" 无法到达的对象, 比如局部变量, 全局变量.
+* 定期执行追踪垃圾收集器(Tracing Garbage Collection), 回收那些从 "根(roots)" 无法到达的对象, 比如局部变量, 全局变量.
 
 ## 垃圾收集器
 
-Kotlin/Native 的 GC 算法一直在持续演进. 目前使用的算法是 Stop-the-World Mark 和 Concurrent Sweep 收集器,
+Kotlin/Native 的垃圾收集 (Garbage Collector, GC) 算法一直在持续演进.
+目前使用的算法是 Stop-the-World Mark 和 Concurrent Sweep 收集器,
 它不会把堆(heap)分为不同的代(generation).
 
-GC 使用完全并行标记(Full Parallel Mark), 它结合了暂停的转换器(Paused Mutator), GC 线程, 以及可选的标记线程(Marker Thread),
-来处理标记队列(Mark Queue).
-默认情况下, 暂停的转换器(Paused Mutator)和至少一个 GC 线程共通参与标记过程.
-您可以使用 `-Xbinary=gcMarkSingleThreaded=true` 编译选项, 禁用完全并行标记(Full Parallel Mark).
-但是, 这样做可能会增加垃圾收集器的暂停时间.
+GC 在单独的线程中执行, 根据内存压力启动, 或由定时器启动.
+或者, 它也可以 [手动调用](#enable-garbage-collection-manually).
+
+GC 并行处理多个线程中的标记队列, 包括应用程序线程, GC 线程, 以及可选的标记线程(Marker Thread).
+应用程序线程, 以及至少一个 GC 线程, 共同参与标记过程.
+默认情况下, 当 GC 正在标记堆(heap)中的对象时, 应用程序线程必须暂停.
+
+> 你可以使用 `kotlin.native.binary.gcMarkSingleThreaded=true` 编译选项, 禁用标记阶段的并行处理.
+> 但是, 这样做可能会增加垃圾收集器在大 heap 上的暂停时间.
+>
+{style="tip"} 
 
 当标记阶段完成时, GC 会处理弱引用(Weak Reference), 并将指向未标记对象的引用(Unmarked Object)设置为 null.
-为了减少 GC 的暂停时间, 你可以使用 `-Xbinary=concurrentWeakSweep=true` 编译选项, 禁用对弱引用(Weak Reference)的并发处理.
+默认情况下, 会并行的处理弱引用, 以减少 GC 的暂停时间.
 
-GC 在单独的线程中执行, 根据定时器和内存压力来启动. 此外, 也可以 [手动调用](#enable-garbage-collection-manually).
+详情参见, 如何 [监测](#monitor-gc-performance) 和 [优化](#optimize-gc-performance) 垃圾收集.
 
 ### 手动启动垃圾收集 {id="enable-garbage-collection-manually"}
 
@@ -27,8 +34,8 @@ GC 在单独的线程中执行, 根据定时器和内存压力来启动. 此外,
 
 ### 监测 GC 性能 {id="monitor-gc-performance"}
 
-目前没有专门的指标来监测 GC 性能. 但是, 可以查看 GC log 来进行问题诊断.
-要启用 log, 请在 Gradle 构建脚本中设置以下编译选项:
+要监测 GC 性能, 你可以查看它的 log 来进行问题诊断.
+要启用 log, 请在你的 Gradle 构建脚本中设置以下编译选项:
 
 ```none
 -Xruntime-logs=gc=info
@@ -36,10 +43,44 @@ GC 在单独的线程中执行, 根据定时器和内存压力来启动. 此外,
 
 目前, log 只会被输出到 `stderr`.
 
+在 Apple 平台上, 你可以利用 Xcode Instruments 工具包来调试 iOS App 的性能.
+垃圾收集器会使用 Instruments 中的 signpost 来报告暂停.
+Signpost 允许在你的 App 中自定义 log, 因此你可以检查应用程序失去响应是不是由于 GC 暂停导致的.
+
+要在你的 App 中追踪 GC 造成的暂停:
+
+1. 要启动这个功能, 请在你的 `gradle.properties` 文件中设置以下编译选项:
+
+   ```none
+   kotlin.native.binary.enableSafepointSignposts=true
+   ```
+
+2. 打开 Xcode, 选择 **Product** | **Profile**, 或者按快捷键 <shortcut>Cmd + I</shortcut>.
+   这个操作会编译你的 App, 并启动 Instruments.
+3. 在模板选择项中, 选择 **os_signpost**.
+4. 输入配置, 将 `org.kotlinlang.native.runtime` 指定为 **subsystem**, `safepoint` 指定为 **category**.
+5. 点击红色的记录按钮, 运行你的 App, 并开始记录 signpost 事件:
+
+   ![使用 signpost 追踪 GC 暂停](native-gc-signposts.png){width=700}
+
+   这里, 最下方图表上的每个蓝色斑点表示一个 signpost 事件, 也就是一个 GC 暂停.
+
+### 优化 GC 性能 {id="optimize-gc-performance"}
+
+要改善 GC 性能, 你可以启用并行的标记处理来减少 GC 暂停时间.
+这样可以让垃圾收集的标记阶段与应用程序的线程同时运行.
+
+这个功能目前是 [实验性功能](components-stability.md#stability-levels-explained).
+要启用这个功能, 请在你的 `gradle.properties` 文件中设置以下编译选项:
+
+```none
+kotlin.native.binary.gc=cms
+```
+
 ### 禁用垃圾收集
 
 我们推荐启用 GC. 但是, 某些情况下你也可以禁用它, 例如, 为了测试目的, 或者你遇到问题, 而且程序的生存周期很短.
-要禁用 GC, 请在 Gradle 构建脚本中设置以下编译选项:
+要禁用 GC, 请在你的 Gradle 构建脚本中设置以下编译选项:
 
 ```none
 -Xgc=noop
@@ -118,8 +159,8 @@ fun test() {
 
 * 在你的 Gradle 构建脚本中使用以下编译选项之一, 切换到不同的内存分配器:
 
-  * `-Xallocator=mimalloc`, 使用 [mimalloc](https://github.com/microsoft/mimalloc) 内存分配器.
   * `-Xallocator=std`, 使用系统的内存分配器.
+  * `-Xallocator=mimalloc`, 使用 [mimalloc](https://github.com/microsoft/mimalloc) 内存分配器.
 
 * 如果你使用 mimalloc 内存分配器, 你可以命令它及时将内存释放回系统.
   具体做法是, 在你的 `gradle.properties` 文件中启用以下二进制文件选项:
@@ -158,11 +199,11 @@ fun mainBackground(args: Array<String>) {
     error("CFRunLoopRun should never return")
 }
 ```
-{collapsible="true"}
+{initial-collapse-state="collapsed" collapsible="true"}
 
 然后, 使用 `-e testlauncher.mainBackground` 编译器选项来编译测试程序的二进制文件.
 
 ## 下一步
 
 * [从旧的内存管理器迁移](native-migration-guide.md)
-* [与 iOS 集成的配置](native-ios-integration.md)
+* [学习如何与 Swift/Objective-C ARC 集成](native-arc-integration.md)

@@ -31,50 +31,65 @@ _CrudRepository_ 是一个 Spring Data 接口, 可以指定类型的仓库进行
     {style="note"}
 
     ```kotlin
+    // Message.kt
+    package demo
+
     import org.springframework.data.annotation.Id
     import org.springframework.data.relational.core.mapping.Table
 
     @Table("MESSAGES")
-    data class Message(@Id var id: String?, val text: String)
+    data class Message(@Id val id: String?, val text: String)
     ```
 
-   除了添加这些注解之外, 你还需要让 `id` 成为可变属性 (`var`), 因为在将新对象插入到数据库时 `CrudRepository` 需要如此.
-
-2. 为`CrudRepository` 声明一个接口, 它负责操作 `Message` 数据类:
+    此外, 为了让 `Message` 类的使用更加符合 Kotlin 的编程习惯,
+    你可以将 `id` 属性的默认值设置为 null, 并翻转数据类的属性顺序:
 
     ```kotlin
+    @Table("MESSAGES")
+    data class Message(val text: String, @Id val id: String? = null)
+    ```
+
+    现在, 如果你需要创建的 `Message` 类的新实例, 你可以在参数中只指定 `text` 属性:
+
+    ```kotlin
+    val message = Message("Hello") // id 为 null
+    ```
+
+2. 为 `CrudRepository` 声明一个接口, 它负责操作 `Message` 数据类.
+   创建 `MessageRepository.kt` 文件, 添加以下代码:
+
+    ```kotlin
+    // MessageRepository.kt
+    package demo
+
     import org.springframework.data.repository.CrudRepository
 
     interface MessageRepository : CrudRepository<Message, String>
     ```
 
-3. 更新 `MessageService` 类. 它现在调用 `MessageRepository`, 而不是执行 SQL 查询:
+3. 更新 `MessageService` 类. 它现在使用 `MessageRepository`, 而不是执行 SQL 查询:
 
     ```kotlin
-    import java.util.*
+    // MessageService.kt
+    package demo
+
+    import org.springframework.data.repository.findByIdOrNull
+    import org.springframework.stereotype.Service
 
     @Service
-    class MessageService(val db: MessageRepository) {
+    class MessageService(private val db: MessageRepository) {
         fun findMessages(): List<Message> = db.findAll().toList()
 
-        fun findMessageById(id: String): List<Message> = db.findById(id).toList()
+        fun findMessageById(id: String): Message? = db.findByIdOrNull(id)
 
-        fun save(message: Message) {
-            db.save(message)
-        }
-
-        fun <T : Any> Optional<out T>.toList(): List<T> =
-            if (isPresent) listOf(get()) else emptyList()
+        fun save(message: Message): Message = db.save(message)
     }
     ```
 
     <deflist collapsible="true">
        <def title="扩展函数">
           <p>
-            <code>CrudRepository</code> 接口中 <code>findById()</code> 函数的返回类型是 <code>Optional</code> 类的实例.
-            但是, 从代码统一的角度来说, 返回一个包含单个 message 的 <code>List</code> 会更加方便.
-            要做到这一点, 如果 <code>Optional</code> 中有值, 你需要解包这个值, 并返回一个包含这个值的 List.
-            这部分功能可以实现为 <code>Optional</code> 类型的一个 <a href="extensions.md#extension-functions">扩展函数</a>.
+            <code>findByIdOrNull()</code> 函数的返回类型是 Spring Data JDBC 中的 <code>CrudRepository</code> 接口的一个 <a href="extensions.md#extension-functions">扩展函数</a>.
           </p>
           <p>
             在上面的代码中, <code>Optional&lt;out T&gt;.toList()</code>, <code>.toList()</code> 是 <code>Optional</code> 的扩展函数.
@@ -97,6 +112,7 @@ _CrudRepository_ 是一个 Spring Data 接口, 可以指定类型的仓库进行
 4. 更新 messages 表定义, 对 insert 的对象生成 id. 由于 `id` 是一个字符串, 你可以使用 `RANDOM_UUID()` 函数来生成默认的 id 值:
 
     ```sql
+    -- schema.sql
     CREATE TABLE IF NOT EXISTS messages (
         id      VARCHAR(60)  DEFAULT RANDOM_UUID() PRIMARY KEY,
         text    VARCHAR      NOT NULL
@@ -106,6 +122,7 @@ _CrudRepository_ 是一个 Spring Data 接口, 可以指定类型的仓库进行
 5. 更新 `src/main/resources` 文件夹中的 `application.properties` 文件内的数据库名称:
 
    ```none
+   spring.application.name=demo
    spring.datasource.driver-class-name=org.h2.Driver
    spring.datasource.url=jdbc:h2:file:./data/testdb2
    spring.datasource.username=name
@@ -114,20 +131,14 @@ _CrudRepository_ 是一个 Spring Data 接口, 可以指定类型的仓库进行
    spring.sql.init.mode=always
    ```
 
-下面是 `DemoApplication.kt` 的完整代码:
+下面是应用程序的完整代码:
 
 ```kotlin
-package com.example.demo
+// DemoApplication.kt
+package demo
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
-import org.springframework.data.annotation.Id
-import org.springframework.data.relational.core.mapping.Table
-import org.springframework.data.repository.CrudRepository
-import org.springframework.stereotype.Service
-import org.springframework.web.bind.annotation.*
-import java.util.*
-
 
 @SpringBootApplication
 class DemoApplication
@@ -135,42 +146,84 @@ class DemoApplication
 fun main(args: Array<String>) {
     runApplication<DemoApplication>(*args)
 }
+```
+{initial-collapse-state="collapsed" collapsible="true"}
 
-@RestController
-class MessageController(val service: MessageService) {
-    @GetMapping("/")
-    fun index(): List<Message> = service.findMessages()
+```kotlin
+// Message.kt
+package demo
 
-    @GetMapping("/{id}")
-    fun index(@PathVariable id: String): List<Message> =
-        service.findMessageById(id)
-
-    @PostMapping("/")
-    fun post(@RequestBody message: Message) {
-        service.save(message)
-    }
-}
-
-interface MessageRepository : CrudRepository<Message, String>
+import org.springframework.data.annotation.Id
+import org.springframework.data.relational.core.mapping.Table
 
 @Table("MESSAGES")
-data class Message(@Id var id: String?, val text: String)
+data class Message(val text: String, @Id val id: String? = null)
+```
+{initial-collapse-state="collapsed" collapsible="true"}
+
+```kotlin
+// MessageRepository.kt
+package demo
+
+import org.springframework.data.repository.CrudRepository
+
+interface MessageRepository : CrudRepository<Message, String>
+```
+{initial-collapse-state="collapsed" collapsible="true"}
+
+```kotlin
+// MessageService.kt
+package demo
+
+import org.springframework.data.repository.findByIdOrNull
+import org.springframework.stereotype.Service
 
 @Service
-class MessageService(val db: MessageRepository) {
+class MessageService(private val db: MessageRepository) {
     fun findMessages(): List<Message> = db.findAll().toList()
 
-    fun findMessageById(id: String): List<Message> = db.findById(id).toList()
+    fun findMessageById(id: String): Message? = db.findByIdOrNull(id)
 
-    fun save(message: Message) {
-        db.save(message)
-    }
-
-    fun <T : Any> Optional<out T>.toList(): List<T> =
-        if (isPresent) listOf(get()) else emptyList()
+    fun save(message: Message): Message = db.save(message)
 }
 ```
-{collapsible="true"}
+{initial-collapse-state="collapsed" collapsible="true"}
+
+```kotlin
+// MessageController.kt
+package demo
+
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
+import java.net.URI
+
+@RestController
+@RequestMapping("/")
+class MessageController(private val service: MessageService) {
+    @GetMapping
+    fun listMessages() = ResponseEntity.ok(service.findMessages())
+
+    @PostMapping
+    fun post(@RequestBody message: Message): ResponseEntity<Message> {
+        val savedMessage = service.save(message)
+        return ResponseEntity.created(URI("/${savedMessage.id}")).body(savedMessage)
+    }
+
+    @GetMapping("/{id}")
+    fun getMessage(@PathVariable id: String): ResponseEntity<Message> =
+        service.findMessageById(id).toResponseEntity()
+
+    private fun Message?.toResponseEntity(): ResponseEntity<Message> =
+        // 如果 message 为 null (未找到), 将应答的 Status Code 设置为 404
+        this?.let { ResponseEntity.ok(it) } ?: ResponseEntity.notFound().build()
+}
+```
+{initial-collapse-state="collapsed" collapsible="true"}
 
 ## 运行应用程序
 
@@ -182,7 +235,7 @@ class MessageService(val db: MessageRepository) {
 得到你个人的语言导航地图, 它可以帮助你浏览 Kotlin 的功能特性, 并追踪你学习语言的进度:
 
 <a href="https://resources.jetbrains.com/storage/products/kotlin/docs/Kotlin_Language_Features_Map.pdf">
-   <img src="get-kotlin-language-map.png" width="700" alt="得到 Kotlin 语言导航地图"/>
+   <img src="get-kotlin-language-map.png" width="700" alt="得到 Kotlin 语言导航地图" style="block"/>
 </a>
 
 * 学习如何 [在 Kotlin 中调用 Java 代码](java-interop.md) 和 [在 Java 中调用 Kotlin 代码](java-to-kotlin-interop.md).

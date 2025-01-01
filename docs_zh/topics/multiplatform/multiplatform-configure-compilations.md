@@ -8,7 +8,7 @@ Kotlin 跨平台项目使用编译任务来生成 artifact.
 * 对于 JVM, JS, 和 Native 编译目标: `main` 和 `test` 编译任务.
 * 对于 Android 编译目标: 每个 [Android 构建变体(build variant)](https://developer.android.com/studio/build/build-variants) 一个 [编译任务](#compilation-for-android).
 
-![编译任务](compilations.png)
+![编译任务](compilations.svg)
 
 如果需要编译除产品代码与单元测试之外的其他代码, 比如, 集成测试, 或性能测试,
 你可以 [创建自定义编译任务](#create-a-custom-compilation).
@@ -25,6 +25,11 @@ Kotlin 跨平台项目使用编译任务来生成 artifact.
 
 ## 配置所有编译任务 {id="configure-all-compilations"}
 
+下面的示例对所有的编译目标配置一个共用的编译器选项:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
 ```kotlin
 kotlin {
     targets.all {
@@ -36,6 +41,61 @@ kotlin {
     }
 }
 ```
+
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+kotlin {
+    targets.all {
+        compilations.all {
+            compilerOptions.configure {
+                allWarningsAsErrors = true
+            }
+        }
+    }
+}
+```
+
+</tab>
+</tabs>
+
+或者, 你也可以使用 [顶级代码块](multiplatform-dsl-reference.md#top-level-blocks) `compilerOptions {}`:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+kotlin {
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    compilerOptions {
+        allWarningsAsErrors.set(true)
+    }
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+kotlin {
+    compilerOptions {
+        allWarningsAsErrors = true
+    }
+}
+```
+
+</tab>
+</tabs>
+
+> `compilerOptions {}` 用作顶级代码块是 [实验性功能](components-stability.md#stability-levels-explained),
+> 需要使用者同意(Opt-in).
+> 它随时有可能变更或被删除.
+> 请注意, 只为评估和试验目的来使用这个功能.
+> 希望你能通过 [YouTrack](https://kotl.in/issue) 提供你的反馈意见.
+>
+{style="warning"}
 
 ## 配置单个编译目标的编译任务 {id="configure-compilations-for-one-target"}
 
@@ -59,7 +119,7 @@ kotlin {
 kotlin {
     jvm().compilations.all {
         compilerOptions.configure {
-            jvmTarget.set(JvmTarget.JVM_1_8)
+            jvmTarget = JvmTarget.JVM_1_8
         }
     }
 }
@@ -67,6 +127,46 @@ kotlin {
 
 </tab>
 </tabs>
+
+或者, 你也可以在编译目标层级使用 `compilerOptions {}` 代码块:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+kotlin {
+    jvm {
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_1_8)
+        }
+    }
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+kotlin {
+    jvm {
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_1_8
+        }
+    }
+}
+```
+
+</tab>
+</tabs>
+
+> 在编译目标层级使用 `compilerOptions {}` 代码块是 [实验性功能](components-stability.md#stability-levels-explained),
+> 需要使用者同意(Opt-in).
+> 它随时有可能变更或被删除.
+> 请注意, 只为评估和试验目的来使用这个功能.
+> 希望你能通过 [YouTrack](https://kotl.in/issue) 提供你的反馈意见.
+>
+{style="warning"}
 
 ## 配置一个编译任务 {id="configure-one-compilation"}
 
@@ -93,7 +193,7 @@ kotlin {
     jvm {
         compilations.main {
             compilerOptions.configure {
-                jvmTarget.set(JvmTarget.JVM_1_8)
+                jvmTarget = JvmTarget.JVM_1_8
             }
         }
     }
@@ -217,14 +317,16 @@ Java 源代码文件 放在 Kotlin 源代码根路径的子目录之内. 比如,
 
 Kotlin 提供 [与原生语言的交互能力](native-c-interop.md), 以及对编译任务进行相关配置的 DSL.
 
-| 原生语言 | 支持的平台 | 备注 |
-|-----------------|---------------------|----------|
-| C | 所有平台, WebAssembly 除外| |
-| Objective-C | Apple 平台 (macOS, iOS, watchOS, tvOS) | |
+| 原生语言                   | 支持的平台                                | 备注                                   |
+|------------------------|--------------------------------------|--------------------------------------|
+| C                      | 所有平台, WebAssembly 除外                 |                                      |
+| Objective-C            | Apple 平台 (macOS, iOS, watchOS, tvOS) |                                      |
 | 经由 Objective-C 的 Swift | Apple 平台 (macOS, iOS, watchOS, tvOS) | Kotlin 只能使用 `@objc` 属性标注过的 Swift 声明. |
 
-编译任务可以与几个原生库交互. 在编译任务的 `cinterops` 代码段中,
-可以使用 [可用的参数](multiplatform-dsl-reference.md#cinterops) 来配置交互能力.
+编译任务可以与几个原生库交互. 
+可以使用 [定义文件](native-definition-file.md) 中的属性,
+或者你的构建文件的 [`cinterops` 代码段](multiplatform-dsl-reference.md#cinterops) 中的属性,
+来配置交互能力:
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
@@ -236,7 +338,7 @@ kotlin {
             val myInterop by cinterops.creating {
                 // 描述原生 API 的 def 文件.
                 // 默认路径是 src/nativeInterop/cinterop/<interop-name>.def
-                defFile(project.file("def-file.def"))
+                definitionFile.set(project.file("def-file.def"))
 
                 // 用来放置生成的 Kotlin API 的包.
                 packageName("org.sample")
@@ -274,7 +376,7 @@ kotlin {
                 myInterop {
                     // 描述原生 API 的 def 文件.
                     // 默认路径是 src/nativeInterop/cinterop/<interop-name>.def
-                    defFile project.file("def-file.def")
+                    definitionFile = project.file("def-file.def")
 
                     // 用来放置生成的 Kotlin API 的包.
                     packageName 'org.sample'
@@ -318,7 +420,7 @@ kotlin {
 
 也支持使用 [kapt](kapt.md) 的注解处理,
 但是由于目前的限制, 要求在配置 `kapt` 依赖项之前创建 Android 编译目标,
-因此需要使用顶级的 `dependencies { ... }` 代码段, 而不是使用 Kotlin 源代码集的依赖项配置语法.
+因此需要使用顶级的 `dependencies {}` 代码段, 而不是使用 Kotlin 源代码集的依赖项配置语法.
 
 ```kotlin
 kotlin {
@@ -334,7 +436,7 @@ dependencies {
 
 Kotlin 可以使用 `dependsOn` 关系来创建 [源代码集层级结构](multiplatform-share-on-platforms.md#share-code-on-similar-platforms).
 
-![源代码集层级结构](jvm-js-main.png){width=400}
+![源代码集层级结构](jvm-js-main.svg)
 
 如果源代码集 `jvmMain` 依赖源代码集 `commonMain`, 那么:
 

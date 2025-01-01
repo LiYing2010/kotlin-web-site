@@ -21,7 +21,7 @@ IntelliJ IDEA 和 Android Studio 支持 Kotlin [草稿(Scratch)文件与工作�
   工作簿可以用来编写那些还不能真正构成软件单元, 但仍然需要与项目一起保存的代码片段.
   比如, 教学或演示素材.
 
-  要在项目目录内创建一个 Kotlin 工作簿, 请在项目树的目录上点击鼠标右键, 并选择菜单 **New** | **Kotlin Worksheet**.
+  要在项目目录内创建一个 Kotlin 工作簿, 请在项目树的目录上点击鼠标右键, 并选择菜单 **New** | **Kotlin Class/File** | **Kotlin Worksheet**.
 
 在草稿和工作簿中, 支持语法高亮, 自动完成, 以及 IntelliJ IDEA 代码编辑器的所有其他功能.
 不需要声明 `main()` 函数 - 你编写的所有代码都会被执行, 就好像它们在 `main()` 函数内一样.

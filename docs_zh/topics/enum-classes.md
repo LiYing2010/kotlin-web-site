@@ -125,35 +125,21 @@ fun main() {
 [`enumValues<T>()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/enum-values.html)
 和
 [`enumValueOf<T>()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/enum-value-of.html)
-函数, 以泛型方式取得枚举类中的常数:
-
-```kotlin
-enum class RGB { RED, GREEN, BLUE }
-
-inline fun <reified T : Enum<T>> printAllValues() {
-    println(enumValues<T>().joinToString { it.name })
-}
-
-printAllValues<RGB>() // 输出结果为 RED, GREEN, BLUE
-```
-
-> 关于内联函数(inline function)和实体化的类型参数(Reified type parameter), 详情请参见 [内联函数](inline-functions.md).
->
-{style="tip"}
-
-在 Kotlin 1.9.20 中, 引入了 `enumEntries<T>()` 函数,  作为
+函数, 以泛型方式取得枚举类中的常数.
+在 Kotlin 2.0.0 中, 引入了 [`enumEntries<T>()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.enums/enum-entries.html)
+函数, 作为
 [`enumValues<T>()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/enum-values.html)
-函数的未来的替代.
+函数的替代.
+`enumEntries<T>()` 函数会对指定的枚举类型 `T` 返回一个 List, 包含所有的枚举值.
 
 Kotlin 仍然支持 `enumValues<T>()` 函数, 但我们推荐你改为使用 `enumEntries<T>()` 函数, 因为它的性能损失较少.
-每次调用 `enumValues<T>()` 都会创建一个新的数组, 而每次调用 `enumEntries<T>()` 都会返回相同的 List, 这样的性能要高效得多.
+每次调用 `enumValues<T>()` 都会创建一个新的数组, 而每次调用 `enumEntries<T>()` 都会返回相同的 List, 这样要高效得多.
 
 例如:
 
 ```kotlin
 enum class RGB { RED, GREEN, BLUE }
 
-@OptIn(ExperimentalStdlibApi::class)
 inline fun <reified T : Enum<T>> printAllValues() {
     println(enumEntries<T>().joinToString { it.name })
 }
@@ -162,7 +148,6 @@ printAllValues<RGB>()
 // 输出结果为 RED, GREEN, BLUE
 ```
 
-> `enumEntries<T>()` 函数是实验性功能. 要使用它, 需要标注 `@OptIn(ExperimentalStdlibApi)` 注解来表示使用者同意(Opt-in),
-> 并 [将语言版本设置为 1.9 以上](gradle-compiler-options.md#attributes-common-to-jvm-and-js).
+> 关于内联函数(inline function)和实体化的类型参数(Reified type parameter), 详情请参见 [内联函数](inline-functions.md).
 >
-{style="warning"}
+{style="tip"}

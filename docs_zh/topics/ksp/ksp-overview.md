@@ -33,7 +33,7 @@ KSP 将源程序当作只读, 避免这种情况.
 
 你也可以观看这个视频, 大致了解 KSP:
 
-<video src="https://youtu.be/bv-VyGM3HCY" title="Kotlin 符号处理 (KSP)"/>
+<video src="https://www.youtube.com/v/bv-VyGM3HCY" title="Kotlin 符号处理 (KSP)"/>
 
 
 ## KSP 如何看待源代码文件
@@ -86,7 +86,7 @@ KSFile
 
 这个图列出了在源代码文件中声明的大多数东西: 类, 函数, 属性, 等等.
 
-## `SymbolProcessorProvider`: 入口点
+## SymbolProcessorProvider: 入口点
 
 KSP 要求实现 `SymbolProcessorProvider` 接口, 使用它来创建 `SymbolProcessor` 实例:
 

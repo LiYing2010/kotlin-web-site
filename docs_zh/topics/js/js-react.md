@@ -1,5 +1,7 @@
 [//]: # (title: 教程 - 使用 React 和 Kotlin/JS 创建 Web 应用程序)
 
+<no-index/>
+
 This tutorial will teach you how to build a browser application with Kotlin/JS and the [React](https://reactjs.org/)
 framework. You will:
 
@@ -14,43 +16,42 @@ with links to conference talks. Users will be able to watch all the talks on one
 The tutorial assumes you have prior knowledge of Kotlin and basic knowledge of HTML and CSS. Understanding the basic
 concepts behind React may help you understand some sample code, but it is not strictly required.
 
-> You can get the final application as well as the intermediate steps [here](https://github.com/kotlin-hands-on/web-app-react-kotlin-js-gradle).
-> Each step is available from its own branch and is linked at the bottom of its corresponding section.
+> You can get the final application [here](https://github.com/kotlin-hands-on/web-app-react-kotlin-js-gradle/tree/finished).
 >
-{type="note"}
+{style="note"}
 
 ## Before you start
 
 1. Download and install the latest version of [IntelliJ IDEA](https://www.jetbrains.com/idea/download/index.html).
 2. Clone the [project template](https://github.com/kotlin-hands-on/web-app-react-kotlin-js-gradle) and open it in IntelliJ
-   IDEA. The template includes a basic Kotlin/JS Gradle project with all required configurations and dependencies
+   IDEA. The template includes a basic Kotlin Multiplatform Gradle project with all required configurations and dependencies
 
    * Dependencies and tasks in the `build.gradle.kts` file:
 
    ```kotlin
    dependencies {
        // React, React DOM + Wrappers
-       implementation(enforcedPlatform("org.jetbrains.kotlin-wrappers:kotlin-wrappers-bom:1.0.0-pre.354"))
+       implementation(enforcedPlatform("org.jetbrains.kotlin-wrappers:kotlin-wrappers-bom:1.0.0-pre.430"))
        implementation("org.jetbrains.kotlin-wrappers:kotlin-react")
        implementation("org.jetbrains.kotlin-wrappers:kotlin-react-dom")
-
+   
        // Kotlin React Emotion (CSS)
        implementation("org.jetbrains.kotlin-wrappers:kotlin-emotion")
-
+   
        // Video Player
-       implementation(npm("react-player", "2.10.1"))
-
+       implementation(npm("react-player", "2.12.0"))
+   
        // Share Buttons
-       implementation(npm("react-share", "4.4.0"))
-
+       implementation(npm("react-share", "4.4.1"))
+   
        // Coroutines & serialization
-       implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3")
-       implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
+       implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+       implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
    }
    ```
 
-   * An HTML template page in `src/main/resources/index.html` for inserting JavaScript code that you'll be using in
-   this tutorial:
+   * An HTML template page in `src/jsMain/resources/index.html` for inserting JavaScript code that you'll be using in
+     this tutorial:
 
    ```html
    <!doctype html>
@@ -72,11 +73,11 @@ concepts behind React may help you understand some sample code, but it is not st
    the content of the body (including the `root` div) is loaded first to ensure that the browser loads all page elements
    before the scripts.
 
-* A code snippet in `src/main/kotlin/Main.kt`:
+* A code snippet in `src/jsMain/kotlin/Main.kt`:
 
    ```kotlin
    import kotlinx.browser.document
-
+   
    fun main() {
        document.bgColor = "red"
    }
@@ -84,7 +85,7 @@ concepts behind React may help you understand some sample code, but it is not st
 
 ### Run the development server
 
-By default, the Kotlin/JS Gradle plugin comes with support for an embedded `webpack-dev-server`, allowing you to run
+By default, the Kotlin Multiplatform Gradle plugin comes with support for an embedded `webpack-dev-server`, allowing you to run
 the application from the IDE without manually setting up any servers.
 
 To test that the program successfully runs in the browser, start the development server by invoking the `run` or
@@ -129,7 +130,7 @@ rebuild and reload the page when you make changes.
 
 > You can find this state of the project on the `master` branch [here](https://github.com/kotlin-hands-on/web-app-react-kotlin-js-gradle/tree/master).
 >
-{type="note"}
+{style="note"}
 
 ## Create a web app draft
 
@@ -164,7 +165,7 @@ fun main() {
 
 * The `render()` function instructs [kotlin-react-dom](https://github.com/JetBrains/kotlin-wrappers/tree/master/kotlin-react-dom)
   to render the first HTML element inside a [fragment](https://reactjs.org/docs/fragments.html) to the `root` element.
-  This element is a container defined in `src/main/resources/index.html`, which was included in the template.
+  This element is a container defined in `src/jsMain/resources/index.html`, which was included in the template.
 * The content is an `<h1>` header and uses a typesafe DSL to render HTML.
 * `h1` is a function that takes a lambda parameter. When you add the `+` sign in front of a string literal,
   the `unaryPlus()` function is actually invoked using [operator overloading](operator-overloading.md).
@@ -276,7 +277,7 @@ You can now replace the hardcoded list of videos with a list of Kotlin objects:
        Video(2, "Dissecting the stdlib", "Huyen Tue Dao", "https://youtu.be/Fzt_9I733Yg"),
        Video(3, "Kotlin and Spring Boot", "Nicolas Frankel", "https://youtu.be/pSiZVAeReeg")
    )
-
+   
    val watchedVideos = listOf(
        Video(4, "Creating Internal DSLs in Kotlin", "Venkat Subramaniam", "https://youtu.be/JzTeAM8N1-o")
    )
@@ -347,10 +348,6 @@ div {
 
 Feel free to experiment with some other styles. For example, you could change the `fontFamily` or add some `color` to your UI.
 
-> You can find this state of the project in the `02-first-static-page` branch [here](https://github.com/kotlin-hands-on/web-app-react-kotlin-js-gradle/tree/02-first-static-page).
->
-{type="note"}
-
 ## Design app components
 
 The basic building blocks in React are called _[components](https://reactjs.org/docs/components-and-props.html)_.
@@ -376,7 +373,7 @@ understand.
 To start creating the application's structure, first explicitly specify `App`, the main component for rendering to the
 `root`element:
 
-1. Create a new `App.kt` file in the `src/main/kotlin` folder.
+1. Create a new `App.kt` file in the `src/jsMain/kotlin` folder.
 2. Inside this file, add the following snippet and move the typesafe HTML from `Main.kt` into it:
 
    ```kotlin
@@ -395,7 +392,7 @@ To start creating the application's structure, first explicitly specify `App`, t
    import react.dom.html.ReactHTML.div
    import react.dom.html.ReactHTML.p
    import react.dom.html.ReactHTML.img
-
+   
    val App = FC<Props> {
        // typesafe HTML goes here, starting with the first h1 tag!
    }
@@ -424,14 +421,14 @@ reusable component, and only adjust the content displayed in the lists.
 The `VideoList` component follows the same pattern as the `App` component. It uses the `FC` builder function,
 and contains the code from the `unwatchedVideos` list.
 
-1. Create a new `VideoList.kt` file in the `src/main/kotlin` folder and add the following code:
+1. Create a new `VideoList.kt` file in the `src/jsMain/kotlin` folder and add the following code:
 
    ```kotlin
    import kotlinx.browser.window
    import react.*
    import react.dom.*
    import react.dom.html.ReactHTML.p
-
+   
    val VideoList = FC<Props> {
        for (video in unwatchedVideos) {
            p {
@@ -445,17 +442,19 @@ and contains the code from the `unwatchedVideos` list.
 
    ```kotlin
    // . . .
+
    div {
        h3 {
            +"Videos to watch"
        }
        VideoList()
-
+   
        h3 {
            +"Videos watched"
        }
        VideoList()
    }
+
    // . . .
    ```
 
@@ -527,6 +526,7 @@ First, add an alert message that pops up when users click on a list entry. In `V
 
 ```kotlin
 // . . .
+
 p {
     key = video.id.toString()
     onClick = {
@@ -534,6 +534,7 @@ p {
     }
     +"${video.speaker}: ${video.title}"
 }
+
 // . . .
 ```
 
@@ -547,21 +548,22 @@ window like this:
 > to pass click handlers. If you want to optimize rendering performance, consider storing your functions in a variable
 > and passing them.
 >
-{type="tip"}
+{style="tip"}
 
 ### Add state to keep values
 
 Instead of just alerting the user, you can add some functionality for highlighting the selected video with a ▶ triangle.
 To do that, introduce some _state_ specific to this component.
 
-State is one of core concepts in React. In modern React (which uses the so-called _Hooks API_), state is expressed
-using the [`useState` hook](https://reactjs.org/docs/hooks-state.html).
+State is one of the core concepts in React. In modern React (which uses the so-called _Hooks API_),
+state is expressed using the [`useState` hook](https://reactjs.org/docs/hooks-state.html).
 
 1. Add the following code to the top of the `VideoList` declaration:
 
    ```kotlin
    val VideoList = FC<VideoListProps> { props ->
        var selectedVideo: Video? by useState(null)
+
    // . . .
    ```
    {validate="false"}
@@ -576,7 +578,7 @@ using the [`useState` hook](https://reactjs.org/docs/hooks-state.html).
 
    To learn more about the State Hook, check out the [React documentation](https://reactjs.org/docs/hooks-state.html).
 
-2. Change your implementation of the `VideoList` component to look as follows:
+2. Change the `onClick` handler and the text in the `VideoList` component to look as follows:
 
    ```kotlin
    val VideoList = FC<VideoListProps> { props ->
@@ -602,10 +604,6 @@ using the [`useState` hook](https://reactjs.org/docs/hooks-state.html).
 You can find more details about state management in the [React FAQ](https://reactjs.org/docs/faq-state.html).
 
 Check the browser and click an item in the list to make sure that everything is working correctly.
-
-> You can find this state of the project in the `03-first-component` branch [here](https://github.com/kotlin-hands-on/web-app-react-kotlin-js-gradle/tree/03-first-component).
->
-{type="note"}
 
 ## Compose components
 
@@ -634,6 +632,7 @@ as state to the `App` component:
    ```kotlin
    val App = FC<Props> {
        var currentVideo: Video? by useState(null)
+   
        // . . .
    }
    ```
@@ -686,7 +685,9 @@ Remember that in Kotlin, variables can have the [type of a function](lambdas.md#
    }
    ```
 
-3. You can now go back to the `App` component and pass `selectedVideo` and a handler for `onSelectVideo`
+   You can now delete the `selectedVideo` variable from the `VideoList` component.
+
+3. Go back to the `App` component and pass `selectedVideo` and a handler for `onSelectVideo`
    for each of the two video lists:
 
    ```kotlin
@@ -702,10 +703,6 @@ Remember that in Kotlin, variables can have the [type of a function](lambdas.md#
 4. Repeat the previous step for the watched videos list.
 
 Switch back to your browser and make sure that when selecting a video the selection jumps between the two lists without duplication.
-
-> You can find this state of the project on the `04-composing-components` branch [here](https://github.com/kotlin-hands-on/web-app-react-kotlin-js-gradle/tree/04-composing-components).
->
-{type="note"}
 
 ## Add more components
 
@@ -725,11 +722,11 @@ in each `Video` object, so you can pass it as a prop and access its attributes.
    import react.dom.html.ReactHTML.div
    import react.dom.html.ReactHTML.h3
    import react.dom.html.ReactHTML.img
-
+   
    external interface VideoPlayerProps : Props {
        var video: Video
    }
-
+   
    val VideoPlayer = FC<VideoPlayerProps> { props ->
        div {
            css {
@@ -741,13 +738,13 @@ in each `Video` object, so you can pass it as a prop and access its attributes.
                +"${props.video.speaker}: ${props.video.title}"
            }
            img {
-               src = "https://via.placeholder.com/640x360.png?text=Video+Player+Placeholder"
+               src = "https://via.placeholder.com/640x360.png?text=Video+Player+Placeholder"              
            }
        }
    }
    ```
 
-2. Because the `VideoPlayerProps` interface specifies that the `VideoPlayer` component takes a non-null `Video`, make
+2. Because the `VideoPlayerProps` interface specifies that the `VideoPlayer` component takes a non-nullable `Video`, make
    sure to handle this in the `App` component accordingly.
 
    In `App.kt`, replace the previous `div` snippet for the video player with the following:
@@ -813,7 +810,7 @@ Now it's time to adjust the `VideoPlayer` usage site in the `App` component. Whe
 should be moved from the unwatched list to the watched list or vice versa. Since these lists can now actually
 change, move them into the application state:
 
-1. In `App.kt`, add the following `useState()` calls to the top of the `App` component:
+1. In `App.kt`, add the following properties with `useState()` calls to the top of the `App` component:
 
    ```kotlin
    val App = FC<Props> {
@@ -826,6 +823,7 @@ change, move them into the application state:
        var watchedVideos: List<Video> by useState(listOf(
            Video(4, "Creating Internal DSLs in Kotlin", "Venkat Subramaniam", "https://youtu.be/JzTeAM8N1-o")
        ))
+
        // . . .
    }
    ```
@@ -852,10 +850,6 @@ change, move them into the application state:
 
 Go back to the browser, select a video, and press the button a few times. The video will jump between the two lists.
 
-> You can find this state of the project in the `05-more-components` branch [here](https://github.com/kotlin-hands-on/web-app-react-kotlin-js-gradle/tree/05-more-components).
->
-{type="note"}
-
 ## Use packages from npm
 
 To make the app usable, you still need a video player that actually plays videos and some buttons to help people
@@ -877,14 +871,14 @@ in GitHub.
    dependencies {
        // ...
        // Video Player
-       implementation(npm("react-player", "2.10.1"))
+       implementation(npm("react-player", "2.12.0"))
        // ...
    }
    ```
 
    As you can see, npm dependencies can be added to a Kotlin/JS project by using the `npm()` function in the `dependencies`
    block of the build file. The Gradle plugin then takes care of downloading and installing these dependencies for you.
-   To do so, it uses its own bundled installation of the [`yarn`](https://yarnpkg.com/) package manager.
+   To do so, it uses its own bundled installation of the [Yarn](https://yarnpkg.com/) package manager.
 
 2. To use the JavaScript package from inside the React application, it's necessary to tell the Kotlin compiler what to
    expect by providing it with [external declarations](js-interop.md).
@@ -894,9 +888,9 @@ in GitHub.
    ```kotlin
    @file:JsModule("react-player")
    @file:JsNonModule
-
+   
    import react.*
-
+   
    @JsName("default")
    external val ReactPlayer: ComponentClass<dynamic>
    ```
@@ -910,21 +904,21 @@ in GitHub.
 However, in this configuration, the generic type for the props accepted by `ReactPlayer` is set to `dynamic`. That means
 the compiler will accept any code, at the risk of breaking things at runtime.
 
-A better alternative would be to create an `external interface` that specifies what kind of properties belong to the
+A better alternative is to create an `external interface` that specifies what kind of properties belong to the
 props for this external component. You can learn about the props' interface in the [README](https://www.npmjs.com/package/react-player)
 for the component. In this case, use the `url` and `controls` props:
 
-1. Adjust the content of `ReactPlayer.kt` accordingly:
+1. Adjust the content of `ReactYouTube.kt` by replacing `dynamic` with an external interface:
 
    ```kotlin
    @file:JsModule("react-player")
    @file:JsNonModule
-
+   
    import react.*
-
+   
    @JsName("default")
    external val ReactPlayer: ComponentClass<ReactPlayerProps>
-
+   
    external interface ReactPlayerProps : Props {
        var url: String
        var controls: Boolean
@@ -952,7 +946,7 @@ an off-the-shelf React component for this as well, for example, [react-share](ht
    dependencies {
        // ...
        // Share Buttons
-       implementation(npm("react-share", "4.4.0"))
+       implementation(npm("react-share", "4.4.1"))
        // ...
    }
    ```
@@ -967,26 +961,26 @@ an off-the-shelf React component for this as well, for example, [react-share](ht
    ```kotlin
    @file:JsModule("react-share")
    @file:JsNonModule
-
+   
    import react.ComponentClass
    import react.Props
-
+   
    @JsName("EmailIcon")
    external val EmailIcon: ComponentClass<IconProps>
-
+   
    @JsName("EmailShareButton")
    external val EmailShareButton: ComponentClass<ShareButtonProps>
-
+   
    @JsName("TelegramIcon")
    external val TelegramIcon: ComponentClass<IconProps>
-
+   
    @JsName("TelegramShareButton")
    external val TelegramShareButton: ComponentClass<ShareButtonProps>
-
+   
    external interface ShareButtonProps : Props {
        var url: String
    }
-
+   
    external interface IconProps : Props {
        var size: Int
        var round: Boolean
@@ -998,6 +992,7 @@ an off-the-shelf React component for this as well, for example, [react-share](ht
 
    ```kotlin
    // . . .
+
    div {
        css {
             position = Position.absolute
@@ -1019,6 +1014,7 @@ an off-the-shelf React component for this as well, for example, [react-share](ht
            }
        }
    }
+
    // . . .
    ```
 
@@ -1028,10 +1024,6 @@ appear with the URL of the video. If the buttons don't show up or work, you may 
 ![Share window](social-buttons.png){width=700}
 
 Feel free to repeat this step with share buttons for other social networks available in [react-share](https://github.com/nygardk/react-share/blob/master/README.md#features).
-
-> You can find this state of the project in the `06-packages-from-npm` branch [here](https://github.com/kotlin-hands-on/web-app-react-kotlin-js-gradle/tree/06-packages-from-npm).
->
-{type="note"}
 
 ## Use an external REST API
 
@@ -1061,8 +1053,9 @@ Check the `build.gradle.kts` file. The relevant snippet should already exist:
 ```kotlin
 dependencies {
     // . . .
+
     // Coroutines & serialization
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
 }
 ```
 
@@ -1081,11 +1074,12 @@ these types of conversions from JSON strings to Kotlin objects.
        // . . .
        kotlin("plugin.serialization") version "%kotlinVersion%"
    }
-
+   
    dependencies {
        // . . .
+
        // Serialization
-       implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
+       implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
    }
    ```
 
@@ -1117,7 +1111,7 @@ suspend fun fetchVideo(id: Int): Video {
 }
 ```
 
-* _Suspending function_ `fetch()`es a video with a given `id` from the API. This response may take a while, so you `await()`
+* _Suspending function_ `fetch()` fetches a video with a given `id` from the API. This response may take a while, so you `await()`
   the result. Next, `text()`, which uses a callback, reads the body from the response. Then you `await()` its completion.
 * Before returning the value of the function, you pass it to `Json.decodeFromString`, a function from `kotlinx.coroutines`.
   It converts the JSON text you received from the request into a Kotlin object with the appropriate fields.
@@ -1151,17 +1145,18 @@ functionality provided by Kotlin's coroutines:
 
    ```kotlin
    val mainScope = MainScope()
-
+   
    val App = FC<Props> {
        var currentVideo: Video? by useState(null)
        var unwatchedVideos: List<Video> by useState(emptyList())
        var watchedVideos: List<Video> by useState(emptyList())
-
+   
        useEffectOnce {
            mainScope.launch {
                unwatchedVideos = fetchVideos()
            }
        }
+
    // . . .
    ```
    {validate="false"}
@@ -1186,10 +1181,6 @@ When you load the page:
 
 If you want to get an in-depth understanding of how coroutines work, check out this [tutorial on coroutines](coroutines-and-channels.md).
 
-> You can find this state of the project in the `07-using-external-rest-api` branch [here](https://github.com/kotlin-hands-on/web-app-react-kotlin-js-gradle/tree/07-using-external-rest-api).
->
-{type="note"}
-
 ## Deploy to production and the cloud
 
 It's time to get the application published to the cloud and make it accessible to other people.
@@ -1200,7 +1191,7 @@ To package all assets in production mode, run the `build` task in Gradle via the
 running `./gradlew build`. This generates an optimized project build, applying various improvements such as DCE
 (dead code elimination).
 
-Once the build has finished, you can find all the files needed for deployment in `/build/distributions`. They include
+Once the build has finished, you can find all the files needed for deployment in `/build/dist`. They include
 the JavaScript files, HTML files, and other resources required to run the application. You can put them on a static HTTP server,
 serve them using GitHub Pages, or host them on a cloud provider of your choice.
 
@@ -1258,22 +1249,21 @@ sufficient for development purposes.
    git push heroku master
    ```
 
-> If you're pushing from a non-main branch (like a step branch from the example repository), you need to adjust
-> the command to push to the `main` remote (such as `git push heroku 08-deploying-to-production:main`).
+> If you're pushing from a non-main branch, adjust the command to push to the `main` remote, for example, `git push heroku feature-branch:main`.
 >
-{type="note"}
+{style="tip"}
 
 If the deployment is successful, you will see the URL people can use to reach the application on the internet.
 
 ![Web app deployment to production](deployment-to-production.png){width=700}
 
-> You can find this state of the project in the `finished` branch [here](https://github.com/kotlin-hands-on/web-app-react-kotlin-js-gradle/tree/finished).
+> You can find this state of the project on the `finished` branch [here](https://github.com/kotlin-hands-on/web-app-react-kotlin-js-gradle/tree/finished).
 >
-{type="note"}
+{style="note"}
 
 ## What's next
 
-### Add more features {initial-collapse-state="collapsed"}
+### Add more features {initial-collapse-state="collapsed" collapsible="true"}
 
 You can use the resulting app as a jumping-off point to explore more advanced topics in the realm of React, Kotlin/JS, and more.
 
@@ -1285,22 +1275,22 @@ You can use the resulting app as a jumping-off point to explore more advanced to
 * **Complex APIs**. Lots of datasets and APIs are available. You can pull all sorts of data into your application. For example,
   you can build a visualizer for [cat photos](https://thecatapi.com/) or a [royalty-free stock photo API](https://unsplash.com/developers).
 
-### Improve the style: responsiveness and grids {initial-collapse-state="collapsed"}
+### Improve the style: responsiveness and grids {initial-collapse-state="collapsed" collapsible="true"}
 
 The application design is still very simple and won't look great on mobile devices or in narrow windows. Explore
 more of the CSS DSL to make the app more accessible.
 
-### Join the community and get help {initial-collapse-state="collapsed"}
+### Join the community and get help {initial-collapse-state="collapsed" collapsible="true"}
 
 The best way to report problems and get help is the [kotlin-wrappers issue tracker](https://github.com/JetBrains/kotlin-wrappers/issues).
 If you can't find a ticket for your issue, feel free to file a new one. You can also join the official [Kotlin Slack](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up).
 There are channels for `#javascript` and `#react`.
 
-### Learn more about coroutines {initial-collapse-state="collapsed"}
+### Learn more about coroutines {initial-collapse-state="collapsed" collapsible="true"}
 
 If you're interested in finding out more about how you can write concurrent code, check out the tutorial on [coroutines](coroutines-and-channels.md).
 
-### Learn more about React {initial-collapse-state="collapsed"}
+### Learn more about React {initial-collapse-state="collapsed" collapsible="true"}
 
 Now that you know the basic React concepts and how they translate to Kotlin, you can convert some other concepts outlined
-in the [official guides on React](https://reactjs.org/docs/) into Kotlin.
+in [React's documentation](https://react.dev/learn) into Kotlin.

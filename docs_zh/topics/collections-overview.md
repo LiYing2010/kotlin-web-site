@@ -80,7 +80,7 @@ Map 类型对于它的值(value)的数据类型是协变的(covariant), 但对�
 关于 `List`, `Set`, 和 `Map`, 你可以阅读对应的章节,
 也可以观看 Sebastian Aigner 讲解的视频, 他是 Kotlin 开发者 Advocate:
 
-<video src="https://youtu.be/F8jj7e-_jFA" title="Kotlin 集合概述"/>
+<video src="https://www.youtube.com/v/F8jj7e-_jFA" title="Kotlin 集合概述"/>
 
 ### Collection
 

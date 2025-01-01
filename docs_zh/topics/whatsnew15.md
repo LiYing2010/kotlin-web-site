@@ -32,7 +32,7 @@ data class User(val name: String, val age: Int)
 
 详情请参见 [在 Kotlin 中使用 JVM 记录类](jvm-records.md).
 
-<video src="https://youtu.be/iyEWXyuuseU" title="在 Kotlin 1.5.0 中支持 JVM 记录类"/>
+<video src="https://www.youtube.com/v/iyEWXyuuseU" title="在 Kotlin 1.5.0 中支持 JVM 记录类"/>
 
 ### 封闭接口 {id="sealed-interfaces"}
 
@@ -61,7 +61,7 @@ class FilledRectangle: Polygon, Fillable
 
 详情请参见 [封闭接口](sealed-classes.md).
 
-<video src="https://youtu.be/d_Mor21W_60" title="封闭接口与封闭类的改进"/>
+<video src="https://www.youtube.com/v/d_Mor21W_60" title="封闭接口与封闭类的改进"/>
 
 ### 包范围内的封闭类层级 {id="package-wide-sealed-class-hierarchies"}
 
@@ -96,7 +96,7 @@ value class Password(val s: String)
 
 详情请参见 [内联类](inline-classes.md).
 
-<video src="https://youtu.be/LpqvtgibbsQ" title="内联类变为值类"/>
+<video src="https://www.youtube.com/v/LpqvtgibbsQ" title="内联类变为值类"/>
 
 ## Kotlin/JVM {id="kotlin-jvm"}
 
@@ -337,7 +337,7 @@ Kotlin/JS Gradle plugin 现在对浏览器编译目标使用 webpack 5 而不是
 
 关于标准库的变更, 详情请参见 [这篇 blog](https://blog.jetbrains.com/kotlin/2021/04/kotlin-1-5-0-rc-released).
 
-<video src="https://youtu.be/MyTkiT2I6-8" title="标准库中的新功能"/>
+<video src="https://www.youtube.com/v/MyTkiT2I6-8" title="标准库中的新功能"/>
 
 ### 无符号整数类型已成为稳定版 {id="stable-unsigned-integer-types"}
 
@@ -777,7 +777,7 @@ tasks {
 以及
 [`kotlinx.coroutines` 1.5.0 release blog](https://blog.jetbrains.com/kotlin/2021/05/kotlin-coroutines-1-5-0-released/).
 
-<video src="https://youtu.be/EVLnWOcR0is" title="kotlinx.coroutines 1.5.0"/>
+<video src="https://www.youtube.com/v/EVLnWOcR0is" title="kotlinx.coroutines 1.5.0"/>
 
 ### serialization 1.2.1
 
@@ -791,7 +791,7 @@ tasks {
 以及
 [`kotlinx.serialization` 1.2.1 release blog](https://blog.jetbrains.com/kotlin/2021/05/kotlinx-serialization-1-2-released/).
 
-<video src="https://youtu.be/698I_AH8h6s" title="kotlinx.serialization 1.2.1"/>
+<video src="https://www.youtube.com/v/698I_AH8h6s" title="kotlinx.serialization 1.2.1"/>
 
 ### dateTime 0.2.0
 
@@ -809,12 +809,12 @@ tasks {
 当 Kotlin plugin 1.5.0 可用之后, IntelliJ IDEA 和 Android Studio 会建议你更新这个版本.
 
 要将既有的项目迁移到 Kotlin 1.5.0, 只需要修改 Kotlin 版本到 `1.5.0`, 然后重新导入你的 Gradle 或 Maven 项目.
-详情请参见 [如何更新到 Kotlin 1.5.0](releases.md#update-to-a-new-release).
+详情请参见 [如何更新到 Kotlin 1.5.0](releases.md#update-to-a-new-kotlin-version).
 
 要使用 Kotlin 1.5.0 创建新项目, 请更新 Kotlin plugin, 并通过菜单 **File** | **New** | **Project** 运行项目向导.
 
 新的命令行编译器可以通过 [GitHub release 页面](https://github.com/JetBrains/kotlin/releases/tag/v1.5.0) 下载.
 
-Kotlin 1.5.0 是一个 [功能发布版](kotlin-evolution.md#feature-releases-and-incremental-releases),
+Kotlin 1.5.0 是一个 [功能发布版](kotlin-evolution-principles.md#language-and-tooling-releases),
 因此可能在语言层带来不兼容的变更.
 关于这些变更的完整列表, 请参见 [Kotlin 1.5 兼容性指南](compatibility-guide-15.md).

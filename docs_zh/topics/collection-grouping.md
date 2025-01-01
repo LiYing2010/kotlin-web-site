@@ -11,14 +11,33 @@ Kotlin 标准库提供了扩展函数, 用于对集合中的元素进行分组�
 象这样使用两个 lambda 函数调用 `groupBy()`时, 结果 map 中, 第一个参数(`keySelector` lambda 函数)负责生成键(key),
 它对应的值(value) 则是由第二个参数(值转换 lambda 函数)产生的结果组成的 list, 而不是集合中原来元素组成的 list.
 
-```kotlin
+下面的示例演示如何使用 `groupBy()` 函数, 根据字符串的第一个字母进行分组,
+对分组结果的 `Map` 使用 `for` 操作符遍历各个组,
+然后使用 `keySelector` 函数将值转换为大写:
 
+```kotlin
 fun main() {
 //sampleStart
     val numbers = listOf("one", "two", "three", "four", "five")
 
-    println(numbers.groupBy { it.first().uppercase() })
-    println(numbers.groupBy(keySelector = { it.first() }, valueTransform = { it.uppercase() }))
+    // 使用 groupBy(), 根据字符串的第一个字母进行分组
+    val groupedByFirstLetter = numbers.groupBy { it.first().uppercase() }
+    println(groupedByFirstLetter)
+    // 输出结果为 {O=[one], T=[two, three], F=[four, five]}
+
+    // 遍历每个组, 输出 key 和对应的值
+    for ((key, value) in groupedByFirstLetter) {
+        println("Key: $key, Values: $value")
+    }
+    // 输出结果为
+    // Key: O, Values: [one]
+    // Key: T, Values: [two, three]
+    // Key: F, Values: [four, five]
+
+    // 根据字符串的第一个字母进行分组, 并将值转换为大写
+    val groupedAndTransformed = numbers.groupBy(keySelector = { it.first() }, valueTransform = { it.uppercase() })
+    println(groupedAndTransformed)
+    // 输出结果为 {o=[ONE], t=[TWO, THREE], f=[FOUR, FIVE]}
 //sampleEnd
 }
 ```
@@ -46,12 +65,28 @@ fun main() {
   函数, 对每个分组结果中的所有元素反复执行指定的操作, 并返回最后结果.
   这是对 `Grouping` 执行任意操作的通用方式. 如果 折叠(fold) 与 简化(reduce) 不能满足你的需求, 可以用这种方式实现自定义的操作.
 
-```kotlin
+你可以对分组结果的 `Map` 使用 `for` 操作符, 来遍历 `groupingBy()` 函数创建的各个组.
+这样就可以访问每个 key , 以及这个 key 关联的元素个数.
 
+下面的示例演示如何使用 `groupingBy()` 函数, 根据字符串的第一个字母进行分组,
+计算每个组中的元素, 然后遍历遍历各个组, 输出 key 和对应的元素个数:
+
+```kotlin
 fun main() {
 //sampleStart
-    val numbers = listOf("one", "two", "three", "four", "five", "six")
-    println(numbers.groupingBy { it.first() }.eachCount())
+    val numbers = listOf("one", "two", "three", "four", "five")
+
+    // 使用 groupingBy(), 根据字符串的第一个字母进行分组, 并计算每个组中的元素个数
+    val grouped = numbers.groupingBy { it.first() }.eachCount()
+
+    // 遍历每个组, 输出 key 和对应的值
+    for ((key, count) in grouped) {
+        println("Key: $key, Count: $count")
+        // 输出结果为
+        // Key: o, Count: 1
+        // Key: t, Count: 2
+        // Key: f, Count: 2
+    }
 //sampleEnd
 }
 ```

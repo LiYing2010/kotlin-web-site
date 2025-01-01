@@ -55,7 +55,7 @@ KSP 提供 2 个 API来访问文件: `Resolver.getAllFiles()` 和 `Resolver.getN
 `getAllFiles()` 返回一个组合的 List, 包含已经存在的文件和新生成的文件,
 而 `getNewFiles()` 只返回新生成的文件.
 
-### 改为使用 `getSymbolsAnnotatedWith()`
+### 改为使用 getSymbolsAnnotatedWith()
 
 为了避免对符号不必要的重新处理, `getSymbolsAnnotatedWith()` 只返回在新生成的文件中发现的符号,
 以及在最后一轮处理中被延迟的符号.

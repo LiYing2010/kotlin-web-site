@@ -95,8 +95,8 @@ fun main() = runBlocking<Unit> {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-select-01.kt).
+<!--- KNIT example-select-01.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-select-01.kt).
 >
 {style="note"}
 
@@ -188,8 +188,8 @@ fun main() = runBlocking<Unit> {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-select-02.kt).
+<!--- KNIT example-select-02.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-select-02.kt).
 >
 {style="note"}
 
@@ -270,8 +270,8 @@ fun main() = runBlocking<Unit> {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-select-03.kt).
+<!--- KNIT example-select-03.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-select-03.kt).
 >
 {style="note"}
 
@@ -352,8 +352,8 @@ fun main() = runBlocking<Unit> {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-select-04.kt).
+<!--- KNIT example-select-04.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-select-04.kt).
 >
 {style="note"}
 
@@ -462,8 +462,8 @@ fun main() = runBlocking<Unit> {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-select-05.kt).
+<!--- KNIT example-select-05.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-select-05.kt).
 >
 {style="note"}
 

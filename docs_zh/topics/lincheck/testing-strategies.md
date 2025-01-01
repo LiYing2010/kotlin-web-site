@@ -48,7 +48,7 @@ class CounterTest {
 }
 ```
 
-### 压力测试的工作原理 {collapsible="true"}
+### 压力测试的工作原理 {initial-collapse-state="collapsed" collapsible="true"}
 
 首先, Lincheck 使用标注了 `@Operation` 注解的操作生成一组并发场景.
 然后, 它启动原生的线程, 开始时同步这些线程, 以保证操作同时发生.
@@ -90,31 +90,7 @@ class CounterTest {
 }
 ```
 
-> 在 Java 9 或更高版本上要使用模型检查策略, 请添加以下 JVM 属性:
->
-> ```text
-> --add-opens java.base/jdk.internal.misc=ALL-UNNAMED
-> --add-exports java.base/jdk.internal.util=ALL-UNNAMED
-> ```
->
-> 如果测试代码使用了 `java.util` 包中的类, 会需要这些属性,
-> 因为有些类的内部实现使用了 `jdk.internal.misc.Unsafe`, 或其他类似的内部类.
-> 如果你是 Gradle, 请在 `build.gradle.kts` 文件添加下面的内容:
->
-> ```
-> tasks.withType<Test> {
->     jvmArgs(
->         "--add-opens", "java.base/java.lang=ALL-UNNAMED",
->         "--add-opens", "java.base/jdk.internal.misc=ALL-UNNAMED",
->         "--add-exports", "java.base/jdk.internal.util=ALL-UNNAMED",
->         "--add-exports", "java.base/sun.security.action=ALL-UNNAMED"
->     )
-> }
-> ```
->
-{style="tip"}
-
-### 模型检查的工作原理 {collapsible="true"}
+### 模型检查的工作原理 {initial-collapse-state="collapsed" collapsible="true"}
 
 要重现复杂并发算法中的大多数 bug, 可以使用典型的数据冲突, 同时将代码的执行切换从一个线程切换到另一个线程.
 此外, 对于弱内存模型的模型检查器非常复杂,

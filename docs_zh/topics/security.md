@@ -10,8 +10,7 @@
   * Key size: **RSA 3072**
 
 * 对你的应用程序的依赖项使用最新版. 如果你需要使用一个依赖项的特定版本, 请定期检查是否发现了新的安全性漏洞.
-你可以遵照
-* [GitHub 的依赖项安全管理指南](https://docs.github.com/ja/enterprise-cloud@latest/code-security/supply-chain-security/managing-vulnerabilities-in-your-projects-dependencies),
+你可以遵照 [GitHub 的安全性指南](https://docs.github.com/en/code-security),
 或在 [CVE 数据库](https://cve.mitre.org/cgi-bin/cvekey.cgi?keyword=kotlin) 中查阅已知的安全性漏洞.
 
 如果你能报告你发现的任何安全性问题, 我们非常期待并表示感谢.

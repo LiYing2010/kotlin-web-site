@@ -13,7 +13,7 @@ Kotlin 1.5.30 带来语言更新, 包括功能变更的预览, 平台支持与�
 关于功能变更的简短介绍, 也可以参见 [发布公告](https://blog.jetbrains.com/kotlin/2021/08/kotlin-1-5-30-released/),
 以及下面的视频:
 
-<video src="https://youtu.be/rNbb3A9IdOo" title="Kotlin 1.5.30"/>
+<video src="https://www.youtube.com/v/rNbb3A9IdOo" title="Kotlin 1.5.30"/>
 
 ## 语言功能
 
@@ -483,7 +483,7 @@ MyClass.Companion.shared
 * [支持 XCFramework](#support-for-xcframeworks)
 * [对 Android artifact 的新的默认发布设置](#new-default-publishing-setup-for-android-artifacts)
 
-### 在共用的原生代码中可以使用自定义 `cinterop` 库 {id="ability-to-use-custom-cinterop-libraries-in-shared-native-code"}
+### 在共用的原生代码中可以使用自定义 cinterop 库 {id="ability-to-use-custom-cinterop-libraries-in-shared-native-code"}
 
 Kotlin Multiplatform 提供了一个 [选项](multiplatform-share-on-platforms.md#connect-platform-specific-libraries),
 可以在共用的源代码集中使用平台相关的 interop 库.

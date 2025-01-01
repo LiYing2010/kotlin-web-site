@@ -24,7 +24,7 @@ Kotlin 1.7.0 已经发布了. 它公布了新的 Kotlin/JVM K2 编译器的 Alph
 
 关于这个版本的变更概要, 请参见以下视频:
 
-<video src="https://youtu.be/54WEfLKtCGk" title="Kotlin 1.7.0 版中的新功能"/>
+<video src="https://www.youtube.com/v/54WEfLKtCGk" title="Kotlin 1.7.0 版中的新功能"/>
 
 ## JVM 平台的新的 Kotlin K2 编译器 (Alpha 版) {id="new-kotlin-k2-compiler-for-the-jvm-in-alpha"}
 
@@ -181,7 +181,7 @@ fun main() {
 ```
 
 关于明确非 null 类型, 详情请参见
-[这个 KEEP](https://github.com/Kotlin/KEEP/blob/c72601cf35c1e95a541bb4b230edb474a6d1d1a8/proposals/definitely-non-nullable-types.md).
+[这个 KEEP](https://github.com/Kotlin/KEEP/blob/master/proposals/definitely-non-nullable-types.md).
 
 ## Kotlin/JVM
 
@@ -507,7 +507,7 @@ fun main() {
 
 [在 1.6.0 中引入](whatsnew16.md#repeatable-annotations-with-runtime-retention-for-1-8-jvm-target)
 的扩展函数
-[KAnnotatedElement.findAnnotations()](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect.full/find-annotations.html),
+[`KAnnotatedElement.findAnnotations()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect.full/find-annotations.html),
 现在升级为 [稳定版](components-stability.md).
 这个 [反射](reflection.md)
 函数对一个元素返回一个指定类型的所有注解, 包括单独使用的注解和重复的注解.
@@ -786,7 +786,7 @@ kotlin.build.report.output=file
 * `http` 通过 HTTP(S) 提交构建报告.
   使用 POST 方法传送 JSON 格式的测量结果. 数据可能在各个版本中发生变化.
   你可以在
-  [Kotlin 代码仓库](https://github.com/JetBrains/kotlin/blob/master/libraries/tools/kotlin-gradle-plugin/src/common/kotlin/org/jetbrains/kotlin/gradle/plugin/statistics/CompileStatisticsData.kt)
+  [Kotlin 代码仓库](https://github.com/JetBrains/kotlin/blob/master/libraries/tools/kotlin-gradle-plugin/src/common/kotlin/org/jetbrains/kotlin/gradle/report/data/GradleCompileStatisticsData.kt)
   中看到传送的数据的当前版本.
 
 有 2 种常见情况, 对长时间运行的编译, 分析构建报告可以帮助你解决问题:
@@ -1046,13 +1046,13 @@ IntelliJ IDEA 2022.1 和 Android Studio Chipmunk (212) 会自动建议将 Kotlin
 ### 将既有的项目迁移到 Kotlin 1.7.0, 或使用 Kotlin 1.7.0 创建新的项目
 
 * 要将既有的项目迁移到 Kotlin 1.7.0, 请将 Kotlin 版本修改为 `1.7.0`, 然后重新导入你的 Gradle 或 Maven 项目.
-  详情请参见 [如何更新到 Kotlin 1.7.0](releases.md#update-to-a-new-release).
+  详情请参见 [如何更新到 Kotlin 1.7.0](releases.md#update-to-a-new-kotlin-version).
 
 * 要使用 Kotlin 1.7.0 创建一个新项目, 请更新 Kotlin plugin, 然后通过 **File** | **New** |
   **Project**, 运行项目向导.
 
 ### Kotlin 1.7.0 兼容性指南
 
-Kotlin 1.7.0 是一个 [功能发布版](kotlin-evolution.md#feature-releases-and-incremental-releases),
+Kotlin 1.7.0 是一个 [功能发布版](kotlin-evolution-principles.md#language-and-tooling-releases),
 因此可能带来一些变更, 与你为更早的语言版本编写的代码不能兼容.
 关于这样的变更, 详情请参见 [Kotlin 1.7.0 兼容性指南](compatibility-guide-17.md).

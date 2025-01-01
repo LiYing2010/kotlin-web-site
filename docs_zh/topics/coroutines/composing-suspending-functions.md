@@ -54,8 +54,8 @@ suspend fun doSomethingUsefulTwo(): Int {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-compose-01.kt).
+<!--- KNIT example-compose-01.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-compose-01.kt).
 >
 {style="note"}
 
@@ -106,8 +106,8 @@ suspend fun doSomethingUsefulTwo(): Int {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-compose-02.kt).
+<!--- KNIT example-compose-02.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-compose-02.kt).
 >
 {style="note"}
 
@@ -159,8 +159,8 @@ suspend fun doSomethingUsefulTwo(): Int {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-compose-03.kt).
+<!--- KNIT example-compose-03.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-compose-03.kt).
 >
 {style="note"}
 
@@ -263,8 +263,8 @@ suspend fun doSomethingUsefulTwo(): Int {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-compose-04.kt).
+<!--- KNIT example-compose-04.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-compose-04.kt).
 >
 {style="note"}
 
@@ -329,8 +329,8 @@ suspend fun doSomethingUsefulTwo(): Int {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-compose-05.kt).
+<!--- KNIT example-compose-05.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-compose-05.kt).
 >
 {style="note"}
 
@@ -375,8 +375,8 @@ suspend fun failedConcurrentSum(): Int = coroutineScope {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
-
-> 完整的代码请参见 [这里](https://github.com/kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-compose-06.kt).
+<!--- KNIT example-compose-06.kt -->
+> 完整的代码请参见 [这里](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-compose-06.kt).
 >
 {style="note"}
 

@@ -22,11 +22,11 @@
 
    如果你希望创建更加复杂的项目, 需要更多配置, 请选择 Maven 或 Gradle.
    对于 Gradle,请选择构建脚本的语言: Kotlin 或 Groovy.
-6. 在 **JDK list** 中, 选择希望在项目中使用的 [JDK](https://www.oracle.com/java/technologies/downloads/).
+6. 在 **JDK** 列表中, 选择希望在项目中使用的 [JDK](https://www.oracle.com/java/technologies/downloads/).
    * 如果在你的计算机上已经安装了 JDK, 但在 IDE 中没有定义, 请选择 **Add JDK**, 并指定 JDK home 目录的路径.
    * 如果在你的计算机上还没有需要的 JDK, 请选择 **Download JDK**.
 
-7. 启用 **Add sample code** 选项, 创建文件, 其中包含 `"Hello World!"` 示例程序.
+7. 启用 **Add sample code** 选项, 创建一个文件, 其中包含 `"Hello World!"` 示例程序.
 
    > 你也可以启用 **Generate code with onboarding tips** 选项, 向你的示例代码添加一些有用的注释.
    >
@@ -34,16 +34,17 @@
 
 8. 点击 **Create**.
 
-  > 如果你选择了 Gradle 构建系统, 那么在你的项目中会有一个构建脚本文件: `build.gradle(.kts)`.
-  > 其中包含 `kotlin("jvm")` 插件, 以及你的控制台应用程序需要的依赖项目. 请确认使用了插件的最新版本:
-  >
-  > ```kotlin
-  > plugins {
-  >     kotlin("jvm") version "%kotlinVersion%"
-  >     application
-  > }
-  > ```
-  {style="note"}
+    > 如果你选择了 Gradle 构建系统, 那么在你的项目中会有一个构建脚本文件: `build.gradle(.kts)`.
+    > 其中包含 `kotlin("jvm")` 插件, 以及你的控制台应用程序需要的依赖项目. 请确认使用了插件的最新版本:
+    >
+    > ```kotlin
+    > plugins {
+    >     kotlin("jvm") version "%kotlinVersion%"
+    >     application
+    > }
+    > ```
+    >
+    {style="note"}
 
 ## 创建应用程序 {id="create-an-application"}
 

@@ -289,7 +289,6 @@ java -jar dokka-cli-%dokkaVersion%.jar -sourceSet -help
         <p>
             是否禁止输出那些显而易见的函数.
         </p>
-        <p>
             满足以下条件的函数, 会被认为是显而易见的函数:
             <list>
                 <li>
@@ -301,7 +300,6 @@ java -jar dokka-cli-%dokkaVersion%.jar -sourceSet -help
                     例如 <code>dataClass.componentN</code> 或 <code>dataClass.copy</code>.
                 </li>
             </list>
-        </p>
         <p>
             默认值: <code>true</code>
         </p>
@@ -479,7 +477,7 @@ java -jar dokka-cli-%dokkaVersion%.jar -sourceSet -help
             这个选项可以对每个包为单位进行配置.
         </p>
         <p>
-            可以设置的值:
+            可以设置的值:</p>
             <list>
                 <li><code>PUBLIC</code></li>
                 <li><code>PRIVATE</code></li>
@@ -487,7 +485,6 @@ java -jar dokka-cli-%dokkaVersion%.jar -sourceSet -help
                 <li><code>INTERNAL</code></li>
                 <li><code>PACKAGE</code></li>
             </list>
-        </p>
         <p>
             默认值: <code>PUBLIC</code>
         </p>
@@ -589,14 +586,13 @@ java -jar dokka-cli-%dokkaVersion%.jar -sourceSet -help
             设置代码分析和 <a href="kotlin-doc.md#sample-identifier">@sample</a> 环境时使用的平台.
         </p>
         <p>
-            可以设置的值:
+            可以设置的值:</p>
             <list>
                 <li><code>jvm</code></li>
                 <li><code>common</code></li>
                 <li><code>js</code></li>
                 <li><code>native</code></li>
             </list>
-        </p>
     </def>
     <def title="sourceRoots">
         <p>
@@ -697,13 +693,12 @@ java -jar dokka-cli-%dokkaVersion%.jar -sourceSet -help
             那么最后的 URL 后缀会是 <code>#L10</code>.
         </p>
         <p>
-            各种常用的源代码托管服务的行数后缀是:
+            各种常用的源代码托管服务的行数后缀是:</p>
             <list>
                 <li>GitHub: <code>#L</code></li>
                 <li>GitLab: <code>#L</code></li>
                 <li>Bitbucket: <code>#lines-</code></li>
             </list>
-        </p>
         <p>
             默认值: 空 (没有后缀)
         </p>

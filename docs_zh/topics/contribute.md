@@ -2,33 +2,31 @@
 
 Kotlin 是一个开源项目, 使用 [Apache 2.0 许可协议](https://github.com/JetBrains/kotlin/blob/master/license/LICENSE.txt).
 源代码, 工具, 文档, 已经本网站, 都在 [GitHub](https://github.com/jetbrains/kotlin) 维护.
-尽管 Kotlin 主要由 JetBrains 开发, 但 Kotlin 项目还有几百名外部贡献者, 而且我们始终希望更多的开发者帮助我们.
+Kotlin 是由 JetBrains 开发的, 但我们始终希望更多的开发者帮助我们.
 
 ## 参加早期预览(Early Access Preview)项目
 
-你可以 [参加 Kotlin 早期预览(Early Access Preview, EAP) 项目](eap.md), 并想我们提供宝贵的反馈意见, 帮助我们改进 Kotlin.
+你可以 [参加 Kotlin 早期预览(Early Access Preview, EAP) 项目](eap.md), 并向我们提供宝贵的反馈意见, 帮助我们改进 Kotlin.
 
-对每一个正式发布版, Kotlin 都会发布几个预览版, 你可以在最新功能正式发布之前进行试用. 你可以向我们的问题追踪系统 [YouTrack](https://kotl.in/issue) 报告你发现的 bug, 我们会尝试在最终发布之前修复这些 bug. 通过这种方式, 你报告的 bug 可以比通常的 Kotlin 发布周期更快修复.
+对每一个正式发布版, Kotlin 都会发布几个预览版, 你可以在最新功能正式发布之前进行试用.
+你可以向我们的问题追踪系统 [YouTrack](https://kotl.in/issue) 报告你发现的 bug, 我们会尝试在最终发布之前修复这些 bug.
+通过这种方式, 你报告的 bug 可以比通常的 Kotlin 发布周期更快修复.
 
 ## 向编译器和标准库贡献代码
 
-如果你想要向 Kotlin 编译器和标准库贡献代码, 可以访问 [JetBrains/Kotlin GitHub](https://github.com/jetbrains/kotlin),
-下载最新的 Kotlin 版本,
-然后按照文档
-[如何向项目贡献代码](https://github.com/JetBrains/kotlin/blob/master/docs/contributing.md)
-中的步骤进行.
+如果你想要向 Kotlin 编译器和标准库贡献代码, 可以访问 [JetBrains/Kotlin GitHub](https://github.com/jetbrains/kotlin), 下载最新的 Kotlin 版本,
+然后按照文档 [如何向项目贡献代码](https://github.com/JetBrains/kotlin/blob/master/docs/contributing.md) 中的步骤进行.
 
 你可以帮助我们解决 [未完成的任务](https://youtrack.jetbrains.com/issues/KT?q=tag:%20%7BUp%20For%20Grabs%7D%20and%20State:%20Open).
-请和我们保持联系, 因为我们可能会有一些疑问, 并对你提交的修改留下评论. 否则, 我们不能将你贡献的代码合并到项目中.
+请和我们保持联系, 因为我们可能会有一些疑问, 并对你提交的修改留下评论.
+否则, 我们不能将你贡献的代码合并到项目中.
 
 ## 向 Kotlin IDE plugin 贡献代码
 
 Kotlin IDE plugin 是 [IntelliJ IDEA 代码仓库](https://github.com/JetBrains/intellij-community/tree/master/plugins/kotlin) 的一部分.
 
 要向 Kotlin IDE plugin 贡献代码, 请 clone [IntelliJ IDEA 代码仓库](https://github.com/JetBrains/intellij-community/),
-然后按照文档
-[如何贡献代码](https://github.com/JetBrains/intellij-community/blob/master/plugins/kotlin/CONTRIBUTING.md)
-中的步骤进行.
+然后按照文档 [如何贡献代码](https://github.com/JetBrains/intellij-community/blob/master/plugins/kotlin/CONTRIBUTING.md) 中的步骤进行.
 
 ## 向其他 Kotlin 库和工具贡献代码
 
@@ -56,10 +54,6 @@ Kotlin IDE plugin 是 [IntelliJ IDEA 代码仓库](https://github.com/JetBrains/
 
 请和我们保持联系, 因为我们可能会有一些疑问, 并对你提交的修改留下评论.
 否则, 我们不能将你贡献的代码合并到项目中.
-
-## 创建教程或视频
-
-如果你为 Kotlin 创建了教程或视频, 请通过 <feedback@kotlinlang.org> 分享给我们.
 
 ## 将文档翻译为其他语言
 

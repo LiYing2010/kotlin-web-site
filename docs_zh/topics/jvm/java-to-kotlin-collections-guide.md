@@ -100,7 +100,7 @@ _集合_ 是一组可变数量(可以为 0)的元素, 解决问题时起到重�
 如果你想要深入了解 `zip()`, `chunked()`, `windowed()`, 以及其他一些操作, 请观看 Sebastian Aigner 讲解的这个视频,
 关于Kotlin 中集合的高级操作:
 
-<video src="https://youtu.be/N4CpLxGJlq0" title="集合的高级操作"/>
+<video src="https://www.youtube.com/v/N4CpLxGJlq0" title="集合的高级操作"/>
 
 ## 可变性 {id="mutability"}
 

@@ -15,7 +15,7 @@ Dokka 能够使用很多种格式生成文档, 包括它自己的现代化 [HTML
 
 * [kotlinx.coroutines](https://kotlinlang.org/api/kotlinx.coroutines/)
 * [Bitmovin](https://cdn.bitmovin.com/player/android/3/docs/index.html)
-* [Hexagon](https://hexagonkt.com/api/index.html)
+* [Hexagon](https://hexagontk.com/stable/api/)
 * [Ktor](https://api.ktor.io/)
 * [OkHttp](https://square.github.io/okhttp/5.x/okhttp/okhttp3/)
 

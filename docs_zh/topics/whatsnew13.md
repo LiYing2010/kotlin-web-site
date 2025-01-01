@@ -29,7 +29,7 @@ Kotlin 1.3 继续改进对原生程序开发的. 详情请参见 [Kotlin/Native 
     你可以让某个源代码集只在 Android 和 iOS 平台中共用).
   * 现在支持 [发布跨平台的库](multiplatform-publish-lib.md).
 
-更多详细信息, 请参见 [跨平台程序开发文档](multiplatform.md).
+更多详细信息, 请参见 [跨平台程序开发文档](multiplatform-intro.md).
 
 ## 契约(Contract)
 
@@ -131,7 +131,7 @@ fun String?.isNullOrEmpty(): Boolean {
 
 关于契约的语法, 以及兼容性问题, 详情请参见 [KEEP](https://github.com/Kotlin/KEEP/blob/master/proposals/kotlin-contracts.md).
 
-## 将 `when` 语句的判定对象保存到变量中
+## 将 when 语句的判定对象保存到变量中
 
 在 Kotlin 1.3 中, 可以将 `when` 语句的判定对象保存到变量中:
 
@@ -195,7 +195,7 @@ annotation class Foo {
 }
 ```
 
-## 无参数的 `main` 函数
+## 无参数的 main 函数
 
 按照习惯, Kotlin 程序的入口是一个签名类似 `main(args: Array<String>)` 的函数,
 其中 `args` 表示传递给这个程序的命令行参数.
@@ -242,11 +242,11 @@ Kotlin 非常关注稳定性, 以及源代码的向后兼容: Kotlin 的兼容�
 
 ## 内联类
 
->内联类目前处于 [Alpha 阶段](components-stability.md).
+> 内联类目前处于 [Alpha 阶段](components-stability.md).
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issues/KT) 提供你的反馈意见.
 > 详情请参见 [参考文档](inline-classes.md).
 >
-{style="note"}
+{style="warning"}
 
 Kotlin 1.3 引入了一种新的类型声明 — `inline class`.
 内联类可以看作一种功能受到限制的类, 具体来说, 内联类只能有一个属性, 不能更多, 也不能更少:
@@ -278,7 +278,7 @@ fun main() {
 > 具体实现已经基本稳定, 但将来可能会需要手工迁移你的代码.
 > 我们会尽力减少你需要修改的代码量.
 >
-{style="note"}
+{style="warning"}
 
 Kotlin 1.3 引入了无符号整数类型:
 
@@ -322,7 +322,7 @@ println("x: $x, y: $y, z: $z, range: $range")
 > 请注意, 只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issues/KT) 提供你的反馈意见.
 >
-{style="note"}
+{style="warning"}
 
 Kotlin 支持许多 Java 版本, 包括 Java 6 和 Java 7, 在这些版本上还不支持接口的默认方法.
 为了你编程的方便, Kotlin 编译器绕过了这个限制, 但是这个解决方法无法与 Java 8 中的 `default` 方法兼容.
@@ -341,7 +341,7 @@ interface Foo {
 > 警告! 使用 `@JvmDefault` 注解来标注你的 API 会对二进制兼容性造成严重的影响.
 在你的产品代码中使用 `@JvmDefault` 之前, 请一定要认真阅读 [参考文档](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-default/index.html).
 >
-{style="note"}
+{style="warning"}
 
 ## 标准库
 
@@ -467,7 +467,7 @@ Kotlin 1.3 开始在 IntelliJ IDEA 中支持 [推荐的代码风格](coding-conv
 
 > 虽然现在 kotlinx.serialization 与 Kotlin 编译器一起发布, 但在 Kotlin 1.3 中它仍然是一个实验性功能.
 >
-{style="note"}
+{style="warning"}
 
 ### 脚本 API 升级
 
@@ -475,7 +475,7 @@ Kotlin 1.3 开始在 IntelliJ IDEA 中支持 [推荐的代码风格](coding-conv
 > 请注意, 只为评估和试验目的来使用这个功能.
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issues/KT) 提供你的反馈意见.
 >
-{style="note"}
+{style="warning"}
 
 Kotlin 1.3 仍在持续改进脚本 API, 引入了一些实验性的功能, 支持脚本的定制, 包括添加外部属性, 提供静态或动态的依赖项, 等等.
 

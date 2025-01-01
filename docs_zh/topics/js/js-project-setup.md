@@ -3,8 +3,9 @@
 Kotlin JavaScript 工程(Project) 使用 Gradle 进行编译.
 为了方便开发者管理 Kotlin JavaScript 工程, 我们提供了 `kotlin.multiplatform` Gradle 插件, 其中包括工程配置工具,
 以及对 JavaScript 开发中常见业务进行自动化处理的帮助性任务.
-比如, 这个插件会在后台下载 [Yarn](https://yarnpkg.com/) 包管理器, 用来管理 [npm](https://www.npmjs.com/) 依赖项,
-还可以使用 [webpack](https://webpack.js.org/) 将 Kotlin 工程编译为 JavaScript bundle.
+
+这个插件会在后台使用 [npm](https://www.npmjs.com/) 或 [Yarn](https://yarnpkg.com/) 包管理器下载 npm 依赖项,
+并使用 [webpack](https://webpack.js.org/) 将 Kotlin 工程编译为 JavaScript bundle  .
 依赖项管理和配置调整大部分可以直接在 Gradle 构建脚本文件中完成, 还可以通过选项覆盖自动生成的配置, 获得完全的控制能力.
 
 你可以在 Gradle 工程的 `build.gradle(.kts)` 文件中手动的应用 `org.jetbrains.kotlin.multiplatform` 插件:
@@ -34,13 +35,14 @@ plugins {
 
 ```groovy
 kotlin {
-    //...
+    // ...
 }
 ```
 
 在 `kotlin {}` 代码段中, 你可以管理以下方面:
 
 * [目标执行环境](#execution-environments): 浏览器, 或 Node.js
+* [支持 ES2015 功能](#support-for-es2015-features): 类, 模块, 和生成器
 * [工程的依赖项目管理](#dependencies): Maven 或 npm
 * [运行配置(configuration)](#run-task)
 * [测试配置(configuration)](#test-task)
@@ -83,6 +85,26 @@ Kotlin Multiplatform 插件会针对选定的运行环境, 自动配置它的编
 因此开发者可以编译, 运行, 以及测试简单的工程, 而无需再添加更多配置.
 对于编译目标为 Node.js 的项目, 还有一个选项可以使用本地已安装的 Node.js.
 详情请参见 [使用已安装的 Node.js](#use-pre-installed-node-js).
+
+## 支持 ES2015 功能 {id="support-for-es2015-features"}
+
+Kotlin 对以下 ES2015 功能提供了 [实验性](components-stability.md#stability-levels-explained) 的支持:
+
+* 模块: 简化你的代码库, 提高可维护性的.
+* 类: 可以结合 OOP 原则, 产生更清晰, 更直观的代码.
+* 用于编译 [挂起函数](composing-suspending-functions.md) 的生成器: 能够改善最终 bundle 的大小, 并帮助进行调试.
+
+你可以向你的 `build.gradle(.kts)` 文件添加 `es2015` 编译目标, 一次性启用所有支持的 ES2015 功能:
+
+```kotlin
+tasks.withType<KotlinJsCompile>().configureEach {
+    kotlinOptions {
+        target = "es2015"
+    }
+}
+```
+
+[关于 ES2015 (ECMAScript 2015, ES6), 更多详情请参见官方文档](https://262.ecma-international.org/6.0/).
 
 ## 依赖项目 {id="dependencies"}
 
@@ -198,7 +220,7 @@ kotlin {
 通过 Kotlin Multiplatform Gradle 插件, 可以在 Gradle 编译脚本中声明 npm 依赖项目, 方法和声明其他依赖项目类似.
 
 要声明一个 npm 依赖项目, 可以在一个依赖项目声明中使用 `npm()` 函数指定依赖项目的名称和版本.
-也可以使用 [npm semver 语法](https://docs.npmjs.com/misc/semver#versions), 指定一个或多个版本范围.
+也可以使用 [npm semver 语法](https://docs.npmjs.com/about-semantic-versioning), 指定一个或多个版本范围.
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
@@ -221,9 +243,15 @@ dependencies {
 </tab>
 </tabs>
 
-插件会使用 [Yarn](https://yarnpkg.com/lang/en/) 包管理器来下载和安装 npm 依赖项.
-不需要额外配置, 默认即可工作, 但你也可以根据需要对其进行调整.
-详情请参见 [在 Kotlin Multiplatform Gradle plugin 中配置 Yarn](#yarn).
+默认情况下, 插件会使用 [Yarn](https://yarnpkg.com/lang/en/) 包管理器的一个单独的实例, 来下载和安装 npm 依赖项.
+不需要额外配置, 默认即可工作, 但你也可以 [根据需要对其进行调整](#yarn).
+
+你也可以通过 [npm](https://www.npmjs.com/) 包管理器直接使用 npm 依赖项.
+要使用 npm 作为你的包管理器, 请在你的 `gradle.properties` 文件中, 设置以下属性:
+
+```none
+kotlin.js.yarn=false
+```
 
 除了标准依赖项之外, 在 Gradle DSL 中使用还可以使用 3 种其他类型的依赖项.
 关于什么情况下应该选择什么类型的依赖项, 请阅读 npm 提供的官方文档:
@@ -364,7 +392,7 @@ Karma 配置的详细功能请参见 Karma 的 [文档](https://karma-runner.git
 
 ## webpack 打包(Bundling) {id="webpack-bundling"}
 
-如果编译目标为浏览器环境, Kotlin/JS 插件使用大家都熟悉的 [webpack](https://webpack.js.org/) 来打包模块.
+如果编译目标为浏览器环境, Kotlin Multiplatform Gradle 插件使用大家都熟悉的 [webpack](https://webpack.js.org/) 来打包模块.
 
 ### webpack 版本 {id="webpack-version"}
 
@@ -428,7 +456,7 @@ config.module.rules.push({
 * `browserDevelopmentWebpack` 创建开发模式的 artifact, 文件尺寸会比较大, 但构建时间比较短.
 因此, 在活跃开发阶段请使用 `browserDevelopmentWebpack` 任务.
 
-* `browserProductionWebpack` 会执行 [死代码消除](javascript-dce.md),
+* `browserProductionWebpack` 会执行死代码消除,
 生成 artifact 文件, 并对输出结果的 JavaScript 文件最小化, 构建时间更长, 但生成的可执行文件尺寸更小.
 因此, 在构建你的项目用于生成目的时, 请使用 `browserProductionWebpack` 任务.
 
@@ -472,7 +500,7 @@ browser {
 browser {
     commonWebpackConfig {
         cssSupport {
-            it.enabled.set(true)
+            it.enabled = true
         }
     }
 }
@@ -516,19 +544,19 @@ browser {
 browser {
     webpackTask {
         cssSupport {
-            it.enabled.set(true)
+            it.enabled = true
         }
     }
     runTask {
         cssSupport {
-            it.enabled.set(true)
+            it.enabled = true
         }
     }
     testTask {
         useKarma {
             // ...
             webpackConfig.cssSupport {
-                it.enabled.set(true)
+                it.enabled = true
             }
         }
     }
@@ -587,7 +615,7 @@ rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJ
 
 ## Yarn {id="yarn"}
 
-为了在构建时下载并安装你声明的依赖项, plugin 会管理它自己的 [Yarn](https://yarnpkg.com/lang/en/) 包管理器实例.
+默认情况下, 为了在构建时下载并安装你声明的依赖项, plugin 会管理它自己的 [Yarn](https://yarnpkg.com/lang/en/) 包管理器实例.
 不需要额外配置, 默认即可工作, 但你也可以对其进行调整, 或者使用你的主机上已经安装的 Yarn.
 
 ### Yarn 的更多功能: .yarnrc {id="additional-yarn-features-yarnrc"}
@@ -799,7 +827,7 @@ kotlin {
     js {
         browser {
             distribution {
-                outputDirectory.set(file("$projectDir/output"))
+                outputDirectory = file("$projectDir/output")
             }
         }
         binaries.executable()
@@ -859,10 +887,3 @@ kotlin {
 ```
 
 关于如何为 npm 登记项目编写 `package.json` 文件, 详情请参见 [npm 文档](https://docs.npmjs.com/cli/v6/configuring-npm/package-json).
-
-## 错误排查
-
-使用 Kotlin 1.3.xx 构建 Kotlin/JS 项目时, 如果你的某个依赖项 (或任何一个传递依赖项)
-使用 Kotlin 1.4 或更高版本构建, 你可能会遇到 Gradle 错误:
-`Could not determine the dependencies of task ':client:jsTestPackageJson'.` / `Cannot choose between the following variants`.
-这是一个已知的问题, 解决方法请参见 [这个页面](https://youtrack.jetbrains.com/issue/KT-40226).

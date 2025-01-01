@@ -312,7 +312,7 @@ java -jar target/mymodule-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 ```xml
 <project ...>
     <properties>
-        <kotlin.compiler.languageVersion>1.9</kotlin.compiler.languageVersion>
+        <kotlin.compiler.languageVersion>%languageVersion%</kotlin.compiler.languageVersion>
     </properties>
 </project>
 ```
@@ -321,17 +321,17 @@ java -jar target/mymodule-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 
 ### JVM 独有的属性 {id="attributes-specific-to-jvm"}
 
-| 名称                | Maven 属性名                       | 描述                                                  | 可以选择的值                                                                                                          | 默认值                         |
-|-------------------|---------------------------------|-----------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|-----------------------------|
-| `nowarn`          |                                 | 不产生警告信息                                             | true, false                                                                                                     | false                       |
-| `languageVersion` | kotlin.compiler.languageVersion | 指定源代码所兼容的 Kotlin 语言版本                               | "1.3" (已废弃 DEPRECATED), "1.4" (已废弃 DEPRECATED), "1.5", "1.6", "1.7", "1.8", "1.9", "2.0" (实验性功能), "2.1" (实验性功能) |
-| `apiVersion`      | kotlin.compiler.apiVersion      | 只允许使用指定的版本的运行库中的 API                                | "1.3" (已废弃 DEPRECATED), "1.4" (已废弃 DEPRECATED), "1.5", "1.6", "1.7", "1.8", "1.9", "2.0" (实验性功能), "2.1" (实验性功能) |
-| `sourceDirs`      |                                 | 指定编译对象源代码文件所在的目录                                    |                                                                                                                 | 工程的源代码根路径                   |
-| `compilerPlugins` |                                 | 允许使用编译器插件                                           |                                                                                                                 | []                          |
-| `pluginOptions`   |                                 | 供编译器插件使用的选项                                         |                                                                                                                 | []                          |
-| `args`            |                                 | 额外的编译器参数                                            |                                                                                                                 | []                          |
-| `jvmTarget`       | `kotlin.compiler.jvmTarget`     | 指定编译输出的 JVM 字节码的版本                                  | "1.8", "9", "10", ..., "21"                                                                                     | "%defaultJvmTargetVersion%" |
-| `jdkHome`         | `kotlin.compiler.jdkHome`       | 指定一个自定义的 JDK 路径, 添加到 classpath 内, 替代默认的 JAVA_HOME 值 |                                                                                                                 |                             |
+| 名称                | Maven 属性名                       | 描述                                                  | 可以选择的值                                           | 默认值                         |
+|-------------------|---------------------------------|-----------------------------------------------------|--------------------------------------------------|-----------------------------|
+| `nowarn`          |                                 | 不产生警告信息                                             | true, false                                      | false                       |
+| `languageVersion` | kotlin.compiler.languageVersion | 指定源代码所兼容的 Kotlin 语言版本                               | "1.6", "1.7", "1.8", "1.9", "2.0", "2.1" (实验性功能) |
+| `apiVersion`      | kotlin.compiler.apiVersion      | 只允许使用指定的版本的运行库中的 API                                | "1.6", "1.7", "1.8", "1.9", "2.0", "2.1" (实验性功能) |
+| `sourceDirs`      |                                 | 指定编译对象源代码文件所在的目录                                    |                                                  | 工程的源代码根路径                   |
+| `compilerPlugins` |                                 | 允许使用编译器插件                                           |                                                  | []                          |
+| `pluginOptions`   |                                 | 供编译器插件使用的选项                                         |                                                  | []                          |
+| `args`            |                                 | 额外的编译器参数                                            |                                                  | []                          |
+| `jvmTarget`       | `kotlin.compiler.jvmTarget`     | 指定编译输出的 JVM 字节码的版本                                  | "1.8", "9", "10", ..., "22"                      | "%defaultJvmTargetVersion%" |
+| `jdkHome`         | `kotlin.compiler.jdkHome`       | 指定一个自定义的 JDK 路径, 添加到 classpath 内, 替代默认的 JAVA_HOME 值 |                                                  |                             |
 
 ## 使用 BOM
 

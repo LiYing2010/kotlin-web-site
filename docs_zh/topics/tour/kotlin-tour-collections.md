@@ -54,7 +54,8 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-lists-declaration"}
 
-> 为了防止无意中修改 List 的内容, 你可以将可变的 List 赋值给一个 `List`, 来得到它的一个只读的视图:
+> 为了防止无意中修改 List 的内容, 你可以将可变的 List 赋值给一个 `List`, 来创建它的一个只读的视图:
+>
 > ```kotlin
 >     val shapes: MutableList<String> = mutableListOf("triangle", "square", "circle")
 >     val shapesLocked: List<String> = shapes
@@ -176,7 +177,8 @@ fun main() {
 
 在上面的示例中你可以看到, 由于 Set 只包含唯一的元素, 重复的 `"cherry"` 元素被丢弃了.
 
-> 为了防止无意中修改 Set 的内容, 你可以将可变的 Set 类型变换为 `Set`, 来得到它的一个只读的视图:
+> 为了防止无意中修改 Set 的内容, 你可以将可变的 Set 赋值给一个 `Set`, 来创建它的一个只读的视图:
+>
 > ```kotlin
 >     val fruit: MutableSet<String> = mutableSetOf("apple", "banana", "cherry", "cherry")
 >     val fruitLocked: Set<String> = fruit
@@ -274,7 +276,8 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-maps-declaration"}
 
-> 为了防止无意中修改 Map 的内容, 你可以将可变的 Map 类型变换为 `Map`, 来得到它的一个只读的视图:
+> 为了防止无意中修改 Map 的内容, 你可以将可变的 Map 赋值给一个 `Map`, 来创建它的一个只读的视图:
+>
 > ```kotlin
 >     val juiceMenu: MutableMap<String, Int> = mutableMapOf("apple" to 100, "kiwi" to 190, "orange" to 100)
 >     val juiceMenuLocked: Map<String, Int> = juiceMenu
@@ -296,6 +299,54 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-map-access"}
 
+> 如果你使用 Map 中不存在的 key 来访问键值对(key-value pair), 会得到 `null` 值:
+>
+> ```kotlin
+> fun main() {
+> //sampleStart
+>     // 只读 Map
+>     val readOnlyJuiceMenu = mapOf("apple" to 100, "kiwi" to 190, "orange" to 100)
+>     println("The value of pineapple juice is: ${readOnlyJuiceMenu["pineapple"]}")
+>     // 输出结果为 The value of pineapple juice is: null
+> //sampleEnd
+> }
+> ```
+> {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-map-no-key" validate="false"}
+>
+> 本教程会在后面的 [Null 值安全性](kotlin-tour-null-safety.md) 章节解释 null 值.
+>
+{style="note"}
+
+你也可以使用 [下标操作符](operator-overloading.md#indexed-access-operator) `[]` 来向可变 Map 添加元素:
+
+```kotlin
+fun main() {
+//sampleStart
+    val juiceMenu: MutableMap<String, Int> = mutableMapOf("apple" to 100, "kiwi" to 190, "orange" to 100)
+    juiceMenu["coconut"] = 150 // 向 Map 添加键 "coconut" 和值 150
+    println(juiceMenu)
+    // 输出结果为 {apple=100, kiwi=190, orange=100, coconut=150}
+//sampleEnd
+}
+```
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-map-add-item"}
+
+要从可变 Map 删除元素, 请使用
+[`.remove()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/remove.html)
+函数:
+
+```kotlin
+fun main() {
+//sampleStart
+    val juiceMenu: MutableMap<String, Int> = mutableMapOf("apple" to 100, "kiwi" to 190, "orange" to 100)
+    juiceMenu.remove("orange")    // 从 Map 删除键 "orange"
+    println(juiceMenu)
+    // 输出结果为 {apple=100, kiwi=190}
+//sampleEnd
+}
+```
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-map-put-remove"}
+
 要得到 Map 中元素的数量, 请使用 [`.count()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/count.html) 函数:
 
 ```kotlin
@@ -309,25 +360,6 @@ fun main() {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-map-count"}
-
-要对可变 Map 添加或删除元素, 请分别使用 [`.put()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-map/put.html)
-和 [`.remove()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/remove.html) 函数:
-
-```kotlin
-fun main() {
-//sampleStart
-    val juiceMenu: MutableMap<String, Int> = mutableMapOf("apple" to 100, "kiwi" to 190, "orange" to 100)
-    juiceMenu.put("coconut", 150) // 向 Map 添加键 "coconut" 和值 150
-    println(juiceMenu)
-    // 输出结果为 {apple=100, kiwi=190, orange=100, coconut=150}
-
-    juiceMenu.remove("orange")    // 从 Map 删除键 "orange"
-    println(juiceMenu)
-    // 输出结果为 {apple=100, kiwi=190, coconut=150}
-//sampleEnd
-}
-```
-{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-map-put-remove"}
 
 要检查一个键是否存在于 Map 中, 请使用 [`.containsKey()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/contains-key.html) 函数:
 
@@ -374,6 +406,11 @@ fun main() {
     val readOnlyJuiceMenu = mapOf("apple" to 100, "kiwi" to 190, "orange" to 100)
     println("orange" in readOnlyJuiceMenu.keys)
     // 输出结果为 true
+
+    // 或者, 也可以不使用 keys 属性
+    println("orange" in readOnlyJuiceMenu)
+    // 输出结果为 true
+
     println(200 in readOnlyJuiceMenu.values)
     // 输出结果为 false
 //sampleEnd
@@ -387,7 +424,7 @@ fun main() {
 
 ## 实际练习
 
-### 习题 1 {collapsible="true"}
+### 习题 1 {initial-collapse-state="collapsed" collapsible="true"}
 
 你有一个 “绿色” 数字的 List, 和一个 “红色” 数字的 List.
 完成下面的代码, 打印这两个 List 中总共有多少个数字.
@@ -411,9 +448,9 @@ fun main() {
     println(totalCount)
 }
 ```
-{collapsible="true" collapsed-title="参考答案" id="kotlin-tour-collections-solution-1"}
+{initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-collections-solution-1"}
 
-### 习题 2 {collapsible="true"}
+### 习题 2 {initial-collapse-state="collapsed" collapsible="true"}
 
 你有一个 Set, 其中包含你的服务器支持的协议. 一个用户要求使用某个协议.
 完成下面的程序, 检查用户要求使用的协议是否支持 (`isSupported` 必须是 Boolean 值).
@@ -444,9 +481,9 @@ fun main() {
     println("Support for $requested: $isSupported")
 }
 ```
-{collapsible="true" collapsed-title="参考答案" id="kotlin-tour-collections-solution-2"}
+{initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-collections-solution-2"}
 
-### 习题 3 {collapsible="true"}
+### 习题 3 {initial-collapse-state="collapsed" collapsible="true"}
 
 定义一个 Map, 将 1 到 3 的数字对应到它们的拼写.
 使用这个 Map 来拼写指定的数字.
@@ -468,7 +505,7 @@ fun main() {
     println("$n is spelt as '${number2word[n]}'")
 }
 ```
-{collapsible="true" collapsed-title="参考答案" id="kotlin-tour-collections-solution-3"}
+{initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-collections-solution-3"}
 
 ## 下一步
 

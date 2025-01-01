@@ -1,5 +1,12 @@
 [//]: # (title: JavaScript 死代码剔除工具)
 
+> 死代码剔除 (Dead Code Elimination, DCE) 工具已被废弃. DCE 工具针对旧的 JS 后端, 这个 JS 后端已经废弃了.
+> 目前的 [JS IR 后端](#dce-and-javascript-ir-compiler) 本身支持 DCE,
+> 而且可以通过 [`@JsExport` 注解](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.js/-js-export/)
+> 指定在 DCE 过程中保留哪些 Kotlin 函数和类.
+>
+{style="warning"}
+
 Kotlin Multiplatform Gradle 插件包含一个 _[死代码剔除(Dead Code Elimination)](https://wikipedia.org/wiki/Dead_code_elimination)_ (_DCE_) 工具.
 死代码剔除通常又被称为 _摇树(Tree Shaking)_.
 它可以删除未被使用的属性, 函数, 以及类, 减少最终编译输出结果的 JavaScript 代码大小.
@@ -16,6 +23,26 @@ Kotlin Multiplatform Gradle 插件包含一个 _[死代码剔除(Dead Code Elimi
 比如, 使用 `browserProductionWebpack` 任务.
 **开发版(development) bundle** 的构建任务(比如 `browserDevelopmentWebpack`) 不会包含 DCE.
 
+## DCE 与 JavaScript IR 编译器
+
+针对 IR 编译器的 DCE 适用方式如下:
+
+* 针对开发环境进行编译时, DCE 会被禁用, 对应于以下 Gradle 任务:
+  * `browserDevelopmentRun`
+  * `browserDevelopmentWebpack`
+  * `nodeDevelopmentRun`
+  * `compileDevelopmentExecutableKotlinJs`
+  * `compileDevelopmentLibraryKotlinJs`
+  * 名称中包含 "development" 的其它 Gradle 任务
+* 针对产品进行编译时, DCE 会被启用, 对应于以下 Gradle 任务:
+  * `browserProductionRun`
+  * `browserProductionWebpack`
+  * `compileProductionExecutableKotlinJs`
+  * `compileProductionLibraryKotlinJs`
+  *  名称中包含 "production" 的其它 Gradle 任务
+
+使用 `@JsExport` 注解, 你可以指定一些声明, 让 DCE 将它当作根对待 (因此这些声明会被保留, 不被删除).
+
 ## 在 DCE 中排除一部分函数或类声明
 
 有些时候, 即使在你的模块中并没有使用某个函数或类, 但你可能需要在最终输出的 JavaScript 代码中保留它,
@@ -31,7 +58,6 @@ Kotlin Multiplatform Gradle 插件包含一个 _[死代码剔除(Dead Code Elimi
 > 需要在 `keep` 的参数中使用它们混淆之后出现在生成的 JavaScript 代码中的名称.
 >
 {style="note"}
-
 
 ```groovy
 kotlin {

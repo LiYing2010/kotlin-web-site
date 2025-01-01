@@ -3,9 +3,11 @@
 > Kotlin/Wasm 功能处于 [Alpha 阶段](components-stability.md).
 > 它随时有可能变更.
 >
+> [请加入 Kotlin/Wasm 开发社区.](https://slack-chats.kotlinlang.org/c/webassembly)
+>
 {style="note"}
 
-本教程演示在 IntelliJ IDEA 中如何使用 Kotlin/Wasm 运行 [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/) 应用程序,
+本教程演示在 IntelliJ IDEA 中如何使用 [Kotlin/Wasm](wasm-overview.md) 运行 [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/) 应用程序,
 以及如何生成 artifact, 并发布为 [GitHub pages](https://pages.github.com/) 上的网站.
 
 ## 开始之前的准备步骤
@@ -13,8 +15,13 @@
 使用 Kotlin Multiplatform 向导创建项目:
 
 1. 打开 [Kotlin Multiplatform 向导](https://kmp.jetbrains.com/#newProject).
-2. 在 **New Project** 页, 将项目名称修改为 "WasmDemo", 项目 ID 修改为 "wasm.project.demo".
-3. 选择 **Web** 选项.
+2. 在 **New Project** 页, 将项目名称 和 ID 修改为你喜欢的值. 在本教程中, 我们将项目名称设置为 "WasmDemo", ID 设置为 "wasm.project.demo".
+
+   > 这些值是项目目录的名称和 ID. 你也可以使用原来的值, 不做修改.
+   >
+   {style="tip"}
+
+3. 选择 **Web** 选项. 请确认没有选择其他选项.
 4. 点击 **Download** 按钮, 将生成的压缩包文件解包.
 
 ![Kotlin Multiplatform 向导](wasm-compose-wizard.png){width=600}
@@ -37,10 +44,10 @@
 
    ![运行 Gradle 任务](wasm-gradle-task-window.png){width=600}
 
-   或者, 你可以在终端窗口, 在 `composeApp` 目录下运行以下命令:
+   或者, 你可以在终端窗口, 在 `WasmDemo` 根目录下运行以下命令:
 
    ```bash
-   ../gradlew wasmJsBrowserRun -t
+   ./gradlew wasmJsBrowserRun -t
    ```
 
 3. 应用程序启动之后, 在你的浏览器中打开下面的 URL:
@@ -68,13 +75,13 @@
 
 ![运行 Gradle 任务](wasm-gradle-task-window-compose.png){width=600}
 
-或者, 你可以在终端窗口, 在 `composeApp` 目录下运行以下命令:
+或者, 你可以在终端窗口, 在 `WasmDemo` 根目录下运行以下命令:
 
 ```bash
-../gradlew wasmJsBrowserDistribution
+./gradlew wasmJsBrowserDistribution
 ```
 
-应用程序任务结束之后, 你可以在 `composeApp/build/dist/wasmJs/productionExecutable` 文件夹中找到生成的 artifact 文件:
+应用程序任务结束之后, 你可以在 `composeApp/build/dist/wasmJs/productionExecutable` 目录中找到生成的 artifact 文件:
 
 ![Artifact 文件目录](wasm-composeapp-directory.png){width=600}
 
@@ -97,7 +104,7 @@
 
 加入 Kotlin Slack 中的 Kotlin/Wasm 开发社区:
 
-<a href="https://slack-chats.kotlinlang.org/c/webassembly"><img src="join-slack-channel.svg" width="700" alt="加入 Kotlin/Wasm 开发社区"/></a>
+<a href="https://slack-chats.kotlinlang.org/c/webassembly"><img src="join-slack-channel.svg" width="700" alt="加入 Kotlin/Wasm 开发社区" style="block"/></a>
 
 试试 `kotlin-wasm-examples` 代码仓库中的 Kotlin/Wasm 示例:
 

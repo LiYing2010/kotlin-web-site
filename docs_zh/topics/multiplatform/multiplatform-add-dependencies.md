@@ -4,7 +4,7 @@
 一个 Kotlin Multiplatform 项目可以依赖于可以在所有平台工作的跨平台库, 平台相关的库, 还可以依赖于其他跨平台项目.
 
 要在一个库中添加依赖项, 需要更新你的项目包含共用代码的目录中的 `build.gradle(.kts)` 文件.
-在 [`dependencies`](multiplatform-dsl-reference.md#dependencies) 代码段内,
+在 [`dependencies {}`](multiplatform-dsl-reference.md#dependencies) 代码段内,
 设置必要 [类型](gradle-configure-project.md#dependency-types) 的依赖项 (比如, `implementation`):
 
 <tabs group="build-script">
@@ -140,7 +140,6 @@ kotlin {
         }
     }
 }
-
 ```
 
 </tab>

@@ -18,7 +18,7 @@ Kotlin 1.9.0 已经发布了, JVM 平台的 K2 编译器已经进入 **Beta** �
 
 关于本次更新的概要介绍, 你可以观看以下视频:
 
-<video src="https://youtu.be/fvwTZc-dxsM" title="Kotlin 1.9.0 版中的新功能"/>
+<video src="https://www.youtube.com/v/fvwTZc-dxsM" title="Kotlin 1.9.0 版中的新功能"/>
 
 ## IDE 支持 {id="ide-support"}
 
@@ -228,7 +228,7 @@ value class Person(private val fullName: String) {
 从 version 1.9.0 来时, 编译器能够生成字节码版本对应于 JVM 20的类.
 此外, `JvmDefault` 注解和旧的 `-Xjvm-default` 模式的废弃周期继续向前推进.
 
-### `JvmDefault` 注解和旧的 `-Xjvm-default` 模式的废弃
+### JvmDefault 注解和旧的 -Xjvm-default 模式的废弃
 
 从 Kotlin 1.5 开始, `JvmDefault` 注解的使用被废弃了, 取代它的是新的 `-Xjvm-default` 模式: `all` 和 `all-compatibility`.
 随着 Kotlin 1.4 中引入的 `JvmDefaultWithoutCompatibility`,
@@ -500,6 +500,8 @@ Google plugin 将成为在跨平台项目中使用 Android 的首选方式.
 
 ### Gradle 配置缓存功能的预览版 {id="preview-of-the-gradle-configuration-cache"}
 
+<anchor name="preview-of-gradle-configuration-cache"/>
+
 Kotlin 1.9.0 增加了对跨平台库中的 [Gradle 配置缓存](https://docs.gradle.org/current/userguide/configuration_cache.html) 的支持.
 如果你是库的作者, 你可以得益于构建性能的改善.
 
@@ -599,19 +601,18 @@ fun computeAck(m: Int, n: Int) {
 ## Kotlin/JS {id="kotlin-js"}
 
 这个发布版引入了 Kotlin/JS 的更新, 包括删除了旧的 Kotlin/JS 编译器, 废弃了 Kotlin/JS Gradle plugin,
-以及实验性的支持 ES6:
+以及实验性的支持 ES2015:
 
 * [删除了旧的 Kotlin/JS 编译器](#removal-of-the-old-kotlin-js-compiler)
 * [废弃了 Kotlin/JS Gradle plugin](#deprecation-of-the-kotlin-js-gradle-plugin)
 * [废弃了外部枚举类型(external enum)](#deprecation-of-external-enum)
-* [实验性的支持 ES6 类和模块](#experimental-support-for-es6-classes-and-modules)
+* [实验性的支持 ES2015 类和模块](#experimental-support-for-es6-classes-and-modules)
 * [更改了 JS 产品发布(production distribution)的默认目标](#changed-default-destination-of-js-production-distribution)
 * [从 stdlib-js 中抽取了 org.w3c 声明](#extract-org-w3c-declarations-from-stdlib-js)
 
 > 从 1.9.0 版开始, 对 Kotlin/JS 还启用了 [部分的库链接](#library-linkage-in-kotlin-native).
 >
 {style="note"}
-
 
 ### 删除了旧的 Kotlin/JS 编译器 {id="removal-of-the-old-kotlin-js-compiler"}
 
@@ -654,9 +655,9 @@ external sealed class ExternalEnum {
 从 Kotlin 1.9.0 开始, 外部枚举类型的使用将被标记为废弃.
 我们建议你更新你的代码, 使用上面建议的外部封闭类来实现, 以保证兼容性, 并有利于未来的维护.
 
-### 实验性的支持 ES6 类和模块 {id="experimental-support-for-es6-classes-and-modules"}
+### 实验性的支持 ES2015 类和模块 {id="experimental-support-for-es2015-classes-and-modules"}
 
-本次发布引入了对 ES6 模块和生成 ES6 类的 [实验性](components-stability.md#stability-levels-explained) 支持:
+本次发布引入了对 ES2015 模块和生成 ES2015 类的 [实验性](components-stability.md#stability-levels-explained) 支持:
 * 模块提供了一种方式, 简化你的代码库, 并提高可维护性.
 * 类允许你结合面向对象编程 (OOP) 原则, 产生更加清晰直观的代码.
 
@@ -666,12 +667,12 @@ external sealed class ExternalEnum {
 // build.gradle.kts
 kotlin {
     js(IR) {
-        useEsModules() // 启用 ES6 模块
+        useEsModules() // 启用 ES2015 模块
         browser()
     }
 }
 
-// 启用 ES6 类的生成
+// 启用 ES2015 类的生成
 tasks.withType<KotlinJsCompile>().configureEach {
     kotlinOptions {
         useEsClasses = true
@@ -680,7 +681,7 @@ tasks.withType<KotlinJsCompile>().configureEach {
 ```
 {validate="false"}
 
-关于ECMAScript 2015 (ES6), 更多详情请参见 [官方文档](https://262.ecma-international.org/6.0/).
+关于 ES2015 (ECMAScript 2015, ES6), 更多详情请参见 [官方文档](https://262.ecma-international.org/6.0/).
 
 ### 更改了 JS 产品发布(production distribution)的默认目标 {id="changed-default-destination-of-js-production-distribution"}
 
@@ -1062,7 +1063,7 @@ fun main() {
 要使用 `kotlinx.cinterop` 的其它部分, 包括 Objective-C/Swift 的互操作性, 你需要使用 `@OptIn(BetaInteropApi)` 标注使用者同意.
 如果你使用这个 API 但没有标注使用者同意, 你的代码能够编译, 但编译器会提示警告, 对于你会遇到什么样的结果, 警告信息会提供一个清晰的解释.
 
-关于这些注解, 更过详情请参见我们 [`Annotations.kt`](https://github.com/JetBrains/kotlin/blob/56b729f1812733cb6a79673684c2fa5c4c6b3475/kotlin-native/Interop/Runtime/src/main/kotlin/kotlinx/cinterop/Annotations.kt) 的源代码.
+关于这些注解, 更多详情请参见我们的 [`Annotations.kt`](https://github.com/JetBrains/kotlin/blob/master/kotlin-native/Interop/Runtime/src/main/kotlin/kotlinx/cinterop/Annotations.kt) 源代码.
 
 关于这次审查带来的 **全部** 变更, 更多详情请参见我们的 [YouTrack ticket](https://youtrack.jetbrains.com/issue/KT-55765).
 
@@ -1205,7 +1206,6 @@ Kotlin 文档有了一些重要变更:
 * [Android 源代码集布局](multiplatform-android-layout.md) – 了解新的 Android 源代码集布局.
 * [Kotlin Multiplatform 兼容性指南](multiplatform-compatibility-guide.md) – 了解使用 Kotlin Multiplatform 开发项目时你可能遇到的不兼容的变更.
 * [Kotlin Wasm](wasm-overview.md) – 了解 Kotlin/Wasm, 以及在你的 Kotlin Multiplatform 项目中如何使用它.
-* [向 Kotlin/Wasm 项目添加 Kotlin 库的依赖项](wasm-libraries.md) – 了解 Kotlin/Wasm 支持的 Kotlin 库.
 
 ## 安装 Kotlin 1.9.0 {id="install-kotlin-1-9-0"}
 
@@ -1236,6 +1236,6 @@ pluginManagement {
 
 ## Kotlin 1.9.0 兼容性指南
 
-Kotlin 1.9.0 是一个 [功能发布版](kotlin-evolution.md#feature-releases-and-incremental-releases),
+Kotlin 1.9.0 是一个 [功能发布版](kotlin-evolution-principles.md#language-and-tooling-releases),
 因此其中的变更可能不兼容你之前针对旧版本 Kotlin 编写的代码.
 关于这样的变更, 详情请参见 [Kotlin 1.9.0 兼容性指南](compatibility-guide-19.md).

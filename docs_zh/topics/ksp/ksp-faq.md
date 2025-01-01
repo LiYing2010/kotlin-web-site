@@ -60,8 +60,8 @@ KSP 尽可能的遵循 [语义化版本(Semantic Versioning)](https://semver.org
 ### 除 Kotlin 之外, 是否还有其它的库版本要求? {id="besides-kotlin-are-there-other-version-requirements-for-libraries"}
 
 以下是库/基础设施的版本要求:
-* Android Gradle Plugin 4.1.0+
-* Gradle 6.5+
+* Android Gradle Plugin 7.1.3+
+* Gradle 6.8.3+
 
 ### KSP 未来的发展路线图如何? {id="what-is-ksp-s-future-roadmap"}
 

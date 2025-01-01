@@ -85,7 +85,7 @@ fun stringLength(a: String?): Int = if (a != null) a.length else 0
 在检查通过之后, 在编译器执行检查的范围内, 编译器会将这个变量当作是不可为 null 的类型 `String`.
 
 你不进行这样的检查, 代码会编译失败, 错误信息如下:
-"Only [safe (?.)](null-safety.md#safe-calls) or [non-nullable asserted (!!.) calls](null-safety.md#the-operator) are allowed
+"Only [safe (?.)](null-safety.md#safe-call-operator) or [non-nullable asserted (!!.) calls](null-safety.md#not-null-assertion-operator) are allowed
 on a [nullable receiver](extensions.md#nullable-receiver) of type String?".
 
 这段代码还可以写得更简短一些 – 使用 [安全调用操作符 ?. (If-not-null 的简写表达)](idioms.md#if-not-null-shorthand),

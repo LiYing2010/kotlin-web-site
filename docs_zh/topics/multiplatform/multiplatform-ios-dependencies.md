@@ -55,7 +55,8 @@ Kotlin 支持与 Objective-C 依赖项交互, 也支持 Swift 依赖项, 但要�
     * [使用自定义的 Podspec 仓库](native-cocoapods-libraries.md#from-a-custom-podspec-repository)
     * [使用自定义的 cinterop 选项](native-cocoapods-libraries.md#with-custom-cinterop-options)
 
-3. 重新导入项目.
+3. 在 IntelliJ IDEA 中, 运行 **Reload All Gradle Projects** (如果是 Android Studio, 请运行 **Sync Project with Gradle Files**),
+   重新导入项目.
 
 要在你的 Kotlin 代码中使用依赖项, 请导入包 `cocoapods.<library-name>`. 在上面的示例中中, 应该是:
 
@@ -106,11 +107,11 @@ import cocoapods.FirebaseAuth.*
 
     ```kotlin
     kotlin {
-        iosX64() {
+        iosArm64() {
             compilations.getByName("main") {
                 val DateTools by cinterops.creating {
                     // .def 文件路径
-                    defFile("src/nativeInterop/cinterop/DateTools.def")
+                    definitionFile.set(project.file("src/nativeInterop/cinterop/DateTools.def"))
 
                     // 头文件查找目录 (类似于 -I<path> 编译器选项)
                     includeDirs("include/this/directory", "path/to/another/directory")
@@ -131,12 +132,12 @@ import cocoapods.FirebaseAuth.*
 
     ```groovy
     kotlin {
-        iosX64 {
+        iosArm64 {
             compilations.main {
                 cinterops {
                     DateTools {
                         // .def 文件路径
-                        defFile("src/nativeInterop/cinterop/DateTools.def")
+                        definitionFile = project.file("src/nativeInterop/cinterop/DateTools.def")
 
                         // 头文件查找目录 (类似于 -I<path> 编译器选项)
                         includeDirs("include/this/directory", "path/to/another/directory")
@@ -197,11 +198,11 @@ import DateTools.*
 
     ```kotlin
     kotlin {
-        iosX64() {
+        iosArm64() {
             compilations.getByName("main") {
                 val DateTools by cinterops.creating {
                     // .def 文件路径
-                    defFile("src/nativeInterop/cinterop/DateTools.def")
+                    definitionFile.set(project.file("src/nativeInterop/cinterop/DateTools.def"))
 
                     compilerOpts("-framework", "MyFramework", "-F/path/to/framework/")
                 }
@@ -221,12 +222,12 @@ import DateTools.*
 
     ```groovy
     kotlin {
-        iosX64 {
+        iosArm64 {
             compilations.main {
                 cinterops {
                     DateTools {
                         // .def 文件路径
-                        defFile("src/nativeInterop/cinterop/MyFramework.def")
+                        definitionFile = project.file("src/nativeInterop/cinterop/MyFramework.def")
 
                         compilerOpts("-framework", "MyFramework", "-F/path/to/framework/")
                     }

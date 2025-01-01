@@ -214,7 +214,7 @@ class MyUnion constructor(rawPtr: NativePtr /* = NativePtr */) : CStructVar {
 你可以看到, 传值的参数表达为 `kotlinx.cinterop.CValue<T>`. 对于类型指针参数则是 `kotlinx.cinterop.CValuesRef<T>`.
 Kotlin 为我们提供了 API 方便的处理这两种类型, 我们来试一下.
 
-### 创建一个 `CValue<T>`
+### 创建一个 CValue&lt;T&gt;
 
 `CValue<T>` 类型用来向 C 函数传递一个传值的参数.
 使用 `cValue` 函数来创建 `CValue<T>` 对象实例. 函数要求一个
@@ -244,7 +244,7 @@ fun callValue() {
 }
 ```
 
-### 使用 `CValuesRef<T>` 创建结构和联合
+### 使用 CValuesRef&lt;T&gt; 创建结构和联合
 
 在 Kotlin 中, `CValuesRef<T>` 类型用来传递 C 函数的有类型指针参数.
 首先, 你需要 `MyStruct` 和 `MyUnion` 类的实例. 可以直接在 native 内存中创建它们.
@@ -295,7 +295,7 @@ fun callRef() {
 请确保指针没有在 `memScoped` 调用范围之外被使用.
 对于需要生存周期更长的指针, 或者缓存在 C 库内部的指针, 你可以使用 `Arena()` 或 `nativeHeap`.
 
-### `CValue<T>` 和 `CValuesRef<T>` 之间的转换
+### CValue&lt;T&gt; 和 CValuesRef&lt;T&gt; 之间的转换
 
 当然, 有些使用场景中, 对一个函数调用你需要以值的方式传递一个结构,
 然后对另一个函数调用需要以引用的方式传递同一个结构.

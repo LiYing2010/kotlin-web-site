@@ -58,6 +58,7 @@ object RuntimeError : Error
 但是, 使用 **封闭的** 错误类层级结构, 库的作者就能够确定他们知道了所有可能的错误类型, 而且之后也不会出现其他的错误类型.
 
 示例代码中的层级关系如下:
+
 ![封闭类和封闭接口层级结构示意图](sealed-classes-interfaces.svg){width=700}
 
 ### 构造器 {id="constructors"}
@@ -153,7 +154,7 @@ open class CustomError(): Error
 
 ### 跨平台项目中的继承
 
-在 [跨平台项目](multiplatform-get-started.md)中还存在一种继承限制:
+在 [跨平台项目](multiplatform-intro.md)中还存在一种继承限制:
 封闭类的直接子类必须放在同一个 [源代码集(Source Set)](multiplatform-discover-project.md#source-sets) 中.
 这个限制适用于没有使用 [`expect` 和 `actual` 修饰符](multiplatform-expect-actual.md) 的封闭类.
 
@@ -223,7 +224,7 @@ sealed class UIState {
     data class Error(val exception: Exception) : UIState()
 }
 
-fun updateUI(state: UiState) {
+fun updateUI(state: UIState) {
     when (state) {
         is UIState.Loading -> showLoadingIndicator()
         is UIState.Success -> showData(state.data)

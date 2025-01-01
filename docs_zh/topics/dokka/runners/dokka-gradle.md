@@ -7,7 +7,7 @@
 还提供了大量的 [配置选项](#configuration-options) 用来定制输出.
 
 你可以访问我们的
-[Gradle 示例项目](https://github.com/Kotlin/dokka/tree/{{ site.data.releases.dokkaVersion }}/examples/gradle).
+[Gradle 示例项目](https://github.com/Kotlin/dokka/tree/%dokkaVersion%/examples/gradle).
 实际接触一下 Dokka, 看看它如何对各种项目进行配置.
 
 ## 应用 Dokka {id="apply-dokka"}
@@ -141,20 +141,21 @@ Dokka 对 **父** 项目 自动创建以下 task:
 假设一个项目的结构如下:
 
 ```text
-parentProject
-    └── childProjectA
-        ├── demo
-            ├── ChildProjectAClass
-    └── childProjectB
-        ├── demo
-            ├── ChildProjectBClass
+.
+└── parentProject/
+    ├── childProjectA/
+    │   └── demo/
+    │       └── ChildProjectAClass
+    └── childProjectB/
+        └── demo/
+            └── ChildProjectBClass
 ```
 
 运行 `dokkaHtmlMultiModule` 后生成的文档如下:
 
 ![dokkaHtmlMultiModule task 的输出画面截图](dokkaHtmlMultiModule-example.png){width=600}
 
-更多详情, 请参见我们的 [多模块项目示例](https://github.com/Kotlin/dokka/tree/{{ site.data.releases.dokkaVersion }}/examples/gradle/dokka-multimodule-example).
+更多详情, 请参见我们的 [多模块项目示例](https://github.com/Kotlin/dokka/tree/%dokkaVersion%/examples/gradle/dokka-multimodule-example).
 
 #### Collector task {id="collector-tasks"}
 
@@ -175,20 +176,21 @@ parentProject
 假设一个项目的结构如下:
 
 ```text
-parentProject
-    └── childProjectA
-        ├── demo
-            ├── ChildProjectAClass
-    └── childProjectB
-        ├── demo
-            ├── ChildProjectBClass
+.
+└── parentProject/
+    ├── childProjectA/
+    │   └── demo/
+    │       └── ChildProjectAClass
+    └── childProjectB/
+        └── demo/
+            └── ChildProjectBClass
 ```
 
 运行 `dokkaHtmlCollector` 之后会生成这样的页面:
 
 ![dokkaHtmlCollector task 的输出画面截图](dokkaHtmlCollector-example.png){width=706}
 
-更多详情, 请参见我们的 [多模块项目示例](https://github.com/Kotlin/dokka/tree/{{ site.data.releases.dokkaVersion }}/examples/gradle/dokka-multimodule-example).
+更多详情, 请参见我们的 [多模块项目示例](https://github.com/Kotlin/dokka/tree/%dokkaVersion%/examples/gradle/dokka-multimodule-example).
 
 #### Partial task {id="partial-tasks"}
 
@@ -289,9 +291,9 @@ tasks.register('dokkaJavadocJar', Jar.class) {
 ```text
 .
 ├── build.gradle.kts
-└── src
-    └── main
-        └── kotlin
+└── src/
+    └── main/
+        └── kotlin/
             └── HelloWorld.kt
 ```
 
@@ -300,15 +302,15 @@ tasks.register('dokkaJavadocJar', Jar.class) {
 ```text
 .
 ├── build.gradle.kts
-└── src
-    └── commonMain
-        └── kotlin
-            └── Common.kt
-    └── jvmMain
-        └── kotlin
-            └── JvmUtils.kt
-    └── nativeMain
-        └── kotlin
+└── src/
+    ├── commonMain/
+    │   └── kotlin/
+    │       └── Common.kt
+    ├── jvmMain/
+    │   └── kotlin/
+    │       └── JvmUtils.kt
+    └── nativeMain/
+        └── kotlin/
             └── NativeUtils.kt
 ```
 
@@ -320,9 +322,9 @@ tasks.register('dokkaJavadocJar', Jar.class) {
 ```text
 .
 ├── build.gradle
-└── src
-    └── main
-        └── kotlin
+└── src/
+    └── main/
+        └── kotlin/
             └── HelloWorld.kt
 ```
 
@@ -331,15 +333,15 @@ tasks.register('dokkaJavadocJar', Jar.class) {
 ```text
 .
 ├── build.gradle
-└── src
-    └── commonMain
-        └── kotlin
-            └── Common.kt
-    └── jvmMain
-        └── kotlin
-            └── JvmUtils.kt
-    └── nativeMain
-        └── kotlin
+└── src/
+    ├── commonMain/
+    │   └── kotlin/
+    │       └── Common.kt
+    ├── jvmMain/
+    │   └── kotlin/
+    │       └── JvmUtils.kt
+    └── nativeMain/
+        └── kotlin/
             └── NativeUtils.kt
 ```
 
@@ -473,17 +475,17 @@ Gradle 的 [多项目构建](https://docs.gradle.org/current/userguide/multi_pro
 .
 ├── build.gradle.kts
 ├── settings.gradle.kts
-├── subproject-A
-    └── build.gradle.kts
-    └── src
-        └── main
-            └── kotlin
-                └── HelloFromA.kt
-├── subproject-B
-    └── build.gradle.kts
-    └── src
-        └── main
-            └── kotlin
+├── subproject-A/
+│   ├── build.gradle.kts
+│   └── src/
+│       └── main/
+│           └── kotlin/
+│               └── HelloFromA.kt
+└── subproject-B/
+    ├── build.gradle.kts
+    └── src/
+        └── main/
+            └── kotlin/
                 └── HelloFromB.kt
 ```
 
@@ -494,17 +496,17 @@ Gradle 的 [多项目构建](https://docs.gradle.org/current/userguide/multi_pro
 .
 ├── build.gradle
 ├── settings.gradle
-├── subproject-A
-    └── build.gradle
-    └── src
-        └── main
-            └── kotlin
-                └── HelloFromA.kt
-├── subproject-B
-    └── build.gradle
-    └── src
-        └── main
-            └── kotlin
+├── subproject-A/
+│   ├── build.gradle
+│   └── src/
+│       └── main/
+│           └── kotlin/
+│               └── HelloFromA.kt
+└── subproject-B/
+    ├── build.gradle
+    └── src/
+        └── main/
+            └── kotlin/
                 └── HelloFromB.kt
 ```
 
@@ -766,7 +768,7 @@ tasks.withType(DokkaTask.class) {
             是否禁止输出那些显而易见的函数.
         </p>
         <p>
-            满足以下条件的函数, 会被认为是显而易见的函数:
+            满足以下条件的函数, 会被认为是显而易见的函数:</p>
             <list>
                 <li>
                     继承自 <code>kotlin.Any</code>, <code>Kotlin.Enum</code>, <code>java.lang.Object</code> 或 <code>java.lang.Enum</code>,
@@ -777,7 +779,6 @@ tasks.withType(DokkaTask.class) {
                     例如 <code>dataClass.componentN</code> 或 <code>dataClass.copy</code>.
                 </li>
             </list>
-        </p>
         <p>
             默认值: <code>true</code>
         </p>
@@ -1243,13 +1244,12 @@ tasks.withType(DokkaTask.class) {
             那么最后的 URL 后缀会是 <code>#L10</code>.
         </p>
         <p>
-            各种常用的源代码托管服务的行数后缀是:
+            各种常用的源代码托管服务的行数后缀是:</p>
             <list>
                 <li>GitHub: <code>#L</code></li>
                 <li>GitLab: <code>#L</code></li>
                 <li>Bitbucket: <code>#lines-</code></li>
             </list>
-        </p>
         <p>
             默认值: <code>#L</code>
         </p>

@@ -10,10 +10,16 @@
         <img src="icon-7.svg" width="20" alt="第 7 步" /> <strong>Null 值安全性</strong><br /></p>
 </tldr>
 
-在 Kotlin 中, 可以使用 `null` 值. 为了帮助在程序中防止 `null` 值相关的问题, Kotlin 提供了 null 值安全性功能.
+在 Kotlin 中, 可以使用 `null` 值. Kotlin 使用 `null` 值表示某些值不存在, 或者还未确定的情况.
+在 [集合](kotlin-tour-collections.md#kotlin-tour-map-no-key) 章节中,
+你已经看到了 Kotlin 返回 `null` 值的例子, 那就是当你使用 Map 中不存在的 key 来访问一个键值对(key-value pair) 的情况.
+尽管这样的方式使用 `null` 值是很有用的, 但如果你的代码没有准备好处理 `null` 值, 就可能会发生问题.
+
+为了帮助在程序中防止 `null` 值相关的问题, Kotlin 提供了 null 值安全性功能.
 null 值安全性功能会在编译期检测 `null` 值潜在的问题, 而不是在运行期.
 
 Null 安全性是多种功能的组合, 使得你能够:
+
 * 如果你的程序允许 `null` 值, 可以明确声明.
 * 检查 `null` 值.
 * 对可能包含 `null` 值的属性或函数, 使用安全调用.
@@ -79,7 +85,7 @@ fun describeString(maybeString: String?): String {
 }
 
 fun main() {
-    var nullString: String? = null
+    val nullString: String? = null
     println(describeString(nullString))
     // 输出结果为 Empty or null string
 }
@@ -89,7 +95,7 @@ fun main() {
 ## 使用安全调用
 
 对于可能包含 `null` 值的对象, 要安全的访问它的属性, 请使用安全调用操作符 `?.`.
-如果对象为 `null`, 安全调用操作符会返回 `null`.
+如果对象或对象的属性为 `null`, 安全调用操作符会返回 `null`.
 如果你想要在你的代码中避免 `null` 值造成的错误, 这个功能会很有用.
 
 在下面的示例中, `lengthString()` 函数使用安全调用, 返回字符串的长度, 或返回 `null` 值:
@@ -98,20 +104,21 @@ fun main() {
 fun lengthString(maybeString: String?): Int? = maybeString?.length
 
 fun main() {
-    var nullString: String? = null
+    val nullString: String? = null
     println(lengthString(nullString))
     // null
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-safe-call-property"}
 
-> 可以对安全调用使用链式调用, 如果一个对象的任何属性保护 `null` 值, 则会返回 `null`, 而不会抛出错误.
+> 可以对安全调用使用链式调用, 如果一个对象的任何属性包含 `null` 值, 则会返回 `null`, 而不会抛出错误.
 > 例如:
+>
 > ```kotlin
 >   person.company?.address?.country
 > ```
 >
-{style="note"}
+{style="tip"}
 
 安全调用操作符也可以用来对扩展函数或成员函数进行安全调用.
 这种情况下, 会在调用函数之前进行 null 值检查.
@@ -122,7 +129,7 @@ fun main() {
 
 ```kotlin
 fun main() {
-    var nullString: String? = null
+    val nullString: String? = null
     println(nullString?.uppercase())
     // 输出结果为 null
 }
@@ -141,7 +148,7 @@ Elvis 操作符的右侧, 是检测到 `null` 值时应该返回的默认值.
 
 ```kotlin
 fun main() {
-    var nullString: String? = null
+    val nullString: String? = null
     println(nullString?.length ?: 0)
     // 输出结果为 0
 }
@@ -152,7 +159,7 @@ fun main() {
 
 ## 实际练习
 
-### 习题 {collapsible="true"}
+### 习题 {initial-collapse-state="collapsed" collapsible="true"}
 
 你有一个 `employeeById` 函数, 可以用来访问一个公司的员工数据库.
 但是, 这个函数返回 `Employee?` 类型的值, 因此结果可能为 `null`.
@@ -196,10 +203,11 @@ fun main() {
     println((1..5).sumOf { id -> salaryById(id) })
 }
 ```
-{collapsible="true" collapsed-title="参考答案" id="kotlin-tour-null-safety-solution"}
+{initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-null-safety-solution"}
 
 ## 下一步做什么?
 
 恭喜! 现在你已经完成了我们的 Kotlin 观光之旅, 下面请阅读我们的教程, 看看如何开发流行的 Kotlin 应用程序:
+
 * [创建后端应用程序](jvm-create-project-with-spring-boot.md)
-* [为 Android 和 iOS 创建跨平台的应用程序](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-getting-started.html)
+* [为 Android 和 iOS 创建跨平台的应用程序](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-create-first-app.html)

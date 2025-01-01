@@ -249,7 +249,7 @@ val product = items.fold(1) { acc, e -> acc * e }
 run { println("...") }
 ```
 
-### `it`: 单一参数的隐含名称 {id="it-implicit-name-of-a-single-parameter"}
+### it: 单一参数的隐含名称 {id="it-implicit-name-of-a-single-parameter"}
 
 很多情况下 Lambda 表达式只有唯一一个参数.
 

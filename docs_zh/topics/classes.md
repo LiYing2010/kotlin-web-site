@@ -172,9 +172,10 @@ class DontCreateMe private constructor() { /*...*/ }
 >
 {style="note"}
 
-## 创建类的实例
+## 创建类的实例 {id="creating-instances-of-classes"}
 
-要创建一个类的实例, 需要调用类的构造器, 调用方式与使用通常的函数一样:
+要创建一个类的实例, 需要调用类的构造器, 调用方式与使用通常的函数一样.
+你可以将创建的类实例赋值给一个 [变量](basic-syntax.md#variables):
 
 ```kotlin
 val invoice = Invoice()

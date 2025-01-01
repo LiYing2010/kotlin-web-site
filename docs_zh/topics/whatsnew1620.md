@@ -6,7 +6,7 @@ Kotlin 1.6.20 带来了一些未来语言功能的预览版, 对跨平台项目�
 
 你也可以观看这个概要介绍视频, 了解这个版本中的变更:
 
-<video src="https://youtu.be/8F19ds109-o" title="Kotlin 1.6.20 版中的新功能"/>
+<video src="https://www.youtube.com/v/8F19ds109-o" title="Kotlin 1.6.20 版中的新功能"/>
 
 ## 语言功能
 
@@ -123,7 +123,7 @@ kotlin {
 </tabs>
 
 关于明确非 null 类型, 详情请参见
-[KEEP](https://github.com/Kotlin/KEEP/blob/c72601cf35c1e95a541bb4b230edb474a6d1d1a8/proposals/definitely-non-nullable-types.md).
+[KEEP](https://github.com/Kotlin/KEEP/blob/master/proposals/definitely-non-nullable-types.md).
 
 ## Kotlin/JVM
 
@@ -369,7 +369,7 @@ Uncaught Kotlin exception: kotlin.IllegalStateException:
    at 4   example.kexe        0x25d708       kfun:#bar(){} + 104
    at 5   example.kexe        0x25d68c       kfun:#main(){} + 12
 ```
-{initial-collapse-state="collapsed"}
+{initial-collapse-state="collapsed" collapsible="true"}
 
 * **在 1.6.20 中, 使用 libbacktrace:**
 
@@ -384,7 +384,7 @@ Uncaught Kotlin exception: kotlin.IllegalStateException:
    at 6   example.kexe        0x25fac8    kfun:#bar(){} + 104 (/private/tmp/backtrace/src/commonMain/kotlin/app.kt:2:13)
    at 7   example.kexe        0x25fa4c    kfun:#main(){} + 12 (/private/tmp/backtrace/src/commonMain/kotlin/app.kt:1:14)
 ```
-{initial-collapse-state="collapsed"}
+{initial-collapse-state="collapsed" collapsible="true"}
 
 在 Apple 编译目标上, 栈追踪信息中已经有了文件位置和行号, libbacktrace 对内联函数调用提供更多详细信息:
 
@@ -400,7 +400,7 @@ Uncaught Kotlin exception: kotlin.IllegalStateException:
    at 5   example.kexe    0x10a84891c    kfun:#main(){} + 12 (/private/tmp/backtrace/src/commonMain/kotlin/app.kt:1:14)
 ...
 ```
-{initial-collapse-state="collapsed"}
+{initial-collapse-state="collapsed" collapsible="true"}
 
 
 * **在 1.6.20 中, 使用 libbacktrace:**
@@ -417,7 +417,7 @@ Uncaught Kotlin exception: kotlin.IllegalStateException:
    at 7   example.kexe    0x106689cac    kfun:#main(){} + 12 (/private/tmp/backtrace/src/commonMain/kotlin/app.kt:1:14)
 ...
 ```
-{initial-collapse-state="collapsed"}
+{initial-collapse-state="collapsed" collapsible="true"}
 
 要使用 libbacktrace 输出更好的栈追踪信息, 请在 `gradle.properties` 中添加以下内容:
 

@@ -1,8 +1,8 @@
 [//]: # (title: 跨平台程序的 Gradle DSL 参考文档)
 
-Kotlin Multiplatform Gradle plugin, 是一个用来创建 [Kotlin Multiplatform](multiplatform.md) 项目的工具.
+Kotlin Multiplatform Gradle plugin, 是一个用来创建 Kotlin Multiplatform 项目的工具.
 本章我们提供关于它的参考文档; 当你为 Kotlin Multiplatform 项目编写 Gradle 编译脚本时可以参考本文档.
-详情请参见 [关于 Kotlin Multiplatform 项目的基本概念, 如何创建和配置跨平台项目](multiplatform-get-started.md).
+详情请参见 [关于 Kotlin Multiplatform 项目的基本概念, 如何创建和配置跨平台项目](multiplatform-intro.md).
 
 ## 插件 Id 与版本
 
@@ -31,17 +31,26 @@ plugins {
 </tab>
 </tabs>
 
-## 顶级代码块
+## 顶级代码块 {id="top-level-blocks"}
 
-Gradle 编译脚本中跨平台项目配置的顶级代码块是 `kotlin`.
-在 `kotlin` 之内, 你可以使用以下代码块:
+Gradle 编译脚本中跨平台项目配置的顶级代码块是 `kotlin {}`.
+在 `kotlin {}` 之内, 你可以使用以下代码块:
 
-| **代码块**          | **解释**                                              |
-|------------------|-----------------------------------------------------|
-| **`<targetName>`** | 为项目声明一个特定的编译目标. 可以选择的编译目标名称请参见 [编译目标](#targets) 小节. |
-| `targets`        | 项目的所有编译目标.                                          |
-| `presets`        | 所有预定义的编译目标. 使用这个代码块可以一次性 [设置多个预定义的编译目标](#targets).  |
-| `sourceSets`     | 为项目设置预定义的源代码集, 并声明自定义 [源代码集](#source-sets).         |
+| **代码块**              | **解释**                                                                                                                                       |
+|----------------------|----------------------------------------------------------------------------------------------------------------------------------------------|
+| _&lt;targetName&gt;_ | 为项目声明一个特定的编译目标. 可以选择的编译目标名称请参见 [编译目标](#targets) 小节.                                                                                          |
+| `targets`            | 项目的所有编译目标.                                                                                                                                   |
+| `presets`            | 所有预定义的编译目标. 使用这个代码块可以一次性 [设置多个预定义的编译目标](#targets).                                                                                           |
+| `sourceSets`         | 为项目设置预定义的源代码集, 并声明自定义 [源代码集](#source-sets).                                                                                                  |
+| `compilerOptions`    | 扩展级的共通 [编译器选项](gradle-compiler-options.md), 对所有的编译目标和共用的源代码集用作默认值. 要使用这个功能, 请添加以下 opt-in: `@OptIn(ExperimentalKotlinGradlePluginApi::class)` |
+
+> `compilerOptions {}` 用作顶层代码块, 是 [实验性功能](components-stability.md#stability-levels-explained),
+> 需要使用者同意(Opt-in).
+> 它随时有可能变更或被删除.
+> 请注意, 只为评估和试验目的来使用这个功能.
+> 希望你能通过 [YouTrack](https://kotl.in/issue) 提供你的反馈意见.
+>
+{style="warning"}
 
 ## 编译目标 {id="targets"}
 
@@ -52,7 +61,7 @@ Kotlin 对每个平台提供了预设置的编译目标(Target Preset).
 每个编译目标可以包含一个或多个 [编译任务(compilation)](#compilations).
 除了用于测试和产品的默认的编译任务之外, 你还可以 [创建自定义的编译任务](multiplatform-configure-compilations.md#create-a-custom-compilation).
 
-跨平台项目的编译目标通过 `kotlin` 之内的相应代码块进行描述, 比如, `jvm`, `android`, `iosArm64`.
+跨平台项目的编译目标通过 `kotlin {}` 之内的相应代码块进行描述, 比如, `jvm`, `android`, `iosArm64`.
 可选的编译目标如下:
 
 <table>
@@ -65,6 +74,15 @@ Kotlin 对每个平台提供了预设置的编译目标(Target Preset).
         <td>Kotlin/JVM</td>
         <td><code>jvm</code></td>
         <td></td>
+    </tr>
+    <tr>
+        <td rowspan="2">Kotlin/Wasm</td>
+        <td><code>wasmJs</code></td>
+        <td>如果要在 JavaScript 环境中运行你的项目, 请使用这个配置.</td>
+    </tr>
+    <tr>
+        <td><code>wasmWasi</code></td>
+        <td>如果要支持 <a href="https://github.com/WebAssembly/WASI">WASI</a> 系统接口, 请使用这个配置.</td>
     </tr>
     <tr>
         <td>Kotlin/JS</td>
@@ -102,7 +120,7 @@ Kotlin 对每个平台提供了预设置的编译目标(Target Preset).
 ```groovy
 kotlin {
     jvm()
-    iosX64()
+    iosArm64()
     macosX64()
     js().browser()
 }
@@ -119,21 +137,30 @@ kotlin {
 
 在任何一种编译目标代码块之内, 都可以使用以下声明:
 
-| **名称**              | **解释**                                                                                                  |
-|---------------------|---------------------------------------------------------------------------------------------------------|
-| `attributes`        | 针对单个平台 [对编译目标消除歧义](multiplatform-set-up-targets.md#distinguish-several-targets-for-one-platform) 的属性设置. |
-| `preset`            | 如果存在的话, 代表创建这个编译目标时使用的预定义设置.                                                                            |
-| `platformType`      | 指定这个编译目标的 Kotlin 平台. 允许的值是: `jvm`, `androidJvm`, `js`, `native`, `common`.                              |
-| `artifactsTaskName` | 负责编译这个编译目标的结果 artifact 的编译任务的名称.                                                                        |
-| `components`        | 用于设置 Gradle publication 的组件.                                                                            |
+| **名称**              | **解释**                                                                                                                                                                                                               |
+|---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `attributes`        | 针对单个平台 [对编译目标消除歧义](multiplatform-set-up-targets.md#distinguish-several-targets-for-one-platform) 的属性设置.                                                                                                              |
+| `preset`            | 如果存在的话, 代表创建这个编译目标时使用的预定义设置.                                                                                                                                                                                         |
+| `platformType`      | 指定这个编译目标的 Kotlin 平台. 允许的值是: `jvm`, `androidJvm`, `js`, `wasm`, `native`, `common`.                                                                                                                                   |
+| `artifactsTaskName` | 负责编译这个编译目标的结果 artifact 的编译任务的名称.                                                                                                                                                                                     |
+| `components`        | 用于设置 Gradle publication 的组件.                                                                                                                                                                                         |
+| `compilerOptions`   | 用于这个编译目标的 [编译器选项](gradle-compiler-options.md). 这个声明会覆盖在 [顶层](multiplatform-dsl-reference.md#top-level-blocks) 的任何 `compilerOptions {}` 配置. 要使用这个功能, 请添加以下 opt-in: `@OptIn(ExperimentalKotlinGradlePluginApi::class)` |
 
-### JVM 编译目标
+> `compilerOptions {}` 用作共通编译目标的配置, 是 [实验性功能](components-stability.md#stability-levels-explained),
+> 需要使用者同意(Opt-in).
+> 它随时有可能变更或被删除.
+> 请注意, 只为评估和试验目的来使用这个功能.
+> 希望你能通过 [YouTrack](https://kotl.in/issue) 提供你的反馈意见.
+>
+{style="warning"}
+
+### JVM 编译目标 {id="jvm-targets"}
 
 除 [所有编译目标的共通配置](#common-target-configuration) 之外, `jvm` 编译目标还支持以下专有函数:
 
-|**名称**|**解释**|
-| --- | --- |
-|`withJava()`|在 JVM 编译目标的编译任务中包含 Java 源代码.|
+| **名称**       | **解释**                       |
+|--------------|------------------------------|
+| `withJava()` | 在 JVM 编译目标的编译任务中包含 Java 源代码. |
 
 对同时包含 Java 和 Kotlin 源代码文件的项目, 请使用这个函数.
 注意 Java 源代码文件的默认目录与 Java 插件的默认设定不同. 相反, 这个默认设定继承自 Kotlin 源代码集.
@@ -148,37 +175,50 @@ kotlin {
 }
 ```
 
-### JavaScript 编译目标
+### Web 编译目标 {id="web-targets"}
 
-`js` 代码块描述 JavaScript 编译目标的配置. 根据编译目标的执行环境不同, 它可以包含以下两个代码块之一:
+`js {}` 代码块描述 Kotlin/JS 编译目标的配置, `wasmJs {}` 代码块描述与 JavaScript 交互的 Kotlin/Wasm 编译目标的配置.
+根据编译目标的执行环境不同, 它们可以包含以下两个代码块之一:
 
-|**名称**|**解释**|
-| --- | --- |
-|`browser`| 浏览器编译目标的配置.|
-|`nodejs`| Node.js 编译目标的配置.|
+| **名称**                | **解释**           |
+|-----------------------|------------------|
+| [`browser`](#browser) | 浏览器编译目标的配置.      |
+| [`nodejs`](#node-js)  | Node.js 编译目标的配置. |
 
 详情请参见 [配置 Kotlin/JS 项目](js-project-setup.md).
 
-#### 浏览器
+还有另一个 `wasmWasi {}` 代码块描述支持 WASI 系统接口的 Kotlin/Wasm 编译目标的配置.
+这种情况下, 只支持 [`nodejs`](#node-js) 执行环境:
 
-`browser` 代码块包含以下配置代码块:
+```kotlin
+kotlin {
+    wasmWasi {
+        nodejs()
+        binaries.executable()
+    }
+}
+```
 
-| **名称**         | **解释**                                                 |
-|----------------|--------------------------------------------------------|
-| `testRuns`     | 测试运行任务的配置.                                             |
-| `runTask`      | 项目运行的配置.                                               |
-| `webpackTask`  | 使用 [Webpack](https://webpack.js.org/) 编译项目的配置.         |
-| `dceTask`      | [死代码剔除(Dead Code Elimination)](javascript-dce.md) 的配置. |
-| `distribution` | 输出文件的路径.                                               |
+所有的 Web 编译目标, `js`, `wasmJs`, 以及 `wasmWasi`, 还支持 `binaries.executable()` 调用.
+这个调用明确的指示 Kotlin 编译器生成可执行文件.
+更多详情请参见 Kotlin/JS 文档中的 [执行环境](js-project-setup.md#execution-environments) 部分.
+
+#### 浏览器 {id="browser"}
+
+`browser {}` 代码块包含以下配置代码块:
+
+| **名称**         | **解释**                                         |
+|----------------|------------------------------------------------|
+| `testRuns`     | 测试运行任务的配置.                                     |
+| `runTask`      | 项目运行的配置.                                       |
+| `webpackTask`  | 使用 [Webpack](https://webpack.js.org/) 编译项目的配置. |
+| `distribution` | 输出文件的路径.                                       |
 
 ```kotlin
 kotlin {
     js().browser {
         webpackTask { /* ... */ }
         testRuns { /* ... */ }
-        dceTask {
-            keep("myKotlinJsApplication.org.example.keepFromDce")
-        }
         distribution {
             directory = File("$projectDir/customdir/")
         }
@@ -186,14 +226,14 @@ kotlin {
 }
 ```
 
-#### Node.js
+#### Node.js {id="node-js"}
 
-`nodejs` 代码块包含测试和运行任务的配置:
+`nodejs {}` 代码块包含测试和运行任务的配置:
 
-|**名称**|**解释**|
-| --- | --- |
-|`testRuns`|测试任务的配置.|
-|`runTask`|项目运行任务的配置.|
+| **名称**     | **解释**     |
+|------------|------------|
+| `testRuns` | 测试任务的配置.   |
+| `runTask`  | 项目运行任务的配置. |
 
 ```kotlin
 kotlin {
@@ -217,13 +257,13 @@ kotlin {
 
 有以下几种二进制文件(Binary)任务:
 
-|**名称**|**解释**|
-| --- | --- |
-|`executable`|正式产品的可执行文件.|
-|`test`|测试程序的可执行文件.|
-|`sharedLib`|共享的库文件(Shared library).|
-|`staticLib`|静态库文件(Static library).|
-|`framework`|Objective-C 框架.|
+| **名称**       | **解释**                  |
+|--------------|-------------------------|
+| `executable` | 正式产品的可执行文件.             |
+| `test`       | 测试程序的可执行文件.             |
+| `sharedLib`  | 共享的库文件(Shared library). |
+| `staticLib`  | 静态库文件(Static library).  |
+| `framework`  | Objective-C 框架.         |
 
 ```kotlin
 kotlin {
@@ -239,16 +279,16 @@ kotlin {
 
 对于二进制文件的配置, 可以设置的参数包括:
 
-|**名称**|**解释**|
-| --- | --- |
-|`compilation`|用于构建二进制文件的编译任务. 默认情况下, `test` 二进制文件 由 `test` 编译任务构建, 其他 二进制文件由 `main` 编译任务构建.|
-|`linkerOpts`|构建二进制文件时, 传递给操作系统链接程序(linker)的选项.|
-|`baseName`|对输出文件自定义它的基本名称(base name). 最终的完整文件名会在这个基本名称之上加上相应系统的前缀和后缀.|
-|`entryPoint`|可执行二进制文件的入口点(entry point) 函数. 默认情况下, 是顶层包中的 `main()` 函数.|
-|`outputFile`|用于访问输出文件.|
-|`linkTask`|用于访问链接任务.|
-|`runTask`|用于访问可执行二进制文件的运行任务. 对于 `linuxX64`, `macosX64`, 或 `mingwX64` 之外的编译目标, 这个属性的值为 `null`.|
-|`isStatic`|用于 Objective-C 框架. 包含静态库(static library), 而不是动态库(dynamic library).|
+| **名称**        | **解释**                                                                              |
+|---------------|-------------------------------------------------------------------------------------|
+| `compilation` | 用于构建二进制文件的编译任务. 默认情况下, `test` 二进制文件 由 `test` 编译任务构建, 其他 二进制文件由 `main` 编译任务构建.       |
+| `linkerOpts`  | 构建二进制文件时, 传递给操作系统链接程序(linker)的选项.                                                   |
+| `baseName`    | 对输出文件自定义它的基本名称(base name). 最终的完整文件名会在这个基本名称之上加上相应系统的前缀和后缀.                          |
+| `entryPoint`  | 可执行二进制文件的入口点(entry point) 函数. 默认情况下, 是顶层包中的 `main()` 函数.                            |
+| `outputFile`  | 用于访问输出文件.                                                                           |
+| `linkTask`    | 用于访问链接任务.                                                                           |
+| `runTask`     | 用于访问可执行二进制文件的运行任务. 对于 `linuxX64`, `macosX64`, 或 `mingwX64` 之外的编译目标, 这个属性的值为 `null`. |
+| `isStatic`    | 用于 Objective-C 框架. 包含静态库(static library), 而不是动态库(dynamic library).                  |
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
@@ -327,19 +367,19 @@ binaries {
 
 详情请参见 [构建原生二进制文件](multiplatform-build-native-binaries.md).
 
-#### CInterops
+#### CInterops {id="cinterops"}
 
 `cinterops` 用于描述与原生库的交互.
 要与一个库交互, 请添加一个 `cinterops` 代码块, 并定义它的参数, 如下:
 
-|**名称**|**解释**|
-| --- | --- |
-|`defFile`|描述原生 API 的 `def` 文件.|
-|`packageName`|生成 Kotlin API 时的包前缀.|
-|`compilerOpts`|cinterop 工具传递给编译器的选项.|
-|`includeDirs`|用于查找头文件的目录.|
-
-详情请参见 [如何配置与原生语言的交互](multiplatform-configure-compilations.md#configure-interop-with-native-languages).
+| **名称**           | **解释**                |
+|------------------|-----------------------|
+| `definitionFile` | 描述原生 API 的 `.def` 文件. |
+| `packageName`    | 生成 Kotlin API 时的包前缀.  |
+| `compilerOpts`   | cinterop 工具传递给编译器的选项. |
+| `includeDirs`    | 用于查找头文件的目录.           |
+| `header`         | 绑定中需要包含的头文件.          |
+| `headers`        | 绑定中需要包含的头文件列表.        |
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
@@ -351,7 +391,7 @@ kotlin {
             val myInterop by cinterops.creating {
                 // 描述原生 API 的 def 文件.
                 // 默认路径是 src/nativeInterop/cinterop/<interop-name>.def
-                defFile(project.file("def-file.def"))
+                definitionFile.set(project.file("def-file.def"))
 
                 // 生成的 Kotlin API 所在的包.
                 packageName("org.sample")
@@ -364,6 +404,10 @@ kotlin {
 
                 // includeDirs.allHeaders 的缩写方式.
                 includeDirs("include/directory", "another/directory")
+
+                // 绑定中需要包含的头文件.
+                header("path/to/header.h")
+                headers("path/to/header1.h", "path/to/header2.h")
             }
 
             val anotherInterop by cinterops.creating { /* ... */ }
@@ -383,7 +427,7 @@ kotlin {
                 myInterop {
                     // 描述原生 API 的 def 文件.
                     // 默认路径是 src/nativeInterop/cinterop/<interop-name>.def
-                    defFile project.file("def-file.def")
+                    definitionFile = project.file("def-file.def")
 
                     // 生成的 Kotlin API 所在的包.
                     packageName 'org.sample'
@@ -396,6 +440,10 @@ kotlin {
 
                     // includeDirs.allHeaders 的缩写方式.
                     includeDirs("include/directory", "another/directory")
+
+                    // 绑定中需要包含的头文件.
+                    header("path/to/header.h")
+                    headers("path/to/header1.h", "path/to/header2.h")
                 }
 
                 anotherInterop { /* ... */ }
@@ -408,7 +456,9 @@ kotlin {
 </tab>
 </tabs>
 
-### Android 编译目标
+关于 cinterop 的属性, 更多详情请参见 [定义文件](native-definition-file.md#properties).
+
+### Android 编译目标 {id="android-targets"}
 
 Kotlin Multiplatform plugin 针对 Android 编译目标提供了两个专有的函数.
 这两个函数帮助你设置 [构建变体(build variants)](https://developer.android.com/studio/build/build-variants):
@@ -435,7 +485,7 @@ kotlin {
 
 ## 源代码集(Source set) {id="source-sets"}
 
-`sourceSets` 代码块描述项目的源代码集. 源代码集是指在某个编译任务中一起参与编译的 Kotlin 源代码文件, 相关的资源文件, 依赖项目, 以及语言设置.
+`sourceSets {}` 代码块描述项目的源代码集. 源代码集是指在某个编译任务中一起参与编译的 Kotlin 源代码文件, 相关的资源文件, 依赖项目, 以及语言设置.
 
 跨平台项目的各个编译目标都包含 [预定义的源代码集](#predefined-source-sets);
 开发者也可以根据需要创建 [自定义的源代码集](#custom-source-sets).
@@ -445,11 +495,11 @@ kotlin {
 创建会在跨平台项目时会自动设置预定义的源代码集.
 可用的预定义源代码集如下:
 
-| **名称**                            |**解释**|
-|-----------------------------------| --- |
-| `commonMain`                      | 所有平台共用的代码和资源. 对所有的跨平台项目都可用. 项目的所有 main [编译任务](#compilations)都会使用这个源代码集.|
-| `commonTest`                      | 所有平台共用的测试代码和资源. 对所有的跨平台项目都可用. 项目的所有 test 编译任务都会使用这个源代码集.|
-| **`<targetName><compilationName>`** |各个编译目标专有的源代码集. 这里的 **`<targetName>`** 是预定义编译目标的名称, **`<compilationName>`** 是这个编译目标的编译任务名称. 比如: `jsTest`, `jvmMain`.|
+| **名称**                                      | **解释**                                                                                                                  |
+|---------------------------------------------|-------------------------------------------------------------------------------------------------------------------------|
+| `commonMain`                                | 所有平台共用的代码和资源. 对所有的跨平台项目都可用. 项目的所有 main [编译任务](#compilations)都会使用这个源代码集.                                                 |
+| `commonTest`                                | 所有平台共用的测试代码和资源. 对所有的跨平台项目都可用. 项目的所有 test 编译任务都会使用这个源代码集.                                                                |
+| _&lt;targetName&gt;&lt;compilationName&gt;_ | 各个编译目标专有的源代码集. 这里的 _&lt;targetName&gt;_ 是预定义编译目标的名称, _&lt;compilationName&gt;_ 是这个编译目标的编译任务名称. 比如: `jsTest`, `jvmMain`. |
 
 使用 Kotlin Gradle DSL 时, 预定义源代码集的代码块需要标记为 `by getting`.
 
@@ -516,7 +566,7 @@ kotlin {
 
 ### 源代码集的参数 {id="source-set-parameters"}
 
-源代码集的配置保存在相应的 `sourceSets` 代码块之内. 一个源代码集包含以下参数:
+源代码集的配置保存在相应的 `sourceSets {}` 代码块之内. 一个源代码集包含以下参数:
 
 | **名称**             | **解释**                                                        |
 |--------------------|---------------------------------------------------------------|
@@ -580,10 +630,10 @@ kotlin {
 对项目的每个编译目标, 会自动创建预定义的编译任务, Android 编译目标除外.
 可用的预定义编译任务如下:
 
-|**名称**|**解释**|
-| --- | --- |
-|`main`|用于正式产品源代码的编译任务.|
-|`test`|用于测试代码的编译任务.|
+| **名称** | **解释**          |
+|--------|-----------------|
+| `main` | 用于正式产品源代码的编译任务. |
+| `test` | 用于测试代码的编译任务.    |
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
@@ -676,18 +726,18 @@ kotlin {
 
 一个编译任务可以包含以下参数:
 
-| **名称**                   | **解释**                                                              |
-|--------------------------|---------------------------------------------------------------------|
-| `defaultSourceSet`       | 编译任务的默认源代码集.                                                        |
-| `kotlinSourceSets`       | 源代码集, 参与这个编译任务.                                                     |
-| `allKotlinSourceSets`    | 源代码集, 参与这个编译任务, 以及通过 `dependsOn()` 关联的所有其他编译任务.                     |
-| `compilerOptions`        | 应用于这个编译任务的编译器选项. 关于所有可用的选项, 请参见 [编译选项](gradle-compiler-options.md). |
-| `compileKotlinTask`      | 编译 Kotlin 源代码的 Gradle 任务.                                           |
-| `compileKotlinTaskName`  | `compileKotlinTask` 的名称.                                            |
-| `compileAllTaskName`     | 编译这个编译任务中所有源代码的Gradle 任务的名称.                                        |
-| `output`                 | 编译任务的输出.                                                            |
-| `compileDependencyFiles` | 这个编译任务的编译时刻依赖项目文件(classpath).                                       |
-| `runtimeDependencyFiles` | 这个编译任务的运行时刻依赖项目文件(classpath).                                       |
+| **名称**                   | **解释**                                                                    |
+|--------------------------|---------------------------------------------------------------------------|
+| `defaultSourceSet`       | 编译任务的默认源代码集.                                                              |
+| `kotlinSourceSets`       | 源代码集, 参与这个编译任务.                                                           |
+| `allKotlinSourceSets`    | 源代码集, 参与这个编译任务, 以及通过 `dependsOn()` 关联的所有其他编译任务.                           |
+| `compilerOptions`        | 应用于这个编译任务的编译器选项. 关于所有可用的选项, 请参见 [编译选项](gradle-compiler-options.md).       |
+| `compileKotlinTask`      | 编译 Kotlin 源代码的 Gradle 任务.                                                 |
+| `compileKotlinTaskName`  | `compileKotlinTask` 的名称.                                                  |
+| `compileAllTaskName`     | 编译这个编译任务中所有源代码的Gradle 任务的名称.                                              |
+| `output`                 | 编译任务的输出.                                                                  |
+| `compileDependencyFiles` | 这个编译任务的编译时刻依赖项目文件(classpath). 对所有的 Kotlin/Native 编译任务, 这个参数自动包含标准库和平台依赖项. |
+| `runtimeDependencyFiles` | 这个编译任务的运行时刻依赖项目文件(classpath).                                             |
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
@@ -727,7 +777,7 @@ kotlin {
     jvm {
         compilations.main.compilerOptions.configure {
             // 为 'main' 编译任务设置 Kotlin 编译器选项:
-            jvmTarget.set(JvmTarget.JVM_1_8)
+            jvmTarget = JvmTarget.JVM_1_8
         }
 
         compilations.main.compileKotlinTask // 得到编译 Kotlin 源代码的 Gradle 任务 'compileKotlinJvm'
@@ -739,7 +789,7 @@ kotlin {
     targets.all {
         compilations.all {
             compilerOptions.configure {
-                allWarningsAsError.set(true)
+                allWarningsAsErrors = true
             }
         }
     }
@@ -749,19 +799,57 @@ kotlin {
 </tab>
 </tabs>
 
+或者, 要配置所有编译目标共通的编译器选项, 你可以使用 `compilerOptions {}` [顶层代码块](multiplatform-dsl-reference.md#top-level-blocks):
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+kotlin {
+    // 配置所有编译目标的编译任务:
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    compilerOptions {
+        allWarningsAsErrors.set(true)
+    }
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+kotlin {
+    // 配置所有编译目标的编译任务:
+    compilerOptions {
+        allWarningsAsErrors = true
+    }
+}
+```
+
+</tab>
+</tabs>
+
+> `compilerOptions {}` 用作顶层代码块, 是 [实验性功能](components-stability.md#stability-levels-explained),
+> 需要使用者同意(Opt-in).
+> 它随时有可能变更或被删除.
+> 请注意, 只为评估和试验目的来使用这个功能.
+> 希望你能通过 [YouTrack](https://kotl.in/issue) 提供你的反馈意见.
+>
+{style="warning"}
+
 ## 依赖项目 {id="dependencies"}
 
-源代码集的 `dependencies` 代码块包含这个源代码集的依赖项目.
+源代码集的 `dependencies {}` 代码块包含这个源代码集的依赖项目.
 
 详情请参见 [配置依赖项](gradle-configure-project.md).
 
 有 4 种类型的依赖项目:
 
-| **名称**           | **解释**                    |
+| **名称**           | **解释**                       |
 |------------------|------------------------------|
-| `api`            | 当前模块的 API 中使用的依赖项目. |
-| `implementation` | 当前模块中使用的依赖项目, 但不向外暴露. |
-| `compileOnly`    | 只在当前模块的编译任务中使用的依赖项目. |
+| `api`            | 当前模块的 API 中使用的依赖项目.          |
+| `implementation` | 当前模块中使用的依赖项目, 但不向外暴露.        |
+| `compileOnly`    | 只在当前模块的编译任务中使用的依赖项目.         |
 | `runtimeOnly`    | 运行时刻的依赖项目, 但在任何模块的编译任务中都不可见. |
 
 <tabs group="build-script">
@@ -809,7 +897,7 @@ kotlin {
 
 除此之外, 源代码集之间还可以相互依赖, 形成一种层级结构. 这种情况下, 应该使用 [`dependsOn()`](#source-set-parameters) 关系.
 
-在编译脚本的最顶层 `dependencies` 代码块中, 也可以声明源代码集的依赖项目.
+在编译脚本的最顶层 `dependencies {}` 代码块中, 也可以声明源代码集的依赖项目.
 这种情况下, 依赖项目声明需要使用 `<sourceSetName><DependencyKind>` 格式, 比如, `commonMainApi`.
 
 <tabs group="build-script">
@@ -837,15 +925,15 @@ dependencies {
 
 ## 语言设置 {id="language-settings"}
 
-源代码集的 `languageSettings` 代码块用来定义项目分析和构建的某些方面. 可选的语言设置如下:
+源代码集的 `languageSettings {}` 代码块用来定义项目分析和构建的某些方面. 可选的语言设置如下:
 
-|**名称**| **解释**                                                       |
-| --- |--------------------------------------------------------------|
-|`languageVersion`| 与某个 Kotlin 版本保持源代码级的兼容性.                                     |
-|`apiVersion`| 允许使用从指定的 Kotlin 版本的库才开始提供的 API 声明.                           |
-|`enableLanguageFeature`| 启用指定的语言特性. 这个参数可选的值, 对应于那些目前还处于试验状态的语言特性, 或还没有正式公布的语言特性.     |
-|`optIn`| 允许使用指定的 [明确要求使用者同意(Opt-in) 注解](opt-in-requirements.md).      |
-|`progressiveMode`| 启用 [渐进模式(progressive mode)](whatsnew13.md#progressive-mode). |
+| **名称**                  | **解释**                                                       |
+|-------------------------|--------------------------------------------------------------|
+| `languageVersion`       | 与某个 Kotlin 版本保持源代码级的兼容性.                                     |
+| `apiVersion`            | 允许使用从指定的 Kotlin 版本的库才开始提供的 API 声明.                           |
+| `enableLanguageFeature` | 启用指定的语言特性. 这个参数可选的值, 对应于那些目前还处于试验状态的语言特性, 或还没有正式公布的语言特性.     |
+| `optIn`                 | 允许使用指定的 [明确要求使用者同意(Opt-in) 注解](opt-in-requirements.md).      |
+| `progressiveMode`       | 启用 [渐进模式(progressive mode)](whatsnew13.md#progressive-mode). |
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
@@ -854,8 +942,8 @@ dependencies {
 kotlin {
     sourceSets.all {
         languageSettings.apply {
-            languageVersion = "1.8" // 可选的值: "1.4", "1.5", "1.6", "1.7", "1.8", "1.9"
-            apiVersion = "1.8" // 可选的值: "1.3", "1.4", "1.5", "1.6", "1.7", "1.8", "1.9"
+            languageVersion = "%languageVersion%" // 可选的值: "1.6", "1.7", "1.8", "1.9", "2.0"
+            apiVersion = "%apiVersion%" // 可选的值: "1.6", "1.7", "1.8", "1.9", "2.0"
             enableLanguageFeature("InlineClasses") // 这里请使用语言特性的名称
             optIn("kotlin.ExperimentalUnsignedTypes") // 这里请使用注解的完全限定名称
             progressiveMode = true // 默认值为 false
@@ -871,8 +959,8 @@ kotlin {
 kotlin {
     sourceSets.all {
         languageSettings {
-            languageVersion = '1.8' // 可选的值: '1.4', '1.5', '1.6', '1.7', '1.8', '1.9'
-            apiVersion = '1.8' // 可选的值: '1.3', '1.4', '1.5', '1.6', '1.7', '1.8', '1.9'
+            languageVersion = '%languageVersion%' // 可选的值: '1.6', '1.7', '1.8', '1.9', '2.0'
+            apiVersion = '%apiVersion%' // 可选的值: '1.6', '1.7', '1.8', '1.9', '2.0'
             enableLanguageFeature('InlineClasses') // 这里请使用语言特性的名称
             optIn('kotlin.ExperimentalUnsignedTypes') // 这里请使用注解的完全限定名称
             progressiveMode = true // 默认值为 false

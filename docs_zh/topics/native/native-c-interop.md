@@ -1,7 +1,7 @@
 [//]: # (title: 与 C 代码交互)
 
 > C 库的导入是 [实验性功能](components-stability.md#stability-levels-explained).
-> `cinterop` 工具从 C 库生成的所有 Kotlin 声明都应该标注 `@ExperimentalForeignApi` 注解.
+> cinterop 工具从 C 库生成的所有 Kotlin 声明都应该标注 `@ExperimentalForeignApi` 注解.
 >
 > Kotlin/Native 自带的原生平台库 (例如 Foundation, UIKit, 和 POSIX),
 > 只对一部分 API 需要使用者明确同意(Opt-in). 对于这样的情况, 你会在 IDE 中看到警告信息.
@@ -10,12 +10,12 @@
 
 Kotlin/Native 遵循 Kotlin 的传统, 提供与既有的平台软件的优秀的互操作性.
 对于原生程序来说, 最重要的互操作性对象就是与 C 语言库.
-因此 Kotlin/Native 附带了 `cinterop` 工具,
+因此 Kotlin/Native 附带了 cinterop 工具,
 可以用来快速生成与既有的外部库交互时所需要的一切.
 
 与原生库交互时的工作流程如下:
 1. 创建一个 `.def` 文件, 描述需要绑定(binding)的内容.
-2. 使用 `cinterop` 工具生成绑定.
+2. 使用 cinterop 工具生成绑定.
 3. 运行 Kotlin/Native 编译器, 编译应用程序, 产生最终的可执行文件.
 
 互操作性工具会分析 C 语言头文件, 并产生一个 "自然的" 映射,
@@ -29,14 +29,13 @@ Kotlin/Native 遵循 Kotlin 的传统, 提供与既有的平台软件的优秀�
 
 注意, 很多情况下不要用到自定义的互操作库创建机制(我们后文将会介绍),
 因为对于平台上的标准绑定中的那些 API, 可以使用 [平台库](native-platform-libs.md).
-比如, Linux/macOS 平台上的 POSIX, Windows 平台上的 Win32, macOS/iOS 平台上的以及 Apple 框架, 都可以通过这种方式来使用.
+例如, Linux/macOS 平台上的 POSIX, Windows 平台上的 Win32, macOS/iOS 平台上的以及 Apple 框架, 都可以通过这种方式来使用.
 
 ## 一个简单的示例
 
 首先我们安装 libgit2, 并为 git 库准备桩代码:
 
 ```bash
-
 cd samples/gitchurn
 ../../dist/bin/cinterop -def src/nativeInterop/cinterop/libgit2.def \
  -compiler-option -I/usr/local/include -o libgit2
@@ -57,169 +56,9 @@ cd samples/gitchurn
 
 ## 为一个新库创建绑定
 
-要对一个新的库创建绑定, 首先要创建一个 `.def` 文件.
-它的结构只是一个简单的 property 文件, 大致是这个样子:
+要对一个新的库创建绑定, 首先要创建并配置一个 [定义文件](native-definition-file.md).
 
-```c
-headers = png.h
-headerFilter = png.h
-package = png
-```
-
-然后运行 `cinterop` 文件, 参数大致如下
-(注意, 对于主机上没有被包含到 sysroot 查找路径的那些库, 可能需要指定头文件):
-
-```bash
-cinterop -def png.def -compiler-option -I/usr/local/include -o png
-```
-
-这个命令将会生成一个编译后的库, 名为 `png.klib`,
-以及 `png-build/kotlin` 目录, 其中包含这个库的 Kotlin 源代码.
-
-如果需要修改针对某个平台的参数, 你可以使用 `compilerOpts.osx` 或 `compilerOpts.linux` 这样的格式,
-来指定这个平台专用的命令行选项.
-
-注意, 生成的绑定通常是平台专有的,
-因此如果你需要针对多个平台进行开发, 那么需要重新生成这些绑定.
-
-生成绑定后, IDE 可以使用其中的信息来查看原生库.
-
-对于一个典型的带配置脚本的 Unix 库, 使用 `--cflags` 参数运行配置脚本的输出结果,
-通常可以用做 `compilerOpts`, (但可能不使用完全相同的路径).
-
-使用 `--libs` 参数运行配置脚本的输出结果,
-编译时可以用作 `kotlinc` 的 `-linkedArgs` 参数值(带引号括起).
-
-### 选择库的头文件
-
-使用 `#include` 指令将库的头文件导入 C 程序时, 这些头文件包含的所有其他头文件也会一起被导入.
-因此, 在生成的 stub 代码内, 也会带有所有依赖到的其他头文件.
-
-这种方式通常是正确的, 但对于某些类来说可能非常不方便.
-因此可以在 `.def` 文件内指定需要导入哪些头文件.
-如果直接依赖某个头文件的话, 也可以对它单独声明.
-
-#### 使用 glob 过滤头文件
-
-也可以使用 `.def` 文件内的过滤属性作为 glob 来过滤头文件.
-这些属性值会被看作一个空格分隔的 glob 列表.
-
-* 要包含头文件中的声明, 请使用 `headerFilter` 属性.
-  如果包含的头文件与任何一个 glob 匹配, 那么头文件的声明就会被包含在绑定内容中.
-
-  glob 应用于相对于恰当的包含路径元素的头文件路径, 例如, `time.h` 或 `curl/curl.h`.
-  因此, 如果通常使用 `#include <SomeLibrary/Header.h>` 指令来包含某个库,
-  那么应该使用下面的过滤设置来过滤头文件:
-
-  ```none
-  headerFilter = SomeLibrary/**
-  ```
-
-  如果没有指定 `headerFilter`, 那么会包含所有的头文件.
-  但是, 我们鼓励使用 `headerFilter`, 并尽量精确的指定 glob. 这种情况下, 生成的库只包含必须的声明.
-  在你的开发环境中升级 Kotlin 或工具时, 可以避免很多问题的发生.
-
-* 要排除某个头文件, 请使用 `excludeFilter` 属性.
-
-  这样可以删除多余的或有问题的头文件, 并优化编译过程,
-  因为指定的头文件中的声明不会被包含在绑定内容中.
-
-  ```none
-  excludeFilter = SomeLibrary/time.h
-  ```
-
-> 如果同一个头文件由 `headerFilter` 指定为包含, 同时又由 `excludeFilter` 指定为排除, 那么后一个设定的优先级更高.
-> 指定的头文件不会被包含在绑定内容中.
->
-{style="note"}
-
-#### 使用模块映射过滤头文件
-
-有些库在它的头文件中带有 `module.modulemap` 或 `module.map` 文件.
-比如, macOS 和 iOS 系统库和框架就是这样.
-[模块映射文件(module map file)](https://clang.llvm.org/docs/Modules.html#module-map-language)
-描述头文件与模块之间的对应关系.
-如果存在模块映射, 那么可以使用 `.def` 文件的实验性的 `excludeDependentModules` 选项,
-将模块中没有直接使用的头文件过滤掉:
-
-```c
-headers = OpenGL/gl.h OpenGL/glu.h GLUT/glut.h
-compilerOpts = -framework OpenGL -framework GLUT
-excludeDependentModules = true
-```
-
-如果同时使用 `excludeDependentModules` 和 `headerFilter`, 那么最终起作用的将是二者的交集.
-
-### C 编译器与链接器选项
-
-可以在定义文件中使用 `compilerOpts` 和 `linkerOpts` 来分别指定
-传递给 C 编译器 (用于分析头文件, 比如预处理定义信息)
-和链接器 (用于链接最终的可执行代码) 的参数.
-比如:
-
-```c
-compilerOpts = -DFOO=bar
-linkerOpts = -lpng
-```
-
-也可以指定某个目标平台独有的参数, 比如:
-
- ```c
- compilerOpts = -DBAR=bar
- compilerOpts.linux_x64 = -DFOO=foo1
- compilerOpts.macos_x64 = -DFOO=foo2
- ```
-
-通过这样的配置, C 头文件在 Linux 上的会使用 `-DBAR=bar -DFOO=foo1` 参数进行分析,
-macOS 上则会使用 `-DBAR=bar -DFOO=foo2` 参数进行分析.
-注意, 定义文件的任何参数, 都可以包含共用的, 以及平台独有的两部分.
-
-#### 链接器错误
-
-当一个 Kotlin 库依赖于一个 C 或 Objective-C 库时, 可能会发生链接器错误, 例如, 使用 [CocoaPods 集成](native-cocoapods.md) 时.
-如果依赖的库在当前机器上没有安装, 在项目的构建脚本中也没有明确的配置, 那么就会发生 "Framework not found" 错误.
-
-如果你是库的作者, 你可以通过自定义消息来帮助你的用户解决链接器错误.
-方法是, 在你的 `.def` 文件中添加 `userSetupHint=message` 属性, 或者向 `cinterop` 传递 `-Xuser-setup-hint` 编译器选项.
-
-### 添加自定义声明 {id="add-custom-declarations"}
-
-在生成绑定之前, 有时会需要向库添加自定义的 C 声明(比如, 对 [宏](#macros)).
-你可以将它们直接包含在 `.def` 文件尾部,
-放在一个分隔行 `---` 之后, 而不需要为他们创建一个额外的头文件:
-
-```c
-headers = errno.h
-
----
-
-static inline int getErrno() {
-    return errno;
-}
-```
-
-注意, `.def` 文件的这部分内容会被当做头文件的一部分, 因此, 带函数体的函数应该声明为 `static` 函数.
-这些声明的内容, 会在 `headers` 列表中的文件被引入之后, 再被解析.
-
-### 将静态库包含到你的 klib 库中
-
-有些时候, 发布你的程序时附带上所需要的静态库, 而不是假定它在用户的环境中已经存在了, 这样会更便利一些.
-如果需要在 `.klib` 中包含静态库, 可以使用 `staticLibrary` 和 `libraryPaths` 语句.
-比如:
-
-```c
-headers = foo.h
-staticLibraries = libfoo.a
-libraryPaths = /opt/local/lib /usr/local/opt/curl/lib
-```
-
-如果指定了以上内容, 那么 `cinterop` 工具将会在
-`/opt/local/lib` 和 `/usr/local/opt/curl/lib` 目录中搜索 `libfoo.a` 文件,
-如果找到这个文件, 就会把这个库包含到 `klib` 内.
-
-使用这样的 `klib`, 库文件会就被自动链接到你的程序内.
-
-## 绑定
+## 绑定 {id="bindings"}
 
 ### 基本的 interop 数据类型
 
@@ -228,7 +67,7 @@ C 中支持的所有数据类型, 都有对应的 Kotlin 类型:
 * 有符号整数, 无符号整数, 以及浮点类型, 会被映射为 Kotlin 中的同样类型, 并且长度相同.
 * 指针和数组映射为 `CPointer<T>?` 类型.
 * 枚举型映射为 Kotlin 的枚举型, 或整数型,
-  由 heuristic 以及 [定义文件中的提示](#definition-file-hints) 决定.
+  由 heuristic 以及 [定义文件中设置](native-definition-file.md#configure-enums-generation) 决定.
 * 结构体(Struct)和联合体(Union)映射为通过点号访问的域的形式,
   也就是 `someStructInstance.field1` 的形式.
 * `typedef` 映射为 `typealias`.
@@ -247,13 +86,13 @@ C 中支持的所有数据类型, 都有对应的 Kotlin 类型:
 #### 指针类型
 
 `CPointer<T>` 的类型参数 `T` 必须是上面介绍的 "左值(lvalue)" 类型之一,
-比如, C 类型 `struct S*` 会被映射为 `CPointer<S>`,
+例如, C 类型 `struct S*` 会被映射为 `CPointer<S>`,
 `int8_t*` 会被映射为 `CPointer<int_8tVar>`,
 `char**` 会被映射为 `CPointer<CPointerVar<ByteVar>>`.
 
 C 的空指针(null) 在 Kotlin 中表达为 `null`,
 指针类型 `CPointer<T>` 是不可为空的, 而 `CPointer<T>?` 类型则是可为空的.
-这种类型的值支持 Kotlin 的所有涉及 `null` 值处理的操作, 比如 `?:`, `?.`, `!!` 等等:
+这种类型的值支持 Kotlin 的所有涉及 `null` 值处理的操作, 例如 `?:`, `?.`, `!!` 等等:
 
 ```kotlin
 val path = getenv("PATH")?.toKString() ?: ""
@@ -263,7 +102,10 @@ val path = getenv("PATH")?.toKString() ?: ""
 因此这个类型也支持 `[]` 操作, 可以使用下标来访问数组中的值:
 
 ```kotlin
-fun shift(ptr: CPointer<BytePtr>, length: Int) {
+import kotlinx.cinterop.*
+
+@OptIn(ExperimentalForeignApi::class)
+fun shift(ptr: CPointer<ByteVar>, length: Int) {
     for (index in 0 .. length - 2) {
         ptr[index] = ptr[index + 1]
     }
@@ -279,12 +121,18 @@ fun shift(ptr: CPointer<BytePtr>, length: Int) {
 可以使用 `.reinterpret<T>` 来对一个指针进行类型变换(包括 `COpaquePointer`), 例如:
 
 ```kotlin
+import kotlinx.cinterop.*
+
+@OptIn(ExperimentalForeignApi::class)
 val intPtr = bytePtr.reinterpret<IntVar>()
 ```
 
 或者
 
 ```kotlin
+import kotlinx.cinterop.*
+
+@OptIn(ExperimentalForeignApi::class)
 val intPtr: CPointer<IntVar> = bytePtr.reinterpret()
 ```
 
@@ -302,15 +150,21 @@ val originalPtr = longValue.toCPointer<T>()
 
 ### 内存分配
 
-可以使用 `NativePlacement` 接口来分配原生内存, 比如:
+可以使用 `NativePlacement` 接口来分配原生内存, 例如:
 
 ```kotlin
+import kotlinx.cinterop.*
+
+@OptIn(ExperimentalForeignApi::class)
 val byteVar = placement.alloc<ByteVar>()
 ```
 
 或者
 
 ```kotlin
+import kotlinx.cinterop.*
+
+@OptIn(ExperimentalForeignApi::class)
 val bytePtr = placement.allocArray<ByteVar>(5)
 ```
 
@@ -319,9 +173,14 @@ val bytePtr = placement.allocArray<ByteVar>(5)
 另外还提供了 `.free()` 操作来释放已分配的内存:
 
 ```kotlin
-val buffer = nativeHeap.allocArray<ByteVar>(size)
-<使用 buffer>
-nativeHeap.free(buffer)
+import kotlinx.cinterop.*
+
+@OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
+fun main() {
+    val size: Long = 0
+    val buffer = nativeHeap.allocArray<ByteVar>(size)
+    nativeHeap.free(buffer)
+}
 ```
 
 然而, 分配的内存的生命周期通常会限定在一个指明的作用范围内.
@@ -330,9 +189,13 @@ nativeHeap.free(buffer)
 因此可以使用 `alloc` 和 `allocArray` 来分配原生内存,
 离开这个作用范围后, 已分配的这些内存会被自动释放.
 
-比如, 如果一个 C 函数, 使用指针参数返回值, 可以用下面这种方式来使用这个函数:
+例如, 如果一个 C 函数, 使用指针参数返回值, 可以用下面这种方式来使用这个函数:
 
 ```kotlin
+import kotlinx.cinterop.*
+import platform.posix.*
+
+@OptIn(ExperimentalForeignApi::class)
 val fileSize = memScoped {
     val statBuf = alloc<stat>()
     val error = stat("/", statBuf.ptr)
@@ -351,24 +214,23 @@ val fileSize = memScoped {
 `CValuesRef<T>` 形式表达的指针型参数是为了用来支持 C 数组字面值, 而不必明确地进行内存分配操作.
 为了构造一个不可变的自包含的 C 的值的序列, 可以使用下面这些方法:
 
-*   `${type}Array.toCValues()`, 其中 `type` 是 Kotlin 的基本类型
-*   `Array<CPointer<T>?>.toCValues()`, `List<CPointer<T>?>.toCValues()`
-*   `cValuesOf(vararg elements: ${type})`, 其中 `type` 是基本类型, 或指针
+* `${type}Array.toCValues()`, 其中 `type` 是 Kotlin 的基本类型
+* `Array<CPointer<T>?>.toCValues()`, `List<CPointer<T>?>.toCValues()`
+* `cValuesOf(vararg elements: ${type})`, 其中 `type` 是基本类型, 或指针
 
-比如:
-
-C 代码:
+例如:
 
 ```c
+// C 代码:
 void foo(int* elements, int count);
 ...
 int elements[] = {1, 2, 3};
 foo(elements, 3);
 ```
 
-Kotlin 代码:
-
 ```kotlin
+// Kotlin 代码:
+
 foo(cValuesOf(1, 2, 3), 3)
 ```
 
@@ -382,16 +244,16 @@ foo(cValuesOf(1, 2, 3), 3)
 * `fun CPointer<ByteVar>.toKString(): String`
 * `val String.cstr: CValuesRef<ByteVar>`.
 
-要得到指针, `.cstr` 应该在原生内存中分配, 比如:
+要得到指针, `.cstr` 应该在原生内存中分配, 例如:
 
-```
+```kotlin
 val cString = kotlinString.cstr.getPointer(nativeHeap)
 ```
 
 在所有这些场合, C 字符串的编码都是 UTF-8.
 
 要跳过字符串的自动转换, 并确保在绑定中使用原生的指针,
-可以在 `.def` 文件中使用 `noStringConversion` 语句, 也就是:
+可以在 `.def` 文件中使用 `noStringConversion` 语句:
 
 ```c
 noStringConversion = LoadCursorA LoadCursorW
@@ -401,6 +263,9 @@ noStringConversion = LoadCursorA LoadCursorW
 如果需要传递 Kotlin 字符串, 可以使用这样的代码:
 
 ```kotlin
+import kotlinx.cinterop.*
+
+@OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
 memScoped {
     LoadCursorA(null, "cursor.bmp".cstr.ptr)   // 对这个函数的 ASCII 版
     LoadCursorW(null, "cursor.bmp".wcstr.ptr)  // 对这个函数的 Unicode 版
@@ -409,16 +274,19 @@ memScoped {
 
 ### 作用范围内的局部指针
 
-`memScoped { ... }` 内有一个 `CValues<T>.ptr` 扩展属性,
+`memScoped { }` 内有一个 `CValues<T>.ptr` 扩展属性,
 使用它可以创建一个指向 `CValues<T>` 的 C 指针, 这个指针被限定在一个作用范围内.
-通过它可以使用需要 C 指针的 API, 指针的生命周期限定在特定的 `MemScope` 内. 比如:
+通过它可以使用需要 C 指针的 API, 指针的生命周期限定在特定的 `MemScope` 内. 例如:
 
 ```kotlin
+import kotlinx.cinterop.*
+
+@OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
 memScoped {
     items = arrayOfNulls<CPointer<ITEM>?>(6)
     arrayOf("one", "two").forEachIndexed { index, value -> items[index] = value.cstr.ptr }
     menu = new_menu("Menu".cstr.ptr, items.toCValues().ptr)
-    ...
+    // ...
 }
 ```
 
@@ -455,7 +323,7 @@ memScoped {
 #### 向回调传递用户数据
 
 C API 经常允许向回调传递一些用户数据. 这些数据通常由用户在设置回调时提供.
-数据使用比如 `void*` 的形式, 传递给某些 C 函数 (或写入到结构体内).
+数据使用例如 `void*` 的形式, 传递给某些 C 函数 (或写入到结构体内).
 但是, Kotlin 对象的引用无法直接传递给 C.
 因此需要在设置回调之前包装这些数据, 然后在回调函数内部将它们解开,
 这样才能通过 C 函数来再两段 Kotlin 代码之间传递数据.
@@ -464,6 +332,9 @@ C API 经常允许向回调传递一些用户数据. 这些数据通常由用户
 要封装一个 Kotlin 对象的引用, 可以使用以下代码:
 
 ```kotlin
+import kotlinx.cinterop.*
+
+@OptIn(ExperimentalForeignApi::class)
 val stableRef = StableRef.create(kotlinReference)
 val voidPtr = stableRef.asCPointer()
 ```
@@ -473,6 +344,7 @@ val voidPtr = stableRef.asCPointer()
 要解开这个引用, 可以使用以下代码:
 
 ```kotlin
+@OptIn(ExperimentalForeignApi::class)
 val stableRef = voidPtr.asStableRef<KotlinClass>()
 val kotlinReference = stableRef.get()
 ```
@@ -493,8 +365,8 @@ stableRef.dispose()
 
 每个展开为常数的 C 语言宏, 都会表达为一个 Kotlin 属性.
 其他的宏都不支持. 但是, 可以将它们封装在支持的声明中, 这样就可以手动映射这些宏.
-比如, 类似于函数的宏 `FOO` 可以映射为函数 `foo`,
-方法是向库 [添加自定义的声明](#add-custom-declarations):
+例如, 类似于函数的宏 `FOO` 可以映射为函数 `foo`,
+方法是向库 [添加自定义的声明](native-definition-file.md#add-custom-declarations):
 
 ```c
 headers = library/base.h
@@ -506,26 +378,10 @@ static inline int foo(int arg) {
 }
 ```
 
-### 定义文件提示 {id="definition-file-hints"}
-
-`.def` 支持几种选项, 用来调整最终生成的绑定.
-
-* `excludedFunctions` 属性值是一个空格分隔的列表, 表示哪些函数应该忽略.
-  有时会需要这个功能, 因为 C 头文件中的一个函数声明, 并不保证它一定可以调用,
-  而且常常很难, 甚至不可能自动判断.
-  这个选项也可以用来绕过 interop 工具本身的 bug.
-
-* `strictEnums` 和 `nonStrictEnums` 属性值是空格分隔的列表,
-  分别表示哪些枚举类型需要生成为 Kotlin 枚举类型, 哪些需要生成为整数值.
-  如果一个枚举型在这两个属性中都没有包括, 那么就根据 heuristic 来生成.
-
-* `noStringConversion` 属性值是一个空格分隔的列表,
-  表示哪些函数的 `const char*` 参数应该不被自动转换为 Kotlin 的字符串类型.
-
 ### 可移植性
 
-有时, C 库中的函数参数, 或结构体的域使用了依赖于平台的数据类型, 比如 `long` 或 `size_t`.
-Kotlin 本身没有提供隐含的整数类型转换, 也没有提供 C 风格的整数类型转换 (比如, `(size_t) intValue`),
+有时, C 库中的函数参数, 或结构体的域使用了依赖于平台的数据类型, 例如 `long` 或 `size_t`.
+Kotlin 本身没有提供隐含的整数类型转换, 也没有提供 C 风格的整数类型转换 (例如, `(size_t) intValue`),
 因此, 在这种情况下, 为了让编写可以移植的代码变得容易一点, 提供了 `convert` 方法:
 
 ```kotlin
@@ -541,6 +397,10 @@ fun ${type1}.convert<${type2}>(): ${type2}
 使用 `convert` 的示例如下:
 
 ```kotlin
+import kotlinx.cinterop.*
+import platform.posix.*
+
+@OptIn(ExperimentalForeignApi::class)
 fun zeroMemory(buffer: COpaquePointer, size: Int) {
     memset(buffer, 0, size.convert<size_t>())
 }
@@ -551,10 +411,14 @@ fun zeroMemory(buffer: COpaquePointer, size: Int) {
 ### 对象固定
 
 Kotlin 对象可以固定(pin), 也就是, 确保它们在内存中的位置不会变化, 直到解除固定(unpin)为止,
-而且, 指向这些对象的内部数据的指针, 可以传递给 C 函数. 比如:
+而且, 指向这些对象的内部数据的指针, 可以传递给 C 函数. 例如:
 
 ```kotlin
-fun readData(fd: Int): String {
+import kotlinx.cinterop.*
+import platform.posix.*
+
+@OptIn(ExperimentalForeignApi::class)
+fun readData(fd: Int) {
     val buffer = ByteArray(1024)
     buffer.usePinned { pinned ->
         while (true) {

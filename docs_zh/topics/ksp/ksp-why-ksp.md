@@ -18,7 +18,7 @@ KSP 的设计目的还包括减少构建时间. 对于某些处理器, 比如 [G
 
 KSP 本身作为一个编译器插件实现. Google 的 Maven 仓库中有一些预构建的包, 你可以下载使用, 不需要自己构建项目.
 
-## 与 `kotlinc` 编译器插件比较
+## 与 kotlinc 编译器插件比较
 
 `kotlinc` 编译器插件能访问编译器中的几乎所有功能, 因此有极强的功能和灵活性.
 但是, 由于这些插件可能潜在的依赖于编译器中的任何功能, 因此它们对编译器的变更很敏感, 需要频繁的维护.
@@ -52,7 +52,7 @@ KSP 相比 kapt 的主要优势是, 提高了构建性能, 没有与 JVM 紧密�
 为了性能评估, 我们用 KSP 实现了一个
 [简化版本](https://github.com/google/ksp/releases/download/1.4.10-dev-experimental-20200924/miniGlide.zip)
 的 [Glide](https://github.com/bumptech/glide),
-让它为 [Tachiyomi](https://github.com/inorichi/tachiyomi) 项目生成代码.
+让它为 [Tachiyomi](https://github.com/tachiyomiorg) 项目生成代码.
 在我们的测试设备上, 尽管项目的 Kotlin 全体编译时间是 21.55 秒,
 但 kapt 生成代码耗费了 8.67 秒, 而我们的 KSP 实现生成代码只耗费 1.15 秒.
 

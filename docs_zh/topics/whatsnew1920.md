@@ -15,7 +15,7 @@ Kotlin 1.9.20 已经发布了, [K2 编译器对于所有编译目标已进入 Be
 
 关于本次更新的概要介绍, 你可以观看以下视频:
 
-<video src="https://youtu.be/Ol_96CHKqg8" title="Kotlin 1.9.20 版中的新功能"/>
+<video src="https://www.youtube.com/v/Ol_96CHKqg8" title="Kotlin 1.9.20 版中的新功能"/>
 
 ## IDE 支持 {id="ide-support"}
 
@@ -44,7 +44,7 @@ K2 目前对所有的编译目标都处于 **Beta 版**.
 从这个发布版开始, Kotlin/Wasm 支持新的 K2 编译器.
 参见 [如何在你的项目中启用它](#how-to-enable-the-kotlin-k2-compiler).
 
-### 针对 K2 的 kapt 编译器 plugin 预览版
+### 针对 K2 的 kapt 编译器 plugin 预览版 {id="preview-kapt-compiler-plugin-with-k2"}
 
 > 在 kapt 编译器 plugin 中对 K2 的支持是 [实验性功能](components-stability.md).
 > 需要使用者同意(Opt-in) (详情见下文),
@@ -369,7 +369,7 @@ Kotlin 1.9.20 集中于 Kotlin Multiplatform 的稳定性, 并提供了新的项
 
 ### Kotlin Multiplatform 已进入稳定版 {id="kotlin-multiplatform-is-stable"}
 
-1.9.20 版的发布标志了 Kotlin 演化历程中的一个重要的里程碑: [Kotlin Multiplatform](multiplatform.md)
+1.9.20 版的发布标志了 Kotlin 演化历程中的一个重要的里程碑: [Kotlin Multiplatform](multiplatform-intro.md)
 终于进入了稳定版.
 这表示这个技术已经可以安全的用于你的项目, 并且 100% 可以用于真实生产环境.
 还意味着 Kotlin Multiplatform 未来的开发会继续符合我们严格的 [向后兼容性规则](https://kotlinfoundation.org/language-committee-guidelines/).
@@ -400,7 +400,7 @@ Kotlin 1.9.20 集中于 Kotlin Multiplatform 的稳定性, 并提供了新的项
 假设有一个跨平台项目, 编译目标包括 Android 和 iPhone 设备, 开发环境为 Apple silicon MacBook.
 我们来比较一下不同版本的 Kotlin 中的项目设置:
 
-<table header-style="top">
+<table>
     <tr>
         <td>Kotlin 1.9.0 和以前的版本 (标准设置)</td>
         <td>Kotlin 1.9.20</td>
@@ -544,7 +544,7 @@ w: Accessed 'source set jvmMain' without registering the jvm target:
 
   我们目前正在开发一个 API, 用于创建你自己的层级结构模板, 以简化这类设置过程.
 
-#### 查看完整的层级结构模板 {id="see-the-full-hierarchy-template" collapsible="true"}
+#### 查看完整的层级结构模板 {id="see-the-full-hierarchy-template" initial-collapse-state="collapsed" collapsible="true"}
 
 当你声明你的项目的编译目标时, plugin 会从模板中选取对应的共用源代码集, 并在你的项目中创建它们.
 
@@ -578,7 +578,7 @@ JetBrains 开发组引入了一种新的方式来创建跨平台项目 – [Kotl
 如果你遇到任何问题, 请报告到 [YouTrack](https://kotl.in/issue), 帮助我们改进向导的使用体验.
 
 <a href="https://kmp.jetbrains.com">
-    <img src="multiplatform-create-project-button.png" alt="创建项目"/>
+    <img src="multiplatform-create-project-button.png" alt="创建项目" style="block"/>
 </a>
 
 ### Kotlin Multiplatform 中对 Gradle 配置缓存的完全支持 {id="full-support-for-the-gradle-configuration-cache-in-kotlin-multiplatform"}
@@ -602,7 +602,7 @@ Gradle 配置缓存可以对后续的构建重用配置阶段的结果, 因而�
 在之前的版本中, 如果你想要手动配置对标准库的依赖项, 你需要对每个源代码集分别配置.
 从 `kotlin-stdlib:1.9.20` 开始, 你只需要在 `commonMain` 根源代码集中, 配置这个依赖项 **一次**:
 
-<table header-style="top">
+<table>
    <tr>
        <td>1.9.10 和之前版本的标准库</td>
        <td>1.9.20 版本的标准库</td>
@@ -722,7 +722,7 @@ Kotlin 1.9.20 支持最新的 opcode, 因此我们强烈推荐你将你的 Wasm 
 * 对 Chrome 和基于 Chromium 的浏览器, 119 或更新版本.
 * Firefox, 119 或更新版本. 注意, 在 Firefox 119 中, 你需要 [手动启用 Wasm GC](wasm-troubleshooting.md).
 
-### 新的 `wasm-wasi` 编译目标, 以及 `wasm` 编译目标改名为 `wasm-js` {id="new-wasm-wasi-target-and-the-renaming-of-the-wasm-target-to-wasm-js"}
+### 新的 wasm-wasi 编译目标, 以及 wasm 编译目标改名为 wasm-js {id="new-wasm-wasi-target-and-the-renaming-of-the-wasm-target-to-wasm-js"}
 
 在这个发布版中, 我们对 Kotlin/Wasm 引入了一个新的编译目标 – `wasm-wasi`.
 我还将 `wasm` 编译目标改名为 `wasm-js`.
@@ -776,7 +776,7 @@ private external fun wasiRawClockTimeGet(clockId: Int, precision: Long, resultPt
 在这个发布版中, 包含了对 Kotlin/Wasm API 使用体验的一些改进.
 例如, 你不再需要从 DOM 事件监听器中返回一个值:
 
-<table header-style="top">
+<table>
    <tr>
        <td>1.9.20 版之前</td>
        <td>1.9.20 版</td>

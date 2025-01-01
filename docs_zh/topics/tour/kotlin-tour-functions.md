@@ -25,6 +25,7 @@ fun main() {
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-function-demo"}
 
 在 Kotlin 中:
+
 * 函数参数写在小括号 `()` 之内.
 * 每个参数必须指定类型, 多个参数必须用逗号 `,` 隔开.
 * 返回值类型写在函数的小括号 `()` 之后, 用冒号 `:` 隔开.
@@ -37,6 +38,7 @@ fun main() {
 {style="note"}
 
 在下面的示例中:
+
 * `x` 和 `y` 是函数参数.
 * `x` 和 `y` 类型为 `Int`.
 * 函数的返回值类型为 `Int`.
@@ -151,7 +153,7 @@ fun main() {
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-simple-function-before"}
 
 你可以删除大括号 `{}`, 使用赋值操作符 `=` 来声明函数的 body 部.
-由于 Kotlin 的类型推断能力, 你还可以省略返回值类型.
+当你使用赋值操作符 `=` 时, Kotlin 会使用类型推断, 因此你也可以省略返回值类型.
 这样, `sum()` 函数就变成只有 1 行:
 
 ```kotlin
@@ -164,21 +166,61 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-simple-function-after"}
 
-> 只有在你的函数没有 body 部(`{}`) 时, 才能够省略返回值类型.
-> 否则你的函数的返回值类型将是 `Unit`.
+但是, 如果你想让你的代码能够被其他开发者快速理解, 那么即使使用赋值操作符 `=`, 也还是明确定义返回值类型更好一些.
+
+> 如果你使用大括号 `{}` 来声明函数的 body 部, 那么必须声明返回类型, 否则返回值类型将是 `Unit`.
 >
 {style="note"}
 
+## 函数中的提前返回 (Early Return)
+
+如果想要你的函数中的代码在某个点之后不再进行后续处理, 请使用 `return` 关键字.
+这个示例使用 `if` 判断, 如果条件表达式为真, 就从一个函数中提前返回:
+
+```kotlin
+// 注册的用户名列表
+val registeredUsernames = mutableListOf("john_doe", "jane_smith")
+
+// 注册 EMail 列表
+val registeredEmails = mutableListOf("john@example.com", "jane@example.com")
+
+fun registerUser(username: String, email: String): String {
+    // 如果用户名已被使用, 则提前返回
+    if (username in registeredUsernames) {
+        return "Username already taken. Please choose a different username."
+    }
+
+    // 如果 EMail 已被注册, 则提前返回
+    if (email in registeredEmails) {
+        return "Email already registered. Please use a different email."
+    }
+
+    // 如果用户名和 EMail 都没有被使用, 则进行注册处理
+    registeredUsernames.add(username)
+    registeredEmails.add(email)
+
+    return "User registered successfully: $username"
+}
+
+fun main() {
+    println(registerUser("john_doe", "newjohn@example.com"))
+    // 输出结果为: Username already taken. Please choose a different username.
+    println(registerUser("new_user", "newuser@example.com"))
+    // 输出结果为: User registered successfully: new_user
+}
+```
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-function-early-return"}
+
 ## 函数的实际练习
 
-### 习题 1 {collapsible="true"}
+### 习题 1 {initial-collapse-state="collapsed" collapsible="true" id="functions-exercise-1"}
 
 写一个名为 `circleArea` 的函数, 接受一个整数参数, 表示圆的半径, 输出圆的面积大小.
 
 > 在这个习题中, 你会导入一个包, 以便通过 `PI` 来访问 pi 值.
 > 关于包的导入, 更多详情请参见 [包与导入](packages.md).
 >
-{style = "note"}
+{style="tip"}
 
 |---|---|
 ```kotlin
@@ -205,9 +247,9 @@ fun main() {
     println(circleArea(2)) // 输出结果为 12.566370614359172
 }
 ```
-{collapsible="true" collapsed-title="参考答案" id="kotlin-tour-functions-solution-1"}
+{initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-functions-solution-1"}
 
-### 习题 2 {collapsible="true"}
+### 习题 2 {initial-collapse-state="collapsed" collapsible="true" id="functions-exercise-2"}
 
 将前一个习题中的 `circleArea` 函数重写为单一表达式函数.
 
@@ -233,9 +275,9 @@ fun main() {
     println(circleArea(2)) // 输出结果为 12.566370614359172
 }
 ```
-{collapsible="true" collapsed-title="参考答案" id="kotlin-tour-functions-solution-2"}
+{initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-functions-solution-2"}
 
-### 习题 3 {collapsible="true"}
+### 习题 3 {initial-collapse-state="collapsed" collapsible="true" id="functions-exercise-3"}
 
 你有一个函数, 它接受一个时/分/秒单位给定的时间间隔, 然后翻译为秒单位.
 大多数情况下, 你只需要传递 1 个或 2 个参数, 而其它参数为 0.
@@ -269,7 +311,7 @@ fun main() {
     println(intervalInSeconds(hours = 1, seconds = 1))
 }
 ```
-{collapsible="true" collapsed-title="参考答案" id="kotlin-tour-functions-solution-3"}
+{initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-functions-solution-3"}
 
 ## Lambda 表达式 {id="lambda-expressions"}
 
@@ -278,8 +320,8 @@ Kotlin 允许你使用 Lambda 表达式, 为函数编写更加简洁的代码.
 例如, 下面的 `uppercaseString()` 函数:
 
 ```kotlin
-fun uppercaseString(string: String): String {
-    return string.uppercase()
+fun uppercaseString(text: String): String {
+    return text.uppercase()
 }
 fun main() {
     println(uppercaseString("hello"))
@@ -292,23 +334,29 @@ fun main() {
 
 ```kotlin
 fun main() {
-    println({ string: String -> string.uppercase() }("hello"))
+    val upperCaseString = { text: String -> text.uppercase() }
+    println(upperCaseString("hello"))
     // 输出结果为 HELLO
 }
 ```
-{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-lambda-function-after"}
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-lambda-variable"}
 
 Lambda 表达式初看起来可能难于理解, 所以我们将它分解成各个部分.
 Lambda 表达式写在大括号 `{}` 之内.
 
 在 Lambda 表达式之内, 你会写以下内容:
+
 * 参数, 在 `->` 之前.
 * 函数 body 部, 在 `->` 之后.
 
 在上面的示例中:
-* `string` 是函数参数.
-* `string` 类型为 `String`.
-* 函数返回对 `string` 调用 [`.uppercase()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/uppercase.html) 函数的结果.
+
+* `text` 是函数参数.
+* `text` 类型为 `String`.
+* 函数返回对 `text` 调用 [`.uppercase()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/uppercase.html) 函数的结果.
+* 整个 Lambda 表达式通过赋值操作符 `=` 赋值给变量 `upperCaseString`.
+* 象函数一样使用 `upperCaseString` 变量, 字符串 `"hello"` 作为参数, 就会调用 Lambda 表达式.
+* `println()` 函数打印输出结果.
 
 > 如果你声明没有参数的 Lambda 表达式, 那么不必使用 `->`. 例如:
 > ```kotlin
@@ -318,23 +366,10 @@ Lambda 表达式写在大括号 `{}` 之内.
 {style="note"}
 
 可以用很多方式使用 Lambda 表达式. 你可以:
-* [将 Lambda 表达式赋值给一个变量, 在后面的代码中调用它](#assign-to-variable)
+
 * [将 Lambda 表达式用作另一个函数的参数](#pass-to-another-function)
 * [从一个函数返回 Lambda 表达式](#return-from-a-function)
 * [单独调用一个 Lambda 表达式](#invoke-separately)
-
-### 赋值给变量 {id="assign-to-variable"}
-
-要将 Lambda 表达式赋值给一个变量, 请使用赋值操作符 `=`:
-
-```kotlin
-fun main() {
-    val upperCaseString = { string: String -> string.uppercase() }
-    println(upperCaseString("hello"))
-    // 输出结果为 HELLO
-}
-```
-{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-lambda-variable"}
 
 ### 传递给另一个函数 {id="pass-to-another-function"}
 
@@ -345,8 +380,12 @@ fun main() {
 fun main() {
     //sampleStart
     val numbers = listOf(1, -2, 3, -4, 5, -6)
-    val positives = numbers.filter { x -> x > 0 }
-    val negatives = numbers.filter { x -> x < 0 }
+
+    val positives = numbers.filter ({ x -> x > 0 })
+
+    val isNegative = { x: Int -> x < 0 }
+    val negatives = numbers.filter(isNegative)
+
     println(positives)
     // 输出结果为 [1, 3, 5]
     println(negatives)
@@ -357,10 +396,23 @@ fun main() {
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-lambda-filter"}
 
 `.filter()` 函数接受一个 Lambda 表达式, 作为判定条件:
+
 * `{ x -> x > 0 }` 接受 List 中的每个元素, 只返回正数.
 * `{ x -> x < 0 }` 接受 List 中的每个元素, 只返回负数.
 
-> 如果一个 Lambda 表达式是函数的唯一参数, 你可以去掉函数的小括号 `()`.
+这个示例演示了将 Lambda 表达式传递给函数的两种方式:
+
+* 对于正数, 示例直接在 `.filter()` 函数中添加 Lambda 表达式.
+* 对于负数, 示例将 Lambda 表达式赋值给 `isNegative` 变量.
+  然后将 `isNegative` 变量用作 `.filter()` 函数的参数.
+  这种情况下, 你必须在 Lambda 表达式中指定函数参数 (`x`) 的类型.
+
+> 如果一个 Lambda 表达式是函数的唯一参数, 你可以去掉函数的小括号 `()`:
+>
+> ```kotlin
+> val positives = numbers.filter { x -> x > 0 }
+> ```
+>
 > 这是 [尾缀 Lambda 表达式(Trailing Lambda)](#trailing-lambdas) 的一个例子, 我们会在本章末尾详细介绍.
 >
 {style = "note"}
@@ -373,7 +425,10 @@ fun main() {
     //sampleStart
     val numbers = listOf(1, -2, 3, -4, 5, -6)
     val doubled = numbers.map { x -> x * 2 }
-    val tripled = numbers.map { x -> x * 3 }
+
+    val isTripled = { x: Int -> x * 3 }
+    val tripled = numbers.map(isTripled)
+
     println(doubled)
     // 输出结果为 [2, -4, 6, -8, 10, -12]
     println(tripled)
@@ -384,6 +439,7 @@ fun main() {
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-lambda-map"}
 
 `.map()` 函数接受一个 Lambda 表达式, 作为变换函数:
+
 * `{ x -> x * 2 }` 接受 List 中的每个元素, 返回这个元素乘以 2 的结果.
 * `{ x -> x * 3 }` 接受 List 中的每个元素, 返回这个元素乘以 3 的结果.
 
@@ -397,6 +453,7 @@ Kotlin 的类型推断功能能够通过参数类型推断一个函数的类型.
 编译器需要函数类型, 然后才能知道对这个函数允许什么, 不允许什么.
 
 函数类型的语法包括:
+
 * 每个参数的类型, 写在小括号 `()` 之内, 以逗号 `,` 分隔.
 * 返回值类型, 写在 `->` 之后.
 
@@ -405,7 +462,7 @@ Kotlin 的类型推断功能能够通过参数类型推断一个函数的类型.
 如果为 `upperCaseString()` 定义一个函数类型, 那么 Lambda 表达式如下:
 
 ```kotlin
-val upperCaseString: (String) -> String = { string -> string.uppercase() }
+val upperCaseString: (String) -> String = { text -> text.uppercase() }
 
 fun main() {
     println(upperCaseString("hello"))
@@ -460,7 +517,7 @@ Lambda 表达式可以单独调用, 方法是在大括号 `{}` 之后添加小�
 ```kotlin
 fun main() {
     //sampleStart
-    println({ string: String -> string.uppercase() }("hello"))
+    println({ text: String -> text.uppercase() }("hello"))
     // 输出结果为 HELLO
     //sampleEnd
 }
@@ -496,7 +553,7 @@ fun main() {
 
 ## Lambda 表达式的实际练习
 
-### 习题 1 {collapsible="true" id="lambdas-exercise-1"}
+### 习题 1 {initial-collapse-state="collapsed" collapsible="true" id="lambdas-exercise-1"}
 
 你有一个 Web Service 支持的动作列表, 所有请求的一个共通前缀, 某个资源的一个 ID.
 要对资源 ID 5 请求 `title` 动作, 你需要创建下面的 URL: `https://example.com/book-info/5/title`.
@@ -524,9 +581,9 @@ fun main() {
     println(urls)
 }
 ```
-{collapsible="true" collapsed-title="参考答案" id="kotlin-tour-lambdas-solution-1"}
+{initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-lambdas-solution-1"}
 
-### 习题 2 {collapsible="true" id="lambdas-exercise-2"}
+### 习题 2 {initial-collapse-state="collapsed" collapsible="true" id="lambdas-exercise-2"}
 
 编写一个函数, 接受一个 `Int` 值和一个动作 (一个 `() -> Unit` 类型的函数), 然后重复执行这个动作指定的次数.
 然后使用这个函数打印 “Hello” 5 次.
@@ -557,7 +614,7 @@ fun main() {
     }
 }
 ```
-{collapsible="true" collapsed-title="参考答案" id="kotlin-tour-lambdas-solution-2"}
+{initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-lambdas-solution-2"}
 
 ## 下一步
 

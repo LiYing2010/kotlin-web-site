@@ -138,7 +138,7 @@ kotlin {
 ```kotlin
 // commonMain/kotlin/common.kt
 // 在共通代码中无法编译
-fun common() {
+fun greeting() {
     java.io.File("greeting.txt").writeText("Hello, Multiplatform!")
 }
 ```
@@ -253,7 +253,7 @@ Kotlin 默认创建一些中间源代码集.
 >
 {style="tip"}
 
-#### Apple 设备与模拟器的编译目标
+#### Apple 设备与模拟器的编译目标 {initial-collapse-state="collapsed" collapsible="true"}
 
 如果你使用 Kotlin Multiplatform 开发 iOS 移动应用程序, 你通常会使用 `iosMain` 源代码集.
 你可能会认为它是一个平台相关的源代码集, 用于 `ios` 编译目标, 但其实并没有单独的 `ios` 编译目标.
@@ -288,7 +288,7 @@ Kotlin 默认创建一些中间源代码集.
 平台相关的测试源代码集, 例如 `jvmTest`, 用来编写平台相关的测试, 例如, JVM 相关的测试, 或需要 JVM API 的测试.
 
 除了拥有源代码集来编写共通测试之外, 你还需要跨平台的测试框架.
-Kotlin 提供了一个默认的 [`kotlin.test`](https://kotlinlang.org/api/latest/kotlin.test) 库,
+Kotlin 提供了一个默认的 [`kotlin.test`](https://kotlinlang.org/api/latest/kotlin.test/) 库,
 其中有 `@kotlin.Test` 注解, 和各种断言方法, 例如 `assertEquals` 和 `assertTrue`.
 
 对每个平台, 你可以在它们对应的源代码集中编写平台相关的测试, 和通常的测试一样.

@@ -1,7 +1,7 @@
 [//]: # (title: 配置 Gradle 项目)
 
 要 [Gradle](https://docs.gradle.org/current/userguide/userguide.html) 使用来构建 Kotlin 项目,
-你需要向你的构建脚本文件 `build.gradle(.kts)` 添加 [Kotlin Gradle plugin](#apply-the-plugin),
+你需要向你的构建脚本文件 `build.gradle(.kts)` [添加 Kotlin Gradle plugin](#apply-the-plugin),
 并在构建脚本文件中 [配置项目的依赖项](#configure-dependencies).
 
 > 关于构建脚本, 更多内容请参见 [查看构建脚本](get-started-with-jvm-gradle-project.md#explore-the-build-script) 小节.
@@ -17,9 +17,11 @@
 <tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
-// 请将 `<...>` 替换为 plugin 名称
 plugins {
+    // 请将 `<...>` 替换为与你的编译目标环境匹配的 plugin 名称
     kotlin("<...>") version "%kotlinVersion%"
+    // 例如, 如果你的编译目标环境是 JVM:
+    // kotlin("jvm") version "%kotlinVersion%"
 }
 ```
 
@@ -27,9 +29,11 @@ plugins {
 <tab title="Groovy" group-key="groovy">
 
 ```groovy
-// 请将 `<...>` 替换为 plugin 名称
 plugins {
+    // 请将 `<...>` 替换为与你的编译目标环境匹配的 plugin 名称
     id 'org.jetbrains.kotlin.<...>' version '%kotlinVersion%'
+    // 例如, 如果你的编译目标环境是 JVM: 
+    // id 'org.jetbrains.kotlin.jvm' version '%kotlinVersion%'
 }
 ```
 
@@ -43,25 +47,49 @@ plugins {
 配置你的项目时, 请检查 Kotlin Gradle plugin (KGP) 是否兼容于你的 Gradle 版本.
 下表是, Kotlin **完全支持** 的 Gradle 和 Android Gradle plugin (AGP) 最低和最高版本:
 
-| KGP 版本        | Gradle 最低和最高版本                        | AGP 最低和最高版本                                         |
-|---------------|---------------------------------------|-----------------------------------------------------|
-| 1.9.20–1.9.23 | %minGradleVersion%–%maxGradleVersion% | %minAndroidGradleVersion%–%maxAndroidGradleVersion% |
-| 1.9.0–1.9.10  | 6.8.3–7.6.0                           | 4.2.2–7.4.0                                         |
-| 1.8.20–1.8.22 | 6.8.3–7.6.0                           | 4.1.3–7.4.0                                         |
-| 1.8.0–1.8.11  | 6.8.3–7.3.3                           | 4.1.3–7.2.1                                         |
-| 1.7.20–1.7.22 | 6.7.1–7.1.1                           | 3.6.4–7.0.4                                         |
-| 1.7.0–1.7.10  | 6.7.1–7.0.2                           | 3.4.3–7.0.2                                         |
-| 1.6.20–1.6.21 | 6.1.1–7.0.2                           | 3.4.3–7.0.2                                         |
+| KGP 版本        | Gradle 最低和最高版本                         | AGP 最低和最高版本                                         |
+|---------------|----------------------------------------|-----------------------------------------------------|
+| 2.0.20        | %minGradleVersion%–%maxGradleVersion%* | %minAndroidGradleVersion%–%maxAndroidGradleVersion% |
+| 2.0.0         | 6.8.3–8.5                              | 7.1.3–8.3.1                                         |
+| 1.9.20–1.9.25 | 6.8.3–8.1.1                            | 4.2.2–8.1.0                                         |
+| 1.9.0–1.9.10  | 6.8.3–7.6.0                            | 4.2.2–7.4.0                                         |
+| 1.8.20–1.8.22 | 6.8.3–7.6.0                            | 4.1.3–7.4.0                                         |
+| 1.8.0–1.8.11  | 6.8.3–7.3.3                            | 4.1.3–7.2.1                                         |
+| 1.7.20–1.7.22 | 6.7.1–7.1.1                            | 3.6.4–7.0.4                                         |
+| 1.7.0–1.7.10  | 6.7.1–7.0.2                            | 3.4.3–7.0.2                                         |
+| 1.6.20–1.6.21 | 6.1.1–7.0.2                            | 3.4.3–7.0.2                                         |
 
-> 你也可以使用最新版本之前的 Gradle 和 AGP 版本, 但如果你这样做, 请注意, 你可能会遇到弃用警告, 或者某些新功能可能无法正常工作.
+> *Kotlin 2.0.20 完全兼容从 Gradle 6.8.3 到 8.6 的版本.
+> 也支持 Gradle 8.7 和 8.8, 但有一个例外: 如果你使用 Kotlin Multiplatform Gradle plugin,
+> 在你的跨平台项目中调用 [JVM 编译目标中的 `withJava()` 函数](multiplatform-dsl-reference.md#jvm-targets) 时, 可能遇到废弃警告.
+> 更多详情请参见 [YouTrack](https://youtrack.jetbrains.com/issue/KT-66542/Gradle-JVM-target-with-withJava-produces-a-deprecation-warning) 中的 issue.
 >
-{style="note"}
+{style="warning"}
+
+你也可以使用最新版本之前的 Gradle 和 AGP 版本, 但如果你这样做,
+请注意, 你可能会遇到弃用警告, 或者某些新功能可能无法正常工作.
 
 例如, Kotlin Gradle plugin 和 `kotlin-multiplatform` plugin %kotlinVersion%
 最低需要 Gradle 版本 %minGradleVersion% 才能编译你的项目.
 
 类似的, 完全支持的最高版本是 %maxGradleVersion%.
 这个版本不包含已废弃的 Gradle 方法和属性, 并且支持目前所有的 Gradle 功能特性.
+
+### Kotlin Gradle plugin 在项目中的数据
+
+默认情况下, Kotlin Gradle plugin 会将项目相关的数据保存在项目根目录下的 `.kotlin` 目录中.
+
+> 不要将 `.kotlin` 目录提交到版本控制系统.
+> 例如, 如果你在使用 Git, 请将 `.kotlin` 添加到你的项目的 `.gitignore` 文件中.
+>
+{style="warning"}
+
+你可以将以下属性添加到你的项目的 `gradle.properties` 文件, 配置这些行为:
+
+| Gradle 属性                                           | 解释                                                                 |
+|-----------------------------------------------------|--------------------------------------------------------------------|
+| `kotlin.project.persistent.dir`                     | 配置你的项目数据的保存位置. 默认值: `<project-root-directory>/.kotlin`             |
+| `kotlin.project.persistent.dir.gradle.disableWrite` | 控制是否禁止将 Kotlin 数据写到 `.gradle` 目录 (为了与旧版本的 IDEA 保持向后兼容). 默认值: false |
 
 ## 编译到 JVM 平台
 
@@ -187,7 +215,7 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile.class).configu
 
 要避免 JVM 编译目标不兼容, 需要 [配置工具链](#gradle-java-toolchains-support), 或手动对齐(Align) JVM 版本.
 
-#### 如果编译目标之间不兼容, 会发生什么问题 {id="what-can-go-wrong-if-targets-are-incompatible"}
+#### 如果编译目标之间不兼容, 会发生什么问题 {id="what-can-go-wrong-if-targets-are-incompatible" initial-collapse-state="collapsed" collapsible="true"}
 
 有两种方式对 Kotlin 和 Java 源代码集手动设置 JVM 编译目标:
 * 隐含设定, 通过 [设置 Java 工具链](#gradle-java-toolchains-support) 来设置.
@@ -294,7 +322,7 @@ kotlin {
 ```groovy
 kotlin {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>))
+        languageVersion = JavaLanguageVersion.of(<MAJOR_JDK_VERSION>)
     }
     // 或者使用更简短的写法:
     jvmToolchain(<MAJOR_JDK_VERSION>)
@@ -327,7 +355,7 @@ java {
 ```groovy
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>))
+        languageVersion = JavaLanguageVersion.of(<MAJOR_JDK_VERSION>)
     }
 }
 ```
@@ -398,7 +426,7 @@ project.tasks.withType<UsesKotlinJavaToolchain>().configureEach {
 ```groovy
 JavaToolchainService service = project.getExtensions().getByType(JavaToolchainService.class)
 Provider<JavaLauncher> customLauncher = service.launcherFor {
-    it.languageVersion.set(JavaLanguageVersion.of(<MAJOR_JDK_VERSION>))
+    it.languageVersion = JavaLanguageVersion.of(<MAJOR_JDK_VERSION>)
 }
 tasks.withType(UsesKotlinJavaToolchain::class).configureEach { task ->
     task.kotlinJavaToolchain.toolchain.use(customLauncher)
@@ -516,6 +544,34 @@ tasks.named("compileJava", JavaCompile.class) {
 
 详情请参见 [Kotlin/JVM](jvm-get-started.md).
 
+#### 在编译任务中禁用 artifact
+
+在某些罕见的情况下, 你可能会遇到循环依赖错误导致的构建失败.
+例如, 你有多个编译任务, 其中一个可以看到另一个的所有内部声明, 并且生成的 artifact 依赖于两个编译任务的输出:
+
+```none
+FAILURE: Build failed with an exception.
+
+What went wrong:
+Circular dependency between the following tasks:
+:lib:compileKotlinJvm
+--- :lib:jvmJar
+     \--- :lib:compileKotlinJvm (*)
+(*) - details omitted (listed previously)
+```
+
+要修复这样的循环依赖错误, 我们添加了一个 Gradle 属性: `archivesTaskOutputAsFriendModule`.
+这个属性控制在编译任务中是否使用 artifact 作为输入, 并因此决定是否创建任务之间的依赖.
+
+默认情况下, 这个属性设置为 `true`, 追踪任务之间的依赖.
+如果你遇到了循环依赖错误, 你可以在编译任务中禁用 artifact, 删除任务之间的依赖, 以避免循环依赖错误.
+
+要在编译任务中禁用 artifact, 请向你的 `gradle.properties` 文件添加以下内容:
+
+```kotlin
+kotlin.build.archivesTaskOutputAsFriendModule=false
+```
+
 #### Kotlin/JVM 编译任务的延迟创建
 
 从 Kotlin 1.8.20 开始, Kotlin Gradle plugin 在试运行(dry run)时会注册所有的编译任务, 但不对它们进行配置.
@@ -534,8 +590,7 @@ tasks.jar(type: Jar) {
 
 ## 编译到多个目标平台 {id="targeting-multiple-platforms"}
 
-编译到 [多个目标平台](multiplatform-dsl-reference.md#targets) 的项目,
-称为 [跨平台项目](multiplatform-get-started.md),
+编译到 [多个目标平台](multiplatform-dsl-reference.md#targets) 的项目, 称为 [跨平台项目](multiplatform-intro.md),
 需要使用 `kotlin-multiplatform` 插件.
 
 > `kotlin-multiplatform` 插件要求 Gradle %minGradleVersion% 或更高版本.
@@ -563,7 +618,7 @@ plugins {
 </tab>
 </tabs>
 
-详情请参见 [在不同的平台使用 Kotlin Multiplatform](multiplatform-get-started.md) 和
+详情请参见 [在不同的平台使用 Kotlin Multiplatform](multiplatform-intro.md) 和
 [在 iOS 和 Android 平台使用 Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-getting-started.html).
 
 ## 编译到 Android 平台
@@ -772,7 +827,7 @@ kotlin.stdlib.default.dependency=false
 kotlin.stdlib.jdk.variants.version.alignment=false
 ```
 
-##### 版本对齐的另一种方法 {id="other-ways-to-align-versions"}
+##### 版本对齐的另一种方法 {id="other-ways-to-align-versions" initial-collapse-state="collapsed" collapsible="true"}
 
 * 如果版本对齐出现了问题, 你可以使用 Kotlin [BOM](https://docs.gradle.org/current/userguide/platforms.html#sub:bom_import) 来对齐所有依赖项的版本.
   在你的构建脚本中声明对 `kotlin-bom` 的平台依赖项:
@@ -906,10 +961,7 @@ kotlin.stdlib.jdk.variants.version.alignment=false
 对于支持的所有平台, Kotlin 项目的测试可以使用
 [`kotlin.test`](https://kotlinlang.org/api/latest/kotlin.test/) API.
 对 `commonTest` 源代码集添加 `kotlin-test` 依赖项,
-然后 Gradle plugin 会为每个测试源代码集推断出对应的测试库依赖项:
-* 对共通源代码集, 会添加 `kotlin-test-common` 和 `kotlin-test-annotations-common` 依赖项
-* 对 JVM 源代码集, 会添加 `kotlin-test-junit` 依赖项
-* 对 Kotlin/JS 源代码集, 会添加 `kotlin-test-js` 依赖项
+然后 Gradle plugin 会为每个测试源代码集推断出对应的测试库依赖项.
 
 Kotlin/Native 编译目标已经内建了 `kotlin.test` API 的实现, 不需要额外的测试依赖项.
 
@@ -951,6 +1003,8 @@ kotlin {
 {style="note"}
 
 你也可以在任何共通源代码集或平台相关的源代码集中使用 `kotlin-test` 依赖项.
+
+#### kotlin-test 的 JVM 变体
 
 对于 Kotlin/JVM, Gradle 默认使用 JUnit 4. 因此, `kotlin("test")` 依赖项会解析为 JUnit 4 的变体,
 名为 `kotlin-test-junit`.
@@ -1039,8 +1093,12 @@ test {
 
 参见 [在 JVM 平台上如何使用 JUnit 测试代码](jvm-test-using-junit.md).
 
-如果需要使用不同的 JVM 测试框架, 可以在项目的 `gradle.properties` 文件添加 `kotlin.test.infer.jvm.variant=false`, 关闭测试框架的自动选择.
-然后, 再将需要的测试框架添加为 Gradle 依赖项.
+JVM 变体的自动解析有时可能会对你的配置造成一些问题.
+这种情况下, 你可以明确指定需要的框架, 并向项目的 `gradle.properties` 文件添加以下内容, 关闭自动解析:
+
+```text
+kotlin.test.infer.jvm.variant=false
+```
 
 如果你在构建脚本中明确使用了 `kotlin("test")` 的变体, 而且项目的构建脚本出现兼容性冲突问题, 不再正常工作,
 请参见 [兼容性指南中的这个问题](compatibility-guide-15.md#do-not-mix-several-jvm-variants-of-kotlin-test-in-a-single-project).

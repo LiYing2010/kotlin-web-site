@@ -7,6 +7,16 @@
 这个功能使得 Java Persistence API (JPA) 可以创建类的实例, 即使从 Kotlin 或 Java 的观点看, 它并没有无参数的构造器
 (参见 [下文](#jpa-support) 关于 `kotlin-jpa` 插件的介绍).
 
+## 在你的 Kotlin 文件中
+
+添加新的注解, 用来标注那些需要无参数构造器的代码:
+
+```kotlin
+package com.my
+
+annotation class Annotation
+```
+
 ## Gradle
 
 添加插件, 并指定需要为类生成无参数构造器的注解.

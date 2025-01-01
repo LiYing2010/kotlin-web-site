@@ -7,7 +7,7 @@
 {style="note"}
 
 你可以访问我们的
-[Maven 示例](https://github.com/Kotlin/dokka/tree/{{ site.data.releases.dokkaVersion }}/examples/maven) 项目,
+[Maven 示例](https://github.com/Kotlin/dokka/tree/%dokkaVersion%/examples/maven) 项目,
 实际接触一下 Dokka, 看看它如何对 Maven 项目进行配置.
 
 ## 应用 Dokka {id="apply-dokka"}
@@ -254,7 +254,7 @@ Dokka 有很多配置选项, 可以用来定制你和你的读者的体验.
             是否禁止输出那些显而易见的函数.
         </p>
         <p>
-            满足以下条件的函数, 会被认为是显而易见的函数:
+            满足以下条件的函数, 会被认为是显而易见的函数:</p>
             <list>
                 <li>
                     继承自 <code>kotlin.Any</code>, <code>Kotlin.Enum</code>, <code>java.lang.Object</code> 或 <code>java.lang.Enum</code>,
@@ -265,7 +265,6 @@ Dokka 有很多配置选项, 可以用来定制你和你的读者的体验.
                     例如 <code>dataClass.componentN</code> 或 <code>dataClass.copy</code>.
                 </li>
             </list>
-        </p>
         <p>
             默认值: <code>true</code>
         </p>
@@ -505,13 +504,12 @@ Dokka 有很多配置选项, 可以用来定制你和你的读者的体验.
             那么最后的 URL 后缀会是 <code>#L10</code>.
         </p>
         <p>
-            各种常用的源代码托管服务的行数后缀是:
+            各种常用的源代码托管服务的行数后缀是:</p>
             <list>
             <li>GitHub: <code>#L</code></li>
             <li>GitLab: <code>#L</code></li>
             <li>Bitbucket: <code>#lines-</code></li>
             </list>
-        </p>
     </def>
 </deflist>
 
@@ -671,7 +669,7 @@ Dokka 有很多配置选项, 可以用来定制你和你的读者的体验.
         <suppressInheritedMembers>false</suppressInheritedMembers>
         <offlineMode>false</offlineMode>
         <sourceDirectories>
-            <dir>src</dir>
+            <dir>${project.basedir}/src</dir>
         </sourceDirectories>
         <documentedVisibilities>
             <visibility>PUBLIC</visibility>
@@ -702,7 +700,7 @@ Dokka 有很多配置选项, 可以用来定制你和你的读者的体验.
         </samples>
         <sourceLinks>
             <link>
-                <path>${project.basedir}/src</path>
+                <path>src</path>
                 <url>https://github.com/kotlin/dokka/tree/master/src</url>
                 <lineSuffix>#L</lineSuffix>
             </link>

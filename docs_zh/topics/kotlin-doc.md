@@ -50,7 +50,7 @@ KDoc 目前支持以下块标签:
 如果你希望的话, 为了更好地区分参数名与描述文本, 可以将参数名放在方括号内.
 所以下面两种语法是等价的:
 
-```
+```none
 @param name 描述.
 @param[name] 描述.
 ```
@@ -99,7 +99,7 @@ KDoc 目前支持以下块标签:
 将对象元素排除在文档之外. 有些元素, 不属于模块的正式 API 的一部分,
 但站在代码的角度又需要被外界访问, 对这样的元素可以使用这个标签.
 
-> KDoc 不支持 `@deprecated` 标签. 请使用 `@Deprecated` 注解来代替.
+> KDoc 不支持 `@deprecated` 标签. 请使用 [`@Deprecated`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-deprecated/) 注解来代替.
 >
 {style="note"}
 
@@ -109,7 +109,7 @@ KDoc 目前支持以下块标签:
 [Markdown](https://daringfireball.net/projects/markdown/syntax)
 语法, 但添加了一种缩写语法来生成指向代码内其他元素的链接.
 
-### 指向元素的链接
+### 指向元素的链接 {id="links-to-elements"}
 
 要生成指向其他元素(类, 方法, 属性, 或参数)的链接, 只需要简单地将它的名称放在方括号内:
 

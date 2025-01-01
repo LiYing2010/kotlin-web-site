@@ -46,7 +46,7 @@ Lombok 编译器插件不能代替 [Lombok](https://projectlombok.org/), 但它�
 ```kotlin
 plugins {
     kotlin("plugin.lombok") version "%kotlinVersion%"
-    id("io.freefair.lombok") version "8.1.0"
+    id("io.freefair.lombok") version "8.10"
 }
 ```
 
@@ -56,7 +56,7 @@ plugins {
 ```groovy
 plugins {
     id 'org.jetbrains.kotlin.plugin.lombok' version '%kotlinVersion%'
-    id 'io.freefair.lombok' version '8.1.0'
+    id 'io.freefair.lombok' version '8.10'
 }
 ```
 

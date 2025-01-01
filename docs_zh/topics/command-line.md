@@ -3,9 +3,12 @@
 每个 Kotlin 发布版都带有独立版本的编译器.
 你可以手动下载最新版本, 也可以使用包管理器下载.
 
-> 要使用 Kotlin, 安装命令行编译器并不是必须的. 编写 Kotlin 应用程序的通常方式是使用 IDE -
-> [IntelliJ IDEA](https://www.jetbrains.com/idea/) 或 [Android Studio](https://developer.android.com/studio).
-> IDE 已经提供了完全的 Kotlin 支持, 不需要添加其它组件.
+> 要使用 Kotlin, 安装命令行编译器并不是必须的.
+> 编写 Kotlin 应用程序的通常方式是使用带有官方 Kotlin 支持的 IDE 或代码编辑器,
+> 例如 [IntelliJ IDEA](https://www.jetbrains.com/idea/), [JetBrains Fleet](https://www.jetbrains.com/fleet/),
+> 或 [Android Studio](https://developer.android.com/studio).
+> 它们已经提供了完全的 Kotlin 支持, 不需要添加其它组件.
+>
 > 更多详情请参见 [在 IDE 中使用 Kotlin](getting-started.md).
 >
 {style="note"}
@@ -20,7 +23,7 @@
 2. 将独立版本的编译器解包到一个目录, 并将 `bin` 目录添加到系统的 path 设定中(可选).
    `bin` 目录包含在 Windows, macOS, 和 Linux 上编译和运行 Kotlin 所需要的脚本.
 
-> 对于想要使用命令行编译器的 Windows 用户, 我们推荐使用手动安装的方法.
+> 如果你想要在 Windows 上使用 Kotlin 命令行编译器, 我们推荐手动安装.
 >
 {style="note"}
 
@@ -54,7 +57,8 @@ sudo snap install --classic kotlin
 
 ## 创建并运行应用程序
 
-1. 创建一个简单的 Kotlin 应用程序, 它输出 `"Hello, World!"`. 使用你喜欢的比较器, 创建一个名为 `hello.kt` 的新文件, 内容如下:
+1. 使用 Kotlin 创建一个简单的控制台 JVM 应用程序, 它输出 `"Hello, World!"`.
+   在代码编辑器中, 创建一个名为 `hello.kt` 的新文件, 包含以下代码:
 
    ```kotlin
    fun main() {
@@ -68,16 +72,16 @@ sudo snap install --classic kotlin
    kotlinc hello.kt -include-runtime -d hello.jar
    ```
 
-   `-d` 选项指定生成的类文件的输出路径, 可以是一个目录或一个 *.jar* 文件.
-   `-include-runtime` 选项让生成的 *.jar* 文件称为自包含文件, 其中包含了 Kotlin 运行期库, 因此可以独立运行.
+   * `-d` 选项指定生成的类文件的输出路径, 可以是一个目录或一个 **.jar** 文件.
+   * `-include-runtime` 选项让生成的 **.jar** 文件成为自包含文件, 其中包含了 Kotlin 运行期库, 因此可以独立运行.
 
-   要查看所有可用的选项, 请运行
+   要查看所有可用的选项, 请运行:
 
    ```bash
    kotlinc -help
    ```
 
-3. 运行应用程序.
+3. 运行应用程序:
 
    ```bash
    java -jar hello.jar
@@ -85,7 +89,7 @@ sudo snap install --classic kotlin
 
 ## 编译一个库
 
-如果你在开发库, 供使用其他 Kotlin 应用程序使用, 那么构建 *.jar* 文件时可以不包含 Kotlin 运行库:
+如果你在开发库, 供其他 Kotlin 应用程序使用, 那么构建 **.jar** 文件时可以不包含 Kotlin 运行库:
 
 ```bash
 kotlinc hello.kt -d hello.jar
@@ -109,7 +113,8 @@ kotlin -classpath hello.jar HelloKt
 
 ## 运行脚本
 
-Kotlin 也可以用作脚本语言. 一个脚本就是一个 Kotlin 源代码文件 (`.kts`), 其中包含顶级(Top-Level)可执行代码.
+你也可以将 Kotlin 用作脚本语言.
+一个 Kotlin 脚本就是一个 Kotlin 源代码文件 (`.kts`), 其中包含顶级(Top-Level)可执行代码.
 
 ```kotlin
 import java.io.File
@@ -129,8 +134,8 @@ kotlinc -script list_folders.kts -- -d <path_to_folder_to_inspect>
 ```
 
 Kotlin 支持脚本的自定义功能(实验性功能), 例如添加外部属性, 提供静态或动态依赖项, 等等.
-自定义通过所谓的 *脚本定义(Script Definition)* 来定义 -
-它是带注解的 Kotlin 类, 带有适当的支持代码. 通过脚本文件名称扩展来选择适当的定义.
+自定义通过所谓的 _脚本定义(Script Definition)_ 来定义 - 它是带注解的 Kotlin 类, 带有适当的支持代码.
+通过脚本文件名称扩展来选择适当的定义.
 详情请参见 [Kotlin 自定义脚本](custom-script-deps-tutorial.md).
 
 在编译类路径中包含了正确的 jar 文件时, 会自动检测并使用适当准备的脚本定义.

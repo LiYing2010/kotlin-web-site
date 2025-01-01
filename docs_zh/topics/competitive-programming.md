@@ -101,7 +101,7 @@ fun main() {
 
 注意, 在
 [readLine()](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/read-line.html)
-函数调用之后使用了 Kotlin 的 [null 判断操作符](null-safety.md#the-operator) `!!`.
+函数调用之后使用了 Kotlin 的 [null 判断操作符](null-safety.md#not-null-assertion-operator) `!!`.
 Kotlin 的 `readLine()` 函数定义是返回一个
 [可为 null 的类型](null-safety.md#nullable-types-and-non-nullable-types) `String?`,
 并在输入结束时返回 `null`, 因此要求开发者处理没有输入的情况.

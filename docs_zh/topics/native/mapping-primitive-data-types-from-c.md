@@ -29,7 +29,7 @@ C 程序语言中有以下数据类型:
 - `size_t` 和 `ptrdiff_t` (以及 `ssize_t`)
 - 定宽整数类型, 比如 `int32_t` 或 `uint64_t` (由 [C99](https://en.wikipedia.org/wiki/C99) 定义)
 
-C 语言中还有以下类型修饰符: `const`, `volatile`, `restruct`, `atomic`.
+C 语言中还有以下类型修饰符: `const`, `volatile`, `restrict`, `atomic`.
 
 要了解 C 数据类型在 Kotlin 中会变成什么, 最好的办法是实践一下.
 

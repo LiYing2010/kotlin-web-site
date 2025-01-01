@@ -1,4 +1,5 @@
 [//]: # (title: FAQ)
+[//]: # (description: Kotlin 是 JetBrains 公司开发的一种简洁的跨平台编程语言.)
 
 ### 什么是 Kotlin? {id="what-is-kotlin"}
 
@@ -41,9 +42,8 @@ Kotlin 在类型安全方面也更强, 比如, 它支持 非 null 类型, 可以
 
 ### 我可以用 Kotlin 来做什么? {id="what-can-i-use-kotlin-for"}
 
-Kotlin 可以用来做任何类型的开发, 可以用在 Web 服务器端, Web 客户端, 以及 Android 环境.
-通过 Kotlin/Native 功能(目前正在开发的), 未来还将支持其他平台,
-比如嵌入式系统, macOS 以及 iOS.
+Kotlin 可以用来做任何类型的开发, 可以开发 Web 服务器端, Web 客户端, Android 环境, 以及跨平台的库.
+通过 Kotlin/Native 功能(目前正在开发中), 还支持其他平台, 比如嵌入式系统, macOS 以及 iOS.
 目前已有开发者使用 Kotlin 开发移动应用程序, 服务端应用程序,
 JavaScript 或 JavaFX 的客户端应用程序, 以及数据科学, 这只是少部分例子.
 
@@ -71,7 +71,7 @@ JavaScript 或 JavaFX 的客户端应用程序, 以及数据科学, 这只是少
 
 ### 我可以使用 Kotlin 进行原生(Native)程序开发吗? {id="can-i-use-kotlin-for-native-development"}
 
-是的. Kotlin 项目包括了 Kotlin/Native. 它可以将 Kotlin 代码编译为原生代码, 运行时无需 VM.
+是的. Kotlin 包括了 Kotlin/Native. 它可以将 Kotlin 代码编译为原生代码, 运行时无需 VM.
 你可以试用它, 用于流行的桌面和移动设备平台, 甚至还可以用于一部分 IoT 设备.
 详情请参见 [Kotlin/Native 文档](native-overview.md).
 
@@ -82,7 +82,7 @@ JavaScript 或 JavaFX 的客户端应用程序, 以及数据科学, 这只是少
 [Android Studio](https://developer.android.com/kotlin/get-started),
 以及 [JetBrains Fleet](https://www.jetbrains.com/help/fleet/getting-started-with-kotlin-in-fleet.html).
 
-其他 IDE 和源代码编辑器, 比如 Eclipse, Visual Studio Code, 和 Atom, 也有 Kotlin 社区支持的 plugin.
+其他 IDE 和代码编辑器只有 Kotlin 社区支持的 plugin.
 
 你也可以试用 [Kotlin Playground](https://play.kotlinlang.org), 在你的浏览器中编写, 运行, 并共享 Kotlin 代码.
 
@@ -122,19 +122,20 @@ Kotlin 受到各种既有语言的启发, 比如 Java, C#, JavaScript, Scala 以
 使用 Kotlin 的公司非常多, 难以全部列举, 但有些大公司已经通过 blog, 通过 GitHub 库, 或通过演讲, 公开宣布使用 Kotlin,
 包括 [Square](https://medium.com/square-corner-blog/square-open-source-loves-kotlin-c57c21710a17),
 [Pinterest](https://www.youtube.com/watch?v=mDpnc45WwlI),
-[Basecamp](https://m.signalvnoise.com/how-we-made-basecamp-3s-android-app-100-kotlin-35e4e1c0ef12)
-以及 [Corda](https://docs.corda.net/releases/release-M9.2/further-notes-on-kotlin.html).
+[Basecamp](https://signalvnoise.com/svn3/using-kotlin-to-make-android-apis-fun-again/)
+以及 [Corda](https://corda.net/blog/kotlin/).
 
 ### Kotlin 的开发者是谁? {id="who-develops-kotlin"}
 
-Kotlin 主要是由 [JetBrains](https://www.jetbrains.com/) 公司的一个工程师团队(目前 100+ 人)开发的.
+Kotlin 是由 [JetBrains](https://www.jetbrains.com/) 公司的一个工程师团队(目前 100+ 人)开发的.
 语言设计的领导者是 Michail Zarečenskij.
 除了这个核心团队之外, 在 GitHub 上还有超过 250 人的外部贡献者.
 
 ### 在哪里可以得到 Kotlin 的更多信息? {id="where-can-i-learn-more-about-kotlin"}
 
 最好从 [我们的网站](https://kotlinlang.org) 开始.
-在这里, 你可以[下载编译器](command-line.md), [在线试运行代码](https://play.kotlinlang.org), 并访问各种资源.
+要开始使用 Kotlin, 你可以安装 [官方 IDE](kotlin-ide.md),
+或者 [在线试运行代码](https://play.kotlinlang.org).
 
 ### 是否有关于 Kotlin 的书籍? {id="are-there-any-books-on-kotlin"}
 

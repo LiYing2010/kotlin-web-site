@@ -3,7 +3,7 @@
 通过将恰当命名的函数用做构建器, 结合 [带接受者的函数字面值](lambdas.md#function-literals-with-receiver),
 我们可以在 Kotlin 中创建出类型安全的, 静态类型的构建器.
 
-类型安全的构建器(Type-safe builder) 可以用来创建基于 Kotlin 的, 特定领域专用语言(domain-specific language, DSL),
+类型安全的构建器(Type-safe builder) 可以用来创建基于 Kotlin 的, 特定领域专用语言(Domain-Specific Language, DSL),
 这些语言适合于使用半声明的方式创建复杂的层级式数据结构.
 比如, 构建器的一些应用场景包括:
 
@@ -174,7 +174,7 @@ operator fun String.unaryPlus() {
 以上所有类和函数都定义在 `com.example.html` 包中, 上面的构建器示例程序的最上部引入了这个包.
 在最后一节中, 你可以读到这个包的完整定义.
 
-## 控制接受者的作用范围: `@DslMarker`
+## 控制接受者的作用范围: @DslMarker
 
 使用 DSL 时, 可能遇到的一个问题就是, 当前上下文中存在太多可供调用的函数.
 在 Lambda 表达式内, 你可以调用所有隐含接受者的所有方法,
@@ -243,7 +243,7 @@ html {
 }
 ```
 
-## `com.example.html` 包的完整定义 {id="full-definition-of-the-com-example-html-package"}
+## com.example.html 包的完整定义 {id="full-definition-of-the-com-example-html-package"}
 
 下面是 `com.example.html` 包的完整定义(但只包含上文示例程序使用到的元素).
 它可以构建一个 HTML 树.

@@ -5,16 +5,24 @@
 * [对 Gradle 构建缓存的支持](#gradle-build-cache-support)
 * [对 Gradle 配置缓存的支持](#gradle-configuration-cache-support)
 * [Kotlin daemon 及其在 Gradle 中的使用](#the-kotlin-daemon-and-how-to-use-it-with-gradle)
+* [回退到以前的编译器](#rolling-back-to-the-previous-compiler)
 * [定义 Kotlin 编译器执行策略](#defining-kotlin-compiler-execution-strategy)
 * [Kotlin 编译器的 fallback 策略](#kotlin-compiler-fallback-strategy)
+* [试用最新的语言版本](#trying-the-latest-language-version)
 * [构建报告](#build-reports)
 
 ## 增量编译(Incremental compilation)
 
 Kotlin Gradle plugin 支持增量编译模式.
-增量编译模式会监视源代码文件在两次编译之间的变更, 因此只有变更过的文件会被编译.
+增量编译模式会监视 classpath 中的文件在两次编译之间的变更, 因此只有变更过的文件会被编译.
+增量编译与 [Gradle 的构建缓存](#gradle-build-cache-support) 一起配合工作,
+并支持 [编译回避(compilation avoidance)](https://docs.gradle.org/current/userguide/java_plugin.html#sec:java_compile_avoidance).
 
 增量编译模式支持 Kotlin/JVM 和 Kotlin/JS 工程, 并且默认开启.
+
+> Kotlin/JS 项目 使用另一种基于历史文件的增量编译方式.
+>
+{style="note"}
 
 有以下几种方式可以禁用增量编译设定:
 
@@ -32,26 +40,8 @@ Kotlin Gradle plugin 支持增量编译模式.
 >
 {style="tip"}
 
-### 增量编译的新方案
-
-从 Kotlin 1.7.0 开始, 针对 JVM 后端, 而且只在 Gradle 构建系统中, 可以使用增量编译的新方案.
-从 Kotlin 1.8.20 开始, 默认启用这个新方案.
-这种方案支持发生在依赖的非 Kotlin 模块内的变更,
-包括编译回避功能的改进, 并且与 [Gradle 构建缓存](#gradle-build-cache-support) 兼容.
-
-这些功能改进可以减少非增量式构建的次数, 让整体的编译时间更加快速.
-如果你使用构建缓存, 或者在非 Kotlin Gradle 模块中频繁进行修改, 那么可以得到显著的性能改进.
-
-要关闭这个新方案, 请在你的 `gradle.properties` 中设置以下选项:
-
-```none
-kotlin.incremental.useClasspathSnapshot=false
-```
-
-希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-49682) 提供你对这个功能的反馈意见.
-
-关于增量编译的新方案的底层实现细节, 请参见
-[这篇 Blog](https://blog.jetbrains.com/kotlin/2022/07/a-new-approach-to-incremental-compilation-in-kotlin/).
+如果你想要了解我们目前的增量编译方案如何工作, 以及与以前方案的区别,
+请阅读我们的 [blog](https://blog.jetbrains.com/kotlin/2022/07/a-new-approach-to-incremental-compilation-in-kotlin/).
 
 ### 对编译任务的输出的精确备份
 
@@ -71,7 +61,7 @@ kotlin.incremental.useClasspathSnapshot=false
 kotlin.compiler.preciseCompilationResultsBackup=true
 ```
 
-#### JetBrains 使用精确备份的例子
+#### JetBrains 使用精确备份的例子 {initial-collapse-state="collapsed" collapsible="true"}
 
 在下面的图表中, 你可以看到使用精确备份与完整备份相对比的示例:
 
@@ -97,7 +87,7 @@ kotlin.compiler.preciseCompilationResultsBackup=true
 * 哪些模块受到变更的影响, 以及这些模块有多大.
 * 是 ABI 变更还是非 ABI 变更.
 
-#### 使用构建报告来评估优化
+#### 使用构建报告来评估优化 {initial-collapse-state="collapsed" collapsible="true"}
 
 要对你的项目和场景, 评估优化在你的计算机上的影响, 你可以使用 [Kotlin 构建报告](#build-reports).
 请向你的 `gradle.properties` 文件添加下面的属性, 启用文本文件格式的构建报告:
@@ -178,7 +168,7 @@ Kotlin daemon 使用与 Gradle daemon 相同的 JDK.
 比如, 在 `gradle.properties` 文件中:
 
 ```none
-org.gradle.jvmargs=-Xmx1500m -Xms=500m
+org.gradle.jvmargs=-Xmx1500m -Xms500m
 ```
 
 #### 设置系统属性 kotlin.daemon.jvm.options {id="kotlin-daemon-jvm-options-system-property"}
@@ -186,7 +176,7 @@ org.gradle.jvmargs=-Xmx1500m -Xms=500m
 如果 Gradle daemon 的 JVM 参数包含 `kotlin.daemon.jvm.options` 系统属性 – 请在 `gradle.properties` 文件中指定:
 
 ```none
-org.gradle.jvmargs=-Dkotlin.daemon.jvm.options=-Xmx1500m,Xms=500m
+org.gradle.jvmargs=-Dkotlin.daemon.jvm.options=-Xmx1500m,Xms500m
 ```
 
 传递参数时, 要遵守以下规则:
@@ -208,7 +198,7 @@ org.gradle.jvmargs=-Dkotlin.daemon.jvm.options=-Xmx1500m,Xms=500m
 你可以在 `gradle.properties` 文件中添加 `kotlin.daemon.jvmargs` 属性:
 
 ```none
-kotlin.daemon.jvmargs=-Xmx1500m -Xms=500m
+kotlin.daemon.jvmargs=-Xmx1500m -Xms500m
 ```
 
 #### 使用 kotlin 扩展 {id="kotlin-extension"}
@@ -228,8 +218,8 @@ kotlin {
 <tab title="Groovy" group-key="groovy">
 
 ```groovy
-kotlin {
-    kotlinDaemonJvmArgs = ["-Xmx486m", "-Xms256m", "-XX:+UseParallelGC"]
+tasks.withType(CompileUsingKotlinDaemon).configureEach { task ->
+    task.kotlinDaemonJvmArguments = ["-Xmx1g", "-Xms512m"]
 }
 ```
 
@@ -281,24 +271,18 @@ tasks.withType(CompileUsingKotlinDaemon::class).configureEach { task ->
   {style="note"}
 * 如果 `Xmx` 参数未指定, Kotlin daemon 会从 Gradle daemon 继承.
 
-## Kotlin 的新编译器 {id="the-new-kotlin-compiler"}
+## 回退到以前的编译器 {id="rolling-back-to-the-previous-compiler"}
 
-Kotlin 的新 K2 编译器处于 [Beta 阶段](components-stability.md#stability-levels-explained).
-它对 Kotlin JVM, Native, Wasm 和 JS 项目提供基本的支持.
+从 Kotlin 2.0.0 开始, 默认使用 K2 编译器.
 
-新编译器的目标是加速新的语言功能的开发, 统一 Kotlin 支持的所有平台, 带来性能改进, 并为编译器扩展提供 API.
+要在 Kotlin 2.0.0 之后的版本中使用以前的编译器, 请使用以下方法:
 
-从 Kotlin 2.0 开始, 将会默认使用 K2 编译器.
-要在你的项目中试用它, 并检查它的性能, 请使用 `kotlin.experimental.tryK2=true` Gradle 属性, 或执行下面的命令:
+* 在你的 `build.gradle.kts` 文件中, [设置语言版本](gradle-compiler-options.md#example-of-setting-a-languageversion) 为 `1.9`.
 
-```shell
-./gradlew assemble -Pkotlin.experimental.tryK2=true
-```
+  或者
+* 使用以下编译器选项: `-language-version 1.9`.
 
-这个 Gradle 属性会自动将默认语言版本设置为 2.0, 并更新 [构建报告](#build-reports)
-其中包含, 与当前的编译器相比, 使用 K2 编译器编译的 Kotlin 任务的数量.
-
-关于 K2 编译器的稳定性, 更多详情请参见我们的 [Kotlin blog](https://blog.jetbrains.com/kotlin/2023/02/k2-kotlin-2-0/)
+关于 K2 编译器的优点, 请参见 [K2 编译器迁移向导](k2-compiler-migration-guide.md).
 
 ## 定义 Kotlin 编译器执行策略 {id="defining-kotlin-compiler-execution-strategy"}
 
@@ -306,11 +290,11 @@ _Kotlin 编译器执行策略_ 定义 Kotlin 编译器在哪里执行, 以及各
 
 有 3 种编译器执行策略:
 
-| 策略 | Kotlin 编译器在哪里执行 | 增量编译 | 其它特征, 以及注意事项 |
-|-----|-----------------------|---------|---------------------|
-| Daemon         | 在 Kotlin 自己的 daemon 进程之内 | 是    | _默认的, 而且最快的策略_. 可以在不同的 Gradle daemon, 以及多个并行编译之间共用. |
+| 策略             | Kotlin 编译器在哪里执行          | 增量编译 | 其它特征, 以及注意事项                                                                                                                                                                 |
+|----------------|--------------------------|------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Daemon         | 在 Kotlin 自己的 daemon 进程之内 | 是    | _默认的, 而且最快的策略_. 可以在不同的 Gradle daemon, 以及多个并行编译之间共用.                                                                                                                          |
 | In process     | 在 Gradle daemon 进程之内     | 否    | 可以与 Gradle daemon 共用 heap. "In process" 执行策略比 "Daemon" 执行策略 _更慢_. 每个 [worker](https://docs.gradle.org/current/userguide/worker_api.html) 会为每个编译创建单独的 Kotlin 编译器 classloader. |
-| Out of process | 对每个编译都在单独的进程内 | 否  | 这是最慢的执行策略. 与 "In process" 类似, 但还会为每个编译在 Gradle worker 内创建单独的 Java 进程.  |
+| Out of process | 对每个编译都在单独的进程内            | 否    | 这是最慢的执行策略. 与 "In process" 类似, 但还会为每个编译在 Gradle worker 内创建单独的 Java 进程.                                                                                                        |
 
 要定义一个 Kotlin 编译器执行策略, 你可以使用以下属性之一:
 * Gradle 属性 `kotlin.compiler.execution.strategy`.
@@ -361,7 +345,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompilerExecutionStrategy
 
 tasks.withType(CompileUsingKotlinDaemon)
     .configureEach {
-        compilerExecutionStrategy.set(KotlinCompilerExecutionStrategy.IN_PROCESS)
+        compilerExecutionStrategy = KotlinCompilerExecutionStrategy.IN_PROCESS
     }
 ```
 
@@ -419,14 +403,21 @@ tasks.named("compileKotlin").configure {
 
 如果运行编译所需要的内存不足, 你会在 log 中看到相关信息.
 
-## 构建报告 {id="build-reports"}
+## 试用最新的语言版本 {id="trying-the-latest-language-version"}
 
-> 构建报告是 [实验性功能](components-stability.md).
-> 它随时有可能变更或被删除.
-> 需要使用者同意(Opt-in) (详情见下文). 请注意, 只为评估目的来使用这个功能.
-> 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issues/KT) 提供你的反馈意见.
->
-{style="warning"}
+从 Kotlin 2.0.0 开始, 要试用最新的语言版本, 请在你的 `gradle.properties` 文件中设置 `kotlin.experimental.tryNext` 属性.
+使用这个属性时, Kotlin Gradle plugin 会将语言版本增加到比你的 Kotlin 版本的默认值的下一个版本.
+例如, 在 Kotlin 2.0.0 中, 默认的语言版本是 2.0, 因此这个属性会将语言版本配置为 2.1.
+
+或者, 你也可以运行以下命令:
+
+```shell
+./gradlew assemble -Pkotlin.experimental.tryNext=true
+``` 
+
+在 [构建报告](#build-reports) 中, 你可以看到用来编译每个任务的语言版本.
+
+## 构建报告 {id="build-reports"}
 
 构建报告包括不同编译阶段的持续时间, 以及为什么不能进行增量编译的原因.
 如果编译时间太长, 或对于相同的项目出现了不同的编译时间, 可以使用构建报告来调查性能问题.
@@ -440,8 +431,7 @@ Gradle Build Scan 中的粒度只是单个 Gradle Task.
   可以尝试重新组织源代码文件 — 切分大的文件, 将不同的类保存到不同的文件, 重构大的类, 在不同的文件中声明顶层函数, 等等.
 
 构建报告还会显示项目中使用的 Kotlin 版本.
-此外, 从 Kotlin 1.9.0 开始, 你可以在你的 [Gradle Build Scan](https://scans.gradle.com/) 中看到,
-是使用当前编译器还是 [K2 编译器](#the-new-kotlin-compiler)来编译代码.
+此外, 从 Kotlin 1.9.0 开始, 你可以在你的 [Gradle Build Scan](https://scans.gradle.com/) 中看到, 编译代码时使用的是哪个编译器.
 
 请参见
 [如何阅读构建报告](https://blog.jetbrains.com/kotlin/2022/06/introducing-kotlin-build-reports/#how_to_read_build_reports)
@@ -457,22 +447,26 @@ kotlin.build.report.output=file
 
 以下各个值的组合可以用于输出:
 
-| 选项   | 含义   |
-|--------|-------|
-| `file` | 将构建报告保存到本地文件, 使用可供人类阅读的格式. 默认设置是 `${project_folder}/build/reports/kotlin-build/${project_name}-timestamp.txt` |
-| `single_file` | 将构建报告保存到本地文件, 使用二进制对象格式 |
-| `build_scan` | 将构建报告保存到 [build scan](https://scans.gradle.com/) 的 `custom values` 小节. 注意, Gradle Enterprise plugin 会限制 custom values 的数量和长度. 在很大的项目中, 有些值可能会丢失. |
-| `http` | 通过 HTTP(S) 提交构建报告. 使用 POST 方法传送 JSON 格式的测量结果. 你可以在 [Kotlin 代码仓库](https://github.com/JetBrains/kotlin/blob/master/libraries/tools/kotlin-gradle-plugin/src/common/kotlin/org/jetbrains/kotlin/gradle/plugin/statistics/CompileStatisticsData.kt) 中看到传送的数据的当前版本. 你可以在 [这篇 Blog](https://blog.jetbrains.com/kotlin/2022/06/introducing-kotlin-build-reports/#enable_build_reports) 看到 HTTP Endpoint 的示例  |
+| 选项            | 含义                                                                                                                                                                                                                                                                                                                                                                                                   |
+|---------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `file`        | 将构建报告保存到本地文件, 使用可供人类阅读的格式. 默认设置是 `${project_folder}/build/reports/kotlin-build/${project_name}-timestamp.txt`                                                                                                                                                                                                                                                                                        |
+| `single_file` | 将构建报告保存到本地文件, 使用二进制对象格式.                                                                                                                                                                                                                                                                                                                                                                             |
+| `build_scan`  | 将构建报告保存到 [build scan](https://scans.gradle.com/) 的 `custom values` 小节. 注意, Gradle Enterprise plugin 会限制 custom values 的数量和长度. 在很大的项目中, 有些值可能会丢失.                                                                                                                                                                                                                                                     |
+| `http`        | 通过 HTTP(S) 提交构建报告. 使用 POST 方法传送 JSON 格式的测量结果. 你可以在 [Kotlin 代码仓库](https://github.com/JetBrains/kotlin/blob/master/libraries/tools/kotlin-gradle-plugin/src/common/kotlin/org/jetbrains/kotlin/gradle/report/data/GradleCompileStatisticsData.kt) 中看到传送的数据的当前版本. 你可以在 [这篇 Blog](https://blog.jetbrains.com/kotlin/2022/06/introducing-kotlin-build-reports/#enable_build_reports) 看到 HTTP Endpoint 的示例 |
+| `json`        | 将构建报告保存到本地文件, 使用 JSON 格式. 请使用 `kotlin.build.report.json.directory` 来设置你的构建报告的路径 (参见下文). 默认情况下, 文件名是 `${project_name}-build-<date-time>-<index>.json`.                                                                                                                                                                                                                                                |
 
 下面是 `kotlin.build.report` 的选项列表:
 
 ```none
 # 需要的报告输出格式. 可以任意组合
-kotlin.build.report.output=file,single_file,http,build_scan
+kotlin.build.report.output=file,single_file,http,build_scan,json
 
 # 如果使用 single_file 输出, 则必须设置. 表示报告的输出位置
 # 请使用这个设定, 代替已废弃的 `kotlin.internal.single.build.metrics.file` 属性
 kotlin.build.report.single_file=some_filename
+
+# 如果使用 json 输出, 则必须设置. 表示报告的输出位置
+kotlin.build.report.json.directory=my/directory/path
 
 # 可选项. 文件格式的报告的输出目录. 默认值是: build/reports/kotlin-build/
 kotlin.build.report.file.output_dir=kotlin-reports
