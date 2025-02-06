@@ -5,13 +5,12 @@
    <p><img src="icon-1-done.svg" width="20" alt="First step"/> <a href="kotlin-notebook-set-up-env.md">设置环境</a><br/>
       <img src="icon-2.svg" width="20" alt="Second step"/> <strong>创建 Kotlin Notebook</strong><br/>
       <img src="icon-3-todo.svg" width="20" alt="Third step"/>向 Kotlin Notebook 添加依赖项<br/>
-      <img src="icon-4-todo.svg" width="20" alt="Fourth step"/>共享 Kotlin Notebook<br/>
   </p>
 </tldr>
 
-在这一章中, 你将学习如何创建你的第一个 Kotlin Notebook, 执行简单的操作, 并运行代码单元(code cell).
+在这一章中, 你将学习如何创建你的第一个 [Kotlin Notebook](kotlin-notebook-overview.md), 执行简单的操作, 并运行代码单元(code cell).
 
-## 创建一个空项目
+## 创建一个空项目 {id="create-an-empty-project"}
 
 1. 在 IntelliJ IDEA 中, 选择 **File | New | Project**.
 2. 在左侧面板中, 选择 **New Project**. 
@@ -36,7 +35,7 @@
 
 8. 点击 **Create**.
 
-## 创建一个 Kotlin Notebook
+## 创建一个 Kotlin Notebook {id="create-a-kotlin-notebook"}
 
 1. 要创建一个新的 Notebook, 请选择 **File | New | Kotlin Notebook**, 或者对一个文件夹右击鼠标, 选择 **New | Kotlin Notebook**.
 
@@ -67,7 +66,7 @@
 
 恭喜! 你已经创建了你的第一个 Kotlin Notebook.
 
-## 创建 Kotlin Notebook 草稿
+## 创建 Kotlin Notebook 草稿 {id="create-a-scratch-kotlin-notebook"}
 
 从 IntelliJ IDEA 2024.1.1 开始, 你还能够以草稿文件(Scratch File)的形式创建 Kotlin Notebook.
 
@@ -80,7 +79,7 @@
 
    ![Notebook 草稿](kotlin-notebook-scratch-file.png){width=400}
 
-## 下一步
+## 下一步 {id="next-step"}
 
 在本教程的下一部分, 你将学习如何向 Kotlin Notebook 添加依赖项.
 

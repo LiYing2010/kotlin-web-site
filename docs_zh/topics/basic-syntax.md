@@ -7,7 +7,7 @@
 [Kotlin 核心课程](https://hyperskill.org/tracks?category=4&utm_source=jbkotlin_hs&utm_medium=referral&utm_campaign=kotlinlang-docs&utm_content=button_1&utm_term=22.03.23)
 学习 Kotlin 的全部基本知识.
 
-## 包的定义与导入
+## 包的定义与导入 {id="package-definition-and-imports"}
 
 包的定义应该在源代码文件的最上方:
 
@@ -43,7 +43,7 @@ fun main(args: Array<String>) {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-## 向标准输出(Standard Output)打印信息
+## 向标准输出(Standard Output)打印信息 {id="print-to-the-standard-output"}
 
 `print` 函数会将传递给它的参数打印到标准输出(Standard Output):
 
@@ -69,7 +69,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-basic-syntax-println"}
 
-## 从标准输入(Standard Input)读取信息
+## 从标准输入(Standard Input)读取信息 {id="read-from-the-standard-input"}
 
 `readln()` 函数会从标准输入(Standard Input)读取信息. 这个函数将用户输入的整个行读取为字符串.
 
@@ -90,7 +90,7 @@ print(yourWord)
 
 更多详情请参见 [读取标准输入](read-standard-input.md).
 
-## 函数
+## 函数 {id="functions"}
 
 以下函数接受两个 `Int` 类型参数, 并返回 `Int` 类型结果:
 
@@ -248,7 +248,7 @@ fun main() {
 
 关于属性的声明, 更多详情请参见 [属性(Property)](properties.md).
 
-## 创建类与实例
+## 创建类与实例 {id="creating-classes-and-instances"}
 
 要定义类, 请使用 `class` 关键字:
 
@@ -289,7 +289,7 @@ class Rectangle(val height: Double, val length: Double): Shape() {
 
 关于构造器与继承, 更多详情请参见 [类](classes.md) 和 [对象与实例](object-declarations.md).
 
-## 注释
+## 注释 {id="comments"}
 
 与大多数现代编程语言一样, Kotlin 支持单行(或者叫做 _行尾_)注释, 也支持多行 (或者叫做 _块_) 注释:
 
@@ -310,7 +310,7 @@ Kotlin 的块注释允许嵌套:
 
 关于文档注释的语法, 详情请参见 [Kotlin 代码中的文档](kotlin-doc.md).
 
-## 字符串模板
+## 字符串模板 {id="string-templates"}
 
 ```kotlin
 fun main() {
@@ -330,7 +330,7 @@ fun main() {
 
 详情请参见 [字符串模板](strings.md#string-templates).
 
-## 条件表达式
+## 条件表达式 {id="conditional-expressions"}
 
 ```kotlin
 //sampleStart
@@ -364,7 +364,7 @@ fun main() {
 
 参见 [`if` 表达式](control-flow.md#if-expression).
 
-## for 循环
+## for 循环 {id="for-loop"}
 
 ```kotlin
 fun main() {
@@ -394,7 +394,7 @@ fun main() {
 
 参见 [for 循环](control-flow.md#for-loops).
 
-## while 循环
+## while 循环 {id="while-loop"}
 
 ```kotlin
 fun main() {
@@ -412,7 +412,7 @@ fun main() {
 
 参见 [while 循环](control-flow.md#while-loops).
 
-## when 表达式
+## when 表达式 {id="when-expression"}
 
 ```kotlin
 //sampleStart
@@ -436,9 +436,9 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-basic-syntax-when-expression"}
 
-参见 [when 表达式](control-flow.md#when-expression).
+参见 [when 表达式和语句](control-flow.md#when-expressions-and-statements).
 
-## 值范围(Range)
+## 值范围(Range) {id="ranges"}
 
 使用 `in` 操作符检查一个数值是否在某个值范围(Range)之内:
 
@@ -505,7 +505,7 @@ fun main() {
 
 参见 [值范围(Range)与数列(Progression)](ranges.md).
 
-## 集合(Collection)
+## 集合(Collection) {id="collections"}
 
 在一个集合上进行遍历迭代:
 
@@ -554,7 +554,7 @@ fun main() {
 
 参见 [集合(Collection)概述](collections-overview.md).
 
-## 可为 null 的值 与 null 值检查
+## 可为 null 的值与 null 值检查 {id="nullable-values-and-null-checks"}
 
 当一个引用可能为 `null` 值时, 对应的类型声明必须明确地标记为可为 null.
 类型名称末尾带 `?` 符号表示可为 null 值.
@@ -635,7 +635,7 @@ fun main() {
 
 参见 [Null 值安全](null-safety.md).
 
-## 类型检查与自动类型转换
+## 类型检查与自动类型转换 {id="type-checks-and-automatic-casts"}
 
 `is` 运算符可以检查一个表达式的值是不是某个类型的实例.
 如果对一个不可变的局部变量或属性进行过类型检查, 那么之后的代码就不必再对它进行显式地类型转换, 而可以直接将它当作需要的类型来使用:

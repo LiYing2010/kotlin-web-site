@@ -81,7 +81,7 @@ Kotlin/Native 和 Multiplatform 的构建默认使用 Gradle.
    比如 `macosX64`, `mingwX64`, `linuxX64`, `iosX64`,
    来定义对应的编译目标平台. 预定义的名称描述了编译你的代码所针对的目标平台.
    这些预定义编译目标接受一个可选的参数, 表示编译目标名称, 在这个例子中是 `native`.
-   编译目标名称用来在项目中生成源代码路径和 Gradle task 名称.
+   编译目标名称用来生成项目中的源代码路径和 Gradle task 名称.
 
 2. 在项目目录内创建一个空的 `settings.gradle` 或 `settings.gradle.kts` 文件.
 
@@ -117,7 +117,7 @@ Kotlin/Native 和 Multiplatform 的构建默认使用 Gradle.
    build/bin/native/debugExecutable/<project_name>.kexe
    ```
 
-   终端会输出 "Hello, Kotlin/Native!".
+   终端会打印输出 "Hello, Kotlin/Native!".
 
 ## 在 IDE 中打开项目
 

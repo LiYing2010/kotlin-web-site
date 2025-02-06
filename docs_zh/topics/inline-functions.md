@@ -35,7 +35,7 @@ inline fun <T> lock(lock: Lock, body: () -> T): T { ... }
 但只要你合理的使用(不要内联太大的函数), 就可以换来性能的提高, 尤其是在循环内发生的 "megamorphic" 函数调用.
 (译注: 关于 megamorphic 请参见 [Inline caching](https://en.wikipedia.org/wiki/Inline_caching#Megamorphic_inline_caching))
 
-## noinline
+## noinline {id="noinline"}
 
 如果一个内联函数的参数中有多个 Lambda 表达式, 而你只希望内联其中的一部分,
 可以对函数的一部分参数添加 `noinline` 修饰符:
@@ -54,7 +54,9 @@ inline fun foo(inlined: () -> Unit, noinline notInlined: () -> Unit) { ... }
 >
 {style="note"}
 
-## 非局部返回(Non-local return) {id="non-local-returns"}
+## 非局部(non-local)的跳转表达式 {id="non-local-jump-expressions"}
+
+### return {id="returns"}
 
 在 Kotlin 中, 使用无限定符的通常的 `return` 语句, 只能用来退出一个有名称的函数, 或匿名函数.
 要退出一个 Lambda 表达式, 可以使用一个 [标签](returns.md#return-to-labels).
@@ -122,9 +124,30 @@ inline fun f(crossinline body: () -> Unit) {
 }
 ```
 
-> 在内联的 Lambda 表达式中目前还不能使用 `break` 和 `continue`, 但我们计划将来支持它们.
+### break 和 continue {id="break-and-continue"}
+
+> 这个功能目前处于 [预览版](kotlin-evolution-principles.md#pre-stable-features).
+> 我们计划在未来的发布中将它演化为稳定版.
+> 要表示使用者同意(Opt-in), 请使用 `-Xnon-local-break-continue` 编译器选项.
+> 希望你能通过 [YouTrack](https://youtrack.jetbrains.com/issue/KT-1436) 提供你的反馈意见.
 >
-{style="note"}
+{style="warning"}
+
+与非局部的(non-local) `return` 类似, 对于包含循环的内联函数, 在作为参数传递给内联函数的 Lambda 表达式中,
+你也可以使用 `break` 和 `continue` [跳转表达式](returns.md):
+
+```kotlin
+fun processList(elements: List<Int>): Boolean {
+    for (element in elements) {
+        val variable = element.nullableMethod() ?: run {
+            log.warning("Element is null or invalid, continuing...")
+            continue
+        }
+        if (variable == 0) return true
+    }
+    return false
+}
+```
 
 ## 实体化的类型参数(Reified type parameter) {id="reified-type-parameters"}
 
@@ -207,7 +230,7 @@ inline var bar: Bar
 
 属性取值/设值方法被标注为 `inline` 后, 会被内联到调用处, 就像通常的内联函数一样.
 
-## 对 Public API 内联函数的限制
+## 对 Public API 内联函数的限制 {id="restrictions-for-public-api-inline-functions"}
 
 当一个内联函数是 `public` 或 `protected` 的, 但不属于 `private` 或 `internal` 类型的一部分,
 这个函数将被认为是一个 [模块(module)](visibility-modifiers.md#modules) 的 Public API.

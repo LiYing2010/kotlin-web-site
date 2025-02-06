@@ -6,7 +6,7 @@
 因为 `kotlin-osgi-bundle` 已经包含了这些库的内容. 此外还需要注意不要引用外部的 Kotlin 库文件.
 大多数通常的 Kotlin 库依赖都不能用于 OSGi 环境, 因此你不应该使用它们, 要将它们从你的工程中删除.
 
-## Maven
+## Maven {id="maven"}
 
 在 Maven 工程中引入 Kotlin OSGi bundle:
 
@@ -37,7 +37,7 @@
 </dependency>
 ```
 
-## Gradle
+## Gradle {id="gradle"}
 
 在 Gradle 工程中引入 `kotlin-osgi-bundle`:
 
@@ -89,9 +89,9 @@ dependencies {
 </tab>
 </tabs>
 
-## FAQ
+## FAQ {id="faq"}
 
-### 为什么不直接向所有的 Kotlin 库添加需要的 manifest 设值呢?
+### 为什么不直接向所有的 Kotlin 库添加需要的 manifest 选项? {id="why-not-just-add-required-manifest-options-to-all-kotlin-libraries"}
 
 虽然这是提供 OSGi 支持时最优先的方法, 但很不幸, 目前我们无法做到这一点,
 原因是所谓的 ["包分裂(package split)" 问题](https://docs.osgi.org/specification/osgi.core/7.0.0/framework.module.html#d0e5999),

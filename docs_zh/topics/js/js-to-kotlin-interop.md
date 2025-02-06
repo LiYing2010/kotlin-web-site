@@ -4,7 +4,7 @@
 但通常 Kotlin 编译器会生成通常的 JavaScript 类, 函数, 和属性, 你可以在 JavaScript 代码中自由地使用它们.
 但是, 有一些细节问题, 你需要记住.
 
-## 将声明隔离在 plain 模式下的独立 JavaScript 对象内
+## 将声明隔离在 plain 模式下的独立 JavaScript 对象内 {id="isolating-declarations-in-a-separate-javascript-object-in-plain-mode"}
 
 如果你将模块类型明确设置为 `plain`, Kotlin 会创建一个对象,
 其中包含来自当前模块的所有 Kotlin 声明, 以免破坏全局对象.
@@ -32,7 +32,7 @@ alert(require('myModule').foo());
 
 关于 JavaScript 模块系统, 更多详情请参见 [JavaScript 模块(Module)](js-modules.md).
 
-## 包结构
+## 包结构 {id="package-structure"}
 
 Kotlin 会将它的包结构公开到 JavaScript 中, 因此, 除非你将你的声明定义在最顶层包中,
 否则在 JavaScript 中就必须使用完整限定名来访问你的声明. 比如:
@@ -55,7 +55,7 @@ alert(require('myModule').my.qualified.packagename.foo())
 alert(myModule.my.qualified.packagename.foo());
 ```
 
-## @JsName 注解 {id="jsname-annotation"}
+### @JsName 注解 {id="jsname-annotation"}
 
 某些情况下 (比如, 为了支持重载(overload)), Kotlin 编译器会对 JavaScript 代码中生成的函数和属性的名称进行混淆.
 为了控制编译器生成的函数和属性名称, 你可以使用 `@JsName` 注解:
@@ -113,12 +113,12 @@ external fun newC()
 为了在导出声明时解决名称的歧义(比如同名函数的重载(overload)),
 可以将 `@JsExport` 注解和 `@JsName` 注解一起使用, 用来指定生成和导出的函数名称.
 
-在当前的 [IR compiler backend](js-ir-compiler.md) 中, 要让你的函数在 Kotlin 中可以使用, 唯一的方法是使用 `@JsExport` 注解.
+在当前的 [IR 编译器后端](js-ir-compiler.md) 中, 要让你的函数在 Kotlin 中可以使用, 唯一的方法是使用 `@JsExport` 注解.
 
 对于跨平台项目, 在共通代码中也可以使用 `@JsExport`.
 它只在针对 JavaScript 目标进行编译时才起作用, 并且允许你导出那些平台无关的 Kotlin 声明.
 
-### @JsStatic
+### @JsStatic {id="jsstatic"}
 
 > 这个功能是 [实验性功能](components-stability.md#stability-levels-explained).
 > 它随时有可能变更或被删除.

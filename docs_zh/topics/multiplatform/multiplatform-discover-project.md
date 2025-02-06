@@ -9,7 +9,7 @@
 与 Kotlin 真正使用的模型相比, 本文使用的是简化后的模型.
 但是, 这个基本模型应该可以适用于大多数情况.
 
-## 共通代码(Common Code)
+## 共通代码(Common Code) {id="common-code"}
 
 _共通代码(Common Code)_ 是在不同平台之间共用的 Kotlin 代码.
 
@@ -47,7 +47,7 @@ Kotlin 编译器会阻止你在共用代码中使用平台相关的函数或类,
 例如 `fun CoroutinesDispatcher.asExecutor(): Executor`.
 API 的这些附加部分不能在 `commonMain` 中使用.
 
-## 编译目标(Target)
+## 编译目标(Target) {id="targets"}
 
 编译目标(Target) 定义 Kotlin 将共通代码编译到的目标平台.
 这些平台可以是, 例如, JVM, JS, Android, iOS, 或 Linux.
@@ -128,7 +128,7 @@ kotlin {
 
 除 `commonMain` 之外, 其他源代码集可以使平台相关的源代码集, 也可以是中间源代码集.
 
-### 平台相关的源代码集
+### 平台相关的源代码集 {id="platform-specific-source-sets"}
 
 如果只有共通代码, 那将会非常便利, 但并不总是可行的.
 `commonMain` 中的代码会编译到所有声明的编译目标, 而 Kotlin 不允许你在共通代码中使用任何平台相关的 API.
@@ -156,7 +156,7 @@ fun jvmGreeting() {
 }
 ```
 
-### 编译到特定的编译目标
+### 编译到特定的编译目标 {id="compilation-to-a-specific-target"}
 
 编译到特定的编译目标适用于多个源代码集.
 当 Kotlin 将一个跨平台项目编译到一个特定的编译目标时, 它会收集带有这个编译目标标签的所有源代码集, 并从这些源代码集生成二进制文件.
@@ -185,7 +185,7 @@ Kotlin 为共通代码创建 `commonMain` 源代码集, 并为特点的编译目
   例如, `jvmMain` 中的代码可以使用 Java 专用的库, 例如 [Guava](https://github.com/google/guava)
   或 [Spring](https://spring.io/).
 
-### 中间源代码集
+### 中间源代码集 {id="intermediate-source-sets"}
 
 简单的跨平台项目通常只有共通代码和平台相关的代码.
 `commonMain` 源代码集代表共通代码, 在所有声明的编译目标之间共用.
@@ -197,7 +197,7 @@ Kotlin 为共通代码创建 `commonMain` 源代码集, 并为特点的编译目
 
 ```kotlin
 kotlin {
-    android()
+    androidTarget()
     iosArm64()   // 64 位 iPhone 设备
     macosArm64() // 现代的基于 Apple Silicon 的 Macs
     watchosX64() // 现代的 64 位 Apple Watch 设备
@@ -253,7 +253,7 @@ Kotlin 默认创建一些中间源代码集.
 >
 {style="tip"}
 
-#### Apple 设备与模拟器的编译目标 {initial-collapse-state="collapsed" collapsible="true"}
+#### Apple 设备与模拟器的编译目标 {id="apple-device-and-simulator-targets" initial-collapse-state="collapsed" collapsible="true"}
 
 如果你使用 Kotlin Multiplatform 开发 iOS 移动应用程序, 你通常会使用 `iosMain` 源代码集.
 你可能会认为它是一个平台相关的源代码集, 用于 `ios` 编译目标, 但其实并没有单独的 `ios` 编译目标.
@@ -276,7 +276,7 @@ Kotlin 默认创建一些中间源代码集.
 以及 `tvosSimulatorArm64` 和 `tvosX64` 模拟器编译目标, 分别用于基于 Apple silicon 和基于 Intel 的设备上的 Apple TV 模拟器,
 你可以对所有这些编译目标使用 `tvosMain` 中间源代码集.
 
-## 与测试集成
+## 与测试集成 {id="integration-with-tests"}
 
 除了 main 产品代码之外, 现实世界的项目还需要测试.
 因此默认创建的所有源代码集都带有 `Main` 和 `Test` 后缀.
@@ -297,8 +297,8 @@ Kotlin 提供了一个默认的 [`kotlin.test`](https://kotlinlang.org/api/lates
 
 关于如何创建并运行跨平台的测试, 请参见 [测试你的跨平台应用程序教程](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-run-tests.html).
 
-## 下一步做什么?
+## 下一步做什么? {id="what-s-next"}
 
 * [学习如何在 Gradle 脚本中声明和使用预定义的源代码集 ](multiplatform-hierarchy.md)
 * [探索跨平台项目结构中的高级概念](multiplatform-advanced-project-structure.md)
-* [学习如何配置编译任务](multiplatform-configure-compilations.md)
+* [关于目标平台的编译以及创建自定义的编译](multiplatform-configure-compilations.md)

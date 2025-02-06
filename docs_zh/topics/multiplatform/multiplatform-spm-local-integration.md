@@ -1,13 +1,17 @@
 [//]: # (title: 在本地 Swift 包中使用 Kotlin)
 
+<tldr>
+   这是一种本地集成方法. 适用于以下情况:<br/>
+
+   * 你有一个 iOS App, 它使用本地 SPM 模块.
+   * 你已经设置了一个 Kotlin Multiplatform 项目, 编译目标是你的本地机器上的 iOS.
+   * 你的既有的 iOS 项目使用静态链接类型.<br/>
+
+   [选择最适合你的集成方法](multiplatform-ios-integration-overview.md)
+</tldr>
+
 在本教程中, 你将学习如何使用 Swift 包管理器(Swift Package Manager, SPM),
 将一个来自 Kotlin Multiplatform 项目的 Kotlin Framework 集成到一个本地包中.
-
-这是一种本地集成方法, 适合于以下情况:
-
-* 你有一个 iOS App, 它使用本地 SPM 模块.
-* 你的既有的 iOS 项目使用静态链接类型.
-* 你已经设置了一个 Kotlin Multiplatform 项目, 编译目标是你的本地机器上的 iOS.
 
 ![直接集成图](direct-integration-scheme.svg){width=700}
 

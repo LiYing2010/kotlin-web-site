@@ -33,7 +33,7 @@ kotlin {
 编译器类型也可以在 `gradle.properties` 文件中通过 `kotlin.js.compiler=ir` 来设置.
 但是这个设置会被 `build.gradle(.kts)` 中的任何设置覆盖.
 
-## 顶级属性(top-level property)的延迟初始化(Lazy initialization)
+## 顶级属性(top-level property)的延迟初始化(Lazy initialization) {id="lazy-initialization-of-top-level-properties"}
 
 为了改善应用程序的启动速度, Kotlin/JS IR 编译器会对顶级属性(top-level property)进行延迟初始化(Lazy initialization).
 通过这种方式, 应用程序启动时不会初始化它的代码中的全部顶级属性.
@@ -69,7 +69,7 @@ kotlin.incremental.js.ir=false // 默认为 true
 >
 {style="note"}
 
-## 输出模式
+## 输出模式 {id="output-mode"}
 
 你可以选择让 JS IR 编译器在你的项目中如何输出 `.js` 文件:
 
@@ -105,7 +105,7 @@ kotlin.incremental.js.ir=false // 默认为 true
      kotlin.js.ir.output.granularity=per-file // 默认值是 `per-module`
      ```
 
-## 在产品(Production)模式中对成员名称的极简化(Minification)
+## 在产品(Production)模式中对成员名称的极简化(Minification) {id="minification-of-member-names-in-production"}
 
 Kotlin/JS IR 编译器会使用它的内部信息 关于 你的 Kotlin 类和函数之间的关系, 来实现更加有效的极简化(Minification), 缩短函数, 属性, 和类的名称.
 这样可以缩减打包完成的应用程序的大小.
@@ -181,7 +181,7 @@ JetBrains 针对 Kotlin/JS 平台, 对 Kotlin 1.4+ 版本发布的库,
   要让 JavaScript 可以访问 Kotlin 声明, 这些声明 **必须** 添加
   [`@JsExport`](js-to-kotlin-interop.md#jsexport-annotation) 注解.
 
-## 将既有的项目迁移到 IR 编译器
+## 将既有的项目迁移到 IR 编译器 {id="migrating-existing-projects-to-the-ir-compiler"}
 
 由于两种 Kotlin/JS 编译器的接口签名的不同, 要让你的 Kotlin/JS 代码能由 IR 编译器来编译,
 可能需要你修改部分代码.

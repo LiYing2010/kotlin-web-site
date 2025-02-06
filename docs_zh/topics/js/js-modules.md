@@ -13,7 +13,7 @@
   广泛使用于 Node.js/npm (`require` 函数和 `module.exports` 对象).
 - Plain 方式. 不针对任何模块系统进行编译. 你仍然可以在全局命名空间内通过模块的名称来访问这个模块.
 
-## 针对浏览器平台
+## 针对浏览器平台 {id="browser-targets"}
 
 如果你期望在 Web 浏览器环境中运行你的代码, 并且希望使用 UMD 之外的模块系统,
 那么可以在 `webpackTask` 配置代码段内指定希望的模块类型:
@@ -38,12 +38,12 @@ Webpack 提供了 CommonJS 的两种不同的风格: `commonjs` 和 `commonjs2`,
 或者你也可以选择 `commonjs` 选项, 它严格遵照 CommonJS 标准.
 关于 `commonjs` 和 `commonjs2` 的区别, 更多详情请参见 [Webpack 代码仓库](https://github.com/webpack/webpack/issues/1114).
 
-## JavaScript 库文件和 Node.js 文件
+## JavaScript 库文件和 Node.js 文件 {id="javascript-libraries-and-node-js-files"}
 
 如果你在创建供 JavaScript 或 Node.js 环境使用的库,
 并且希望使用不同的模块系统, 那么编译指令略有不同.
 
-### 选择编译目标的模块系统
+### 选择编译目标的模块系统 {id="choose-the-target-module-system"}
 
 要选择目标模块系统, 请在 Gradle 构建脚本中设置编译器选项 `moduleKind`:
 
@@ -101,7 +101,7 @@ module.exports.sayHello = function (name) { alert("Hello, " + name); }
 external fun sayHello(name: String)
 ```
 
-### 对包使用 @JsModule 注解
+### 对包使用 @JsModule 注解 {id="apply-jsmodule-to-packages"}
 
 某些 JavaScript 库会向外导出包 (名称空间), 而不是导出函数和类.
 用 JavaScript 的术语来讲, 它是一个 *对象*, 这个对象的 *成员* 是类, 函数, 以及属性.
@@ -140,7 +140,7 @@ external fun foo()
 fun bar() = "!" + foo() + "!" // 此处发生错误
 ```
 
-### 导入更深的包层次结构
+### 导入更深的包层次结构 {id="import-deeper-package-hierarchies"}
 
 在前面的示例中, JavaScript 模块导出了一个单独的包.
 但是, 某些 JavaScript 库会从一个模块中导出多个包.
@@ -186,7 +186,7 @@ package extlib.pkg2
 external fun baz()
 ```
 
-### @JsNonModule 注解
+### @JsNonModule 注解 {id="jsnonmodule-annotation"}
 
 假如一个声明标注了 `@JsModule` 注解, 如果你的代码不编译为 JavaScript 模块, 你就不能在 Kotlin 代码中使用它.
 通常, 开发者发布他们的库时, 会同时使用 JavaScript 模块形式, 以及可下载的 `.js` 文件形式
@@ -212,7 +212,7 @@ if (module && module.exports) {
 external fun sayHello(name: String)
 ```
 
-### Kotlin 标准库使用的模块系统
+### Kotlin 标准库使用的模块系统 {id="module-system-used-by-the-kotlin-standard-library"}
 
 Kotlin 将 Kotlin/JS 标准库作为一个单个的文件发布, 这个库本身编译为一个 UMD 模块,
 因此你可以在上面讲到的任何一种模块系统中使用这个库.

@@ -37,8 +37,8 @@ fun main() {
 kotlinc-native hello.kt -o hello
 ```
 
-`-o` 选项的值指定编译输出文件的名称, 因此这个命令会生成一个名为 `hello.kexe` (在 Linux 和 macOS 平台)
-或 `hello.exe` (在 Windows 平台) 的二进制文件.
+`-o` 选项的值指定编译输出文件的名称, 因此这个命令会生成二进制文件,
+名为 `hello.kexe` (在 Linux 和 macOS 平台) 或 `hello.exe` (在 Windows 平台).
 关于可用选项的完整列表, 请参见 [Kotlin 编译器选项](compiler-reference.md).
 
 在控制台编译似乎很简单清楚, 但不适合于包含数百个文件和库的大项目.

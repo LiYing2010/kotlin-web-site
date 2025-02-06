@@ -203,7 +203,7 @@ val notNull: String = item // 允许, 但在运行时刻可能失败
 
   * [JetBrain](https://www.jetbrains.com/idea/help/nullable-and-notnull-annotations.html)
     (`org.jetbrains.annotations` 包中定义的 `@Nullable` 和 `@NotNull` 注解)
-  * [JSpecify](https://jspecify.dev/) (`org.jspecify.nullness`)
+  * [JSpecify](https://jspecify.dev/) (`org.jspecify.annotations`)
   * Android (`com.android.annotations` 和 `android.support.annotations`)
   * JSR-305 (`javax.annotation`, 详情请参见下文)
   * FindBugs (`edu.umd.cs.findbugs.annotations`)

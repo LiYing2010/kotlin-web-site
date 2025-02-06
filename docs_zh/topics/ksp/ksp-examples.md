@@ -1,20 +1,20 @@
 [//]: # (title: KSP 示例程序)
 
-## 得到所有成员函数
+## 得到所有成员函数 {id="get-all-member-functions"}
 
 ```kotlin
 fun KSClassDeclaration.getDeclaredFunctions(): Sequence<KSFunctionDeclaration> =
     declarations.filterIsInstance<KSFunctionDeclaration>()
 ```
 
-## 检查一个类或函数是否为 local
+## 检查一个类或函数是否为 local {id="check-whether-a-class-or-function-is-local"}
 
 ```kotlin
 fun KSDeclaration.isLocal(): Boolean =
     parentDeclaration != null && parentDeclaration !is KSClassDeclaration
 ```
 
-## 查找类型别名指向的实际的类或接口声明
+## 查找类型别名指向的实际的类或接口声明 {id="find-the-actual-class-or-interface-declaration-that-the-type-alias-points-to"}
 
 ```kotlin
 fun KSTypeAlias.findActualType(): KSClassDeclaration {
@@ -27,7 +27,7 @@ fun KSTypeAlias.findActualType(): KSClassDeclaration {
 }
 ```
 
-## 在源代码文件的注解中查找被压制(Suppressed)的名称
+## 在源代码文件的注解中查找被压制(Suppressed)的名称 {id="collect-suppressed-names-in-a-file-annotation"}
 
 ```kotlin
 // @file:kotlin.Suppress("Example1", "Example2")

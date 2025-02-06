@@ -1,6 +1,6 @@
 [//]: # (title: Kotlin/Native 库)
 
-## Kotlin 编译器使用方法
+## Kotlin 编译器使用方法 {id="kotlin-compiler-specifics"}
 
 要通过 Kotlin/Native 编译器编译产生库文件, 请使用 `-produce library` 或 `-p library` 参数.
 例如:
@@ -20,7 +20,7 @@ $ kotlinc-native qux.kt -l bar
 
 这个命令会编译源代码文件 `qux.kt`, 与库文件 `bar.klib` 链接, 输出为 `program.kexe`.
 
-## cinterop 工具使用方法
+## cinterop 工具使用方法 {id="cinterop-tool-specifics"}
 
 **cinterop** 工具会对原生的库文件生成 `.klib` 格式的包装.
 比如, 可以使用 Kotlin/Native 发布中附带的简单的 `libgit2.def` 原生库定义文件
@@ -69,7 +69,7 @@ $ cinterop -def samples/gitchurn/src/nativeInterop/cinterop/libgit2.def -compile
 $ klib <command> <name> -repository <directory>
 ```
 
-## 几个例子
+## 几个例子 {id="several-examples"}
 
 首先我们来创建一个库.
 把我们这个小小的库的源代码放在 `kotlinizer.kt` 文件内:
@@ -134,7 +134,7 @@ Hello, Kotlin world!
 
 祝你玩得开心!
 
-## 高级问题
+## 高级问题 {id="advanced-topics"}
 
 ### 库的查找顺序 {id="library-search-sequence"}
 

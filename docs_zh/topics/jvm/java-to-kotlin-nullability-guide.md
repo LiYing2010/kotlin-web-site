@@ -97,7 +97,7 @@ fun stringLength(a: String?): Int = a?.length ?: 0
 ```
 {id="get-length-of-null-shorter-kotlin"}
 
-## 平台类型(Platform types)
+## 平台类型(Platform types) {id="platform-types"}
 
 在 Java 中, 你可以使用注解来表示一个变量是否可以为 `null`.
 这些注解不是标准库的一部分, 但你可以分别添加这些注解.
@@ -115,7 +115,7 @@ Kotlin 能够识别这些注解, 并根据注解来处理这些类型.
 
 更多详情请参见 [从 Kotlin 调用 Java 代码时, 如何处理 null 值安全性与平台类型](java-interop.md#null-safety-and-platform-types).
 
-## 对确定不为 null (definitely non-nullable) 类型的支持
+## 对确定不为 null (definitely non-nullable) 类型的支持 {id="support-for-definitely-non-nullable-types"}
 
 在 Kotlin 中, 如果要覆盖一个包含 `@NotNull` 参数的 Java 方法, 你需要 Kotlin 的确定不为 null (definitely non-nullable) 类型.
 
@@ -234,7 +234,7 @@ val order = findOrder() ?: Order(Customer("Antonio"))
 ```
 {id="default-value-instead-of-null-kotlin"}
 
-## 返回一个值或返回 null 的函数
+## 返回一个值或返回 null 的函数 {id="functions-returning-a-value-or-null"}
 
 在 Java 中, 操作列表元素时你需要很小心.
 你必须检查某个下标位置对应的元素是否存在, 然后才能使用这个元素:
@@ -271,7 +271,7 @@ fun main() {
 ```
 {kotlin-runnable="true" id="functions-returning-null-kotlin"}
 
-## 聚合(Aggregate)操作
+## 聚合(Aggregate)操作 {id="aggregate-operations"}
 
 你需要得到最大元素, 或者如果不存在元素则得到 `null` 值, 在 Java 中你可以使用
 [Stream API](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/package-summary.html):
@@ -295,7 +295,7 @@ println("Max: ${numbers.maxOrNull()}")
 
 更多详情请参见 [Java 和 Kotlin 中的集合](java-to-kotlin-collections-guide.md).
 
-## 安全的类型转换
+## 安全的类型转换 {id="casting-types-safely"}
 
 如果你需要安全的转换一个类型, 在 Java 中你会使用 `instanceof` 操作符, 然后检查它是否成功:
 
@@ -333,7 +333,7 @@ fun getStringLength(y: Any): Int {
 >
 {style="note"}
 
-## 下一步做什么?
+## 下一步做什么? {id="what-s-next"}
 
 * 阅读其他的 [Kotlin 惯用法](idioms.md).
 * 学习如何使用 [Java-to-Kotlin (J2K) 转换器](mixing-java-kotlin-intellij.md#converting-an-existing-java-file-to-kotlin-with-j2k),

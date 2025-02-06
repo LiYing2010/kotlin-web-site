@@ -5,7 +5,7 @@ JavaScript 代码映射(Source Map), 提供了由打包器(bundler)或极简化�
 
 Kotlin Multiplatform Gradle plugin 会为它构建的项目自动生成代码映射, 不需要任何额外的配置.
 
-## 在浏览器中调试
+## 在浏览器中调试 {id="debug-in-browser"}
 
 大多数现代浏览器提供了工具, 可以查看页面内容, 调试页面中执行代码.
 详情请参见你的浏览器的文档.
@@ -31,7 +31,7 @@ Kotlin Multiplatform Gradle plugin 会为它构建的项目自动生成代码映
 开发者工具甚至还支持在一条语句内设置断点. 和通常的 JavaScript 代码一样, 在页面重新加载之后, 设置的任何断点都会继续存在.
 因此可以调试 Kotlin 的 `main()` 方法, 这个方法会在脚本初次装载时执行.
 
-## 在 IDE 中调试
+## 在 IDE 中调试 {id="debug-in-the-ide"}
 
 [IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/) 提供了强大的工具用于开发时调试代码.
 
@@ -69,7 +69,7 @@ Kotlin Multiplatform Gradle plugin 会为它构建的项目自动生成代码映
 >
 {style="note"}
 
-## 在 Node.js 中调试
+## 在 Node.js 中调试 {id="debug-in-node-js"}
 
 如果你的项目编译目标是 Node.js, 你可以在运行时调试它.
 
@@ -81,7 +81,7 @@ Kotlin Multiplatform Gradle plugin 会为它构建的项目自动生成代码映
 [Node.js 调试指南](https://nodejs.org/en/docs/guides/debugging-getting-started/#jetbrains-webstorm-2017-1-and-other-jetbrains-ides)
 中的方法, 在 Node.js 中调试这个文件.
 
-## 下一步做什么?
+## 下一步做什么? {id="what-s-next"}
 
 现在你了解了如何调试你的 Kotlin/JS 项目, 请阅读以下资料, 学习如何高效使用调试工具:
 
@@ -89,6 +89,6 @@ Kotlin Multiplatform Gradle plugin 会为它构建的项目自动生成代码映
 * 熟悉 [IntelliJ IDEA JavaScript 调试器](https://www.jetbrains.com/help/idea/debugging-javascript-in-chrome.html)
 * 学习如何 [在 Node.js 中调试](https://nodejs.org/en/docs/guides/debugging-getting-started/).
 
-## 如果你遇到问题
+## 如果你遇到问题 {id="if-you-run-into-any-problems"}
 
 如果你遇到任何与调试 Kotlin/JS 相关的问题, 请到我们的问题追踪系统 [YouTrack](https://kotl.in/issue) 提交报告.

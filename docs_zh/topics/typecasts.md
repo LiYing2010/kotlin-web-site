@@ -48,7 +48,7 @@ print(x.length) // x 被自动转换为 String 类型
 
 ### 控制流
 
-智能类型转换不仅能够用于 `if` 条件表达式, 还能用于 [`when` 表达式](control-flow.md#when-expression)
+智能类型转换不仅能够用于 `if` 条件表达式, 还能用于 [`when` 表达式](control-flow.md#when-expressions-and-statements)
 和 [`while` 循环](control-flow.md#while-loops):
 
 ```kotlin

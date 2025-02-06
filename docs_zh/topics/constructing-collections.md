@@ -1,6 +1,6 @@
 [//]: # (title: 创建集合)
 
-## 通过指定的元素创建
+## 通过指定的元素创建 {id="construct-from-elements"}
 
 创建集合最常用的方法是使用标准库中的函数
 [`listOf<T>()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/list-of.html),
@@ -34,7 +34,7 @@ val numbersMap = mapOf("key1" to 1, "key2" to 2, "key3" to 3, "key4" to 1)
 val numbersMap = mutableMapOf<String, String>().apply { this["one"] = "1"; this["two"] = "2" }
 ```
 
-## 使用集合构建函数来创建
+## 使用集合构建函数来创建 {id="create-with-collection-builder-functions"}
 
 创建集合的另一种方法是调用构建函数 –
 [`buildList()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/build-list.html),
@@ -53,7 +53,7 @@ val map = buildMap { // 在这里是 MutableMap<String, Int>, key 和 value 的�
 println(map) // {a=1, b=0, c=4}
 ```
 
-## 创建空集合
+## 创建空集合 {id="empty-collections"}
 
 还有一些函数可以用来创建不包含元素的空集合:
 [`emptyList()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/empty-list.html),
@@ -65,7 +65,7 @@ println(map) // {a=1, b=0, c=4}
 val empty = emptyList<String>()
 ```
 
-## 使用 list 的初始化函数
+## 使用 list 的初始化函数 {id="initializer-functions-for-lists"}
 
 对于 list, 有一个类似构造器的函数, 它接受的参数是 list 大小, 以及一个初始化函数,
 这个初始化函数负责根据元素的下标计算各个元素的值.
@@ -80,7 +80,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-## 使用具体类型的(Concrete type) 集合构造器
+## 使用具体类型的(Concrete Type) 集合构造器 {id="concrete-type-constructors"}
 
 如果希望创建一个具体类型(concrete type)的集合,
 比如 `ArrayList` 或 `LinkedList`, 可以使用这些集合类型的构造器.
@@ -168,7 +168,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-## 调用其他集合的函数
+## 调用其他集合的函数 {id="invoke-functions-on-other-collections"}
 
 在既有的集合上执行各种操作的结果也可以创建新的集合.
 比如, [过滤(filtering)](collection-filtering.md) 一个 list 会创建一个新的 list,

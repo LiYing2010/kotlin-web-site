@@ -59,6 +59,11 @@ Kotlin 编译器带有很多选项, 用于控制编译过程.
 
 将警告信息变为编译错误.
 
+### -Wextra
+
+启用 [声明, 表达式, 和类型的额外编译器检查](whatsnew21.md#extra-compiler-checks),
+如果检查结果为 true, 会产生警告.
+
 ### -verbose
 
 允许输出最详细的 log, 其中包括编译过程的各种细节信息.
@@ -84,7 +89,7 @@ Kotlin 编译器带有很多选项, 用于控制编译过程.
 ### -P plugin:pluginId:optionName=value
 
 向 Kotlin 编译器插件传递一个选项.
-相关的编译器插件, 以及它们的选项, 请参见本文档的 **工具 > 编译器插件** 章节.
+核心编译器插件, 以及它们的选项, 请参见本文档的 [核心编译器插件](components-stability.md#core-compiler-plugins) 章节.
 
 ### -language-version _version_
 
@@ -133,7 +138,15 @@ $ kotlinc @options/compiler.options hello.kt
 
 指定注解的全限定名称, 通过这个注解启用 [明确要求使用者同意(opt-in)](opt-in-requirements.md) API.
 
-## Kotlin/JVM 编译器选项
+### -Xsuppress-warning
+
+[对整个项目](whatsnew-eap.md) 禁止指定的警告信息, 例如:
+
+```bash
+kotlinc -Xsuppress-warning=NOTHING_TO_INLINE -Xsuppress-warning=NO_TAIL_CALLS_FOUND main.kt
+```
+
+## Kotlin/JVM 编译器选项 {id="kotlin-jvm-compiler-options"}
 
 针对 JVM 平台的 Kotlin 编译器将 Kotlin 源代码文件编译为 Java class 文件.
 将 Kotlin 文件编译到 JVM 平台的命令行工具是 `kotlinc` 和 `kotlinc-jvm`.
@@ -201,7 +214,7 @@ classpath 可以包含文件路径, 目录路径, ZIP 文件, 或 JAR 文件.
 
 脚本定义的模板类. 请使用类的完全限定名称, 如果有多个, 请使用逗号(**,**) 分隔.
 
-## Kotlin/JS 编译器选项
+## Kotlin/JS 编译器选项 {id="kotlin-js-compiler-options"}
 
 针对 JS 平台的 Kotlin 编译器将 Kotlin 源代码文件编译为 JavaScript 代码.
 将 Kotlin 文件编译到 JS 平台的命令行工具是 `kotlinc-js`.
@@ -274,7 +287,7 @@ classpath 可以包含文件路径, 目录路径, ZIP 文件, 或 JAR 文件.
 
 向源代码映射文件(source map)中的路径添加指定的前缀.
 
-## Kotlin/Native 编译器选项
+## Kotlin/Native 编译器选项 {id="kotlin-native-compiler-options"}
 
 Kotlin/Native 编译器将 Kotlin 源代码文件编译为
 [所支持的各种平台](native-overview.md#target-platforms)

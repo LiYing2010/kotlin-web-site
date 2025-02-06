@@ -3,7 +3,7 @@
 Kotlin/JS 标准库允许你使用 `kotlinx.browser` 包访问浏览器专有的功能, 包括典型的顶级对象, 比如 `document` 和 `window`.
 标准库对这些对象的功能尽可能提供了类型安全的封装. 对于无法支持的情况, 为了与不能正确映射到 Kotlin 类型系统的函数交互, 会使用 `dynamic` 类型.
 
-## 与 DOM 交互
+## 与 DOM 交互 {id="interaction-with-the-dom"}
 
 为了与文档对象模型(DOM) 交互, 你可以使用变量 `document`. 比如, 你可以通过这个对象设置网站的背景颜色:
 

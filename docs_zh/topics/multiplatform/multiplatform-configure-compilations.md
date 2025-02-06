@@ -32,43 +32,6 @@ Kotlin 跨平台项目使用编译任务来生成 artifact.
 
 ```kotlin
 kotlin {
-    targets.all {
-        compilations.all {
-            compilerOptions.configure {
-                allWarningsAsErrors.set(true)
-            }
-        }
-    }
-}
-```
-
-
-</tab>
-<tab title="Groovy" group-key="groovy">
-
-```groovy
-kotlin {
-    targets.all {
-        compilations.all {
-            compilerOptions.configure {
-                allWarningsAsErrors = true
-            }
-        }
-    }
-}
-```
-
-</tab>
-</tabs>
-
-或者, 你也可以使用 [顶级代码块](multiplatform-dsl-reference.md#top-level-blocks) `compilerOptions {}`:
-
-<tabs group="build-script">
-<tab title="Kotlin" group-key="kotlin">
-
-```kotlin
-kotlin {
-    @OptIn(ExperimentalKotlinGradlePluginApi::class)
     compilerOptions {
         allWarningsAsErrors.set(true)
     }
@@ -89,14 +52,6 @@ kotlin {
 </tab>
 </tabs>
 
-> `compilerOptions {}` 用作顶级代码块是 [实验性功能](components-stability.md#stability-levels-explained),
-> 需要使用者同意(Opt-in).
-> 它随时有可能变更或被删除.
-> 请注意, 只为评估和试验目的来使用这个功能.
-> 希望你能通过 [YouTrack](https://kotl.in/issue) 提供你的反馈意见.
->
-{style="warning"}
-
 ## 配置单个编译目标的编译任务 {id="configure-compilations-for-one-target"}
 
 <tabs group="build-script">
@@ -104,39 +59,7 @@ kotlin {
 
 ```kotlin
 kotlin {
-    jvm().compilations.all {
-        compilerOptions.configure {
-            jvmTarget.set(JvmTarget.JVM_1_8)
-        }
-    }
-}
-```
-
-</tab>
-<tab title="Groovy" group-key="groovy">
-
-```groovy
-kotlin {
-    jvm().compilations.all {
-        compilerOptions.configure {
-            jvmTarget = JvmTarget.JVM_1_8
-        }
-    }
-}
-```
-
-</tab>
-</tabs>
-
-或者, 你也可以在编译目标层级使用 `compilerOptions {}` 代码块:
-
-<tabs group="build-script">
-<tab title="Kotlin" group-key="kotlin">
-
-```kotlin
-kotlin {
     jvm {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_1_8)
         }
@@ -159,14 +82,6 @@ kotlin {
 
 </tab>
 </tabs>
-
-> 在编译目标层级使用 `compilerOptions {}` 代码块是 [实验性功能](components-stability.md#stability-levels-explained),
-> 需要使用者同意(Opt-in).
-> 它随时有可能变更或被删除.
-> 请注意, 只为评估和试验目的来使用这个功能.
-> 希望你能通过 [YouTrack](https://kotl.in/issue) 提供你的反馈意见.
->
-{style="warning"}
 
 ## 配置一个编译任务 {id="configure-one-compilation"}
 
@@ -412,7 +327,7 @@ kotlin {
 
 然后, 对每个构建变体编译的每个 [Android 源代码集](https://developer.android.com/studio/build/build-variants#sourcesets),
 会创建 Kotlin 源代码集, 名称是 Android 源代码集名前面加上编译目标名,
-比如, 对于 Kotlin 编译目标 `android`, 以及 Android 源代码集 `debug`, 对应的 Kotlin 源代码集名为 `androidDebug`.
+比如, 对于 Kotlin 编译目标 `androidTarget`, 以及 Android 源代码集 `debug`, 对应的 Kotlin 源代码集名为 `androidDebug`.
 这些 Kotlin 源代码集会被添加到对应的构建变体的编译任务中.
 
 默认的源代码集 `commonMain` 会被添加到所有的产品构建变体(无论是应用程序还是库) 的编译任务中.
@@ -424,7 +339,7 @@ kotlin {
 
 ```kotlin
 kotlin {
-    android { /* ... */ }
+    androidTarget { /* ... */ }
 }
 
 dependencies {
@@ -432,7 +347,7 @@ dependencies {
 }
 ```
 
-## 源代码集层级结构的编译任务
+## 源代码集层级结构的编译任务 {id="compilation-of-the-source-set-hierarchy"}
 
 Kotlin 可以使用 `dependsOn` 关系来创建 [源代码集层级结构](multiplatform-share-on-platforms.md#share-code-on-similar-platforms).
 
@@ -453,3 +368,31 @@ Kotlin 可以使用 `dependsOn` 关系来创建 [源代码集层级结构](multi
 * `commonMain` 启用的所有非稳定的语言特性, `jvmMain` 都应该启用 (对于 bugfix 特性没有这个要求).
 * `commonMain` 使用的所有实验性注解, `jvmMain` 都应该使用.
 * `apiVersion`, bugfix 语言特性, 以及 `progressiveMode` 可以任意设定.
+
+## 配置 Gradle 中的隔离项目(Isolated Project)功能  {id="configure-isolated-projects-feature-in-gradle"}
+
+> 这个功能是 [实验性功能](components-stability.md#stability-levels-explained), 目前在 Gradle 中处于 Alpha 之前的状态.
+> 请注意, 只能在 Gradle 或更高版本中使用, 并且只为评估目的来使用这个功能.
+> 它随时有可能变更或被删除.
+> 希望你能通过 [YouTrack](https://youtrack.jetbrains.com/issue/KT-57279/Support-Gradle-Project-Isolation-Feature-for-Kotlin-Multiplatform) 提供你的反馈意见.
+> 需要使用者同意(Opt-in) (详情见下文).
+>
+{style="warning"}
+
+Gradle 提供了 [隔离项目(Isolated Project)](https://docs.gradle.org/current/userguide/isolated_projects.html) 功能,
+能够通过 "隔离(isolate)" 各个项目类提高构建性能.
+这个功能分离各个项目的构建脚本和插件, 让它们能够安全的并行运行.
+
+要启用这个功能, 请按照 Gradle 的指示 [设置系统属性](https://docs.gradle.org/current/userguide/isolated_projects.html#how_do_i_use_it).
+
+在 Gradle 中启用隔离项目之前, 如果你想要检查兼容性, 你可以使用新的 Kotlin Gradle plugin 模型测试你的项目.
+请向你的 `gradle.properties` 文件添加以下 Gradle 属性:
+
+```none
+kotlin.kmp.isolated-projects.support=enable
+```
+
+如果你决定以后再启用隔离项目功能, 请记得删除这个 Gradle 属性.
+Kotlin Gradle plugin 会直接适用和管理这个 Gradle 属性.
+
+关于隔离项目功能, 详情请参见 [Gradle 的文档](https://docs.gradle.org/current/userguide/isolated_projects.html).

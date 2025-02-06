@@ -281,7 +281,7 @@ kapt.incremental.apt=false
 注意, 增量式注解处理同时还需要启用
 [增量式编译(Incremental Compilation)](gradle-compilation-and-caches.md#incremental-compilation).
 
-## 从父配置(superconfiguration)继承注解处理器
+## 从父配置(superconfiguration)继承注解处理器 {id="inherit-annotation-processors-from-superconfigurations"}
 
 你可以在一个单独的 Gradle 配置中, 定义注解处理器的一组共通设置, 作为父配置(superconfiguration),
 然后对你的子项目扩展这些父配置, 进行更多的 kapt 相关的配置.

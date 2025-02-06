@@ -11,14 +11,23 @@
 * [试用最新的语言版本](#trying-the-latest-language-version)
 * [构建报告](#build-reports)
 
-## 增量编译(Incremental compilation)
+## 增量编译(Incremental Compilation) {id="incremental-compilation"}
 
-Kotlin Gradle plugin 支持增量编译模式.
+Kotlin Gradle plugin 支持增量编译(Incremental Compilation)模式, 对 Kotlin/JVM 和 Kotlin/JS 项目默认启用.
 增量编译模式会监视 classpath 中的文件在两次编译之间的变更, 因此只有变更过的文件会被编译.
-增量编译与 [Gradle 的构建缓存](#gradle-build-cache-support) 一起配合工作,
+这种方法与 [Gradle 的构建缓存](#gradle-build-cache-support) 一起配合工作,
 并支持 [编译回避(compilation avoidance)](https://docs.gradle.org/current/userguide/java_plugin.html#sec:java_compile_avoidance).
 
-增量编译模式支持 Kotlin/JVM 和 Kotlin/JS 工程, 并且默认开启.
+对 Kotlin/JVM, 增量编译依赖于类路径快照(Classpath Snapshot),
+类路径快照捕获模块的 API 结构, 确定什么时候需要重新编译.
+为了优化整个流程管道, Kotlin 编译器使用两种类型的类路径快照:
+
+* **细粒度快照(Fine-grained Snapshot):** 包含类成员的详细信息, 例如属性或函数.
+  当检测到成员级变更时, Kotlin 编译器只重编译依赖于被修改的成员的那些类.
+  为了保持性能, Kotlin Gradle plugin 会创建为 Gradle 缓存中的 `.jar` 文件粗粒度快照(Coarse-grained Snapshot).
+* **粗粒度快照(Coarse-grained Snapshot):** 只包含类 [ABI](https://en.wikipedia.org/wiki/Application_binary_interface) 的 hash.
+  当 ABI 的一部分发生变更时, Kotlin 编译器会重编译依赖于被修改的类的所有类.
+  对于不经常变更的类, 例如外部库, 这很有用.
 
 > Kotlin/JS 项目 使用另一种基于历史文件的增量编译方式.
 >
@@ -32,7 +41,8 @@ Kotlin Gradle plugin 支持增量编译模式.
 
   需要向所有后续的编译命令都添加这个参数.
 
-注意: 任何一次编译如果关闭了增量编译模式, 都会导致增量编译的缓存失效. 初次编译不会是增量编译.
+当你禁用增量编译时, 增量编译的缓存会在构建后失效.
+初次编译永远不会是增量编译.
 
 > 有时增量编译的问题会在错误发生之后再经过多轮才报告给使用者.
 > 请使用 [构建报告](#build-reports) 来追踪变更历史和编译历史.
@@ -40,89 +50,8 @@ Kotlin Gradle plugin 支持增量编译模式.
 >
 {style="tip"}
 
-如果你想要了解我们目前的增量编译方案如何工作, 以及与以前方案的区别,
+关于我们目前的增量编译方案如何工作, 以及与以前方案的区别,
 请阅读我们的 [blog](https://blog.jetbrains.com/kotlin/2022/07/a-new-approach-to-incremental-compilation-in-kotlin/).
-
-### 对编译任务的输出的精确备份
-
-> 对编译任务的输出的精确备份是 [实验性功能](components-stability.md#stability-levels-explained).
-> 希望你能通过我们的 [问题追踪系统](https://kotl.in/issue/experimental-ic-optimizations) 提供你的反馈意见.
->
-{style="warning"}
-
-从 Kotlin 1.8.20 开始, 你可以启用精确备份功能, 这时只有 Kotlin 在增量编译中重新编译的那些类会被备份.
-完整备份和精确备份都可以帮助在发生编译错误后再次运行增量构建.
-精确备份与完整备份相比, 会耗费较少的构建时间.
-对于大型的项目, 或者很多任务都创建备份, 那么完整备份可能会花费 **明显** 更长的构建时间, 尤其是如果项目位于速度较慢的 HDD 上.
-
-要启用这个优化功能, 请向 `gradle.properties` 文件添加 `kotlin.compiler.preciseCompilationResultsBackup` Gradle 属性:
-
-```none
-kotlin.compiler.preciseCompilationResultsBackup=true
-```
-
-#### JetBrains 使用精确备份的例子 {initial-collapse-state="collapsed" collapsible="true"}
-
-在下面的图表中, 你可以看到使用精确备份与完整备份相对比的示例:
-
-<img src="comparison-of-full-and-precise-backups.png" alt="完整备份与精确备份的对比" width="700"/>
-
-第一个和第二个对比图显示了在 Kotlin 项目中使用精确备份时对 Kotlin Gradle plugin 构建的影响:
-
-1. 进行一个小的 [ABI](https://en.wikipedia.org/wiki/Application_binary_interface) 变更之后:
-   向一个被大量模块依赖的模块添加一个新的 public 方法.
-2. 进行一个小的非 ABI 变更之后:
-   向一个没有被其他模块依赖的模块添加一个 private 函数.
-
-第三个对比图显示了在 [Space](https://www.jetbrains.com/space/) 项目中使用精确备份时, 在小的非 ABI 更改后对 Web 前端构建的影响:
-向一个被大量模块依赖的 Kotlin/JS 模块添加一个 private 函数.
-
-我们在使用 Apple M1 Max CPU 的计算机上进行这些测量; 在不同的计算机上会出现稍微不同的结果.
-影响性能的因素包括但不限于以下几点:
-
-* [Kotlin daemon](#the-kotlin-daemon-and-how-to-use-it-with-gradle)
-  和 [Gradle daemon](https://docs.gradle.org/current/userguide/gradle_daemon.html) 热身状况(warm)如何.
-* 硬盘速度如何.
-* CPU 型号, 以及它的繁忙程度.
-* 哪些模块受到变更的影响, 以及这些模块有多大.
-* 是 ABI 变更还是非 ABI 变更.
-
-#### 使用构建报告来评估优化 {initial-collapse-state="collapsed" collapsible="true"}
-
-要对你的项目和场景, 评估优化在你的计算机上的影响, 你可以使用 [Kotlin 构建报告](#build-reports).
-请向你的 `gradle.properties` 文件添加下面的属性, 启用文本文件格式的构建报告:
-
-```text
-kotlin.build.report.output=file
-```
-
-下面是在启用精确备份*之前*, 构建报告的相关部分的示例:
-
-```text
-Task ':kotlin-gradle-plugin:compileCommonKotlin' finished in 0.59 s
-<...>
-Time metrics:
- Total Gradle task time: 0.59 s
- Task action before worker execution: 0.24 s
-  Backup output: 0.22 s // 注意这个数字
-<...>
-```
-
-下面是在启用精确备份*之后*, 构建报告的相关部分的示例:
-
-```text
-Task ':kotlin-gradle-plugin:compileCommonKotlin' finished in 0.46 s
-<...>
-Time metrics:
- Total Gradle task time: 0.46 s
- Task action before worker execution: 0.07 s
-  Backup output: 0.05 s // 备份消耗的时间减少了
- Run compilation in Gradle worker: 0.32 s
-  Clear jar cache: 0.00 s
-  Precise backup output: 0.00 s // 与精确备份相关的输出
-  Cleaning up the backup stash: 0.00 s // 与精确备份相关的输出
-<...>
-```
 
 ## 对 Gradle 构建缓存的支持 {id="gradle-build-cache-support"}
 
@@ -164,12 +93,23 @@ Kotlin daemon 使用与 Gradle daemon 相同的 JDK.
 
 #### 继承 Gradle daemon 参数 {id="gradle-daemon-arguments-inheritance"}
 
-如果不做任何设定, Kotlin daemon 会从 Gradle daemon 继承 JVM 参数.
-比如, 在 `gradle.properties` 文件中:
+默认情况下, Kotlin daemon 会从 Gradle daemon 继承一组参数,
+但会使用对 Kotlin daemon 直接指定的任何 JVM 参数覆盖继承得到的参数.
+例如, 如果你在 `gradle.properties` 文件中添加以下 JVM 参数:
 
 ```none
-org.gradle.jvmargs=-Xmx1500m -Xms500m
+org.gradle.jvmargs=-Xmx1500m -Xms500m -XX:MaxMetaspaceSize=1g
 ```
+
+这些参数之后会被添加到 Kotlin daemon 的 JVM 参数:
+
+```none
+-Xmx1500m -XX:ReservedCodeCacheSize=320m -XX:MaxMetaspaceSize=1g -XX:UseParallelGC -ea -XX:+UseCodeCacheFlushing -XX:+HeapDumpOnOutOfMemoryError -Djava.awt.headless=true -Djava.rmi.server.hostname=127.0.0.1 --add-exports=java.base/sun.nio.ch=ALL-UNNAMED
+```
+
+> 关于 Kotlin daemon 使用 JVM 参数的默认行为, 请参见 [Kotlin daemon 使用 JVM 参数的行为](#kotlin-daemon-s-behavior-with-jvm-arguments).
+>
+{style="note"}
 
 #### 设置系统属性 kotlin.daemon.jvm.options {id="kotlin-daemon-jvm-options-system-property"}
 
@@ -199,6 +139,13 @@ org.gradle.jvmargs=-Dkotlin.daemon.jvm.options=-Xmx1500m,Xms500m
 
 ```none
 kotlin.daemon.jvmargs=-Xmx1500m -Xms500m
+```
+
+注意, 如果在这里, 或在 Gradle 的 JVM 参数中, 你没有指定 `ReservedCodeCacheSize` 参数,
+Kotlin Gradle plugin 会使用默认值 `320m`:
+
+```none
+-Xmx1500m -XX:ReservedCodeCacheSize=320m -Xms500m
 ```
 
 #### 使用 kotlin 扩展 {id="kotlin-extension"}
@@ -251,11 +198,12 @@ tasks.withType(CompileUsingKotlinDaemon::class).configureEach { task ->
 </tab>
 </tabs>
 
-> 这种情况下, 会在任务执行时启动一个新的 Kotlin daemon 实例. 更多详情请参见 [指定 JVM 参数时 Kotlin daemon 的行为](#kotlin-daemon-s-behavior-with-jvm-arguments).
+> 这种情况下, 会在任务执行时启动一个新的 Kotlin daemon 实例.
+> 更多详情请参见 [Kotlin daemon 使用 JVM 参数的行为](#kotlin-daemon-s-behavior-with-jvm-arguments).
 >
 {style="note"}
 
-### 指定 JVM 参数时 Kotlin daemon 的行为 {id="kotlin-daemon-s-behavior-with-jvm-arguments"}
+### Kotlin daemon 使用 JVM 参数的行为 {id="kotlin-daemon-s-behavior-with-jvm-arguments"}
 
 配置 Kotlin daemon 的 JVM 参数时, 请注意:
 
@@ -269,7 +217,25 @@ tasks.withType(CompileUsingKotlinDaemon::class).configureEach { task ->
   > 那么即使另一个任务要求的 JVM 参数不同, 也仍会重用这个 daemon, 而不是启动一个新的实例.
   >
   {style="note"}
-* 如果 `Xmx` 参数未指定, Kotlin daemon 会从 Gradle daemon 继承.
+
+如果没有指定以下参数, Kotlin daemon 会从 Gradle daemon 继承这些参数:
+
+* `-Xmx`
+* `-XX:MaxMetaspaceSize`
+* `-XX:ReservedCodeCacheSize`. 如果没有指定或继承, 默认值为 `320m`.
+
+Kotlin daemon 具有以下默认 JVM 参数:
+* `-XX:UseParallelGC`. 只有在没有指定其它垃圾收集器时, 这个参数才会适用.
+* `-ea`
+* `-XX:+UseCodeCacheFlushing`
+* `-Djava.awt.headless=true`
+* `-D{java.servername.property}={localhostip}`
+* `--add-exports=java.base/sun.nio.ch=ALL-UNNAMED`. 这个参数只对 JDK 16 或更高版本适用.
+
+> Kotlin daemon 的默认 JVM 参数列表对不同的版本可能发生变化.
+> 你可以使用 [VisualVM](https://visualvm.github.io/) 之类的工具检查一个运行中的 JVM 进程的实际设置, 例如 Kotlin daemon.
+>
+{style="note"}
 
 ## 回退到以前的编译器 {id="rolling-back-to-the-previous-compiler"}
 
@@ -277,7 +243,7 @@ tasks.withType(CompileUsingKotlinDaemon::class).configureEach { task ->
 
 要在 Kotlin 2.0.0 之后的版本中使用以前的编译器, 请使用以下方法:
 
-* 在你的 `build.gradle.kts` 文件中, [设置语言版本](gradle-compiler-options.md#example-of-setting-a-languageversion) 为 `1.9`.
+* 在你的 `build.gradle.kts` 文件中, [设置语言版本](gradle-compiler-options.md#example-of-setting-languageversion) 为 `1.9`.
 
   或者
 * 使用以下编译器选项: `-language-version 1.9`.
@@ -493,7 +459,7 @@ kotlin.build.report.http.include_git_branch.name=true|false
 kotlin.build.report.include_compiler_arguments=true|false
 ```
 
-### custom values 的限制
+### custom values 的限制 {id="limit-of-custom-values"}
 
 为了收集 build scan 的统计信息, Kotlin 构建报告会使用 [Gradle 的 custom values](https://docs.gradle.com/enterprise/tutorials/extending-build-scans/).
 你和各种 Gradle plugin 都可以向 custom value 写入数据. custom value 的数量存在限制.
@@ -512,7 +478,7 @@ Maximum number of custom values (1,000) exceeded
 kotlin.build.report.build_scan.custom_values_limit=500
 ```
 
-### 关闭对项目和系统属性的收集
+### 关闭对项目和系统属性的收集 {id="switching-off-collecting-project-and-system-properties"}
 
 HTTP 构建统计 log 可能包含某些项目和系统属性. 这些属性可以改变构建的行为, 因此将它们输出到构建统计信息中会很有用处.
 这是属性也可能存储了敏感信息, 例如, 密码, 或项目的完整路径.
@@ -523,7 +489,7 @@ HTTP 构建统计 log 可能包含某些项目和系统属性. 这些属性可�
 >
 {style="note"}
 
-## 下一步做什么?
+## 下一步做什么? {id="what-s-next"}
 
 学习:
 * [Gradle 的基本概念与详细信息](https://docs.gradle.org/current/userguide/userguide.html).

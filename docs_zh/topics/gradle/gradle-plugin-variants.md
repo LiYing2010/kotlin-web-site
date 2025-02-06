@@ -14,12 +14,7 @@ Gradle 7.0 为 Gradle plugin 开发者引入了一个新功能
 
 | 变体名        | 对应的 Gradle 版本 |
 |------------|---------------|
-| `main`     | 6.8.3–6.9.3   |
-| `gradle70` | 7.0           |
-| `gradle71` | 7.1-7.3       |
-| `gradle74` | 7.4           |
-| `gradle75` | 7.5           |
-| `gradle76` | 7.6           |
+| `main`     | 7.6.0–7.6.3   |
 | `gradle80` | 8.0           |
 | `gradle81` | 8.1.1         |
 | `gradle82` | 8.2.1–8.4     |
@@ -31,7 +26,7 @@ Gradle 7.0 为 Gradle plugin 开发者引入了一个新功能
 [`--info` log 级别](https://docs.gradle.org/current/userguide/logging.html#sec:choosing_a_log_level),
 然后在日志输出中查找以 `Using Kotlin Gradle plugin` 开头的字符串, 例如, `Using Kotlin Gradle plugin main variant`.
 
-## 问题与解决方案
+## 问题与解决方案 {id="troubleshooting"}
 
 > 关于 Gradle 中的变体选择功能, 下面是一些已知问题的变通方法:
 > * [pluginManagement 中的 ResolutionStrategy, 对于存在多个变体的 plugin, 不能正常工作 ](https://github.com/gradle/gradle/issues/20545)
@@ -39,7 +34,7 @@ Gradle 7.0 为 Gradle plugin 开发者引入了一个新功能
 >
 {style="note"}
 
-### 在自定义配置中, Gradle 无法选择 KGP 变体
+### 在自定义配置中, Gradle 无法选择 KGP 变体 {id="gradle-can-t-select-a-kgp-variant-in-a-custom-configuration"}
 
 这是一种预料中的状况, 在自定义配置中, Gradle 无法选择 KGP 变体.
 如果你使用了自定义的 Gradle 配置:
@@ -158,6 +153,6 @@ configurations {
                  - Unmatched attributes:
 ```
 
-## 下一步做什么?
+## 下一步做什么? {id="what-s-next"}
 
 学习 [Gradle 基本概念与详细信息](https://docs.gradle.org/current/userguide/userguide.html).

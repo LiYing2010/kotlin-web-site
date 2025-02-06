@@ -34,8 +34,8 @@ Kotlin 1.5.30 提供了未来的语言功能变更的预览, 并带来了要求�
 >
 {style="warning"}
 
-一个 _穷尽式_ [`when`](control-flow.md#when-expression) 语句包含对应于所有可能的类型或值的分支, 对于某些类型, 再加上 `else` 分支.
-也就是说, 它覆盖私有可能的情况.
+一个 _穷尽式_ [`when`](control-flow.md#when-expressions-and-statements) 语句包含对应于所有可能的类型或值的分支,
+对于特定的类型, 再加上 `else` 分支, 覆盖其它情况.
 
 我们计划很快禁用非穷尽的 `when` 语句, 使得 `when` 语句的动作与 `when` 表达式一致.
 为了保证平滑移植, 你可以配置编译器, 对封闭类或布尔值的非穷尽 `when` 语句报告警告.
@@ -168,7 +168,7 @@ kotlin {
 
 库的作者可以将一个试验性 API 标记为 [要求使用者同意](opt-in-requirements.md#create-opt-in-requirement-annotations),
 用来提醒使用者这个功能处于试验性状态.
-当使用这个 API 时, 编译器会报告一个警告或错误, 并要求 [明确同意使用](opt-in-requirements.md#opt-in-to-using-api) 来消除这些警告或错误.
+当使用这个 API 时, 编译器会报告一个警告或错误, 并要求 [明确同意使用](opt-in-requirements.md#opt-in-to-api) 来消除这些警告或错误.
 
 在 Kotlin 1.5.30 中, 对于签名中存在试验性类型的任何声明, 编译器都认为它们是试验性的.
 也就是说, 即使对一个试验性 API 的隐含使用, 它也要求使用者同意.

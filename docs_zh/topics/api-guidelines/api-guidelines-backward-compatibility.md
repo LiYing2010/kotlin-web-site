@@ -305,7 +305,7 @@ Kotlin 标准库 [提供了 opt-in 机制](opt-in-requirements.md), 要求使用
 
 * 使用 opt-in 机制, 对 API 的不同部分提供不同的保证. 例如, 你可以将功能标记为 _Preview_, _Experimental_, 以及 _Delicate_.
   每个类别应该在你的文档和 [KDoc 注释](kotlin-doc.md) 中清楚的解释, 并带有适当的警告信息.
-* 如果你的库使用一个实验性的 API, 要将 [注解传播](opt-in-requirements.md#propagating-opt-in) 给你自己的使用者.
+* 如果你的库使用一个实验性的 API, 要将 [注解传播](opt-in-requirements.md#propagate-opt-in-requirements) 给你自己的使用者.
   这样可以保证你的使用者认识到, 你依赖于某些正在演化中的功能.
 * 不要使用 opt-in 机制来废弃你的库中已经存在的声明.
   要使用 `@Deprecated`, 如 [务实的演进 API](#evolve-apis-pragmatically) 小节所述.

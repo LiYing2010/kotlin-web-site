@@ -437,7 +437,7 @@ fun main() {
 
 ### 将匿名对象用作返回类型或值类型
 
-当你从一个局部的, 或 [`private`](visibility-modifiers.md#packages) 的函数或属性 (但不是 [inline 函数](inline-functions.md)),
+当你从一个局部的, 或 [`private`](visibility-modifiers.md#packages) 的函数或属性,
 返回一个匿名对象, 那么通过这个函数或属性可以访问匿名对象的所有成员:
 
 ```kotlin
@@ -465,7 +465,7 @@ fun main() {
 
 因此你可以返回一个包含特定属性的匿名对象, 提供一种简单的方式来封装数据或行为, 而不必创建一个单独的类.
 
-如果返回匿名对象的函数或属性是 `public` 的, 或 `private` 的, 那么它的真实类型为:
+如果返回匿名对象的函数或属性的可见度为 `public`, `protected`, 或 `internal`, 那么它的真实类型为:
 
 * 如果匿名对象没有声明基类型, 则类型为 `Any`.
 * 如果匿名对象声明了唯一一个基类型, 则类型为这个基类型.

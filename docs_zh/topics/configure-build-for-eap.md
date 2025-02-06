@@ -1,9 +1,10 @@
 [//]: # (title: 针对 EAP 进行构建配置)
 
-如果你使用 Kotlin 的 EAP 版创建新的项目, 你不需要进行任何额外的设置.
-[Kotlin Plugin](install-eap-plugin.md) 会为你配置好一切!
-
-你只需要为既有的项目手动配置你的构建 — 在安装 EAP 版之前创建的那些项目.
+<tldr>
+    <!-- <p>No preview versions are currently available</p> -->
+    <p>Kotlin EAP 的最新发布版本: <strong>%kotlinEapVersion%</strong></p>
+    <p><a href="eap.md#build-details">查看 Kotlin EAP 发布版的细节</a></p>
+</tldr>
 
 要配置你的构建, 使它使用 Kotlin 的 EAP 版, 你需要:
 
@@ -146,3 +147,9 @@ dependencies {
     </build>
 </project>
 ```
+
+## 如果你遇到任何问题 {id="if-you-run-into-any-problems"}
+
+* 向 [我们的问题追踪系统, YouTrack](https://kotl.in/issue) 报告问题.
+* 在 [Kotlin Slack 的 #eap 频道](https://app.slack.com/client/T09229ZC6/C0KLZSCHF) 中寻求帮助 ([获得 Slack 邀请](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up)).
+* 回滚到最新的稳定版本: [在你的构建脚本文件中修改](configure-build-for-eap.md#adjust-the-kotlin-version).

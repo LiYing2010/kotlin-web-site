@@ -4,7 +4,7 @@ Kotlin 标准库包含扩展函数可以用来截取集合中的一部分.
 这些函数提供了几种不同的方式来选择结果集合中的元素:
 明确指定元素的下标, 或指定结果集合大小, 以及其他方法.
 
-## 切片(Slice)
+## 切片(Slice) {id="slice"}
 
 [`slice()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/slice.html)
 函数返回一个 list, 其中包含集合中某些下标的元素.
@@ -85,7 +85,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-## 分块(Chunk)
+## 分块(Chunk) {id="chunked"}
 
 要把一个集合按照指定的大小分解为许多部分, 可以使用
 [`chunked()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/chunked.html)
@@ -124,7 +124,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-## 滑动窗口(Window)
+## 滑动窗口(Window) {id="windowed"}
 
 你可以指定一个大小, 然后得到集合中所有可能存在的元素区间(element range).
 取得这些元素区间的函数是

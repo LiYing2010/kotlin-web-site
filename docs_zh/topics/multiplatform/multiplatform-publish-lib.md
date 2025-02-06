@@ -48,17 +48,35 @@ Android 编译目标除外, 因为它需要 [更多步骤来配置发布任务](
 如果仓库要求, `kotlinMultiplatform` 发布还可能会需要源代码和文档的 artifact.
 这种情况下, 请在 publication 内使用 [`artifact(...)`](https://docs.gradle.org/current/javadoc/org/gradle/api/publish/maven/MavenPublication.html#artifact-java.lang.Object-) 添加这些需要的 artifact.
 
-## 对主机的要求
+## 对主机的要求 {id="host-requirements"}
 
-除 Apple 平台的编译目标之外, Kotlin/Native 支持交叉编译(cross-compilation), 可以在任何主机上生成需要的 artifact.
+Kotlin/Native 支持交叉编译(cross-compilation), 可以在任何主机上生成必要的 `.klib` artifact.
+但是, 还是有一些细节问题你需要注意.
 
-为了避免发布期间发生问题:
-* 如果你的项目的编译目标包含 Apple 操作系统, 请只从 Apple 主机发布.
-* 只从一个主机发布所有的 artifact, 以免在仓库中重复发布.
+### 针对 Apple 目标平台的编译 {id="compilation-for-apple-targets"}
+<primary-label ref="experimental-opt-in"/>
 
-  例如, Maven Central, 明确禁止重复发布, 并会让发布过程失败. <!-- TBD: add the actual error -->
+要对 Apple 目标平台的项目生成 artifact, 你通常需要 Apple 机器.
+但是, 如果你希望使用其它主机, 请在你的 `gradle.properties` 文件中设置这个选项:
 
-### 如果你使用 Kotlin 1.7.0 或更早版本 {initial-collapse-state="collapsed" collapsible="true"}
+```none
+kotlin.native.enableKlibsCrossCompilation=true
+```
+
+交叉编译(cross-compilation) 目前是实验性功能, 存在一些限制.
+对于以下情况, 你仍然需要使用 Mac 机器:
+
+* 你的库存在 [cinterop 依赖项](native-c-interop.md).
+* 你的项目设置了 [CocoaPods 集成](native-cocoapods.md).
+* 你需要为 Apple 目标平台构建或测试 [最终二进制文件](multiplatform-build-native-binaries.md).
+
+### 重复发布 {id="duplicating-publications"}
+
+为了避免发布期间发生问题, 应该只从一个主机发布所有的 artifact, 以免在仓库中重复发布.
+例如, Maven Central, 明确禁止重复发布, 并会让发布过程失败.
+<!-- TBD: add the actual error -->
+
+#### 如果你使用 Kotlin 1.7.0 或更早版本 {id="if-you-use-kotlin-1-7-0-or-earlier" initial-collapse-state="collapsed" collapsible="true"}
 
 在 1.7.20 之前, Kotlin/Native 编译器不支持全部的交叉编译(cross-compilation)选项.
 如果你使用更早的版本, 你可能需要从多个主机发布跨平台项目:
@@ -134,7 +152,7 @@ kotlin {
 ```kotlin
 kotlin {
     androidTarget {
-        publishLibraryVariants("release", "debug")
+        publishLibraryVariants("release")
     }
 }
 ```
@@ -170,7 +188,7 @@ kotlin {
 >
 {style="note"}
 
-## 禁用源代码的发布
+## 禁用源代码的发布 {id="disable-sources-publication"}
 
 Kotlin Multiplatform Gradle plugin 默认会对所有指定的编译目标发布源代码.
 但是, 你可以在 `shared/build.gradle.kts` 文件中使用 `withSourcesJar()` API 配置并禁用源代码发布:
@@ -212,7 +230,7 @@ Kotlin Multiplatform Gradle plugin 默认会对所有指定的编译目标发布
   }
   ```
 
-## 禁用 JVM 环境属性的发布
+## 禁用 JVM 环境属性的发布 {id="disable-jvm-environment-attribute-publication"}
 
 从 Kotlin 2.0.0 开始, Gradle 属性 [`org.gradle.jvm.environment`](https://docs.gradle.org/current/userguide/variant_attributes.html#sub:jvm_default_attributes)
 会自动随所有的 Kotlin 变体一起发布, 以便帮助区分 Kotlin Multiplatform 库的 JVM 和 Android 变体.
@@ -224,3 +242,15 @@ Kotlin Multiplatform Gradle plugin 默认会对所有指定的编译目标发布
 ```none
 kotlin.publishJvmEnvironmentAttribute=false
 ```
+
+## 推广你的库 {id="promote-your-library"}
+
+你的库可以在 [JetBrains 的检索平台](https://klibs.io/) 上展示.
+它的目标是为了让使用者便利的根据目标平台查找 Kotlin Multiplatform 库.
+
+符合标准的库会被自动添加进来.
+关于如何添加你的库, 详情请参见 [FAQ](https://klibs.io/faq).
+
+## 下一步做什么 {id="what-s-next"}
+
+阅读 [库开发者指南](api-guidelines-build-for-multiplatform.md), 了解为 Kotlin Multiplatform 设计库的最佳实践和技巧.

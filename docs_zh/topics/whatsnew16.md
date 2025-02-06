@@ -21,7 +21,7 @@ Kotlin 1.6.0 引入了新的语言功能, 优化并改进了现有的功能, 并
 
 ### 对 enum, 封闭类 和 Boolean 值的穷尽式(exhaustive) when 语句 (稳定版) {id="stable-exhaustive-when-statements-for-enum-sealed-and-boolean-subjects"}
 
-_穷尽式(exhaustive)_ [`when`](control-flow.md#when-expression) 语句
+_穷尽式(exhaustive)_ [`when`](control-flow.md#when-expressions-and-statements) 语句
 对它的参数的所有可能的类型或值, 都包含对应的分支, 或者对于某些类型还存在一个 `else` 分支.
 它可以覆盖所有可能的情况, 使你的代码更加安全.
 

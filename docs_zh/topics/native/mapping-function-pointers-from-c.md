@@ -17,7 +17,7 @@
 - [将 Kotlin 函数作为 C 函数指针传递](#pass-kotlin-function-as-c-function-pointer)
 - [在 Kotlin 中使用 C 函数指针](#use-the-c-function-pointer-from-kotlin)
 
-## 映射来自 C 的函数指针类型
+## 映射来自 C 的函数指针类型 {id="mapping-function-pointer-types-from-c"}
 
 要理解 Kotlin 和 C 之间的映射, 最好的方法是试验一段小示例程序.
 声明一个函数, 它接受一个函数指针作为参数, 以及另一个函数, 它返回一个函数指针.
@@ -50,7 +50,7 @@ MyFun supply_fun() {
 这个 `interop.def` 文件已经足以编译和运行应用程序, 或在 IDE 中打开它.
 现在来创建项目文件, 在 [IntelliJ IDEA](https://jetbrains.com/idea)中打开项目, 并运行它.
 
-## 查看为 C 库生成的 Kotlin API
+## 查看为 C 库生成的 Kotlin API {id="inspect-generated-kotlin-apis-for-a-c-library"}
 
 尽管可以直接使用命令行, 或者通过脚本文件(比如 `.sh` 或 `.bat` 文件), 但这种方法不适合于包含几百个文件和库的大项目.
 更好的方法是使用带有构建系统的 Kotlin/Native 编译器,
@@ -58,7 +58,7 @@ MyFun supply_fun() {
 Kotlin/Native 能够通过 [kotlin-multiplatform](gradle-configure-project.md#targeting-multiple-platforms) plugin
 使用 [Gradle](https://gradle.org) 构建系统.
 
-关于如何使用 Gradle 设置 IDE 兼容的项目, 请参见教程 [一个基本的 Kotlin/Native 应用程序](native-gradle.md).
+关于如何使用 Gradle 设置 IDE 兼容的项目, 请参见教程 [Kotlin/Native 入门](native-get-started.md#using-gradle).
 如果你想要寻找具体的步骤指南, 来开始一个新的 Kotlin/Native 项目并在 IntelliJ IDEA 中打开它, 请先阅读这篇教程.
 在本教程中, 我们关注更高级的 C 交互功能, 包括使用 Kotlin/Native,
 以及使用 Gradle 的 [跨平台](gradle-configure-project.md#targeting-multiple-platforms) 构建.
@@ -162,7 +162,7 @@ fun main() {
 现在你可以 [在 IntelliJ IDEA 中打开项目](native-get-started.md), 看看如何修正示例项目.
 在这个过程中, 我们来看看 C 函数如何映射为 Kotlin/Native 声明.
 
-## C 函数指针在 Kotlin 中的映射结果
+## C 函数指针在 Kotlin 中的映射结果 {id="c-function-pointers-in-kotlin"}
 
 通过 IntelliJ IDEA 的 **Go To** | **Declaration or Usages** 的帮助,
 或查看编译器错误, 你可以看到为 C 函数生成的 API:
@@ -219,7 +219,7 @@ Kotlin 将函数指针返回类型转换为一个可为 null 的 `CPointer<CFunc
 `cinterop` 工具帮助我们将一个 C 函数指针转换为一个 Kotlin 中方便调用的对象.
 我们在最后一行做的就是这种调用.
 
-## 修正代码
+## 修正代码 {id="fix-the-code"}
 
 你已经看到了所有的定义, 现在我们来修正代码.
 [在 IDE 中](native-get-started.md) 运行 `runDebugExecutableNative` Gradle task,
@@ -246,7 +246,7 @@ fun main() {
 }
 ```
 
-## 下一步
+## 下一步 {id="next-steps"}
 
 阅读以下教程, 继续探索更多 C 语言数据类型, 以及它们在 Kotlin/Native 中的表达:
 - [映射 C 语言的基本数据类型](mapping-primitive-data-types-from-c.md)

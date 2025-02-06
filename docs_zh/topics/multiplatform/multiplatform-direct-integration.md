@@ -1,14 +1,23 @@
 [//]: # (title: 直接集成)
 
+<tldr>
+   这是一种本地集成方法. 适用于以下情况:<br/>
+
+* 你已经在本地机器上设置了 Kotlin Multiplatform 项目, 目标平台是 iOS.
+* 你的 Kotlin Multiplatform 项目没有 CocoaPods 依赖项.<br/>
+
+[选择最适合你的集成方法](multiplatform-ios-integration-overview.md)
+</tldr>
+
 如果你想要通过共用代码来同时开发你的 Kotlin Multiplatform 项目和 iOS 项目,
 你可以使用一段特别的脚本来设置直接集成.
 
 这段脚本会自动化在 Xcode 中将 Kotlin 框架连接到 iOS 项目的过程:
 
-![直接集成](direct-integration-scheme.svg){width="700"}
+![直接集成](direct-integration-scheme.svg){width=700}
 
 这段脚本使用专门为 Xcode 环境设计的 Gradle 任务 `embedAndSignAppleFrameworkForXcode`.
-在设置过程中红, 你要将它添加到 iOS App 构建的运行脚本阶段(Run Script Phase).
+在设置过程中, 你要将它添加到 iOS App 构建的运行脚本阶段(Run Script Phase).
 然后, 在运行 iOS App 构建之前, Kotlin artifact 会构建, 并包含在派生数据中.
 
 一般来说, 这段脚本会:
@@ -17,11 +26,11 @@
 * 处理内嵌框架的代码签名(code signing)过程.
 * 确保 Kotlin 框架中发生变更的代码 Xcode 中的反应到 iOS App 中.
 
-## 如何设置
+## 如何设置 {id="how-to-set-up"}
 
 如果你目前在使用 CocoaPods plugin 来连接你的 Kotlin 框架, 首先请进行迁移.
 
-### 从 CocoaPods plugin 迁移到直接集成 {initial-collapse-state="collapsed" collapsible="true"}
+### 从 CocoaPods plugin 迁移到直接集成 {id="migrate-from-cocoapods-plugin-to-direct-integration" initial-collapse-state="collapsed" collapsible="true"}
 
 要从 CocoaPods plugin 迁移, 请进行以下步骤:
 
@@ -36,7 +45,7 @@
 3. 从你的 `build.gradle(.kts)` 文件中删除 `cocoapods {}` 代码块.
 4. 删除 `.podspec` 和 `Podfile` 文件.
 
-### 将框架连接到你的项目
+### 将框架连接到你的项目 {id="connect-the-framework-to-your-project"}
 
 要将从跨平台项目生成的 Kotlin 框架连接到你的 Xcode 项目, 请进行以下步骤:
 
@@ -82,7 +91,7 @@
 >
 {style="note"}
 
-## 下一步做什么?
+## 下一步做什么? {id="what-s-next"}
 
 使用 Swift 包管理器时, 你也可以使用本地集成.
 [学习如何在本地包中添加 Kotlin 框架的依赖项](multiplatform-spm-local-integration.md).

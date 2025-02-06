@@ -192,6 +192,22 @@ JetBrains 根据 [Kotlin 语言演化原则](kotlin-evolution-principles.md), �
 </td>
 <td>
 
+**在 JVM 中公开装箱的内联值类(boxed inline value class)**
+
+* KEEP 提案: [jvm-expose-boxed.md](https://github.com/Kotlin/KEEP/blob/jvm-expose-boxed/proposals/jvm-expose-boxed.md)
+* YouTrack issue: [KT-28135](https://youtrack.jetbrains.com/issue/KT-28135)
+
+</td>
+</tr>
+
+<tr filter="keep">
+<td>
+
+**KEEP 讨论**
+
+</td>
+<td>
+
 **明确的后端域变量(Backing Field): 对同一个属性同时支持 `public` 和 `private` 类型**
 
 * KEEP 提案: [explicit-backing-fields.md](https://github.com/Kotlin/KEEP/blob/explicit-backing-fields-re/proposals/explicit-backing-fields.md)
@@ -224,7 +240,7 @@ JetBrains 根据 [Kotlin 语言演化原则](kotlin-evolution-principles.md), �
 </td>
 <td>
 
-**在带有判断对象的 when 语句中的保护条件**
+**在带有判断对象的 when 语句中的保护条件(Guard Condition)**
 
 * KEEP 提案: [guards.md](https://github.com/Kotlin/KEEP/blob/guards/proposals/guards.md)
 * YouTrack issue: [KT-13626](https://youtrack.jetbrains.com/issue/KT-13626)

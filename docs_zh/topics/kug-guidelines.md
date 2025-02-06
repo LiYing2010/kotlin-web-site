@@ -15,7 +15,7 @@ Kotlin User Group, 简称 KUG, 是一个专注于 Kotlin 的开发社区, 你可
 >
 {style="note"}
 
-## 如何运营一个 KUG?
+## 如何运营一个 KUG? {id="how-to-run-a-kug"}
 
 * 为了提升团体的团结性, 防止沟通不畅, 我们推荐每个城市只限存在 1 个 KUG.
   请查看 [KUG 列表](https://kotlinlang.org/community/user-groups/), 确认在你的地区是否已有 KUG 存在.
@@ -30,7 +30,7 @@ Kotlin User Group, 简称 KUG, 是一个专注于 Kotlin 的开发社区, 你可
 
 如果有问题, 可以 [联系我们](mailto:kug@jetbrains.com)
 
-## JetBrains 对 KUG 的支持
+## JetBrains 对 KUG 的支持 {id="support-for-kugs-from-jetbrains"}
 
 活跃的 KUG, 至少每 3 个月主办 1 次聚会, 可以申请我们的社区支持计划, 包括:
 * 官方的 KUG 品牌.
@@ -39,7 +39,7 @@ Kotlin User Group, 简称 KUG, 是一个专注于 Kotlin 的开发社区, 你可
 * Kotlin 活动和促销时的优先支持.
 * 帮助你的活动招募 Kotlin 演讲者.
 
-## JetBrains 对其它技术社区的支持
+## JetBrains 对其它技术社区的支持 {id="support-from-jetbrains-for-other-tech-communities"}
 
 如果你组织了其它任何技术社区, 你也可以申请支持. 这样做之后, 你可以得到:
 * JetBrains 产品的免费 License, 供聚会时抽奖发送.

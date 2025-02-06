@@ -548,7 +548,7 @@ Kotlin 1.7.20 包含的变更是支持 Gradle 7.1.
 * `org.jetbrains.kotlin.gradle.dsl.SingleTargetExtension` 现在有一个泛型参数, `SingleTargetExtension<T : KotlinTarget>`.
 * `kotlin.targets.fromPreset()` convention 已被废弃.
   作为代替, 你可以继续使用 `kotlin.targets { fromPreset() }` 方案,
-  但我们推荐使用更加 [专门的方法来创建编译目标](multiplatform-set-up-targets.md).
+  但我们推荐 [明确设置编译目标](multiplatform-discover-project.md#targets).
 * 在 `kotlin.targets { }` 代码段内, 由 Gradle 自动生成的编译目标访问器不再可用.
   请改为使用 `findByName("targetName")` 方法.
 

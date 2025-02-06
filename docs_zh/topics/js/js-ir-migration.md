@@ -18,7 +18,7 @@
 请报告你切换到 IR 编译器时遇到的问题, 提交到我们的问题追踪系统 [YouTrack](https://kotl.in/issue),
 或填写这个 [表格](https://surveys.jetbrains.com/s3/ir-be-migration-issue).
 
-## 将 JS 和 React 相关的类和接口转换为外部接口(External Interface)
+## 将 JS 和 React 相关的类和接口转换为外部接口(External Interface) {id="convert-js-and-react-related-classes-and-interfaces-to-external-interfaces"}
 
 **`问题`**: 使用 Kotlin 接口和类 (包括数据类), 如果继承自纯 JS 类, 比如 React 的 `State` 和 `Props`,
   可能导致 `ClassCastException` 异常. 出现这样的异常是因为, 编译器试图将这些类的实例象 Kotlin 对象一样使用,
@@ -47,7 +47,7 @@ external interface CustomComponentState : State {
 * [用于 `State` 的模板](https://gist.github.com/SebastianAigner/62119536f24597e630acfdbd14001b98)
 * [用于 `Props` 的模板](https://gist.github.com/SebastianAigner/a47a77f5e519fc74185c077ba12624f9)
 
-## 将外部接口的属性转换为 var
+## 将外部接口的属性转换为 var {id="convert-properties-of-external-interfaces-to-var"}
 
 **问题**: 在 Kotlin/JS 代码中, 外部接口的属性不能为只读(`val`)属性, 因为这些属性的赋值,
 只能在使用 `js()` 或 `jso()` (来自 [`kotlin-wrappers`](https://github.com/JetBrains/kotlin-wrappers) 的帮助函数)
@@ -76,7 +76,7 @@ external interface CustomComponentState : State {
 }
 ```
 
-## 将外部接口中带接受者的函数转换为普通函数
+## 将外部接口中带接受者的函数转换为普通函数 {id="convert-functions-with-receivers-in-external-interfaces-to-regular-functions"}
 
 **问题**: 外部声明不能包含带接受者的函数, 比如扩展函数, 或这类函数类型的属性.
 
@@ -95,7 +95,7 @@ external interface ButtonProps : Props {
 }
 ```
 
-## 为与 JS 交互, 创建单纯 JS 对象
+## 为与 JS 交互, 创建单纯 JS 对象 {id="create-plain-js-objects-for-interoperability"}
 
 **问题**: 实现外部接口的 Kotlin 对象的属性不可 _列举_.
 因此不能通过对象属性的遍历得到这些属性, 比如:
@@ -146,13 +146,13 @@ val jsApp = js("{name: 'App1'}") as AppProps // 或使用 jso {} 函数
 val jsonApp = kotlin.js.json(Pair("name", "App1")) as AppProps
 ```
 
-## 将函数引用上的 toString() 调用替换为 .name
+## 将函数引用上的 toString() 调用替换为 .name {id="replace-tostring-calls-on-function-references-with-name"}
 
 **问题**: 在 IR 后端中, 对函数引用调用 `toString()`不会输出唯一的值.
 
 **解决方案**: 使用 `name` 属性代替 `toString()` 调用.
 
-## 在构建脚本中明确指定 binaries.executable()
+## 在构建脚本中明确指定 binaries.executable() {id="explicitly-specify-binaries-executable-in-the-build-script"}
 
 **问题**: 编译器不会产生可执行的 `.js` 文件.
 
@@ -171,11 +171,11 @@ kotlin {
 }
 ```
 
-## 关于使用 Kotlin/JS IR 编译器时其他问题的提示
+## 关于使用 Kotlin/JS IR 编译器时其他问题的提示 {id="additional-troubleshooting-tips-when-working-with-the-kotlin-js-ir-compiler"}
 
 这些提示也许能够帮助你解决在使用 Kotlin/JS IR 编译器的项目中遇到的问题.
 
-### 将外部接口中的 boolean 属性标记为 nullable
+### 将外部接口中的 boolean 属性标记为 nullable {id="make-boolean-properties-nullable-in-external-interfaces"}
 
 **问题**: 当你对外部接口中的 `Boolean` 属性调用 `toString` 时,
 你会得到 `Uncaught TypeError: Cannot read properties of undefined (reading 'toString')` 之类的错误.

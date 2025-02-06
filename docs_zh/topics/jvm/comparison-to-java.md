@@ -12,7 +12,7 @@ Java 中长期困扰的一系列问题, 在 Kotlin 得到了解决:
 * Kotlin 中不存在受控 [异常](exceptions.md)
 * [集合的接口定义区分为只读集合与可变集合](collections-overview.md)
 
-## Java 中有, 而 Kotlin 中没有的功能
+## Java 中有, 而 Kotlin 中没有的功能 {id="what-java-has-that-kotlin-does-not"}
 
 * [受控异常](exceptions.md)
 * 不是类的 [基本数据类型](basic-types.md).
@@ -33,7 +33,7 @@ Java 中长期困扰的一系列问题, 在 Kotlin 得到了解决:
 * [模式匹配](https://openjdk.org/projects/amber/design-notes/patterns/pattern-matching-for-java)
 * 包内的 private [可见度修饰符](visibility-modifiers.md)
 
-## Kotlin 中有, 而 Java 中没有的功能
+## Kotlin 中有, 而 Java 中没有的功能 {id="what-kotlin-has-that-java-does-not"}
 
 * [Lambda 表达式](lambdas.md) + [内联函数](inline-functions.md) = 实现自定义的控制结构
 * [扩展函数](extensions.md)
@@ -58,7 +58,7 @@ Java 中长期困扰的一系列问题, 在 Kotlin 得到了解决:
 * [预期声明与实际声明](multiplatform-expect-actual.md)
 * [明确 API 模式](whatsnew14.md#explicit-api-mode-for-library-authors) 和 [更好的控制 API 暴露层(API Surface)](opt-in-requirements.md)
 
-## 下一步做什么?
+## 下一步做什么? {id="what-s-next"}
 
 学习:
 * 如何执行 [Java 与 Kotlin 中常见的字符串处理任务](java-to-kotlin-idioms-strings.md).

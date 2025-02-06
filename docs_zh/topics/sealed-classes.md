@@ -165,8 +165,9 @@ open class CustomError(): Error
 
 更多详情请参见 [跨平台项目的层级结构(hierarchical structure)](multiplatform-hierarchy.md).
 
-## 和 `when` 表达式一起使用封闭类 {id="use-sealed-classes-with-when-expression"}
+## 和 when 表达式一起使用封闭类 {id="use-sealed-classes-with-when-expression"}
 
+使用封闭类的主要好处, 是在 [`when`](control-flow.md#when-expressions-and-statements) 表达式中的使用场景.
 `when` 表达式和封闭类一起使用时, Kotlin 编译器能够进行穷尽的检查, 是否覆盖了所有可能的情况.
 这样的情况下, 你可以不必添加 `else` 分支:
 
@@ -200,6 +201,9 @@ fun main() {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.5"}
+
+`when` 表达式和封闭类一起使用时, 你也可以添加保护条件(Guard Condition), 在单个分支中指定额外的检查.
+详情请参见 [when 表达式中的保护条件(Guard Condition)](control-flow.md#guard-conditions-in-when-expressions).
 
 > 在跨平台项目中, 如果与 `when` 表达式一起使用的封闭类, 是你的共通代码中的 [预期声明](multiplatform-expect-actual.md),
 > 那么仍然需要 `else` 分支.

@@ -1,6 +1,6 @@
 [//]: # (title: 针对 Java 注解处理器开发者的参考文档)
 
-## 程序元素
+## 程序元素 {id="program-elements"}
 
 | **Java**               | **KSP 中的类似功能**                               | **注意事项**       |
 |------------------------|----------------------------------------------|----------------|
@@ -15,7 +15,7 @@
 | `TypeParameterElement` | `KSTypeParameter`                            |                |
 | `VariableElement`      | `KSValueParameter` / `KSPropertyDeclaration` |                |
 
-## 类型
+## 类型 {id="types"}
 
 KSP 要求明确解析类型, 因此在解析之前, Java 中的有些功能只能通过 `KSType` 和对应的元素得到.
 
@@ -35,7 +35,7 @@ KSP 要求明确解析类型, 因此在解析之前, Java 中的有些功能只�
 | `UnionType`        | 没有这样的功能                            | Kotlin 的 每个 catch 代码段只有 1 个类型. 即使对 Java 注解处理器来说, `UnionType` 也是不可访问的 |
 | `WildcardType`     | `KSType` / `KSTypeArgument`        |                                                                      |
 
-## 杂项
+## 杂项 {id="misc"}
 
 | **Java**                       | **KSP 中的类似功能**                | **注意事项**                                                       |
 |--------------------------------|-------------------------------|----------------------------------------------------------------|
@@ -58,24 +58,24 @@ KSP 要求明确解析类型, 因此在解析之前, Java 中的有些功能只�
 | `Types`                        | `Resolver` / `utils`          | 有些 `utils` 也被集成在符号接口中                                          |
 | `Elements`                     | `Resolver` / `utils`          |                                                                |
 
-## 细节
+## 细节 {id="details"}
 
 这部分介绍 KSP 怎样提供 Java 注解处理 API 的功能.
 
-### AnnotationMirror
+### AnnotationMirror {id="annotationmirror"}
 
 | **Java**            | **KSP 中的同等功能**                |
 |---------------------|-------------------------------|
 | `getAnnotationType` | `ksAnnotation.annotationType` |
 | `getElementValues`  | `ksAnnotation.arguments`      |
 
-### AnnotationValue
+### AnnotationValue {id="annotationvalue"}
 
 | **Java**   | **KSP 中的同等功能**          |
 |------------|-------------------------|
 | `getValue` | `ksValueArgument.value` |
 
-### Element
+### Element {id="element"}
 
 | **Java**               | **KSP 中的同等功能**                                                         |
 |------------------------|------------------------------------------------------------------------|
@@ -88,7 +88,7 @@ KSP 要求明确解析类型, 因此在解析之前, Java 中的有些功能只�
 | `getModifiers`         | `ksDeclaration.modifiers`                                              |
 | `getSimpleName`        | `ksDeclaration.simpleName`                                             |
 
-### ExecutableElement
+### ExecutableElement {id="executableelement"}
 
 | **Java**            | **KSP 中的同等功能**                                         |
 |---------------------|--------------------------------------------------------|
@@ -102,19 +102,19 @@ KSP 要求明确解析类型, 因此在解析之前, Java 中的有些功能只�
 | `isDefault`         | 检查父类型是不是接口                                             |
 | `isVarArgs`         | `ksFunctionDeclaration.parameters.any { it.isVarArg }` |
 
-### Parameterizable
+### Parameterizable {id="parameterizable"}
 
 | **Java**            | **KSP 中的同等功能**                         |
 |---------------------|----------------------------------------|
 | `getTypeParameters` | `ksFunctionDeclaration.typeParameters` |
 
-### QualifiedNameable
+### QualifiedNameable {id="qualifiednameable"}
 
 | **Java**           | **KSP 中的同等功能**                |
 |--------------------|-------------------------------|
 | `getQualifiedName` | `ksDeclaration.qualifiedName` |
 
-### TypeElement
+### TypeElement {id="typeelement"}
 
 <table>
     <tr>
@@ -173,7 +173,7 @@ ksClassDeclaration.superTypes
     </tr>
 </table>
 
-### TypeParameterElement
+### TypeParameterElement {id="typeparameterelement"}
 
 | **Java**              | **KSP 中的同等功能**                      |
 |-----------------------|-------------------------------------|
@@ -181,7 +181,7 @@ ksClassDeclaration.superTypes
 | `getEnclosingElement` | `ksTypeParameter.parentDeclaration` |
 | `getGenericElement`   | `ksTypeParameter.parentDeclaration` |
 
-### VariableElement
+### VariableElement {id="variableelement"}
 
 | **Java**              | **KSP 中的同等功能**                       |
 |-----------------------|--------------------------------------|
@@ -189,13 +189,13 @@ ksClassDeclaration.superTypes
 | `getEnclosingElement` | `ksValueParameter.parentDeclaration` |
 | `getSimpleName`       | `ksValueParameter.simpleName`        |
 
-### ArrayType
+### ArrayType {id="arraytype"}
 
 | **Java**           | **KSP 中的同等功能**             |
 |--------------------|----------------------------|
 | `getComponentType` | `ksType.arguments.first()` |
 
-### DeclaredType
+### DeclaredType {id="declaredtype"}
 
 | **Java**           | **KSP 中的同等功能**                         |
 |--------------------|----------------------------------------|
@@ -203,7 +203,7 @@ ksClassDeclaration.superTypes
 | `getEnclosingType` | `ksType.declaration.parentDeclaration` |
 | `getTypeArguments` | `ksType.arguments`                     |
 
-### ExecutableType
+### ExecutableType {id="executabletype"}
 
 > 函数的 `KSType` 只是一个签名, 由 `FunctionN<R, T1, T2, ..., TN>` 群表达.
 >
@@ -217,19 +217,19 @@ ksClassDeclaration.superTypes
 | `getThrownTypes`    | Kotlin 中不需要                                                                             |
 | `getTypeVariables`  | `ksFunctionDeclaration.typeParameters`                                                  |
 
-### IntersectionType
+### IntersectionType {id="intersectiontype"}
 
 | **Java**    | **KSP 中的同等功能**           |
 |-------------|--------------------------|
 | `getBounds` | `ksTypeParameter.bounds` |
 
-### TypeMirror
+### TypeMirror {id="typemirror"}
 
 | **Java**  | **KSP 中的同等功能**                                             |
 |-----------|------------------------------------------------------------|
 | `getKind` | 对于基本类型, `Unit`, 与 `KSBuiltIns` 中的类型比较, 其他情况使用 DeclaredType |
 
-### TypeVariable
+### TypeVariable {id="typevariable"}
 
 | **Java**        | **KSP 中的同等功能**                           |
 |-----------------|------------------------------------------|
@@ -237,7 +237,7 @@ ksClassDeclaration.superTypes
 | `getLowerBound` | 未决定. 只存在 capture, 并且需要明确的边界检查时, 才需要这个功能. |
 | `getUpperBound` | `ksTypeParameter.bounds`                 |
 
-### WildcardType
+### WildcardType {id="wildcardtype"}
 
 <table>
     <tr>
@@ -266,7 +266,7 @@ if (ksTypeArgument.variance == Variance.CONTRAVARIANT) ksTypeArgument.type else 
     </tr>
 </table>
 
-### Elements
+### Elements {id="elements"}
 
 <table>
     <tr>

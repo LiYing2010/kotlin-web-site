@@ -19,7 +19,7 @@
 _CrudRepository_ 是一个 Spring Data 接口, 可以指定类型的仓库进行通常的 [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) 操作.
 它提供了一些现成的方法来操作数据库.
 
-## 更新你的应用程序
+## 更新你的应用程序 {id="update-your-application"}
 
 首先, 你需要调整 `Message` 类, 来配合 `CrudRepository` API:
 
@@ -89,7 +89,7 @@ _CrudRepository_ 是一个 Spring Data 接口, 可以指定类型的仓库进行
     <deflist collapsible="true">
        <def title="扩展函数">
           <p>
-            <code>findByIdOrNull()</code> 函数的返回类型是 Spring Data JDBC 中的 <code>CrudRepository</code> 接口的一个 <a href="extensions.md#extension-functions">扩展函数</a>.
+            <code>findByIdOrNull()</code> 函数是 Spring Data JDBC 中的 <code>CrudRepository</code> 接口的一个 <a href="extensions.md#extension-functions">扩展函数</a>.
           </p>
           <p>
             在上面的代码中, <code>Optional&lt;out T&gt;.toList()</code>, <code>.toList()</code> 是 <code>Optional</code> 的扩展函数.
@@ -225,12 +225,12 @@ class MessageController(private val service: MessageService) {
 ```
 {initial-collapse-state="collapsed" collapsible="true"}
 
-## 运行应用程序
+## 运行应用程序 {id="run-the-application"}
 
 应用程序可以在此运行了.
 通过将 `JdbcTemplate` 替换为 `CrudRepository`, 功能并没有变更, 因此应用程序应该和以前相同的方式运行.
 
-## 下一步做什么
+## 下一步做什么 {id="what-s-next"}
 
 得到你个人的语言导航地图, 它可以帮助你浏览 Kotlin 的功能特性, 并追踪你学习语言的进度:
 

@@ -12,7 +12,7 @@ LPK 可用于各种平台, 包括 [Kotlin Notebooks](data-analysis-overview.md#n
 本教程演示如何在 IntelliJ IDEA 中, 通过 Kotlin Notebook,
 使用 LPK 和 [Kotlin DataFrame](https://kotlin.github.io/dataframe/gettingstarted.html) 库创建各种类型的绘图.
 
-## 开始前的准备工作
+## 开始前的准备工作 {id="before-you-start"}
 
 1. 下载并安装最新版的 [IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/download/?section=mac).
 2. 在 IntelliJ IDEA 中安装 [Kotlin Notebook plugin](https://plugins.jetbrains.com/plugin/16340-kotlin-notebook).
@@ -74,7 +74,7 @@ DataFrame 的前 4 行包含柏林从 1 月到 4 月的温度的记录:
 val data = df.toMap()
 ```
 
-## 创建散点图(Scatter Plot)
+## 创建散点图(Scatter Plot) {id="create-a-scatter-plot"}
 
 我们在 Kotlin Notebook 中使用 LPK 库创建一个散点图.
 
@@ -94,7 +94,7 @@ scatterPlot
 
 ![散点图](lets-plot-scatter.svg){width=600}
 
-## 创建箱形图(Box Plot)
+## 创建箱形图(Box Plot) {id="create-a-box-plot"}
 
 我们来使用箱形图对 [数据](#prepare-the-data) 进行可视化.
 请使用 LPK 库的 [`geomBoxplot()`](https://lets-plot.org/kotlin/api-reference/-lets--plot--kotlin/org.jetbrains.letsPlot.geom/geom-boxplot.html) 函数来生成绘图,
@@ -112,11 +112,11 @@ boxPlot
 
 ![箱形图](box-plot.svg){width=600}
 
-## 创建 2D 密度图(Density Plot)
+## 创建 2D 密度图(Density Plot) {id="create-a-2d-density-plot"}
 
 现在, 我们来创建一个 2D 密度图, 对一些随机数据的分布和集中度进行可视化.
 
-### 为 2D 密度图准备数据
+### 为 2D 密度图准备数据 {id="prepare-the-data-for-the-2d-density-plot"}
 
 1. 导入处理数据和生成绘图所需要的依赖项:
 
@@ -174,7 +174,7 @@ boxPlot
    )
    ```
 
-### 生成 2D 密度图
+### 生成 2D 密度图 {id="generate-the-2d-density-plot"}
 
 使用前面步骤中得到的 `Map`, 创建一个 2D 密度图 (`geomDensity2D`),
 以散点图 (`geomPoint`) 作为背景, 这样可以更好的可视化数据点和异常值.
@@ -194,7 +194,7 @@ densityPlot
 
 ![2D 密度图](2d-density-plot.svg){width=600}
 
-## 下一步做什么
+## 下一步做什么 {id="what-s-next"}
 
 * 查看 [Lets-Plot for Kotlin 的文档](https://lets-plot.org/kotlin/charts.html) 中的更多绘图示例.
 * 阅读 Lets-Plot for Kotlin 的 [API 参考文档](https://lets-plot.org/kotlin/api-reference/).

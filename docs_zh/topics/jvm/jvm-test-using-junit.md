@@ -6,7 +6,7 @@
 
 开始之前, 首先请下载并安装最新版的 [IntelliJ IDEA](https://www.jetbrains.com/idea/download/index.html).
 
-## 添加依赖项
+## 添加依赖项 {id="add-dependencies"}
 
 1. 在 IntelliJ IDEA 中打开一个 Kotlin 项目.
    如果你还没有项目, 请 [创建一个新项目](https://www.jetbrains.com/help/idea/create-your-first-kotlin-app.html#create-project).
@@ -90,7 +90,7 @@ tasks.test {
 ```
 {initial-collapse-state="collapsed" collapsible="true"}
 
-## 添加需要测试的代码
+## 添加需要测试的代码 {id="add-the-code-to-test-it"}
 
 1. 打开 `src/main/kotlin` 中的 `Main.kt` 文件.
 
@@ -107,7 +107,7 @@ tasks.test {
    }
    ```
 
-## 创建测试
+## 创建测试 {id="create-a-test"}
 
 1. 在 IntelliJ IDEA 中, 对 `Sample` 类选择 **Code** | **Generate** | **Test...** :
 
@@ -143,7 +143,7 @@ tasks.test {
    }
    ```
 
-## 运行测试
+## 运行测试 {id="run-a-test"}
 
 1. 使用源代码编辑器侧栏中的图标运行测试:
 
@@ -175,7 +175,7 @@ tasks.test {
 
    测试执行失败.
 
-## 下一步做什么?
+## 下一步做什么? {id="what-s-next"}
 
 完成你的第一个测试之后, 你可以:
 

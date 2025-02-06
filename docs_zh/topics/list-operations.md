@@ -35,7 +35,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-## 获取 list 的一部分
+## 获取 list 的一部分 {id="retrieve-list-parts"}
 
 除了 [获取集合的一部分](collection-parts.md) 中介绍过的共通操作之外, list 还提供了一个
 [`subList()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/sub-list.html)
@@ -53,9 +53,9 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-## 查找元素位置
+## 查找元素位置 {id="find-element-positions"}
 
-### 线性查找(Linear search)
+### 线性查找(Linear Search) {id="linear-search"}
 
 对任何 list, 你可以使用
 [`indexOf()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/index-of.html)
@@ -96,10 +96,10 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-### 在排序的 list 中折半查找(Binary search)
+### 在排序的 list 中折半查找(Binary Search) {id="binary-search-in-sorted-lists"}
 
 在 list 中查找元素还有另一种方式 –
-[折半查找(binary search)](https://en.wikipedia.org/wiki/Binary_search_algorithm).
+[折半查找(Binary Search)](https://en.wikipedia.org/wiki/Binary_search_algorithm).
 这种方法的速度要比其他内建函数快很多, 但它 *要求 list 按照升序 [排序](collection-ordering.md)*,
 排序方法可以是: 自然顺序, 或通过函数参数指定的其它顺序.
 否则, 这个函数的查找结果是不确定的.
@@ -129,9 +129,9 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-#### 使用比较器(Comparator)进行折半查找(Binary search)
+#### 使用比较器(Comparator)进行折半查找(Binary Search) {id="comparator-binary-search"}
 
-如果 list 元素不是 `Comparable` 对象, 那么在进行折半查找(Binary search)时, 需要提供一个
+如果 list 元素不是 `Comparable` 对象, 那么在进行折半查找(Binary Search)时, 需要提供一个
 [`Comparator`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-comparator.html).
 list 中的元素必须按这个 `Comparator` 比较的结果升序排列. 下面我们来看看示例程序:
 
@@ -172,9 +172,9 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-#### 使用比较(Comparison)函数进行折半查找(Binary search)
+#### 使用比较(Comparison)函数进行折半查找(Binary Search) {id="comparison-binary-search"}
 
-进行折半查找(Binary search)时, 使用 _比较(Comparison)_ 函数, 不必指定确切的查找值即可查找元素.
+进行折半查找(Binary Search)时, 使用 _比较(Comparison)_ 函数, 不必指定确切的查找值即可查找元素.
 这种查找方法不需要具体的元素值, 而是接受一个比较函数, 比较函数负责将元素变换为 `Int` 值, 然后查找变换结果为 0 的元素.
 list 必须按照比较函数规定的升序排序; 也就是说, list 中各个元素传递给比较函数之后的返回值必须是递增的.
 
@@ -207,7 +207,7 @@ fun main() {
 [可变(mutable)](collections-overview.md#collection-types) list 还支持 list 独有的写操作.
 这类操作使用下标访问元素的方式进行, 增加了 list 的修改能力.
 
-### 添加元素
+### 添加元素 {id="add"}
 
 要将元素添加到 list 的指定位置, 可以使用
 [`add()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/add.html)
@@ -229,7 +229,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-### 更新元素
+### 更新元素 {id="update"}
 
 List 还提供了函数, 可以替换指定位置的元素 -
 [`set()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/set.html)
@@ -262,7 +262,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-### 删除元素
+### 删除元素 {id="remove"}
 
 要从 list 的指定位置删除元素, 可以使用
 [`removeAt()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/remove-at.html)
@@ -281,13 +281,13 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-### 排序(Sorting) {id="sort"}
+### 排序 {id="sort"}
 
 在 [集合排序(Ordering)](collection-ordering.md) 中, 我们介绍了按照指定顺序获取集合元素的操作.
-对于可变的 list, 标准库提供了类似的扩展函数, 对 list 原地(in place)执行相同的操作.
+对于可变的 list, 标准库提供了类似的扩展函数, 对 list 原地(In Place)执行相同的操作.
 如果对一个 list 执行这类操作, 它会改变这个 list 实例中的元素顺序.
 
-原地(in place)排序函数的名称与只读 list 的排序函数类似, 但没有 `ed/d` 后缀:
+原地(In Place)排序函数的名称与只读 list 的排序函数类似, 但没有 `ed/d` 后缀:
 
 * 所有排序函数中的 `sorted*` 变为 `sort*`:
   [`sort()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/sort.html),

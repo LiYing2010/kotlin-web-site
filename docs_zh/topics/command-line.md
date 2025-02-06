@@ -13,7 +13,7 @@
 >
 {style="note"}
 
-## 安装编译器
+## 安装编译器 {id="install-the-compiler"}
 
 ### 手动安装 {id="manual-install"}
 
@@ -55,7 +55,7 @@ brew install kotlin
 sudo snap install --classic kotlin
 ```
 
-## 创建并运行应用程序
+## 创建并运行应用程序 {id="create-and-run-an-application"}
 
 1. 使用 Kotlin 创建一个简单的控制台 JVM 应用程序, 它输出 `"Hello, World!"`.
    在代码编辑器中, 创建一个名为 `hello.kt` 的新文件, 包含以下代码:
@@ -87,7 +87,7 @@ sudo snap install --classic kotlin
    java -jar hello.jar
    ```
 
-## 编译一个库
+## 编译一个库 {id="compile-a-library"}
 
 如果你在开发库, 供其他 Kotlin 应用程序使用, 那么构建 **.jar** 文件时可以不包含 Kotlin 运行库:
 
@@ -105,13 +105,13 @@ kotlin -classpath hello.jar HelloKt
 
 `HelloKt` 是 Kotlin 编译器为 `hello.kt` 文件生成的 main 类名.
 
-## 运行 REPL
+## 运行 REPL {id="run-the-repl"}
 
 你可以不带任何参数来运行编译器, 启动一个交互环境. 在这个环境中, 你可以输入任何有效的 Kotlin 代码, 并看到结果.
 
 <img src="kotlin-shell.png" alt="Shell" width="500"/>
 
-## 运行脚本
+## 运行脚本 {id="run-scripts"}
 
 你也可以将 Kotlin 用作脚本语言.
 一个 Kotlin 脚本就是一个 Kotlin 源代码文件 (`.kts`), 其中包含顶级(Top-Level)可执行代码.

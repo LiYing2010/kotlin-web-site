@@ -1,6 +1,6 @@
 [//]: # (title: 从 Web 数据源和 API 获取数据)
 
-Kotlin Notebook 提供了强大的平台, 能够从各种 Web 数据源和 API 访问和操作数据.
+[Kotlin Notebook](kotlin-notebook-overview.md) 提供了强大的平台, 能够从各种 Web 数据源和 API 访问和操作数据.
 它提供了一个交互环境, 在这个环境中每个步骤都能够可视化, 清晰可见, 因此简化了数据抽取和分析任务.
 这样的功能使得它非常适合于探索那些你不熟悉的 API.
 
@@ -11,7 +11,7 @@ Kotlin Notebook 在与 [Kotlin DataFrame 库](https://kotlin.github.io/dataframe
 > 
 {style="tip"}
 
-## 开始前的准备工作
+## 开始前的准备工作 {id="before-you-start"}
 
 1. 下载并安装最新版的 [IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/download/?section=mac).
 2. 在 IntelliJ IDEA 中安装 [Kotlin Notebook plugin](https://plugins.jetbrains.com/plugin/16340-kotlin-notebook).
@@ -211,8 +211,8 @@ Kotlin Notebook 在与 [Kotlin DataFrame 库](https://kotlin.github.io/dataframe
 
 关于更多高级技术, 请参见 [Kotlin DataFrame 文档](https://kotlin.github.io/dataframe/gettingstarted.html).
 
-## 下一步做什么
+## 下一步做什么 {id="what-s-next"}
 
-* 学习使用 [Kandy 库](https://kotlin.github.io/kandy/examples.html) 进行数据可视化.
-* 阅读 [在 Kotlin Notebook 中使用 Kandy 进行数据可视化](data-analysis-visualization.md), 学习数据可视化的更多知识.
-* 关于 Kotlin 中用于数据科学和分析的工具和资源的广泛的概述, 请参见 [用于数据分析的 Kotlin 和 Java 库](data-analysis-libraries.md).
+* 学习使用 [Kandy 库](https://kotlin.github.io/kandy/examples.html) 进行数据可视化
+* 阅读 [在 Kotlin Notebook 中使用 Kandy 进行数据可视化](data-analysis-visualization.md), 学习数据可视化的更多知识
+* 关于 Kotlin 中用于数据科学和分析的工具和资源的广泛的概述, 请参见 [用于数据分析的 Kotlin 和 Java 库](data-analysis-libraries.md)

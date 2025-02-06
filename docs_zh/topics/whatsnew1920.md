@@ -61,7 +61,7 @@ kapt.use.k2=true
 ```
 
 或者, 你可以通过以下步骤启用针对 K2 的 kapt:
-1. 在你的 `build.gradle.kts` 文件中, [设置语言版本](gradle-compiler-options.md#example-of-setting-a-languageversion) 为 `2.0`.
+1. 在你的 `build.gradle.kts` 文件中, [设置语言版本](gradle-compiler-options.md#example-of-setting-languageversion) 为 `2.0`.
 2. 在你的 `gradle.properties` 文件中, 添加 `kapt.use.k2=true`.
 
 如果你在使用针对 K2 编译器的 kapt 时遇到任何问题, 请到我们的 [问题追踪系统](http://kotl.in/issue) 提交报告.

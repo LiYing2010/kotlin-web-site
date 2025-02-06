@@ -15,7 +15,7 @@ set 元素的顺序也可能是不可知的.
 这种情况下, 元素仍然会是按照某种顺序排列的, 因此依赖于元素位置的那些函数仍然会返回某种结果.
 然而, 除非函数调用者知道所使用的 `Set` 的具体实现, 否则结果是不可预知的, .
 
-## 根据位置获取元素
+## 根据位置获取元素 {id="retrieve-by-position"}
 
 要获取某个指定位置的元素, 可以使用
 [`elementAt()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/element-at.html)
@@ -79,7 +79,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-## 根据条件获取元素
+## 根据条件获取元素 {id="retrieve-by-condition"}
 
 [`first()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/first.html)
 和
@@ -135,13 +135,13 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-## 使用选择器(selector)获取元素
+## 使用选择器(Selector)获取元素 {id="retrieve-with-selector"}
 
 如果你需要在获取元素之前对集合进行映射, 可以使用
 [`firstNotNullOf()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/first-not-null-of.html)
 函数.
 这个函数组合了两个操作:
-- 使用选择器(selector)函数对集合进行映射
+- 使用选择器(Selector)函数对集合进行映射
 - 返回映射结果中的第一个非 null 值
 
 如果映射后的结果集合不包含非 null 元素, `firstNotNullOf()` 会抛出 `NoSuchElementException` 异常.
@@ -161,7 +161,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.5"}
 
-## 随机获取元素
+## 随机获取元素 {id="random-element"}
 
 如果你需要获取集合中的任何一个元素, 可以使用
 [`random()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/random.html)

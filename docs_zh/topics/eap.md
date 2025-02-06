@@ -1,10 +1,8 @@
 [//]: # (title: 参加 Kotlin EAP 项目)
 
-<!--
 <tldr>
-    <p>Latest Kotlin EAP release: <strong>%kotlinEapVersion%</strong></p>
+    <p>Kotlin EAP 的最新发布版本: <strong>%kotlinEapVersion%</strong></p>
 </tldr>
--->
 
 你可以参加 Kotlin 早期预览(EAP) 项目, 试用 Kotlin 还未发布的最新功能.
 
@@ -20,17 +18,14 @@
 如果你有任何问题, 希望参与讨论, 欢迎加入 [Kotlin Slack 的 #eap 频道](https://app.slack.com/client/T09229ZC6/C0KLZSCHF).
 在这个频道中, 你还可以收到关于新的 EAP 版本的通知.
 
-**[在 IDEA 和 Android Studio 中安装 Kotlin EAP Plugin](install-eap-plugin.md)**
+**[针对 Kotlin EAP 版配置你的项目](configure-build-for-eap.md)**
 
 > 参与 EAP 项目, 表示你明确了解 EAP 版本并不可靠, 可能不会象期待的那样正常工作, 并且可能包含错误.
 > 请注意, 对于 EAP 和某些版本的最终发布版之间兼容性, 我们并不提供任何保证.
 >
 {style="note"}
 
-如果你已经安装了 EAP 版, 并希望在之前创建的项目中使用,
-请参见 [如何针对 EAP 版配置你的构建](configure-build-for-eap.md).
-
-## EAP 版能够如何帮助你更加高效的使用 Kotlin
+## EAP 版能够如何帮助你更加高效的使用 Kotlin {id="how-the-eap-can-help-you-be-more-productive-with-kotlin"}
 
 * **为使用稳定发布版做好准备**.
 
@@ -64,14 +59,14 @@
         <th>重要功能</th>
     </tr>
     <tr>
-        <td><strong>2.1.0-Beta2</strong>
-            <p>发布日期: <strong>2024/10/14</strong></p>
-            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v2.1.0-Beta2" target="_blank">GitHub 上的 Release 页面</a></p>
+        <td><strong>2.1.20-Beta1</strong>
+            <p>发布日期: <strong>2024/12/19</strong></p>
+            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v2.1.20-Beta1" target="_blank">GitHub 上的 Release 页面</a></p>
         </td>
         <td>
-            <p>语言发布版, 包含一些新功能的预览版, 以及工具的更新.</p>
-            <p>更多详情请参见 <a href="https://github.com/JetBrains/kotlin/releases/tag/v2.1.0-Beta2">changelog</a>
-               或 <a href="whatsnew-eap.md">Kotlin 2.1.0-Beta2 版中的新功能</a>.</p>
+            <p>一个工具发布版, 默认启用 K2 kapt.</p>
+            <p>更多详情请参见 <a href="https://github.com/JetBrains/kotlin/releases/tag/v2.1.20-Beta1">changelog</a>
+               或 <a href="whatsnew-eap.md">Kotlin 2.1.20-Beta1 版中的新功能</a>.</p>
         </td>
     </tr>
 </table>

@@ -18,7 +18,7 @@ public record Person (String name, int age) {}
 
 记录类非常类似于 Kotlin [数据类](data-classes.md).
 
-## 在 Kotlin 代码中使用 Java 记录类
+## 在 Kotlin 代码中使用 Java 记录类 {id="using-java-records-from-kotlin-code"}
 
 在 Kotlin 中, 你可以通过使用类和属性相同的方式来使用 Java 中声明的记录类及其组件.
 要访问记录组件, 可以和使用 [Kotlin 属性](properties.md) 一样, 直接使用它的名称:
@@ -28,7 +28,7 @@ val newPerson = Person("Kotlin", 10)
 val firstName = newPerson.name
 ```
 
-## 在 Kotlin 中声明记录类
+## 在 Kotlin 中声明记录类 {id="declare-records-in-kotlin"}
 
 Kotlin 只支持对数据类声明记录类, 而且数据类必须符合 [要求](#requirements).
 
@@ -62,13 +62,13 @@ data class Person(val name: String, val age: Int)
 * 不能是局部(local)类.
 * 类的主构造器的可见度必须与类本身相同.
 
-### 允许使用 JVM 记录类
+### 允许使用 JVM 记录类 {id="enabling-jvm-records"}
 
 对生成的 JVM 字节码, JVM 记录类要求的编译目标为 `16` 或更高版本.
 
 要明确指定字节码版本, 请在 [Gradle](gradle-compiler-options.md#attributes-specific-to-jvm)
 或 [Maven](maven.md#attributes-specific-to-jvm)中, 使用 `jvmTarget` 编译器选项.
 
-## 更多讨论
+## 更多讨论 {id="further-discussion"}
 
 关于更多技术细节和讨论, 请参见 [对 JVM 记录类的语言规格建议](https://github.com/Kotlin/KEEP/blob/master/proposals/jvm-records.md).

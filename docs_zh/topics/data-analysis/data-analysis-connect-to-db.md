@@ -1,11 +1,11 @@
 [//]: # (title: 连接数据库并获取数据)
 
-Kotlin Notebook 提供了连接各种类型的 SQL 数据库并获取数据的能力, 例如 MariaDB, PostgreSQL, MySQL, 以及 SQLite.
+[Kotlin Notebook](kotlin-notebook-overview.md) 提供了连接各种类型的 SQL 数据库并获取数据的能力, 例如 MariaDB, PostgreSQL, MySQL, 以及 SQLite.
 使用 [Kotlin DataFrame 库](https://kotlin.github.io/dataframe/gettingstarted.html), Kotlin Notebook 可以连接到数据库, 执行 SQL 查询, 并导入查询结果, 用于后续操作.
 
 详细的示例, 请参见 [KotlinDataFrame SQL 示例 GitHub 代码仓库中的 Notebook](https://github.com/zaleslaw/KotlinDataFrame-SQL-Examples/blob/master/notebooks/imdb.ipynb).
 
-## 开始前的准备工作
+## 开始前的准备工作 {id="before-you-start"}
 
 1. 下载并安装最新版的 [IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/download/?section=mac).
 2. 在 IntelliJ IDEA 中安装 [Kotlin Notebook plugin](https://plugins.jetbrains.com/plugin/16340-kotlin-notebook).
@@ -69,7 +69,7 @@ Kotlin Notebook 提供了连接各种类型的 SQL 数据库并获取数据的�
    > 
    {style="tip"}
 
-## 读取和操作数据
+## 获取和操作数据 {id="retrieve-and-manipulate-data"}
 
 在 [建立到 SQL 数据库的连接](#connect-to-database) 之后, 你就可以在 Kotlin Notebook 中, 使用 Kotlin DataFrame 库获取和操作数据.
 你可以使用 `readSqlTable()` 函数来获取数据.
@@ -138,7 +138,7 @@ Kotlin Notebook 提供了连接各种类型的 SQL 数据库并获取数据的�
 year 列使用 [`convert`](https://kotlin.github.io/dataframe/convert.html) 方法转换为整数值,
 数据使用 [`filter`](https://kotlin.github.io/dataframe/filter.html) 方法过滤, 只包含 2000 年之后的行.
 
-## 在 Kotlin Notebook 中分析数据
+## 在 Kotlin Notebook 中分析数据 {id="analyze-data-in-kotlin-notebook"}
 
 在 [建立到 SQL 数据库的连接](#connect-to-database) 之后, 你可以使用 [Kotlin DataFrame 库](https://kotlin.github.io/dataframe/gettingstarted.html),
 在 Kotlin Notebook 中进行深度的数据分析.
@@ -171,8 +171,8 @@ year 列使用 [`convert`](https://kotlin.github.io/dataframe/convert.html) 方�
    top20ActorNames
    ```
 
-## 下一步做什么
+## 下一步做什么 {id="what-s-next"}
 
-* 学习使用 [Kandy 库](https://kotlin.github.io/kandy/examples.html) 进行数据可视化.
-* 阅读 [在 Kotlin Notebook 中使用 Kandy 进行数据可视化](data-analysis-visualization.md), 学习数据可视化的更多知识.
-* 关于 Kotlin 中用于数据科学和分析的工具和资源的广泛的概述, 请参见 [用于数据分析的 Kotlin 和 Java 库](data-analysis-libraries.md).
+* 学习使用 [Kandy 库](https://kotlin.github.io/kandy/examples.html) 进行数据可视化
+* 阅读 [在 Kotlin Notebook 中使用 Kandy 进行数据可视化](data-analysis-visualization.md), 学习数据可视化的更多知识
+* 关于 Kotlin 中用于数据科学和分析的工具和资源的广泛的概述, 请参见 [用于数据分析的 Kotlin 和 Java 库](data-analysis-libraries.md)

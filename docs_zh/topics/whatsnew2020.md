@@ -395,7 +395,7 @@ Do not use default import. Use the corresponding named import instead.
 每个阶段预期的动作是:
 
 * **在 2.0.0 版中**: 会打印输出一个警告消息到控制台, 解释说通过默认导出方式导出实体已被废弃.
-* **在 2.0.20 版中**: 会发生一个错误, 要求使用相应命名的导入.
+* **在 2.0.20 版中**: 会发生一个错误, 要求使用相应的命名导入.
 * **在 2.1.0 版中**: 默认导入的使用会被完全删除.
 
 ### ExperimentalWasmDsl 注解移动到了新的位置 {id="new-location-of-experimentalwasmdsl-annotation"}
@@ -579,6 +579,27 @@ kotlin.jvm.addClassesVariant=true
 
 我们希望你对这个新方案提出反馈意见. 你在使用它时是否注意到了任何性能改善?
 请在 [YouTrack](https://youtrack.jetbrains.com/issue/KT-61861/Gradle-Kotlin-compilations-depend-on-packed-artifacts) 中留下评论, 告诉我们.
+
+### Kotlin Gradle plugin 与 java-test-fixtures plugin 的依赖项行为保持一致 {id="aligned-dependency-behavior-of-kotlin-gradle-plugin-with-java-test-fixtures-plugin"}
+
+在 Kotlin 2.0.20 之前, 如果你的项目中使用了
+[`java-test-fixtures` plugin](https://docs.gradle.org/current/userguide/java_testing.html#sec:java_test_fixtures),
+Gradle 与 Kotlin Gradle plugin 的依赖项传播方式会存在不同.
+
+Kotlin Gradle plugin 的依赖项传播方式是:
+
+* 从 `java-test-fixtures` plugin 的 `implementation` 和 `api` 依赖项类型, 传播到 `test` 源代码集的编译类路径.
+* 从 main 源代码集的 `implementation` 和 `api` 依赖项类型, 传播到 `java-test-fixtures` plugin 的源代码集编译类路径.
+
+但是, Gradle 只会传播 `api` 依赖项类型中的依赖项.
+
+这个行为差别会导致一些项目在类路径中多次发现资源文件.
+
+在 Kotlin 2.0.20 中, Kotlin Gradle plugin 的行为修改与 Gradle 的 `java-test-fixtures` plugin 一致,
+因此对这个 plugin 或其它 Gradle plugin, 这个问题不再发生.
+
+这个变更的结果是, `test` 和 `testFixtures` 源代码集中的某些依赖项可能不再能够访问.
+如果发生这样的问题, 请将依赖项的声明类型从 `implementation` 修改为 `api`, 或者对受影响的源代码集添加新的依赖项声明.
 
 ### 对编译 task 缺少一个 artifact 的罕见情况添加了 task 依赖项 {id="added-task-dependency-for-rare-cases-when-the-compile-task-lacks-one-on-an-artifact"}
 

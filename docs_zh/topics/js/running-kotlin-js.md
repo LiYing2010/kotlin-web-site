@@ -12,7 +12,7 @@ fun main() {
 
 根据目标平台不同, 初次运行你的代码时, 可能需要一些额外的平台相关的设置.
 
-## 在 Node.js 平台运行
+## 在 Node.js 平台运行 {id="run-the-node-js-target"}
 
 当 Kotlin/JS 项目的编译目标为 Node.js 时, 你可以直接运行 Gradle 的 `jsRun` 任务.
 比如, 在命令行环境, 使用 Gradle wrapper:

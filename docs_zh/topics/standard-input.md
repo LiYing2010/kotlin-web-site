@@ -8,7 +8,7 @@
 要读取标准输入(Standard Input), Java 提供了 `Scanner` 类. Kotlin 提供了两种主要的方法来读取标准输入:
 `Scanner` 类, 类似于 Java, 以及 `readln()` 函数.
 
-## 使用 Java Scanner 读取标准输入
+## 使用 Java Scanner 读取标准输入 {id="read-from-the-standard-input-with-java-scanner"}
 
 在 Java 中, 通常通过 `System.in` 对象来访问标准输入. 你需要导入 `Scanner` 类,
 创建一个对象, 然后使用 `.nextLine()` 和 `.nextInt()` 等方法来读取不同的数据类型:
@@ -38,7 +38,7 @@ public class Main {
 }
 ```
 
-### 在 Kotlin 中使用 Java Scanner
+### 在 Kotlin 中使用 Java Scanner {id="use-java-scanner-in-kotlin"}
 
 由于 Kotlin 能够与 Java 库交互, 在 Kotlin 代码中你可以直接访问 Java Scanner.
 
@@ -90,7 +90,7 @@ fun main() {
 >
 {style="note"}
 
-## 使用 readln() 读取标准输入
+## 使用 readln() 读取标准输入 {id="read-from-the-standard-input-with-readln"}
 
 在 Kotlin 中, 除了 Java Scanner 之外, 你还可以使用 `readln()` 函数. 这是读取输入的最直接的方式.
 这个函数从标准输入读取一行文字, 并返回为一个字符串:

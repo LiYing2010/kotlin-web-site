@@ -4,7 +4,7 @@
 
 除了自己的库之外, Kotlin 还 100% 能够与 Java 互操作.
 通过这种互操作能力, 可以利用经过实践验证的 Java 库的整个生态系统, 而且性能优异.
-有了这些能力, 你可以在 Kotlin 数据项目中非常容易的使用 Kotlin 或 Java 库.
+有了这些能力, 你可以在 [Kotlin 数据项目](data-analysis-overview.md) 中非常容易的使用 Kotlin 或 Java 库.
 
 ## Kotlin 库
 

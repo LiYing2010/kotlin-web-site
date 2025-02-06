@@ -4,7 +4,7 @@ Kotlin 对 Java 的交互功能提供了一级支持, 现代化的 IDE 还使得
 本教程中, 你将会学习在 IntelliJ IDEA 如何在同一个项目内同时使用 Kotlin 和 Java 代码.
 关于在 IntelliJ IDEA 中如何启动一个新的 Kotlin 项目, 请参见 [IntelliJ IDEA 中使用 Kotlin 入门](jvm-get-started.md).
 
-## 向既有的 Kotlin 项目添加 Java 源代码
+## 向既有的 Kotlin 项目添加 Java 源代码 {id="adding-java-source-code-to-an-existing-kotlin-project"}
 
 向 Kotlin 项目添加 Java 类非常简单. 你只需要创建一个新的 Java 文件.
 在你的项目内选择一个目录或包, 然后选择菜单 **File** | **New** | **Java Class**, 或者使用快捷键 **Alt + Insert**/**Cmd + N**.
@@ -48,7 +48,7 @@ println(customer.name)
 println(customer.placeOrder())
 ```
 
-## 向既有的 Java 项目添加 Kotlin 源代码
+## 向既有的 Java 项目添加 Kotlin 源代码 {id="adding-kotlin-source-code-to-an-existing-java-project"}
 
 向既有的 Java 项目添加 Kotlin 源代码, 方法基本相同.
 

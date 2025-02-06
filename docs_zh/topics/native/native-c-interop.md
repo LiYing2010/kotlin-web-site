@@ -25,13 +25,13 @@ Kotlin/Native 遵循 Kotlin 的传统, 提供与既有的平台软件的优秀�
 此外还提供了与 Swift/Objective-C 语言的互操作功能,
 详情请参见 [与 Swift/Objective-C 的交互](native-objc-interop.md).
 
-## 平台库
+## 平台库 {id="platform-libraries"}
 
 注意, 很多情况下不要用到自定义的互操作库创建机制(我们后文将会介绍),
 因为对于平台上的标准绑定中的那些 API, 可以使用 [平台库](native-platform-libs.md).
 例如, Linux/macOS 平台上的 POSIX, Windows 平台上的 Win32, macOS/iOS 平台上的以及 Apple 框架, 都可以通过这种方式来使用.
 
-## 一个简单的示例
+## 一个简单的示例 {id="simple-example"}
 
 首先我们安装 libgit2, 并为 git 库准备桩代码:
 
@@ -54,13 +54,13 @@ cd samples/gitchurn
 ./GitChurn.kexe ../..
 ```
 
-## 为一个新库创建绑定
+## 为一个新库创建绑定 {id="create-bindings-for-a-new-library"}
 
 要对一个新的库创建绑定, 首先要创建并配置一个 [定义文件](native-definition-file.md).
 
 ## 绑定 {id="bindings"}
 
-### 基本的 interop 数据类型
+### 基本的 interop 数据类型 {id="basic-interop-types"}
 
 C 中支持的所有数据类型, 都有对应的 Kotlin 类型:
 
@@ -83,7 +83,7 @@ C 中支持的所有数据类型, 都有对应的 Kotlin 类型:
 对于兼有这两种表达形式的类型, 包含 "左值(lvalue)" 的那个类型,
 带有一个可变的 `.value` 属性, 可以用来访问这个左值.
 
-#### 指针类型
+#### 指针类型 {id="pointer-types"}
 
 `CPointer<T>` 的类型参数 `T` 必须是上面介绍的 "左值(lvalue)" 类型之一,
 例如, C 类型 `struct S*` 会被映射为 `CPointer<S>`,
@@ -148,7 +148,7 @@ val originalPtr = longValue.toCPointer<T>()
 
 注意, 如果结果类型可以通过上下文确定, 那么类型参数可以省略, 就象 Kotlin 中通常的类型系统一样.
 
-### 内存分配
+### 内存分配 {id="memory-allocation"}
 
 可以使用 `NativePlacement` 接口来分配原生内存, 例如:
 
@@ -203,7 +203,7 @@ val fileSize = memScoped {
 }
 ```
 
-### 向绑定传递指针
+### 向绑定传递指针 {id="pass-pointers-to-bindings"}
 
 尽管 C 指针被映射为 `CPointer<T>` 类型, 但 C 函数的指针型参数会被映射为 `CValuesRef<T>` 类型.
 如果向这样的参数传递 `CPointer<T>` 类型的值, 那么会原样传递给 C 函数.
@@ -234,7 +234,7 @@ foo(elements, 3);
 foo(cValuesOf(1, 2, 3), 3)
 ```
 
-### 字符串
+### 字符串 {id="strings"}
 
 与其它指针不同, `const char*` 类型参数会被表达为 Kotlin 的 `String` 类型.
 因此对于 C 中期望字符串的绑定, 可以传递 Kotlin 的任何字符串值.
@@ -272,7 +272,7 @@ memScoped {
 }
 ```
 
-### 作用范围内的局部指针
+### 作用范围内的局部指针 {id="scope-local-pointers"}
 
 `memScoped { }` 内有一个 `CValues<T>.ptr` 扩展属性,
 使用它可以创建一个指向 `CValues<T>` 的 C 指针, 这个指针被限定在一个作用范围内.
@@ -293,7 +293,7 @@ memScoped {
 在这个示例程序中, 所有传递给 C API `new_menu()` 的值, 生命周期都被限定在它所属的最内层的 `memScope` 之内.
 一旦程序的执行离开了 `memScoped` 作用范围, C 指针就不再存在了.
 
-### 以值的方式传递和接收结构
+### 以值的方式传递和接收结构 {id="pass-and-receive-structs-by-value"}
 
 如果一个 C 函数以传值的方式接受结构体(Struct)或联合体(Union) `T` 类型的参数,
 或者以传值的方式返回结构体(Struct)或联合体(Union) `T` 类型的结果,
@@ -314,13 +314,13 @@ memScoped {
     val fieldValue = structValue.useContents { field }
     ```
 
-### 回调
+### 回调 {id="callbacks"}
 
 如果要将一个 Kotlin 函数转换为一个指向 C 函数的指针, 可以使用 `staticCFunction(::kotlinFunction)`.
 也可以使用 Lambda 表达式来代替函数引用.
 这里的函数或 Lambda 表达式不能捕获任何值.
 
-#### 向回调传递用户数据
+#### 向回调传递用户数据 {id="pass-user-data-to-callbacks"}
 
 C API 经常允许向回调传递一些用户数据. 这些数据通常由用户在设置回调时提供.
 数据使用例如 `void*` 的形式, 传递给某些 C 函数 (或写入到结构体内).
@@ -378,7 +378,7 @@ static inline int foo(int arg) {
 }
 ```
 
-### 可移植性
+### 可移植性 {id="portability"}
 
 有时, C 库中的函数参数, 或结构体的域使用了依赖于平台的数据类型, 例如 `long` 或 `size_t`.
 Kotlin 本身没有提供隐含的整数类型转换, 也没有提供 C 风格的整数类型转换 (例如, `(size_t) intValue`),
@@ -408,7 +408,7 @@ fun zeroMemory(buffer: COpaquePointer, size: Int) {
 
 而且, 这个函数的类型参数可以自动推定得到, 因此很多情况下可以省略.
 
-### 对象固定
+### 对象固定 {id="object-pinning"}
 
 Kotlin 对象可以固定(pin), 也就是, 确保它们在内存中的位置不会变化, 直到解除固定(unpin)为止,
 而且, 指向这些对象的内部数据的指针, 可以传递给 C 函数. 例如:
@@ -435,3 +435,48 @@ fun readData(fd: Int) {
 
 这里我们使用了服务函数 `usePinned`, 它会先固定一个对象, 然后执行一段代码,
 最后无论是正常结束还是异常结束, 它都会将对象解除固定.
+
+### 提前声明(Forward Declaration) {id="forward-declarations"}
+
+要导入提前声明(Forward Declaration), 请使用 `cnames` 包.
+例如, 要导入一个 C 库 `library.package` 中声明的提前声明 `cstructName`,
+要使用一个特殊的提前声明包: `import cnames.structs.cstructName`.
+
+假设有两个 cinterop 库: 一个库包含一个结构的提前声明, 另一个库在另一个包中包含实际实现:
+
+```C
+// 第 1 个 C 库
+#include <stdio.h>
+
+struct ForwardDeclaredStruct;
+
+void consumeStruct(struct ForwardDeclaredStruct* s) {
+    printf("Struct consumed\n");
+}
+```
+
+```C
+// 第 2 个 C 库
+// 头文件:
+#include <stdlib.h>
+
+struct ForwardDeclaredStruct {
+    int data;
+};
+
+// 实现:
+struct ForwardDeclaredStruct* produceStruct() {
+    struct ForwardDeclaredStruct* s = malloc(sizeof(struct ForwardDeclaredStruct));
+    s->data = 42;
+    return s;
+}
+```
+
+要在两个库之间转换对象, 请在你的 Kotlin 代码中使用明确的 `as` 转换:
+
+```kotlin
+// Kotlin 代码:
+fun test() {
+    consumeStruct(produceStruct() as CPointer<cnames.structs.ForwardDeclaredStruct>)
+}
+```

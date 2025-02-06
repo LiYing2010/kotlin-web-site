@@ -1,6 +1,6 @@
 [//]: # (title: Kotlin 品牌资产)
 
-## Kotlin Logo
+## Kotlin Logo {id="kotlin-logo"}
 
 我们的 Logo 包括一个标志和一个字体. 主 Logo 是全彩色版本, 大多数情况下应该使用这个版本.
 
@@ -22,7 +22,12 @@
 * 不要修改文字.
 * 不要将 Logo 放在复杂的背景上. 不要将 Logo 放在亮色背景上.
 
-## Kotlin 吉祥物
+[阅读 Kotlin 品牌使用方法指南](https://kotlinfoundation.org/guidelines/).
+
+## Kotlin 吉祥物 {id="kotlin-mascot"}
+
+<primary-label ref="experimental-general"/>
+<secondary-label ref="eap"/>
 
 Kodee 是 Kotlin 重新构想的吉祥物. Kodee 不仅仅只是一个符号, 它也是你的好伙伴, 鼓励并激发你展现你的创造力.
 在使用它时, 我们请求你遵循这些 [简单的规则](https://resources.jetbrains.com/storage/products/kotlin/docs/Kotlin_Mascot_Guidelines.pdf).
@@ -45,7 +50,7 @@ Kodee 是 Kotlin 重新构想的吉祥物. Kodee 不仅仅只是一个符号, �
 
 [下载所有版本](https://drive.google.com/drive/folders/0B3Zi34svOj1RZ2sxZExhblRJc1k){:.typo-float-right.kto-button.kto-button_size_m.kto-button_mode_outline}
 
-### 用户组风格
+### 用户组风格 {id="style-for-user-groups"}
 
 自从 2017 年初 Kotlin 社区支持计划启动以来, 用户组的数量已经增长了很多倍, 每个月大约有 2 到 4 个新的用户组加入.
 请在 **Kotlin 用户组** 小节查看用户组的完整列表, 找找你所在地区的用户组.
@@ -59,7 +64,7 @@ Kodee 是 Kotlin 重新构想的吉祥物. Kodee 不仅仅只是一个符号, �
 * 首先, 我们从社区收到很多请求, 要求特别的 Kotlin 风格品牌素材, 帮助他们标识自己是正式的专门用户组.
 * 其次, 我们希望为用户组提供独特的风格, 以及社区内容, 以便明确区分哪些 Kotlin 相关的素材是来自官方开发组, 哪些是由社区自行创建的.
 
-### 创建你的用户组的 Logo
+### 创建你的用户组的 Logo {id="create-the-logo-of-your-user-group"}
 
 要为你的用户组创建一个 Logo, 请执行以下步骤:
 1. 将 Kotlin 用户组的 [Logo 文件](https://docs.google.com/drawings/d/1IcJp8Z2jAwEliXrHB-l9RNK_2LrqGTkNuPPtjrW1iIU/edit)
@@ -74,7 +79,7 @@ Kodee 是 Kotlin 重新构想的吉祥物. Kodee 不仅仅只是一个符号, �
 你可以下载 [一组图片](https://drive.google.com/drive/folders/0B3Zi34svOj1RZ2sxZExhblRJc1k),
 包括矢量图, 以及用于社交网络的封面图片示例.
 
-### 为你的用户组在不同的平台创建 Profile 图片
+### 为你的用户组在不同的平台创建 Profile 图片 {id="create-your-group-s-profile-picture-for-different-platforms"}
 
 要创建你的用户组的 Profile 图片, 请执行以下步骤:
 1. 将 Kotlin 用户组的 Profile [图片 file](https://docs.google.com/drawings/d/1buhwccmllb7wFS0OIAub0WC4DIuSHRiDpjEQhB4tkPs/edit)
@@ -82,7 +87,7 @@ Kodee 是 Kotlin 重新构想的吉祥物. Kodee 不仅仅只是一个符号, �
 2. 添加一个用户组位置的缩略名称(按照我们的默认示例, 最多 4 个首字母).
 3. 下载图片, 在 Facebook, Twitter, 或任何其他平台, 将它用作你的 Profile.
 
-### 创建 meetup.com 封面照片
+### 创建 meetup.com 封面照片 {id="create-meetup-com-cover-photo"}
 
 要为 meetup.com 创建一个带用户组 Logo 的封面照片, 请执行以下步骤:
 1. 将 [图片文件](https://drive.google.com/file/d/1g_0Plf_do6vrXvy1R-Hx430vfV2CPVKN/view)
@@ -100,7 +105,7 @@ JetBrains 为 Kotlin Night 活动提供品牌和素材. 我们的开发组会为
 
 [下载所有资产](https://drive.google.com/drive/folders/1wTJ-PiO6VvbY6XdACGLsWZ_N8KHI0Nvr){:.typo-float-right.kto-button.kto-button_size_m.kto-button_mode_outline}
 
-### 社交媒体
+### 社交媒体 {id="social-media"}
 
 贴纸可以帖到任何对 Kotlin Night 活动需要的媒体. 你能够帖的地方全部都贴上吧. 很好玩!
 
@@ -108,7 +113,7 @@ JetBrains 为 Kotlin Night 活动提供品牌和素材. 我们的开发组会为
 
 ![Cover Social](kotlin-night-fb.svg){width=700}
 
-### 品牌贴纸
+### 品牌贴纸 {id="branding-stickers"}
 
 贴纸可以用作 Kotlin Night 的品牌资产. 你能够帖的地方全部都贴上吧. 很好玩!
 
@@ -116,23 +121,23 @@ JetBrains 为 Kotlin Night 活动提供品牌和素材. 我们的开发组会为
 
 <!-- ![Stickers usage](kotlin-night-stickers-usage.svg){width=700} -->
 
-### Press-wall
+### Press-wall {id="press-wall"}
 
 你可以在你的宣传墙装饰上贴纸或难忘的活动照片.
 
 ![宣传墙](kotlin-night-press-wall.svg){width=700}
 
-### 贴纸徽章
+### 贴纸徽章 {id="sticky-badges"}
 
 可以把贴纸用作出席者的徽章, 在活动上鼓励大家相互交流!
 
-### 贴纸板
+### 贴纸板 {id="board-for-stickers"}
 
 或者你也可以提供一面贴纸板, 让你的来宾能够贴上贴纸, 写下他们的感想, 反馈, 以及希望.
 
 ![贴纸板](kotlin-night-board.svg){width=700}
 
-### T-恤
+### T-恤 {id="t-shirts"}
 
 活动的来宾能够在贴纸板帖上贴纸, 写下他们对聚会的感想.
 对你来说意味着什么呢?

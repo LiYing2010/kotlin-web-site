@@ -153,7 +153,7 @@ fun main() {
 
 在 1.7.0 之前, opt-in 功能本身要求参数 `-opt-in=kotlin.RequiresOptIn` 来关闭警告信息.
 现在不再需要了; 但是, 你仍然可以使用编译器参数 `-opt-in`,
-[在模块范围内](opt-in-requirements.md#module-wide-opt-in) 同意使用其他注解.
+[对一个模块](opt-in-requirements.md#opt-in-a-module) 同意使用其他注解.
 
 ### 明确非 null 类型的稳定版 {id="stable-definitely-non-nullable-types"}
 

@@ -166,7 +166,9 @@ kotlin {
 你可以将它添加为依赖项.
 关于在你的项目中如何添加这些依赖项, 这些库的作者通常会提供指南.
 
-参见 [由社区维护的 Kotlin Multiplatform 库列表](https://libs.kmp.icerock.dev/).
+> 请到 [JetBrains 的检索平台](https://klibs.io/) 查找 Kotlin Multiplatform 库.
+>
+{style="tip"}
 
 ### 对所有源代码集共用的库 {id="library-shared-for-all-source-sets"}
 

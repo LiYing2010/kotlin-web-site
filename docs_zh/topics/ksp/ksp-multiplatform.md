@@ -38,7 +38,7 @@ dependencies {
 }
 ```
 
-## 编译与处理
+## 编译与处理 {id="compilation-and-processing"}
 
 在跨平台项目中, 对每个平台 Kotlin 编译可能发生多次 (`main`, `test`, 或其他构建配置).
 符号处理也是如此.
@@ -47,7 +47,7 @@ dependencies {
 比如, 在上面的 `build.gradle.kts` 中, 有 4 个编译 task: common/metadata, JVM main, Linux x64 main, Linux x64 test,
 以及 3 个符号处理 task: common/metadata, JVM main, Linux x64 test.
 
-## 在 KSP 1.0.1+ 中不再使用 ksp(...) 配置
+## 在 KSP 1.0.1+ 中不再使用 ksp(...) 配置 {id="avoid-the-ksp-configuration-on-ksp-1-0-1"}
 
 在 KSP 1.0.1 之前, 只有唯一一个, 统一的 `ksp(...)` 配置可以使用.
 因此, 处理器要么对所有的编译目标适用, 要么不对任何编译目标适用.

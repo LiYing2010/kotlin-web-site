@@ -10,7 +10,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 
 本文档概述这些问题, 提供关于 Kotlin 1.7.0 和 1.7.10 向 Kotlin 1.7.20 迁移的参考.
 
-## 基本术语
+## 基本术语 {id="basic-terms"}
 
 在本文档中, 我们介绍几种类型的兼容性:
 
@@ -21,7 +21,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 请记住, 这些兼容性定义只针对纯 Kotlin 程序.
 从其他语言(比如, Java)的观点来看 Kotlin 代码的兼容性如何, 本文档不予讨论.
 
-## 语言
+## 语言 {id="language"}
 
 <!--
 ### Title
@@ -40,7 +40,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > - 1.7.0: report an error
 -->
 
-### 回滚了对约束处理的修正
+### 回滚了对约束处理的修正 {id="rollback-attempt-to-fix-proper-constraints-processing"}
 
 > **Issue**: [KT-53813](https://youtrack.jetbrains.com/issue/KT-53813)
 >
@@ -57,7 +57,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > - 1.7.20: 回滚到 1.7.0 版的行为
 
 
-### 禁止某些构建器推断情况, 以避免与多个 Lambda 表达式和解析之间的有问题的互动
+### 禁止某些构建器推断情况, 以避免与多个 Lambda 表达式和解析之间的有问题的互动 {id="forbid-some-builder-inference-cases-to-avoid-problematic-interaction-with-multiple-lambdas-and-resolution"}
 
 > **Issue**: [KT-53797](https://youtrack.jetbrains.com/issue/KT-53797)
 >

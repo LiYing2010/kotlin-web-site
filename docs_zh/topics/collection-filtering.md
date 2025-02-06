@@ -9,7 +9,7 @@ Kotlin 中, 过滤条件使用 _判定条件(predicate)_ 来表示 –
 这些函数不修改原来的集合, 因此对 [可变集合和只读集合](collections-overview.md#collection-types) 都可以使用.
 要操作过滤后的结果集合, 你应该将它赋值给一个变量, 或者在过滤之后链式调用其他函数.
 
-## 使用判定条件进行过滤
+## 使用判定条件进行过滤 {id="filter-by-predicate"}
 
 最基本的过滤函数是
 [`filter()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/filter.html).
@@ -94,7 +94,7 @@ fun main() {
     ```
     {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-## 划分(Partition)
+## 划分(Partition) {id="partition"}
 
 另一个过滤函数 –
 [`partition()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/partition.html)

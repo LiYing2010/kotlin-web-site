@@ -25,7 +25,7 @@ fun main() {
     val numbersIterator = numbers.iterator()
     while (numbersIterator.hasNext()) {
         println(numbersIterator.next())
-        // 输出结果为
+        // 输出结果为:
         // one
         // two
         // three
@@ -79,7 +79,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-## List 迭代器
+## List 迭代器 {id="list-iterators"}
 
 对于 list, 有一个特别的迭代器实现类:
 [`ListIterator`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list-iterator/index.html).
@@ -121,7 +121,7 @@ fun main() {
 
 由于拥有双方向的遍历能力, 因此 `ListIterator` 在到达最后元素之后, 仍然可以继续使用.
 
-## 可变的迭代器
+## 可变的迭代器 {id="mutable-iterators"}
 
 要在可变的集合上进行遍历, 可以使用
 [`MutableIterator`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-iterator/index.html),

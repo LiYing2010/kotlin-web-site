@@ -144,7 +144,7 @@ fun Request.getBody() =
 ```
 
 虽然我们可以在 `when` 语句之前抽取这个变量, 但 `when` 语句中的 `val` 变量的作用范围会被限定在 `when` 的语句体之内, 因此可以防止它扩散到更广的范围.
-[关于 `when` 语句的完整文档, 请阅读这里](control-flow.md#when-expression).
+[关于 `when` 语句的完整文档, 请阅读这里](control-flow.md#when-expressions-and-statements).
 
 ## 对接口的同伴对象使用 @JvmStatic 和 @JvmField 注解
 

@@ -69,10 +69,7 @@ plugins {
 从 2024.1 开始, IntelliJ IDEA 可以使用新的 K2 编译器, 以它的 K2 模式分析你的代码.
 要启用这个功能, 请进入 **Settings** | **Languages & Frameworks** | **Kotlin**, 并选中 **Enable K2 mode** 选项.
 
-> 从 2024.2 开始, K2 mode 处于 Beta 阶段.
-> 我们正在努力改进稳定性和代码分析功能, 但目前还没有支持所有的 IDE 功能.
->
-{style="warning"}
+![启用 K2 模式](k2-mode.png){width=200}
 
 启用 K2 模式之后, 你可能会注意到 IDE 分析会有一些不同, 因为编译器的动作发生了变化.
 关于新的 K2 编译器与之前的编译器的区别, 请参见 [迁移向导](k2-compiler-migration-guide.md).
@@ -93,6 +90,16 @@ plugins {
     <tr>
         <th>构建信息</th>
         <th>主要内容</th>
+    </tr>
+    <tr>
+        <td><strong>2.1.0</strong>
+            <p>发布日期: <strong>2024/11/27</strong></p>
+            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v2.1.0" target="_blank">GitHub 发布链接</a></p>
+        </td>
+        <td>
+            <p>一个语言发布版, 引入了新的语言特性.</p>
+            <p>关于 Kotlin 2.1.0, 请参见 <a href="whatsnew21.md" target="_blank">Kotlin 2.1.0 中的新功能</a>.</p>
+        </td>
     </tr>
     <tr>
         <td><strong>2.0.21</strong>
@@ -316,7 +323,7 @@ plugins {
         </td>
         <td>
           <p>
-            增量发布版, 包含新的语言语言特性, 在 Kotlin K2 编译器中支持几种编译器插件, 默认启用新的 Kotlin/Native 内存管理器, 以及支持 Gradle 7.1.
+            增量发布版, 包含新的语言特性, 在 Kotlin K2 编译器中支持几种编译器插件, 默认启用新的 Kotlin/Native 内存管理器, 以及支持 Gradle 7.1.
           </p>
             <p>详情请参见:</p>
             <list>

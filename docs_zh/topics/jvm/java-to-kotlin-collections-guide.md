@@ -21,7 +21,7 @@ _集合_ 是一组可变数量(可以为 0)的元素, 解决问题时起到重�
 
 在 Kotlin 中, 有很多集合操作与在 Java 中的对应操作完全相同.
 
-### 对 List, Set, Queue, 和 Deque 的操作
+### 对 List, Set, Queue, 和 Deque 的操作 {id="operations-on-lists-sets-queues-and-deques"}
 
 | 描述               | 共通操作                          | Kotlin 中的更多选择                                                                                                                      |
 |------------------|-------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
@@ -57,9 +57,9 @@ _集合_ 是一组可变数量(可以为 0)的元素, 解决问题时起到重�
 | 获取一个子 List | `subList()` |                                                             |
 | 替换一个或多个元素               | `set()`,  `replaceAll()` | 使用下标访问操作符, 而不是 `set()`: `list[index] = value`. |
 
-## 略有不同的操作
+## 略有不同的操作 {id="operations-that-differ-a-bit"}
 
-### 对任何集合类型都有效的操作
+### 对任何集合类型都有效的操作 {id="operations-on-any-collection-type"}
 
 | 描述                        | Java                                                                                                               | Kotlin                                                                                                                                              |
 |---------------------------|--------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -151,7 +151,7 @@ val immutableNumbers = listOf("one", "two")
 
 关于可变性, 详情请参见 [Kotlin 编码规约](coding-conventions.md#immutability).
 
-## 协变(Covariance)
+## 协变(Covariance) {id="covariance"}
 
 在 Java 中, 如果函数的参数是祖先类型元素的集合, 那么你不能传递一个后代类型元素的集合.
 比如, 如果 `Rectangle` 继承 `Shape`, 对于参数是 `Shape` 元素集合的函数, 你不能传递 `Rectangle` 元素类型的集合.
@@ -199,7 +199,7 @@ fun main() {
 
 详情请参见 [集合类型](collections-overview.md#collection-types).
 
-## 值范围(Range)与数列(Progression)
+## 值范围(Range)与数列(Progression) {id="ranges-and-progressions"}
 
 在 Kotlin 中, 你可以使用 [值范围(Range)](ranges.md) 创建数值范围.
 比如, `Version(1, 11)..Version(1, 30)` 包括从 `1.11` 到 `1.30` 的所有版本.
@@ -269,7 +269,7 @@ fun main() {
 
 如果你需要排除边界值, 比如检查一个版本是否大于或等于 (`>=`) 最小版本, 并且小于 (`<`) 最大版本, 那么这种包含边界值的值范围无法适用.
 
-## 根据多个条件比较
+## 根据多个条件比较 {id="comparison-by-several-criteria"}
 
 在 Java 中, 要根据多个条件比较对象, 你可以使用
 [`Comparator`](https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html)
@@ -359,7 +359,7 @@ fun main() {
 对于一些过滤操作, 序列可能会减少需要执行的步骤.
 详情请参见 [序列的处理示例](sequences.md#sequence-processing-example), 这篇文档会演示 `Iterable` 和 `Sequence` 的区别.
 
-## 从 List 删除元素
+## 从 List 删除元素 {id="removal-of-elements-from-a-list"}
 
 在 Java 中,
 [`remove()`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html#remove(int))
@@ -401,7 +401,7 @@ fun main() {
 ```
 {kotlin-runnable="true" id="remove-elements-kotlin"}
 
-## 遍历 Map
+## 遍历 Map {id="traverse-a-map"}
 
 在 Java 中, 你可以通过 [`forEach`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Map.html#forEach(java.util.function.BiConsumer)) 来遍历 Map:
 
@@ -471,7 +471,7 @@ val theFreshestEmail = emails.lastOrNull() ?: ""
 ```
 {id="get-first-last-kotlin"}
 
-## 从 List 创建 Set
+## 从 List 创建 Set {id="create-a-set-from-a-list"}
 
 在 Java 中, 要从
 [`List`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/List.html)
@@ -505,7 +505,7 @@ fun main() {
 ```
 {kotlin-runnable="true" id="list-to-set-kotlin"}
 
-## 对元素分组
+## 对元素分组 {id="group-elements"}
 
 在 Java 中, 你可以使用
 [Collectors](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/Collectors.html)
@@ -529,7 +529,7 @@ public void analyzeLogs() {
 在 Kotlin 中, 使用函数 [`groupBy()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/group-by.html):
 
 ```kotlin
-class Request(
+data class Request(
     val url: String,
     val responseCode: Int
 )
@@ -585,7 +585,7 @@ fun main() {
 
 详情请参见 [过滤 Map](map-operations.md#filter).
 
-### 根据类型过滤元素
+### 根据类型过滤元素 {id="filter-elements-by-type"}
 
 在 Java 中, 要根据类型过滤元素, 并对其执行操作, 你需要使用
 [`instanceof`](https://docs.oracle.com/en/java/javase/17/language/pattern-matching-instanceof-operator.html)
@@ -626,7 +626,7 @@ fun main() {
 ```
 {kotlin-runnable="true" id="filter-by-type-kotlin"}
 
-### 验证判定条件
+### 验证判定条件 {id="test-predicates"}
 
 一些任务要求你检查是否所有元素, 不存在元素, 或存在某些元素符合某个条件.
 在 Java 中, 你可以通过
@@ -668,9 +668,9 @@ fun main() {
 
 详情请参见 [验证判定条件](collection-filtering.md#test-predicates).
 
-## 集合变换操作
+## 集合变换操作 {id="collection-transformation-operations"}
 
-### 合并(Zip)元素
+### 合并(Zip)元素 {id="zip-elements"}
 
 在 Java 中, 你可以同时遍历两个集合, 将同一位置的两个元素变换为 pair :
 
@@ -715,7 +715,7 @@ fun main() {
 >
 {style="note"}
 
-### 关联(Associate)元素
+### 关联(Associate)元素 {id="associate-elements"}
 
 在 Java 中, 你可以使用
 [Stream API](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/stream/package-summary.html)
@@ -745,7 +745,7 @@ fun main() {
 ```
 {kotlin-runnable="true" id="associate-elements-kotlin"}
 
-## 下一步做什么?
+## 下一步做什么? {id="what-s-next"}
 
 * 访问 [Kotlin Koans](koans.md) – 完成练习, 学习 Kotlin 语法. 每个练习从一个失败的 unit test 开始, 你的任务是让测试通过.
 * 阅读其他的 [Kotlin 惯用法](idioms.md).

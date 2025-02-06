@@ -14,7 +14,7 @@
 
 本教程的第 1 部分向你演示如何在 IntelliJ IDEA 中使用 Project Wizard 创建一个 Spring Boot 项目.
 
-## 开始之前的准备
+## 开始之前的准备 {id="before-you-start"}
 
 下载并安装 [IntelliJ IDEA Ultimate Edition](https://www.jetbrains.com/idea/download/index.html) 的最新版.
 
@@ -146,7 +146,7 @@ tasks.withType<Test> {
 3. 在依赖项之后, 你可以看到 `kotlin` plugin 配置模块.
    在这里你可以向编译器添加额外的参数, 来启用或禁用某些语言特性.
 
-## 查看生成的 Spring Boot 应用程序
+## 查看生成的 Spring Boot 应用程序 {id="explore-the-generated-spring-boot-application"}
 
 打开 `DemoApplication.kt` 文件:
 
@@ -213,7 +213,7 @@ fun main(args: Array<String>) {
 </deflist>
 
 
-## 创建 Controller
+## 创建 Controller {id="create-a-controller"}
 
 应用程序已经可以运行了, 但我们先来更新它的逻辑.
 
@@ -293,7 +293,7 @@ class MessageController {
    </def>
 </deflist>
 
-## 运行应用程序
+## 运行应用程序 {id="run-the-application"}
 
 Spring 应用程序现在可以运行了:
 
@@ -317,7 +317,7 @@ Spring 应用程序现在可以运行了:
 
     ![Spring 应用程序的应答](spring-application-response.png){width=706}
 
-## 下一步
+## 下一步 {id="next-step"}
 
 本教程的下一部分中, 你将学习 Kotlin 数据类, 以及如何在你的应用程序中使用.
 

@@ -20,7 +20,7 @@
 然而, 序列的延迟计算(lazy)模式会增加一些开销, 在处理小集合, 或进行简单计算时, 这些开销可能会比较显著.
 因此, 应该同时考虑使用 `Sequence` 和 `Iterable`, 根据你的具体情况决定哪一个比较好.
 
-## 创建序列
+## 创建序列 {id="construct"}
 
 ### 通过指定的元素创建 {id="from-elements"}
 
@@ -107,7 +107,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-## 序列的操作
+## 序列的操作 {id="sequence-operations"}
 
 根据对数据状态的要求不同, 序列的操作可以分为以下两类:
 
@@ -128,7 +128,7 @@ fun main() {
 
 下面我们通过一个示例来看看 `Iterable` 和 `Sequence` 区别.
 
-### 使用 `Iterable`
+### 使用 Iterable {id="iterable"}
 
 假设你有很多单词. 下面的代码会过滤长度超过 3 个字母的单词, 然后打印前 4 个这种单词的长度.
 
@@ -155,7 +155,7 @@ fun main() {
 
 ![List 处理](list-processing.png)
 
-### 使用序列
+### 使用序列 {id="sequence"}
 
 下面我们用序列来实现同样的处理:
 

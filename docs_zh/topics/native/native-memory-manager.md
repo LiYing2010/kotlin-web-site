@@ -5,7 +5,7 @@ Kotlin/Native 使用一个现代化的内存管理器, 类似于 JVM, Go, 以及
 * 对象存储在共享的堆(heap)中, 可以在任何线程中访问.
 * 定期执行追踪垃圾收集器(Tracing Garbage Collection), 回收那些从 "根(roots)" 无法到达的对象, 比如局部变量, 全局变量.
 
-## 垃圾收集器
+## 垃圾收集器 {id="garbage-collector"}
 
 Kotlin/Native 的垃圾收集 (Garbage Collector, GC) 算法一直在持续演进.
 目前使用的算法是 Stop-the-World Mark 和 Concurrent Sweep 收集器,
@@ -77,13 +77,13 @@ Signpost 允许在你的 App 中自定义 log, 因此你可以检查应用程序
 kotlin.native.binary.gc=cms
 ```
 
-### 禁用垃圾收集
+### 禁用垃圾收集 {id="disable-garbage-collection"}
 
 我们推荐启用 GC. 但是, 某些情况下你也可以禁用它, 例如, 为了测试目的, 或者你遇到问题, 而且程序的生存周期很短.
-要禁用 GC, 请在你的 Gradle 构建脚本中设置以下编译选项:
+要禁用 GC, 请在你的 `gradle.properties` 文件中设置以下二进制选项:
 
 ```none
--Xgc=noop
+kotlin.native.binary.gc=noop
 ```
 
 > 使用这个选项后, GC 不会收集 Kotlin 对象, 因此只要程序继续运行, 内存消耗就会持续上升.
@@ -91,7 +91,7 @@ kotlin.native.binary.gc=cms
 >
 {style="warning"}
 
-## 内存消耗
+## 内存消耗 {id="memory-consumption"}
 
 Kotlin/Native 使用它自己的 [内存分配器](https://github.com/JetBrains/kotlin/blob/master/kotlin-native/runtime/src/alloc/custom/README.md).
 它将系统内存分为多个页面(Page), 允许按连续的顺序进行独立的清理.
@@ -111,7 +111,7 @@ Kotlin/Native 内存分配器有一种保护功能, 可以防止突然激增的�
 
 你可以自己监控内存消耗, 检查内存泄漏, 并调整内存消耗.
 
-### 检查内存泄露
+### 检查内存泄露 {id="check-for-memory-leaks"}
 
 要访问内存管理器的统计信息, 可以调用 `kotlin.native.internal.GC.lastGCInfo()`.
 这个方法返回垃圾收集器最后一次运行的统计信息.
@@ -150,30 +150,21 @@ fun test() {
 }
 ```
 
-### 调整内存消耗
+### 调整内存消耗 {id="adjust-memory-consumption"}
 
 如果程序中不存在内存泄露, 但你仍然观察到异常高的内存消耗, 请尝试将 Kotlin 更新到最新版本.
 我们一直在持续改进内存管理器, 因此即使只是一次简单的编译器更新, 也可能改善你的程序的内存消耗情况.
 
-更新 Kotlin 版本后, 如果您还是遇到内存消耗过高的情况, 可以选择以下几种解决方法:
+更新 Kotlin 版本后, 如果您还是遇到内存消耗过高的情况,
+请在你的 Gradle 构建脚本中使用以下编译选项, 切换到系统的内存分配器:
 
-* 在你的 Gradle 构建脚本中使用以下编译选项之一, 切换到不同的内存分配器:
+```none
+-Xallocator=std
+```
 
-  * `-Xallocator=std`, 使用系统的内存分配器.
-  * `-Xallocator=mimalloc`, 使用 [mimalloc](https://github.com/microsoft/mimalloc) 内存分配器.
+如果这个方法不能改善你的内存消耗问题, 请到 [YouTrack](https://youtrack.jetbrains.com/newissue?project=kt) 报告问题.
 
-* 如果你使用 mimalloc 内存分配器, 你可以命令它及时将内存释放回系统.
-  具体做法是, 在你的 `gradle.properties` 文件中启用以下二进制文件选项:
-
-  ```none
-  kotlin.native.binary.mimallocUseCompaction=true
-  ```
-
-  这样的性能损失比较小, 但与系统的内存分配器相比, 它的结果比较不确定.
-
-如果以上方法都不能改善内存消耗问题, 请到 [YouTrack](https://youtrack.jetbrains.com/newissue?project=kt) 报告问题.
-
-## 在后台进行单元测试
+## 在后台进行单元测试 {id="unit-tests-in-the-background"}
 
 在单元测试中, 不会处理主线程队列, 因此, 除非 mock 过 `Dispatchers.Main`, 否则不要使用它.
 mock 它的方法是, 调用 `kotlinx-coroutines-test` 中的 `Dispatchers.setMain`.
@@ -203,7 +194,7 @@ fun mainBackground(args: Array<String>) {
 
 然后, 使用 `-e testlauncher.mainBackground` 编译器选项来编译测试程序的二进制文件.
 
-## 下一步
+## 下一步 {id="what-s-next"}
 
 * [从旧的内存管理器迁移](native-migration-guide.md)
 * [学习如何与 Swift/Objective-C ARC 集成](native-arc-integration.md)

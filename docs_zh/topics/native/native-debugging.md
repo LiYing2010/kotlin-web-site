@@ -12,7 +12,7 @@ Kotlin/Native 编译器目前输出的调试信息兼容于 DWARF 2 规范,
 >
 {style="note"}
 
-## 使用 Kotlin/Native 编译器输出带调试信息的二进制文件
+## 使用 Kotlin/Native 编译器输出带调试信息的二进制文件 {id="produce-binaries-with-debug-info-with-kotlin-native-compiler"}
 
 要让 Kotlin/Native 编译器输出带调试信息的二进制文件, 请在命令行添加 ``-g`` 选项.
 
@@ -50,11 +50,11 @@ Process 28473 stopped
 (lldb)
 ```
 
-## 断点
+## 断点 {id="breakpoints"}
 
 现代调试器提供了多种方法可以设置断点, 各种调试工具的具体方法请看下文:
 
-### lldb
+### lldb {id="lldb"}
 
 - 通过名称设置断点
 
@@ -86,7 +86,7 @@ _``-n`` 参数是可选的, 这个参数默认会启用_
       3.1: where = terminator.kexe`kfun:main(kotlin.Array<kotlin.String>) + 4 at hello.kt:2, address = terminator.kexe[0x00000001000012e4], unresolved, hit count = 0
     ```
 
-### gdb
+### gdb {id="gdb"}
 
 - 通过正规表达式设置断点
 
@@ -120,11 +120,11 @@ _``-n`` 参数是可选的, 这个参数默认会启用_
     Breakpoint 3 at 0x100001704: file /Users/minamoto/ws/.git-trees/hello.kt, line 2.
     ```
 
-## 单步调试
+## 单步调试 {id="stepping"}
 
 单步调试功能的使用方法与大多数 C/C++ 程序一样.
 
-## 查看变量
+## 查看变量 {id="variable-inspection"}
 
 对于 `var` 变量的查看功能, 对于基本类型是直接可用的.
 对于非基本类型, 可以使用 `konan_lldb.py` 中针对 lldb 的自定义格式化工具:
@@ -216,6 +216,6 @@ Process 80496 launched: './program.kexe' (x86_64)
 
 ```
 
-## 已知的问题
+## 已知的问题 {id="known-issues"}
 
 - Python 绑定的性能问题.

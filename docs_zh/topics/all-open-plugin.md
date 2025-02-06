@@ -13,7 +13,7 @@ Kotlin 为 `all-open` 插件提供了 Gradle 和 Maven 支持, 并带有完整�
 >
 {style="note"}
 
-## Gradle
+## Gradle {id="gradle"}
 
 在你的 `build.gradle(.kts)` 文件中添加插件:
 
@@ -77,7 +77,7 @@ class MyClass // all-open 插件也会将这个类变为 open
 
 `MyFrameworkAnnotation` 标注了 all-open 元注解 `com.my.Annotation`, 因此它也成为一个 all-open 注解.
 
-## Maven
+## Maven {id="maven"}
 
 在你的 `pom.xml` 文件中添加插件:
 
@@ -178,7 +178,7 @@ plugins {
 >
 {style="note"}
 
-## 命令行编译器
+## 命令行编译器 {id="command-line-compiler"}
 
 All-open 编译器插件的 JAR 文件 存在于 Kotlin 编译器的二进制发布包中.
 你可以使用 `-Xplugin` kotlinc 选项指定它的 JAR 文件路径, 来添加这个插件:

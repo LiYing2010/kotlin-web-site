@@ -78,6 +78,45 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
+你也可以根据多个条件定义顺序.
+例如, 要根据字符串长度排序, 如果长度相同则按字母顺序排序, 你可以这样编写代码:
+
+```kotlin
+fun main() {
+//sampleStart
+    val sortedStrings = listOf("aaa", "bb", "c", "b", "a", "aa", "ccc")
+        .sortedWith { a, b -> 
+           when (val compareLengths = a.length.compareTo(b.length)) {
+             0 -> a.compareTo(b)
+             else -> compareLengths
+           }
+         }
+
+    println(sortedStrings)
+    // 输出结果为: [a, b, c, aa, bb, aaa, ccc]
+//sampleEnd
+}
+```
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
+
+由于根据多个条件排序是常见的场景, Kotlin 标准库提供了 [`thenBy()`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.comparisons/then-by.html) 函数,
+你可以用来添加第二个排序规则.
+
+例如, 你可以将 `compareBy()` 和 `thenBy()` 组合起来, 首先按字符串长度排序, 然后按字母顺序排序, 规则和前面的示例一样:
+
+```kotlin
+fun main() {
+//sampleStart
+    val sortedStrings = listOf("aaa", "bb", "c", "b", "a", "aa", "ccc")
+        .sortedWith(compareBy<String> { it.length }.thenBy { it })
+
+    println(sortedStrings)
+    // 输出结果为: [a, b, c, aa, bb, aaa, ccc]
+//sampleEnd
+}
+```
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
+
 Kotlin 集合包提供了用于集合排序的各种函数, 可以使用自然顺序, 自定义顺序, 甚至随机顺序.
 本节中, 我们会介绍适用于 [只读](collections-overview.md#collection-types) 集合的排序函数.
 这些函数的返回结果是一个新集合, 其中包含原集合的元素按照指定顺序排序后的结果.
@@ -105,7 +144,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-## 使用自定义顺序排序
+## 使用自定义顺序排序 {id="custom-orders"}
 
 如果要使用自定义顺序排序, 或者对不可比较的对象排序, 可以使用
 [`sortedBy()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/sorted-by.html)
@@ -144,7 +183,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-## 逆序集合
+## 逆序集合 {id="reverse-order"}
 
 可以按照相反的顺序访问集合, 方法是使用
 [`reversed()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/reversed.html)
@@ -198,7 +237,7 @@ fun main() {
 但是, 如果不知道 List 是否可变, 或者原集合根本不是 List,
 那么更适用使用 `reversed()` 函数, 因为它的结果是原集合的一个复制, 内容不会随原集合一起改变.
 
-## 随机排序
+## 随机排序 {id="random-order"}
 
 最后, 还有一个函数, 它返回一个新的 `List`, 其中的元素按照随机顺序排列 -
 [`shuffled()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/shuffled.html)

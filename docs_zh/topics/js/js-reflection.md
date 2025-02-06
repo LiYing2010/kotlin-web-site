@@ -7,7 +7,7 @@ Kotlin/JS 只对 Kotlin [反射 API](reflection.md) 提供有限的支持.
 * [`KType` 和 `typeof()`](#ktype-and-typeof)
 * [`KClass` 和 `createInstance()`](#kclass-and-createinstance)
 
-## 类引用(class reference)
+## 类引用(class reference) {id="class-references"}
 
 `::class` 语法返回一个对象实例的类引用, 一个指定的类型的类引用.
 在 Kotlin/JS 中, `::class` 表达式的值是
@@ -35,7 +35,7 @@ Kotlin/JS 完全支持 `KType` API, 但 Java 专有的部分除外.
 [`createInstance()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect.full/create-instance.html)
 函数创建指定的类的一个新实例, 可以用来在运行期得到一个 Kotlin 类的引用.
 
-## 示例
+## 示例 {id="example"}
 
 下面是 Kotlin/JS 中反射的使用示例.
 

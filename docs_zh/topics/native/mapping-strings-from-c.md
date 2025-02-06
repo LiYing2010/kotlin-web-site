@@ -19,7 +19,7 @@
 - [在 Kotlin 中读取 C 字符串](#read-c-strings-in-kotlin)
 - [将 C 字符串的字节接收到 Kotlin 字符串中](#receive-c-string-bytes-from-kotlin)
 
-## 使用 C 字符串
+## 使用 C 字符串 {id="working-with-c-strings"}
 
 C 语言中没有专门的字符串类型. 开发者需要根据方法签名或者文档来判断一个 `char *` 是不是一个 C 字符串.
 C 语言中的字符串使用 null 作为终止符, 末尾 0 字符 `\0` 添加到字节序列之后, 表示字符串结束.
@@ -76,7 +76,7 @@ int copy_string(char* str, int size) {
 这个 `interop.def` 文件已经足以编译和运行应用程序, 或在 IDE 中打开它.
 现在来创建项目文件, 在 [IntelliJ IDEA](https://jetbrains.com/idea)中打开项目, 并运行它.
 
-## 查看为 C 库生成的 Kotlin API
+## 查看为 C 库生成的 Kotlin API {id="inspect-generated-kotlin-apis-for-a-c-library"}
 
 尽管可以直接使用命令行, 或者通过脚本文件(比如 `.sh` 或 `.bat` 文件), 但这种方法不适合于包含几百个文件和库的大项目.
 更好的方法是使用带有构建系统的 Kotlin/Native 编译器,
@@ -84,7 +84,7 @@ int copy_string(char* str, int size) {
 Kotlin/Native 能够通过 [kotlin-multiplatform](gradle-configure-project.md#targeting-multiple-platforms) plugin
 使用 [Gradle](https://gradle.org) 构建系统.
 
-关于如何使用 Gradle 设置 IDE 兼容的项目, 请参见教程 [一个基本的 Kotlin/Native 应用程序](native-gradle.md).
+关于如何使用 Gradle 设置 IDE 兼容的项目, 请参见教程 [Kotlin/Native 入门](native-get-started.md#using-gradle).
 如果你想要寻找具体的步骤指南, 来开始一个新的 Kotlin/Native 项目并在 IntelliJ IDEA 中打开它, 请先阅读这篇教程.
 在本教程中, 我们关注更高级的 C 交互功能, 包括使用 Kotlin/Native,
 以及使用 Gradle 的 [跨平台](gradle-configure-project.md#targeting-multiple-platforms) 构建.
@@ -189,7 +189,7 @@ fun main() {
 现在你可以 [在 IntelliJ IDEA 中打开项目](native-get-started.md), 看看如何修正示例项目.
 在这个过程中, 我们来看看 C 字符串如何映射为 Kotlin/Native 声明.
 
-## 字符串在 Kotlin 中的映射结果
+## 字符串在 Kotlin 中的映射结果 {id="strings-in-kotlin"}
 
 通过 IntelliJ IDEA 的 __Go to | Declaration__ 的帮助,
 或查看编译器错误, 你可以看到为 C 函数生成的 API:
@@ -271,7 +271,7 @@ fun sendString() {
 C 函数向这个字节数组填充数据.
 使用另一个扩展函数 `ByteArray.decodeToString()`, 将字节数组转换为一个 Kotlin `String`, 假设使用 UTF-8 编码.
 
-## 修正代码
+## 修正代码 {id="fix-the-code"}
 
 你已经看到了所有的定义, 现在我们来修正代码.
 [在 IDE 中](native-get-started.md) 运行 `runDebugExecutableNative` Gradle task,
@@ -306,7 +306,7 @@ fun main() {
 }
 ```
 
-## 下一步
+## 下一步 {id="next-steps"}
 
 阅读以下教程, 继续探索更多 C 语言数据类型, 以及它们在 Kotlin/Native 中的表达:
 - [映射 C 语言的基本数据类型](mapping-primitive-data-types-from-c.md)

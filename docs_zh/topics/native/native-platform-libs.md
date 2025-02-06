@@ -3,7 +3,7 @@
 为了实现对使用者的原生操作系统服务的访问能力, Kotlin/Native 发布版包含了一组针对各个平台预先编译好的库.
 我们称之为 **平台库**.
 
-### POSIX 绑定
+### POSIX 绑定 {id="posix-bindings"}
 
 对于所有基于 Unix 或 Windows 的平台 (包括 Android 和 iOS 编译平台) 我们提供了 POSIX 平台库.
 其中包含对 [`POSIX` 标准](https://en.wikipedia.org/wiki/POSIX) 在各平台实现的绑定.
@@ -18,7 +18,7 @@ import platform.posix.*
 
 注意, `platform.posix` 的内容在各个平台是不同的, 因为各个平台的 POSIX 具体实现也是略微不同的.
 
-### 流行的原生库
+### 流行的原生库 {id="popular-native-libraries"}
 
 对于本机编译平台或交叉编译(cross-compilation)平台, 有很多可用的平台库.
 Kotlin/Native 发布版, 在可用的平台上提供了对 OpenGL, zlib 以及其他流行的原生库的访问能力.
@@ -27,7 +27,7 @@ Kotlin/Native 发布版, 在可用的平台上提供了对 OpenGL, zlib 以及�
 
 详情请参见 `Kotlin/Native` 发布版的 `dist/klib/platform/$target` 目录内容.
 
-## 默认可用性
+## 默认可用性 {id="availability-by-default"}
 
 平台库中的包默认是可用的. 使用它们时, 不需要指定特别的链接参数.
 Kotlin/Native 编译器会自动检测访问了哪些平台库, 并自动链接需要的库文件.

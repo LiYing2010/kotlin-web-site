@@ -80,7 +80,7 @@ Kotlin 语言和它的工具集分成很多组件, 比如针对 JVM, JS 和 Nati
 | Kotlin/Wasm                                                         | Alpha  | 1.9.20        |        |
 | [Analysis API](https://kotlin.github.io/analysis-api/index_md.html) | Stable |               |        |
 
-### 核心编译器插件
+### 核心编译器插件 {id="core-compiler-plugins"}
 
 | **组件**                                           | **状态**       | **进入这个状态的版本** | **备注** |
 |--------------------------------------------------|--------------|---------------|--------|

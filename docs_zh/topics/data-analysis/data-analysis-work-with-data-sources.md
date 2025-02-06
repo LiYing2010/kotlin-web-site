@@ -1,6 +1,6 @@
 [//]: # (title: 从文件获取数据)
 
-Kotlin Notebook, 结合 [Kotlin DataFrame 库](https://kotlin.github.io/dataframe/gettingstarted.html),
+[Kotlin Notebook](kotlin-notebook-overview.md), 结合 [Kotlin DataFrame 库](https://kotlin.github.io/dataframe/gettingstarted.html),
 让你能够处理非结构化数据和结构化数据.
 这样的组合提供了一种灵活性, 能够将非结构化数据, 例如来自 TXT 文件的数据, 转换为结构化数据集.
 
@@ -9,7 +9,7 @@ Kotlin Notebook, 结合 [Kotlin DataFrame 库](https://kotlin.github.io/datafram
 
 在这篇向导中, 你会通过多个示例, 学习如何获取, 优化(Refine), 并处理数据.
 
-## 开始前的准备工作
+## 开始前的准备工作 {id="before-you-start"}
 
 1. 下载并安装最新版的 [IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/download/?section=mac).
 2. 在 IntelliJ IDEA 中安装 [Kotlin Notebook plugin](https://plugins.jetbrains.com/plugin/16340-kotlin-notebook).
@@ -46,7 +46,7 @@ Kotlin Notebook, 结合 [Kotlin DataFrame 库](https://kotlin.github.io/datafram
 > 
 {style="tip"}
 
-## 显示数据
+## 显示数据 {id="display-data"}
 
 [在你的 Notebook 中得到了数据](#retrieve-data-from-a-file) 之后,
 你可以很容易的将数据保存在变量中, 并在代码单元中运行以下代码访问它:
@@ -70,7 +70,7 @@ dfJson
 
 ![可以访问的属性](auto-completion-data-analysis.png){width=700}
 
-## 优化数据(Refine Data)
+## 优化数据(Refine Data) {id="refine-data"}
 
 Kotlin DataFrame 库中有很多种操作能够优化你的数据集, 重要的例子包括
 [分组](https://kotlin.github.io/dataframe/group.html), [过滤](https://kotlin.github.io/dataframe/filter.html), [更新](https://kotlin.github.io/dataframe/update.html),
@@ -134,7 +134,7 @@ Kotlin DataFrame 库中有很多种操作能够优化你的数据集, 重要的�
 > 
 {style="tip"}
 
-## 保存 DataFrame
+## 保存 DataFrame {id="save-dataframe"}
 
 使用 Kotlin DataFrame 库 [在 Kotlin Notebook 中优化数据](#refine-data) 之后, 你可以轻松的导出处理后的数据.
 你可以使用各种 [`.write()`](https://kotlin.github.io/dataframe/write.html) 函数来实现这个目的, 它支持保存为各种格式,
@@ -175,8 +175,8 @@ Kotlin DataFrame 库中有很多种操作能够优化你的数据集, 重要的�
    refinedMoviesDf.toStandaloneHTML(DisplayConfiguration(rowsLimit = null)).openInBrowser()
    ```
 
-## 下一步做什么
+## 下一步做什么 {id="what-s-next"}
 
-* 学习使用 [Kandy 库](https://kotlin.github.io/kandy/examples.html) 进行数据可视化.
-* 阅读 [在 Kotlin Notebook 中使用 Kandy 进行数据可视化](data-analysis-visualization.md), 学习数据可视化的更多知识.
-* 关于 Kotlin 中用于数据科学和分析的工具和资源的广泛的概述, 请参见 [用于数据分析的 Kotlin 和 Java 库](data-analysis-libraries.md).
+* 学习使用 [Kandy 库](https://kotlin.github.io/kandy/examples.html) 进行数据可视化
+* 阅读 [在 Kotlin Notebook 中使用 Kandy 进行数据可视化](data-analysis-visualization.md), 学习数据可视化的更多知识
+* 关于 Kotlin 中用于数据科学和分析的工具和资源的广泛的概述, 请参见 [用于数据分析的 Kotlin 和 Java 库](data-analysis-libraries.md)

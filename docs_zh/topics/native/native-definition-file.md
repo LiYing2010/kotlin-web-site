@@ -14,7 +14,7 @@ Kotlin/Native 允许你使用 C 和 Objective-C 库, 你可以在 Kotlin 中使�
 2. 在你的 Kotlin 代码中使用生成的绑定.
 3. 运行 Kotlin/Native 编译器, 生成最终的可执行文件.
 
-## 创建并配置定义文件
+## 创建并配置定义文件 {id="create-and-configure-a-definition-file"}
 
 我们来为一个 C 库创建定义文件, 并生成绑定:
 
@@ -214,7 +214,7 @@ libraryPaths = /opt/local/lib /usr/local/opt/curl/lib
 要让 Objective-C 异常传播到 Kotlin 中, 请使用 `foreignExceptionMode = objc-wrap` 属性, 允许异常的封装.
 这种情况下, Objective-C 异常会被翻译为 Kotlin 异常, 类型为 `ForeignException`.
 
-### 帮助解决链接器错误 {id="help-resolve-linker-errors"}
+#### 帮助解决链接器错误 {id="help-resolve-linker-errors"}
 
 当一个 Kotlin 库依赖于一个 C 或 Objective-C 库时, 可能会发生链接器错误,
 例如, 使用 [CocoaPods 集成](native-cocoapods.md) 的情况.
@@ -257,7 +257,7 @@ cinterop -def png.def -compiler-option -I/usr/local/include -o png
   通常可以用于 `compilerOpts`, (但可能不使用完全相同的路径).
 * 使用 `--libs` 参数运行配置脚本的输出结果, 可以用于 `linkerOpts` 属性.
 
-## 下一步做什么
+## 下一步做什么 {id="what-s-next"}
 
 * [与 C 代码交互中的绑定](native-c-interop.md#bindings)
 * [与 Swift/Objective-C 代码交互](native-objc-interop.md)

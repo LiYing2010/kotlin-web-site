@@ -7,7 +7,7 @@ KSP 提供一组简化的编译器插件 API, 利用 Kotlin 的能力, 同时保
 * 关于 KSP 与 kapt 与比较, 详情请参见 [为什么需要 KSP](ksp-why-ksp.md).
 * 要开始编写 KSP 处理器, 请参见 [KSP 快速入门](ksp-quickstart.md).
 
-## 概述
+## 概述 {id="overview"}
 
 KSP API 按照语言习惯来处理 Kotlin 程序. KSP 理解 Kotlin 专有的功能特性,
 比如扩展函数, 声明处类型变异(declaration-site variance), 以及局部函数.
@@ -36,7 +36,7 @@ KSP 将源程序当作只读, 避免这种情况.
 <video src="https://www.youtube.com/v/bv-VyGM3HCY" title="Kotlin 符号处理 (KSP)"/>
 
 
-## KSP 如何看待源代码文件
+## KSP 如何看待源代码文件 {id="how-ksp-looks-at-source-files"}
 
 大多数处理器会浏览输入的源代码的各种程序结构.
 在介绍 API 的使用方法之前, 我们来看一下从 KSP 的观点如何看待文件:
@@ -86,7 +86,7 @@ KSFile
 
 这个图列出了在源代码文件中声明的大多数东西: 类, 函数, 属性, 等等.
 
-## SymbolProcessorProvider: 入口点
+## SymbolProcessorProvider: 入口点 {id="symbolprocessorprovider-the-entry-point"}
 
 KSP 要求实现 `SymbolProcessorProvider` 接口, 使用它来创建 `SymbolProcessor` 实例:
 
@@ -140,7 +140,7 @@ class HelloFunctionFinderProcessor : SymbolProcessor() {
 }
 ```
 
-## 资源
+## 资源 {id="resources"}
 
 * [KSP 快速入门](ksp-quickstart.md)
 * [为什么使用 KSP?](ksp-why-ksp.md)

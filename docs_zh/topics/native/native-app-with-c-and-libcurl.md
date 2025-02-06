@@ -14,7 +14,7 @@
 >
 {style="tip"}
 
-## 开始前的准备工作
+## 开始前的准备工作 {id="before-you-start"}
 
 1. 下载并安装最新版本的 [IntelliJ IDEA](https://www.jetbrains.com/idea/) 和 [Kotlin plugin](releases.md).
 2. 在 IntelliJ IDEA 中选择菜单 **File** | **New** | **Project from Version Control**,
@@ -63,7 +63,7 @@
      你可能想要在 `.kt` 文件中导入整个包.
      详情请参见 [如何配置](gradle-configure-project.md#targeting-multiple-platforms).
 
-## 创建一个定义文件
+## 创建一个定义文件 {id="create-a-definition-file"}
 
 编写原生应用程序时, 你经常需要访问没有包含在 [Kotlin 标准库](https://kotlinlang.org/api/latest/jvm/stdlib/) 中的某些功能,
 比如发起 HTTP 请求, 读写磁盘, 等等.
@@ -116,7 +116,7 @@ Kotlin/Native 带有一组预构建的 [平台库](native-platform-libs.md), 提
 >
 {style="note"}
 
-## 向构建过程添加与 C 的交互
+## 向构建过程添加与 C 的交互 {id="add-interoperability-to-the-build-process"}
 
 要使用头文件, 需要确保在构建过程中生成了它们. 要做到这一点, 请向 `build.gradle.kts` 文件添加以下内容:
 
@@ -149,7 +149,7 @@ val libcurl by creating {
 
 关于可用的选项, 请参见 [与 C 代码交互](native-c-interop.md).
 
-## 编写应用程序代码
+## 编写应用程序代码 {id="write-the-application-code"}
 
 现在你有了库, 以及对应的 Kotlin 桩代码(stub), 可以在你的应用程序中使用它们了.
 本教程将 [simple.c](https://curl.haxx.se/libcurl/c/simple.html) 示例代码改写为 Kotlin.
@@ -182,7 +182,7 @@ fun main(args: Array<String>) {
 >
 {style="tip"}
 
-## 编译并运行应用程序
+## 编译并运行应用程序 {id="compile-and-run-the-application"}
 
 1. 编译应用程序. 方法是, Gradle 运行的 task 中调用 `runDebugExecutableNative`, 或者在终端运行以下命令:
 

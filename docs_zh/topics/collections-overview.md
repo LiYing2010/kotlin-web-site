@@ -82,7 +82,7 @@ Map 类型对于它的值(value)的数据类型是协变的(covariant), 但对�
 
 <video src="https://www.youtube.com/v/F8jj7e-_jFA" title="Kotlin 集合概述"/>
 
-### Collection
+### Collection {id="collection"}
 
 [`Collection<T>`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-collection/index.html)
 是集合类型的最高层根接口.
@@ -130,7 +130,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-### List
+### List {id="list"}
 
 [`List<T>`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)
 按指定的顺序存储元素, 并使用下标来访问元素.
@@ -195,7 +195,7 @@ fun main() {
 [`ArrayList`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-array-list/index.html),
 你可以把它看作是一个可以改变大小的数组.
 
-### Set
+### Set {id="set"}
 
 [`Set<T>`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html)
 存储不重复的元素; 元素的顺序通常是无定义的. `null` 也算是不重复的元素:
@@ -242,7 +242,7 @@ fun main() {
 – 对元素顺序不做任何保证,
 因此对它调用这些函数会返回不可预知的结果. 但是, 存储相同数量的元素时, `HashSet` 消耗的内存更少.
 
-### Map
+### Map {id="map"}
 
 [`Map<K, V>`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html)
 不继承自 `Collection` 接口; 但它仍然是 Kotlin 的集合类型.
@@ -302,7 +302,7 @@ fun main() {
 [`HashMap`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-hash-map/index.html)
 – 对元素顺序不做任何保证.
 
-### ArrayDeque
+### ArrayDeque {id="arraydeque"}
 
 [`ArrayDeque<T>`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-array-deque/) 是双向队列(double-ended queue)的一个实现,
 对这种双向队列, 从前端或尾端都可以添加或删除元素.

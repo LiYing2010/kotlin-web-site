@@ -13,7 +13,7 @@ Kotlin 中存在 4 种可见度修饰符: `private`, `protected`, `internal`, �
 函数, 属性, 类, 对象, 接口, 都可以直接在包之内声明为"顶级的(top-level)":
 
 ```kotlin
-// file name: example.kt
+// 源代码文件名: example.kt
 package foo
 
 fun baz() { ... }

@@ -1,6 +1,6 @@
 [//]: # (title: Kotlin Notebook 支持的输出格式)
 
-Kotlin Notebook 支持很多种输出类型, 包括文本, HTML, 和图片.
+[Kotlin Notebook](kotlin-notebook-overview.md) 支持很多种输出类型, 包括文本, HTML, 和图片.
 通过使用外部库, 你可以选择更多的输出类型, 并使用图表, 电子表格, 等等形式, 可视化你的数据.
 
 每个输出都是一个 JSON 对象,
@@ -48,7 +48,7 @@ DISPLAY(plot {
 
 ## 文本 {id="texts"}
 
-### 纯文本(Plain Text)
+### 纯文本(Plain Text) {id="plain-text"}
 
 最简单的输出类型是纯文本. 它可以用于打印输出文字, 变量值, 或者你的代码中的任何文本输出:
 
@@ -285,8 +285,9 @@ kotlinMascot
    salesPlot.save("sales-chart.svg")
    ```
 
-## 下一步做什么
+## 下一步做什么 {id="what-s-next"}
 
 * [使用 DataFrame 和 Kandy 库进行数据可视化](data-analysis-visualization.md)
+* [详细了解在 Kotlin Notebook 中渲染和显示富格式输出(rich output)](https://www.jetbrains.com/help/idea/kotlin-notebook.html#render-rich-output)
 * [从 CSV 和 JSON 文件获取数据](data-analysis-work-with-data-sources.md)
 * [查看推荐的库](data-analysis-libraries.md)

@@ -4,7 +4,7 @@
 
 开始之前, 首先请下载病安装最新版本的 [IntelliJ IDEA](https://www.jetbrains.com/idea/download/index.html).
 
-## 创建项目
+## 创建项目 {id="create-a-project"}
 
 1. 在 IntelliJ IDEA 中, 选择 **File** | **New** | **Project**.
 2. 在左侧面板中, 选择 **Kotlin**.
@@ -33,7 +33,7 @@
 
 这样你就成功的创建了 Gradle 项目!
 
-#### 为你的项目指定 Gradle 版本 {initial-collapse-state="collapsed" collapsible="true"}
+#### 为你的项目指定 Gradle 版本 {id="specify-a-gradle-version-for-your-project" initial-collapse-state="collapsed" collapsible="true"}
 
 你可以在 **Advanced Settings** 中为你的项目明确指定 Gradle 版本,
 可以使用 Gradle Wrapper, 也可以使用本地安装的 Gradle:
@@ -90,7 +90,7 @@ tasks.test { // 参见 4️⃣
 2. 在 `dependencies {}` 代码段中, 有 `testImplementation(kotlin("test"))`.
    详情请参见 [设置测试库的依赖项](gradle-configure-project.md#set-dependencies-on-test-libraries).
 
-## 运行应用程序
+## 运行应用程序 {id="run-the-application"}
 
 1. 选择 **View** | **Tool Windows** | **Gradle**, 打开 Gradle 窗口:
 
@@ -113,7 +113,7 @@ tasks.test { // 参见 4️⃣
 
 恭喜! 你成功的运行了你的第一个 Kotlin 应用程序.
 
-## 下一步做什么?
+## 下一步做什么? {id="what-s-next"}
 
 学习:
 * [Gradle 构建文件属性](https://docs.gradle.org/current/dsl/org.gradle.api.Project.html#N14E9A).

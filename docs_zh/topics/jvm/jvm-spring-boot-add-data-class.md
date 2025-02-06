@@ -16,7 +16,7 @@
 在教程的这个部分, 你将会向应用程序添加更多功能, 并学会 Kotlin 语言的更多功能, 例如数据类.
 我们需要修改 `MessageController` 类, 来返回 JSON 格式的应答, 其中包含一组序列化的对象.
 
-## 更新你的应用程序
+## 更新你的应用程序 {id="update-your-application"}
 
 1. 在同一个包中, 创建一个 `Message.kt` 文件, 其中包含一个数据类, 包含 2 个属性: `id` 和 `text`:
 
@@ -185,7 +185,7 @@ data class Message(val id: String?, val text: String)
 ```
 {initial-collapse-state="collapsed" collapsible="true"}
 
-## 运行应用程序
+## 运行应用程序 {id="run-the-application"}
 
 Spring 应用程序已经可以运行了:
 
@@ -201,7 +201,7 @@ Spring 应用程序已经可以运行了:
 
     ![运行应用程序](messages-in-json-format.png){width=800}
 
-## 下一步
+## 下一步 {id="next-step"}
 
 本教程的下一部分中, 你将会向你的项目添加并配置一个数据库, 并发送 HTTP 请求.
 

@@ -106,7 +106,7 @@ JavaScript 或 JavaFX 的客户端应用程序, 以及数据科学, 这只是少
 ### Kotlin 支持 JVM 的哪些版本? {id="which-versions-of-jvm-does-kotlin-target"}
 
 Kotlin 允许你选择运行时的 JVM 版本. 默认情况下, Kotlin/JVM 编译器产生与 Java 8 兼容的字节码.
-如果你希望利用更高版本 Java 中的优化功能, 你可以明确指定编译目标的 Java 版本, 可选的版本是从 9 到 21.
+如果你希望利用更高版本 Java 中的优化功能, 你可以明确指定编译目标的 Java 版本, 可选的版本是从 9 到 23.
 注意, 这时编译产生的字节码在低版本的 Java 环境可能无法运行.
 从 [Kotlin 1.5](whatsnew15.md#new-default-jvm-target-1-8) 开始, 编译器不再产生与低于 Java 8 的版本兼容的字节码.
 

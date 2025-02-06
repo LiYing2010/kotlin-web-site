@@ -8,7 +8,7 @@
 符号化会将机器码地址转换为适合人阅读的源代码位置.
 本文将介绍使用 Kotlin 开发 iOS 应用程序时, 符号化崩溃报告的一些具体细节.
 
-## 对 release 版的 Kotlin 二进制文件产生 .dSYM 文件
+## 对 release 版的 Kotlin 二进制文件产生 .dSYM 文件 {id="producing-dsym-for-release-kotlin-binaries"}
 
 要符号化 Kotlin 代码中的地址(比如, 得到调用栈各层分别对应的 Kotlin 源代码),
 需要使用 Kotlin 代码的 `.dSYM` bundle.
@@ -49,7 +49,7 @@ kotlin {
 在 IntelliJ IDEA 或 AppCode 模板创建的项目中,
 这些 `.dSYM` bundle 之后会被 Xcode 自动发现.
 
-## 从 bitcode 重新构建时, 将框架(Framework)设置为静态
+## 从 bitcode 重新构建时, 将框架(Framework)设置为静态 {id="make-frameworks-static-when-using-rebuild-from-bitcode"}
 
 将 Kotlin 产生的框架从 bitcode 重新构建时, 会使得原来的 `.dSYM` 失效.
 如果是在本地重新构建, 请注意, 符号化崩溃报告时一定要使用更新后的 `.dSYM`.

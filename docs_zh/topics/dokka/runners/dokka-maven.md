@@ -707,7 +707,7 @@ Dokka 有很多配置选项, 可以用来定制你和你的读者的体验.
         </sourceLinks>
         <externalDocumentationLinks>
             <link>
-                <url>https://kotlinlang.org/api/latest/jvm/stdlib/</url>
+                <url>https://kotlinlang.org/api/core/kotlin-stdlib/</url>
                 <packageListUrl>file:/${project.basedir}/stdlib.package.list</packageListUrl>
             </link>
         </externalDocumentationLinks>

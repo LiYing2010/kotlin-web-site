@@ -49,7 +49,8 @@ plugins {
 
 | KGP 版本        | Gradle 最低和最高版本                         | AGP 最低和最高版本                                         |
 |---------------|----------------------------------------|-----------------------------------------------------|
-| 2.0.20        | %minGradleVersion%–%maxGradleVersion%* | %minAndroidGradleVersion%–%maxAndroidGradleVersion% |
+| 2.1.0         | %minGradleVersion%–%maxGradleVersion%* | %minAndroidGradleVersion%–%maxAndroidGradleVersion% |
+| 2.0.20–2.0.21 | 6.8.3–8.8*                             | 7.1.3–8.5                                           |
 | 2.0.0         | 6.8.3–8.5                              | 7.1.3–8.3.1                                         |
 | 1.9.20–1.9.25 | 6.8.3–8.1.1                            | 4.2.2–8.1.0                                         |
 | 1.9.0–1.9.10  | 6.8.3–7.6.0                            | 4.2.2–7.4.0                                         |
@@ -59,8 +60,8 @@ plugins {
 | 1.7.0–1.7.10  | 6.7.1–7.0.2                            | 3.4.3–7.0.2                                         |
 | 1.6.20–1.6.21 | 6.1.1–7.0.2                            | 3.4.3–7.0.2                                         |
 
-> *Kotlin 2.0.20 完全兼容从 Gradle 6.8.3 到 8.6 的版本.
-> 也支持 Gradle 8.7 和 8.8, 但有一个例外: 如果你使用 Kotlin Multiplatform Gradle plugin,
+> *Kotlin 2.0.20–2.0.21 和 Kotlin 2.1.0 完全兼容 Gradle 8.6 或以下版本.
+> 也支持 Gradle 版本 8.7 到 8.10, 但有一个例外: 如果你使用 Kotlin Multiplatform Gradle plugin,
 > 在你的跨平台项目中调用 [JVM 编译目标中的 `withJava()` 函数](multiplatform-dsl-reference.md#jvm-targets) 时, 可能遇到废弃警告.
 > 更多详情请参见 [YouTrack](https://youtrack.jetbrains.com/issue/KT-66542/Gradle-JVM-target-with-withJava-produces-a-deprecation-warning) 中的 issue.
 >
@@ -75,7 +76,7 @@ plugins {
 类似的, 完全支持的最高版本是 %maxGradleVersion%.
 这个版本不包含已废弃的 Gradle 方法和属性, 并且支持目前所有的 Gradle 功能特性.
 
-### Kotlin Gradle plugin 在项目中的数据
+### Kotlin Gradle plugin 在项目中的数据 {id="kotlin-gradle-plugin-data-in-a-project"}
 
 默认情况下, Kotlin Gradle plugin 会将项目相关的数据保存在项目根目录下的 `.kotlin` 目录中.
 
@@ -91,7 +92,7 @@ plugins {
 | `kotlin.project.persistent.dir`                     | 配置你的项目数据的保存位置. 默认值: `<project-root-directory>/.kotlin`             |
 | `kotlin.project.persistent.dir.gradle.disableWrite` | 控制是否禁止将 Kotlin 数据写到 `.gradle` 目录 (为了与旧版本的 IDEA 保持向后兼容). 默认值: false |
 
-## 编译到 JVM 平台
+## 编译到 JVM 平台 {id="targeting-the-jvm"}
 
 要编译到 JVM 平台, 需要应用 Kotlin JVM plugin.
 
@@ -118,7 +119,7 @@ plugins {
 
 在这段代码中, `version` 必须是写明的字面值, 不能通过其他编译脚本得到.
 
-### Kotlin 源代码与 Java 源代码
+### Kotlin 源代码与 Java 源代码 {id="kotlin-and-java-sources"}
 
 Kotlin 源代码与 Java 源代码可以保存在相同的目录下, 也可以放在不同的目录下.
 
@@ -447,7 +448,7 @@ tasks.withType<UsesKotlinJavaToolchain>().configureEach {
 }
 ```
 
-### 关联编译器任务
+### 关联编译器任务 {id="associate-compiler-tasks"}
 
 你可以将编译任务 _关联(Associate)_ 在一起, 方法是在编译任务之间设置关联关系, 一个编译需要使用另一个编译的输出.
 关联编译器任务会在编译任务之间建立 `internal` 的可见度.
@@ -482,7 +483,7 @@ integrationTestCompilation {
 
 在这个例子中, `integrationTest` 编译任务关联到 `main` 编译任务, 可以在功能测试(集成测试)代码中访问 `internal` 对象.
 
-### Java Modules (JPMS) 启用时的配置
+### Java Modules (JPMS) 启用时的配置 {id="configure-with-java-modules-jpms-enabled"}
 
 要让 Kotlin Gradle plugin 与 [Java 模块(Module)](https://www.oracle.com/corporate/features/understanding-java-9-modules.html) 共通工作,
 请向你的构建脚本添加以下内容, 并将其中的 `YOUR_MODULE_NAME` 替换为你的 JPMS 模块的引用, 例如,
@@ -540,11 +541,11 @@ tasks.named("compileJava", JavaCompile.class) {
 * [使用 Java 模块系统构建应用程序](https://docs.gradle.org/current/userguide/application_plugin.html#sec:application_modular)
 * ["module" 在 Kotlin 中的意义](visibility-modifiers.md#modules)
 
-### 其他细节
+### 其他细节 {id="other-details"}
 
 详情请参见 [Kotlin/JVM](jvm-get-started.md).
 
-#### 在编译任务中禁用 artifact
+#### 在编译任务中禁用 artifact {id="disable-use-of-artifact-in-compilation-task"}
 
 在某些罕见的情况下, 你可能会遇到循环依赖错误导致的构建失败.
 例如, 你有多个编译任务, 其中一个可以看到另一个的所有内部声明, 并且生成的 artifact 依赖于两个编译任务的输出:
@@ -572,11 +573,11 @@ Circular dependency between the following tasks:
 kotlin.build.archivesTaskOutputAsFriendModule=false
 ```
 
-#### Kotlin/JVM 编译任务的延迟创建
+#### Kotlin/JVM 编译任务的延迟创建 {id="lazy-kotlin-jvm-task-creation"}
 
 从 Kotlin 1.8.20 开始, Kotlin Gradle plugin 在试运行(dry run)时会注册所有的编译任务, 但不对它们进行配置.
 
-#### 如果编译任务的输出目录不是默认位置
+#### 如果编译任务的输出目录不是默认位置 {id="non-default-location-of-compile-tasks-destinationdirectory"}
 
 如果你覆盖了 Kotlin/JVM `KotlinJvmCompile`/`KotlinCompile` 编译任务的 `destinationDirectory` 位置, 请更新你的构建脚本.
 在你的 JAR 文件中, 除 `sourceSets.main.outputs` 之外, 你需要明确添加 `sourceSets.main.kotlin.classesDirectories`:
@@ -621,12 +622,12 @@ plugins {
 详情请参见 [在不同的平台使用 Kotlin Multiplatform](multiplatform-intro.md) 和
 [在 iOS 和 Android 平台使用 Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-getting-started.html).
 
-## 编译到 Android 平台
+## 编译到 Android 平台 {id="targeting-android"}
 
 建议使用 Android Studio 来创建 Android 应用程序.
 详情请参见 [如何使用 Android Gradle plugin](https://developer.android.com/studio/releases/gradle-plugin).
 
-## 编译到 JavaScript
+## 编译到 JavaScript {id="targeting-javascript"}
 
 如果编译目标平台为 JavaScript, 也可以使用 `kotlin-multiplatform` 插件.
 详情请阅读 [如何设置 Kotlin/JS 项目](js-project-setup.md):
@@ -652,7 +653,7 @@ plugins {
 </tab>
 </tabs>
 
-### JavaScript 项目的 Kotlin 源代码与 Java 源代码
+### JavaScript 项目的 Kotlin 源代码与 Java 源代码 {id="kotlin-and-java-sources-for-javascript"}
 
 这个 plugin 只能编译 Kotlin 源代码文件, 因此推荐将 Kotlin 和 Java 源代码文件放在不同的文件夹内(如果工程内包含 Java 文件的话).
 如果不将源代码分开存放, 请在 `sourceSets{}` 代码段中指定源代码文件夹:
@@ -682,7 +683,7 @@ kotlin {
 </tab>
 </tabs>
 
-## 使用 KotlinBasePlugin 接口触发配置动作
+## 使用 KotlinBasePlugin 接口触发配置动作 {id="triggering-configuration-actions-with-the-kotlinbaseplugin-interface"}
 
 当任何 Kotlin Gradle plugin (JVM, JS, Multiplatform, Native, 等等) 被适用时, 要触发某些配置动作,
 可以使用 `KotlinBasePlugin` 接口, 所有的 Kotlin plugin 都继承了这个接口:
@@ -811,7 +812,7 @@ Kotlin Gradle plugin 会根据你的 Gradle 构建脚本的 `compilerOptions.jvm
 kotlin.stdlib.default.dependency=false
 ```
 
-#### 传递依赖项的版本对齐
+#### 传递依赖项的版本对齐 {id="versions-alignment-of-transitive-dependencies"}
 
 从 Kotlin 标准库 1.9.20 版开始, Gradle 使用包含在标准库中的元数据(metadata),
 来自动对齐传递依赖项 `kotlin-stdlib-jdk7` 和 `kotlin-stdlib-jdk8` 的版本.
@@ -1004,7 +1005,7 @@ kotlin {
 
 你也可以在任何共通源代码集或平台相关的源代码集中使用 `kotlin-test` 依赖项.
 
-#### kotlin-test 的 JVM 变体
+#### kotlin-test 的 JVM 变体 {id="jvm-variants-of-kotlin-test"}
 
 对于 Kotlin/JVM, Gradle 默认使用 JUnit 4. 因此, `kotlin("test")` 依赖项会解析为 JUnit 4 的变体,
 名为 `kotlin-test-junit`.
@@ -1267,7 +1268,7 @@ dependencyResolutionManagement {
 在子项目中声明的任何仓库, 都会覆盖集中声明的仓库.
 关于如何控制这种行为, 有什么解决办法, 详情请参见 [Gradle 的文档](https://docs.gradle.org/current/userguide/declaring_repositories.html#sub:centralized-repository-declaration).
 
-## 下一步做什么?
+## 下一步做什么? {id="what-s-next"}
 
 学习:
 * [编译器选项, 以及如何传递编译器选项](gradle-compiler-options.md).

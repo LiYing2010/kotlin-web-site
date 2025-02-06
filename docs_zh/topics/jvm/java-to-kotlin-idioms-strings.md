@@ -33,7 +33,7 @@ fun main() {
 你可以在字符串内添加复杂表达式的值, 方法是将表达式用括号括起, 比如 `${name.length}` .
 详情请参见 [字符串模板](strings.md#string-templates).
 
-## 构建一个字符串
+## 构建一个字符串 {id="build-a-string"}
 
 在 Java 中, 你可以使用 [StringBuilder](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/StringBuilder.html):
 
@@ -72,7 +72,7 @@ fun main() {
 
 更多详情请参见 [Lambda 表达式的编码规约](coding-conventions.md#lambdas).
 
-## 通过集合中的元素创建一个字符串
+## 通过集合中的元素创建一个字符串 {id="create-a-string-from-collection-items"}
 
 在 Java 中, 你可以使用 [Stream API](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/stream/package-summary.html)
 来过滤, 变换, 并收集元素:
@@ -113,7 +113,7 @@ fun main() {
 
 详情请参见 [joinToString()](collection-transformations.md#string-representation) 的使用方法.
 
-## 当字符串为空白时设置默认值
+## 当字符串为空白时设置默认值 {id="set-default-value-if-the-string-is-blank"}
 
 在 Java 中, 你可以使用 [三元运算符(Ternary Operator)](https://en.wikipedia.org/wiki/%3F:):
 
@@ -151,7 +151,7 @@ fun getName(): String =
 ```
 {kotlin-runnable="true" id="set-default-value-if-blank-kotlin"}
 
-## 替换一个字符串的最首字符和最末字符
+## 替换一个字符串的最首字符和最末字符 {id="replace-characters-at-the-beginning-and-end-of-a-string"}
 
 在 Java 中, 你可以使用
 [replaceAll()](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#replaceAll(java.lang.String,java.lang.String))
@@ -182,7 +182,7 @@ fun main() {
 ```
 {kotlin-runnable="true" id="replace-characters-kotlin"}
 
-## 查找与替换
+## 查找与替换 {id="replace-occurrences"}
 
 在 Java 中, 你可以使用 [Pattern](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/regex/Pattern.html)
 和 [Matcher](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/regex/Matcher.html) 类,
@@ -218,7 +218,7 @@ fun main() {
 ```
 {kotlin-runnable="true" id="replace-occurrences-kotlin"}
 
-## 字符串切分
+## 字符串切分 {id="split-a-string"}
 
 在 Java 中, 要使用句号字符 (`.`)切分一个字符串, 你需要使用转义 (`\\`).
 因为 `String` 类的 [split()](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#split(java.lang.String))
@@ -245,7 +245,7 @@ fun main() {
 
 如果你需要使用正规表达式切分字符串, 请使用 `split()` 函数接受 `Regex` 作为参数的重载版本.
 
-## 获取子字符串
+## 获取子字符串 {id="take-a-substring"}
 
 在 Java 中, 你可以使用 [substring()](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#substring(int)) 函数,
 它接受一个起始字符下标作为参数, 从这个位置开始获取子字符串.
@@ -365,7 +365,7 @@ fun main() {
 
 详情请参见 [多行字符串](coding-conventions.md#strings).
 
-## 下一步做什么?
+## 下一步做什么? {id="what-s-next"}
 
 * 学习 [Kotlin 惯用法](idioms.md).
 * 学习如何使用 [Java 到 Kotlin 的转换器](mixing-java-kotlin-intellij.md#converting-an-existing-java-file-to-kotlin-with-j2k),

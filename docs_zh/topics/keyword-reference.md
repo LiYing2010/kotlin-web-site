@@ -1,6 +1,6 @@
 [//]: # (title: 关键字与操作符)
 
-## 硬关键字(Hard Keyword)
+## 硬关键字(Hard Keyword) {id="hard-keywords"}
 
 以下符号始终会被解释为关键字, 不能用作标识符(identifiers):
 
@@ -23,21 +23,21 @@
        或者是否属于一个集合, 或者是否属于其他
        [定义了 'contains' 方法](operator-overloading.md#in-operator)
        的实体.
-     - 在 [when 表达式](control-flow.md#when-expression) 中做同样的判断.
+     - 在 [when 表达式](control-flow.md#when-expressions-and-statements) 中做同样的判断.
      - 将一个类型参数标记为 [反向类型变异](generics.md#declaration-site-variance).
  * `!in`
      - 用作操作符, 判断一个值是否 **不属于** [一个值范围](ranges.md),
        或者是否 **不属于** 一个集合, 或者是否 **不属于** 其他
        [定义了 'contains' 方法](operator-overloading.md#in-operator)
        的实体.
-     - 在 [when 表达式](control-flow.md#when-expression) 中做同样的判断.
+     - 在 [when 表达式](control-flow.md#when-expressions-and-statements) 中做同样的判断.
  * `interface` 声明一个 [接口](interfaces.md).
  * `is`
      - 判断 [一个值是不是某个类型](typecasts.md#is-and-is-operators).
-     - 在 [when 表达式](control-flow.md#when-expression) 中做同样的判断.
+     - 在 [when 表达式](control-flow.md#when-expressions-and-statements) 中做同样的判断.
  * `!is`
      - 判断 [一个值是否**不是**某个类型](typecasts.md#is-and-is-operators).
-     - 在 [when 表达式](control-flow.md#when-expression) 中做同样的判断.
+     - 在 [when 表达式](control-flow.md#when-expressions-and-statements) 中做同样的判断.
  * `null` 是一个常数, 表示一个不指向任何对象的引用.
  * `object` [同时声明一个类和它的对象实例](object-declarations.md).
  * `package` 指定 [当前源代码文件的包](packages.md).
@@ -55,10 +55,10 @@
  * `typeof` 保留, 将来使用.
  * `val` 声明一个只读的 [属性](properties.md), 或者一个只读的 [局部变量](basic-syntax.md#variables).
  * `var` 声明一个可变的 [属性](properties.md), 或者一个可变的 [局部变量](basic-syntax.md#variables).
- * `when` 开始一个 [when 表达式](control-flow.md#when-expression) (执行其中一个分支).
+ * `when` 开始一个 [when 表达式](control-flow.md#when-expressions-and-statements) (执行其中一个分支).
  * `while` 开始一个 [while 循环](control-flow.md#while-loops) (条件判定在前的循环).
 
-## 软关键字(Soft Keyword)
+## 软关键字(Soft Keyword) {id="soft-keywords"}
 
 以下符号在适当的场合下可以是关键字,
 在其他场合可以用作标识符:
@@ -88,9 +88,9 @@
  * `value` 与 `class` 关键字一起使用, 声明一个 [内联类(inline class)](inline-classes.md).
  * `where` 指定 [泛型类型参数的约束](generics.md#upper-bounds).
 
-## 标识符关键字(Modifier Keyword)
+## 修饰符关键字(Modifier Keyword) {id="modifier-keywords"}
 
-以下符号在声明的标识符列表中用做关键字,
+以下符号在声明的修饰符列表中用做关键字,
 在其他场合可以用作标识符:
 
  * `abstract` 将一个类或一个成员标注为 [抽象元素](classes.md#abstract-classes).
@@ -98,7 +98,7 @@
  * `annotation` 声明一个 [注解类](annotations.md).
  * `companion` 声明一个 [同伴对象](object-declarations.md#companion-objects).
  * `const` 将一个属性标注为 [编译期常数值](properties.md#compile-time-constants).
- * `crossinline` 禁止 [传递给内联函数的 lambda 表达式中的非局部的返回](inline-functions.md#non-local-returns).
+ * `crossinline` 禁止 [传递给内联函数的 lambda 表达式中的非局部的返回](inline-functions.md#returns).
  * `data` 指示编译器, [为类生成常用的成员函数](data-classes.md).
  * `enum` 声明一个 [枚举类](enum-classes.md).
  * `expect` 标注一个 [与平台相关的声明](multiplatform-expect-actual.md), 在各个平台模块中, 需要存在对应的具体实现.
@@ -126,7 +126,7 @@
     (允许编译器用迭代来代替递归).
  * `vararg` 允许 [对某个参数传递可变数量的参数值](functions.md#variable-number-of-arguments-varargs).
 
-## 特殊标识符
+## 特殊标识符 {id="special-identifiers"}
 
 以下表述符在特定情况下由编译器定义,
 在其他场合可以用作通常的标识符:
@@ -136,7 +136,7 @@
  * `it` 在 lambda 表达式内部,
     用来 [引用 lambda 表达式的隐含参数](lambdas.md#it-implicit-name-of-a-single-parameter).
 
-## 操作符与特殊符号
+## 操作符与特殊符号 {id="operators-and-special-symbols"}
 
 Kotlin 支持以下操作符与特殊符号:
 
@@ -165,7 +165,7 @@ Kotlin 支持以下操作符与特殊符号:
  * `->`
      - 在 [lambda 表达式](lambdas.md#lambda-expression-syntax) 中, 用作参数与函数体之间的分隔符.
      - 在 [函数类型](lambdas.md#function-types) 中, 用作参数与返回类型之间的分隔符.
-     - 在 [when 表达式](control-flow.md#when-expression) 的分支中, 用作分支条件与分支体之间的分隔符.
+     - 在 [when 表达式](control-flow.md#when-expressions-and-statements) 的分支中, 用作分支条件与分支体之间的分隔符.
  * `@`
     - 引入一个 [注解](annotations.md#usage).
     - 定义, 或者引用一个 [循环标签](returns.md#break-and-continue-labels).

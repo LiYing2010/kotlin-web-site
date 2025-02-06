@@ -61,7 +61,7 @@ external val window: Window
 
 `external` 修饰符只允许用于包级声明. 对于非 `external` 的类, 不允许声明 `external` 的成员.
 
-### 声明类的(静态)成员
+### 声明类的(静态)成员 {id="declare-static-members-of-a-class"}
 
 在 JavaScript 中, 成员函数可以定义在 prototype 上, 也可以定义在类上:
 
@@ -86,7 +86,7 @@ external class MyClass {
 }
 ```
 
-### 声明可选的参数
+### 声明可选的参数 {id="declare-optional-parameters"}
 
 如果一个 JavaScript 函数带有可选的参数, 那么编写外部声明时请使用 `definedExternally`.
 这个设置会将参数默认值的生成委托给 JavaScript 函数自身:
@@ -102,7 +102,7 @@ external fun myFunWithOptionalArgs(
 通过这样的外部声明, 你就可以使用一个必须参数和两个可选参数来调用 `myFunWithOptionalArgs` 函数,
 其中, 可选参数的默认值将由 `myFunWithOptionalArgs` 函数的 JavaScript 实现负责计算.
 
-### 扩展 JavaScript 类
+### 扩展 JavaScript 类 {id="extend-javascript-classes"}
 
 你可以很容易地扩展 JavaScript 类, 就好像它们是 Kotlin 类一样.
 你只需要定义一个 `external open` 类, 然后通过一个非 `external` 类来扩展它. 比如:
@@ -191,7 +191,7 @@ fun sendQuery() {
     然后点击代码检查信息 "Unchecked cast to external interface" 旁的小箭头.
     在这里, 你可以选择对这个警告进行屏蔽的适用范围, 然后 IDE 会在你的源代码文件中添加对应的注解.
 
-### 类型转换
+### 类型转换 {id="casts"}
 
 ["不安全的" 类型转换操作符](typecasts.md#unsafe-cast-operator) `as`
 在转换失败时会抛出 `ClassCastException` 异常,

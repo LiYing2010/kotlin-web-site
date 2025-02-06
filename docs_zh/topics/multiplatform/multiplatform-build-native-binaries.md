@@ -418,7 +418,7 @@ kotlin {
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 
 plugins {
-    kotlin("multiplatform")
+    kotlin("multiplatform") version "%kotlinVersion%"
 }
 
 kotlin {
@@ -441,7 +441,7 @@ kotlin {
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFrameworkConfig
 
 plugins {
-    id 'org.jetbrains.kotlin.multiplatform'
+    id 'org.jetbrains.kotlin.multiplatform' version '%kotlinVersion%'
 }
 
 kotlin {
@@ -460,15 +460,17 @@ kotlin {
 </tab>
 </tabs>
 
-在你声明 XCFramework 时, Kotlin Gradle plugin 会注册 3 个 Gradle task:
+在你声明 XCFramework 时, Kotlin Gradle plugin 会注册几个 Gradle task:
+
 * `assembleXCFramework`
-* `assembleDebugXCFramework` (额外的 debug artifact, 其中包含 [dSYMs](native-ios-symbolication.md))
-* `assembleReleaseXCFramework`
+* `assemble<Framework name>DebugXCFramework`
+* `assemble<Framework name>ReleaseXCFramework`
 
 <anchor name="build-frameworks"/>
 
 如果在你的项目中使用 [CocoaPods 集成](native-cocoapods.md), 那么可以使用 Kotlin CocoaPods Gradle plugin 构建 XCFramework.
 它包含以下 task, 使用所有已注册的编译目标构建 XCFramework, 并生成 podspec 文件:
+
 * `podPublishReleaseXCFramework`, 生成 release 版 XCFramework 以及一个 podspec 文件.
 * `podPublishDebugXCFramework`, 生成 debug 版 XCFramework 以及一个 podspec 文件.
 * `podPublishXCFramework`, 生成 debug 版和 release 版 XCFramework 以及一个 podspec 文件.

@@ -39,6 +39,25 @@
 <tr>
 <td>
 
+**0.8.4**
+
+发布日期: 2024/12/06
+
+</td>
+<td>
+
+* 支持 Kotlin 的 [K2 模式](k2-compiler-migration-guide.md#support-in-ides), 改进了稳定性和代码分析.
+
+</td>
+<td>
+
+* [Kotlin plugin 的任何版本](releases.md#release-details)
+
+</td>
+</tr>
+<tr>
+<td>
+
 **0.8.3**
 
 发布日期: 2024/07/23

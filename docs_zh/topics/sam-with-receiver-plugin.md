@@ -27,7 +27,7 @@ fun test(context: TaskContext) {
 }
 ```
 
-## Gradle
+## Gradle {id="gradle"}
 
 使用方法与 [all-open](all-open-plugin.md) 插件和 [no-arg](no-arg-plugin.md) 插件相同,
 区别是 sam-with-receiver 没有任何预定义, 因此你需要自己指定需要特别处理的注解.
@@ -61,7 +61,7 @@ samWithReceiver {
 }
 ```
 
-## Maven
+## Maven {id="maven"}
 
 ```xml
 <plugin>
@@ -91,7 +91,7 @@ samWithReceiver {
 </plugin>
 ```
 
-## 命令行编译器
+## 命令行编译器 {id="command-line-compiler"}
 
 将插件的 JAR 文件添加到编译器的插件 classpath, 并指定需要处理的 sam-with-receiver 注解:
 

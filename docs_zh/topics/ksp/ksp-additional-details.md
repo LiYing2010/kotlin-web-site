@@ -13,7 +13,7 @@
 >
 {style="note"}
 
-## 类型解析
+## 类型解析 {id="type-and-resolution"}
 
 在 API 的底层实现中, 主要的资源消耗是类型解析. 因此类型引用设计为由处理器明确解析(也有少数例外情况).
 当引用一个 _类型(Type)_ (比如 `KSFunctionDeclaration.returnType` 或 `KSAnnotation.annotationType`),

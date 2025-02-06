@@ -158,7 +158,7 @@ Kotlin 插件的 Coroutine 调试器帮助我们在 IntelliJ IDEA 中调试协�
 
 要开始协程的调试, 你只需要设置断点, 然后以 debug 模式启动应用程序.
 
-关于协程调试, 更多详情请参见这篇 [教程](https://kotlinlang.org/docs/tutorials/coroutines/debug-coroutines-with-idea.html).
+关于协程调试, 更多详情请参见这篇 [教程](debug-coroutines-with-idea.md).
 
 ### 使用日志进行调试 {id="debugging-using-logging"}
 

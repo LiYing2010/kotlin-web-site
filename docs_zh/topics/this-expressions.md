@@ -39,28 +39,26 @@ class A { // 隐含的标签 @A
 }
 ```
 
-## 隐含的 this
+## 隐含的 this {id="implicit-this"}
 
 在 `this` 上调用成员函数时, 可以省略 `this.` 部分.
 如果你有一个非成员函数使用了相同的名称, 那么使用时要小心, 因为某些情况下会调用到非成员函数:
 
 ```kotlin
 fun main() {
-//sampleStart
-    fun printLine() { println("Top-level function") }
+    fun printLine() { println("Local function") }
 
     class A {
         fun printLine() { println("Member function") }
 
-        fun invokePrintLine(omitThis: Boolean = false)  {
+        fun invokePrintLine(omitThis: Boolean = false) {
             if (omitThis) printLine()
             else this.printLine()
         }
     }
 
-    A().invokePrintLine() // 这里会调用到成员函数
-    A().invokePrintLine(omitThis = true) // 这里会调用到顶级函数
-//sampleEnd()
+    A().invokePrintLine() // 输出结果为: Member function
+    A().invokePrintLine(omitThis = true) // 输出结果为: Local function
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}

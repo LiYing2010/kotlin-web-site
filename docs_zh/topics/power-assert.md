@@ -35,7 +35,7 @@ Power-assert 插件的主要功能:
 * **支持多种函数**:
   默认情况下, 它会转换 `assert()` 函数调用, 但也能够转换其它函数, 例如 `require()`, `check()`, 和 `assertTrue()`.
 
-## 适用插件
+## 适用插件 {id="apply-the-plugin"}
 
 要启用 Power-assert 插件, 请配置你的 `build.gradle(.kts)` 文件, 如下:
 
@@ -64,7 +64,7 @@ plugins {
 </tab>
 </tabs>
 
-## 配置插件
+## 配置插件 {id="configure-the-plugin"}
 
 Power-assert 插件提供了几种选项来定制它的行为:
 
@@ -114,7 +114,7 @@ powerAssert {
 }
 ```
 
-## 使用插件
+## 使用插件 {id="use-the-plugin"}
 
 本节提供一些使用 Power-assert 编译器插件的示例.
 
@@ -150,7 +150,7 @@ powerAssert {
 ```
 {initial-collapse-state="collapsed" collapsible="true"}
 
-### Assert 函数
+### Assert 函数 {id="assert-function"}
 
 我们来看看下面的测试, 使用 `assert()` 函数:
 
@@ -240,7 +240,7 @@ assert(person.name.startsWith("A") && person.name.length > 3 && person.age > 20 
        Person(name=Alice, age=10)
 ```
 
-### 除 assert 之外的其它函数
+### 除 assert 之外的其它函数 {id="beyond-assert-function"}
 
 Power-assert 插件 默认转换 `assert`, 但也能够转换各种其它函数.
 例如 `require()`, `check()`, `assertTrue()`, `assertEqual()` 以及其它函数, 都可以转换,
@@ -316,7 +316,7 @@ assert(exampleFunction(2, 3) + exampleFunction(1, 2) == 9)
 ```
 -->
 
-### 软断言(Soft Assertion)
+### 软断言(Soft Assertion) {id="soft-assertions"}
 
 Power-assert 插件支持软断言(Soft Assertion), 软断言不会让测试立即失败, 而是收集失败的断言, 并在测试运行结束时报告错误.
 如果你想要通过一次运行看到所有失败的断言, 而不要在第一个失败的地方停止运行, 那么这个功能会很有用.
@@ -405,7 +405,7 @@ assert(employee.age < 100) { "${employee.name} has an invalid age: ${employee.ag
        Employee(name=Dave, age=150, salary=70000)
 ```
 
-## 下一步做什么
+## 下一步做什么 {id="what-s-next"}
 
 * 查看一个 [启用了这个插件的简单项目](https://github.com/JetBrains/kotlin/tree/master/libraries/tools/kotlin-gradle-plugin-integration-tests/src/test/resources/testProject/powerAssertSourceSets),
    以及更多 [有多个源代码集的复杂项目](https://github.com/JetBrains/kotlin/tree/master/libraries/tools/kotlin-gradle-plugin-integration-tests/src/test/resources/testProject/powerAssertSimple).

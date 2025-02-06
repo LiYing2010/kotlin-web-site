@@ -6,7 +6,7 @@
 
 ![Kotlin Multiplatform](kotlin-multiplatform.svg){width=700}
 
-## 学习关键概念
+## 学习关键概念 {id="learn-key-concepts"}
 
 通过 Kotlin Multiplatform, 你可以在不同的平台之间共用代码, 无论这些平台是 Mobile, Web, 还是 Desktop.
 代码编译所针对的平台, 通过 _编译目标_ 的列表来定义.
@@ -23,10 +23,9 @@
 关于这个问题, 更多详情请参见:
 
 * [Kotlin Multiplatform 项目结构的基础知识](multiplatform-discover-project.md)
-* [手动设置编译目标](multiplatform-set-up-targets.md)
 * [跨平台项目结构的高级概念](multiplatform-advanced-project-structure.md)
 
-## 使用代码共用机制
+## 使用代码共用机制 {id="use-code-sharing-mechanisms"}
 
 有时对一组类似的编译目标共用代码会更加便利. Kotlin Multiplatform 提供了一种方式, 使用 *默认的层级结构模板* 来简化这种共用代码的创建工作.
 默认层级模板包含一组预定义的中间源代码集, 这些中间源代码集根据你的项目中指定的编译目标创建.
@@ -42,7 +41,7 @@
 * [预期声明与实际声明](multiplatform-expect-actual.md)
 * [层级项目结构](multiplatform-hierarchy.md)
 
-## 添加依赖项
+## 添加依赖项 {id="add-dependencies"}
 
 一个 Kotlin Multiplatform 项目可以依赖外部的库和其他跨平台项目.
 对于共通代码, 你可以在共通源代码集中添加对跨平台库的依赖项. 对其他源代码集, Kotlin 会自动解析并添加适当的平台相关的部分.
@@ -58,7 +57,20 @@
 * [添加 Android 库依赖项](multiplatform-android-dependencies.md)
 * [添加 iOS 库依赖项](multiplatform-ios-dependencies.md)
 
-## 配置编译任务
+## 设置与 iOS 的集成 {id="set-up-integration-with-ios"}
+
+如果你的跨平台项目的目标平台是 iOS, 你可以设置 Kotlin Multiplatform 共用模块与你的 iOS App 之间的集成.
+
+为了这个目的, 你需要生成一个 iOS 框架, 然后将它添加为 iOS 项目的一个本地(Local)或远程(Remote)的依赖项:
+
+* **本地(Local)集成**:
+  使用一段特别的脚本, 直接连接你的跨平台项目和 Xcode 项目, 或对涉及本地 Pod 依赖项的设置, 使用 CocoaPods
+  依赖项管理器.
+* **远程(Remote)集成**: 使用 XCFrameworks 设置 SPM 依赖项, 或通过 CocoaPods 发布共用模块.
+
+关于这个问题, 详情请参见 [与 iOS 集成的方法](multiplatform-ios-integration-overview.md).
+
+## 配置编译任务 {id="configure-compilations"}
 
 每个编译目标可以包含多个编译任务, 用于不同的目的, 通常用于产品或测试, 但你也可以定义自定义的编译任务.
 
@@ -67,7 +79,7 @@
 
 关于这个问题, 更多详情请参见 [配置编译任务](multiplatform-configure-compilations.md).
 
-## 构建最终的二进制文件
+## 构建最终的二进制文件 {id="build-final-binaries"}
 
 默认情况下, 一个编译目标会被编译为一个 `.klib` artifact, 这个 artifact 可以被 Kotlin/Native 自身用作依赖项,
 但不能执行, 也不能用作原生库.
@@ -78,7 +90,7 @@ Kotlin 还提供了一种方法来构建通用 (fat) 框架和 XCFrameworks, 用
 
 关于这个问题, 更多详情请参见 [构建原生二进制文件](multiplatform-build-native-binaries.md).
 
-## 创建跨平台库
+## 创建跨平台库 {id="create-multiplatform-libraries"}
 
 你可以使用共通代码创建一个跨平台库, 以及它在 JVM, Web, 以及原生平台的平台相关实现.
 
@@ -88,7 +100,7 @@ Kotlin 还提供了一种方法来构建通用 (fat) 框架和 XCFrameworks, 用
 
 关于这个问题, 更多详情请参见 [发布跨平台的库](multiplatform-publish-lib.md).
 
-## 参考文档
+## 参考文档 {id="reference"}
 
 * [Kotlin Multiplatform Gradle plugin 的 DSL 参考文档](multiplatform-dsl-reference.md)
 * [Kotlin Multiplatform 兼容性指南](multiplatform-compatibility-guide.md)

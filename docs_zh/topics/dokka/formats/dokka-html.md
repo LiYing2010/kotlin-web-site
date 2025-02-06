@@ -220,6 +220,9 @@ Dokka 使用的所有图片, 请参见
 具体的例子, 请参见我们的
 [自定义格式的示例项目](https://github.com/Kotlin/dokka/tree/%dokkaVersion%/examples/gradle/dokka-customFormat-example).
 
+支持的最大 logo 尺寸是宽 120 像素, 高 36 像素.
+如果你使用更大的图片, 它的大小会自动调整.
+
 ### 修改页脚 {id="modify-the-footer"}
 
 你可以使用 `footerMessage` [配置选项](#configuration), 修改页脚中的文字.

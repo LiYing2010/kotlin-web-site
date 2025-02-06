@@ -42,4 +42,4 @@
 
 要开始使用 Kotlin, 你可以阅读以下资料:
 * 关于 Android 开发, 请阅读 [Google 关于使用 Kotlin 开发 Android App 的文档](https://developer.android.com/kotlin/get-started).
-* 关于跨平台移动应用程序开发, 请阅读 [针对 Android 和 iOS 的 Kotlin Multiplatform 入门](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-create-first-app.html).
+* 关于跨平台移动应用程序开发, 请阅读 [创建一个共用代码逻辑和原生 UI 的App](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-create-first-app.html).

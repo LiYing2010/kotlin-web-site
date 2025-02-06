@@ -13,11 +13,11 @@
 
 ![第 4 步](icon-4.svg){width=25}{type="joined"} [使用 Spring Data CrudRepository 进行数据库访问](jvm-spring-boot-using-crudrepository.md)
 
-## 下一步
+## 下一步 {id="next-step"}
 
 首先, 使用 IntelliJ IDEA 和 Kotlin [创建一个 Spring Boot 项目](jvm-create-project-with-spring-boot.md).
 
-### 参见
+### 参见 {id="see-also"}
 
 请阅读我们的 Java 到 Kotlin (J2K) 的互操作和迁移向导:
 
@@ -25,7 +25,7 @@
 * [Java 和 Kotlin 中的集合(Collection)](java-to-kotlin-collections-guide.md)
 * [Java 和 Kotlin 中的字符串](java-to-kotlin-idioms-strings.md)
 
-## 加入开发社区
+## 加入开发社区 {id="join-the-community"}
 
 * ![Slack](slack.svg){width=25}{type="joined"} **Kotlin slack**: 首先 [得到邀请](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up), 然后加入 [#spring](https://kotlinlang.slack.com/archives/C0B8ZTWE4) 和 [#server](https://kotlinlang.slack.com/archives/C0B8RC352) 频道.
 * ![Stack Overflow](stackoverflow.svg){width=25}{type="joined"} **Stack Overflow**: 订阅 ["kotlin"](https://stackoverflow.com/questions/tagged/kotlin), ["spring-kotlin"](https://stackoverflow.com/questions/tagged/spring-kotlin), 或 ["ktor"](https://stackoverflow.com/questions/tagged/ktor) 标签

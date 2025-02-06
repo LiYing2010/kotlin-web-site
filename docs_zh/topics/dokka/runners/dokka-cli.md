@@ -857,8 +857,8 @@ java -jar dokka-cli-%dokkaVersion%.jar -sourceSet -help
       "packageListUrl": "https://docs.oracle.com/javase/8/docs/api/package-list"
     },
     {
-      "url": "https://kotlinlang.org/api/latest/jvm/stdlib/",
-      "packageListUrl": "https://kotlinlang.org/api/latest/jvm/stdlib/package-list"
+      "url": "https://kotlinlang.org/api/core/kotlin-stdlib/",
+      "packageListUrl": "https://kotlinlang.org/api/core/kotlin-stdlib/package-list"
     }
   ],
   "perPackageOptions": [
@@ -922,8 +922,8 @@ java -jar dokka-cli-%dokkaVersion%.jar -sourceSet -help
           "packageListUrl": "https://docs.oracle.com/javase/8/docs/api/package-list"
         },
         {
-          "url": "https://kotlinlang.org/api/latest/jvm/stdlib/",
-          "packageListUrl": "https://kotlinlang.org/api/latest/jvm/stdlib/package-list"
+          "url": "https://kotlinlang.org/api/core/kotlin-stdlib/",
+          "packageListUrl": "https://kotlinlang.org/api/core/kotlin-stdlib/package-list"
         }
       ],
       "perPackageOptions": [

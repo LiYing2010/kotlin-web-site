@@ -334,7 +334,7 @@ ints.filter(fun(item) = item > 0)
 {style="note"}
 
 Lambda 表达式与匿名函数之间的另一个区别是,
-它们的 [非局部返回(non-local return)](inline-functions.md#non-local-returns) 的行为不同.
+它们的 [非局部返回(non-local return)](inline-functions.md#returns) 的行为不同.
 不使用标签的 `return` 语句总是从 `fun` 关键字定义的函数中返回.
 也就是说, Lambda 表达式内的 `return` 将会从包含这个 Lambda 表达式的函数中返回,
 而匿名函数内的 `return` 只会从匿名函数本身返回.

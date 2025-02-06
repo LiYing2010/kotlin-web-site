@@ -4,7 +4,7 @@ Kotlin Multiplatform Gradle plugin, 是一个用来创建 Kotlin Multiplatform �
 本章我们提供关于它的参考文档; 当你为 Kotlin Multiplatform 项目编写 Gradle 编译脚本时可以参考本文档.
 详情请参见 [关于 Kotlin Multiplatform 项目的基本概念, 如何创建和配置跨平台项目](multiplatform-intro.md).
 
-## 插件 Id 与版本
+## 插件 Id 与版本 {id="id-and-version"}
 
 Kotlin 跨平台 Gradle 插件的完整限定名称是 `org.jetbrains.kotlin.multiplatform`.
 如果使用 Kotlin Gradle DSL, 可以通过 `kotlin("multiplatform")` 语句应用这个插件.
@@ -36,38 +36,29 @@ plugins {
 Gradle 编译脚本中跨平台项目配置的顶级代码块是 `kotlin {}`.
 在 `kotlin {}` 之内, 你可以使用以下代码块:
 
-| **代码块**              | **解释**                                                                                                                                       |
-|----------------------|----------------------------------------------------------------------------------------------------------------------------------------------|
-| _&lt;targetName&gt;_ | 为项目声明一个特定的编译目标. 可以选择的编译目标名称请参见 [编译目标](#targets) 小节.                                                                                          |
-| `targets`            | 项目的所有编译目标.                                                                                                                                   |
-| `presets`            | 所有预定义的编译目标. 使用这个代码块可以一次性 [设置多个预定义的编译目标](#targets).                                                                                           |
-| `sourceSets`         | 为项目设置预定义的源代码集, 并声明自定义 [源代码集](#source-sets).                                                                                                  |
-| `compilerOptions`    | 扩展级的共通 [编译器选项](gradle-compiler-options.md), 对所有的编译目标和共用的源代码集用作默认值. 要使用这个功能, 请添加以下 opt-in: `@OptIn(ExperimentalKotlinGradlePluginApi::class)` |
-
-> `compilerOptions {}` 用作顶层代码块, 是 [实验性功能](components-stability.md#stability-levels-explained),
-> 需要使用者同意(Opt-in).
-> 它随时有可能变更或被删除.
-> 请注意, 只为评估和试验目的来使用这个功能.
-> 希望你能通过 [YouTrack](https://kotl.in/issue) 提供你的反馈意见.
->
-{style="warning"}
+| **代码块**              | **解释**                                                                       |
+|----------------------|------------------------------------------------------------------------------|
+| _&lt;targetName&gt;_ | 为项目声明一个特定的编译目标. 可以选择的编译目标名称请参见 [编译目标](#targets) 小节.                          |
+| `targets`            | 列出项目的所有编译目标.                                                                 |
+| `sourceSets`         | 为项目设置预定义的源代码集, 并声明自定义 [源代码集](#source-sets).                                  |
+| `compilerOptions`    | 指定共通的扩展级(Extension Level) [编译器选项](#compiler-options), 对所有的编译目标和共用的源代码集用作默认值. |
 
 ## 编译目标 {id="targets"}
 
 _编译目标(Target)_ 是指针对某个特定的支持的平台的一系列编译功能, 包括源代码编译, 测试, 打包.
-Kotlin 对每个平台提供了预设置的编译目标(Target Preset).
-参见 [如何使用预设置的编译目标(Target Preset)](multiplatform-set-up-targets.md).
+Kotlin 对每个平台提供了编译目标, 让你能够指示 Kotlin 对指定的编译目标编译代码.
+学习如何 [设置编译目标](multiplatform-discover-project.md#targets).
 
 每个编译目标可以包含一个或多个 [编译任务(compilation)](#compilations).
 除了用于测试和产品的默认的编译任务之外, 你还可以 [创建自定义的编译任务](multiplatform-configure-compilations.md#create-a-custom-compilation).
 
-跨平台项目的编译目标通过 `kotlin {}` 之内的相应代码块进行描述, 比如, `jvm`, `android`, `iosArm64`.
+跨平台项目的编译目标通过 `kotlin {}` 之内的相应代码块进行描述, 比如, `jvm`, `androidTarget`, `iosArm64`.
 可选的编译目标如下:
 
 <table>
     <tr>
         <th>目标平台</th>
-        <th>编译目标的预定义配置</th>
+        <th>编译目标</th>
         <th>注释</th>
     </tr>
     <tr>
@@ -105,7 +96,7 @@ Kotlin 对每个平台提供了预设置的编译目标(Target Preset).
     </tr>
     <tr>
         <td>Android 应用程序和库</td>
-        <td><code>android</code></td>
+        <td><code>androidTarget</code></td>
         <td>
             <p>手动应用 Android Gradle plugin: <code>com.android.application</code> 或 <code>com.android.library</code>.</p>
             <p>对每个 Gradle 子项目, 只能创建一个 Android 编译目标.</p>
@@ -137,22 +128,12 @@ kotlin {
 
 在任何一种编译目标代码块之内, 都可以使用以下声明:
 
-| **名称**              | **解释**                                                                                                                                                                                                               |
-|---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `attributes`        | 针对单个平台 [对编译目标消除歧义](multiplatform-set-up-targets.md#distinguish-several-targets-for-one-platform) 的属性设置.                                                                                                              |
-| `preset`            | 如果存在的话, 代表创建这个编译目标时使用的预定义设置.                                                                                                                                                                                         |
-| `platformType`      | 指定这个编译目标的 Kotlin 平台. 允许的值是: `jvm`, `androidJvm`, `js`, `wasm`, `native`, `common`.                                                                                                                                   |
-| `artifactsTaskName` | 负责编译这个编译目标的结果 artifact 的编译任务的名称.                                                                                                                                                                                     |
-| `components`        | 用于设置 Gradle publication 的组件.                                                                                                                                                                                         |
-| `compilerOptions`   | 用于这个编译目标的 [编译器选项](gradle-compiler-options.md). 这个声明会覆盖在 [顶层](multiplatform-dsl-reference.md#top-level-blocks) 的任何 `compilerOptions {}` 配置. 要使用这个功能, 请添加以下 opt-in: `@OptIn(ExperimentalKotlinGradlePluginApi::class)` |
-
-> `compilerOptions {}` 用作共通编译目标的配置, 是 [实验性功能](components-stability.md#stability-levels-explained),
-> 需要使用者同意(Opt-in).
-> 它随时有可能变更或被删除.
-> 请注意, 只为评估和试验目的来使用这个功能.
-> 希望你能通过 [YouTrack](https://kotl.in/issue) 提供你的反馈意见.
->
-{style="warning"}
+| **名称**              | **解释**                                                                                                                            |
+|---------------------|-----------------------------------------------------------------------------------------------------------------------------------|
+| `platformType`      | 这个编译目标的 Kotlin 平台. 允许的值是: `jvm`, `androidJvm`, `js`, `wasm`, `native`, `common`.                                                  |
+| `artifactsTaskName` | 负责编译这个编译目标的结果 artifact 的编译任务的名称.                                                                                                  |
+| `components`        | 用于设置 Gradle publication 的组件.                                                                                                      |
+| `compilerOptions`   | 用于这个编译目标的 [编译器选项](#compiler-options). 这个声明会覆盖在 [顶层](multiplatform-dsl-reference.md#top-level-blocks) 的任何 `compilerOptions {}` 配置. |
 
 ### JVM 编译目标 {id="jvm-targets"}
 
@@ -470,15 +451,15 @@ Kotlin Multiplatform plugin 针对 Android 编译目标提供了两个专有的�
 
 ```kotlin
 kotlin {
-    android {
-        publishLibraryVariants("release", "debug")
+    androidTarget {
+        publishLibraryVariants("release")
     }
 }
 ```
 
 详情请参见 [针对 Android 的编译](multiplatform-configure-compilations.md#compilation-for-android).
 
-> `kotlin` 代码块之内的 `android` 配置, 不会替代任何 Android 项目的编译配置.
+> `kotlin {}` 代码块之内的 `androidTarget` 配置, 不会替代任何 Android 项目的编译配置.
 > 关于如何为 Android 项目编写编译脚本, 详情请参见 [Android 开发文档](https://developer.android.com/studio/build).
 >
 {style="note"}
@@ -759,12 +740,8 @@ kotlin {
     }
 
     // 对所有编译目标的所有编译任务的设置:
-    targets.all {
-        compilations.all {
-            compilerOptions.configure {
-                allWarningsAsErrors.set(true)
-            }
-        }
+    compilerOptions {
+        allWarningsAsErrors.set(true)
     }
 }
 ```
@@ -786,12 +763,8 @@ kotlin {
     }
 
     // 对所有编译目标的所有编译任务的设置:
-    targets.all {
-        compilations.all {
-            compilerOptions.configure {
-                allWarningsAsErrors = true
-            }
-        }
+    compilerOptions {
+        allWarningsAsErrors = true
     }
 }
 ```
@@ -799,15 +772,40 @@ kotlin {
 </tab>
 </tabs>
 
-或者, 要配置所有编译目标共通的编译器选项, 你可以使用 `compilerOptions {}` [顶层代码块](multiplatform-dsl-reference.md#top-level-blocks):
+## 编译器选项 {id="compiler-options"}
+
+在你的项目中, 你可以在 3 个不同的层级配置编译器选项:
+
+* **扩展级(Extension Level)**, 在 `kotlin {}` 代码块内配置.
+* **编译目标级(Target Level)**, 在一个编译目标代码块内配置.
+* **编译单元级(Compilation Unit Level)**, 通常在指定的编译任务内配置.
+
+![Kotlin 编译器选项层级](compiler-options-levels.svg){width=700}
+
+较高层级中的设置, 会用作较低层级中的默认值:
+
+* 扩展级中设置的编译器选项, 会作为编译目标级选项的默认值,
+  包括共用的源代码集, 例如 `commonMain`, `nativeMain`, 和 `commonTest`.
+* 编译目标级中设置的编译器选项, 会作为编译单元 (task) 级选项的默认值,
+  例如 `compileKotlinJvm` 和 `compileTestKotlinJvm` task.
+
+较低层级中的配置, 会覆盖较高层级中的类似设置:
+
+* Task 级编译器选项, 会覆盖编译目标级或扩展级中的类似设置.
+* 编译目标级编译器选项, 会覆盖扩展级中的类似设置.
+
+关于可用的编译器选项, 详情请参见 [所有编译器选项](gradle-compiler-options.md#all-compiler-options).
+
+### 扩展级(Extension Level) {id="extension-level"}
+
+要对你的项目中的所有编译目标配置编译器选项, 请使用顶级代码块中的 `compilerOptions {}` 代码块:
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlin {
-    // 配置所有编译目标的编译任务:
-    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    // 配置所有编译目标的所有编译任务
     compilerOptions {
         allWarningsAsErrors.set(true)
     }
@@ -819,7 +817,7 @@ kotlin {
 
 ```groovy
 kotlin {
-    // 配置所有编译目标的编译任务:
+    // 配置所有编译目标的所有编译任务
     compilerOptions {
         allWarningsAsErrors = true
     }
@@ -829,13 +827,110 @@ kotlin {
 </tab>
 </tabs>
 
-> `compilerOptions {}` 用作顶层代码块, 是 [实验性功能](components-stability.md#stability-levels-explained),
-> 需要使用者同意(Opt-in).
-> 它随时有可能变更或被删除.
-> 请注意, 只为评估和试验目的来使用这个功能.
-> 希望你能通过 [YouTrack](https://kotl.in/issue) 提供你的反馈意见.
->
-{style="warning"}
+### 编译目标级(Target Level) {id="target-level"}
+
+要对你的项目中指定的编译目标配置编译器选项, 请使用编译目标代码块之内的 `compilerOptions {}` 代码块:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+kotlin {
+    jvm {
+        // 配置 JVM 编译目标的所有编译任务
+        compilerOptions {
+            allWarningsAsErrors.set(true)
+        }
+    }
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+kotlin {
+    jvm {
+        // 配置 JVM 编译目标的所有编译任务
+        compilerOptions {
+            allWarningsAsErrors = true
+        }
+    }
+}
+```
+
+</tab>
+</tabs>
+
+### 编译单元级(Compilation Unit Level) {id="compilation-unit-level"}
+
+要对指定的 task 配置编译器选项, 请使用 task 之内的 `compilerOptions {}` 代码块:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+task.named<KotlinJvmCompile>("compileKotlinJvm") {
+    compilerOptions {
+        allWarningsAsErrors.set(true)
+    }
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+task.named<KotlinJvmCompile>("compileKotlinJvm") {
+    compilerOptions {
+        allWarningsAsErrors = true
+    }
+}
+```
+
+</tab>
+</tabs>
+
+要对指定的编译任务配置编译器选项, 请使用这个编译任务的 task provider 之内的 `compilerOptions {}` 代码块:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+kotlin {
+    jvm {
+        compilations.named(KotlinCompilation.MAIN_COMPILATION_NAME) {
+            compileTaskProvider.configure {
+                // 配置 'main' 编译任务:
+                compilerOptions {
+                    allWarningsAsErrors.set(true)
+                }
+            }
+        }
+    }
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+kotlin {
+    jvm {
+        compilations.named(KotlinCompilation.MAIN_COMPILATION_NAME) {
+            compileTaskProvider.configure {
+                // 配置 'main' 编译任务:
+                compilerOptions {
+                    allWarningsAsErrors = true
+                }
+            }
+        }
+    }
+}
+```
+
+</tab>
+</tabs>
 
 ## 依赖项目 {id="dependencies"}
 
@@ -942,8 +1037,8 @@ dependencies {
 kotlin {
     sourceSets.all {
         languageSettings.apply {
-            languageVersion = "%languageVersion%" // 可选的值: "1.6", "1.7", "1.8", "1.9", "2.0"
-            apiVersion = "%apiVersion%" // 可选的值: "1.6", "1.7", "1.8", "1.9", "2.0"
+            languageVersion = "%languageVersion%" // 可选的值: "1.8", "1.9", "2.0", "2.1"
+            apiVersion = "%apiVersion%" // 可选的值: "1.8", "1.9", "2.0", "2.1"
             enableLanguageFeature("InlineClasses") // 这里请使用语言特性的名称
             optIn("kotlin.ExperimentalUnsignedTypes") // 这里请使用注解的完全限定名称
             progressiveMode = true // 默认值为 false
@@ -959,8 +1054,8 @@ kotlin {
 kotlin {
     sourceSets.all {
         languageSettings {
-            languageVersion = '%languageVersion%' // 可选的值: '1.6', '1.7', '1.8', '1.9', '2.0'
-            apiVersion = '%apiVersion%' // 可选的值: '1.6', '1.7', '1.8', '1.9', '2.0'
+            languageVersion = '%languageVersion%' // 可选的值: '1.8', '1.9', '2.0', '2.1'
+            apiVersion = '%apiVersion%' // 可选的值: '1.8', '1.9', '2.0', '2.1'
             enableLanguageFeature('InlineClasses') // 这里请使用语言特性的名称
             optIn('kotlin.ExperimentalUnsignedTypes') // 这里请使用注解的完全限定名称
             progressiveMode = true // 默认值为 false

@@ -622,15 +622,12 @@ Kotlin Playground 支持 2.0.0 发布版. [去看看吧!](https://pl.kotl.in/czu
 在你的 IDE 中, 进入 **Settings** | **Languages & Frameworks** | **Kotlin**, 并选择 **Enable K2 mode** 选项.
 IDE 使用它的 K2 模式分析你的代码.
 
-> 从 2024.2 开始, K2 模式处于 Beta 版.
-> 我们正在努力改善其稳定性, 以及代码分析的改进, 但还没有支持所有的 IDE 功能.
->
-{style="warning"}
+![启用 K2 模式](k2-mode.png){width=200}
 
 启用 K2 模式之后, 由于编译器行为的变化, 你可能会注意到 IDE 分析中的不同.
 关于新的 K2 编译器与以前版本的不同, 详情请参见我们的 [迁移向导](k2-compiler-migration-guide.md).
 
-* 关于 K2 模式, 更多详情请参见 [我们的 Blog](https://blog.jetbrains.com/idea/2024/08/meet-the-renovated-kotlin-support-k2-mode/).
+* 关于 K2 模式, 更多详情请参见 [我们的 Blog](https://blog.jetbrains.com/idea/2024/11/k2-mode-becomes-stable/).
 * 我们正在积极收集关于 K2 模式的反馈意见, 因此请在我们的 [公开 Slack 频道](https://kotlinlang.slack.com/archives/C0B8H786P) 中分享你的看法.
 
 ### 留下你对新的 K2 编译器的反馈意见 {id="leave-your-feedback-on-the-new-k2-compiler"}
@@ -1483,7 +1480,7 @@ kotlin.native.distribution.downloadFromMaven=false
 
 * `KotlinCompile` 接口中的 `kotlinOptions` DSL, 实现所有的 Kotlin 编译 task.
   请改为使用 `KotlinCompilationTask<CompilerOptions>`.
-* `KotlinCompiation` 接口中的, 类型为 `HasCompilerOptions` 的 `compilerOptions` 属性.
+* `KotlinCompilation` 接口中的, 类型为 `HasCompilerOptions` 的 `compilerOptions` 属性.
   这个 DSL 与其它 DSL 不一致, 并且与 `KotlinCompilation.compileTaskProvider` 编译 task 中的 `compilerOptions`
   配置相同的 `KotlinCommonCompilerOptions` 对象, 因此让使用者困惑.
 
@@ -1780,5 +1777,4 @@ fun main() {
 Kotlin plugin 作为一个包含在 IDE 中的捆绑 plugin 发布.
 这意味着你不再能够通过 JetBrains Marketplace 安装这个 plugin.
 
-要更新到新的 Kotlin 版本, 请在你的构建脚本中 [变更 Kotlin 版本](releases.md#update-to-a-new-kotlin-version)
-到 2.0.0.
+要更新到新的 Kotlin 版本, 请在你的构建脚本中 [变更 Kotlin 版本](releases.md#update-to-a-new-kotlin-version) 到 2.0.0.

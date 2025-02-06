@@ -2,7 +2,7 @@
 
 要快速入门 KSP, 你可以创建自己的处理器, 或者参考 [示例代码](https://github.com/google/ksp/tree/main/examples/playground).
 
-## 添加一个处理器
+## 添加一个处理器 {id="add-a-processor"}
 
 要添加一个处理器, 你需要包含 KSP Gradle Plugin, 并添加对这个处理器的依赖项:
 
@@ -102,7 +102,7 @@ dependencies {
 </tab>
 </tabs>
 
-## 创建一个你自己的处理器
+## 创建一个你自己的处理器 {id="create-a-processor-of-your-own"}
 
 1. 创建一个空的 gradle 项目.
 2. 在根项目中指定 Kotlin plugin 版本 `%kspSupportedKotlinVersion%`, 供其他项目模块使用:
@@ -204,7 +204,7 @@ dependencies {
       `src/main/resources/META-INF/services/com.google.devtools.ksp.processing.SymbolProcessorProvider`
       中包含它的完全限定名称.
 
-## 在一个项目中使用你自己的处理器
+## 在一个项目中使用你自己的处理器 {id="use-your-own-processor-in-a-project"}
 
 1. 创建另一个模块, 包含一段工作程序, 用来试验你的处理器.
 
@@ -315,7 +315,7 @@ dependencies {
 </tab>
 </tabs>
 
-## 向处理器传递选项
+## 向处理器传递选项 {id="pass-options-to-processors"}
 
 在 gradle 构建脚本中指定 `SymbolProcessorEnvironment.options` 中的处理器选项:
 
@@ -327,7 +327,7 @@ ksp {
 }
 ```
 
-## 让 IDE 感知生成的代码
+## 让 IDE 感知生成的代码 {id="make-ide-aware-of-generated-code"}
 
 > 从 KSP 1.8.0-1.0.9 开始, 生成的源代码文件会自动进行注册.
 > 如果你在使用 KSP 1.0.9 或更高版本, 但不需要让 IDE 感知生成的资源, 那么可以跳过这一章节.

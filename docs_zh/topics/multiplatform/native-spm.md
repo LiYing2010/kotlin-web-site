@@ -1,5 +1,15 @@
 [//]: # (title: Swift 包导出的设置)
 
+<tldr>
+   这是一种远程集成方法. 适用于以下情况:<br/>
+
+* 你想要将你的最终应用程序代码库和共通代码库分离.
+* 你已经在本地机器上设置了 Kotlin Multiplatform 项目, 目标平台是 iOS.
+* 你在 iOS 项目中使用 Swift 包管理器处理依赖项.<br/>
+
+[选择最适合你的集成方法](multiplatform-ios-integration-overview.md)
+</tldr>
+
 你可以将 Kotlin/Native 对 Apple 编译目标的输出, 设置为可以作为 Swift 包管理器 (Swift Package Manager, SPM) 依赖项来使用.
 
 例如, 有一个 Kotlin Multiplatform 项目, 带有 iOS 编译目标.

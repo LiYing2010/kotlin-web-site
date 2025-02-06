@@ -4,7 +4,7 @@ Kotlin 标准库提供了大量的函数用来在集合上进行各种操作.
 包括简单的操作, 比如获取元素, 添加元素,
 以及更复杂的操作, 比如查找, 排序, 过滤(Filtering), 变换(Transformation), 等等.
 
-## 扩展函数与成员函数
+## 扩展函数与成员函数 {id="extension-and-member-functions"}
 
 标准库中定义的操作有两类: 集合接口的 [成员函数](classes.md#class-members), 以及 [扩展函数](extensions.md#extension-functions).
 
@@ -29,7 +29,7 @@ Kotlin 标准库提供了大量的函数用来在集合上进行各种操作.
 其他集合操作声明为扩展函数.
 包括过滤, 变换, 排序, 以及其他的集合处理函数.
 
-## 共通操作
+## 共通操作 {id="common-operations"}
 
 共通操作对 [只读和可变集合](collections-overview.md#collection-types) 都有效.
 共通操作包括以下几组:
@@ -109,7 +109,7 @@ fun main() {
 关于带目标集合的所有操作, 请参见
 [Kotlin 集合 API 文档](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/index.html).
 
-## 写入操作
+## 写入操作 {id="write-operations"}
 
 对于可变的集合, 还有 _写操作_ 可以改变集合的状态. 这类写操作包括添加元素, 删除元素, 以及变更元素.
 关于写入操作的详情, 请参见 [集合写入操作](collection-write.md),

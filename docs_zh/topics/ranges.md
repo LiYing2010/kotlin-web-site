@@ -73,7 +73,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-ranges-step"}
 
-## 数列(Progression)
+## 数列(Progression) {id="progression"}
 
 整数类型, 比如 `Int`, `Long`, 和 `Char`, 的值范围,
 可以被当作 [算数数列(Arithmetic Progression)](https://en.wikipedia.org/wiki/Arithmetic_progression).

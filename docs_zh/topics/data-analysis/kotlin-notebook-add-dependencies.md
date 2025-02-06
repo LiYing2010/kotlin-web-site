@@ -5,18 +5,18 @@
    <p><img src="icon-1-done.svg" width="20" alt="First step"/> <a href="kotlin-notebook-set-up-env.md">设置环境</a><br/>
       <img src="icon-2-done.svg" width="20" alt="Second step"/> <a href="kotlin-notebook-create.md">创建 Kotlin Notebook</a><br/>
       <img src="icon-3.svg" width="20" alt="Third step"/> <strong>向 Kotlin Notebook 添加依赖项</strong><br/>
-      <img src="icon-4-todo.svg" width="20" alt="Fourth step"/> 共享 Kotlin Notebook<br/>
   </p>
 </tldr>
 
-你已经创建了你的第一个 Kotlin Notebook! 现在我们来学习如何添加库的依赖项, 在使用高级功能时必须用到这些库.
+你已经创建了你的第一个 [Kotlin Notebook](kotlin-notebook-overview.md)! 现在我们来学习如何添加库的依赖项, 在使用高级功能时必须用到这些库.
 
 > Kotlin 标准库直接可以使用, 因此你不必导入这些库.
 > 
 {style="note"}
 
 在任何代码单元中, 你可以使用 Gradle 风格的语法, 指定库的座标(coordinate), 载入 Maven 仓库中的任何库.
-但是, Kotlin Notebook 有一个简化的方法, 可以使用 `%use` 语句载入常用的库:
+但是, Kotlin Notebook 有一个简化的方法,
+可以使用 [`%use` 语句](https://www.jetbrains.com/help/idea/kotlin-notebook.html#import-libraries) 载入常用的库:
 
 ```kotlin
 // 请将 libraryName 替换为你想要添加的库依赖项
@@ -27,7 +27,7 @@
 
 ![Kotlin Notebook 中的自动完成功能](autocompletion-feature-notebook.png){width=700}
 
-## 向你的 Kotlin Notebook 添加 Kotlin DataFrame 和 Kandy 库
+## 向你的 Kotlin Notebook 添加 Kotlin DataFrame 和 Kandy 库 {id="add-kotlin-dataframe-and-kandy-libraries-to-your-kotlin-notebook"}
 
 我们来向你的 Kotlin Notebook 添加两个常用的 Kotlin 库依赖项:
 * [Kotlin DataFrame 库](https://kotlin.github.io/dataframe/gettingstarted.html) 让你能够在你的 Kotlin 项目中操纵数据.
@@ -106,11 +106,9 @@
 恭喜你, 你已经在你的 Kotlin Notebook 中添加并使用了这些库!
 这只是你使用 Kotlin Notebook 和它 [支持的库](data-analysis-libraries.md) 所能实现的功能的一个非常简单的介绍.
 
-关于 Kotlin DataFrame 库的使用, 更加详细的介绍请参见 [从文件获取数据](data-analysis-work-with-data-sources.md),
-关于数据可视化的高级功能, 请参见 [在 Kotlin Notebook 中使用 Kandy 可视化显示数据](data-analysis-visualization.md).
+## 下一步做什么 {id="what-s-next"}
 
-## 下一步
-
-在本教程的下一部分, 你将学习如何共享 Kotlin Notebook.
-
-**[进入下一章](kotlin-notebook-share.md)**
+* 学习如何 [共享你的 Kotlin Notebook](kotlin-notebook-share.md)
+* 进一步深入了解 [向你的 Kotlin Notebook 添加依赖项](https://www.jetbrains.com/help/idea/kotlin-notebook.html#add-dependencies)
+* 关于 Kotlin DataFrame 库的使用, 更加详细的介绍请参见 [从文件获取数据](data-analysis-work-with-data-sources.md)
+* 关于 Kotlin 中用于数据科学和数据分析的工具和资源, 更多介绍请参见 [用于数据分析的 Kotlin 和 Java 库](data-analysis-libraries.md)

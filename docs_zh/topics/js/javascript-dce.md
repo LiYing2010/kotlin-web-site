@@ -23,7 +23,7 @@ Kotlin Multiplatform Gradle 插件包含一个 _[死代码剔除(Dead Code Elimi
 比如, 使用 `browserProductionWebpack` 任务.
 **开发版(development) bundle** 的构建任务(比如 `browserDevelopmentWebpack`) 不会包含 DCE.
 
-## DCE 与 JavaScript IR 编译器
+## DCE 与 JavaScript IR 编译器 {id="dce-and-javascript-ir-compiler"}
 
 针对 IR 编译器的 DCE 适用方式如下:
 
@@ -43,7 +43,7 @@ Kotlin Multiplatform Gradle 插件包含一个 _[死代码剔除(Dead Code Elimi
 
 使用 `@JsExport` 注解, 你可以指定一些声明, 让 DCE 将它当作根对待 (因此这些声明会被保留, 不被删除).
 
-## 在 DCE 中排除一部分函数或类声明
+## 在 DCE 中排除一部分函数或类声明 {id="exclude-declarations-from-dce"}
 
 有些时候, 即使在你的模块中并没有使用某个函数或类, 但你可能需要在最终输出的 JavaScript 代码中保留它,
 比如, 你可能要在客户端 JavaScript 代码中使用它.

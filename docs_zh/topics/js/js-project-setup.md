@@ -1,4 +1,4 @@
-[//]: # (title: 创建 Kotlin/JS 工程(Project))
+[//]: # (title: 设置 Kotlin/JS 工程(Project))
 
 Kotlin JavaScript 工程(Project) 使用 Gradle 进行编译.
 为了方便开发者管理 Kotlin JavaScript 工程, 我们提供了 `kotlin.multiplatform` Gradle 插件, 其中包括工程配置工具,
@@ -582,6 +582,63 @@ browser {
 对于编译到 Node.js 的 Kotlin/JS 项目, plugin 会在主机上自动下载并安装 Node.js 环境.
 如果已经安装过 Node.js, 你也可以使用已经存在的 Node.js.
 
+### 配置 Node.js 的设置 {id="configuring-node-js-settings"}
+
+你可以对各个子项目配置 Node.js 的设置, 也可以对整个项目进行设置.
+
+例如, 要对某个子项目设置 Node.js 版本, 请在你的 `build.gradle(.kts)` 文件中, 向它的 Gradle 代码块添加以下内容:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+project.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin> {
+    project.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec>().version = "你的 Node.js 版本"
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+project.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin) {
+    project.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec).version = "你的 Node.js 版本"
+}
+```
+
+</tab>
+</tabs>
+
+要对整个项目设置版本, 包括所有的子项目, 请将同样的代码添加到 `allProjects {}` 代码块:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+allprojects {
+    project.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin> {
+        project.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec>().version = "你的 Node.js 版本"
+    }
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+allprojects {
+    project.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin) {
+        project.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec).version = "你的 Node.js 版本"
+}
+```
+
+</tab>
+</tabs>
+
+> 使用 `NodeJsRootPlugin` 类对整个项目配置 Node.js 设置, 这个功能已被废弃, 将来会停止支持.
+>
+{style="note"}
+
 ### 使用已安装的 Node.js {id="use-pre-installed-node-js"}
 
 如果在构建 Kotlin/JS 项目的主机上已经安装了 Node.js, 你可以配置 Kotlin Multiplatform Gradle 插件,
@@ -593,25 +650,24 @@ browser {
 <tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
-rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin> {
-    rootProject.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension>().download = false
-    // 默认设置为 "true"
+project.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin) {
+    // 设置为 `true` 可以使用默认行为
+    project.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec).download = false
 }
-
 ```
 
 </tab>
 <tab title="Groovy" group-key="groovy">
 
 ```groovy
-rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin) {
-    rootProject.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension).download = false
+project.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin> {
+    // 设置为 `true` 可以使用默认行为
+    project.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec>().download = false
 }
 ```
 
 </tab>
 </tabs>
-
 
 ## Yarn {id="yarn"}
 

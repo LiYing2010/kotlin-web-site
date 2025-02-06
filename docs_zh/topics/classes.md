@@ -202,7 +202,7 @@ val customer = Customer("Joe Smith")
 ## 继承 {id="inheritance"}
 
 类可以相互继承, 构成类的继承层级结构.
-详情请参加 [Kotlin 中的继承](inheritance.md).
+详情请参见 [Kotlin 中的继承](inheritance.md).
 
 ## 抽象类 {id="abstract-classes"}
 

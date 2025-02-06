@@ -3,6 +3,10 @@
 [Kotlin Notebook](https://plugins.jetbrains.com/plugin/16340-kotlin-notebook) 是 IntelliJ IDEA 中的一个动态 plugin,
 它提供一个交互式环境, 用于创建和编辑 notebook, 能够充分发挥 Kotlin 的全部能力.
 
+> Kotlin Notebook plugin 需要 IntelliJ IDEA Ultimate 版.
+>
+{style="note"}
+
 你可以得到无缝的编码体验, 可以使用 Kotlin 代码进行开发和试验, 立即得到输出结果,
 并在 IntelliJ IDEA 生态系统中将代码, 视图, 和文本集成在一起.
 
@@ -20,14 +24,14 @@ Kotlin Notebook plugin 包含 [很多功能特性](https://www.jetbrains.com/hel
 * 通过错误消息和异常追溯, 获得用于调试的信息
 
 Kotlin Notebook 基于我们的 [用于 Jupyter Notebook 的 Kotlin Kernel](https://github.com/Kotlin/kotlin-jupyter?tab=readme-ov-file#kotlin-kernel-for-ipythonjupyter),
-因此它很容易和我们的 [Kotlin notebook 解决方案](https://kotlinlang.org/docs/data-analysis-overview.html#notebooks) 集成.
+因此它很容易和我们的 [Kotlin notebook 解决方案](data-analysis-overview.md#notebooks) 集成.
 你可以很容易的在 Kotlin Notebook [Datalore](https://datalore.jetbrains.com/), 和 [Kotlin-Jupyter Notebook](https://github.com/Kotlin/kotlin-jupyter), 之间共用你的工作, 没有兼容性问题.
 
 通过这些能力, 你可以完成各种任务, 从简单的代码试验, 到复杂的数据项目.
 
 请深入阅读下面的章节, 了解使用 Kotlin Notebook 能够实现哪些功能!
 
-## 数据分析与可视化
+## 数据分析与可视化 {id="data-analytics-and-visualization"}
 
 无论你在进行初级的数据探索, 还是在完成一个端到端的数据分析项目, Kotlin Notebook 都有适合你的工具.
 
@@ -44,7 +48,7 @@ Kandy 的 符合惯用法, 易读, 并且类型安全的功能, 能够帮助你�
 
 ![数据分析与可视化](data-analysis-kandy-example.png){width=700}
 
-## 原型设计
+## 原型设计 {id="prototyping"}
 
 Kotlin Notebook 提供了一个交互式环境, 可以运行一小段代码, 并实时看到结果.
 这种实践性的方案, 能够在原型设计阶段进行快速的试验和迭代.
@@ -54,7 +58,7 @@ Kotlin Notebook 提供了一个交互式环境, 可以运行一小段代码, 并
 
 ![Kotlin Notebook 原型设计](kotlin-notebook-prototyping.png){width=700}
 
-## 后端开发
+## 后端开发 {id="backend-development"}
 
 Kotlin Notebook 提供了在 cell 内调用 API, 以及使用 OpenAPI 之类的协议的能力.
 它拥有与外部服务和 API 交互的能力, 因此适合于某些后端开发场景,
@@ -62,7 +66,7 @@ Kotlin Notebook 提供了在 cell 内调用 API, 以及使用 OpenAPI 之类的�
 
 ![Kotlin Notebook 后端开发](kotlin-notebook-backend-development.png){width=700}
 
-## 代码文档
+## 代码文档 {id="code-documentation"}
 
 在 Kotlin Notebook 中, 你可以在代码单元(code cell)中包含内嵌的注释和文本注解,
 提供与代码片段相关的更多上下文信息, 解释, 以及说明.
@@ -72,7 +76,7 @@ Kotlin Notebook 提供了在 cell 内调用 API, 以及使用 OpenAPI 之类的�
 
 ![Kotlin Notebook 文档](kotlin-notebook-documentation.png){width=700}
 
-## 共享代码和输出
+## 共享代码和输出 {id="sharing-code-and-outputs"}
 
 由于 Kotlin Notebook 的符合通用的 Jupyter 格式, 因此可以在不同的 Notebook 中共享你的代码和输出.
 你可以使用任何的 Jupyter 客户端, 例如 [Jupyter Notebook](https://jupyter.org/) 或 [Jupyter Lab](https://jupyterlab.readthedocs.io/en/latest/), 打开, 编辑, 并运行你的 Kotlin Notebook.
@@ -84,7 +88,7 @@ Kotlin Notebook 提供了在 cell 内调用 API, 以及使用 OpenAPI 之类的�
 
 ![通过 Datalore 共享 Kotlin Notebook](kotlin-notebook-sharing-datalore.png){width=700}
 
-## 下一步做什么
+## 下一步做什么 {id="what-s-next"}
 
 * [学习 Kotlin Notebook 的使用方法和关键功能.](https://www.jetbrains.com/help/idea/kotlin-notebook.html)
 * [试用 Kotlin Notebook.](get-started-with-kotlin-notebooks.md)

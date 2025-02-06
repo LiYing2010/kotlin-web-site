@@ -1,4 +1,4 @@
-[//]: # (title: 使用 IntelliJ IDEA 开发 Kotlin/Wasm 入门)
+[//]: # (title: Kotlin/Wasm 与 Compose Multiplatform 入门)
 
 > Kotlin/Wasm 功能处于 [Alpha 阶段](components-stability.md).
 > 它随时有可能变更.
@@ -10,7 +10,7 @@
 本教程演示在 IntelliJ IDEA 中如何使用 [Kotlin/Wasm](wasm-overview.md) 运行 [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/) 应用程序,
 以及如何生成 artifact, 并发布为 [GitHub pages](https://pages.github.com/) 上的网站.
 
-## 开始之前的准备步骤
+## 开始之前的准备步骤 {id="before-you-start"}
 
 使用 Kotlin Multiplatform 向导创建项目:
 
@@ -24,17 +24,19 @@
 3. 选择 **Web** 选项. 请确认没有选择其他选项.
 4. 点击 **Download** 按钮, 将生成的压缩包文件解包.
 
-![Kotlin Multiplatform 向导](wasm-compose-wizard.png){width=600}
+![Kotlin Multiplatform 向导](wasm-compose-web-wizard.png){width=400}
 
-## 在 IntelliJ IDEA 中打开项目
+## 在 IntelliJ IDEA 中打开项目 {id="open-the-project-in-intellij-idea"}
 
 1. 下载并安装最新版本的 [IntelliJ IDEA](https://www.jetbrains.com/idea/).
 2. 在 IntelliJ IDEA 的欢迎界面, 点击 **Open**, 或在菜单栏选择 **File | Open**.
 3. 导航到解包后的 "WasmDemo" 文件夹, 点击 **Open**.
 
-## 运行应用程序
+## 运行应用程序 {id="run-the-application"}
 
 1. 在 IntelliJ IDEA 中, 选择菜单 **View** | **Tool Windows** | **Gradle**, 打开 **Gradle** 工具窗口.
+
+   项目载入之后, 你可以在 Gradle 工具窗口找到 Gradle task.
 
    > 你需要至少 Java 11 以上版本, 用作你的 Gradle JVM, 才能成功装载 task.
    >
@@ -69,7 +71,7 @@
 
     ![浏览器中的 Compose 应用程序](wasm-composeapp-browser.png){width=650}
 
-## 生成 artifact
+## 生成 artifact {id="generate-artifacts"}
 
 在 **composeApp** | **Tasks** | **kotlin browser** 中, 选中并运行 **wasmJsBrowserDistribution** 任务.
 
@@ -85,7 +87,7 @@
 
 ![Artifact 文件目录](wasm-composeapp-directory.png){width=600}
 
-## 发布到 GitHub pages
+## 发布到 GitHub pages {id="publish-on-github-pages"}
 
 1. 将你的 `productionExecutable` 目录中的所有内容复制到你想要创建网站的代码仓库.
 2. 执行 GitHub 的 [创建你的网站](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site#creating-your-site) 说明文档中的指令.
@@ -100,13 +102,13 @@
 
    恭喜! 你已经将你的 artifact 发布到了 GitHub pages.
 
-## 下一步做什么?
+## 下一步做什么? {id="what-s-next"}
 
 加入 Kotlin Slack 中的 Kotlin/Wasm 开发社区:
 
-<a href="https://slack-chats.kotlinlang.org/c/webassembly"><img src="join-slack-channel.svg" width="700" alt="加入 Kotlin/Wasm 开发社区" style="block"/></a>
+<a href="https://slack-chats.kotlinlang.org/c/webassembly"><img src="join-slack-channel.svg" width="500" alt="加入 Kotlin/Wasm 开发社区" style="block"/></a>
 
-试试 `kotlin-wasm-examples` 代码仓库中的 Kotlin/Wasm 示例:
+试试其它更多 Kotlin/Wasm 示例:
 
 * [Compose 图像浏览器](https://github.com/Kotlin/kotlin-wasm-examples/tree/main/compose-imageviewer)
 * [Jetsnack 应用程序](https://github.com/Kotlin/kotlin-wasm-examples/tree/main/compose-jetsnack)

@@ -1,5 +1,14 @@
 [//]: # (title: CocoaPods 概述与设置)
 
+<tldr>
+   这是一种本地集成方法. 适用于以下情况:<br/>
+
+* 你有一个单一的代码仓库, 包含使用 CocoaPods 的 iOS 项目.
+* 你的 Kotlin Multiplatform 项目存在 CocoaPods 依赖项.<br/>
+
+[选择最适合你的集成方法](multiplatform-ios-integration-overview.md)
+</tldr>
+
 Kotlin/Native 提供了与 [CocoaPods 依赖管理器](https://cocoapods.org/) 的集成功能.
 你可以添加对 Pod 库的依赖项, 也可以使用跨平台项目的原生编译目标作为 CocoaPods 依赖项.
 
@@ -181,7 +190,8 @@ sudo gem install cocoapods
                 // 指定框架的链接类型. 默认为 dynamic.
                 isStatic = false
                 // 导出依赖项
-                export(project(":anotherKMMModule"))
+                // 对下面这行取消注释, 并指定另一个项目模块(如果有):
+                // export(project(":<你的其它 KMP 模块>"))
                 transitiveExport = false // 这是默认值.
             }
 

@@ -226,9 +226,8 @@ fun main() {
 ```kotlin
 import kotlin.math.PI
 
-fun circleArea() {
-    // 在这里编写你的代码
-}
+// 在这里编写你的代码
+
 fun main() {
     println(circleArea(2))
 }

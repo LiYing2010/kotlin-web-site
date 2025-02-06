@@ -53,7 +53,7 @@ void union_by_pointer(MyUnion* u) {}
 这个 `interop.def` 文件已经足以编译和运行应用程序, 或在 IDE 中打开它.
 现在来创建项目文件, 在 [IntelliJ IDEA](https://jetbrains.com/idea)中打开项目, 并运行它.
 
-## 查看为 C 库生成的 Kotlin API
+## 查看为 C 库生成的 Kotlin API {id="inspect-generated-kotlin-apis-for-a-c-library"}
 
 尽管可以直接使用命令行, 或者通过脚本文件(比如 `.sh` 或 `.bat` 文件), 但这种方法不适合于包含几百个文件和库的大项目.
 更好的方法是使用带有构建系统的 Kotlin/Native 编译器,
@@ -61,7 +61,7 @@ void union_by_pointer(MyUnion* u) {}
 Kotlin/Native 能够通过 [kotlin-multiplatform](gradle-configure-project.md#targeting-multiple-platforms) plugin
 使用 [Gradle](https://gradle.org) 构建系统.
 
-关于如何使用 Gradle 设置 IDE 兼容的项目, 请参见教程 [一个基本的 Kotlin/Native 应用程序](native-gradle.md).
+关于如何使用 Gradle 设置 IDE 兼容的项目, 请参见教程 [Kotlin/Native 入门](native-get-started.md#using-gradle).
 如果你想要寻找具体的步骤指南, 来开始一个新的 Kotlin/Native 项目并在 IntelliJ IDEA 中打开它, 请先阅读这篇教程.
 在本教程中, 我们关注更高级的 C 交互功能, 包括使用 Kotlin/Native,
 以及使用 Gradle 的 [跨平台](gradle-configure-project.md#targeting-multiple-platforms) 构建.
@@ -167,7 +167,7 @@ fun main() {
 现在你可以 [在 IntelliJ IDEA 中打开项目](native-get-started.md), 看看如何修正示例项目.
 在这个过程中, 我们来看看 C 的结构和联合类型如何映射到 Kotlin/Native 声明.
 
-## 结构和联合类型在 Kotlin 中的映射结果
+## 结构和联合类型在 Kotlin 中的映射结果 {id="struct-and-union-types-in-kotlin"}
 
 通过 IntelliJ IDEA 的 __Go to | Declaration__ 的帮助,
 或查看编译器错误, 你可以看到为 C 函数, `struct`, 和 `union` 生成的 API:
@@ -214,7 +214,7 @@ class MyUnion constructor(rawPtr: NativePtr /* = NativePtr */) : CStructVar {
 你可以看到, 传值的参数表达为 `kotlinx.cinterop.CValue<T>`. 对于类型指针参数则是 `kotlinx.cinterop.CValuesRef<T>`.
 Kotlin 为我们提供了 API 方便的处理这两种类型, 我们来试一下.
 
-### 创建一个 CValue&lt;T&gt;
+### 创建一个 CValue&lt;T&gt; {id="create-a-cvalue-t"}
 
 `CValue<T>` 类型用来向 C 函数传递一个传值的参数.
 使用 `cValue` 函数来创建 `CValue<T>` 对象实例. 函数要求一个
@@ -244,7 +244,7 @@ fun callValue() {
 }
 ```
 
-### 使用 CValuesRef&lt;T&gt; 创建结构和联合
+### 使用 CValuesRef&lt;T&gt; 创建结构和联合 {id="create-struct-and-union-as-cvaluesref-t"}
 
 在 Kotlin 中, `CValuesRef<T>` 类型用来传递 C 函数的有类型指针参数.
 首先, 你需要 `MyStruct` 和 `MyUnion` 类的实例. 可以直接在 native 内存中创建它们.
@@ -295,7 +295,7 @@ fun callRef() {
 请确保指针没有在 `memScoped` 调用范围之外被使用.
 对于需要生存周期更长的指针, 或者缓存在 C 库内部的指针, 你可以使用 `Arena()` 或 `nativeHeap`.
 
-### CValue&lt;T&gt; 和 CValuesRef&lt;T&gt; 之间的转换
+### CValue&lt;T&gt; 和 CValuesRef&lt;T&gt; 之间的转换 {id="conversion-between-cvalue-t-and-cvaluesref-t"}
 
 当然, 有些使用场景中, 对一个函数调用你需要以值的方式传递一个结构,
 然后对另一个函数调用需要以引用的方式传递同一个结构.
@@ -335,7 +335,7 @@ fun callMix_value() {
 }
 ```
 
-## 运行代码
+## 运行代码 {id="run-the-code"}
 
 现在你已经学习了如何在你的代码中使用 C 的声明, 你可以在真实的例子中尝试了.
 我们来修正代码, 看看它如何运行, 方法是 [在 IDE 中](native-get-started.md) 调用 `runDebugExecutableNative` Gradle task,
@@ -380,7 +380,7 @@ fun main() {
 }
 ```
 
-## 下一步
+## 下一步 {id="next-steps"}
 
 阅读以下教程, 继续探索更多 C 语言数据类型, 以及它们在 Kotlin/Native 中的表达:
 - [映射 C 语言的基本数据类型](mapping-primitive-data-types-from-c.md)

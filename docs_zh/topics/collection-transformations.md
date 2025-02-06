@@ -256,7 +256,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-## 字符串表达(String representation)
+## 字符串表达(String Representation) {id="string-representation"}
 
 如果你需要将集合内容表达为人类可读的格式, 请使用将集合转换为字符串的函数:
 [`joinToString()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/join-to-string.html)

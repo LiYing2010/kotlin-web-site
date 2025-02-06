@@ -20,7 +20,7 @@ KSP 设计目标是 只需要处理器使用的最少量的 _根源代码_, 作�
 在 JVM 平台, 默认会追踪 classpath 中的变更, 以及 Kotlin 和 Java 源代码的变更.
 如果要只追踪 Kotlin 和 Java 源代码的变更, 请设置 Gradle 属性 `ksp.incremental.intermodule=false`, 关闭对 classpath 中变更的追踪.
 
-## 聚集(Aggregating) vs 隔离(Isolating)
+## 聚集(Aggregating) vs 隔离(Isolating) {id="aggregating-vs-isolating"}
 
 与 [Gradle 注解处理](https://docs.gradle.org/current/userguide/java_plugin.html#sec:incremental_annotation_processing) 中的概念类似,
 KSP 支持 _聚集(Aggregating)_ 和 _隔离(Isolating)_ 模式. 注意, 与 Gradle 注解处理不同,
@@ -44,7 +44,7 @@ KSP 将每个输出分类为聚集或隔离, 而不是对整个处理器分类.
 * 在一个隔离的 Java 注解处理器中, KSP 中所有的输出都是隔离的.
 * 在一个聚集的 Java 注解处理器中, KSP 中有些输出可以是隔离的, 有些可以是聚集的.
 
-### 实现细节
+### 实现细节 {id="how-it-is-implemented"}
 
 依赖关系通过输入和输出文件的关联来计算, 而不是通过注解.
 这是一个多对多的关系.
@@ -62,7 +62,7 @@ KSP 将每个输出分类为聚集或隔离, 而不是对整个处理器分类.
 3. `aggregating=true` 代表, 一个输出可能潜在的依赖于新的信息, 可能来自新的文件, 或者既有的但被变更的文件.
    `aggregating=false` 代表, 处理器确定它的信息只来自特定的输入文件, 不会来自其它文件或新的文件.
 
-## 示例 1
+## 示例 1 {id="example-1"}
 
 一个处理器读取 `A.kt` 中的类 `A` 和 `B.kt` 中的类 `B`, 其中 `A` 继承 `B`, 然后生成 `outputForA`.
 处理器通过 `Resolver.getSymbolsWithAnnotation` 得到 `A`,
@@ -96,7 +96,7 @@ class Example1Processor : SymbolProcessor {
 }
 ```
 
-## 示例 2
+## 示例 2 {id="example-2"}
 
 一个处理器读取 `sourceB`, 然后读取 `sourceA` 和 `outputB`, 然后生成 `outputA`.
 
@@ -112,7 +112,7 @@ class Example1Processor : SymbolProcessor {
 
 如果删除了 `sourceB`, 那么没有任何代码需要重新处理.
 
-## 如何判断文件是否为脏
+## 如何判断文件是否为脏 {id="how-file-dirtiness-is-determined"}
 
 一个脏文件 要么直接被用户 _修改_, 或者间接被其他脏文件 _影响_.
 KSP 通过 2 个步骤传播文件的变更:
@@ -124,7 +124,7 @@ KSP 通过 2 个步骤传播文件的变更:
 
 注意, 这 2 个步骤都是传递性的, 第 2 种会形成等价类(Equivalence Class).
 
-## 报告 bug
+## 报告 bug {id="reporting-bugs"}
 
 要报告一个 bug, 请设置 Gradle 属性 `ksp.incremental=true` 和 `ksp.incremental.log=true`,
 然后执行一次 clean 构建.

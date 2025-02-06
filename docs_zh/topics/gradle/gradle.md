@@ -16,7 +16,7 @@ Gradle 是一个构建系统, 帮助你自动化并管理你的构建过程. 它
 * [增量编译, 缓存, 构建报告, 以及 Kotlin Daemon](gradle-compilation-and-caches.md).
 * [对 Gradle plugin 变体(variant)的支持](gradle-plugin-variants.md).
 
-## 下一步做什么?
+## 下一步做什么? {id="what-s-next"}
 
 学习:
 * **Gradle Kotlin DSL**.

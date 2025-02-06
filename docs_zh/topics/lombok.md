@@ -13,7 +13,7 @@ Lombok 编译器插件不能代替 [Lombok](https://projectlombok.org/), 但它�
 因此, 使用这个插件时, 你还是需要象通常那样配置 Lombok.
 详情请参见 [如何配置 Lombok 编译器插件](#using-the-lombok-configuration-file).
 
-## 支持的注解
+## 支持的注解 {id="supported-annotations"}
 
 插件支持以下注解:
 * `@Getter`, `@Setter`
@@ -36,7 +36,7 @@ Lombok 编译器插件不能代替 [Lombok](https://projectlombok.org/), 但它�
 >
 {style="note"}
 
-## Gradle
+## Gradle {id="gradle"}
 
 在 `build.gradle(.kts)` 文件中添加 `kotlin-plugin-lombok` Gradle 插件:
 
@@ -96,7 +96,7 @@ kotlinLombok {
 
 详情请参见 [关于 Lombok 编译器插件和 `lombok.config` 使用方法的测试用示例项目](https://github.com/kotlin-hands-on/kotlin-lombok-examples/tree/master/kotlin_lombok_gradle/withconfig).
 
-## Maven
+## Maven {id="maven"}
 
 要使用 Lombok 编译器插件, 请在 `compilerPlugins` 部分添加插件 `lombok`,
 并在 `dependencies` 部分添加依赖项 `kotlin-maven-lombok`.
@@ -174,7 +174,7 @@ kapt {
 * 使用 [Gradle](https://github.com/JetBrains/kotlin/tree/master/libraries/tools/kotlin-gradle-plugin-integration-tests/src/test/resources/testProject/lombokProject/yeskapt).
 * 使用 [Maven](https://github.com/kotlin-hands-on/kotlin-lombok-examples/tree/master/kotlin_lombok_maven/yeskapt)
 
-## 命令行编译器
+## 命令行编译器 {id="command-line-compiler"}
 
 在 Kotlin 编译器的二进制文件发布版中可以找到 Lombok 编译器插件的 JAR 文件.
 你可以使用 kotlinc 的 `Xplugin` 选项, 指定插件的 JAR 文件路径来加载这个插件:

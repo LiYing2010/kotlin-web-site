@@ -717,7 +717,7 @@ fun main() {
 }
 ```
 
-#### when 语句的分支条件 {initial-collapse-state="collapsed" collapsible="true"}
+#### when 语句的分支条件 {id="when-entry initial-collapse-state="collapsed" collapsible="true"}
 
 ```kotlin
 fun isReferenceApplicable(myReference: KClass<*>) = when (myReference) {
@@ -975,7 +975,25 @@ when (x) {
 
 如果存在三个或更多的条件分支, 尽量使用 `when`.
 
-### 在条件中使用可为空的 Boolean 值
+### when 表达式中的保护条件 {id="guard-conditions-in-when-expression"}
+
+在 `when` 表达式或语句中组合多个 boolean 表达式时, 要使用带括号的 [保护条件(Guard Condition)](control-flow.md#guard-conditions-in-when-expressions):
+
+```kotlin
+when (status) {
+    is Status.Ok if (status.info.isEmpty() || status.info.id == null) -> "no information"
+}
+```
+
+而不要写成:
+
+```kotlin
+when (status) {
+    is Status.Ok if status.info.isEmpty() || status.info.id == null -> "no information"
+}
+```
+
+### 在条件中使用可为 null 的 Boolean 值
 
 如果需要在条件语句中使用可为空的 `Boolean`, 请使用 `if (value == true)` 或者 `if (value == false)` 进行判断.
 

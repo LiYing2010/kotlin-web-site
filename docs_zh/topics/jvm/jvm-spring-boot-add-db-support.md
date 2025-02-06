@@ -16,7 +16,7 @@
 在教程的这个部分, 你将会使用 JDBC 向你的项目添加并配置一个数据库. 在 JVM 应用程序中, 你要使用 JDBC 来操作数据库.
 为了方便, Spring Framework 提供了 `JdbcTemplate` 类, 简化 JDBC 的使用, 并帮助避免常见的错误.
 
-## 添加数据库支持
+## 添加数据库支持 {id="add-database-support"}
 
 在使用 Spring Framework 的应用程序中, 通常的做法是在所谓的 _服务(Service)_ 层实现数据库访问逻辑 – 这是实现业务逻辑的地方.
 在 Spring 中, 你需要使用 `@Service` 注解来标注类, 表示类属于应用程序的服务层.
@@ -104,7 +104,7 @@ class MessageService(private val db: JdbcTemplate) {
    </def>
 </deflist>
 
-## 更新 MessageController 类
+## 更新 MessageController 类 {id="update-the-messagecontroller-class"}
 
 更新 `MessageController.kt`, 使用新的 `MessageService` 类:
 
@@ -153,7 +153,7 @@ class MessageController(private val service: MessageService) {
    </def>
 </deflist>
 
-## 更新 MessageService 类
+## 更新 MessageService 类 {id="update-the-messageservice-class"}
 
 `Message` 类的 `id` 声明为可为 null 的字符串:
 
@@ -203,7 +203,7 @@ class MessageService(private val db: JdbcTemplate) {
 
 应用程序代码已经可以访问数据库了. 现在需要配置数据源.
 
-## 配置数据库
+## 配置数据库 {id="configure-the-database"}
 
 在应用程序中配置数据库:
 
@@ -238,7 +238,7 @@ class MessageService(private val db: JdbcTemplate) {
    这些设置会为 Spring Boot 应用程序启用数据库.
    关于完整的应用程序属性列表, 请参见 [Spring 文档](https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html).
 
-## 通过 HTTP 请求, 向数据库添加 message
+## 通过 HTTP 请求, 向数据库添加 message {id="add-messages-to-database-via-http-request"}
 
 你应该使用一个 HTTP 客户端来访问前面创建的 Endpoint. 在 IntelliJ IDEA 中, 请使用内嵌的 HTTP Client:
 
@@ -286,7 +286,7 @@ class MessageService(private val db: JdbcTemplate) {
 
    ![执行 GET 请求](execute-get-requests.png)
 
-### 执行请求的其它方式 {initial-collapse-state="collapsed" collapsible="true"}
+### 执行请求的其它方式 {id="alternative-way-to-execute-requests" initial-collapse-state="collapsed" collapsible="true"}
 
 你也可以使用任何其它的 HTTP Client, 或 cURL 命令行工具.
 比如, 在终端中运行以下命令, 得到同样的结果:
@@ -301,7 +301,7 @@ curl -X POST --location "http://localhost:8080" -H "Content-Type: application/js
 curl -X GET --location "http://localhost:8080"
 ```
 
-## 通过 id 获取 message
+## 通过 id 获取 message {id="retrieve-messages-by-id"}
 
 为应用程序增加新的功能, 通过 id 来获取单个的 message.
 
@@ -514,7 +514,7 @@ class MessageController(private val service: MessageService) {
 ```
 {initial-collapse-state="collapsed" collapsible="true"}
 
-## 运行应用程序
+## 运行应用程序 {id="run-the-application"}
 
 Spring 应用程序已经可以运行了:
 
@@ -544,7 +544,7 @@ Spring 应用程序已经可以运行了:
 
     ![根据 id 得到 message](retrieve-message-by-its-id.png){width=706}
 
-## 下一步
+## 下一步 {id="next-step"}
 
 本教程的最后部分会向你演示, 如何使用更加流行的数据库操作方式 Spring Data.
 
