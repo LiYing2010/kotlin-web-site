@@ -26,9 +26,10 @@ have some other strong reason to do so.
     ```kotlin
     kotlin {
         cocoapods {
+            version = "2.0"
             //..
-            pod("FirebaseAuth") {
-                version = "10.16.0"
+            pod("SDWebImage") {
+                version = "5.20.0"
             }
         }
     }
@@ -40,9 +41,10 @@ have some other strong reason to do so.
     ```groovy
     kotlin {
         cocoapods {
+            version = '2.0'
             //..
-            pod('FirebaseAuth') {
-                version = '10.16.0'
+            pod('SDWebImage') {
+                version = '5.20.0'
             }
         }
     }
@@ -64,7 +66,7 @@ have some other strong reason to do so.
 To use the dependency in your Kotlin code, import the package `cocoapods.<library-name>`. For the example above, it's:
 
 ```kotlin
-import cocoapods.FirebaseAuth.*
+import cocoapods.SDWebImage.*
 ```
 
 ### Without CocoaPods

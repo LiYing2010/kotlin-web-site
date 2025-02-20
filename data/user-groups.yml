@@ -288,6 +288,12 @@
     position:
       lat: 59.3293235
       lng: 18.0685808
+  - name: Lund KUG
+    country: Sweden
+    url: https://github.com/lukug
+    position:
+      lat: 55.711062
+      lng: 13.210313
   - name: Stuttgart KUG
     country: Germany
     url: https://www.meetup.com/Kotlin-User-Group-Stuttgart/
@@ -681,6 +687,12 @@
     position:
       lat: 31.230416
       lng: 121.473701
+  - name: Shanxi KUG
+    country: China Mainland
+    url: https://shanxi-kug.github.io/
+    position:
+      lat: 37.8634511
+      lng: 112.3777618
   - name: Shenzhen KUG
     country: China Mainland
     url: https://github.com/szkug/
@@ -1098,3 +1110,15 @@
     position:
       lat: 4.0511
       lng: 9.7085
+  - name: Kotlin Gurugram User Group
+    country: India
+    url: https://www.commudle.com/communities/gurugram-kotlin-user-group
+    position:
+      lat: 28.4595
+      lng: 77.0266
+  - name: Kotlin Tripoli User Group
+    country: Libya
+    url: https://www.facebook.com/Kotlin.Tripoli/
+    position:
+      lat: 32.856266
+      lng: 13.222725

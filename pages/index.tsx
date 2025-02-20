@@ -32,7 +32,6 @@ import UberLogo from '../public/images/companies/uber.svg';
 import AtlassianLogo from '../public/images/companies/atlassian.svg';
 import GoogleLogo from '../public/images/companies/google.svg';
 import JetbrainsLogoSquare from '../public/images/companies/jetbrains-logo-square.svg';
-import ShopifyLogo from '../public/images/companies/shopify.svg';
 import TouchlabLogo from '../public/images/companies/touchlab.svg';
 import KotzillaLogo from '../public/images/companies/kotzilla-logo.svg'
 
@@ -119,11 +118,6 @@ const kotlinFoundationCompanies = [
         link: 'https://touchlab.co/'
     },
     {
-        name: 'Shopify',
-        logo: ShopifyLogo,
-        link: 'https://shopify.engineering/'
-    },
-    {
         name: 'Uber',
         logo: UberLogo,
         link: 'https://www.uber.com/'
@@ -148,7 +142,7 @@ function Index() {
             title={'Kotlin Programming Language'}
             ogImageName={'general.png'}
             description={
-                'Kotlin is a programming language that makes coding concise, cross-platform, and fun. It is Google’s preferred language for Android app development.'
+                'Kotlin is a concise and multiplatform programming language by JetBrains. Enjoy coding and build server-side, mobile, web, and desktop applications efficiently.'
             }
         >
             <ThemeProvider theme="dark">

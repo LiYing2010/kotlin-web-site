@@ -176,7 +176,8 @@ If you already have a project, you can add and configure the Kotlin CocoaPods Gr
     kotlin {
         cocoapods {
             // Required properties
-            // Specify the required Pod version here. Otherwise, the Gradle project version is used.
+            // Specify the required Pod version here
+            // Otherwise, the Gradle project version is used
             version = "1.0"
             summary = "Some description for a Kotlin/Native module"
             homepage = "Link to a Kotlin/Native module homepage"
@@ -317,12 +318,12 @@ Try these workarounds to avoid this error:
 
 1. Look through the downloaded Pod directory `[shared_module_name]/build/cocoapods/synthetic/IOS/Pods/...`
    for the `module.modulemap` file.
-2. Check the framework name inside the module, for example `AppsFlyerLib {}`. If the framework name doesn't match the Pod
+2. Check the framework name inside the module, for example `SDWebImageMapKit {}`. If the framework name doesn't match the Pod
 name, specify it explicitly:
 
     ```kotlin
-    pod("FirebaseAuth") {
-        moduleName = "AppsFlyerLib"
+    pod("SDWebImage/MapKit") {
+        moduleName = "SDWebImageMapKit"
     }
     ```
 #### Specify headers

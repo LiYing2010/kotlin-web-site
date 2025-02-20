@@ -1,10 +1,10 @@
 package builds.kotlinlang.buidTypes
 
+import builds.SCRIPT_PATH
 import builds.kotlinlang.templates.DockerImageBuilder
-import jetbrains.buildServer.configs.kotlin.AbsoluteId
 import jetbrains.buildServer.configs.kotlin.BuildType
+import jetbrains.buildServer.configs.kotlin.FailureAction
 import jetbrains.buildServer.configs.kotlin.buildSteps.script
-
 
 object PdfGenerator : BuildType({
   name = "PDF Generator"
@@ -12,35 +12,53 @@ object PdfGenerator : BuildType({
 
   templates(DockerImageBuilder)
 
-  artifactRules = "pdf/kotlin-docs.pdf => kotlin-docs.pdf"
+  artifactRules = """
+    dist/** => dist.zip!
+    docs/kr.tree => dist.zip
+    pdf/kotlin-docs.pdf
+  """.trimIndent()
+
+  requirements {
+    doesNotContain("docker.server.osType", "windows")
+  }
+
+  params {
+    select("with-pdf", "false", options = listOf("true", "false"))
+  }
 
   steps {
     script {
-      scriptContent = """
-        #!/bin/bash
-        
-        mv ./dist/docs/pdfSourceKR.html ./dist/docs/pdf.html
-        
-        ## refresh packages
-        pip install -r requirements.txt
-        
-        python kotlin-website.py reference-pdf
+      id = "script-dist-pdf-html"
+      name = "Generate pdf.html"
+        //language=bash
+        scriptContent = """
+        #!/bin/sh
+        set -e
+        npm install
+        npm run generate-pdf
       """.trimIndent()
-      dockerImage = "%dep.Kotlin_KotlinSites_Builds_KotlinlangOrg_BuildPythonContainer.kotlin-website-image%"
+      dockerImage = "node:22-alpine"
+      workingDir = SCRIPT_PATH
+    }
+    script {
+      conditions {
+        equals("with-pdf", "true")
+      }
+      name = "Generate PDF"
+      //language=sh
+      scriptContent = "./scripts/pdf.sh"
+      dockerImage = "python:3.9"
     }
   }
 
   dependencies {
-    dependency(AbsoluteId("Documentation_TransitioningProducts_KotlinReferenceWithCoroutines")) {
+    dependency(BuildReferenceDocs) {
       snapshot {
+        onDependencyFailure = FailureAction.FAIL_TO_START
+        onDependencyCancel = FailureAction.CANCEL
       }
-
       artifacts {
-        cleanDestination = true
-        artifactRules = """
-          webHelpImages.zip!** => dist/docs/images
-          pdfSourceKR.html => dist/docs/
-        """.trimIndent()
+        artifactRules = "+:docs.zip!** => dist/docs/"
       }
     }
   }
