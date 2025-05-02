@@ -24,9 +24,9 @@ In this tutorial, you will:
 * [Use the framework from Swift](#use-code-from-swift)
 
 You can use the command line to generate a Kotlin framework, either directly or with a script file (such as `.sh` or `.bat` file).
-However, this approach doesn't scale well for big projects that have hundreds of files and libraries.
+However, this approach doesn't scale well for larger projects that have hundreds of files and libraries.
 Using a build system simplifies the process by downloading and caching the Kotlin/Native
-compiler binaries and libraries with transitive dependencies and run the compiler and tests.
+compiler binaries and libraries with transitive dependencies, as well as by running the compiler and tests.
 Kotlin/Native can use the [Gradle](https://gradle.org) build system through the [Kotlin Multiplatform plugin](gradle-configure-project.md#targeting-multiple-platforms).
 
 > If you use a Mac and want to create and run applications for iOS or other Apple targets, you also need to
@@ -326,7 +326,7 @@ You can find more information about type mapping in [Interoperability with Swift
 ## Garbage collection and reference counting
 
 Swift and Objective-C use automatic reference counting (ARC). Kotlin/Native has its own [garbage collector](native-memory-manager.md#garbage-collector),
-which is also [integrated with Objective-C/Swift ARC](native-arc-integration.md).
+which is also [integrated with Swift/Objective-C ARC](native-arc-integration.md).
 
 Unused Kotlin objects are automatically removed. You don't need to take additional steps to control the lifetime of
 Kotlin/Native instances from Swift or Objective-C.

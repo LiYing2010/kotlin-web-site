@@ -28,7 +28,7 @@ Install the [CocoaPods dependency manager](https://cocoapods.org/) using the ins
 <tabs>
 <tab title="RVM">
 
-1. Install [Ruby version manager](https://rvm.io/rvm/install) in case you don't have it yet.
+1. Install [RVM](https://rvm.io/rvm/install) in case you don't have it yet.
 2. Install Ruby. You can choose a specific version:
 
     ```bash
@@ -134,14 +134,14 @@ To create a project using the web wizard and configure the CocoaPods integration
    alias(libs.plugins.kotlinCocoapods)
    ```
 
-Now you are ready to use CocoaPods in your Kotlin Multiplatform project.
+Now you are ready to [configure CocoaPods in your Kotlin Multiplatform project](#configure-the-project).
 
 ### In Android Studio
 
 To create a project in Android Studio with the CocoaPods integration:
 
 1. Install the [Kotlin Multiplatform plugin](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform) to Android Studio.
-2. In Android Studio, select  **File** | **New** | **New Project** in the menu.
+2. In Android Studio, select **File** | **New** | **New Project** in the menu.
 3. In the list of project templates, select **Kotlin Multiplatform App** and then click **Next**.
 4. Name your application and click **Next**.
 5. Choose **CocoaPods Dependency Manager** as the iOS framework distribution option.
@@ -152,11 +152,16 @@ To create a project in Android Studio with the CocoaPods integration:
 
    The plugin will automatically generate the project with the CocoaPods integration set up.
 
-## Configure existing project
+## Configure the project
 
-If you already have a project, you can add and configure the Kotlin CocoaPods Gradle plugin manually:
+To configure the Kotlin CocoaPods Gradle plugin in your multiplatform project:
 
-1. In `build.gradle(.kts)` of your project, apply the CocoaPods plugin as well as the Kotlin Multiplatform plugin:
+1. In `build.gradle(.kts)` of your project, apply the CocoaPods plugin as well as the Kotlin Multiplatform plugin.
+
+   > Skip this step if you've created your project with the [web wizard](#using-web-wizard) or
+   > the [Kotlin Multiplatform plugin for Android Studio](#in-android-studio).
+   > 
+   {style="note"}
     
     ```kotlin
     plugins {
@@ -257,7 +262,7 @@ If you want to import your Kotlin project to an Xcode project:
      end
      ```
 
-2. Run `pod install` in you project directory.
+2. Run `pod install` in your project directory.
 
    When you run `pod install` for the first time, it creates the `.xcworkspace` file. This file
    includes your original `.xcodeproj` and the CocoaPods project.
@@ -309,23 +314,89 @@ manually or using a shell command:
     echo -e "kotlin.apple.cocoapods.bin=$(which pod)" >> local.properties
     ```
 
-### Module not found {initial-collapse-state="collapsed" collapsible="true"}
+### Module or framework not found {initial-collapse-state="collapsed" collapsible="true"}
 
-You may encounter a `module 'SomeSDK' not found` error that is connected with the [C-interop](native-c-interop.md) issue.
-Try these workarounds to avoid this error:
+When installing Pods, you may encounter `module 'SomeSDK' not found` or `framework 'SomeFramework' not found`
+errors related to [C interop](native-c-interop.md) issues. To resolve such errors, try these solutions:
+
+#### Update packages
+
+Update your installation tool and the installed packages (gems):
+
+<tabs>
+<tab title="RVM">
+
+1. Update RVM:
+
+   ```bash
+   rvm get stable
+   ```
+
+2. Update Ruby's package manager, RubyGems:
+
+    ```bash
+    gem update --system
+    ```
+
+3. Upgrade all installed gems to their latest versions:
+
+    ```bash
+    gem update
+    ```
+
+</tab>
+<tab title="Rbenv">
+
+1. Update Rbenv:
+
+    ```bash
+    cd ~/.rbenv
+    git pull
+    ```
+
+2. Update Ruby's package manager, RubyGems:
+
+    ```bash
+    gem update --system
+    ```
+
+3. Upgrade all the installed gems to their latest versions:
+
+    ```bash
+    gem update
+    ```
+
+</tab>
+<tab title="Homebrew">
+
+1. Update the Homebrew package manager: 
+
+   ```bash
+   brew update
+   ```
+
+2. Upgrade all the installed packages to their latest versions:
+
+   ```bash
+   brew upgrade
+   ````
+
+</tab>
+</tabs>
 
 #### Specify the framework name 
 
 1. Look through the downloaded Pod directory `[shared_module_name]/build/cocoapods/synthetic/IOS/Pods/...`
    for the `module.modulemap` file.
-2. Check the framework name inside the module, for example `SDWebImageMapKit {}`. If the framework name doesn't match the Pod
-name, specify it explicitly:
+2. Check the framework name inside the module, for example `SDWebImageMapKit {}`. If the framework name doesn't match
+   the Pod name, specify it explicitly:
 
     ```kotlin
     pod("SDWebImage/MapKit") {
         moduleName = "SDWebImageMapKit"
     }
     ```
+
 #### Specify headers
 
 If the Pod doesn't contain a `.modulemap` file, like the `pod("NearbyMessages")`, specify the main header explicitly:

@@ -48,23 +48,24 @@ plugins {
 When configuring your project, check the Kotlin Gradle plugin (KGP) compatibility with available Gradle versions. 
 In the following table, there are the minimum and maximum **fully supported** versions of Gradle and Android Gradle plugin (AGP):
 
-| KGP version   | Gradle min and max versions            | AGP min and max versions                            |
-|---------------|----------------------------------------|-----------------------------------------------------|
-| 2.1.0         | %minGradleVersion%–%maxGradleVersion%* | %minAndroidGradleVersion%–%maxAndroidGradleVersion% |
-| 2.0.20–2.0.21 | 6.8.3–8.8*                             | 7.1.3–8.5                                           |
-| 2.0.0         | 6.8.3–8.5                              | 7.1.3–8.3.1                                         |
-| 1.9.20–1.9.25 | 6.8.3–8.1.1                            | 4.2.2–8.1.0                                         |
-| 1.9.0–1.9.10  | 6.8.3–7.6.0                            | 4.2.2–7.4.0                                         |
-| 1.8.20–1.8.22 | 6.8.3–7.6.0                            | 4.1.3–7.4.0                                         |      
-| 1.8.0–1.8.11  | 6.8.3–7.3.3                            | 4.1.3–7.2.1                                         |   
-| 1.7.20–1.7.22 | 6.7.1–7.1.1                            | 3.6.4–7.0.4                                         |
-| 1.7.0–1.7.10  | 6.7.1–7.0.2                            | 3.4.3–7.0.2                                         |
-| 1.6.20–1.6.21 | 6.1.1–7.0.2                            | 3.4.3–7.0.2                                         |
+| KGP version   | Gradle min and max versions           | AGP min and max versions                            |
+|---------------|---------------------------------------|-----------------------------------------------------|
+| 2.1.20        | %minGradleVersion%–%maxGradleVersion% | %minAndroidGradleVersion%–%maxAndroidGradleVersion% |
+| 2.1.0–2.1.10  | 7.6.3–8.10*                           | 7.3.1–8.7.2                                         |
+| 2.0.20–2.0.21 | 6.8.3–8.8*                            | 7.1.3–8.5                                           |
+| 2.0.0         | 6.8.3–8.5                             | 7.1.3–8.3.1                                         |
+| 1.9.20–1.9.25 | 6.8.3–8.1.1                           | 4.2.2–8.1.0                                         |
+| 1.9.0–1.9.10  | 6.8.3–7.6.0                           | 4.2.2–7.4.0                                         |
+| 1.8.20–1.8.22 | 6.8.3–7.6.0                           | 4.1.3–7.4.0                                         |      
+| 1.8.0–1.8.11  | 6.8.3–7.3.3                           | 4.1.3–7.2.1                                         |   
+| 1.7.20–1.7.22 | 6.7.1–7.1.1                           | 3.6.4–7.0.4                                         |
+| 1.7.0–1.7.10  | 6.7.1–7.0.2                           | 3.4.3–7.0.2                                         |
+| 1.6.20–1.6.21 | 6.1.1–7.0.2                           | 3.4.3–7.0.2                                         |
 
-> *Kotlin 2.0.20–2.0.21 and Kotlin 2.1.0 are fully compatible with Gradle up to 8.6.
+> *Kotlin 2.0.20–2.0.21 and Kotlin 2.1.0–2.1.10 are fully compatible with Gradle up to 8.6.
 > Gradle versions 8.7–8.10 are also supported, with only one exception: If you use the Kotlin Multiplatform Gradle plugin,
-> you may see deprecation warnings in your multiplatform projects calling the [`withJava()` function in the JVM target](multiplatform-dsl-reference.md#jvm-targets).
-> For more information, see the issue in [YouTrack](https://youtrack.jetbrains.com/issue/KT-66542/Gradle-JVM-target-with-withJava-produces-a-deprecation-warning).
+> you may see deprecation warnings in your multiplatform projects calling the `withJava()` function in the JVM target.
+> For more information, see [Java source sets created by default](multiplatform-compatibility-guide.md#java-source-sets-created-by-default).
 >
 {style="warning"}
 
@@ -184,7 +185,7 @@ in the `java` extension or task cause JVM target incompatibility. For example:
 the `compileKotlin` task has `jvmTarget=1.8`, and
 the `compileJava` task has (or [inherits](https://docs.gradle.org/current/userguide/java_plugin.html#sec:java-extension)) `targetCompatibility=15`.
 
-Configure the behavior of this check for the whole project by setting the `kotlin.jvm.target.validation.mode` property in the `build.gradle(.kts)`
+Configure the behavior of this check for the whole project by setting the `kotlin.jvm.target.validation.mode` property in the `gradle.properties`
 file to:
 
 * `error` – the plugin fails the build; the default value for projects on Gradle 8.0+.
@@ -733,10 +734,8 @@ To add a dependency on a library, set the dependency of the required [type](#dep
 ```kotlin
 kotlin {
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation("com.example:my-library:1.0")
-            }
+        commonMain.dependencies {
+            implementation("com.example:my-library:1.0")
         }
     }
 }
@@ -977,10 +976,8 @@ Kotlin/Native targets do not require additional test dependencies, and the `kotl
 ```kotlin
 kotlin {
     sourceSets {
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test")) // This brings all the platform dependencies automatically
-            }
+         commonTest.dependencies {
+             implementation(kotlin("test")) // This brings all the platform dependencies automatically
         }
     }
 }
@@ -1032,10 +1029,8 @@ kotlin {
         }
     }
     sourceSets {
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-            }
+        commonTest.dependencies {
+            implementation(kotlin("test"))
         }
     }
 }
@@ -1108,13 +1103,12 @@ kotlin.test.infer.jvm.variant=false
 
 If you have used a variant of `kotlin("test")` in your build script explicitly and your project build stopped working with
 a compatibility conflict,
-see [this issue in the Compatibility Guide](compatibility-guide-15.md#do-not-mix-several-jvm-variants-of-kotlin-test-in-a-single-project).
+see [this issue in the Compatibility guide](compatibility-guide-15.md#do-not-mix-several-jvm-variants-of-kotlin-test-in-a-single-project).
 
 ### Set a dependency on a kotlinx library
 
-If you use a [`kotlinx` library](https://github.com/Kotlin/kotlinx.coroutines) and need a platform-specific dependency, 
-you can use platform-specific variants of libraries with suffixes such as `-jvm` or `-js`, for example, 
-`kotlinx-coroutines-core-jvm`. You can also use the library's base artifact name instead – `kotlinx-coroutines-core`.
+If you use a multiplatform library and need to depend on the shared code, set the dependency only once in the shared
+source set. Use the library's base artifact name, such as `kotlinx-coroutines-core` or `ktor-client-core`:
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
@@ -1122,46 +1116,8 @@ you can use platform-specific variants of libraries with suffixes such as `-jvm`
 ```kotlin
 kotlin {
     sourceSets {
-        val jvmMain by getting {
-            dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:%coroutinesVersion%")
-            }
-        }
-    }
-}
-```
-
-</tab>
-<tab title="Groovy" group-key="groovy">
-
-```groovy
-kotlin {
-    sourceSets {
-        jvmMain {
-            dependencies {
-                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:%coroutinesVersion%'
-            }
-        }
-    }
-}
-```
-
-</tab>
-</tabs>
-
-If you use a multiplatform library and need to depend on the shared code, set the dependency only once, in the shared
-source set. Use the library's base artifact name, such as `kotlinx-coroutines-core` or `ktor-client-core`.
-
-<tabs group="build-script">
-<tab title="Kotlin" group-key="kotlin">
-
-```kotlin
-kotlin {
-    sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:%coroutinesVersion%")
-            }
+        commonMain.dependencies {
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:%coroutinesVersion%")
         }
     }
 }
@@ -1174,6 +1130,40 @@ kotlin {
 kotlin {
     sourceSets {
         commonMain {
+            dependencies {
+                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:%coroutinesVersion%'
+            }
+        }
+    }
+}
+```
+
+</tab>
+</tabs>
+
+If you need a kotlinx library for a platform-specific dependency, you can still use the library's base artifact name in
+the corresponding platform source set:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+kotlin {
+    sourceSets {
+        jvmMain.dependencies {
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:%coroutinesVersion%")
+        }
+    }
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+kotlin {
+    sourceSets {
+        jvmMain {
             dependencies {
                 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:%coroutinesVersion%'
             }

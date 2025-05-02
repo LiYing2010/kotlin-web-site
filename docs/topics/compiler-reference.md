@@ -25,18 +25,18 @@ For details, see [Gradle compiler options](gradle-compiler-options.md#how-to-def
 For details, see [Maven](maven.md#specify-compiler-options).
 * If you run a command-line compiler, add the compiler arguments directly to the utility call or write them into an [argfile](#argfile).
 
-For example: 
+  For example:
 
-```bash
-$ kotlinc hello.kt -include-runtime -d hello.jar
-```
+  ```bash
+  $ kotlinc hello.kt -include-runtime -d hello.jar
+  ```
 
->On Windows, when you pass compiler arguments that contain delimiter characters (whitespace, `=`, `;`, `,`),
->surround these arguments with double quotes (`"`).
->```
->$ kotlinc.bat hello.kt -include-runtime -d "My Folder\hello.jar"
->```
-{style="note"}
+  > On Windows, when you pass compiler arguments that contain delimiter characters (whitespace, `=`, `;`, `,`),
+  > surround these arguments with double quotes (`"`).
+  > ```
+  > $ kotlinc.bat hello.kt -include-runtime -d "My Folder\hello.jar"
+  > ```
+  {style="note"}
 
 ## Common options
 
@@ -138,7 +138,7 @@ fully qualified name.
 
 ### -Xsuppress-warning
 
-Suppresses specific warnings [globally across the whole project](whatsnew-eap.md), for example:
+Suppresses specific warnings [globally across the whole project](whatsnew21.md#global-warning-suppression), for example:
 
 ```bash
 kotlinc -Xsuppress-warning=NOTHING_TO_INLINE -Xsuppress-warning=NO_TAIL_CALLS_FOUND main.kt
@@ -216,6 +216,10 @@ The Kotlin compiler for JS compiles Kotlin source files into JavaScript code.
 The command-line tool for Kotlin to JS compilation is `kotlinc-js`.
 
 In addition to the [common options](#common-options), Kotlin/JS compiler has the options listed below.
+
+### -target {es5|es2015}
+
+Generate JS files for the specified ECMA version.
 
 ### -libraries _path_
 

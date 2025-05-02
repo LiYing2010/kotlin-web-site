@@ -19,7 +19,7 @@ The Kotlin 2.1.0 release is here! Here are the main highlights:
 
 The Kotlin plugins that support 2.1.0 are bundled in the latest IntelliJ IDEA and Android Studio.
 You don't need to update the Kotlin plugin in your IDE.
-All you need to do is [change the Kotlin version](configure-build-for-eap.md) to 2.1.0 in your build scripts.
+All you need to do is change the Kotlin version to 2.1.0 in your build scripts.
 
 See [Update to a new Kotlin version](releases.md#update-to-a-new-kotlin-version) for details.
 
@@ -77,11 +77,11 @@ sealed interface Animal {
 
 fun feedAnimal(animal: Animal) {
     when (animal) {
-        // Branch with only the primary condition. Returns `feedDog()` when `Animal` is `Dog`
+        // Branch with only the primary condition. Calls `feedDog()` when `animal` is `Dog`
         is Animal.Dog -> animal.feedDog()
-        // Branch with both primary and guard conditions. Returns `feedCat()` when `Animal` is `Cat` and is not `mouseHunter`
+        // Branch with both primary and guard conditions. Calls `feedCat()` when `animal` is `Cat` and is not `mouseHunter`
         is Animal.Cat if !animal.mouseHunter -> animal.feedCat()
-        // Returns "Unknown animal" if none of the above conditions match
+        // Prints "Unknown animal" if none of the above conditions match
         else -> println("Unknown animal")
     }
 }
@@ -970,7 +970,7 @@ This gap required creating custom functions for array transformations, complicat
 This release introduces an adapter function that automatically converts `JsArray<T>` to `Array<T>` and vice versa,
 simplifying array operations.
 
-Here's an example of conversion between generic types: Kotlin `List<T> `and `Array<T>` to JavaScript `JsArray<T>.`
+Here's an example of conversion between generic types: Kotlin `List<T>` and `Array<T>` to JavaScript `JsArray<T>`.
 
 ```kotlin
 val list: List<JsString> =
@@ -1181,7 +1181,7 @@ Learn more about [ES2015 (ECMAScript 2015, ES6) in the official documentation](h
 Kotlin 2.1.0 is fully compatible with Gradle 7.6.3 through 8.6.
 Gradle versions 8.7 to 8.10 are also supported, with only one exception.
 If you use the Kotlin Multiplatform Gradle plugin,
-you may see deprecation warnings in your multiplatform projects calling the [`withJava()` function in the JVM target](multiplatform-dsl-reference.md#jvm-targets).
+you may see deprecation warnings in your multiplatform projects calling the `withJava()` function in the JVM target.
 We plan to fix this issue as soon as possible.
 
 For more information,

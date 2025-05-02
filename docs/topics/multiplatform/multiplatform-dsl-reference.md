@@ -135,27 +135,6 @@ In any target block, you can use the following declarations:
 | `components`        | Components used to set up Gradle publications.                                                                                                                                             |
 | `compilerOptions`   | [Compiler options](#compiler-options) used for the target. This declaration overrides any `compilerOptions {}` configured at [top level](multiplatform-dsl-reference.md#top-level-blocks). |
 
-### JVM targets
-
-In addition to [common target configuration](#common-target-configuration), `jvm` targets have a specific function:
-
-| **Name**     | **Description**                                           | 
-|--------------|-----------------------------------------------------------|
-| `withJava()` | Includes Java sources into the JVM target's compilations. |
-
-Use this function for projects that contain both Java and Kotlin source files. Note that the default source directories for Java sources
-don't follow the Java plugin's defaults. Instead, they are derived from the Kotlin source sets. For example, if the JVM target
-has the default name `jvm`, the paths are `src/jvmMain/java` (for production Java sources) and `src/jvmTest/java` for test Java sources.
-Learn more about [Java sources in JVM compilations](multiplatform-configure-compilations.md#use-java-sources-in-jvm-compilations).
-
-```kotlin
-kotlin {
-    jvm {
-        withJava()
-    } 
-}
-```
-
 ### Web targets
 
 The `js {}` block describes the configuration of Kotlin/JS targets, and the `wasmJs {}` block describes the configuration of
@@ -1044,8 +1023,8 @@ The `languageSettings {}` block of a source set defines certain aspects of proje
 kotlin {
     sourceSets.all {
         languageSettings.apply {
-            languageVersion = "%languageVersion%" // possible values: '1.8', '1.9', `2.0`, `2.1`
-            apiVersion = "%apiVersion%" // possible values: '1.8', '1.9', `2.0`, `2.1`
+            languageVersion = "%languageVersion%" // possible values: "1.8", "1.9", "2.0", "2.1"
+            apiVersion = "%apiVersion%" // possible values: "1.8", "1.9", "2.0", "2.1"
             enableLanguageFeature("InlineClasses") // language feature name
             optIn("kotlin.ExperimentalUnsignedTypes") // annotation FQ-name
             progressiveMode = true // false by default
@@ -1061,8 +1040,8 @@ kotlin {
 kotlin {
     sourceSets.all {
         languageSettings {
-            languageVersion = '%languageVersion%' // possible values: '1.8', '1.9', `2.0`, `2.1`
-            apiVersion = '%apiVersion%' // possible values: '1.8', '1.9', `2.0`, `2.1`
+            languageVersion = '%languageVersion%' // possible values: '1.8', '1.9', '2.0', '2.1'
+            apiVersion = '%apiVersion%' // possible values: '1.8', '1.9', '2.0', '2.1'
             enableLanguageFeature('InlineClasses') // language feature name
             optIn('kotlin.ExperimentalUnsignedTypes') // annotation FQ-name
             progressiveMode = true // false by default
