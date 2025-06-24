@@ -19,7 +19,7 @@ Kotlin 2.1.0 已经发布了! 以下是它的一些最重要的功能:
 
 最新的 IntelliJ IDEA 和 Android Studio 中绑定了支持 2.1.0 的 Kotlin plugin.
 你不需要在你的 IDE 中更新 Kotlin plugin.
-你需要做的只是在你的构建脚本中 [修改 Kotlin 版本](configure-build-for-eap.md) 为 2.1.0.
+你需要做的只是在你的构建脚本中将 Kotlin 版本修改为 2.1.0.
 
 详情请参见 [更新到新的 Kotlin 版本](releases.md#update-to-a-new-kotlin-version).
 
@@ -1153,7 +1153,7 @@ fun main() {
 Kotlin 2.1.0 完全兼容于 Gradle 版本 7.6.3 到 8.6.
 Gradle 版本 8.7 到 8.10 也支持, 只有一个例外.
 如果你使用 Kotlin Multiplatform Gradle plugin,
-在跨平台项目中调用 [JVM 编译目标中的 `withJava()` 函数](multiplatform-dsl-reference.md#jvm-targets)时, 可能会看到废弃警告.
+在跨平台项目中调用 JVM 编译目标中的 `withJava()` 函数时, 可能会看到废弃警告.
 我们计划尽快解决这个问题.
 
 详情请参见 [YouTrack](https://youtrack.jetbrains.com/issue/KT-66542) 中的相关问题.
@@ -1220,16 +1220,23 @@ configure<KotlinJvmExtension> {
 
 ### 编译器 符号 hidden from the Kotlin Gradle plugin API {id="compiler-symbols-hidden-from-the-kotlin-gradle-plugin-api"}
 
-从 Kotlin 2.1.0 开始, 如果访问了 Kotlin Gradle plugin (KGP) 中捆绑的编译器模块符号, 你将收到一个警告.
 以前, KGP 在它的运行期依赖项中包含了 `org.jetbrains.kotlin:kotlin-compiler-embeddable`,
-导致内部的编译器符号, 例如 `KotlinCompilerVersion`, 在构建脚本类路径中可以访问.
+导致内部的编译器符号在构建脚本类路径中可以访问.
 这些符号本来的意图是只供内部使用.
 
-在之后的 Kotlin 发布版中, 对这些符号的访问将被删除, 以防出现兼容性问题, 并简化 KGP 的维护.
-如果你的构建逻辑依赖于任何编译器符号,
-你需要更新你的逻辑, 并使用带类装载器隔离(classloader isolation)或进程隔离(process isolation)的
-[Gradle Workers API](https://docs.gradle.org/current/userguide/worker_api.html),
-以实现与编译器安全的交互.
+从 Kotlin 2.1.0 开始, KGP 在它的 JAR 文件中捆绑了 `org.jetbrains.kotlin:kotlin-compiler-embeddable` 的一部分类文件,
+并会逐渐删除它们.
+这个变更是为了防止出现兼容性问题, 并简化 KGP 的维护.
+
+如果你的构建逻辑的其它部分, 例如 `kotlinter` 之类的 plugin,
+依赖的 `org.jetbrains.kotlin:kotlin-compiler-embeddable` 版本与 KGP 捆绑的版本不同, 可能会导致冲突, 并发生运行时异常.
+
+为了防止这样的问题, 如果 `org.jetbrains.kotlin:kotlin-compiler-embeddable` 与 KGP 一起出现在构建的类路径中, KGP 现在会显示警告.
+
+作为一种长期的解决方案, 如果你是 plugin 作者, 使用了 `org.jetbrains.kotlin:kotlin-compiler-embeddable` 类,
+我们推荐您在一个隔离的类装载器中运行它们.
+例如, 你可以使用带类装载器隔离(classloader isolation)或进程隔离(process isolation)的
+[Gradle Workers API](https://docs.gradle.org/current/userguide/worker_api.html).
 
 #### 使用 Gradle Workers API {id="using-the-gradle-workers-api"}
 

@@ -95,3 +95,13 @@ subprojects {
 
 </tab>
 </tabs>
+
+> 在 Dokka 2.0.0 中, 使用 Dokka 的一些步骤和任务有了变更, 包括:
+>
+> * [配置多项目构建](dokka-migration.md#share-dokka-configuration-across-modules)
+> * [使用变更后的任务生成文档](dokka-migration.md#generate-documentation-with-the-updated-task)
+> * [指定输出目录](dokka-migration.md#output-directory)
+>
+> 关于更多详情, 以及完整的变更列表, 请参见 [迁移向导](dokka-migration.md).
+>
+{style="note"}

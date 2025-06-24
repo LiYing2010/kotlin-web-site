@@ -1,26 +1,36 @@
 [//]: # (title: 值范围(Range)与数列(Progression))
 
+在 Kotlin 中, 值范围(Range)与数列(Progression)用来定义值的序列, 支持范围操作符, 迭代, 自定义步长值, 以及算数数列.
+
+## 值范围(Range) {id="range"}
+
 Kotlin 允许你非常便利的创建值范围, 方法是使用 `kotlin.ranges` 包中的
 [`.rangeTo()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/range-to.html)
 和 [`.rangeUntil()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/range-until.html)
 函数.
 
+值范围表示一组有序的值, 具有指定的起始值和结束值. 默认情况下, 值范围的增长步长为 1.
+例如, `1..4` 表示数字 1, 2, 3, 和 4.
+
 如果要创建:
+
 * 终端封闭(closed-ended)的值范围, 请使用 `..` 操作符, 调用 `.rangeTo()` 函数.
+  这个值范围包含起始值和结束值.
 * 终端开放(open-ended)的值范围, 请使用 `..<` 操作符, 调用 `.rangeUntil()` 函数.
+  这个值范围包含起始值, 但不包含结束值.
 
 例如:
 
 ```kotlin
 fun main() {
 //sampleStart
-    // 终端封闭的值范围
+    // 终端封闭的值范围: 包含 1 和 4
     println(4 in 1..4)
-    // true
+    // 输出结果为: true
 
-    // 终端开放的值范围
+    // 终端开放的值范围: 包含 1, 不包含 4
     println(4 in 1..<4)
-    // false
+    // 输出结果为: false
 //sampleEnd
 }
 ```
@@ -32,7 +42,7 @@ fun main() {
 fun main() {
 //sampleStart
     for (i in 1..4) print(i)
-    // 输出结果为 1234
+    // 输出结果为: 1234
 //sampleEnd
 }
 ```
@@ -46,28 +56,25 @@ fun main() {
 fun main() {
 //sampleStart
     for (i in 4 downTo 1) print(i)
-    // 输出结果为 4321
+    // 输出结果为: 4321
 //sampleEnd
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-ranges-downto"}
 
-还可以使用任意步长(不一定是 1)来遍历整数.
-可以通过
-[`step`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/step.html)
-函数实现.
+你也可以使用 [`step()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/step.html) 函数, 用自定义的步长遍历整数, 而不是默认步长 1:
 
 ```kotlin
 fun main() {
 //sampleStart
     for (i in 0..8 step 2) print(i)
     println()
-    // 输出结果为 02468
+    // 输出结果为: 02468
     for (i in 0..<8 step 2) print(i)
     println()
-    // 输出结果为 0246
+    // 输出结果为: 0246
     for (i in 8 downTo 0 step 2) print(i)
-    // 输出结果为 86420
+    // 输出结果为: 86420
 //sampleEnd
 }
 ```
@@ -99,7 +106,7 @@ for (int i = first; i <= last; i += step) {
 fun main() {
 //sampleStart
     for (i in 1..10) print(i)
-    // 输出结果为 12345678910
+    // 输出结果为: 12345678910
 //sampleEnd
 }
 ```
@@ -111,7 +118,7 @@ fun main() {
 fun main() {
 //sampleStart
     for (i in 1..8 step 2) print(i)
-    // 输出结果为 1357
+    // 输出结果为: 1357
 //sampleEnd
 }
 ```
@@ -127,7 +134,7 @@ fun main() {
 fun main() {
 //sampleStart
     for (i in 1..9 step 3) print(i) // last 元素是 7
-    // 输出结果为 147
+    // 输出结果为: 147
 //sampleEnd
 }
 ```
@@ -140,7 +147,7 @@ fun main() {
 fun main() {
 //sampleStart
     println((1..10).filter { it % 2 == 0 })
-    // 输出结果为 [2, 4, 6, 8, 10]
+    // 输出结果为: [2, 4, 6, 8, 10]
 //sampleEnd
 }
 ```

@@ -104,13 +104,11 @@
    >
    {style="tip"}
 
-### 准备 XCFramework 和 Swift 包 manifest
+### 准备 XCFramework 和 Swift 包 manifest {id="prepare-the-xcframework-and-the-swift-package-manifest"}
 
 1. 将 `Shared.xcframework` 文件夹压缩为一个 ZIP 文件, 并计算 ZIP 包的校验和, 例如:
 
    `swift package compute-checksum Shared.xcframework.zip`
-
-<anchor name="upload"/>
 
 2. 将 ZIP 文件 上传到你选择的文件存储器. 文件应该能够通过一个直接链接访问.
    例如, 你可以在 GitHub 中使用 releases 这样做:
@@ -291,8 +289,8 @@
     ./gradlew :together:assembleTogetherReleaseXCFramework
     ```
 
-5. 对 `together.xcframework` 执行 [前面的小节](#upload) 的第 4–7 步: 打包, 计算校验和,
-   上传打包的 XCFramework, 创建并推送一个 `Package.swift` 文件.
+5. 按照前面的 [小节](#prepare-the-xcframework-and-the-swift-package-manifest) 中的步骤准备好 `together.xcframework`:
+   打包, 计算校验和, 将打包的 XCFramework 上传到文件存储, 创建并推送一个 `Package.swift` 文件.
 
 现在, 你可以将依赖项导入到 Xcode 项目.
 在添加 `import together` 指令之后, 你就可以在 Swift 代码中导入来自 `network`块和 `database` 模块类了.

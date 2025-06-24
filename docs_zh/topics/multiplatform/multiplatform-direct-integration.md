@@ -29,8 +29,9 @@
 ## 如何设置 {id="how-to-set-up"}
 
 如果你目前在使用 CocoaPods plugin 来连接你的 Kotlin 框架, 首先请进行迁移.
+如果你的项目没有 CocoaPods 依赖项, [请跳过这一步](#connect-the-framework-to-your-project).
 
-### 从 CocoaPods plugin 迁移到直接集成 {id="migrate-from-cocoapods-plugin-to-direct-integration" initial-collapse-state="collapsed" collapsible="true"}
+### 从 CocoaPods plugin 迁移
 
 要从 CocoaPods plugin 迁移, 请进行以下步骤:
 

@@ -224,8 +224,6 @@ data class User(val name: String, val id: Int)
 fun main() {
     //sampleStart
     val user = User("Alex", 1)
-    val secondUser = User("Alex", 1)
-    val thirdUser = User("Max", 2)
 
     // 创建 user 的完全相同的复制
     println(user.copy())
@@ -332,7 +330,7 @@ fun main() {
 > 在这个习题中, 你会导入一个包, 这样就可以使用 [`Random.nextInt()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.random/-random/next-int.html) 函数.
 > 关于包的导入, 更多详情请参见 [包(Package)与导入(Import)](packages.md).
 >
-{type = "tip"}
+{style="tip"}
 
 <deflist collapsible="true" id="kotlin-tour-classes-exercise-3-hint-1">
     <def title="提示 1">

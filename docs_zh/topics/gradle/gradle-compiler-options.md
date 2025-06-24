@@ -18,9 +18,9 @@ Gradle DSL 可以对编译器选项进行全面的配置.
 可以用于 [Kotlin Multiplatform](multiplatform-dsl-reference.md) 和 [JVM/Android](#target-the-jvm) 项目.
 
 使用 Gradle DSL, 你可以在构建脚本的 3 个层级配置编译器选项:
-* **扩展层级(Extension Level)**, 在 `kotlin {}` 代码块之内, 用于所有的编译目标和共用源代码集.
-* **编译目标层级(Target Level)**, 在特定的编译目标的代码块之内.
-* **编译单元层级(Compilation Unit Level),** 通常在特定的编译任务之内.
+* **[扩展层级(Extension Level)](#extension-level)**, 在 `kotlin {}` 代码块之内, 用于所有的编译目标和共用源代码集.
+* **[编译目标层级(Target Level)](#target-level)**, 在特定的编译目标的代码块之内.
+* **[编译单元层级(Compilation Unit Level)](#compilation-unit-level),** 通常在特定的编译任务之内.
 
 ![Kotlin 编译器选项层级](compiler-options-levels.svg){width=700}
 
@@ -117,7 +117,7 @@ kotlin {
 ```kotlin
 tasks.named("compileKotlin", org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask::class.java) {
     compilerOptions {
-        apiVersion.set("1.8")
+        apiVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
     }
 }
 ```
@@ -128,7 +128,7 @@ tasks.named("compileKotlin", org.jetbrains.kotlin.gradle.tasks.KotlinCompilation
 ```groovy
 tasks.named('compileKotlin', org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask.class) {
     compilerOptions {
-        apiVersion.set("1.8")
+        apiVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
     }
 }
 ```
@@ -138,7 +138,7 @@ tasks.named('compileKotlin', org.jetbrains.kotlin.gradle.tasks.KotlinCompilation
 
 ## JVM 目标平台 {id="target-the-jvm"}
 
-如上文所述, 你可以对你的 JVM/Android 项目在扩展, 编译目标, 和编译单元层级定义编译器选项.
+[如上文所述](#how-to-define-options), 你可以对你的 JVM/Android 项目在扩展, 编译目标, 和编译单元层级(任务)定义编译器选项.
 
 对于 JVM 目标平台, 编译产品代码的默认编译任务名为 `compileKotlin`, 编译测试代码的编译任务名为 `compileTestKotlin`.
 针对自定义源代码集的编译任务名, 是与源代码集名称对应的 `compile<Name>Kotlin`.
@@ -193,7 +193,10 @@ tasks.named('compileKotlin', KotlinCompilationTask) {
 
 编译 JavaScript 和 Common 时, 请使用相应的 `Kotlin2JsCompile` 和 `KotlinCompileCommon` 类型.
 
-## 配置所有的 Kotlin 编译任务 {id="all-kotlin-compilation-tasks"}
+你可以查看 JavaScript 编译任务的列表, 方法是在终端中运行 `gradlew tasks --all` 命令,
+并搜索 `Other tasks` 组中的 `compile*KotlinJS` task 名称.
+
+## 所有的 Kotlin 编译任务 {id="all-kotlin-compilation-tasks"}
 
 也可以对项目中的所有 Kotlin 编译任务进行配置:
 
@@ -243,7 +246,7 @@ Gradle 编译器所支持的选项完整列表如下:
 | `javaParameters`          | 为 Java 1.8 的方法参数反射功能生成 metadata                                                                                                                           |                                                                                 | false                       |
 | `jvmTarget`               | 指定编译输出的 JVM 字节码的版本                                                                                                                                        | "1.8", "9", "10", ..., "22", "23". 参见 [编译器选项的数据类型](#types-for-compiler-options) | "%defaultJvmTargetVersion%" |
 | `noJdk`                   | 不要自动将 Java 运行库包含到 classpath 内                                                                                                                             |                                                                                 | false                       |
-| `jvmTargetValidationMode` | 验证 Kotlin 和 Java 编译任务的 [JVM 编译目标兼容性](gradle-configure-project.md#check-for-jvm-target-compatibility-of-related-compile-tasks). 适用于 `KotlinCompile` 类型的任务. | `WARNING`, `ERROR`, `INFO`                                                      | `ERROR`                     |
+| `jvmTargetValidationMode` | 验证 Kotlin 和 Java 编译任务的 [JVM 编译目标兼容性](gradle-configure-project.md#check-for-jvm-target-compatibility-of-related-compile-tasks). 适用于 `KotlinCompile` 类型的任务. | `WARNING`, `ERROR`, `IGNORE`                                                    | `ERROR`                     |
 
 ### JVM, 和 JavaScript 任务支持的共通属性 {id="attributes-common-to-jvm-and-javascript"}
 
@@ -363,19 +366,17 @@ tasks
 
 ### JavaScript 任务独有的属性 {id="attributes-specific-to-javascript"}
 
-| 属性名称                    | 描述                                                                                                                                         | 可以选择的值                                                                                      | 默认值                                                                    |
-|-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|------------------------------------------------------------------------|
-| `friendModulesDisabled` | 指定是否关闭内部声明的输出                                                                                                                              |                                                                                             | false                                                                  |
-| `main`                  | 指定执行时是否调用 main 函数                                                                                                                          | "call", "noCall". 参见 [编译器选项的数据类型](#types-for-compiler-options)                              | "call"                                                                 |
-| `metaInfo`              | 指定是否生成带有 metadata 的 .meta.js 和 .kjsm 文件. 用于创建库                                                                                             |                                                                                             | true                                                                   |
-| `moduleKind`            | 指定编译器生成的 JS 模块类型                                                                                                                           | "umd", "commonjs", "amd", "plain", "es". 参见 [编译器选项的数据类型](#types-for-compiler-options)       | "umd"                                                                  |
-| `outputFile`            | 指定编译结果输出的 *.js 文件                                                                                                                          |                                                                                             | "&lt;buildDir&gt;/js/packages/<project.name>/kotlin/<project.name>.js" |
-| `sourceMap`             | 指定是否生成源代码映射文件(source map)                                                                                                                  |                                                                                             | true                                                                   |
-| `sourceMapEmbedSources` | 指定是否将源代码文件嵌入到源代码映射文件中                                                                                                                      | "never", "always", "inlining". 参见 [编译器选项的数据类型](#types-for-compiler-options)                 |                                                                        |
-| `sourceMapNamesPolicy`  | 将你在 Kotlin 代码中声明的变量和函数名称添加到源代码映射文件中. 详情请参见 [编译器参考文档](compiler-reference.md#source-map-names-policy-simple-names-fully-qualified-names-no). | "simple-names", "fully-qualified-names", "no". 参见 [编译器选项的数据类型](#types-for-compiler-options) | "simple-names"                                                         |
-| `sourceMapPrefix`       | 对源代码映射文件中的路径添加一个指定的前缀                                                                                                                      |                                                                                             |                                                                        |
-| `target`                | 指定生成的 JS 文件 的 ECMA 版本                                                                                                                      | "v5"                                                                                        | "v5"                                                                   |
-| `typedArrays`           | 将基本类型数组转换为 JS 的有类型数组                                                                                                                       |                                                                                             | true                                                                   |
+| 属性名称                    | 描述                                                                                                                                        | 可以选择的值                                                                                                                                                                        | 默认值                                |
+|-------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------|
+| `friendModulesDisabled` | 指定是否关闭内部声明的输出                                                                                                                             |                                                                                                                                                                               | `false`                            |
+| `main`                  | 指定执行时是否调用 main 函数                                                                                                                         | `JsMainFunctionExecutionMode.CALL`, `JsMainFunctionExecutionMode.NO_CALL`                                                                                                     | `JsMainFunctionExecutionMode.CALL` |
+| `moduleKind`            | 指定编译器生成的 JS 模块类型                                                                                                                          | `JsModuleKind.MODULE_AMD`, `JsModuleKind.MODULE_PLAIN`, `JsModuleKind.MODULE_ES`, `JsModuleKind.MODULE_COMMONJS`, `JsModuleKind.MODULE_UMD`                                   | `null`                             |
+| `sourceMap`             | 指定是否生成源代码映射文件(source map)                                                                                                                 |                                                                                                                                                                               | `false`                            |
+| `sourceMapEmbedSources` | 指定是否将源代码文件嵌入到源代码映射文件中                                                                                                                     | `JsSourceMapEmbedMode.SOURCE_MAP_SOURCE_CONTENT_INLINING`, `JsSourceMapEmbedMode.SOURCE_MAP_SOURCE_CONTENT_NEVER`, `JsSourceMapEmbedMode.SOURCE_MAP_SOURCE_CONTENT_ALWAYS`    | `null`                             |
+| `sourceMapNamesPolicy`  | 将你在 Kotlin 代码中声明的变量和函数名称添加到源代码映射文件中. 详情请参见 [编译器参考文档](compiler-reference.md#source-map-names-policy-simple-names-fully-qualified-names-no) | `JsSourceMapNamesPolicy.SOURCE_MAP_NAMES_POLICY_FQ_NAMES`, `JsSourceMapNamesPolicy.SOURCE_MAP_NAMES_POLICY_SIMPLE_NAMES`, `JsSourceMapNamesPolicy.SOURCE_MAP_NAMES_POLICY_NO` | `null`                             |
+| `sourceMapPrefix`       | 对源代码映射文件中的路径添加一个指定的前缀                                                                                                                     |                                                                                                                                                                               | `null`                             |
+| `target`                | 指定生成的 JS 文件 的 ECMA 版本                                                                                                                     | `"es5"`, `"es2015"`                                                                                                                                                           | `"es5"`                            |
+| `useEsClasses`          | Let generated JavaScript code use ES2015 classes. Enabled by default in case of ES2015 target usage                                       |                                                                                                                                                                               | `null`                             |
 
 ### 编译器选项的数据类型 {id="types-for-compiler-options"}
 

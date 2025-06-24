@@ -92,8 +92,10 @@ kotlin {
 kotlin {
     jvm {
         val main by compilations.getting {
-            compilerOptions.configure {
-                jvmTarget.set(JvmTarget.JVM_1_8)
+            compileTaskProvider.configure {
+                compilerOptions {
+                    jvmTarget.set(JvmTarget.JVM_1_8)
+                }
             }
         }
     }
@@ -107,8 +109,10 @@ kotlin {
 kotlin {
     jvm {
         compilations.main {
-            compilerOptions.configure {
-                jvmTarget = JvmTarget.JVM_1_8
+            compileTaskProvider.configure {
+                compilerOptions {
+                    jvmTarget = JvmTarget.JVM_1_8
+                }
             }
         }
     }
@@ -200,33 +204,86 @@ kotlin {
 对于其他情况也需要创建自定义编译任务, 比如, 如果希望在你的最终 artifact 中对不同的 JVM 版本组合编译任务,
 或者已经在 Gradle 中设置过源代码集, 希望迁移到跨平台项目.
 
-## 在 JVM 编译任务中使用 Java 源代码 {id="use-java-sources-in-jvm-compilations"}
+## JVM 编译 {id="compilation-for-jvm"}
 
-使用 [项目向导](https://kmp.jetbrains.com/) 创建项目时, Java 源代码会包含在 JVM 编译任务内.
+当你在你的跨平台项目中声明 `jvm` 编译目标时, Kotlin Multiplatform plugin 会自动创建 Java 源代码集,
+并将它们包含到 JVM 编译目标的编译任务中.
 
-在构建脚本中, 以下代码会应用 Gradle `java` plugin, 并配置编译目标, 使其与 `java` plugin 协作:
+共通源代码集不能包含 Java 资源, 因此你应该将它们放在你的跨平台项目的相应的子目录中.
+例如:
+
+![Java 源代码文件](java-source-paths.png){width=200}
+
+目前, Kotlin Multiplatform plugin 会替换 Java plugin 配置的某些任务:
+
+* JAR 任务: 不使用标准的 `jar` 任务, 而是使用基于 artifact 名称的, 编译目标相关的任务,
+  例如, 对 `jvm()` 编译目标声明, 使用 `jvmJar`, 对 `jvm("desktop")`, 使用 `desktopJar`.
+* 测试任务: 不使用标准的 `test` 任务, 而是使用基于 artifact 名称的, 编译目标相关的任务,
+  例如, `jvmTest`.
+* 资源处理: 资源由相应的编译任务处理, 而不是 `*ProcessResources` 任务.
+
+这些任务会在声明编译目标时自动创建. 但是, 如果需要, 你可以手动定义 JAR 任务, 并配置它:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
+// 共用模块的 `build.gradle.kts` 文件
+plugins {
+    kotlin("multiplatform") version "%kotlinVersion%"
+}
+
 kotlin {
+    // 指定 JVM 编译目标
     jvm {
-        withJava()
+        // 添加生成 JAR 的任务
+        tasks.named<Jar>(artifactsTaskName).configure {
+            // 配置任务
+        }
+    }
+
+    sourceSets {
+        jvmMain {
+            dependencies {
+                // 添加 JVM 相关的依赖项
+            }
+        }
     }
 }
 ```
 
-Java 源代码文件 放在 Kotlin 源代码根路径的子目录之内. 比如, 路径是:
+</tab>
+<tab title="Groovy" group-key="groovy">
 
-![Java 源代码文件](java-source-paths.png){width=200}
+```groovy
+// 共用模块的 `build.gradle` 文件
+plugins {
+    id 'org.jetbrains.kotlin.multiplatform' version '%kotlinVersion%'
+}
 
-共通源代码集不可以包含 Java 源代码.
+kotlin {
+    // 指定 JVM 编译目标
+    jvm {
+        // 添加生成 JAR 的任务
+        tasks.named<Jar>(artifactsTaskName).configure {
+            // 配置任务
+        }
+    }
 
-由于目前的限制, Kotlin plugin 会替换 Java plugin 配置的某些任务:
+    sourceSets {
+        jvmMain {
+            dependencies {
+                // 添加 JVM 相关的依赖项
+            }
+        }
+    }
+}
+```
 
-* 使用编译目标的 JAR 任务, 而不是 `jar` 任务 (比如, `jvmJar`).
-* 使用编译目标的 test 任务, 而不是 `test` 任务 (比如, `jvmTest`).
-* 资源由编译任务中的同等任务处理, 而不是 `*ProcessResources` 任务.
+</tab>
+</tabs>
 
-这个编译目标的发布由 Kotlin plugin 处理, 而且不需要 Java plugin 的具体步骤.
+这个编译目标由 Kotlin Multiplatform plugin 发布, 而且不需要 Java plugin 相关的设置步骤.
 
 ## 配置与原生语言的交互 {id="configure-interop-with-native-languages"}
 
@@ -320,7 +377,7 @@ kotlin {
 </tab>
 </tabs>
 
-## Android 编译任务 {id="compilation-for-android"}
+## Android 编译 {id="compilation-for-android"}
 
 对 Android 编译目标默认创建的编译任务会与 [Android 构建变体(build variant)](https://developer.android.com/studio/build/build-variants) 绑定:
 对每个构建变体, 会创建一个相同名称的 Kotlin 编译任务.
@@ -384,15 +441,5 @@ Gradle 提供了 [隔离项目(Isolated Project)](https://docs.gradle.org/curren
 这个功能分离各个项目的构建脚本和插件, 让它们能够安全的并行运行.
 
 要启用这个功能, 请按照 Gradle 的指示 [设置系统属性](https://docs.gradle.org/current/userguide/isolated_projects.html#how_do_i_use_it).
-
-在 Gradle 中启用隔离项目之前, 如果你想要检查兼容性, 你可以使用新的 Kotlin Gradle plugin 模型测试你的项目.
-请向你的 `gradle.properties` 文件添加以下 Gradle 属性:
-
-```none
-kotlin.kmp.isolated-projects.support=enable
-```
-
-如果你决定以后再启用隔离项目功能, 请记得删除这个 Gradle 属性.
-Kotlin Gradle plugin 会直接适用和管理这个 Gradle 属性.
 
 关于隔离项目功能, 详情请参见 [Gradle 的文档](https://docs.gradle.org/current/userguide/isolated_projects.html).

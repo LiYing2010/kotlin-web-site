@@ -168,7 +168,7 @@
    * **T1**: 第 1 个线程执行 `inc()`, 返回 `1`, 然后结束.
    * **T2**: 第 2 个线程恢复运行, 对前面得到的计数器值加 1, 错误的将计数器更新为 `1`.
 
-> [请在这里查看完整代码](https://github.com/Kotlin/kotlinx-lincheck/blob/guide/src/jvm/test/org/jetbrains/kotlinx/lincheck/test/guide/BasicCounterTest.kt).
+> [请在这里查看完整代码](https://github.com/JetBrains/lincheck/blob/master/src/jvm/test/org/jetbrains/kotlinx/lincheck_test/guide/BasicCounterTest.kt).
 >
 {style="note"}
 
@@ -250,7 +250,7 @@ The following interleaving leads to the error:
 | --------------------------------------------------------------------------------------------------------------------------------- |
 ```
 
-> [请在这里查看完整代码](https://github.com/Kotlin/kotlinx-lincheck/blob/guide/src/jvm/test/org/jetbrains/kotlinx/lincheck/test/guide/ConcurrentLinkedDequeTest.kt).
+> [请在这里查看完整代码](https://github.com/JetBrains/lincheck/blob/master/src/jvm/test/org/jetbrains/kotlinx/lincheck_test/guide/ConcurrentLinkedDequeTest.kt).
 >
 {style="note"}
 

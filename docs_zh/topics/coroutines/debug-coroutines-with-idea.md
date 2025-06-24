@@ -106,7 +106,7 @@
 
 如果你使用 `suspend` 函数, 那么在调试器中, 你可能会在变量名称旁边看到 "was optimized out" 文字:
 
-![变量 "a" 被优化了](variable-optimised-out.png)
+![变量 "a" 被优化了](variable-optimised-out.png){width=480}
 
 这段文字的意思是说, 变量的生存时间变短了, 而且变量已经不再存在了.
 如果变量被优化, 调试代码会变得困难, 因为你看不到变量值.

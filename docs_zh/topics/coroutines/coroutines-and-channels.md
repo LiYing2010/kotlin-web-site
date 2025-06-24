@@ -1,75 +1,73 @@
-[//]: # (title: 教程 - 协程与通道(Channel))
+[//]: # (title: 教程 - 协程(Coroutine)与通道(Channel))
 
-In this tutorial, you'll learn how to use coroutines in IntelliJ IDEA to perform network requests without blocking the
-underlying thread or callbacks.
+在这篇教程中, 你将学习如何在 IntelliJ IDEA 中使用协程(Coroutine)执行网络请求, 而不阻塞底层的线程, 也不使用回调.
 
-> No prior knowledge of coroutines is required, but you're expected to be familiar with basic Kotlin syntax.
+> 本教程不需要事先了解协程(Coroutine)的知识, 但你需要熟悉基本的 Kotlin 语法.
 >
 {style="tip"}
 
-You'll learn:
+你将学习:
 
-* Why and how to use suspending functions to perform network requests.
-* How to send requests concurrently using coroutines.
-* How to share information between different coroutines using channels.
+* 为什么以及如何使用挂起函数, 执行网络请求.
+* 如何使用协程(Coroutine), 并发的发送请求.
+* 如何使用通道(Channel), 在不同的协程(Coroutine)之间共享信息.
 
-For network requests, you'll need the [Retrofit](https://square.github.io/retrofit/) library, but the approach shown in
-this tutorial works similarly for any other libraries that support coroutines.
+对于网络请求, 你需要使用 [Retrofit](https://square.github.io/retrofit/) 库, 但本教程中演示的方法, 对于其他支持协程的库也是适用的.
 
-> You can find solutions for all of the tasks on the `solutions` branch of the [project's repository](http://github.com/kotlin-hands-on/intro-coroutines).
+> 在 [项目的代码仓库](http://github.com/kotlin-hands-on/intro-coroutines) 的 `solutions` 分支中,
+> 可以找到各个任务的解答.
 >
 {style="tip"}
 
-## Before you start
+## 开始之前的准备步骤 {id="before-you-start"}
 
-1. Download and install the latest version of [IntelliJ IDEA](https://www.jetbrains.com/idea/download/index.html).
-2. Clone the [project template](http://github.com/kotlin-hands-on/intro-coroutines) by choosing **Get from VCS** on the
-   Welcome screen or selecting **File | New | Project from Version Control**.
+1. 下载并安装 [IntelliJ IDEA](https://www.jetbrains.com/idea/download/index.html) 的最新版本.
+2. 在欢迎界面中选择 **Get from VCS**, 
+   或选择菜单 **File | New | Project from Version Control**, clone [项目模板](http://github.com/kotlin-hands-on/intro-coroutines).
 
-   You can also clone it from the command line:
+   你也可以通过命令行 clone:
 
    ```Bash
    git clone https://github.com/kotlin-hands-on/intro-coroutines
    ```
 
-### Generate a GitHub developer token
+### 生成一个 GitHub 开发者 token {id="generate-a-github-developer-token"}
 
-You'll be using the GitHub API in your project. To get access, provide your GitHub account name and either a password or a
-token. If you have two-factor authentication enabled, a token will be enough.
+在你的项目中将会使用 GitHub API. 为了得到访问权限, 请提供你的 GitHub 账户名称, 以及密码或 token.
+如果你启用了 two-factor 认证, token 就足够了.
 
-Generate a new GitHub token to use the GitHub API with [your account](https://github.com/settings/tokens/new):
+生成一个新的 GitHub token, 以便通过 [你的账户](https://github.com/settings/tokens/new) 使用 GitHub API:
 
-1. Specify the name of your token, for example, `coroutines-tutorial`:
+1. 指定你的 token 名称, 例如, `coroutines-tutorial`:
 
-   ![Generate a new GitHub token](generating-token.png){width=700}
+   ![生成一个新的 GitHub token](generating-token.png){width=700}
 
-2. Do not select any scopes. Click **Generate token** at the bottom of the page.
-3. Copy the generated token.
+2. 不要指定任何 scope. 点击页面底部的 **Generate token**.
+3. 复制生成的 token.
 
-### Run the code
+### 运行代码 {id="run-the-code"}
 
-The program loads the contributors for all of the repositories under the given organization (named “kotlin” by default).
-Later you'll add logic to sort the users by the number of their contributions.
+这个程序读取指定的组织之下的 (默认为 "kotlin")之下所有代码仓库的贡献者.
+后面你会添加逻辑, 将用户按照他们的贡献数量排序.
 
-1. Open the `src/contributors/main.kt` file and run the `main()` function. You'll see the following window:
+1. 打开 the `src/contributors/main.kt` 文件, 并运行 `main()` 函数. 你会看到以下窗口:
 
-   ![First window](initial-window.png){width=500}
+   ![第一个窗口](initial-window.png){width=500}
 
-   If the font is too small, adjust it by changing the value of `setDefaultFontSize(18f)` in the `main()` function.
+   如果字体太小, 可以修改 `main()` 函数中 `setDefaultFontSize(18f)` 的值来调整字体大小.
 
-2. Provide your GitHub username and token (or password) in the corresponding fields.
-3. Make sure that the _BLOCKING_ option is selected in the _Variant_ dropdown menu.
-4. Click _Load contributors_. The UI should freeze for some time and then show the list of contributors.
-5. Open the program output to ensure the data has been loaded. The list of contributors is logged after each successful request.
+2. 在对应的输入框中填写你的 GitHub 用户名和 token (或密码).
+3. 确定在 _Variant_ 下拉菜单中选择了 _BLOCKING_.
+4. 点击 _Load contributors_. UI 会冻结一段时间, 然后显示贡献者列表.
+5. 打开程序的输出, 确认数据已加载. 每次请求成功后, 贡献者列表会输出到日志.
 
-There are different ways of implementing this logic: by using [blocking requests](#blocking-requests)
-or [callbacks](#callbacks). You'll compare these solutions with one that uses [coroutines](#coroutines) and see how
-[channels](#channels) can be used to share information between different coroutines.
+有不同的方法来实现这个逻辑: 可以使用 [阻塞请求(Blocking Request)](#blocking-requests), 或者使用 [回调(Callback)](#callbacks).
+你将会比较这些解决方案和使用 [协程(Coroutine)](#coroutines) 的方案, 了解如何使用 [通道](#channels) 在不同的协程之间共享信息.
 
-## Blocking requests
+## 阻塞请求(Blocking Request) {id="blocking-requests"}
 
-You will use the [Retrofit](https://square.github.io/retrofit/) library to perform HTTP requests to GitHub. It allows
-requesting the list of repositories under the given organization and the list of contributors for each repository:
+你将使用 [Retrofit](https://square.github.io/retrofit/) 库执行对 GitHub 的 HTTP 请求.
+它允许获取指定的组织之下的代码仓库的列表, 以及代码仓库的贡献者列表:
 
 ```kotlin
 interface GitHubService {
@@ -86,9 +84,9 @@ interface GitHubService {
 }
 ```
 
-This API is used by the `loadContributorsBlocking()` function to fetch the list of contributors for the given organization.
+`loadContributorsBlocking()` 函数使用这个 API 来获取指定组织的贡献者列表.
 
-1. Open `src/tasks/Request1Blocking.kt` to see its implementation:
+1. 请打开 `src/tasks/Request1Blocking.kt`, 查看它的实现:
 
     ```kotlin
     fun loadContributorsBlocking(
@@ -111,19 +109,18 @@ This API is used by the `loadContributorsBlocking()` function to fetch the list 
     }
     ```
 
-    * At first, you get a list of the repositories under the given organization and store it in the `repos` list. Then for
-      each repository, the list of contributors is requested, and all of the lists are merged into one final list of
-      contributors.
-    * `getOrgReposCall()` and `getRepoContributorsCall()` both return an instance of the `*Call` class (`#1`). At this point,
-      no request is sent.
-    * `*Call.execute()` is then invoked to perform the request (`#2`). `execute()` is a synchronous call that blocks the
-      underlying thread.
-    * When you get the response, the result is logged by calling the specific `logRepos()` and `logUsers()` functions (`#3`).
-      If the HTTP response contains an error, this error will be logged here.
-    * Finally, get the response's body, which contains the data you need. For this tutorial, you'll use an empty list as a
-      result in case there is an error, and you'll log the corresponding error (`#4`).
+    * 首先, 得到指定组织下的代码仓库列表, 保存到 `repos` list 中.
+      然后, 对每个代码仓库, 请求贡献者列表, 并将所有列表合并为最终的贡献者列表.
+    * `getOrgReposCall()` 和 `getRepoContributorsCall()` 都返回 `*Call` 类 (`#1` 处) 的实例.
+      这个时刻, 还没有发送请求.
+    * 然后调用 `*Call.execute()`, 执行请求 (`#2` 处).
+      `execute()` 是一个同步调用, 会阻塞底层的线程.
+    * 得到应答时, 调用 `logRepos()` 和 `logUsers()` 函数, 将结果输出到日志 (`#3` 处).
+      如果 HTTP 应答包含错误, 错误也会在这里输出到日志.
+    * 最后, 得到应答的 body 部, 其中包含你需要的数据.
+      对本教程来说, 如果发生错误, 会使用空的列表作为结果结果 , 并将对应的错误输出到日志 (`#4` 处).
 
-2. To avoid repeating `.body() ?: emptyList()`, an extension function `bodyList()` is declared:
+2. 为了避免重复 `.body() ?: emptyList()` 这样的代码, 声明了扩展函数 `bodyList()`:
 
     ```kotlin
     fun <T> Response<List<T>>.bodyList(): List<T> {
@@ -131,7 +128,7 @@ This API is used by the `loadContributorsBlocking()` function to fetch the list 
     }
     ```
 
-3. Run the program again and take a look at the system output in IntelliJ IDEA. It should have something like this:
+3. 再次运行程序, 看看 IntelliJ IDEA 中的系统输出. 应该类似以下内容:
 
     ```text
     1770 [AWT-EventQueue-0] INFO  Contributors - kotlin: loaded 40 repos
@@ -140,65 +137,61 @@ This API is used by the `loadContributorsBlocking()` function to fetch the list 
     ...
     ```
 
-    * The first item on each line is the number of milliseconds that have passed since the program started, then the thread
-      name in square brackets. You can see from which thread the loading request is called.
-    * The final item on each line is the actual message: how many repositories or contributors were loaded.
+    * 每行的第一项, 是程序启动之后经过的毫秒数, 之后是线程名称, 包含在方括号中.
+      你可以看到获取数据的请求是从哪个线程调用的.
+    * 每行的最后一项是实际的消息: 获取了多少个代码仓库或贡献者.
 
-    This log output demonstrates that all of the results were logged from the main thread. When you run the code with a _BLOCKING_
-    option, the window freezes and doesn't react to input until the loading is finished. All of the requests are executed from
-    the same thread as the one called `loadContributorsBlocking()` is from, which is the main UI thread (in Swing, it's an AWT
-    event dispatching thread). This main thread becomes blocked, and that's why the UI is frozen:
+    这个日志输出演示了, 所有的结果都是从主线程输出的. 当你使用 _BLOCKING_ 选项运行代码时,
+    窗口会冻结, 不能对输入作出反应, 直到数据加载结束.
+    所有的请求, 都会从与调用 `loadContributorsBlocking()` 的相同线程执行, 这个线程就是 UI 主线程 (在 Swing 中, 它是一个 AWT 事件派发线程).
+    这个主线程会被阻塞, 所以 UI 会冻结:
 
-    ![The blocked main thread](blocking.png){width=700}
+    ![主线程被阻塞](blocking.png){width=700}
 
-    After the list of contributors has loaded, the result is updated.
+    在贡献者列表加载完成后, 会更新结果.
 
-4. In `src/contributors/Contributors.kt`, find the `loadContributors()` function responsible for choosing how
-   the contributors are loaded and look at how `loadContributorsBlocking()` is called:
+4. 在 `src/contributors/Contributors.kt` 中, 找到 `loadContributors()` 函数, 它负责选择如何加载贡献者,
+   看看它如何调用 `loadContributorsBlocking()`:
 
     ```kotlin
     when (getSelectedVariant()) {
-        BLOCKING -> { // Blocking UI thread
+        BLOCKING -> { // 阻塞 UI 线程
             val users = loadContributorsBlocking(service, req)
             updateResults(users, startTime)
         }
     }
     ```
 
-    * The `updateResults()` call goes right after the `loadContributorsBlocking()` call.
-    * `updateResults()` updates the UI, so it must always be called from the UI thread.
-    * Since `loadContributorsBlocking()` is also called from the UI thread, the UI thread becomes blocked and the UI is
-      frozen.
+    * `updateResults()` 调用紧跟在 `loadContributorsBlocking()` 调用之后.
+    * `updateResults()` 更新 UI, 因此始终必须从 UI 线程调用它.
+    * 由于 `loadContributorsBlocking()` 也是从 UI 线程调用的, 因此 UI 线程会被阻塞, UI 会冻结.
 
-### Task 1
+### 任务 1 {id="task-1"}
 
-The first task helps you familiarize yourself with the task domain. Currently, each contributor's name is repeated
-several times, once for every project they have taken part in. Implement the `aggregate()` function combining the users
-so that each contributor is added only once. The `User.contributions` property should contain the total number of
-contributions of the given user to _all_ the projects. The resulting list should be sorted in descending order according
-to the number of contributions.
+第 1 个任务帮助你熟悉任务内容. 现在, 每个贡献者的名字重复了多次, 他们参与的每个项目都出现了他们的名字.
+请实现 `aggregate()` 函数, 合并用户, 让每个贡献者只添加一次.
+`User.contributions` 属性应该包含指定的用户对 _所有_ 项目的贡献总数. 结果列表应该根据贡献数量降序排列.
 
-Open `src/tasks/Aggregation.kt` and implement the `List<User>.aggregate()` function. Users should be sorted by the total
-number of their contributions.
+打开 `src/tasks/Aggregation.kt`, 实现 `List<User>.aggregate()` 函数.
+用户应该按照他们的贡献总数排序.
 
-The corresponding test file `test/tasks/AggregationKtTest.kt` shows an example of the expected result.
+对应的测试文件 `test/tasks/AggregationKtTest.kt` 展示了期待的结果的例子.
 
-> You can jump between the source code and the test class automatically by using the [IntelliJ IDEA shortcut](https://www.jetbrains.com/help/idea/create-tests.html#test-code-navigation)
-> `Ctrl+Shift+T` / `⇧ ⌘ T`.
+> 你可以使用 [IntelliJ IDEA 快捷键](https://www.jetbrains.com/help/idea/create-tests.html#test-code-navigation)
+> `Ctrl+Shift+T` / `⇧ ⌘ T`, 在源代码和测试类之间自动跳转.
 >
 {style="tip"}
 
-After implementing this task, the resulting list for the "kotlin" organization should be similar to the following:
+完成这个任务之后, "kotlin" 组织的结果列表应该类似以下内容:
 
-![The list for the "kotlin" organization](aggregate.png){width=500}
+!["kotlin" 组织的列表](aggregate.png){width=500}
 
-#### Solution for task 1 {initial-collapse-state="collapsed" collapsible="true"}
+#### 任务 1 的解答 {id="solution-for-task-1" initial-collapse-state="collapsed" collapsible="true"}
 
-1. To group users by login, use [`groupBy()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/group-by.html),
-   which returns a map from a login to all occurrences of the user with this login in different repositories.
-2. For each map entry, count the total number of contributions for each user and create a new instance of the `User` class
-   by the given name and total of contributions.
-3. Sort the resulting list in descending order:
+1. 要按照 login 名称对用户分组, 请使用 [`groupBy()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/group-by.html),
+   它返回一个 map, key 为 login 名称, value 为这个 login 名称的用户在各个代码仓库中的出现情况.
+2. 对每个 map entry, 计算每个用户的贡献总数, 并根据指定的名称和贡献总数, 创建 `User` 类的一个新实例.
+3. 对结果列表按照降序排序:
 
     ```kotlin
     fun List<User>.aggregate(): List<User> =
@@ -207,24 +200,22 @@ After implementing this task, the resulting list for the "kotlin" organization s
             .sortedByDescending { it.contributions }
     ```
 
-An alternative solution is to use the [`groupingBy()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/grouping-by.html)
-function instead of `groupBy()`.
+另一种解决方案是使用 [`groupingBy()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/grouping-by.html) 函数, 而不是 `groupBy()`.
 
-## Callbacks
+## 回调(Callback) {id="callbacks"}
 
-The previous solution works, but it blocks the thread and therefore freezes the UI. A traditional approach that avoids this
-is to use _callbacks_.
+前面的解答能够正确工作, 但它会阻塞线程, 因此冻结了 UI.
+避免这个问题的一个传统方法是 使用 _回调(Callback)_.
 
-Instead of calling the code that should be invoked right after the operation is completed, you can extract it
-into a separate callback, often a lambda, and pass that lambda to the caller in order for it to be called later.
+不必在操作完成之后立即调用代码, 你可以将它抽取为一个单独的回调, 通常是一个 Lambda 表达式,
+并将这个 Lambda 表达式传递给调用者, 以便以后调用它.
 
-To make the UI responsive, you can either move the whole computation to a separate thread or switch to the Retrofit API
-which uses callbacks instead of blocking calls.
+为了让 UI 保持响应, 你可以将整个计算过程移动到单独的线程中, 或者将 Retrofit API 切换为使用回调, 而不是使用阻塞调用.
 
-### Use a background thread
+### 使用背景线程 {id="use-a-background-thread"}
 
-1. Open `src/tasks/Request2Background.kt` and see its implementation. First, the whole computation is moved to a different
-   thread. The `thread()` function starts a new thread:
+1. 请打开 `src/tasks/Request2Background.kt`, 查看它的实现. 首先, 整个计算过程移动到了一个不同的线程.
+   `thread()` 函数启动一个新的线程:
 
     ```kotlin
     thread {
@@ -232,13 +223,12 @@ which uses callbacks instead of blocking calls.
     }
     ```
 
-    Now that all of the loading has been moved to a separate thread, the main thread is free and can be occupied by other
-    tasks:
+    现在, 整个加载被移动到了一个单独的线程, 主线程成为空闲, 能够处理其他任务:
 
-    ![The freed main thread](background.png){width=700}
+    ![空闲的主线程](background.png){width=700}
 
-2. The signature of the `loadContributorsBackground()` function changes. It takes an `updateResults()`
-   callback as the last argument to call it after all the loading completes:
+2. `loadContributorsBackground()` 函数的签名变了. 它接受一个 `updateResults()` 回调作为它的最后一个参数,
+   以便在所有的加载过程完成之后调用它:
 
     ```kotlin
     fun loadContributorsBackground(
@@ -247,8 +237,7 @@ which uses callbacks instead of blocking calls.
     )
     ```
 
-3. Now when the `loadContributorsBackground()` is called, the `updateResults()` call goes in the callback, not immediately
-   afterward as it did before:
+3. 现在, 在调用 `loadContributorsBackground()` 时, `updateResults()` 调用会在回调内进行, 而不是象以前那样立即调用:
 
     ```kotlin
     loadContributorsBackground(service, req) { users ->
@@ -258,21 +247,19 @@ which uses callbacks instead of blocking calls.
     }
     ```
 
-    By calling `SwingUtilities.invokeLater`, you ensure that the `updateResults()` call, which updates the results,
-    happens on the main UI thread (AWT event dispatching thread).
+    通过调用 `SwingUtilities.invokeLater`, 你可以确保更新结果的 `updateResults()` 调用,
+    发生在主 UI 线程 (AWT 的事件派发线程) 上.
 
-However, if you try to load the contributors via the `BACKGROUND` option, you can see that the list is updated but
-nothing changes.
+但是, 如果你尝试使用 `BACKGROUND` 选项加载贡献者 , 你会看到列表被更新, 但没有任何变化.
 
-### Task 2
+### 任务 2 {id="task-2"}
 
-Fix the `loadContributorsBackground()` function in `src/tasks/Request2Background.kt` so that the resulting list is shown
-in the UI.
+修正 `src/tasks/Request2Background.kt` 中的 `loadContributorsBackground()` 函数, 让结果列表显示在 UI 中.
 
-#### Solution for task 2 {initial-collapse-state="collapsed" collapsible="true"}
+#### 任务 2 的解答 {id="solution-for-task-2" initial-collapse-state="collapsed" collapsible="true"}
 
-If you try to load the contributors, you can see in the log that the contributors are loaded but the result isn't displayed.
-To fix this, call `updateResults()` on the resulting list of users:
+如果你尝试加载贡献者, 你可以看到日志输出, 显示贡献者已被加载, 但结果没有显示.
+为了解决这个问题, 请对结果的用户列表调用 `updateResults()`:
 
 ```kotlin
 thread {
@@ -280,27 +267,24 @@ thread {
 }
 ```
 
-Make sure to call the logic passed in the callback explicitly. Otherwise, nothing will happen.
+要确保明确的调用通过回调传入的代码逻辑. 否则, 什么都不会发生.
 
-### Use the Retrofit callback API
+### 使用 Retrofit 的回调 API {id="use-the-retrofit-callback-api"}
 
-In the previous solution, the whole loading logic is moved to the background thread, but that still isn't the best use of
-resources. All of the loading requests go sequentially and the thread is blocked while waiting for the loading result,
-while it could have been occupied by other tasks. Specifically, the thread could start loading another request to
-receive the entire result earlier.
+在前面的解决方案中, 整个加载逻辑移动到了背景线程中, 但这仍然没有达到对资源的最佳利用.
+所有的加载请求都是顺序执行的, 在等待加载结果时线程会被阻塞, 但它其实可以用来执行其他任务.
+具体来说, 线程可以开始加载另一个请求, 这样就能更快的得到整个结果.
 
-Handling the data for each repository should then be divided into two parts: loading and processing the
-resulting response. The second _processing_ part should be extracted into a callback.
+对每个代码仓库的数据处理应该分为两个部分: 加载, 以及处理应答结果. 第 2 个 _处理_ 部分应该抽取到一个回调中.
 
-The loading for each repository can then be started before the result for the previous repository is received (and the
-corresponding callback is called):
+这样, 对每个代码仓库的加载可以在收到前一个代码仓库的结果(以及调用对应的回调)之前开始:
 
-![Using callback API](callbacks.png){width=700}
+![使用回调 API](callbacks.png){width=700}
 
-The Retrofit callback API can help achieve this. The `Call.enqueue()` function starts an HTTP request and takes a
-callback as an argument. In this callback, you need to specify what needs to be done after each request.
+Retrofit 回调 API 能够帮助你实现这一点. `Call.enqueue()` 函数启动一个 HTTP 请求, 并接受一个回调作为参数.
+在这个回调中, 你需要指定在每个请求之后进行什么处理.
 
-Open `src/tasks/Request3Callbacks.kt` and see the implementation of `loadContributorsCallbacks()` that uses this API:
+请打开 `src/tasks/Request3Callbacks.kt`, 查看 `loadContributorsCallbacks()` 的实现, 它使用这个 API:
 
 ```kotlin
 fun loadContributorsCallbacks(
@@ -321,32 +305,31 @@ fun loadContributorsCallbacks(
                 }
             }
         }
-        // TODO: Why doesn't this code work? How to fix that?
+        // TODO: 为什么这段代码不能正确工作? 如何解决这个问题?
         updateResults(allUsers.aggregate())
     }
 ```
 
-* For convenience, this code fragment uses the `onResponse()` extension function declared in the same file. It takes a
-  lambda as an argument rather than an object expression.
-* The logic for handling the responses is extracted into callbacks: the corresponding lambdas start at lines `#1` and `#2`.
+* 为了方便, 这段代码使用了同一个文件中声明的 `onResponse()` 扩展函数.
+  它接受一个 Lambda 表达式作为参数, 而不是一个对象表达式.
+* 应答处理逻辑被抽取到回调中: 对应的 Lambda 表达式在 `#1` 和 `#2` 处启动.
 
-However, the provided solution doesn't work. If you run the program and load contributors by choosing the _CALLBACKS_
-option, you'll see that nothing is shown. However, the test from `Request3CallbacksKtTest` immediately returns the result 
-that it successfully passed.
+但是, 提供的解决方案不能正确工作. 如果你运行程序, 并选择 _CALLBACKS_ 选项来加载贡献者, 你会看到没有显示任何数据.
+但是, `Request3CallbacksKtTest` 中的测试立即返回结果, 表示它已经成功通过测试.
 
-Think about why the given code doesn't work as expected and try to fix it, or see the solutions below.
+请思考为什么这段代码不能按预期工作, 尝试修正它, 或者请查看下面的解答.
 
-### Task 3 (optional)
+### 任务 3 (可选) {id="task-3-optional"}
 
-Rewrite the code in the `src/tasks/Request3Callbacks.kt` file so that the loaded list of contributors is shown.
+重写 `src/tasks/Request3Callbacks.kt` 文件中的代码, 让加载的贡献者列表能够显示.
 
-#### The first attempted solution for task 3 {initial-collapse-state="collapsed" collapsible="true"}
+#### 任务 3 的解答, 第一次尝试 {id="the-first-attempted-solution-for-task-3" initial-collapse-state="collapsed" collapsible="true"}
 
-In the current solution, many requests are started concurrently, which decreases the total loading time. However,
-the result isn't loaded. This is because the `updateResults()` callback is called right after all of the loading requests are started,
-before the `allUsers` list has been filled with the data.
+在目前的解决方案中, 并发的启动了很多请求, 这样减少了总的加载时间.
+但是, 结果没有加载. 这是因为 `updateResults()` 回调是在所有的加载请求启动之后立即被调用,
+这是在 `allUsers` 列表填充数据之前.
 
-You could try to fix this with a change like the following:
+你可以通过以下修正, 尝试修正这个问题:
 
 ```kotlin
 val allUsers = mutableListOf<User>()
@@ -363,24 +346,21 @@ for ((index, repo) in repos.withIndex()) {   // #1
 }
 ```
 
-* First, you iterate over the list of repos with an index (`#1`).
-* Then, from each callback, you check whether it's the last iteration (`#2`).
-* And if that's the case, the result is updated.
+* 首先, 使用索引遍历代码仓库列表 (`#1` 处).
+* 然后, 对每个回调, 检查它是不是最后一次迭代 (`#2` 处).
+* 如果是, 更新结果.
 
-However, this code also fails to achieve our objective. Try to find the answer yourself, or see the solution below.
+但是, 这段代码也不能达成我们的目标. 请尝试自己找到答案, 或者查看下面的解答.
 
-#### The second attempted solution for task 3 {initial-collapse-state="collapsed" collapsible="true"}
+#### 任务 3 的解答, 第二次尝试 {id="the-second-attempted-solution-for-task-3" initial-collapse-state="collapsed" collapsible="true"}
 
-Since the loading requests are started concurrently, there's no guarantee that the result for the last one comes last. The
-results can come in any order.
+由于加载请求是并发启动的, 因此无法保证最后一次请求的结果会最后收到. 结果的顺序可能是任意的.
 
-Thus, if you compare the current index with the `lastIndex` as a condition for completion, you risk losing the results for
-some repos.
+因此, 如果你用当前迭代序号与 `lastIndex` 比较, 作为结束的条件, 那么会有失去某些代码仓库的结果的风险.
 
-If the request that processes the last repo returns faster than some prior requests (which is likely to happen), all of the
-results for requests that take more time will be lost.
+如果处理最后一个代码仓库的请求, 比之前的某个请求更快返回 (这是很可能发生的), 执行时间更长的所有请求, 结果都会丢失.
 
-One way to fix this is to introduce an index and check whether all of the repositories have already been processed:
+解决这个问题的一种方法是, 引入一个序号, 检查是否已经处理了所有的代码仓库:
 
 ```kotlin
 val allUsers = Collections.synchronizedList(mutableListOf<User>())
@@ -398,21 +378,19 @@ for (repo in repos) {
 }
 ```
 
-This code uses a synchronized version of the list and `AtomicInteger()` because, in general, there's no guarantee that
-different callbacks that process `getRepoContributors()` requests will always be called from the same thread.
+这段代码使用同步版本的列表和 `AtomicInteger()`, 这是因为, 一般来说不能保证处理 `getRepoContributors()` 请求的各个回调总是在相同的线程中调用.
 
-#### The third attempted solution for task 3 {initial-collapse-state="collapsed" collapsible="true"}
+#### 任务 3 的解答, 第三次尝试 {id="the-third-attempted-solution-for-task-3" initial-collapse-state="collapsed" collapsible="true"}
 
-An even better solution is to use the `CountDownLatch` class. It stores a counter initialized with the number of
-repositories. This counter is decremented after processing each repository. It then waits until the latch is counted
-down to zero before updating the results:
+更好的解决方案是使用 `CountDownLatch` 类. 它保存一个计数器, 初始值是代码仓库数量.
+这个计数器在处理每个代码仓库之后递减一次. 等待计数器递减到 0, 然后更新结果:
 
 ```kotlin
 val countDownLatch = CountDownLatch(repos.size)
 for (repo in repos) {
     service.getRepoContributorsCall(req.org, repo.name)
         .onResponse { responseUsers ->
-            // processing repository
+            // 处理代码仓库
             countDownLatch.countDown()
         }
 }
@@ -420,21 +398,20 @@ countDownLatch.await()
 updateResults(allUsers.aggregate())
 ```
 
-The result is then updated from the main thread. This is more direct than delegating the logic to the child threads.
+然后结果在主线程中更新. 这样比将逻辑委托给子线程更加直接.
 
-After reviewing these three attempts at a solution, you can see that writing correct code with callbacks is non-trivial
-and error-prone, especially when several underlying threads and synchronization occur.
+在回顾解答的这三次尝试之后, 你可以看到, 编写正确的回调代码并不简单, 而且容易出错, 尤其是出现多个底层线程和同步的情况.
 
-> As an additional exercise, you can implement the same logic using a reactive approach with the RxJava library. All of the
-> necessary dependencies and solutions for using RxJava can be found in a separate `rx` branch. It is also possible to
-> complete this tutorial and implement or check the proposed Rx versions for a proper comparison.
+> 作为附加练习, 你可以使用 RxJava 库, 以响应式方式实现相同的逻辑.
+> 在单独的 `rx` 分支中, 可以找到使用 RxJava 需要的所有依赖项和解答.
+> 也可以完成本教程和实现, 或者查看建议的 Rx 版本, 以便进行适当的比较.
 >
 {style="tip"}
 
-## Suspending functions
+## 挂起函数(Suspending Function) {id="suspending-functions"}
 
-You can implement the same logic using suspending functions. Instead of returning `Call<List<Repo>>`, define the API
-call as a [suspending function](composing-suspending-functions.md) as follows:
+你可以使用挂起函数(Suspending Function)实现相同的逻辑.
+不要返回 `Call<List<Repo>>`, 而是将 API 调用定义为一个 [挂起函数](composing-suspending-functions.md), 如下:
 
 ```kotlin
 interface GitHubService {
@@ -445,19 +422,18 @@ interface GitHubService {
 }
 ```
 
-* `getOrgRepos()` is defined as a `suspend` function. When you use a suspending function to perform a request, the
-  underlying thread isn't blocked. More details about how this works will come in later sections.
-* `getOrgRepos()` returns the result directly instead of returning a `Call`. If the result is unsuccessful, an
-  exception is thrown.
+* `getOrgRepos()` 定义为 `suspend` 函数. 当你使用一个挂起函数来执行一个请求时, 底层线程不会被阻塞.
+   关于它的工作原理, 详情会在后面的小节中介绍.
+* `getOrgRepos()` 直接返回结果, 而不是返回一个 `Call`. 如果结果不成功, 会抛出一个异常.
 
-Alternatively, Retrofit allows returning the result wrapped in `Response`. In this case, the result body is
-provided, and it is possible to check for errors manually. This tutorial uses the versions that return `Response`.
+或者, Retrofit 允许返回封装在 `Response` 内的结果. 这种情况下, 会提供结果的 body 部, 可以手动检查错误.
+本教程使用返回 `Response` 的版本.
 
-In `src/contributors/GitHubService.kt`, add the following declarations to the `GitHubService` interface:
+请在 `src/contributors/GitHubService.kt` 中, 向 `GitHubService` 接口添加以下声明:
 
 ```kotlin
 interface GitHubService {
-    // getOrgReposCall & getRepoContributorsCall declarations
+    // getOrgReposCall 和 getRepoContributorsCall 声明
 
     @GET("orgs/{org}/repos?per_page=100")
     suspend fun getOrgRepos(
@@ -472,28 +448,26 @@ interface GitHubService {
 }
 ```
 
-### Task 4
+### 任务 4 {id="task-4"}
 
-Your task is to change the code of the function that loads contributors to make use of two new suspending functions,
-`getOrgRepos()` and `getRepoContributors()`. The new `loadContributorsSuspend()` function is marked as `suspend` to use the
-new API.
+你的任务是修改加载贡献者的函数代码, 让它使用两个新的挂起函数, `getOrgRepos()` 和 `getRepoContributors()`.
+新的 `loadContributorsSuspend()` 函数会被标记为 `suspend`, 以便使用新的 API.
 
-> Suspending functions can't be called everywhere. Calling a suspending function from `loadContributorsBlocking()` will
-> result in an error with the message "Suspend function 'getOrgRepos' should be called only from a coroutine or another
-> suspend function".
+> 挂起函数不能在任何地方调用. 从 `loadContributorsBlocking()` 调用一个挂起函数,
+> 会发生错误:
+> "Suspend function 'getOrgRepos' should be called only from a coroutine or another suspend function".
 >
 {style="note"}
 
-1. Copy the implementation of `loadContributorsBlocking()` that is defined in `src/tasks/Request1Blocking.kt`
-   into the `loadContributorsSuspend()` that is defined in `src/tasks/Request4Suspend.kt`.
-2. Modify the code so that the new suspending functions are used instead of the ones that return `Call`s.
-3. Run the program by choosing the _SUSPEND_ option and ensure that the UI is still responsive while the GitHub requests
-   are performed.
+1. 将 `src/tasks/Request1Blocking.kt` 中定义的 `loadContributorsBlocking()` 的实现,
+   复制到 `src/tasks/Request4Suspend.kt` 中定义的 `loadContributorsSuspend()` 内.
+2. 修改代码, 让它使用新的挂起函数, 而不是使用返回 `Call` 的函数.
+3. 选择 _SUSPEND_ 选项运行程序, 确认在执行 GitHub 请求时 UI 仍然保持响应.
 
-#### Solution for task 4 {initial-collapse-state="collapsed" collapsible="true"}
+#### 任务 4 的解答 {id="solution-for-task-4" initial-collapse-state="collapsed" collapsible="true"}
 
-Replace `.getOrgReposCall(req.org).execute()` with `.getOrgRepos(req.org)` and repeat the same replacement for the
-second "contributors" request:
+将 `.getOrgReposCall(req.org).execute()` 替换为 `.getOrgRepos(req.org)`,
+对第 2 个 "contributors" 请求也进行同样的替换:
 
 ```kotlin
 suspend fun loadContributorsSuspend(service: GitHubService, req: RequestData): List<User> {
@@ -510,30 +484,28 @@ suspend fun loadContributorsSuspend(service: GitHubService, req: RequestData): L
 }
 ```
 
-* `loadContributorsSuspend()` should be defined as a `suspend` function.
-* You no longer need to call `execute`, which returned the `Response` before, because now the API functions return
-  the `Response` directly. Note that this detail is specific to the Retrofit library. With other libraries, the API will be different,
-  but the concept is the same.
+* `loadContributorsSuspend()` 应该定义为 `suspend` 函数.
+* 你不再需要调用 `execute`, 之前由它返回 `Response`, 因为现在 API 函数直接返回 `Response`.
+  注意, 这个细节只适用于 Retrofit 库. 使用其它库时, API 会不同, 但概念是一样的.
 
-## Coroutines
+## 协程(Coroutine) {id="coroutines"}
 
-The code with suspending functions looks similar to the "blocking" version. The major difference from the blocking version
-is that instead of blocking the thread, the coroutine is suspended:
+这段使用挂起函数的代码看起来与 "阻塞" 版本类似. 与阻塞版本的主要区别是, 它不会阻塞线程, 而是挂起协程(Coroutine):
 
 ```text
 block -> suspend
 thread -> coroutine
 ```
 
-> Coroutines are often called lightweight threads because you can run code on coroutines, similar to how you run code on
-> threads. The operations that were blocking before (and had to be avoided) can now suspend the coroutine instead.
+> 协程经常被称为轻量的线程, 因为你可以在协程上运行代码, 方式与在线程上运行代码类似.
+> 之前被阻塞的操作(必须避免), 现在可以改为挂起协程.
 >
 {style="note"}
 
-### Starting a new coroutine
+### 启动一个新的协程 {id="starting-a-new-coroutine"}
 
-If you look at how `loadContributorsSuspend()` is used in `src/contributors/Contributors.kt`, you can see that it's
-called inside `launch`. `launch` is a library function that takes a lambda as an argument:
+如果你查看在 `src/contributors/Contributors.kt` 如何使用 `loadContributorsSuspend()`,
+你会看到它在 `launch` 之内调用. `launch` 是一个库函数, 它接受一个 Lambda 表达式作为参数:
 
 ```kotlin
 launch {
@@ -542,33 +514,30 @@ launch {
 }
 ```
 
-Here `launch` starts a new computation that is responsible for loading the data and showing the results. The computation
-is suspendable – when performing network requests, it is suspended and releases the underlying thread.
-When the network request returns the result, the computation is resumed.
+这里, `launch` 启动一个新的计算过程, 负责加载数据和显示结果.
+计算过程是可挂起的 – 在执行网络请求时, 它会被挂起, 并释放底层的线程.
+当网络请求返回结果时, 计算过程会恢复执行.
 
-Such a suspendable computation is called a _coroutine_. So, in this case, `launch` _starts a new coroutine_ responsible
-for loading data and showing the results.
+这样的可挂起的计算过程被称为一个 _协程(Coroutine)_. 因此, 在这个示例中, `launch` _启动了一个新的协程_,
+负责加载数据和显示结果.
 
-Coroutines run on top of threads and can be suspended. When a coroutine is suspended, the
-corresponding computation is paused, removed from the thread, and stored in memory. Meanwhile, the thread is free to be
-occupied by other tasks:
+协程在线程上运行, 而且可以挂起. 当一个协程挂起时, 对应的计算过程会暂停, 从线程中删除, 保存在内存中.
+此时, 线程可以供其它任务使用:
 
-![Suspending coroutines](suspension-process.gif){width=700}
+![挂起协程](suspension-process.gif){width=700}
 
-When the computation is ready to be continued, it is returned to a thread (not necessarily the same one).
+当计算过程准备好继续执行时, 它会返回到一个线程中 (不一定是同一个线程).
 
-In the `loadContributorsSuspend()` example, each "contributors" request now waits for the result using the suspension
-mechanism. First, the new request is sent. Then, while waiting for the response, the whole "load contributors" coroutine
-that was started by the `launch` function is suspended.
+在 `loadContributorsSuspend()` 示例中, 每个 "contributors" 请求现在会使用挂起机制等待结果.
+首先, 会发送新的请求. 然后, 在等待应答时, 由 `launch` 函数启动的整个 "load contributors" 协程会被挂起.
 
-The coroutine resumes only after the corresponding response is received:
+直到收到对应的应答之后, 协程才会恢复:
 
-![Suspending request](suspend-requests.png){width=700}
+![挂起请求](suspend-requests.png){width=700}
 
-While the response is waiting to be received, the thread is free to be occupied by other tasks. The UI stays responsive,
-despite all the requests taking place on the main UI thread:
+在等待应答时, 线程可以执行其它任务. 尽管所有的请求都发生在主 UI 线程上, 但 UI 仍然保持响应:
 
-1. Run the program using the _SUSPEND_ option. The log confirms that all of the requests are sent to the main UI thread:
+1. 使用 _SUSPEND_ 选项运行程序. log 表明所有的请求都是从主 UI 线程发送的:
 
     ```text
     2538 [AWT-EventQueue-0 @coroutine#1] INFO  Contributors - kotlin: loaded 30 repos
@@ -578,42 +547,39 @@ despite all the requests taking place on the main UI thread:
     11252 [AWT-EventQueue-0 @coroutine#1] INFO  Contributors - kotlin-coroutines-workshop: loaded 1 contributors
     ```
 
-2. The log can show you which coroutine the corresponding code is running on. To enable it, open **Run | Edit configurations**
-   and add the `-Dkotlinx.coroutines.debug` VM option:
+2. log 能够向你显示对应的代码运行在哪个协程上. 要启用这个功能, 请打开 **Run | Edit configurations**,
+   添加 `-Dkotlinx.coroutines.debug` VM 选项:
 
-   ![Edit run configuration](run-configuration.png){width=500}
+   ![编辑运行配置](run-configuration.png){width=500}
 
-   The coroutine name will be attached to the thread name while `main()` is run with this option. You can also
-   modify the template for running all of the Kotlin files and enable this option by default.
+   当 `main()` 使用这个选项运行时, 协程名称会添加在线程名称之后. 你也可以修改运行所有 Kotlin 文件的模板, 默认启用这个选项.
 
-Now all of the code runs on one coroutine, the "load contributors" coroutine mentioned above, denoted as `@coroutine#1`.
-While waiting for the result, you shouldn't reuse the thread for sending other requests because the code is
-written sequentially. The new request is sent only when the previous result is received.
+现在所有的代码运行在一个协程上, 也就是上面提到的 "load contributors" 协程, 标记为 `@coroutine#1`.
+在等待结果时, 你不应该重用线程来发送另一个请求, 因为这段代码是顺序编写的.
+直到前一个结果收到之后, 新的请求才会发送.
 
-Suspending functions treat the thread fairly and don't block it for "waiting". However, this doesn't yet bring any concurrency
-into the picture.
+挂起函数平等的对待线程, 不会阻塞线程来进行 "等待". 但是, 这种方案仍然没有实现任何并发.
 
-## Concurrency
+## 并发 {id="concurrency"}
 
-Kotlin coroutines are much less resource-intensive than threads.
-Each time you want to start a new computation asynchronously, you can create a new coroutine instead.
+Kotlin 协程占用的资源比线程要少得多.
+每次你想要启动一个新的异步计算过程, 你都可以创建一个新的协程.
 
-To start a new coroutine, use one of the main _coroutine builders_: `launch`, `async`, or `runBlocking`. Different
-libraries can define additional coroutine builders.
+要启动新的协程, 请使用几个主要的 _协程构建器_ 之一: `launch`, `async`, 或 `runBlocking`.
+不同的库也可能定义额外的协程构建器.
 
-`async` starts a new coroutine and returns a `Deferred` object. `Deferred` represents a concept known by other names
-such as `Future` or `Promise`. It stores a computation, but it _defers_ the moment you get the final result;
-it _promises_ the result sometime in the _future_.
+`async` 启动一个新的协程, 并返回一个 `Deferred` 对象. `Deferred` 表达的概念也叫做 `Future` 或 `Promise`.
+它保存一个计算过程, 但它 _推迟(Defer)_ 你得到最终结果的时刻;
+它 _承诺(Promise)_ 在 _未来(Future)_ 的某个时刻给出结果.
 
-The main difference between `async` and `launch` is that `launch` is used to start a computation that isn't expected to
-return a specific result. `launch` returns a `Job` that represents the coroutine. It is possible to wait until it completes
-by calling `Job.join()`.
+`async` 和 `launch` 的主要区别是, `launch` 用来启动一个计算过程, 并不期待返回具体的结果.
+`launch` 返回一个 `Job`, 表示协程. 可以调用 `Job.join()`, 等待它运行结束.
 
-`Deferred` is a generic type that extends `Job`. An `async` call can return a `Deferred<Int>` or a `Deferred<CustomType>`,
-depending on what the lambda returns (the last expression inside the lambda is the result).
+`Deferred` 是一个泛型类型, 继承自 `Job`. 一个 `async` 调用可以返回一个 `Deferred<Int>` 或一个 `Deferred<CustomType>`,
+具体取决于 Lambda 表达式返回什么结果 (Lambda 表达式内的最后一个表达式就是结果).
 
-To get the result of a coroutine, you can call `await()` on the `Deferred` instance. While waiting for the result,
-the coroutine that this `await()` is called from is suspended:
+要得到一个协程的结果, 你可以对 `Deferred` 实例调用 `await()`.
+在等待结果时, 调用这个 `await()` 的协程会被挂起:
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -634,15 +600,14 @@ suspend fun loadData(): Int {
 }
 ```
 
-`runBlocking` is used as a bridge between regular and suspending functions, or between the blocking and non-blocking worlds. It works
-as an adaptor for starting the top-level main coroutine. It is intended primarily to be used in `main()` functions and
-tests.
+`runBlocking` 用作通常的函数与挂起函数之间的桥梁, 或者说阻塞与非阻塞世界之间的桥梁.
+它充当一个适配器, 用来启动顶级的主协程. 它应该主要用在 `main()` 函数和测试中.
 
-> Watch [this video](https://www.youtube.com/watch?v=zEZc5AmHQhk) for a better understanding of coroutines.
+> 为了更好的理解协程, 请观看 [这个视频](https://www.youtube.com/watch?v=zEZc5AmHQhk).
 >
 {style="tip"}
 
-If there is a list of deferred objects, you can call `awaitAll()` to await the results of all of them:
+如果有一组 `Deferred` 对象的列表, 你可以调用 `awaitAll()`, 等待所有这些对象的结果:
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -660,23 +625,22 @@ fun main() = runBlocking {
 }
 ```
 
-When each "contributors" request is started in a new coroutine, all of the requests are started asynchronously. A new request
-can be sent before the result for the previous one is received:
+当每个 "contributors" 请求都在一个新的协程中启动时, 所有的请求都是异步启动的.
+可以在收到前一个请求的结果之前发送新的请求:
 
-![Concurrent coroutines](concurrency.png){width=700}
+![并发的协程](concurrency.png){width=700}
 
-The total loading time is approximately the same as in the _CALLBACKS_ version, but it doesn't need any callbacks.
-What's more, `async` explicitly emphasizes which parts run concurrently in the code.
+总的加载时间与 _CALLBACKS_ 版本大致一样, 但不需要任何回调.
+此外, `async` 明确的强调了代码中的哪些部分是并发运行的.
 
-### Task 5
+### 任务 5 {id="task-5"}
 
-In the `Request5Concurrent.kt` file, implement a `loadContributorsConcurrent()` function by using the
-previous `loadContributorsSuspend()` function.
+在 `Request5Concurrent.kt` 文件中, 使用前面的 `loadContributorsSuspend()` 函数, 实现一个 `loadContributorsConcurrent()` 函数.
 
-#### Tip for task 5 {initial-collapse-state="collapsed" collapsible="true"}
+#### 任务 5 的提示 {id="tip-for-task-5" initial-collapse-state="collapsed" collapsible="true"}
 
-You can only start a new coroutine inside a coroutine scope. Copy the content
-from `loadContributorsSuspend()` to the `coroutineScope` call so that you can call `async` functions there:
+你只能在一个协程的作用范围(Scope)内启动一个新的协程.
+请将 `loadContributorsSuspend()` 的内容复制到 `coroutineScope` 调用中, 以便能够调用 `async` 函数:
 
 ```kotlin
 suspend fun loadContributorsConcurrent(
@@ -687,25 +651,25 @@ suspend fun loadContributorsConcurrent(
 }
 ```
 
-Base your solution on the following scheme:
+你的解答应该基于以下架构:
 
 ```kotlin
 val deferreds: List<Deferred<List<User>>> = repos.map { repo ->
     async {
-        // load contributors for each repo
+        // 对每个代码仓库加载贡献者
     }
 }
 deferreds.awaitAll() // List<List<User>>
 ```
 
-#### Solution for task 5 {initial-collapse-state="collapsed" collapsible="true"}
+#### 任务 5 的解答 {id="solution-for-task-5" initial-collapse-state="collapsed" collapsible="true"}
 
-Wrap each "contributors" request with `async` to create as many coroutines as there are repositories. `async`
-returns `Deferred<List<User>>`. This is not an issue because creating new coroutines is not very resource-intensive, so you can
-create as many as you need.
+使用 `async` 封装每个 "contributors" 请求, 创建与代码仓库数量相同的协程.
+`async` 返回 `Deferred<List<User>>`.
+这不会造成问题, 因为创建新的协程不会消耗太多资源, 因此你可以根据需要, 创建任意多的协程.
 
-1. You can no longer use `flatMap` because the `map` result is now a list of `Deferred` objects, not a list of lists.
-   `awaitAll()` returns `List<List<User>>`, so call `flatten().aggregate()` to get the result:
+1. 你不能再使用 `flatMap`, 因为 `map` 结果现在是一个 `Deferred` 对象的列表, 而不是列表的列表.
+   `awaitAll()` 返回 `List<List<User>>`, 因此要调用 `flatten().aggregate()` 来得到结果:
 
     ```kotlin
     suspend fun loadContributorsConcurrent(
@@ -728,22 +692,22 @@ create as many as you need.
     }
     ```
 
-2. Run the code and check the log. All of the coroutines still run on the main UI thread because
-   multithreading hasn't been employed yet, but you can already see the benefits of running coroutines concurrently.
-3. To change this code to run "contributors" coroutines on different threads from the common thread pool,
-   specify `Dispatchers.Default` as the context argument for the `async` function:
+2. 运行代码, 并检查日志. 所有的协程仍然在主 main UI 线程上运行, 因为还没有使用多线程,
+   但你已经能够看到并发运行协程的好处了.
+3. 要修改这段代码, 在共通线程池的不同线程上运行 "contributors" 协程,
+   请对 `async` 函数的 context 参数指定 `Dispatchers.Default`:
 
     ```kotlin
     async(Dispatchers.Default) { }
     ```
 
-    * `CoroutineDispatcher` determines what thread or threads the corresponding coroutine should be run on. If you don't
-      specify one as an argument, `async` will use the dispatcher from the outer scope.
-    * `Dispatchers.Default` represents a shared pool of threads on the JVM. This pool provides a means for parallel execution.
-      It consists of as many threads as there are CPU cores available, but it will still have two threads if there's only one core.
+    * `CoroutineDispatcher` 决定对应的协程应该运行在哪个或哪些线程上.
+      如果不指定参数, `async` 会使用外层作用范围(Scope)的派发器.
+    * `Dispatchers.Default` 表示 JVM 上的共用线程池. 这个池提供了一种并行执行的方法.
+      它包含与 CPU 核数量一样多的线程, 但如果只有 1 个 CPU 核, 它仍然会包含 2 个线程.
 
-4. Modify the code in the `loadContributorsConcurrent()` function to start new coroutines on different threads from the
-   common thread pool. Also, add additional logging before sending the request:
+4. 修改 `loadContributorsConcurrent()` 函数中的代码, 在共通线程池的不同线程上启动新的协程.
+   此外, 在发送请求前添加额外的日志:
 
     ```kotlin
     async(Dispatchers.Default) {
@@ -754,8 +718,7 @@ create as many as you need.
     }
     ```
 
-5. Run the program once again. In the log, you can see that each coroutine can be started on one thread from the
-   thread pool and resumed on another:
+5. 再次运行程序. 在日志中, 你可以看到各个协程可以在线程池的一个线程上启动, 并在另一个线程上恢复运行:
 
     ```text
     1946 [DefaultDispatcher-worker-2 @coroutine#4] INFO  Contributors - starting loading for kotlin-koans
@@ -767,12 +730,11 @@ create as many as you need.
     2821 [DefaultDispatcher-worker-2 @coroutine#3] INFO  Contributors - ts2kt: loaded 11 contributors
     ```
 
-   For instance, in this log excerpt, `coroutine#4` is started on the `worker-2` thread and continued on the
-   `worker-1` thread.
+   例如, 在这段日志中, `coroutine#4` 在 `worker-2` 线程上启动, 在 `worker-1` 线程上继续运行.
 
-In `src/contributors/Contributors.kt`, check the implementation of the _CONCURRENT_ option:
+在 `src/contributors/Contributors.kt` 中, 查看 _CONCURRENT_ 选项的实现:
 
-1. To run the coroutine only on the main UI thread, specify `Dispatchers.Main` as an argument:
+1. 要只在主 UI 线程上运行协程, 请将参数指定为 `Dispatchers.Main`:
 
     ```kotlin
     launch(Dispatchers.Main) {
@@ -780,18 +742,15 @@ In `src/contributors/Contributors.kt`, check the implementation of the _CONCURRE
     }
     ```
 
-    * If the main thread is busy when you start a new coroutine on it,
-      the coroutine becomes suspended and scheduled for execution on this thread. The coroutine will only resume when the
-      thread becomes free.
-    * It's considered good practice to use the dispatcher from the outer scope rather than explicitly specifying it on each
-      end-point. If you define `loadContributorsConcurrent()` without passing `Dispatchers.Default` as an
-      argument, you can call this function in any context: with a `Default` dispatcher, with
-      the main UI thread, or with a custom dispatcher.
-    * As you'll see later, when calling `loadContributorsConcurrent()` from tests, you can call it in the context
-      with `TestDispatcher`, which simplifies testing. That makes this solution much more flexible.
+    * 如果在主线程上启动新的协程时主线程正在繁忙, 那么协程会被挂起, 并被调度为在这个线程上执行.
+      直到线程空闲时, 协程才会恢复运行.
+    * 好的做法是使用外层作用范围的派发器, 而不是在每个端点明确指定.
+      如果你定义 `loadContributorsConcurrent()`, 而不传入 `Dispatchers.Default` 作为参数,
+      你就可以在任何上下文中调用这个函数: 使用 `Default` 派发器, 使用主 UI 线程, 或使用自定义的派发器.
+    * 后面你会看到, 在测试中调用 `loadContributorsConcurrent()`时, 你可以使用 `TestDispatcher` 调用它, 这样可以简化测试.
+      这就使得这个解决方案更加灵活.
 
-2. To specify the dispatcher on the caller side, apply the following change to the project while
-   letting `loadContributorsConcurrent` start coroutines in the inherited context:
+2. 要在调用端指定派发器, 请对项目进行进行以下修改, 让 `loadContributorsConcurrent` 在继承的上下文中启动协程:
 
     ```kotlin
     launch(Dispatchers.Default) {
@@ -802,105 +761,96 @@ In `src/contributors/Contributors.kt`, check the implementation of the _CONCURRE
     }
     ```
 
-    * `updateResults()` should be called on the main UI thread, so you call it with the context of `Dispatchers.Main`.
-    * `withContext()` calls the given code with the specified coroutine context, is suspended until it completes, and returns
-      the result. An alternative but more verbose way to express this would be to start a new coroutine and explicitly
-      wait (by suspending) until it completes: `launch(context) { ... }.join()`.
+    * `updateResults()` 应该在主 UI 线程上调用, 因此你使用 `Dispatchers.Main` 调用它.
+    * `withContext()` 使用指定的协程上下文调用指定的代码, 它会挂起直到代码执行完成, 并返回结果.
+      表达这一点的另一种方法是(但更加麻烦), 启动一个新的协程, 并明确的等待(通过挂起), 直到执行完成:
+      `launch(context) { ... }.join()`.
 
-3. Run the code and ensure that the coroutines are executed on the threads from the thread pool.
+3. 运行代码, 确认协程在线程池的线程上执行.
 
-## Structured concurrency
+## 结构化并发 {id="structured-concurrency"}
 
-* The _coroutine scope_ is responsible for the structure and parent-child relationships between different coroutines. New
-  coroutines usually need to be started inside a scope.
-* The _coroutine context_ stores additional technical information used to run a given coroutine, like the coroutine custom
-  name, or the dispatcher specifying the threads the coroutine should be scheduled on.
+* _协程的作用范围(Scope)_ 负责管理不同协程之间的结构和父-子 关系.
+  新的协程通常需要在一个作用范围之内启动.
+* _协程上下文(Context)_ 保存用来运行一个特定协程的附加技术信息,
+  例如协程的自定义名称, 或指定协程应该调度到哪个线程之上的派发器.
 
-When `launch`, `async`, or `runBlocking` are used to start a new coroutine, they automatically create the corresponding
-scope. All of these functions take a lambda with a receiver as an argument, and `CoroutineScope` is the implicit receiver type:
+当使用 `launch`, `async`, 或 `runBlocking` 来启动一个新的协程时, 它们会自动创建对应的作用范围.
+所有这些函数都接受一个带接受者的 Lambda 表达式作为参数, `CoroutineScope` 是隐含的接受者类型:
 
 ```kotlin
 launch { /* this: CoroutineScope */ }
 ```
 
-* New coroutines can only be started inside a scope.
-* `launch` and `async` are declared as extensions to `CoroutineScope`, so an implicit or explicit receiver must always
-  be passed when you call them.
-* The coroutine started by `runBlocking` is the only exception because `runBlocking` is defined as a top-level function.
-  But because it blocks the current thread, it's intended primarily to be used in `main()` functions and tests as a bridge
-  function.
+* 新的协程只能在一个作用范围之内启动.
+* `launch` 和 `async` 被声明为 `CoroutineScope` 的扩展函数, 因此调用它们时, 必须传递隐含的或显式的接受者.
+* 由 `runBlocking` 启动的协程是唯一的例外, 因为 `runBlocking` 定义为顶级函数.
+  但由于它阻塞当前线程, 因此它主要用在 `main()` 函数和测试中, 作为桥梁函数.
 
-A new coroutine inside `runBlocking`, `launch`, or `async` is started automatically inside the scope:
+`runBlocking`, `launch`, 或 `async` 内的新协程, 会自动在作用范围之内启动:
 
 ```kotlin
 import kotlinx.coroutines.*
 
 fun main() = runBlocking { /* this: CoroutineScope */
     launch { /* ... */ }
-    // the same as:
+    // 等价于:
     this.launch { /* ... */ }
 }
 ```
 
-When you call `launch` inside `runBlocking`, it's called as an extension to the implicit receiver of
-the `CoroutineScope` type. Alternatively, you could explicitly write `this.launch`.
+当你在 `runBlocking` 之内调用 `launch` 时, 它会作为隐含的 `CoroutineScope` 类型接受者的扩展函数来调用.
+或者, 你可以明确的写为 `this.launch`.
 
-The nested coroutine (started by `launch` in this example) can be considered as a child of the outer coroutine (started
-by `runBlocking`). This "parent-child" relationship works through scopes; the child coroutine is started from the scope
-corresponding to the parent coroutine.
+嵌套的协程 (在这个示例中由 `launch` 启动) 可以看作外层协程 (由 `runBlocking` 启动) 的子协程.
+这种 "父-子" 关系通过作用范围实现; 子协程会从父协程对应的作用范围启动.
 
-It's possible to create a new scope without starting a new coroutine, by using the `coroutineScope` function.
-To start new coroutines in a structured way inside a `suspend` function without access to the outer scope, you can create
-a new coroutine scope that automatically becomes a child of the outer scope that this `suspend` function is called from.
-`loadContributorsConcurrent()`is a good example.
+使用 `coroutineScope` 函数, 可以创建一个新的作用范围而不启动新的协程.
+要在 `suspend` 函数之内以结构化的方式启动新的协程, 而不访问外层作用范围, 你可以创建
+一个新的协程作用范围, 它自动成为调用这个 `suspend` 函数的外层作用范围的子作用范围.
+`loadContributorsConcurrent()` 是一个很好的例子.
 
-You can also start a new coroutine from the global scope using `GlobalScope.async` or `GlobalScope.launch`.
-This will create a top-level "independent" coroutine.
+你也可以使用 `GlobalScope.async` 或 `GlobalScope.launch`, 从全局作用范围启动一个新的协程.
+这样会创建一个顶级的 "独立" 协程.
 
-The mechanism behind the structure of the coroutines is called _structured concurrency_. It provides the following
-benefits over global scopes:
+协程结构背后的机制称为 _结构化并发_. 与全局作用范围相比, 它提供了以下优点:
 
-* The scope is generally responsible for child coroutines, whose lifetime is attached to the lifetime of the scope.
-* The scope can automatically cancel child coroutines if something goes wrong or a user changes their mind and decides
-  to revoke the operation.
-* The scope automatically waits for the completion of all child coroutines.
-  Therefore, if the scope corresponds to a coroutine, the parent coroutine does not complete until all the coroutines
-  launched in its scope have completed.
+* 作用范围通常负责子协程, 子协程的生存周期与作用范围的生存周期相关联.
+* 如果发生某种问题, 或者用户改变想法, 决定撤销操作, 作用范围可以自动取消子协程.
+* 作用范围自动等待所有子协程执行完成.
+  因此, 如果作用范围对应于一个协程, 父协程直到其作用范围之内启动的所有协程都执行完成之后, 才会执行完成.
 
-When using `GlobalScope.async`, there is no structure that binds several coroutines to a smaller scope.
-Coroutines started from the global scope are all independent – their lifetime is limited only by the lifetime of the
-whole application. It's possible to store a reference to the coroutine started from the global scope and wait for its
-completion or cancel it explicitly, but that won't happen automatically as it would with structured concurrency.
+使用 `GlobalScope.async` 时, 将几个协程绑定到较小的作用范围的结构.
+从全局作用范围启动的协程都是独立的 – 它们的生存周期只受整个应用程序的生存周期的限制.
+可以保存一个从全局作用范围启动的协程的引用, 等待它执行完成, 或者明确的取消它, 但这些操作不会象结构化并发那样自动进行.
 
-### Canceling the loading of contributors
+### 取消加载贡献者 {id="canceling-the-loading-of-contributors"}
 
-Create two versions of the function that loads the list of contributors. Compare how both versions behave when you try to
-cancel the parent coroutine. The first version will use `coroutineScope` to start all of the child coroutines,
-whereas the second will use `GlobalScope`.
+创建加载贡献者列表的函数的两个版本. 比较一下, 当你想要取消父协程时这两个版本的行为有什么不同.
+第一个版本使用 `coroutineScope` 启动所有子协程, 第二个版本使用 `GlobalScope`.
 
-1. In `Request5Concurrent.kt`, add a 3-second delay to the `loadContributorsConcurrent()` function: 
+1. 在 `Request5Concurrent.kt` 中, 向 `loadContributorsConcurrent()` 函数添加 3 秒延迟:
 
    ```kotlin
    suspend fun loadContributorsConcurrent(
-       service: GitHubService, 
+       service: GitHubService,
        req: RequestData
    ): List<User> = coroutineScope {
        // ...
        async {
            log("starting loading for ${repo.name}")
            delay(3000)
-           // load repo contributors
+           // 加载代码仓库的贡献者
        }
        // ...
    }
    ```
    
-   The delay affects all of the coroutines that send requests, so that there's enough time to cancel the loading
-   after the coroutines are started but before the requests are sent.
+   这个延迟会影响发送请求的所有协程, 因此在协程启动之后, 但在请求发送之前, 有足够的时间来取消加载.
 
-2. Create the second version of the loading function: copy the implementation of `loadContributorsConcurrent()` to
-   `loadContributorsNotCancellable()` in `Request5NotCancellable.kt` and then remove the creation of a new `coroutineScope`.
-3. The `async` calls now fail to resolve, so start them by using `GlobalScope.async`:
+2. 创建加载函数的第二个版本: 将 `loadContributorsConcurrent()` 的实现复制到
+   `Request5NotCancellable.kt` 中的 `loadContributorsNotCancellable()`, 然后删除新的 `coroutineScope` 的创建.
+3. `async` 调用现在会无法解析, 因此使用 `GlobalScope.async` 来启动它们:
 
     ```kotlin
     suspend fun loadContributorsNotCancellable(
@@ -910,20 +860,19 @@ whereas the second will use `GlobalScope`.
         // ...
         GlobalScope.async {   // #2
             log("starting loading for ${repo.name}")
-            // load repo contributors
+            // 加载代码仓库的贡献者
         }
         // ...
         return deferreds.awaitAll().flatten().aggregate()  // #3
     }
     ```
 
-    * The function now returns the result directly, not as the last expression inside the lambda (lines `#1` and `#3`).
-    * All of the "contributors" coroutines are started inside the `GlobalScope`, not as children of the coroutine scope
-      (line `#2`).
+    * 函数现在直接返回结果, 而不是作为 Lambda 表达式内的最后一个表达式 (`#1` 处和 `#3` 处).
+    * 所有的 "contributors" 协程在 `GlobalScope` 内启动, 而不是作为协程作用范围的子范围(`#2`).
 
-4. Run the program and choose the _CONCURRENT_ option to load the contributors.
-5. Wait until all of the "contributors" coroutines are started, and then click _Cancel_. The log shows no new results,
-   which means that all of the requests were indeed canceled:
+4. 运行程序, 并选择 _CONCURRENT_ 选项来加载贡献者.
+5. 等待所有的 "contributors" 协程启动, 然后点击 _Cancel_. 日志显示没有新的结果,
+   这就意味着所有的请求都确实被取消了:
 
     ```text
     2896 [AWT-EventQueue-0 @coroutine#1] INFO  Contributors - kotlin: loaded 40 repos
@@ -934,7 +883,7 @@ whereas the second will use `GlobalScope`.
     /* no requests are sent */
     ```
 
-6. Repeat step 5, but this time choose the `NOT_CANCELLABLE` option:
+6. 重复第 5 步, 但这一次选择 `NOT_CANCELLABLE` 选项:
 
     ```text
     2570 [AWT-EventQueue-0 @coroutine#1] INFO  Contributors - kotlin: loaded 30 repos
@@ -948,14 +897,13 @@ whereas the second will use `GlobalScope`.
     9555 [DefaultDispatcher-worker-8 @coroutine#36] INFO  Contributors - mpp-example: loaded 8 contributors
     ```
 
-    In this case, no coroutines are canceled, and all the requests are still sent.
+    这时, 没有协程被取消, 所有的请求仍然发送了.
 
-7. Check how the cancellation is triggered in the "contributors" program. When the _Cancel_ button is clicked,
-   the main "loading" coroutine is explicitly canceled and the child coroutines are canceled automatically:
+7. 查看在 "contributors" 程序中取消是如何触发的. 当 _Cancel_ 按钮被点击时,
+   主 "loading" 协程被明确的取消, 子协程则自动被取消:
 
     ```kotlin
     interface Contributors {
-
         fun loadContributors() {
             // ...
             when (getSelectedVariant()) {
@@ -971,92 +919,85 @@ whereas the second will use `GlobalScope`.
         private fun Job.setUpCancellation() {
             val loadingJob = this              // #2
 
-            // cancel the loading job if the 'cancel' button was clicked:
+            // 如果 'cancel' 按钮被点击, 取消加载任务:
             val listener = ActionListener {
                 loadingJob.cancel()            // #3
                 updateLoadingStatus(CANCELED)
             }
-            // add a listener to the 'cancel' button:
+            // 向 'cancel' 按钮添加监听器:
             addCancelListener(listener)
 
-            // update the status and remove the listener
-            // after the loading job is completed
+            // 在加载任务完成后, 更新状态, 并删除监听器
         }
     }
     ```
 
-The `launch` function returns an instance of `Job`. `Job` stores a reference to the "loading coroutine", which loads
-all of the data and updates the results. You can call the `setUpCancellation()` extension function on it (line `#1`),
-passing an instance of `Job` as a receiver.
+`launch` 函数返回一个 `Job` 实例. `Job` 保存 "loading 协程" 的一个引用, 这个协程加载所有数据, 并更新结果.
+你可以对它调用 `setUpCancellation()` 扩展函数(`#1` 处), 传递 `Job` 的一个实例作为接受者.
 
-Another way you could express this would be to explicitly write:
+另一种表达方式是明确的写:
 
 ```kotlin
 val job = launch { }
 job.setUpCancellation()
 ```
 
-* For readability, you could refer to the `setUpCancellation()` function receiver inside the function with the
-  new `loadingJob` variable (line `#2`).
-* Then you could add a listener to the _Cancel_ button so that when it's clicked, the `loadingJob` is canceled (line `#3`).
+* 为了提高可读性, 在 `setUpCancellation()` 函数内, 可以使用新的 `loadingJob` 变量引用函数的接受者(`#2` 处).
+* 然后可以向 _Cancel_ 按钮添加监听器, 使得当它被点击时, 取消 `loadingJob` (`#3` 处).
 
-With structured concurrency, you only need to cancel the parent coroutine and this automatically propagates cancellation
-to all of the child coroutines.
+使用结构化并发, 你只需要取消父协程, 这样会将取消自动的传播到所有的子协程.
 
-### Using the outer scope's context
+### 使用外层作用范围的上下文(Context) {id="using-the-outer-scope-s-context"}
 
-When you start new coroutines inside the given scope, it's much easier to ensure that all of them run with the same
-context. It is also much easier to replace the context if needed.
+在指定的作用范围内启动新的协程, 可以更容易的确保所有协程都使用相同的上下文(Context)运行.
+如果需要, 也可以更容易的替换上下文(Context).
 
-Now it's time to learn how using the dispatcher from the outer scope works. The new scope created by
-the `coroutineScope` or by the coroutine builders always inherits the context from the outer scope. In this case, the
-outer scope is the scope the `suspend loadContributorsConcurrent()` function was called from:
+现在是时候学习使用外层作用范围的派发器是如何工作的了.
+由 `coroutineScope` 或由协程构建器创建的新的作用范围, 总是会继承外层作用范围的上下文.
+这里, 外层作用范围就是调用 `suspend loadContributorsConcurrent()` 函数的作用范围:
 
 ```kotlin
-launch(Dispatchers.Default) {  // outer scope
+launch(Dispatchers.Default) {  // 外层作用范围
     val users = loadContributorsConcurrent(service, req)
     // ...
 }
 ```
 
-All of the nested coroutines are automatically started with the inherited context. The dispatcher is a part of this
-context. That's why all of the coroutines started by `async` are started with the context of the default dispatcher:
+所有的嵌套协程自动使用继承的上下文启动. 派发器是这个上下文的一部分.
+这就是为什么由 `async` 启动的所有协程, 都使用默认派发器的上下文来启动:
 
 ```kotlin
 suspend fun loadContributorsConcurrent(
     service: GitHubService, req: RequestData
 ): List<User> = coroutineScope {
-    // this scope inherits the context from the outer scope
+    // 这个作用范围继承外层作用范围的上下文
     // ...
-    async {   // nested coroutine started with the inherited context
+    async {   // 嵌套协程使用继承的上下文启动
         // ...
     }
     // ...
 }
 ```
 
-With structured concurrency, you can specify the major context elements (like dispatcher) once, when creating the
-top-level coroutine. All the nested coroutines then inherit the context and modify it only if needed.
+使用结构化并发, 你可以在创建顶级协程时, 一次性指定主要的上下文元素 (例如派发器).
+然后, 所有的嵌套协程都会继承上下文, 只在需要的时候修改.
 
-> When you write code with coroutines for UI applications, for example Android ones, it's a common practice to
-> use `CoroutineDispatchers.Main` by default for the top coroutine and then to explicitly put a different dispatcher when
-> you need to run the code on a different thread.
+> 当你为 UI 应用程序 (例如 Android App) 编写带有协程的代码时, 通常的做法是,
+> 对顶级协程默认使用 `CoroutineDispatchers.Main`, 然后在需要在不同的线程上运行代码时, 明确设置不同的派发器.
 >
 {style="tip"}
 
-## Showing progress
+## 显示进度 {id="showing-progress"}
 
-Despite the information for some repositories being loaded rather quickly, the user only sees the resulting list after all of
-the data has been loaded. Until then, the loader icon runs showing the progress, but there's no information about the current
-state or what contributors are already loaded.
+尽管某些代码仓库的信息加载非常快, 但只有在所有数据加载完毕后, 用户才能看到结果列表.
+在此之前, 加载图标会显示进度, 但没有关于当前状态的信息, 也没有已经加载的贡献者信息.
 
-You can show the intermediate results earlier and display all of the contributors after loading the data for each of the
-repositories:
+你可以提前显示中间结果, 并在对每个代码仓库加载数据之后, 显示所有的贡献者:
 
-![Loading data](loading.gif){width=500}
+![加载数据](loading.gif){width=500}
 
-To implement this functionality, in the `src/tasks/Request6Progress.kt`, you'll need to pass the logic updating the UI
-as a callback, so that it's called on each intermediate state:
+要实现这个功能, 在 `src/tasks/Request6Progress.kt` 中, 你需要以回调的方式, 传递更新 UI 的逻辑,
+以便对每个中间状态调用它:
 
 ```kotlin
 suspend fun loadContributorsProgress(
@@ -1064,13 +1005,12 @@ suspend fun loadContributorsProgress(
     req: RequestData,
     updateResults: suspend (List<User>, completed: Boolean) -> Unit
 ) {
-    // loading the data
-    // calling `updateResults()` on intermediate states
+    // 加载数据
+    // 对中间状态调用 `updateResults()`
 }
 ```
 
-On the call site in `Contributors.kt`, the callback is passed to update the results from the `Main` thread for
-the _PROGRESS_ option:
+在 `Contributors.kt` 中的调用端, 对于 _PROGRESS_ 选项, 传递了回调, 以便从 `Main` 线程更新结果:
 
 ```kotlin
 launch(Dispatchers.Default) {
@@ -1082,26 +1022,23 @@ launch(Dispatchers.Default) {
 }
 ```
 
-* The `updateResults()` parameter is declared as `suspend` in `loadContributorsProgress()`. It's necessary to call
-  `withContext`, which is a `suspend` function inside the corresponding lambda argument.
-* `updateResults()` callback takes an additional Boolean parameter as an argument specifying whether the loading has
-  completed and the results are final.
+* 在 `loadContributorsProgress()` 中, `updateResults()` 参数声明为 `suspend`.
+  在对应的 Lambda 表达式参数中, 需要调用 `withContext`, 它是一个 `suspend` 函数.
+* `updateResults()` 回调接受一个额外的 Boolean 参数, 表示加载是否已经完成, 结果是不是最终结果.
 
-### Task 6
+### 任务 6 {id="task-6"}
 
-In the `Request6Progress.kt` file, implement the `loadContributorsProgress()` function that shows the intermediate
-progress. Base it on the `loadContributorsSuspend()` function from `Request4Suspend.kt`.
+在 `Request6Progress.kt` 文件中, 实现 `loadContributorsProgress()` 函数, 它显示中间进度.
+请以 `Request4Suspend.kt` 的 `loadContributorsSuspend()` 函数为基础.
 
-* Use a simple version without concurrency; you'll add it later in the next section.
-* The intermediate list of contributors should be shown in an "aggregated" state, not just the list of users loaded for
-  each repository.
-* The total number of contributions for each user should be increased when the data for each new
-  repository is loaded.
+* 使用一个没有并发的简单版本; 你会在下一节中添加并发.
+* 贡献者的中间列表应该以 "聚合" 状态显示, 而不仅仅是从每个代码仓库加载的用户列表.
+* 每个新的代码仓库的数据加载之后, 每个用户的贡献总数应该增加.
 
-#### Solution for task 6 {initial-collapse-state="collapsed" collapsible="true"}
+#### 任务 6 的解答 {id="solution-for-task-6" initial-collapse-state="collapsed" collapsible="true"}
 
-To store the intermediate list of loaded contributors in the "aggregated" state, define an `allUsers` variable which
-stores the list of users, and then update it after contributors for each new repository are loaded:
+为了以 "聚合" 状态保存已加载贡献者的中间列表, 定义一个 `allUsers` 变量, 它保存用户列表,
+然后在每个新的代码仓库的贡献者加载之后, 更新它:
 
 ```kotlin
 suspend fun loadContributorsProgress(
@@ -1126,51 +1063,47 @@ suspend fun loadContributorsProgress(
 }
 ```
 
-#### Consecutive vs concurrent
+#### 连续 vs 并发 {id="consecutive-vs-concurrent"}
 
-An `updateResults()` callback is called after each request is completed:
+每个请求完成之后, 会调用一次 `updateResults()` 回调:
 
-![Progress on requests](progress.png){width=700}
+![请求的进度](progress.png){width=700}
 
-This code doesn't include concurrency. It's sequential, so you don't need synchronization.
+这段代码不包含并发. 它是顺序执行的, 因此你不需要同步.
 
-The best option would be to send requests concurrently and update the intermediate results after getting the response
-for each repository:
+最好的选择是, 并发的发送请求, 并在得到每个代码仓库应答之后, 更新中间结果:
 
-![Concurrent requests](progress-and-concurrency.png){width=700}
+![并发请求](progress-and-concurrency.png){width=700}
 
-To add concurrency, use _channels_.
+为了添加并发功能, 请使用 _通道(Channel)_.
 
-## Channels
+## 通道(Channel) {id="channels"}
 
-Writing code with a shared mutable state is quite difficult and error-prone (like in the solution using callbacks).
-A simpler way is to share information by communication rather than by using a common mutable state.
-Coroutines can communicate with each other through _channels_.
+编写包含共用的可变状态的代码是非常困难的, 而且易于出错 (就象在使用回调的解决方案中一样).
+更简单的方法是通过通信来共享信息, 而不是使用共通的可变状态.
+协程可以通过 _通道(Channel)_ 相互通信.
 
-Channels are communication primitives that allow data to be passed between coroutines. One coroutine can _send_
-some information to a channel, while another can _receive_ that information from it:
+通道是一种通信原语, 允许数据在协程之间传递. 一个协程可以向一个通道(Channel) _发送_ 一些信息,
+另一个协程可以从通道 _接受_ 这个信息:
 
-![Using channels](using-channel.png)
+![使用通道](using-channel.png)
 
-A coroutine that sends (produces) information is often called a producer, and a coroutine that receives (consumes)
-information is called a consumer. One or multiple coroutines can send information to the same channel, and one or multiple
-coroutines can receive data from it:
+发送 (生产) 信息的协程通常称为生产者(Producer), 接受 (消费) 信息的协程通常称为消费者(Consumer).
+一个或多个协程可以向同一个通道发送信息, 一个或多个协程可以从通道接受数据:
 
-![Using channels with many coroutines](using-channel-many-coroutines.png)
+![多个协程使用通道](using-channel-many-coroutines.png)
 
-When many coroutines receive information from the same channel, each element is handled only once by one of the
-consumers. Once an element is handled, it is immediately removed from the channel.
+当多个协程从同一个通道接受信息时, 每个元素只被其中一个消费者处理一次.
+一旦一个元素被处理, 它就会立即从通道中删除.
 
-You can think of a channel as similar to a collection of elements, or more precisely, a queue, in which elements are added
-to one end and received from the other. However, there's an important difference: unlike collections, even in their
-synchronized versions, a channel can _suspend_ `send()`and `receive()` operations. This happens when the channel is empty
-or full. The channel can be full if the channel size has an upper bound.
+你可以将通道看作类似于元素的集合, 或者更准确的说, 一个队列(Queue), 元素在一端添加, 在另一端接受.
+但是, 存在重要的区别: 不同于集合, 即使是同步版本的集合, 通道可以 _挂起_ `send()` 和 `receive()` 操作.
+当通道空, 或满时, 就会发生这样的情况. 如果通道大小有上限, 通道就可能会满.
 
-`Channel` is represented by three different interfaces: `SendChannel`, `ReceiveChannel`, and `Channel`, with the latter
-extending the first two. You usually create a channel and give it to producers as a `SendChannel` instance so that only
-they can send information to the channel.
-You give a channel to consumers as a `ReceiveChannel` instance so that only they can receive from it. Both `send`
-and `receive` methods are declared as `suspend`:
+`Channel` 由 3 个不同的接口表示: `SendChannel`, `ReceiveChannel`, 和 `Channel`, 最后一个接口继承前两个接口.
+你通常会创建一个通道, 并将它作为 `SendChannel` 实例提供给生产者, 这样就只有生产者能够向通道发送信息.
+你将通道作为 `ReceiveChannel` 实例提供给消费者, 这样就只有消费者能够从通道接受信息.
+`send` 和 `receive` 方法都声明为 `suspend`:
 
 ```kotlin
 interface SendChannel<in E> {
@@ -1185,46 +1118,42 @@ interface ReceiveChannel<out E> {
 interface Channel<E> : SendChannel<E>, ReceiveChannel<E>
 ```
 
-The producer can close a channel to indicate that no more elements are coming.
+生产者能够关闭通道, 表示不会再有新的元素到来.
 
-Several types of channels are defined in the library. They differ in how many elements they can internally store and
-whether the `send()` call can be suspended or not.
-For all of the channel types, the `receive()` call behaves similarly: it receives an element if the channel is not empty;
-otherwise, it is suspended.
+库中定义了几种类型的通道. 它们的区别在于, 内部能够保存的元素数量, 以及 `send()` 调用是否能够挂起.
+对于所有通道的类型, `receive()` 调用的行为都是类似的: 如果通道不空, 它接受一个元素; 否则, 它会挂起.
 
 <deflist collapsible="true">
-   <def title="Unlimited channel">
-       <p>An unlimited channel is the closest analog to a queue: producers can send elements to this channel and it will
-keep growing indefinitely. The <code>send()</code> call will never be suspended.
-If the program runs out of memory, you'll get an <code>OutOfMemoryException</code>.
-The difference between an unlimited channel and a queue is that when a consumer tries to receive from an empty channel,
-it becomes suspended until some new elements are sent.</p>
-       <img src="unlimited-channel.png" alt="Unlimited channel" width="500"/>
+   <def title="无限(Unlimited)通道" id="unlimited-channel">
+       <p>无限(Unlimited)通道与队列(Queue)最近似: 生产者能够向这个通道发送元素, 通道则会无限制的增长.
+         <code>send()</code> 调用永远不会阻塞.
+如果程序耗尽内存, 你会遇到 <code>OutOfMemoryException</code>.
+无限通道与队列之间的区别是, 当消费者企图从空的通道接受数据时, 它会被挂起, 直到某个新元素被发送到通道.</p>
+       <img src="unlimited-channel.png" alt="无限通道" width="500"/>
    </def>
-   <def title="Buffered channel">
-       <p>The size of a buffered channel is constrained by the specified number.
-Producers can send elements to this channel until the size limit is reached. All of the elements are internally stored.
-When the channel is full, the next `send` call on it is suspended until more free space becomes available.</p>
-       <img src="buffered-channel.png" alt="Buffered channel" width="500"/>
+   <def title="缓冲(Buffered)通道" id="buffered-channel">
+       <p>缓冲(Buffered)通道的大小限制为指定的值.
+生产者能够向这个通道发送元素, 直到达到大小限制. 所有元素在内部保存.
+当通道满时, 对它进行的下一个 <code>send()</code> 调用会被挂起, 直到出现更多的可用空间.</p>
+       <img src="buffered-channel.png" alt="缓冲通道" width="500"/>
    </def>
-   <def title="Rendezvous channel">
-       <p>The "Rendezvous" channel is a channel without a buffer, the same as a buffered channel with zero size.
-One of the functions (<code>send()</code> or <code>receive()</code>) is always suspended until the other is called. </p>
-       <p>If the <code>send()</code> function is called and there's no suspended <code>receive()</code> call ready to process the element, then <code>send()</code>
-is suspended. Similarly, if the <code>receive()</code> function is called and the channel is empty or, in other words, there's no
-suspended <code>send()</code> call ready to send the element, the <code>receive()</code> call is suspended. </p>
-       <p>The "rendezvous" name ("a meeting at an agreed time and place") refers to the fact that <code>send()</code> and <code>receive()</code>
-should "meet on time".</p>
-       <img src="rendezvous-channel.png" alt="Rendezvous channel" width="500"/>
+   <def title="约会(Rendezvous)通道" id="rendezvous-channel">
+       <p>"约会(Rendezvous)" 通道是一个没有缓冲区的通道, 等于一个缓冲大小为 0 的缓冲通道.
+其中一个函数 (<code>send()</code> 或 <code>receive()</code>) 总是会被挂起, 直到另一个函数被调用. </p>
+       <p>如果 <code>send()</code> 函数被调用, 而且不存在挂起的 <code>receive()</code> 调用准备处理元素, 那么 <code>send()</code> 会被挂起.
+类似的, 如果 <code>receive()</code> 函数被调用, 而且通道为空, 或者说, 不存在
+挂起的 <code>send()</code> 调用准备发送元素, 那么 <code>receive()</code> 调用会被挂起. </p>
+       <p>"约会(Rendezvous)" 这个名字 ("在约定的时间和地点会面") 表示的意思是, <code>send()</code> 和 <code>receive()</code>
+应该在 "同一时间会合".</p>
+       <img src="rendezvous-channel.png" alt="约会通道" width="500"/>
    </def>
-   <def title="Conflated channel">
-       <p>A new element sent to the conflated channel will overwrite the previously sent element, so the receiver will always
-get only the latest element. The <code>send()</code> call is never suspended.</p>
-       <img src="conflated-channel.gif" alt="Conflated channel" width="500"/>
+   <def title="合并(Conflated)通道" id="conflated-channel">
+       <p>发送到合并(Conflated)通道的新元素会覆盖之前发送的元素, 因此接受者始终只会得到最新的元素. <code>send()</code> 调用 永远不会挂起.</p>
+       <img src="conflated-channel.gif" alt="合并通道" width="500"/>
    </def>
 </deflist>
 
-When you create a channel, specify its type or the buffer size (if you need a buffered one):
+当你创建通道时, 要指定它的类型, 或缓冲区大小 (你需要的是缓冲通道的话):
 
 ```kotlin
 val rendezvousChannel = Channel<String>()
@@ -1233,9 +1162,9 @@ val conflatedChannel = Channel<String>(CONFLATED)
 val unlimitedChannel = Channel<String>(UNLIMITED)
 ```
 
-By default, a "Rendezvous" channel is created.
+默认情况下, 会创建 "约会(Rendezvous)" 通道.
 
-In the following task, you'll create a "Rendezvous" channel, two producer coroutines, and a consumer coroutine:
+在下面的任务中, 你将创建一个 "约会" 通道, 两个生产者协程, 以及以及消费者协程:
 
 ```kotlin
 import kotlinx.coroutines.channels.Channel
@@ -1265,22 +1194,21 @@ fun log(message: Any?) {
 }
 ```
 
-> Watch [this video](https://www.youtube.com/watch?v=HpWQUoVURWQ) for a better understanding of channels.
+> 为了更好的理解通道, 请观看 [这个视频](https://www.youtube.com/watch?v=HpWQUoVURWQ).
 >
 {style="tip"}
 
-### Task 7
+### 任务 7 {id="task-7"}
 
-In `src/tasks/Request7Channels.kt`, implement the function `loadContributorsChannels()` that requests all of the GitHub
-contributors concurrently and shows intermediate progress at the same time.
+在 `src/tasks/Request7Channels.kt` 中, 实现函数 `loadContributorsChannels()`,
+它并发的请求所有的 GitHub 贡献者, 同时显示中间进度.
 
-Use the previous functions, `loadContributorsConcurrent()` from `Request5Concurrent.kt`
-and `loadContributorsProgress()` from `Request6Progress.kt`.
+使用之前的函数, `Request5Concurrent.kt` 中的 `loadContributorsConcurrent()`,
+以及 `Request6Progress.kt` 中的 `loadContributorsProgress()`.
 
-#### Tip for task 7 {initial-collapse-state="collapsed" collapsible="true"}
+#### 任务 7 的提示 {id="tip-for-task-7" initial-collapse-state="collapsed" collapsible="true"}
 
-Different coroutines that concurrently receive contributor lists for different repositories can send all of the received
-results to the same channel:
+并发的从不同的代码仓库接受贡献者列表的不同的协程, 可以将接受到的所有结果发送到同一个通道:
 
 ```kotlin
 val channel = Channel<List<User>>()
@@ -1293,7 +1221,7 @@ for (repo in repos) {
 }
 ```
 
-Then the elements from this channel can be received one by one and processed:
+然后可以从这个通道逐个的接受元素, 并处理:
 
 ```kotlin
 repeat(repos.size) {
@@ -1302,14 +1230,12 @@ repeat(repos.size) {
 }
 ```
 
-Since the `receive()` calls are sequential, no additional synchronization is needed.
+由于 `receive()` 调用是顺序的, 因此不需要额外的同步.
 
-#### Solution for task 7 {initial-collapse-state="collapsed" collapsible="true"}
+#### 任务 7 的解答 {id="solution-for-task-7" initial-collapse-state="collapsed" collapsible="true"}
 
-As with the `loadContributorsProgress()` function, you can create an `allUsers` variable to store the intermediate
-states of the "all contributors" list.
-Each new list received from the channel is added to the list of all users. You aggregate the result and update the state
-using the `updateResults` callback:
+和 `loadContributorsProgress()` 函数一样, 你可以创建一个 `allUsers` 变量来保存 "all contributors" 列表的中间状态.
+从通道接受的每个新列表添加到所有用户的列表. 你可以汇总结果, 并使用 `updateResults` 回调更新状态:
 
 ```kotlin
 suspend fun loadContributorsChannels(
@@ -1317,7 +1243,6 @@ suspend fun loadContributorsChannels(
     req: RequestData,
     updateResults: suspend (List<User>, completed: Boolean) -> Unit
 ) = coroutineScope {
-
     val repos = service
         .getOrgRepos(req.org)
         .also { logRepos(req, it) }
@@ -1341,24 +1266,22 @@ suspend fun loadContributorsChannels(
 }
 ```
 
-* Results for different repositories are added to the channel as soon as they are ready. At first, when all of the requests
-  are sent, and no data is received, the `receive()` call is suspended. In this case, the whole "load contributors" coroutine
-  is suspended.
-* Then, when the list of users is sent to the channel, the "load contributors" coroutine resumes, the `receive()` call
-  returns this list, and the results are immediately updated.
+* 在得到不同代码仓库的结果之后立即添加到通道.
+  最初, 当所有请求都发送后, 并且还没有收到数据时, `receive()` 调用会被挂起. 这时, 整个 "load contributors" 协程
+  会被挂起.
+* 之后, 当用户列表发送到通道时, "load contributors" 协程恢复运行, `receive()` 调用返回这个列表, 结果立即被更新.
 
-You can now run the program and choose the _CHANNELS_ option to load the contributors and see the result.
+现在你可以运行程序, 并选择 _CHANNELS_ 选项来加载贡献者, 并查看结果.
 
-Although neither coroutines nor channels completely remove the complexity that comes with concurrency,
-they make life easier when you need to understand what's going on.
+尽管协程和通道都不能完全消除由并发带来的复杂性, 但当你需要了解具体如何进行时, 它们能让你的任务更加容易一些.
 
-## Testing coroutines
+## 测试协程 {id="testing-coroutines"}
 
-Let's now test all solutions to check that the solution with concurrent coroutines is faster than the solution with
-the `suspend` functions, and check that the solution with channels is faster than the simple "progress" one.
+我们现在来测试所有的解答, 看看使用并发协程的方案是否比使用 `suspend` 函数的方案更快,
+并检查使用通道的方案是否比使用简单的 "进度" 的方案更快.
 
-In the following task, you'll compare the total running time of the solutions. You'll mock a GitHub service and make
-this service return results after the given timeouts:
+在下面的任务中, 你将比较各个方案的总运行时间. 你将模拟一个 GitHub 服务,
+让这个服务在指定的超时时间之后返回结果:
 
 ```text
 repos request - returns an answer within 1000 ms delay
@@ -1367,40 +1290,36 @@ repo-2 - 1200 ms delay
 repo-3 - 800 ms delay
 ```
 
-The sequential solution with the `suspend` functions should take around 4000 ms (4000 = 1000 + (1000 + 1200 + 800)).
-The concurrent solution should take around 2200 ms (2200 = 1000 + max(1000, 1200, 800)).
+使用 `suspend` 函数的顺序方案会消耗大约 4000 ms (4000 = 1000 + (1000 + 1200 + 800)).
+并发方案会消耗大约 2200 ms (2200 = 1000 + max(1000, 1200, 800)).
 
-For the solutions that show progress, you can also check the intermediate results with timestamps.
+对于显示进度的方案, 你也可以使用时间戳检查中间结果.
 
-The corresponding test data is defined in `test/contributors/testData.kt`, and the files `Request4SuspendKtTest`,
-`Request7ChannelsKtTest`, and so on contain the straightforward tests that use mock service calls.
+对应的测试数据定义在 `test/contributors/testData.kt` 中,
+`Request4SuspendKtTest`, `Request7ChannelsKtTest` 等文件包含使用模拟服务调用的直接测试.
 
-However, there are two problems here:
+但是, 还存在两个问题:
 
-* These tests take too long to run. Each test takes around 2 to 4 seconds, and you need to wait for the results each
-  time. It's not very efficient.
-* You can't rely on the exact time the solution runs because it still takes additional time to prepare and run the code.
-  You could add a constant, but then the time would differ from machine to machine. The mock service delays
-  should be higher than this constant so you can see a difference. If the constant is 0.5 sec, making the delays
-  0.1 sec won't be enough.
+* 这些测试的运行时间太长. 每个测试消耗 2 到 4 秒, 每次都需要等待结果. 这样效率很低.
+* 你不能依赖各个解答运行的确切时间, 因为仍然需要额外的时间来准备并运行代码.
+  你可以添加一个常数, 但这样在不同的机器上时间就会不同. 模拟服务的延迟应该高于这个常数, 让你能够看到差异.
+  如果常数是 0.5 秒, 那么将延迟设置为 0.1 秒就是不够的.
 
-A better way would be to use special frameworks to test the timing while running the same code several times (which increases
-the total time even more), but that is complicated to learn and set up.
+更好的方法是使用特殊的框架, 将相同的代码运行多次, 来测试时间(这样会让总的时间进一步增加),
+但这样会难于学习和设置.
 
-To solve these problems and make sure that solutions with provided test delays behave as expected, one faster than the other,
-use _virtual_ time with a special test dispatcher. This dispatcher keeps track of the virtual time passed from
-the start and runs everything immediately in real time. When you run coroutines on this dispatcher,
-the `delay` will return immediately and advance the virtual time.
+为了解决这些问题, 确保使用指定的测试延迟的解答能够按照预期运行, 一个比另一个更快,
+请使用 _虚拟_ 时间和一个特殊的测试派发器. 这个派发器追踪启动时传入的虚拟时间, 并在真实时间中立即运行所有操作.
+当你使用这个派发器运行协程时, `delay` 会立即返回, 并让虚拟时间向前推进.
 
-Tests that use this mechanism run fast, but you can still check what happens at different moments in virtual time. The
-total running time drastically decreases:
+使用这个机制的测试运行很快, 但你仍然能够检查在虚拟时间中不同时刻发生的情况.
+总的运行时间会大幅减少:
 
-![Comparison for total running time](time-comparison.png){width=700}
+![比较总的运行时间](time-comparison.png){width=700}
 
-To use virtual time, replace the `runBlocking` invocation with a `runTest`. `runTest` takes an
-extension lambda to `TestScope` as an argument.
-When you call `delay` in a `suspend` function inside this special scope, `delay` will increase the virtual time instead
-of delaying in real time:
+要使用虚拟时间, 请将 `runBlocking` 调用替换为 `runTest`.
+`runTest` 接受一个 `TestScope` 上的扩展 Lambda 表达式作为参数.
+在这个特殊的作用范围内, 当你在 `suspend` 函数中调用 `delay` 时, `delay` 会增加虚拟时间, 而不是在真实时间中延迟:
 
 ```kotlin
 @Test
@@ -1414,19 +1333,17 @@ fun testDelayInSuspend() = runTest {
 }
 
 suspend fun foo() {
-    delay(1000)    // auto-advances without delay
-    println("foo") // executes eagerly when foo() is called
+    delay(1000)    // 自动推进时间, 不会延迟
+    println("foo") // 在 foo() 被调用时会立即执行
 }
 ```
 
-You can check the current virtual time using the `currentTime` property of `TestScope`.
+你可以使用 `TestScope` 的 `currentTime` 属性, 检查目前的虚拟时间.
 
-The actual running time in this example is several milliseconds, whereas virtual time equals the delay argument, which
-is 1000 milliseconds.
+这个示例中的总运行时间是几个毫秒, 而虚拟时间等于延迟参数, 也就是 1000 毫秒.
 
-To get the full effect of "virtual" `delay` in child coroutines,
-start all of the child coroutines with `TestDispatcher`. Otherwise, it won't work. This dispatcher is
-automatically inherited from the other `TestScope`, unless you provide a different dispatcher:
+为了在子协程中充分利用 "虚拟" `delay` 的效果, 请使用 `TestDispatcher` 启动所有子协程.
+否则, 它将不能正确工作. 除非你提供不同的派发器, 否则这个派发器自动从其它 `TestScope` 继承:
 
 ```kotlin
 @Test
@@ -1442,28 +1359,29 @@ fun testDelayInLaunch() = runTest {
 
 suspend fun bar() = coroutineScope {
     launch {
-        delay(1000)    // auto-advances without delay
-        println("bar") // executes eagerly when bar() is called
+        delay(1000)    // 自动推进时间, 不会延迟
+        println("bar") // 在 bar() 被调用时会立即执行
     }
 }
 ```
 
-If `launch` is called with the context of `Dispatchers.Default` in the example above, the test will fail. You'll get an
-exception saying that the job has not been completed yet.
+在上面的示例中, 如果使用 `Dispatchers.Default` 的上下文来调用 `launch`, 测试会失败.
+你会遇到一个异常, 提示任务还没有完成.
 
-You can test the `loadContributorsConcurrent()` function this way only if it starts the child coroutines with the
-inherited context, without modifying it using the `Dispatchers.Default` dispatcher.
+只有在 `loadContributorsConcurrent()` 函数使用继承的上下文启动子协程时, 你才可以通过这样的方式测试它,
+而不必修改它, 使用 `Dispatchers.Default` 派发器.
 
-You can specify the context elements like the dispatcher when _calling_ a function rather than when _defining_ it,
-which allows for more flexibility and easier testing.
+你可以在 _调用_ 一个函数而不是在 _定义_ 时, 指定上下文元素, 例如派发器,
+这样可以提供更高的灵活性, 而且更容易测试.
 
-> The testing API that supports virtual time is [Experimental](components-stability.md) and may change in the future.
+> 支持虚拟时间的测试 API 是 [实验性功能](components-stability.md),
+> 将来可能发生变更.
 >
 {style="warning"}
 
-By default, the compiler shows warnings if you use the experimental testing API. To suppress these warnings, annotate
-the test function or the whole class containing the tests with `@OptIn(ExperimentalCoroutinesApi::class)`.
-Add the compiler argument instructing the compiler that you're using the experimental API:
+默认情况下, 如果你使用实验性的测试 API, 编译器会提示警告信息.
+为了压制这些警告, 请使用 `@OptIn(ExperimentalCoroutinesApi::class)` 标注测试函数, 或包含测试的整个类.
+添加编译器参数, 指示编译器, 你在使用实验性 API:
 
 ```kotlin
 compileTestKotlin {
@@ -1473,39 +1391,39 @@ compileTestKotlin {
 }
 ```
 
-In the project corresponding to this tutorial, the compiler argument has already been added to the Gradle script.
+在本教程对应的项目中, Gradle 脚本已经添加了编译器参数.
 
-### Task 8
+### 任务 8 {id="task-8"}
 
-Refactor the following tests in `tests/tasks/` to use virtual time instead of real time:
+重构 `tests/tasks/` 中的以下测试, 使用虚拟时间而不是真实时间:
 
-* Request4SuspendKtTest.kt
-* Request5ConcurrentKtTest.kt
-* Request6ProgressKtTest.kt
-* Request7ChannelsKtTest.kt
+* `Request4SuspendKtTest.kt`
+* `Request5ConcurrentKtTest.kt`
+* `Request6ProgressKtTest.kt`
+* `Request7ChannelsKtTest.kt`
 
-Compare the total running times before and after applying your refactoring.
+比较重构之前与之后的总运行时间.
 
-#### Tip for task 8 {initial-collapse-state="collapsed" collapsible="true"}
+#### 任务 8 的提示 {id="tip-for-task-8" initial-collapse-state="collapsed" collapsible="true"}
 
-1. Replace the `runBlocking` invocation with `runTest`, and replace `System.currentTimeMillis()` with `currentTime`:
+1. 将 `runBlocking` 调用替换为 `runTest`, 将 `System.currentTimeMillis()` 替换为 `currentTime`:
 
     ```kotlin
     @Test
     fun test() = runTest {
         val startTime = currentTime
-        // action
+        // 执行动作
         val totalTime = currentTime - startTime
-        // testing result
+        // 测试结果
     }
     ```
 
-2. Uncomment the assertions that check the exact virtual time.
-3. Don't forget to add `@UseExperimental(ExperimentalCoroutinesApi::class)`.
+2. 对检查确切虚拟时间的断言, 取消注释.
+3. 不要忘记添加 `@UseExperimental(ExperimentalCoroutinesApi::class)`.
 
-#### Solution for task 8 {initial-collapse-state="collapsed" collapsible="true"}
+#### 任务 8 的解答 {id="solution-for-task-8" initial-collapse-state="collapsed" collapsible="true"}
 
-Here are the solutions for the concurrent and channels cases:
+下面是并发和通道的 test case 的答案:
 
 ```kotlin
 fun testConcurrent() = runTest {
@@ -1522,8 +1440,7 @@ fun testConcurrent() = runTest {
 }
 ```
 
-First, check that the results are available exactly at the expected virtual time, and then check the results
-themselves:
+首先, 检查是否在预期的虚拟时间内得到结果, 然后检查结果本身是否正确:
 
 ```kotlin
 fun testChannels() = runTest {
@@ -1541,15 +1458,14 @@ fun testChannels() = runTest {
 }
 ```
 
-The first intermediate result for the last version with channels becomes available sooner than the progress version, and you
-can see the difference in tests that use virtual time.
+对于使用通道的最终版本, 第一个中间结果要比 progress 版本更快得到,
+你可以在测试中使用虚拟时间看到差异.
 
-> The tests for the remaining "suspend" and "progress" tasks are very similar – you can find them in the project's
-> `solutions` branch.
+> 其它的 "suspend" 和 "progress" 任务的测试都很相似 – 你可以在项目的 `solutions` 分支中找到这些测试.
 >
 {style="tip"}
 
-## What's next
+## 下一步做什么 {id="what-s-next"}
 
-* Check out the [Asynchronous Programming with Kotlin](https://kotlinconf.com/workshops/) workshop at KotlinConf.
-* Find out more about using [virtual time and the experimental testing package](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-test/).
+* 查看 KotlinConf 上的 [使用 Kotlin 进行异步编程](https://kotlinconf.com/workshops/) 研讨会.
+* 了解关于使用 [虚拟时间和实验性的测试包](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-test/) 的更多详情.

@@ -7,96 +7,42 @@
 Kotlin 支持与 Objective-C 依赖项交互, 也支持 Swift 依赖项, 但要求它们的 API 使用 `@objc` 属性导出到 Objective-C.
 纯 Swift 的依赖项目前还不支持.
 
-也支持与 CocoaPods 依赖项管理器的集成, 但有相同的限制 – 你不能使用纯 Swift 的 pod.
+要在 Kotlin Multiplatform 项目中管理 iOS 依赖项, 你可以使用 [cinterop 工具](#with-cinterop),
+或使用 [CocoaPods 依赖项管理器](#with-cocoapods) (不支持纯 Swift pod).
 
-我们推荐在 Kotlin Multiplatform 项目中 [使用 CocoaPods](#with-cocoapods) 来管理 iOS 依赖项.
-如果你想要精密调节交互过程细节, 或者有某些很重要的原因, 只有这些情况才需要 [手动管理依赖项](#without-cocoapods).
+### 使用 cinterop {id="with-cinterop"}
 
-### 使用 CocoaPods {id="with-cocoapods"}
-
-1. 执行 [CocoaPods 集成的初始设置](native-cocoapods.md#set-up-an-environment-to-work-with-cocoapods).
-2. 在你的项目的 `build.gradle(.kts)` 文件中加入 `pod()` 函数调用, 添加 CocoaPods 仓库中的你想要使用的 Pod 库的依赖项.
-
-    <tabs group="build-script">
-    <tab title="Kotlin" group-key="kotlin">
-
-    ```kotlin
-    kotlin {
-        cocoapods {
-            //..
-            pod("FirebaseAuth") {
-                version = "10.16.0"
-            }
-        }
-    }
-    ```
-
-    </tab>
-    <tab title="Groovy" group-key="groovy">
-
-    ```groovy
-    kotlin {
-        cocoapods {
-            //..
-            pod('FirebaseAuth') {
-                version = '10.16.0'
-            }
-        }
-    }
-    ```
-
-    </tab>
-    </tabs>
-
-   你可以通过以下方式添加 Pod 库依赖项:
-    * [使用 CocoaPods 仓库](native-cocoapods-libraries.md#from-the-cocoapods-repository)
-    * [使用本地存储的库](native-cocoapods-libraries.md#on-a-locally-stored-library)
-    * [使用自定义的 Git 仓库](native-cocoapods-libraries.md#from-a-custom-git-repository)
-    * [使用自定义的 Podspec 仓库](native-cocoapods-libraries.md#from-a-custom-podspec-repository)
-    * [使用自定义的 cinterop 选项](native-cocoapods-libraries.md#with-custom-cinterop-options)
-
-3. 在 IntelliJ IDEA 中, 运行 **Reload All Gradle Projects** (如果是 Android Studio, 请运行 **Sync Project with Gradle Files**),
-   重新导入项目.
-
-要在你的 Kotlin 代码中使用依赖项, 请导入包 `cocoapods.<library-name>`. 在上面的示例中中, 应该是:
-
-```kotlin
-import cocoapods.FirebaseAuth.*
-```
-
-### 不使用 CocoaPods {id="without-cocoapods"}
-
-如果你不想使用 CocoaPods, 你可以使用 cinterop 工具来为 Objective-C 或 Swift 声明创建 Kotlin 绑定.
+你可以使用 cinterop 工具来为 Objective-C 或 Swift 声明创建 Kotlin 绑定.
 然后就可以从 Kotlin 代码调用它们.
 
-对于 [库](#add-a-library-without-cocoapods) 和 [框架](#add-a-framework-without-cocoapods) 的步骤略有不同, 但大致思想是一样的.
+对于 [库](#add-a-library) 和 [框架](#add-a-framework) 的步骤略有不同,
+但过程大致如下:
 
 1. 下载你的依赖项.
 2. 构建它, 得到它的二进制文件.
-3. 创建一个专用的 `.def` 文件, 为 cinterop 描述这个依赖项.
+3. 创建一个专用的 `.def` [定义文件](native-definition-file.md), 为 cinterop 描述这个依赖项.
 4. 调节你的构建脚本, 在构建过程中生成绑定.
 
-#### 不使用 CocoaPods, 添加一个库 {id="add-a-library-without-cocoapods"}
+#### 添加一个库 {id="add-a-library"}
 
 1. 下载库的源代码, 放在从你的项目可以引用的某个地方.
-
 2. 构建库 (库作者通常会提供文档说明具体方法), 得到二进制文件路径.
-
 3. 在你的项目中, 创建一个 `.def` 文件, 比如 `DateTools.def`.
-
 4. 向这个文件添加第 1 行内容: `language = Objective-C`. 如果你想要使用一个纯 C 的依赖项, 请省略 language 属性.
-
 5. 为这 2 个必须属性指定值:
+
     * `headers` 描述哪些头文件要由 cinterop 处理.
     * `package` 设置这些声明应该放置的包名称.
 
-   比如:
+   例如:
+
     ```none
     headers = DateTools.h
     package = DateTools
     ```
 
 6. 向构建脚本添加与这个库交互的信息:
+
     * 传递 `.def` 文件的路径.
       如果你的 `.def` 文件与 cinterop 名称相同, 并放置在 `src/nativeInterop/cinterop/` 目录中, 那么这个路径可以省略.
     * 使用 `includeDirs` 选项, 告诉 cinterop 到哪里寻找头文件.
@@ -166,17 +112,14 @@ import cocoapods.FirebaseAuth.*
 import DateTools.*
 ```
 
-#### 不使用 CocoaPods, 添加一个框架 {id="add-a-framework-without-cocoapods"}
+#### 添加一个框架 {id="add-a-framework"}
 
 1. 下载框架源代码, 放在从你的项目可以引用的某个地方.
-
 2. 构建框架 (框架作者通常会提供文档说明具体方法), 得到二进制文件路径.
-
 3. 在你的项目中, 创建一个 `.def` 文件, 比如 `MyFramework.def`.
-
 4. 向这个文件添加第 1 行内容: `language = Objective-C`. 如果你想要使用一个纯 C 的依赖项, 请省略 language 属性.
-
 5. 为这 2 个必须属性指定值:
+
     * `modules` – 需要由 cinterop 处理的框架名称.
     * `package` – 这些声明应该放置的包名称.
 
@@ -188,6 +131,7 @@ import DateTools.*
     ```
 
 6. 向构建脚本添加与这个框架交互的信息:
+
     * 传递 .def 文件路径.
       如果你的 `.def` 文件与 cinterop 名称相同, 并放置在 `src/nativeInterop/cinterop/` 目录中, 那么这个路径可以省略.
     * 使用 `-framework` 选项, 向编译器和链接器传递框架名称.
@@ -258,10 +202,65 @@ import MyFramework.*
 详情请参见 [与 Objective-C 和 Swift 交互](native-objc-interop.md)
 以及 [在 Gradle 中配置 cinterop](multiplatform-dsl-reference.md#cinterops).
 
+### 使用 CocoaPods {id="with-cocoapods"}
+
+1. 执行 [CocoaPods 集成的初始设置](native-cocoapods.md#set-up-an-environment-to-work-with-cocoapods).
+2. 在你的项目的 `build.gradle(.kts)` 文件中加入 `pod()` 函数调用, 添加 CocoaPods 仓库中的你想要使用的 Pod 库的依赖项.
+
+    <tabs group="build-script">
+    <tab title="Kotlin" group-key="kotlin">
+
+    ```kotlin
+    kotlin {
+        cocoapods {
+            version = "2.0"
+            // ...
+            pod("SDWebImage") {
+                version = "5.20.0"
+            }
+        }
+    }
+    ```
+
+    </tab>
+    <tab title="Groovy" group-key="groovy">
+
+    ```groovy
+    kotlin {
+        cocoapods {
+            version = '2.0'
+            // ...
+            pod('SDWebImage') {
+                version = '5.20.0'
+            }
+        }
+    }
+    ```
+
+    </tab>
+    </tabs>
+
+   你可以通过以下方式添加 Pod 库依赖项:
+
+   * [使用 CocoaPods 仓库](native-cocoapods-libraries.md#from-the-cocoapods-repository)
+   * [使用本地存储的库](native-cocoapods-libraries.md#on-a-locally-stored-library)
+   * [使用自定义的 Git 仓库](native-cocoapods-libraries.md#from-a-custom-git-repository)
+   * [使用自定义的 Podspec 仓库](native-cocoapods-libraries.md#from-a-custom-podspec-repository)
+   * [使用自定义的 cinterop 选项](native-cocoapods-libraries.md#with-custom-cinterop-options)
+
+3. 在 IntelliJ IDEA 中, 运行 **Reload All Gradle Projects** (如果是 Android Studio, 请运行 **Sync Project with Gradle Files**),
+   重新导入项目.
+
+要在你的 Kotlin 代码中使用依赖项, 请导入包 `cocoapods.<library-name>`. 在上面的示例中中, 应该是:
+
+```kotlin
+import cocoapods.SDWebImage.*
+```
+
 ## 下一步做什么?
 
 查看跨平台项目中添加依赖项的其他资料, 并学习以下内容:
 
-* [连接到平台相关的库](multiplatform-share-on-platforms.md#connect-platform-specific-libraries)
+* [连接到平台库](native-platform-libs.md)
 * [添加对跨平台库或其他跨平台项目的依赖项](multiplatform-add-dependencies.md)
 * [添加 Android 依赖项](multiplatform-android-dependencies.md)

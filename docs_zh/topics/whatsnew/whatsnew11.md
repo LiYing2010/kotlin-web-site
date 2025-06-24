@@ -453,7 +453,7 @@ fun main(args: Array<String>) {
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 `takeIf` 函数类似于 `filter`, 但适用于单个值. 这个函数首先检查接受者是否符合某些条件, 如果满足条件则返回接受者, 否则返回 `null`.
-将这个函数与 Elvis 操作符, 以及快速返回(early return)组合起来, 可以编写下面这样的代码:
+将这个函数与 Elvis 操作符, 以及提前返回(Early Return)组合起来, 可以编写下面这样的代码:
 
 ```kotlin
 val outDirFile = File(outputDir.path).takeIf { it.exists() } ?: return false

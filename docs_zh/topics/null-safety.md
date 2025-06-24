@@ -158,8 +158,8 @@ fun main() {
         print("String of length ${b.length}")
         // 输出结果为: String of length 6
     } else {
-        print("Empty string")
         // 如果条件不满足, 提供一个替代结果
+        print("Empty string")
     }
 //sampleEnd
 }

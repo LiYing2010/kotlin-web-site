@@ -26,10 +26,7 @@
 
 ## Kotlin 吉祥物 {id="kotlin-mascot"}
 
-<primary-label ref="experimental-general"/>
-<secondary-label ref="eap"/>
-
-Kodee 是 Kotlin 重新构想的吉祥物. Kodee 不仅仅只是一个符号, 它也是你的好伙伴, 鼓励并激发你展现你的创造力.
+来认识一下 Kodee, 它是 Kotlin 的吉祥物, 也是你的好伙伴, 它总是在你身边, 鼓励和激发你的创造力.
 在使用它时, 我们请求你遵循这些 [简单的规则](https://resources.jetbrains.com/storage/products/kotlin/docs/Kotlin_Mascot_Guidelines.pdf).
 
 ![Kotlin 吉祥物 Kodee 的尺寸](mascot-body-proportions.png){width=700}

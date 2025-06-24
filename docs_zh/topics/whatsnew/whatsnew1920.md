@@ -134,7 +134,7 @@ Kotlin 1.9.20 包含稳定的内存管理器, 其中包括, 默认使用新的�
 ### 默认启用自定义内存分配器 {id="custom-memory-allocator-enabled-by-default"}
 
 Kotlin 1.9.20 默认启用新的内存分配器.
-它的设计目标是取代以前的默认分配器, `mimaloc`,
+它的设计目标是取代以前的默认分配器, `mimalloc`,
 使得垃圾收集更加高效, 并提高 [Kotlin/Native 内存管理器](native-memory-manager.md) 的运行期性能.
 
 新的自定义分配器将系统内存分为多个页面(Page), 允许按连续的顺序进行独立的清理.
@@ -157,7 +157,7 @@ Kotlin 1.9.20 默认启用新的内存分配器.
 
 如果你遇到内存消耗过高的情况,
 你可以在你的 Gradle 构建脚本中使用 `-Xallocator=mimalloc` 或 `-Xallocator=std` 选项,
-切换回原来的 `mimaloc`, 或系统分配.
+切换回原来的 `mimalloc`, 或系统分配.
 请将这样的问题报告到 [YouTrack](https://kotl.in/issue), 帮助我们改进新的内存分配器.
 
 关于新的分配器设计的技术细节, 请参见 [README](https://github.com/JetBrains/kotlin/blob/master/kotlin-native/runtime/src/alloc/custom/README.md).

@@ -37,7 +37,7 @@ fun main() {
 如果字符的值是数字, 可以使用 [`digitToInt()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/digit-to-int.html)
 函数显式转换为 `Int` 值.
 
-> 在 JVM 平台, 当需要一个可为 null 的字符引用时, 字符会被装箱(box)为 Java 类, 与 [数值类型](numbers.md#numbers-representation-on-the-jvm) 一样.
+> 在 JVM 平台, 当需要一个可为 null 的字符引用时, 字符会被装箱(box)为 Java 类, 与 [数值类型](numbers.md#boxing-and-caching-numbers-on-the-java-virtual-machine) 一样.
 > 装箱操作不保持对象的同一性(identity).
 >
 {style="note"}

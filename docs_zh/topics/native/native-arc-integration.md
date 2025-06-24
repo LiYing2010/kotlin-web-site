@@ -248,7 +248,12 @@ func test() {
 
 在 _循环引用_ 中, 多个对象使用强引用相互引用, 形成引用的循环:
 
-![循环引用](native-retain-cycle.png){height=200}
+```mermaid
+graph TD
+    A --> B
+    B --> C
+    C --> A
+```
 
 Kotlin 的追踪 GC 和 Objective-C 的 ARC 使用不同的方式处理循环引用.
 当对象不可到达时, Kotlin 的 GC 能够正确的回收这样的循环引用, 而 Objective-C 的 ARC 则不能.
@@ -257,7 +262,11 @@ Kotlin 的追踪 GC 和 Objective-C 的 ARC 使用不同的方式处理循环引
 
 考虑这样的情况, 如果一个循环引用同时包含 Objective-C 和 Kotlin 对象:
 
-![Retain cycles with Objective-C and Kotlin objects](native-objc-kotlin-retain-cycles.png){height=150}
+```mermaid
+graph TD
+    Kotlin.A --> ObjC.B
+    ObjC.B --> Kotlin.A
+```
 
 这就牵涉到将 Kotlin 和 Objective-C 的内存管理模型组合到一起, 而 Objective-C 不能处理 (回收) 循环引用.
 也就是说, 只要出现了一个 Objective-C 对象, 整个对象图的循环引用都将无法回收, 而且不可能从 Kotlin 端打破这个循环引用.

@@ -36,13 +36,13 @@ Kotlin 项目需要在 `build.gradle(.kts)` 中调用 `pod()` 函数来添加 Po
         iosArm64()
 
         cocoapods {
-            iosArm64.deploymentTarget = "13.5"
-
+            version = "2.0"
             summary = "CocoaPods test library"
             homepage = "https://github.com/JetBrains/kotlin"
+            ios.deploymentTarget = "16.0"
 
-            pod("FirebaseAuth") {
-                version = "10.16.0"
+            pod("SDWebImage") {
+                version = "5.20.0"
             }
         }
     }
@@ -54,7 +54,7 @@ Kotlin 项目需要在 `build.gradle(.kts)` 中调用 `pod()` 函数来添加 Po
 要在 Kotlin 代码中使用这些依赖项, 需要导入 `cocoapods.<library-name>` 包:
 
 ```kotlin
-import cocoapods.FirebaseAuth.*
+import cocoapods.SDWebImage.*
 ```
 
 ## 使用保存在本地的 Pod 库添加依赖项 {id="on-a-locally-stored-library"}
@@ -75,21 +75,23 @@ import cocoapods.FirebaseAuth.*
         iosArm64()
 
         cocoapods {
+            version = "2.0"
             summary = "CocoaPods test library"
             homepage = "https://github.com/JetBrains/kotlin"
-
-            iosArm64.deploymentTarget = "13.5"
+            ios.deploymentTarget = "16.0"
 
             pod("pod_dependency") {
                 version = "1.0"
+                extraOpts += listOf("-compiler-option")
                 source = path(project.file("../pod_dependency"))
             }
             pod("subspec_dependency/Core") {
                 version = "1.0"
+                extraOpts += listOf("-compiler-option")
                 source = path(project.file("../subspec_dependency"))
             }
-            pod("FirebaseAuth") {
-                version = "10.16.0"
+            pod("SDWebImage") {
+                version = "5.20.0"
             }
         }
     }
@@ -108,7 +110,7 @@ import cocoapods.FirebaseAuth.*
 ```kotlin
 import cocoapods.pod_dependency.*
 import cocoapods.subspec_dependency.*
-import cocoapods.FirebaseAuth.*
+import cocoapods.SDWebImage.*
 ```
 
 ## 从自定义的 Git 仓库添加 Pod 库依赖项 {id="from-a-custom-git-repository"}
@@ -136,14 +138,14 @@ import cocoapods.FirebaseAuth.*
         iosArm64()
 
         cocoapods {
+            version = "2.0"
             summary = "CocoaPods test library"
             homepage = "https://github.com/JetBrains/kotlin"
+            ios.deploymentTarget = "16.0"
 
-            iosArm64.deploymentTarget = "13.5"
-
-            pod("FirebaseAuth") {
-                source = git("https://github.com/firebase/firebase-ios-sdk") {
-                    tag = "10.16.0"
+            pod("SDWebImage") {
+                source = git("https://github.com/SDWebImage/SDWebImage") {
+                    tag = "5.20.0"
                 }
             }
 
@@ -168,7 +170,7 @@ import cocoapods.FirebaseAuth.*
 要在 Kotlin 代码中使用这些依赖项, 需要导入 `cocoapods.<library-name>` 包:
 
 ```kotlin
-import cocoapods.Alamofire.*
+import cocoapods.SDWebImage.*
 import cocoapods.JSONModel.*
 import cocoapods.CocoaLumberjack.*
 ```
@@ -184,10 +186,10 @@ import cocoapods.CocoaLumberjack.*
         iosArm64()
 
         cocoapods {
+            version = "2.0"
             summary = "CocoaPods test library"
             homepage = "https://github.com/JetBrains/kotlin"
-
-            iosArm64.deploymentTarget = "13.5"
+            ios.deploymentTarget = "16.0"
 
             specRepos {
                 url("https://github.com/Kotlin/kotlin-cocoapods-spec.git")
@@ -218,44 +220,51 @@ import cocoapods.example.*
 
 1. 在 `pod()` 函数内指定 Pod 库名称.
 
-   在配置代码段中, 指定 cinterop 选项:
-   * `extraOpts` – 指定对 Pod 库的选项列表. 例如, 指定 flag: `extraOpts = listOf("-compiler-option")`.
-   * `packageName` – 指定包名称. 如果有指定, 可以使用这个包名称导入这个库:
-     `import <packageName>`.
+2. 在配置代码段中, 添加以下选项:
 
-2. 指定 Pod 库的部署目标(deployment target)最小版本.
+   * `extraOpts` – 指定对 Pod 库的选项列表. 例如, `extraOpts = listOf("-compiler-option")`.
+
+     > 如果你遇到与 clang 模块相关的问题, 请添加 `-fmodules` 选项.
+     >
+     {style="note"}
+
+   * `packageName` – 通过 `import <packageName>`, 使用包名称直接导入这个库.
+
+3. 指定 Pod 库的部署目标(deployment target)最小版本.
 
     ```kotlin
     kotlin {
         iosArm64()
 
         cocoapods {
+            version = "2.0"
             summary = "CocoaPods test library"
             homepage = "https://github.com/JetBrains/kotlin"
+            ios.deploymentTarget = "16.0"
 
-            iosArm64.deploymentTarget = "13.5"
-
-            pod("YandexMapKit") {
-                packageName = "YandexMK"
+            pod("FirebaseAuth") {
+                packageName = "FirebaseAuthWrapper"
+                version = "11.7.0"
+                extraOpts += listOf("-compiler-option", "-fmodules")
             }
         }
     }
     ```
 
-3. 在 IntelliJ IDEA 中, 运行 **Reload All Gradle Projects** (如果是 Android Studio, 请运行 **Sync Project with Gradle Files**),
+4. 在 IntelliJ IDEA 中, 运行 **Reload All Gradle Projects** (如果是 Android Studio, 请运行 **Sync Project with Gradle Files**),
    重新导入项目.
 
 要在 Kotlin 代码中使用这些依赖项, 需要导入 `cocoapods.<library-name>` 包:
 
 ```kotlin
-import cocoapods.YandexMapKit.*
+import cocoapods.FirebaseAuth.*
 ```
 
 如果使用了 `packageName` 参数, 那么可以使用包这个名称导入这个库 `import <packageName>`:
 
 ```kotlin
-import YandexMK.YMKPoint
-import YandexMK.YMKDistance
+import FirebaseAuthWrapper.Auth
+import FirebaseAuthWrapper.User
 ```
 
 ### 对带 @import 命令的 Objective-C 头文件的支持
@@ -276,12 +285,13 @@ kotlin {
     iosArm64()
 
     cocoapods {
+        version = "2.0"
         summary = "CocoaPods test library"
         homepage = "https://github.com/JetBrains/kotlin"
-
-        iosArm64.deploymentTarget = "13.5"
+        ios.deploymentTarget = "16.0"
 
         pod("PodName") {
+            version = "1.0.0"
             extraOpts = listOf("-compiler-option", "-fmodules")
         }
     }

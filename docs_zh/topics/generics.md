@@ -246,7 +246,7 @@ fun fill(dest: Array<in String>, value: String) { ... }
 ```
 
 `Array<in String>` 与 Java 的 `Array<? super String>` 相同.
-也就是说, 你可以使用 `CharSequence` 数组, 或者 `Object` 数组作为  `fill()` 函数的参数.
+也就是说, 你可以使用 `String`, `CharSequence` 或 `Object` 的数组作为  `fill()` 函数的参数.
 
 ### 星号投射(Star-projection)
 

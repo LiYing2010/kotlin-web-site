@@ -110,7 +110,7 @@
   </tr>
   <tr>
     <td>
-      <a href="https://github.com/JetBrains/lets-plot"><strong>Lets-Plot</strong></a>
+      <a href="https://lets-plot.org/kotlin/get-started.html"><strong>Lets-Plot</strong></a>
     </td>
     <td>
       <list>

@@ -61,7 +61,10 @@ JavaScript 或 JavaFX 的客户端应用程序, 以及数据科学, 这只是少
 
 ### 我可以使用 Kotlin 进行 Web 开发吗? {id="can-i-use-kotlin-for-web-development"}
 
-是的. 除了用于 Web 后端开发之外, 你还可以使用 Kotlin/Wasm 来开发 Web 客户端.
+是的.
+对于 Web 后端开发, Kotlin 可以与 [Ktor](https://ktor.io/) 和 [Spring](https://spring.io/) 等框架良好配合,
+你可以高效的构建服务器端应用程序.
+此外, 你还可以使用 Kotlin/Wasm 进行 Web 客户端开发.
 参见 [Kotlin/Wasm 入门](wasm-get-started.md).
 
 ### 我可以使用 Kotlin 进行桌面开发吗? {id="can-i-use-kotlin-for-desktop-development"}
@@ -78,9 +81,8 @@ JavaScript 或 JavaFX 的客户端应用程序, 以及数据科学, 这只是少
 ### 有哪些 IDE 支持 Kotlin? {id="what-ides-support-kotlin"}
 
 通过 JetBrains 开发的官方 Kotlin plugin, Kotlin 完全支持
-[IntelliJ IDEA](https://www.jetbrains.com/idea/download/),
-[Android Studio](https://developer.android.com/kotlin/get-started),
-以及 [JetBrains Fleet](https://www.jetbrains.com/help/fleet/getting-started-with-kotlin-in-fleet.html).
+[IntelliJ IDEA](https://www.jetbrains.com/idea/download/)
+和 [Android Studio](https://developer.android.com/kotlin/get-started).
 
 其他 IDE 和代码编辑器只有 Kotlin 社区支持的 plugin.
 
@@ -186,7 +188,8 @@ Kotlin 开发者大会是培养和促进 Kotlin 生态系统内协作, 以及社
 ### Kotlin 是否有社交媒体帐号? {id="is-kotlin-on-social-media"}
 
 是的.
-请订阅 [Kotlin YouTube 频道](https://www.youtube.com/c/Kotlin), 并追随 Kotlin 的 [Twitter 帐号](https://twitter.com/kotlin).
+请订阅 [Kotlin YouTube 频道](https://www.youtube.com/c/Kotlin), 并追随 Kotlin 的 [Twitter 帐号](https://twitter.com/kotlin)
+或 [Bluesky 帐号](https://bsky.app/profile/kotlinlang.org).
 
 ### 是否有关于 Kotlin 的其他在线资源? {id="any-other-online-kotlin-resources"}
 

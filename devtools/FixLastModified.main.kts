@@ -16,7 +16,7 @@ println("buildFolder: $buildFolder")
 val today = Date()
 val dateStr = SimpleDateFormat("yyyy/MM/dd").format(today)
 val oldHtmlCode = "<div class=\"last-modified\">[^<]*</div>".toRegex()
-val newHtmlCode = "<div class=\"last-modified\">最终更新: $dateStr</div>"
+val newHtmlCode = "<div class=\"last-modified\">$dateStr</div>"
 
 buildFolder.walkTopDown().forEach { htmlFile ->
     fixLastModified(htmlFile)

@@ -1,8 +1,8 @@
 [//]: # (title: 针对 EAP 进行构建配置)
 
 <tldr>
-    <!-- <p>No preview versions are currently available</p> -->
-    <p>Kotlin EAP 的最新发布版本: <strong>%kotlinEapVersion%</strong></p>
+    <p>目前没有预览版</p>
+    <!-- <p>Kotlin EAP 的最新发布版本: <strong>%kotlinEapVersion%</strong></p> -->
     <p><a href="eap.md#build-details">查看 Kotlin EAP 发布版的细节</a></p>
 </tldr>
 
@@ -152,4 +152,4 @@ dependencies {
 
 * 向 [我们的问题追踪系统, YouTrack](https://kotl.in/issue) 报告问题.
 * 在 [Kotlin Slack 的 #eap 频道](https://app.slack.com/client/T09229ZC6/C0KLZSCHF) 中寻求帮助 ([获得 Slack 邀请](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up)).
-* 回滚到最新的稳定版本: [在你的构建脚本文件中修改](configure-build-for-eap.md#adjust-the-kotlin-version).
+* 回滚到最新的稳定版本: [在你的构建脚本文件中修改](#adjust-the-kotlin-version).

@@ -376,7 +376,7 @@ kotlinc-native hello.kt -o hello
 
 ## 下一步做什么? {id="what-s-next"}
 
-* 完成 [使用 C Interop 和 libcurl 创建应用程序](native-app-with-c-and-libcurl.md) 教程,
-  这个教程演示如何创建一个 native HTTP 客户端, 以及如何与 C 代码库交互.
+* 完成 [使用 C interop 和 libcurl 创建应用程序](native-app-with-c-and-libcurl.md) 教程,
+  这个教程演示如何创建一个原生的 HTTP 客户端, 以及如何与 C 代码库交互.
 * 学习如何 [为真实的 Kotlin/Native 项目编写 Gradle 构建脚本](multiplatform-dsl-reference.md).
 * 关于 Gradle 构建系统的更多详情, 请参见 [文档](gradle.md).

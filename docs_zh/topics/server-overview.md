@@ -12,10 +12,12 @@ Kotlin 非常适合于开发服务器端应用程序, 使用 Kotlin 可以编写
 * **可移植性**: 对于大规模的 Java 代码库, Kotlin 语言支持平滑地, 逐步的迁移.
   你可以只使用 Kotlin 来编写新代码, 同时对系统中既有的部分继续沿用旧的 Java 代码.
 * **开发工具**: 除了 IDE 的支持之外, 在 IntelliJ IDEA Ultimate 的插件中,
-  Kotlin 还提供了针对特定框架(比如, Spring)的开发工具支持.
+  Kotlin 还提供了针对特定框架(比如, Spring 和 Ktor)的开发工具支持.
 * **学习曲线**: 对于 Java 开发者, Kotlin 是非常易于学习的.
   Kotlin 插件中包含了 Java 代码到 Kotlin 代码的自动转换器, 可以帮助你完成最初的工作.
-  [Kotlin Koan](koans.md) 中有一系列的交互式练习题, 可以指导你学习 Kotlin 语言的关键特性.
+  [Kotlin Koan](koans.md) 中有一系列的交互式练习题, 指导你学习 Kotlin 语言的关键特性.
+  [Ktor](https://ktor.io/) 这样的 Kotlin 专用框架, 提供了一种简单直接的方法,
+  没有大型框架那些隐藏的复杂性.
 
 ## Kotlin 服务器端开发的一些相关框架 {id="frameworks-for-server-side-development-with-kotlin"}
 
@@ -76,9 +78,17 @@ Google 云平台也提供了一系列教程, 演示如何将 Kotlin 应用程序
 [JetBrains Account](https://account.jetbrains.com/), 这个系统负责 JetBrains 公司所有的许可证销售和验证过程,
 系统 100% 使用 Kotlin 编写, 自 2015 年起运行在生产环境中, 未发生任何严重问题.
 
+[Chess.com](https://www.chess.com/) 是一个网站, 专门服务于国际象棋, 以及全世界热爱国际象棋的几百万玩家.
+Chess.com 使用 Ktor 实现它的多个 HTTP 客户端的无缝配置.
+
+[Adobe](https://blog.developer.adobe.com/streamlining-server-side-app-development-with-kotlin-be8cf9d8b61a) 的工程师们
+使用 Kotlin 进行服务器端开发, 并使用 Ktor 实现 Adobe Experience Platform 的原型设计,
+使得组织能够在将客户数据用于数据科学和机器学习之前, 对数据进行集中化和标准化.
+
 ## 下一步
 
 * 关于对 Kotlin 语言的更加深入介绍, 请本站阅读所有 Kotlin 文档, 以及 [Kotlin Koan](koans.md).
+* 查看如何 [使用 Ktor 构建异步的服务器应用程序](https://ktor.io/docs/server-create-a-new-project.html), Ktor 是一个使用  Kotlin 协程的框架.
 * 观看网络研讨会 ["使用 Kotlin 和 Micronaut 开发微服务(microservice)"](https://micronaut.io/2020/12/03/webinar-micronaut-for-microservices-with-kotlin/),
   并阅读更详细的 [向导](https://guides.micronaut.io/latest/micronaut-kotlin-extension-fns.html),
   这篇向导会介绍如何在 Micronaut framework 中使用 [Kotlin 扩展函数](extensions.md#extension-functions).

@@ -7,15 +7,16 @@
 
 ## 开始前的准备工作 {id="before-you-start"}
 
-1. 下载并安装最新版的 [IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/download/?section=mac).
-2. 在 IntelliJ IDEA 中安装 [Kotlin Notebook plugin](https://plugins.jetbrains.com/plugin/16340-kotlin-notebook).
+Kotlin Notebook 需要使用 [Kotlin Notebook plugin](https://plugins.jetbrains.com/plugin/16340-kotlin-notebook),
+IntelliJ IDEA 默认捆绑并启用了这个插件.
 
-   > 或者, 也可以在 IntelliJ IDEA 中, 通过菜单 **Settings** | **Plugins** | **Marketplace**, 找到 Kotlin Notebook plugin.
-   >
-   {style="tip"}
+如果无法使用 Kotlin Notebook 功能, 请确认启用了 plugin.
+详情请参见 [设置环境](kotlin-notebook-set-up-env.md).
 
-3. 选择 **File** | **New** | **Kotlin Notebook**, 创建一个新的 Kotlin Notebook.
-4. 确保你能够访问一个 SQL 数据库, 例如 MariaDB 或 MySQL.
+创建一个新的 Kotlin Notebook:
+
+1. 选择 **File** | **New** | **Kotlin Notebook**.
+2. 确保你能够访问一个 SQL 数据库, 例如 MariaDB 或 MySQL.
 
 
 ## 连接到数据库 {id="connect-to-database"}

@@ -38,14 +38,14 @@
    >
    {style="note"}
 
-2. 在 **composeApp** | **Tasks** | **kotlin browser** 中, 选中并运行 **wasmJsBrowserRun** 任务.
+2. 在 **composeApp** | **Tasks** | **kotlin browser** 中, 选中并运行 **wasmJsBrowserDevelopmentRun** 任务.
 
    ![运行 Gradle 任务](wasm-gradle-task-window.png){width=550}
 
    或者, 你可以在终端窗口, 在 `WasmDemo` 根目录下运行以下命令:
 
    ```bash
-   ./gradlew wasmJsBrowserRun
+   ./gradlew wasmJsBrowserDevelopmentRun
    ```
 
 3. 应用程序启动之后, 在你的浏览器中打开下面的 URL:
@@ -71,7 +71,6 @@
 
 > 目前, 只能在你的浏览器中进行调试.
 > 将来, 你将能够在 [IntelliJ IDEA](https://youtrack.jetbrains.com/issue/KT-64683/Kotlin-Wasm-debugging-in-IntelliJ-IDEA)
-> 和 [Fleet](https://youtrack.jetbrains.com/issue/KT-64684)
 > 中调试你的代码.
 >
 {style="note"}
@@ -137,41 +136,42 @@ kotlin {
 >
 {style="note"}
 
-#### 使用自定义格式增强调试能力 {id="enhance-your-debugging-with-custom-formatters"}
+#### 使用自定义格式 {id="use-custom-formatters"}
 
-除了默认的调试配置之外, 你还可以设置自定义的格式, 以更加用户友好和易于理解的方式来显示和定位变量值.
+在调试 Kotlin/Wasm 代码时, 自定义格式能够以更加用户友好和易于理解的方式显示和定位变量值.
 
-![改进的 Kotlin/Wasm 调试器](wasm-debugger-improved.png){width=600}
+在开发构建中会默认启用自定义格式, 因此你不需要添加额外的 Gradle 配置.
 
 由于使用了 [自定义格式化 API](https://firefox-source-docs.mozilla.org/devtools-user/custom_formatters/index.html),
-因此主流浏览器都支持这个实现, 例如 Firefox 和基于 Chromium 的浏览器.
+因此Firefox 和基于 Chromium 的浏览器都支持这个功能.
 
-要设置自定义的格式来改善调试体验, 请执行以下步骤:
+要使用这个功能, 请在你的浏览器的开发者工具中确认启用了自定义格式:
 
-1. 向 `wasmJs` 编译器参数添加以下值:
+* 在 Chrome DevTools 中, 请在 **Settings | Preferences | Console** 中找到 Custom formatters 选择框:
 
-   ```kotlin
-   kotlin {
-       wasmJs {
-           // ...
-           compilerOptions {
-               freeCompilerArgs.add("-Xwasm-debugger-custom-formatters")
-           }
-       }
-   }   
-   ```
+  ![在 Chrome 中启用自定义格式](wasm-custom-formatters-chrome.png){width=400}
 
-2. 在你的浏览器中启用 **Custom formatters** 功能:
+* 在 Firefox DevTools 中, 请在 **Settings | Advanced settings** 中找到 Custom formatters 选择框:
 
-   * 在 Chrome DevTools 中, 位置是 **Settings | Preferences | Console**:
+  ![在 Firefox 中启用自定义格式](wasm-custom-formatters-firefox.png){width=400}
 
-   ![在 Chrome 中启用自定义格式](wasm-custom-formatters-chrome.png){width=400}
+自定义格式适用于 Kotlin/Wasm 的开发构建. 如果你对生产构建有特定的要求, 那么需要相应的调整你的 Gradle 配置.
+请向 `wasmJs {}` 代码块添加以下编译器选项:
 
-   * 在 Firefox Developer Tools 中, 位置是 **Settings | Advanced settings**:
+```kotlin
+// build.gradle.kts
+kotlin {
+    wasmJs {
+        // ...
 
-   ![在 Firefox 中启用自定义格式](wasm-custom-formatters-firefox.png){width=400}
+        compilerOptions {
+            freeCompilerArgs.add("-Xwasm-debugger-custom-formatters")
+        }
+    }
+}
+```
 
-设置自定义格式之后, 你就可以完成调试教程了.
+启用自定义格式之后, 你就可以继续调试教程了.
 
 ### 调试你的 Kotlin/Wasm 应用程序 {id="debug-your-kotlin-wasm-application"}
 
@@ -205,7 +205,7 @@ kotlin {
 
    ![查看调用栈](wasm-debug-scope.png){width=550}
 
-   为了更好的可视化显示变量值, 请参见 [使用自定义格式增强调试能力](#enhance-your-debugging-with-custom-formatters).
+   为了更好的可视化显示变量值, 请参见 [配置你的浏览器进行调试](#configure-your-browser-for-debugging) 小节中的 _使用自定义格式_.
 
 7. 修改你的代码, 并再次 [运行应用程序](#run-the-application), 检验它是否按照预期运行.
 8. 点击有断点的行号, 删除断点.

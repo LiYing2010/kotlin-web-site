@@ -14,14 +14,14 @@ fun main() {
 
 ## 在 Node.js 平台运行 {id="run-the-node-js-target"}
 
-当 Kotlin/JS 项目的编译目标为 Node.js 时, 你可以直接运行 Gradle 的 `jsRun` 任务.
+当 Kotlin/JS 项目的编译目标为 Node.js 时, 你可以直接运行 Gradle 的 `jsNodeDevelopmentRun` 任务.
 比如, 在命令行环境, 使用 Gradle wrapper:
 
 ```bash
-./gradlew jsRun
+./gradlew jsNodeDevelopmentRun
 ```
 
-如果使用 IntelliJ IDEA, 你可以在 Gradle 工具窗口找到 `jsRun` 任务:
+如果使用 IntelliJ IDEA, 你可以在 Gradle 工具窗口找到 `jsNodeDevelopmentRun` 任务:
 
 ![IntelliJ IDEA 中的 Gradle Run 任务](run-gradle-task.png){width=700}
 
@@ -56,10 +56,10 @@ fun main() {
 完成这些调整之后, 启动集成的开发服务器. 你可以在命令行, 使用 Gradle wrapper:
 
 ```bash
-./gradlew jsRun
+./gradlew jsBrowserDevelopmentRun
 ```
 
-使用 IntelliJ IDEA 时, 你可以在 Gradle 工具窗口找到 `jsRun` 任务.
+使用 IntelliJ IDEA 时, 你可以在 Gradle 工具窗口找到 `jsBrowserDevelopmentRun` 任务.
 
 项目构建完成后, 内嵌的 `webpack-dev-server` 会开始运行, 并会打开一个 (似乎是空白的) 浏览器窗口, 指向你之前指定的 HTML 文件.
 要验证你的程序是否正确运行, 打开你的浏览器的开发者工具(比如, 点击鼠标右键, 选择 _Inspect_ 菜单项).

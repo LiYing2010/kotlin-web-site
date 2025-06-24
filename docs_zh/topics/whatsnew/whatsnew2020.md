@@ -6,7 +6,7 @@ Kotlin 2.0.20 已经发布了!
 在 Kotlin 2.0.0 中我们宣布了 Kotlin K2 编译器的稳定版, Kotlin 2.0.20 版包含针对 Kotlin 2.0.0 的性能改善和 bug 修正.
 下面是这个发布版中其它一些值得注意的重要内容:
 
-* [数据类的 copy 函数将具有与构造器相同的可见度](#data-class-copy-function-to-have-the-same-visibility-as-constructor)
+* [数据类的 copy 函数具有与构造器相同的可见度](#data-class-copy-function-to-have-the-same-visibility-as-constructor)
 * [在跨平台项目中, 对来自默认编译目标层级结构的源代码集, 现在可以使用静态访问器](#static-accessors-for-source-sets-from-the-default-target-hierarchy)
 * [Kotlin/Native 的垃圾收集器中实现了并发的标记](#concurrent-marking-in-garbage-collector)
 * [Kotlin/Wasm 中的 `@ExperimentalWasmDsl` 注解移动到了新的位置](#new-location-of-experimentalwasmdsl-annotation)
@@ -19,7 +19,7 @@ Kotlin 2.0.20 已经发布了!
 
 最新的 IntelliJ IDEA 和 Android Studio 中捆绑了支持 2.0.20 的 Kotlin plugin.
 你不需要在你的 IDE 中更新 Kotlin plugin.
-你需要做的只是在你的构建脚本中 [修改 Kotlin 版本](configure-build-for-eap.md) 为 2.0.20.
+你需要做的只是在你的构建脚本中将 Kotlin 版本修改为 2.0.20.
 
 详情请参见 [更新到新的发布版](releases.md#update-to-a-new-kotlin-version).
 
@@ -513,9 +513,7 @@ consumeMutableMap(
 
 Kotlin 2.0.20 完全兼容于 Gradle 6.8.3 到 8.6 版本.
 也支持 Gradle 8.7 和 8.8, 但存在一个例外:
-如果你使用 Kotlin Multiplatform Gradle plugin, 在你的跨平台项目中调用
-[JVM 编译目标中的 `withJava()` 函数](multiplatform-dsl-reference.md#jvm-targets)
-时, 你可能会看到废弃警告.
+如果你使用 Kotlin Multiplatform Gradle plugin, 在你的跨平台项目中调用 JVM 编译目标中的 `withJava()` 函数时, 你可能会看到废弃警告.
 我们计划尽快修正这个问题.
 
 详情请参见这个 [YouTrack issue](https://youtrack.jetbrains.com/issue/KT-66542/Gradle-JVM-target-with-withJava-produces-a-deprecation-warning).

@@ -84,11 +84,26 @@ Kotlin 使用 _kapt_ 编译器插件来支持注解处理器(参见 [JSR 269](ht
 {style="warning"}
 
 从 Kotlin 1.9.20 开始, 你可以对 [K2 编译器](https://blog.jetbrains.com/kotlin/2021/10/the-road-to-the-k2-compiler/) 试用 kapt 编译器插件,
-K2 编译器带来了性能改进和很多其它优点. 要在你的项目中使用 K2 编译器, 请在你的 `gradle.properties` 文件中添加以下选项:
+K2 编译器带来了性能改进和很多其它优点. 要在你的 Gradle 项目中使用 K2 编译器, 请在你的 `gradle.properties` 文件中添加以下选项:
 
 ```kotlin
 kapt.use.k2=true
 ```
+
+如果你使用的是 Maven 构建系统, 请更新你的 `pom.xml` 文件:
+
+```xml
+<configuration>
+    ...
+    <args>
+        <arg>-Xuse-k2-kapt</arg>
+    </args>
+</configuration>
+```
+
+> 要在你的 Maven 项目中启用 kapt plugin, 请参见 [](#use-in-maven).
+>
+{style="tip"}
 
 如果你在对 K2 编译器使用 kapt 插件时遇到任何问题, 请报告到我们的 [问题追踪系统](http://kotl.in/issue).
 
@@ -370,8 +385,19 @@ kapt {
 
 ```xml
 <configuration>
-   ...
-   <aptMode>stubs</aptMode>
+    ...
+    <aptMode>stubs</aptMode>
+</configuration>
+```
+
+要对 K2 编译器启用 kapt plugin, 请添加 `-Xuse-k2-kapt` 编译器选项:
+
+```xml
+<configuration>
+    ...
+    <args>
+        <arg>-Xuse-k2-kapt</arg>
+    </args>
 </configuration>
 ```
 

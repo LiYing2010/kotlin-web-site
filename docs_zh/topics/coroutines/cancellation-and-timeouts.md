@@ -139,8 +139,10 @@ fun main() = runBlocking {
 ## 使计算代码能够被取消
 
 有两种方法可以让我们的计算代码变得能够被取消.
-第一种办法是定期调用一个挂起函数, 检查协程是否被取消. 有一个 [yield] 函数可以用来实现这个目的.
-另一种方法是显式地检查协程的取消状态. 我们来试试后一种方法.
+第一种办法是定期调用一个挂起函数, 检查协程是否被取消.
+有两个函数 [yield] 和 [ensureActive], 适合于实现这个目的.
+另一种方法是使用 [isActive], 显式地检查协程的取消状态.
+我们来试试后一种方法.
 
 我们来把前面的示例程序中的 `while (i < 5)` 改为 `while (isActive)`, 然后再运行, 看看结果如何.
 
@@ -188,7 +190,8 @@ main: Now I can quit.
 ## 使用 finally 语句来关闭资源
 
 可被取消的挂起函数, 在被取消时会抛出 [CancellationException] 异常, 这个异常可以通过通常的方式来处理.
-比如, 可以使用 `try {...} finally {...}` 表达式, 或者 Kotlin 的 `use` 函数,
+比如, 可以使用 `try {...} finally {...}` 表达式, 或者 Kotlin 的
+[use](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.io/use.html) 函数,
 以便在一个协程被取消时执行结束处理:
 
 ```kotlin
@@ -322,7 +325,7 @@ Exception in thread "main" kotlinx.coroutines.TimeoutCancellationException: Time
 
 <!--- TEST STARTS_WITH -->
 
-[withTimeout] 函数抛出的 `TimeoutCancellationException` 异常是 [CancellationException] 的子类.
+[withTimeout] 函数抛出的 [TimeoutCancellationException] 异常, 是 [CancellationException] 的子类.
 我们在前面的例子中, 都没有看到过 [CancellationException] 异常的调用栈被输出到控制台.
 这是因为, 在被取消的协程中 `CancellationException` 被认为是协程结束的一个正常原因.
 但是, 在这个例子中我们直接在 `main` 函数内使用了 `withTimeout`.
@@ -481,11 +484,13 @@ fun main() {
 [Job.join]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-job/join.html
 [CancellationException]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-cancellation-exception/index.html
 [yield]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/yield.html
+[ensureActive]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/ensure-active.html
 [isActive]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/is-active.html
 [CoroutineScope]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope/index.html
 [withContext]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/with-context.html
 [NonCancellable]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-non-cancellable/index.html
 [withTimeout]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/with-timeout.html
+[TimeoutCancellationException]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-timeout-cancellation-exception/index.html
 [withTimeoutOrNull]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/with-timeout-or-null.html
 
 <!--- END -->

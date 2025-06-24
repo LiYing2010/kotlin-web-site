@@ -153,7 +153,7 @@ fun main() {
 
 下图是 list 各处理步骤的具体执行过程:
 
-![List 处理](list-processing.png)
+![List 处理](list-processing.svg)
 
 ### 使用序列 {id="sequence"}
 
@@ -186,6 +186,7 @@ fun main() {
 
 序列的处理过程如下:
 
-![序列处理](sequence-processing.png) {width="700"}
+![序列处理](sequence-processing.svg) {width="700"}
 
-在这个示例中, 序列处理执行了 18 步, 而使用 list 时则需要 23 步.
+在这个示例中, 元素以延迟(lazy)模式处理, 并在找到 4 个元素之后停止,
+因此与使用 list 的方式相比, 减少了操作次数.

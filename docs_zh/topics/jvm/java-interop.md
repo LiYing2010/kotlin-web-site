@@ -313,10 +313,8 @@ class BaseWithBound<T : Number> {}
 类型参数实参(Type argument)和形参(Type parameter)的注解需要 Java 8 或更高版本的编译环境.
 还要求可否为 null 注解的 target 支持 `TYPE_USE`
 (从版本 15 开始, `org.jetbrains.annotations` 支持 `TYPE_USE`).
-如果 Kotlin 代码使用的可否为 null 设置与 Java 中的注解不一致,
-使用编译器选项 `-Xtype-enhancement-improvements-strict-mode` 可以报告这类错误.
 
-> 注意: 如果可否为 null 注解除 `TYPE_USE` 之外还支持适用于类型的其他 target,
+> 如果可否为 null 注解除 `TYPE_USE` 之外还支持适用于类型的其他 target,
 > 那么会优先使用 `TYPE_USE`. 比如, 如果 `@Nullable` 的 target 包括 `TYPE_USE` 和 `METHOD`,
 > 那么 Java 方法签名 `@Nullable String[] f()` 在 Kotlin 中会成为 `fun f(): Array<String?>!`.
 >

@@ -61,7 +61,7 @@ fun main() {
 >
 {style="note"}
 
-## 命名参数
+## 命名参数 {id="named-arguments"}
 
 为了让代码更简洁, 调用函数时, 你不必指定参数名称.
 但是, 指定参数名称可以让你的代码更易于阅读.
@@ -86,7 +86,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-named-arguments-function"}
 
-## 默认的参数值
+## 默认的参数值 {id="default-parameter-values"}
 
 你可以为函数参数定义默认值. 调用你的函数时, 有默认值的参数可以省略.
 要声明默认值, 请在参数类型之后使用赋值操作符 `=`:
@@ -136,7 +136,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-unit-function"}
 
-## 单一表达式函数
+## 单一表达式函数 {id="single-expression-functions"}
 
 为了让代码更加简洁, 你可以使用单一表达式函数. 例如, `sum()` 函数可以写得更短一些:
 
@@ -172,7 +172,7 @@ fun main() {
 >
 {style="note"}
 
-## 函数中的提前返回 (Early Return)
+## 函数中的提前返回 (Early Return) {id="early-returns-in-functions"}
 
 如果想要你的函数中的代码在某个点之后不再进行后续处理, 请使用 `return` 关键字.
 这个示例使用 `if` 判断, 如果条件表达式为真, 就从一个函数中提前返回:
@@ -211,7 +211,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-function-early-return"}
 
-## 函数的实际练习
+## 函数的实际练习 {id="functions-practice"}
 
 ### 习题 1 {initial-collapse-state="collapsed" collapsible="true" id="functions-exercise-1"}
 
@@ -414,7 +414,7 @@ fun main() {
 >
 > 这是 [尾缀 Lambda 表达式(Trailing Lambda)](#trailing-lambdas) 的一个例子, 我们会在本章末尾详细介绍.
 >
-{style = "note"}
+{style="note"}
 
 另一个好的例子是, 使用 [`.map()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/map.html)
 函数, 对集合中的元素进行变换:
@@ -442,7 +442,7 @@ fun main() {
 * `{ x -> x * 2 }` 接受 List 中的每个元素, 返回这个元素乘以 2 的结果.
 * `{ x -> x * 3 }` 接受 List 中的每个元素, 返回这个元素乘以 3 的结果.
 
-### 函数类型
+### 函数类型 {id="function-types"}
 
 在从一个函数返回一个 Lambda 表达式之前, 你首先需要理解 **函数类型**.
 
@@ -550,7 +550,7 @@ fun main() {
 
 本教程的下一章是学习 Kotlin 中的 [类](kotlin-tour-classes.md).
 
-## Lambda 表达式的实际练习
+## Lambda 表达式的实际练习 {id="lambda-expressions-practice"}
 
 ### 习题 1 {initial-collapse-state="collapsed" collapsible="true" id="lambdas-exercise-1"}
 
@@ -615,6 +615,6 @@ fun main() {
 ```
 {initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-lambdas-solution-2"}
 
-## 下一步
+## 下一步 {id="next-step"}
 
 [类](kotlin-tour-classes.md)

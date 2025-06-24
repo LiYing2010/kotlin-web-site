@@ -18,10 +18,10 @@
 * [在 C 中使用 Kotlin 动态库](#use-generated-headers-from-c)
 * [编译并运行项目](#compile-and-run-the-project)
 
-你可以直接使用命令行来生成 Kotlin 库, 或者通过脚本文件(比如 `.sh` 或 `.bat` 文件).
-但是, 这种方法不适合于包含几百个文件和库的大项目.
-使用带有构建系统的 Kotlin/Native 编译器可以帮助你下载并缓存 Kotlin/Native 编译器二进制文件, 传递依赖的库,
-并运行编译器和测试, 简化构建过程,
+你可以直接使用命令行来生成 Kotlin 库, 或者通过脚本文件(例如 `.sh` 或 `.bat` 文件).
+但是, 这种方法不适合于包含几百个文件和库的大型项目.
+使用构建系统, 可以帮助你下载并缓存 Kotlin/Native 编译器二进制文件, 传递依赖的库,
+以及运行编译器和测试, 从而简化构建过程,
 Kotlin/Native 能够通过 [Kotlin Multiplatform plugin](gradle-configure-project.md#targeting-multiple-platforms)
 使用 [Gradle](https://gradle.org) 构建系统.
 

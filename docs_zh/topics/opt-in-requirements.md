@@ -196,7 +196,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 // ...
 
 tasks.named<KotlinCompilationTask<*>>("compileKotlin").configure {
-    compilerOptions.freeCompilerArgs.add("-opt-in=org.mylibrary.OptInAnnotation")
+    compilerOptions.optIn.add("org.mylibrary.OptInAnnotation")
 }
 ```
 
@@ -209,7 +209,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 tasks.named('compileKotlin', KotlinCompilationTask) {
     compilerOptions {
-        freeCompilerArgs.add("-opt-in=org.mylibrary.OptInAnnotation")
+        optIn.add('org.mylibrary.OptInAnnotation')
     }
 }
 ```

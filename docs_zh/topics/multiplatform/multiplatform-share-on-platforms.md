@@ -61,14 +61,16 @@
 
 ## 连接平台相关的库 {id="connect-platform-specific-libraries"}
 
-为了共用更多的原生代码, 而不是仅仅局限于平台相关的依赖项, 你可以连接 [平台相关的库](native-platform-libs.md).
-Kotlin/Native 附带的库 (例如 Foundation, UIKit, 和 POSIX) 在共用的源代码集中默认可以使用.
+为了共用更多的原生代码, 而不是仅仅局限于平台相关的依赖项, 你可以使用 [平台库](native-platform-libs.md),
+例如 Foundation, UIKit, 和 POSIX.
+这些库随 Kotlin/Native 一起发布, 在共用的源代码集中默认可以使用.
 
 此外, 如果在你的项目中使用 [Kotlin CocoaPods Gradle](native-cocoapods.md) plugin,
 你也可以使用 [`cinterop` 机制](native-c-interop.md) 导入的第三方原生库.
 
 ## 下一步做什么?
 
-* 关于使用 Kotlin 的 [预期声明与实际声明](multiplatform-expect-actual.md) 机制共用代码, 查看示例程序
-* 学习 [层级项目结构](multiplatform-hierarchy.md)
-* 阅读我们推荐的 [跨平台项目中的源代码文件命名规约](coding-conventions.md#source-file-names)
+* [阅读使用 Kotlin 预期声明与实际声明机制共用代码的相关文档](multiplatform-expect-actual.md)
+* [学习层级项目结构](multiplatform-hierarchy.md)
+* [为你的跨平台库设置发布](multiplatform-publish-lib.md)
+* [阅读我们推荐的跨平台项目中的源代码文件命名规约](coding-conventions.md#source-file-names)

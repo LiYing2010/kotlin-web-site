@@ -244,9 +244,15 @@ fun main() {
 >
 {style="note"}
 
-上面的示例程序演示了几种技巧. 一是使用明确指定的上下文来调用 [runBlocking],
-另一个技巧是使用 [withContext] 函数, 在同一个协程内切换协程的上下文,
-运行结果如下, 你可以看到切换上下文的效果:
+上面的示例程序演示了使用协程的几种新技术.
+
+第一个技术演示了如何使用指定的上下文来调用 [runBlocking],
+第二个技术是调用 [withContext],
+它会挂起当前协程, 并切换到一个新的上下文, 而且新的上下文会与现有的上下文不同.
+具体来说, 如果你指定了一个不同的 [CoroutineDispatcher], 那么需要额外的派发器:
+代码块会被调度到新的派发器上, 当代码块执行完成, 执行会返回到原来的派发器.
+
+上面的代码的运行结果如下:
 
 ```text
 [Ctx1 @coroutine#1] Started in ctx1
@@ -256,8 +262,8 @@ fun main() {
 
 <!--- TEST -->
 
-注意, 这个示例程序还使用了 Kotlin 标准库的 `use` 函数,
-以便在 [newSingleThreadContext] 创建的线程不再需要的时候释放它.
+上面的示例程序使用了 Kotlin 标准库的 `use` 函数,
+以便在不再需要的时候, 正确的释放由 [newSingleThreadContext] 创建的线程资源.
 
 ## 在上下文中的任务 {id="job-in-the-context"}
 
@@ -477,9 +483,9 @@ I'm working in thread DefaultDispatcher-worker-1 @test#2
 
 下面我们把上下文, 子协程, 任务的相关知识综合起来.
 假设我们的应用程序中有一个对象, 它存在一定的生命周期, 但这个对象不是一个协程.
-比如, 我们在编写一个 Android 应用程序, 在一个 Android activity  的上下文内启动了一些协程,
+比如, 我们在编写一个 Android 应用程序, 并在一个 Android activity  的上下文内启动了一些协程,
 执行一些异步操作, 来取得并更新数据, 显示动画, 等等等等.
-当 activity 销毁时, 所有这些协程都必须取消, 以防内存泄漏.
+当 activity 销毁时, 这些协程必须取消, 以防内存泄漏.
 我们当然可以手动操纵上下文和任务, 来将 activity 和它的协程的生命周期关联在一起,
 但是 `kotlinx.coroutines` 提供了一种抽象机制来封装这种任务: [CoroutineScope].
 你应该已经熟悉了协程的作用范围概念, 所有的协程构建器都定义为作用范围的扩展函数.
@@ -573,7 +579,7 @@ Destroying activity!
 <!--- TEST -->
 
 你会看到, 只有前面的 2 个协程输出了信息,
-由于 `Activity.destroy()` 中调用了 `job.cancel()`, 其他所有协程都被取消了.
+由于 `Activity.destroy()` 中调用了 [`mainScope.cancel()`][CoroutineScope.cancel], 其他所有协程都被取消了.
 
 > 注意, Android 对于协程作用范围的整个生命周期提供了一类支持(first-party support).
 > 详情请参见 [相应的文档](https://developer.android.com/topic/libraries/architecture/coroutines#lifecyclescope).
@@ -582,7 +588,7 @@ Destroying activity!
 
 ### 线程的局部数据 {id="thread-local-data"}
 
-有些时候, 如果能够向协程传递, 或者在协程直接传递一些线程局部的数据(thread-local data), 将是一种很方便的功能,
+有些时候, 如果能够向协程传递, 或者在协程之间传递一些线程局部的数据(thread-local data), 将是一种很方便的功能,
 但是, 协程并没有关联到某个具体的线程, 因此, 如果自己写代码来实现这种功能, 可能会导致大量的样板代码.
 
 对于 [`ThreadLocal`](https://docs.oracle.com/javase/8/docs/api/java/lang/ThreadLocal.html),
@@ -617,7 +623,7 @@ fun main() = runBlocking<Unit> {
 {style="note"}
 
 在这个示例程序中, 我们使用 [Dispatchers.Default], 在后台线程池中启动了一个新的协程,
-因此协程会在线程池的另一个线程中运行,
+因此协程会在线程池的其它线程中运行,
 但它还是会得到我们通过 `threadLocal.asContextElement(value = "launch")` 指定的线程局部变量的值,
 无论协程运行在哪个线程内.
 因此, (使用 [调试模式](#debugging-coroutines-and-threads)时)的输出结果是:
@@ -642,7 +648,7 @@ Post-main, current thread: Thread[main @coroutine#1,5,main], thread local value:
 
 另一种方法是, 值可以保存在可变的装箱类(mutable box)中,
 比如 `class Counter(var i: Int)`, 再把这个装箱类保存在线程局部变量中.
-然而, 这种情况下, 对这个装箱类中的变量可能发生并发修改, 你必须完全负责对此进行同步控制.
+但是, 在这种情况下, 对这个装箱类中的变量可能发生并发修改, 你必须完全负责对此进行同步控制.
 
 对于高级的使用场景, 比如与日志 MDC(Mapped Diagnostic Context) 的集成,
 与事务上下文(transactional context)的集成, 或者与其他内部使用线程局部变量来传递数据的库的集成,
@@ -671,6 +677,7 @@ Post-main, current thread: Thread[main @coroutine#1,5,main], thread local value:
 [CoroutineScope()]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-coroutine-scope.html
 [MainScope()]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-main-scope.html
 [Dispatchers.Main]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-dispatchers/-main.html
+[CoroutineScope.cancel]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/cancel.html
 [asContextElement]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/as-context-element.html
 [ensurePresent]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/ensure-present.html
 [ThreadContextElement]: https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/-thread-context-element/index.html

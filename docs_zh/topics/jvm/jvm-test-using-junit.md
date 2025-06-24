@@ -1,8 +1,9 @@
 [//]: # (title: 教程 - 在 JVM 平台使用 JUnit 进行代码测试)
 
-本教程向你演示如何编写简单的单元测试, 并使用 Gradle 构建工具来运行测试.
+本教程向你演示如何在 Kotlin/JVM 项目中编写简单的单元测试, 并使用 Gradle 构建工具来运行测试.
 
-教程中的示例程序使用了 [`kotlin.test`](https://kotlinlang.org/api/latest/kotlin.test/index.html) 库, 并使用 JUnit 运行测试.
+在这个项目中, 你将会使用 [`kotlin.test`](https://kotlinlang.org/api/latest/kotlin.test/index.html) 库, 并使用 JUnit 运行测试.
+如果你在开发跨平台的 App, 请参见 [Kotlin Multiplatform 教程](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-run-tests.html).
 
 开始之前, 首先请下载并安装最新版的 [IntelliJ IDEA](https://www.jetbrains.com/idea/download/index.html).
 

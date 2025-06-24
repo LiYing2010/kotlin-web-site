@@ -454,8 +454,6 @@ fun main() {
 
 ## Kotlin/Wasm 互操作功能与 Kotlin/JS 互操作功能的区别 {id="kotlin-wasm-and-kotlin-js-interoperability-differences"}
 
-<a name="differences"/>
-
 尽管 Kotlin/Wasm 互操作功能与 Kotlin/JS 互操作功能很类似, 但它们还是存在一些关键的差异需要注意:
 
 |                        | **Kotlin/Wasm**                                                                                                                   | **Kotlin/JS**                                                                                              |

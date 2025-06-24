@@ -39,7 +39,7 @@ fun main() {
 
 > 在为只读变量初次赋值之后, 就不能再修改它的值.
 >
-{type ="note"}
+{style="note"}
 
 要为变量赋值, 请使用赋值操作符 `=`.
 
@@ -97,7 +97,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-string-templates"}
 
-更多详情请参见 [字符串模板](strings.md).
+更多详情请参见 [字符串模板](strings.md#string-templates).
 
 你会注意到, 上面的示例中没有为变量声明类型. Kotlin 自己会推断它的类型: `Int`.
 这个教程会在 [下一章](kotlin-tour-basic-types.md) 中解释 Kotlin 各种不同的基本类型, 以及如何声明这些类型.

@@ -140,7 +140,7 @@ $ kotlinc @options/compiler.options hello.kt
 
 ### -Xsuppress-warning
 
-[对整个项目](whatsnew-eap.md) 禁止指定的警告信息, 例如:
+[对整个项目](whatsnew21.md#global-warning-suppression) 禁止指定的警告信息, 例如:
 
 ```bash
 kotlinc -Xsuppress-warning=NOTHING_TO_INLINE -Xsuppress-warning=NO_TAIL_CALLS_FOUND main.kt
@@ -220,6 +220,10 @@ classpath 可以包含文件路径, 目录路径, ZIP 文件, 或 JAR 文件.
 将 Kotlin 文件编译到 JS 平台的命令行工具是 `kotlinc-js`.
 
 除 [共通选项](#common-options) 之外, Kotlin/JS 编译器还支持以下选项.
+
+### -target {es5|es2015}
+
+针对指定的 ECMA 版本生成 JS 文件.
 
 ### -libraries _path_
 
@@ -346,7 +350,7 @@ Kotlin/Native 编译的命令行工具是 `kotlinc-native`.
 
 ### -no-default-libs
 
-不要将用户代码与编译器附带的 [默认的平台库文件](native-platform-libs.md) 链接.
+不要将用户代码与编译器附带的预先构建的 [平台库文件](native-platform-libs.md) 链接.
 
 ### -nomain
 

@@ -174,6 +174,8 @@ class HelloFunctionFinderProcessor : SymbolProcessor() {
 | Paris            | [官方支持](https://github.com/airbnb/paris)                                                  |
 | Auto Dagger      | [官方支持](https://github.com/ansman/auto-dagger)                                            |
 | SealedX          | [官方支持](https://github.com/skydoves/sealedx)                                              |
+| Ktorfit          | [官方支持](https://github.com/Foso/Ktorfit)                                                  |
+| Mockative        | [官方支持](https://github.com/mockative/mockative)                                           |
 | DeeplinkDispatch | [通过 airbnb/DeepLinkDispatch#323 支持](https://github.com/airbnb/DeepLinkDispatch/pull/323) |
 | Dagger           | [Alpha](https://dagger.dev/dev-guide/ksp)                                                |
 | Motif            | [Alpha](https://github.com/uber/motif)                                                   |

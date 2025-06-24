@@ -98,12 +98,12 @@ sudo gem install cocoapods
 
 如果你在安装过程中遇到问题, 请参见 [可能发生的问题与解决方案](#possible-issues-and-solutions) 小节.
 
-## 创建项目
+## 创建项目 {id="create-a-project"}
 
 环境设置完成后, 你可以创建新的 Kotlin Multiplatform 项目.
 要创建项目, 可以使用 Kotlin Multiplatform Web 向导, 或使用 Android Studio 中的 Kotlin Multiplatform plugin.
 
-### 使用 Web 向导创建项目
+### 使用 Web 向导创建项目 {id="using-web-wizard"}
 
 要使用 Web 向导创建项目, 并配置与 CocoaPods 的集成, 请执行以下步骤:
 
@@ -130,9 +130,9 @@ sudo gem install cocoapods
    alias(libs.plugins.kotlinCocoapods)
    ```
 
-现在你就可以在你的 Kotlin Multiplatform 项目中使用 CocoaPods 了.
+现在你就可以 [在你的 Kotlin Multiplatform 项目中配置 CocoaPods 了](#configure-the-project).
 
-### 在 Android Studio 中创建项目
+### 在 Android Studio 中创建项目 {id="in-android-studio"}
 
 要在 Android Studio 中创建项目, 并与 CocoaPods 集成, 请执行以下步骤:
 
@@ -148,11 +148,16 @@ sudo gem install cocoapods
 
    plugin 会自动生成项目, 并设置与 CocoaPods 的集成.
 
-## 配置已有的项目
+## 配置项目 {id="configure-the-project"}
 
-如果你已经有了项目, 你可以手动添加并配置 Kotlin CocoaPods Gradle plugin:
+要在你的跨平台项目中配置 Kotlin CocoaPods Gradle plugin, 请执行以下步骤:
 
-1. 在你的项目的 `build.gradle(.kts)` 文件中, 应用 CocoaPods 插件和 Kotlin Multiplatform 插件:
+1. 在你的项目的 `build.gradle(.kts)` 文件中, 应用 CocoaPods 插件和 Kotlin Multiplatform 插件.
+
+   > 如果你的项目是使用 [Web 向导](#using-web-wizard) 或
+   > [Android Studio 的 Kotlin Multiplatform plugin](#in-android-studio) 创建的, 那么请跳过这一步.
+   >
+   {style="note"}
 
     ```kotlin
     plugins {
@@ -172,7 +177,8 @@ sudo gem install cocoapods
     kotlin {
         cocoapods {
             // 必须属性
-            // 在这里指定需要的 Pod 版本. 否则, 会使用 Gradle 项目的版本.
+            // 在这里指定需要的 Pod 版本
+            // 否则, 会使用 Gradle 项目的版本
             version = "1.0"
             summary = "Some description for a Kotlin/Native module"
             homepage = "Link to a Kotlin/Native module homepage"
@@ -260,9 +266,9 @@ sudo gem install cocoapods
 
 ## 可能发生的问题与解决方案 {id="possible-issues-and-solutions"}
 
-### CocoaPods 安装 {initial-collapse-state="collapsed" collapsible="true"}
+### CocoaPods 安装 {id="cocoapods-installation" initial-collapse-state="collapsed" collapsible="true"}
 
-#### Ruby 安装
+#### Ruby 安装 {id="ruby-installation"}
 
 CocoaPods 是基于 Ruby 开发的, 你可以使用 macOS 上默认可用的 Ruby 环境来安装它.
 Ruby 1.9 或更高版本带有一个内建的 RubyGems 包管理框架, 可以帮助你安装
@@ -272,7 +278,7 @@ Ruby 1.9 或更高版本带有一个内建的 RubyGems 包管理框架, 可以�
 请参照 [这篇向导文档](https://www.ruby-lang.org/en/documentation/installation/) 来安装 Ruby,
 或参照 [RubyGems 网站](https://rubygems.org/pages/download/) 来安装 RubyGems 框架.
 
-#### 版本兼容性
+#### 版本兼容性 {id="version-compatibility"}
 
 我们推荐使用最新的 Kotlin 版本. 如果你目前的版本低于 1.7.0, 你还需要安装
 [`cocoapods-generate`](https://github.com/square/cocoapods-generate#installation") 插件.
@@ -280,7 +286,7 @@ Ruby 1.9 或更高版本带有一个内建的 RubyGems 包管理框架, 可以�
 但是, `cocoapods-generate` 不兼容 Ruby 3.0.0 或更高版本.
 这种情况下, 请降级 Ruby, 或升级 Kotlin 到 1.7.0 或更高版本.
 
-### 使用 Xcode 时的构建错误 {initial-collapse-state="collapsed" collapsible="true"}
+### 使用 Xcode 时的构建错误 {id="build-errors-when-using-xcode" initial-collapse-state="collapsed" collapsible="true"}
 
 CocoaPods 的某些安装变体可能在 Xcode 中导致构建错误.
 一般来说, Kotlin Gradle plugin 会在 `PATH` 中寻找 `pod` 可执行文件, 但由于你的环境设置不同, 可能会出现问题.
@@ -300,24 +306,91 @@ CocoaPods 的某些安装变体可能在 Xcode 中导致构建错误.
     echo -e "kotlin.apple.cocoapods.bin=$(which pod)" >> local.properties
     ```
 
-### 找不到模块 {initial-collapse-state="collapsed" collapsible="true"}
+### 找不到模块或框架 {id="module-or-framework-not-found" initial-collapse-state="collapsed" collapsible="true"}
 
-你可能遇到 `module 'SomeSDK' not found` 错误, 这是 [与 C 代码交互](native-c-interop.md) 相关的问题.
-请使用以下变通方法解决这个错误:
+在安装 Pod 时, 你可能会遇到 `module 'SomeSDK' not found` 或 `framework 'SomeFramework' not found`
+错误, 这是 [与 C 代码交互](native-c-interop.md) 相关的问题.
+要解决这个错误, 请使用以下方法:
 
-#### 指定框架名称
+#### 更新包 {id="update-packages"}
 
-1. 在下载的 Pod 目录  `[shared_module_name]/build/cocoapods/synthetic/IOS/Pods/...` 中找到 `module.modulemap` 文件:
+更新你的安装工具, 和已安装的包(gem):
 
-2. 检查模块内的框架名称, 比如 `AppsFlyerLib {}`. 如果框架名称与 Pod 名称不匹配, 请明确指定它:
+<tabs>
+<tab title="RVM">
+
+1. 更新 RVM:
+
+   ```bash
+   rvm get stable
+   ```
+
+2. 更新 Ruby 的包管理器, RubyGems:
+
+    ```bash
+    gem update --system
+    ```
+
+3. 将所有已安装的 gem 升级到最新版本:
+
+    ```bash
+    gem update
+    ```
+
+</tab>
+<tab title="Rbenv">
+
+1. 更新 Rbenv:
+
+    ```bash
+    cd ~/.rbenv
+    git pull
+    ```
+
+2. 更新 Ruby 的包管理器, RubyGems:
+
+    ```bash
+    gem update --system
+    ```
+
+3. 将所有已安装的 gem 升级到最新版本:
+
+    ```bash
+    gem update
+    ```
+
+</tab>
+<tab title="Homebrew">
+
+1. 更新 Homebrew 包管理器:
+
+   ```bash
+   brew update
+   ```
+
+2. 将所有已安装的包升级到最新版本:
+
+   ```bash
+   brew upgrade
+   ````
+
+</tab>
+</tabs>
+
+#### 指定框架名称 {id="specify-the-framework-name"}
+
+1. 在下载的 Pod 目录 `[shared_module_name]/build/cocoapods/synthetic/IOS/Pods/...` 中找到 `module.modulemap` 文件:
+
+2. 检查模块内的框架名称, 比如 `SDWebImageMapKit {}`.
+   如果框架名称与 Pod 名称不匹配, 请明确指定它:
 
     ```kotlin
-    pod("FirebaseAuth") {
-        moduleName = "AppsFlyerLib"
+    pod("SDWebImage/MapKit") {
+        moduleName = "SDWebImageMapKit"
     }
     ```
 
-#### 指定头文件
+#### 指定头文件 {id="specify-headers"}
 
 如果在生成的 `.def` 文件中 Pod 没有包含 `.modulemap` 文件, 比如 `pod("NearbyMessages")`,
 请明确的指定 main 头文件:
@@ -332,7 +405,7 @@ pod("NearbyMessages") {
 详情请参见 [CocoaPods 文档](https://guides.cocoapods.org/).
 如果尝试过以上方法后, 仍然发生这个错误, 请到 [YouTrack](https://youtrack.jetbrains.com/newissue?project=kt) 报告问题.
 
-### 同步错误 {initial-collapse-state="collapsed" collapsible="true"}
+### 同步错误 {id="rsync-error" initial-collapse-state="collapsed" collapsible="true"}
 
 你可能会遇到 `rsync error: some files could not be transferred` 错误.
 这是一个 [已知的问题](https://github.com/CocoaPods/CocoaPods/issues/11946),

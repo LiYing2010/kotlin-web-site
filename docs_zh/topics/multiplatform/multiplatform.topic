@@ -44,7 +44,6 @@
                     <a href="https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform" summary="Android Studio plugin, 用于开发同时运行于 Android 和 iOS 的应用程序">Android Studio plugin</a>
                     <a href="https://www.jetbrains.com/lp/compose-multiplatform/" summary="JetBrains 开发的, 基于 Kotlin的声明式 UI 框架">Compose Multiplatform UI 框架</a>
                     <a href="https://klibs.io/" summary="JetBrains 开发的 Kotlin Multiplatform 库检索平台(实验性功能)">库检索平台</a>
-                    <a href="https://www.jetbrains.com/help/kotlin-multiplatform-dev/fleet.html" summary="使用 Fleet 开发跨平台项目">Fleet 代码编辑器</a>
                     <a href="https://www.jetbrains.com/help/kotlin-multiplatform-dev/amper.html" summary="使用 Amper 进行项目配置">Amper 配置工具</a>
                 </group>
                 <group>

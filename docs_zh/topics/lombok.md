@@ -17,7 +17,7 @@ Lombok 编译器插件不能代替 [Lombok](https://projectlombok.org/), 但它�
 
 插件支持以下注解:
 * `@Getter`, `@Setter`
-* `@Builder`
+* `@Builder`, `@SuperBuilder`
 * `@NoArgsConstructor`, `@RequiredArgsConstructor`, 和 `@AllArgsConstructor`
 * `@Data`
 * `@With`
@@ -26,11 +26,9 @@ Lombok 编译器插件不能代替 [Lombok](https://projectlombok.org/), 但它�
 我们还在继续改进这个插件. 关于当前的开发状态, 请参见
 [Lombok 编译器插件的 README 文件](https://github.com/JetBrains/kotlin/tree/master/plugins/lombok).
 
-目前, 我们没有支持 `@SuperBuilder` 和 `@Tolerate` 注解的计划.
-但如果你在 YouTrack 投票支持
-[@SuperBuilder](https://youtrack.jetbrains.com/issue/KT-53563/Kotlin-Lombok-Support-SuperBuilder)
-和 [@Tolerate](https://youtrack.jetbrains.com/issue/KT-53564/Kotlin-Lombok-Support-Tolerate)
-, 我们可以考虑增加这个功能.
+目前, 我们没有支持 `@Tolerate` 注解的计划.
+但如果你在 YouTrack 投票支持 [@Tolerate issue](https://youtrack.jetbrains.com/issue/KT-53564/Kotlin-Lombok-Support-Tolerate),
+我们可以考虑增加这个功能.
 
 > 如果在 Kotlin 代码中使用 Lombok 注解, Kotlin 编译器会忽略这些注解.
 >
@@ -46,7 +44,7 @@ Lombok 编译器插件不能代替 [Lombok](https://projectlombok.org/), 但它�
 ```kotlin
 plugins {
     kotlin("plugin.lombok") version "%kotlinVersion%"
-    id("io.freefair.lombok") version "8.10"
+    id("io.freefair.lombok") version "%lombokVersion%"
 }
 ```
 
@@ -56,7 +54,7 @@ plugins {
 ```groovy
 plugins {
     id 'org.jetbrains.kotlin.plugin.lombok' version '%kotlinVersion%'
-    id 'io.freefair.lombok' version '8.10'
+    id 'io.freefair.lombok' version '%lombokVersion%'
 }
 ```
 

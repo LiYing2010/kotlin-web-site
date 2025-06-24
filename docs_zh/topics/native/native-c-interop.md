@@ -4,59 +4,37 @@
 > cinterop 工具从 C 库生成的所有 Kotlin 声明都应该标注 `@ExperimentalForeignApi` 注解.
 >
 > Kotlin/Native 自带的原生平台库 (例如 Foundation, UIKit, 和 POSIX),
-> 只对一部分 API 需要使用者明确同意(Opt-in). 对于这样的情况, 你会在 IDE 中看到警告信息.
+> 只对一部分 API 需要使用者明确同意(Opt-in).
 >
 {style="warning"}
 
-Kotlin/Native 遵循 Kotlin 的传统, 提供与既有的平台软件的优秀的互操作性.
-对于原生程序来说, 最重要的互操作性对象就是与 C 语言库.
-因此 Kotlin/Native 附带了 cinterop 工具,
-可以用来快速生成与既有的外部库交互时所需要的一切.
+这篇文档涵盖 Kotlin 与 C 互操作功能的一般方面.
+Kotlin/Native 附带一个 cinterop 工具, 在与外部的 C 库交互时, 你可以使用它快速生成所需要的一切内容.
 
-与原生库交互时的工作流程如下:
-1. 创建一个 `.def` 文件, 描述需要绑定(binding)的内容.
-2. 使用 cinterop 工具生成绑定.
-3. 运行 Kotlin/Native 编译器, 编译应用程序, 产生最终的可执行文件.
+这个工具会分析 C 头文件, 并生成 C 的类型, 函数, 以及常数到 Kotlin 的直接映射.
+之后可以将生成的桩代码(stub)导入到 IDE, 实现代码完成和导航功能.
 
-互操作性工具会分析 C 语言头文件, 并产生一个 "自然的" 映射,
-将数据类型, 函数, 常数, 引入到 Kotlin 语言的世界.
-工具生成的桩代码(stub)可以导入 IDE, 用来帮助代码自动生成, 以及代码跳转.
+> Kotlin 还提供了与 Objective-C 的互操作能力. Objective-C 库也通过 cinterop 工具导入.
+> 详情请参见 [与 Swift/Objective-C 代码交互](native-objc-interop.md).
+>
+{style="tip"}
 
-此外还提供了与 Swift/Objective-C 语言的互操作功能,
-详情请参见 [与 Swift/Objective-C 的交互](native-objc-interop.md).
+## 设置你的项目 {id="setting-up-your-project"}
 
-## 平台库 {id="platform-libraries"}
+在开发一个需要使用 C 库的项目时, 一般的工作流程如下:
 
-注意, 很多情况下不要用到自定义的互操作库创建机制(我们后文将会介绍),
-因为对于平台上的标准绑定中的那些 API, 可以使用 [平台库](native-platform-libs.md).
-例如, Linux/macOS 平台上的 POSIX, Windows 平台上的 Win32, macOS/iOS 平台上的以及 Apple 框架, 都可以通过这种方式来使用.
+1. 创建并配置一个 [定义文件](native-definition-file.md).
+   它描述 cinterop 工具应该包含在 Kotlin [绑定](#bindings) 中的内容.
+2. 配置你的 Gradle 构建文件, 在构建过程中包含 cinterop.
+3. 编译并运行项目, 生成最终的可执行文件.
 
-## 一个简单的示例 {id="simple-example"}
+> 为了得到实践经验, 请完成 [使用 C interop 创建应用程序](native-app-with-c-and-libcurl.md) 教程.
+>
+{style="note"}
 
-首先我们安装 libgit2, 并为 git 库准备桩代码:
-
-```bash
-cd samples/gitchurn
-../../dist/bin/cinterop -def src/nativeInterop/cinterop/libgit2.def \
- -compiler-option -I/usr/local/include -o libgit2
-```
-
-编译客户端代码:
-
-```bash
-../../dist/bin/kotlinc src/gitChurnMain/kotlin \
- -library libgit2 -o GitChurn
-```
-
-运行客户端代码:
-
-```bash
-./GitChurn.kexe ../..
-```
-
-## 为一个新库创建绑定 {id="create-bindings-for-a-new-library"}
-
-要对一个新的库创建绑定, 首先要创建并配置一个 [定义文件](native-definition-file.md).
+很多情况下, 不需要配置与 C 库的自定义的互操作性.
+相反, 你可以使用平台上的标准化绑定中可用的 API, 称为 [平台库](native-platform-libs.md).
+例如, 可以通过这样的方式使用 Linux/macOS 平台的 POSIX, Windows 平台的 Win32, 或 macOS/iOS 平台的 Apple 框架.
 
 ## 绑定 {id="bindings"}
 
@@ -76,16 +54,16 @@ C 中支持的所有数据类型, 都有对应的 Kotlin 类型:
 也就是, 在内存中分配的那个值, 而不是简单的不可变的自包含值.
 你可以想想 C++ 的引用, 与这个概念类似.
 对于结构体(Struct) (以及指向结构体的 `typedef`) 左值类型就是它的主要表达形式,
-而且使用与结构体本身相同的名字, 对于 Kotlin 枚举类型, 左值类型名称是 `${type}Var`,
+而且使用与结构体本身相同的名字. 对于 Kotlin 枚举类型, 左值类型名称是 `${type}.Var`,
 对于 `CPointer<T>`, 左值类型名称是 `CPointerVar<T>`,
 对于大多数其他类型, 左值类型名称是 `${type}Var`.
 
-对于兼有这两种表达形式的类型, 包含 "左值(lvalue)" 的那个类型,
+对于兼有这两种表达形式的类型, 包含左值(lvalue)的那个类型,
 带有一个可变的 `.value` 属性, 可以用来访问这个左值.
 
 #### 指针类型 {id="pointer-types"}
 
-`CPointer<T>` 的类型参数 `T` 必须是上面介绍的 "左值(lvalue)" 类型之一,
+`CPointer<T>` 的类型参数 `T` 必须是上面介绍的左值(lvalue)类型之一.
 例如, C 类型 `struct S*` 会被映射为 `CPointer<S>`,
 `int8_t*` 会被映射为 `CPointer<int_8tVar>`,
 `char**` 会被映射为 `CPointer<CPointerVar<ByteVar>>`.
@@ -113,10 +91,10 @@ fun shift(ptr: CPointer<ByteVar>, length: Int) {
 ```
 
 `CPointer<T>` 的 `.pointed` 属性返回这个指针指向的那个位置的类型 `T` 的左值.
-相反的操作是 `.ptr`: 它接受一个左值, 返回一个指向它的指针.
+相反的操作是 `.ptr`, 它接受一个左值, 返回一个指向它的指针.
 
 `void*` 映射为 `COpaquePointer` – 这是一个特殊的指针类型, 它是任何其他指针类型的超类.
-因此, 如果 C 函数接受 `void*` 类型参数, 那么绑定的 Kotlin 函数就可以接受任何 `CPointer` 类型参数.
+因此, 如果 C 函数接受 `void*` 类型参数, 绑定的 Kotlin 函数就可以接受任何 `CPointer` 类型参数.
 
 可以使用 `.reinterpret<T>` 来对一个指针进行类型变换(包括 `COpaquePointer`), 例如:
 
@@ -127,7 +105,7 @@ import kotlinx.cinterop.*
 val intPtr = bytePtr.reinterpret<IntVar>()
 ```
 
-或者
+或者:
 
 ```kotlin
 import kotlinx.cinterop.*
@@ -136,7 +114,7 @@ import kotlinx.cinterop.*
 val intPtr: CPointer<IntVar> = bytePtr.reinterpret()
 ```
 
-和 C 一样, 这样的类型变换是不安全的, 可能导致应用程序发生潜在的内存错误.
+和 C 一样, 这样的 `.reinterpret` 类型变换是不安全的, 可能导致应用程序发生潜在的内存错误.
 
 对于 `CPointer<T>?` 和 `Long` 也有不安全的类型变换方法,
 由扩展函数 `.toLong()` 和 `.toCPointer<T>()` 实现:
@@ -146,7 +124,9 @@ val longValue = ptr.toLong()
 val originalPtr = longValue.toCPointer<T>()
 ```
 
-注意, 如果结果类型可以通过上下文确定, 那么类型参数可以省略, 就象 Kotlin 中通常的类型系统一样.
+> 如果结果类型可以通过上下文确定, 那么可以省略类型参数, 因为可以使用类型推断.
+>
+{style="tip"}
 
 ### 内存分配 {id="memory-allocation"}
 
@@ -159,7 +139,7 @@ import kotlinx.cinterop.*
 val byteVar = placement.alloc<ByteVar>()
 ```
 
-或者
+或者:
 
 ```kotlin
 import kotlinx.cinterop.*
@@ -168,7 +148,7 @@ import kotlinx.cinterop.*
 val bytePtr = placement.allocArray<ByteVar>(5)
 ```
 
-内存最 "自然" 的位置就是在 `nativeHeap` 对象内.
+内存最符合逻辑的位置就是在 `nativeHeap` 对象内.
 这个操作就相当于使用 `malloc` 来分配原生内存,
 另外还提供了 `.free()` 操作来释放已分配的内存:
 
@@ -183,10 +163,14 @@ fun main() {
 }
 ```
 
+`nativeHeap` 需要手动释放内存.
 然而, 分配的内存的生命周期通常会限定在一个指明的作用范围内.
-可以使用 `memScoped { ... }` 来定义这样的作用范围.
+但是, 我们经常需要分配内存, 将其生命周期限定在一个指明的作用范围内.
+如果这些内存能够自动释放, 会非常有帮助.
+
+为了实现这样的功能, 可以使用 `memScoped { }`.
 在括号内部, 可以以隐含的接收者的形式访问到一个临时的内存分配位置,
-因此可以使用 `alloc` 和 `allocArray` 来分配原生内存,
+因此可以使用 alloc 和 allocArray 来分配原生内存,
 离开这个作用范围后, 已分配的这些内存会被自动释放.
 
 例如, 如果一个 C 函数, 使用指针参数返回值, 可以用下面这种方式来使用这个函数:
@@ -253,7 +237,7 @@ val cString = kotlinString.cstr.getPointer(nativeHeap)
 在所有这些场合, C 字符串的编码都是 UTF-8.
 
 要跳过字符串的自动转换, 并确保在绑定中使用原生的指针,
-可以在 `.def` 文件中使用 `noStringConversion` 语句:
+可以向 `.def` 文件添加 [`noStringConversion` 属性](native-definition-file.md#set-up-string-conversion):
 
 ```c
 noStringConversion = LoadCursorA LoadCursorW
@@ -267,14 +251,14 @@ import kotlinx.cinterop.*
 
 @OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
 memScoped {
-    LoadCursorA(null, "cursor.bmp".cstr.ptr)   // 对这个函数的 ASCII 版
-    LoadCursorW(null, "cursor.bmp".wcstr.ptr)  // 对这个函数的 Unicode 版
+    LoadCursorA(null, "cursor.bmp".cstr.ptr)  // 对这个函数的 ASCII 或 UTF-8 版
+    LoadCursorW(null, "cursor.bmp".wcstr.ptr) // 对这个函数的 UTF-16 版
 }
 ```
 
 ### 作用范围内的局部指针 {id="scope-local-pointers"}
 
-`memScoped { }` 内有一个 `CValues<T>.ptr` 扩展属性,
+`memScoped {}` 内有一个 `CValues<T>.ptr` 扩展属性,
 使用它可以创建一个指向 `CValues<T>` 的 C 指针, 这个指针被限定在一个作用范围内.
 通过它可以使用需要 C 指针的 API, 指针的生命周期限定在特定的 `MemScope` 内. 例如:
 
@@ -300,19 +284,28 @@ memScoped {
 对应的参数类型或结果类型会被表达为 `CValue<T>`.
 
 `CValue<T>` 是一个不透明(opaque)类型, 因此无法通过适当的 Kotlin 属性访问到 C 结构体的域.
-如果 API 以句柄的形式使用结构体, 那么这样是可行的,
+如果 API 以不透明(opaque)句柄的形式使用结构体, 那么这样是没问题的.
 但是如果确实需要访问结构体中的域, 那么可以使用以下转换方法:
 
-* `fun T.readValue(): CValue<T>`. 将(左值) `T` 转换为一个 `CValue<T>`.
+* [`fun T.readValue(): CValue<T>`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlinx.cinterop/read-value.html)
+  将(左值) `T` 转换为一个 `CValue<T>`.
   因此, 如果要构造一个 `CValue<T>`, 可以先分配 `T`, 为其中的域赋值, 然后将它转换为 `CValue<T>`.
+* [`CValue<T>.useContents(block: T.() -> R): R`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlinx.cinterop/use-contents.html)
+  将 `CValue<T>` 临时保存在内存中, 然后使用放置在内存中的这个 `T` 值作为接收者, 来运行参数中指定的 Lambda 表达式.
+  因此, 如果要读取结构体中一个单独的域, 可以使用以下代码:
 
-* `CValue<T>.useContents(block: T.() -> R): R`.
-  将 `CValue<T>` 临时放到内存中, 然后使用放置在内存中的这个 `T` 值作为接收者, 来运行参数中指定的 Lambda 表达式.
-  因此, 如果要读取结构体中一个单独的域, 可以使用下面的代码:
+  ```kotlin
+  val fieldValue = structValue.useContents { field }
+  ```
 
-    ```kotlin
-    val fieldValue = structValue.useContents { field }
-    ```
+* [`fun cValue(initialize: T.() -> Unit): CValue<T>`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlinx.cinterop/c-value.html)
+  使用提供的 `initialize` 函数, 在内存中分配 `T`, 并将结果转换为 `CValue<T>`.
+* [`fun CValue<T>.copy(modify: T.() -> Unit): CValue<T>`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlinx.cinterop/copy.html)
+  对既有的 `CValue<T>` 创建一个修改后的副本.
+  原来的值放置在内存中, 使用 `modify()` 函数进行修改, 然后转换为一个新的 `CValue<T>`.
+* [`fun CValues<T>.placeTo(scope: AutofreeScope): CPointer<T>`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlinx.cinterop/place-to.html)
+  将 `CValues<T>` 放入一个 `AutofreeScope`, 返回一个指针, 指向分配的内存.
+  当 `AutofreeScope` 销毁时, 分配的内存会自动被释放.
 
 ### 回调 {id="callbacks"}
 
@@ -359,13 +352,21 @@ stableRef.dispose()
 
 释放后, 它就变得不可用了, 因此 `voidPtr` 也不能再次解开.
 
-更多详情请参见 `samples/libcurl`.
-
 ### 宏 {id="macros"}
 
 每个展开为常数的 C 语言宏, 都会表达为一个 Kotlin 属性.
-其他的宏都不支持. 但是, 可以将它们封装在支持的声明中, 这样就可以手动映射这些宏.
-例如, 类似于函数的宏 `FOO` 可以映射为函数 `foo`,
+
+当编译器能够推断类型时, 支持不带参数的宏:
+
+```c
+int foo(int);
+#define FOO foo(42)
+```
+
+这种情况下, 在 Kotlin 中可以使用 `FOO`.
+
+要支持其他的宏, 你可以将它们封装在支持的声明中, 这样就可以手动公开这些宏.
+例如, 类似于函数的宏 `FOO` 可以映射为函数 `foo()`,
 方法是向库 [添加自定义的声明](native-definition-file.md#add-custom-declarations):
 
 ```c
@@ -411,30 +412,58 @@ fun zeroMemory(buffer: COpaquePointer, size: Int) {
 ### 对象固定 {id="object-pinning"}
 
 Kotlin 对象可以固定(pin), 也就是, 确保它们在内存中的位置不会变化, 直到解除固定(unpin)为止,
-而且, 指向这些对象的内部数据的指针, 可以传递给 C 函数. 例如:
+而且, 指向这些对象的内部数据的指针, 可以传递给 C 函数.
 
-```kotlin
-import kotlinx.cinterop.*
-import platform.posix.*
+可以采用以下几种方案:
 
-@OptIn(ExperimentalForeignApi::class)
-fun readData(fd: Int) {
-    val buffer = ByteArray(1024)
-    buffer.usePinned { pinned ->
-        while (true) {
-            val length = recv(fd, pinned.addressOf(0), buffer.size.convert(), 0).toInt()
+* 使用 [`usePinned`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlinx.cinterop/use-pinned.html) 服务函数,
+  它会先固定一个对象, 然后执行一个代码段, 最后无论是正常结束还是异常结束, 它都会将对象解除固定:
 
-            if (length <= 0) {
-               break
-            }
-            // 现在 `buffer` 中包含了从 `recv()` 函数调用得到的原生数据.
-        }
-    }
-}
-```
+  ```kotlin
+  import kotlinx.cinterop.*
+  import platform.posix.*
 
-这里我们使用了服务函数 `usePinned`, 它会先固定一个对象, 然后执行一段代码,
-最后无论是正常结束还是异常结束, 它都会将对象解除固定.
+  @OptIn(ExperimentalForeignApi::class)
+  fun readData(fd: Int) {
+      val buffer = ByteArray(1024)
+      buffer.usePinned { pinned ->
+          while (true) {
+              val length = recv(fd, pinned.addressOf(0), buffer.size.convert(), 0).toInt()
+              if (length <= 0) {
+                  break
+              }
+              // 现在 `buffer` 中包含了从 `recv()` 函数调用得到的原生数据.
+          }
+      }
+  }
+  ```
+
+  这里, `pinned` 是一个特殊类型 `Pinned<T>` 的对象.
+  这个类型提供了一些有用的扩展, 例如 `addressOf`, 可以得到被固定的数组体的地址.
+
+* 使用 [`refTo()`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlinx.cinterop/ref-to.html) 函数,
+  它的底层功能是类似的, 但是在某些情况下, 可以帮助你减少样板代码:
+
+  ```kotlin
+  import kotlinx.cinterop.*
+  import platform.posix.*
+
+  @OptIn(ExperimentalForeignApi::class)
+  fun readData(fd: Int) { 
+      val buffer = ByteArray(1024)
+      while (true) {
+          val length = recv(fd, buffer.refTo(0), buffer.size.convert(), 0).toInt()
+
+          if (length <= 0) {
+              break
+          }
+          // 现在 `buffer` 中包含了从 `recv()` 函数调用得到的原生数据.
+      }
+  }
+  ```
+
+  Here, `buffer.refTo(0)` has the `CValuesRef` type that pins the array before entering the `recv()` function,
+  passes the address of its zeroth element to the function, and unpins the array after exiting.
 
 ### 提前声明(Forward Declaration) {id="forward-declarations"}
 
@@ -480,3 +509,12 @@ fun test() {
     consumeStruct(produceStruct() as CPointer<cnames.structs.ForwardDeclaredStruct>)
 }
 ```
+
+## 下一步做什么 {id="what-s-next"}
+
+完成以下教程, 学习类型, 函数, 以及常数 如何在 Kotlin 和 C 之间映射:
+
+* [映射 C 语言的基本数据类型](mapping-primitive-data-types-from-c.md)
+* [映射 C 语言的结构(Struct)和联合(Union)类型](mapping-struct-union-types-from-c.md)
+* [映射 C 语言的函数指针(Function Pointer)](mapping-function-pointers-from-c.md)
+* [映射 C 语言的字符串](mapping-strings-from-c.md)

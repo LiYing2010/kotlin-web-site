@@ -5,9 +5,8 @@
 
 > 要使用 Kotlin, 安装命令行编译器并不是必须的.
 > 编写 Kotlin 应用程序的通常方式是使用带有官方 Kotlin 支持的 IDE 或代码编辑器,
-> 例如 [IntelliJ IDEA](https://www.jetbrains.com/idea/), [JetBrains Fleet](https://www.jetbrains.com/fleet/),
-> 或 [Android Studio](https://developer.android.com/studio).
-> 它们已经提供了完全的 Kotlin 支持, 不需要添加其它组件.
+> 例如 [IntelliJ IDEA](https://www.jetbrains.com/idea/) 或 [Android Studio](https://developer.android.com/studio).
+> 它们已经提供了完全的 Kotlin 支持.
 >
 > 更多详情请参见 [在 IDE 中使用 Kotlin](getting-started.md).
 >

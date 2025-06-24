@@ -1,8 +1,10 @@
 [//]: # (title: 参加 Kotlin EAP 项目)
 
+<!--
 <tldr>
     <p>Kotlin EAP 的最新发布版本: <strong>%kotlinEapVersion%</strong></p>
 </tldr>
+-->
 
 你可以参加 Kotlin 早期预览(EAP) 项目, 试用 Kotlin 还未发布的最新功能.
 
@@ -51,7 +53,7 @@
 
 ## EAP 版本 {id="build-details"}
 
-<!-- _No preview versions are currently available._ -->
+<!--_No preview versions are currently available._-->  
 
 <table>
     <tr>
@@ -59,14 +61,24 @@
         <th>重要功能</th>
     </tr>
     <tr>
-        <td><strong>2.1.20-Beta1</strong>
-            <p>发布日期: <strong>2024/12/19</strong></p>
-            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v2.1.20-Beta1" target="_blank">GitHub 上的 Release 页面</a></p>
+        <td><strong>2.2.0-Beta2</strong>
+            <p>发布日期: <strong>2025/04/30</strong></p>
+            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v2.2.0-Beta2" target="_blank">GitHub 上的 Release 页面</a></p>
         </td>
         <td>
-            <p>一个工具发布版, 默认启用 K2 kapt.</p>
-            <p>更多详情请参见 <a href="https://github.com/JetBrains/kotlin/releases/tag/v2.1.20-Beta1">changelog</a>
-               或 <a href="whatsnew-eap.md">Kotlin 2.1.20-Beta1 版中的新功能</a>.</p>
+            <p>一个语言发布版, 包括新功能特性和工具更新的预览.</p>
+            <p>更多详情请参见 <a href="https://github.com/JetBrains/kotlin/releases/tag/v2.2.0-Beta2">changelog</a>
+               或 <a href="whatsnew-eap.md">Kotlin 2.2.0-Beta2 版中的新功能</a>.</p>
         </td>
     </tr>
+    <tr>
+        <td><strong>2.1.21-RC2</strong>
+            <p>发布日期: <strong>2025/05/01</strong></p>
+            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v2.1.21-RC2" target="_blank">GitHub 上的 Release 页面</a></p>
+        </td>
+        <td>
+            <p>针对 Kotlin 2.1.20 的 bug 修正版.</p>
+            <p>更多详情请参见 <a href="https://github.com/JetBrains/kotlin/releases/tag/v2.1.21-RC2">changelog</a>.</p>
+        </td>
+    </tr> 
 </table>

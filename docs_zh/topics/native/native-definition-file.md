@@ -72,7 +72,6 @@ Kotlin/Native 允许你使用 C 和 Objective-C 库, 你可以在 Kotlin 中使�
 | [`compilerOpts`](#pass-compiler-and-linker-options)                                 | cinterop 工具传递给 C 编译器的编译器选项.                                                                                       |
 | [`linkerOpts`](#pass-compiler-and-linker-options)                                   | cinterop 工具传递给链接器的链接器选项.                                                                                          |
 | [`excludedFunctions`](#ignore-specific-functions)                                   | 需要忽略的函数名称列表, 使用空格分隔.                                                                                              |                                              
-| `excludedMacros`                                                                    |                                                                                                                   |
 | [`staticLibraries`](#include-a-static-library)                                      | [实验性功能](components-stability.md#stability-levels-explained). 将静态库包含到 `.klib` 中.                                   |
 | [`libraryPaths`](#include-a-static-library)                                         | [实验性功能](components-stability.md#stability-levels-explained). 目录列表, 使用空格分隔, cinterop 工具会在这些目录中搜索需要包含到 `.klib` 中的库. |
 | `packageName`                                                                       | 生成的 Kotlin API 的包名称前缀.                                                                                            |
@@ -214,7 +213,7 @@ libraryPaths = /opt/local/lib /usr/local/opt/curl/lib
 要让 Objective-C 异常传播到 Kotlin 中, 请使用 `foreignExceptionMode = objc-wrap` 属性, 允许异常的封装.
 这种情况下, Objective-C 异常会被翻译为 Kotlin 异常, 类型为 `ForeignException`.
 
-#### 帮助解决链接器错误 {id="help-resolve-linker-errors"}
+### 帮助解决链接器错误 {id="help-resolve-linker-errors"}
 
 当一个 Kotlin 库依赖于一个 C 或 Objective-C 库时, 可能会发生链接器错误,
 例如, 使用 [CocoaPods 集成](native-cocoapods.md) 的情况.
@@ -253,7 +252,7 @@ cinterop -def png.def -compiler-option -I/usr/local/include -o png
 注意, 生成的绑定通常是平台专有的, 因此如果你需要针对多个平台进行开发, 那么需要重新生成这些绑定.
 
 * 没有包含在 sysroot 搜索路径中的对于主机库(Host Library), 可能需要头文件.
-* 对于一个典型的带配置脚本的 Unix 库, 使用 `--cflags` 选项运行配置脚本的输出结果,
+* 对于一个典型的带配置脚本的 UNIX 库, 使用 `--cflags` 选项运行配置脚本的输出结果,
   通常可以用于 `compilerOpts`, (但可能不使用完全相同的路径).
 * 使用 `--libs` 参数运行配置脚本的输出结果, 可以用于 `linkerOpts` 属性.
 

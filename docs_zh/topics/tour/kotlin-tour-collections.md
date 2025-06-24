@@ -95,8 +95,8 @@ fun main() {
 > 函数是 **扩展** 函数.
 > 要对一个对象调用扩展函数, 请在对象之后加上点号 `.`, 然后把函数名写在后面.
 >
-> 关于扩展函数, 更多详情请参见 [扩展函数](extensions.md#extension-functions).
-> 对于这篇向导而言, 你只需要知道如何调用它们就行了.
+> 关于扩展函数, 详细内容会在 [中级向导](kotlin-tour-intermediate-extension-functions.md#extension-functions) 中介绍.
+> 目前, 你只需要知道如何调用它们就行了
 >
 {style="note"}
 

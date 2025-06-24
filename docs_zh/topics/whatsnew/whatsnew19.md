@@ -379,7 +379,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeSimu
 > /usr/bin/xcrun simctl boot <DeviceId>
 >```
 >
-{style = "warning"}
+{style="warning"}
 
 ### Kotlin/Native 中库的链接 {id="library-linkage-in-kotlin-native"}
 
@@ -606,7 +606,7 @@ fun computeAck(m: Int, n: Int) {
 * [删除了旧的 Kotlin/JS 编译器](#removal-of-the-old-kotlin-js-compiler)
 * [废弃了 Kotlin/JS Gradle plugin](#deprecation-of-the-kotlin-js-gradle-plugin)
 * [废弃了外部枚举类型(external enum)](#deprecation-of-external-enum)
-* [实验性的支持 ES2015 类和模块](#experimental-support-for-es6-classes-and-modules)
+* [实验性的支持 ES2015 类和模块](#experimental-support-for-es2015-classes-and-modules)
 * [更改了 JS 产品发布(production distribution)的默认目标](#changed-default-destination-of-js-production-distribution)
 * [从 stdlib-js 中抽取了 org.w3c 声明](#extract-org-w3c-declarations-from-stdlib-js)
 

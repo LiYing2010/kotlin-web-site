@@ -15,7 +15,7 @@ Kotlin 只在它的标准库中提供了最少量的低层 API, 让其它库来�
 ## 章节目录
 
 * [协程的基本概念](coroutines-basics.md)
-* [实际动手(hands-on)教程: 协程与通道(Channel)简介](https://play.kotlinlang.org/hands-on/Introduction%20to%20Coroutines%20and%20Channels)
+* [教程: 协程与通道(Channel)简介](coroutines-and-channels.md)
 * [取消与超时](cancellation-and-timeouts.md)
 * [挂起函数(Suspending Function)的组合](composing-suspending-functions.md)
 * [协程上下文与派发器(Dispatcher)](coroutine-context-and-dispatchers.md)

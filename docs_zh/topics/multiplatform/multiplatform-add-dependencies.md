@@ -93,7 +93,7 @@ kotlin {
 ## kotlinx 库
 
 如果使用跨平台的库, 并且需要 [依赖共用代码](#library-shared-for-all-source-sets), 只需要在共用源代码集中一次性设置依赖项.
-请使用库的基本 artifact 名(base artifact name) – 比如 `kotlinx-coroutines-core`.
+请使用库的基本 artifact 名(base artifact name) – 比如 `kotlinx-coroutines-core`:
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
@@ -126,8 +126,8 @@ kotlin {
 </tab>
 </tabs>
 
-如果使用 kotlinx 库, 并且需要 [与平台相关的依赖项](#library-used-in-specific-source-sets), 那么可以通过 `-jvm` 或 `-js` 之类的后缀,
-来指定与平台相关的库版本, 比如, `kotlinx-coroutines-core-jvm`.
+如果在 [平台相关的依赖项](#library-used-in-specific-source-sets) 中需要 kotlinx 库,
+也可以在对应的平台源代码集中使用库的基本 artifact 名(base artifact name):
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
@@ -136,7 +136,7 @@ kotlin {
 kotlin {
     sourceSets {
         jvmMain.dependencies {
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:%coroutinesVersion%")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:%coroutinesVersion%")
         }
     }
 }
@@ -150,7 +150,7 @@ kotlin {
     sourceSets {
         jvmMain {
             dependencies {
-                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:%coroutinesVersion%'
+                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:%coroutinesVersion%'
             }
         }
     }

@@ -1,11 +1,9 @@
 [//]: # (title: Kotlin Notebook)
 
-[Kotlin Notebook](https://plugins.jetbrains.com/plugin/16340-kotlin-notebook) 是 IntelliJ IDEA 中的一个动态 plugin,
-它提供一个交互式环境, 用于创建和编辑 notebook, 能够充分发挥 Kotlin 的全部能力.
+Kotlin Notebook 提供了一个交互式环境, 用于创建和编辑 notebook, 能够充分发挥 Kotlin 的全部能力.
 
-> Kotlin Notebook plugin 需要 IntelliJ IDEA Ultimate 版.
->
-{style="note"}
+Kotlin Notebook 需要使用 [Kotlin Notebook plugin](https://plugins.jetbrains.com/plugin/16340-kotlin-notebook),
+[IntelliJ IDEA 默认捆绑并启用了这个插件](kotlin-notebook-set-up-env.md).
 
 你可以得到无缝的编码体验, 可以使用 Kotlin 代码进行开发和试验, 立即得到输出结果,
 并在 IntelliJ IDEA 生态系统中将代码, 视图, 和文本集成在一起.

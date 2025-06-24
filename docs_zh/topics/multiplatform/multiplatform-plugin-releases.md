@@ -1,28 +1,34 @@
-[//]: # (title: Kotlin Multiplatform Plugin 的发布版本)
+[//]: # (title: Kotlin Multiplatform IDE Plugin 的发布版本)
 
-请确认你安装了 [Kotlin Multiplatform plugin](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform-mobile)
-的最新版本, 以便在 Android Studio 中继续使用 Kotlin Multiplatform 项目.
+[Kotlin Multiplatform IDE plugin](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform)
+能够帮助你开发针对 Android 和 iOS 的应用程序.
+请确认你安装了这个 plugin 最新发布版本, 以便使用 Kotlin Multiplatform 项目.
+
+> 关于 Kotlin Multiplatform Gradle plugin, 更多详情请参见它的 [DSL 参考文档](multiplatform-dsl-reference.md)
+> 和 [兼容性指南](multiplatform-compatibility-guide.md).
+>
+{style="tip"}
 
 ## 更新到新的发布版
 
-如果出现了新的 Kotlin Multiplatform plugin 发布版, Android Studio 会建议你更新.
+如果出现了新的 Kotlin Multiplatform plugin 发布版, IDE 会建议你更新.
 如果你接受建议, 它会自动更新 plugin 到最新版本.
-你将会需要重新启动 Android Studio 来完成 plugin 的安装.
+要完成 plugin 的安装, 请重新启动你的 IDE.
 
-你可以通过菜单 **Settings/Preferences** | **Plugins**, 查看 plugin 的版本, 并手动更新它.
+你可以通过菜单 **Settings** | **Plugins**, 查看 plugin 的版本, 并手动更新它.
 
 为了让 plugin 正确工作, 你需要一个兼容的 Kotlin 版本. 你可以在 [发布版本详情](#release-details) 中找到对应的兼容版本.
-你可以通过菜单 **Settings/Preferences** | **Plugins**, 或 **Tools** | **Kotlin** | **Configure Kotlin Plugin Updates**,
-查看你的 Kotlin 版本, 并更新它.
+要查看和更新你的 Kotlin 版本, 请选择菜单 **Settings** | **Plugins**,
+或 **Tools** | **Kotlin** | **Configure Kotlin in Project**.
 
-> 如果你没有安装兼容的 Kotlin 版本, Kotlin Multiplatform plugin 将会被禁用. 你需要更新你的 Kotlin,
-> 然后通过菜单 **Settings/Preferences** | **Plugins**, 启用 plugin.
+> 如果你没有安装兼容的 Kotlin 版本, Kotlin Multiplatform plugin 将会被禁用.
+> 请更新你的 Kotlin, 然后通过菜单 **Settings** | **Plugins**, 再次启用 plugin.
 >
 {style="note"}
 
 ## 发布版本详情 {id="release-details"}
 
-下表列出了 Kotlin Multiplatform plugin 最新发布版的详细信息:
+下表列出了 Kotlin Multiplatform IDE plugin 最新发布版的详细信息:
 
 <table>
 <tr>

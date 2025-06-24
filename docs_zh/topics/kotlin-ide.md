@@ -1,8 +1,8 @@
 [//]: # (title: 支持 Kotlin 开发的 IDE)
-[//]: # (description: JetBrains 为 IntelliJ IDEA, Fleet 和 Android Studio 提供了官方的 Kotlin IDE 支持)
+[//]: # (description: JetBrains 为 IntelliJ IDEA 和 Android Studio 提供了官方的 Kotlin IDE 支持)
 
 JetBrains 为以下 IDE 和代码编辑器提供官方的 Kotlin 支持:
-[IntelliJ IDEA](#intellij-idea), [JetBrains Fleet](#fleet), 和 [Android Studio](#android-studio).
+[IntelliJ IDEA](#intellij-idea) 和 [Android Studio](#android-studio).
 
 其他 IDE 和代码编辑器只有 Kotlin 社区支持的 plugin.
 
@@ -17,24 +17,6 @@ IDEA 的每个发布版都会引入新的功能和更新, 改进 Kotlin 开发�
 关于针对 Kotlin 的最新更新和改进, 请参见 [IntelliJ IDEA 中的新功能](https://www.jetbrains.com/idea/whatsnew/) .
 
 关于 IntelliJ IDEA, 详情请参见 [官方文档](https://www.jetbrains.com/help/idea/discover-intellij-idea.html).
-
-## Fleet {id="fleet"}
-
-> JetBrains Fleet 目前是 Public Preview 状态. 可以免费使用.
->
-{style="note"}
-
-[JetBrains Fleet](https://www.jetbrains.com/fleet/) 是一个 _支持多种语言的代码编辑器_, 为 Kotlin 提供高级支持, 并对 Kotlin 开发者提供流畅的开发体验.
-你可以使用 Fleet 进行快速、针对性的代码编辑,
-也可以启用 Smart Mode, 将它变成一个功能强大的工具, 包含智能代码提示功能.
-
-各个 Fleet 发布版都包含了 Kotlin plugin.
-
-Fleet 支持 Kotlin Multiplatform 项目, 目标平台包括 Android, iOS, Web, 以及 Desktop 平台, 支持代码的测试和调试.
-Smart Mode 会选择适当的代码处理引擎, 并可以在 Kotlin Multiplatform 代码
-和其他能与 Kotlin 互操作的语言编写的代码之间, 进行代码导航.
-
-Fleet 的使用入门, 请参见教程 [使用 Fleet 进行跨平台开发](https://www.jetbrains.com/help/kotlin-multiplatform-dev/fleet.html).
 
 ## Android Studio {id="android-studio"}
 
@@ -58,7 +40,7 @@ Kotlin 开发组管理 Kotlin plugin for Eclipse 的开发和贡献过程.
 
 ## 与 Kotlin 语言各版本的兼容性 {id="compatibility-with-the-kotlin-language-versions"}
 
-对于 IntelliJ IDEA, Fleet 和 Android Studio, Kotlin plugin 包含在各个发布版之内.
+对于 IntelliJ IDEA 和 Android Studio, Kotlin plugin 包含在各个发布版之内.
 新的 Kotlin 版本发布之后, 这些工具会自动建议更新 Kotlin 到最新的版本.
 关于支持的最新语言版本, 请参见 [Kotlin 的发布版本](releases.md#ide-support).
 
@@ -81,5 +63,4 @@ Kotlin [GitHub 发布页面](%kotlinLatestUrl%)
 ## 下一步做什么? {id="what-s-next"}
 
 * [使用 IntelliJ IDEA IDE 创建你的第一个项目](jvm-get-started.md)
-* [使用 Fleet 创建 Multiplatform 项目](https://www.jetbrains.com/help/kotlin-multiplatform-dev/fleet.html)
 * [使用 Android Studio 创建你的第一个跨平台移动应用程序](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-create-first-app.html)

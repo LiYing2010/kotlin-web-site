@@ -71,11 +71,11 @@ NEW has been assigned to 'p' in Example@33a17727.
 你可以在函数内, 或者一个代码段内定义委托属性, 委托属性不一定需要是类的成员.
 参见 [示例](#local-delegated-properties).
 
-## 标准委托
+## 标准委托 {id="standard-delegates"}
 
 Kotlin 标准库中提供了一些工厂方法, 可以实现几种很有用的委托.
 
-### 延迟加载(Lazy)属性
+### 延迟加载(Lazy)属性 {id="lazy-properties"}
 
 [`lazy()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/lazy.html) 是一个函数, 接受一个 Lambda 表达式作为参数,
 返回一个 `Lazy<T>` 类型的实例, 这个实例可以作为一个委托, 实现延迟加载(lazy)属性.
@@ -102,7 +102,7 @@ fun main() {
 如果你确信初期化计算只可能发生在你访问属性的相同线程之内, 那么可以使用 `LazyThreadSafetyMode.NONE` 模式.
 这种模式不会保持线程同步, 因此不会带来这方面的性能损失.
 
-### 可观察(Observable)属性
+### 可观察(Observable)属性 {id="observable-properties"}
 
 [`Delegates.observable()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-delegates/observable.html) 函数接受两个参数:
 第一个是初始化值, 第二个是属性值变化事件的响应器(handler).
@@ -132,7 +132,7 @@ fun main() {
 而应该改用 [`vetoable()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.properties/-delegates/vetoable.html) 函数.
 传递给 `vetoable` 函数的事件响应器, 会在属性赋值处理执行 *之前* 被调用.
 
-## 委托给另一个属性
+## 委托给另一个属性 {id="delegating-to-another-property"}
 
 属性可以将它的 get 和 set 方法委托到另一个属性.
 这种委托可以用于顶级属性和类属性 (包括成员属性和扩展属性).
@@ -176,7 +176,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.4"}
 
-## 将多个属性保存在一个 Map 内
+## 将多个属性保存在一个 Map 内 {id="storing-properties-in-a-map"}
 
 有一种常见的使用场景是将多个属性的值保存在一个 map 之内.
 在应用程序解析 JSON, 或者执行某些动态(dynamic)任务时, 经常会出现这样的需求.
@@ -424,7 +424,7 @@ class C<Type> {
 }
 ```
 
-## 控制属性委托的创建逻辑
+## 控制属性委托的创建逻辑 {id="providing-a-delegate"}
 
 通过定义一个 `provideDelegate` 操作符, 你可以控制属性委托对象的创建逻辑.
 如果在 `by` 右侧的对象中定义了名为 `provideDelegate` 的成员函数或扩展函数,

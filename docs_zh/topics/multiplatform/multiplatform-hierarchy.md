@@ -27,7 +27,7 @@ Kotlin Gradle plugin 包含内建的默认 [层级结构模板](#see-the-full-hi
 对于一些常见的情况, 模板包含了预定义的中间源代码集.
 Plugin 会根据你项目中指定的编译目标, 自动设置这些源代码集.
 
-考虑下面的示例:
+考虑下面的 `build.gradle(.kts)` 文件, 它属于包含共用代码的项目模块:
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
@@ -69,7 +69,7 @@ Kotlin Gradle plugin 没有创建一些源代码集, 例如 `watchos`, 因为项
 Kotlin Gradle plugin 会为来自默认层级结构模板的所有源代码集提供类型安全的访问器和静态的访问器,
 因此, 与 [手动配置](#manual-configuration) 相比, 你可以引用这些源代码集, 不需要使用 `by getting` 或 `by creating` 构建器.
 
-如果你试图访问源代码集, 但在此之前没有声明对应的编译目标, 你会看到警告信息:
+如果你试图在共用模块的 `build.gradle(.kts)` 文件中访问源代码集, 但之前没有声明对应的编译目标, 会看到警告信息:
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
@@ -147,18 +147,21 @@ Learn more about hierarchy templates: https://kotl.in/hierarchy-template
 
 #### 替换手动配置 {id="replacing-a-manual-configuration"}
 
-**问题场景**. 你所有的中间源代码集都被默认层级结构模板覆盖.
+**问题场景**.
+你所有的中间源代码集都被默认层级结构模板覆盖.
 
-**解决方案**. 删除所有的手动 `dependsOn()` 调用和使用 `by creating` 构建器的源代码集.
+**解决方案**.
+在共用模块的 `build.gradle(.kts)` 文件中, 删除所有的手动 `dependsOn()` 调用和使用 `by creating` 构建器的源代码集.
 关于所有默认源代码集的列表, 请参见 [完整的层级结构模板](#see-the-full-hierarchy-template).
 
 #### 创建额外的源代码集 {id="creating-additional-source-sets"}
 
-**问题场景**. 你想要添加默认层级结构模板没有提供的源代码集, 例如, macOS 和 JVM 编译目标之间的一个中间源代码集.
+**问题场景**.
+你想要添加默认层级结构模板没有提供的源代码集, 例如, macOS 和 JVM 编译目标之间的一个中间源代码集.
 
 **解决方案**:
 
-1. 明确调用 `applyDefaultHierarchyTemplate()`, 重新适用模板.
+1. 在共用模块的 `build.gradle(.kts)` 文件中, 明确调用 `applyDefaultHierarchyTemplate()`, 重新适用模板.
 2. 使用 `dependsOn()`, [手动](#manual-configuration) 配置额外的源代码集:
 
     <tabs group="build-script">
@@ -219,10 +222,12 @@ Learn more about hierarchy templates: https://kotl.in/hierarchy-template
 
 #### 修改源代码集 {id="modifying-source-sets"}
 
-**问题场景**. 你已经有了源代码集, 名字与模板生成的源代码集完全相同, 但在你的项目中的一些不同的编译目标之间共用.
+**问题场景**.
+你已经有了源代码集, 名字与模板生成的源代码集完全相同, 但在你的项目中的一些不同的编译目标之间共用.
 例如, 一个 `nativeMain` 源代码集, 只在桌面专用的编译目标之间共用: `linuxX64`, `mingwX64`, 和 `macosX64`.
 
-**解决方案**. 目前没有办法修改模板的源代码集之间的默认的 `dependsOn` 关系.
+**解决方案**.
+目前没有办法修改模板的源代码集之间的默认的 `dependsOn` 关系.
 同样重要的是, 源代码集的实现和含义, 例如, `nativeMain`, 在所有的项目中应该保持一致.
 
 但是, 你还是可以执行下面的任何一种操作:
@@ -259,58 +264,59 @@ Learn more about hierarchy templates: https://kotl.in/hierarchy-template
 例如, 如果你想要在 Linux 原生环境, Windows, 和 macOS 编译目标 (`linuxX64`, `mingwX64`, 和 `macosX64`) 之间共用代码,
 你可以这样做:
 
-1. 添加中间源代码集 `desktopMain`, 包含用于这些编译目标的共用逻辑.
-2. 使用 `dependsOn` 关系, 指定源代码集的层级结构.
+1. 在共用模块的 `build.gradle(.kts)` 文件中, 添加中间源代码集 `desktopMain`, 包含用于这些编译目标的共用逻辑.
+2. 使用 `dependsOn` 关系, 设置源代码集的层级结构.
+   将 `commonMain` 与 `desktopMain` 连接起来, 再将 `desktopMain` 与各个编译目标源代码集连接起来:
 
-<tabs group="build-script">
-<tab title="Kotlin" group-key="kotlin">
+    <tabs group="build-script">
+    <tab title="Kotlin" group-key="kotlin">
 
-```kotlin
-kotlin {
-    linuxX64()
-    mingwX64()
-    macosX64()
+    ```kotlin
+    kotlin {
+        linuxX64()
+        mingwX64()
+        macosX64()
 
-    sourceSets {
-        val desktopMain by creating {
-            dependsOn(commonMain.get())
-        }
+        sourceSets {
+            val desktopMain by creating {
+                dependsOn(commonMain.get())
+            }
 
-        linuxX64Main.get().dependsOn(desktopMain)
-        mingwX64Main.get().dependsOn(desktopMain)
-        macosX64Main.get().dependsOn(desktopMain)
-    }
-}
-```
-
-</tab>
-<tab title="Groovy" group-key="groovy">
-
-```groovy
-kotlin {
-    linuxX64()
-    mingwX64()
-    macosX64()
-
-    sourceSets {
-        desktopMain {
-            dependsOn(commonMain.get())
-        }
-        linuxX64Main {
-            dependsOn(desktopMain)
-        }
-        mingwX64Main {
-            dependsOn(desktopMain)
-        }
-        macosX64Main {
-            dependsOn(desktopMain)
+            linuxX64Main.get().dependsOn(desktopMain)
+            mingwX64Main.get().dependsOn(desktopMain)
+            macosX64Main.get().dependsOn(desktopMain)
         }
     }
-}
-```
+    ```
 
-</tab>
-</tabs>
+    </tab>
+    <tab title="Groovy" group-key="groovy">
+
+    ```groovy
+    kotlin {
+        linuxX64()
+        mingwX64()
+        macosX64()
+
+        sourceSets {
+            desktopMain {
+                dependsOn(commonMain.get())
+            }
+            linuxX64Main {
+                dependsOn(desktopMain)
+            }
+            mingwX64Main {
+                dependsOn(desktopMain)
+            }
+            macosX64Main {
+                dependsOn(desktopMain)
+            }
+        }
+    }
+    ```
+
+    </tab>
+    </tabs>
 
 最后产生的层级结构类似下图:
 

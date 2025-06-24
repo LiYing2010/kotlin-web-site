@@ -125,10 +125,6 @@ class MultiMap<K, V> {
 
 由于 key 值范围很小, Lincheck 很快发现了竞争情况: 当 2 个值并发的添加到同一个 key 值的时候, 其中 1 个值可能会被覆盖, 并丢失.
 
-> [请在这里查看完整代码](https://github.com/Kotlin/kotlinx-lincheck/blob/guide/src/jvm/test/org/jetbrains/kotlinx/lincheck/test/guide/MultiMapTest.kt).
->
-{style="note"}
-
 ## 下一步
 
 学习如何测试设置了 [执行中访问约束](constraints.md) 的数据结构, 例如单生成者(single-producer)单消费者(single-consumer) 队列.

@@ -4,7 +4,7 @@
 > cinterop 工具从 Objective-C 库生成的所有 Kotlin 声明都应该标注 `@ExperimentalForeignApi` 注解.
 >
 > Kotlin/Native 自带的原生平台库 (例如 Foundation, UIKit, 和 POSIX),
-> 只对一部分 API 需要使用者明确同意(Opt-in). 对于这样的情况, 你会在 IDE 中看到警告信息.
+> 只对一部分 API 需要使用者明确同意(Opt-in).
 >
 {style="warning"}
 

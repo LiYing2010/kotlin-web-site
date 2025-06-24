@@ -4,7 +4,7 @@
 > cinterop 工具从 Objective-C 库生成的所有 Kotlin 声明都应该标注 `@ExperimentalForeignApi` 注解.
 >
 > Kotlin/Native 自带的原生平台库 (例如 Foundation, UIKit, 和 POSIX),
-> 只对一部分 API 需要使用者明确同意(Opt-in). 对于这样的情况, 你会在 IDE 中看到警告信息.
+> 只对一部分 API 需要使用者明确同意(Opt-in).
 >
 {style="warning"}
 
@@ -21,10 +21,10 @@ Kotlin/Native 带有一组预先导入的系统 Framework; 也可以导入既有
 * [在 Objective-C 中使用 Framework](#use-code-from-objective-c)
 * [在 Swift 中使用 Framework](#use-code-from-swift)
 
-你可以直接使用命令行来生成 Kotlin Framework, 或者通过脚本文件 (例如 `.sh` 或 `.bat` 文件).
-但是, 这种方法不适合于包含几百个文件和库的大项目.
-使用构建系统可以帮助你下载并缓存 Kotlin/Native 编译器二进制文件, 传递依赖的库,
-并运行编译器和测试, 简化构建过程,
+你可以直接使用命令行来生成 Kotlin Framework, 或者通过脚本文件(例如 `.sh` 或 `.bat` 文件).
+但是, 这种方法不适合于包含几百个文件和库的大型项目.
+使用构建系统, 可以帮助你下载并缓存 Kotlin/Native 编译器二进制文件, 传递依赖的库,
+以及运行编译器和测试, 从而简化构建过程,
 Kotlin/Native 能够通过 [Kotlin Multiplatform plugin](gradle-configure-project.md#targeting-multiple-platforms)
 使用 [Gradle](https://gradle.org) 构建系统.
 

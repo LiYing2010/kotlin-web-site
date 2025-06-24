@@ -27,7 +27,7 @@ Kotlin 2.0 对于 JetBrains 开发组来说是一个巨大的里程碑.
 
 支持 Kotlin 2.0.0 的 Kotlin plugin 已经捆绑在最新的 IntelliJ IDEA 和 Android Studio 中.
 你不需要在你的 IDE 中更新 Kotlin plugin.
-你需要做的只是在你的构建脚本中 [变更 Kotlin 版本](configure-build-for-eap.md) 为 Kotlin 2.0.0.
+你需要做的只是在你的构建脚本中 [变更 Kotlin 版本](releases.md#update-to-a-new-kotlin-version) 为 Kotlin 2.0.0.
 
 * 关于 IntelliJ IDEA 对 Kotlin K2 编译器的支持, 请参见 [IDE 中的支持](#support-in-ides).
 * 关于 IntelliJ IDEA 对 Kotlin 的支持, 请参见 [Kotlin 的发布版本](releases.md#ide-support).
@@ -1178,7 +1178,6 @@ Kotlin 2.0.0 完全兼容 Gradle 6.8.3 到 8.5版本.
 
 * [跨平台项目中, 用于编译器选项的新的 Gradle DSL](#new-gradle-dsl-for-compiler-options-in-multiplatform-projects)
 * [新的 Compose 编译器 Gradle plugin](#new-compose-compiler-gradle-plugin)
-* [提高了最低支持的版本](#bumped-minimum-supported-agp-version)
 * [新的属性, 用于区分 JVM 和 Android 发布的库](#new-attribute-to-distinguish-jvm-and-android-published-libraries)
 * [在 Kotlin/Native 中, 改进了对 CInteropProcess 的 Gradle 依赖项处理](#improved-gradle-dependency-handling-for-cinteropprocess-in-kotlin-native)
 * [Gradle 中的可见度变更](#visibility-changes-in-gradle)
@@ -1765,7 +1764,7 @@ fun main() {
 
     for (char in destinationArray) {
         print("$char ")
-        // 输出结果为: K o t l i n   i s   a w e s o m e ! 
+        // 输出结果为: K o t l i n   i s   a w e s o m e !
     }
 }
 ```

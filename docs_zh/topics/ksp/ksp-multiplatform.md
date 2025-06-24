@@ -14,18 +14,11 @@ plugins {
 }
 
 kotlin {
-    jvm {
-        withJava()
-    }
-    linuxX64() {
+    jvm()
+    linuxX64 {
         binaries {
             executable()
         }
-    }
-    sourceSets {
-        val commonMain by getting
-        val linuxX64Main by getting
-        val linuxX64Test by getting
     }
 }
 
@@ -34,7 +27,7 @@ dependencies {
     add("kspJvm", project(":test-processor"))
     add("kspJvmTest", project(":test-processor")) // 不会进行任何处理, 因为对 JVM 平台没有测试代码
     // 对于 Linux x64 的 main 源代码集没有任何处理, 因为没有指定 kspLinuxX64
-    add("kspLinuxX64Test", project(":test-processor"))
+    // add("kspLinuxX64Test", project(":test-processor"))
 }
 ```
 

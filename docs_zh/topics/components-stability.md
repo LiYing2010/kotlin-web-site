@@ -98,6 +98,7 @@ Kotlin 语言和它的工具集分成很多组件, 比如针对 JVM, JS 和 Nati
 | kotlin-stdlib (JVM)   | Stable | 1.0.0         |        |
 | kotlinx-coroutines    | Stable | 1.3.0         |        |
 | kotlinx-serialization | Stable | 1.0.0         |        |
+| kotlin-metadata-jvm   | Stable | 2.0.0         |        |
 | kotlin-reflect (JVM)  | Beta   | 1.0.0         |        |
 | kotlinx-datetime      | Alpha  | 0.2.0         |        |
 | kotlinx-io            | Alpha  | 0.2.0         |        |

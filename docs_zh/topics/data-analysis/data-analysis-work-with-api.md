@@ -13,15 +13,16 @@ Kotlin Notebook 在与 [Kotlin DataFrame 库](https://kotlin.github.io/dataframe
 
 ## 开始前的准备工作 {id="before-you-start"}
 
-1. 下载并安装最新版的 [IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/download/?section=mac).
-2. 在 IntelliJ IDEA 中安装 [Kotlin Notebook plugin](https://plugins.jetbrains.com/plugin/16340-kotlin-notebook).
+Kotlin Notebook 需要使用 [Kotlin Notebook plugin](https://plugins.jetbrains.com/plugin/16340-kotlin-notebook),
+IntelliJ IDEA 默认捆绑并启用了这个插件.
 
-   > 或者, 也可以在 IntelliJ IDEA 中, 通过菜单 **Settings** | **Plugins** | **Marketplace**, 找到 Kotlin Notebook plugin.
-   >
-   {style="tip"}
+如果无法使用 Kotlin Notebook 功能, 请确认启用了 plugin.
+详情请参见 [设置环境](kotlin-notebook-set-up-env.md).
 
-3. 选择 **File** | **New** | **Kotlin Notebook**, 创建一个新的 Kotlin Notebook.
-4. 在 Kotlin Notebook 中, 运行以下命令, 导入 Kotlin DataFrame 库:
+创建一个新的 Kotlin Notebook:
+
+1. 选择 **File** | **New** | **Kotlin Notebook**.
+2. 在 Kotlin Notebook 中, 运行以下命令, 导入 Kotlin DataFrame 库:
 
    ```kotlin
    %use dataframe
@@ -72,7 +73,7 @@ Kotlin Notebook 在与 [Kotlin DataFrame 库](https://kotlin.github.io/dataframe
            val row = load(pagePath)
            // 将载入的数据作为行, 添加到 List.
            rows.add(row)
-          
+
            // 如果存在, 获得下一页的 token.
            val next = row.getValueOrNull<String>("nextPageToken")
            // 更新页的 path, 用于取得下一页, 其中包含新的 token.

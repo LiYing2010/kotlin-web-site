@@ -7,13 +7,26 @@
     </toc-element>
     <toc-element toc-title="Kotlin 入门" topic="getting-started.md"/>
     <toc-element toc-title="Kotlin 观光之旅" topic="kotlin-tour-welcome.md">
-        <toc-element topic="kotlin-tour-hello-world.md"/>
-        <toc-element topic="kotlin-tour-basic-types.md"/>
-        <toc-element topic="kotlin-tour-collections.md"/>
-        <toc-element topic="kotlin-tour-control-flow.md"/>
-        <toc-element topic="kotlin-tour-functions.md"/>
-        <toc-element topic="kotlin-tour-classes.md"/>
-        <toc-element topic="kotlin-tour-null-safety.md"/>
+        <toc-element toc-title="初学者教程">
+            <toc-element topic="kotlin-tour-hello-world.md"/>
+            <toc-element topic="kotlin-tour-basic-types.md"/>
+            <toc-element topic="kotlin-tour-collections.md"/>
+            <toc-element topic="kotlin-tour-control-flow.md"/>
+            <toc-element topic="kotlin-tour-functions.md"/>
+            <toc-element topic="kotlin-tour-classes.md"/>
+            <toc-element topic="kotlin-tour-null-safety.md"/>
+        </toc-element>
+        <toc-element toc-title="中级教程">
+            <toc-element topic="kotlin-tour-intermediate-extension-functions.md"/>
+            <toc-element topic="kotlin-tour-intermediate-scope-functions.md"/>
+            <toc-element topic="kotlin-tour-intermediate-lambdas-receiver.md"/>
+            <toc-element topic="kotlin-tour-intermediate-classes-interfaces.md"/>
+            <toc-element topic="kotlin-tour-intermediate-objects.md"/>
+            <toc-element topic="kotlin-tour-intermediate-open-special-classes.md"/>
+            <toc-element topic="kotlin-tour-intermediate-properties.md"/>
+            <toc-element topic="kotlin-tour-intermediate-null-safety.md"/>
+            <toc-element topic="kotlin-tour-intermediate-libraries-and-apis.md"/>
+        </toc-element>
     </toc-element>
     <toc-element toc-title="Kotlin 概述">
         <toc-element toc-title="使用 Kotlin 进行跨平台开发" topic="multiplatform.topic"/>
@@ -26,8 +39,9 @@
         <toc-element topic="competitive-programming.md"/>
     </toc-element>
     <toc-element toc-title="Kotlin 新功能">
-        <toc-element toc-title="Kotlin 2.1.0" accepts-web-file-names="whatsnew.html" topic="whatsnew21.md"/>
-        <toc-element toc-title="Kotlin 2.1.20-Beta1" topic="whatsnew-eap.md"/>
+        <toc-element toc-title="Kotlin 2.1.20" accepts-web-file-names="whatsnew.html" topic="whatsnew2120.md"/>
+        <toc-element toc-title="Kotlin 2.1.0" topic="whatsnew21.md"/>
+        <toc-element toc-title="Kotlin 2.2.0-Beta2" topic="whatsnew-eap.md"/>
         <toc-element toc-title="早期版本">
             <toc-element toc-title="Kotlin 2.0.20" topic="whatsnew2020.md"/>
             <toc-element toc-title="Kotlin 2.0.0" topic="whatsnew20.md"/>
@@ -152,12 +166,12 @@
             <toc-element toc-title="[Experimental DSL] Build final native binaries" hidden="true" topic="multiplatform-native-artifacts.md"/>
             <toc-element accepts-web-file-names="mpp-build-native-binaries.html" topic="multiplatform-build-native-binaries.md"/>
         </toc-element>
-        <toc-element accepts-web-file-names="mpp-publish-lib.html" toc-title="发布库" topic="multiplatform-publish-lib.md"/>
+        <toc-element accepts-web-file-names="mpp-publish-lib.html" toc-title="库的发布设置" topic="multiplatform-publish-lib.md"/>
         <toc-element toc-title="参考文档">
             <toc-element accepts-web-file-names="mpp-dsl-reference.html,mpp-supported-platforms.html,multiplatform-supported-platforms.html" topic="multiplatform-dsl-reference.md"/>
             <toc-element topic="multiplatform-android-layout.md"/>
             <toc-element toc-title="兼容性指南" topic="multiplatform-compatibility-guide.md"/>
-            <toc-element topic="multiplatform-plugin-releases.md"/>
+            <toc-element toc-title="Android Studio plugin" topic="multiplatform-plugin-releases.md"/>
         </toc-element>
     </toc-element>
     <toc-element toc-title="数据分析">
@@ -303,6 +317,7 @@
             <include from="kc_zh.tree" element-id="coroutines"/>
         </toc-element>
         <toc-element toc-title="序列化(Serialization) (kotlinx.serialization)" topic="serialization.md"/>
+        <toc-element toc-title="Kotlin Metadata JVM (kotlin-metadata-jvm)" topic="metadata-jvm.md"/>
         <toc-element toc-title="Lincheck (kotlinx.lincheck)">
             <include from="kl_zh.tree" element-id="lincheck"/>
         </toc-element>
@@ -330,6 +345,7 @@
                 <toc-element accepts-web-file-names="using-gradle.html" toc-title="概述" topic="gradle.md"/>
                 <toc-element toc-title="教程 - Gradle 入门" topic="get-started-with-jvm-gradle-project.md"/>
                 <toc-element topic="gradle-configure-project.md"/>
+                <toc-element topic="gradle-best-practices.md"/>
                 <toc-element toc-title="KGP 中的编译器选项" topic="gradle-compiler-options.md"/>
                 <toc-element toc-title="KGP 中的编译与缓存" topic="gradle-compilation-and-caches.md"/>
                 <toc-element topic="gradle-plugin-variants.md"/>
@@ -425,8 +441,10 @@
             <toc-element toc-title="Kotlin 基金会 FAQ" href="https://kotlinfoundation.org/faq/"/>
         </toc-element>
         <toc-element toc-title="Google 编程夏令营">
-            <toc-element topic="gsoc-2024.md"/>
-            <toc-element topic="gsoc-2023.md"/>
+            <toc-element toc-title="概述" topic="gsoc-overview.md"/>
+            <toc-element toc-title="GSoC 2025" topic="gsoc-2025.md"/>
+            <toc-element toc-title="GSoC 2024" topic="gsoc-2024.md"/>
+            <toc-element toc-title="GSoC 2023" topic="gsoc-2023.md"/>
         </toc-element>
         <toc-element topic="security.md"/>
         <toc-element topic="kotlin-pdf.md"/>

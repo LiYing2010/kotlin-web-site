@@ -27,8 +27,14 @@ fun jsTypeOf(o: Any): String {
 fun jsTypeOf(o: Any): String {
     return js(getTypeof() + " o") // 这里会出错
 }
+
 fun getTypeof() = "typeof"
 ```
+
+> 由于 JavaScript 代码是由 Kotlin 编译器解析的, 因此可能不支持所有的 ECMAScript 功能.
+> 对于这样的情况, 你可能会遇到编译错误.
+>
+{style="note"}
 
 注意, 调用 `js()` 返回的值是 [`dynamic`](dynamic-type.md) 类型, 这个类型在编译时不保证任何类型安全性.
 

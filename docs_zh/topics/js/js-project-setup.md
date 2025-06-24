@@ -70,10 +70,7 @@ kotlin {
 ```
 
 `binaries.executable()` 指令明确的指示 Kotlin 编译器输出可执行的 `.js` 文件.
-使用当前的 Kotlin/JS 编译器时, 这是默认的行为, 但如果你使用 [Kotlin/JS IR 编译器](js-ir-compiler.md),
-或者在 `gradle.properties` 文件中设置过 `kotlin.js.generate.executable.default=false`,
-则需要明确的指定这条指令.
-这些情况下, 省略 `binaries.executable()` 会导致编译器只生成 Kotlin-internal 库文件,
+省略 `binaries.executable()` 会导致编译器只生成 Kotlin-internal 库文件,
 这些库文件可以被其他项目使用, 但不能独立运行.
 
 > 与创建可执行文件相比, 这样通常会更快, 而且在处理你项目中的非叶(non-leaf)模块时, 这是一种可能的优化.
@@ -264,31 +261,31 @@ kotlin.js.yarn=false
 
 ## run 任务 {id="run-task"}
 
-Kotlin Multiplatform Gradle 插件提供了一个 `jsRun` 任务, 它可以运行你的纯 Kotlin/JS 工程, 无需额外的配置.
+Kotlin Multiplatform Gradle 插件提供了一个 `jsBrowserDevelopmentRun` 任务, 它可以运行你的纯 Kotlin/JS 工程, 无需额外的配置.
 
 对于在浏览器内运行 Kotlin/JS 工程的情况, 这个是 `browserDevelopmentRun` 任务的一个别名(在 Kotlin 跨平台项目也可以使用).
 它使用 [webpack DevServer](https://webpack.js.org/configuration/dev-server/) 来提供你的 JavaScript artifact.
 如果你想要自定义 DevServer 的配置, 例如, 改变端口号, 请使用 [webpack 配置文件](#webpack-bundling).
 
-对于在 Node.js 平台运行 Kotlin/JS 项目的情况, 请使用 `jsRun` 任务, 它是 `nodeRun` 任务的别名.
+对于在 Node.js 平台运行 Kotlin/JS 项目的情况, 请使用 `jsNodeDevelopmentRun` 任务, 它是 `nodeRun` 任务的别名.
 
-要运行一个工程, 请执行 Gradle 编译周期(lifecycle)中标准的 `jsRun` 任务, 或者运行它作为别名对应的真实的任务:
+要运行一个工程, 请执行 Gradle 编译周期(lifecycle)中标准的 `jsBrowserDevelopmentRun` 任务, 或者运行它作为别名对应的真实的任务:
 
 ```bash
-./gradlew jsRun
+./gradlew jsBrowserDevelopmentRun
 ```
 
 如果要在修改过源代码文件后自动对你的应用程序进行重新构建,
 可以使用 Gradle 的 [连续构建(continuous build)](https://docs.gradle.org/current/userguide/command_line_interface.html#sec:continuous_build) 功能:
 
 ```bash
-./gradlew jsRun --continuous
+./gradlew jsBrowserDevelopmentRun --continuous
 ```
 
 或者
 
 ```bash
-./gradlew jsRun -t
+./gradlew jsBrowserDevelopmentRun -t
 ```
 
 工程构建成功后, `webpack-dev-server` 会自动刷新浏览器页面.

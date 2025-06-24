@@ -105,7 +105,7 @@ val myObject = object MySingleton {
 对象声明不可以是局部的, 也就是说, 不可以直接嵌套在函数之内.
 但是, 可以嵌套在另一个对象声明之内, 或者嵌套在另一个非内部类(non-inner class)之内.
 
-### 数据对象
+### 数据对象 {id="data-objects"}
 
 如果在 Kotlin 中打印一个普通的对象声明, 它的字符串表达包含对象的名称和 hash 值:
 
@@ -187,7 +187,7 @@ fun createInstanceViaReflection(): MySingleton {
 
 编译器生成的 `hashCode()` 函数的行为与 `equals()` 函数保持一致, 因此一个 `data object` 的所有运行期实例都拥有相同的 hash 值.
 
-#### 数据对象与数据类的不同
+#### 数据对象与数据类的区别 {id="differences-between-data-objects-and-data-classes"}
 
 尽管 `data object` 和 `data class` 声明经常一起使用, 而且很相似, 但对于 `data object` 有一些函数没有生成:
 
@@ -198,7 +198,7 @@ fun createInstanceViaReflection(): MySingleton {
   与 `data class` 不同, `data object` 没有任何数据属性.
   对这种没有数据属性的对象进行解构是没有意义的, 因此不会生成 `componentN()` 函数.
 
-#### 在封闭层级结构(Sealed Hierarchy)中使用数据对象
+#### 在封闭层级结构(Sealed Hierarchy)中使用数据对象 {id="use-data-objects-with-sealed-hierarchies"}
 
 数据对象声明非常适合在封闭层级结构(Sealed Hierarchy) 中使用, 例如 [封闭类或封闭接口](sealed-classes.md).
 这样的方式允许你声明数据类和数据对象, 并保持对称性.
@@ -357,7 +357,7 @@ fun main() {
 这些类适合一次性使用. 这种类可以从头开始创建, 也可以从既有的类继承, 或者实现接口.
 这些类的实例称为 _匿名对象_, 因为它们通过表达式来定义, 而不是通过名称.
 
-### 从头创建匿名对象
+### 从头创建匿名对象 {id="create-anonymous-objects-from-scratch"}
 
 对象表达式以 `object` 关键字起始.
 
@@ -381,7 +381,7 @@ fun main() {
 ```
 {kotlin-runnable="true" id="object-expression-object"}
 
-### 从基类继承匿名对象
+### 从基类继承匿名对象 {id="inherit-anonymous-objects-from-supertypes"}
 
 要创建一个继承自某个类(或多个类)的匿名对象, 需要在 `object` 关键字和冒号 `:` 之后指定基类.
 然后实现或覆盖基类的成员, 就和你在 [继承](inheritance.md) 这个基类时一样:
@@ -435,7 +435,7 @@ fun main() {
 ```
 {kotlin-runnable="true" id="object-expression-anonymous-object"}
 
-### 将匿名对象用作返回类型或值类型
+### 将匿名对象用作返回类型或值类型 {id="use-anonymous-objects-as-return-and-value-types"}
 
 当你从一个局部的, 或 [`private`](visibility-modifiers.md#packages) 的函数或属性,
 返回一个匿名对象, 那么通过这个函数或属性可以访问匿名对象的所有成员:
@@ -531,7 +531,7 @@ fun main() {
 ```
 {kotlin-runnable="true" id="object-expression-object-override"}
 
-### 通过匿名对象访问变量
+### 通过匿名对象访问变量 {id="access-variables-from-anonymous-objects"}
 
 对象表达式 body 部之内的代码, 可以访问创建这个对象的代码范围内的变量:
 
@@ -558,7 +558,7 @@ fun countClicks(window: JComponent) {
 }
 ```
 
-## 对象声明与对象表达式在行为上的区别
+## 对象声明与对象表达式在行为上的区别 {id="behavior-difference-between-object-declarations-and-expressions"}
 
 对象声明与对象表达式在初始化上存在一些区别:
 

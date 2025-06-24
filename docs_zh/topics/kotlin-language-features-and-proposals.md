@@ -128,6 +128,69 @@ JetBrains 根据 [Kotlin 语言演化原则](kotlin-evolution-principles.md), �
 </td>
 <td>
 
+**kotlin.time.Instant**
+
+* KEEP 提案: [Instant 与 Clock](https://github.com/Kotlin/KEEP/blob/master/proposals/stdlib/instant.md)
+
+</td>
+</tr>
+
+<tr filter="keep">
+<td>
+
+**KEEP 讨论**
+
+</td>
+<td>
+
+**共通的原子类型与原子数组**
+
+* KEEP 提案: [共通的原子类型](https://github.com/Kotlin/KEEP/blob/master/proposals/stdlib/common-atomics.md)
+* YouTrack issue: [KT-62423](https://youtrack.jetbrains.com/issue/KT-62423)
+
+</td>
+</tr>
+
+<tr filter="keep">
+<td>
+
+**KEEP 讨论**
+
+</td>
+<td>
+
+**对属性上的注解的使用目标(Use-site Target)的改进**
+
+* KEEP 提案: [对属性上的注解的使用目标(Use-site Target)的改进](https://github.com/Kotlin/KEEP/blob/master/proposals/annotation-target-in-properties.md)
+* YouTrack issue: [KT-19289](https://youtrack.jetbrains.com/issue/KT-19289)
+
+</td>
+</tr>
+
+<tr filter="keep">
+<td>
+
+**KEEP 讨论**
+
+</td>
+<td>
+
+**嵌套的 (非捕获) 类型别名**
+
+* KEEP 提案: [嵌套的 (非捕获) 类型别名](https://github.com/Kotlin/KEEP/blob/master/proposals/nested-typealias.md)
+* YouTrack issue: [KT-45285](https://youtrack.jetbrains.com/issue/KT-45285)
+
+</td>
+</tr>
+
+<tr filter="keep">
+<td>
+
+**KEEP 讨论**
+
+</td>
+<td>
+
 **提高 KDoc 歧义链接解析的效率**
 
 * KEEP 提案: [streamline-KDoc-ambiguity-references.md](https://github.com/Kotlin/KEEP/blob/kdoc/Streamline-KDoc-ambiguity-references/proposals/kdoc/streamline-KDoc-ambiguity-references.md)
@@ -240,79 +303,11 @@ JetBrains 根据 [Kotlin 语言演化原则](kotlin-evolution-principles.md), �
 </td>
 <td>
 
-**在带有判断对象的 when 语句中的保护条件(Guard Condition)**
-
-* KEEP 提案: [guards.md](https://github.com/Kotlin/KEEP/blob/guards/proposals/guards.md)
-* YouTrack issue: [KT-13626](https://youtrack.jetbrains.com/issue/KT-13626)
-* 目标版本: 2.1.0
-
-</td>
-</tr>
-
-<tr filter="keep">
-<td>
-
-**KEEP 讨论**
-
-</td>
-<td>
-
-**稳定 `@SubclassOptInRequired`**
-
-* KEEP 提案: [subclass-opt-in-required.md](https://github.com/Kotlin/KEEP/blob/master/proposals/subclass-opt-in-required.md)
-* YouTrack issue: [KT-54617](https://youtrack.jetbrains.com/issue/KT-54617)
-* 目标版本: 2.1.0
-
-</td>
-</tr>
-
-<tr filter="keep">
-<td>
-
-**KEEP 讨论**
-
-</td>
-<td>
-
-**多 `$` 插入: 改进字符串字面值中的 `$` 处理**
-
-* KEEP 提案: [dollar-escape.md](https://github.com/Kotlin/KEEP/blob/master/proposals/dollar-escape.md)
-* YouTrack issue: [KT-2425](https://youtrack.jetbrains.com/issue/KT-2425)
-* 目标版本: 2.1.0
-
-</td>
-</tr>
-
-<tr filter="keep">
-<td>
-
-**KEEP 讨论**
-
-</td>
-<td>
-
-**非局部的 `break` 和 `continue`**
-
-* KEEP 提案: [break-continue-in-inline-lambdas.md](https://github.com/Kotlin/KEEP/blob/master/proposals/break-continue-in-inline-lambdas.md)
-* YouTrack issue: [KT-1436](https://youtrack.jetbrains.com/issue/KT-1436)
-* 目标版本: 2.1.0
-
-</td>
-</tr>
-
-<tr filter="keep">
-<td>
-
-**KEEP 讨论**
-
-</td>
-<td>
-
 **对 Java 合成属性的引用**
 
 * KEEP 提案: [references-to-java-synthetic-properties.md](https://github.com/Kotlin/KEEP/blob/master/proposals/references-to-java-synthetic-properties.md)
 * YouTrack issue: [KT-8575](https://youtrack.jetbrains.com/issue/KT-8575)
-* 目标版本: 2.1.0
+* 目标版本: 2.2.0
 
 </td>
 </tr>
@@ -321,7 +316,75 @@ JetBrains 根据 [Kotlin 语言演化原则](kotlin-evolution-principles.md), �
 
 <!-- IN PREVIEW BLOCK -->
 
+<tr filter="in-preview">
+<td width="200">
+
+**预览中**
+
+</td>
+<td>
+
+**在带有判断对象的 when 语句中的保护条件(Guard Condition)**
+
+* KEEP 提案: [guards.md](https://github.com/Kotlin/KEEP/blob/guards/proposals/guards.md)
+* YouTrack issue: [KT-13626](https://youtrack.jetbrains.com/issue/KT-13626)
+* 开始可用版本: 2.1.0
+
+</td>
+</tr>
+
 <!-- the first td element should have the width="200" attribute -->
+
+<tr filter="stable">
+<td>
+
+**稳定**
+
+</td>
+<td>
+
+**稳定 `@SubclassOptInRequired`**
+
+* KEEP 提案: [subclass-opt-in-required.md](https://github.com/Kotlin/KEEP/blob/master/proposals/subclass-opt-in-required.md)
+* YouTrack issue: [KT-54617](https://youtrack.jetbrains.com/issue/KT-54617)
+* 开始可用版本: 2.1.0
+
+</td>
+</tr>
+
+<tr filter="in-preview">
+<td>
+
+**预览中**
+
+</td>
+<td>
+
+**多 `$` 插入: 改进字符串字面值中的 `$` 处理**
+
+* KEEP 提案: [dollar-escape.md](https://github.com/Kotlin/KEEP/blob/master/proposals/dollar-escape.md)
+* YouTrack issue: [KT-2425](https://youtrack.jetbrains.com/issue/KT-2425)
+* 开始可用版本: 2.1.0
+
+</td>
+</tr>
+
+<tr filter="in-preview">
+<td>
+
+**预览中**
+
+</td>
+<td>
+
+**非局部的 `break` 和 `continue`**
+
+* KEEP 提案: [break-continue-in-inline-lambdas.md](https://github.com/Kotlin/KEEP/blob/master/proposals/break-continue-in-inline-lambdas.md)
+* YouTrack issue: [KT-1436](https://youtrack.jetbrains.com/issue/KT-1436)
+* 开始可用版本: 2.1.0
+
+</td>
+</tr>
 
 <!-- END OF IN PREVIEW BLOCK -->
 

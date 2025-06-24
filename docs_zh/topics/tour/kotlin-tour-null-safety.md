@@ -92,7 +92,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-check-nulls"}
 
-## 使用安全调用
+## 使用安全调用 {id="use-safe-calls"}
 
 对于可能包含 `null` 值的对象, 要安全的访问它的属性, 请使用安全调用操作符 `?.`.
 如果对象或对象的属性为 `null`, 安全调用操作符会返回 `null`.
@@ -136,7 +136,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-safe-call-function"}
 
-## 使用 Elvis 操作符
+## 使用 Elvis 操作符 {id="use-elvis-operator"}
 
 你可以使用 **Elvis 操作符** `?:`, 指定检测到 `null` 值时的默认返回值.
 
@@ -157,7 +157,7 @@ fun main() {
 
 关于 Kotlin 中的 Null 值安全性, 更多详情请参见 [Null 值安全性](null-safety.md).
 
-## 实际练习
+## 实际练习 {id="practice"}
 
 ### 习题 {initial-collapse-state="collapsed" collapsible="true"}
 
@@ -205,9 +205,8 @@ fun main() {
 ```
 {initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-null-safety-solution"}
 
-## 下一步做什么?
+## 下一步做什么? {id="what-s-next"}
 
-恭喜! 现在你已经完成了我们的 Kotlin 观光之旅, 下面请阅读我们的教程, 看看如何开发流行的 Kotlin 应用程序:
+恭喜! 现在你已经完成了我们的 Kotlin 观光之旅的初级教程, 下面请阅读我们的中级教程, 更加深入的理解 Kotlin:
 
-* [创建后端应用程序](jvm-create-project-with-spring-boot.md)
-* [为 Android 和 iOS 创建跨平台的应用程序](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-create-first-app.html)
+<a href="kotlin-tour-intermediate-extension-functions.md"><img src="start-intermediate-tour.svg" width="700" alt="开始 Kotlin 中级教程" style="block"/></a>

@@ -105,6 +105,7 @@ kotlin {
 ```kotlin
 kotlin {
     cocoapods {
+        version = "2.0"
         framework {
             baseName = "MyFramework"
             isStatic = false
@@ -122,12 +123,12 @@ kotlin {
 
 在函数参数中, 你可以指定一个 Pod 库的名称. 在这个函数的配置代码段中, 还可以指定其他参数, 例如库的 `version` 和 `source`:
 
-| **名称**       | **描述**                                                                                                                                                                                                             |
-|---------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `version`     | 库的版本. 要使用库的最新版本, 请省略这个参数.                                                                                                                                                                                          |
-| `source`      | 可以使用以下几种方式来配置 Pod: <list><li>通过 `git()` 函数, 使用 Git 仓库中的 Pod. 在 `git()` 之后的代码段中, 你可以指定 `commit` 来使用特定的 commit, 可以指定 `tag` 来使用特定的 tag, 可以指定 `branch` 来使用 特定的 branch</li><li>通过 `path()` 函数, 使用本地仓库中的 Pod</li></list> |
-| `packageName` | 指定包名称.                                                                                                                                                                                                             |
-| `extraOpts`   | 为 Pod 库指定选项列表. 例如, 特定的参数: <code-block lang="Kotlin">extraOpts = listOf("-compiler-option")</code-block>                                                                                                            |
+| **名称**                       | **描述**                                                                                                                                                                                                             |
+|------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `version`                    | 库的版本. 要使用库的最新版本, 请省略这个参数.                                                                                                                                                                                          |
+| `source`                     | 可以使用以下几种方式来配置 Pod: <list><li>通过 `git()` 函数, 使用 Git 仓库中的 Pod. 在 `git()` 之后的代码段中, 你可以指定 `commit` 来使用特定的 commit, 可以指定 `tag` 来使用特定的 tag, 可以指定 `branch` 来使用 特定的 branch</li><li>通过 `path()` 函数, 使用本地仓库中的 Pod</li></list> |
+| `packageName`                | 指定包名称.                                                                                                                                                                                                             |
+| `extraOpts`                  | 为 Pod 库指定选项列表. 例如, 特定的参数: <code-block lang="Kotlin">extraOpts = listOf("-compiler-option")</code-block>                                                                                                            |
 | `linkOnly`                   | 让 CocoaPods plugin 使用动态框架(Dynamic Framework)的 Pod 依赖项, 不生成 cinterop 绑定. 如果对静态框架(Static Framework)使用这个选项, 会删除整个 Pod 依赖项.                                                                                            |
 | `interopBindingDependencies` | 包含对其他 Pod 的依赖项列表. 在对新的 Pod 构建 Kotlin 绑定时会使用这个列表.                                                                                                                                                                   |
 | `useInteropBindingFrom()`    | 指定用做依赖项的已存在的 Pod 的名称. 这个 Pod 需要在函数执行之前声明. 这个函数让 CocoaPods plugin 在对新的 Pod 构建 Kotlin 绑定时, 使用已存在的 Pod 的绑定.                                                                                                           |
@@ -137,13 +138,14 @@ kotlin {
     iosArm64()
 
     cocoapods {
+        version = "2.0"
         summary = "CocoaPods test library"
         homepage = "https://github.com/JetBrains/kotlin"
-
-        iosArm64.deploymentTarget = "13.5"
+        ios.deploymentTarget = "16.0"
 
         pod("pod_dependency") {
             version = "1.0"
+            extraOpts += listOf("-compiler-option")
             linkOnly = true
             source = path(project.file("../pod_dependency"))
         }

@@ -32,7 +32,7 @@ Kotlin User Group, 简称 KUG, 是一个专注于 Kotlin 的开发社区, 你可
 
 ## JetBrains 对 KUG 的支持 {id="support-for-kugs-from-jetbrains"}
 
-活跃的 KUG, 至少每 3 个月主办 1 次聚会, 可以申请我们的社区支持计划, 包括:
+活跃的 KUG, 至少每 3 个月主办 1 次聚会, 可以申请我们的 [社区支持计划](https://www.jetbrains.com/community/user-groups/), 包括:
 * 官方的 KUG 品牌.
 * Kotlin 网站的特别访问权限.
 * JetBrains 产品的免费 License, 供聚会时抽奖发送.

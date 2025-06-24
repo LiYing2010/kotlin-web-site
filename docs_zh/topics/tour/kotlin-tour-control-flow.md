@@ -183,7 +183,7 @@ fun main() {
 > 在这个习题中, 你要导入包, 以便使用 `Random.nextInt()` 函数, 得到一个随机的 `Int` 值.
 > 关于导入包, 详情请参见 [包与导入](packages.md).
 >
-{type = "tip"}
+{style="tip"}
 
 <deflist collapsible="true">
     <def title="提示">

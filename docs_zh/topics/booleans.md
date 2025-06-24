@@ -40,6 +40,6 @@ fun main() {
 * 如果第一个操作数为 `true`, `||` 运算符不会计算第二个操作数.
 * 如果第一个操作数为 `false`, `&&` 运算符不会计算第二个操作数.
 
-> 在 JVM 平台, 可为 null 的布尔对象引用会被装箱(box)为 Java 类, 与 [数值类型](numbers.md#numbers-representation-on-the-jvm) 一样.
+> 在 JVM 平台, 可为 null 的布尔对象引用会被装箱(box)为 Java 类, 与 [数值类型](numbers.md#boxing-and-caching-numbers-on-the-java-virtual-machine) 一样.
 >
 {style="note"}

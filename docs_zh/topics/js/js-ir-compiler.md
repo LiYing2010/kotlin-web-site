@@ -102,7 +102,7 @@ kotlin.incremental.js.ir=false // 默认为 true
 
      ```none
      # gradle.properties
-     kotlin.js.ir.output.granularity=per-file // 默认值是 `per-module`
+     kotlin.js.ir.output.granularity=per-file // 默认值是 'per-module'
      ```
 
 ## 在产品(Production)模式中对成员名称的极简化(Minification) {id="minification-of-member-names-in-production"}

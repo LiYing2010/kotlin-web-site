@@ -180,7 +180,8 @@ Completed in 1017 ms
 注意, 如果我们在 `println` 内调用 [await][Deferred.await], 而在此之前没有对各个协程调用 [start][Job.start],
 那么会导致两个协程的执行成为连续的, 而不是并行的,
 因为 [await][Deferred.await] 会启动协程并一直等待执行结束, 这并不是我们使用延迟加载功能时期望的效果.
-如果计算中使用到的值来自挂起函数的话, 可以使用 `async(start = CoroutineStart.LAZY)` 来代替标准的 `lazy` 函数.
+如果计算中使用到的值来自挂起函数的话, 可以使用 `async(start = CoroutineStart.LAZY)` 来代替标准的
+[lazy](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/lazy.html) 函数.
 
 ## async 风格的函数 {id="async-style-functions"}
 
@@ -281,10 +282,10 @@ Completed in 1085 ms
 
 ## 使用 async 的结构化并发 {id="structured-concurrency-with-async"}
 
-我们沿用 [使用 async 并发执行](#concurrent-using-async) 中的示例程序,
-从中抽取一个函数, 并发地执行 `doSomethingUsefulOne` 和 `doSomethingUsefulTwo`, 并返回这两个函数结果的和.
-由于 [async] 协程构建器被定义为 [CoroutineScope] 上的扩展函数,
-因此我们使用这个函数时就需要在作用范围内存在 [CoroutineScope], [coroutineScope][_coroutineScope] 函数可以为我们提供 [CoroutineScope]:
+下面我们将 [使用 async 并发执行](#concurrent-using-async) 中的示例程序重构为一个函数,
+它并发地执行 `doSomethingUsefulOne` 和 `doSomethingUsefulTwo`, 并返回这两个函数结果的组合.
+由于 [async] 是 [CoroutineScope] 的扩展函数,
+因此我们使用 [coroutineScope][_coroutineScope] 函数, 来提供必要的作用范围(Scope):
 
 ```kotlin
 suspend fun concurrentSum(): Int = coroutineScope {

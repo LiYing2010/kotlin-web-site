@@ -47,23 +47,24 @@ plugins {
 配置你的项目时, 请检查 Kotlin Gradle plugin (KGP) 是否兼容于你的 Gradle 版本.
 下表是, Kotlin **完全支持** 的 Gradle 和 Android Gradle plugin (AGP) 最低和最高版本:
 
-| KGP 版本        | Gradle 最低和最高版本                         | AGP 最低和最高版本                                         |
-|---------------|----------------------------------------|-----------------------------------------------------|
-| 2.1.0         | %minGradleVersion%–%maxGradleVersion%* | %minAndroidGradleVersion%–%maxAndroidGradleVersion% |
-| 2.0.20–2.0.21 | 6.8.3–8.8*                             | 7.1.3–8.5                                           |
-| 2.0.0         | 6.8.3–8.5                              | 7.1.3–8.3.1                                         |
-| 1.9.20–1.9.25 | 6.8.3–8.1.1                            | 4.2.2–8.1.0                                         |
-| 1.9.0–1.9.10  | 6.8.3–7.6.0                            | 4.2.2–7.4.0                                         |
-| 1.8.20–1.8.22 | 6.8.3–7.6.0                            | 4.1.3–7.4.0                                         |
-| 1.8.0–1.8.11  | 6.8.3–7.3.3                            | 4.1.3–7.2.1                                         |
-| 1.7.20–1.7.22 | 6.7.1–7.1.1                            | 3.6.4–7.0.4                                         |
-| 1.7.0–1.7.10  | 6.7.1–7.0.2                            | 3.4.3–7.0.2                                         |
-| 1.6.20–1.6.21 | 6.1.1–7.0.2                            | 3.4.3–7.0.2                                         |
+| KGP 版本        | Gradle 最低和最高版本                        | AGP 最低和最高版本                                         |
+|---------------|---------------------------------------|-----------------------------------------------------|
+| 2.1.20        | %minGradleVersion%–%maxGradleVersion% | %minAndroidGradleVersion%–%maxAndroidGradleVersion% |
+| 2.1.0–2.1.10  | 7.6.3–8.10*                           | 7.3.1–8.7.2                                         |
+| 2.0.20–2.0.21 | 6.8.3–8.8*                            | 7.1.3–8.5                                           |
+| 2.0.0         | 6.8.3–8.5                             | 7.1.3–8.3.1                                         |
+| 1.9.20–1.9.25 | 6.8.3–8.1.1                           | 4.2.2–8.1.0                                         |
+| 1.9.0–1.9.10  | 6.8.3–7.6.0                           | 4.2.2–7.4.0                                         |
+| 1.8.20–1.8.22 | 6.8.3–7.6.0                           | 4.1.3–7.4.0                                         |
+| 1.8.0–1.8.11  | 6.8.3–7.3.3                           | 4.1.3–7.2.1                                         |
+| 1.7.20–1.7.22 | 6.7.1–7.1.1                           | 3.6.4–7.0.4                                         |
+| 1.7.0–1.7.10  | 6.7.1–7.0.2                           | 3.4.3–7.0.2                                         |
+| 1.6.20–1.6.21 | 6.1.1–7.0.2                           | 3.4.3–7.0.2                                         |
 
-> *Kotlin 2.0.20–2.0.21 和 Kotlin 2.1.0 完全兼容 Gradle 8.6 或以下版本.
+> *Kotlin 2.0.20–2.0.21 和 Kotlin 2.1.0–2.1.10 完全兼容 Gradle 8.6 或以下版本.
 > 也支持 Gradle 版本 8.7 到 8.10, 但有一个例外: 如果你使用 Kotlin Multiplatform Gradle plugin,
-> 在你的跨平台项目中调用 [JVM 编译目标中的 `withJava()` 函数](multiplatform-dsl-reference.md#jvm-targets) 时, 可能遇到废弃警告.
-> 更多详情请参见 [YouTrack](https://youtrack.jetbrains.com/issue/KT-66542/Gradle-JVM-target-with-withJava-produces-a-deprecation-warning) 中的 issue.
+> 在你的跨平台项目中调用 JVM 编译目标中的 `withJava()` 函数时, 可能遇到废弃警告.
+> 更多详情请参见 [默认创建的 Java 源代码集](multiplatform-compatibility-guide.md#java-source-sets-created-by-default).
 >
 {style="warning"}
 
@@ -185,7 +186,7 @@ sourceSets {
 (或 [继承得到](https://docs.gradle.org/current/userguide/java_plugin.html#sec:java-extension))
 `targetCompatibility=15`.
 
-要对整个项目的这个兼容性检查进行配置, 可以在 `build.gradle(.kts)` 文件中, 将 `kotlin.jvm.target.validation.mode` 属性设置为以下几个值:
+要对整个项目的这个兼容性检查进行配置, 可以在 `gradle.properties` 文件中, 将 `kotlin.jvm.target.validation.mode` 属性设置为以下几个值:
 
 * `error` – plugin 会让构建失败; 对于 Gradle 8.0 以上版本, 这是项目的默认值.
 * `warning` – plugin 会输出警告信息; 对于低于 Gradle 8.0 的版本, 这是项目的默认值.
@@ -728,10 +729,8 @@ project.plugins.withType(KotlinBasePlugin.class) {
 ```kotlin
 kotlin {
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation("com.example:my-library:1.0")
-            }
+        commonMain.dependencies {
+            implementation("com.example:my-library:1.0")
         }
     }
 }
@@ -972,10 +971,8 @@ Kotlin/Native 编译目标已经内建了 `kotlin.test` API 的实现, 不需要
 ```kotlin
 kotlin {
     sourceSets {
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test")) // 这个设置会自动引入对应平台的所有依赖项
-            }
+        commonTest.dependencies {
+             implementation(kotlin("test")) // 这个设置会自动引入对应平台的所有依赖项
         }
     }
 }
@@ -1027,10 +1024,8 @@ kotlin {
         }
     }
     sourceSets {
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-            }
+        commonTest.dependencies {
+            implementation(kotlin("test"))
         }
     }
 }
@@ -1106,9 +1101,8 @@ kotlin.test.infer.jvm.variant=false
 
 ### 设置对 kotlinx 库的依赖项 {id="set-a-dependency-on-a-kotlinx-library"}
 
-如果使用 [`kotlinx` 库](https://github.com/Kotlin/kotlinx.coroutines), 并且需要与平台相关的依赖项, 那么可以通过 `-jvm` 或 `-js` 之类的后缀,
-来指定与平台相关的库版本, 例如, `kotlinx-coroutines-core-jvm`.
-也可以使用库的基本 artifact 名(base artifact name) – `kotlinx-coroutines-core`.
+如果你使用跨平台的库, 并且需要依赖共用代码, 那么只需要在共用源代码集中一次性设置依赖项.
+请使用库的基本 artifact 名(base artifact name), 例如 `kotlinx-coroutines-core` 或 `ktor-client-core`:
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
@@ -1116,46 +1110,8 @@ kotlin.test.infer.jvm.variant=false
 ```kotlin
 kotlin {
     sourceSets {
-        val jvmMain by getting {
-            dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:%coroutinesVersion%")
-            }
-        }
-    }
-}
-```
-
-</tab>
-<tab title="Groovy" group-key="groovy">
-
-```groovy
-kotlin {
-    sourceSets {
-        jvmMain {
-            dependencies {
-                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:%coroutinesVersion%'
-            }
-        }
-    }
-}
-```
-
-</tab>
-</tabs>
-
-如果使用跨平台的库, 并且需要依赖共用代码, 那么只需要在共用源代码集中一次性设置依赖项.
-请使用库的基本 artifact 名(base artifact name), 例如 `kotlinx-coroutines-core` 或 `ktor-client-core`.
-
-<tabs group="build-script">
-<tab title="Kotlin" group-key="kotlin">
-
-```kotlin
-kotlin {
-    sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:%coroutinesVersion%")
-            }
+        commonMain.dependencies {
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:%coroutinesVersion%")
         }
     }
 }
@@ -1168,6 +1124,39 @@ kotlin {
 kotlin {
     sourceSets {
         commonMain {
+            dependencies {
+                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:%coroutinesVersion%'
+            }
+        }
+    }
+}
+```
+
+</tab>
+</tabs>
+
+如果你需要一个 kotlinx 库的与平台相关的依赖项, 你仍然可以在对应的平台源代码集中使用库的基本 artifact 名(base artifact name):
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+kotlin {
+    sourceSets {
+        jvmMain.dependencies {
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:%coroutinesVersion%")
+        }
+    }
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+kotlin {
+    sourceSets {
+        jvmMain {
             dependencies {
                 implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:%coroutinesVersion%'
             }

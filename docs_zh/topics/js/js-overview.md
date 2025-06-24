@@ -29,6 +29,25 @@ Kotlin/JS 目前的实现针对 [ES5](https://www.ecma-international.org/ecma-26
 现代的 Web 开发通过使用各种框架得到很大的益处, 框架可以简化 Web 应用程序的创建.
 下面是可用于 Kotlin/JS 的一些流行的 Web 框架的例子:
 
+### Kobweb
+
+_Kobweb_ 是一个用于创建网站和 Web 应用程序的 Kotlin 框架.
+它利用 [Compose HTML](https://github.com/JetBrains/compose-multiplatform?tab=readme-ov-file#compose-html)
+和实时加载(live-reloading) 实现快速开发.
+Kobweb 受 [Next.js](https://nextjs.org/) 的启发, 推广了一种用于添加小部件(Widget), 布局和页面的标准结构.
+
+Kobweb 默认提供了页面路由, Light/Dark 模式, CSS 样式, Markdown 支持, 后端 API, 以及其它更多功能特性.
+它还包括一个名为 Silk 的 UI 库, 这是用于现代 UI 的一组多功能小部件(Widget).
+
+Kobweb 还支持网站导出, 生成页面快照, 用于 SEO 和自动搜索索引.
+此外, Kobweb 可以轻松的创建基于 DOM 的 UI, 并随着状态变化而高效的更新.
+
+请访问 [Kobweb](https://kobweb.varabyte.com/) 网站, 查看 Kobweb 的文档和示例.
+
+关于框架的更新和讨论, 请加入 Kotlin Slack 的
+[#kobweb](https://kotlinlang.slack.com/archives/C04RTD72RQ8)
+和 [#compose-web](https://kotlinlang.slack.com/archives/C01F2HV7868) 频道.
+
 ### KVision
 
 _KVision_ 是一个面向对象的 Web 框架, 可以使用 Kotlin/JS 编写应用程序, 可以通过各种现成的组件来组合成你的用户界面.
@@ -36,7 +55,7 @@ _KVision_ 是一个面向对象的 Web 框架, 可以使用 Kotlin/JS 编写应�
 然后使用 connector for Ktor, Spring Boot, 以及其他框架, 与你的服务端应用程序连接,
 并使用 [Kotlin 跨平台程序](multiplatform-intro.md) 来共用代码.
 
-请 [访问 KVision 网站](https://kvision.io), 查看 KVision 的文档, 教程, 和示例.
+请访问 [KVision 网站](https://kvision.io), 查看 KVision 的文档, 教程, 和示例.
 
 关于框架的更新和讨论, 请加入 [Kotlin Slack](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up) 的
 [#kvision](https://kotlinlang.slack.com/messages/kvision)
@@ -48,7 +67,7 @@ _fritz2_ 是一个独立的框架, 用于构建响应式(reactive) Web 用户界
 它提供了自己的类型安全的 DSL 来构建和渲染 HTML 元素, 它使用 Kotlin 的协程(Coroutine)和数据流(Flow)来表达 UI 组件及其数据绑定.
 它提供了状态管理, 校验, 路由, 以及很多其他功能, 并与 Kotlin 跨平台项目集成.
 
-请 [访问 fritz2 网站](https://www.fritz2.dev), 查看 fritz2 的文档, 教程, 和示例.
+请访问 [fritz2 网站](https://www.fritz2.dev), 查看 fritz2 的文档, 教程, 和示例.
 
 关于框架的更新和讨论, 请加入 [Kotlin Slack](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up) 的
 [#fritz2](https://kotlinlang.slack.com/messages/fritz2)
@@ -60,7 +79,7 @@ _Doodle_ 是一个用于 Kotlin/JS 的基于矢量的(vector-based) UI 框架.
 Doodle 应用程序使用浏览器的图形功能来描绘用户界面, 而不是依赖于 DOM, CSS, 和 Javascript.
 使用这种方法, Doodle 使你能够精确描绘任何 UI 元素, 矢量图形, 梯度(gradient), 以及定制的可视化图形.
 
-请 [访问 Doodle 网站](https://nacular.github.io/doodle/), 查看 Doodle 的文档, 教程, 和示例.
+请访问 [Doodle 网站](https://nacular.github.io/doodle/), 查看 Doodle 的文档, 教程, 和示例.
 
 关于框架的更新和讨论, 请加入 [Kotlin Slack](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up) 的
 [#doodle](https://kotlinlang.slack.com/messages/doodle)

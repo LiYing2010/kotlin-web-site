@@ -1,37 +1,44 @@
 [//]: # (title: 发布跨平台的库)
 
-你可以使用 [`maven-publish` Gradle plugin](https://docs.gradle.org/current/userguide/publishing_maven.html),
-将跨平台的库发布到本地的 Maven 仓库.
-只需要在 `shared/build.gradle.kts` 文件中, 指定库的 group, version, 以及需要发布到的
-[仓库](https://docs.gradle.org/current/userguide/publishing_maven.html#publishing_maven:repositories).
-plugin 会自动创建发布任务.
+你可以设置你的跨平台库, 发布到不同的位置:
 
-```kotlin
-plugins {
-    //...
-    id("maven-publish")
-}
+* [发布到本地 Maven 仓库](#publishing-to-a-local-maven-repository)
+* 发布到 Maven Central 仓库.
+  请参见 [我们的教程 tutorial](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-publish-libraries.html),
+  学习如何设置帐号凭据, 自定义库的 metadata, 以及配置发布 plugin.
+* 发布到 GitHub 仓库.
+  详情请参见, GitHub 的 [GitHub packages](https://docs.github.com/en/packages) 文档.
 
-group = "com.example"
-version = "1.0"
+## 发布到本地 Maven 仓库 {id="publishing-to-a-local-maven-repository"}
 
-publishing {
-    repositories {
-        maven {
-            //...
+你可以使用 `maven-publish` Gradle plugin, 将跨平台的库发布到本地的 Maven 仓库:
+
+1. 在 `shared/build.gradle.kts` 文件中, 添加 [`maven-publish` Gradle plugin](https://docs.gradle.org/current/userguide/publishing_maven.html).
+2. 指定库的 group 和 version, 以及需要发布到的
+   [仓库](https://docs.gradle.org/current/userguide/publishing_maven.html#publishing_maven:repositories):
+
+    ```kotlin
+    plugins {
+        // ...
+        id("maven-publish")
+    }
+
+    group = "com.example"
+    version = "1.0"
+
+    publishing {
+        repositories {
+            maven {
+                //...
+            }
         }
     }
-}
-```
-
-> 你也可以将跨平台的库发布到 GitHub 仓库. 详情请参见 GitHub 文档 [GitHub packages](https://docs.github.com/en/packages).
->
-{style="tip"}
-
-## 发布的结构
+    ```
 
 当与 `maven-publish` 一起使用时, Kotlin plugin 对在当前主机上能够构建的每个编译目标, 都会自动创建发布任务,
 Android 编译目标除外, 因为它需要 [更多步骤来配置发布任务](#publish-an-android-library).
+
+## 发布的结构 {id="structure-of-publications"}
 
 跨平台库的发布会包含一个额外的 _root_ 发布 `kotlinMultiplatform`, 这是用作整个库的发布,
 如果将它添加为共通源代码集的依赖项, 它会自动解析为适当的平台相关 artifact.
@@ -39,11 +46,14 @@ Android 编译目标除外, 因为它需要 [更多步骤来配置发布任务](
 
 这个 `kotlinMultiplatform` 发布包含元数据 artifact, 而且会引用其他发布作为它的变体(variant).
 
-> 有些仓库, 比如 Maven Central, 要求 root 模块包含不带分类标识的 JAR artifact, 比如 `kotlinMultiplatform-1.0.jar`.
-> Kotlin Multiplatform plugin 会自动产生需要的 artifact, 以及内嵌的元数据 artifact.
-> 也就是说, 你不需要自定义你的构建脚本, 向你的库的 root 模块添加一个空的 artifact, 来满足仓库的要求.
+有些仓库, 比如 Maven Central, 要求 root 模块包含不带分类标识的 JAR artifact, 比如 `kotlinMultiplatform-1.0.jar`.
+Kotlin Multiplatform plugin 会自动产生需要的 artifact, 以及内嵌的元数据 artifact.
+也就是说, 你不需要向你的库的 root 模块添加一个空的 artifact, 来满足仓库的要求.
+
+> 关于生成 JAR artifact, 请参见 [Gradle](multiplatform-configure-compilations.md#compilation-for-jvm) 
+> 和 [Maven](maven.md#create-jar-file) 构建系统.
 >
-{style="note"}
+{style="tip"}
 
 如果仓库要求, `kotlinMultiplatform` 发布还可能会需要源代码和文档的 artifact.
 这种情况下, 请在 publication 内使用 [`artifact(...)`](https://docs.gradle.org/current/javadoc/org/gradle/api/publish/maven/MavenPublication.html#artifact-java.lang.Object-) 添加这些需要的 artifact.
@@ -76,77 +86,12 @@ kotlin.native.enableKlibsCrossCompilation=true
 例如, Maven Central, 明确禁止重复发布, 并会让发布过程失败.
 <!-- TBD: add the actual error -->
 
-#### 如果你使用 Kotlin 1.7.0 或更早版本 {id="if-you-use-kotlin-1-7-0-or-earlier" initial-collapse-state="collapsed" collapsible="true"}
-
-在 1.7.20 之前, Kotlin/Native 编译器不支持全部的交叉编译(cross-compilation)选项.
-如果你使用更早的版本, 你可能需要从多个主机发布跨平台项目:
-使用 Windows 主机编译 Windows 编译目标, 使用 Linux 主机编译 Linux 编译目标, 等等.
-这可能会导致那些交叉编译的模块被重复发布.
-要避免这个问题, 最直接的方法是, 升级到比较新的 Kotlin 版本, 如上文描述的那样, 从单个主机进行发布.
-
-如果无法升级, 请在 `shared/build.gradle(.kts)` 文件中为每个编译目标指定一个 main host, 并检查这个标记:
-
-<tabs group="build-script">
-<tab title="Kotlin" group-key="kotlin">
-
-```kotlin
-kotlin {
-    jvm()
-    js()
-    mingwX64()
-    linuxX64()
-
-    val publicationsFromMainHost =
-        listOf(jvm(), js()).map { it.name } + "kotlinMultiplatform"
-
-    publishing {
-        publications {
-            matching { it.name in publicationsFromMainHost }.all {
-                val targetPublication = this@all
-                tasks.withType<AbstractPublishToMaven>()
-                    .matching { it.publication == targetPublication }
-                    .configureEach { onlyIf { findProperty("isMainHost") == "true" } }
-            }
-        }
-    }
-}
-```
-
-</tab>
-<tab title="Groovy" group-key="groovy">
-
-```groovy
-kotlin {
-    jvm()
-    js()
-    mingwX64()
-    linuxX64()
-
-    def publicationsFromMainHost =
-        [jvm(), js()].collect { it.name } + "kotlinMultiplatform"
-
-    publishing {
-        publications {
-            matching { it.name in publicationsFromMainHost }.all { targetPublication ->
-                tasks.withType(AbstractPublishToMaven)
-                    .matching { it.publication == targetPublication }
-                    .configureEach { onlyIf { findProperty("isMainHost") == "true" } }
-            }
-        }
-    }
-}
-```
-
-</tab>
-</tabs>
-
 ## 发布 Android 库 {id="publish-an-android-library"}
 
 要发布一个 Android 库, 需要一些额外的配置.
 
 默认情况下, 没有任何 Android 库的 artifact 会发布.
-要发布一组
-[Android 编译变体(variant)](https://developer.android.com/studio/build/build-variants)
+要发布一组 Android [构建变体(variant)](https://developer.android.com/build/build-variants)
 生成的 artifact, 需要在 `shared/build.gradle.kts` 文件的 Android 编译目标代码段内指定编译变体名称:
 
 ```kotlin
@@ -157,7 +102,7 @@ kotlin {
 }
 ```
 
-上面的示例适用于没有 [产品风格(Product Flavor)](https://developer.android.com/studio/build/build-variants#product-flavors) 的 Android 库.
+上面的示例适用于没有 [产品风格(Product Flavor)](https://developer.android.com/build/build-variants#product-flavors) 的 Android 库.
 对于存在产品风格(Product Flavor)的库, 编译变体名称还需要包含产品风格名称, 比如 `fooBarDebug` 或 `fooBarRelease`.
 
 默认的发布设置如下:
@@ -253,4 +198,5 @@ kotlin.publishJvmEnvironmentAttribute=false
 
 ## 下一步做什么 {id="what-s-next"}
 
-阅读 [库开发者指南](api-guidelines-build-for-multiplatform.md), 了解为 Kotlin Multiplatform 设计库的最佳实践和技巧.
+* [学习如何将你的 Kotlin Multiplatform 库发布到 Maven Central 仓库](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-publish-libraries.html)
+* [阅读库开发者指南, 了解为 Kotlin Multiplatform 设计库的最佳实践和技巧](api-guidelines-build-for-multiplatform.md)

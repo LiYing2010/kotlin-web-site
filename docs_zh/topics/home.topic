@@ -29,7 +29,7 @@
         <misc>
             <cards narrow="false">
                 <title>关于 Kotlin 的各种功能</title>
-                <a href="whatsnew21.md" summary="新的语言功能, 以及其它更新">Kotlin 2.1.0 版中的新功能</a>
+                <a href="whatsnew2120.md" summary="新的实验性功能, 性能改进, 以及 Bug 修正">Kotlin 2.1.20 版中的新功能</a>
                 <a href="releases.md" summary="最新的 Kotlin 发布版本, 以及如何更新到这些版本">Kotlin 的发布版本</a>
                 <a href="https://kotlinlang.org/api/latest/jvm/stdlib/" summary="Kotlin 日常工作必须的各种功能: IO, 文件, 线程, 集合, 等等">标准库 API 文档</a>
                 <a href="basic-types.md" summary="Kotlin 的类型系统: 数值, 字符串, 数组, 以及其他内建的数据类型">基本类型</a>

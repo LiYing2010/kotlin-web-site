@@ -15,7 +15,7 @@ Kotlin/Native 使用一种自动化的内存管理机制, 与 Java 和 Swift 类
 
 ## 怎样创建一个共享库? {id="how-do-i-create-a-shared-library"}
 
-可以使用编译器的 `-produce dynamic` 选项, 或在 Gradle 中使用 `binaries.sharedLib()`.
+可以使用编译器选项 `-produce dynamic`, 或在你的 Gradle 构建文件中使用 `binaries.sharedLib()`:
 
 ```kotlin
 kotlin {
@@ -29,9 +29,11 @@ kotlin {
 (对 Linux 环境 `.so` 文件, 对 macOS 环境是 `.dylib` 文件,  对 Windows 环境是 `.dll` 文件),
 还会生成一个 C 语言头文件, 用来在 C/C++ 代码中访问你的 Kotlin/Native 程序中的所有 public API.
 
+[请完成使用 Kotlin/Native 开发动态库教程](native-dynamic-libraries.md)
+
 ## 怎样创建静态库, 或 object 文件? {id="how-do-i-create-a-static-library-or-an-object-file"}
 
-可以使用编译器的 `-produce static` 选项, 或在 Gradle 中使用 `binaries.staticLib()`.
+可以使用编译器选项 `-produce static`, 或在你的 Gradle 构建文件中使用 `binaries.staticLib()`:
 
 ```kotlin
 kotlin {
@@ -108,29 +110,22 @@ kotlin {
 如果你在使用旧版本的 Xcode, 但想要升级到 Kotlin 2.0.20 或更高版本,
 请在你的 Xcode 项目中禁用 Bitcode 内嵌功能.
 
-## 为什么会遇到 InvalidMutabilityException 异常? {id="why-do-i-see-invalidmutabilityexception"}
+## 怎样在不同的协程中安全的引用对象?
 
-> 这个问题只会在旧的内存管理器中发生.
-> 从 Kotlin 1.7.20 开始会默认启用新的内存管理器, 详情请参见 [Kotlin/Native 内存管理](native-memory-manager.md).
->
-{style="note"}
+在 Kotlin/Native 中, 要在多个协程之间安全的访问或更新对象, 请考虑使用并发安全的构造, 例如 `@Volatile` 和 `AtomicReference`.
 
-这个异常发生很可能是因为, 你试图修改一个已冻结的对象值.
-对象可以明确地转变为冻结状态, 对某个对象调用 `kotlin.native.concurrent.freeze` 函数,
-那么只被这个对象访问的其他所有对象子图都会被冻结, 对象也可以隐含的冻结
-(也就是, 它只被 `enum` 或全局单子对象访问 - 详情请参见下一个问题).
+可以使用 [`@Volatile`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.concurrent/-volatile/) 注解一个 `var` 属性.
+这样可以让对属性的后端域变量(Backing Field)的所有读和写都成为原子操作.
+此外, 写入的值会立即成为对其它线程可见.
+当另一个线程访问这个属性时, 它不仅会得到更新后的值, 而且还会看到更新之前发生的其他变更.
 
-## 怎样让一个单子对象(Singleton Object)可以被修改? {id="how-do-i-make-a-singleton-object-mutable"}
+或者, 也可以使用 [AtomicReference](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.concurrent.atomics/-atomic-reference/),
+它支持原子化的读和更新.
+在 Kotlin/Native 中, 它封装了一个 volatile 变量, 并执行原子化的操作.
+Kotlin 还提供了针对特定数据类型进行原子化操作专门定制的一组类型.
+你可以使用 `AtomicInt`, `AtomicLong`, `AtomicBoolean`, `AtomicArray`, 以及 `AtomicIntArray` 和 `AtomicLongArray`.
 
-> 这个问题只会在旧的内存管理器中发生.
-> 从 Kotlin 1.7.20 开始会默认启用新的内存管理器, 详情请参见 [Kotlin/Native 内存管理](native-memory-manager.md).
->
-{style="note"}
-
-目前, 单子对象都是不可修改的(也就是, 创建后就被冻结), 而且我们认为让全局状态值不可变更, 通常是比较好的编程方式.
-如果处于某些理由, 你需要在这样的对象内包含可变更的状态值, 请在对象上使用 `@konan.ThreadLocal` 注解.
-另外, `kotlin.native.concurrent.AtomicReference` 类可以用来在被冻结的对象内,
-保存指向不同的冻结对象的指针, 而且可以自动更新这些指针.
+关于如何访问共享的可变状态, 详情请参见 [协程文档](shared-mutable-state-and-concurrency.md).
 
 ## 怎样使用还未发布的 Kotlin/Native 版本来编译项目? {id="how-can-i-compile-my-project-with-unreleased-versions-of-kotlin-native"}
 

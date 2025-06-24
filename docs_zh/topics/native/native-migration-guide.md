@@ -72,7 +72,7 @@
 |-----------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
 | [`@SharedImmutable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/-shared-immutable/)                          | 你可以删除所有使用它的代码, 尽管在新的内存管理器中使用这个 API 也没有警告.                                                                                |
 | [`FreezableAtomicReference` 类](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/-freezable-atomic-reference/)      | 请改为使用 [`AtomicReference`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/-atomic-reference/).     |
-| [`FreezingException` 类](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/-freezing-exception/)                     | 删除所有使用它的代码.                                                                                                              |                                                                                                      |
+| [`FreezingException` 类](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/-freezing-exception/)                     | 删除所有使用它的代码.                                                                                                              |
 | [`InvalidMutabilityException` 类](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/-invalid-mutability-exception/)  | 删除所有使用它的代码.                                                                                                              |
 | [`IncorrectDereferenceException` 类](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native/-incorrect-dereference-exception/)       | 删除所有使用它的代码.                                                                                                              |
 | [`freeze()` 函数](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.native.concurrent/freeze.html)                                      | 删除所有使用它的代码.                                                                                                              |
@@ -87,3 +87,4 @@
 
 * [关于新的内存管理器的更多信息](native-memory-manager.md)
 * [了解与 Swift/Objective-C ARC 的集成的细节](native-arc-integration.md)
+* [学习如何安全的引用不同的协程中的对象](native-faq.md#how-do-i-reference-objects-safely-from-different-coroutines)
