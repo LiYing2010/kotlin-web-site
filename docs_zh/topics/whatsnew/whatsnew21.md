@@ -586,7 +586,7 @@ Gradle 中的隔离项目(Isolated Project) 功能, 通过"隔离" 各个 Gradle
 
 有 2 种方法启用 Kotlin Gradle plugin 的新模型:
 
-* 选项 1: **不启用 隔离项目, 检查兼容性** –
+* 选项 1: **不启用隔离项目, 检查兼容性** –
   要在不启用隔离项目功能的情况下, 检查 Kotlin Gradle plugin 的新模型的兼容性,
   请在你的项目的 `gradle.properties` 文件中, 添加以下 Gradle 属性:
 
@@ -1218,7 +1218,7 @@ configure<KotlinJvmExtension> {
 
 你可以通过完全相同的方式来使用 `KotlinAndroidExtension`.
 
-### 编译器 符号 hidden from the Kotlin Gradle plugin API {id="compiler-symbols-hidden-from-the-kotlin-gradle-plugin-api"}
+### 对 Kotlin Gradle plugin API 隐藏了一些编译器符号 {id="compiler-symbols-hidden-from-the-kotlin-gradle-plugin-api"}
 
 以前, KGP 在它的运行期依赖项中包含了 `org.jetbrains.kotlin:kotlin-compiler-embeddable`,
 导致内部的编译器符号在构建脚本类路径中可以访问.
