@@ -153,14 +153,14 @@ open class CustomError(): Error
 
 ### Inheritance in multiplatform projects
 
-There is one more inheritance restriction in [multiplatform projects](multiplatform-intro.md): direct subclasses of sealed classes must
-reside in the same [source set](multiplatform-discover-project.md#source-sets). It applies to sealed classes without the [expected and actual modifiers](multiplatform-expect-actual.md).
+There is one more inheritance restriction in [multiplatform projects](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html): direct subclasses of sealed classes must
+reside in the same [source set](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-discover-project.html#source-sets). It applies to sealed classes without the [expected and actual modifiers](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-expect-actual.html).
 
 If a sealed class is declared as `expect` in a common source set and have `actual` implementations in platform source sets,
 both `expect` and `actual` versions can have subclasses in their source sets. Moreover, if you use a hierarchical structure,
 you can create subclasses in any source set between the `expect` and `actual` declarations. 
 
-[Learn more about the hierarchical structure of multiplatform projects](multiplatform-hierarchy.md). 
+[Learn more about the hierarchical structure of multiplatform projects](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-hierarchy.html). 
 
 ## Use sealed classes with when expression
 
@@ -200,11 +200,18 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.5"}
 
+> To reduce repetition in `when` expressions, try out context-sensitive resolution (currently in preview).
+> This feature allows you to omit the type name when matching sealed class members if the expected type is known.
+>
+> For more information, see [Preview of context-sensitive resolution](whatsnew22.md#preview-of-context-sensitive-resolution) or the related [KEEP proposal](https://github.com/Kotlin/KEEP/blob/improved-resolution-expected-type/proposals/context-sensitive-resolution.md).
+> 
+{style="tip"}
+
 When using sealed classes with `when` expressions, you can also add guard conditions to include additional checks in a single branch.
 For more information, see [Guard conditions in when expressions](control-flow.md#guard-conditions-in-when-expressions).
 
 > In multiplatform projects, if you have a sealed class with a `when` expression as an 
-> [expected declaration](multiplatform-expect-actual.md) in your common code, you still need an `else` branch. 
+> [expected declaration](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-expect-actual.html) in your common code, you still need an `else` branch. 
 > This is because subclasses of `actual` platform implementations may extend sealed classes that 
 > aren't known in the common code.
 >

@@ -2,19 +2,18 @@
 @import 'pre';
 
 %code-block {
-    display: inline-block;
-    white-space: pre;
-    min-width: 640px;
+    display: block;
     padding: 15px 20px;
     font-family: $font-family-mono;
 }
 
 %code-span {
     font-family: $font-family-mono;
+}
 
-    &%_decorated {
-        padding: 0 5px;
-        border-radius: 4px;
-        background-color: #efefef;
-    }
+%code-span_decorated {
+    @extend %code-span;
+    padding: 0 5px;
+    border-radius: 4px;
+    background-color: #efefef;
 }
