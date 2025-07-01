@@ -9,7 +9,8 @@
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/other-repos/api-guidelines" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/other-repos/dokka" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/other-repos/lincheck" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/other-repos/kotlin-multiplatform-dev-docs" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/other-repos/kotlinx.coroutines" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/other-repos/lincheck" vcs="Git" />
   </component>
 </project>
