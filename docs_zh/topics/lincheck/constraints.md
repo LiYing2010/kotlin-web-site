@@ -38,10 +38,8 @@ Lincheck 对这样的约束提供了现成的支持, 会根据约束条件生成
 
 ```kotlin
 import org.jctools.queues.atomic.*
-import org.jetbrains.kotlinx.lincheck.annotations.*
-import org.jetbrains.kotlinx.lincheck.check
-import org.jetbrains.kotlinx.lincheck.strategy.managed.modelchecking.*
-import org.jetbrains.kotlinx.lincheck.strategy.stress.*
+import org.jetbrains.lincheck.*
+import org.jetbrains.lincheck.datastructures.*
 import org.junit.*
 
 class MPSCQueueTest {
@@ -93,7 +91,7 @@ class MPSCQueueTest {
 
 注意, 所有的消费操作 `poll()` 和 `peek()` 的调用, 都通过单个线程执行, 因此满足了 "单消费者" 约束.
 
-> [请在这里查看完整代码](https://github.com/JetBrains/lincheck/blob/master/src/jvm/test/org/jetbrains/kotlinx/lincheck_test/guide/MPSCQueueTest.kt).
+> [请在这里查看完整代码](https://github.com/JetBrains/lincheck/blob/master/src/jvm/test-lincheck-integration/org/jetbrains/lincheck_test/guide/MPSCQueueTest.kt).
 >
 {style="note"}
 

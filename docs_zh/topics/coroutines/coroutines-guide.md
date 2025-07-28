@@ -19,7 +19,7 @@ Kotlin 只在它的标准库中提供了最少量的低层 API, 让其它库来�
 * [取消与超时](cancellation-and-timeouts.md)
 * [挂起函数(Suspending Function)的组合](composing-suspending-functions.md)
 * [协程上下文与派发器(Dispatcher)](coroutine-context-and-dispatchers.md)
-* [异步的执行流(Asynchronous Flow)](flow.md)
+* [异步的数据流(Asynchronous Flow)](flow.md)
 * [通道(Channel)](channels.md)
 * [协程的异常处理](exception-handling.md)
 * [共享的可变状态与并发](shared-mutable-state-and-concurrency.md)

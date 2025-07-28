@@ -216,7 +216,7 @@ Kotlin/Native 现在可以处理 Objective-C 代码在运行期抛出的异常, 
 
 要启用 Objective-C 异常的包装, 请在 `cinterop` 调用中指定 `-Xforeign-exception-mode objc-wrap` 参数,
 或对 `.def` 文件添加 `foreignExceptionMode = objc-wrap` 属性.
-如果你使用 [CocoaPods 集成](native-cocoapods.md), 请在一个依赖项的 `pod {}` 构建脚本代码段中指定参数,
+如果你使用 [CocoaPods 集成](multiplatform-cocoapods-overview.md), 请在一个依赖项的 `pod {}` 构建脚本代码段中指定参数,
 比如:
 
 ```kotlin
@@ -242,7 +242,7 @@ CocoaPods plugin 的任务执行流程有改进. 比如, 如果你添加一个�
 
 #### DSL 扩展 {id="extended-dsl"}
 
-向你的 Kotlin 项目添加 [CocoaPods](native-cocoapods.md) 依赖项的 DSL, 有了新的功能.
+向你的 Kotlin 项目添加 [CocoaPods](multiplatform-cocoapods-overview.md) 依赖项的 DSL, 有了新的功能.
 
 除了本地的 Pod 以及来自  CocoaPods 仓库的 Pod 之外, 你也可以将以下类型的库添加为依赖项:
 * 来自自定义规格仓库的库.
@@ -251,7 +251,7 @@ CocoaPods plugin 的任务执行流程有改进. 比如, 如果你添加一个�
 * 静态库.
 * 使用自定义 cinterop 参数的库.
 
-更多详情请参见 在 Kotlin 项目中 [添加 CocoaPods 依赖项](native-cocoapods-libraries.md).
+更多详情请参见 在 Kotlin 项目中 [添加 CocoaPods 依赖项](multiplatform-cocoapods-libraries.md).
 示例程序请参见 [Kotlin 使用 CocoaPods 示例](https://github.com/Kotlin/kmm-with-cocoapods-sample).
 
 #### 与 Xcode 集成的更新 {id="updated-integration-with-xcode"}
@@ -263,7 +263,7 @@ CocoaPods plugin 的任务执行流程有改进. 比如, 如果你添加一个�
 
 在 IDEA 中, 集成错误现在有了详细的描述信息. 因此当你遇到 Podfile 相关的问题, 可以立即知道如何修复.
 
-更多详情请参见 [创建 Kotlin pod](native-cocoapods-xcode.md).
+更多详情请参见 [创建 Kotlin pod](multiplatform-cocoapods-xcode.md).
 
 ### 支持 Xcode 12 库 {id="support-for-xcode-12-libraries"}
 
@@ -276,7 +276,7 @@ CocoaPods plugin 的任务执行流程有改进. 比如, 如果你添加一个�
 从 Kotlin 1.4.20 开始, 不再有单独的元数据发布. 元数据 artifact 现在包含在 _root_ 发布之内,
 它代表整个库, 并且在添加为共通源代码集的依赖项时, 会自动解析为适当的平台相关 artifact.
 
-更多详情请参见 [发布跨平台库](multiplatform-publish-lib.md).
+更多详情请参见 [发布跨平台库](multiplatform-publish-lib-setup.md).
 
 #### 与以前版本的兼容性
 

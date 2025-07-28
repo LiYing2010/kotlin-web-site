@@ -17,7 +17,7 @@ Kotlin 2.1.0 已经发布了! 以下是它的一些最重要的功能:
 
 ## IDE 支持 {id="ide-support"}
 
-最新的 IntelliJ IDEA 和 Android Studio 中绑定了支持 2.1.0 的 Kotlin plugin.
+最新版的 IntelliJ IDEA 和 Android Studio 中绑定了支持 2.1.0 的 Kotlin plugin.
 你不需要在你的 IDE 中更新 Kotlin plugin.
 你需要做的只是在你的构建脚本中将 Kotlin 版本修改为 2.1.0.
 
@@ -717,7 +717,7 @@ kotlin.native.enableKlibsCrossCompilation=true
 对于以下情况, 你仍然需要使用 Mac 机器:
 
 * 你的库存在 [cinterop 依赖项](native-c-interop.md).
-* 你的项目中设置了 [CocoaPods 集成](native-cocoapods.md).
+* 你的项目中设置了 [CocoaPods 集成](multiplatform-cocoapods-overview.md).
 * 你需要对 Apple 平台构建或测试 [最终二进制文件](multiplatform-build-native-binaries.md).
 
 #### 对从任何主机发布库的功能留下反馈意见 {id="leave-feedback-on-publishing-libraries-from-any-host"}
@@ -725,7 +725,7 @@ kotlin.native.enableKlibsCrossCompilation=true
 在将来的 Kotlin 发布版中, 我们计划稳定这个功能, 并进一步改进库的发布功能.
 请在我们的问题追踪系统 [YouTrack](https://youtrack.jetbrains.com/issue/KT-71290) 中留下你的反馈意见.
 
-详情请参见 [发布跨平台的库](multiplatform-publish-lib.md).
+详情请参见 [发布跨平台的库](multiplatform-publish-lib-setup.md).
 
 ### 支持不打包的(non-packed) klib {id="support-for-non-packed-klibs"}
 
@@ -801,7 +801,7 @@ Kotlin 2.1.0 包含一个 [对 `iosArm64` 编译目标的支持的更新](#iosar
 
 ### iosArm64 提升为第 1 层 {id="iosarm64-promoted-to-tier-1"}
 
-对 [Kotlin Multiplatform](multiplatform-intro.md) 开发至关重要的 `iosArm64` 编译目标, 已经提升到了第 1 层. 这是 Kotlin/Native 编译器中最高的支持层级.
+对 [Kotlin Multiplatform](multiplatform.topic) 开发至关重要的 `iosArm64` 编译目标, 已经提升到了第 1 层. 这是 Kotlin/Native 编译器中最高的支持层级.
 
 这意味着这个编译目标在 CI 环境进行过常规测试, 保证能够编译和运行.
 我们还对这个编译目标提供编译器发布版之间的源代码和二进制兼容性.
@@ -1234,7 +1234,7 @@ configure<KotlinJvmExtension> {
 为了防止这样的问题, 如果 `org.jetbrains.kotlin:kotlin-compiler-embeddable` 与 KGP 一起出现在构建的类路径中, KGP 现在会显示警告.
 
 作为一种长期的解决方案, 如果你是 plugin 作者, 使用了 `org.jetbrains.kotlin:kotlin-compiler-embeddable` 类,
-我们推荐您在一个隔离的类装载器中运行它们.
+我们推荐你在一个隔离的类装载器中运行它们.
 例如, 你可以使用带类装载器隔离(classloader isolation)或进程隔离(process isolation)的
 [Gradle Workers API](https://docs.gradle.org/current/userguide/worker_api.html).
 
@@ -1339,8 +1339,8 @@ composeCompiler {
 
 ### 可暂停的组合(Pausable composition) {id="pausable-composition"}
 
-可暂停的组合(Pausable composition)是一个新的实验性功能, 它会改变编译器生成可跳过函数(skippable function)的方式.
-启用这个功能后, 组合在运行期可以在跳过点(skipping point)上挂起, 因此能够将长时间运行的组合拆分到多个帧(frame)中.
+可暂停的组合(Pausable Composition)是一个新的实验性功能, 它会改变编译器生成可跳过函数(Skippable Function)的方式.
+启用这个功能后, 组合在运行期可以在跳过点(Skipping Point)上挂起, 因此能够将长时间运行的组合拆分到多个帧(Frame)中.
 Lazy List 和其它性能密集的组件使用可暂停的组合预获取内容,
 如果以阻塞的方式执行, 可能导致视觉卡顿.
 
@@ -1550,7 +1550,7 @@ Kotlin 文档有了一些重要更新:
 
 * 新的 [构建跨平台的 Kotlin 库](api-guidelines-build-for-multiplatform.md) 章节 –
   学习如何设计支持 Kotlin Multiplatform 的 Kotlin 库.
-* 新的 [Kotlin Multiplatform 简介](multiplatform-intro.md) 章节 –
+* 新的 [Kotlin Multiplatform 简介](multiplatform.topic) 章节 –
   学习 Kotlin Multiplatform 的核心概念, 依赖项, 库, 等等.
 * 更新了 [Kotlin Multiplatform 概述](multiplatform.topic) 章节 –
   了解 Kotlin Multiplatform 的基本内容和常见使用场景.

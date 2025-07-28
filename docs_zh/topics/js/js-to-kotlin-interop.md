@@ -184,8 +184,9 @@ Kotlin 类型在 JavaScript 中映射为以下类型:
 | `Unit`                                    | Undefined                 | 用作返回类型时可以导出, 用作参数类型时不可以导出.                                                     |
 | `Any`                                     | `Object`                  |                                                                                |
 | `Throwable`                               | `Error`                   |                                                                                |
-| 可为 Null 的 `Type?`                       | `Type | null | undefined` |                                                                        |
-| Kotlin 的所有其他类型 (使用 `JsExport` 注解标注的类型除外)  | 不支持                       | 包含 Kotlin 的 [无符号整数类型](unsigned-integer-types.md).                              |
+| `enum class Type`                         | `Type`                    | 枚举值导出为静态类属性(`Type.ENTRY`).                                                     |
+| 可为 Null 的 `Type?`                         | `Type | null | undefined` |                                                                                |
+| Kotlin 的所有其他类型, 使用 `JsExport` 标注的类型除外     | 不支持                       | 包含 Kotlin 的 [无符号整数类型](unsigned-integer-types.md).                              |
 
 此外, 还要注意:
 

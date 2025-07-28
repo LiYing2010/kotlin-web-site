@@ -8,8 +8,8 @@
 >
 {style="warning"}
 
-本章介绍 Kotlin/Native 与 Swift/Objective-C 的交互能力的一些方面:
-如何在 Swift/Objective-C 代码中使用 Kotlin 声明, 以及如何在 Kotlin 代码中使用 Objective-C 声明.
+Kotlin/Native 提供了通过 Objective-C 与 Swift 间接交互的能力.
+本章介绍如何在 Swift/Objective-C 代码中使用 Kotlin 声明, 以及如何在 Kotlin 代码中使用 Objective-C 声明.
 
 下面是一些可能对你有用的其他资源:
 
@@ -43,11 +43,11 @@ Kotlin 模块可以在 Swift/Objective-C 代码中使用, 只需要编译成一�
 >
 {style="warning"}
 
-要让你的 Kotlin 代码更加易于在 Objective-C/Swift 中使用, 你可以使用 `@HiddenFromObjC`, 对 Objective-C 和 Swift 隐藏一些 Kotlin 声明.
-这个注解会禁止一个函数或属性导出到 Objective-C.
+要让你的 Kotlin 代码更加易于在 Swift/Objective-C 中使用, 请使用 `@HiddenFromObjC` 注解,
+对 Objective-C 和 Swift 隐藏一些 Kotlin 声明. 这个注解会禁止函数或属性导出到 Objective-C.
 
 或者, 你可以使用 `internal` 修饰符标记 Kotlin 声明, 将它的可见度限定在编译模块之内.
-如果你只希望对 Objective-C 和 Swift 隐藏 Kotlin 声明, 但让它对其他 Kotlin 模块继续保持可见, 那么请选择 `@HiddenFromObjC`.
+如果你希望对 Objective-C 和 Swift 隐藏 Kotlin 声明, 但让它对其他 Kotlin 模块继续保持可见, 那么请使用 `@HiddenFromObjC`.
 
 [参见 Kotlin-Swift interopedia 中的示例](https://github.com/kotlin-hands-on/kotlin-swift-interopedia/blob/main/docs/overview/HiddenFromObjC.md).
 
@@ -187,9 +187,9 @@ kotlin {
 | `companion` 成员 <-      | Class 方法或属性                   | Class 方法或属性               |                                                                                    |
 | `null`                 | `nil`                         | `nil`                     |                                                                                    |
 | `Singleton`            | `shared` 或 `companion` 属性     | `shared` 或 `companion` 属性 | [Kotlin 单子(singleton)](#kotlin-singletons)                                         |
-| 基本类型                   | 基本类型 / `NSNumber`             |                           | [NSNumber](#nsnumber)                                                              |
+| 基本类型                   | 基本类型 / `NSNumber`             |                           | [基本类型](#primitive-types)                                                           |
 | `Unit` 类型返回值           | `Void`                        | `void`                    |                                                                                    |
-| `String`               | `String`                      | `NSString`                |                                                                                    |
+| `String`               | `String`                      | `NSString`                | [字符串](#strings)                                                                    |
 | `String`               | `NSMutableString`             | `NSMutableString`         | [NSMutableString](#nsmutablestring)                                                |
 | `List`                 | `Array`                       | `NSArray`                 |                                                                                    |
 | `MutableList`          | `NSMutableArray`              | `NSMutableArray`          |                                                                                    |
@@ -308,12 +308,12 @@ player.moveTo(UP, byInches = 42)
 因此如果 Swift 或 Objective-C 的代码调用一个抛出异常的 Kotlin 方法,
 那么 Kotlin 方法应该使用 `@Throws` 注解， 指明一组 "期待的" 异常类.
 
-编译为 Objective-C/Swift 框架时, 非-`suspend` 的函数如果拥有或继承了 `@Throws` 注解,
+编译为 Swift/Objective-C 框架时, 非-`suspend` 的函数如果拥有或继承了 `@Throws` 注解,
 在 Objective-C 中会被表示为产生 `NSError*` 的方法,
 在 Swift 中会被表示为 `throws` 方法.
-`suspend` 函数的表达中, 在它的 completion handler 中一定会有 `NSError*`/`Error` 参数.
+`suspend` 函数的表达中, 在它的 completion handler 中一定会有一个 `NSError*`/`Error` 参数.
 
-如果从 Swift/Objective-C 代码调用的 Kotlin 函数中抛出异常,
+如果从 Swift/Objective-C 代码调用的一个 Kotlin 函数中抛出异常,
 而且这个异常是 `@Throws` 注解指定的异常类(或其子类)的实例,
 那么这个异常会被转换为 `NSError`.
 其他 Kotlin 异常到达 Swift/Objective-C 代码后, 会被认为是未处理的错误, 并导致程序终止.
@@ -446,11 +446,11 @@ MyClass.Companion.shared
 * [如何使用 `shared` 访问 Kotlin 对象](https://github.com/kotlin-hands-on/kotlin-swift-interopedia/blob/main/docs/classesandinterfaces/Objects.md)
 * [如何在 Swift 中 访问 Kotlin 伴随对象的成员](https://github.com/kotlin-hands-on/kotlin-swift-interopedia/blob/main/docs/classesandinterfaces/Companion%20objects.md).
 
-### NSNumber {id="nsnumber"}
+### 基本类型 {id="primitive-types"}
 
 Kotlin 基本类型的装箱类会被映射为 Swift/Objective-C 中的特殊类.
 比如, `kotlin.Int` 装箱类在 Swift 中会被表达为 `KotlinInt` 类的实例
-(或 Objective-C 中的 `${prefix}Int` 类的实例, 其中 `prefix` 是框架名称前缀).
+(或 Objective-C 中的 `${prefix}Int` 类的实例, 其中 `prefix` 是框架的名称前缀).
 这些类都继承自 `NSNumber`, 因此它们的实例都是 `NSNumber`, 也支持 `NSNumber` 上的所有的操作.
 
 `NSNumber` 类型用做 Swift/Objective-C 的参数类型或返回值类型时, 不会自动翻译为 Kotlin 的基本类型.
@@ -458,15 +458,58 @@ Kotlin 基本类型的装箱类会被映射为 Swift/Objective-C 中的特殊类
 例如, 通过 `NSNumber` 我们无法知道它究竟是 `Byte`, `Boolean`, 还是 `Double`.
 因此 Kotlin 基本类型 [与 `NSNumber` 类型的相互转换必须手工进行](#casting-between-mapped-types).
 
-### NSMutableString {id="nsmutablestring"}
+### 字符串 {id="strings"}
+
+当 Kotlin `String` 传递到 Swift 时, 它首先导出为一个 Objective-C 对象, 然后 Swift 编译器会再次复制它, 用于 Swift 转换.
+这会导致额外的运行期开销.
+
+为了避免这个问题, 请改为在 Swift 中将 Kotlin 字符串作为 Objective-C `NSString` 直接访问.
+[查看转换示例](#see-the-conversion-example).
+
+#### NSMutableString {id="nsmutablestring"}
 
 Objective-C 的 `NSMutableString` 类在 Kotlin 中无法使用.
 `NSMutableString` 所有实例在传递给 Konlin 之前都会被复制一次.
 
 ### 集合 {id="collections"}
 
-Kotlin 集合会被转换为 Swift/Objective-C 的集合类型, 对应关系请参见 [上表](#mappings).
-Swift/Objective-C 的集合也会以同样的方式映射为 Kotlin 的集合类型,
+#### Kotlin -> Objective-C -> Swift {id="kotlin-objective-c-swift"}
+
+当 Kotlin 集合类型传递到 Swift 时, 它首先转换为一个 Objective-C 的对应类型, 然后 Swift 编译器会再次复制整个集合, 并转换为 Swift 原生的集合,
+对应关系参见 [对应关系表](#mappings).
+
+最后的这次转换会导致性能损失.
+为了避免这个问题, 在 Swift 中使用 Kotlin 集合时, 请将它们明确的转换为 Objective-C 的对应类型: `NSDictionary`, `NSArray`, 或 `NSSet`.
+
+##### 查看转换示例 {id="see-the-conversion-example" initial-collapse-state="collapsed" collapsible="true"}
+
+例如, 对于以下 Kotlin 声明:
+
+```kotlin
+val map: Map<String, String>
+```
+
+在 Swift 中使用时, 大致如下:
+
+```Swift
+map[key]?.count ?? 0
+```
+
+其中, `map` 会被隐含的转换为 Swift 的 `Dictionary`, 它的字符串值映射为 Swift 的 `String`.
+这会导致性能损失.
+
+为了避免这个转换, 请改为将 `map` 明确的转换为 Objective-C 的 `NSDictionary`, 并将值作为 `NSString` 类型访问:
+
+```Swift
+let nsMap: NSDictionary = map as NSDictionary
+(nsMap[key] as? NSString)?.length ?? 0
+```
+
+这样可以保证 Swift 编译器不会执行额外的转换步骤.
+
+#### Swift -> Objective-C -> Kotlin {id="swift-objective-c-kotlin"}
+
+Swift/Objective-C 集合类型映射到 Kotlin 集合类型的方式参见 [对应关系表](#mappings),
 但 `NSMutableSet` 和 `NSMutableDictionary` 除外.
 
 `NSMutableSet` 不会转换为 Kotlin 的 `MutableSet`.
@@ -511,7 +554,7 @@ foo {
 
 ### 泛型 {id="generics"}
 
-Objective-C 支持类上定义的 "轻量的泛型", 支持的功能相对有限.
+Objective-C 支持类中定义的 "轻量的泛型", 支持的功能相对有限.
 Swift 可以导入类上定义的泛型, 向编译器提供额外的类型信息.
 
 Objective-C 和 Swift 对泛型功能的支持与 Kotlin 不同, 因此翻译过程不可避免的将会丢失部分信息,

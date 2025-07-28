@@ -55,15 +55,15 @@ Kotlin/Native 编译器支持大量的编译目标, 但是, 很难对所有编�
 * 编译目标不保证能够在 CI 环境中测试.
 * 我们不能在不同的编译器发布版之间保证源代码和二进制兼容性, 但是, 对这些编译目标的不兼容变更极少发生.
 
-| Gradle 编译目标名称         | Target triple                   | 运行测试 | 备注                                                              |
-|-----------------------|---------------------------------|------|-----------------------------------------------------------------|
-| `androidNativeArm32`  | `arm-unknown-linux-androideabi` |      | ARM32 平台上的 [Android NDK](https://developer.android.com/ndk)     |
-| `androidNativeArm64`  | `aarch64-unknown-linux-android` |      | ARM64 平台上的 [Android NDK](https://developer.android.com/ndk)     |
-| `androidNativeX86`    | `i686-unknown-linux-android`    |      | x86 平台上的 [Android NDK](https://developer.android.com/ndk)       |
-| `androidNativeX64`    | `x86_64-unknown-linux-android`  |      | x86_64 平台上的 [Android NDK](https://developer.android.com/ndk)    |
-| `mingwX64`            | `x86_64-pc-windows-gnu`         | ✅    | 使用 [MinGW](https://www.mingw-w64.org) 兼容层的 64 位 Windows 7 和之后版本 |
-| 以下仅限于 Apple macOS 主机: |                                 |      |                                                                 |
-| `watchosDeviceArm64`  | `aarch64-apple-watchos`         |      | ARM64 平台上的 Apple watchOS                                        |
+| Gradle 编译目标名称         | Target triple                   | 运行测试 | 备注                                                                |
+|-----------------------|---------------------------------|------|-------------------------------------------------------------------|
+| `androidNativeArm32`  | `arm-unknown-linux-androideabi` |      | ARM32 平台上的 [Android NDK](https://developer.android.com/ndk)       |
+| `androidNativeArm64`  | `aarch64-unknown-linux-android` |      | ARM64 平台上的 [Android NDK](https://developer.android.com/ndk)       |
+| `androidNativeX86`    | `i686-unknown-linux-android`    |      | x86 平台上的 [Android NDK](https://developer.android.com/ndk)         |
+| `androidNativeX64`    | `x86_64-unknown-linux-android`  |      | x86_64 平台上的 [Android NDK](https://developer.android.com/ndk)      |
+| `mingwX64`            | `x86_64-pc-windows-gnu`         | ✅    | 64 位 Windows 10 和之后版本 (使用 [MinGW](https://www.mingw-w64.org) 兼容层) |
+| 以下仅限于 Apple macOS 主机: |                                 |      |                                                                   |
+| `watchosDeviceArm64`  | `aarch64-apple-watchos`         |      | ARM64 平台上的 Apple watchOS                                          |
 
 > `linuxArm32Hfp` 编译目标已被废弃, 将在未来的发布版中删除.
 >

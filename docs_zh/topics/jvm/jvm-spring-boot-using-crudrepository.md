@@ -32,7 +32,7 @@ _CrudRepository_ 是一个 Spring Data 接口, 可以指定类型的仓库进行
 
     ```kotlin
     // Message.kt
-    package demo
+    package com.example.demo
 
     import org.springframework.data.annotation.Id
     import org.springframework.data.relational.core.mapping.Table
@@ -60,7 +60,7 @@ _CrudRepository_ 是一个 Spring Data 接口, 可以指定类型的仓库进行
 
     ```kotlin
     // MessageRepository.kt
-    package demo
+    package com.example.demo
 
     import org.springframework.data.repository.CrudRepository
 
@@ -71,7 +71,7 @@ _CrudRepository_ 是一个 Spring Data 接口, 可以指定类型的仓库进行
 
     ```kotlin
     // MessageService.kt
-    package demo
+    package com.example.demo
 
     import org.springframework.data.repository.findByIdOrNull
     import org.springframework.stereotype.Service
@@ -135,7 +135,7 @@ _CrudRepository_ 是一个 Spring Data 接口, 可以指定类型的仓库进行
 
 ```kotlin
 // DemoApplication.kt
-package demo
+package com.example.demo
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -151,7 +151,7 @@ fun main(args: Array<String>) {
 
 ```kotlin
 // Message.kt
-package demo
+package com.example.demo
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Table
@@ -163,7 +163,7 @@ data class Message(val text: String, @Id val id: String? = null)
 
 ```kotlin
 // MessageRepository.kt
-package demo
+package com.example.demo
 
 import org.springframework.data.repository.CrudRepository
 
@@ -173,7 +173,7 @@ interface MessageRepository : CrudRepository<Message, String>
 
 ```kotlin
 // MessageService.kt
-package demo
+package com.example.demo
 
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -191,7 +191,7 @@ class MessageService(private val db: MessageRepository) {
 
 ```kotlin
 // MessageController.kt
-package demo
+package com.example.demo
 
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -227,8 +227,12 @@ class MessageController(private val service: MessageService) {
 
 ## 运行应用程序 {id="run-the-application"}
 
-应用程序可以在此运行了.
-通过将 `JdbcTemplate` 替换为 `CrudRepository`, 功能并没有变更, 因此应用程序应该和以前相同的方式运行.
+恭喜! 应用程序可以再次运行了.
+在将 `JdbcTemplate` 替换为 `CrudRepository` 之后, 功能没有改变, 因此应用程序会和以前一样运行.
+
+现在你可以从 `requests.http` 文件 [运行 POST 和 GET HTTP 请求](jvm-spring-boot-add-db-support.md#add-messages-to-database-via-http-request),
+并得到相同的结果.
+
 
 ## 下一步做什么 {id="what-s-next"}
 

@@ -126,13 +126,6 @@ inline fun f(crossinline body: () -> Unit) {
 
 ### break 和 continue {id="break-and-continue"}
 
-> 这个功能目前处于 [预览版](kotlin-evolution-principles.md#pre-stable-features).
-> 我们计划在未来的发布中将它演化为稳定版.
-> 要表示使用者同意(Opt-in), 请使用 `-Xnon-local-break-continue` 编译器选项.
-> 希望你能通过 [YouTrack](https://youtrack.jetbrains.com/issue/KT-1436) 提供你的反馈意见.
->
-{style="warning"}
-
 与非局部的(non-local) `return` 类似, 对于包含循环的内联函数, 在作为参数传递给内联函数的 Lambda 表达式中,
 你也可以使用 `break` 和 `continue` [跳转表达式](returns.md):
 

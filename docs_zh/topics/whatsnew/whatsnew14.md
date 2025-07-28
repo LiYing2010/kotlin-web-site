@@ -809,7 +809,7 @@ Kotlin/Native 完成了很多性能改进, 提高了开发速度, 也提高了�
 完成初始配置时, 以及添加新依赖项到 `cocoapods` 时, 只需要在 IntelliJ IDEA 中重新导入项目.
 新依赖项会添加自动. 不需要额外的操作步骤.
 
-[关于如何添加依赖项, 请阅读这篇文档](native-cocoapods-libraries.md).
+[关于如何添加依赖项, 请阅读这篇文档](multiplatform-cocoapods-libraries.md).
 
 ## Kotlin Multiplatform
 
@@ -819,7 +819,7 @@ Kotlin/Native 完成了很多性能改进, 提高了开发速度, 也提高了�
 >
 {style="warning"}
 
-[Kotlin Multiplatform](multiplatform-intro.md) 可以减少对 [不同的平台](multiplatform-dsl-reference.md#targets) 编写和维护相同代码的时间,
+[Kotlin Multiplatform](multiplatform.topic) 可以减少对 [不同的平台](multiplatform-dsl-reference.md#targets) 编写和维护相同代码的时间,
 又能同时保持原生程序开发的灵活性便利. 我们一直在努力开发各种跨平台的新功能特性和改进:
 
 * [使用层级项目结构在多个编译目标中共用代码](#sharing-code-in-several-targets-with-the-hierarchical-project-structure)
@@ -1532,8 +1532,3 @@ Kotlin plugin 的迁移工具, 可以帮助你将项目从更早的 Kotlin 版�
 Kotlin 1.4.0 是一个 [功能性发布版(Feature Release)](kotlin-evolution-principles.md#language-and-tooling-releases),
 因此会对语言带来一些不兼容的变更.
 关于这些变更的详情, 请参见 **[Kotlin 1.4 兼容性指南](compatibility-guide-14.md)**.
-
-<!-- ### 迁移跨平台项目
-
-为了帮助你在既有的项目中开始使用 [Kotlin multiplatform](#kotlin-multiplatform) 的新功能特性,
-我们发布了 [跨平台项目的迁移指南](multiplatform/multiplatform-hierarchy.html). -->

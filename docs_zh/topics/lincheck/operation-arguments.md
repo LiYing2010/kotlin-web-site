@@ -39,11 +39,8 @@ class MultiMap<K, V> {
 
    ```kotlin
    import java.util.concurrent.*
-   import org.jetbrains.kotlinx.lincheck.annotations.*
-   import org.jetbrains.kotlinx.lincheck.check
-   import org.jetbrains.kotlinx.lincheck.paramgen.*
-   import org.jetbrains.kotlinx.lincheck.strategy.stress.*
-   import org.jetbrains.kotlinx.lincheck.strategy.managed.modelchecking.*
+   import org.jetbrains.lincheck.check
+   import org.jetbrains.lincheck.datastructures.*
    import org.junit.*
 
    class MultiMap<K, V> {

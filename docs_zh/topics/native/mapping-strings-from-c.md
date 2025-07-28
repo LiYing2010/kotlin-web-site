@@ -152,7 +152,8 @@ fun passStringToC() {
 }
 ```
 
-这段代码中, `.toKString()` 扩展函数将 `return_string()` 函数返回的 C 字符串转换为 Kotlin 字符串.
+这段代码中, [`.toKString()`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlinx.cinterop/to-k-string.html)
+扩展函数将 `return_string()` 函数返回的 C 字符串转换为 Kotlin 字符串.
 
 Kotlin 提供了几个扩展函数, 用于将 C 的 `char *` 字符串转换为 Kotlin 字符串, 使用不同的编码:
 
@@ -192,7 +193,8 @@ fun sendString() {
 ```
 
 这段代码中, 一个 native 指针先被传递给 C 函数.
-`.usePinned` 扩展函数临时的固定住字节数组的 native 内存地址. C 函数向这个字节数组填充数据.
+[`.usePinned()`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlinx.cinterop/use-pinned.html)
+扩展函数临时的固定住字节数组的 native 内存地址. C 函数向这个字节数组填充数据.
 另一个扩展函数 `ByteArray.decodeToString()` 将字节数组转换为一个 Kotlin 字符串, 假设使用 UTF-8 编码.
 
 ## 更新 Kotlin 代码 {id="update-kotlin-code"}

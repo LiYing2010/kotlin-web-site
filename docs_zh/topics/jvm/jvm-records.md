@@ -2,7 +2,7 @@
 
 在 Java 中 _记录类(Record)_ 是用于存储不可变数据的 [类](https://openjdk.java.net/jeps/395).
 记录类携带一组固定的值 – _记录组件(Records Components)_.
-在 Java 中记录类的语法很简洁, 可以为你节省编写样板代码的时间:
+在 Java 中记录类的语法很简洁, 可以为你省去编写样板代码的时间:
 
 ```java
 // Java
@@ -62,12 +62,63 @@ data class Person(val name: String, val age: Int)
 * 不能是局部(local)类.
 * 类的主构造器的可见度必须与类本身相同.
 
-### 允许使用 JVM 记录类 {id="enabling-jvm-records"}
+### 允许使用 JVM 记录类 {id="enable-jvm-records"}
 
 对生成的 JVM 字节码, JVM 记录类要求的编译目标为 `16` 或更高版本.
 
 要明确指定字节码版本, 请在 [Gradle](gradle-compiler-options.md#attributes-specific-to-jvm)
 或 [Maven](maven.md#attributes-specific-to-jvm)中, 使用 `jvmTarget` 编译器选项.
+
+## 在 Kotlin 中标注记录组件 {id="annotate-record-components-in-kotlin"}
+
+<primary-label ref="experimental-general"/>
+
+在 Java 中, 记录组件上的 [注解](annotations.md) 会自动传递到后端域变量(Backing Field), 取值方法(Getter), 设值方法(Setter), 以及构造器参数.
+在 Kotlin 中， 你可以通过 [`all`](annotations.md#all-meta-target) 使用目标(Use-site Target)来复制这个动作.
+
+> 要使用 `all` 使用目标, 你需要标注使用者同意.
+> 可以使用 `-Xannotation-target-all` 编译器选项,
+> 或者向你的 `build.gradle.kts` 文件添加以下内容:
+>
+> ```kotlin
+> kotlin {
+>     compilerOptions {
+>         freeCompilerArgs.add("-Xannotation-target-all")
+>     }
+> }
+> ```
+>
+{style="warning"}
+
+例如:
+
+```kotlin
+@JvmRecord
+data class Person(val name: String, @all:Positive val age: Int)
+```
+
+当你将 `@JvmRecord` 和 `@all:` 一起使用时, Kotlin 会:
+
+* 将注解传递到属性, 后端域变量(Backing Field), 构造器参数, 取值方法(Getter)和设值方法(Setter).
+* 如果注解支持 Java 的 `RECORD_COMPONENT`, 还会将注解应用到记录组件.
+
+## 让注解与记录组件协同工作 {id="make-annotations-work-with-record-components"}
+
+要让一个 [注解](annotations.md) 能够同时用于 Kotlin 属性 **和** Java 记录组件,
+请向你的注解声明添加以下元注解:
+
+* 对 Kotlin: [`@Target`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.annotation/-target/index.html)
+* 对 Java 记录组件: [`@java.lang.annotation.Target`](https://docs.oracle.com/javase/8/docs/api/java/lang/annotation/Target.html)
+
+例如:
+
+```kotlin
+@Target(AnnotationTarget.CLASS, AnnotationTarget.PROPERTY)
+@java.lang.annotation.Target(ElementType.CLASS, ElementType.RECORD_COMPONENT)
+annotation class ExampleClass
+```
+
+现在 `@ExampleClass` 可以用于 Kotlin 类和属性, 也可以用于 Java 类和记录组件.
 
 ## 更多讨论 {id="further-discussion"}
 

@@ -115,3 +115,27 @@ class D : A, B {
 并且指明 *D* 具体应该如何实现各个方法.
 对于只继承得到了单个实现的方法(如上例中的 *bar()* 方法),
 以及继承得到了多个实现的方法(如上例中的 *foo()* 方法), 都存在这个限制.
+
+## 为接口函数生成 JVM 默认方法 {id="jvm-default-method-generation-for-interface-functions"}
+
+在 JVM 上, 接口中声明的函数会被编译为默认方法.
+你可以将 `-jvm-default` 编译器选项设置为下面的值, 来控制这个行为:
+
+* `enable` (默认值):
+  在接口中生成默认实现, 并在子类和 `DefaultImpls` 类中包含桥接函数(Bridge Function).
+  请使用这个模式来维持与旧 Kotlin 版本的二进制兼容性.
+* `no-compatibility`:
+  只在接口中生成默认实现.
+  这个模式会略过兼容性桥接函数和 `DefaultImpls` 类, 因此只适用于新的 Kotlin 代码.
+* `disable`:
+  略过默认方法, 只生成兼容性桥接函数和 `DefaultImpls` 类.
+
+要配置 `-jvm-default` 编译器选项, 请在你的 Gradle Kotlin DSL 中设置 `jvmDefault` 属性:
+
+```kotlin
+kotlin {
+    compilerOptions {
+        jvmDefault = JvmDefaultMode.NO_COMPATIBILITY
+    }
+}
+```

@@ -575,7 +575,7 @@ Kotlin 工具链会提供正确的默认依赖项, 比如 Kotlin/Native 标准�
 
   详情请参见 [构建 XCFramework](multiplatform-build-native-binaries.md#build-xcframeworks).
 
-* 如果在你的项目中使用 [CocoaPods 集成](native-cocoapods.md), 过去你需要对整个 Gradle 项目指定需要的 Pod 版本.
+* 如果在你的项目中使用 [CocoaPods 集成](multiplatform-cocoapods-overview.md), 过去你需要对整个 Gradle 项目指定需要的 Pod 版本.
   现在有了更多选择:
   * 在 `cocoapods` 代码块中直接指定 Pod 版本
   * 继续使用 Gradle 项目版本
@@ -599,7 +599,7 @@ kotlin {
 }
 ```
 
-关于 Kotlin CocoaPods Gradle plugin 的完整信息, 请参见 [DSL 参考文档](native-cocoapods-dsl-reference.md).
+关于 Kotlin CocoaPods Gradle plugin 的完整信息, 请参见 [DSL 参考文档](multiplatform-cocoapods-dsl-reference.md).
 
 ## Kotlin/JS
 

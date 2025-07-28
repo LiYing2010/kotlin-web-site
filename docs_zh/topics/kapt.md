@@ -9,18 +9,24 @@
 Kotlin 使用 _kapt_ 编译器插件来支持注解处理器(参见 [JSR 269](https://jcp.org/en/jsr/detail?id=269)).
 译注: kapt 是 "Kotlin annotation processing tool" 的缩写
 
-简单地说, 你可以在 Kotlin 项目中使用
-[Dagger](https://google.github.io/dagger/)
-或
-[Data Binding](https://developer.android.com/topic/libraries/data-binding/index.html)
-之类的库.
+简单地说, kapt 可以启用基于 Java 的注解处理, 帮助你在 Kotlin 项目中使用
+[Dagger](https://google.github.io/dagger/) 和 [Data Binding](https://developer.android.com/topic/libraries/data-binding/index.html) 之类的库.
 
-关于如何在你的 Gradle/Maven 编译脚本中使用 *kapt* 插件, 请阅读下文.
+> 如果你在将 kapt 和 K2 编译器一起使用时遇到任何问题,
+> 请到我们的 [问题追踪系统](http://kotl.in/issue) 提交报告,
+> 并在你的 `gradle.properties` 文件中禁用 K2 模式:
+>
+> ```properties
+> kapt.use.k2=false
+> ```
+>
+{style="note"}
 
 ## 在 Gradle 中使用 {id="use-in-gradle"}
 
-执行以下步骤:
-1. 应用 `kotlin-kapt` Gradle plugin:
+要在 Gradle 中使用 kapt, 请执行以下步骤:
+
+1. 在你的构建脚本文件 `build.gradle(.kts)` 中应用 `kapt` Gradle plugin:
 
    <tabs group="build-script">
    <tab title="Kotlin" group-key="kotlin">
@@ -43,7 +49,7 @@ Kotlin 使用 _kapt_ 编译器插件来支持注解处理器(参见 [JSR 269](ht
    </tab>
    </tabs>
 
-2. 在你的 `dependencies` 块中使用 `kapt` 配置来添加对应的依赖:
+2. 在 `dependencies {}` 代码段中使用 `kapt` 配置来添加对应的依赖:
 
    <tabs group="build-script">
    <tab title="Kotlin" group-key="kotlin">
@@ -75,43 +81,11 @@ Kotlin 使用 _kapt_ 编译器插件来支持注解处理器(参见 [JSR 269](ht
    注意, `kaptAndroidTest` 和 `kaptTest` 从 `kapt` 继承而来,
    因此你只需要提供 `kapt` 的依赖项, 它可以同时用于产品代码和测试代码.
 
-## 试用 Kotlin K2 编译器 {id="try-kotlin-k2-compiler"}
-
-> kapt 编译器插件对 K2 编译器的支持是 [实验性功能](components-stability.md).
-> 需要使用者同意(Opt-in) (详情见下文),
-> 你应该只为评估和试验目的来使用这个功能.
->
-{style="warning"}
-
-从 Kotlin 1.9.20 开始, 你可以对 [K2 编译器](https://blog.jetbrains.com/kotlin/2021/10/the-road-to-the-k2-compiler/) 试用 kapt 编译器插件,
-K2 编译器带来了性能改进和很多其它优点. 要在你的 Gradle 项目中使用 K2 编译器, 请在你的 `gradle.properties` 文件中添加以下选项:
-
-```kotlin
-kapt.use.k2=true
-```
-
-如果你使用的是 Maven 构建系统, 请更新你的 `pom.xml` 文件:
-
-```xml
-<configuration>
-    ...
-    <args>
-        <arg>-Xuse-k2-kapt</arg>
-    </args>
-</configuration>
-```
-
-> 要在你的 Maven 项目中启用 kapt plugin, 请参见 [](#use-in-maven).
->
-{style="tip"}
-
-如果你在对 K2 编译器使用 kapt 插件时遇到任何问题, 请报告到我们的 [问题追踪系统](http://kotl.in/issue).
-
 ## 注解处理器的参数 {id="annotation-processor-arguments"}
 
-可以使用 `arguments {}` 代码段来传递参数给注解处理器:
+在你的构建脚本文件 `build.gradle(.kts)` 中, 可以使用 `arguments {}` 代码段, 传递参数给注解处理器:
 
-```groovy
+```kotlin
 kapt {
     arguments {
         arg("key", "value")
@@ -121,9 +95,10 @@ kapt {
 
 ## 支持 Gradle 编译缓存 {id="gradle-build-cache-support"}
 
-kapt 注解处理任务默认情况下不会 [被 Gradle 缓存](https://guides.gradle.org/using-build-cache/).
-因为注解处理器可以运行任意代码, 并不一定只是将编译任务的输入文件转换为输出文件, 它还可能访问并修改未被 Gradle 追踪的其他文件.
-如果确实需要为 kapt 启用 Gradle 编译缓存, 请将以下代码加入到你的编译脚本中:
+kapt 注解处理任务默认情况下会 [被 Gradle 缓存](https://guides.gradle.org/using-build-cache/).
+但是, 注解处理器可以运行任意代码, 这些代码可能不能可靠的将编译任务的输入文件转换为输出文件, 还可能访问和修改 Gradle 没有追踪的文件.
+如果构建中使用的注解处理器不能正确的被 Gradle 缓存, 你可以在构建脚本中指定 `useBuildCache` 属性, 对 kapt 完全禁用缓存.
+这样可以防止对 kapt 任务使用错误的缓存:
 
 ```groovy
 kapt {
@@ -170,17 +145,15 @@ tasks.withType(org.jetbrains.kotlin.gradle.internal.KaptWithoutKotlincTask.class
 
 ### 注解处理器的 classloader 缓存 {id="caching-for-annotation-processors-classloaders"}
 
-> 在 kapt 中, 注解处理器的 classloader 缓存是 [实验性功能](components-stability.md).
-> 它随时有可能变更或被删除. 请注意, 只为评估和试验目的来使用这个功能.
-> 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-28901) 提供你的反馈意见.
->
-{style="warning"}
+<primary-label ref="experimental-general"/>
 
 如果连续执行很多 Gradle 任务, 注解处理器的 classloader 缓存功能可以帮助 kapt 提高运行速度.
 
 要启用这个功能, 可以在你的 `gradle.properties` 文件中使用以下属性:
 
-```none
+```properties
+# gradle.properties
+#
 # 正数值会启用缓存功能
 # 请在这里指定与使用 kapt 的模块数相同的数字
 kapt.classloaders.cache.size=5
@@ -191,14 +164,19 @@ kapt.include.compile.classpath=false
 
 如果你遇到与注解处理器缓存相关的问题, 可以对这些处理器关闭缓存:
 
-```none
+```properties
 # 在这里指定注解处理器的完整名称, 可以对这些处理器关闭缓存
 kapt.classloaders.cache.disableForProcessors=[注解处理器的完整名称]
 ```
 
+> 如果你遇到与这个功能相关的任何问题,
+> 希望你能通过 [YouTrack](https://youtrack.jetbrains.com/issue/KT-28901) 提供你的反馈.
+>
+{style="note"}
+
 ### 测量注解处理器的性能 {id="measure-performance-of-annotation-processors"}
 
-可以使用 `-Kapt-show-processor-timings` plugin 选项得到注解处理器执行时的性能统计.
+要得到注解处理器执行时的性能统计, 请使用 `-Kapt-show-processor-timings` plugin 选项.
 输出示例:
 
 ```text
@@ -226,33 +204,36 @@ sample/src/main/
 
 ### 测量注解处理器生成的文件数量 {id="measure-the-number-of-files-generated-with-annotation-processors"}
 
-`kotlin-kapt` Gradle plugin 可以对每个注解处理器统计生成的文件数量.
+`kapt` Gradle plugin 可以对每个注解处理器统计生成的文件数量.
 
-这个功能可以用于追踪构建过程中是否存在未使用的注解处理器.
+这个功能可以用于追踪构建过程中是否包含未使用的注解处理器.
 你可以使用生成的报告来寻找哪些模块触发了不必要的注解处理器, 然后更新这些模块, 不再触发这些注解处理器.
 
-使用以下步骤启用这个统计功能:
-* 在你的 `build.gradle(.kts)` 文件中, 将 `showProcessorStats` flag 设置为 `true`:
+启用统计报告功能的步骤如下:
 
-  ```kotlin
-  kapt {
-      showProcessorStats = true
-  }
-  ```
+1. 在你的 `build.gradle(.kts)` 文件中, 将 `showProcessorStats` 属性值设置为 `true`:
 
-* 在你的 `gradle.properties` 文件中, 将 `kapt.verbose` Gradle 属性设置为 `true`:
+   ```kotlin
+   // build.gradle.kts
+   kapt {
+       showProcessorStats = true
+   }
+   ```
 
-  ```none
-  kapt.verbose=true
-  ```
+2. 在你的 `gradle.properties` 文件中, 将 `kapt.verbose` Gradle 属性设置为 `true`:
+
+   ```properties
+   # gradle.properties
+   kapt.verbose=true
+   ```
 
 > 也可以使用 [命令行选项 `verbose`](#use-in-cli) 启用 verbose 输出.
 >
 {style="note"}
 
-统计结果将出现在日志中, 级别为 `info`.
-你将会看到 `Annotation processor stats:` 行, 之后是每个注解处理器的执行时间统计.
-再后面, 将是 `Generated files report:` 行, 之后是每个注解处理器生成的文件数量统计.
+统计结果出现在日志中, 级别为 `info`.
+你会看到 `Annotation processor stats:` 行, 之后是每个注解处理器的执行时间统计.
+再后面, 是 `Generated files report:` 行, 之后是每个注解处理器生成的文件数量统计.
 比如:
 
 ```text
@@ -275,21 +256,22 @@ sample/src/main/
 但是, 编译回避不能用于编译类路径中发现的注解处理器, 因为它们的 _任何变更_ 都需要运行注解处理任务.
 
 要使用编译回避模式运行 kapt, 你需要:
-* 对 `kapt*` 配置手工添加注解处理器依赖项目, 具体方法参见 [上文](#use-in-gradle).
-* 不要在编译类路径中查找注解处理器, 方法是在你的 `gradle.properties` 文件中添加以下代码:
+* [对 `kapt*` 配置手工添加注解处理器依赖项目](#use-in-gradle).
+* 在 `gradle.properties` 文件中关闭在编译类路径中查找注解处理器:
 
-```none
-kapt.include.compile.classpath=false
-```
+   ```properties
+   # gradle.properties
+   kapt.include.compile.classpath=false
+   ```
 
 ## 增量式(Incremental)注解处理 {id="incremental-annotation-processing"}
 
-kapt 支持增量式(Incremental)注解处理, 这个功能默认启用.
+kapt 默认支持增量式(Incremental)注解处理.
 目前, 只有当所有注解处理器都以增量模式使用时, 注解处理才可以增量式运行.
 
 要关闭增量式注解处理, 请在你的 `gradle.properties` 文件添加以下代码:
 
-```none
+```properties
 kapt.incremental.apt=false
 ```
 
@@ -387,17 +369,6 @@ kapt {
 <configuration>
     ...
     <aptMode>stubs</aptMode>
-</configuration>
-```
-
-要对 K2 编译器启用 kapt plugin, 请添加 `-Xuse-k2-kapt` 编译器选项:
-
-```xml
-<configuration>
-    ...
-    <args>
-        <arg>-Xuse-k2-kapt</arg>
-    </args>
 </configuration>
 ```
 

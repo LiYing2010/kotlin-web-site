@@ -223,9 +223,9 @@ tasks.named('compileKotlin', KotlinCompilationTask) {
 <tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
-sourceSets {
-    all {
-        languageSettings.optIn("org.mylibrary.OptInAnnotation")
+kotlin {
+    compilerOptions {
+        optIn.add("org.mylibrary.OptInAnnotation")
     }
 }
 ```
@@ -234,11 +234,9 @@ sourceSets {
 <tab title="Groovy" group-key="groovy">
 
 ```groovy
-sourceSets {
-    all {
-        languageSettings {
-            optIn('org.mylibrary.OptInAnnotation')
-        }
+kotlin {
+    compilerOptions {
+        optIn.add('org.mylibrary.OptInAnnotation')
     }
 }
 ```

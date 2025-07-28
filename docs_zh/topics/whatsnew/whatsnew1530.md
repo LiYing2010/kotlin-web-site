@@ -590,7 +590,7 @@ kotlin {
 ### 对 Android artifact 的新的默认发布设置 {id="new-default-publishing-setup-for-android-artifacts"}
 
 使用 `maven-publish` Gradle plugin, 你可以在构建脚本中指定 [Android 变体](https://developer.android.com/studio/build/build-variants) 名称,
-[对 Android 编译目标发布你的跨平台库](multiplatform-publish-lib.md#publish-an-android-library).
+[对 Android 编译目标发布你的跨平台库](multiplatform-publish-lib-setup.md#publish-an-android-library).
 Kotlin Gradle plugin 会自动生成发布.
 
 在 1.5.30 之前, 生成的发布 [metadata](https://docs.gradle.org/current/userguide/publishing_gradle_module_metadata.html)

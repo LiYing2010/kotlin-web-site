@@ -216,7 +216,7 @@ libraryPaths = /opt/local/lib /usr/local/opt/curl/lib
 ### 帮助解决链接器错误 {id="help-resolve-linker-errors"}
 
 当一个 Kotlin 库依赖于一个 C 或 Objective-C 库时, 可能会发生链接器错误,
-例如, 使用 [CocoaPods 集成](native-cocoapods.md) 的情况.
+例如, 使用 [CocoaPods 集成](multiplatform-cocoapods-overview.md) 的情况.
 如果依赖的库在当前机器上没有安装, 在项目的构建脚本中也没有明确的配置, 就会发生 "Framework not found" 错误.
 
 如果你是库的作者, 你可以通过自定义消息来帮助你的使用者解决链接器错误.

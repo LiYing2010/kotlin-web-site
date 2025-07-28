@@ -69,7 +69,7 @@ fun main() {
 结果是编译器会报告错误:
 
 ```text
-Type mismatch: inferred type is String? but String was expected
+Argument type mismatch: actual type is 'String?', but 'String' was expected.
 ```
 
 在初学者教程中, 你已经知道了可以使用 if 条件, 或使用 [Elvis 操作符 `?:`](kotlin-tour-null-safety.md#use-elvis-operator), 执行 null 值检查.

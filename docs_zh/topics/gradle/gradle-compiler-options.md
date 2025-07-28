@@ -15,12 +15,12 @@ JVM, JavaScript, 以及 [支持的平台的](native-overview.md#target-platforms
 Kotlin 编译器带有很多选项, 用来定制编译过程.
 
 Gradle DSL 可以对编译器选项进行全面的配置.
-可以用于 [Kotlin Multiplatform](multiplatform-dsl-reference.md) 和 [JVM/Android](#target-the-jvm) 项目.
+可以用于 [Kotlin Multiplatform](multiplatform-dsl-reference.md#compiler-options) 和 [JVM/Android](#target-the-jvm) 项目.
 
 使用 Gradle DSL, 你可以在构建脚本的 3 个层级配置编译器选项:
-* **[扩展层级(Extension Level)](#extension-level)**, 在 `kotlin {}` 代码块之内, 用于所有的编译目标和共用源代码集.
-* **[编译目标层级(Target Level)](#target-level)**, 在特定的编译目标的代码块之内.
-* **[编译单元层级(Compilation Unit Level)](#compilation-unit-level),** 通常在特定的编译任务之内.
+* **[扩展层级(Extension Level)](#extension-level)**, 在 `kotlin {}` 代码段之内, 用于所有的编译目标和共用源代码集.
+* **[编译目标层级(Target Level)](#target-level)**, 在特定的编译目标的代码段之内.
+* **[编译单元层级(Compilation Unit Level)](#compilation-unit-level)**, 通常在特定的编译任务之内.
 
 ![Kotlin 编译器选项层级](compiler-options-levels.svg){width=700}
 
@@ -48,7 +48,7 @@ Gradle DSL 可以对编译器选项进行全面的配置.
 
 ### 扩展层级(Extension Level) {id="extension-level"}
 
-可以在最顶层的 `compilerOptions {}` 代码块之内,
+可以在最顶层的 `compilerOptions {}` 代码段之内,
 对所有编译目标和共用源代码集配置共通的编译器选项:
 
 ```kotlin
@@ -61,7 +61,7 @@ kotlin {
 
 ### 编译目标层级(Target Level) {id="target-level"}
 
-可以在 `target {}` 代码块内的 `compilerOptions {}` 代码块之内,
+可以在 `target {}` 代码段内的 `compilerOptions {}` 代码段之内,
 对 JVM/Android 编译目标配置编译器选项:
 
 ```kotlin
@@ -80,7 +80,7 @@ kotlin {
 
 ### 编译单元层级(Compilation Unit Level) {id="compilation-unit-level"}
 
-可以在 task 配置内的 `compilerOptions {}` 代码块之内,
+可以在 task 配置内的 `compilerOptions {}` 代码段之内,
 对特定的编译单元或 task 配置编译器选项:
 
 ```Kotlin
@@ -99,7 +99,7 @@ kotlin {
         val main by compilations.getting {
             compileTaskProvider.configure {
                 compilerOptions {
-
+                    optIn.add("kotlin.RequiresOptIn")
                 }
             }
         }
@@ -136,6 +136,351 @@ tasks.named('compileKotlin', org.jetbrains.kotlin.gradle.tasks.KotlinCompilation
 </tab>
 </tabs>
 
+### 从 `kotlinOptions {}` 迁移到 `compilerOptions {}` {id="migrate-from-kotlinoptions-to-compileroptions" initial-collapse-state="collapsed" collapsible="true"}
+
+在 Kotlin 2.2.0 之前, 可以使用 `kotlinOptions {}` 代码段配置编译器选项.
+由于从 Kotlin 2.0.0 开始 `kotlinOptions {}` 代码段已被废弃,
+关于迁移构建脚本, 改为使用 `compilerOptions {}` 代码段, 本节提供一些指南和建议:
+
+* [集中编译器选项并使用类型](#centralize-compiler-options-and-use-types)
+* [从 `android.kotlinOptions` 迁移](#migrate-away-from-android-kotlinoptions)
+* [迁移 `freeCompilerArgs`](#migrate-freecompilerargs)
+
+#### 集中编译器选项并使用类型 {id="centralize-compiler-options-and-use-types"}
+
+只要有可能, 要尽量在 [扩展层级(Extension Level)](#extension-level) 配置编译器选项,
+并在 [编译单元层级(Compilation Unit Level)](#compilation-unit-level), 对特定的 task 覆盖它们.
+
+在 `compilerOptions {}` 代码段中不能使用原始字符串, 因此要转换为有类型的值.
+例如, 如果你的配置如下:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+plugins {
+    kotlin("jvm") version "%kotlinVersion%"
+}
+
+tasks.withType<KotlinCompile>().configureEach {
+    kotlinOptions {
+        jvmTarget = "%jvmLTSVersionSupportedByKotlin%"
+        languageVersion = "%languageVersion%"
+        apiVersion = "%apiVersion%"
+    }
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```kotlin
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '%kotlinVersion%'
+}
+
+tasks.withType(KotlinCompile).configureEach {
+    kotlinOptions {
+        jvmTarget = '%jvmLTSVersionSupportedByKotlin%'
+        languageVersion = '%languageVersion%'
+        apiVersion = '%apiVersion%'
+    }
+}
+```
+
+</tab>
+</tabs>
+
+迁移之后, 应该是:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+plugins {
+    kotlin("jvm") version "%kotlinVersion%"
+}
+
+kotlin {
+    // 扩展层级
+    compilerOptions {
+        jvmTarget = JvmTarget.fromTarget("%jvmLTSVersionSupportedByKotlin%")
+        languageVersion = KotlinVersion.fromVersion("%languageVersion%")
+        apiVersion = KotlinVersion.fromVersion("%apiVersion%")
+    }
+}
+
+// 在编译单元层级进行覆盖的示例
+tasks.named<KotlinJvmCompile>("compileKotlin"){
+    compilerOptions {
+        apiVersion = KotlinVersion.fromVersion("%apiVersion%")
+    }
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```kotlin
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '%kotlinVersion%'
+}
+
+kotlin {
+  // 扩展层级
+    compilerOptions {
+        jvmTarget = JvmTarget.fromTarget("%jvmLTSVersionSupportedByKotlin%")
+        languageVersion = KotlinVersion.fromVersion("%languageVersion%")
+        apiVersion = KotlinVersion.fromVersion("%apiVersion%")
+    }
+}
+
+// 在编译单元层级进行覆盖的示例
+tasks.named("compileKotlin", KotlinJvmCompile).configure {
+    compilerOptions {
+        apiVersion = KotlinVersion.fromVersion("%apiVersion%")
+    }
+}
+```
+
+</tab>
+</tabs>
+
+#### 从 `android.kotlinOptions` 迁移 {id="migrate-away-from-android-kotlinoptions"}
+
+如果你的构建脚本之前使用了 `android.kotlinOptions`, 请迁移到 `kotlin.compilerOptions`.
+无论是在扩展层级(Extension Level)还是在编译目标层级(Target Level).
+
+例如, 如果你的 Android 项目配置如下:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+plugins {
+    id("com.android.application")
+    kotlin("android")
+}
+
+android {
+    kotlinOptions {
+        jvmTarget = "%jvmLTSVersionSupportedByKotlin%"
+    }
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```kotlin
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    kotlinOptions {
+        jvmTarget = '%jvmLTSVersionSupportedByKotlin%'
+    }
+}
+```
+</tab>
+</tabs>
+
+请更新为:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+plugins {
+    id("com.android.application")
+    kotlin("android")
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.fromTarget("%jvmLTSVersionSupportedByKotlin%")
+    }
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```kotlin
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.fromTarget("%jvmLTSVersionSupportedByKotlin%")
+    }
+}
+```
+
+</tab>
+</tabs>
+
+此外, 如果你的 Kotlin Multiplatform 项目, 带有 Android 编译目标, 配置如下:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+plugins {
+    kotlin("multiplatform")
+    id("com.android.application")
+}
+
+kotlin {
+    androidTarget {
+        compilations.all {
+            kotlinOptions.jvmTarget = "%jvmLTSVersionSupportedByKotlin%"
+        }
+    }
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```kotlin
+plugins {
+    id 'org.jetbrains.kotlin.multiplatform'
+    id 'com.android.application'
+}
+
+kotlin {
+    androidTarget {
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = '%jvmLTSVersionSupportedByKotlin%'
+            }
+        }
+    }
+}
+```
+
+</tab>
+</tabs>
+
+请更新为:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+plugins {
+    kotlin("multiplatform")
+    id("com.android.application")
+}
+
+kotlin {
+    androidTarget {
+        compilerOptions {
+            jvmTarget = JvmTarget.fromTarget("%jvmLTSVersionSupportedByKotlin%")
+        }
+    }
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```kotlin
+plugins {
+    id 'org.jetbrains.kotlin.multiplatform'
+    id 'com.android.application'
+}
+
+kotlin {
+    androidTarget {
+        compilerOptions {
+            jvmTarget = JvmTarget.fromTarget("%jvmLTSVersionSupportedByKotlin%")
+        }
+    }
+}
+```
+
+</tab>
+</tabs>
+
+#### 迁移 `freeCompilerArgs` {id="migrate-freecompilerargs"}
+
+* 将所有的 `+=` 操作替换为 `add()` 或 `addAll()` 函数.
+* 如果使用了 `-opt-in` 编译器选项, 请在 [KGP API 参考文档](https://kotlinlang.org/api/kotlin-gradle-plugin/kotlin-gradle-plugin-api/)
+  中检查是否已经有专用的 DSL 可用, 如果有, 请改为使用 DSL.
+* 将所有的 `-progressive` 编译器选项迁移到使用专用的 DSL: `progressiveMode.set(true)`.
+* 将所有的 `-Xjvm-default` 编译器选项迁移到 [使用专用的 DSL](gradle-compiler-options.md#attributes-specific-to-jvm): `jvmDefault.set()`.
+  选项的对应关系如下:
+
+  | 之前                                | 之后                                                |
+  |-----------------------------------|---------------------------------------------------|
+  | `-Xjvm-default=all-compatibility` | `jvmDefault.set(JvmDefaultMode.ENABLE)`           |
+  | `-Xjvm-default=all`               | `jvmDefault.set(JvmDefaultMode.NO_COMPATIBILITY)` | 
+  | `-Xjvm-default=disable`           | `jvmDefault.set(JvmDefaultMode.DISABLE)`          |
+
+例如, 如果你的配置如下:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+kotlinOptions {
+    freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
+    freeCompilerArgs += listOf("-Xcontext-receivers", "-Xinline-classes", "-progressive", "-Xjvm-default=all")
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```kotlin
+kotlinOptions {
+    freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
+    freeCompilerArgs += ["-Xcontext-receivers", "-Xinline-classes", "-progressive", "-Xjvm-default=all"]
+}
+```
+
+</tab>
+</tabs>
+
+请迁移到:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+kotlin {
+    compilerOptions {
+        optIn.add("kotlin.RequiresOptIn")
+        freeCompilerArgs.addAll(listOf("-Xcontext-receivers", "-Xinline-classes"))
+        progressiveMode.set(true)
+        jvmDefault.set(JvmDefaultMode.NO_COMPATIBILITY)
+    }
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```kotlin
+kotlin {
+    compilerOptions {
+        optIn.add("kotlin.RequiresOptIn")
+        freeCompilerArgs.addAll(["-Xcontext-receivers", "-Xinline-classes"])
+        progressiveMode.set(true)
+        jvmDefault.set(JvmDefaultMode.NO_COMPATIBILITY)
+    }
+}
+```
+
+</tab>
+</tabs>
+
 ## JVM 目标平台 {id="target-the-jvm"}
 
 [如上文所述](#how-to-define-options), 你可以对你的 JVM/Android 项目在扩展, 编译目标, 和编译单元层级(任务)定义编译器选项.
@@ -148,7 +493,6 @@ tasks.named('compileKotlin', org.jetbrains.kotlin.gradle.tasks.KotlinCompilation
 
 有一些重要的细节需要注意:
 
-* `android.kotlinOptions` 和 `kotlin.compilerOptions` 配置代码块会相互覆盖. 只有最后出现的 (最下方的) 代码块会起作用.
 * `kotlin.compilerOptions` 会配置项目中所有的 Kotlin 编译任务.
 * 你可以使用 `tasks.named<KotlinJvmCompile>("compileKotlin") { }`
   (或 `tasks.withType<KotlinJvmCompile>().configureEach { }`) 来由覆盖 `kotlin.compilerOptions` DSL 提供的配置.
@@ -244,9 +588,10 @@ Gradle 编译器所支持的选项完整列表如下:
 | 属性名称                      | 描述                                                                                                                                                        | 可以选择的值                                                                          | 默认值                         |
 |---------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|-----------------------------|
 | `javaParameters`          | 为 Java 1.8 的方法参数反射功能生成 metadata                                                                                                                           |                                                                                 | false                       |
-| `jvmTarget`               | 指定编译输出的 JVM 字节码的版本                                                                                                                                        | "1.8", "9", "10", ..., "22", "23". 参见 [编译器选项的数据类型](#types-for-compiler-options) | "%defaultJvmTargetVersion%" |
+| `jvmTarget`               | 指定编译输出的 JVM 字节码的版本                                                                                                                                        | "1.8", "9", "10", ..., "23", "24". 参见 [编译器选项的数据类型](#types-for-compiler-options) | "%defaultJvmTargetVersion%" |
 | `noJdk`                   | 不要自动将 Java 运行库包含到 classpath 内                                                                                                                             |                                                                                 | false                       |
 | `jvmTargetValidationMode` | 验证 Kotlin 和 Java 编译任务的 [JVM 编译目标兼容性](gradle-configure-project.md#check-for-jvm-target-compatibility-of-related-compile-tasks). 适用于 `KotlinCompile` 类型的任务. | `WARNING`, `ERROR`, `IGNORE`                                                    | `ERROR`                     |
+| `jvmDefault`              | 控制接口中定义的函数如何编译为 JVM 上的默认方法                                                                                                                                | `ENABLE`, `NO_COMPATIBILITY`, `DISABLE`                                         | `ENABLE`                    |
 
 ### JVM, 和 JavaScript 任务支持的共通属性 {id="attributes-common-to-jvm-and-javascript"}
 

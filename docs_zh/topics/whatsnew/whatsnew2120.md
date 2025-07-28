@@ -4,9 +4,9 @@ _[发布日期: 2025/03/20](releases.md#release-details)_
 
 Kotlin 2.1.20 已经发布了! 以下是它的一些最重要的功能:
 
-* **K2 编译器 更新**: [对新的 kapt 和 Lombok plugin 的更新](#kotlin-k2-compiler)
+* **K2 编译器更新**: [对新的 kapt 和 Lombok plugin 的更新](#kotlin-k2-compiler)
 * **Kotlin Multiplatform**: [替代 Gradle 的 Application plugin 的新 DSL](#kotlin-multiplatform-new-dsl-to-replace-gradle-s-application-plugin)
-* **Kotlin/Native**: [新的内联(inlining)优化](#new-inlining-optimization)
+* **Kotlin/Native**: [支持 Xcode 16.3, 以及新的内联(inlining)优化](#kotlin-native)
 * **Kotlin/Wasm**: [默认使用自定义格式(Custom Formatter), 支持 DWARF, 以及迁移到 Provider API](#kotlin-wasm)
 * **Gradle 支持**: [兼容 Gradle 的隔离项目(Isolated Project)和自定义发布变体(Publication Variant)](#gradle)
 * **标准库**: [共通的原子类型, UUID 支持的改进, 以及新的时间追踪功能](#standard-library)
@@ -15,7 +15,7 @@ Kotlin 2.1.20 已经发布了! 以下是它的一些最重要的功能:
 
 ## IDE 支持 {id="ide-support"}
 
-最新的 IntelliJ IDEA 和 Android Studio 中绑定了支持 2.1.20 的 Kotlin plugin.
+最新版的 IntelliJ IDEA 和 Android Studio 中绑定了支持 2.1.20 的 Kotlin plugin.
 你不需要在你的 IDE 中更新 Kotlin plugin.
 你需要做的只是在你的构建脚本中将 Kotlin 版本修改为 2.1.20.
 
@@ -114,7 +114,17 @@ kotlin {
 
 如果遇到问题, 请在我们的 [问题追踪系统](https://kotl.in/issue) 中提交报告, 或在我们的 [公开 Slack 频道](https://kotlinlang.slack.com/archives/C19FD9681) 中通知我们.
 
-## Kotlin/Native: 新的内联(inlining)优化 {id="new-inlining-optimization"}
+## Kotlin/Native {id="kotlin-native"}
+
+### 支持 Xcode 16.3 {id="support-for-xcode-16-3"}
+
+从 Kotlin **2.1.21** 开始, Kotlin/Native 编译器支持 Xcode 16.3 – Xcode 的最新稳定版.
+你可以更新你的 Xcode, 继续在 Apple 操作系统上开发你的 Kotlin 项目.
+
+2.1.21 发布版还修正了相关的 [cinterop 问题](https://youtrack.jetbrains.com/issue/KT-75781/),
+这个问题会导致 Kotlin Multiplatform 项目编译失败.
+
+### 新的内联(inlining)优化 {id="new-inlining-optimization"}
 <primary-label ref="experimental-opt-in"/>
 
 Kotlin 2.1.20 引入了新的内联优化过程, 这个过程发生在实际的代码生成阶段之前.
@@ -523,10 +533,10 @@ Compose 编译器 Gradle plugin 在 Android 中已经默认启用了 [包含源�
 
 * 为了让 Kotlin Multiplatform 与 Gradle 中即将推出的变更保持一致, 我们会逐步废弃 `withJava()` 函数.
   [现在会默认创建 Java 源代码集](multiplatform-compatibility-guide.md#java-source-sets-created-by-default).
-
+  如果你使用 [Java test fixtures](https://docs.gradle.org/current/userguide/java_testing.html#sec:java_test_fixtures) Gradle plugin,
+  请直接升级到 [Kotlin 2.1.21](releases.md#release-details), 以免发生兼容性问题.
 * JetBrains 开发组正在逐步废弃 `kotlin-android-extensions` plugin.
   如果试图在你的项目中使用它, 现在会发生配置错误, 不会执行任何 plugin 代码.
-
 * 旧的 `kotlin.incremental.classpath.snapshot.enabled` 属性已从 Kotlin Gradle plugin 中删除.
   过去这个属性用来在 JVM 上提供回退到内建的 ABI 快照的功能.
   plugin 现在使用其它方法来检测, 并避免不必要的重编译, 因此淘汰了这个属性.

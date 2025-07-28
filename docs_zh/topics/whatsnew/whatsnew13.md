@@ -24,12 +24,12 @@ Kotlin 1.3 继续改进对原生程序开发的. 详情请参见 [Kotlin/Native 
   * 在旧模式中, 共通代码和平台相关代码需要放在不同的模块中, 然后使用 `expectedBy` 依赖项导入.
     现在, 共通代码和平台相关代码放在同一模块的不同源代码路径中, 项目配置变得更加容易.
   * 对于支持的各种目标平台, 现在有了大量的 [预定义平台配置](multiplatform-dsl-reference.md#targets).
-  * [依赖项配置](multiplatform-add-dependencies.md)有了变化; 现在以各个源代码路径为单位分别指定依赖项.
+  * [依赖项配置](multiplatform-add-dependencies.md) 有了变化; 现在以各个源代码路径为单位分别指定依赖项.
   * 源代码集现在可以在任意一部分平台之间共用(比如, 在编译目标平台为 JS, Android 和 iOS 的模块中,
     你可以让某个源代码集只在 Android 和 iOS 平台中共用).
-  * 现在支持 [发布跨平台的库](multiplatform-publish-lib.md).
+  * 现在支持 [发布跨平台的库](multiplatform-publish-lib-setup.md).
 
-更多详细信息, 请参见 [跨平台程序开发文档](multiplatform-intro.md).
+更多详细信息, 请参见 [跨平台程序开发文档](multiplatform.topic).
 
 ## 契约(Contract)
 

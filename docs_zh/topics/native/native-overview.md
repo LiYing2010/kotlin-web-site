@@ -60,7 +60,7 @@ Kotlin/Native 包含一组预构建的 [平台库](native-platform-libs.md), 能
 POSIX, gzip, OpenGL, Metal, Foundation, 以及很多其它流行的库和 Apple 框架都已预先导入,
 并作为 Kotlin/Native 库包含在编译器包中.
 
-Kotlin/Native 是 [Kotlin Multiplatform](multiplatform-intro.md) 技术的一部分,
+Kotlin/Native 是 [Kotlin Multiplatform](multiplatform.topic) 技术的一部分,
 Kotlin Multiplatform 能够帮助你在多个不同的平台上共用代码, 包括 Android, iOS, JVM, Web, 以及原生平台.
 跨平台库为共通的 Kotlin 代码提供了必要的 API, 帮助我们用 Kotlin 代码编写项目中共通的部分, 这些代码只需要编写一次.
 

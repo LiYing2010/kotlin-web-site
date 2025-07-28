@@ -53,32 +53,24 @@
 
 ## EAP 版本 {id="build-details"}
 
-<!--_No preview versions are currently available._-->  
+_目前没有预览版._
 
+<!--
 <table>
     <tr>
         <th>版本</th>
         <th>重要功能</th>
     </tr>
     <tr>
-        <td><strong>2.2.0-Beta2</strong>
-            <p>发布日期: <strong>2025/04/30</strong></p>
-            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v2.2.0-Beta2" target="_blank">GitHub 上的 Release 页面</a></p>
+        <td><strong>2.2.0-RC3</strong>
+            <p>发布日期: <strong>2025/06/16</strong></p>
+            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v2.2.0-RC3" target="_blank">GitHub 上的 Release 页面</a></p>
         </td>
         <td>
             <p>一个语言发布版, 包括新功能特性和工具更新的预览.</p>
-            <p>更多详情请参见 <a href="https://github.com/JetBrains/kotlin/releases/tag/v2.2.0-Beta2">changelog</a>
-               或 <a href="whatsnew-eap.md">Kotlin 2.2.0-Beta2 版中的新功能</a>.</p>
+            <p>更多详情请参见 <a href="https://github.com/JetBrains/kotlin/releases/tag/v2.2.0-RC3">changelog</a>
+               或 <a href="whatsnew-eap.md">Kotlin 2.2.0-RC3 版中的新功能</a>.</p>
         </td>
     </tr>
-    <tr>
-        <td><strong>2.1.21-RC2</strong>
-            <p>发布日期: <strong>2025/05/01</strong></p>
-            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v2.1.21-RC2" target="_blank">GitHub 上的 Release 页面</a></p>
-        </td>
-        <td>
-            <p>针对 Kotlin 2.1.20 的 bug 修正版.</p>
-            <p>更多详情请参见 <a href="https://github.com/JetBrains/kotlin/releases/tag/v2.1.21-RC2">changelog</a>.</p>
-        </td>
-    </tr> 
 </table>
+-->

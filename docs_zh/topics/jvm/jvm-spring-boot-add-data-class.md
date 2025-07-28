@@ -18,11 +18,12 @@
 
 ## 更新你的应用程序 {id="update-your-application"}
 
-1. 在同一个包中, 创建一个 `Message.kt` 文件, 其中包含一个数据类, 包含 2 个属性: `id` 和 `text`:
+1. 在相同的包中, 在 `DemoApplication.kt` 文件旁边, 创建一个 `Message.kt` 文件
+2. 在 `Message.kt` 文件中, 创建一个数据类, 包含 2 个属性: `id` 和 `text`:
 
     ```kotlin
     // Message.kt
-    package demo
+    package com.example.demo
 
     data class Message(val id: String?, val text: String)
     ```
@@ -69,11 +70,11 @@
           </code-block>
        </def>
    </deflist>
-2. 在 `MessageController.kt` 文件中, 将 `index()` 函数改为 `listMessages()` 函数, 返回 `Message` 对象的 List:
+3. 在 `MessageController.kt` 文件中, 将 `index()` 函数改为 `listMessages()` 函数, 返回 `Message` 对象的 List:
 
     ```kotlin
     // MessageController.kt
-    package demo
+    package com.example.demo
 
     import org.springframework.web.bind.annotation.GetMapping
     import org.springframework.web.bind.annotation.RequestMapping
@@ -95,11 +96,11 @@
        <def title="集合 – listOf()">
           <p>
             Kotlin 标准库提供了基本的集合类型的实现: Set, List, 和 Map.<br/>
-            对每个集合类型都存在一对接口:
+            各个集合类型可以是 <i>只读的</i>, 或 <i>可变的</i>:
           </p>
           <list>
-              <li>一个 <i>只读</i> 接口, 提供了访问集合元素的操作.</li>
-              <li>一个 <i>可变</i> 接口, 扩展了对应的只读接口, 增加了写操作: 添加, 删除, 以及更新集合的元素.</li>
+              <li><i>只读</i> 集合包含访问集合元素的操作.</li>
+              <li><i>可变</i> 集合还包含写操作, 用于添加, 删除, 以及更新集合的元素.</li>
           </list>
           <p>
             Kotlin 标准库还提供了对应的工厂函数, 用来创建这些集合的实例.
@@ -142,7 +143,7 @@
 
 ```kotlin
 // DemoApplication.kt
-package demo
+package com.example.demo
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -158,7 +159,7 @@ fun main(args: Array<String>) {
 
 ```kotlin
 // MessageController.kt
-package demo
+package com.example.demo
 
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -179,7 +180,7 @@ class MessageController {
 
 ```kotlin
 // Message.kt
-package demo
+package com.example.demo
 
 data class Message(val id: String?, val text: String)
 ```

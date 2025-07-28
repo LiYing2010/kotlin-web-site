@@ -114,12 +114,20 @@ enum class RGB { RED, GREEN, BLUE }
 
 fun main() {
     //sampleStart
-    println(RGB.RED.name)    // 输出结果为 RED
-    println(RGB.RED.ordinal) // 输出结果为 0
+    println(RGB.RED.name)    // 输出结果为: RED
+    println(RGB.RED.ordinal) // 输出结果为: 0
     //sampleEnd
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="rgb-enums-properties-kotlin"}
+
+> 为了减少使用枚举常数时的重复代码, 请试用上下文敏感的解析(Context-Sensitive Resolution)功能 (目前是预览版).
+> 如果预期的类型已知, 这个功能允许省略枚举类名称, 例如在 `when` 表达式中使用时, 或者赋值给有类型的变量时.
+>
+> 详情请参见 [预览版功能: 上下文敏感的解析(Context-Sensitive Resolution)](whatsnew22.md#preview-of-context-sensitive-resolution),
+> 或相关的 [KEEP 提案](https://github.com/Kotlin/KEEP/blob/improved-resolution-expected-type/proposals/context-sensitive-resolution.md).
+>
+{style="tip"}
 
 你可以通过
 [`enumValues<T>()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/enum-values.html)

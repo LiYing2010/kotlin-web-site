@@ -330,7 +330,7 @@ java -jar target/mymodule-0.0.1-SNAPSHOT-jar-with-dependencies.jar
 | `compilerPlugins` |                                 | 允许使用编译器插件                                           |                                           | []                          |
 | `pluginOptions`   |                                 | 供编译器插件使用的选项                                         |                                           | []                          |
 | `args`            |                                 | 额外的编译器参数                                            |                                           | []                          |
-| `jvmTarget`       | `kotlin.compiler.jvmTarget`     | 指定编译输出的 JVM 字节码的版本                                  | "1.8", "9", "10", ..., "23"               | "%defaultJvmTargetVersion%" |
+| `jvmTarget`       | `kotlin.compiler.jvmTarget`     | 指定编译输出的 JVM 字节码的版本                                  | "1.8", "9", "10", ..., "24"               | "%defaultJvmTargetVersion%" |
 | `jdkHome`         | `kotlin.compiler.jdkHome`       | 指定一个自定义的 JDK 路径, 添加到 classpath 内, 替代默认的 JAVA_HOME 值 |                                           |                             |
 
 ## 使用 BOM {id="use-bom"}

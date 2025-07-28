@@ -14,11 +14,10 @@ ModelCheckingOptions().checkObstructionFreedom()
 然后添加下面的测试代码, 它能够检测出 Java 标准库中的 `ConcurrentHashMap::put(key: K, value: V)` 是一个阻塞操作:
 
 ```kotlin
-import org.jetbrains.kotlinx.lincheck.*
-import org.jetbrains.kotlinx.lincheck.annotations.*
-import org.jetbrains.kotlinx.lincheck.strategy.managed.modelchecking.*
-import org.junit.*
 import java.util.concurrent.*
+import org.jetbrains.lincheck.*
+import org.jetbrains.lincheck.datastructures.*
+import org.junit.*
 
 class ConcurrentHashMapTest {
     private val map = ConcurrentHashMap<Int, Int>()
@@ -103,8 +102,8 @@ class ConcurrentSkipListMapTest {
 但是, 大多数现实生活中的存活 bug 都是由于添加了不正确的阻塞代码,
 因此无阻塞(obstruction-freedom)检查 也有助于测试无锁(lock-freedom)和无等待(wait-freedom)算法.
 
-> * [请在这里查看示例的完整代码](https://github.com/JetBrains/lincheck/blob/master/src/jvm/test/org/jetbrains/kotlinx/lincheck_test/guide/ConcurrentMapTest.kt).
-> * 查看 [另一个示例](https://github.com/JetBrains/lincheck/blob/master/src/jvm/test/org/jetbrains/kotlinx/lincheck_test/guide/ObstructionFreedomViolationTest.kt),
+> * [请在这里查看示例的完整代码](https://github.com/JetBrains/lincheck/blob/master/src/jvm/test-lincheck-integration/org/jetbrains/lincheck_test/guide/ConcurrentMapTest.kt).
+> * 查看 [另一个示例](https://github.com/JetBrains/lincheck/blob/master/src/jvm/test-lincheck-integration/org/jetbrains/lincheck_test/guide/ObstructionFreedomViolationTest.kt),
 >  这里会对 Michael-Scott 队列实现测试它的进度保证.
 >
 {style="note"}

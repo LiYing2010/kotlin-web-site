@@ -17,7 +17,7 @@ Kotlin 2.0.20 已经发布了!
 
 ## IDE 支持 {id="ide-support"}
 
-最新的 IntelliJ IDEA 和 Android Studio 中捆绑了支持 2.0.20 的 Kotlin plugin.
+最新版的 IntelliJ IDEA 和 Android Studio 中捆绑了支持 2.0.20 的 Kotlin plugin.
 你不需要在你的 IDE 中更新 Kotlin plugin.
 你需要做的只是在你的构建脚本中将 Kotlin 版本修改为 2.0.20.
 
@@ -698,7 +698,7 @@ Compose 编译器 Gradle plugin 中的 `includeTraceMarkers` 选项现在默认�
 ### 非跳过组优化(Non-skipping Group Optimization) {id="non-skipping-group-optimizations"}
 
 这个发布版包含一个新的编译器选项:
-启用时, 不可跳过的(non-skippable)和不可重启的(non-restartable) composable 函数将不会围绕 composable 函数体生成一个组.
+启用时, 不可跳过的(non-skippable)和不可重启的(non-restartable) Composable 函数将不会围绕 Composable 函数体生成一个组.
 这会使得分配次数更少, 并改进性能.
 这个选项是实验性功能, 默认禁用, 但可以如 [上文](#new-way-to-configure-compiler-options) 讲到的那样,
 通过功能标记(feature flag) `OptimizeNonSkippingGroups` 启用.
@@ -914,7 +914,7 @@ Kotlin 文档有了一些重要的更新:
   学习如何使用 JUnit 创建测试.
 * 改进了 [Interoperability with Swift/Objective-C 章节](native-objc-interop.md) -
   学习如何在 Swift/Objective-C 代码中使用 Kotlin 声明, 以及如何在 Kotlin 代码中使用 Objective-C 声明.
-* 改进了 [Swift 包导出设置 章节](native-spm.md) -
+* 改进了 [Swift 包导出设置 章节](multiplatform-spm-export.md) -
   学习如何设置可以被 Swift 包管理器依赖项使用的 Kotlin/Native 输出.
 
 ## 安装 Kotlin 2.0.20 {id="install-kotlin-2-0-20"}

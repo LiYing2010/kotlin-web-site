@@ -279,7 +279,7 @@ interface Drawable {
 }
 ```
 
-你创建了一个类 `Circle`, 实现 `Drawable` 接口, 为它的所有成员函数提供实现:
+你创建了一个类 `Circle`, 实现 `Drawable` 接口, 为它的所有成员提供实现:
 
 ```kotlin
 class Circle : Drawable {
@@ -290,6 +290,8 @@ class Circle : Drawable {
     override fun resize() {
         TODO("An example implementation")
     }
+
+    override val color = null
 }
 ```
 
@@ -306,8 +308,8 @@ class RedCircle(val circle: Circle) : Circle {
     override fun resize() {
         circle.resize()
     }
-
     // 样板代码结束
+
     override val color = "red"
 }
 ```
@@ -316,11 +318,11 @@ class RedCircle(val circle: Circle) : Circle {
 但是, 还有另一种选择.
 
 在 Kotlin 中, 可以使用委托, 将接口实现委托给一个类的实例.
-例如, 你可以创建 `Circle` 类的一个实例, 并将 `Circle` 类的成员函数的实现委托给这个实例.
+例如, 你可以创建 `Circle` 类的一个实例, 并将 `Drawable` 接口的成员函数的实现委托给这个实例.
 要实现这一点, 请使用 `by` 关键字. 例如:
 
 ```kotlin
-class RedCircle(param: Circle) : Circle by param
+class RedCircle(param: Circle) : Drawable by param
 ```
 
 其中, `param` 是 `Circle` 类实例的名称, 成员函数的实现委托给它.
@@ -332,7 +334,7 @@ class RedCircle(param: Circle) : Circle by param
 例如, 如果你想要修改 `color` 属性的值:
 
 ```kotlin
-class RedCircle(param : Circle) : Circle by param {
+class RedCircle(param : Circle) : Drawable by param {
     // 没有样板代码!
     override val color = "red"
 }
@@ -598,7 +600,7 @@ fun main() {
 你有一个简单的消息应用程序, 包含一些基本功能, 但你想要添加一些功能来处理 _智能_ 消息,
 但不想大量重复代码.
 
-在下面的代码中, 定义一个 `SmartMessenger` 类, 继承 `BasicMessenger` 类,
+在下面的代码中, 定义一个 `SmartMessenger` 类, 继承 `Messenger` 接口,
 但将实现委托给一个 `BasicMessenger` 类的实例.
 
 在 `SmartMessenger` 类中, 覆盖 `sendMessage()` 函数, 发送智能消息.
@@ -661,7 +663,7 @@ class BasicMessenger : Messenger {
     }
 }
 
-class SmartMessenger(private val basicMessenger: BasicMessenger) : Messenger by basicMessenger {
+class SmartMessenger(val basicMessenger: BasicMessenger) : Messenger by basicMessenger {
     override fun sendMessage(message: String) {
         println("Sending a smart message: $message")
         basicMessenger.sendMessage("[smart] $message")

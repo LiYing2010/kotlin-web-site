@@ -33,7 +33,7 @@ val securePassword = Password("Don't try this in production")
 这就是内联类的主要功能, 受 *内联* 这个名称的启发而来: 类中的数据被 *内联* 到使用它的地方
 (类似于 [内联函数](inline-functions.md) 的内容被内联到调用它的地方).
 
-## 成员
+## 成员 {id="members"}
 
 内联类支持与通常的类相同的功能.
 具体来说, 内联类可以声明属性和函数, 也可以有 `init` 代码段和 [次级构造器(secondary constructor)](classes.md#secondary-constructors):
@@ -73,7 +73,7 @@ fun main() {
 内联类的属性不能拥有 [后端域变量](properties.md#backing-fields).
 只能拥有简单的计算属性 (不能拥有 `lateinit` 属性或委托属性)
 
-## 继承
+## 继承 {id="inheritance"}
 
 内联类允许继承接口:
 
@@ -145,7 +145,7 @@ value class UserId<T>(val value: T)
 fun compute(s: UserId<String>) {} // 编译器生成的代码是 fun compute-<hashcode>(s: Any?)
 ```
 
-### 函数名称混淆
+### 函数名称混淆 {id="mangling"}
 
 由于内联类被编译为它的底层类型, 因此可能会导致一些令人难以理解的错误, 比如, 意料不到的平台签名冲突:
 
@@ -164,7 +164,7 @@ fun compute(x: UInt) { }
 因此, `fun compute(x: UInt)` 会表达为 `public final void compute-<hashcode>(int x)`,
 然后就解决了函数名称的冲突问题.
 
-### 在 Java 代码中调用
+### 在 Java 代码中调用 {id="calling-from-java-code"}
 
 你可以在 Java 代码中调用接受内联类为参数的函数. 为了实现这一点, 你需要手动禁止函数名称混淆:
 在函数声明之前添加 `@JvmName` 注解:
@@ -179,7 +179,11 @@ fun compute(x: Int) { }
 fun compute(x: UInt) { }
 ```
 
-## 内联类与类型别名
+默认情况下, Kotlin 使用 **未装箱的表达形式(unboxed representation)** 来编译内联类, 因此在 Java 中难以访问.
+关于如何将内联类编译为 **装箱的表达形式(boxed representation)**, 使得 Java 中可以访问,
+请参见向导 [在 Java 中调用 Kotlin](java-to-kotlin-interop.md#inline-value-classes).
+
+## 内联类与类型别名 {id="inline-classes-vs-type-aliases"}
 
 初看起来, 内联类似乎非常象 [类型别名](type-aliases.md). 确实, 它们都声明了一个新的类型, 并且在运行期都表达为各自的底层类型.
 
@@ -212,7 +216,7 @@ fun main() {
 }
 ```
 
-## 内联类与代理
+## 内联类与代理 {id="inline-classes-and-delegation"}
 
 对于接口, 允许将它的实现代理给内联类的内联值:
 

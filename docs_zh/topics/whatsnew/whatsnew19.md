@@ -508,7 +508,7 @@ Kotlin 1.9.0 增加了对跨平台库中的 [Gradle 配置缓存](https://docs.g
 Gradle 配置缓存通过对后续的构建重用配置阶段的结果来加快构建过程.
 这个功能从 Gradle 8.1 开始成为稳定版. 要启用它, 请遵照 [Gradle 文档](https://docs.gradle.org/current/userguide/configuration_cache.html#config_cache:usage) 中的说明.
 
-> 对于与 Xcode 集成的 task, 或 [Kotlin CocoaPods Gradle plugin](native-cocoapods-dsl-reference.md),
+> 对于与 Xcode 集成的 task, 或 [Kotlin CocoaPods Gradle plugin](multiplatform-cocoapods-dsl-reference.md),
 > Kotlin Multiplatform plugin 还不支持 Gradle 配置缓存.
 > 我们期望在未来的 Kotlin 发布版中添加这个功能.
 >

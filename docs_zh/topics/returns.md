@@ -112,7 +112,7 @@ fun main() {
 
 注意, 上面三个例子中局部返回的使用, 都与通常的循环中的 `continue` 关键字的使用很类似.
 
-不存在与 `break` 直接等价的语法, 但可以模拟出来, 方法是增加一个嵌套的 Lambda 表达式, 然后在它内部使用非局部的返回:
+不存在与 `break` 直接等价的语法, 但可以模拟出来, 方法是增加一个外层的 `run` Lambda 表达式, 然后在它内部使用非局部的返回:
 
 ```kotlin
 //sampleStart
@@ -132,6 +132,8 @@ fun main() {
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
+
+这里可以使用非局部的返回, 是因为嵌套的 `forEach()` Lambda 表达式在这里是一个 [内联函数(Inline Function)](inline-functions.md).
 
 当 return 语句指定了返回值时, 源代码解析器会将这样的语句优先识别为使用标签限定的 return 语句:
 

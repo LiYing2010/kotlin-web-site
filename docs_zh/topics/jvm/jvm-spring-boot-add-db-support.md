@@ -13,7 +13,8 @@
         <img src="icon-4-todo.svg" width="20" alt="第 4 步"/> 使用 Spring Data CrudRepository 进行数据库访问</p>
 </tldr>
 
-在教程的这个部分, 你将会使用 JDBC 向你的项目添加并配置一个数据库. 在 JVM 应用程序中, 你要使用 JDBC 来操作数据库.
+在教程的这个部分, 你将会使用 _Java 数据库连接_ (Java Database Connectivity, JDBC) 向你的项目添加并配置一个数据库.
+在 JVM 应用程序中, 你要使用 JDBC 来操作数据库.
 为了方便, Spring Framework 提供了 `JdbcTemplate` 类, 简化 JDBC 的使用, 并帮助避免常见的错误.
 
 ## 添加数据库支持 {id="add-database-support"}
@@ -26,7 +27,7 @@
 
 ```kotlin
 // MessageService.kt
-package demo
+package com.example.demo
 
 import org.springframework.stereotype.Service
 import org.springframework.jdbc.core.JdbcTemplate
@@ -110,7 +111,7 @@ class MessageService(private val db: JdbcTemplate) {
 
 ```kotlin
 // MessageController.kt
-package demo
+package com.example.demo
 
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -167,7 +168,7 @@ data class Message(val id: String?, val text: String)
 
 ```kotlin
 // MessageService.kt
-package demo
+package com.example.demo
 
 import org.springframework.stereotype.Service
 import org.springframework.jdbc.core.JdbcTemplate
@@ -309,7 +310,7 @@ curl -X GET --location "http://localhost:8080"
 
     ```kotlin
     // MessageService.kt
-    package demo
+    package com.example.demo
 
     import org.springframework.stereotype.Service
     import org.springframework.jdbc.core.JdbcTemplate
@@ -337,6 +338,28 @@ curl -X GET --location "http://localhost:8080"
     }
     ```
 
+    <deflist collapsible="true">
+    <def title="vararg 参数在参数列表中的位置">
+        <p>
+            <code>query()</code> 函数接受 3 个参数:
+        </p>
+        <list>
+            <li>SQL 查询字符串, 它执行时需要一个参数</li>
+            <li><code>id</code>, 类型为字符串的参数</li>
+            <li><code>RowMapper</code> 实例, 由 Lambda 表达式实现</li>
+        </list>
+        <p>
+            <code>query()</code> 函数的第 2 个参数声明为 <i>不定数量参数</i> (<code>vararg</code>).
+            在 Kotlin 中, 不定数量参数的位置并不要求是在参数列表的最后.
+        </p>
+    </def>
+    <def title="singleOrNull() 函数">
+       <p><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/single-or-null.html"><code>singleOrNull()</code></a>
+         函数返回单个元素,
+         如果数组为空, 或存在相同值的多个元素, 则返回 <code>null</code>.</p>
+    </def>
+   </deflist>
+
     > 通过 id 来获取 message 的 `.query()` 函数是由 Spring Framework 提供的一个 [Kotlin 扩展函数](extensions.md#extension-functions),
     > 如上面的代码所示, 它需要一个额外的 `import org.springframework.jdbc.core.query` 语句.
     >
@@ -346,7 +369,7 @@ curl -X GET --location "http://localhost:8080"
 
     ```kotlin
     // MessageController.kt
-    package demo
+    package com.example.demo
 
     import org.springframework.http.ResponseEntity
     import org.springframework.web.bind.annotation.GetMapping
@@ -388,27 +411,13 @@ curl -X GET --location "http://localhost:8080"
         新函数会调用 <code>MessageService</code> 来通过 id 取得单个 message.
        </p>
     </def>
-    <def title="vararg 参数在参数列表中的位置">
-        <p>
-            <code>query()</code> 函数接受 3 个参数:
-        </p>
-        <list>
-            <li>SQL 查询字符串, 它执行时需要一个参数</li>
-            <li><code>id</code>, 类型为字符串的参数</li>
-            <li><code>RowMapper</code> 实例, 由 Lambda 表达式实现</li>
-        </list>
-        <p>
-            <code>query()</code> 函数的第 2 个参数声明为 <i>不定数量参数</i> (<code>vararg</code>).
-            在 Kotlin 中, 不定数量参数的位置并不要求是在参数列表的最后.
-        </p>
-    </def>
     <def title="接受者可为 null 的扩展函数">
         <p>
             扩展函数可以使用可为 null 的接受者类型. 如果接受者为 <code>null</code>, 那么 <code>this</code> 也是 <code>null</code>.
             因此在定义接受者可为 null 的扩展函数时, 建议在函数的 body 部之内执行 <code>this == null</code> 检查.
         </p>
         <p>
-            你也可以使用 null 值安全的调用操作符 (<code>?.</code>) 来进行 null 值检查, 就象上面的 <code>toResponseBody</code> 函数那样:
+            你也可以使用 null 值安全的调用操作符 (<code>?.</code>) 来进行 null 值检查, 就象上面的 <code>toResponseEntity()</code> 函数那样:
         </p>
         <code-block lang="kotlin">
          this?.let { ResponseEntity.ok(it) }
@@ -426,7 +435,7 @@ curl -X GET --location "http://localhost:8080"
 
 ```kotlin
 // DemoApplication.kt
-package demo
+package com.example.demo
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -442,7 +451,7 @@ fun main(args: Array<String>) {
 
 ```kotlin
 // Message.kt
-package demo
+package com.example.demo
 
 data class Message(val id: String?, val text: String)
 ```
@@ -450,7 +459,7 @@ data class Message(val id: String?, val text: String)
 
 ```kotlin
 // MessageService.kt
-package demo
+package com.example.demo
 
 import org.springframework.stereotype.Service
 import org.springframework.jdbc.core.JdbcTemplate
@@ -481,7 +490,7 @@ class MessageService(private val db: JdbcTemplate) {
 
 ```kotlin
 // MessageController.kt
-package demo
+package com.example.demo
 
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -533,7 +542,7 @@ Spring 应用程序已经可以运行了:
 
     ```http request
     ### 根据 id 得到 message
-    GET http://localhost:8080/f16c1d2e-08dc-455c-abfe-68440229b84f
+    GET http://localhost:8080/f910aa7e-11ee-4215-93ed-1aeeac822707
     ```
 
     > 请使用你的 message 的真实 id, 不要使用上面例子中的值.

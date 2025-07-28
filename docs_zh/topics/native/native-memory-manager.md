@@ -111,7 +111,11 @@ Kotlin/Native 内存分配器有一种保护功能, 可以防止突然激增的�
 
 你可以自己监控内存消耗, 检查内存泄漏, 并调整内存消耗.
 
-### 检查内存泄露 {id="check-for-memory-leaks"}
+### 监测内存消耗 {id="monitor-memory-consumption"}
+
+为了调试内存问题, 你可以检查内存管理器的各种指标. 此外, 还可以在 Apple 平台上追踪 Kotlin 的内存消耗.
+
+#### 检查内存泄露 {id="check-for-memory-leaks"}
 
 要访问内存管理器的统计信息, 可以调用 `kotlin.native.internal.GC.lastGCInfo()`.
 这个方法返回垃圾收集器最后一次运行的统计信息.
@@ -150,19 +154,80 @@ fun test() {
 }
 ```
 
+#### 在 Apple 平台上追踪内存消耗 {id="track-memory-consumption-on-apple-platforms"}
+
+在调试 Apple 平台上的内存问题时, 你可以看到 Kotlin 代码消耗了多少内存.
+Kotlin 的内存占用量会用标识符标记, 可以通过 Xcode Instruments 中的 VM Tracker 之类的工具进行追踪.
+
+这个功能只能用于 Kotlin/Native 的默认内存分配器, 并且需要满足以下 _所有_ 条件:
+
+* **启用了标记**. 内存应该使用有效的标识符进行标记. Apple 推荐 240 到 255 之间的数字;
+  默认值为 246.
+
+  如果你设置 Gradle 属性 `kotlin.native.binary.mmapTag=0`, 标记会被禁用.
+
+* **使用 mmap 进行分配**. 内存分配器应该使用 `mmap` 系统调用来将文件映射到内存.
+
+  如果你设置 Gradle 属性 `kotlin.native.binary.disableMmap=true`, 默认的内存分配器会使用 `malloc`, 而不是 `mmap`.
+
+* **启用分页**. 分配的分页(缓冲)应该启用.
+
+  如果你设置 Gradle 属性 [`kotlin.native.binary.pagedAllocator=false`](#disable-allocator-paging),
+  则会根据每个对象来保留内存.
+
 ### 调整内存消耗 {id="adjust-memory-consumption"}
 
-如果程序中不存在内存泄露, 但你仍然观察到异常高的内存消耗, 请尝试将 Kotlin 更新到最新版本.
+如果你遇到异常高的内存消耗, 请尝试以下解决方案:
+
+#### 更新 Kotlin {id="update-kotlin"}
+
+将 Kotlin 更新到最新版本.
 我们一直在持续改进内存管理器, 因此即使只是一次简单的编译器更新, 也可能改善你的程序的内存消耗情况.
 
-更新 Kotlin 版本后, 如果您还是遇到内存消耗过高的情况,
-请在你的 Gradle 构建脚本中使用以下编译选项, 切换到系统的内存分配器:
+#### 禁用内存分配器的分页 {id="disable-allocator-paging"}
+<primary-label ref="experimental-opt-in"/>
+
+你可以禁用分配的分页(缓冲), 让内存分配器根据每个对象来保留内存.
+某些情况下, 这可以帮助你满足严格的内存限制, 或者减少应用程序启动时的内存消耗.
+
+要禁用这个功能, 请在你的 `gradle.properties` 文件中设置以下选项:
 
 ```none
--Xallocator=std
+kotlin.native.binary.pagedAllocator=false
 ```
 
-如果这个方法不能改善你的内存消耗问题, 请到 [YouTrack](https://youtrack.jetbrains.com/newissue?project=kt) 报告问题.
+> 如果禁用内存分配器的分页功能, 就不能 [在 Apple 平台上追踪内存消耗](#track-memory-consumption-on-apple-platforms).
+>
+{style="note"}
+
+#### 启用对 Latin-1 字符串的支持 {id="enable-support-for-latin-1-strings"}
+<primary-label ref="experimental-opt-in"/>
+
+默认情况下, Kotlin 中的字符串使用 UTF-16 编码来存储, 每个字符使用 2 个字节表达.
+某些情况下, 会导致二进制文件中的字符串与源代码相比占用 2 倍的空间, 读取数据也会占用 2 倍的内存.
+
+为了减少应用程序的二进制文件大小, 调整内存消耗量, 你可以启用对 Latin-1 编码的字符串的支持.
+[Latin-1 (ISO 8859-1)](https://en.wikipedia.org/wiki/ISO/IEC_8859-1) 编码对前 256 个 Unicode 字符, 只使用 1 个字节来表示.
+
+要启用这个功能, 请在你的 `gradle.properties` 文件中设置以下选项:
+
+```properties
+kotlin.native.binary.latin1Strings=true
+```
+
+有了 Latin-1 支持, 只要所有的字符都在 Latin-1 的编码范围之内, 字符串就会使用 Latin-1 编码来存储.
+否则, 会使用默认的 UTF-16 编码.
+
+> 虽然这个功能还是实验性功能, 但 cinterop 扩展函数
+> [`String.pin`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlinx.cinterop/pin.html),
+> [`String.usePinned`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlinx.cinterop/use-pinned.html),
+> 和 [`String.refTo`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlinx.cinterop/ref-to.html)
+> 的效率会降低.
+> 对这些函数的每次调用都可能触发字符串到 UTF-16 的自动转换.
+>
+{style="note"}
+
+如果这些解决方案都不能解决问题, 请在 [YouTrack](https://kotl.in/issue) 中提交问题.
 
 ## 在后台进行单元测试 {id="unit-tests-in-the-background"}
 

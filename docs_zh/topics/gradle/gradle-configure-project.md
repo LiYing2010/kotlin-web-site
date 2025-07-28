@@ -49,7 +49,8 @@ plugins {
 
 | KGP 版本        | Gradle 最低和最高版本                        | AGP 最低和最高版本                                         |
 |---------------|---------------------------------------|-----------------------------------------------------|
-| 2.1.20        | %minGradleVersion%–%maxGradleVersion% | %minAndroidGradleVersion%–%maxAndroidGradleVersion% |
+| 2.2.0         | %minGradleVersion%–%maxGradleVersion% | %minAndroidGradleVersion%–%maxAndroidGradleVersion% |
+| 2.1.20-2.1.21 | 7.6.3–8.12.1                          | 7.3.1–8.7.2                                         |
 | 2.1.0–2.1.10  | 7.6.3–8.10*                           | 7.3.1–8.7.2                                         |
 | 2.0.20–2.0.21 | 6.8.3–8.8*                            | 7.1.3–8.5                                           |
 | 2.0.0         | 6.8.3–8.5                             | 7.1.3–8.3.1                                         |
@@ -61,7 +62,7 @@ plugins {
 | 1.7.0–1.7.10  | 6.7.1–7.0.2                           | 3.4.3–7.0.2                                         |
 | 1.6.20–1.6.21 | 6.1.1–7.0.2                           | 3.4.3–7.0.2                                         |
 
-> *Kotlin 2.0.20–2.0.21 和 Kotlin 2.1.0–2.1.10 完全兼容 Gradle 8.6 或以下版本.
+> Kotlin 2.0.20–2.0.21 和 Kotlin 2.1.0–2.1.10 完全兼容 Gradle 8.6 或以下版本.
 > 也支持 Gradle 版本 8.7 到 8.10, 但有一个例外: 如果你使用 Kotlin Multiplatform Gradle plugin,
 > 在你的跨平台项目中调用 JVM 编译目标中的 `withJava()` 函数时, 可能遇到废弃警告.
 > 更多详情请参见 [默认创建的 Java 源代码集](multiplatform-compatibility-guide.md#java-source-sets-created-by-default).
@@ -592,7 +593,7 @@ tasks.jar(type: Jar) {
 
 ## 编译到多个目标平台 {id="targeting-multiple-platforms"}
 
-编译到 [多个目标平台](multiplatform-dsl-reference.md#targets) 的项目, 称为 [跨平台项目](multiplatform-intro.md),
+编译到 [多个目标平台](multiplatform-dsl-reference.md#targets) 的项目, 称为 [跨平台项目](multiplatform.topic),
 需要使用 `kotlin-multiplatform` 插件.
 
 > `kotlin-multiplatform` 插件要求 Gradle %minGradleVersion% 或更高版本.
@@ -620,7 +621,7 @@ plugins {
 </tab>
 </tabs>
 
-详情请参见 [在不同的平台使用 Kotlin Multiplatform](multiplatform-intro.md) 和
+详情请参见 [在不同的平台使用 Kotlin Multiplatform](multiplatform.topic) 和
 [在 iOS 和 Android 平台使用 Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-getting-started.html).
 
 ## 编译到 Android 平台 {id="targeting-android"}

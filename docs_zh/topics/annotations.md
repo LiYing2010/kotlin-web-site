@@ -55,7 +55,7 @@ class Foo {
 }
 ```
 
-## 构造器
+## 构造器 {id="constructors"}
 
 注解可以拥有带参数的构造器.
 
@@ -123,7 +123,7 @@ fun main(args: Array<String>) {
 关于创建注解类的实例, 更多详情请参见
 [这篇 KEEP 文档](https://github.com/Kotlin/KEEP/blob/master/proposals/annotation-instantiation.md).
 
-## Lambda 表达式
+## Lambda 表达式 {id="lambdas"}
 
 注解也可以用在 Lambda 上. 此时, Lambda 表达式的函数体内容将会生成一个`invoke()` 方法, 注解将被添加到这个方法上.
 这个功能对于 [Quasar](https://docs.paralleluniverse.co/quasar/) 这样的框架非常有用,
@@ -142,9 +142,9 @@ val f = @Suspendable { Fiber.sleep(10) }
 为了明确指定注解应该使用在哪个元素上, 可以使用以下语法:
 
 ```kotlin
-class Example(@field:Ann val foo,    // 对 Java 域变量添加注解
-              @get:Ann val bar,      // 对属性的 Java get 方法添加注解
-              @param:Ann val quux)   // 对 Java 构造器参数添加注解
+class Example(@field:Ann val foo,    // 只对 Java 域变量添加注解
+              @get:Ann val bar,      // 只对属性的 Java get 方法添加注解
+              @param:Ann val quux)   // 只对 Java 构造器参数添加注解
 ```
 
 同样的语法也可以用来对整个源代码文件添加注解. 你可以添加一个目标为 `file` 的注解, 放在源代码文件的最顶端, package 指令之前,
@@ -157,7 +157,7 @@ package org.jetbrains.demo
 ```
 
 如果你有目标相同的多个注解, 那么可以目标之后添加方括号, 然后将所有的注解放在方括号之内,
-这样就可以避免重复指定相同的目标:
+这样就可以避免重复指定相同的目标(`all` 目标除外):
 
 ```kotlin
 class Example {
@@ -169,29 +169,168 @@ class Example {
 Kotlin 支持的所有注解使用目标如下:
 
   * `file`
-  * `property` (使用这个目标的注解, 在 Java 中无法访问)
   * `field`
+  * `property` (使用这个目标的注解, 在 Java 中无法访问)
   * `get` (属性的 get 方法)
   * `set` (属性的 set 方法)
+  * `all` (实验性功能, 用于属性的目标, 关于它的目的和使用方法, 请参见 [下文](#all-meta-target))
   * `receiver` (扩展函数或扩展属性的接受者参数)
+
+    要对扩展函数的接受者参数添加注解, 请使用以下语法:
+
+    ```kotlin
+    fun @receiver:Fancy String.myExtension() { ... }
+    ```
+
   * `param` (构造器的参数)
   * `setparam` (属性 set 方法的参数)
   * `delegate` (保存代理属性的代理对象实例的域变量)
 
-要对扩展函数的接受者参数添加注解, 请使用以下语法:
-
-```kotlin
-fun @receiver:Fancy String.myExtension() { ... }
-```
+### 没有指定使用目标时的默认值 {id="defaults-when-no-use-site-targets-are-specified"}
 
 如果不指定注解的使用目标, 那么将会根据这个注解的 `@Target` 注解来自动选定使用目标.
 如果存在多个可用的目标, 将会使用以下列表中的第一个:
 
-  * `param`
-  * `property`
-  * `field`
+* `param`
+* `property`
+* `field`
 
-## Java 注解
+我们来使用 [Jakarta Bean Validation 中的 `@Email` 注解](https://jakarta.ee/specifications/bean-validation/3.0/apidocs/jakarta/validation/constraints/email):
+
+```java
+@Target(value={METHOD,FIELD,ANNOTATION_TYPE,CONSTRUCTOR,PARAMETER,TYPE_USE})
+public @interface Email { }
+```
+
+关于这个注解的使用, 请考虑下面的示例:
+
+```kotlin
+data class User(val username: String,
+                // 这里的 @Email 等于 @param:Email
+                @Email val email: String) {
+    // 这里的 @Email 等于 @field:Email
+    @Email val secondaryEmail: String? = null
+}
+```
+
+Kotlin 2.2.0 引入了实验性的默认规则, 使向参数, 域变量, 以及属性传播注解更加可预测.
+
+根据新的规则, 如果存在多个可用的目标, 会按照下面的方式选择一个或多个:
+
+* 如果构造器参数目标 (`param`)可以使用, 则使用它.
+* 如果属性目标 (`property`)可以使用, 则使用它.
+* 如果域变量目标 (`field`)可以使用, 而 `property` 不可以使用, 则使用 `field`.
+
+对于同一个示例:
+
+```kotlin
+data class User(val username: String,
+                // 这里的 @Email 现在会等于 @param:Email @field:Email
+                @Email val email: String) {
+    // 这里的 @Email 继续等于 @field:Email
+    @Email val secondaryEmail: String? = null
+}
+```
+
+如果存在多个目标, 并且 `param`, `property`, 或 `field` 都不可使用, 那么注解无效.
+
+要启用新的默认规则, 请在你的 Gradle 配置中使用以下设置:
+
+```kotlin
+// build.gradle.kts
+kotlin {
+    compilerOptions {
+        freeCompilerArgs.add("-Xannotation-default-target=param-property")
+    }
+}
+```
+
+如果想要使用旧的行为, 你可以:
+
+* 在特定的情况下, 明确指定需要的目标, 例如, 使用 `@param:Annotation`, 而不是 `@Annotation`.
+* 对整个项目, 在你的 Gradle 构建文件中使用以下设置:
+
+    ```kotlin
+    // build.gradle.kts
+    kotlin {
+        compilerOptions {
+            freeCompilerArgs.add("-Xannotation-default-target=first-only")
+        }
+    }
+    ```
+
+### `all` meta-target {id="all-meta-target"}
+
+<primary-label ref="experimental-opt-in"/>
+
+`all` 目标可以更容易的将同一个注解不仅应用于参数和属性或域变量, 而且应用于对应的 get 方法和 set 方法.
+
+具体来说, 如果可用, 那么标注了 `all` 的注解会:
+
+* 如果属性在主构造器中定义, 传播到构造器参数 (`param`).
+* 传播到属性本身 (`property`).
+* 如果属性拥有后端域变量(Backing Field), 传播到后端域变量 (`field`).
+* 传播到 get 方法 (`get`).
+* 如果属性定义为 `var`, 传播到 set 方法参数 (`setparam`).
+* 如果类存在 `@JvmRecord` 注解, 传播到 Java 专用的目标 `RECORD_COMPONENT`.
+
+我们来使用 [Jakarta Bean Validation 中的 `@Email` 注解](https://jakarta.ee/specifications/bean-validation/3.0/apidocs/jakarta/validation/constraints/email),
+它的定义如下:
+
+```java
+@Target(value={METHOD,FIELD,ANNOTATION_TYPE,CONSTRUCTOR,PARAMETER,TYPE_USE})
+public @interface Email { }
+```
+
+在下面的示例中, 这个 `@Email` 注解被应用于所有相关的目标:
+
+```kotlin
+data class User(
+    val username: String,
+    // 将 `@Email` 应用到 `param`, `field` 和 `get`
+    @all:Email val email: String,
+    // 将 `@Email` 应用到 `param`, `field`, `get`, 和 `setparam`
+    @all:Email var name: String,
+) {
+    // 将 `@Email` 应用到 `field` 和 `getter` (不应用于 `param`, 因为这个属性声明不在构造器中)
+    @all:Email val secondaryEmail: String? = null
+}
+```
+
+你可以对任何属性使用 `all` 目标, 无论是在主构造器之内还是之外.
+
+#### 限制 {id="limitations"}
+
+`all` 目标存在一些限制:
+
+* 它不会将注解传播到类型, 潜在的扩展接受者, 或上下文接受者或参数.
+* 它不能与多个注解一起使用:
+    ```kotlin
+    @all:[A B] // 禁止这种用法, 请使用 `@all:A @all:B`
+    val x: Int = 5
+    ```
+* 它不能用于 [委托属性](delegated-properties.md).
+
+#### 如何启用 {id="how-to-enable"}
+
+要在你的项目中启用 `all` 目标, 请在命令行中使用以下编译器选项:
+
+```Bash
+-Xannotation-target-all
+```
+
+或者, 添加到你的 Gradle 构建文件的 `compilerOptions {}` 代码段:
+
+```kotlin
+// build.gradle.kts
+kotlin {
+    compilerOptions {
+        freeCompilerArgs.add("-Xannotation-target-all")
+    }
+}
+```
+
+## Java 注解 {id="java-annotations"}
 
 Kotlin 100% 兼容 Java 注解:
 
@@ -242,7 +381,7 @@ public @interface AnnWithValue {
 @AnnWithValue("abc") class C
 ```
 
-### 使用数组作为注解参数
+### 使用数组作为注解参数 {id="arrays-as-annotation-parameters"}
 
 如果 Java 注解的 `value` 参数是数组类型, 那么在 Kotlin 中会变为 `vararg` 类型:
 
@@ -272,7 +411,7 @@ public @interface AnnWithArrayMethod {
 class C
 ```
 
-### 访问注解实例的属性值
+### 访问注解实例的属性值 {id="accessing-properties-of-an-annotation-instance"}
 
 Java 注解实例的值, 在 Kotlin 代码中可以通过属性的形式访问:
 
@@ -290,7 +429,7 @@ fun foo(ann: Ann) {
 }
 ```
 
-### 不生成 JVM 1.8+ 注解目标(Target)的能力
+### 不生成 JVM 1.8+ 注解目标(Target)的能力 {id="ability-to-not-generate-jvm-1-8-annotation-targets"}
 
 如果一个 Kotlin 注解的 Kotlin 注解目标(Target)中包含 `TYPE`,
 那么映射的 Java 注解目标会包含 `java.lang.annotation.ElementType.TYPE_USE`.

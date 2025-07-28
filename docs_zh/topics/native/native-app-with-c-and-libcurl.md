@@ -59,7 +59,7 @@ Kotlin/Native 能够通过 [Kotlin Multiplatform plugin](gradle-configure-projec
 
    * 针对 macOS, Linux, 和 Windows 的编译目标分别通过 `macosArm64`, `macosX64`, `linuxArm64`, `linuxX64`, 和 `mingwX64` 定义.
      关于所有支持的平台, 请参见 [支持的平台](native-target-support.md).
-   * 构建脚本定义一系列属性, 指定二进制文件如何生成, 以及应用程序的入口点. 这些可以使用默认值.
+   * `binaries {}` 代码块定义二进制文件如何生成, 以及应用程序的入口点. 这些可以使用默认值.
    * 与 C 的交互使用构建中的一个额外步骤来配置. 默认情况下, 来自 C 的所有符号会被导入到 `interop` 包.
      你可能想要在 `.kt` 文件中导入整个包.
      详情请参见 [如何配置](gradle-configure-project.md#targeting-multiple-platforms).
@@ -120,7 +120,8 @@ Kotlin/Native 带有一组预构建的 [平台库](native-platform-libs.md), 提
 
 ## 向构建过程添加与 C 的交互 {id="add-interoperability-to-the-build-process"}
 
-要使用头文件, 需要确保在构建过程中生成了它们. 要做到这一点, 请向 `build.gradle.kts` 文件添加以下内容:
+要使用头文件, 需要确保在构建过程中生成了它们.
+要做到这一点, 请向 `build.gradle.kts` 文件添加下面的 `compilations {}` 代码块:
 
 ```kotlin
 nativeTarget.apply {

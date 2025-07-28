@@ -46,9 +46,9 @@ Kotlin 包含在 [IntelliJ IDEA](https://www.jetbrains.com/idea/download/) 和 [
 
 <tab id="cross-platform-mobile" title="跨平台">
 
-在这里你将会学习如何使用 [Kotlin Multiplatform](multiplatform-intro.md) 来开发一个跨平台应用程序.
+在这里你将会学习如何使用 [Kotlin Multiplatform](multiplatform.topic) 来开发一个跨平台应用程序.
 
-1. **[为跨平台开发设置环境](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-setup.html).**
+1. **[为跨平台开发设置环境](https://www.jetbrains.com/help/kotlin-multiplatform-dev/quickstart.html).**
 
 2. **创建你的第一个 iOS 和 Android 应用程序:**
 

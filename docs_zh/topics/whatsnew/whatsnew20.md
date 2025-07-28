@@ -25,7 +25,7 @@ Kotlin 2.0 对于 JetBrains 开发组来说是一个巨大的里程碑.
 
 ## IDE 支持 {id="ide-support"}
 
-支持 Kotlin 2.0.0 的 Kotlin plugin 已经捆绑在最新的 IntelliJ IDEA 和 Android Studio 中.
+最新版的 IntelliJ IDEA 和 Android Studio 中绑定了支持 Kotlin 2.0.0 的 Kotlin plugin.
 你不需要在你的 IDE 中更新 Kotlin plugin.
 你需要做的只是在你的构建脚本中 [变更 Kotlin 版本](releases.md#update-to-a-new-kotlin-version) 为 Kotlin 2.0.0.
 

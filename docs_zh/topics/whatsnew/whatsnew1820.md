@@ -607,7 +607,7 @@ Kotlin 开发组决定重新审查 Kotlin/Native 支持的目标平台,
 对于剩下的目标平台, 根据 Kotlin/Native 编译器中支持和测试程度的不同, 现在分为 3 个支持层级.
 一个目标平台可能被移动到不同的层级.
 例如, 将来我们会尽最大努力对 `iosArm64` 提供完全的支持, 因为它对
-[Kotlin Multiplatform](multiplatform-intro.md) 非常重要.
+[Kotlin Multiplatform](multiplatform.topic) 非常重要.
 
 如果你是库的作者, 这 3 个支持层级能够帮助你决定在 CI 工具中测试哪些目标平台, 略过哪些目标平台.
 Kotlin 开发组在 Kotlin 官方库的开发中也使用这个方案, 例如 [kotlinx.coroutines](coroutines-guide.md).
@@ -645,7 +645,7 @@ Kotlin/Native 现在可以导入带 `@import` 指令的 Objective-C 头文件.
 
 从 Kotlin 1.8.20 开始, 你可以使用带 `@import` 的 Objective-C 头文件.
 为了使用这个功能, 请在定义文件中通过 `compilerOpts` 向编译器传递 `-fmodules` 选项.
-如果你使用 [CocoaPods 集成](native-cocoapods.md),
+如果你使用 [CocoaPods 集成](multiplatform-cocoapods-overview.md),
 请在 `pod()` 函数的在配置代码块中指定 cinterop 选项, 如下:
 
 ```kotlin
@@ -719,7 +719,7 @@ cocoapods {
 
 ### 在 Cocoapods Gradle plugin 中废弃了 useLibraries() {id="deprecation-of-uselibraries-in-cocoapods-gradle-plugin"}
 
-Kotlin 1.8.20 开始了 `useLibraries()` 函数的废弃周期, 这个函数用于静态库的 [CocoaPods 集成](native-cocoapods.md).
+Kotlin 1.8.20 开始了 `useLibraries()` 函数的废弃周期, 这个函数用于静态库的 [CocoaPods 集成](multiplatform-cocoapods-overview.md).
 
 我们过去引入 `useLibraries()` 函数, 是为了允许使用包含静态库的 Pod 依赖项.
 随着时间的推移, 这样的情况变得非常罕见.
@@ -1340,7 +1340,7 @@ Kotlin 文档有了一些重要变更:
   创建一个使用数据库的简单的应用程序, 详细了解 Spring Boot 和 Kotlin 的功能.
 * [作用域函数(Scope Function)](scope-functions.md) –
   了解如何使用标准库中有用的作用域函数来简化代码.
-* [CocoaPods 集成](native-cocoapods.md) – 设置使用 CocoaPods 的环境.
+* [CocoaPods 集成](multiplatform-cocoapods-overview.md) – 设置使用 CocoaPods 的环境.
 
 ## 安装 Kotlin 1.8.20
 

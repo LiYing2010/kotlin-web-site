@@ -100,6 +100,26 @@ IntelliJ IDEA 和 Android Studio 中的 K2 模式使用 K2 编译器, 以改进�
         <th>构建信息</th>
         <th>主要内容</th>
     </tr>
+    <tr>
+        <td><strong>2.2.0</strong>
+            <p>发布日期: <strong>2025/06/23</strong></p>
+            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v2.2.0" target="_blank">GitHub 发布链接</a></p>
+        </td>
+        <td>
+            <p>一个语言发布版, 包括引入了新的语言特性, 一些语言特性进入稳定版, 工具更新, 针对各个平台的性能改善, 以及重要的 Bug 修复.</p>
+            <p>详情请参见 <a href="https://github.com/JetBrains/kotlin/releases/tag/v2.2.0">changelog</a>.</p>
+        </td>
+    </tr> 
+    <tr>
+        <td><strong>2.1.21</strong>
+            <p>发布日期: <strong>2025/05/13</strong></p>
+            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v2.1.21" target="_blank">GitHub 发布链接</a></p>
+        </td>
+        <td>
+            <p>针对 Kotlin 2.1.20 的 Bug 修复发布版.</p>
+            <p>详情请参见 <a href="https://github.com/JetBrains/kotlin/releases/tag/v2.1.21">changelog</a>.</p>
+        </td>
+    </tr> 
    <tr>
         <td><strong>2.1.20</strong>
             <p>发布日期: <strong>2025/03/20</strong></p>
@@ -116,7 +136,7 @@ IntelliJ IDEA 和 Android Studio 中的 K2 模式使用 K2 编译器, 以改进�
             <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v2.1.10" target="_blank">GitHub 发布链接</a></p>
         </td>
         <td>
-            <p>针对 Kotlin 2.1.0 的 Bug 修复发布版</p>
+            <p>针对 Kotlin 2.1.0 的 Bug 修复发布版.</p>
             <p>详情请参见 <a href="https://github.com/JetBrains/kotlin/releases/tag/v2.1.10">changelog</a>.</p>
         </td>
     </tr>

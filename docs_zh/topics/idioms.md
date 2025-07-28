@@ -187,7 +187,7 @@ val files = File("Test").listFiles()
 println(files?.size) // 如果 files 不为 null, 这里会打印 size 值
 ```
 
-## If-not-null-else 的简写表达方式
+## If-not-null-else 的简写表达方式 {id="if-not-null-else-shorthand"}
 
 ```kotlin
 val files = File("Test").listFiles()
@@ -203,7 +203,7 @@ val filesSize = files?.size ?: run {
 println(filesSize)
 ```
 
-## 当值为 null 时, 执行某个语句 {id="execute-a-statement-if-null"}
+## 当值为 null 时, 执行某个表达式 {id="execute-an-expression-if-null"}
 
 ```kotlin
 val values = ...

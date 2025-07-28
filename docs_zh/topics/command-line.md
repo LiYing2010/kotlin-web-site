@@ -106,9 +106,8 @@ kotlin -classpath hello.jar HelloKt
 
 ## 运行 REPL {id="run-the-repl"}
 
-你可以不带任何参数来运行编译器, 启动一个交互环境. 在这个环境中, 你可以输入任何有效的 Kotlin 代码, 并看到结果.
-
-<img src="kotlin-shell.png" alt="Shell" width="500"/>
+使用 [`-Xrepl` 编译器参数](compiler-reference.md#xrepl) 运行编译器, 启动一个交互环境.
+在这个环境中, 你可以输入任何有效的 Kotlin 代码, 并看到结果.
 
 ## 运行脚本 {id="run-scripts"}
 

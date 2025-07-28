@@ -36,13 +36,15 @@
         <toc-element topic="native-overview.md"/>
         <toc-element topic="js-overview.md"/>
         <toc-element accepts-web-file-names="data-science-overview.html" topic="data-analysis-overview.md"/>
+        <toc-element topic="kotlin-ai-apps-development-overview.md"/>
         <toc-element topic="competitive-programming.md"/>
     </toc-element>
     <toc-element toc-title="Kotlin 新功能">
-        <toc-element toc-title="Kotlin 2.1.20" accepts-web-file-names="whatsnew.html" topic="whatsnew2120.md"/>
-        <toc-element toc-title="Kotlin 2.1.0" topic="whatsnew21.md"/>
-        <toc-element toc-title="Kotlin 2.2.0-Beta2" topic="whatsnew-eap.md"/>
+        <toc-element toc-title="Kotlin 2.2.0" accepts-web-file-names="whatsnew.html" topic="whatsnew22.md"/>
+        <toc-element toc-title="Kotlin 2.2.0-RC3" topic="whatsnew-eap.md" hidden="true"/>
         <toc-element toc-title="早期版本">
+            <toc-element toc-title="Kotlin 2.1.20" topic="whatsnew2120.md"/>
+            <toc-element toc-title="Kotlin 2.1.0" topic="whatsnew21.md"/>
             <toc-element toc-title="Kotlin 2.0.20" topic="whatsnew2020.md"/>
             <toc-element toc-title="Kotlin 2.0.0" topic="whatsnew20.md"/>
             <toc-element toc-title="Kotlin 1.9.20" topic="whatsnew1920.md"/>
@@ -125,6 +127,7 @@
                 <toc-element topic="type-safe-builders.md"/>
                 <toc-element topic="using-builders-with-builder-inference.md"/>
             </toc-element>
+            <toc-element topic="context-parameters.md"/>
         </toc-element>
         <toc-element topic="null-safety.md"/>
         <toc-element topic="equality.md"/>
@@ -134,45 +137,6 @@
         <toc-element topic="annotations.md"/>
         <toc-element accepts-web-file-names="multi-declarations.html" topic="destructuring-declarations.md"/>
         <toc-element topic="reflection.md"/>
-    </toc-element>
-    <toc-element toc-title="跨平台程序开发">
-        <toc-element accepts-web-file-names="building-mpp-with-gradle.html,intro-to-kotlin-mpp.html,mpp-intro.html,mpp-get-started.html,multiplatform-tutorials.html" toc-title="简介" topic="multiplatform-intro.md"/>
-        <toc-element accepts-web-file-names="mpp-discover-project.html,mpp-set-up-targets.html,multiplatform-set-up-targets.html" toc-title="理解基本项目结构" topic="multiplatform-discover-project.md"/>
-        <toc-element toc-title="探索高级项目结构" topic="multiplatform-advanced-project-structure.md"/>
-        <toc-element toc-title="共用代码">
-            <toc-element accepts-web-file-names="mpp-share-on-platforms.html" topic="multiplatform-share-on-platforms.md"/>
-            <toc-element topic="multiplatform-expect-actual.md"/>
-            <toc-element accepts-web-file-names="migrating-multiplatform-project-to-14.html" topic="multiplatform-hierarchy.md"/>
-        </toc-element>
-        <toc-element toc-title="添加依赖项">
-            <toc-element toc-title="添加跨平台库依赖项" accepts-web-file-names="mpp-add-dependencies.html" topic="multiplatform-add-dependencies.md"/>
-            <toc-element toc-title="Android 目标平台" topic="multiplatform-android-dependencies.md"/>
-            <toc-element toc-title="iOS 目标平台" topic="multiplatform-ios-dependencies.md"/>
-        </toc-element>
-        <toc-element toc-title="设置与 iOS 的集成">
-            <toc-element toc-title="选择集成方法" topic="multiplatform-ios-integration-overview.md"/>
-            <toc-element topic="multiplatform-direct-integration.md"/>
-            <toc-element toc-title="远程 SPM 导出" topic="native-spm.md"/>
-            <toc-element toc-title="与 CocoaPods 集成">
-                <toc-element topic="native-cocoapods.md"/>
-                <toc-element topic="native-cocoapods-libraries.md"/>
-                <toc-element topic="native-cocoapods-xcode.md"/>
-                <toc-element topic="native-cocoapods-dsl-reference.md"/>
-            </toc-element>
-            <toc-element toc-title="使用 SPM 进行本地集成" topic="multiplatform-spm-local-integration.md"/>
-        </toc-element>
-        <toc-element toc-title="编译 Artifact">
-            <toc-element accepts-web-file-names="mpp-configure-compilations.html" topic="multiplatform-configure-compilations.md"/>
-            <toc-element toc-title="[Experimental DSL] Build final native binaries" hidden="true" topic="multiplatform-native-artifacts.md"/>
-            <toc-element accepts-web-file-names="mpp-build-native-binaries.html" topic="multiplatform-build-native-binaries.md"/>
-        </toc-element>
-        <toc-element accepts-web-file-names="mpp-publish-lib.html" toc-title="库的发布设置" topic="multiplatform-publish-lib.md"/>
-        <toc-element toc-title="参考文档">
-            <toc-element accepts-web-file-names="mpp-dsl-reference.html,mpp-supported-platforms.html,multiplatform-supported-platforms.html" topic="multiplatform-dsl-reference.md"/>
-            <toc-element topic="multiplatform-android-layout.md"/>
-            <toc-element toc-title="兼容性指南" topic="multiplatform-compatibility-guide.md"/>
-            <toc-element toc-title="Android Studio plugin" topic="multiplatform-plugin-releases.md"/>
-        </toc-element>
     </toc-element>
     <toc-element toc-title="数据分析">
         <toc-element toc-title="Kotlin Notebook 入门">
@@ -201,11 +165,12 @@
                 <toc-element toc-title="使用 Spring Boot 创建有数据库的 RESTful Web 服务">
                     <toc-element accepts-web-file-names="jvm-spring-boot-restful.html,spring-boot-restful.html,spring-boot-restful-db.html,jvm-spring-boot-restful-db.html" topic="jvm-get-started-spring-boot.md"/>
                     <toc-element toc-title="创建 Spring Boot 项目" topic="jvm-create-project-with-spring-boot.md"/>
-                    <toc-element toc-title="使用数据类升级你的项目" topic="jvm-spring-boot-add-data-class.md"/>
+                    <toc-element topic="jvm-spring-boot-add-data-class.md"/>
                     <toc-element topic="jvm-spring-boot-add-db-support.md"/>
                     <toc-element toc-title="使用 Spring Data CrudRepository" topic="jvm-spring-boot-using-crudrepository.md"/>
                 </toc-element>
                 <!-- <toc-element topic="jvm-spring-boot-restful.md" accepts-web-file-names="spring-boot-restful.html,spring-boot-restful-db.html,jvm-spring-boot-restful-db.html,jvm-get-started-spring-boot.html,jvm-create-project-with-spring-boot.html,jvm-spring-boot-add-data-class.html,jvm-spring-boot-add-db-support.html,jvm-spring-boot-using-crudrepository.html"/>-->
+                <toc-element topic="spring-ai-guide.md"/>
                 <toc-element toc-title="Spring Framework 关于 Kotlin 的文档" href="https://docs.spring.io/spring-framework/docs/current/reference/html/languages.html#languages"/>
                 <toc-element toc-title="教程 - 使用 Spring Boot 和 Kotlin 创建 Web 应用程序" href="https://spring.io/guides/tutorials/spring-boot-kotlin/"/>
                 <toc-element toc-title="教程 - 使用 Kotlin 协程(Coroutine) 和 RSocket 创建聊天应用程序" href="https://spring.io/guides/tutorials/spring-webflux-kotlin-rsocket/"/>
@@ -247,7 +212,6 @@
             <toc-element topic="native-ios-symbolication.md"/>
             <toc-element toc-title="参考文档与提示">
                 <toc-element toc-title="支持的目标平台" topic="native-target-support.md"/>
-                <toc-element toc-title="App Store 隐私清单(privacy manifest)" topic="apple-privacy-manifest.md"/>
                 <toc-element toc-title="改善编译速度" topic="native-improving-compilation-time.md"/>
                 <toc-element toc-title="许可证" topic="native-binary-licenses.md"/>
                 <toc-element topic="native-faq.md"/>
@@ -266,7 +230,6 @@
             <toc-element topic="dev-server-continuous-compilation.md"/>
             <toc-element accepts-web-file-names="debugging-kotlin-in-browser.html" topic="js-debugging.md"/>
             <toc-element accepts-web-file-names="running-tests.html" topic="js-running-tests.md"/>
-            <toc-element topic="javascript-dce.md"/>
             <!-- The following page is used in the Mari link service. If you wish to change it here, change the link there too -->
             <toc-element toc-title="IR 编译器" topic="js-ir-compiler.md"/>
             <toc-element topic="js-ir-migration.md"/>
@@ -285,6 +248,9 @@
         <toc-element toc-title="脚本(Scripting)平台">
             <toc-element topic="custom-script-deps-tutorial.md"/>
         </toc-element>
+    </toc-element>
+    <toc-element toc-title="跨平台程序开发(Kotlin Multiplatform)">
+        <include from="mpd_zh.tree" element-id="multiplatform"/>
     </toc-element>
     <toc-element toc-title="标准库">
         <toc-element toc-title="集合(Collection)">
@@ -348,9 +314,11 @@
                 <toc-element topic="gradle-best-practices.md"/>
                 <toc-element toc-title="KGP 中的编译器选项" topic="gradle-compiler-options.md"/>
                 <toc-element toc-title="KGP 中的编译与缓存" topic="gradle-compilation-and-caches.md"/>
+                <toc-element toc-title="KGP 中的二进制兼容性验证" topic="gradle-binary-compatibility-validation.md"/>
                 <toc-element topic="gradle-plugin-variants.md"/>
             </toc-element>
             <toc-element accepts-web-file-names="using-maven.html" topic="maven.md"/>
+            <toc-element topic="build-tools-api.md"/>
             <toc-element accepts-web-file-names="using-ant.html" topic="ant.md"/>
         </toc-element>
         <toc-element toc-title="Dokka">
@@ -421,6 +389,7 @@
     <toc-element toc-title="其他资源">
         <toc-element topic="faq.md"/>
         <toc-element toc-title="Kotlin 兼容性指南">
+            <toc-element topic="compatibility-guide-22.md"/>
             <toc-element topic="compatibility-guide-21.md"/>
             <toc-element topic="compatibility-guide-20.md"/>
             <toc-element topic="compatibility-guide-19.md"/>
@@ -456,12 +425,5 @@
         </toc-element>
         <toc-element accepts-web-file-names="kotlin-logo.html" topic="kotlin-brand-assets.md"/>
         <toc-element toc-title="媒体宣传资料" href="https://kotlinlang.org/assets/kotlin-media-kit.pdf"/>
-    </toc-element>
-    <toc-element toc-title="旧文档">
-        <toc-element toc-title="期刊">
-            <toc-element toc-title="跨平台移动 App 开发" topic="cross-platform-mobile-development.md"/>
-            <toc-element toc-title="原生(Native) App 开发与跨平台(cross-platform)移动 App 开发" topic="native-and-cross-platform.md"/>
-            <toc-element toc-title="跨平台 App 开发最流行的 6 种框架" topic="cross-platform-frameworks.md"/>
-        </toc-element>
     </toc-element>
 </instance-profile>

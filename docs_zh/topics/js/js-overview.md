@@ -53,7 +53,7 @@ Kobweb 还支持网站导出, 生成页面快照, 用于 SEO 和自动搜索索�
 _KVision_ 是一个面向对象的 Web 框架, 可以使用 Kotlin/JS 编写应用程序, 可以通过各种现成的组件来组合成你的用户界面.
 你可以使用响应式(reactive)或命令式(imperative)编程模式来创建你的前端,
 然后使用 connector for Ktor, Spring Boot, 以及其他框架, 与你的服务端应用程序连接,
-并使用 [Kotlin 跨平台程序](multiplatform-intro.md) 来共用代码.
+并使用 [Kotlin 跨平台程序](multiplatform.topic) 来共用代码.
 
 请访问 [KVision 网站](https://kvision.io), 查看 KVision 的文档, 教程, 和示例.
 

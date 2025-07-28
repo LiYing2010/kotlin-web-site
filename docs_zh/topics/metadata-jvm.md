@@ -183,6 +183,78 @@ fun main() {
 }
 ```
 
+### 在 metadata 中写入和读取注解 {id="write-and-read-annotations-in-metadata"}
+<primary-label ref="experimental-general"/>
+
+你可以在 Kotlin metadata 中存储注解, 并使用 `kotlin-metadata-jvm` 库访问它们.
+这样就不再需要通过签名来匹配注解, 使对重载的声明的访问更加可靠.
+
+要让注解在你的编译后的文件的 metadata 中可以使用, 请添加以下编译器选项:
+
+```kotlin
+-Xannotations-in-metadata
+```
+
+或者, 添加到你的 Gradle 构建文件的 `compilerOptions {}` 代码段:
+
+```kotlin
+// build.gradle.kts
+kotlin {
+    compilerOptions {
+        freeCompilerArgs.add("-Xannotations-in-metadata")
+    }
+}
+```
+
+当你启用这个选项时, Kotlin 编译器会将注解与 JVM 字节码一起写入 metadata,
+使 `kotlin-metadata-jvm` 库能够访问它们.
+
+这个库提供了以下 API 来访问注解:
+
+* `KmClass.annotations`
+* `KmFunction.annotations`
+* `KmProperty.annotations`
+* `KmConstructor.annotations`
+* `KmPropertyAccessorAttributes.annotations`
+* `KmValueParameter.annotations`
+* `KmFunction.extensionReceiverAnnotations`
+* `KmProperty.extensionReceiverAnnotations`
+* `KmProperty.backingFieldAnnotations`
+* `KmProperty.delegateFieldAnnotations`
+* `KmEnumEntry.annotations`
+
+这些 API 是 [实验性功能](components-stability.md#stability-levels-explained).
+要选择使用者同意(Opt-in), 请使用 `@OptIn(ExperimentalAnnotationsInMetadata::class)` 注解.
+
+下面是一个从 Kotlin metadata 读取注解的示例:
+
+```kotlin
+@file:OptIn(ExperimentalAnnotationsInMetadata::class)
+
+import kotlin.metadata.ExperimentalAnnotationsInMetadata
+import kotlin.metadata.jvm.KotlinClassMetadata
+
+annotation class Label(val value: String)
+
+@Label("Message class")
+class Message
+
+fun main() {
+    val metadata = Message::class.java.getAnnotation(Metadata::class.java)
+    val kmClass = (KotlinClassMetadata.readStrict(metadata) as KotlinClassMetadata.Class).kmClass
+    println(kmClass.annotations)
+    // 输出结果为: [@Label(value = StringValue("Message class"))]
+}
+```
+
+> 如果在你的项目中使用 `kotlin-metadata-jvm` 库, 我们推荐更新并测试你的代码, 以支持注解.
+> 否则, 如果在未来的 Kotlin 版本中, metadata 中的注解变为 [默认启用](https://youtrack.jetbrains.com/issue/KT-75736),
+> 你的项目可能会生成不正确的或不完整的 metadata.
+>
+> 如果你遇到任何问题, 请报告到我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-31857).
+>
+{style="warning"}
+
 ### 从字节码提取 metadata  {id="extract-metadata-from-bytecode"}
 
 你可以使用反射获取 metadata, 另一种方式是使用字节码操作框架, 例如 [ASM](https://asm.ow2.io/), 从字节码提取 metadata.

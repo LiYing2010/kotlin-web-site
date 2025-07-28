@@ -159,7 +159,7 @@ kotlin {
 如果你已有的项目使用静态链接类型, 而且你想要升级到 Kotlin 1.8.0 (或者明确修改链接类型), 那么在项目执行时可能会发生错误.
 要修正这个错误, 请关闭你的 Xcode 项目, 并在 Podfile 目录中运行 `pod install`.
 
-详情请参见, [CocoaPods Gradle plugin DSL 参考文档](native-cocoapods-dsl-reference.md).
+详情请参见, [CocoaPods Gradle plugin DSL 参考文档](multiplatform-cocoapods-dsl-reference.md).
 
 ## Kotlin Multiplatform: 新的 Android 源代码集布局
 

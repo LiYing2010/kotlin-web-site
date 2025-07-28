@@ -1,9 +1,11 @@
 [//]: # (title: 针对 EAP 进行构建配置)
 
 <tldr>
-    <p>目前没有预览版</p>
-    <!-- <p>Kotlin EAP 的最新发布版本: <strong>%kotlinEapVersion%</strong></p> -->
+    <p>目前没有预览版.</p>
+    <!--
+    <p>Kotlin EAP 的最新发布版本: <strong>%kotlinEapVersion%</strong></p>
     <p><a href="eap.md#build-details">查看 Kotlin EAP 发布版的细节</a></p>
+    -->
 </tldr>
 
 要配置你的构建, 使它使用 Kotlin 的 EAP 版, 你需要:

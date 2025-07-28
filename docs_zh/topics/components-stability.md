@@ -36,7 +36,7 @@ Kotlin 语言和它的工具集分成很多组件, 比如针对 JVM, JS 和 Nati
 请注意, 稳定性级别并不代表组件会在什么时间发布为稳定版本. 同样, 也不代表组件在正式发布之前会发生多大的变化.
 稳定性级别只代表组件会以多快的速度发生变化, 以及将来的版本升级问题会给使用者带来多大的风险.
 
-## Kotlin 组件的 GitHub 徽章
+## Kotlin 组件的 GitHub 徽章 {id="github-badges-for-kotlin-components"}
 
 [GitHub 上的 Kotlin 组织](https://github.com/Kotlin) 存放着很多 Kotlin 相关项目.
 有些项目我们在全职投入开发, 其他则只是业余项目.
@@ -54,7 +54,7 @@ Kotlin 语言和它的工具集分成很多组件, 比如针对 JVM, JS 和 Nati
   对于 JetBrains 的所有产品, 支持级别是一致的.
   详情请参见 [JetBrains 的开源文档](https://github.com/JetBrains#jetbrains-on-github).
 
-## 子组件的稳定性
+## 子组件的稳定性 {id="stability-of-subcomponents"}
 
 一个稳定的组件也可以包含实验性的子组件, 比如:
 * 稳定的编译器可以包含实验性的功能特性;
@@ -64,13 +64,13 @@ Kotlin 语言和它的工具集分成很多组件, 比如针对 JVM, JS 和 Nati
 我们确保会对这些还未 **稳定** 的子组件提供正确的文档.
 我们也会尽可能警告使用者, 并要求使用者明确同意, 以避免无意中使用到这些未稳定发布的功能.
 
-## Kotlin 各部分组件当前的稳定性
+## Kotlin 各部分组件当前的稳定性 {id="current-stability-of-kotlin-components"}
 
 > 默认情况下, 所有的新组件都是实验性(Experimental)状态.
 >
 {style="note"}
 
-### Kotlin 编译器
+### Kotlin 编译器 {id="kotlin-compiler"}
 
 | **组件**                                                              | **状态** | **进入这个状态的版本** | **备注** |
 |---------------------------------------------------------------------|--------|---------------|--------|
@@ -91,7 +91,7 @@ Kotlin 语言和它的工具集分成很多组件, 比如针对 JVM, JS 和 Nati
 | [Lombok](lombok.md)                              | Experimental | 1.5.20        |        |
 | [Power-assert](power-assert.md)                  | Experimental | 2.0.0         |        |
 
-### Kotlin 库
+### Kotlin 库 {id="kotlin-libraries"}
 
 | **组件**                | **状态** | **进入这个状态的版本** | **备注** |
 |-----------------------|--------|---------------|--------|
@@ -103,14 +103,14 @@ Kotlin 语言和它的工具集分成很多组件, 比如针对 JVM, JS 和 Nati
 | kotlinx-datetime      | Alpha  | 0.2.0         |        |
 | kotlinx-io            | Alpha  | 0.2.0         |        |
 
-### Kotlin Multiplatform
+### Kotlin Multiplatform {id="kotlin-multiplatform"}
 
 | **组件**                                       | **状态** | **进入这个状态的版本** | **备注**                                           |
 |----------------------------------------------|--------|---------------|--------------------------------------------------|
 | Kotlin Multiplatform                         | Stable | 1.9.20        |                                                  |
 | Android Studio 的 Kotlin Multiplatform plugin | Beta   | 0.8.0         | [版本与语言本身的版本不同](multiplatform-plugin-releases.md) |
 
-### Kotlin/Native
+### Kotlin/Native {id="kotlin-native"}
 
 | **组件**                              | **状态** | **进入这个状态的版本** | **备注**                    |
 |-------------------------------------|--------|---------------|---------------------------|
@@ -122,7 +122,7 @@ Kotlin 语言和它的工具集分成很多组件, 比如针对 JVM, JS 和 Nati
 
 > 关于 Kotlin/Native 支持的编译目标, 详情请参见 [](native-target-support.md).
 
-### 语言工具
+### 语言工具 {id="language-tools"}
 
 | **组件**      | **状态** | **进入这个状态的版本** | **备注**                           |
 |-------------|--------|---------------|----------------------------------|
@@ -131,6 +131,6 @@ Kotlin 语言和它的工具集分成很多组件, 比如针对 JVM, JS 和 Nati
 | 脚本 的 IDE 支持 | Beta   |               | 从 IntelliJ IDEA 2023.1 及更高版本开始可用 |
 | CLI 脚本      | Alpha  | 1.2.0         |                                  |
 
-## 语言功能与设计提案
+## 语言功能与设计提案 {id="language-features-and-design-proposals"}
 
 关于语言功能与新的设计提案, 请参见 [](kotlin-language-features-and-proposals.md).

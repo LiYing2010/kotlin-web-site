@@ -159,14 +159,6 @@ ${'$'}_9.99
 
 ### 多 `$` 符号字符串插值(Interpolation) {id="multi-dollar-string-interpolation"}
 
-> 多 `$` 符号字符串插值是 [实验性功能](components-stability.md#stability-levels-explained),
-> 需要使用者同意(Opt-in) (详情见下文).
->
-> 它随时有可能变更.
-> 希望你能通过 [YouTrack](https://youtrack.jetbrains.com/issue/KT-2425) 提供你的反馈意见.
->
-{style="warning"}
-
 通过多 `$` 符号字符串插值, 你可以指定需要多少个连续的 `$` 符号才会触发插值(Interpolation).
 插值是指将变量或表达式直接嵌入到字符串中的过程.
 
@@ -185,7 +177,7 @@ val KClass<*>.jsonSchema : String
     {
       "$schema": "https://json-schema.org/draft/2020-12/schema",
       "$id": "https://example.com/product.schema.json",
-      "$dynamicAnchor": "meta"
+      "$dynamicAnchor": "meta",
       "title": "$${simpleName ?: qualifiedName ?: "unknown"}",
       "type": "object"
     }
@@ -222,24 +214,7 @@ println(requestedData)
 
 这里, `$$$` 前缀允许字符串中包含 `$` 和 `$$`, 而不需要使用 `${'$'}` 结构进行转义.
 
-要启用这个功能, 请在命令行中使用以下编译器选项:
-
-```bash
-kotlinc -Xmulti-dollar-interpolation main.kt
-```
-
-或者, 更新你的 Gradle 构建文件中的 `compilerOptions {}` 代码块:
-
-```kotlin
-// build.gradle.kts
-kotlin {
-    compilerOptions {
-        freeCompilerArgs.add("-Xmulti-dollar-interpolation")
-    }
-}
-```
-
-这个功能不会影响既有的, 使用单个 `$` 符号字符串插值的代码.
+多 `$` 符号字符串插值功能不会影响既有的, 使用单个 `$` 符号字符串插值的代码.
 你可以继续和以前一样使用单个 `$`, 然后在需要在字符串中处理 `$` 符号字面值时, 使用多个 `$` 符号.
 
 ## 字符串格式化 {id="string-formatting"}

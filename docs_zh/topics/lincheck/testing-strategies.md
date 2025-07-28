@@ -28,9 +28,8 @@ class Counter {
 最后的代码大致如下:
 
 ```kotlin
-import org.jetbrains.kotlinx.lincheck.annotations.*
-import org.jetbrains.kotlinx.lincheck.check
-import org.jetbrains.kotlinx.lincheck.strategy.stress.*
+import org.jetbrains.lincheck.*
+import org.jetbrains.lincheck.datastructures.*
 import org.junit.*
 
 class CounterTest {
@@ -70,9 +69,8 @@ class CounterTest {
 要将压力测试策略修改为模型检查策略, 请将你的测试中的 `StressOptions()` 替换为 `ModelCheckingOptions()`:
 
 ```kotlin
-import org.jetbrains.kotlinx.lincheck.annotations.*
-import org.jetbrains.kotlinx.lincheck.check
-import org.jetbrains.kotlinx.lincheck.strategy.managed.modelchecking.*
+import org.jetbrains.lincheck.*
+import org.jetbrains.lincheck.datastructures.*
 import org.junit.*
 
 class CounterTest {
@@ -122,9 +120,8 @@ _模型检查策略_ 更适合在循序一致性内存模型下查找 bug, 因�
 1. 为 `CounterTest` 的场景生成和运行设置选项:
 
     ```kotlin
-    import org.jetbrains.kotlinx.lincheck.annotations.*
-    import org.jetbrains.kotlinx.lincheck.check
-    import org.jetbrains.kotlinx.lincheck.strategy.stress.*
+    import org.jetbrains.lincheck.*
+    import org.jetbrains.lincheck.datastructures.*
     import org.junit.*
 
     class CounterTest {
@@ -202,9 +199,8 @@ Lincheck 会尝试对错误进行最小化, 努力删除操作, 同时又确保�
 因此, 要在追踪信息中打印计数器状态, 请对 `CounterTest` 添加 `stateRepresentation()` 函数:
 
     ```kotlin
-    import org.jetbrains.kotlinx.lincheck.annotations.*
-    import org.jetbrains.kotlinx.lincheck.check
-    import org.jetbrains.kotlinx.lincheck.strategy.managed.modelchecking.*
+    import org.jetbrains.lincheck.*
+    import org.jetbrains.lincheck.datastructures.*
     import org.junit.Test
 
     class CounterTest {
@@ -258,8 +254,8 @@ Lincheck 会尝试对错误进行最小化, 努力删除操作, 同时又确保�
 
 对于压力测试的情况, Lincheck 会在场景的并行运行部分之前和之后打印状态信息, 还会在结束时打印.
 
-> * 查看 [这些示例的完整代码](https://github.com/JetBrains/lincheck/tree/master/src/jvm/test/org/jetbrains/kotlinx/lincheck_test/guide/CounterTest.kt)
-> * 查看更多 [测试示例](https://github.com/JetBrains/lincheck/tree/master/src/jvm/test/org/jetbrains/kotlinx/lincheck_test/guide)
+> * 查看 [这些示例的完整代码](https://github.com/JetBrains/lincheck/tree/master/src/jvm/test-lincheck-integration/org/jetbrains/lincheck_test/guide/CounterTest.kt)
+> * 查看更多 [测试示例](https://github.com/JetBrains/lincheck/tree/master/src/jvm/test-lincheck-integration/org/jetbrains/lincheck_test/guide)
 >
 {style="note"}
 

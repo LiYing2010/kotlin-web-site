@@ -719,7 +719,7 @@ fun main() {
 }
 ```
 
-#### when 语句的分支条件 {id="when-entry initial-collapse-state="collapsed" collapsible="true"}
+#### when 语句的分支条件 {id="when-entry" initial-collapse-state="collapsed" collapsible="true"}
 
 ```kotlin
 fun isReferenceApplicable(myReference: KClass<*>) = when (myReference) {
@@ -850,10 +850,26 @@ fun foo() { // 此处省略了 ": Unit"
 
 ### 字符串模板
 
-向字符串模板中插入简单变量时, 不要使用大括号. 只有对比较长的表达式, 才应该使用大括号.
+向字符串模板中插入简单变量时, 不要使用大括号. 只有对比较长的表达式, 才应该使用大括号:
 
 ```kotlin
 println("$name has ${children.size} children")
+```
+
+使用 [多 `$` 符号字符串插值](strings.md#multi-dollar-string-interpolation),
+将美元符号 `$` 用作字符串字面值:
+
+```kotlin
+val KClass<*>.jsonSchema : String
+    get() = $$"""
+    {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://example.com/product.schema.json",
+      "$dynamicAnchor": "meta",
+      "title": "$${simpleName ?: qualifiedName ?: "unknown"}",
+      "type": "object"
+    }
+    """
 ```
 
 ## 各种语言特性的惯用法

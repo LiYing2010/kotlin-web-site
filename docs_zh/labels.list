@@ -11,4 +11,365 @@
     <primary-label id="eap" name="EAP" short-name="EAP" color="red">This functionality is available only in the latest EAP version.</primary-label>
 
     <secondary-label id="eap" name="EAP" color="red">This functionality is available only in the latest EAP version.</secondary-label>
+
+
+    <primary-label id="EAP" short-name="EAP" name="Compose Multiplatform %composeEapVersion%">
+        This functionality is available only in the EAP version.
+    </primary-label>
+
+    <primary-label id="navEAP" short-name="navEAP" name="Compose Multiplatform Navigation %composeNavigationEapVersion%"
+                   href="https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-navigation-routing.html">
+        Navigation library for the EAP version of Compose Multiplatform.
+    </primary-label>
+
+    <secondary-label id="Deprecated" name="Deprecated" color="strawberry">Still available, but deprecated.</secondary-label>
+    <secondary-label id="Experimental" name="Experimental" color="red">This feature is at the experimental stage of development and can be significantly changed or removed in future releases.</secondary-label>
+    <secondary-label id="Android" name="Android">Available in Compose Multiplatform for Android</secondary-label>
+    <secondary-label id="Desktop" name="Desktop">Available in Compose Multiplatform for desktop</secondary-label>
+    <secondary-label id="iOS" name="iOS">Available in Compose Multiplatform for iOS</secondary-label>
+    <secondary-label id="Web" name="Web">Available in Compose Multiplatform for web</secondary-label>
+
+    <secondary-label id="Information" name="Info" color="blue"/>
+    <secondary-label id="Weak warning" name="Info" color="tangerine"/>
+    <secondary-label id="Warning" name="Warning" color="red"/>
+    <secondary-label id="Error" name="Error" color="red"/>
+    <secondary-label id="New" name="New" color="tangerine"/>
+
+    <secondary-label id=".ignore (ignorelang)" name=".ignore (ignorelang)" color="purple">Multiple means that
+        the inspection performs checks on a set of languages, the support of which is determined by inspection
+        internally.
+    </secondary-label>
+
+    <secondary-label id="Blade" name="Blade" color="purple">Multiple means that the inspection performs checks
+        on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="CSS" name="CSS" color="purple">Multiple means that the inspection performs checks on a
+        set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Cmake" name="Cmake" color="purple">Multiple means that the inspection performs checks
+        on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Coffeescript" name="Coffeescript" color="purple">Multiple means that the inspection
+        performs checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Commandline" name="Commandline" color="purple">Multiple means that the inspection
+        performs checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Cython" name="Cython" color="purple">Multiple means that the inspection performs checks
+        on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Djangotemplate" name="Djangotemplate" color="purple">Multiple means that the inspection
+        performs checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Dockerfile" name="Dockerfile" color="purple">Multiple means that the inspection
+        performs checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="EJS" name="EJS" color="purple">Multiple means that the inspection performs checks on a
+        set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="EL" name="EL" color="purple">Multiple means that the inspection performs checks on a
+        set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Ecmascript 6" name="Ecmascript 6" color="purple">Multiple means that the inspection
+        performs checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Editorconfig" name="Editorconfig" color="purple">Multiple means that the inspection
+        performs checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="FTL" name="FTL" color="purple">Multiple means that the inspection performs checks on a
+        set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Flow js" name="Flow js" color="purple">Multiple means that the inspection performs
+        checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="GQL" name="GQL" color="purple">Multiple means that the inspection performs checks on a
+        set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Gherkin" name="Gherkin" color="purple">Multiple means that the inspection performs
+        checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Gotemplate" name="Gotemplate" color="purple">Multiple means that the inspection
+        performs checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Groovy" name="Groovy" color="purple">Multiple means that the inspection performs checks
+        on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Haml" name="Haml" color="purple">Multiple means that the inspection performs checks on
+        a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Handlebars" name="Handlebars" color="purple">Multiple means that the inspection
+        performs checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Html" name="Html" color="purple">Multiple means that the inspection performs checks on
+        a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Htmlcompatible" name="Htmlcompatible" color="purple">Multiple means that the inspection
+        performs checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Http request" name="Http request" color="purple">Multiple means that the inspection
+        performs checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Ignorelang" name="Ignorelang" color="purple">Multiple means that the inspection
+        performs checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Ini" name="Ini" color="purple">Multiple means that the inspection performs checks on a
+        set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="JVM" name="JVM" color="purple">Multiple means that the inspection performs checks on a
+        set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Jade" name="Jade" color="purple">Multiple means that the inspection performs checks on
+        a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Java" name="Java" color="purple">Multiple means that the inspection performs checks on
+        a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Javascript" name="Javascript" color="purple">Multiple means that the inspection
+        performs checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Jpaql" name="Jpaql" color="purple">Multiple means that the inspection performs checks
+        on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Json" name="Json" color="purple">Multiple means that the inspection performs checks on
+        a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Json5" name="Json5" color="purple">Multiple means that the inspection performs checks
+        on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Jsonpath" name="Jsonpath" color="purple">Multiple means that the inspection performs
+        checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Jupyter" name="Jupyter" color="purple">Multiple means that the inspection performs
+        checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Kotlin" name="Kotlin" color="purple">Multiple means that the inspection performs checks
+        on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Less" name="Less" color="purple">Multiple means that the inspection performs checks on
+        a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Makefile" name="Makefile" color="purple">Multiple means that the inspection performs
+        checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Manifest" name="Manifest" color="purple">Multiple means that the inspection performs
+        checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Markdown" name="Markdown" color="purple">Multiple means that the inspection performs
+        checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Mongodb-json" name="Mongodb-json" color="purple">Multiple means that the inspection
+        performs checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Mongojs" name="Mongojs" color="purple">Multiple means that the inspection performs
+        checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Mongojsext" name="Mongojsext" color="purple">Multiple means that the inspection
+        performs checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Msbuild" name="Msbuild" color="purple">Multiple means that the inspection performs
+        checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Multiple" name="Multiple" color="purple">Multiple means that the inspection performs
+        checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Mysql" name="Mysql" color="purple">Multiple means that the inspection performs checks
+        on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Mysql based" name="Mysql based" color="purple">Multiple means that the inspection
+        performs checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Ocstringsfile" name="Ocstringsfile" color="purple">Multiple means that the inspection
+        performs checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Oracle" name="Oracle" color="purple">Multiple means that the inspection performs checks
+        on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="PHP" name="PHP" color="purple">Multiple means that the inspection performs checks on a
+        set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Pointcutexpression" name="Pointcutexpression" color="purple">Multiple means that the
+        inspection performs checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Postcss" name="Postcss" color="purple">Multiple means that the inspection performs
+        checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Properties" name="Properties" color="purple">Multiple means that the inspection
+        performs checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Protobuf" name="Protobuf" color="purple">Multiple means that the inspection performs
+        checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Pug (ex-jade)" name="Pug (ex-jade)" color="purple">Multiple means that the inspection
+        performs checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Puppet" name="Puppet" color="purple">Multiple means that the inspection performs checks
+        on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Python" name="Python" color="purple">Multiple means that the inspection performs checks
+        on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Regexp" name="Regexp" color="purple">Multiple means that the inspection performs checks
+        on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Rest" name="Rest" color="purple">Multiple means that the inspection performs checks on
+        a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Roomsql" name="Roomsql" color="purple">Multiple means that the inspection performs
+        checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Ruby" name="Ruby" color="purple">Multiple means that the inspection performs checks on
+        a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Ruby.rbs" name="Ruby.rbs" color="purple">Multiple means that the inspection performs
+        checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="SQL" name="SQL" color="purple">Multiple means that the inspection performs checks on a
+        set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Scss" name="Scss" color="purple">Multiple means that the inspection performs checks on
+        a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Shell script" name="Shell script" color="purple">Multiple means that the inspection
+        performs checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Shrinker_config" name="Shrinker_config" color="purple">Multiple means that the
+        inspection performs checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Spel" name="Spel" color="purple">Multiple means that the inspection performs checks on
+        a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Spring-mongodb-json" name="Spring-mongodb-json" color="purple">Multiple means that the
+        inspection performs checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Sqldatetime" name="Sqldatetime" color="purple">Multiple means that the inspection
+        performs checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Swift" name="Swift" color="purple">Multiple means that the inspection performs checks
+        on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Text" name="Text" color="purple">Multiple means that the inspection performs checks on
+        a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Thymeleafexpressions" name="Thymeleafexpressions" color="purple">Multiple means that
+        the inspection performs checks on a set of languages, the support of which is determined by inspection
+        internally.
+    </secondary-label>
+
+    <secondary-label id="Toml" name="Toml" color="purple">Multiple means that the inspection performs checks on
+        a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Typescript" name="Typescript" color="purple">Multiple means that the inspection
+        performs checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Uast" name="Uast" color="purple">Multiple means that the inspection performs checks on
+        a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="VTL" name="VTL" color="purple">Multiple means that the inspection performs checks on a
+        set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Vue" name="Vue" color="purple">Multiple means that the inspection performs checks on a
+        set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Vue template" name="Vue template" color="purple">Multiple means that the inspection
+        performs checks on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="XML" name="XML" color="purple">Multiple means that the inspection performs checks on a
+        set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Xpath" name="Xpath" color="purple">Multiple means that the inspection performs checks
+        on a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="Yaml" name="Yaml" color="purple">Multiple means that the inspection performs checks on
+        a set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="go" name="go" color="purple">Multiple means that the inspection performs checks on a
+        set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="vgo" name="vgo" color="purple">Multiple means that the inspection performs checks on a
+        set of languages, the support of which is determined by inspection internally.
+    </secondary-label>
+
+    <secondary-label id="IntelliJ IDEA" name="IntelliJ IDEA" color="blue">This tutorial works with IntelliJ IDEA.</secondary-label>
+
+    <secondary-label id="Android Studio" name="Android Studio" color="green">This tutorial works with Android Studio.</secondary-label>
 </labels>

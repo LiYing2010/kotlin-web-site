@@ -42,9 +42,9 @@
    >
    {style="note"}
 
-2. 在 **composeApp** | **Tasks** | **kotlin browser** 中, 选中并运行 **wasmJsBrowserDevelopmentRun** 任务.
+2. 在 **wasmdemo** | **Tasks** | **kotlin browser** 中, 选中并运行 **wasmJsBrowserDevelopmentRun** 任务.
 
-   ![运行 Gradle 任务](wasm-gradle-task-window.png){width=600}
+   ![运行 Gradle 任务](wasm-gradle-task-window.png){width=400}
 
    或者, 你可以在终端窗口, 在 `WasmDemo` 根目录下运行以下命令:
 
@@ -73,9 +73,9 @@
 
 ## 生成 artifact {id="generate-artifacts"}
 
-在 **composeApp** | **Tasks** | **kotlin browser** 中, 选中并运行 **wasmJsBrowserDistribution** 任务.
+在 **wasmdemo** | **Tasks** | **kotlin browser** 中, 选中并运行 **wasmJsBrowserDistribution** 任务.
 
-![运行 Gradle 任务](wasm-gradle-task-window-compose.png){width=600}
+![运行 Gradle 任务](wasm-gradle-task-window-compose.png){width=400}
 
 或者, 你可以在终端窗口, 在 `WasmDemo` 根目录下运行以下命令:
 
@@ -85,7 +85,7 @@
 
 应用程序任务结束之后, 你可以在 `composeApp/build/dist/wasmJs/productionExecutable` 目录中找到生成的 artifact 文件:
 
-![Artifact 文件目录](wasm-composeapp-directory.png){width=600}
+![Artifact 文件目录](wasm-composeapp-directory.png){width=400}
 
 ## 发布到 GitHub pages {id="publish-on-github-pages"}
 

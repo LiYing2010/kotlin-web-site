@@ -314,7 +314,7 @@ fun main() {
 
 如果你是库的作者, 现在你可以通过自定义消息来帮助你的用户解决链接器错误.
 
-如果你的 Kotlin 库依赖于 C 或 Objective-C 库, 例如, 使用了 [CocoaPods 集成](native-cocoapods.md),
+如果你的 Kotlin 库依赖于 C 或 Objective-C 库, 例如, 使用了 [CocoaPods 集成](multiplatform-cocoapods-overview.md),
 那么你的库的使用者需要在本地机器上存在这些依赖库, 或者在项目的构建脚本中明确配置这些库.
 否则, 使用者会遇到一个令人迷惑的 "Framework not found" 消息.
 
@@ -369,7 +369,7 @@ Kotlin 1.9.20 集中于 Kotlin Multiplatform 的稳定性, 并提供了新的项
 
 ### Kotlin Multiplatform 已进入稳定版 {id="kotlin-multiplatform-is-stable"}
 
-1.9.20 版的发布标志了 Kotlin 演化历程中的一个重要的里程碑: [Kotlin Multiplatform](multiplatform-intro.md)
+1.9.20 版的发布标志了 Kotlin 演化历程中的一个重要的里程碑: [Kotlin Multiplatform](multiplatform.topic)
 终于进入了稳定版.
 这表示这个技术已经可以安全的用于你的项目, 并且 100% 可以用于真实生产环境.
 还意味着 Kotlin Multiplatform 未来的开发会继续符合我们严格的 [向后兼容性规则](https://kotlinfoundation.org/language-committee-guidelines/).
@@ -587,7 +587,7 @@ JetBrains 开发组引入了一种新的方式来创建跨平台项目 – [Kotl
 可以用于 Kotlin 跨平台库.
 从 1.9.20 开始, Kotlin Multiplatform plugin 更加前进了一步.
 
-它现在对 [Kotlin CocoaPods Gradle plugin](native-cocoapods-dsl-reference.md) 支持 Gradle 配置缓存,
+它现在对 [Kotlin CocoaPods Gradle plugin](multiplatform-cocoapods-dsl-reference.md) 支持 Gradle 配置缓存,
 也对 Xcode 构建需要的集成任务, 例如 `embedAndSignAppleFrameworkForXcode`, 支持 Gradle 配置缓存.
 
 现在所有的跨平台项目都可以由于构建时间的改进而获益.
@@ -661,11 +661,11 @@ kotlin {
 
 ### 对第 3 方 cinterop 库的默认支持 {id="default-support-for-third-party-cinterop-libraries"}
 
-对使用了 [Kotlin CocoaPods Gradle](native-cocoapods.md) plugin 的项目, Kotlin 1.9.20 添加了对所有 cinterop 依赖项的默认支持
+对使用了 [Kotlin CocoaPods Gradle](multiplatform-cocoapods-overview.md) plugin 的项目, Kotlin 1.9.20 添加了对所有 cinterop 依赖项的默认支持
 (而不是通过使用者同意(Opt-in)的支持).
 
 因此, 你现在可以共用更多原生代码, 而不是限制于平台相关的依赖项.
-例如, 你可以向 `iosMain` 共用源代码集添加 [对 Pod 库的依赖项](native-cocoapods-libraries.md).
+例如, 你可以向 `iosMain` 共用源代码集添加 [对 Pod 库的依赖项](multiplatform-cocoapods-libraries.md).
 
 在以前的版本中, 这个功能只能用于随 Kotlin/Native 一起发布的 [平台相关的库](native-platform-libs.md)
 (例如 Foundation, UIKit, 和 POSIX).

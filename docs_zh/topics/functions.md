@@ -140,7 +140,7 @@ reformat("This is a long String!")
 reformat("This is a short String!", upperCaseFirstLetter = false, wordSeparator = '_')
 ```
 
-还可以通过 `展开(spread)` 操作符, 以命名参数的方式传递 [不定数量参数 (`vararg`)](#variable-number-of-arguments-varargs):
+还可以通过 _展开(spread)_ 操作符 (在数组之前添加 `*`), 以命名参数的方式传递 [不定数量参数 (`vararg`)](#variable-number-of-arguments-varargs):
 
 ```kotlin
 fun foo(vararg strings: String) { /*...*/ }
@@ -222,7 +222,7 @@ val list = asList(1, 2, 3)
 必须使用命名参数语法来传递参数值, 或者, 如果参数类型是函数, 可以在括号之外传递一个 Lambda 表达式.
 
 调用一个存在 `vararg` 参数的函数时, 你可以传递单独的参数值, 比如, `asList(1, 2, 3)`.
-如果你已经有了一个数组, 希望将它的内容传递给函数, 你可以使用 *展开(spread)* 操作符(在数组之前加一个 `*`):
+如果你已经有了一个数组, 希望将它的内容传递给函数, 你可以使用展开(spread)操作符 (在数组之前添加 `*`):
 
 ```kotlin
 val a = arrayOf(1, 2, 3)

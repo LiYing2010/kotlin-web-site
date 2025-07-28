@@ -19,12 +19,11 @@
 例如, 这里是一个测试, 它检查 Java 标准库的 `j.u.c.ConcurrentLinkedQueue` 类的正确性.
 
 ```kotlin
-import org.jetbrains.kotlinx.lincheck.*
-import org.jetbrains.kotlinx.lincheck.annotations.*
-import org.jetbrains.kotlinx.lincheck.strategy.stress.*
-import org.junit.*
 import java.util.*
 import java.util.concurrent.*
+import org.jetbrains.lincheck.*
+import org.jetbrains.lincheck.datastructures.*
+import org.junit.*
 
 class ConcurrentLinkedQueueTest {
     private val s = ConcurrentLinkedQueue<Int>()
@@ -49,6 +48,6 @@ class SequentialQueue {
 }
 ```
 
-> [请在这里查看示例的完整代码](https://github.com/JetBrains/lincheck/blob/master/src/jvm/test/org/jetbrains/kotlinx/lincheck_test/guide/ConcurrentLinkedQueueTest.kt).
+> [请在这里查看示例的完整代码](https://github.com/JetBrains/lincheck/blob/master/src/jvm/test-lincheck-integration/org/jetbrains/lincheck_test/guide/ConcurrentLinkedQueueTest.kt).
 >
 {style="note"}

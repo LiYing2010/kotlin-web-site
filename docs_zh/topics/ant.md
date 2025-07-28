@@ -1,5 +1,13 @@
 [//]: # (title: Ant)
 
+> 从 Kotlin 2.2.0 开始, Kotlin 中对 Ant 构建系统的支持已被废弃.
+> 我们计划在 Kotlin 2.3.0 中删除对 Ant 的支持.
+>
+> 但是, 如果你有兴趣成为 Ant 的外部维护者,
+> 请在 [这个 YouTrack issue](https://youtrack.jetbrains.com/issue/KT-75875/) 中留言.
+>
+{style="warning"}
+
 ## 安装 Ant Task {id="getting-the-ant-tasks"}
 
 Kotlin 提供了 3 个 Ant Task:

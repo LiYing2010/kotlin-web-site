@@ -21,7 +21,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 
 ## 语言与标准库
 
-### ConcurrentHashMap 和 in 中缀操作符的不正常行为
+### in 中缀操作符与 ConcurrentHashMap 的不正常行为
 
 > **Issue**: [KT-18053](https://youtrack.jetbrains.com/issue/KT-18053)
 >

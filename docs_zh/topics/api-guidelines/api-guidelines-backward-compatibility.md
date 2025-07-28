@@ -51,6 +51,13 @@ JetBrains 提供了一个 [二进制兼容性验证器](https://github.com/Kotli
 
 这个验证器 [实验性的支持验证跨平台库产生的 KLib](https://github.com/Kotlin/binary-compatibility-validator?tab=readme-ov-file#experimental-klib-abi-validation-support).
 
+### Kotlin Gradle plugin 中的二进制兼容性验证 {id="binary-compatibility-validation-in-the-kotlin-gradle-plugin"}
+
+<primary-label ref="experimental-general"/>
+
+从 2.2.0 开始, Kotlin Gradle plugin 支持二进制兼容性验证.
+详情请参见 [Kotlin Gradle plugin 中的二进制兼容性验证](gradle-binary-compatibility-validation.md).
+
 ## 明确指定返回类型 {id="specify-return-types-explicitly"}
 
 在 [Kotlin 编码规约](coding-conventions.md#coding-conventions-for-libraries) 中讨论过,

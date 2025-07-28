@@ -182,11 +182,19 @@ val numericValue = when (getRandomBit()) {
 }
 ```
 
+> 为了简化 `when` 表达式并减少重复代码, 请试用上下文敏感的解析(Context-Sensitive Resolution)功能 (目前是预览版).
+> 在 `when` 表达式中使用枚举值或封闭类成员时, 如果预期的类型已知, 这个功能允许省略类型名称.
+>
+> 详情请参见 [预览版功能: 上下文敏感的解析(Context-Sensitive Resolution)](whatsnew22.md#preview-of-context-sensitive-resolution),
+> 或相关的 [KEEP 提案](https://github.com/Kotlin/KEEP/blob/improved-resolution-expected-type/proposals/context-sensitive-resolution.md).
+>
+{style="tip"}
+
 如果你的 `when` 表达式 **不** 带有主语, 你 **必须** 使用 `else` 分支, 否则编译器会报告错误.
 当所有的其他分支条件都不满足时, 就会计算 `else` 分支:
 
 ```kotlin
-when {
+val message = when {
     a > b -> "a is greater than b"
     a < b -> "a is less than b"
     else -> "a is equal to b"
@@ -261,12 +269,6 @@ fun Request.getBody() =
 
 ### when 表达式中的保护条件(Guard Condition) {id="guard-conditions-in-when-expressions"}
 
-> 保护条件(Guard Condition) 是 [实验性功能](components-stability.md#stability-levels-explained).
-> 它随时有可能变更.
-> 希望你能通过 [YouTrack](https://youtrack.jetbrains.com/issue/KT-71140/Guard-conditions-in-when-expressions-feedback) 提供你的反馈意见.
->
-{style="warning"}
-
 保护条件(Guard Condition) 允许你在 `when` 表达式的分支中包含一个以上的条件, 让复杂的控制流变得更加明确和简洁.
 你可以在带有主语的 `when` 表达式语句中使用保护条件.
 
@@ -324,16 +326,6 @@ when (animal) {
 
 你可以在任何带有主语的 `when` 表达式或语句中使用保护条件, 但使用逗号分隔的多个条件例外.
 例如, `0, 1 -> print("x == 0 or x == 1")`.
-
-> 要在 CLI 中启用保护条件, 请运行以下命令:
->
-> `kotlinc -Xwhen-guards main.kt`
->
-> 要在 Gradle 中启用保护条件, 请向 `build.gradle.kts` 文件添加以下内容:
->
-> `kotlin.compilerOptions.freeCompilerArgs.add("-Xwhen-guards")`
->
-{style="note"}
 
 ## for 循环 {id="for-loops"}
 

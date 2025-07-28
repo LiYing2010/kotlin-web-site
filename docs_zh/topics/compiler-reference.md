@@ -51,19 +51,6 @@ Kotlin 编译器带有很多选项, 用于控制编译过程.
 
 显示编译器版本.
 
-### -nowarn
-
-进制编译器在编译过程中显示警告信息.
-
-### -Werror
-
-将警告信息变为编译错误.
-
-### -Wextra
-
-启用 [声明, 表达式, 和类型的额外编译器检查](whatsnew21.md#extra-compiler-checks),
-如果检查结果为 true, 会产生警告.
-
 ### -verbose
 
 允许输出最详细的 log, 其中包括编译过程的各种细节信息.
@@ -78,6 +65,8 @@ Kotlin 编译器带有很多选项, 用于控制编译过程.
 如果需要显示更多的高级编译选项, 请使用 `-X` 参数.
 
 ### -X
+
+<primary-label ref="experimental-general"/>
 
 显示编译器高级选项的帮助信息, 然后退出. 这些选项目前还不稳定:
 选项的名称和行为都有可能变更, 并且不会有相关公告.
@@ -138,13 +127,73 @@ $ kotlinc @options/compiler.options hello.kt
 
 指定注解的全限定名称, 通过这个注解启用 [明确要求使用者同意(opt-in)](opt-in-requirements.md) API.
 
-### -Xsuppress-warning
+### -Xrepl
 
-[对整个项目](whatsnew21.md#global-warning-suppression) 禁止指定的警告信息, 例如:
+<primary-label ref="experimental-general"/>
+
+启动 Kotlin REPL.
 
 ```bash
-kotlinc -Xsuppress-warning=NOTHING_TO_INLINE -Xsuppress-warning=NO_TAIL_CALLS_FOUND main.kt
+kotlinc -Xrepl
 ```
+
+### -Xannotation-target-all
+
+<primary-label ref="experimental-general"/>
+
+启用实验性功能 [注释的 `all` 使用目标(Use-site Target)](annotations.md#all-meta-target):
+
+```bash
+kotlinc -Xannotation-target-all
+```
+
+### -Xannotation-default-target=param-property
+
+<primary-label ref="experimental-general"/>
+
+启用新的实验性功能 [注释使用目标(Use-site Target)的默认规则](annotations.md#defaults-when-no-use-site-targets-are-specified):
+
+```bash
+kotlinc -Xannotation-default-target=param-property
+```
+
+### 警告管理 {id="warning-management"}
+
+#### -nowarn
+
+在编译过程中禁止所有的警告信息.
+
+#### -Werror
+
+将所有的警告作为编译错误处理.
+
+#### -Wextra
+
+启用 [声明, 表达式, 和类型的额外编译器检查](whatsnew21.md#extra-compiler-checks),
+如果检查结果为 true, 会产生警告.
+
+#### -Xwarning-level
+<primary-label ref="experimental-general"/>
+
+对特定的编译器警告配置严重性级别:
+
+```bash
+kotlinc -Xwarning-level=DIAGNOSTIC_NAME:(error|warning|disabled)
+```
+
+* `error`: 只将特定的警告提升为错误.
+* `warning`: 针对特定的诊断发出警告, 这个选项默认启用.
+* `disabled`: 只对特定的警告在整个模块范围内禁止警告.
+
+可以在项目中结合使用模块范围的规则和特定的规则, 调整警告报告:
+
+| 命令                                                 | 说明                   |
+|----------------------------------------------------|----------------------|
+| `-nowarn -Xwarning-level=DIAGNOSTIC_NAME:warning`  | 禁止所有的警告, 特定的警告除外.    |
+| `-Werror -Xwarning-level=DIAGNOSTIC_NAME:warning`  | 将所有警告提升为错误, 特定的警告除外. |
+| `-Wextra -Xwarning-level=DIAGNOSTIC_NAME:disabled` | 启用所有的额外检查, 特定的警告除外.  |
+
+如果需要从一般规则中排除多个警告, 可以使用 [`@argfile`](#argfile), 在单独的文件中列出这些警告.
 
 ## Kotlin/JVM 编译器选项 {id="kotlin-jvm-compiler-options"}
 
@@ -175,9 +224,11 @@ classpath 可以包含文件路径, 目录路径, ZIP 文件, 或 JAR 文件.
 
 ### -Xjdk-release=version
 
+<primary-label ref="experimental-general"/>
+
 指定生成的 JVM 字节码的目标版本. 将类路径中的 JDK API 限制为指定的 Java 版本.
 自动设置 [`-jvm-target version`](#jvm-target-version).
-可以指定的值是 `1.8`, `9`, `10`, ..., `21`.
+可以指定的值是 `1.8`, `9`, `10`, ..., `24`.
 
 > 这个选项 [不保证](https://youtrack.jetbrains.com/issue/KT-29974) 对所有的 JDK 发布版都有效.
 >
@@ -186,7 +237,7 @@ classpath 可以包含文件路径, 目录路径, ZIP 文件, 或 JAR 文件.
 ### -jvm-target _version_
 
 指定编译产生的 JVM 字节码(bytecode)版本.
-可以指定的值是 `1.8`, `9`, `10`, ..., `21`.
+可以指定的值是 `1.8`, `9`, `10`, ..., `24`.
 默认值是 `%defaultJvmTargetVersion%`.
 
 ### -java-parameters
@@ -213,6 +264,24 @@ classpath 可以包含文件路径, 目录路径, ZIP 文件, 或 JAR 文件.
 ### -script-templates _classnames[,]_
 
 脚本定义的模板类. 请使用类的完全限定名称, 如果有多个, 请使用逗号(**,**) 分隔.
+
+### -Xjvm-expose-boxed
+
+<primary-label ref="experimental-general"/>
+
+对模块中的所有的内联值类(Inline Value Class)生成装箱版本(Boxed), 并对使用它们的函数生成装箱的变体,
+以供 Java 访问.
+详情请参见 [在 Java 中调用 Kotlin 代码 指南: 内联值类(Inline Value Class) 小节](java-to-kotlin-interop.md#inline-value-classes).
+
+### -jvm-default _mode_
+
+控制接口中声明的函数如何编译为 JVM 上的默认方法.
+
+| 模式                 | 说明                                                                |
+|--------------------|-------------------------------------------------------------------|
+| `enable`           | 生成接口中的默认实现, 并包含子类中的桥接函数(Bridge Function)和 `DefaultImpls` 类. (默认值) |
+| `no-compatibility` | 只生成接口中的默认实现, 略过兼容性桥接函数和 `DefaultImpls` 类.                         |
+| `disable`          | 只生成兼容性桥接函数和 `DefaultImpls` 类, 略过默认方法.                             |
 
 ## Kotlin/JS 编译器选项 {id="kotlin-js-compiler-options"}
 

@@ -31,7 +31,7 @@ _封闭_ 类和接口提供了对类的继承关系进行控制的方式.
 >
 {style="tip"}
 
-## 声明封闭类或接口
+## 声明封闭类或接口 {id="declare-a-sealed-class-or-interface"}
 
 要声明一个封闭类或接口, 请使用 `sealed` 修饰符:
 
@@ -152,9 +152,9 @@ sealed class IOError(): Error
 open class CustomError(): Error
 ```
 
-### 跨平台项目中的继承
+### 跨平台项目中的继承 {id="inheritance-in-multiplatform-projects"}
 
-在 [跨平台项目](multiplatform-intro.md)中还存在一种继承限制:
+在 [跨平台项目](multiplatform.topic)中还存在一种继承限制:
 封闭类的直接子类必须放在同一个 [源代码集(Source Set)](multiplatform-discover-project.md#source-sets) 中.
 这个限制适用于没有使用 [`expect` 和 `actual` 修饰符](multiplatform-expect-actual.md) 的封闭类.
 
@@ -202,6 +202,14 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.5"}
 
+> 为了减少 `when` 表达式中的重复代码, 请试用上下文敏感的解析(Context-Sensitive Resolution)功能 (目前是预览版).
+> 在匹配封闭类成员时, 如果预期的类型已知, 这个功能允许省略类型名称.
+>
+> 详情请参见 [预览版功能: 上下文敏感的解析(Context-Sensitive Resolution)](whatsnew22.md#preview-of-context-sensitive-resolution),
+> 或相关的 [KEEP 提案](https://github.com/Kotlin/KEEP/blob/improved-resolution-expected-type/proposals/context-sensitive-resolution.md).
+>
+{style="tip"}
+
 `when` 表达式和封闭类一起使用时, 你也可以添加保护条件(Guard Condition), 在单个分支中指定额外的检查.
 详情请参见 [when 表达式中的保护条件(Guard Condition)](control-flow.md#guard-conditions-in-when-expressions).
 
@@ -215,7 +223,7 @@ fun main() {
 
 我们来看看一些实际的使用场景, 封闭类和封闭接口可以非常有用.
 
-### 管理 UI 应用程序中的状态
+### UI 应用程序中的状态管理 {id="state-management-in-ui-applications"}
 
 你可以使用封闭类来表示应用程序中的不同 UI 状态.
 这种方法可以实现结构化并且安全的 UI 变更管理.
@@ -237,7 +245,7 @@ fun updateUI(state: UIState) {
 }
 ```
 
-### 管理支付方式
+### 处理支付方式 {id="payment-method-handling"}
 
 在一些实际的商业应用程序中, 高效的处理各种支付方式是一种常见的需求.
 你可以使用封闭类 和 `when` 表达式来实现这样的业务逻辑.
@@ -265,7 +273,7 @@ fun processPayment(payment: Payment) {
 `processPayment()` 函数演示如何处理不同的支付方式.
 这种方案可以确保考虑到了所有可能的支付类型, 而且系统保持了灵活性, 可以在将来添加新的支付方式.
 
-### 处理 API 请求/应答
+### 处理 API 请求/应答 {id="api-request-response-handling"}
 
 你可以使用封闭类和封闭接口来实现一个用户认证系统, 它处理 API 的请求和应答.
 用户认证系统有登入和登出功能.

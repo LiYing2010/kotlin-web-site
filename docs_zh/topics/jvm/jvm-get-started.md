@@ -35,13 +35,29 @@
     > 如果你选择了 Gradle 构建系统, 那么在你的项目中会有一个构建脚本文件: `build.gradle(.kts)`.
     > 其中包含 `kotlin("jvm")` 插件, 以及你的控制台应用程序需要的依赖项目. 请确认使用了插件的最新版本:
     >
-    > ```kotlin
+   > <tabs group="build-script">
+   > <tab title="Kotlin" group-key="kotlin">
+   >
+   > ```kotlin
     > plugins {
     >     kotlin("jvm") version "%kotlinVersion%"
     >     application
     > }
     > ```
-    >
+   >
+   > </tab>
+   > <tab title="Groovy" group-key="groovy">
+   >
+   > ```groovy
+    > plugins {
+    >     id 'org.jetbrains.kotlin.jvm' version '%kotlinVersion%'
+    >     id 'application'
+    > }
+    > ```
+   >
+   > </tab>
+   > </tabs>
+   >
     {style="note"}
 
 ## 创建应用程序 {id="create-an-application"}

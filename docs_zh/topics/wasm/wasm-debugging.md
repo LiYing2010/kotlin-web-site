@@ -22,7 +22,7 @@
 3. 选择 **Web** 选项. 请确认没有选择其他选项.
 4. 点击 **Download** 按钮, 将生成的压缩包文件解包.
 
-![Kotlin Multiplatform 向导](wasm-compose-web-wizard.png){width=400}
+![Kotlin Multiplatform 向导](wasm-compose-web-wizard.png){width=450}
 
 ## 在 IntelliJ IDEA 中打开项目 {id="open-the-project-in-intellij-idea"}
 
@@ -38,9 +38,9 @@
    >
    {style="note"}
 
-2. 在 **composeApp** | **Tasks** | **kotlin browser** 中, 选中并运行 **wasmJsBrowserDevelopmentRun** 任务.
+2. 在 **wasmdemo** | **Tasks** | **kotlin browser** 中, 选中并运行 **wasmJsBrowserDevelopmentRun** 任务.
 
-   ![运行 Gradle 任务](wasm-gradle-task-window.png){width=550}
+   ![运行 Gradle 任务](wasm-gradle-task-window.png){width=450}
 
    或者, 你可以在终端窗口, 在 `WasmDemo` 根目录下运行以下命令:
 
@@ -189,7 +189,7 @@ kotlin {
 3. 点击行号, 在你想要检查的代码上设置断点.
    只有行号数字较暗的行才可以设置断点.
 
-   ![设置断点](wasm-breakpoints.png){width=600}
+   ![设置断点](wasm-breakpoints.png){width=700}
 
 4. 点击 **Click me!** 按钮, 与应用程序交互.
    这个动作会触发代码的执行, 当执行到断点位置时, 调试器会暂停.
@@ -199,11 +199,11 @@ kotlin {
    * ![Step over](wasm-step-over.png){width=30}{type="joined"} Step over: 执行当前的代码行, 并在下一行暂停.
    * ![Step out](wasm-step-out.png){width=30}{type="joined"} Step out: 执行代码, 直到从当前函数退出.
 
-   ![调试控制按钮](wasm-debug-controls.png){width=600}
+   ![调试控制按钮](wasm-debug-controls.png){width=450}
 
 6. 查看 **Call stack** 和 **Scope** 面板, 追踪函数的调用序列, 找到错误发生的位置.
 
-   ![查看调用栈](wasm-debug-scope.png){width=550}
+   ![查看调用栈](wasm-debug-scope.png){width=450}
 
    为了更好的可视化显示变量值, 请参见 [配置你的浏览器进行调试](#configure-your-browser-for-debugging) 小节中的 _使用自定义格式_.
 

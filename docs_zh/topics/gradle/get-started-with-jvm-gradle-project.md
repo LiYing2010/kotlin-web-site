@@ -2,7 +2,7 @@
 
 本教程演示如何使用 IntelliJ IDEA 和 Gradle 来创建一个 JVM 控制台应用程序.
 
-开始之前, 首先请下载病安装最新版本的 [IntelliJ IDEA](https://www.jetbrains.com/idea/download/index.html).
+开始之前, 首先请下载并安装最新版本的 [IntelliJ IDEA](https://www.jetbrains.com/idea/download/index.html).
 
 ## 创建项目 {id="create-a-project"}
 

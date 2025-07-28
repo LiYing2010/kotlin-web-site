@@ -330,7 +330,7 @@ Kotlin 1.7.0 修正了这个问题, 现在这样的情况会导致程序终止.
 现在设置与 CocoaPods 的集成变得更加简单, 而且我们解决了 `cocoapods-generate` 不能在 Ruby 3 和更高版本上安装的问题.
 现在还支持最新的 Ruby 版本, 它在 Apple M1 上工作得更好.
 
-关于如何设置环境, 请参见 [设置与 CocoaPods 的集成](native-cocoapods.md#set-up-an-environment-to-work-with-cocoapods).
+关于如何设置环境, 请参见 [设置与 CocoaPods 的集成](multiplatform-cocoapods-overview.md#set-up-an-environment-to-work-with-cocoapods).
 
 ### 修改 Kotlin/Native 编译器的下载 URL {id="overriding-the-kotlin-native-compiler-download-url"}
 
@@ -989,7 +989,7 @@ sourceSets {
 
 在 Kotlin 1.4.0 中, `kotlin2js` 和 `kotlin-dce-plugin` plugin 已被废弃, 并在这个发布版中删除.
 请使用新的 `org.jetbrains.kotlin.js` plugin 代替 `kotlin2js`.
-如果 [适当配置](javascript-dce.md) Kotlin/JS Gradle plugin, 死代码剔除(Dead Code Elimination, DCE) 功能还会继续工作.
+如果适当配置 Kotlin/JS Gradle plugin, 死代码剔除(Dead Code Elimination, DCE) 功能还会继续工作.
 
 在 Kotlin 1.6.0 中, 我们将 `KotlinGradleSubplugin` 类的废弃级别修改为 `ERROR`.
 开发者过去使用这个类来编写编译器 plugin.

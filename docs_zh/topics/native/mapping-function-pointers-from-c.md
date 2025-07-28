@@ -86,7 +86,8 @@ MyFun supply_fun() {
 `accept_fun()` 函数接受一个可选的函数指针作为参数, `supply_fun()` 函数则返回一个函数指针.
 
 `CFunction<(Int) -> Int>` 表示函数签名, `CPointer<CFunction<...>>?` 表示一个可为 null 的函数指针.
-对所有的 `CPointer<CFunction<...>>` 类型, 有一个 `invoke` 操作符扩展函数,
+对所有的 `CPointer<CFunction<...>>` 类型,
+有一个 [`.invoke()`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlinx.cinterop/invoke.html) 操作符扩展函数,
 因此你可以象通常的 Kotlin 函数一样调用任何函数指针.
 
 ## 将 Kotlin 函数作为 C 函数指针传递 {id="pass-kotlin-function-as-a-c-function-pointer"}

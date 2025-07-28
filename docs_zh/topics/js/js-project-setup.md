@@ -647,9 +647,9 @@ allprojects {
 <tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
-project.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin) {
+project.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin> {
     // 设置为 `true` 可以使用默认行为
-    project.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec).download = false
+    project.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec>().download = false
 }
 ```
 
@@ -657,9 +657,9 @@ project.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlu
 <tab title="Groovy" group-key="groovy">
 
 ```groovy
-project.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin> {
+project.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin) {
     // 设置为 `true` 可以使用默认行为
-    project.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec>().download = false
+    project.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec).download = false
 }
 ```
 
@@ -784,7 +784,7 @@ Kotlin/JS 提供了 Gradle 设置, 可以通知你 `yarn.lock` 文件是否发�
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockMismatchReport
 import org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension
 
-rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin::class.java) {
+rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin> {
     rootProject.the<YarnRootExtension>().yarnLockMismatchReport =
         YarnLockMismatchReport.WARNING // NONE | FAIL
     rootProject.the<YarnRootExtension>().reportNewYarnLock = false // true

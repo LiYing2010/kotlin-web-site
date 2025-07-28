@@ -1,6 +1,6 @@
 [//]: # (title: 构建跨平台的 Kotlin 库)
 
-在创建 Kotlin 库时, 请考虑构建和 [发布支持 Kotlin Multiplatform 的库](multiplatform-publish-lib.md).
+在创建 Kotlin 库时, 请考虑构建和 [发布支持 Kotlin Multiplatform 的库](multiplatform-publish-lib-setup.md).
 这样可以扩大你的库的目标受众, 使它兼容于针对多个平台的项目.
 
 以下章节提供一份指南, 帮助你高效的构建 Kotlin Multiplatform 库.
@@ -14,7 +14,7 @@
 这种情况下, 这个项目在某些平台上可以使用你的库, 但对其它平台则需要实现单独的解决方案,
 或者, 他们会完全选择另一个支持他们所有平台的替代库.
 
-为了提高 artifact 的生成效率, 你可以试用实验性的 [交叉编译(Cross-Compilation)](multiplatform-publish-lib.md#host-requirements) 功能,
+为了提高 artifact 的生成效率, 你可以试用实验性的 [交叉编译(Cross-Compilation)](multiplatform-publish-lib-setup.md#host-requirements) 功能,
 从任何主机发布 Kotlin Multiplatform 库.
 这个功能让你能够生成针对 Apple 编译目标的 `.klib` artifact, 而不需要使用 Apple 机器.
 我们计划在将来稳定这个功能, 并进一步改善库的发布.

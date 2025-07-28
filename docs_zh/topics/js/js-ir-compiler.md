@@ -7,7 +7,7 @@ Kotlin 源代码首先转换为
 [Kotlin 中间代码(intermediate representation, IR)](whatsnew14.md#unified-backends-and-extensibility),
 然后再编译为 JavaScript.
 对于 Kotlin/JS, 这种方案可以实现更加积极的优化, 并能够改进以前的编译器中出现的许多重要问题,
-比如, 生成的代码大小(通过死代码清除), 以及 JavaScript 和 TypeScript 生态环境的交互能力, 等等.
+比如, 生成的代码大小(通过 [死代码清除(Dead Code Elimination, DCE)](#dead-code-elimination)), 以及 JavaScript 和 TypeScript 生态环境的交互能力, 等等.
 
 从 Kotlin 1.4.0 开始, 可以通过 Kotlin Multiplatform Gradle 插件使用 IR 编译器后端.
 要在你的项目中启用它, 需要在你的 Gradle 构建脚本中, 向 `js` 函数传递一个编译器类型参数:
@@ -125,6 +125,41 @@ kotlin {
     }
 }
 ```
+
+## 死代码清除(Dead Code Elimination, DCE) {id="dead-code-elimination"}
+
+[死代码清除(Dead Code Elimination, DCE)](https://wikipedia.org/wiki/Dead_code_elimination)
+可以删除未被使用的属性, 函数, 以及类, 减少最终编译输出结果的 JavaScript 代码大小.
+
+有几种情况可以导致代码中存在未被使用的声明, 例如:
+
+* 函数可能会被内联, 因此不会被直接调用 (除极少数情况外, 总是会如此).
+* 模块使用了一个共享库. 如果没有 DCE, 库中没有被用到的部分仍然会包含在编译输出的 bundle 之内.
+  例如, Kotlin 标准库包含了许多函数, 用于操作列表, 数组, 字符序列, 用于 DOM 的适配器, 等等.
+  所有这些功能输出为 JavaScript 文件总计需要 1.3 MB.
+  而一个简单的 "Hello, world" 应用程序只需要控制台相关函数, 整个文件只有几 KB.
+
+在 Kotlin/JS 编译器中, 会自动处理 DCE:
+
+* 在 _development_ 打包任务中, DCE 会被禁用, 对应于以下 Gradle 任务:
+
+    * `jsBrowserDevelopmentRun`
+    * `jsBrowserDevelopmentWebpack`
+    * `jsNodeDevelopmentRun`
+    * `compileDevelopmentExecutableKotlinJs`
+    * `compileDevelopmentLibraryKotlinJs`
+    * 名称中包含 "development" 的其它 Gradle 任务
+
+* 在构建 _production_ bundle 时, DCE 会被启用, 对应于以下 Gradle 任务:
+
+    * `jsBrowserProductionRun`
+    * `jsBrowserProductionWebpack`
+    * `compileProductionExecutableKotlinJs`
+    * `compileProductionLibraryKotlinJs`
+    * 名称中包含 "production" 的其它 Gradle 任务
+
+使用 [`@JsExport`](js-to-kotlin-interop.md#jsexport-annotation) 注解,
+你可以指定一些声明, 让 DCE 将它当作根对待 (因此这些声明会被保留, 不被删除).
 
 ## 预览功能: 生成 TypeScript 声明文件 (d.ts) {id="preview-generation-of-typescript-declaration-files-d-ts"}
 

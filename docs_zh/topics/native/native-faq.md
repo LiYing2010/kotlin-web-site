@@ -110,7 +110,7 @@ kotlin {
 如果你在使用旧版本的 Xcode, 但想要升级到 Kotlin 2.0.20 或更高版本,
 请在你的 Xcode 项目中禁用 Bitcode 内嵌功能.
 
-## 怎样在不同的协程中安全的引用对象?
+## 怎样在不同的协程中安全的引用对象? {id="how-do-i-reference-objects-safely-from-different-coroutines"}
 
 在 Kotlin/Native 中, 要在多个协程之间安全的访问或更新对象, 请考虑使用并发安全的构造, 例如 `@Volatile` 和 `AtomicReference`.
 

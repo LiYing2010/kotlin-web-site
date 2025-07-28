@@ -24,7 +24,7 @@
 
    dependencies {
        // Lincheck 依赖项
-       testImplementation("org.jetbrains.kotlinx:lincheck:%lincheckVersion%")
+       testImplementation("org.jetbrains.lincheck:lincheck:%lincheckVersion%")
        // 这个依赖项允许你使用 kotlin.test 和 JUnit:
        testImplementation("junit:junit:4.13")
    }
@@ -40,7 +40,7 @@
 
    dependencies {
        // Lincheck 依赖项
-       testImplementation "org.jetbrains.kotlinx:lincheck:%lincheckVersion%"
+       testImplementation "org.jetbrains.lincheck:lincheck:%lincheckVersion%"
        // 这个依赖项允许你使用 kotlin.test 和 JUnit:
        testImplementation "junit:junit:4.13"
    }
@@ -53,9 +53,8 @@
 1. 在 `src/test/kotlin` 目录中, 创建 `BasicCounterTest.kt` 文件, 并添加以下代码, 这是一个有 bug 的并发计数器, 然后为它编写一个 Lincheck 测试:
 
    ```kotlin
-   import org.jetbrains.kotlinx.lincheck.annotations.*
-   import org.jetbrains.kotlinx.lincheck.*
-   import org.jetbrains.kotlinx.lincheck.strategy.stress.*
+   import org.jetbrains.lincheck.*
+   import org.jetbrains.lincheck.datastructures.*
    import org.junit.*
 
    class Counter {
@@ -110,9 +109,8 @@
 修改后的 `BasicCounterTest` 类大致如下:
 
    ```kotlin
-   import org.jetbrains.kotlinx.lincheck.annotations.*
-   import org.jetbrains.kotlinx.lincheck.check
-   import org.jetbrains.kotlinx.lincheck.strategy.managed.modelchecking.*
+   import org.jetbrains.lincheck.*
+   import org.jetbrains.lincheck.datastructures.*
    import org.junit.*
 
    class Counter {
@@ -168,7 +166,7 @@
    * **T1**: 第 1 个线程执行 `inc()`, 返回 `1`, 然后结束.
    * **T2**: 第 2 个线程恢复运行, 对前面得到的计数器值加 1, 错误的将计数器更新为 `1`.
 
-> [请在这里查看完整代码](https://github.com/JetBrains/lincheck/blob/master/src/jvm/test/org/jetbrains/kotlinx/lincheck_test/guide/BasicCounterTest.kt).
+> [请在这里查看完整代码](https://github.com/JetBrains/lincheck/blob/master/src/jvm/test-lincheck-integration/org/jetbrains/lincheck_test/guide/BasicCounterTest.kt).
 >
 {style="note"}
 
@@ -178,11 +176,10 @@
 下面的 Lincheck 测试会发现向双向队列头部删除和添加一个元素时发生的竞争情况:
 
 ```kotlin
-import org.jetbrains.kotlinx.lincheck.*
-import org.jetbrains.kotlinx.lincheck.annotations.*
-import org.jetbrains.kotlinx.lincheck.strategy.managed.modelchecking.*
-import org.junit.*
 import java.util.concurrent.*
+import org.jetbrains.lincheck.*
+import org.jetbrains.lincheck.datastructures.*
+import org.junit.*
 
 class ConcurrentDequeTest {
     private val deque = ConcurrentLinkedDeque<Int>()
@@ -250,7 +247,7 @@ The following interleaving leads to the error:
 | --------------------------------------------------------------------------------------------------------------------------------- |
 ```
 
-> [请在这里查看完整代码](https://github.com/JetBrains/lincheck/blob/master/src/jvm/test/org/jetbrains/kotlinx/lincheck_test/guide/ConcurrentLinkedDequeTest.kt).
+> [请在这里查看完整代码](https://github.com/JetBrains/lincheck/blob/master/src/jvm/test-lincheck-integration/org/jetbrains/lincheck_test/guide/ConcurrentLinkedDequeTest.kt).
 >
 {style="note"}
 
