@@ -239,6 +239,8 @@ class CachedStringDelegate {
 现在你可以将想要缓存的属性(`val displayName`)委托给 `CachedStringDelegate` 类的实例:
 
 ```kotlin
+import kotlin.reflect.KProperty
+
 class CachedStringDelegate {
     var cachedValue: String? = null
 
