@@ -417,7 +417,7 @@ curl -X GET --location "http://localhost:8080"
             因此在定义接受者可为 null 的扩展函数时, 建议在函数的 body 部之内执行 <code>this == null</code> 检查.
         </p>
         <p>
-            你也可以使用 null 值安全的调用操作符 (<code>?.</code>) 来进行 null 值检查, 就象上面的 <code>toResponseEntity()</code> 函数那样:
+            你也可以使用 null 值安全的调用操作符 (<code>?.</code>) 来进行 null 值检查, 就像上面的 <code>toResponseEntity()</code> 函数那样:
         </p>
         <code-block lang="kotlin">
          this?.let { ResponseEntity.ok(it) }

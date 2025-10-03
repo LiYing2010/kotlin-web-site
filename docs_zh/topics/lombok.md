@@ -10,7 +10,7 @@
 如果你从另一个模块调用这样的声明, 那么你不需要使用这个插件来编译这个模块.
 
 Lombok 编译器插件不能代替 [Lombok](https://projectlombok.org/), 但它能够在 Java/Kotlin 混合代码的模块中帮助 Lombok 正确工作.
-因此, 使用这个插件时, 你还是需要象通常那样配置 Lombok.
+因此, 使用这个插件时, 你还是需要像通常那样配置 Lombok.
 详情请参见 [如何配置 Lombok 编译器插件](#using-the-lombok-configuration-file).
 
 ## 支持的注解 {id="supported-annotations"}

@@ -1011,7 +1011,7 @@ val me = User(
 )
 ```
 
-然后你就可以在 JavaScript 中, 象通常的 JavaScript 数组一样使用它们:
+然后你就可以在 JavaScript 中, 像通常的 JavaScript 数组一样使用它们:
 
 ```javascript
 // JavaScript

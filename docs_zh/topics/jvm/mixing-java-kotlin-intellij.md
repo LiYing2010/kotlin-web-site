@@ -40,7 +40,7 @@ public class Customer {
 }
 ```
 
-下面在 Kotlin 代码中使用这个类, 就象使用 Kotlin 中的其他类型一样.
+下面在 Kotlin 代码中使用这个类, 就像使用 Kotlin 中的其他类型一样.
 
 ```kotlin
 val customer = Customer("Phase")

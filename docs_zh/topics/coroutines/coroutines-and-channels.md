@@ -237,7 +237,7 @@ interface GitHubService {
     )
     ```
 
-3. 现在, 在调用 `loadContributorsBackground()` 时, `updateResults()` 调用会在回调内进行, 而不是象以前那样立即调用:
+3. 现在, 在调用 `loadContributorsBackground()` 时, `updateResults()` 调用会在回调内进行, 而不是像以前那样立即调用:
 
     ```kotlin
     loadContributorsBackground(service, req) { users ->
@@ -822,7 +822,7 @@ fun main() = runBlocking { /* this: CoroutineScope */
 
 使用 `GlobalScope.async` 时, 将几个协程绑定到较小的作用范围的结构.
 从全局作用范围启动的协程都是独立的 – 它们的生存周期只受整个应用程序的生存周期的限制.
-可以保存一个从全局作用范围启动的协程的引用, 等待它执行完成, 或者明确的取消它, 但这些操作不会象结构化并发那样自动进行.
+可以保存一个从全局作用范围启动的协程的引用, 等待它执行完成, 或者明确的取消它, 但这些操作不会像结构化并发那样自动进行.
 
 ### 取消加载贡献者 {id="canceling-the-loading-of-contributors"}
 
@@ -1079,7 +1079,7 @@ suspend fun loadContributorsProgress(
 
 ## 通道(Channel) {id="channels"}
 
-编写包含共用的可变状态的代码是非常困难的, 而且易于出错 (就象在使用回调的解决方案中一样).
+编写包含共用的可变状态的代码是非常困难的, 而且易于出错 (就像在使用回调的解决方案中一样).
 更简单的方法是通过通信来共享信息, 而不是使用共通的可变状态.
 协程可以通过 _通道(Channel)_ 相互通信.
 

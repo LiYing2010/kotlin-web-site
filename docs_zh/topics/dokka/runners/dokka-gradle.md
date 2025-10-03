@@ -165,7 +165,7 @@ Dokka 对 **父** 项目 自动创建以下 task:
 `Collector` task 会对每个子项目执行对应的 [单项目 task](#single-project-builds)
 (例如, `dokkaHtml`), 并将所有的输出合并到一个单独的虚拟项目.
 
-最终生成的结果文档, 看起来就好象一个单项目构建, 其中包含来自子项目的所有声明.
+最终生成的结果文档, 看起来就好像一个单项目构建, 其中包含来自子项目的所有声明.
 
 > 如果你需要为你的多项目构建创建 Javadoc 文档, 请使用 `dokkaJavadocCollector` task.
 >

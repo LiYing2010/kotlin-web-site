@@ -9,7 +9,7 @@
 也可能很复杂, 需要知道特定的算法, 数据结构, 以及大量的实践经验.
 尽管 Kotlin 并不是针对编程竞赛特别设计的, 但它恰好适合这一领域,
 能够大量减少程序员需要编写和阅读的样板代码(Boilerplate Code),
-因此程序员既能够象使用动态类型(dynamically-typed)脚本语言那样高效率的读写代码,
+因此程序员既能够像使用动态类型(dynamically-typed)脚本语言那样高效率的读写代码,
 同时又拥有静态类型(statically-typed)语言提供的工具支持和性能优势.
 
 关于如何设置 Kotlin 开发环境, 请参见 [Kotlin/JVM 入门](jvm-get-started.md).

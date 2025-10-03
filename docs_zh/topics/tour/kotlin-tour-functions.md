@@ -354,7 +354,7 @@ Lambda 表达式写在大括号 `{}` 之内.
 * `text` 类型为 `String`.
 * 函数返回对 `text` 调用 [`.uppercase()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/uppercase.html) 函数的结果.
 * 整个 Lambda 表达式通过赋值操作符 `=` 赋值给变量 `upperCaseString`.
-* 象函数一样使用 `upperCaseString` 变量, 字符串 `"hello"` 作为参数, 就会调用 Lambda 表达式.
+* 像函数一样使用 `upperCaseString` 变量, 字符串 `"hello"` 作为参数, 就会调用 Lambda 表达式.
 * `println()` 函数打印输出结果.
 
 > 如果你声明没有参数的 Lambda 表达式, 那么不必使用 `->`. 例如:

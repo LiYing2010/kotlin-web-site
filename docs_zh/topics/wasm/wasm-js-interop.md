@@ -38,7 +38,7 @@ function greet (name) {
 external fun greet(name: String)
 ```
 
-外部函数没有函数体, 你可以象通常的 Kotlin 函数那样调用它:
+外部函数没有函数体, 你可以像通常的 Kotlin 函数那样调用它:
 
 ```kotlin
 fun main() {
@@ -450,7 +450,7 @@ fun main() {
 如果不启用这个编译器选项, `JsException` 只包含粗略的信息, 表示在运行 JavaScript 代码时抛出了异常.
 
 如果你使用 JavaScript 的 `try-catch` 表达式来捕获 Kotlin/Wasm 的异常,
-那么捕获的异常会象是一个普通的 `WebAssembly.Exception`, 没有可以直接访问的错误消息和数据.
+那么捕获的异常会像是一个普通的 `WebAssembly.Exception`, 没有可以直接访问的错误消息和数据.
 
 ## Kotlin/Wasm 互操作功能与 Kotlin/JS 互操作功能的区别 {id="kotlin-wasm-and-kotlin-js-interoperability-differences"}
 

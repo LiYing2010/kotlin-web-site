@@ -430,7 +430,7 @@ package test;
 如果不正确地使用了被注解的类型(比如, 把一个标注了 `@MyNullable` 的类型值当作非空类型来使用),
 `@UnderMigration(status = ...)` 注解中的 status 值指定编译器应当如何处理:
 
-* `MigrationStatus.STRICT`: 让注解象任何通常的可否为空(nullability)注解那样工作,
+* `MigrationStatus.STRICT`: 让注解像任何通常的可否为空(nullability)注解那样工作,
   也就是, 对不正确的使用报告错误, 并且影响 Kotlin 对被注解类型的识别
 * `MigrationStatus.WARN`: 不正确的使用在编译时会被报告为警告, 而不是错误,
   但被注解的声明中的类型, 在 Kotlin 中会被识别为平台类型

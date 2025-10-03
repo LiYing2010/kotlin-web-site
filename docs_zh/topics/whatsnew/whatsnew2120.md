@@ -506,7 +506,7 @@ Compose 编译器在 [版本 1.5.8](https://developer.android.com/jetpack/androi
 ### final 覆盖函数允许重新启动 {id="final-overridden-functions-are-allowed-to-be-restartable"}
 
 虚函数 (对 `open` 和 `abstract` 的覆盖, 包括接口) [从 2.1.0 版开始强制为不可重新启动](whatsnew21.md#changes-to-open-and-overridden-composable-functions).
-对于 final 类的成员函数, 或本身为 `final` 的函数, 这个限制现在已经放宽了 – 它们将象通常那样重新启动, 或跳过.
+对于 final 类的成员函数, 或本身为 `final` 的函数, 这个限制现在已经放宽了 – 它们将像通常那样重新启动, 或跳过.
 
 升级到 Kotlin 2.1.20 之后, 你可能会看到受影响的函数的一些行为发生了变化.
 如果要强制使用之前版本的不可重新启动逻辑, 请对函数使用 `@NonRestartableComposable` 注解.

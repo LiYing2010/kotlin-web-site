@@ -455,7 +455,7 @@ Caught an assertion error
 常规任务与监控任务的另一个重要区别就是对异常的处理方式.
 每个子协程都应该通过异常处理机制自行处理它的异常.
 区别在于, 子协程的失败不会传播到父协程中.
-也就是说, 直接在 [supervisorScope][_supervisorScope] 之内启动的协程, 就象根协程一样,
+也就是说, 直接在 [supervisorScope][_supervisorScope] 之内启动的协程, 就像根协程一样,
 _会_ 使用安装在其作用范围上的 [CoroutineExceptionHandler],
 (详情请参见 [CoroutineExceptionHandler](#coroutineexceptionhandler) 小节).
 

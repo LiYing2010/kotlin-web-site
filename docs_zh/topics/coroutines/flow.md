@@ -101,7 +101,7 @@ fun main() = runBlocking<Unit> {
 
 使用 `List<Int>` 作为结果类型, 代码我们只能一次性返回所有的结果值.
 为了表达异步计算的多个结果值构成的流(stream), 我们可以使用 [`Flow<Int>`][Flow] 类型,
-就象对同步计算的结果值使用 `Sequence<Int>` 类型一样:
+就像对同步计算的结果值使用 `Sequence<Int>` 类型一样:
 
 ```kotlin
 import kotlinx.coroutines.*
@@ -899,7 +899,7 @@ Collected in 741 ms
 
 ### Zip
 
-就象 Kotlin 标准库中的 [Sequence.zip] 扩展函数一样,
+就像 Kotlin 标准库中的 [Sequence.zip] 扩展函数一样,
 数据流也有一个 [zip] 操作符, 可以将两个数据流中相应的值组合在一起:
 
 ```kotlin
@@ -1297,7 +1297,7 @@ Caught java.lang.IllegalStateException: Crashed on 2
 
 数据流必须 _对异常透明(transparent to exception)_,
 因此, 从 `try/catch` 代码块内部的 `flow { ... }` 构建器中 [发射][FlowCollector.emit] 值, 是违反异常透明性的.
-这个规则保证了, 如果收集器会抛出异常, 那么总是能够使用 `try/catch` 捕获这些异常, 就象前面的示例程序那样.
+这个规则保证了, 如果收集器会抛出异常, 那么总是能够使用 `try/catch` 捕获这些异常, 就像前面的示例程序那样.
 
 发射器可以使用 [catch] 操作符, 既能够符合这种异常透明性, 又能够封装它自己的异常处理代码.
 `catch` 操作符的代码体能够分析异常, 并根据捕获的异常类型作出不同的反应:
@@ -1688,7 +1688,7 @@ Event: 3
 
 在真正的应用程序中, 协程作用范围应该来自一个生存期有限的实体.
 一旦这个实体的生存期结束, 对应的协程作用范围也会被取消, 并且会取消对应的数据流的收集处理.
-通过这种方式, `onEach { ... }.launchIn(scope)` 的组合, 可以象 `addEventListener` 一样工作.
+通过这种方式, `onEach { ... }.launchIn(scope)` 的组合, 可以像 `addEventListener` 一样工作.
 但是, 我们不需要相应的 `removeEventListener` 函数, 因为协程的取消以及结构化的并发功能已经实现了这个功能.
 
 注意, [launchIn] 也会返回一个 [Job], 这个任务(Job)可以用来 [取消(cancel)][Job.cancel] 相应的数据流收集协程,

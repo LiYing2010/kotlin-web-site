@@ -72,8 +72,8 @@ Kotlin/Native 能够通过 [Kotlin Multiplatform plugin](gradle-configure-projec
 Kotlin/Native 帮助你使用 C 的标准库, 使你可以利用 C 的整个生态系统, 其中的功能几乎包含你需要的任何东西.
 Kotlin/Native 带有一组预构建的 [平台库](native-platform-libs.md), 提供了标准库之外的一些通用功能.
 
-与 C 交互的理想场景是, 象调用 Kotlin 函数一样调用 C 函数, 使用相同的函数签名和规约.
-这就是 cinterop 工具可以帮助你的地方. 它输入一个 C 库, 并生成对应的 Kotlin 绑定, 使得库可以象 Kotlin 代码那样使用.
+与 C 交互的理想场景是, 像调用 Kotlin 函数一样调用 C 函数, 使用相同的函数签名和规约.
+这就是 cinterop 工具可以帮助你的地方. 它输入一个 C 库, 并生成对应的 Kotlin 绑定, 使得库可以像 Kotlin 代码那样使用.
 
 要生成这些绑定, 每个库需要一个定义文件, 通常使用与库相同的名称.
 定义文件是一个属性文件, 它描述库具体应该如何使用.

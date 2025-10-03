@@ -22,7 +22,7 @@ Kotlin 1.5.0 带来了 [1.4.30 中提供预览](whatsnew1430.md#language-feature
 Java 正在快速演化, 为了让 Kotlin 保持与 Java 的兼容, 我们现在支持它的最新功能之一 – [记录类](https://openjdk.java.net/jeps/395).
 
 Kotlin 对 JVM 记录类的支持包括双向的交互能力:
-* 在 Kotlin 代码中, 你可以使用 Java 记录类, 就象使用通常的带属性的类一样.
+* 在 Kotlin 代码中, 你可以使用 Java 记录类, 就像使用通常的带属性的类一样.
 * 要在 Java 代码中将 Kotlin 类当作记录类来使用, 可以将它声明为 `data` 类, 并标注 `@JvmRecord` 注解.
 
 ```kotlin

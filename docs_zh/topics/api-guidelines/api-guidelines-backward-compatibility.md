@@ -138,7 +138,7 @@ Exception in thread "main" java.lang.NoSuchMethodError: 'int LibKt.fib()'
 
 这是因为在 Kotlin/JVM 编译器生成的字节码中, 方法的签名已经改变了, 破坏了二进制兼容性.
 
-但是, 保持了源代码兼容性. 如果你重新编译两个文件, 程序就能够象以前一样运行.
+但是, 保持了源代码兼容性. 如果你重新编译两个文件, 程序就能够像以前一样运行.
 
 ### 使用重载(overload)保持兼容性 {id="use-overloads-to-preserve-compatibility" initial-collapse-state="collapsed" collapsible="true"}
 

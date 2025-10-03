@@ -28,7 +28,7 @@ external fun <T> sorted(a: Array<T>): Boolean
 
 请注意, 如果你使用 CommonJS 作为编译对象, 那么 `@JsModule` 和 `@JsNonModule` 注解也需要做相应的调整.
 
-这个 JavaScript 函数现在可以象通常的 Kotlin 函数一样使用了.
+这个 JavaScript 函数现在可以像通常的 Kotlin 函数一样使用了.
 由于我们在头文件中提供了类型信息 (而不是简单的将参数和返回值类型定义为 `dynamic`), 因此也可以进行正确的编译器支持和类型检查.
 
 ```kotlin

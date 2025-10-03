@@ -3,7 +3,7 @@
 在 Kotlin 中函数是 [一级公民](https://en.wikipedia.org/wiki/First-class_function),
 也就是说, 函数可以保存在变量和数据结构中, 也可以作为参数来传递给 [高阶函数](#higher-order-functions),
 也可以作为 [高阶函数](#higher-order-functions) 的返回值.
-你可以就象对函数之外的其他数据类型值一样, 对函数执行任意的操作.
+你可以就像对函数之外的其他数据类型值一样, 对函数执行任意的操作.
 
 为了实现这些功能, Kotlin 作为一种静态类型语言, 使用了一组 [函数类型](#function-types) 来表达函数,
 并提供了一组专门的语言结构, 比如 [lambda 表达式](#lambda-expressions-and-anonymous-functions).
@@ -197,7 +197,7 @@ fun main() {
 ## Lambda 表达式与匿名函数(Anonymous Function) {id="lambda-expressions-and-anonymous-functions"}
 
 Lambda 表达式和匿名函数, 都是 *函数字面值(function literal)*,
-函数字面值没有象普通函数那样声明, 而是立即作为表达式传递出去.
+函数字面值没有像普通函数那样声明, 而是立即作为表达式传递出去.
 看看下面的示例:
 
 ```kotlin

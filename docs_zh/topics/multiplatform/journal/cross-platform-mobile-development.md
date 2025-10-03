@@ -167,7 +167,7 @@ Flutter 由 Google 创建, 是一个跨平台开发框架, 使用 Dart 编程语
 [Platform Channel 技术](https://brightmarbles.io/blog/platform-channel-in-flutter-benefits-and-limitations/),
 编写平台相关的代码.
 
-使用 Flutter 构建的 App 需要共用它们所有的 UX 和 UI 层, 因此它们可能并不会 100% 感觉象原生 App.
+使用 Flutter 构建的 App 需要共用它们所有的 UX 和 UI 层, 因此它们可能并不会 100% 感觉像原生 App.
 这个框架最好的功能之一, 是它的热加载(Hot Reload)功能, 可以让开发者修改代码, 并立即看到结果.
 
 对于以下情况, 这个框架可能是最好的选择:

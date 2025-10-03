@@ -440,7 +440,7 @@ fun foo(ann: Ann) {
 
 ## 可重复注解 {id="repeatable-annotations"}
 
-就象 [在 Java 中](https://docs.oracle.com/javase/tutorial/java/annotations/repeating.html) 一样, Kotlin 也有可重复注解,
+就像 [在 Java 中](https://docs.oracle.com/javase/tutorial/java/annotations/repeating.html) 一样, Kotlin 也有可重复注解,
 它可以对同个代码元素使用多次.
 要让你的注解成为可重复注解, 请在它的声明中使用 [`@kotlin.annotation.Repeatable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.annotation/-repeatable/) 元注解(meta-annotation).
 这样会使得这个注解在 Kotlin 和 Java 中都成为可重复注解. 在 Kotlin 中, 也支持 Java 中定义的可重复注解.

@@ -164,7 +164,7 @@ fun <T> TreeNode.findParentOfType(clazz: Class<T>): T? {
 treeNode.findParentOfType(MyTreeNode::class.java)
 ```
 
-更好的解决方案是简单地将一个类型传递给这个函数, 可以象这样调用它:
+更好的解决方案是简单地将一个类型传递给这个函数, 可以像这样调用它:
 
 ```kotlin
 treeNode.findParentOfType<MyTreeNode>()
@@ -182,7 +182,7 @@ inline fun <reified T> TreeNode.findParentOfType(): T? {
 }
 ```
 
-上面的代码给类型参数添加了 `reified` 修饰符, 使得它可以在函数内部访问, 就好象它是一个普通的类一样.
+上面的代码给类型参数添加了 `reified` 修饰符, 使得它可以在函数内部访问, 就好像它是一个普通的类一样.
 由于函数是内联的, 因此不必使用反射, 而且通常的操作符都可以使用, 比如 `!is` 和 `as`.
 此外, 你可以通过上面提到那种方式来调用这个函数: `myTree.findParentOfType<MyTreeNodeType>()`.
 
@@ -235,4 +235,4 @@ inline var bar: Bar
 Public API 内联函数的函数体部分, 不允许使用 非-Public-API, 也就是, 定义为 `private` 和 `internal` 的部分.
 
 定义为 `internal` 的元素也可以使用 `@PublishedApi` 注解, 这就允许它被 Public API 内联函数使用.
-当 `internal` 内联函数标注为 `@PublishedApi` 时, 也会象 Public API 内联函数一样检查它的函数体.
+当 `internal` 内联函数标注为 `@PublishedApi` 时, 也会像 Public API 内联函数一样检查它的函数体.

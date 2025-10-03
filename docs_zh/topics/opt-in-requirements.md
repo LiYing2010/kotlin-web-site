@@ -90,7 +90,7 @@ fun displayDate() {
 }
 ```
 
-在上面的示例中我们可以看到, 被注解的函数变得象是 `@MyDateTime` API 的一部分.
+在上面的示例中我们可以看到, 被注解的函数变得像是 `@MyDateTime` API 的一部分.
 对使用者同意的强制要求传递到了 `getDate()` 函数的使用者.
 
 如果一个 API 元素的签名包含一个要求使用者同意的类型, 那么签名本身也必须要求使用者同意.
@@ -186,7 +186,7 @@ fun displayDate() {
 并指定你所使用的 API 的要求用户同意标注的完全限定名称: `-opt-in=org.mylibrary.OptInAnnotation`.
 使用这个参数来编译代码, 效果等于让模块内的每一个声明都添加 `@OptIn(OptInAnnotation::class)` 注解.
 
-如果使用 Gradle 编译模块, 你可以象下面的例子这样来添加参数:
+如果使用 Gradle 编译模块, 你可以像下面的例子这样来添加参数:
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">

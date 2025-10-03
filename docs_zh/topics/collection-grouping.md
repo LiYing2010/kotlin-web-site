@@ -8,7 +8,7 @@ Kotlin 标准库提供了扩展函数, 用于对集合中的元素进行分组�
 这个函数的用途, 举例来说, 我们可以对一个 `String` 组成的 list, 按字符串的首字母进行分组.
 
 调用 `groupBy()` 函数时, 也可以使用另一个 lambda 函数作为第二个参数 – 这个函数负责对值进行变换.
-象这样使用两个 lambda 函数调用 `groupBy()`时, 结果 map 中, 第一个参数(`keySelector` lambda 函数)负责生成键(key),
+像这样使用两个 lambda 函数调用 `groupBy()`时, 结果 map 中, 第一个参数(`keySelector` lambda 函数)负责生成键(key),
 它对应的值(value) 则是由第二个参数(值转换 lambda 函数)产生的结果组成的 list, 而不是集合中原来元素组成的 list.
 
 下面的示例演示如何使用 `groupBy()` 函数, 根据字符串的第一个字母进行分组,

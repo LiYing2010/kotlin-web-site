@@ -46,7 +46,7 @@ Kotlin 2.2.0 已经发布了! 以下是它的一些最重要的功能:
 详情请参见这篇 [blog](https://blog.jetbrains.com/kotlin/2025/04/update-on-context-parameters/).
 
 这两个功能的主要区别是, 在函数的 body 部, 上下文参数不是作为接受者.
-因此, 你需要使用上下文参数的名称来访问其成员, 不象上下文接受者, 上下文可以隐含的使用.
+因此, 你需要使用上下文参数的名称来访问其成员, 不像上下文接受者, 上下文可以隐含的使用.
 
 Kotlin 中的上下文参数通过简化依赖项注入, 改进 DSL 设计, 以及范围操作, 显著的改善了依赖的管理.
 详情请参见, 这个功能特性的 [KEEP](https://github.com/Kotlin/KEEP/blob/context-parameters/proposals/context-parameters.md).

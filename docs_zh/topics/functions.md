@@ -287,7 +287,7 @@ class MyStringCollection {
 ## 函数的范围 {id="function-scope"}
 
 Kotlin 的函数可以定义在源代码的顶级范围内(Top Level),
-这就意味着, 你不必象在 Java, C# 或 Scala ([从 Scala 3 开始可以使用顶级定义](https://docs.scala-lang.org/scala3/book/taste-toplevel-definitions.html#inner-main))
+这就意味着, 你不必像在 Java, C# 或 Scala ([从 Scala 3 开始可以使用顶级定义](https://docs.scala-lang.org/scala3/book/taste-toplevel-definitions.html#inner-main))
 等等语言中那样, 创建一个类来容纳这个函数.
 除顶级函数之外, Kotlin 的函数也可以在局部范围内, 定义为成员函数, 以及扩展函数.
 

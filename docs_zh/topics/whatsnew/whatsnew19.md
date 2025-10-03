@@ -483,7 +483,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile>().configur
 这是一个必要的临时变更, 目的是将 `android` 的名称留给未来由 Google 提供的 DSL 使用.
 
 Google plugin 将成为在跨平台项目中使用 Android 的首选方式.
-当它完成之后, 我们会提供必要的迁移说明, 让你能够象以前一样使用 `android` 的短名称.
+当它完成之后, 我们会提供必要的迁移说明, 让你能够像以前一样使用 `android` 的短名称.
 
 ### 默认启用新的 Android 源代码集布局 {id="new-android-source-set-layout-enabled-by-default"}
 

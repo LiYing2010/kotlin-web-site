@@ -291,7 +291,7 @@ fun CoroutineScope.filter(numbers: ReceiveChannel<Int>, prime: Int) = produce<In
 总之, 这是一个极不实用的寻找质数的方法.
 在实际应用中, 管道一般会牵涉到一些其他的挂起函数调用(比如异步调用远程服务),
 而且这些管道不能使用 `sequence`/`iterator` 来构建,
-因为这些函数不能允许任意的挂起, 而不象 `produce` 函数, 是完全异步的.
+因为这些函数不能允许任意的挂起, 而不像 `produce` 函数, 是完全异步的.
 
 ## 扇出(Fan-out)
 

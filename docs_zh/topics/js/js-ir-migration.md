@@ -21,7 +21,7 @@
 ## 将 JS 和 React 相关的类和接口转换为外部接口(External Interface) {id="convert-js-and-react-related-classes-and-interfaces-to-external-interfaces"}
 
 **`问题`**: 使用 Kotlin 接口和类 (包括数据类), 如果继承自纯 JS 类, 比如 React 的 `State` 和 `Props`,
-  可能导致 `ClassCastException` 异常. 出现这样的异常是因为, 编译器试图将这些类的实例象 Kotlin 对象一样使用,
+  可能导致 `ClassCastException` 异常. 出现这样的异常是因为, 编译器试图将这些类的实例像 Kotlin 对象一样使用,
   然而它们实际上来自 JS.
 
 **解决方案**: 将所有继承自纯 JS 类的类和接口转换为 [外部接口(External Interface)](js-interop.md#external-interfaces):

@@ -57,7 +57,7 @@ KSP 相比 kapt 的主要优势是, 提高了构建性能, 没有与 JVM 紧密�
 但 kapt 生成代码耗费了 8.67 秒, 而我们的 KSP 实现生成代码只耗费 1.15 秒.
 
 与 kapt 不同, KSP 中的处理器不会以 Java 的方式看待输入程序.
-API 对 Kotlin 来说更加自然, 尤其是对于 Kotlin 专有的功能, 比如顶层函数. 由于 KSP 不会象 kapt 那样将处理代理给 `javac`,
+API 对 Kotlin 来说更加自然, 尤其是对于 Kotlin 专有的功能, 比如顶层函数. 由于 KSP 不会像 kapt 那样将处理代理给 `javac`,
 因此它不会依赖于 JVM 专有的行为, 并且将来有可能用于其它平台.
 
 ## 限制 {id="limitations"}

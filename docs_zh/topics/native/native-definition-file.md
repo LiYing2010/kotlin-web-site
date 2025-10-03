@@ -2,7 +2,7 @@
 
 Kotlin/Native 允许你使用 C 和 Objective-C 库, 你可以在 Kotlin 中使用这些库的功能.
 一个称作 cinterop 的专门工具, 会从一个 C 或 Objective-C 库生成对应的 Kotlin 绑定(binding),
-然后在你的 Kotlin 代码中就可以象通常那样使用库的方法.
+然后在你的 Kotlin 代码中就可以像通常那样使用库的方法.
 
 要生成这些绑定, 每个库需要一个定义文件, 通常使用与库相同的名称.
 这是一个属性文件, 详细描述库应该如何使用.

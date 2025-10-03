@@ -88,7 +88,7 @@ MyFun supply_fun() {
 `CFunction<(Int) -> Int>` 表示函数签名, `CPointer<CFunction<...>>?` 表示一个可为 null 的函数指针.
 对所有的 `CPointer<CFunction<...>>` 类型,
 有一个 [`.invoke()`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlinx.cinterop/invoke.html) 操作符扩展函数,
-因此你可以象通常的 Kotlin 函数一样调用任何函数指针.
+因此你可以像通常的 Kotlin 函数一样调用任何函数指针.
 
 ## 将 Kotlin 函数作为 C 函数指针传递 {id="pass-kotlin-function-as-a-c-function-pointer"}
 
@@ -132,7 +132,7 @@ fun myFun2() {
 
 Kotlin 将函数指针返回类型转换为一个可为 null 的 `CPointer<CFunction<>` 对象.
 在调用函数指针之前, 你首先需要明确检查是否为 `null`, 所以在上面的示例代码中使用了 [Elvis 操作符](null-safety.md) 进行这种检查.
-cinterop 工具允许你象通常的 Kotlin 函数那样调用一个 C 函数指针: `functionFromC(42)`.
+cinterop 工具允许你像通常的 Kotlin 函数那样调用一个 C 函数指针: `functionFromC(42)`.
 
 ## 更新 Kotlin 代码 {id="update-kotlin-code"}
 

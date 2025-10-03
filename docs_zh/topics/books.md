@@ -31,7 +31,7 @@
 [Head First Kotlin](https://www.oreilly.com/library/view/head-first-kotlin/9781491996683/)
 完整的介绍 Kotlin 编程.
 这本手册超越语法讲解和如何解决问题的手册之外, 通过独特的方法帮助你学习 Kotlin 语言,
-教导你如何象一个伟大的 Kotlin 开发者那样思考.
+教导你如何像一个伟大的 Kotlin 开发者那样思考.
 
 你将学到一切知识, 从语言基础, 到集合, 泛型, Lambda 表达式, 以及高阶函数.
 在这个过程中, 你将接触到面向对象编程以及函数式编程.

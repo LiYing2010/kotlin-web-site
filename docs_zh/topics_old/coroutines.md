@@ -11,7 +11,7 @@
 
 有些 API 会启动一些长时间运行的操作(比如网络 IO, 文件 IO, CPU 或 GPU 密集的工作, 等等), 并且要求调用者等待, 直到任务完成. 协程提供一种新的方式, 可以避免线程阻塞, 改为更加廉价更加可控的操作: 协程的 *挂起(suspension)*.
 
-通过将复杂的处理包含在库内部, 协程可以帮助我们简化异步模式编程. 在协程中, 可以使用 *有序的形式* 表达程序逻辑, 底层的库将会帮助我们解决异步问题. 底层库会将用户代码的相关部分封装到回调(callback)内, 会订阅相关的事件, 会将代码的执行调度到不同的线程(甚至不同的机器上!), 而我们编写的代码看起来仍然象顺序执行的代码一样简单.
+通过将复杂的处理包含在库内部, 协程可以帮助我们简化异步模式编程. 在协程中, 可以使用 *有序的形式* 表达程序逻辑, 底层的库将会帮助我们解决异步问题. 底层库会将用户代码的相关部分封装到回调(callback)内, 会订阅相关的事件, 会将代码的执行调度到不同的线程(甚至不同的机器上!), 而我们编写的代码看起来仍然像顺序执行的代码一样简单.
 
 其他语言支持的许多异步机制, 都可以使用 Kotlin 的协程, 以库的形式实现. 包括
 C# 和 ECMAScript 的 [`async`/`await`](https://github.com/Kotlin/kotlinx.coroutines/blob/master/coroutines-guide.md#composing-suspending-functions),
@@ -121,7 +121,7 @@ public abstract class SequenceBuilder<in T> { ... }
 
 协程挂起之后可以作为对象来保存和传递, 对象内保存了协程的挂起后的状态, 以及相关的局部变量等信息. 这种对象的类型是 `Continuation`, 我们在这里描述的整个代码转换过程, 其实就是典型的 [延续性传递编程风格(Continuation-passing style)](https://en.wikipedia.org/wiki/Continuation-passing_style). 因此, 挂起函数的底层实现会接受一个额外的 `Continuation` 类型参数.
 
-协程工作机制的更多的信息请参见 [这篇设计文档](https://github.com/Kotlin/kotlin-coroutines/blob/master/kotlin-coroutines-informal.md). 这篇文档也提到了其他语言中 (比如 C# 或 ECMAScript 2016) 类似的 async/await 功能, 虽然它们实现的语言特性并不象 Kotlin 的协程那样通用.
+协程工作机制的更多的信息请参见 [这篇设计文档](https://github.com/Kotlin/kotlin-coroutines/blob/master/kotlin-coroutines-informal.md). 这篇文档也提到了其他语言中 (比如 C# 或 ECMAScript 2016) 类似的 async/await 功能, 虽然它们实现的语言特性并不像 Kotlin 的协程那样通用.
 
 ## 协程还处于试验性阶段 {id="experimental-status-of-coroutines"}
 
