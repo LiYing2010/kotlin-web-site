@@ -1,11 +1,6 @@
 [//]: # (title: Kotlin/Wasm)
 
-> Kotlin/Wasm is in [Alpha](components-stability.md).
-> It may be changed at any time. You can use it in scenarios before production. We would appreciate your feedback in [YouTrack](https://youtrack.jetbrains.com/issue/KT-56492).
->
-> [Join the Kotlin/Wasm community](https://slack-chats.kotlinlang.org/c/webassembly).
->
-{style="note"}
+<primary-label ref="beta"/> 
 
 Kotlin/Wasm has the power to compile your Kotlin code into [WebAssembly (Wasm)](https://webassembly.org/) format. 
 With Kotlin/Wasm, you can create applications that run on
@@ -20,6 +15,14 @@ web applications built with [Compose Multiplatform](https://www.jetbrains.com/lp
 browser in standalone Wasm virtual machines. In the outside-of-browser case,
 [WebAssembly System Interface (WASI)](https://wasi.dev/) provides access to platform APIs, which you can also utilize.
 
+> To run applications built with Kotlin/Wasm in a browser, your users need a [browser version](wasm-configuration.md#browser-versions) that supports 
+> WebAssembly's garbage collection
+> and legacy exception handling proposals. To check the browser support status, see the [WebAssembly
+> roadmap](https://webassembly.org/roadmap/).
+>
+{style="tip"}
+
+[//]: # (TODO KT-85415: For Kotlin/Wasm-compatible standalone runtimes, see Standalone runtimes).
 
 ## Kotlin/Wasm and Compose Multiplatform
 
@@ -34,19 +37,9 @@ For web platforms, Compose Multiplatform uses
 Kotlin/Wasm as its compilation target. Applications built with Kotlin/Wasm and Compose Multiplatform use a 
 `wasm-js` target and run in browsers.
 
-[Explore our online demo of an application built with Compose Multiplatform and Kotlin/Wasm](https://zal.im/wasm/jetsnack/)
-
-![Kotlin/Wasm demo](wasm-demo.png){width=700}
-
-> To run applications built with Kotlin/Wasm in a browser, you need a browser version that supports the new garbage collection
-> and legacy exception handling proposals. To check the browser support status, see the [WebAssembly
-> roadmap](https://webassembly.org/roadmap/).
->
-{style="tip"}
-
 Additionally, you can use the most popular Kotlin libraries in Kotlin/Wasm out of the box. Like in other Kotlin and Multiplatform
 projects, you can include dependency declarations in the build script. For more information,
-see [Adding dependencies on multiplatform libraries](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-add-dependencies.html).
+see [Adding dependencies on multiplatform libraries](https://kotlinlang.org/docs/multiplatform/multiplatform-add-dependencies.html).
 
 Would you like to try it yourself?
 
@@ -54,22 +47,33 @@ Would you like to try it yourself?
 
 ## Kotlin/Wasm and WASI
 
-Kotlin/Wasm uses the [WebAssembly System Interface (WASI)](https://wasi.dev/) for server-side applications.
+Kotlin/Wasm uses the [WebAssembly System Interface (WASI)](https://wasi.dev/) for backend applications.
 Applications built with Kotlin/Wasm and WASI use a Wasm-WASI target, allowing you to call the WASI API and run applications 
 outside the browser environment.
 
 Kotlin/Wasm leverages WASI to abstract away platform-specific details, allowing the same Kotlin code to run across diverse 
 platforms. This expands the reach of Kotlin/Wasm beyond web applications without requiring custom handling for each runtime.
 
-WASI provides a secure standard interface for running Kotlin applications compiled to WebAssembly across different environments.
+WASI provides a secure, standardized interface for running Kotlin applications compiled to WebAssembly across different environments.
 
 > To see Kotlin/Wasm and WASI in action, check the [Get started with Kotlin/Wasm and WASI tutorial](wasm-wasi.md).
 >
 {style="tip"}
 
+### WebAssembly Component Model
+<primary-label ref="experimental-general"/>
+
+WASI 0.2 is built on the [WebAssembly Component Model](https://github.com/WebAssembly/component-model), which defines a way to build components from Wasm modules using
+standardized interfaces and types. The model lets you define language-agnostic components in applications or libraries.
+You can also compose Wasm modules and existing components into new components.
+
+To explore what's possible with the WebAssembly Component Model and Kotlin/Wasm, check out this demo of [a simple server built with `wasi:http`](https://github.com/Kotlin/sample-wasi-http-kotlin/).
+
+<img src="kotlin-wasm-wasi-http.gif" alt="Kotlin/Wasm with WebAssembly Component Model" width="600"/>
+
 ## Kotlin/Wasm performance
 
-Although Kotlin/Wasm is still in Alpha, Compose Multiplatform running on Kotlin/Wasm already shows encouraging performance 
+Although Kotlin/Wasm is still in Beta, Compose Multiplatform running on Kotlin/Wasm already shows encouraging performance 
 traits. You can see that its execution speed outperforms JavaScript and is approaching that of the JVM:
 
 ![Kotlin/Wasm performance](wasm-performance-compose.png){width=700}
@@ -81,7 +85,7 @@ We regularly run benchmarks on Kotlin/Wasm, and these results come from our test
 The Kotlin/Wasm standard library provides declarations for browser APIs, including the DOM API.
 With these declarations, you can directly use the Kotlin API to access and utilize various browser functionalities. 
 For example, in your Kotlin/Wasm applications, you can use manipulation with DOM elements or fetch the API 
-without defining these declarations from scratch. To learn more, see our [Kotlin/Wasm browser example](https://github.com/Kotlin/kotlin-wasm-examples/tree/main/browser-example).
+without defining these declarations from scratch. To learn more, see our [Kotlin/Wasm browser example](https://github.com/Kotlin/kotlin-wasm-browser-template).
 
 The declarations for browser API support are defined using JavaScript [interoperability capabilities](wasm-js-interop.md). 
 You can use the same capabilities to define your own declarations. In addition, Kotlin/Wasm–JavaScript interoperability 

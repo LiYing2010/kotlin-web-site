@@ -22,14 +22,16 @@ To debug in IntelliJ Idea, open the 'Maven Projects' tool window (View
 'Debug' option is available in the context menu for the task.
 */
 
-version = "2025.03"
+version = "2025.07"
 
 project {
 
   subProjectsOrder = arrayListOf(
     kotlinlang.SiteProject,
     references.BuildApiReferencesProject,
-    tests.TestsProject
+    tests.TestsProject,
+    documentation.DocumentationProject,
+    landings.LandingPagesProject,
   ).also {
     it.forEach { subProject(it) }
   }

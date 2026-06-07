@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import Head from 'next/head';
 import Script from 'next/script';
+import dynamic from 'next/dynamic';
 
 import 'normalize.css';
 import './global.css';
@@ -9,10 +10,16 @@ import '@jetbrains/kotlin-web-site-ui/out/components/typography/index.css';
 import '@jetbrains/kotlin-web-site-ui/out/components/grid/index.css';
 import { Favicon } from '../components/favicon/favicon';
 
+const HydrationEvent = dynamic(() => import('../components/hydration-event'), {
+    ssr: false
+});
+
 // This default export is required in a new `pages/_app.js` file.
 export default function MyApp({ Component, pageProps }) {
     useEffect(() => {
-        document.body.className = pageProps.isDarkTheme ? 'dark-theme' : '';
+        if(pageProps.isDarkTheme) {
+            document.documentElement.classList.add('dark-theme');
+        }
     });
 
     return (
@@ -21,6 +28,8 @@ export default function MyApp({ Component, pageProps }) {
                 <Favicon />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
             </Head>
+
+            <HydrationEvent/>
 
             <Script
                 id={'google-tag-manager-inline-script'}

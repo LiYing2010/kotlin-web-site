@@ -1,5 +1,7 @@
 package kotlinlang.builds
 
+import BuildParams.KLANG_NODE_CONTAINER
+import common.extensions.isProjectPlayground
 import jetbrains.buildServer.configs.kotlin.BuildSteps
 import jetbrains.buildServer.configs.kotlin.BuildType
 import jetbrains.buildServer.configs.kotlin.CheckoutMode
@@ -9,7 +11,7 @@ import jetbrains.buildServer.configs.kotlin.triggers.schedule
 
 private fun BuildSteps.nodejs(block: ScriptBuildStep.() -> Unit) = step(
     ScriptBuildStep {
-        dockerImage = "node:20"
+        dockerImage = KLANG_NODE_CONTAINER
         dockerPull = true
     }.apply(block),
 )
@@ -26,6 +28,7 @@ object FetchBlogNews : BuildType({
 
     triggers {
         schedule {
+            enabled = !isProjectPlayground()
             branchFilter = "+:<default>"
             schedulingPolicy = cron {
                 hours = "9"
@@ -57,7 +60,7 @@ object FetchBlogNews : BuildType({
             workingDir = "$SCRIPT_PATH"
             // language=bash
             scriptContent = """ 
-                #!/bin/bash
+                #!/bin/sh
                 set -e -u
                 NODE_ENV=production npm ci
             """.trimIndent()
@@ -67,7 +70,7 @@ object FetchBlogNews : BuildType({
             name = "Fetch news"
             // language=bash
             scriptContent = """
-                #!/bin/bash
+                #!/bin/sh
                 set -e -u
                 UPDATE_TIME=`date -u +"%%Y-%%m-%%d %%H:%%M.%%S"`
                 echo "##teamcity[setParameter name='env.UPDATE_TIME' value='${'$'}UPDATE_TIME']"
@@ -78,6 +81,7 @@ object FetchBlogNews : BuildType({
 
     features {
         notifications {
+            enabled = !isProjectPlayground()
             notifierSettings = slackNotifier {
                 connection = "PROJECT_EXT_486"
                 sendTo = "#kotlin-web-site-e2e-tests"

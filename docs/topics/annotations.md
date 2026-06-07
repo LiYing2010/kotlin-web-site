@@ -1,6 +1,17 @@
 [//]: # (title: Annotations)
 
-Annotations are a means of attaching metadata to code. To declare an annotation, put the `annotation` modifier in front of a class:
+Annotations are tags that you can use to attach metadata to elements in your code. Tools and frameworks process this 
+metadata during compilation and runtime, and perform different actions based on it.
+
+You can annotate your code to simplify and automate common tasks, such as generating boilerplate code, enforcing coding standards or writing documentation.
+
+> If you want to develop your own annotation processors, you can use the [Kotlin Symbol Processing (KSP)](ksp-overview.md) API.
+>
+{style="tip"}
+
+## Declaration
+
+Annotations are a special type of class. To declare an annotation, use the `annotation` keyword before the class declaration:
 
 ```kotlin
 annotation class Fancy
@@ -21,7 +32,7 @@ Additional attributes of the annotation can be specified by annotating the annot
 
 ```kotlin
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION,
-        AnnotationTarget.TYPE_PARAMETER, AnnotationTarget.VALUE_PARAMETER, 
+        AnnotationTarget.TYPE_PARAMETER, AnnotationTarget.VALUE_PARAMETER,
         AnnotationTarget.EXPRESSION)
 @Retention(AnnotationRetention.SOURCE)
 @MustBeDocumented
@@ -105,7 +116,7 @@ annotation class Ann(val arg1: KClass<*>, val arg2: KClass<out Any>)
 ## Instantiation
 
 In Java, an annotation type is a form of an interface, so you can implement it and use an instance.
-As an alternative to this mechanism, Kotlin lets you call a constructor of an annotation class in arbitrary code 
+As an alternative to this mechanism, Kotlin lets you call a constructor of an annotation class in arbitrary code
 and similarly use the resulting instance.
 
 ```kotlin
@@ -173,7 +184,7 @@ The full list of supported use-site targets is:
   * `property` (annotations with this target are not visible to Java)
   * `get` (property getter)
   * `set` (property setter)
-  * `all` (an experimental meta-target for properties, see [below](#all-meta-target) for its purpose and usage)
+  * `all` (a meta-target for properties, see the [`all` meta-target](#all-meta-target) section for more information)
   * `receiver` (receiver parameter of an extension function or property)
 
     To annotate the receiver parameter of an extension function, use the following syntax:
@@ -181,20 +192,21 @@ The full list of supported use-site targets is:
     ```kotlin
     fun @receiver:Fancy String.myExtension() { ... }
     ```
-    
+
   * `param` (constructor parameter)
   * `setparam` (property setter parameter)
   * `delegate` (the field storing the delegate instance for a delegated property)
 
 ### Defaults when no use-site targets are specified
 
-If you don't specify a use-site target, the target is chosen according to the `@Target` annotation of the annotation
-being used.
-If there are multiple applicable targets, the first applicable target from the following list is used:
+If you don't specify a use-site target, the compiler chooses the target according to the `@Target` annotation of the annotation
+you use. If there are multiple applicable targets, the compiler chooses one or more of them in the following order:
 
-* `param`
-* `property`
-* `field`
+* The constructor parameter target (`param`).
+* The property target (`property`).
+* The field target (`field`), if it's applicable and the property target (`property`) isn't.
+
+If none of `param`, `property`, or `field` are applicable, the annotation is invalid, and you need to specify a use-site target explicitly.
 
 Let's use the [`@Email` annotation from Jakarta Bean Validation](https://jakarta.ee/specifications/bean-validation/3.0/apidocs/jakarta/validation/constraints/email):
 
@@ -207,26 +219,6 @@ With this annotation, consider the following example:
 
 ```kotlin
 data class User(val username: String,
-                // @Email is equivalent to @param:Email
-                @Email val email: String) {
-    // @Email is equivalent to @field:Email
-    @Email val secondaryEmail: String? = null
-}
-```
-
-Kotlin 2.2.0 introduced an experimental defaulting rule which should
-make propagating annotations to parameters, fields, and properties more predictable.
-
-With the new rule, if there are multiple applicable targets, one or more is chosen as follows:
-
-* If the constructor parameter target (`param`) is applicable, it is used.
-* If the property target (`property`) is applicable, it is used.
-* If the field target (`field`) is applicable while `property` isn't, `field` is used.
-
-Using the same example:
-
-```kotlin
-data class User(val username: String,
                 // @Email is now equivalent to @param:Email @field:Email
                 @Email val email: String) {
     // @Email is still equivalent to @field:Email
@@ -234,36 +226,17 @@ data class User(val username: String,
 }
 ```
 
-If there are multiple targets, and none of `param`, `property`, or `field` are applicable, the annotation is invalid.
+In this example, the `@Email` annotation applies to both the constructor parameter and the field targets for the `email` property because the property:
 
-To enable the new defaulting rule, use the following line in your Gradle configuration:
+* Is declared in the primary constructor.
+* Has no custom getter or setter, so the compiler generates a backing field.
 
-```kotlin
-// build.gradle.kts
-kotlin {
-    compilerOptions {
-        freeCompilerArgs.add("-Xannotation-default-target=param-property")
-    }
-}
-```
+The `@Email` annotation only applies to the field target for the `secondaryEmail` property because the property:
 
-Whenever you'd like to use the old behavior, you can:
-
-* In a specific case, specify the necessary target explicitly, for example, using `@param:Annotation` instead of `@Annotation`.
-* For a whole project, use this flag in your Gradle build file:
-
-    ```kotlin
-    // build.gradle.kts
-    kotlin {
-        compilerOptions {
-            freeCompilerArgs.add("-Xannotation-default-target=first-only")
-        }
-    }
-    ```
+* Isn't declared in the primary constructor.
+* Has no custom getter or setter, so the compiler generates a backing field.
 
 ### `all` meta-target
-
-<primary-label ref="experimental-opt-in"/>
 
 The `all` target makes it easier to apply the same annotation not only to the parameter and the property or field, but also to the corresponding getter and setter.
 
@@ -289,12 +262,12 @@ In the example below, this `@Email` annotation is applied to all relevant target
 ```kotlin
 data class User(
     val username: String,
-    // Applies `@Email` to `param`, `field` and `get`
+    // Applies @Email to param, field, and get
     @all:Email val email: String,
-    // Applies `@Email` to `param`, `field`, `get`, and `set_param`
+    // Applies @Email to param, field, get, and setparam
     @all:Email var name: String,
 ) {
-    // Applies `@Email` to `field` and `getter` (no `param` since it's not in the constructor)
+    // Applies @Email to field and getter (not param since it's not in the constructor)
     @all:Email val secondaryEmail: String? = null
 }
 ```
@@ -308,29 +281,10 @@ The `all` target comes with some limitations:
 * It does not propagate an annotation to types, potential extension receivers, or context receivers or parameters.
 * It cannot be used with multiple annotations:
     ```kotlin
-    @all:[A B] // forbidden, use `@all:A @all:B`
+    @all:[A B] // forbidden, use @all:A @all:B
     val x: Int = 5
     ```
 * It cannot be used with [delegated properties](delegated-properties.md).
-
-#### How to enable
-
-To enable the `all` meta-target in your project, use the following compiler option in the command line:
-
-```Bash
--Xannotation-target-all
-```
-
-Or add it to the `compilerOptions {}` block of your Gradle build file:
-
-```kotlin
-// build.gradle.kts
-kotlin {
-    compilerOptions {
-        freeCompilerArgs.add("-Xannotation-target-all")
-    }
-}
-```
 
 ## Java annotations
 
@@ -399,7 +353,7 @@ public @interface AnnWithArrayValue {
 @AnnWithArrayValue("abc", "foo", "bar") class C
 ```
 
-For other arguments that have an array type, you need to use the array literal syntax or 
+For other arguments that have an array type, you need to use the array literal syntax or
 `arrayOf(...)`:
 
 ``` java
@@ -410,7 +364,7 @@ public @interface AnnWithArrayMethod {
 ```
 
 ```kotlin
-@AnnWithArrayMethod(names = ["abc", "foo", "bar"]) 
+@AnnWithArrayMethod(names = ["abc", "foo", "bar"])
 class C
 ```
 
@@ -461,7 +415,7 @@ annotation class Tag(val name: String)
 ```
 
 You can set a custom name for a containing annotation by applying the
-[`@kotlin.jvm.JvmRepeatable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvmrepeatable/) meta-annotation
+[`@kotlin.jvm.JvmRepeatable`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-repeatable/) meta-annotation
 and passing an explicitly declared containing annotation class as an argument:
 
 ```kotlin

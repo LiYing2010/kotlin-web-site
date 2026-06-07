@@ -38,7 +38,7 @@ default implementations:
 
 ```kotlin
 class Contact(val id: Int, var email: String) {
-    val category: String = ""
+    var category: String = ""
 }
 ```
 
@@ -46,7 +46,7 @@ Under the hood, this is equivalent to this pseudocode:
 
 ```kotlin
 class Contact(val id: Int, var email: String) {
-    val category: String = ""
+    var category: String = ""
         get() = field
         set(value) {
             field = value
@@ -92,7 +92,7 @@ fun main() {
     // Exception in thread "main" java.lang.StackOverflowError
 }
 ```
-{validate ="false" kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-properties-stackoverflow"}
+{validate="false" kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-properties-stackoverflow"}
 
 To fix this, you can use the backing field in your `set()` function instead by referencing it with the `field` keyword:
 
@@ -126,7 +126,7 @@ fields. This means that you need to write the `get()` and `set()` functions your
 field means that they can't hold any state.
 
 To declare an extension property, write the name of the class that you want to extend followed by a `.` and the name of
-your property. Just like with normal class properties, you need to declare a receiver type for your property. 
+your property. Just like with normal class properties, you need to declare a type for your property. 
 For example:
 
 ```kotlin
@@ -135,7 +135,7 @@ val String.lastChar: Char
 {validate="false"}
 
 Extension properties are most useful when you want a property to contain a computed value without using inheritance.
-You can think of extension properties working like a function with only one parameter: the receiver object.
+You can think of extension properties working like a function with only one parameter: the receiver.
 
 For example, let's say that you have a data class called `Person` with two properties: `firstName` and `lastName`.
 
@@ -204,7 +204,7 @@ In these functions:
 * The `operator` keyword marks these functions as operator functions, enabling them to overload the `get()` and `set()` functions.
 * The `thisRef` parameter refers to the object **containing** the delegated property. By default, the type is set to `Any?`, but you may need to declare a more specific type.
 * The `property` parameter refers to the property whose value is accessed or changed. You can use this parameter to access information
-like the property's name or type. By default, the type is set to `Any?`. You don't need to worry about changing this in your code.
+like the property's name or type. By default, the type is set to `KProperty<*>` but you can also use `Any?`. You don't need to worry about changing this in your code.
 
 The `getValue()` function has a return type of `String` by default, but you can adjust this if you want.
 
@@ -646,24 +646,24 @@ fun main() {
 import kotlin.properties.Delegates.observable
 
 class Budget(val totalBudget: Int) {
-  var remainingBudget: Int by observable(totalBudget) { _, oldValue, newValue ->
-    if (newValue < totalBudget * 0.2) {
-      println("Warning: Your remaining budget ($newValue) is below 20% of your total budget.")
-    } else if (newValue > oldValue) {
-      println("Good news: Your remaining budget increased to $newValue.")
+    var remainingBudget: Int by observable(totalBudget) { _, oldValue, newValue ->
+        if (newValue < totalBudget * 0.2) {
+            println("Warning: Your remaining budget ($newValue) is below 20% of your total budget.")
+        } else if (newValue > oldValue) {
+            println("Good news: Your remaining budget increased to $newValue.")
+        }
     }
-  }
 }
 
 fun main() {
-  val myBudget = Budget(totalBudget = 1000)
-  myBudget.remainingBudget = 800
-  myBudget.remainingBudget = 150
-  // Warning: Your remaining budget (150) is below 20% of your total budget.
-  myBudget.remainingBudget = 50
-  // Warning: Your remaining budget (50) is below 20% of your total budget.
-  myBudget.remainingBudget = 300
-  // Good news: Your remaining budget increased to 300.
+    val myBudget = Budget(totalBudget = 1000)
+    myBudget.remainingBudget = 800
+    myBudget.remainingBudget = 150
+    // Warning: Your remaining budget (150) is below 20% of your total budget.
+    myBudget.remainingBudget = 50
+    // Warning: Your remaining budget (50) is below 20% of your total budget.
+    myBudget.remainingBudget = 300
+    // Good news: Your remaining budget increased to 300.
 }
 ```
 {initial-collapse-state="collapsed" collapsible="true" collapsed-title="Example solution" id="kotlin-tour-properties-solution-4"}

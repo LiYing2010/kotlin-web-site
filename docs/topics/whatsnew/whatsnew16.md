@@ -1,10 +1,16 @@
 [//]: # (title: What's new in Kotlin 1.6.0)
 
-_[Released: 16 November 2021](releases.md#release-details)_
+<web-summary>Read the Kotlin 1.6.0 release notes covering new language features, updates to Kotlin Multiplatform, JVM, Native, JS, and build tool support for Gradle and Maven.</web-summary>
+
+_[Released: 16 November 2021](releases.md#release-history)_
 
 Kotlin 1.6.0 introduces new language features, optimizations and improvements to existing features, and a lot of improvements to the Kotlin standard library.
 
 You can also find an overview of the changes in the [release blog post](https://blog.jetbrains.com/kotlin/2021/11/kotlin-1-6-0-is-released/).
+
+> For information about the Kotlin release cycle, see [Kotlin release process](releases.md).
+>
+{style="tip"}
 
 ## Language
 
@@ -695,5 +701,5 @@ To start a new project with Kotlin 1.6.0, update the Kotlin plugin and run the P
 
 The new command-line compiler is available for download on the [GitHub release page](https://github.com/JetBrains/kotlin/releases/tag/v1.6.0).
 
-Kotlin 1.6.0 is a [feature release](kotlin-evolution-principles.md#language-and-tooling-releases) and can, therefore, bring changes that are incompatible with your code written for earlier versions of the language.
+Kotlin 1.6.0 is a feature release and can, therefore, bring changes that are incompatible with your code written for earlier versions of the language.
 Find the detailed list of such changes in the [Compatibility Guide for Kotlin 1.6](compatibility-guide-16.md).

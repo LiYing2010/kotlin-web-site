@@ -16,12 +16,12 @@ in the [Working with command-line compiler](command-line.md) tutorial.
 Kotlin compilers have a number of options for tailoring the compiling process. 
 
 The Gradle DSL allows comprehensive 
-configuration of compiler options. It is available for [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-dsl-reference.html#compiler-options) and [JVM/Android](#target-the-jvm) projects.
+configuration of compiler options. It is available for [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform/multiplatform-dsl-reference.html#compiler-options) and [JVM/Android](#target-the-jvm) projects.
 
 With the Gradle DSL, you can configure compiler options within the build script at three levels: 
 * **[Extension level](#extension-level)**, in the `kotlin {}` block for all targets and shared source sets.
 * **[Target level](#target-level)**, in the block for a specific target.
-* **[Compilation unit level](#compilation-unit-level),** usually in a specific compilation task.
+* **[Compilation unit level](#compilation-unit-level)**, usually in a specific compilation task.
 
 ![Kotlin compiler options levels](compiler-options-levels.svg){width=700}
 
@@ -57,7 +57,7 @@ kotlin {
     compilerOptions {
         optIn.add("kotlin.RequiresOptIn")
     }
-}    
+}
 ```
 
 ### Target level
@@ -67,7 +67,7 @@ in the `compilerOptions {}` block inside the `target {}` block:
 
 ```kotlin
 kotlin {
-    target { 
+    target {
         compilerOptions {
             optIn.add("kotlin.RequiresOptIn")
         }
@@ -76,14 +76,14 @@ kotlin {
 ```
 
 In Kotlin Multiplatform projects, you can configure compiler options inside the
-specific target. For example, `jvm { compilerOptions {}}`. For more information, see [Multiplatform Gradle DSL reference](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-dsl-reference.html).
+specific target. For example, `jvm { compilerOptions {}}`. For more information, see [Multiplatform Gradle DSL reference](https://kotlinlang.org/docs/multiplatform/multiplatform-dsl-reference.html).
 
 ### Compilation unit level
 
 You can configure compiler options for a specific compilation unit or task in a `compilerOptions {}` 
 block inside the task configuration:
 
-```Kotlin
+```kotlin
 tasks.named<KotlinJvmCompile>("compileKotlin"){
     compilerOptions {
         optIn.add("kotlin.RequiresOptIn")
@@ -93,7 +93,7 @@ tasks.named<KotlinJvmCompile>("compileKotlin"){
 
 You can also access and configure compiler options at a compilation unit level via `KotlinCompilation`:
 
-```Kotlin
+```kotlin
 kotlin {
     target {
         val main by compilations.getting {
@@ -107,7 +107,7 @@ kotlin {
 }
 ```
 
-If you want to configure a plugin of a target different from JVM/Android and [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-dsl-reference.html),
+If you want to configure a plugin of a target different from JVM/Android and [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform/multiplatform-dsl-reference.html),
 use the `compilerOptions {}` property of the corresponding Kotlin compilation task. The following examples
 show how to set this configuration up in both Kotlin and Groovy DSLs:
 
@@ -196,6 +196,9 @@ After migration, it should be:
 <tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+
 plugins {
     kotlin("jvm") version "%kotlinVersion%"
 }
@@ -221,6 +224,9 @@ tasks.named<KotlinJvmCompile>("compileKotlin"){
 <tab title="Groovy" group-key="groovy">
 
 ```kotlin
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '%kotlinVersion%'
 }
@@ -293,8 +299,8 @@ Update it to:
 
 ```kotlin
 plugins {
-  id("com.android.application")
-  kotlin("android")
+    id("com.android.application")
+    kotlin("android")
 }
 
 kotlin {
@@ -581,24 +587,24 @@ Here is a complete list of options for the Gradle compiler:
 
 ### Attributes specific to JVM
 
-| Name                      | Description                                                                                                                                                                                                                                  | Possible values                                                                                         | Default value               |
-|---------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------|-----------------------------|
-| `javaParameters`          | Generate metadata for Java 1.8 reflection on method parameters                                                                                                                                                                               |                                                                                                         | false                       |
-| `jvmTarget`               | Target version of the generated JVM bytecode                                                                                                                                                                                                 | "1.8", "9", "10", ...,  "23", "24". Also, see [Types for compiler options](#types-for-compiler-options) | "%defaultJvmTargetVersion%" |
-| `noJdk`                   | Don't automatically include the Java runtime into the classpath                                                                                                                                                                              |                                                                                                         | false                       |
-| `jvmTargetValidationMode` | <list><li>Validation of the [JVM target compatibility](gradle-configure-project.md#check-for-jvm-target-compatibility-of-related-compile-tasks) between Kotlin and Java</li><li>A property for tasks of the `KotlinCompile` type.</li></list> | `WARNING`, `ERROR`, `IGNORE`                                                                            | `ERROR`                     |
-| `jvmDefault`              | Control how functions declared in interfaces are compiled to default methods on the JVM                                                                                                                                                      | `ENABLE`, `NO_COMPATIBILITY`, `DISABLE`                                                                 | `ENABLE`                    |
+| Name                      | Description                                                                                                                                                                                                                                   | Possible values                                                                                        | Default value               |
+|---------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|-----------------------------|
+| `javaParameters`          | Generate metadata for Java 1.8 reflection on method parameters                                                                                                                                                                                |                                                                                                        | false                       |
+| `jvmTarget`               | Target version of the generated JVM bytecode                                                                                                                                                                                                  | "1.8", "9", "10", ...,  "25", 26". Also, see [Types for compiler options](#types-for-compiler-options) | "%defaultJvmTargetVersion%" |
+| `noJdk`                   | Don't automatically include the Java runtime into the classpath                                                                                                                                                                               |                                                                                                        | false                       |
+| `jvmTargetValidationMode` | <list><li>Validation of the [JVM target compatibility](gradle-configure-project.md#check-for-jvm-target-compatibility-of-related-compile-tasks) between Kotlin and Java</li><li>A property for tasks of the `KotlinCompile` type.</li></list> | `WARNING`, `ERROR`, `IGNORE`                                                                           | `ERROR`                     |
+| `jvmDefault`              | Control how functions declared in interfaces are compiled to default methods on the JVM                                                                                                                                                       | `ENABLE`, `NO_COMPATIBILITY`, `DISABLE`                                                                | `ENABLE`                    |
 
 ### Attributes common to JVM and JavaScript
 
-| Name | Description | Possible values                                                |Default value |
-|------|-------------|----------------------------------------------------------------|--------------|
-| `allWarningsAsErrors` | Report an error if there are any warnings |                                                                | false |
-| `suppressWarnings` | Don't generate warnings |                                                                | false |
-| `verbose` | Enable verbose logging output. Works only when the [Gradle debug log level enabled](https://docs.gradle.org/current/userguide/logging.html) |                                                                | false |
-| `freeCompilerArgs` | A list of additional compiler arguments. You can use experimental `-X` arguments here too. See an [example](#example-of-additional-arguments-usage-via-freecompilerargs) |                                                                | [] |
-| `apiVersion`      | Restrict the use of declarations to those from the specified version of bundled libraries | "1.8", "1.9", "2.0", "2.1", "2.2" (EXPERIMENTAL) |               |
-| `languageVersion` | Provide source compatibility with the specified version of Kotlin                         | "1.8", "1.9", "2.0", "2.1", "2.2" (EXPERIMENTAL)  |               |
+| Name                  | Description                                                                                                                                                              | Possible values                                         | Default value |
+|-----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------|---------------|
+| `allWarningsAsErrors` | Report an error if there are any warnings                                                                                                                                |                                                         | false         |
+| `suppressWarnings`    | Don't generate warnings                                                                                                                                                  |                                                         | false         |
+| `verbose`             | Enable verbose logging output. Works only when the [Gradle debug log level enabled](https://docs.gradle.org/current/userguide/logging.html)                              |                                                         | false         |
+| `freeCompilerArgs`    | A list of additional compiler arguments. You can use experimental `-X` arguments here too. See an [example](#example-of-additional-arguments-usage-via-freecompilerargs) |                                                         | []            |
+| `apiVersion`          | Restrict the use of declarations to those from the specified version of bundled libraries                                                                                | "2.0", "2.1", "2.2", "2.3", "2.4", "2.5" (EXPERIMENTAL) |               |
+| `languageVersion`     | Provide source compatibility with the specified version of Kotlin                                                                                                        | "2.0", "2.1", "2.2", "2.3", "2.4", "2.5" (EXPERIMENTAL)  |               |
 
 > We are going to deprecate the attribute `freeCompilerArgs` in future releases. If you miss some option in the Kotlin Gradle DSL,
 > please, [file an issue](https://youtrack.jetbrains.com/newissue?project=kt).
@@ -734,7 +740,7 @@ Some of the `compilerOptions` use the new types instead of the `String` type:
 ## What's next?
 
 Learn more about:
-* [Kotlin Multiplatform DSL reference](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-dsl-reference.html). 
+* [Kotlin Multiplatform DSL reference](https://kotlinlang.org/docs/multiplatform/multiplatform-dsl-reference.html). 
 * [Incremental compilation, caches support, build reports, and the Kotlin daemon](gradle-compilation-and-caches.md).
 * [Gradle basics and specifics](https://docs.gradle.org/current/userguide/userguide.html).
 * [Support for Gradle plugin variants](gradle-plugin-variants.md).

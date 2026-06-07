@@ -23,8 +23,7 @@ in this tutorial, you'll be targeting the same platform you're compiling on.
 
 ## In IDE
 
-In this section, you'll learn how to use IntelliJ IDEA to create a Kotlin/Native application. You can use both
-the Community Edition and the Ultimate Edition.
+In this section, you'll learn how to use IntelliJ IDEA to create a Kotlin/Native application.
 
 ### Create the project
 
@@ -40,7 +39,7 @@ the Community Edition and the Ultimate Edition.
    applications, you need the Kotlin Multiplatform Gradle plugin, which has the same version as Kotlin. Ensure that you
    use the latest Kotlin version:
 
-   ```none
+   ```toml
    [versions]
    kotlin = "%kotlinVersion%"
    ```
@@ -49,7 +48,7 @@ the Community Edition and the Ultimate Edition.
 
    ![Load Gradle changes button](load-gradle-changes.png){width=295}
 
-For more information about these settings, see the [Multiplatform Gradle DSL reference](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-dsl-reference.html).
+For more information about these settings, see the [Multiplatform Gradle DSL reference](https://kotlinlang.org/docs/multiplatform/multiplatform-dsl-reference.html).
 
 ### Build and run the application
 
@@ -60,17 +59,17 @@ Open the `Main.kt` file in the `src/nativeMain/kotlin/` directory:
 
 Press the green icon in the gutter to run the code:
 
-![Run the application](native-run-gutter.png){width=478}
+![Run the application](native-run-gutter.png){width=450}
 
 IntelliJ IDEA runs the code using the Gradle task and outputs the result in the **Run** tab:
 
-![Application output](native-output-gutter-1.png){width=331}
+![Application output](native-output-gutter-1.png){width=450}
 
 After the first run, the IDE creates the corresponding run configuration at the top:
 
-![Gradle run configuration](native-run-config.png){width=503}
+![Gradle run configuration](native-run-config.png){width=500}
 
-> IntelliJ IDEA Ultimate users can install
+> IntelliJ IDEA users with an Ultimate subscription can install
 > the [Native Debugging Support](https://plugins.jetbrains.com/plugin/12775-native-debugging-support)
 > plugin that allows debugging compiled native executables and also automatically creates run configurations for
 > imported Kotlin/Native projects.
@@ -106,18 +105,18 @@ Let's add a feature to your application so it can count the number of letters in
    ```kotlin
    kotlin {
        //...
-       nativeTarget.apply {
+       targets.withType<KotlinNativeTarget>().configureEach {
            binaries {
                executable {
                    entryPoint = "main"
-                   runTask?.standardInput = System.`in`
+                   runTaskProvider?.configure { standardInput = System.`in` }
                }
            }
        }
        //...
    }
    ```
-   {initial-collapse-state="collapsed" collapsible="true" collapsed-title="runTask?.standardInput = System.`in`"}
+   {initial-collapse-state="collapsed" collapsible="true" collapsed-title="runTaskProvider?.configure { standardInput = System.`in` }"}
 
 3. Eliminate the whitespaces and count the letters:
 
@@ -142,7 +141,7 @@ Let's add a feature to your application so it can count the number of letters in
 4. Run the application.
 5. Enter your name and enjoy the result:
 
-   ![Application output](native-output-gutter-2.png){width=422}
+   ![Application output](native-output-gutter-2.png){width=500}
 
 Now let's count only the unique letters in your name:
 
@@ -179,13 +178,22 @@ Now let's count only the unique letters in your name:
 3. Run the application.
 4. Enter your name and see the result:
 
-   ![Application output](native-output-gutter-3.png){width=422}
+   ![Application output](native-output-gutter-3.png){width=500}
 
 ## Using Gradle
 
 In this section, you'll learn how to manually create a Kotlin/Native application using [Gradle](https://gradle.org).
 It's the default build system for Kotlin/Native and Kotlin Multiplatform projects, which is also commonly used in Java,
 Android, and other ecosystems.
+
+When building Kotlin/Native projects, the Kotlin Gradle plugin downloads the following artifacts:
+
+* The main Kotlin/Native bundle, which includes different tools like `konanc`, `cinterop`, and `jsinterop`. By default,
+  the Kotlin/Native bundle is downloaded from the [Maven Central](https://repo1.maven.org/maven2/org/jetbrains/kotlin/kotlin-native-prebuilt/)
+  repository as a simple Gradle dependency.
+* Dependencies required for `konanc` itself, like `llvm`. They are downloaded from the JetBrains CDN using custom logic.
+
+You can change the source for the main bundle download in the `repositories {}` block in your Gradle build script.
 
 ### Create project files
 
@@ -198,18 +206,24 @@ Android, and other ecosystems.
 
    ```kotlin
    // build.gradle.kts
+   import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+
    plugins {
        kotlin("multiplatform") version "%kotlinVersion%"
    }
 
    repositories {
+       // Specify the source to download the main bundle
+       // Maven Central is used by default
        mavenCentral()
    }
 
    kotlin {
-       macosArm64("native") {  // on macOS
-       // linuxArm64("native") // on Linux
-       // mingwX64("native")   // on Windows
+       macosArm64()    // on macOS
+       // linuxArm64() // on Linux
+       // mingwX64()   // on Windows
+   
+       targets.withType<KotlinNativeTarget>().configureEach {
            binaries {
                executable()
            }
@@ -227,18 +241,24 @@ Android, and other ecosystems.
 
    ```groovy
    // build.gradle
+   import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+
    plugins {
        id 'org.jetbrains.kotlin.multiplatform' version '%kotlinVersion%'
    }
 
    repositories {
+       // Specify the source to download the main bundle
+       // Maven Central is used by default
        mavenCentral()
    }
 
    kotlin {
-       macosArm64('native') {  // on macOS
-       // linuxArm64('native') // on Linux
-       // mingwX64('native')   // on Windows
+       macosArm64()    // on macOS
+       // linuxArm64() // on Linux
+       // mingwX64()   // on Windows
+   
+       targets.withType(KotlinNativeTarget).configureEach {
            binaries {
                executable()
            }
@@ -256,8 +276,7 @@ Android, and other ecosystems.
 
    You can use different [target names](native-target-support.md), such as `macosArm64`, `iosArm64` `linuxArm64`,
    and `mingwX64` to define the targets for which you are compiling your code.
-   These target names can optionally take the platform name as a parameter, which in this case is `native`.
-   The platform name is used to generate the source paths and task names in the project.
+   The target name is used to generate the source paths and task names in the project.
 
 3. Create an empty `settings.gradle(.kts)` file in the project directory.
 4. Create a `src/nativeMain/kotlin` directory and place a `hello.kt` file inside with the following content:
@@ -268,27 +287,26 @@ Android, and other ecosystems.
    }
    ```
 
-By convention, all sources are located in the `src/<target name>[Main|Test]/kotlin` directories, where `Main` is for the
-source code and `Test` is for tests. `<target name>` corresponds to the target platform (in this case, `native`),
-as specified in the build file.
+By convention, all sources are located in the `src/<platform name>[Main|Test]/kotlin` directories, where `Main` is for the
+source code and `Test` is for tests. In this case, `<platform name>` is `native`.
 
 ### Build and run the project
 
-1. From the root project directory, run the build command:
+1. From the root project directory, run the `<yourTargetName>Binaries` build command for your target, for example:
 
    ```bash
-   ./gradlew nativeBinaries
+   ./gradlew macosArm64Binaries
    ```
 
-   This command creates the `build/bin/native` directory with two directories inside: `debugExecutable` and
+   This command creates the `build/bin/<yourTargetName>` directory with two directories inside: `debugExecutable` and
    `releaseExecutable`. They contain the corresponding binary files.
 
    By default, the name of the binary file is the same as the project directory.
 
-2. To run the project, execute the following command:
+2. To run the project, execute the `build/bin/<yourTargetName>/debugExecutable/<project_name>.kexe` command for your target, for example:
 
    ```bash
-   build/bin/native/debugExecutable/<project_name>.kexe
+   build/bin/macosArm64/DebugExecutable/hello.kexe
    ```
 
 The terminal prints "Hello, Kotlin/Native!".
@@ -311,9 +329,9 @@ In this section, you'll learn how to create a Kotlin/Native application using th
 
 To install the compiler:
 
-1. Go to the Kotlin's [GitHub releases](%kotlinLatestUrl%) page.
+1. Go to the Kotlin's [GitHub releases](%kotlinLatestUrl%) page and scroll down to the **Assets** section.
 2. Look for a file with `kotlin-native` in the name and download one that is suitable for your operating system,
-   for example `kotlin-native-prebuilt-linux-x86_64-2.0.21.tar.gz`.
+   for example `kotlin-native-prebuilt-linux-x86_64-%kotlinVersion%.tar.gz`.
 3. Unpack the archive to a directory of your choice.
 4. Open your shell profile and add the path to the compiler's `/bin` directory to the `PATH` environment variable: 
 
@@ -378,5 +396,5 @@ The application prints "Hello, Kotlin/Native" to the standard output.
 
 * Complete the [Create an app using C interop and libcurl](native-app-with-c-and-libcurl.md) tutorial that explains how
   to create a native HTTP client and interoperate with C libraries.
-* Learn how to [write Gradle build scripts for real-life Kotlin/Native projects](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-dsl-reference.html).
+* Learn how to [write Gradle build scripts for real-life Kotlin/Native projects](https://kotlinlang.org/docs/multiplatform/multiplatform-dsl-reference.html).
 * Read more about the Gradle build system in the [documentation](gradle.md).

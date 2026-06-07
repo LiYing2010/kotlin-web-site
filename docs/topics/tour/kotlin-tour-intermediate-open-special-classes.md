@@ -23,18 +23,11 @@ If you can't use interfaces or abstract classes, you can explicitly make a class
 To do this, use the `open` keyword before your class declaration:
 
 ```kotlin
-open class Vehicle
+open class Vehicle(val make: String, val model: String)
 ```
 
 To create a class that inherits from another, add a colon after your class header followed by a call to the constructor
-of the parent class that you want to inherit from:
-
-```kotlin
-class Car : Vehicle
-```
-{validate="false"}
-
-In this example, the `Car` class inherits from the `Vehicle` class:
+of the parent class that you want to inherit from. In this example, the `Car` class inherits from the `Vehicle` class:
 
 ```kotlin
 open class Vehicle(val make: String, val model: String)
@@ -231,10 +224,10 @@ fun main() {
 In the example:
 
 * There is a sealed class called `Mammal` that has the `name` parameter in the constructor.
-* The `Cat` class inherits from the `Mammal` sealed class and uses the `name` parameter from the `Mammal` class as the
-`catName` parameter in its own constructor.
-* The `Human` class inherits from the `Mammal` sealed class and uses the `name` parameter from the `Mammal` class as the
-`humanName` parameter in its own constructor. It also has the `job` parameter in its constructor.
+* The `Cat` class inherits from the `Mammal` sealed class and uses the `catName` parameter in its own constructor as
+  the `name` parameter from the `Mammal` class.
+* The `Human` class inherits from the `Mammal` sealed class and uses the `humanName` parameter in its own constructor as
+  the `name` parameter from the `Mammal` class. It also has the `job` parameter in its constructor.
 * The `greetMammal()` function accepts an argument of `Mammal` type and returns a string.
 * Within the `greetMammal()` function body, there's a `when` expression that uses the [`is` operator](typecasts.md#is-and-is-operators) to check the type of `mammal` and decide which action to perform.
 * The `main()` function calls the `greetMammal()` function with an instance of the `Cat` class and `name` parameter called `Snowy`.
@@ -389,8 +382,8 @@ In the example:
 * `Email` is an inline value class that has one property in the class header: `address`.
 * The `sendEmail()` function accepts objects with type `Email` and prints a string to the standard output.
 * The `main()` function:
-    * Creates an instance of the `Email` class called `email`.
-    * Calls the `sendEmail()` function on the `email` object.
+    * Creates an instance of the `Email` class called `myEmail`.
+    * Calls the `sendEmail()` function on the `myEmail` object.
 
 By using an inline value class, you make the class inlined and can use it directly in your code without creating an object.
 This can significantly reduce memory footprint and improve your code's runtime performance.

@@ -5,6 +5,10 @@
     country: Brazil
     url: https://kotlinbr.dev/
     isVirtual: true
+  - name: Kotlin Community
+    country: Russia
+    url: https://t.me/kotlin_lang
+    isVirtual: true
   - name: Virtual KUG
     country: International
     url: https://www.meetup.com/Virtual-Kotlin-User-Group/
@@ -24,18 +28,6 @@
     position:
       lat: 37.9838096
       lng: 23.7275388
-  - name: Basel KUG
-    country: Switzerland
-    url: https://www.meetup.com/Kotlin-User-Group-Basel/
-    position:
-      lat: 47.5595986
-      lng: 7.5885761
-  - name: Belarus KUG
-    country: Belarus
-    url: https://bkug.by/
-    position:
-      lat: 53.709807
-      lng: 27.953389
   - name: Belfast KUG
     country: United Kingdom
     url: https://www.meetup.com/kotlin-belfast/
@@ -54,12 +46,6 @@
     position:
       lat: 52.0302285
       lng: 8.5324708
-  - name: Bosnia KUG
-    country: Bosnia and Herzegovina
-    url: https://www.facebook.com/kotlinugbosnia
-    position:
-      lat: 43.915886
-      lng: 17.679076
   - name: Brighton KUG
     country: United Kingdom
     url: https://www.meetup.com/Brighton-Kotlin/
@@ -72,6 +58,12 @@
     position:
       lat: 44.4267674
       lng: 26.1025384
+  - name: Kobudei
+    country: Romania
+    url: https://kobudei.org
+    position:
+      lat: 44.4326937
+      lng: 26.1040444
   - name: Budapest KUG
     country: Hungary
     url: https://www.meetup.com/kotlin-budapest/
@@ -108,7 +100,7 @@
     position:
       lat: 34.707130
       lng: 33.022617
-  - name: Dobrich KUG
+  - name: Sofia KUG
     country: Bulgaria
     url: https://www.facebook.com/groups/156178639762762/
     position:
@@ -138,12 +130,6 @@
     position:
       lat: 55.953252
       lng: -3.188267
-  - name: Eindhoven KUG
-    country: Netherlands
-    url: https://www.meetup.com/en-AU/eindhoven-kotlin-user-group/
-    position:
-      lat: 51.4485716
-      lng: 5.3812984
   - name: Hamburg KUG
     country: Germany
     url: https://www.meetup.com/de-DE/Kotlin-User-Group-Hamburg/
@@ -156,12 +142,6 @@
     position:
       lat: 41.87194
       lng: 12.56738
-  - name: Karlsruhe KUG
-    country: Germany
-    url: https://www.meetup.com/Karlsruhe-Software-Development-Meetup/
-    position:
-      lat: 49.0068901
-      lng: 8.4036527
   - name: Kyiv KUG
     country: Ukraine
     url: https://www.facebook.com/groups/KyivKUG/
@@ -176,7 +156,7 @@
       lng: 19.9449799
   - name: Leeds KUG
     country: United Kingdom
-    url: https://leedskotlinusergroup.netlify.app/published/2020/1/6/our-first-meetup/
+    url: https://www.meetup.com/leeds-mobile/
     position:
       lat: 53.8007554
       lng: -1.5490774
@@ -192,54 +172,24 @@
     position:
       lat: 51.5073509
       lng: -0.1277583
-  - name: Lviv KUG
-    country: Ukraine
-    url: https://www.facebook.com/groups/1395212093948927/
-    position:
-      lat: 49.839683
-      lng: 24.029717
-  - name: Manchester Kotlin Developers
-    country: United Kingdom
-    url: https://www.facebook.com/kotlinmcr/
-    position:
-      lat: 53.4807593
-      lng: -2.2426305
-  - name: Milano KUG
-    country: Italy
-    url: https://www.meetup.com/it-IT/KUG-Milan/
-    position:
-      lat: 45.4642035
-      lng: 9.189982
-  - name: Moscow KUG
-    country: Russia
-    url: https://www.meetup.com/KotlinMoscow/
-    position:
-      lat: 55.755826
-      lng: 37.6173
   - name: Munich KUG
     country: Germany
     url: https://www.meetup.com/Kotlin-User-Group-Munich/
     position:
       lat: 48.1351253
       lng: 11.5819806
-  - name: Odessa KUG
-    country: Ukraine
-    url: https://www.facebook.com/groups/557764034687880/
+  - name: Pafos Coders and Designers
+    country: Cyprus
+    url: https://www.meetup.com/pafos-coders-designers/
     position:
-      lat: 46.482526
-      lng: 30.7233095
+      lat: 34.7745909
+      lng: 32.4190263
   - name: Oslo KUG
     country: Norway
     url: https://www.meetup.com/meetup-group-nWeRbyMu/
     position:
       lat: 59.9138688
       lng: 10.7522454
-  - name: Omsk KUG
-    country: Russia
-    url: https://vk.com/omskkotlin
-    position:
-      lat: 54.9913545
-      lng: 73.3645204
   - name: Paris KUG
     country: France
     url: https://www.meetup.com/Kotlin-Paris-Meetup/
@@ -252,18 +202,12 @@
     position:
       lat: 44.845576
       lng: -0.572983
-  - name: Rhein-Main Kotlin
+  - name: TechEvenings Frankfurt
     country: Germany
-    url: https://www.meetup.com/de-DE/Kotlin-Rhein-Main/
+    url: https://www.meetup.com/de-de/tech-evenings-frankfurt/
     position:
       lat: 50.0916446
       lng: 8.8738682
-  - name: Rostov KUG
-    country: Russia
-    url: https://vk.com/rndkotlin
-    position:
-      lat: 57.195623
-      lng: 39.4131527
   - name: Samara KUG
     country: Russia
     url: https://t.me/samarakug
@@ -294,24 +238,18 @@
     position:
       lat: 55.711062
       lng: 13.210313
-  - name: Stuttgart KUG
-    country: Germany
-    url: https://www.meetup.com/Kotlin-User-Group-Stuttgart/
-    position:
-      lat: 48.7758459
-      lng: 9.1829321
   - name: Swiss KUG
     country: Switzerland
     url: https://www.meetup.com/Kotlin-Swiss-User-Group/
     position:
       lat: 46.818188
       lng: 8.227512
-  - name: Taganrog KUG
+  - name: Kotlin Russia
     country: Russia
-    url: https://vk.com/kotlintgn
+    url: https://t.me/kotlin_russia
     position:
-      lat: 47.2125752
-      lng: 38.9159658
+      lat: 55.755826
+      lng: 37.6173
   - name: Tricity KUG
     country: Poland
     url: https://www.meetup.com/tricity-kotlin-user-group/
@@ -324,12 +262,6 @@
     position:
       lat: 52.0907374
       lng: 5.1214201
-  - name: Uzhgorod KUG
-    country: Ukraine
-    url: https://www.facebook.com/groups/135578123824203/
-    position:
-      lat: 48.6208
-      lng: 22.287883
   - name: Vienna Kotlin
     country: Austria
     url: https://www.meetup.com/Kotlin-Vienna/
@@ -357,24 +289,12 @@
     position:
       lat: 26.9124
       lng: 75.7873
-  - name: Astana Java & KUG
-    country: Kazakhstan
-    url: https://community-z.com/communities/astana-jkug
-    position:
-      lat: 51.1605227
-      lng: 71.4703558
   - name: Islamabad Kotlin User Group
     country: Pakistan
     url: https://linktr.ee/IslamabadKUG
     position:
       lat: 33.6422
       lng: 72.9903
-  - name: KUG Sambhajinagar (Aurangabad) 
-    country: India
-    url: https://lu.ma/kug-sambhajinagar
-    position:
-      lat: 19.876165
-      lng: 75.343315
   - name: KUG New Delhi
     country: India
     url: https://www.commudle.com/communities/kug-new-delhi
@@ -389,7 +309,7 @@
       lng: 47.576927
   - name: Bangladesh KUG
     country: Bangladesh
-    url: https://www.facebook.com/bdkug
+    url: https://www.facebook.com/groups/bdkug
     position:
       lat: 23.684994
       lng: 90.356331
@@ -405,12 +325,6 @@
     position:
       lat: 39.9041999
       lng: 116.4073963
-  - name: Bhopal KUG
-    country: India
-    url: https://www.facebook.com/kotlinbpl/
-    position:
-      lat: 23.2599333
-      lng: 77.412615
   - name: Chengdu KUG
     country: China Mainland
     url: https://chengdu-kug.github.io/
@@ -423,24 +337,6 @@
     position:
       lat: 13.067439
       lng: 80.237617
-  - name: Chongqing KUG
-    country: China Mainland
-    url: https://www.cqkug.com/
-    position:
-      lat: 29.5551377
-      lng: 106.4084677
-  - name: Cirebon KUG
-    country: Indonesia
-    url: https://t.me/kotlin_crb
-    position:
-      lat: -6.7320229
-      lng: 108.5523164
-  - name: Coimbatore KUG
-    country: India
-    url: https://github.com/KotlinCoimbatore
-    position:
-      lat: 11.0168445
-      lng: 76.9558321
   - name: Delhi (NCR) Kotlin User Group
     country: India
     url: https://www.commudle.com/communities/delhi-kotlin-user-group
@@ -453,24 +349,6 @@
     position:
       lat: 28.535556
       lng: 77.390986
-  - name: Dubai KUG
-    country: United Arab Emirates
-    url: https://www.facebook.com/kotlindubai/
-    position:
-      lat: 25.2048493
-      lng: 55.2707828
-  - name: Durg KUG
-    country: India
-    url: https://www.facebook.com/Kotlin-User-Group-Durg-102907258611792
-    position:
-      lat: 21.1904494
-      lng: 81.2849169
-  - name: Fuzhou KUG
-    country: China Mainland
-    url: https://fuzhou-kug.github.io/
-    position:
-      lat: 26.050375
-      lng: 119.1535778
   - name: Guangzhou KUG
     country: China Mainland
     url: https://gzkug.github.io/
@@ -483,18 +361,6 @@
     position:
       lat: 26.8243622
       lng: 104.7609243
-  - name: Hangzhou KUG
-    country: China Mainland
-    url: https://hangzhou-kug.github.io/
-    position:
-      lat: 30.2605053
-      lng: 119.5479628
-  - name: Hefei KUG
-    country: China Mainland
-    url: https://hefei-kug.github.io/
-    position:
-      lat: 31.85571
-      lng: 117.1214513
   - name: Hunan KUG
     country: China Mainland
     url: https://hunan-kug.github.io/
@@ -507,24 +373,12 @@
     position:
       lat: 41.69465336184713
       lng: 44.78250312871074
-  - name: Ho Chi Minh KUG
-    country: Vietnam
-    url: https://www.facebook.com/kughcmc/
-    position:
-      lat: 10.8230989
-      lng: 106.6296638
   - name: Hong Kong KUG
     country: Hong Kong
     url: https://www.facebook.com/KotlinHK
     position:
       lat: 22.3193039
       lng: 114.1693611
-  - name: Hyderabad KUG
-    country: India
-    url: https://www.meetup.com/KotlinHyderabad/
-    position:
-      lat: 17.385044
-      lng: 78.486671
   - name: Indonesia KUG
     country: Indonesia
     url: https://www.facebook.com/groups/395469687469099/
@@ -543,12 +397,6 @@
     position:
       lat: 41.0082376
       lng: 28.9783589
-  - name: Jaffna KUG
-    country: Sri Lanka
-    url: https://www.facebook.com/Kotlin-User-Group-Jaffna-102091321371464/
-    position:
-      lat: 9.6614981
-      lng: 80.0255465
   - name: Japan KUG
     country: Japan
     url: https://kotlin.connpass.com/
@@ -567,36 +415,12 @@
     position:
       lat: 35.666463
       lng: 139.745147
-  - name: JiangXi KUG
-    country: China Mainland
-    url: https://weibo.com/u/6689084931
-    position:
-      lat: 27.0874564
-      lng: 114.9042208
   - name: Jinan KUG
     country: China Mainland
     url: https://jinan-kug.github.io/
     position:
       lat: 36.6431148
       lng: 116.8890285
-  - name: Karachi KUG
-    country: Pakistan
-    url: https://www.facebook.com/kotlinkarachi/
-    position:
-      lat: 24.8607343
-      lng: 67.0011364
-  - name: Kathmandu KUG
-    country: Nepal
-    url: https://www.facebook.com/groups/100333660782830/
-    position:
-      lat: 27.7172453
-      lng: 85.3239605
-  - name: Khabarovsk KUG
-    country: Russia
-    url: https://devdv.ru/projects/kug
-    position:
-      lat: 48.4814433
-      lng: 135.0720667
   - name: Kolkata KUG
     country: India
     url: https://www.meetup.com/Kotlin-Kolkata-UG/
@@ -611,82 +435,40 @@
       lng: 127.766922
   - name: Seoul KUG
     country: South Korea
-    url: https://haeyum.dev/kug-seoul/
+    url: https://medium.com/seoul-kotlin-user-group
     position:
       lat: 37.532600
       lng: 127.024612
-  - name: Kozhikode KUG
-    country: India
-    url: https://www.facebook.com/kotlinusergroup/
-    position:
-      lat: 11.2587531
-      lng: 75.78041
-  - name: Mumbai KUG
-    country: India
-    url: https://www.meetup.com/Kotlin-User-Group-Mumbai/
-    position:
-      lat: 19.0759837
-      lng: 72.8776559
   - name: Myanmar KUG
     country: Myanmar
     url: https://www.facebook.com/groups/kotlinmyanmarusergroup
     position:
       lat: 21.916221
       lng: 95.955974
-  - name: Nagpur KUG
-    country: India
-    url: https://www.facebook.com/kotlinnagpur/
-    position:
-      lat: 21.1458004
-      lng: 79.0881546
   - name: Nanjing KUG
     country: China Mainland
     url: https://nanjing-kug.github.io/
     position:
       lat: 32.0995425
       lng: 118.457559
-  - name: Pakistan KUG
-    country: Pakistan
-    url: https://www.facebook.com/groups/565405337181251/
-    position:
-      lat: 30.375321
-      lng: 69.345116
-  - name: Patna KUG
-    country: India
-    url: https://www.facebook.com/groups/kotlinpatna
-    position:
-      lat: 25.5940947
-      lng: 85.1375645
   - name: Philippines Kotlin
     country: Philippines
-    url: https://www.facebook.com/groups/642901202586581/
+    url: https://www.facebook.com/KotlinPH/
     position:
       lat: 12.879721
       lng: 121.774017
-  - name: Pune KUG
+  - name: Prayagraj KUG
     country: India
-    url: https://www.facebook.com/groups/punekotlin
+    url: https://www.instagram.com/kug_prayagraj?igsh=eTQ2Y3YxeHd6M2hk
     position:
-      lat: 18.5204303
-      lng: 73.8567437
+      lat: 25.42012
+      lng: 81.88385
   - name: Qingdao KUG
     country: China Mainland
     url: https://qingdao-kug.github.io/
     position:
       lat: 36.136235
       lng: 120.2000272
-  - name: Rajkot KUG
-    country: India
-    url: https://sites.google.com/view/kugrajkot/home
-    position:
-      lat: 22.3038945
-      lng: 70.8021599
-  - name: Saudi KUG
-    country: Saudi Arabia
-    url: https://twitter.com/kotlinsaudi
-    position:
-      lat: 23.885942
-      lng: 45.079162
   - name: Shanghai KUG
     country: China Mainland
     url: https://juejin.cn/user/3844312374718221
@@ -711,24 +493,18 @@
     position:
       lat: 1.352083
       lng: 103.819836
-  - name: Sri Lanka KUG
-    country: Sri Lanka
-    url: https://www.facebook.com/KotlinSrilanka/
-    position:
-      lat: 7.873054
-      lng: 80.771797
-  - name: Suzhou KUG
-    country: China Mainland
-    url: https://suzhou-kug.github.io/
-    position:
-      lat: 31.4198711
-      lng: 118.8414885
   - name: Surat KUG
     country: India
     url: https://www.meetup.com/kotlinsurat/
     position:
       lat: 21.1702401
       lng: 72.8310607
+  - name: Kotlin Gurugram User Group
+    country: India
+    url: https://www.commudle.com/communities/gurugram-kotlin-user-group
+    position:
+      lat: 28.4595
+      lng: 77.0266
   - name: Taiwan KUG
     country: Taiwan
     url: https://taiwan-kotlin-user-group.github.io/
@@ -747,111 +523,33 @@
     position:
       lat: 15.870032
       lng: 100.992541
-  - name: Tianjin KUG
-    country: China Mainland
-    url: https://tianjinkug.github.io/
-    position:
-      lat: 39.1252291
-      lng: 117.0153438
-  - name: Vellore KUG
-    country: India
-    url: https://www.facebook.com/kotlinvellore
-    position:
-      lat: 12.9165167
-      lng: 79.1324986
-  - name: Vijayawada KUG
-    country: India
-    url: https://www.facebook.com/KotlinVijayawada/
-    position:
-      lat: 16.5061743
-      lng: 80.6480153
   - name: Wuhan KUG
     country: China Mainland
     url: https://wuhan-kug.github.io/
     position:
       lng: 114.0201922
       lat: 30.5684073
-  - name: Yemen KUG
-    country: Yemen
-    url: https://www.facebook.com/YemenKotlin
-    position:
-      lat: 15.5527
-      lng: 48.5164
   - name: Yerevan KUG
     country: Armenia
     url: https://www.meetup.com/Kotlin-Yerevan/
     position:
       lat: 40.1872023
       lng: 44.515209
-  - name: Xiamen KUG
-    country: China Mainland
-    url: https://xiamen-kug.github.io/
-    position:
-      lat: 24.5463383
-      lng: 117.9941655
-  - name: Xi'An KUG
-    country: China Mainland
-    url: https://kotlinxa.com/
-    position:
-      lat: 34.259376
-      lng: 108.947037
-  - name: Zhengzhou KUG
-    country: China Mainland
-    url: https://zhengzhou-kug.github.io/
-    position:
-      lat: 34.742732
-      lng: 113.3335248
 - section: North & South America
   anchorId: north-south-america
   groups:
-  - name: Baton Rouge KUG
-    country: USA
-    url: https://baton-rouge-kotlin-user-group.github.io/
-    position:
-      lat: 30.4413992
-      lng: 91.2515038
-  - name: Brooklyn (NY) KUG
-    country: USA
-    url: https://www.meetup.com/Brooklyn-Kotlin/
-    position:
-      lat: 40.6781784
-      lng: -73.9441579
-  - name: Cambridge Kotlin Office Hours
-    country: USA
-    url: https://www.meetup.com/kotlin-office-hours/
-    position:
-      lat: 42.3736158
-      lng: -71.1097335
   - name: Chicago Kotlin Users Group
     country: USA
     url: http://www.meetup.com/Chicago-Kotlin/
     position:
       lat: 41.8781136
       lng: -87.6297982
-  - name: Cincinnati KUG
-    country: USA
-    url: https://www.meetup.com/Cincinnati-Kotlin/
-    position:
-      lat: 39.1031182
-      lng: -84.5120196
   - name: Guadalajara KUG
     country: Mexico
-    url: https://www.meetup.com/es/Kotlin-User-Group-GDL/
+    url: https://linktr.ee/mdcommunity
     position:
       lat: 20.6596988
       lng: -103.3496092
-  - name: Guatemala KUG
-    country: Guatemala
-    url: https://www.meetup.com/guatemala-kotlin-user-group/
-    position:
-      lat: 15.783471
-      lng: -90.230759
-  - name: Houston KUG
-    country: USA
-    url: https://www.hccug.org/user-groups/houston-kotlin-user-group
-    position:
-      lat: 29.7604267
-      lng: -95.3698028
   - name: Mexico, CDMX KUG
     country: Mexico
     url: https://www.meetup.com/es-ES/Kotlin-Nights-CDMX/
@@ -864,123 +562,39 @@
     position:
       lat: 40.7127753
       lng: -74.0059728
-  - name: Irvine KUG "OC Kotlin Krew"
-    country: USA
-    url: https://www.meetup.com/OCKotlinKrew/
-    position:
-      lat: 33.6845673
-      lng: -117.8265049
-  - name: San Diego KUG
-    country: USA
-    url: https://www.meetup.com/sd-kotlin/
-    position:
-      lat: 32.715738
-      lng: -117.1610838
   - name: San Francisco Kotlin Meetup
     country: USA
     url: https://www.meetup.com/San-Francisco-Kotlin-Meetup/
     position:
       lat: 37.7749295
       lng: -122.4194155
-  - name: Santa Cruz Coders
-    country: USA
-    url: https://www.meetup.com/Santa-Cruz-Kotlin-User-Group/events/245895831/
-    position:
-      lat: 36.9741171
-      lng: -122.0307963
-  - name: South Florida KUG
-    country: USA
-    url: https://www.meetup.com/Kotlin-South-Florida-Users-Group/
-    position:
-      lat: 26.1475272
-      lng: -81.0435301
-  - name: Toronto Kotlin
-    country: Canada
-    url: https://www.meetup.com/Kotlin-Toronto/
-    position:
-      lat: 43.653226
-      lng: -79.3831843
   - name: Twin Cities KUG
     country: USA
     url: https://www.meetup.com/Twin-Cities-Kotlin-User-Group/
     position:
       lat: 44.9374831
       lng: -93.2009998
-  - name: Vancouver Kotlin Meetup
-    country: Canada
-    url: https://www.meetup.com/VancouverKotlin/
-    position:
-      lat: 49.2827291
-      lng: -123.1207375
   - name: Washington DC KUG
     country: USA
     url: https://www.meetup.com/DCKotlin/
     position:
       lat: 38.9071923
       lng: -77.0368707
-  - name: West Florida KUG
-    country: USA
-    url: https://www.facebook.com/groups/KotlnWestFlorida
-    position:
-      lat: 27.9700729
-      lng: -82.5686415
-  - name: Asunción KUG
-    country: Paraguay
-    url: https://kotlin-user-group-asuncion-py.github.io/
-    position:
-      lat: -25.2637399
-      lng: -57.575926
-  - name: Buenos Aires Desarrollo en Android con Kotlin
-    country: Argentina
-    url: https://www.meetup.com/Desarrollo-en-Android-con-Kotlin/
-    position:
-      lat: -34.6036844
-      lng: -58.3815591
-  - name: Chile KUG
-    country: Chile
-    url: http://www.facebook.com/kotlinchile
-    position:
-      lat: -35.675147
-      lng: -71.542969
-  - name: Cochabamba KUG
-    country: Bolivia
-    url: https://www.facebook.com/kotlincocha/
-    position:
-      lat: -17.4139766
-      lng: -66.1653224
-  - name: La Paz KUG
-    country: Bolivia
-    url: https://www.facebook.com/KotlinLaPaz/
-    position:
-      lat: -16.489689
-      lng: -68.1192936
   - name: Lima KUG
     country: Peru
     url: https://www.facebook.com/groups/limakotlin/
     position:
       lat: -12.0463731
       lng: -77.042754
-  - name: Medellin KUG
-    country: Colombia
-    url: https://www.meetup.com/Kotlin-User-Group-Medellin/
-    position:
-      lat: 6.2476376
-      lng: -75.5658153
   - name: Peru KUG
     country: Peru
     url: https://peru-kug.github.io/
     position:
       lat: -9.189967
       lng: -75.015152
-  - name: Porto Alegre KUG
-    country: Brazil
-    url:  https://www.meetup.com/Kotlin-POA/
-    position:
-      lat: -30.0368176
-      lng: -51.2089887
   - name: Santiago KUG
     country: Chile
-    url: https://www.facebook.com/kotlinsantiago/
+    url: https://gdg.community.dev/gdg-santiago-de-chile/
     position:
       lat: -33.4488897
       lng: -70.6692655
@@ -996,114 +610,39 @@
     position:
       lat: -22.9068467
       lng: -43.1728965
-  - name: Tabasco KUG
-    country: Mexico
-    url: https://www.meetup.com/es-ES/kotlin-tabasco/
-    position:
-      lat: 17.8409173
-      lng: -92.6189273
-- section: Australia/Oceania
-  anchorId: australiaoceania
-  groups:
-  - name: Melbourne KUG
-    country: Australia
-    url: https://www.meetup.com/Melbourne-Kotlin-Meetup/
-    position:
-      lat: -37.8136276
-      lng: 144.9630576
-  - name: Sydney KUG
-    country: Australia
-    url: https://sydspace.org/kotlin/
-    position:
-      lat: -33.8688197
-      lng: 151.2092955
 - section: Africa
   anchorId: africa
   groups:
-  - name: Abuja KUG
-    country: Nigeria
-    url: https://www.meetup.com/Kotlin-Abuja-User-Group-Nigeria/
-    position:
-      lat: 9.0764785
-      lng: 7.398574
-  - name: Angola KUG
-    country: Angola
-    url: https://www.facebook.com/groups/405177603231134/about/
-    position:
-      lat: -11.202692
-      lng: 17.873887
   - name: Cairo KUG
     country: Egypt
-    url: https://www.facebook.com/Kotlin.Cairo/
+    url: https://gdg.community.dev/gdg-helwan/
     position:
       lat: 30.0444196
       lng: 31.2357116
-  - name: Egypt Kotlin
-    country: Egypt
-    url: https://www.facebook.com/kotlinegypt/
-    position:
-      lat: 26.820553
-      lng: 30.802498
   - name: Kaduna KUG
     country: Nigeria
-    url: https://web.facebook.com/Kaduna-Kotlin-User-Group-112766181179860
+    url: https://www.eventbrite.com/e/kotlin-user-group-meetup-tickets-1983147137473
     position:
       lat: 10.5104642
       lng: 7.4165053
-  - name: Kano KUG
-    country: Nigeria
-    url: https://web.facebook.com/groups/193660894904095/about
-    position:
-      lat: 12.0021794
-      lng: 8.5919561
   - name: Kotlin Nigeria User Group
     country: Nigeria
     url: https://www.meetup.com/Kotlin-Nigeria-User-Group/
     position:
       lat: 6.5243793
       lng: 3.3792057
-  - name: Minna KUG
-    country: Nigeria
-    url: https://kommunity.com/kotlin-minna-user-group/about
-    position:
-      lat: 9.5835546
-      lng: 6.5463156
   - name: Nairobi KUG
     country: Kenya
     url: https://www.meetup.com/KotlinKenya/
     position:
       lat: -1.2920659
       lng: 36.8219462
-  - name: Rivers KUG
-    country: Nigeria
-    url: https://www.facebook.com/groups/2178453949151460/
-    position:
-      lat: 4.8396414
-      lng: 6.9112378
-  - name: Tanzania KUG
-    country: Tanzania
-    url: https://www.facebook.com/groups/263678895118275
-    position:
-      lat: -6.3532481
-      lng: 30.4791835
-  - name: Tunisia KUG
-    country: Tunisia
-    url: https://www.facebook.com/groups/1501353116571104
-    position:
-      lat: 33.886917
-      lng: 9.537499
   - name: Uganda KUG
     country: Uganda
     url: https://www.facebook.com/Uganda-Kotlin-User-Group-613707548753658/
     position:
       lat: 1.373333
       lng: 32.290275
-  - name: Yola KUG
-    country: Nigeria
-    url: https://www.facebook.com/Kotlin-Yola-User-Group-104198534358013/
-    position:
-      lat: 9.2034963
-      lng: 12.4953899
   - name: Morocco KUG
     country: Morocco
     url: https://www.instagram.com/kotlinug.morocco/
@@ -1116,15 +655,9 @@
     position:
       lat: 4.0511
       lng: 9.7085
-  - name: Kotlin Gurugram User Group
-    country: India
-    url: https://www.commudle.com/communities/gurugram-kotlin-user-group
-    position:
-      lat: 28.4595
-      lng: 77.0266
   - name: Kotlin Tripoli User Group
     country: Libya
-    url: https://www.facebook.com/Kotlin.Tripoli/
+    url: https://www.facebook.com/groups/kotlin.tripoli/
     position:
       lat: 32.856266
       lng: 13.222725

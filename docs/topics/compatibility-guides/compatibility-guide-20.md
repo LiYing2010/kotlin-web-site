@@ -1,4 +1,4 @@
-[//]: # (title: Compatibility guide for Kotlin 2.0)
+[//]: # (title: Compatibility guide for Kotlin 2.0.x)
 
 _[Keeping the Language Modern](kotlin-evolution-principles.md)_ and _[Comfortable Updates](kotlin-evolution-principles.md)_ are among the fundamental principles in
 Kotlin Language Design. The former says that constructs which obstruct language evolution should be removed, and the
@@ -651,6 +651,7 @@ perspective
 > **Deprecation cycle**:
 >
 > - 2.0.0: `defFile` and `defFileProperty` parameters are deprecated
+> - 2.4.0: [report an error for the deprecated `defFile` property](compatibility-guide-24.md#report-errors-for-obsolete-kotlin-native-gradle-task-apis)
 
 ### Remove kotlin.useK2 Gradle property
 

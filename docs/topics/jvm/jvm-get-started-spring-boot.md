@@ -1,5 +1,6 @@
 [//]: # (title: Get started with Spring Boot and Kotlin)
-[//]: # (description: Get started with Spring Boot and Kotlin. Create a Spring Boot application with Kotlin.)
+
+<web-summary>Get started with Spring Boot and Kotlin. Create a Spring Boot application with Kotlin.</web-summary>
 
 Get started with Spring Boot and Kotlin by completing this tutorial: it walks you through the process of creating a simple 
 application with Spring Boot and adding a database to store the information.  
@@ -19,6 +20,8 @@ Going through these four steps, you'll learn a lot of essential features of the 
 Start by [creating a Spring Boot project](jvm-create-project-with-spring-boot.md) with Kotlin using IntelliJ IDEA.
 
 ### See also
+
+If you like to work with AI agents, try our tutorial for [creating a task manager application with Spring Boot and Claude](spring-boot-claude.md).
 
 Look through our Java to Kotlin (J2K) interop and migration guides:
 

@@ -1,6 +1,8 @@
 [//]: # (title: What's new in Kotlin 2.2.0)
 
-_[Released: June 23, 2025](releases.md#release-details)_
+<web-summary>Read the Kotlin 2.2.0 release notes covering new language features, updates to Kotlin Multiplatform, JVM, Native, JS, and Wasm, and build tool support for Gradle and Maven.</web-summary>
+
+_[Released: June 23, 2025](releases.md#release-history)_
 
 The Kotlin 2.2.0 release is here! Here are the main highlights:
 
@@ -8,14 +10,22 @@ The Kotlin 2.2.0 release is here! Here are the main highlights:
   Several
   [previously experimental features are now Stable](#stable-features-guard-conditions-non-local-break-and-continue-and-multi-dollar-interpolation),
   such as guard conditions, non-local break and continue, and multi-dollar interpolation.
-* **Kotlin compiler**: [unified management of compiler warnings](#kotlin-compiler-unified-management-of-compiler-warnings).
-* **Kotlin/JVM**: [changes to default method generation for interface functions](#changes-to-default-method-generation-for-interface-functions).
+* **Kotlin compiler**: [Unified management of compiler warnings](#kotlin-compiler-unified-management-of-compiler-warnings).
+* **Kotlin/JVM**: [Changes to default method generation for interface functions](#changes-to-default-method-generation-for-interface-functions).
 * **Kotlin/Native**: [LLVM 19 and new features for tracking and adjusting memory consumption](#kotlin-native).
-* **Kotlin/Wasm**: [separated Wasm target](#build-infrastructure-for-wasm-target-separated-from-javascript-target) and the ability to configure [Binaryen per project](#per-project-binaryen-configuration).
-* **Kotlin/JS**: [fix for the `copy()` method generated for `@JsPlainObject` interfaces](#fix-for-copy-in-jsplainobject-interfaces).
-* **Gradle**: [binary compatibility validation in the Kotlin Gradle plugin](#binary-compatibility-validation-included-in-kotlin-gradle-plugin).
-* **Standard library**: [stable Base64 and HexFormat APIs](#stable-base64-encoding-and-decoding).
-* **Documentation**: our [documentation survey is open](https://surveys.jetbrains.com/s3/Kotlin-Docs-2025), and [notable improvements have been made to the Kotlin documentation](#documentation-updates).
+* **Kotlin/Wasm**: [Separated Wasm target](#build-infrastructure-for-wasm-target-separated-from-javascript-target) and the ability to configure [Binaryen per project](#per-project-binaryen-configuration).
+* **Kotlin/JS**: [Fix for the `copy()` method generated for `@JsPlainObject` interfaces](#fix-for-copy-in-jsplainobject-interfaces).
+* **Gradle**: [Binary compatibility validation in the Kotlin Gradle plugin](#binary-compatibility-validation-included-in-kotlin-gradle-plugin).
+* **Standard library**: [Stable Base64 and HexFormat APIs](#stable-base64-encoding-and-decoding).
+* **Documentation**: [Important improvements have been made to the Kotlin documentation](#documentation-updates).
+
+You can also watch this video of the Kotlin Language Evolution team discussing new features and answering questions:
+
+<video src="https://www.youtube.com/watch?v=jne3923lWtw" title="What's new in Kotlin 2.2.0"/>
+
+> For information about the Kotlin release cycle, see [Kotlin release process](releases.md).
+>
+{style="tip"}
 
 ## IDE support
 
@@ -126,6 +136,10 @@ We would appreciate your feedback on our issue tracker, [YouTrack](https://youtr
 
 Kotlin 2.2.0 introduces an implementation of context-sensitive resolution in preview.
 
+You can find an overview of this feature in this video:
+
+<video src="https://www.youtube.com/v/aF8RYQrJI8Q" title="Context-sensitive resolution in Kotlin 2.2.0"/>
+
 Previously, you had to write the full name of enum entries or sealed class members, even when the type could be inferred from the context.
 For example:
 
@@ -231,7 +245,7 @@ This feature tells the compiler to apply the annotation to all relevant parts of
 
 * **`get`**: the getter method.
 
-* **`set_param`**: the parameter of the setter method, if the property is defined as `var`.
+* **`setparam`**: the parameter of the setter method, if the property is defined as `var`.
 
 * **`RECORD_COMPONENT`**: if the class is a `@JvmRecord`, the annotation applies to the [Java record component](#improved-support-for-annotating-jvm-records). This behavior mimics the way Java handles annotations on record components.
 
@@ -244,10 +258,10 @@ data class User(
     val username: String,
 
     // Applies @Email to param, property, field,
-    // get, and set_param (if var)
+    // get, and setparam (if var)
     @all:Email val email: String,
 ) {
-    // Applies @Email to property, field, and getter 
+    // Applies @Email to property, field, and get
     // (no param since it's not in the constructor)
     @all:Email val secondaryEmail: String? = null
 }
@@ -330,6 +344,12 @@ For more information about the new defaulting rules for annotation use-site targ
 ### Support for nested type aliases
 <primary-label ref="beta"/>
 
+Kotlin 2.2.0 adds support for defining type aliases inside other declarations.
+
+You can find an overview of this feature in this video:
+
+<video src="https://www.youtube.com/v/1W6d45IOwWk" title="Nested type aliases in Kotlin 2.2.0"/>
+
 Previously, you could only declare [type aliases](type-aliases.md) at the top level of a Kotlin file. This meant 
 that even internal or domain-specific type
 aliases had to live outside the class where they were used.
@@ -375,19 +395,19 @@ Nested type aliases are currently in [Beta](components-stability.md#stability-le
 any problems to our issue tracker, [YouTrack](https://kotl.in/issue). For more information about this feature, 
 read this [KEEP](https://github.com/Kotlin/KEEP/blob/master/proposals/nested-typealias.md) proposal.
 
-### Stable features: guard conditions, non-local `break` and `continue`, and multi-dollar interpolation
+### Stable features: Guard conditions, non-local `break` and `continue`, and multi-dollar interpolation
 
 In Kotlin 2.1.0, several new language features were introduced in preview.
 We're happy to announce that the following language features are now
 [Stable](components-stability.md#stability-levels-explained) in this release:
 
-* [Guard conditions in `when` with a subject](whatsnew21.md#guard-conditions-in-when-with-a-subject)
-* [Non-local `break` and `continue`](whatsnew21.md#non-local-break-and-continue)
-* [Multi-dollar interpolation: improved handling of `$` in string literals](whatsnew21.md#multi-dollar-string-interpolation)
+* [Guard conditions in `when` with a subject](control-flow.md#guard-conditions-in-when-expressions)
+* [Non-local `break` and `continue`](inline-functions.md#break-and-continue)
+* [Multi-dollar interpolation: improved handling of `$` in string literals](strings.md#multi-dollar-string-interpolation)
 
 [See the full list of Kotlin language design features and proposals](kotlin-language-features-and-proposals.md).
 
-## Kotlin compiler: unified management of compiler warnings
+## Kotlin compiler: Unified management of compiler warnings
 <primary-label ref="experimental-general"/>
 
 Kotlin 2.2.0 introduces a new compiler option, `-Xwarning-level`. It's designed to provide a unified way of managing 
@@ -563,6 +583,10 @@ fun main() {
 <primary-label ref="experimental-general"/>
 
 Kotlin 2.2.0 introduces a new experimental annotation: [`@JvmExposeBoxed`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-expose-boxed/). This annotation makes it easier to consume [inline value classes](inline-classes.md) from Java.
+
+You can find an overview of this feature in this video:
+
+<video src="https://www.youtube.com/v/KSvq7jHr1lo" title="Exposed inline value classes for Java in Kotlin 2.2.0"/>
 
 By default, Kotlin compiles inline value classes to use **unboxed representations**, which are more performant but often 
 hard or even impossible to use from Java. For example:
@@ -861,7 +885,7 @@ Support for type aliases in files with `@JsModule` is enabled by default.
 
 ### Support for `@JsExport` in multiplatform `expect` declarations
 
-When working with the [`expect/actual` mechanism](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-expect-actual.html) in Kotlin Multiplatform projects,
+When working with the [`expect/actual` mechanism](https://kotlinlang.org/docs/multiplatform/multiplatform-expect-actual.html) in Kotlin Multiplatform projects,
 it was not possible to use the `@JsExport` annotation for `expect` declarations in common code.
 
 Starting with this release, you can apply `@JsExport` directly to `expect` declarations:
@@ -1104,7 +1128,7 @@ For the KGP, using the BTA already has the following benefits:
 
 ### Improved "in process" compiler execution strategy
 
-The KGP supports three [Kotlin compiler execution strategies](gradle-compilation-and-caches.md#defining-kotlin-compiler-execution-strategy). 
+The KGP supports three [Kotlin compiler execution strategies](compiler-execution-strategy.md). 
 The "in process" strategy, which runs the compiler 
 inside the Gradle daemon process, previously didn't support incremental compilation.
 
@@ -1156,7 +1180,7 @@ exceptions. The Kotlin team plans to address these kinds of problems in future r
 
 Try out the BTA with these plugins and send us your feedback in the dedicated YouTrack tickets for the [KGP](https://youtrack.jetbrains.com/issue/KT-56574) and the [Maven plugin](https://youtrack.jetbrains.com/issue/KT-73012).
 
-## Kotlin standard library
+## Standard library
 
 In Kotlin 2.2.0, the [`Base64` API](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.io.encoding/-base64/) and [`HexFormat` API](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.text/-hex-format/) are now [Stable](components-stability.md#stability-levels-explained).
 
@@ -1297,12 +1321,11 @@ If you encounter any issues that make you disable these feature flags, please re
 This section highlights important breaking changes and deprecations worth noting. See our [Compatibility guide](compatibility-guide-22.md)
 for a complete overview of all breaking changes and deprecations in this release.
 
-* Starting with Kotlin 2.2.0, support for the [](ant.md) build system is deprecated. Kotlin support for Ant hasn't been 
+* Starting with Kotlin 2.2.0, the compiler [no longer supports `-language-version=1.6` or `-language-version=1.7`](compatibility-guide-22.md#drop-support-in-language-version-for-1-6-and-1-7).
+  Language feature sets older than 1.8 aren't supported but the language itself remains fully backward compatible with Kotlin 1.0.
+* Support for the Ant build system is deprecated. Kotlin support for Ant hasn't been 
   in active development for a long time, and there are no plans to maintain it further due to its relatively small user base.
-  
-  We plan to remove Ant support in 2.3.0. However, Kotlin remains open to [contribution](contribute.md). If you're 
-  interested in becoming an external maintainer for Ant, leave a comment with the "jetbrains-team" visibility setting in [this YouTrack issue](https://youtrack.jetbrains.com/issue/KT-75875/).
-
+  We plan to remove Ant support in 2.3.0.
 * Kotlin 2.2.0 raises the deprecation level of the [`kotlinOptions{}` block in Gradle to error](compatibility-guide-22.md#deprecate-kotlinoptions-dsl). 
   Use the `compilerOptions{}` block instead. For guidance on updating your build scripts, see [Migrate from `kotlinOptions{}` to `compilerOptions{}`](gradle-compiler-options.md#migrate-from-kotlinoptions-to-compileroptions).
 * Kotlin scripting remains an important part of Kotlin's ecosystem, but we're focusing on specific use cases such as 
@@ -1329,7 +1352,7 @@ for a complete overview of all breaking changes and deprecations in this release
 * The deprecated `kotlin-android-extensions` plugin is [removed in Kotlin 2.2.0](compatibility-guide-22.md#deprecate-kotlin-android-extensions-plugin). 
   Use the `kotlin-parcelize` plugin for the `Parcelable` implementation generator and the Android Jetpack's [view bindings](https://developer.android.com/topic/libraries/view-binding) for synthetic views instead.
 * Experimental `kotlinArtifacts` API is [deprecated in Kotlin 2.2.0](compatibility-guide-22.md#deprecate-kotlinartifacts-api). 
-  Use the current DSL available in the Kotlin Gradle plugin to [build final native binaries](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-build-native-binaries.html). If it's not sufficient for migration, leave a comment in [this YT issue](https://youtrack.jetbrains.com/issue/KT-74953).
+  Use the current DSL available in the Kotlin Gradle plugin to [build final native binaries](https://kotlinlang.org/docs/multiplatform/multiplatform-build-native-binaries.html). If it's not sufficient for migration, leave a comment in [this YouTrack issue](https://youtrack.jetbrains.com/issue/KT-74953).
 * `KotlinCompilation.source`, deprecated in Kotlin 1.9.0, is now [removed from the Kotlin Gradle plugin](compatibility-guide-22.md#deprecate-kotlincompilation-source-api).
 * The parameters for experimental commonization modes are [deprecated in Kotlin 2.2.0](compatibility-guide-22.md#deprecate-commonization-parameters). 
   Clear the commonization cache to delete invalid compilation artifacts.
@@ -1340,17 +1363,9 @@ for a complete overview of all breaking changes and deprecations in this release
 
 ## Documentation updates
 
-This release brings notable documentation changes, including the migration of Kotlin Multiplatform documentation to the [KMP portal](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html). 
+This release brings notable documentation changes, including the migration of Kotlin Multiplatform documentation to the [KMP portal](https://kotlinlang.org/docs/multiplatform/get-started.html). 
 
-Additionally, we launched a documentation survey, created new pages and tutorials, and revamped existing ones. 
-
-### Kotlin's documentation survey
-
-We're looking for genuine feedback to make the Kotlin documentation better.
-
-The survey takes around 15 minutes to complete, and your input will help shape the future of Kotlin docs.
-
-[Take the survey here](https://surveys.jetbrains.com/s3/Kotlin-Docs-2025).
+Additionally, we created new pages and tutorials, and revamped existing ones. 
 
 ### New and revamped tutorials
 
@@ -1359,21 +1374,21 @@ The survey takes around 15 minutes to complete, and your input will help shape t
 * [](jvm-create-project-with-spring-boot.md) – Learn how to create a Spring Boot project with Gradle using IntelliJ IDEA's **New Project** wizard.
 * [Mapping Kotlin and C tutorial series](mapping-primitive-data-types-from-c.md) – Learn how different types and constructs are mapped between Kotlin and C.
 * [Create an app using C interop and libcurl](native-app-with-c-and-libcurl.md) – Create a simple HTTP client that can run natively using the libcurl C library.
-* [Create your Kotlin Multiplatform library](https://www.jetbrains.com/help/kotlin-multiplatform-dev/create-kotlin-multiplatform-library.html) – Learn how to create and publish a multiplatform library using IntelliJ IDEA.
+* [Create your Kotlin Multiplatform library](https://kotlinlang.org/docs/multiplatform/create-kotlin-multiplatform-library.html) – Learn how to create and publish a multiplatform library using IntelliJ IDEA.
 * [Build a full-stack application with Ktor and Kotlin Multiplatform](https://ktor.io/docs/full-stack-development-with-kotlin-multiplatform.html) – This tutorial now uses IntelliJ IDEA instead of Fleet, along with Material 3 and the latest versions of Ktor and Kotlin.
-* [Manage local resource environment in your Compose Multiplatform app](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-resource-environment.html) – Learn how to manage the application's resource environment, like in-app theme and language.
+* [Manage local resource environment in your Compose Multiplatform app](https://kotlinlang.org/docs/multiplatform/compose-resource-environment.html) – Learn how to manage the application's resource environment, like in-app theme and language.
 
 ### New and revamped pages
 
 * [Kotlin for AI overview](kotlin-ai-apps-development-overview.md) – Discover Kotlin's capabilities for building AI-powered applications.
 * [Dokka migration guide](https://kotlinlang.org/docs/dokka-migration.html) – Learn how to migrate to v2 of the Dokka Gradle plugin.
 * [](metadata-jvm.md) – Explore guidance on reading, modifying, and generating metadata for Kotlin classes compiled for the JVM.
-* [CocoaPods integration](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-cocoapods-overview.html) – Learn how to set up the environment, add Pod dependencies, or use a Kotlin project as a CocoaPod dependency through tutorials and sample projects.
+* [CocoaPods integration](https://kotlinlang.org/docs/multiplatform/multiplatform-cocoapods-overview.html) – Learn how to set up the environment, add Pod dependencies, or use a Kotlin project as a CocoaPod dependency through tutorials and sample projects.
 * New pages for Compose Multiplatform to support the iOS stable release:
-    * [Navigation](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-navigation.html) and [Deep linking](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-navigation-deep-links.html) in particular.
-    * [Implementing layouts in Compose](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-layout.html).
-    * [Localizing strings](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-localize-strings.html) and other i18n pages like support for RTL languages.
-* [Compose Hot Reload](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-hot-reload.html) – Learn how to use Compose Hot Reload with your desktop targets and how to add it to an existing project.
+    * [Navigation](https://kotlinlang.org/docs/multiplatform/compose-navigation.html) and [Deep linking](https://kotlinlang.org/docs/multiplatform/compose-navigation-deep-links.html) in particular.
+    * [Implementing layouts in Compose](https://kotlinlang.org/docs/multiplatform/compose-layout.html).
+    * [Localizing strings](https://kotlinlang.org/docs/multiplatform/compose-localize-strings.html) and other i18n pages like support for RTL languages.
+* [Compose Hot Reload](https://kotlinlang.org/docs/multiplatform/compose-hot-reload.html) – Learn how to use Compose Hot Reload with your desktop targets and how to add it to an existing project.
 * [Exposed migrations](https://www.jetbrains.com/help/exposed/migrations.html) – Learn about the tools Exposed provides for managing database schema changes.
 
 ## How to update to Kotlin 2.2.0

@@ -1,12 +1,14 @@
 [//]: # (title: Interoperability with JavaScript)
 
+<primary-label ref="beta"/> 
+
 Kotlin/Wasm allows you to use both JavaScript code in Kotlin and Kotlin code in JavaScript.
 
 As with [Kotlin/JS](js-overview.md), the Kotlin/Wasm compiler also has interoperability with JavaScript. If you are 
 familiar with Kotlin/JS interoperability, you can notice that Kotlin/Wasm interoperability is similar. However,
 there are key differences to consider.
 
-> Kotlin/Wasm is [Alpha](components-stability.md). It may be changed at any time. Use it in scenarios before production. 
+> Kotlin/Wasm is [Beta](components-stability.md). It may be changed at any time. Use it in scenarios before production. 
 > We would appreciate your feedback in [YouTrack](https://youtrack.jetbrains.com/issue/KT-56492).
 >
 {style="note"}
@@ -116,7 +118,7 @@ Therefore, external interfaces have some restrictions compared to regular interf
 * You can't use them on the right-hand side of `is` checks.
 * You can't use them in class literal expressions (such as `User::class`).
 * You can't pass them as reified type arguments.
-* Casting with `as` to external interfaces always succeed.
+* Casting with `as` to external interfaces always succeeds.
 
 #### External objects
 
@@ -146,6 +148,34 @@ external object Counter : JsAny {
 
 Similar to regular classes and interfaces, you can declare external declarations to extend other external classes and implement external interfaces.
 However, you can't mix external and non-external declarations in the same type hierarchy.
+
+#### Callable JavaScript objects with `@nativeInvoke`
+<primary-label ref="experimental-opt-in"/>
+
+You can use the `@nativeInvoke` annotation on a Kotlin member function of an `external` declaration (a class or an interface)
+to make it callable as a JavaScript function.
+
+With this annotation, each call to that function in Kotlin translates to a direct call to the JavaScript object:
+
+```kotlin
+import kotlin.js.nativeInvoke
+
+@OptIn(ExperimentalWasmJsInterop::class)
+external class JsAction {
+    @nativeInvoke
+    operator fun invoke(data: String)
+}
+
+fun main() {
+    val action = JsAction() 
+    action("Run task")
+}
+```
+
+> The `@nativeInvoke` annotation is a temporary solution until there's a design for stable interoperability.
+> Currently, when you use `@nativeInvoke`, the compiler reports a warning.
+>
+> {style="note"}
 
 ### Kotlin functions with JavaScript code
 
@@ -259,7 +289,7 @@ import org.khronos.webgl.*
     val jsInt32Array: Int32Array = intArray.toInt32Array()
     
     // Uses toIntArray() to convert JavaScript Int32Array back to Kotlin IntArray
-    val kotlnIntArray: IntArray = jsInt32Array.toIntArray()
+    val kotlinIntArray: IntArray = jsInt32Array.toIntArray()
 ```
 
 ## Use Kotlin code in JavaScript
@@ -316,7 +346,7 @@ kotlin {
 Kotlin/Wasm allows only certain types in signatures of JavaScript interop declarations.
 These limitations apply uniformly to declarations with `external`, `= js("code")` or `@JsExport`.
 
-See how Kotlin types correspond to Javascript types:
+See how Kotlin types correspond to JavaScript types:
 
 | Kotlin                                                     | JavaScript                        |
 |------------------------------------------------------------|-----------------------------------|
@@ -395,29 +425,15 @@ external fun <T : JsAny> processData(data: JsArray<T>): T
 
 ## Exception handling
 
-You can use Kotlin `try-catch` expression to catch JavaScript exceptions.
-However, accessing specific details about the thrown value in Kotlin/Wasm isn’t possible by default.
+You can use Kotlin `try-catch` expressions to catch JavaScript exceptions in Kotlin/Wasm code.
+Exception handling works as follows:
 
-You can configure the `JsException` type to include the original error message and stack trace from JavaScript.
-To do so, add the following compiler option to your `build.gradle.kts` file:
+* Exceptions thrown from JavaScript: detailed information is available on the Kotlin side.
+  If such an exception propagates back to JavaScript, it's no longer wrapped into WebAssembly.
 
-```kotlin
-kotlin {
-    wasmJs {
-        compilerOptions {
-            freeCompilerArgs.add("-Xwasm-attach-js-exception")
-        }
-    }
-}
-```
+* Exceptions thrown from Kotlin: they can be caught on JavaScript's side as regular JS errors.
 
-This behavior depends on the `WebAssembly.JSTag` API, which is only available in certain browsers:
-
-* **Chrome:** Supported from version 115
-* **Firefox:** Supported from version 129
-* **Safari:** Not yet supported
-
-Here’s an example demonstrating this behavior:
+Here's an example that demonstrates catching a JavaScript exception on the Kotlin side:
 
 ```kotlin
 external object JSON {
@@ -443,11 +459,13 @@ fun main() {
 }
 ```
 
-With the `-Xwasm-attach-js-exception` compiler option enabled, the `JsException` type provides specific details from the JavaScript error.
-Without enabling this compiler option, `JsException` includes only a generic message stating that an exception was thrown while running JavaScript code.
+This exception handling works automatically in modern browsers
+that support the [`WebAssembly.JSTag`](https://webassembly.github.io/exception-handling/js-api/#dom-webassembly-jstag)
+feature:
 
-If you try to use a JavaScript `try-catch` expression to catch Kotlin/Wasm exceptions, it looks like a
-generic `WebAssembly.Exception` without directly accessible messages and data.
+* Chrome 115+
+* Firefox 129+
+* Safari 18.4+
 
 ## Kotlin/Wasm and Kotlin/JS interoperability differences
 
@@ -458,7 +476,7 @@ Although Kotlin/Wasm interoperability shares similarities with Kotlin/JS interop
 | **External enums**      | Doesn't support external enum classes.                                                                                                                                                                              | Supports external enum classes.                                                                                                                     |
 | **Type extensions**     | Doesn't support non-external types to extend external types.                                                                                                                                                        | Supports non-external types.                                                                                                                        |
 | **`JsName` annotation** | Only has an effect when annotating external declarations.                                                                                                                                                           | Can be used to change names of regular non-external declarations.                                                                                   |
-| **`js()` function**       | `js("code")` function calls are allowed as a single expression body of package-level functions.                                                                                                                     | The `js("code")` function can be called in any context and returns a `dynamic` value.                                                               |
+| **`js()` function**     | `js("code")` function calls are allowed as a single expression body of package-level functions.                                                                                                                     | The `js("code")` function can be called in any context and returns a `dynamic` value.                                                               |
 | **Module systems**      | Supports ES modules only. There is no analog of the `@JsNonModule` annotation. Provides its exports as properties on the `default` object. Allows exporting package-level functions only.                           | Supports ES modules and legacy module systems. Provides named ESM exports. Allows exporting classes and objects.                                    |
 | **Types**               | Applies stricter type restrictions uniformly to all interop declarations `external`, `= js("code")`, and `@JsExport`. Allows a select number of [built-in Kotlin types and `JsAny` subtypes](#type-correspondence). | Allows all types in `external` declarations. Restricts [types that can be used in `@JsExport`](js-to-kotlin-interop.md#kotlin-types-in-javascript). |
 | **Long**                | Type corresponds to JavaScript `BigInt`.                                                                                                                                                                            | Visible as a custom class in JavaScript.                                                                                                            |
@@ -468,7 +486,7 @@ Although Kotlin/Wasm interoperability shares similarities with Kotlin/JS interop
 | **Dynamic types**       | Does not support the `dynamic` type. Use `JsAny` instead (see sample code below).                                                                                                                                   | Supports the `dynamic` type.                                                                                                                        |
 
 > Kotlin/JS [dynamic type](dynamic-type.md) for interoperability with untyped or loosely typed objects is not
-> supported in Kotlin/Wasm. Instead of `dynamic` type, you can use `JsAny` type:
+> supported in Kotlin/Wasm. Instead of the `dynamic` type, you can use the `JsAny` type:
 >
 > ```kotlin
 > // Kotlin/JS

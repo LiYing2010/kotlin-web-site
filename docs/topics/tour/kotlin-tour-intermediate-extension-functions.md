@@ -19,27 +19,22 @@ can help you use efficient design patterns to take your projects to the next lev
 
 ## Extension functions
 
-In software development, you often need to modify the behavior of a program without altering the original source code. 
-For example, in your project, you might want to add extra functionality to a class from a third-party library.
+In software development, you often need to modify a program's behavior without changing the original source code. 
+For example, you might want to add extra functionality to a class from a third-party library.
 
-Extension functions allow you to extend a class with additional functionality. You call extension functions the same way 
-you call member functions of a class.
+You can do this by adding _extension functions_ to extend a class. You call extension functions the same way 
+you call member functions of a class, using a period `.`.
 
-Before introducing the syntax for extension functions, you need to understand the terms **receiver type** and 
-**receiver object**.
-
-The receiver object is what the function is called on. In other words, the receiver is where or with whom the information is shared.
+Before introducing the complete syntax for extension functions, you need to understand what a **receiver** is.
+The receiver is what the function is called on. In other words, the receiver is where or with whom the information is shared.
 
 ![An example of sender and receiver](receiver-highlight.png){width="500"}
 
-In this example, the `main()` function calls the [`.first()`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/first.html) function.
+In this example, the `main()` function calls the [`.first()`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/first.html) function to return the first element in a list.
 The `.first()` function is called **on** the `readOnlyShapes` variable, so the `readOnlyShapes` variable is the receiver.
 
-The receiver object has a **type** so that the compiler understands when the function can be used.
-
-This example uses the `.first()` function from the standard library to return the first element in a list. To create
-your own extension function, write the name of the class that you want to extend followed by a `.` and the name of
-your function. Continue with the rest of the function declaration, including its arguments and return type.
+To create an extension function, write the name of the class that you want to extend followed by a `.` and the name of
+your function. Continue with the rest of the function declaration, including its parameters and return type.
 
 For example:
 
@@ -47,7 +42,7 @@ For example:
 fun String.bold(): String = "<b>$this</b>"
 
 fun main() {
-    // "hello" is the receiver object
+    // "hello" is the receiver
     println("hello".bold())
     // <b>hello</b>
 }
@@ -56,11 +51,11 @@ fun main() {
 
 In this example:
 
-* `String` is the extended class, also known as the receiver type.
+* `String` is the extended class.
 * `bold` is the name of the extension function. 
 * The `.bold()` extension function's return type is `String`.
-* `"hello"`, an instance of `String`, is the receiver object.
-* The receiver object is accessed inside the body by the [keyword](keyword-reference.md): `this`.
+* `"hello"`, an instance of `String`, as the receiver.
+* The receiver is accessed inside the body by the [keyword](keyword-reference.md): `this`.
 * A string template (`$`) is used to access the value of `this`.
 * The `.bold()` extension function takes a string and returns it in a `<b>` HTML element for bold text.
 
@@ -69,7 +64,7 @@ In this example:
 You can define extension functions anywhere, which enables you to create extension-oriented designs. These designs separate 
 core functionality from useful but non-essential features, making your code easier to read and maintain.
 
-A good example is the [`HttpClient`](https://api.ktor.io/ktor-client/ktor-client-core/io.ktor.client/-http-client/index.html) class from the Ktor library, which helps perform network requests. The core of
+A good example is the [`HttpClient`](https://api.ktor.io/ktor-client-core/io.ktor.client/-http-client/index.html) class from the Ktor library, which helps perform network requests. The core of
 its functionality is a single function `request()`, which takes all the information needed for an HTTP request:
 
 ```kotlin
@@ -91,8 +86,9 @@ fun HttpClient.post(url: String): HttpResponse = request("POST", url, emptyMap()
 ```
 {validate="false"}
 
-These `.get()` and `.post()` functions call the `request()` function with the correct HTTP method, so you don't have to.
-They streamline your code and make it easier to understand:
+These `.get()` and `.post()` functions extend the `HttpClient` class. They can directly use the `request()` function from the `HttpClient` class
+because they're called on an instance of the `HttpClient` class as the receiver. You can use these extension functions to
+call the `request()` function with the appropriate HTTP method, which simplifies your code and makes it easier to understand:
 
 ```kotlin
 class HttpClient {
@@ -111,6 +107,7 @@ fun main() {
     val getResponseWithMember = client.request("GET", "https://example.com", emptyMap())
 
     // Making a GET request using the get() extension function
+    // The client instance is the receiver
     val getResponseWithExtension = client.get("https://example.com")
 }
 ```

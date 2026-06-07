@@ -1,4 +1,4 @@
-[//]: # (title: Compatibility guide for Kotlin 2.2)
+[//]: # (title: Compatibility guide for Kotlin 2.2.x)
 
 _[Keeping the Language Modern](kotlin-evolution-principles.md)_ and _[Comfortable Updates](kotlin-evolution-principles.md)_ are among the fundamental principles in
 Kotlin Language Design. The former says that constructs which obstruct language evolution should be removed, and the
@@ -22,6 +22,23 @@ Remember that those definitions are given only for pure Kotlin. Compatibility of
 perspective (for example, from Java) is out of the scope of this document.
 
 ## Language
+
+### Drop support in `-language-version` for 1.6 and 1.7
+
+> **Issue**: [KT-71793](https://youtrack.jetbrains.com/issue/KT-71793)
+>
+> **Component**: Compiler
+>
+> **Incompatible change type**: source
+>
+> **Short summary**: Starting with Kotlin 2.2, the compiler no longer supports [`-language-version=1.6`](compiler-reference.md#language-version-version) or `-language-version=1.7`.
+> This means that language feature sets older than 1.8 are no longer supported. However, the language itself remains 
+> fully backward compatible with Kotlin 1.0.
+>
+> **Deprecation cycle**:
+>
+> - 2.1.0: report a warning when using `-language-version` with versions 1.6 and 1.7
+> - 2.2.0: report a warning when using `-language-version` with versions 1.8 and 1.9; raise the warning to an error for versions 1.6 and 1.7
 
 ### Enable invokedynamic for annotated lambdas by default
 
@@ -190,7 +207,7 @@ perspective (for example, from Java) is out of the scope of this document.
 >
 > - 2.2.0: report an error when accessing private types or members from non-private inline functions
 
-### Forbid non-local returns in default argument lambdas
+### Forbid non-local returns in lambdas used as parameter's default value
 
 > **Issue**: [KTLC-286](https://youtrack.jetbrains.com/issue/KTLC-286)
 >
@@ -198,12 +215,12 @@ perspective (for example, from Java) is out of the scope of this document.
 >
 > **Incompatible change type**: source
 >
-> **Short summary**: Non-local return statements are no longer allowed in lambdas used as default arguments.
-> This pattern previously compiled but led to runtime crashes. To migrate, rewrite the lambda to avoid non-local returns or move the logic outside the default argument.
+> **Short summary**: Non-local return statements are no longer allowed in lambdas used as parameter's default value.
+> This pattern previously compiled but led to runtime crashes. To migrate, rewrite the lambda to avoid non-local returns or move the logic outside the default value.
 >
 > **Deprecation cycle**:
 >
-> - 2.2.0: report an error for non-local returns in lambdas used as default argument values
+> - 2.2.0: report an error for non-local returns in lambdas used as parameter's default value
 
 ## Standard library
 
@@ -304,6 +321,7 @@ perspective (for example, from Java) is out of the scope of this document.
 > - 1.4.20: the plugin is deprecated
 > - 2.1.20: a configuration error is introduced, and no plugin code is executed
 > - 2.2.0: the plugin code is removed
+> - 2.4.0: remove the plugin ID
 
 ### Deprecate `kotlinOptions` DSL
 
@@ -358,6 +376,7 @@ perspective (for example, from Java) is out of the scope of this document.
 >
 > - 2.1.0: deprecate the use of REPL in `kotlinc` with a warning
 > - 2.2.0: to use REPL via `kotlinc`, opt in with the `-Xrepl` compiler option; deprecate JSR-223, support can be restored by switching to language version 1.9; deprecate the `KotlinScriptMojo` Maven plugin
+> - 2.4.0: remove Kotlin script execution through the `KotlinScriptMojo` Maven plugin
 
 ### Deprecate disambiguation classifier properties
 
@@ -564,8 +583,8 @@ perspective (for example, from Java) is out of the scope of this document.
 > **Incompatible change type**: source
 >
 > **Short summary**: The experimental `kotlinArtifacts` API is deprecated. Use the current DSL available in the Kotlin Gradle
-> plugin to [build final native binaries](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-build-native-binaries.html).
-> If it's not sufficient for migration, leave a comment in [this YT issue](https://youtrack.jetbrains.com/issue/KT-74953).
+> plugin to [build final native binaries](https://kotlinlang.org/docs/multiplatform/multiplatform-build-native-binaries.html).
+> If it's not sufficient for migration, leave a comment in [this YouTrack issue](https://youtrack.jetbrains.com/issue/KT-74953).
 >
 > **Deprecation cycle**:
 >

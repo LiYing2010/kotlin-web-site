@@ -1,4 +1,4 @@
-[//]: # (title: Basic syntax)
+[//]: # (title: Basic syntax overview)
 
 This is a collection of basic syntax elements with examples. At the end of every section, you'll find a link to
 a detailed description of the related topic.
@@ -157,7 +157,7 @@ See [Functions](functions.md).
 
 In Kotlin, you declare a variable starting with a keyword, `val` or `var`, followed by the name of the variable.
 
-Use the `val` keyword to declare variables that are assigned a value only once. These are immutable, read-only local variables that can’t be reassigned a different value
+Use the `val` keyword to declare variables that are assigned a value only once. These are immutable, read-only local variables that can't be reassigned a different value
 after initialization: 
 
 ```kotlin
@@ -305,7 +305,7 @@ Block comments in Kotlin can be nested:
 
 ```kotlin
 /* The comment starts here
-/* contains a nested comment */     
+/* contains a nested comment *​/  
 and ends here. */
 ```
 
@@ -557,13 +557,14 @@ See [Collections overview](collections-overview.md).
 
 ## Nullable values and null checks
 
-A reference must be explicitly marked as nullable when `null` value is possible. Nullable type names have `?` at the end.
+A reference must be explicitly marked as nullable when a `null` value is possible. Nullable type names have `?` at the end.
+For example, `Int?`.
 
 Return `null` if `str` does not hold an integer:
 
 ```kotlin
 fun parseInt(str: String): Int? {
-    // ...
+    return str.toIntOrNull()
 }
 ```
 
@@ -693,7 +694,7 @@ or even:
 //sampleStart
 fun getStringLength(obj: Any): Int? {
     // `obj` is automatically cast to `String` on the right-hand side of `&&`
-    if (obj is String && obj.length > 0) {
+    if (obj is String && obj.length >= 0) {
         return obj.length
     }
 
@@ -713,4 +714,3 @@ fun main() {
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-basic-syntax-is-operator-logic"}
 
 See [Classes](classes.md) and [Type casts](typecasts.md).
-

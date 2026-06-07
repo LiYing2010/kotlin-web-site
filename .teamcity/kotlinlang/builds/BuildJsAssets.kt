@@ -1,6 +1,8 @@
 package kotlinlang.builds
 
+import BuildParams.KLANG_NODE_CONTAINER
 import jetbrains.buildServer.configs.kotlin.BuildType
+import jetbrains.buildServer.configs.kotlin.FailureAction
 import jetbrains.buildServer.configs.kotlin.buildSteps.script
 
 object BuildJsAssets: BuildType({
@@ -26,20 +28,14 @@ object BuildJsAssets: BuildType({
     script {
       name = "Build assets"
       scriptContent = """
-        #!/bin/bash
+        #!/bin/sh
         set -e -x -u
-        
-        # for node:18 we caught exception:
-        #   unhandledRejection TypeError: Failed to parse URL from /mnt/agent/work/75f6fbaeb8c41e25/node_modules/@wasm-codecs/mozjpeg/lib/mozjpeg.wasm
-        #   at Object.fetch (node:internal/deps/undici/undici:11730:11) {
-        #   [cause]: TypeError: Invalid URL
-        export NODE_OPTIONS=--no-experimental-fetch
         
         yarn install --frozen-lockfile
         
         NODE_ENV=production yarn run build
       """.trimIndent()
-      dockerImage = "node:lts-slim"
+      dockerImage = KLANG_NODE_CONTAINER
       dockerPull = true
     }
   }
@@ -51,6 +47,17 @@ object BuildJsAssets: BuildType({
         +:latest-news.zip!** => latest-news/
       """.trimIndent()
       cleanDestination = true
+    }
+
+    dependency(BuildKotlinGrammar) {
+      snapshot {
+        onDependencyFailure = FailureAction.FAIL_TO_START
+        onDependencyCancel = FailureAction.CANCEL
+      }
+
+      artifacts {
+        artifactRules = "grammar.xml"
+      }
     }
   }
 })

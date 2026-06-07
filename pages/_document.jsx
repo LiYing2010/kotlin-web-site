@@ -1,12 +1,21 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document';
+import cn from 'classnames';
 
 export default class MyDocument extends Document {
     render() {
         const pageProps = this.props?.__NEXT_DATA__?.props?.pageProps;
         return (
-            <Html lang="en">
-                <Head />
-                <body className={pageProps.isDarkTheme ? 'dark-theme' : ''}>
+            <Html lang="en" className="no-js">
+                <Head>
+                    {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+                    <script src="https://cdn.optimizely.com/js/26633200186.js" />
+                    <script
+                        dangerouslySetInnerHTML={{
+                            __html: `document.documentElement.classList.replace('no-js', 'js');`,
+                        }}
+                    />
+                </Head>
+                <body className={cn(pageProps.isDarkTheme ? 'dark-theme' : '', 'nextjs')}>
                     <Main />
                     <NextScript />
                 </body>

@@ -1,6 +1,7 @@
 package kotlinlang.builds
 
 import BuildParams.SEARCH_INDEX_NAME
+import common.extensions.isProjectPlayground
 import jetbrains.buildServer.configs.kotlin.triggers.schedule
 import references.builds.stdlib.BuildStdlibApiReference
 import templates.TemplateSearchIndex
@@ -16,7 +17,7 @@ object BuildSearchIndex : TemplateSearchIndex({
     triggers {
         schedule {
             schedulingPolicy = cron {
-                hours = "3"
+                hours = "10"
                 dayOfMonth = "*/2"
             }
             branchFilter = "+:<default>"

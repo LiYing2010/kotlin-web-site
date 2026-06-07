@@ -1,5 +1,6 @@
 [//]: # (title: Create a Spring Boot project with Kotlin)
-[//]: # (description: Create a Spring Boot application with Kotlin using IntelliJ IDEA.)
+
+<web-summary>Create a Spring Boot application with Kotlin using IntelliJ IDEA.</web-summary>
 
 <tldr>
     <p>This is the first part of the <strong>Get started with Spring Boot and Kotlin</strong> tutorial:</p><br/>
@@ -14,19 +15,19 @@ The first part of the tutorial shows how to create a Spring Boot project with Gr
 
 ## Before you start
 
-Download and install the latest version of [IntelliJ IDEA Ultimate Edition](https://www.jetbrains.com/idea/download/index.html).
+Download and install the latest version of [IntelliJ IDEA](https://www.jetbrains.com/idea/download/) and use an Ultimate subscription.
 
-> If you use IntelliJ IDEA Community Edition or another IDE, you can generate a Spring Boot project using
+> If you use IntelliJ IDEA without an Ultimate subscription or you use another IDE, you can generate a Spring Boot project using
 > a [web-based project generator](https://start.spring.io/#!language=kotlin&type=gradle-project-kotlin).
 > 
 {style="tip"}
 
 ## Create a Spring Boot project
 
-Create a new Spring Boot project with Kotlin by using the Project Wizard in IntelliJ IDEA Ultimate Edition:
+Create a new Spring Boot project with Kotlin by using the Project Wizard in IntelliJ IDEA:
 
 1. In IntelliJ IDEA, select **File** | **New** | **Project**. 
-2. In the panel on the left, select **New Project** | **Spring Boot**.
+2. In the panel on the left, select **Spring Boot** in the **Generators** section.
 3. Specify the following fields and options in the **New Project** window:
    
    * **Name**: demo
@@ -51,7 +52,7 @@ Create a new Spring Boot project with Kotlin by using the Project Wizard in Inte
      >
      {style="tip"}
 
-   ![Create Spring Boot project](create-spring-boot-project.png){width=800}
+   ![Create Spring Boot project](create-spring-boot-project.png){width=700}
 
 4. Ensure that you have specified all the fields and click **Next**.
 
@@ -61,7 +62,7 @@ Create a new Spring Boot project with Kotlin by using the Project Wizard in Inte
    * **SQL | Spring Data JDBC**
    * **SQL | H2 Database**
 
-   ![Set up Spring Boot project](set-up-spring-boot-project.png){width=800}
+   ![Set up Spring Boot project](set-up-spring-boot-project.png){width=700}
 
 6. Click **Create** to generate and set up the project.
 
@@ -108,19 +109,21 @@ repositories {
 }
 
 dependencies {
+    implementation("org.springframework.boot:spring-boot-h2console")
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin") // Jackson extensions for Kotlin for working with JSON
+    implementation("org.springframework.boot:spring-boot-starter-webmvc")
     implementation("org.jetbrains.kotlin:kotlin-reflect") // Kotlin reflection library, required for working with Spring
+    implementation("tools.jackson.module:jackson-module-kotlin") // Jackson extensions for Kotlin for working with JSON
     runtimeOnly("com.h2database:h2")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-data-jdbc-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 kotlin {
     compilerOptions {
-        freeCompilerArgs.addAll("-Xjsr305=strict") // `-Xjsr305=strict` enables the strict mode for JSR-305 annotations
+        freeCompilerArgs.addAll("-Xjsr305=strict", "-Xannotation-default-target=param-property") // `-Xjsr305=strict` enables the strict mode for JSR-305 annotations
     }
 }
 
@@ -133,13 +136,15 @@ As you can see, there are a few Kotlin-related artifacts added to the Gradle bui
 
 1. In the `plugins` block, there are two Kotlin artifacts:
 
-   * `kotlin("jvm")` – the plugin defines the version of Kotlin to be used in the project
-   * `kotlin("plugin.spring")` – Kotlin Spring compiler plugin for adding the `open` modifier to Kotlin classes in order to make them compatible with Spring Framework features
+   * The `kotlin("jvm")` plugin defines the version of Kotlin to be used in the project.
+   * The Kotlin Spring compiler plugin, `kotlin("plugin.spring")`, adds the `open` modifier to Kotlin classes to make
+     them compatible with Spring Framework features
 
-2. In the `dependencies` block, a few Kotlin-related modules listed:
+2. In the `dependencies` block, a few Kotlin-related modules are listed:
 
-   * `com.fasterxml.jackson.module:jackson-module-kotlin` – the module adds support for serialization and deserialization of Kotlin classes and data classes
-   * `org.jetbrains.kotlin:kotlin-reflect` – Kotlin reflection library
+   * The `tools.jackson.module:jackson-module-kotlin` module adds support for serialization and deserialization of Kotlin
+     classes and data classes.
+   * `org.jetbrains.kotlin:kotlin-reflect` is a Kotlin reflection library that enables full support of the [reflection features](reflection.md).
 
 3. After the dependencies section, you can see the `kotlin` plugin configuration block.
    This is where you can add extra arguments to the compiler to enable or disable various language features.
@@ -171,8 +176,8 @@ fun main(args: Array<String>) {
       <p>In Kotlin, if a class doesn't include any members (properties or functions), you can omit the class body (<code>{}</code>) for good.</p>
    </def>
    <def title="@SpringBootApplication annotation">
-      <p><a href="https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.using-the-springbootapplication-annotation"><code>@SpringBootApplication annotation</code></a> is a convenience annotation in a Spring Boot application.
-      It enables Spring Boot's <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.auto-configuration">auto-configuration</a>, <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/ComponentScan.html">component scan</a>, and be able to define an extra configuration on their "application class".
+      <p><a href="https://docs.spring.io/spring-boot/reference/using/using-the-springbootapplication-annotation.html#using.using-the-springbootapplication-annotation"><code>@SpringBootApplication annotation</code></a> is a convenience annotation in a Spring Boot application.
+      It enables Spring Boot's <a href="https://docs.spring.io/spring-boot/reference/using/auto-configuration.html#using.auto-configuration">auto-configuration</a>, <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/ComponentScan.html">component scan</a>, and be able to define an extra configuration on their "application class".
       </p>
    </def>
    <def title="Program entry point – main()">
@@ -190,7 +195,6 @@ fun main(args: Array<String>) {
       </p>
    </def>
 </deflist>
-
 
 ## Create a controller
 
@@ -252,7 +256,7 @@ The Spring application is now ready to run:
 
 1. In the `DemoApplication.kt` file, click the green **Run** icon in the gutter beside the `main()` method:
 
-    ![Run Spring Boot application](run-spring-boot-application.png){width=706}
+    ![Run Spring Boot application](run-spring-boot-application.png){width=700}
     
     > You can also run the `./gradlew bootRun` command in the terminal.
     >
@@ -268,7 +272,7 @@ The Spring application is now ready to run:
 
     You should see "Hello, John!" printed as a response:
 
-    ![Spring Application response](spring-application-response.png){width=706}
+    ![Spring Application response](spring-application-response.png){width=700}
 
 ## Next step
 

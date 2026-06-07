@@ -1,5 +1,7 @@
 package kotlinlang.builds
 
+import BuildParams.KLANG_NODE_CONTAINER
+import documentation.builds.KotlinWithCoroutines
 import jetbrains.buildServer.configs.kotlin.BuildType
 import jetbrains.buildServer.configs.kotlin.FailureAction
 import jetbrains.buildServer.configs.kotlin.buildSteps.script
@@ -37,7 +39,7 @@ object PdfGenerator : BuildType({
         npm install
         npm run generate-pdf
       """.trimIndent()
-      dockerImage = "node:22-alpine"
+      dockerImage = KLANG_NODE_CONTAINER
       workingDir = SCRIPT_PATH
     }
     script {
@@ -52,13 +54,16 @@ object PdfGenerator : BuildType({
   }
 
   dependencies {
-    dependency(BuildReferenceDocs) {
+    dependency(KotlinWithCoroutines) {
       snapshot {
         onDependencyFailure = FailureAction.FAIL_TO_START
         onDependencyCancel = FailureAction.CANCEL
       }
       artifacts {
-        artifactRules = "+:docs.zip!** => dist/docs/"
+        artifactRules = """
+          +:webHelpImages.zip!** => dist/docs/images/
+          +:webHelpKR2.zip!** => dist/docs/
+        """.trimIndent()
       }
     }
   }

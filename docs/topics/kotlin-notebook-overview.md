@@ -1,9 +1,13 @@
 [//]: # (title: Kotlin Notebook)
+[//]: # (description: Create and edit interactive Kotlin notebooks in IntelliJ IDEA to run code, visualize data, prototype ideas, and share results.)
 
-Kotlin Notebook provides an interactive environment to create and edit notebooks, leveraging the full potential of Kotlin's capabilities.
-
+Kotlin Notebook provides an interactive environment to create and edit notebooks, leveraging the full potential of Kotlin's capabilities. 
 Kotlin Notebook relies on the [Kotlin Notebook plugin](https://plugins.jetbrains.com/plugin/16340-kotlin-notebook),
 which is bundled and [enabled in IntelliJ IDEA by default](kotlin-notebook-set-up-env.md).
+
+A notebook is an interactive document where you can mix executable Kotlin code with text, results, and visualizations. 
+Think of it as a Kotlin REPL extended with the ability to organize your code into cells, document it with Markdown, 
+and immediately display outputs (from text to plots) alongside the code that produced them.
 
 Get ready for a seamless coding experience where you can develop and experiment with Kotlin code, receive immediate outputs, and integrate code, 
 visuals, and text within the IntelliJ IDEA ecosystem.
@@ -27,7 +31,9 @@ Without compatibility issues, you can effortlessly share your work among Kotlin 
 
 With these capabilities, you can embark on a wide range of tasks, from simple code experiments to comprehensive data projects. 
 
-Dive deeper into the sections below to discover what you can achieve with Kotlin Notebook!
+Dive deeper to discover what you can achieve with Kotlin Notebook!
+
+<a href="get-started-with-kotlin-notebooks.md"><img src="notebook-get-started-button.svg" width="600" alt="Get started with Kotlin Notebook" style="block"/></a>
 
 ## Data analytics and visualization
 
@@ -41,7 +47,8 @@ For analytics-related tasks, the [Kotlin DataFrame](https://kotlin.github.io/dat
 provides robust solutions. This library facilitates loading, creating, filtering, and cleaning structured data.
 
 Kotlin DataFrame also supports seamless connection with SQL databases and reads data right in the IDE from 
-different file formats, including CSV, JSON, and TXT.
+different data sources, including CSV, JSON, and TXT. 
+See all supported formats in the [DataFrame documentation](https://kotlin.github.io/dataframe/data-sources.html).
 
 [Kandy](https://kotlin.github.io/kandy/welcome.html), an open-source Kotlin library, allows you to create charts of various types.
 Kandy's idiomatic, readable, and type-safe features let you visualize data effectively and gain valuable insights.
@@ -86,6 +93,16 @@ which natively renders this format. Another option is [JetBrain's Datalore](http
 which facilitates sharing, running, and editing notebooks with advanced features like scheduled notebook runs. 
 
 ![kotlin-notebook-sharing-datalore](kotlin-notebook-sharing-datalore.png){width=700}
+
+Alternatively, you can quickly share your current notebook as a [GitHub Gist](https://gist.github.com/). 
+Click the **Create Gist** button on the toolbar. 
+
+![notebook-github-gist](notebook-github-gist.png){width=400}
+
+IntelliJ IDEA exports your notebook to a Gist on your GitHub account 
+and provides a URL to share, view, and download the notebook. 
+
+The Gist preserves all code, output, and Markdown from your notebook in JSON format, which GitHub can render for preview. 
 
 ## What's next
 

@@ -1,0 +1,156 @@
+import React, { FC, useCallback, useMemo } from 'react';
+import Head from 'next/head';
+import '@jetbrains/kotlin-web-site-ui/out/components/layout-v2';
+import GlobalHeader from '@jetbrains/kotlin-web-site-ui/out/components/header';
+import GlobalFooter from '@jetbrains/kotlin-web-site-ui/out/components/footer';
+import TopMenu from '@jetbrains/kotlin-web-site-ui/out/components/top-menu';
+import { Theme, ThemeProvider } from '@rescui/ui-contexts';
+import { useRouter } from 'next/router';
+import cn from 'classnames';
+import styles from './landing-layout.module.css';
+import releasesDataRaw from '../../data/releases.yml';
+import searchConfig from '../../search-config.json';
+import { StickyHeader } from '../sticky-header/sticky-header';
+import { getCanonicalUrl, getSiteUrl } from '../../utils/site-config';
+
+
+const releasesData: ReleasesData = releasesDataRaw as ReleasesData;
+
+type NavigationProps = {
+    topMenuItems?: { url: string; title: string }[];
+    topMenuButton?: React.ReactNode;
+    topMenuTitle?: string;
+    topMenuHomeUrl?: string;
+    currentUrl?: string;
+    currentTitle?: string;
+    mobileOverview?: boolean;
+}
+
+export type LandingLayoutProps = {
+    title: string;
+    description?: string;
+    ogImageName?: string;
+    children: React.ReactNode;
+    dataTestId?: string;
+    canonical?: string;
+    theme?: Theme;
+    forceDarkTopMenu?: boolean;
+} & NavigationProps;
+
+export const LandingLayout: FC<LandingLayoutProps> = ({
+    title,
+    ogImageName,
+    description,
+    children,
+    dataTestId,
+    canonical,
+    theme = 'dark',
+    forceDarkTopMenu = false,
+    mobileOverview = true,
+    ...navigationProps
+}) => {
+    const router = useRouter();
+    const siteUrl = getSiteUrl();
+    const pathname = addTrailingSlash(router.pathname);
+
+    let items = navigationProps.topMenuItems || [];
+
+    let activeIndex = useMemo(
+        () => items.map((item) => item.url).indexOf(pathname),
+        [pathname, items]
+    );
+
+    const linkHandler = useCallback(
+        (event, url) => {
+            event.preventDefault();
+            router.push(url);
+        },
+        [router]
+    );
+
+    const ogImagePath = useMemo(
+        () => `${siteUrl}/assets/images/open-graph/${ogImageName ? ogImageName : 'general.png'}`,
+        [ogImageName, siteUrl]
+    );
+
+    const ogImageTwitterPath = useMemo(
+        () => (ogImageName ? ogImagePath : `${siteUrl}/assets/images/twitter/general.png`),
+        [ogImageName, ogImagePath, siteUrl]
+    );
+
+    const canonicalUrl = useMemo(() => {
+        if (canonical) {
+            return canonical;
+        }
+        return getCanonicalUrl(router.pathname);
+    }, [canonical, router.pathname]);
+
+    return (
+        <>
+            <Head>
+                <title>{title}</title>
+
+                <meta property="og:title" content={title} />
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content={siteUrl + router.pathname} />
+
+                {description && <meta name="description" content={description} />}
+
+                <meta property="og:image" content={ogImagePath} />
+
+                {description && <meta property="og:description" content={description} />}
+                <meta property="og:site_name" content="Kotlin" />
+
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:site" content="@kotlin" />
+                <meta name="twitter:title" content={title} />
+                {description && <meta name="twitter:description" content={description} />}
+                <meta name="twitter:image:src" content={ogImageTwitterPath} />
+                <link rel="canonical" href={canonicalUrl} />
+            </Head>
+
+            <ThemeProvider theme={theme}>
+
+                <GlobalHeader
+                    currentUrl={navigationProps.currentUrl}
+                    currentTitle={navigationProps.currentTitle}
+                    productWebUrl={releasesData.latest.url}
+                    hasSearch={true}
+                    searchConfig={searchConfig}
+                    hasBorder={false}
+                />
+
+                <StickyHeader>
+                    <div className={styles.sticky} data-testid="top-menu">
+                        <ThemeProvider theme={forceDarkTopMenu ? 'dark' : theme}>
+                            <TopMenu
+                                className={styles.topMenu}
+                                homeUrl={navigationProps.topMenuHomeUrl}
+                                title={navigationProps.topMenuTitle}
+                                activeIndex={activeIndex}
+                                items={items}
+                                linkHandler={linkHandler}
+                                mobileOverview={mobileOverview}
+                            >
+                                {navigationProps.topMenuButton}
+                            </TopMenu>
+                        </ThemeProvider>
+                    </div>
+                </StickyHeader>
+
+                <div className={cn(styles.contentWrapper, { [styles.contentWrapperLight]: theme === 'light' })}
+                     data-testid={dataTestId}>
+                    {children}
+                </div>
+            </ThemeProvider>
+
+            <ThemeProvider theme="dark">
+                <GlobalFooter />
+            </ThemeProvider>
+        </>
+    );
+};
+
+function addTrailingSlash(path: string): string {
+    return path.endsWith('/') ? path : `${path}/`;
+}

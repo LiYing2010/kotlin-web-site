@@ -252,16 +252,16 @@ to add the correct import statements and functions from the [`kotlin.time`](http
 
 fun main() {
     val timeTaken = /* Write your code here */ {
-    // Simulate some data processing
-    val data = List(1000) { it * 2 }
-    val filteredData = data.filter { it % 3 == 0 }
+        // Simulate some data processing
+        val data = List(1000) { it * 2 }
+        val filteredData = data.filter { it % 3 == 0 }
 
-    // Simulate processing the filtered data
-    val processedData = filteredData.map { it / 2 }
-    println("Processed data")
-}
+        // Simulate processing the filtered data
+        val processedData = filteredData.map { it / 2 }
+        println("Processed data")
+    }
 
-println("Time taken: $timeTaken") // e.g. 16 ms
+    println("Time taken: $timeTaken") // e.g. 16 ms
 }
 ```
 {validate="false" kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-libraries-exercise-2"}
@@ -300,9 +300,11 @@ What should the opt-in look like in your code?
 
 ## What's next?
 
-Congratulations! You've completed the intermediate tour! As a next step, check out our tutorials for popular Kotlin applications:
+Congratulations! You've completed the intermediate tour! Would you like to [share your feedback](https://surveys.hotjar.com/bf4ce865-99ce-4fc1-b107-e9b16bc31592) about your experience? 
+
+As a next step, check out our tutorials for popular Kotlin applications:
 
 * [Create a backend application with Spring Boot and Kotlin](jvm-create-project-with-spring-boot.md)
 * Create a cross-platform application for Android and iOS from scratch and:
-    * [Share business logic while keeping the UI native](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-create-first-app.html)
-    * [Share business logic and UI](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-create-first-app.html)
+    * [Share business logic while keeping the UI native](https://kotlinlang.org/docs/multiplatform/multiplatform-create-first-app.html)
+    * [Share business logic and UI](https://kotlinlang.org/docs/multiplatform/compose-multiplatform-create-first-app.html)

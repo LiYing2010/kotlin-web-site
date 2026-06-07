@@ -63,7 +63,7 @@ To declare a data class with the `@JvmRecord` annotation, it must meet the follo
 
 JVM records require the `16` target version or higher of the generated JVM bytecode.
 
-To specify it explicitly, use the `jvmTarget` compiler option in [Gradle](gradle-compiler-options.md#attributes-specific-to-jvm) or [Maven](maven.md#attributes-specific-to-jvm).
+To specify it explicitly, use the `jvmTarget` compiler option in [Gradle](gradle-compiler-options.md#attributes-specific-to-jvm) or [Maven](maven-kotlin-compiler.md#attributes-specific-to-jvm).
 
 ## Annotate record components in Kotlin
 
@@ -71,19 +71,6 @@ To specify it explicitly, use the `jvmTarget` compiler option in [Gradle](gradle
 
 In Java, [annotations](annotations.md) on a record component are automatically propagated to the backing field, getter, setter, and constructor parameter.
 You can replicate this behavior in Kotlin by using the [`all`](annotations.md#all-meta-target) use-site target.
-
-> To use the `all` use-site target, you must opt in. Either use the `-Xannotation-target-all` compiler option or add
-> the following to your `build.gradle.kts` file:
->
-> ```kotlin
-> kotlin {
->     compilerOptions {
->         freeCompilerArgs.add("-Xannotation-target-all")
->     }
-> }
-> ```
->
-{style="warning"}
 
 For example:
 
@@ -110,7 +97,7 @@ For example:
 ```kotlin
 @Target(AnnotationTarget.CLASS, AnnotationTarget.PROPERTY)
 @java.lang.annotation.Target(ElementType.CLASS, ElementType.RECORD_COMPONENT)
-annotation class exampleClass
+annotation class ExampleClass
 ```
 
 You can now apply `@ExampleClass` to Kotlin classes and properties, as well as Java classes and record components.

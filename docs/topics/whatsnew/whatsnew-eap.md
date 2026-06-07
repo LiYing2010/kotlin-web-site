@@ -1,5 +1,11 @@
 [//]: # (title: What's new in Kotlin %kotlinEapVersion%)
 
+<primary-label ref="eap"/>
+
+<show-structure depth="1"/>
+
+<web-summary>Read the Kotlin Early Access Preview release notes and try the latest experimental Kotlin features before they are officially released.</web-summary>
+
 _[Released: %kotlinEapReleaseDate%](eap.md#build-details)_
 
 > This document doesn't cover all of the features of the Early Access Preview (EAP) release,
@@ -9,548 +15,753 @@ _[Released: %kotlinEapReleaseDate%](eap.md#build-details)_
 >
 {style="note"}
 
-The Kotlin %kotlinEapVersion% release is out!
-Here are some details of this EAP release:
+The Kotlin %kotlinEapVersion% release is out! Here are some details of this EAP release:
 
-* [Language: preview of context parameters](#preview-of-context-parameters)
-* [Kotlin compiler: unified management of compiler warnings](#kotlin-compiler-unified-management-of-compiler-warnings)
-* [Kotlin/JVM: changes to default method generation for interface functions](#changes-to-default-method-generation-for-interface-functions)
-* [Gradle: integration of Problems API within KGP diagnostics](#integration-of-problems-api-within-kgp-diagnostics)
-  and [KGP compatibility with '--warning-mode'](#kgp-compatibility-with-warning-mode)
+* **Language:** [Stable context parameters, explicit backing fields, and multiple features for annotation use-site targets](#stable-features)
+* **Standard library:** [Stable UUIDs](#stable-uuids-in-the-common-kotlin-standard-library) and [support for checking sorted order](#support-for-checking-sorted-order)
+* **Kotlin/JVM:** [Support for Java 26](#support-for-java-26) and [annotations in metadata enabled by default](#annotations-in-metadata-enabled-by-default)
+* **Kotlin/Native:** [Support for Swift packages as dependencies, updates on Swift export, and default CMS GC](#kotlin-native)
+* **Kotlin/Wasm:** [Incremental compilation enabled by default and support for WebAssembly Component Model](#kotlin-wasm)
+* **Kotlin/JS**: [Support for value class export and ES2015 features in JS code inlining](#kotlin-js)
+* **Gradle:** [Compatibility with Gradle 9.5.0](#gradle)
+* **Maven:** [Automatic alignment between Java and JVM target versions](#maven)
+* **Kotlin compiler:** [More consistent inline function behavior during `.klib` compilation](#consistent-intra-module-function-inlining-during-klib-compilation)
 
-## IDE support
+> For information about the Kotlin release cycle, see [Kotlin release process](releases.md).
+>
+{style="tip"}
 
-The Kotlin plugins that support %kotlinEapVersion% are bundled in the latest IntelliJ IDEA and Android Studio.
-You don't need to update the Kotlin plugin in your IDE.
-All you need to do is to [change the Kotlin version](configure-build-for-eap.md) to %kotlinEapVersion% in your build scripts.
+## Update to Kotlin %kotlinEapVersion%
 
-See [Update to a new release](releases.md#update-to-a-new-kotlin-version) for details.
+The latest version of Kotlin is included in the latest versions of [IntelliJ IDEA](https://www.jetbrains.com/idea/download/)
+and [Android Studio](https://developer.android.com/studio).
+
+To update to the new Kotlin version, make sure your IDE is updated to the latest version and [change the Kotlin version](releases.md#update-to-a-new-kotlin-version)
+to %kotlinEapVersion% in your build scripts.
+
+## New features {id=new-stable-features}
+<primary-label ref="stable"/>
+
+In previous Kotlin releases, several new features were introduced as Experimental.
+The following features have now graduated to [Stable](components-stability.md#stability-levels-explained) in Kotlin %kotlinEapVersion%, so you no longer need to opt in to use them:
+
+* [Context parameters](whatsnew22.md#preview-of-context-parameters), except for [context arguments](#explicit-context-arguments-for-context-parameters) and [callable references](https://github.com/Kotlin/KEEP/blob/context-parameters/proposals/context-parameters.md#callable-references)
+* [`@all` meta-target for properties](whatsnew22.md#all-meta-target-for-properties)
+* [New defaulting rules for use-site annotation targets](whatsnew22.md#new-defaulting-rules-for-use-site-annotation-targets)
+* [Explicit backing fields](whatsnew23.md#explicit-backing-fields)
+* [Stable UUIDs in the common Kotlin standard library](#stable-uuids-in-the-common-kotlin-standard-library)
+* [Support for checking sorted order](#support-for-checking-sorted-order)
+* [New API for converting unsigned integers to `BigInteger` on the JVM](#new-api-for-converting-unsigned-integers-to-biginteger-on-the-jvm)
+* [Support for value class export to JavaScript/TypeScript](#support-for-value-class-export-to-javascript-typescript)
+* [Support for ES2015 features when inlining JS code](#support-for-es2015-features-when-inlining-js-code)
+* [Maven: Automatic alignment between Java and JVM target versions](#automatic-alignment-between-java-and-jvm-target-versions)
+
+## New features {id=new-experimental-features}
+<primary-label ref="experimental-exp"/>
+
+* [Explicit context arguments for context parameters](#explicit-context-arguments-for-context-parameters)
+* [Support for collection literals](#support-for-collection-literals)
+* [Improved compile-time constants](#improved-compile-time-constants)
+* [Swift package import](#swift-package-import)
+* [Swift export: Support for exporting coroutine flows](#swift-export-support-for-exporting-coroutine-flows)
+* [Support for the WebAssembly Component Model](#support-for-the-webassembly-component-model)
 
 ## Language
 
-This release promotes some language features as stable and brings context parameters in preview.
+Kotlin %kotlinEapVersion% promotes context parameters, explicit backing fields, and annotation use-site targets features to [Stable](components-stability.md#stability-levels-explained).
+This release also introduces [explicit context arguments for context parameters](#explicit-context-arguments-for-context-parameters).
 
-### Stable features: guard conditions, non-local break and continue, and multi-dollar interpolation
+### Stable features
+<secondary-label ref="language"/>
 
-In Kotlin 2.1.0, several new language features were introduced in preview. 
-We're happy to announce that these language features became 
-[Stable](components-stability.md#stability-levels-explained) in this release:
+Kotlin 2.2.0 introduced a few language features as [Experimental](components-stability.md#stability-levels-explained). We're happy to announce that the following language features are now [Stable](components-stability.md#stability-levels-explained) in this release:
 
-* [Guard conditions in `when` with a subject](whatsnew21.md#guard-conditions-in-when-with-a-subject)
-* [Non-local `break` and `continue`](whatsnew21.md#non-local-break-and-continue)
-* [Multi-dollar interpolation: improved handling of `$` in string literals](whatsnew21.md#multi-dollar-string-interpolation)
+* [Context parameters](whatsnew22.md#preview-of-context-parameters), except for [context arguments](#explicit-context-arguments-for-context-parameters) and [callable references](https://github.com/Kotlin/KEEP/blob/context-parameters/proposals/context-parameters.md#callable-references)
+* [`@all` meta-target for properties](whatsnew22.md#all-meta-target-for-properties)
+* [New defaulting rules for use-site annotation targets](whatsnew22.md#new-defaulting-rules-for-use-site-annotation-targets)
+* [Explicit backing fields](whatsnew23.md#explicit-backing-fields)
 
 [See the full list of Kotlin language design features and proposals](kotlin-language-features-and-proposals.md).
 
-### Preview of context parameters
-
-<primary-label ref="experimental-general"/>
-
-In this release, context parameters are introduced in preview.
-Context parameters allow functions and properties to declare dependencies that are implicitly available in the 
-surrounding context.
-
-This feature replaces an older experimental feature called context receivers. To migrate from context receivers to context 
-parameters, you can use assisted support in IntelliJ IDEA, as described in 
-the [blog post](https://blog.jetbrains.com/kotlin/2025/04/update-on-context-parameters/).
-
-#### How to declare context parameters
-
-You can declare context parameters for properties and functions using the `context` keyword
-followed by a list of parameters, each of the form `name: Type`. Here is an example with a dependency on the `UserService` interface:
-
-```kotlin
-// `UserService` defines the dependency required in context 
-interface UserService {
-    fun log(message: String)
-    fun findUserById(id: Int): String
-}
-
-// Declares a function with a context parameter
-context(users: UserService)
-fun outputMessage(message: String) {
-    // Uses `log` from the context
-    users.log("Log: $message")
-}
-
-// Declares a property with a context parameter
-context(users: UserService)
-val firstUser: String
-    // Uses `findUserById` from the context    
-    get() = users.findUserById(1)
-```
-
-You can use `_` as a context parameter name. In this case, the parameter's value is available for resolution but is not accessible by name inside the block:
-
-```kotlin
-// Uses `_` as context parameter name
-context(_: UserService)
-fun logWelcome() {
-    // Resolution still finds the appropriate `log` function from UserService
-    outputMessage("Welcome!")
-}
-```
-
-#### Context parameters resolution
-
-Kotlin resolves context parameters at the call site by searching for matching context values in the current scope. Kotlin matches them by their type.
-If multiple compatible values exist at the same scope level, the compiler reports an ambiguity:
-
-```kotlin
-// `UserService` defines the dependency required in context
-interface UserService {
-    fun log(message: String)
-}
-
-// Declares a function with a context parameter
-context(users: UserService)
-fun outputMessage(message: String) {
-    users.log("Log: $message")
-}
-
-fun main() {
-    // Implements `UserService` 
-    val serviceA = object : UserService {
-        override fun log(message: String) = println("A: $message")
-    }
-
-    // Implements `UserService`
-    val serviceB = object : UserService {
-        override fun log(message: String) = println("B: $message")
-    }
-
-    // Both `serviceA` and `serviceB` match the expected `UserService` type at the call site
-    context(serviceA, serviceB) {
-        outputMessage("This will not compile")
-        // Ambiguity error
-    }
-}
-```
-
-#### Restrictions
-
-Context parameters are in continuous improvement; some of the current restrictions are:
-
-* Constructors cannot declare context parameters
-* Properties with context parameters can't have backing fields or initializers
-* Properties with context parameters can't use delegation
-
-However, context parameters in Kotlin represent a significant improvement in managing dependencies through simplified dependency injection,
-improved DSL design, and scoped operations. For more information, see the feature's [KEEP](https://github.com/Kotlin/KEEP/blob/context-parameters/proposals/context-parameters.md).
-
-#### How to enable context parameters
-
-To enable context parameters in your project, use the following compiler option in the command line:
-
-```Bash
--Xcontext-parameters
-```
-
-Or add it to the `compilerOptions {}` block of your Gradle build file:
-
-```kotlin
-// build.gradle.kts
-kotlin {
-    compilerOptions {
-        freeCompilerArgs.add("-Xcontext-parameters")
-    }
-}
-```
-
-> Specifying both `-Xcontext-receivers` and `-Xcontext-parameters` compiler options simultaneously leads to an error.
->
-{style="warning"}
-
-#### Leave your feedback
-
-This feature is planned to be stabilized and improved in future Kotlin releases.
-We would appreciate your feedback in our issue tracker [YouTrack](https://youtrack.jetbrains.com/issue/KT-10468/Context-Parameters-expanding-extension-receivers-to-work-with-scopes).
-
-## Kotlin compiler: unified management of compiler warnings
-
-<primary-label ref="experimental-general"/>
-
-Kotlin %kotlinEapVersion% introduces a new compiler option, `-Xwarning-level`. It's designed to provide a unified way of managing compiler warnings in Kotlin projects.
-
-Previously, you could only apply general module-wide rules, like disabling all warnings with
-`-nowarn`, turning all warnings to compilation errors with `-Werror`, or enabling additional compiler checks with `-Wextra`. The only option to adjust them for specific warnings was the `-Xsuppress-warning` option.
-
-With the new solution, you can override general rules and exclude specific diagnostics in a consistent way.
-
-### How to apply
-
-The new compiler option has the following syntax:
-
-```bash
--Xwarning-level=DIAGNOSTIC_NAME:(error|warning|disabled)
-```
-
-* `error`: raises the specified warning to an error.
-* `warning`: emits a warning and is enabled by default.
-* `disabled`: completely suppresses the specified warning module-wide.
-
-Keep in mind that you can only configure the severity level of _warnings_ with the new compiler option.
-
-### Use cases
-
-With the new solution, you can better fine-tune warning reporting in your project by combining general rules with specific ones. Choose your use case:
-
-#### Suppress warnings
-
-| Command                                           | Description                                            |
-|---------------------------------------------------|--------------------------------------------------------|
-| [`-nowarn`](compiler-reference.md#nowarn)         | Suppresses all warnings during compilation.            |
-| `-Xwarning-level=DIAGNOSTIC_NAME:disabled`        | Suppresses only specified warnings.                    |
-| `-nowarn -Xwarning-level=DIAGNOSTIC_NAME:warning` | Suppresses all warnings except for the specified ones. |
-
-#### Raise warnings to errors
-
-| Command                                           | Description                                                  |
-|---------------------------------------------------|--------------------------------------------------------------|
-| [`-Werror`](compiler-reference.md#werror)         | Raises all warnings to compilation errors.                   |
-| `-Xwarning-level=DIAGNOSTIC_NAME:error`           | Raises only specified warnings to errors.                    |
-| `-Werror -Xwarning-level=DIAGNOSTIC_NAME:warning` | Raises all warnings to errors except for the specified ones. |
-
-#### Enable additional compiler warnings
-
-| Command                                            | Description                                                                                          |
-|----------------------------------------------------|------------------------------------------------------------------------------------------------------|
-| [`-Wextra`](compiler-reference.md#wextra)          | Enables all additional declaration, expression, and type compiler checks that emit warnings if true. |
-| `-Xwarning-level=DIAGNOSTIC_NAME:warning`          | Enables only specified additional compiler checks.                                                   |
-| `-Wextra -Xwarning-level=DIAGNOSTIC_NAME:disabled` | Enables all additional checks except for the specified ones.                                         |
-
-#### Warning lists
-
-In case you have many warnings you want to exclude from general rules, you can list them in a separate file through [`@argfile`](compiler-reference.md#argfile).
-
-### Leave feedback
-
-The new compiler option is still [Experimental](components-stability.md#stability-levels-explained). Please report any problems to our issue tracker, [YouTrack](https://kotl.in/issue).
-
-## Kotlin/JVM
-
-### Changes to default method generation for interface functions
-
-Starting from Kotlin %kotlinEapVersion%, functions declared in interfaces are compiled to JVM default methods unless configured otherwise.
-This change affects how Kotlin's interface functions with implementations are compiled to bytecode.
-This behavior is controlled by the new stable compiler option `-jvm-default`, replacing the deprecated `-Xjvm-default` option.
-
-You can control the behavior of the `-jvm-default` option using the following values:
-
-* `enable` (default): generates default implementations in interfaces and includes bridge functions in subclasses and `DefaultImpls` classes. Use this mode to maintain binary compatibility with older Kotlin versions.
-* `no-compatibility`: generates only default implementations in interfaces. This mode skips compatibility bridges and `DefaultImpls` classes, making it suitable for new code.
-* `disable`: disables default implementations in interfaces. Only bridge functions and `DefaultImpls` classes are generated, matching the behavior before Kotlin %kotlinEapVersion%.
-
-To configure the `-jvm-default` compiler option, set the `jvmDefault` property in your Gradle Kotlin DSL:
-
-```kotlin
-kotlin {
-  compilerOptions {
-    jvmDefault = JvmDefaultMode.NO_COMPATIBILITY
-  }
-}
-```
-
-### Support for reading and writing annotations in Kotlin metadata
-
-<primary-label ref="experimental-general"/>
-
-Previously, you had to read annotations from compiled JVM class files using reflection or bytecode analysis and manually match them to metadata entries based on signatures.
-This process was error-prone, especially for overloaded functions.
-
-Now, in Kotlin %kotlinEapVersion%, the [Kotlin Metadata JVM library](metadata-jvm.md) introduces support for reading annotations stored in Kotlin metadata.
-
-To make annotations available in the metadata for your compiled files, add the following compiler option:
-
-```kotlin
--Xannotations-in-metadata
-```
-
-Alternatively, add it to the `compilerOptions {}` block of your Gradle build file:
-
-```kotlin
-// build.gradle.kts
-kotlin {
-    compilerOptions {
-        freeCompilerArgs.add("-Xannotations-in-metadata")
-    }
-}
-```
-
-With this option enabled, the Kotlin compiler writes annotations into metadata alongside the JVM bytecode, making them accessible to the `kotlin-metadata-jvm` library.
-
-The library provides the following APIs for accessing annotations:
-
-* `KmClass.annotations`
-* `KmFunction.annotations`
-* `KmProperty.annotations`
-* `KmConstructor.annotations`
-* `KmPropertyAccessorAttributes.annotations`
-* `KmValueParameter.annotations`
-* `KmFunction.extensionReceiverAnnotations`
-* `KmProperty.extensionReceiverAnnotations`
-* `KmProperty.backingFieldAnnotations`
-* `KmProperty.delegateFieldAnnotations`
-* `KmEnumEntry.annotations`
-
-These APIs are [Experimental](components-stability.md#stability-levels-explained).
-To opt in, use the `@OptIn(ExperimentalAnnotationsInMetadata::class)` annotation.
-
-Here's an example of reading annotations from Kotlin metadata:
-
-```kotlin
-@file:OptIn(ExperimentalAnnotationsInMetadata::class)
-
-import kotlin.metadata.ExperimentalAnnotationsInMetadata
-import kotlin.metadata.jvm.KotlinClassMetadata
-
-annotation class Label(val value: String)
-
-@Label("Message class")
-class Message
-
-fun main() {
-    val metadata = Message::class.java.getAnnotation(Metadata::class.java)
-    val kmClass = (KotlinClassMetadata.readStrict(metadata) as KotlinClassMetadata.Class).kmClass
-    println(kmClass.annotations)
-    // [@Label(value = StringValue("Message class"))]
-}
-```
-
-> If you use the `kotlin-metadata-jvm` library in your projects, we recommend testing and updating your code to support annotations.
-> Otherwise, when annotations in metadata become [enabled by default](https://youtrack.jetbrains.com/issue/KT-75736) in a future Kotlin version, your projects may produce invalid or incomplete metadata.
->
-> If you experience any problems, please report them in our [issue tracker](https://youtrack.jetbrains.com/issue/KT-31857).
->
-{style="warning"}
-
-## Kotlin/Native
-
-### Per-object memory allocation
-
+### Explicit context arguments for context parameters
 <primary-label ref="experimental-opt-in"/>
+<secondary-label ref="language"/>
 
-Kotlin/Native's [memory allocator](https://github.com/JetBrains/kotlin/blob/master/kotlin-native/runtime/src/alloc/custom/README.md) can now reserve memory on a per-object basis. In some cases, it may help you avoid strict memory limitations or high memory consumption on the application's startup.
+Kotlin %kotlinEapVersion% introduces explicit context arguments for [context parameters](context-parameters.md).
 
-The new feature is designed to replace the `-Xallocator=std` compiler option that enabled the system memory allocator instead of the default one. Now you can disable buffering (paging of allocations) without switching memory allocators.
+Kotlin 2.3.20 [changed the overload resolution for context parameters](whatsnew2320.md#changes-to-overload-resolution-for-context-parameters).
+As a result, calls to overloads that differ only by context parameters can become ambiguous.
 
-The feature is currently [Experimental](components-stability.md#stability-levels-explained).
-To enable it, set the following option in your `gradle.properties` file:
-
-```none
-kotlin.native.binary.pagedAllocator=false
-```
-
-Please report any problems to our issue tracker [YouTrack](https://kotl.in/issue).
-
-### LLVM update from 16 to 19
-
-In Kotlin %kotlinEapVersion%, we updated LLVM from version 16 to 19.
-The new version includes performance improvements, bug fixes, and security updates.
-
-This update shouldn't affect your code, but if you encounter any issues, please report them to our [issue tracker](http://kotl.in/issue).
-
-## Kotlin/Wasm: wasmJs target separated from js target
-
-Before, the `wasmJs` target shared the same infrastructure as the `js` target. As a result, both targets were hosted in the same
-directory (`build/js`) and used the same NPM tasks and configurations.
-
-Now, the `wasmJs` target has its own infrastructure separate from the `js` target. This allows the
-Wasm tasks and types to be distinct from the JavaScript ones, enabling independent configuration.
-
-Additionally, the Wasm-related project files and NPM dependencies are now in a separate `build/wasm` directory.
-
-New NPM-related tasks have been introduced for Wasm, while existing JavaScript tasks are now dedicated only to JavaScript:
-
-| **Wasm tasks**         | **JavaScript tasks** |
-|------------------------|----------------------|
-| `kotlinWasmNpmInstall` | `kotlinNpmInstall`   |
-| `wasmRootPackageJson`  | `rootPackageJson`    |
-
-Similarly, new Wasm-specific declarations are introduced:
-
-| **Wasm declarations**     | **JavaScript declarations** |
-|---------------------------|-----------------------------|
-| `WasmNodeJsRootPlugin`    | `NodeJsRootPlugin`          |
-| `WasmNodeJsPlugin`        | `NodeJsPlugin`              |
-| `WasmYarnPlugin`          | `YarnPlugin`                |
-| `WasmNodeJsRootExtension` | `NodeJsRootExtension`       |
-| `WasmNodeJsEnvSpec`       | `NodeJsEnvSpec`             |
-| `WasmYarnRootEnvSpec`     | `YarnRootEnvSpec`           |
-
-You can now work with the Wasm target independently of the JavaScript target, which simplifies the configuration.
-
-This change is enabled by default and requires no additional configuration.
-
-## Kotlin/JS
-
-### Fix for copy() in @JsPlainObject interfaces
-
-Kotlin/JS has an experimental plugin called `js-plain-objects`, which introduced a `copy()` function for interfaces annotated with `@JsPlainObject`.
-You can use the `copy()` function to manipulate objects.
-
-However, the initial implementation of `copy()` was not compatible with inheritance, and this
-caused issues when a `@JsPlainObject` interface extended other interfaces.
-
-To avoid limitations on plain objects, the `copy()` function has been moved from the object itself to its companion object:
-
-```kotlin
-@JsPlainObject
-external interface User {
-    val name: String
-    val age: Int
-}
-
-fun main() {
-    val user = User(name = "SomeUser", age = 21)
-    // This syntax is not valid anymore
-    val copy = user.copy(age = 35)      
-    // This is the correct syntax
-    val copy = User.copy(user, age = 35)
-}
-```
-
-This change resolves conflicts in the inheritance hierarchy and eliminates ambiguity. 
-It is enabled by default starting from Kotlin %kotlinEapVersion%.
-
-### Support for typealiases in files with @JsModule annotation
-
-Previously, files annotated with `@JsModule` to import declarations from JavaScript modules
-were restricted to external declarations only. Meaning, you couldn't declare a `typealias` in such files.
-
-Starting with Kotlin %kotlinEapVersion%, you can declare typealiases inside files marked with `@JsModule`:
-
-```kotlin
-@file:JsModule("somepackage")
-package somepackage
-typealias SomeClass = Any
-```
-
-This change reduces an aspect of Kotlin/JS interoperability limitations, and more improvements are planned for future releases.
-
-Support for typealiases in files with `@JsModule` is enabled by default.
-
-## Gradle
-
-Kotlin %kotlinEapVersion% is fully compatible with Gradle 7.6.3 through 8.14. You can also use Gradle versions up to the latest Gradle release. However, be aware that doing so may result in deprecation warnings, and some new Gradle features might not work.
-
-### Support for rich output in console for Kotlin Gradle plugin
-
-In Kotlin %kotlinEapVersion%, we support color and other rich output in the console during the Gradle build process, making it easier to read and understand the reported diagnostics. 
-Rich output is available in supported terminal emulators for Linux and macOS. We're working on adding support for Windows.
-
-![Gradle console](gradle-console-rich-output.png){width=600}
-
-This feature is enabled by default, but if you want to override it, add the following Gradle property to your `gradle.properties` file:
-
-```
-org.gradle.console=plain
-```
-
-For more information about this property and its options, see Gradle's documentation on [Customizing log format](https://docs.gradle.org/current/userguide/command_line_interface.html#sec:command_line_customizing_log_format).
-
-### Integration of Problems API within KGP diagnostics
-
-Previously, the Kotlin Gradle Plugin (KGP) reported diagnostics—such as warnings and errors—only as plain text output to the console or logs.
-
-Starting with %kotlinEapVersion%, KGP introduces an additional reporting mechanism: it now uses [Gradle's Problems API](https://docs.gradle.org/current/kotlin-dsl/gradle/org.gradle.api.problems/index.html),
-a standardized way to report rich, structured problem information during the build process.
-
-KGP diagnostics are now easier to read and more consistently displayed across different interfaces like the Gradle CLI and IntelliJ IDEA.
-
-This integration is enabled by default, starting with Gradle 8.6 or later.
-As the API is still evolving, use the most recent Gradle version to benefit from the latest improvements.
-
-### KGP compatibility with '--warning-mode'
-
-The Kotlin Gradle Plugin (KGP) diagnostics reported issues using fixed severity levels, meaning Gradle's [`--warning-mode` command-line option](https://docs.gradle.org/current/userguide/command_line_interface.html#sec:command_line_warnings) had no effect on how KGP displayed errors.
-
-Now, KGP diagnostics are compatible with the `--warning-mode` option, providing more flexibility. For example,
-you can convert all warnings into errors or disable warnings entirely.
-
-With this change, KGP diagnostics adjust the output based on the selected warning mode:
-
-* When you set `--warning-mode=fail`, diagnostics with `Severity.Warning` are now elevated to `Severity.Error`.
-* When you set `--warning-mode=none`, diagnostics with `Severity.Warning` are not logged.
-
-This behavior is enabled by default starting with %kotlinEapVersion%.
-
-To ignore the `--warning-mode` option, set `kotlin.internal.diagnostics.ignoreWarningMode=true` in your Gradle properties.
-
-## Kotlin standard library: Stable Base64 and HexFormat APIs
-
-In Kotlin %kotlinEapVersion%, the [`Base64` API](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.io.encoding/-base64/) and [`HexFormat` API](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.text/-hex-format/) are now [Stable](components-stability.md#stability-levels-explained).
-
-### Base64 encoding and decoding
-
-Kotlin 1.8.20 introduced [Experimental support for Base64 encoding and decoding](whatsnew1820.md#support-for-base64-encoding).
-In Kotlin %kotlinEapVersion%, the [Base64 API](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.io.encoding/-base64/) is now Stable and
-includes four encoding schemes, with the new `Base64.Pem` added in this release:
-
-* [`Base64.Default`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.io.encoding/-base64/-default/) uses the standard [Base64 encoding scheme](https://www.rfc-editor.org/rfc/rfc4648#section-4).
-
-  > The `Base64.Default` is the companion object of the `Base64` class.
-  > As a result, you can call its functions with `Base64.encode()` and `Base64.decode()` instead of `Base64.Default.encode()` and `Base64.Default.decode()`.
-  >
-  {style="tip"}
-
-* [`Base64.UrlSafe`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.io.encoding/-base64/-default/-url-safe.html) uses the ["URL and Filename safe"](https://www.rfc-editor.org/rfc/rfc4648#section-5) encoding scheme.
-* [`Base64.Mime`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.io.encoding/-base64/-default/-mime.html) uses the [MIME](https://www.rfc-editor.org/rfc/rfc2045#section-6.8) encoding scheme, inserting a line separator every 76 characters during encoding and skipping illegal characters during decoding.
-* `Base64.Pem` encodes data like `Base64.Mime` but limits the line length to 64 characters.
-
-You can use the Base64 API to encode binary data into a Base64 string and decode it back into bytes.
+You can now resolve this ambiguity by passing an explicit context argument at the call site.
 
 Here's an example:
 
 ```kotlin
-val foBytes = "fo".map { it.code.toByte() }.toByteArray()
-Base64.Default.encode(foBytes) // "Zm8="
-// Alternatively:
-// Base64.encode(foBytes)
+class EmailSender
+class SmsSender
 
-val foobarBytes = "foobar".map { it.code.toByte() }.toByteArray()
-Base64.UrlSafe.encode(foobarBytes) // "Zm9vYmFy"
+context(emailSender: EmailSender)
+fun sendNotification() {
+    println("Sent email notification")
+}
 
-Base64.Default.decode("Zm8=") // foBytes
-// Alternatively:
-// Base64.decode("Zm8=")
+context(smsSender: SmsSender)
+fun sendNotification() {
+    println("Sent SMS notification")
+}
 
-Base64.UrlSafe.decode("Zm9vYmFy") // foobarBytes
-```
+context(defaultEmailSender: EmailSender, defaultSmsSender: SmsSender)
+fun notifyUser() {
+    
+    // Selects the overload with the EmailSender context parameter
+    sendNotification(emailSender = defaultEmailSender)
 
-On the JVM, use the `.encodingWith()` and `.decodingWith()` extension functions to encode and decode Base64 with input and output streams:
-
-```kotlin
-import kotlin.io.encoding.*
-import java.io.ByteArrayOutputStream
-
-fun main() {
-    val output = ByteArrayOutputStream()
-    val base64Output = output.encodingWith(Base64.Default)
-
-    base64Output.use { stream ->
-        stream.write("Hello World!!".encodeToByteArray())
-    }
-
-    println(output.toString())
-    // SGVsbG8gV29ybGQhIQ==
+    // Selects the overload with the SmsSender context parameter
+    sendNotification(smsSender = defaultSmsSender)
 }
 ```
 
-### Hexadecimal parsing and formatting with the HexFormat API
+You can also use explicit context arguments instead of the `context()` function to reduce nesting and make some calls easier to read.
+If you need to use the same context arguments in multiple calls, use the `context()` function instead.
 
-The [`HexFormat` API](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.text/-hex-format/) introduced in [Kotlin 1.9.0](whatsnew19.md#new-hexformat-class-to-format-and-parse-hexadecimals) is now [Stable](components-stability.md#stability-levels-explained).
-You can use it to convert between numerical values and hexadecimal strings.
+This feature is [Experimental](components-stability.md#stability-levels-explained). To opt in, add the following compiler
+option to your build file:
+
+<tabs group="build-system">
+<tab title="Gradle" group-key="gradle">
+
+```kotlin
+kotlin {
+    compilerOptions {
+        freeCompilerArgs.add("-Xexplicit-context-arguments")
+    }
+}
+```
+
+</tab>
+<tab title="Maven" group-key="maven">
+
+```xml
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-maven-plugin</artifactId>
+            <configuration>
+                <args>
+                    <arg>-Xexplicit-context-arguments</arg>
+                </args>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+```
+
+</tab>
+</tabs>
+
+For more information, see the feature's [KEEP](https://github.com/Kotlin/KEEP/blob/main/proposals/KEEP-0448-explicit-context-arguments.md).
+
+### Support for collection literals
+<primary-label ref="experimental-opt-in"/>
+
+<secondary-label ref="language"/>
+
+Kotlin %kotlinEapVersion% introduces experimental support for collection literals. You can now create collections in a 
+simpler and more concise way using brackets `[]`.
 
 For example:
 
 ```kotlin
 fun main() {
-    //sampleStart
-    println(93.toHexString())
-    //sampleEnd
+    // Mutable list with explicit type declaration
+    // val shapes: MutableList<String> = mutableListOf("triangle", "square", "circle")
+
+    // Mutable list with brackets syntax
+    val shapes: MutableList<String> = ["triangle", "square", "circle"]
+    println(shapes)
+    // [triangle, square, circle]
 }
 ```
-{kotlin-runnable="true"}
+{validate="false"}
 
-For more information, see [New HexFormat class to format and parse hexadecimals](whatsnew19.md#new-hexformat-class-to-format-and-parse-hexadecimals).
+> Currently, collection literals can't be used to construct collections defined in Java. For more information, see [KT-80494](https://youtrack.jetbrains.com/issue/KT-80494).
+>
+{style="note"}
+
+If the compiler doesn't have enough information to infer the collection type, it defaults to the `List` type:
+
+```kotlin
+fun main() {
+    val fruit = ["apple", "banana", "cherry"]
+    
+    println(fruit)
+    // [apple, banana, cherry]
+}
+```
+{validate="false"}
+
+You can also declare custom `operator fun of` functions to use bracket syntax with your own types. For example, if you 
+have the following `DoubleMatrix` class:
+
+```kotlin
+class DoubleMatrix(vararg val rows: Row) {
+    companion object {
+        operator fun of(vararg rows: Row) = DoubleMatrix(*rows)
+    }
+    class Row(vararg val elements: Double) {
+        companion object {
+            operator fun of(vararg elements: Double) = Row(*elements)
+        }
+    }
+}
+```
+{validate="false"}
+
+You can create an `identityMatrix` class instance like this:
+
+```kotlin
+fun main() {
+    val identityMatrix: DoubleMatrix = [
+        [1.0, 0.0, 0.0],
+        [0.0, 1.0, 0.0],
+        [0.0, 0.0, 1.0],
+    ]
+}
+```
+{validate="false"}
+
+In this example, the compiler translates the nested collection literals into calls to the corresponding `operator fun of`
+functions. The compiler resolves these calls recursively and uses the expected types to choose the correct overloads.
+
+This feature is [Experimental](components-stability.md#stability-levels-explained). To opt in, add the following compiler
+option to your build file:
+
+<tabs group="build-system">
+<tab title="Gradle" group-key="gradle">
+
+```kotlin
+kotlin {
+    compilerOptions {
+        freeCompilerArgs.add("-Xcollection-literals")
+    }
+}
+```
+
+</tab>
+<tab title="Maven" group-key="maven">
+
+```xml
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-maven-plugin</artifactId>
+            <configuration>
+                <args>
+                    <arg>-Xcollection-literals</arg>
+                </args>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+```
+
+</tab>
+</tabs>
+
+For more information, see the feature's [KEEP](https://github.com/Kotlin/KEEP/blob/main/proposals/KEEP-0416-collection-literals.md).
+
+### Improved compile-time constants
+<primary-label ref="experimental-opt-in"/>
+
+<secondary-label ref="language"/>
+
+Kotlin %kotlinEapVersion% brings experimental improvements to [compile-time constants](properties.md#compile-time-constants),
+making support for numeric and string types more consistent and easier to use. These improvements include support for:
+
+* Unsigned type operations.
+* Standard library functions for strings, like `.lowercase()`, `.uppercase()`, and `.trim()` functions.
+* Evaluation of the `.name` property of [enum constants](enum-classes.md#working-with-enum-constants) and the [`KCallable` interface](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.reflect/-k-callable/).
+
+To make it clear which functions are evaluated at compile time, Kotlin %kotlinEapVersion% introduces the `IntrinsicConstEvaluation` annotation.
+Some functions are evaluated at compile-time but don't have the annotation yet. Later releases will add the annotation
+to the remaining functions. For a list of supported functions, see the KEEP [appendix](https://github.com/Kotlin/KEEP/blob/main/proposals/KEEP-0444-improve-compile-time-constants.md#appendix).
+
+This feature is [Experimental](components-stability.md#stability-levels-explained). To opt in, add the following compiler option to your build file:
+
+<tabs group="build-system">
+<tab title="Gradle" group-key="gradle">
+
+```kotlin
+kotlin {
+    compilerOptions {
+        freeCompilerArgs.add("-XIntrinsic-const-evaluation")
+    }
+}
+```
+
+</tab>
+<tab title="Maven" group-key="maven">
+
+```xml
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-maven-plugin</artifactId>
+            <configuration>
+                <args>
+                    <arg>-XIntrinsic-const-evaluation</arg>
+                </args>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+```
+
+</tab>
+</tabs>
+
+For more information, see the feature's [KEEP](https://github.com/Kotlin/KEEP/blob/main/proposals/KEEP-0444-improve-compile-time-constants.md).
+
+## Standard library
+
+Kotlin %kotlinEapVersion% stabilizes support for UUIDs in the common Kotlin standard library. It also adds new extension
+functions for converting unsigned integers to `BigInteger` on the JVM and support for checking sorted order.
+
+### Stable UUIDs in the common Kotlin standard library
+<secondary-label ref="standard-library"/>
+
+Kotlin 2.0.20 introduced a [class for generating UUIDs](whatsnew2020.md#support-for-uuids-in-the-common-kotlin-standard-library)
+(universally unique identifiers) and added support for converting between Kotlin and Java UUIDs. Later releases gradually
+improved this experimental feature by adding support for:
+
+* [Comparing UUIDs with `<` and `>` operators](whatsnew2120.md#changes-in-uuid-parsing-formatting-and-comparability)
+* [Parsing UUIDs from hex-and-dash and plain text formats](whatsnew2120.md#changes-in-uuid-parsing-formatting-and-comparability)
+* [Returning `null` when parsing invalid UUIDs](whatsnew23.md#support-for-returning-null-when-parsing-invalid-uuids).
+
+In Kotlin %kotlinEapVersion%, [the `kotlin.uuid.Uuid` API](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.uuid/-uuid/) becomes [Stable](components-stability.md#stability-levels-explained).
+The only exceptions are [the functions for generating V4 and V7 UUIDs](whatsnew23.md#support-for-generating-v7-uuids-for-specific-timestamps), which remain [Experimental](components-stability.md#stability-levels-explained) and still require opt-in.
+
+### Support for checking sorted order
+<secondary-label ref="standard-library"/>
+
+Kotlin %kotlinEapVersion% adds new extension functions for checking sorted order in iterables, arrays, and sequences.
+
+This includes the following extension functions:
+
+* `.isSorted()`
+* `.isSortedDescending()`
+* `.isSortedWith(comparator)`
+* `.isSortedBy(selector)`
+* `.isSortedByDescending(selector)`
+
+You can use these extension functions to check whether elements are already sorted without sorting them again or creating your own helper functions.
+They return `true` if the elements are in the specified order, or if there are fewer than two elements, and `false` otherwise.
+These functions stop as soon as they encounter an out-of-order pair, which makes them efficient for large inputs.
+
+Here's an example of checking sorted order with `.isSorted()` and `.isSortedBy()` functions:
+
+```kotlin
+data class User(val name: String, val age: Int)
+
+fun main() {
+    val numbers = listOf(1, 2, 3, 4)
+    println(numbers.isSorted())
+    // true
+
+    val users = listOf(
+        User("Alice", 24),
+        User("Bob", 31),
+        User("Charlie", 29),
+    )
+    println(users.isSortedBy(User::age))
+    // false
+}
+```
+{kotlin-runnable="true" kotlin-min-compiler-version="2.4.0-Beta2" id="kotlin-2-4-0-check-sorted-order"}
+
+We would appreciate your feedback in [YouTrack](https://youtrack.jetbrains.com/issue/KT-78499).
+
+### New API for converting unsigned integers to `BigInteger` on the JVM
+<secondary-label ref="standard-library"/>
+
+Kotlin %kotlinEapVersion% introduces the `UInt.toBigInteger()` and `ULong.toBigInteger()` extension functions on the JVM.
+
+Previously, converting `UInt` and `ULong` values to `BigInteger` required string-based workarounds or custom conversion logic.
+Starting with Kotlin %kotlinEapVersion%, you can now use `.toBigInteger()` to convert unsigned integer values directly to `BigInteger`.
+
+Here's an example:
+
+```kotlin
+fun main() {
+    //sampleStart
+    val unsignedLong = Long.MAX_VALUE.toULong() + 1uL
+    val unsignedInt = UInt.MAX_VALUE
+
+    println(unsignedLong.toBigInteger())
+    // 9223372036854775808
+
+    println(unsignedInt.toBigInteger())
+    // 4294967295
+   //sampleEnd
+}
+```
+{kotlin-runnable="true" kotlin-min-compiler-version="2.4.0-Beta2" id="kotlin-2-4-0-convert-unsigned-int"}
+
+We would appreciate your feedback in [YouTrack](https://youtrack.jetbrains.com/issue/KT-73111).
+
+## Kotlin/JVM
+
+Kotlin %kotlinEapVersion% supports a new Java version and enables annotations in metadata by default.
+
+### Support for Java 26
+<secondary-label ref="jvm"/>
+
+Starting with Kotlin %kotlinEapVersion%, the compiler can generate classes containing Java 26 bytecode.
+
+### Annotations in metadata enabled by default
+<secondary-label ref="jvm"/>
+
+The Kotlin Metadata JVM library in Kotlin 2.2.0 [introduced support for reading annotations stored in Kotlin metadata](whatsnew22.md#support-for-reading-and-writing-annotations-in-kotlin-metadata). With this support, the Kotlin compiler writes annotations into metadata alongside the JVM bytecode, making them accessible to the Kotlin Metadata JVM library. As a result, annotation processors and other tools can understand and manipulate these annotations at the metadata level without using reflection or modifying source code.
+
+In Kotlin %kotlinEapVersion%, this support is enabled by default.
+
+## Kotlin/Native
+
+Kotlin %kotlinEapVersion% brings support for Swift package import, improved interoperability through Swift export, and
+default concurrent marking in the garbage collector.
+
+### Swift package import
+<primary-label ref="experimental-general"/>
+
+<secondary-label ref="native"/>
+
+Kotlin Multiplatform projects now can declare [Swift packages](https://docs.swift.org/swiftpm/documentation/packagemanagerdocs/) as dependencies for an iOS app in their Gradle configuration:
+
+```kotlin
+// build.gradle.kts
+kotlin {
+
+    swiftPMDependencies {
+        swiftPackage(
+            url = url("https://github.com/firebase/firebase-ios-sdk.git"),
+            version = from("12.11.0"),
+            products = listOf(
+                product("FirebaseAI"),
+                product("FirebaseAnalytics"),
+                ...
+}
+```
+{validate="false"}
+
+For working samples and more detailed information, see [SwiftPM import](https://kotlinlang.org/docs/multiplatform/multiplatform-spm-import.html).
+
+If your project relies on CocoaPods dependencies, you can migrate the current setup to use Swift packages. The KMP tooling
+accounts for this use case and helps you reconfigure the project automatically. For details, see our [CocoaPods migration guide](https://kotlinlang.org/docs/multiplatform/multiplatform-cocoapods-spm-migration.html).
+
+### Swift export: Support for exporting coroutine flows
+<primary-label ref="experimental-general"/>
+
+<secondary-label ref="native"/>
+
+Kotlin %kotlinEapVersion% further improves Kotlin's interoperability with Swift through Swift export by adding support for
+exporting `kotlinx.coroutines` flows to Swift.
+
+Flows in `kotlinx.coroutines` represent an asynchronous stream of data that can be emitted and consumed concurrently. 
+They are commonly used for reactive programming patterns, such as listening for database updates, network requests, or UI events.
+
+Previously, the only way to expose the `Flow` interface from [`kotlinx.coroutines.flow`](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/)
+to Swift was through third-party solutions. Now you can export flows out of the box into Swift's idiomatic counterpart:
+[`AsyncSequence`](https://developer.apple.com/documentation/Swift/AsyncSequence).
+
+The feature is enabled by default. You can export any public API with the `Flow` type to Swift while preserving type information.
+For example:
+
+```kotlin
+// Kotlin
+// Type String is preserved when exporting Flow
+fun flowOfStrings(): Flow<String> = flowOf("hello", "any", "world")
+```
+
+```Swift
+// Swift
+var actual: [String] = []
+// Type String is correctly inferred from Kotlin
+for try await element in flowOfStrings().asAsyncSequence() {
+    actual.append(element)
+}
+```
+
+For more information about Swift export, see our [documentation](native-swift-export.md).
+
+### Default concurrent marking in garbage collector
+<secondary-label ref="native"/>
+
+In Kotlin 2.0.20, the Kotlin team [introduced experimental support](whatsnew2020.md#concurrent-marking-in-garbage-collector)
+for the concurrent mark and sweep garbage collector (CMS GC). After processing user feedback and fixing regressions,
+we are now ready to enable CMS by default, starting with Kotlin %kotlinEapVersion%.
+
+The previous default parallel mark concurrent sweep (PMCS) setup in the garbage collector had to pause application
+threads while the GC marked objects in the heap. In contrast, CMS allows the marking phase to run concurrently with application threads.
+
+This significantly improves GC pause duration and app responsiveness, which is important for the performance of 
+latency-critical applications. CMS has already demonstrated its effectiveness in benchmarks for UI applications built with [Compose Multiplatform](https://blog.jetbrains.com/kotlin/2024/10/compose-multiplatform-1-7-0-released/#performance-improvements-on-ios).
+
+If you face problems, you can switch back to PMCS. To do that, set the following [binary option](native-binary-options.md)
+in your `gradle.properties` file:
+
+```none
+kotlin.native.binary.gc=pmcs
+```
+
+For more information on the Kotlin/Native garbage collector, see our [documentation](native-memory-manager.md#garbage-collector).
+
+## Kotlin/Wasm
+
+Kotlin %kotlinEapVersion% enables incremental compilation for Kotlin/Wasm by default and introduces support for the WebAssembly Component Model.
+
+### Incremental compilation enabled by default
+
+<secondary-label ref="wasm"/>
+
+Kotlin/Wasm introduced incremental compilation in 2.1.0. Starting with Kotlin %kotlinEapVersion%, it is [Stable](components-stability.md#stability-levels-explained) and enabled by default.
+With this feature, the compiler rebuilds only the files affected by recent changes, which significantly reduces build time.
+
+To disable incremental compilation, add the following line to your project's `local.properties` or `gradle.properties` file:
+
+```none
+# gradle.properties
+kotlin.incremental.wasm=false
+```
+
+If you run into any issues, report them in our [YouTrack](https://kotl.in/issue)
+
+### Support for the WebAssembly Component Model
+<primary-label ref="experimental-general"/>
+
+<secondary-label ref="wasm"/>
+
+Kotlin/Wasm goes a step further in Kotlin %kotlinEapVersion% by introducing experimental support for the [WebAssembly Component Model](https://component-model.bytecodealliance.org/).
+The proposal defines a way to build components from Wasm modules through standardized interfaces and types. This approach helps Wasm evolve from a low-level binary instruction format into a system for composing reusable, language-agnostic components. It enables Kotlin/Wasm to go beyond the browser. For example, Kotlin and WebAssembly are well suited for Function-as-a-Service, also known as FaaS or serverless, applications.
+
+To try this feature, check out [a simple server built with `wasi:http`](https://github.com/Kotlin/sample-wasi-http-kotlin/).
+
+<img src="kotlin-wasm-wasi-http.gif" alt="Kotlin/Wasm with WebAssembly Component Model" width="600"/>
+
+Share your feedback in [YouTrack](https://youtrack.jetbrains.com/issue/KT-64569/Kotlin-Wasm-Support-Component-Model).
+
+## Kotlin/JS
+
+Kotlin %kotlinEapVersion% adds support for value class export to JavaScript/TypeScript and ES2015 features when inlining JS code.
+
+### Support for value class export to JavaScript/TypeScript
+<secondary-label ref="js"/>
+
+Previously, only regular Kotlin classes could be exported to JavaScript/TypeScript.
+Kotlin %kotlinEapVersion% lifts that limitation. You can now export Kotlin's [inline value classes](inline-classes.md) as regular TypeScript classes.
+
+To export a value class, mark it with the `@JsExport` annotation on the Kotlin side:
+
+```Kotlin
+// Kotlin
+@JsExport
+@JvmInline
+value class Email(val address: String) {
+    init { require(address.contains("@")) { "Invalid email" } }
+}
+
+@JsExport
+class AuthService {
+    suspend fun login(email: Email): String = ...
+}
+```
+
+From the TypeScript side, it looks like a regular class:
+
+```TypeScript
+// TypeScript
+import { AuthService, Email } from "..."
+const auth = new AuthService();
+
+console.log(await auth.login(new Email("jane@example.com"))); 
+// "Welcome, jane@example.com!"
+console.log(await auth.login(new Email("not-an-email"))); 
+// "Invalid email"
+```
+
+For more information, see [`@JsExport` annotation](js-to-kotlin-interop.md#jsexport-annotation).
+
+### Support for ES2015 features when inlining JS code
+<secondary-label ref="js"/>
+
+Starting with Kotlin %kotlinEapVersion%, JavaScript code inlining has full support for [ES2015 features](js-project-setup.md#support-for-es2015-features).
+
+It's useful for interoperability with third-party libraries, as well as for direct control over automatic application code generation.
+
+Now you can use modern JS features inside [`js()`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.js/js.html) calls, including:
+
+* Lambdas ([arrow functions](whatsnew21.md#support-for-generating-es2015-arrow-functions))
+* ES classes
+* Template strings
+* Spread operators
+* `const` and `let` variable declarations
+* Generators
+
+Remember that the parameter of the `js()` function should be a string constant because it's parsed at compile time and translated to JavaScript code "as-is".
+For example, for the spread operator, use:
+
+```kotlin
+fun spreadExample(): dynamic = js("""
+    const add = (a, b, c) => a + b + c;
+
+    const nums = [1, 2, 3];
+    const sum = add(...nums);
+
+    const a = [1, 2, 3];
+    const b = [...a, 4, 5, 6];
+
+    return { sum, b: b };
+""")
+```
+
+For more information on inlining inline JavaScript code, see [our documentation](js-interop.md#inline-javascript).
+
+## Gradle
+
+Kotlin %kotlinEapVersion% is fully compatible with Gradle 7.6.3 through 9.5.0. You can also use Gradle versions up to 
+the latest Gradle release. However, be aware that doing so may result in deprecation warnings, and some new Gradle features might not work.
+
+## Maven
+
+Kotlin %kotlinEapVersion% makes project configuration even easier with automatic alignment between Java and JVM target versions.
+
+### Automatic alignment between Java and JVM target versions
+<secondary-label ref="maven"/>
+
+To simplify project configuration and prevent compatibility issues, the Kotlin Maven plugin now automatically aligns the
+JVM target version with the Java compiler version configured in the project.
+
+This ensures that the Kotlin and Maven compilers target the same bytecode version, avoiding issues where Kotlin-generated
+bytecode is incompatible with the rest of the project or the intended deployment environment.
+
+With the `<extensions>` option enabled, you don't need the `kotlin.compiler.jvmTarget` property. If it's not already defined,
+the Kotlin Maven plugin automatically resolves the JVM target version in the following order:
+
+1. As the `maven.compiler.release` version defined either as a project property or within the `maven-compiler-plugin` configuration.
+
+    In this case, both `jvmTarget` and `jdkRelease` compiler options are set for the Kotlin compiler, limiting the API to a specific JDK version.
+
+2. As the `maven.compiler.target` version in case the Maven release version is not set. The compiler target can be defined either as a project property or within the `maven-compiler-plugin` configuration.
+
+    In this case, only Kotlin's `jvmTarget` is set and the API is not limited to a specific JDK version.
+
+This greatly simplifies your Kotlin project configuration, so your `pom.xml` file can look like this:
+
+```xml
+<properties>
+    <maven.compiler.release>17</maven.compiler.release>
+    <kotlin.version>%kotlinVersion%</kotlin.version>
+</properties>
+
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-maven-plugin</artifactId>
+            <version>${kotlin.version}</version>
+            <extensions>true</extensions>
+        </plugin>
+    </plugins>
+</build>
+```
+
+During the build, the plugin outputs a similar message:
+
+```none
+[INFO] Using jvmTarget=17 (derived from maven.compiler.release=17)
+```
+
+> The `<extensions>` option only checks project-level properties and the global `maven-compiler-plugin` configuration.
+> It doesn't check the configurations defined in the plugin's `<executions>` section.
+>
+{style="note"}
+
+For more information about automatic project configuration, see [our documentation](maven-configure-project.md#automatic-configuration).
+
+## Kotlin compiler
+
+Kotlin %kotlinEapVersion% includes more consistent behavior for inline functions declared in the same module during `.klib` compilation.
+
+### Consistent intra-module function inlining during klib compilation
+<secondary-label ref="compiler"/>
+
+Previously, [function inlining](inline-functions.md) behaved inconsistently on different Kotlin platforms. The JetBrains
+team is working to unify it across all supported platforms to ensure the same compatibility guarantees.
+
+On the Kotlin/JVM, function inlining happens at compile time. So, when Kotlin sources are compiled with the Kotlin/JVM
+compiler, the resulting class files have no inline function calls in the bytecode because the bodies of inline functions
+are inlined into their call sites, so their behavior is fixed during compilation.
+
+On the contrary, on Kotlin/Native, Kotlin/JS, and Kotlin/Wasm, function inlining did not happen during source-to-klib 
+compilation, only during binary generation. As a result, the behavior of inline functions wasn't fixed during `.klib` compilation,
+and `.klib` libraries didn't provide the same compatibility guarantees for inline functions as Kotlin/JVM does.
+
+Kotlin %kotlinEapVersion% takes the first step in unifying the behavior of inline functions by enabling intra-module 
+inlining when generating `.klib` artifacts:
+
+```kotlin
+// Existing logging.klib library
+inline fun logDebug(message: String) {
+    println("[DEBUG] $message")
+}
+```
+
+```kotlin
+// Currently compiled App module
+inline fun greetUser(name: String) {
+    println("Hello, $name!")
+}
+
+fun main() {
+    logDebug("App started") // Not inlined: declared in another module
+    greetUser("Alice")      // Inlined: declared in the same module
+}
+```
+
+When compiled to a `.klib`, the code looks something like:
+
+```kotlin
+// Pseudocode
+fun main() {
+    logDebug("App started")  // Not inlined, declared in another module
+    val tmp0 = "Alice"
+    println("Hello, $tmp0!") // Inlined from greetUser()
+}
+```
+
+This means only inline functions declared in the same module are inlined during `.klib` compilation. Other functions,
+in this case, are inlined during the generation of platform-specific binaries.
+
+#### How to enable
+
+Starting with %kotlinEapVersion%, the intra-module inlining is enabled by default for Kotlin/Native, Kotlin/JS, and 
+Kotlin/Wasm.
+
+If you face unexpected problems with this feature, you can disable it using the following compiler option in the command
+line:
+
+```bash
+-Xklib-ir-inliner=disabled
+```
+
+The next step is to enable cross-module inlining to ensure all inline functions in the project are consistently inlined.
+This change is planned for future Kotlin releases, but you can already try it out using the following compiler option
+in the command line:
+
+```bash
+-Xklib-ir-inliner=full
+```
+
+Please share your feedback and report any problems in [YouTrack](https://kotl.in/issue).

@@ -11,14 +11,14 @@ users and encouraging continued adoption of the library.
 > 
 {style="tip"}
 
-Starting with version 2.2.0, the Kotlin Gradle plugin supports binary compatibility validation. When enabled, it generates
+The Kotlin Gradle plugin includes support for binary compatibility validation. The plugin generates
 Application Binary Interface (ABI) dumps from the current code and compares them with previous dumps to highlight differences.
 You can review these changes to find any potentially binary-incompatible modifications and take action to address them.
 
 ## How to enable
 
-To enable binary compatibility validation, add the following to the `kotlin{}` block in your `build.gradle.kts` file:
-
+To enable binary compatibility validation, in your `build.gradle.kts` file, add an `abiValidation {}` block. If you have
+no custom configuration, you can use the `abiValidation()` function instead:
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
@@ -26,50 +26,45 @@ To enable binary compatibility validation, add the following to the `kotlin{}` b
 ```kotlin
 kotlin {
     @OptIn(org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation::class)
-    abiValidation {
-        // Use the set() function to ensure compatibility with older Gradle versions
-        enabled.set(true)
-    }
+    abiValidation()
 }
 ```
 
 </tab>
 <tab title="Groovy" group-key="groovy">
 
-```kotlin
+```groovy
 kotlin {
-    abiValidation {
-        enabled = true
-    }
+    abiValidation()
 }
 ```
 
 </tab>
 </tabs>
 
-
-
-If your project has multiple modules where you want to check for binary compatibility, configure each module separately.
+The KGP creates the necessary Gradle tasks. If your project has multiple modules where you want to check for binary compatibility, configure each module separately.
 
 ## Check for binary compatibility issues
 
-To check for potentially binary incompatible issues after making changes to your code, run the `checkLegacyAbi` Gradle task
+To check for potentially binary incompatible issues after making changes to your code, run the `checkKotlinAbi` Gradle task
 in IntelliJ IDEA or use the following command in your project directory:
 
-```kotlin
-./gradlew checkLegacyAbi
+```bash
+./gradlew checkKotlinAbi
 ```
 
 The task compares ABI dumps and prints any detected differences as errors. Check the output carefully to see if you need to
 make changes to your code to preserve binary compatibility.
 
+By default, [when binary compatibility validation is enabled](#how-to-enable) in your project and you run the `check` task, Gradle also runs the `checkKotlinAbi` task. 
+
 ## Update reference ABI dump
 
-To update the reference ABI dump that Gradle uses to check your latest changes, run the `updateLegacyAbi` task in IntelliJ 
+To update the reference ABI dump that Gradle uses to check your latest changes, run the `updateKotlinAbi` task in IntelliJ 
 IDEA or use the following command in your project directory:
 
-```kotlin
-./gradlew updateLegacyAbi
+```bash
+./gradlew updateKotlinAbi
 ```
 
 Only update the reference dump when you're confident your changes maintain binary compatibility with the previous version.
@@ -121,7 +116,7 @@ kotlin {
 </tab>
 <tab title="Groovy" group-key="groovy">
 
-```kotlin
+```groovy
 kotlin {
     abiValidation {
         filters {
@@ -167,9 +162,7 @@ To disable this behavior, add the following to your `build.gradle.kts` file:
 kotlin {
     @OptIn(org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation::class)
     abiValidation {
-        klib {
-            keepUnsupportedTargets.set(false)
-        }
+        keepLocallyUnsupportedTargets.set(false)
     }
 }
 ```
@@ -177,12 +170,10 @@ kotlin {
 </tab>
 <tab title="Groovy" group-key="groovy">
 
-```kotlin
+```groovy
 kotlin {
     abiValidation {
-        klib {
-            keepUnsupportedTargets = false
-        }
+        keepLocallyUnsupportedTargets = false
     }
 }
 ```
@@ -190,5 +181,45 @@ kotlin {
 </tab>
 </tabs>
 
-If a target is unsupported and inference is disabled, the `checkLegacyAbi` task fails because it can't generate a complete
+If a target is unsupported and inference is disabled, the `checkKotlinAbi` task fails because it can't generate a complete
 ABI dump. This behavior may be useful if you'd prefer the task to fail rather than risk missing a binary-incompatible change.
+
+## Include publications from the `maven-publish` plugin
+
+By default, binary compatibility validation uses Kotlin compilation outputs to generate ABI dumps. For this reason,
+the generated ABI dumps might not reflect the final published artifacts. For example, when you use the [`maven-publish` plugin](https://docs.gradle.org/current/userguide/publishing_maven.html),
+post-processing steps such as relocation can modify artifacts after compilation.
+
+To make sure the ABI dumps accurately reflect the artifacts published by the `maven-publish` plugin, add the following to 
+your `build.gradle.kts` file:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+kotlin {
+    @OptIn(org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation::class)
+    abiValidation {
+        binariesSource.set(MAVEN_PUBLICATIONS)
+    }
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+kotlin {
+    abiValidation {
+        binariesSource = MAVEN_PUBLICATIONS
+    }
+}
+```
+
+</tab>
+</tabs>
+
+> Because Kotlin/Android projects and multiplatform projects with an Android target don't publish JAR files, this feature
+> doesn't apply to them.
+> 
+{style="warning"}
