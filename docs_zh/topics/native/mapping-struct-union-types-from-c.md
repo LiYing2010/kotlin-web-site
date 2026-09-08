@@ -9,13 +9,13 @@
     </p>
 </tldr>
 
-> C 库导入是 [实验性功能](components-stability.md#stability-levels-explained).
+> C 库导入功能目前是 [Beta 版](native-lib-import-stability.md#stability-of-c-and-objective-c-library-import).
 > cinterop 工具从 C 库生成的所有 Kotlin 声明都应该标注 `@ExperimentalForeignApi` 注解.
 >
 > Kotlin/Native 自带的原生平台库 (例如 Foundation, UIKit, 和 POSIX),
 > 只对一部分 API 需要使用者明确同意(Opt-in).
 >
-{style="warning"}
+{style="note"}
 
 我们来看看在 Kotlin/Native 中可以访问 C 的哪些结构(Struct)和联合(Union)类型声明,
 并研究 Kotlin/Native 和 [跨平台](gradle-configure-project.md#targeting-multiple-platforms)
@@ -87,11 +87,12 @@ void union_by_pointer(MyUnion* u) {}
 
     ```kotlin
     kotlin {
-        macosArm64("native") {    // 用于 Apple Silicon 的 macOS 环境
-        // macosX64("native") {   // 用于 x86_64 平台的 macOS 环境
-        // linuxArm64("native") { // 用于 ARM64 平台的 Linux 环境
-        // linuxX64("native") {   // 用于 x86_64 平台的 Linux 环境
-        // mingwX64("native") {   // 用于 Windows 环境
+        macosArm64()    // 用于 Apple Silicon 的 macOS 环境
+        // linuxArm64() // 用于 ARM64 平台的 Linux 环境
+        // linuxX64()   // 用于 x86_64 平台的 Linux 环境
+        // mingwX64()   // 用于 Windows 环境
+
+        targets.withType<KotlinNativeTarget>().configureEach {
             val main by compilations.getting
             val interop by main.cinterops.creating {
                 definitionFile.set(project.file("src/nativeInterop/cinterop/interop.def"))
@@ -109,11 +110,12 @@ void union_by_pointer(MyUnion* u) {}
 
     ```groovy
     kotlin {
-        macosArm64("native") {    // 用于 Apple Silicon 的 macOS 环境
-        // macosX64("native") {   // 用于 x86_64 平台的 macOS 环境
-        // linuxArm64("native") { // 用于 ARM64 平台的 Linux 环境
-        // linuxX64("native") {   // 用于 x86_64 平台的 Linux 环境
-        // mingwX64("native") {   // 用于 Windows 环境
+        macosArm64()    // 用于 Apple Silicon 的 macOS 环境
+        // linuxArm64() // 用于 ARM64 平台的 Linux 环境
+        // linuxX64()   // 用于 x86_64 平台的 Linux 环境
+        // mingwX64()   // 用于 Windows 环境
+
+        targets.withType(KotlinNativeTarget).configureEach {
             compilations.main.cinterops {
                 interop {
                     definitionFile = project.file('src/nativeInterop/cinterop/interop.def')
@@ -339,11 +341,11 @@ fun main() {
 }
 ```
 
-为了验证是否一切正确, 请 [在你的 IDE 中](native-get-started.md#build-and-run-the-application) 运行 `runDebugExecutableNative` Gradle task,
-或使用以下命令, 运行代码:
+为了验证是否一切正确, 请 [在你的 IDE 中](native-get-started.md#build-and-run-the-application) 运行 `runDebugExecutable<YourTargetName>` Gradle task,
+或在你的终端中使用控制台命令, 例如:
 
 ```bash
-./gradlew runDebugExecutableNative
+./gradlew runDebugExecutableMacosArm64
 ```
 
 ## 下一步 {id="next-step"}

@@ -6,7 +6,7 @@
 我们已经知道, 协程被取消时会在挂起点(suspension point)抛出 [CancellationException], 而协程机制忽略会这个异常.
 下面我们来看看, 如果在取消过程中发生了异常, 或者同一个协程的多个子协程抛出了异常, 那么会出现什么情况
 
-## 异常的传播(propagation)
+## 异常的传播(propagation) {id="exception-propagation"}
 
 协程构建器对于异常的处理有两种风格:
 自动传播异常([launch] 构建器), 或者将异常交给使用者处理([async] 和 [produce] 构建器).
@@ -66,7 +66,7 @@ Caught ArithmeticException
 
 <!--- TEST EXCEPTION-->
 
-## CoroutineExceptionHandler
+## CoroutineExceptionHandler {id="coroutineexceptionhandler"}
 
 对于 **未捕获的(uncaught)** 异常, 默认的处理方式是输出到控制台, 但也可以自定义如何处理.
 _根_ 协程的上下文元素 [CoroutineExceptionHandler] 可以用作这个根协程以及所有子协程的通用的 `catch` 块,
@@ -121,7 +121,7 @@ CoroutineExceptionHandler got java.lang.AssertionError
 
 <!--- TEST-->
 
-## 取消与异常
+## 取消与异常 {id="cancellation-and-exceptions"}
 
 协程的取消与异常有着非常紧密的关系.
 协程内部使用 `CancellationException` 来实现取消, 这些异常会被所有的异常处理器忽略,
@@ -231,7 +231,7 @@ CoroutineExceptionHandler got java.lang.ArithmeticException
 
 <!--- TEST-->
 
-## 异常的聚合(aggregation)
+## 异常的聚合(aggregation) {id="exceptions-aggregation"}
 
 如果一个协程的多个子协程都由于发生异常而失败,
 通常的规则是 "最先发生的异常优先", 因此第 1 个发生的异常会被处理.
@@ -344,7 +344,7 @@ CoroutineExceptionHandler got java.io.IOException
 另一个例子是, 一个服务器进程启动了多个子任务, 需要 _监控_ 这些子任务的执行,
 追踪它们是否失败, 只对那些失败的子任务进行重启.
 
-### 监控任务
+### 监控任务 {id="supervision-job"}
 
 [SupervisorJob][SupervisorJob()] 可以用作这类目的.
 它与通常的 [Job][Job()] 类似, 唯一的区别在于取消只向下方传播.
@@ -400,7 +400,7 @@ The second child is cancelled because the supervisor was cancelled
 
 <!--- TEST-->
 
-### 监控作用范围
+### 监控作用范围 {id="supervision-scope"}
 
 对于 *带作用范围* 的并发, 可以使用 [supervisorScope][_supervisorScope] 代替 [coroutineScope][_coroutineScope] 来实现同一目的.
 它也只向一个方向传播取消, 并且只在它自身失败的情况下取消所有的子协程.
@@ -450,7 +450,7 @@ Caught an assertion error
 
 <!--- TEST-->
 
-#### 被监控的协程中的异常
+#### 被监控的协程中的异常 {id="exceptions-in-supervised-coroutines"}
 
 常规任务与监控任务的另一个重要区别就是对异常的处理方式.
 每个子协程都应该通过异常处理机制自行处理它的异常.

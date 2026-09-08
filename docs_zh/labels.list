@@ -3,6 +3,32 @@
 <labels xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/labels.xsd">
 
+    <!-- from main doc -->
+    <primary-label id="experimental-general" name="Experimental" short-name="Experimental" href="components-stability.html#stability-levels-explained" color="red">The feature is Experimental. It may be dropped or changed at any time. Use it only for evaluation purposes.</primary-label>
+    <primary-label id="experimental-opt-in" name="Experimental" short-name="Experimental" href="components-stability.html#stability-levels-explained" color="red" >The feature is Experimental. It may be dropped or changed at any time. Opt-in is required (see the details below), and you should use it only for evaluation purposes.</primary-label>
+    <primary-label id="experimental-exp" name="Experimental" short-name="Experimental" href="components-stability.html#stability-levels-explained" color="red">This includes features with Beta, Alpha, and Experimental status.</primary-label>
+    <primary-label id="stable" name="Stable" short-name="Stable" href="components-stability.html#stability-levels-explained" color="green" ></primary-label>
+    <primary-label id="alpha" name="Alpha" short-name="α" href="components-stability.html#stability-levels-explained" color="strawberry">The feature is in Alpha. It may change incompatibly and require manual migration in the future.</primary-label>
+    <primary-label id="beta" name="Beta" short-name="β" href="components-stability.html#stability-levels-explained" color="tangerine">The feature is in Beta. It is almost stable, but migration steps may be required in the future. We'll do our best to minimize any changes you have to make.</primary-label>
+    <primary-label id="advanced" name="Advanced" short-name="☆" color="purple"></primary-label>
+    <primary-label id="eap" name="EAP" short-name="EAP" color="red">This functionality is available only in the latest EAP version.</primary-label>
+    <secondary-label id="gradle" name="Gradle" color="black"></secondary-label>
+    <secondary-label id="maven" name="Maven" color="red"></secondary-label>
+    <secondary-label id="jvm" name="Kotlin/JVM" color="green"></secondary-label>
+    <secondary-label id="native" name="Kotlin/Native" color="strawberry"></secondary-label>
+    <secondary-label id="wasm" name="Kotlin/Wasm" color="purple"></secondary-label>
+    <secondary-label id="js" name="Kotlin/JS" color="yellow"></secondary-label>
+    <secondary-label id="language" name="Language" color="marine"></secondary-label>
+    <secondary-label id="standard-library" name="Standard library" color="blue"></secondary-label>
+    <secondary-label id="compiler" name="Compiler" color="black"></secondary-label>
+    <secondary-label id="compose-compiler" name="Compose compiler" color="blue"></secondary-label>
+
+
+    <!-- from api-guidelines doc -->
+    <primary-label id="experimental-general" name="Experimental" short-name="Experimental" href="components-stability.html#stability-levels-explained" color="red">The feature is Experimental. It may be dropped or changed at any time. Use it only for evaluation purposes.</primary-label>
+
+
+    <!-- from dokka doc -->
     <primary-label id="experimental-general" name="Experimental" short-name="Experimental" href="components-stability.html#stability-levels-explained" color="red">The feature is Experimental. It may be dropped or changed at any time. Use it only for evaluation purposes.</primary-label>
     <primary-label id="experimental-opt-in" name="Experimental" short-name="Experimental" href="components-stability.html#stability-levels-explained" color="red" >The feature is Experimental. It may be dropped or changed at any time. Opt-in is required (see the details below), and you should use it only for evaluation purposes.</primary-label>
     <primary-label id="alpha" name="Alpha" short-name="α" href="components-stability.html#stability-levels-explained" color="strawberry">The feature is in Alpha. It may change incompatibly and require manual migration in the future.</primary-label>
@@ -13,14 +39,19 @@
     <secondary-label id="eap" name="EAP" color="red">This functionality is available only in the latest EAP version.</secondary-label>
 
 
-    <primary-label id="EAP" short-name="EAP" name="Compose Multiplatform %composeEapVersion%">
+    <!-- from kotlin-multiplatform-dev-docs -->
+    <primary-label id="EAP" short-name="EAP" name="Compose Multiplatform %org.jetbrains.compose-eap%">
         This functionality is available only in the EAP version.
     </primary-label>
-
+    <primary-label id="Experimental" short-name="Experimental" name="Experimental" color="red">This feature is at the experimental stage of development and can be significantly changed or removed in future releases.</primary-label>
     <primary-label id="navEAP" short-name="navEAP" name="Compose Multiplatform Navigation %composeNavigationEapVersion%"
                    href="https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-navigation-routing.html">
         Navigation library for the EAP version of Compose Multiplatform.
     </primary-label>
+    <primary-label id="beta" name="Beta" short-name="β" href="https://kotlinlang.org/docs/components-stability.html#stability-levels-explained" color="tangerine">The feature is in Beta. It is almost stable, but migration steps may be required in the future. We'll do our best to minimize any changes you have to make.</primary-label>
+    <primary-label id="alpha" name="Alpha" short-name="α" href="https://kotlinlang.org/docs/components-stability.html#stability-levels-explained" color="strawberry">The feature is in Alpha. It may change incompatibly and require manual migration in the future.</primary-label>
+
+    <primary-label id="advanced" name="Advanced" short-name="☆" color="purple"></primary-label>
 
     <secondary-label id="Deprecated" name="Deprecated" color="strawberry">Still available, but deprecated.</secondary-label>
     <secondary-label id="Experimental" name="Experimental" color="red">This feature is at the experimental stage of development and can be significantly changed or removed in future releases.</secondary-label>

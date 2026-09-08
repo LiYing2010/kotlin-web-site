@@ -250,7 +250,7 @@ interface GitHubService {
     通过调用 `SwingUtilities.invokeLater`, 你可以确保更新结果的 `updateResults()` 调用,
     发生在主 UI 线程 (AWT 的事件派发线程) 上.
 
-但是, 如果你尝试使用 `BACKGROUND` 选项加载贡献者 , 你会看到列表被更新, 但没有任何变化.
+但是, 如果你尝试使用 `BACKGROUND` 选项加载贡献者 , 你会看到列表被更新, 但 UI 没有任何变化.
 
 ### 任务 2 {id="task-2"}
 

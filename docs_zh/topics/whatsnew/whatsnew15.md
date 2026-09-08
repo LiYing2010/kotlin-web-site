@@ -1,13 +1,19 @@
 [//]: # (title: Kotlin 1.5.0 版中的新功能)
 
-_[发布日期: 2021/05/05](releases.md#release-details)_
+<web-summary>阅读 Kotlin 1.5.0 发布说明, 包括新的语言特性, Kotlin Multiplatform, JVM, Native, JS 的更新, 以及对 Gradle 和 Maven 的构建工具支持.</web-summary>
+
+_[发布日期: 2021/05/05](releases.md#release-history)_
 
 Kotlin 1.5.0 引入了新的语言功能, 基于 IR 的 JVM 编译器后端的稳定版, 以及性能改善,
 以及一些微小变更, 比如实验性功能的稳定版, 以及废弃了一些旧功能.
 
-关于这个版本的变更概要, 也可以查看 [release blog](https://blog.jetbrains.com/kotlin/2021/04/kotlin-1-5-0-released/).
+关于这个版本的变更概要, 也可以查看 [release blog](https://blog.jetbrains.com/kotlin/2021/05/kotlin-1-5-0-released/).
 
-## 语言功能
+> 关于 Kotlin 的发布周期, 详情请参见 [Kotlin 发布过程](releases.md).
+>
+{style="tip"}
+
+## 语言功能 {id="language-features"}
 
 Kotlin 1.5.0 带来了 [1.4.30 中提供预览](whatsnew1430.md#language-features) 的新语言功能的稳定版:
 * [支持 JVM 记录类](#jvm-records-support)
@@ -160,7 +166,7 @@ Kotlin/JVM 编译的默认目标版本现在是 `1.8`. 目标版本 `1.6` 已被
 如果你需要针对 JVM 1.6 进行构建, 你仍然可以切换到这个目标版本. 具体方法是:
 
 * [在 Gradle 中切换版本](gradle-compiler-options.md#attributes-specific-to-jvm)
-* [在 Maven 中切换版本](maven.md#attributes-specific-to-jvm)
+* [在 Maven 中切换版本](maven-kotlin-compiler.md#attributes-specific-to-jvm)
 * [在命令行编译器中切换版本](compiler-reference.md#jvm-target-version)
 
 ### 使用 invokedynamic 实现 SAM 转换 {id="sam-adapters-via-invokedynamic"}
@@ -175,7 +181,7 @@ Kotlin 1.5.0 现在使用动态调用 (`invokedynamic`) 来编译 SAM (Single Ab
 
 要回退到旧的基于匿名类生成的实现方式, 可以添加编译器选项 `-Xsam-conversions=class`.
 
-详情请参见, 如何在 [Gradle](gradle-compiler-options.md), [Maven](maven.md#specify-compiler-options),
+详情请参见, 如何在 [Gradle](gradle-compiler-options.md), [Maven](maven-kotlin-compiler.md#specify-compiler-options),
 以及 [命令行编译器](compiler-reference.md#compiler-options) 中添加编译器选项.
 
 ### 使用 invokedynamic 编译 Lambda 表达式 {id="lambdas-via-invokedynamic"}
@@ -203,7 +209,7 @@ of a functional 接口) 编译为动态调用(`invokedynamic`).
 要试用这个功能, 请添加 `-Xlambdas=indy` 编译器选项.
 如果你能够在这个 [YouTrack ticket](https://youtrack.jetbrains.com/issue/KT-45375) 中提供你的反馈意见, 我们十分感谢.
 
-详情请参见, 如何在 [Gradle](gradle-compiler-options.md), [Maven](maven.md#specify-compiler-options),
+详情请参见, 如何在 [Gradle](gradle-compiler-options.md), [Maven](maven-kotlin-compiler.md#specify-compiler-options),
 以及 [命令行编译器](compiler-reference.md#compiler-options) 中添加编译器选项.
 
 ### 废弃 @JvmDefault 和旧的 Xjvm-default 模式 {id="deprecation-of-jvmdefault-and-old-xjvm-default-modes"}
@@ -239,7 +245,7 @@ Kotlin 1.5.0 对这个功能引入了很多改进:
 
 详情请参见 [null 值安全性与平台数据类型](java-interop.md#null-safety-and-platform-types).
 
-## Kotlin/Native
+## Kotlin/Native {id="kotlinnative"}
 
 Kotlin/Native 有了性能提高, 并更加稳定. 重要的变更包括:
 * [性能改善](#performance-improvements)
@@ -279,7 +285,7 @@ Platform.isMemoryLeakCheckerActive = true
 
 注意, 不推荐对运行期的应用程序启用这个检查器.
 
-## Kotlin/JS
+## Kotlin/JS {id="kotlinjs"}
 
 Kotlin/JS 在 1.5.0 中有了一些演进变更. 我们正在继续开发 [JS IR 编译器后端](js-ir-compiler.md)
 的稳定版, 并发布了以下更新:
@@ -310,18 +316,17 @@ Kotlin/JS Gradle plugin 现在对浏览器编译目标使用 webpack 5 而不是
 [doodle](https://github.com/nacular/doodle), 等等.
 如果你在你的项目中使用这些框架和库, 你可以使用 IR 后端来构建你的项目, 看看它带来的益处.
 
-如果你在编写自己的库, [使用 'both' 模式编译它](js-ir-compiler.md#authoring-libraries-for-the-ir-compiler-with-backwards-compatibility),
-这样你的客户也可以在新的编译器中使用你的库.
+如果你在编写自己的库, 请使用 `both` 模式编译它, 这样你的客户也可以在新的编译器中使用你的库.
 
 
-## Kotlin Multiplatform
+## Kotlin Multiplatform {id="kotlin-multiplatform"}
 
 在 Kotlin 1.5.0 中, [对每个平台选择测试依赖项的工作得到了简化](#simplified-test-dependencies-usage-in-multiplatform-projects),
 现在可以由 Gradle plugin 自动完成.
 
 在跨平台项目中现在可以 [使用新的 API 来得到字符种类](#new-api-for-getting-a-char-category-now-available-in-multiplatform-code).
 
-## 标准库
+## 标准库 {id="standard-library"}
 
 标准库有了很多变更和改进, 有些实验性功能已经变为稳定版, 还添加了新的功能:
 
@@ -442,7 +447,8 @@ val kotlinFiles: List<Path> = Path("/home/user").listDirectoryEntries("*.kt")
   这个函数可用于所有数值类型.
 
 这些操作看起来与既有的
-[整数除法](numbers.md#operations-on-numbers) and [rem()](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/rem.html)
+[整数除法](numbers.md#integer-division)
+和 [rem()](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/rem.html)
 函数 (或 `%` 操作符) 非常类似,
 但它们对于负数的处理不同:
 * `a.floorDiv(b)` 与通常的 `/` 不同, `floorDiv` 将结果向下(向更小的整数方向)取整,
@@ -480,7 +486,7 @@ Kotlin 中有一个实验性的 [Duration](https://kotlinlang.org/api/latest/jvm
 * 有了新的 API 用于转换到指定的时间单位, 结果类型为 `Long`. 新 API 会替代旧 API, 旧 API 使用 `Double` 值, 现在已废弃.
   例如, 新 API [`Duration.inWholeMinutes`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.time/-duration/in-whole-minutes.html)
   返回 `Long` 表达的时间长度值, 替代了旧的 API `Duration.inMinutes`.
-* 有了新的伴随函数, 用于从一个数值构造 `Duration`.
+* 有了新的同伴函数, 用于从一个数值构造 `Duration`.
   例如, [`Duration.seconds(Int)`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.time/-duration/seconds.html)
   创建一个 `Duration` 对象, 表示整数值的秒.
   旧的扩展属性, 比如 `Int.seconds` 现在已废弃.
@@ -592,7 +598,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.5"}
 
-## kotlin-test 库
+## kotlin-test 库 {id="kotlin-test-library"}
 [kotlin-test](https://kotlinlang.org/api/latest/kotlin.test/) 库引入了一些新功能:
 * [简化测试依赖项在跨平台项目中的使用](#simplified-test-dependencies-usage-in-multiplatform-projects)
 * [对 Kotlin/JVM 源代码集自动选择测试框架](#automatic-selection-of-a-testing-framework-for-kotlin-jvm-source-sets)
@@ -756,14 +762,14 @@ tasks {
   }
   ```
 
-## kotlinx 库
+## kotlinx 库 {id="kotlinx-libraries"}
 
 和 Kotlin 1.5.0 一起, 我们还发布了 kotlinx 库的新版本:
 * `kotlinx.coroutines` [1.5.0-RC](#coroutines-1-5-0-rc)
 * `kotlinx.serialization` [1.2.1](#serialization-1-2-1)
 * `kotlinx-datetime` [0.2.0](#datetime-0-2-0)
 
-### Coroutines 1.5.0-RC
+### Coroutines 1.5.0-RC {id="coroutines-150-rc"}
 
 `kotlinx.coroutines` [1.5.0-RC](https://github.com/Kotlin/kotlinx.coroutines/releases/tag/1.5.0-RC) 的新功能包括:
 * [新的通道(Channel) API](channels.md)
@@ -779,7 +785,7 @@ tasks {
 
 <video src="https://www.youtube.com/v/EVLnWOcR0is" title="kotlinx.coroutines 1.5.0"/>
 
-### serialization 1.2.1
+### serialization 1.2.1 {id="serialization-121"}
 
 `kotlinx.serialization` [1.2.1](https://github.com/Kotlin/kotlinx.serialization/releases/tag/v1.2.1) 的新功能包括:
 * JSON 序列化的性能改善
@@ -793,7 +799,7 @@ tasks {
 
 <video src="https://www.youtube.com/v/698I_AH8h6s" title="kotlinx.serialization 1.2.1"/>
 
-### dateTime 0.2.0
+### dateTime 0.2.0 {id="datetime-020"}
 
 `kotlinx-datetime` [0.2.0](https://github.com/Kotlin/kotlinx-datetime/releases/tag/v0.2.0) 的新功能包括:
 * `@Serializable` Datetime 对象
@@ -804,7 +810,7 @@ tasks {
 以及
 [`kotlinx-datetime` 0.2.0 release blog](https://blog.jetbrains.com/kotlin/2021/05/kotlinx-datetime-0-2-0-is-out/).
 
-## 迁移到 Kotlin 1.5.0
+## 迁移到 Kotlin 1.5.0 {id="migrating-to-kotlin-150"}
 
 当 Kotlin plugin 1.5.0 可用之后, IntelliJ IDEA 和 Android Studio 会建议你更新这个版本.
 
@@ -815,6 +821,5 @@ tasks {
 
 新的命令行编译器可以通过 [GitHub release 页面](https://github.com/JetBrains/kotlin/releases/tag/v1.5.0) 下载.
 
-Kotlin 1.5.0 是一个 [功能发布版](kotlin-evolution-principles.md#language-and-tooling-releases),
-因此可能在语言层带来不兼容的变更.
+Kotlin 1.5.0 是一个功能发布版, 因此可能在语言层带来不兼容的变更.
 关于这些变更的完整列表, 请参见 [Kotlin 1.5 兼容性指南](compatibility-guide-15.md).

@@ -83,8 +83,8 @@ kotlin {
 可以在 task 配置内的 `compilerOptions {}` 代码段之内,
 对特定的编译单元或 task 配置编译器选项:
 
-```Kotlin
-tasks.named<KotlinJvmCompile>("compileKotlin"){
+```kotlin
+tasks.named<KotlinJvmCompile>("compileKotlin") {
     compilerOptions {
         optIn.add("kotlin.RequiresOptIn")
     }
@@ -93,7 +93,7 @@ tasks.named<KotlinJvmCompile>("compileKotlin"){
 
 你也可以通过 `KotlinCompilation` 在编译单元层级访问并配置编译器选项:
 
-```Kotlin
+```kotlin
 kotlin {
     target {
         val main by compilations.getting {
@@ -197,6 +197,9 @@ tasks.withType(KotlinCompile).configureEach {
 <tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+
 plugins {
     kotlin("jvm") version "%kotlinVersion%"
 }
@@ -211,7 +214,7 @@ kotlin {
 }
 
 // 在编译单元层级进行覆盖的示例
-tasks.named<KotlinJvmCompile>("compileKotlin"){
+tasks.named<KotlinJvmCompile>("compileKotlin") {
     compilerOptions {
         apiVersion = KotlinVersion.fromVersion("%apiVersion%")
     }
@@ -222,12 +225,15 @@ tasks.named<KotlinJvmCompile>("compileKotlin"){
 <tab title="Groovy" group-key="groovy">
 
 ```kotlin
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '%kotlinVersion%'
 }
 
 kotlin {
-  // 扩展层级
+    // 扩展层级
     compilerOptions {
         jvmTarget = JvmTarget.fromTarget("%jvmLTSVersionSupportedByKotlin%")
         languageVersion = KotlinVersion.fromVersion("%languageVersion%")
@@ -585,24 +591,24 @@ Gradle 编译器所支持的选项完整列表如下:
 
 ### JVM 任务独有的属性 {id="attributes-specific-to-jvm"}
 
-| 属性名称                      | 描述                                                                                                                                                        | 可以选择的值                                                                          | 默认值                         |
-|---------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|-----------------------------|
-| `javaParameters`          | 为 Java 1.8 的方法参数反射功能生成 metadata                                                                                                                           |                                                                                 | false                       |
-| `jvmTarget`               | 指定编译输出的 JVM 字节码的版本                                                                                                                                        | "1.8", "9", "10", ..., "23", "24". 参见 [编译器选项的数据类型](#types-for-compiler-options) | "%defaultJvmTargetVersion%" |
-| `noJdk`                   | 不要自动将 Java 运行库包含到 classpath 内                                                                                                                             |                                                                                 | false                       |
-| `jvmTargetValidationMode` | 验证 Kotlin 和 Java 编译任务的 [JVM 编译目标兼容性](gradle-configure-project.md#check-for-jvm-target-compatibility-of-related-compile-tasks). 适用于 `KotlinCompile` 类型的任务. | `WARNING`, `ERROR`, `IGNORE`                                                    | `ERROR`                     |
-| `jvmDefault`              | 控制接口中定义的函数如何编译为 JVM 上的默认方法                                                                                                                                | `ENABLE`, `NO_COMPATIBILITY`, `DISABLE`                                         | `ENABLE`                    |
+| 属性名称                      | 描述                                                                                                                                                        | 可以选择的值                                                                         | 默认值                         |
+|---------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------|-----------------------------|
+| `javaParameters`          | 为 Java 1.8 的方法参数反射功能生成 metadata                                                                                                                           |                                                                                | false                       |
+| `jvmTarget`               | 指定编译输出的 JVM 字节码的版本                                                                                                                                        | "1.8", "9", "10", ..., "25", 26". 参见 [编译器选项的数据类型](#types-for-compiler-options) | "%defaultJvmTargetVersion%" |
+| `noJdk`                   | 不要自动将 Java 运行库包含到 classpath 内                                                                                                                             |                                                                                | false                       |
+| `jvmTargetValidationMode` | 验证 Kotlin 和 Java 编译任务的 [JVM 编译目标兼容性](gradle-configure-project.md#check-for-jvm-target-compatibility-of-related-compile-tasks). 适用于 `KotlinCompile` 类型的任务. | `WARNING`, `ERROR`, `IGNORE`                                                   | `ERROR`                     |
+| `jvmDefault`              | 控制接口中定义的函数如何编译为 JVM 上的默认方法                                                                                                                                | `ENABLE`, `NO_COMPATIBILITY`, `DISABLE`                                        | `ENABLE`                    |
 
 ### JVM, 和 JavaScript 任务支持的共通属性 {id="attributes-common-to-jvm-and-javascript"}
 
-| 属性名称                  | 描述                                                                                                          | 可以选择的值                                    | 默认值   |
-|-----------------------|-------------------------------------------------------------------------------------------------------------|-------------------------------------------|-------|
-| `allWarningsAsErrors` | 把警告作为错误来处理                                                                                                  |                                           | false |
-| `suppressWarnings`    | 不产生警告信息                                                                                                     |                                           | false |
-| `verbose`             | 输出详细的 log 信息. 只在 [Gradle debug log 级别启用](https://docs.gradle.org/current/userguide/logging.html) 时有效        |                                           | false |
-| `freeCompilerArgs`    | 指定额外的编译参数, 可以是多个. 这里也可以使用实验性的 `-X` 参数. 参见 [示例](#example-of-additional-arguments-usage-via-freecompilerargs) |                                           | []    |
-| `apiVersion`          | 只允许使用指定的版本的运行库中的 API                                                                                        | "1.8", "1.9", "2.0", "2.1", "2.2" (实验性功能) |       |
-| `languageVersion`     | 指定源代码所兼容的 Kotlin 版本                                                                                         | "1.8", "1.9", "2.0", "2.1", "2.2" (实验性功能) |       |
+| 属性名称                  | 描述                                                                                                          | 可以选择的值                                           | 默认值   |
+|-----------------------|-------------------------------------------------------------------------------------------------------------|--------------------------------------------------|-------|
+| `allWarningsAsErrors` | 把警告作为错误来处理                                                                                                  |                                                  | false |
+| `suppressWarnings`    | 不产生警告信息                                                                                                     |                                                  | false |
+| `verbose`             | 输出详细的 log 信息. 只在 [Gradle debug log 级别启用](https://docs.gradle.org/current/userguide/logging.html) 时有效        |                                                  | false |
+| `freeCompilerArgs`    | 指定额外的编译参数, 可以是多个. 这里也可以使用实验性的 `-X` 参数. 参见 [示例](#example-of-additional-arguments-usage-via-freecompilerargs) |                                                  | []    |
+| `apiVersion`          | 只允许使用指定的版本的运行库中的 API                                                                                        | "2.0", "2.1", "2.2", "2.3", "2.4", "2.5" (实验性功能) |       |
+| `languageVersion`     | 指定源代码所兼容的 Kotlin 版本                                                                                         | "2.0", "2.1", "2.2", "2.3", "2.4", "2.5" (实验性功能) |       |
 
 > 在未来的发布版中, 我们将会废弃 `freeCompilerArgs` 属性.
 > 如果你希望恢复 Kotlin Gradle DSL 中的某些选项, 请在 Youtrack 中 [提出问题](https://youtrack.jetbrains.com/newissue?project=kt).

@@ -4,9 +4,9 @@
 
 <tldr>目前, BTA 只支持 Kotlin/JVM.</tldr>
 
-Kotlin 2.2.0 引入了实验性功能, 构建工具 API(Build Tools API, BTA), 它简化了构建系统与 Kotlin 编译器的集成.
+Kotlin 有一个实验性功能, 构建工具 API(Build Tools API, BTA), 它简化了构建系统与 Kotlin 编译器的集成.
 
-之前, 向一个构建系统添加完整的 Kotlin 支持 (例如增量编译, Kotlin 编译器 plugin, daemon, 以及 Kotlin Multiplatform) 需要付出极大的努力.
+向一个构建系统添加完整的 Kotlin 支持 (例如增量编译, Kotlin 编译器 plugin, daemon, 以及 Kotlin Multiplatform) 需要付出极大的努力.
 BTA 的目标是, 通过在构建系统和 Kotlin 编译器生态系统之间通过提供统一的 API, 降低这种复杂性.
 
 BTA 构建系统定义了可以实现的单一入口点. 因此不再需要与内部的编译器细节进行深度的集成.
@@ -19,20 +19,12 @@ BTA 构建系统定义了可以实现的单一入口点. 因此不再需要与�
 
 ## 与 Gradle 集成 {id="integration-with-gradle"}
 
-Kotlin Gradle plugin (KGP) 实验性的支持 BTA, 你需要表示使用者同意(Opt-in) 才能使用它.
+Kotlin Gradle plugin (KGP) 实验性的支持 BTA. KGP 对 Kotlin/JVM 编译会默认使用 BTA.
 
 > 关于使用 KGP 的体验, 希望你能通过 [YouTrack](https://youtrack.jetbrains.com/issue/KT-56574)
 > 提供你的反馈意见.
 > 
 {style="note"}
-
-### 如何启用 {id="how-to-enable"}
-
-向你的 `gradle.properties` 文件添加以下属性 :
-
-```properties
-kotlin.compiler.runViaBuildToolsApi=true
-```
 
 ### 配置不同的编译器版本 {id="configure-different-compiler-versions"}
 
@@ -49,7 +41,7 @@ import org.jetbrains.kotlin.buildtools.api.ExperimentalBuildToolsApi
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 
 plugins {
-    kotlin("jvm") version "2.2.0"
+    kotlin("jvm") version "%kotlinVersion%"
 }
 
 group = "org.jetbrains.example"
@@ -62,7 +54,7 @@ repositories {
 kotlin {
     jvmToolchain(8)
     @OptIn(ExperimentalBuildToolsApi::class, ExperimentalKotlinGradlePluginApi::class)
-    compilerVersion.set("2.1.21") // <-- 与 2.2.0 不同的版本
+    compilerVersion.set("2.1.21") // <-- 与 %kotlinVersion% 不同的版本
 }
 ```
 
@@ -88,7 +80,7 @@ Kotlin 开发组计划在未来的 Kotlin 发布版中解决这个问题.
 
 ### 使用 "in process" 策略启用增量编译 {id="enable-incremental-compilation-with-in-process-strategy"}
 
-KGP 支持 3 种 [编译器执行策略](gradle-compilation-and-caches.md#defining-kotlin-compiler-execution-strategy).
+KGP 支持 3 种 [编译器执行策略](compiler-execution-strategy.md).
 通常, "in-process" 策略 (这种策略在 Gradle daemon 中运行编译器) 不支持增量编译.
 
 使用 BTA, "in-process" 策略现在可以支持增量编译.
@@ -100,9 +92,8 @@ kotlin.compiler.execution.strategy=in-process
 
 ## 与 Maven 集成 {id="integration-with-maven"}
 
-从 Kotlin 2.2.0 开始, BTA 在 [`kotlin-maven-plugin`](maven.md) 中默认启用.
+BTA 会启用 [`kotlin-maven-plugin`](maven.md), 以支持 [Kotlin Daemon](kotlin-daemon.md),
+它是默认的 [编译器执行策略](maven-kotlin-compiler.md#choose-execution-strategy).
+`kotlin-maven-plugin` 默认使用 BTA, 因此不需要任何配置.
 
-尽管 BTA 现在还不能为 Maven 使用者带来直接的益处, 但它为开发以下功能特性提供了一个坚实的基础:
-
-* [Kotlin daemon 支持](https://youtrack.jetbrains.com/issue/KT-77587)
-* [增量编译稳定化](https://youtrack.jetbrains.com/issue/KT-77086)
+有了 BTA 的帮助, 未来我们可以提供更多功能, 例如 [增量编译功能的稳定版](https://youtrack.jetbrains.com/issue/KT-77086).

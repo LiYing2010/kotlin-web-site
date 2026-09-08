@@ -10,7 +10,7 @@ LPK 可用于各种平台, 包括 [Kotlin Notebooks](data-analysis-overview.md#n
 ![Lets-Plot](lets-plot-overview.png){width=700}
 
 本教程演示如何在 IntelliJ IDEA 中, 通过 Kotlin Notebook,
-使用 LPK 和 [Kotlin DataFrame](https://kotlin.github.io/dataframe/gettingstarted.html) 库创建各种类型的绘图.
+使用 LPK 和 [Kotlin DataFrame](https://kotlin.github.io/dataframe/home.html) 库创建各种类型的绘图.
 
 ## 开始前的准备工作 {id="before-you-start"}
 

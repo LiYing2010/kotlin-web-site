@@ -1,6 +1,8 @@
 [//]: # (title: Kotlin 1.9.20 版中的新功能)
 
-_[发布日期: 2023/11/01](releases.md#release-details)_
+<web-summary>阅读 Kotlin 1.9.20 发布说明, 包括新的语言特性, Kotlin Multiplatform, JVM, Native, JS, 和 Wasm 的更新, 以及对 Gradle 和 Maven 的构建工具支持.</web-summary>
+
+_[发布日期: 2023/11/01](releases.md#release-history)_
 
 Kotlin 1.9.20 已经发布了, [K2 编译器对于所有编译目标已进入 Beta 版](#new-kotlin-k2-compiler-updates),
 [Kotlin Multiplatform 已进入稳定版](#kotlin-multiplatform-is-stable).
@@ -16,6 +18,10 @@ Kotlin 1.9.20 已经发布了, [K2 编译器对于所有编译目标已进入 Be
 关于本次更新的概要介绍, 你可以观看以下视频:
 
 <video src="https://www.youtube.com/v/Ol_96CHKqg8" title="Kotlin 1.9.20 版中的新功能"/>
+
+> 关于 Kotlin 的发布周期, 详情请参见 [Kotlin 发布过程](releases.md).
+>
+{style="tip"}
 
 ## IDE 支持 {id="ide-support"}
 
@@ -55,7 +61,7 @@ K2 目前对所有的编译目标都处于 **Beta 版**.
 在 1.9.20 中, 你可以试用针对 K2 编译器的 [kapt 编译器 plugin](kapt.md).
 要在你的项目中使用 K2 编译器, 请向你的 `gradle.properties` 文件添加以下选项:
 
-```text
+```properties
 kotlin.experimental.tryK2=true
 kapt.use.k2=true
 ```
@@ -68,7 +74,7 @@ kapt.use.k2=true
 
 ### 如何启用 Kotlin K2 编译器 {id="how-to-enable-the-kotlin-k2-compiler"}
 
-#### 在 Gradle 中启用 K2
+#### 在 Gradle 中启用 K2 {id="enable-k2-in-gradle"}
 
 要启用并检验 Kotlin K2 编译器, 请通过下面的编译器选项使用新的语言版本:
 
@@ -88,7 +94,7 @@ kotlin {
 }
 ```
 
-#### 在 Maven 中启用 K2
+#### 在 Maven 中启用 K2 {id="enable-k2-in-maven"}
 
 要启用并检验 Kotlin K2 编译器, 请更新的你 `pom.xml` 文件的 `<project/>` 小节:
 
@@ -98,12 +104,12 @@ kotlin {
 </properties>
 ```
 
-#### 在 IntelliJ IDEA 中启用 K2
+#### 在 IntelliJ IDEA 中启用 K2 {id="enable-k2-in-intellij-idea"}
 
 要在 IntelliJ IDEA 中启用并检验 Kotlin K2 编译器, 请选择菜单 **Settings** | **Build, Execution, Deployment** | **Compiler** | **Kotlin Compiler**,
 将 **Language Version** 选项更新为 `2.0 (experimental)`.
 
-### 留下你对于新 K2 编译器的反馈意见
+### 留下你对于新 K2 编译器的反馈意见 {id="leave-your-feedback-on-the-new-k2-compiler"}
 
 如果你能提供你的反馈意见, 我们将会非常感谢!
 
@@ -113,7 +119,7 @@ kotlin {
 * [启用 Send usage statistics 选项](https://www.jetbrains.com/help/idea/settings-usage-statistics.html),
   允许 JetBrains 收集关于 K2 使用状况的匿名数据.
 
-## Kotlin/JVM
+## Kotlin/JVM {id="kotlinjvm"}
 
 从 1.9.20 版开始, 编译器能够生成包含 Java 21 字节码的类.
 
@@ -125,7 +131,7 @@ Kotlin 1.9.20 包含稳定的内存管理器, 其中包括, 默认使用新的�
 * [垃圾收集器的性能改进](#performance-improvements-for-the-garbage-collector)
 * [`klib` artifact 的增量编译](#incremental-compilation-of-klib-artifacts)
 * [解决库链接的问题](#managing-library-linkage-issues)
-* [类构造器调用时的伴随对象初始化](#companion-object-initialization-on-class-constructor-calls)
+* [类构造器调用时的同伴对象初始化](#companion-object-initialization-on-class-constructor-calls)
 * [对所有的 cinterop 声明要求使用者同意(Opt-in)](#opt-in-requirement-for-all-cinterop-declarations)
 * [链接器错误的自定义信息](#custom-message-for-linker-errors)
 * [删除了旧的内存管理器](#removal-of-the-legacy-memory-manager)
@@ -151,7 +157,7 @@ Kotlin 1.9.20 默认启用新的内存分配器.
 新的内存分配器允许同时使用多个多个独立的分配空间,
 因此 Kotlin 开发组可以实验不同的页面布局, 进一步提高性能.
 
-#### 如何启用自定义内存分配器
+#### 如何启用自定义内存分配器 {id="how-to-enable-the-custom-memory-allocator"}
 
 从 Kotlin 1.9.20 开始, 新的内存分配器默认启用. 不需要额外的设置.
 
@@ -224,7 +230,7 @@ Kotlin 1.9.20 引入了对 Kotlin/Native 的新的编译时间优化.
 
 要启用增量编译, 请向你的 `gradle.properties` 文件添加以下选项:
 
-```none
+```properties
 kotlin.incremental.native=true
 ```
 
@@ -271,9 +277,9 @@ kotlin {
 如果你在使用这个功能时遇到意外的问题, 你随时可以使用 `-Xpartial-linkage=disable` 编译器选项关闭这个功能.
 请记得将这样的问题报告到 [我们的问题追踪系统](https://kotl.in/issue).
 
-### 类构造器调用时的伴随对象初始化 {id="companion-object-initialization-on-class-constructor-calls"}
+### 类构造器调用时的同伴对象初始化 {id="companion-object-initialization-on-class-constructor-calls"}
 
-从 Kotlin 1.9.20 开始, Kotlin/Native 后端会在类的构造器中调用伴随对象的静态初始化器:
+从 Kotlin 1.9.20 开始, Kotlin/Native 后端会在类的构造器中调用同伴对象的静态初始化器:
 
 ```kotlin
 class Greeting {
@@ -290,7 +296,7 @@ fun main() {
 ```
 
 这个行为现在与 Kotlin/JVM 平台统一了, 在 Kotlin/JVM 平台上,
-在与 Java 静态初始化器语义匹配的对应的类被装载时(被解析时), 伴随对象就会被初始化.
+在与 Java 静态初始化器语义匹配的对应的类被装载时(被解析时), 同伴对象就会被初始化.
 
 现在这个功能的实现在各个平台之间更加一致了, 因此在 Kotlin Multiplatform 项目中更加容易共用代码.
 
@@ -354,7 +360,7 @@ Kotlin 开发组致力于对符合第 1 层条件的编译目标, 提供编译�
 
 关于编译目标的完整列表, 请参见目前 [支持的编译目标](native-target-support.md).
 
-## Kotlin Multiplatform
+## Kotlin Multiplatform {id="kotlin-multiplatform"}
 
 Kotlin 1.9.20 集中于 Kotlin Multiplatform 的稳定性, 并提供了新的项目向导和其它重要功能, 进一步改进开发者体验:
 
@@ -369,7 +375,7 @@ Kotlin 1.9.20 集中于 Kotlin Multiplatform 的稳定性, 并提供了新的项
 
 ### Kotlin Multiplatform 已进入稳定版 {id="kotlin-multiplatform-is-stable"}
 
-1.9.20 版的发布标志了 Kotlin 演化历程中的一个重要的里程碑: [Kotlin Multiplatform](multiplatform.topic)
+1.9.20 版的发布标志了 Kotlin 演化历程中的一个重要的里程碑: [Kotlin Multiplatform](get-started.topic)
 终于进入了稳定版.
 这表示这个技术已经可以安全的用于你的项目, 并且 100% 可以用于真实生产环境.
 还意味着 Kotlin Multiplatform 未来的开发会继续符合我们严格的 [向后兼容性规则](https://kotlinfoundation.org/language-committee-guidelines/).
@@ -395,7 +401,7 @@ Kotlin 1.9.20 集中于 Kotlin Multiplatform 的稳定性, 并提供了新的项
 其中包含 Kotlin 为你声明的编译目标自动创建的中间源代码集.
 [参见完整的模板](#see-the-full-hierarchy-template).
 
-#### 更容易的创建你的项目
+#### 更容易的创建你的项目 {id="create-your-project-easier"}
 
 假设有一个跨平台项目, 编译目标包括 Android 和 iPhone 设备, 开发环境为 Apple silicon MacBook.
 我们来比较一下不同版本的 Kotlin 中的项目设置:
@@ -452,14 +458,14 @@ kotlin {
 请注意, 使用默认的层级结构模板显著减少了设置你的项目时需要的样板代码的数量.
 
 当你在你的代码中声明 `androidTarget`, `iosArm64`, 和 `iosSimulatorArm64` 编译目标时,
-Kotlin Gradle plugin 会从模板中找到合适的共享源代码集, 并为你创建这些源代码集.
+Kotlin Gradle plugin 会从模板中找到合适的共用源代码集, 并为你创建这些源代码集.
 最后产生的层级结构类似下图:
 
 ![使用默认的编译目标层级结构的示例](default-hierarchy-example.svg){thumbnail="true" width="350" thumbnail-same-file="true"}
 
 绿色的源代码集会自动创建并包含到项目中, 同时, 默认模板中的灰色的源代码集会被忽略.
 
-#### 对源代码集使用自动补完功能
+#### 对源代码集使用自动补完功能 {id="use-completion-for-source-sets"}
 
 为了更容易的使用创建的项目结构, IntelliJ IDEA 现在对使用默认层级结构模板创建的源代码集提供了自动补完功能:
 
@@ -495,7 +501,7 @@ w: Accessed 'source set jvmMain' without registering the jvm target:
   }
 ```
 
-#### 设置编译目标层级结构
+#### 设置编译目标层级结构 {id="set-up-the-target-hierarchy"}
 
 从 Kotlin 1.9.20 开始, 会自动启用默认的层级结构模板. 大多数情况下, 不需要更多设置.
 
@@ -661,8 +667,8 @@ kotlin {
 
 ### 对第 3 方 cinterop 库的默认支持 {id="default-support-for-third-party-cinterop-libraries"}
 
-对使用了 [Kotlin CocoaPods Gradle](multiplatform-cocoapods-overview.md) plugin 的项目, Kotlin 1.9.20 添加了对所有 cinterop 依赖项的默认支持
-(而不是通过使用者同意(Opt-in)的支持).
+对使用了 [Kotlin CocoaPods Gradle](multiplatform-cocoapods-overview.md) plugin 的项目,
+Kotlin 1.9.20 添加了对所有 cinterop 依赖项的默认支持(而不是通过使用者同意(Opt-in)的支持).
 
 因此, 你现在可以共用更多原生代码, 而不是限制于平台相关的依赖项.
 例如, 你可以向 `iosMain` 共用源代码集添加 [对 Pod 库的依赖项](multiplatform-cocoapods-libraries.md).
@@ -698,7 +704,7 @@ kotlin {
 但是, XCode 14.3 在大多数情况下仍然可以使用.
 请记住, 如果你在你的本地机器上使用 14.3 版, 那么随 Xcode 15 一起发布的库将会可见, 但不能访问.
 
-## Kotlin/Wasm
+## Kotlin/Wasm {id="kotlinwasm"}
 
 在 1.9.20 中, Kotlin Wasm 的稳定性达到了 [Alpha 级](components-stability.md).
 
@@ -720,7 +726,7 @@ Wasm GC 已经进入了最后阶段, 它要求更新 opcode – 在二进制表�
 Kotlin 1.9.20 支持最新的 opcode, 因此我们强烈推荐你将你的 Wasm 项目更新到最新版的 Kotlin.
 我们还推荐使用支持 Wasm 环境的最新版本的浏览器:
 * 对 Chrome 和基于 Chromium 的浏览器, 119 或更新版本.
-* Firefox, 119 或更新版本. 注意, 在 Firefox 119 中, 你需要 [手动启用 Wasm GC](wasm-troubleshooting.md).
+* Firefox, 119 或更新版本. 注意, 在 Firefox 119 中, 你需要 [手动启用 Wasm GC](wasm-configuration.md).
 
 ### 新的 wasm-wasi 编译目标, 以及 wasm 编译目标改名为 wasm-js {id="new-wasm-wasi-target-and-the-renaming-of-the-wasm-target-to-wasm-js"}
 
@@ -824,10 +830,10 @@ Kotlin 1.9.20 完全兼容于 Gradle 6.8.3 到 8.1 的版本.
 
 ### 用于配置 Konan 目录路径的新属性 {id="new-property-to-configure-paths-to-konan-directories"}
 
-在 Kotlin 1.9.20 中, `kotlin.data.dir` Gradle 属性可以用来定义你的指向 `~/.konan` 目录的路径,
+在 Kotlin 1.9.20 中, `konan.data.dir` Gradle 属性可以用来定义你的指向 `~/.konan` 目录的路径,
 因此你不需要通过环境变量 `KONAN_DATA_DIR` 来配置它.
 
-或者, 你可以使用 `-Xkonan-data-dir` 编译器选项, 通过 `cinterop` 和  `konanc` 工具来配置你的指向 `~/.konan` 目录的自定义路径.
+或者, 你可以使用 `-Xkonan-data-dir` 编译器选项, 通过 `cinterop` 和 `konanc` 工具来配置你的指向 `~/.konan` 目录的自定义路径.
 
 ### 对 Kotlin/Native 任务的新的构建报告统计指标 {id="new-build-report-metrics-for-kotlin-native-tasks"}
 
@@ -884,7 +890,7 @@ Size metrics:
 >
 {style="note"}
 
-## 标准库
+## 标准库 {id="standard-library"}
 
 在 Kotlin 1.9.20 中, the [Kotlin/Native 标准库进入了稳定版](#the-kotlin-native-standard-library-becomes-stable),
 还有一些新的功能:
@@ -924,7 +930,7 @@ printAllValues<RGB>()
 // 输出结果为 RED, GREEN, BLUE
 ```
 
-#### 如何启用 enumEntries 函数
+#### 如何启用 enumEntries 函数 {id="how-to-enable-the-enumentries-function"}
 
 要试用这个功能, 请使用 `@OptIn(ExperimentalStdlibApi)` 注解来标注使用者同意(Opt-in), 并使用 1.9 或更高的语言版本.
 如果你使用 Kotlin Gradle plugin 的最新版, 那么你不需要指定语言版本来试用这个功能.
@@ -945,7 +951,7 @@ printAllValues<RGB>()
   >
   {style="warning"}
 
-#### Atomics API 的改进
+#### Atomics API 的改进 {id="improvements-to-the-atomics-api"}
 
 在 Kotlin 1.9.0 中, 我们提到, 在 Kotlin/Native 标准库进入稳定版时, Atomics API 也会进入稳定版.
 Kotlin 1.9.20 还包含了以下变更:
@@ -975,7 +981,7 @@ Kotlin 1.9.20 改进了 Kotlin/JS 中 `HashMap` 操作的性能, 并减少了它
 * 在 `HashMap` 中查找存在的元素.
 * 遍历 `HashMap` 的 key 或 value.
 
-## 文档更新
+## 文档更新 {id="documentation-updates"}
 
 Kotlin 文档有了一些重要变更:
 * [JVM 元数据](https://kotlinlang.org/api/kotlinx-metadata-jvm/) API 参考文档 – 查阅这个文档, 看看如何使用 Kotlin/JVM 解析元数据.
@@ -985,9 +991,9 @@ Kotlin 文档有了一些重要变更:
 * 改进了关于 [数组](arrays.md) 的章节 – 学习数组, 以及在什么情况下使用它们.
 * [Kotlin Multiplatform 中的预期声明与实际声明](multiplatform-expect-actual.md) – 学习 Kotlin Multiplatform 中的预期声明与实际声明机制.
 
-## 安装 Kotlin 1.9.20
+## 安装 Kotlin 1.9.20 {id="install-kotlin-1920"}
 
-### 检查 IDE 版本
+### 检查 IDE 版本 {id="check-the-ide-version"}
 
 [IntelliJ IDEA](https://www.jetbrains.com/idea/download/) 2023.1.x 和 2023.2.x 会自动建议将 Kotlin plugin 更新到 1.9.20 版本.
 IntelliJ IDEA 2023.3 会包含 Kotlin 1.9.20 plugin.

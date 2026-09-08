@@ -299,9 +299,11 @@ fun main() {
 
 ## 下一步做什么? {id="what-s-next"}
 
-恭喜你! 你已经完成了中级教程! 下一步, 请查看我们针对流行的 Kotlin 应用程序的教程:
+恭喜你! 你已经完成了中级教程! 欢迎 [分享你的阅读体验](https://surveys.hotjar.com/bf4ce865-99ce-4fc1-b107-e9b16bc31592).
+
+下一步, 请查看我们针对流行的 Kotlin 应用程序的教程:
 
 * [使用 Spring Boot 和 Kotlin 创建一个后端应用程序](jvm-create-project-with-spring-boot.md)
 * 从头创建一个针对 Android 和 iOS 的跨平台应用程序, 并且:
-    * [共用业务逻辑, 但使用原生 UI](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-create-first-app.html)
-    * [共用业务逻辑和 UI](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-create-first-app.html)
+    * [共用业务逻辑, 但使用原生 UI](https://kotlinlang.org/docs/multiplatform/multiplatform-create-first-app.html)
+    * [共用业务逻辑与 UI](https://kotlinlang.org/docs/multiplatform/compose-multiplatform-create-first-app.html)

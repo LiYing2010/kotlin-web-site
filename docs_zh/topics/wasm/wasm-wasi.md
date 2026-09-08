@@ -1,11 +1,6 @@
 [//]: # (title: Kotlin/Wasm 与 WASI 入门)
 
-> Kotlin/Wasm 目前处于 [Alpha ](components-stability.md) 版.
-> 它随时有可能变更.
->
-> [加入 Kotlin/Wasm 开发社区.](https://slack-chats.kotlinlang.org/c/webassembly)
->
-{style="note"}
+<primary-label ref="beta"/> 
 
 本教程演示如何在各种 WebAssembly 虚拟机中,
 运行一个使用 [WebAssembly System Interface (WASI)](https://wasi.dev/) 的简单的 [Kotlin/Wasm](wasm-overview.md) 应用程序.
@@ -13,8 +8,12 @@
 你会看到一个在 [Node.js](https://nodejs.org/en), [Deno](https://deno.com/), 和 [WasmEdge](https://wasmedge.org/) 虚拟机上运行的应用程序示例.
 完成本教程后, 会得到一个简单的应用程序, 它使用标准的 WASI API.
 
-目前, Kotlin/Wasm 支持 WASI 0.1, 也叫 Preview 1.
-[我们计划在未来的发布版中支持 WASI 0.2](https://youtrack.jetbrains.com/issue/KT-64568).
+目前, Kotlin/Wasm 支持 WASI 0.1, 也叫 Preview 1. 我们计划在未来的发布版中支持 WASI 0.2.
+[请参见这个 YouTrack issue, 查看 WASI 0.2 支持状况的进展](https://youtrack.jetbrains.com/issue/KT-64568).
+
+[`wasmWasi`](wasm-overview.md#kotlin-wasm-and-wasi) 编译目标
+[默认使用新的异常处理提案](wasm-configuration.md#exception-handling-proposal),
+确保更好的兼容现代 WebAssembly 运行环境.
 
 > Kotlin/Wasm 工具链提供了可以直接使用的 Node.js tasks (`wasmWasiNode*`).
 > 项目中的其他 task 变体, 例如使用 Deno 或 WasmEdge 的 task, 作为自定义的 task 提供.
@@ -126,6 +125,5 @@
 尝试更多 Kotlin/Wasm 示例:
 
 * [Compose image viewer](https://github.com/JetBrains/compose-multiplatform/tree/master/examples/imageviewer)
-* [Jetsnack 应用程序](https://github.com/JetBrains/compose-multiplatform/tree/master/examples/jetsnack)
 * [Node.js 示例](https://github.com/Kotlin/kotlin-wasm-nodejs-template)
 * [Compose 示例](https://github.com/Kotlin/kotlin-wasm-compose-template)

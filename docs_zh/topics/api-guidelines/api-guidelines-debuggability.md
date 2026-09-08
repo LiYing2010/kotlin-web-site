@@ -4,7 +4,7 @@
 这个错误解决过程, 在开发期间可能在调试器内进行, 或在生产环境中使用日志和观测工具进行.
 你的库可以遵循这些最佳实践, 让库更加容易调试.
 
-## 为有状态的类型提供 toString 方法
+## 为有状态的类型提供 toString 方法 {id="provide-a-tostring-method-for-stateful-types"}
 
 对每个包含状态的类型, 要提供一个有意义的 `toString` 实现.
 这个实现应该对实例的当前内容, 返回一个易于理解的表达, 即使是对内部类型也是如此.
@@ -117,7 +117,7 @@ override fun toString(): String =
 
 通过这个方式, 你可以立即看到哪些域已被设置, 哪些没有设置.
 
-## 采用一种异常处理方案, 并编写文档
+## 采用一种异常处理方案, 并编写文档 {id="adopt-and-document-a-policy-for-handling-exceptions"}
 
 我们在 [选择适当的错误处理机制](api-guidelines-consistency.md#choose-the-appropriate-error-handling-mechanism) 小节中讨论过,
 有时候, 为了表示一个错误, 你的库需要抛出一个异常. 你可以为这个目的创建你自己的异常类型.
@@ -137,7 +137,7 @@ override fun toString(): String =
 异常的类型应该表明错误类型, 异常中的数据应该帮助使用者确定问题的根本原因.
 一种常用的模式是, 将低层的异常封装到库专有的异常中, 通过 `cause` 可以访问原来的异常.
 
-## 下一步
+## 下一步 {id="next-step"}
 
 在本向导的下一部分, 你将学习可测试性.
 

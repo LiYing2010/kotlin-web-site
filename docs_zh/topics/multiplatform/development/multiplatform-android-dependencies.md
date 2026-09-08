@@ -43,14 +43,14 @@ kotlin {
 将 Android 项目中的一个顶层依赖项, 移动到 Multiplatform 项目中的一个专门的源代码集,
 如果这个顶层依赖项使用了 non-trivial 的配置名称, 可能会很困难.
 比如, 要从 Android 项目的顶层, 移动 `debugImplementation` 依赖项, 你需要向源代码集添加一个 implementation 依赖项, 名为 `androidDebug`.
-在迁移过程中, 为了减少解决这类问题需要做的工作, 你可以在 `androidTarget {}` 代码块内添加一个 `dependencies {}` 代码块:
+在迁移过程中, 为了减少解决这类问题需要做的工作, 你可以在 `android {}` 代码块内添加一个 `dependencies {}` 代码块:
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 kotlin {
-    androidTarget {
+    android {
         // ...
         dependencies {
             implementation("com.example.android:app-magic:12.3")
@@ -64,7 +64,7 @@ kotlin {
 
 ```groovy
 kotlin {
-    androidTarget {
+    android {
         // ...
         dependencies {
             implementation 'com.example.android:app-magic:12.3'
@@ -82,7 +82,7 @@ kotlin {
 然而, 我们强烈 **不推荐** 这样的做法, 因为构建脚本在顶层代码块中配置 Android 依赖项, 又在各个源代码集中配置其他编译目标依赖项,
 这样的写法很容易让人难以理解.
 
-## 下一步做什么?
+## 下一步做什么? {id="what-s-next"}
 
 查看跨平台项目中添加依赖项的其他资料, 并学习以下内容:
 

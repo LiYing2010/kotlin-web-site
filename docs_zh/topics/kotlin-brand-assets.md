@@ -6,8 +6,6 @@
 
 [下载所有版本](https://resources.jetbrains.com/storage/products/kotlin/docs/kotlin_logos.zip){:.typo-float-right.kto-button.kto-button_size_m.kto-button_mode_outline}
 
-![Kotlin logo](kotlin-logo.png){width=700}
-
 我们的 Logo 和标志中包含保护区域. 请将 Logo 摆放在适当位置, 不要让其它图像元素遮挡保护区域.
 保护区域的最小尺寸是标志高度的一半.
 
@@ -23,6 +21,26 @@
 * 不要将 Logo 放在复杂的背景上. 不要将 Logo 放在亮色背景上.
 
 [阅读 Kotlin 品牌使用方法指南](https://kotlinfoundation.org/guidelines/).
+
+## Kotlin 生态系统 Logo {id="kotlin-ecosystem-logos"}
+
+Kotlin 品牌包还包括一些其它 Logo, 用于几种官方 Kotlin 生态系统项目, 库, 框架, 以及各种技术.
+这些资产遵循与 Kotlin Logo 相同的视觉原则, 有助于确保在整个生态系统中呈现一致的视觉形象.
+
+包中包含以下内容的 Logo:
+
+* [Kotlin 基金会](https://kotlinfoundation.org)
+* [Kotlin Notebook](kotlin-notebook-overview.md)
+* [Kotlin Multiplatform (KMP)](https://kotlinlang.org/multiplatform/)
+* [Talking Kotlin](https://www.youtube.com/playlist?list=PLlFc5cFwUnmz1TwkP9SKCHU978dqLTANB)
+* [Compose Multiplatform (CMP)](https://kotlinlang.org/compose-multiplatform/)
+* [Compose Hot Reload](https://kotlinlang.org/docs/multiplatform/compose-hot-reload.html)
+* [Ktor](https://ktor.io)
+* [Exposed](https://www.jetbrains.com/exposed/)
+
+这些 Logo 也包含在同一个下载包中:
+
+[下载所有版本](https://resources.jetbrains.com/storage/products/kotlin/docs/kotlin_logos.zip){:.typo-float-right.kto-button.kto-button_size_m.kto-button_mode_outline}
 
 ## Kotlin 吉祥物 {id="kotlin-mascot"}
 

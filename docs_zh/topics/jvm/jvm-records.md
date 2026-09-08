@@ -67,7 +67,8 @@ data class Person(val name: String, val age: Int)
 对生成的 JVM 字节码, JVM 记录类要求的编译目标为 `16` 或更高版本.
 
 要明确指定字节码版本, 请在 [Gradle](gradle-compiler-options.md#attributes-specific-to-jvm)
-或 [Maven](maven.md#attributes-specific-to-jvm)中, 使用 `jvmTarget` 编译器选项.
+或 [Maven](maven-kotlin-compiler.md#attributes-specific-to-jvm)
+中, 使用 `jvmTarget` 编译器选项.
 
 ## 在 Kotlin 中标注记录组件 {id="annotate-record-components-in-kotlin"}
 
@@ -75,20 +76,6 @@ data class Person(val name: String, val age: Int)
 
 在 Java 中, 记录组件上的 [注解](annotations.md) 会自动传递到后端域变量(Backing Field), 取值方法(Getter), 设值方法(Setter), 以及构造器参数.
 在 Kotlin 中， 你可以通过 [`all`](annotations.md#all-meta-target) 使用目标(Use-site Target)来复制这个动作.
-
-> 要使用 `all` 使用目标, 你需要标注使用者同意.
-> 可以使用 `-Xannotation-target-all` 编译器选项,
-> 或者向你的 `build.gradle.kts` 文件添加以下内容:
->
-> ```kotlin
-> kotlin {
->     compilerOptions {
->         freeCompilerArgs.add("-Xannotation-target-all")
->     }
-> }
-> ```
->
-{style="warning"}
 
 例如:
 

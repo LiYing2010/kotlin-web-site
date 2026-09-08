@@ -17,7 +17,7 @@ class Message { /*...*/ }
 
 如果没有指定包, 那么源代码文件中的内容将属于 _默认_ 包, 这个包没有名称.
 
-## 默认导入
+## 默认导入 {id="default-imports"}
 
 以下各个包会被默认导入到每一个 Kotlin 源代码文件:
 
@@ -68,7 +68,7 @@ import org.test.Message as TestMessage // 可以使用新名称 TestMessage 来�
   * [对象声明](object-declarations.md#object-declarations-overview) 中定义的函数和属性
   * [枚举常数](enum-classes.md)
 
-## 顶级(top-level) 声明的可见度
+## 顶级(top-level) 声明的可见度 {id="visibility-of-top-level-declarations"}
 
 如果一个顶级(top-level) 声明被标注为 `private`, 它将成为私有的,
 只有在它所属的文件内可以访问(参见 [可见度修饰符](visibility-modifiers.md)).

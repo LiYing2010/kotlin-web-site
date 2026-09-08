@@ -217,10 +217,16 @@ fun main() {
 
 写一个名为 `circleArea` 的函数, 接受一个整数参数, 表示圆的半径, 输出圆的面积大小.
 
-> 在这个习题中, 你会导入一个包, 以便通过 `PI` 来访问 pi 值.
+> 在这个习题中, 你会导入一个包, 以便通过 `PI` 来访问 <math>π</math> 值.
 > 关于包的导入, 更多详情请参见 [包与导入](packages.md).
 >
 {style="tip"}
+
+<deflist collapsible="true" id="kotlin-tour-functions-exercise-1-hint">
+    <def title="提示">
+        圆面积的计算公式是 <math>πr^2</math>, 其中 <math>r</math> 是半径.
+    </def>
+</deflist>
 
 |---|---|
 ```kotlin
@@ -394,10 +400,11 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-lambda-filter"}
 
-`.filter()` 函数接受一个 Lambda 表达式, 作为判定条件:
+`.filter()` 函数接受一个 Lambda 表达式作为判定条件, 并将它应用于列表的每个元素.
+只有在判定条件返回 `true` 时, 元素才会保留:
 
-* `{ x -> x > 0 }` 接受 List 中的每个元素, 只返回正数.
-* `{ x -> x < 0 }` 接受 List 中的每个元素, 只返回负数.
+* `{ x -> x > 0 }`, 如果元素为正数, 则返回 `true`.
+* `{ x -> x < 0 }`, 如果元素为负数, 则返回 `true`.
 
 这个示例演示了将 Lambda 表达式传递给函数的两种方式:
 

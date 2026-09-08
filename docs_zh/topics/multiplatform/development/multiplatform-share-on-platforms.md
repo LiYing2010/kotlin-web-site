@@ -18,7 +18,7 @@
 ![所有平台上共用的代码](flat-structure.svg)
 
 源代码集之间一些依赖关系会默认设置. 对于以下源代码集, 你不需要手动指定任何 `dependsOn` 关系:
-* 所有平台相关的源代码集会默认依赖于共通源代码集, 比如 `jvmMain`, `macosX64Main`, 等等.
+* 所有平台相关的源代码集会默认依赖于共通源代码集, 比如 `jvmMain`, `macosArm64Main`, 等等.
 * 某个特定编译目标的 `main` 与 `test` 源代码集之间会默认依赖, 比如 `androidMain` 与 `androidUnitTest`.
 
 如果在共用的代码中需要访问平台相关的 API, 可以使用 Kotlin 的
@@ -68,7 +68,7 @@
 此外, 如果在你的项目中使用 [Kotlin CocoaPods Gradle](multiplatform-cocoapods-overview.md) plugin,
 你也可以使用 [`cinterop` 机制](native-c-interop.md) 导入的第三方原生库.
 
-## 下一步做什么?
+## 下一步做什么? {id="whats-next"}
 
 * [阅读使用 Kotlin 预期声明与实际声明机制共用代码的相关文档](multiplatform-expect-actual.md)
 * [学习层级项目结构](multiplatform-hierarchy.md)

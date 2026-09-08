@@ -1,10 +1,10 @@
 [//]: # (title: Javadoc)
+<primary-label ref="alpha"/>
 
-> Javadoc 输出格式还处于 Alpha 状态, 因此你在使用时可能遇到 bug, 或迁移问题.
-> 我们不保证能够与那些接受 Java 的 Javadoc HTML 格式作为输入的工具成功的集成.
-> **使用这个功能时, 请自行承担风险.**
+> 这篇向导适用于 Dokka Gradle plugin (DGP) v2 模式. DGP v1 模式不再支持.
+> 要从 v1 模式升级到 v2 模式, 请遵循 [迁移向导](dokka-migration.md).
 >
-{style="warning"}
+{style="note"}
 
 Dokka 的 Javadoc 输出格式与 Java 的
 [Javadoc HTML 格式](https://docs.oracle.com/en/java/javase/19/docs/api/index.html)
@@ -12,7 +12,7 @@ Dokka 的 Javadoc 输出格式与 Java 的
 
 它试图在视觉效果上模仿由 Javadoc 工具生成的 HTML 页面, 但它不是 Javadoc 的直接实现, 也不是完全一样的复制.
 
-![javadoc 输出格式](javadoc-format-example.png){width=706}
+![Javadoc 输出格式](javadoc-format-example.png){width=706}
 
 所有的 Kotlin 代码和签名都会以 Java 的视角来显示.
 这是通过我们的
@@ -24,21 +24,27 @@ Javadoc 输出格式作为一个 [Dokka plugin](dokka-plugins.md) 来实现, 由
 
 ## 生成 Javadoc 文档 {id="generate-javadoc-documentation"}
 
-> Javadoc 格式不支持跨平台项目.
+> 对多项目构建和 Kotlin 跨平台项目, Dokka 不支持 Javadoc 格式 .
 >
-{style="warning"}
+{style="tip"}
 
 
 <tabs group="build-script">
-<tab title="Gradle" group-key="kotlin">
+<tab title="Gradle Kotlin DSL" group-key="kotlin">
 
 [Gradle plugin for Dokka](dokka-gradle.md) 包含了 Javadoc 输出格式.
-你可以使用以下 task:
+你需要在你的项目的 `build.gradle.kts` 文件的 `plugins {}` 代码段中, 适用相应的 plugin ID:
 
-| **Task**                | **描述**                                                                                                                                                                                              |
-|-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `dokkaJavadoc`          | 为单个项目生成 Javadoc 文档.                                                                                                                                                        |
-| `dokkaJavadocCollector` | 只为多项目构建中的父项目创建的 [`Collector`](dokka-gradle.md#collector-tasks) task. 它会为每个子项目调用 `dokkaJavadoc`, 并将所有的输出合并到一个单独的虚拟项目. |
+```kotlin
+plugins {
+    id("org.jetbrains.dokka-javadoc") version "%dokkaVersion%"
+}
+```
+
+适用 plugin 之后, 你可以运行以下 task:
+
+* `dokkaGenerate`, 根据适用的 plugin, 使用所有 [可用的格式](dokka-gradle.md#configure-documentation-output-format) 生成文档.
+* `dokkaGeneratePublicationJavadoc`, 只使用 Javadoc 格式生成文档.
 
 `javadoc.jar` 文件可以单独生成.
 详情请参见, [构建 `javadoc.jar`](dokka-gradle.md#build-javadoc-jar).

@@ -13,43 +13,203 @@
 我们来看看以下代码:
 
 ```kotlin
-import com.example.html.* // 具体的声明参见下文
+package html
 
-fun result() =
-    html {
+fun main() {
+    //sampleStart
+    val result = html {
         head {
-            title {+"XML encoding with Kotlin"}
+            title { +"HTML encoding with Kotlin" }
         }
         body {
-            h1 {+"XML encoding with Kotlin"}
-            p  {+"this format can be used as an alternative markup to XML"}
+            h1 { +"HTML encoding with Kotlin" }
+            p {
+                +"this format can be used as an"
+                +"alternative markup to HTML"
+            }
 
             // 一个元素, 指定了属性, 还指定了其中的文本内容
-            a(href = "https://kotlinlang.org") {+"Kotlin"}
+            a(href = "http://kotlinlang.org") { +"Kotlin" }
 
             // 混合内容
             p {
                 +"This is some"
-                b {+"mixed"}
+                b { +"mixed" }
                 +"text. For more see the"
-                a(href = "https://kotlinlang.org") {+"Kotlin"}
+                a(href = "http://kotlinlang.org") {
+                    +"Kotlin"
+                }
                 +"project"
             }
-            p {+"some text"}
-
-            // 由程序生成的内容
             p {
-                for (arg in args)
-                    +arg
+                +"some text"
+                ul {
+                    for (i in 1..5)
+                        li { +"${i}*2 = ${i*2}" }
+                }
             }
         }
     }
+    //sampleEnd
+    println(result)
+}
+
+interface Element {
+    fun render(builder: StringBuilder, indent: String)
+}
+
+class TextElement(val text: String) : Element {
+    override fun render(builder: StringBuilder, indent: String) {
+        builder.append("$indent$text\n")
+    }
+}
+
+@DslMarker
+annotation class HtmlTagMarker
+
+@HtmlTagMarker
+abstract class Tag(val name: String) : Element {
+    val children = arrayListOf<Element>()
+    val attributes = hashMapOf<String, String>()
+
+    protected fun <T : Element> initTag(tag: T, init: T.() -> Unit): T {
+        tag.init()
+        children.add(tag)
+        return tag
+    }
+
+    override fun render(builder: StringBuilder, indent: String) {
+        builder.append("$indent<$name${renderAttributes()}>\n")
+        for (c in children) {
+            c.render(builder, indent + "  ")
+        }
+        builder.append("$indent</$name>\n")
+    }
+
+    private fun renderAttributes(): String {
+        val builder = StringBuilder()
+        for ((attr, value) in attributes) {
+            builder.append(" $attr=\"$value\"")
+        }
+        return builder.toString()
+    }
+
+    override fun toString(): String {
+        val builder = StringBuilder()
+        render(builder, "")
+        return builder.toString()
+    }
+}
+
+abstract class TagWithText(name: String) : Tag(name) {
+    operator fun String.unaryPlus() {
+        children.add(TextElement(this))
+    }
+}
+class HTML() : TagWithText("html") {
+    fun head(init: Head.() -> Unit) = initTag(Head(), init)
+    fun body(init: Body.() -> Unit) = initTag(Body(), init)
+}
+
+
+class Head() : TagWithText("head") {
+    fun title(init: Title.() -> Unit) = initTag(Title(), init)
+}
+
+class Title() : TagWithText("title")
+
+abstract class BodyTag(name: String) : TagWithText(name) {
+    fun b(init: B.() -> Unit) = initTag(B(), init)
+    fun p(init: P.() -> Unit) = initTag(P(), init)
+    fun h1(init: H1.() -> Unit) = initTag(H1(), init)
+    fun ul(init: UL.() -> Unit) = initTag(UL(), init)
+    fun a(href: String, init: A.() -> Unit) {
+        val a = initTag(A(), init)
+        a.href = href
+    }
+}
+
+class Body() : BodyTag("body")
+class UL() : BodyTag("ul") {
+    fun li(init: LI.() -> Unit) = initTag(LI(), init)
+}
+
+class B() : BodyTag("b")
+class LI() : BodyTag("li")
+class P() : BodyTag("p")
+class H1() : BodyTag("h1")
+
+class A : BodyTag("a") {
+    var href: String
+        get() = attributes["href"]!!
+        set(value) {
+            attributes["href"] = value
+        }
+}
+
+fun html(init: HTML.() -> Unit): HTML {
+    val html = HTML()
+    html.init()
+    return html
+}
 ```
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-type-safe-builders"}
 
-上面是一段完全合法的 Kotlin 代码.
-你可以 [在这个页面中在线验证这段代码(可以在浏览器中修改并运行它)](https://play.kotlinlang.org/byExample/09_Kotlin_JS/06_HtmlBuilder).
+```
+<html>
+  <head>
+    <title>
+      HTML encoding with Kotlin
+    </title>
+  </head>
+  <body>
+    <h1>
+      HTML encoding with Kotlin
+    </h1>
+    <p>
+      this format can be used as an
+      alternative markup to HTML
+    </p>
+    <a href="http://kotlinlang.org">
+      Kotlin
+    </a>
+    <p>
+      This is some
+      <b>
+        mixed
+      </b>
+      text. For more see the
+      <a href="http://kotlinlang.org">
+        Kotlin
+      </a>
+      project
+    </p>
+    <p>
+      some text
+      <ul>
+        <li>
+          1*2 = 2
+        </li>
+        <li>
+          2*2 = 4
+        </li>
+        <li>
+          3*2 = 6
+        </li>
+        <li>
+          4*2 = 8
+        </li>
+        <li>
+          5*2 = 10
+        </li>
+      </ul>
+    </p>
+  </body>
+</html>
+```
+{collapsible="true" collapsed-title="输出结果示例"}
 
-## 工作原理
+## 工作原理 {id="how-it-works"}
 
 假设你需要用 Kotlin 来实现一个类型安全的构建器.
 首先, 要对你想要构建的东西定义一组模型. 在这个示例中, 需要对 HTML 标签建模.
@@ -174,10 +334,10 @@ operator fun String.unaryPlus() {
 以上所有类和函数都定义在 `com.example.html` 包中, 上面的构建器示例程序的最上部引入了这个包.
 在最后一节中, 你可以读到这个包的完整定义.
 
-## 控制接受者的作用范围: @DslMarker
+## 控制接受者的作用范围: @DslMarker {id="scope-control-dslmarker"}
 
 使用 DSL 时, 可能遇到的一个问题就是, 当前上下文中存在太多可供调用的函数.
-在 Lambda 表达式内, 你可以调用所有隐含接受者的所有方法,
+在 Lambda 表达式内, 你可以调用所有 [隐含接受者](lambdas.md#function-literals-with-receiver) 的所有方法,
 因此造成一种不正确的结果, 比如一个 `head` 之内可以嵌套另一个 `head` 标签:
 
 ```kotlin
@@ -195,14 +355,28 @@ html {
 为了解决这个问题, 有一种特殊机制来控制接受者的作用范围.
 
 要让编译器控制接受者的作用范围, 你只需要用一个相同的注解, 对 DSL 中用到的所有接受者的类型进行标注.
-比如, 对 HTML 构建器你可以定义一个注解 `@HTMLTagMarker`:
+比如, 对 HTML 构建器你可以定义一个注解 `@HtmlTagMarker`:
 
 ```kotlin
 @DslMarker
+@Target(AnnotationTarget.CLASS)
 annotation class HtmlTagMarker
 ```
 
 如果对一个注解类标注了 `@DslMarker` 注解, 我们将它称作一个 DSL 标记.
+
+`@Target` 注解限制了 `@HtmlTagMarker` 能够使用的范围.
+DSL 标记只有在应用于以下目标时, 才会影响作用范围控制:
+
+* 类型声明 (`CLASS`): 用作 DSL 接受者的类或接口.
+* 类型使用 (`TYPE`): 在函数类型签名中的接受者类型.
+* 类型别名 (`TYPEALIAS`): 对 DSL 接受者类型进行扩展的类型别名.
+
+将 DSL 标记应用到其他目标 (例如函数或属性), 不会对作用范围控制造成影响.
+
+> 关于 DSL 标记的工作方式, 详情请参见相应的 [KEEP 文档](https://github.com/Kotlin/KEEP/blob/main/notes/0005-dsl-marker.md).
+>
+{style="note"}
 
 在我们的 DSL 中, 所有的标签类都继承自相同的超类 `Tag`.
 只需要对超类标注 `@HtmlTagMarker` 注解就够了,
@@ -244,11 +418,11 @@ html {
 ```
 
 你也可以直接对 [函数类型](lambdas.md#function-types) 使用 `@DslMarker` 注解.
-只需要对 `@DslMarker` 注解标注 `@Target(AnnotationTarget.TYPE)`:
+这需要在注解的使用目标(Target)中包含 `AnnotationTarget.TYPE`:
 
 ```kotlin
-@Target(AnnotationTarget.TYPE)
 @DslMarker
+@Target(AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 annotation class HtmlTagMarker
 ```
 
@@ -278,6 +452,38 @@ html {
 
 在 Lambda 表达式内, 只有最内层的接受者的成员和扩展可以访问, 防止在嵌套的作用域之间发生意外的交互.
 
+如果一个作用域中存在相同名称的隐含接受者成员和来自 [上下文参数](context-parameters.md) 的声明,
+编译器会报告警告信息, 因为隐含接受者会被上下文参数遮盖.
+要解决这个问题, 请使用 `this` 限定符, 明确的调用接受者, 或者使用 `contextOf<T>()` 调用上下文声明:
+
+```kotlin
+interface HtmlTag {
+    fun setAttribute(name: String, value: String)
+}
+
+// 声明相同名称的顶层函数,
+// 这个函数可以通过上下文参数访问
+context(tag: HtmlTag)
+fun setAttribute(name: String, value: String) { tag.setAttribute(name, value) }
+
+fun test(head: HtmlTag, extraInfo: HtmlTag) {
+    with(head) {
+        // 在内层作用域中引入一个相同类型的上下文值
+        context(extraInfo) {
+            // 这里会出现警告:
+            // Uses an implicit receiver shadowed by a context parameter
+            setAttribute("user", "1234")
+
+            // 明确的调用接受者的成员
+            this.setAttribute("user", "1234")
+
+            // 明确的调用上下文声明
+            contextOf<HtmlTag>().setAttribute("user", "1234")
+        }
+    }
+}
+```
+
 ### com.example.html 包的完整定义 {id="full-definition-of-the-com-example-html-package"}
 
 下面是 `com.example.html` 包的完整定义(但只包含上文示例程序使用到的元素).
@@ -298,6 +504,7 @@ class TextElement(val text: String) : Element {
 }
 
 @DslMarker
+@Target(AnnotationTarget.CLASS, AnnotationTarget.TYPE)
 annotation class HtmlTagMarker
 
 @HtmlTagMarker

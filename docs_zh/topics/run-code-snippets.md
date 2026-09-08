@@ -2,67 +2,66 @@
 
 Kotlin 代码通常使用项目来管理, 你可以通过 IDE, 文本编辑器, 或其他工具来开发这些项目.
 但是, 如果你想要快速查看一个函数如何工作, 或想要计算一个表达式的值, 就没有必要创建新的项目并构建它.
-我们来看看在各种环境中直接运行 Kotlin 代码的 3 种便利方法:
+我们来看看在各种环境中直接运行 Kotlin 代码的 4 种便利方法:
 
-* IDE 环境: [草稿(Scratch)与工作簿(Worksheet)](#ide-scratches-and-worksheets).
+* IDE 环境: [草稿(Scratch)](#ide-scratches-and-worksheets).
+* IDE 环境: [Kotlin Notebook](#ide-kotlin-notebook).
 * 浏览器环境: [Kotlin Playground](#browser-kotlin-playground).
 * 命令行环境: [ki shell](#command-line-ki-shell).
 
-## IDE: 草稿(Scratch)与工作簿(Worksheet) {id="ide-scratches-and-worksheets"}
+## IDE: 草稿(Scratch) {id="ide-scratches-and-worksheets"}
 
-IntelliJ IDEA 和 Android Studio 支持 Kotlin [草稿(Scratch)文件与工作簿(Worksheet)](https://www.jetbrains.com/help/idea/kotlin-repl.html#efb8fb32).
+IntelliJ IDEA 和 Android Studio 支持 Kotlin [草稿(Scratch)文件](https://www.jetbrains.com/help/idea/kotlin-repl.html#efb8fb32).
 
-* _草稿(Scratch)文件_ (或者直接简称 _草稿_) 可以在你的项目的同一个 IDE 窗口内创建代码草稿, 并立即运行.
-  草稿不会关联到项目; 你可以从你的 OS 上的任何 IntelliJ IDEA 窗口, 访问并运行你的所有草稿.
+_草稿(Scratch)文件_ (或者直接简称 _草稿_) 可以在你的项目的同一个 IDE 窗口内创建代码草稿, 并立即运行.
+草稿不会关联到项目; 你可以从你的 OS 上的任何 IntelliJ IDEA 窗口, 访问并运行你的所有草稿.
 
-  要创建一个 Kotlin 草稿, 请选择菜单 **File** | **New** | **Scratch File**, 然后选择 **Kotlin** 类型.
+要创建一个 Kotlin 草稿, 请选择菜单 **File** | **New** | **Scratch File**, 然后选择 **Kotlin** 类型.
 
-* _工作簿_ 是项目内的文件: 它们存储在项目目录内, 并属于项目的模块.
-  工作簿可以用来编写那些还不能真正构成软件单元, 但仍然需要与项目一起保存的代码片段.
-  比如, 教学或演示素材.
-
-  要在项目目录内创建一个 Kotlin 工作簿, 请在项目树的目录上点击鼠标右键, 并选择菜单 **New** | **Kotlin Class/File** | **Kotlin Worksheet**.
-
-  > 在 [K2 模式](https://blog.jetbrains.com/idea/2024/11/k2-mode-becomes-stable/) 中不支持 Kotlin 工作簿.
-  > 我们正在努力解决这个问题, 提供类似功能的替代方案.
-  >
-  {style="warning"}
-
-在草稿和工作簿中, 支持语法高亮, 自动完成, 以及 IntelliJ IDEA 代码编辑器的所有其他功能.
+在草稿中, 支持语法高亮, 自动完成, 以及 IntelliJ IDEA 代码编辑器的所有其他功能.
 不需要声明 `main()` 函数 - 你编写的所有代码都会被执行, 就好像它们在 `main()` 函数内一样.
 
-你的代码在草稿或工作簿之内编写完成后, 点击 **Run**.
+你的代码在草稿之内编写完成后, 点击 **Run**.
 执行结果将会出现在你的代码行的对面.
 
 ![运行草稿](scratch-run.png){width=700}
 
 ### 交互模式 {id="interactive-mode"}
 
-IDE 可以从草稿和工作簿自动运行代码. 要在你停止输入代码时立即得到执行结果, 请切换到 **Interactive mode**.
+IDE 可以从草稿自动运行代码. 要在你停止输入代码时立即得到执行结果, 请切换到 **Interactive mode**.
 
 ![草稿交互模式](scratch-interactive.png){width=700}
 
 ### 使用模块 {id="use-modules"}
 
-在你的草稿和工作簿中, 可以使用 Kotlin 项目中的类和函数.
-
-工作簿自动得到它所属模块中类和函数的访问权.
+在你的草稿中, 可以使用 Kotlin 项目中的类和函数.
 
 如果要在草稿中使用项目中的类或函数, 在草稿文件中需要和通常一样使用 `import` 语句导入它们.
 然后编写你的代码, 然后在 **Use classpath of module** 中选择适当的模块来运行.
 
-草稿和工作簿都使用相关模块编译后的版本. 因此, 如果你修改了模块的源代码文件, 要到重新构建模块之后, 变更才会反应到草稿和工作簿.
-要在草稿或工作簿的每次运行之前自动重新构建模块, 请选择 **Make module before Run**.
+草稿使用相关模块编译后的版本. 因此, 如果你修改了模块的源代码文件, 要到重新构建模块之后, 变更才会反应到草稿.
+要在草稿的每次运行之前自动重新构建模块, 请选择 **Make module before Run**.
 
 ![草稿选择模块](scratch-select-module.png){width=700}
 
-### 以 REPL 模式运行 {id="run-as-repl"}
+## IDE: Kotlin Notebook {id="ide-kotlin-notebook"}
 
-要计算草稿或工作簿中的每一个表达式, 请使用 **Use REPL** 模式来运行.
-代码行会按顺序运行, 对每一个调用输出结果.
-以后你可以在同一个文件内使用结果, 方法是引用它们自动生成的 `res*` 名称 (名称会显示在对应的行中).
+[](kotlin-notebook-overview.md) 是一种交互式编辑器, 你可以在一个文档内混合代码, 输出, 可视化内容, 以及 Markdown.
+你可以使用 Notebook, 在各个小节中编写和运行代码, 这种小节称为 _代码单元(code cell)_, 并立即看到结果.
 
-![草稿 REPL](scratch-repl.png){width=700}
+![Kotlin Notebook](data-analysis-notebook.gif){width=700}
+
+IntelliJ IDEA 默认捆绑并启用了 Kotlin Notebook.
+
+要开始使用 Kotlin Notebook, 请参见 [Kotlin Notebook 入门](get-started-with-kotlin-notebooks.md).
+
+### Kotlin Notebook 草稿 {id="scratch-kotlin-notebook"}
+
+你也可以将 Kotlin Notebook 创建为 [草稿文件](https://www.jetbrains.com/help/idea/scratches.html),
+这样可以测试小的代码片段, 而不必创建新的项目, 或修改既有的项目.
+Notebook 草稿 可以在任何项目中访问.
+
+参见 [如何创建 Kotlin Notebook 草稿](kotlin-notebook-create.md#create-a-scratch-kotlin-notebook).
 
 ## 浏览器: Kotlin Playground {id="browser-kotlin-playground"}
 

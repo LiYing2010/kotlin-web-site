@@ -1,81 +1,28 @@
-[//]: # (title: KSP 快速入门)
+[//]: # (title: KSP 入门)
+[//]: # (description: 向你的项目添加基于 Kotlin Symbol Processing (KSP) 的注解处理器, 或者使用 KSP API 创建你自己的处理器.)
 
-要快速入门 KSP, 你可以创建自己的处理器, 或者参考 [示例代码](https://github.com/google/ksp/tree/main/examples/playground).
+在这篇指南中, 你将学习:
 
-## 添加一个处理器 {id="add-a-processor"}
+* 如何向你的项目添加基于 KSP 的注解处理器.
+* 如何使用 KSP API 创建你自己的注解处理器.
+* 在哪里查找处理器生成的代码.
 
-要添加一个处理器, 你需要包含 KSP Gradle Plugin, 并添加对这个处理器的依赖项:
+## 向你的项目添加基于 KSP 的处理器 {id="add-a-ksp-based-processor-to-your-project"}
 
-1. 向你的 `build.gradle(.kts)` 文件添加 KSP Gradle Plugin `com.google.devtools.ksp`:
-
-   <tabs group="build-script">
-   <tab title="Kotlin" group-key="kotlin">
-
-   ```kotlin
-   plugins {
-       id("com.google.devtools.ksp") version "%kspSupportedKotlinVersion%-%kspVersion%"
-   }
-   ```
-
-   </tab>
-   <tab title="Groovy" group-key="groovy">
-
-   ```groovy
-   plugins {
-       id 'com.google.devtools.ksp' version '%kspSupportedKotlinVersion%-%kspVersion%'
-   }
-   ```
-
-   </tab>
-   </tabs>
-
-2. 添加对处理器的依赖项.
-   这个示例使用 [Dagger](https://dagger.dev/dev-guide/ksp.html). 请将它替换为你想要添加的处理器.
-
-   <tabs group="build-script">
-   <tab title="Kotlin" group-key="kotlin">
-
-   ```kotlin
-   dependencies {
-       implementation("com.google.dagger:dagger-compiler:2.51.1")
-       ksp("com.google.dagger:dagger-compiler:2.51.1")
-   }
-   ```
-
-   </tab>
-   <tab title="Groovy" group-key="groovy">
-   
-   ```groovy
-   dependencies {
-       implementation 'com.google.dagger:dagger-compiler:2.51.1'
-       ksp 'com.google.dagger:dagger-compiler:2.51.1'
-   }
-   ```
-
-   </tab>
-   </tabs>
-
-3. 运行 `./gradlew build`. 你可以在 `build/generated/ksp` 目录下看到生成的代码.
-
-下面是完整的示例:
+要在你的项目中使用外部处理器, 请在 `build.gradle(.kts)` 文件的
+[`plugins {}` 代码块](https://docs.gradle.org/current/userguide/plugins.html#sec:plugins_block)
+中添加 KSP.
+如果只有某个特定模块需要这个处理器, 请改为在该模块的 `build.gradle(.kts)` 文件中添加:
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
+// build.gradle.kts
+
 plugins {
-    id("com.google.devtools.ksp") version "%kspSupportedKotlinVersion%-%kspVersion%"
-    kotlin("jvm")
-}
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-    implementation("com.google.dagger:dagger-compiler:2.51.1")
-    ksp("com.google.dagger:dagger-compiler:2.51.1")
+    kotlin("jvm") version "%kotlinVersion%"
+    id("com.google.devtools.ksp") version "%kspVersion%"
 }
 ```
 
@@ -83,284 +30,33 @@ dependencies {
 <tab title="Groovy" group-key="groovy">
 
 ```groovy
+// build.gradle
+
 plugins {
-    id 'com.google.devtools.ksp' version '%kspSupportedKotlinVersion%-%kspVersion%'
     id 'org.jetbrains.kotlin.jvm' version '%kotlinVersion%'
-}
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:%kotlinVersion%'
-    implementation 'com.google.dagger:dagger-compiler:2.51.1'
-    ksp 'com.google.dagger:dagger-compiler:2.51.1'
+    id 'com.google.devtools.ksp' version '%kspVersion%'
 }
 ```
 
 </tab>
 </tabs>
 
-## 创建一个你自己的处理器 {id="create-a-processor-of-your-own"}
-
-1. 创建一个空的 gradle 项目.
-2. 在根项目中指定 Kotlin plugin 版本 `%kspSupportedKotlinVersion%`, 供其他项目模块使用:
-
-   <tabs group="build-script">
-   <tab title="Kotlin" group-key="kotlin">
-
-   ```kotlin
-   plugins {
-       kotlin("jvm") version "%kspSupportedKotlinVersion%" apply false
-   }
-
-   buildscript {
-       dependencies {
-           classpath(kotlin("gradle-plugin", version = "%kspSupportedKotlinVersion%"))
-       }
-   }
-   ```
-
-   </tab>
-   <tab title="Groovy" group-key="groovy">
-
-   ```groovy
-   plugins {
-       id 'org.jetbrains.kotlin.jvm' version '%kspSupportedKotlinVersion%' apply false
-   }
-
-   buildscript {
-       dependencies {
-           classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:%kspSupportedKotlinVersion%'
-       }
-   }
-   ```
-
-   </tab>
-   </tabs>
-
-3. 添加一个模块, 容纳处理器.
-
-4. 在模块的构建脚本中, 使用 Kotlin plugin, 并在 `dependencies` 代码段添加 KSP API.
-
-   <tabs group="build-script">
-   <tab title="Kotlin" group-key="kotlin">
-
-   ```kotlin
-   plugins {
-       kotlin("jvm")
-   }
-
-   repositories {
-       mavenCentral()
-   }
-
-   dependencies {
-       implementation("com.google.devtools.ksp:symbol-processing-api:%kspSupportedKotlinVersion%-%kspVersion%")
-   }
-   ```
-
-   </tab>
-   <tab title="Groovy" group-key="groovy">
-
-   ```groovy
-   plugins {
-       id 'org.jetbrains.kotlin.jvm' version '%kotlinVersion%'
-   }
-
-   repositories {
-       mavenCentral()
-   }
-
-   dependencies {
-       implementation 'com.google.devtools.ksp:symbol-processing-api:%kspSupportedKotlinVersion%-%kspVersion%'
-   }
-   ```
-
-   </tab>
-   </tabs>
-
-5. 你需要实现
-   [`com.google.devtools.ksp.processing.SymbolProcessor`](https://github.com/google/ksp/tree/main/api/src/main/kotlin/com/google/devtools/ksp/processing/SymbolProcessor.kt)
-   和
-   [`com.google.devtools.ksp.processing.SymbolProcessorProvider`](https://github.com/google/ksp/tree/main/api/src/main/kotlin/com/google/devtools/ksp/processing/SymbolProcessorProvider.kt).
-   你实现的 `SymbolProcessorProvider` 将被作为一个服务装载, 负责创建你实现的 `SymbolProcessor` 实例.
-   注意以下几点:
-    * 实现
-      [`SymbolProcessorProvider.create()`](https://github.com/google/ksp/blob/master/api/src/main/kotlin/com/google/devtools/ksp/processing/SymbolProcessorProvider.kt),
-      负责创建一个 `SymbolProcessor`.
-      通过 `SymbolProcessorProvider.create()` 的参数传递你的处理器需要的依赖项 (比如 `CodeGenerator`, 处理器选项).
-    * 你的主逻辑应该在
-      [`SymbolProcessor.process()`](https://github.com/google/ksp/blob/master/api/src/main/kotlin/com/google/devtools/ksp/processing/SymbolProcessor.kt)
-      方法中.
-    * 使用 `resolver.getSymbolsWithAnnotation()`, 给定一个注解的完全限定名称, 得到你希望处理的符号.
-    * KSP 的一个常见使用场景是实现一个自定义的访问器 (`com.google.devtools.ksp.symbol.KSVisitor` 接口)
-      来操作符号. 一个简单的访问器模板是 `com.google.devtools.ksp.symbol.KSDefaultVisitor`.
-    * 关于 `SymbolProcessorProvider` 和 `SymbolProcessor` 接口实现的例子, 请参见示例项目中的以下文件.
-        * `src/main/kotlin/BuilderProcessor.kt`
-        * `src/main/kotlin/TestProcessor.kt`
-    * 编写完你自己的处理器之后, 需要向包注册你的处理器 provider, 方法是在
-      `src/main/resources/META-INF/services/com.google.devtools.ksp.processing.SymbolProcessorProvider`
-      中包含它的完全限定名称.
-
-## 在一个项目中使用你自己的处理器 {id="use-your-own-processor-in-a-project"}
-
-1. 创建另一个模块, 包含一段工作程序, 用来试验你的处理器.
-
-   <tabs group="build-script">
-   <tab title="Kotlin" group-key="kotlin">
-
-   ```kotlin
-   pluginManagement {
-       repositories {
-           gradlePluginPortal()
-       }
-   }
-   ```
-
-   </tab>
-   <tab title="Groovy" group-key="groovy">
-
-   ```groovy
-   pluginManagement {
-       repositories {
-           gradlePluginPortal()
-       }
-   }
-   ```
-
-   </tab>
-   </tabs>
-
-2. 在模块的构建脚本中, 使用指定版本的 `com.google.devtools.ksp` plugin, 并在依赖项中添加你的处理器.
-
-   <tabs group="build-script">
-   <tab title="Kotlin" group-key="kotlin">
-
-   ```kotlin
-   plugins {
-       id("com.google.devtools.ksp") version "%kspSupportedKotlinVersion%-%kspVersion%"
-   }
-
-   dependencies {
-       implementation(kotlin("stdlib-jdk8"))
-       implementation(project(":test-processor"))
-       ksp(project(":test-processor"))
-   }
-   ```
-
-   </tab>
-   <tab title="Groovy" group-key="groovy">
-
-   ```groovy
-   plugins {
-       id 'com.google.devtools.ksp' version '%kspSupportedKotlinVersion%-%kspVersion%'
-   }
-
-   dependencies {
-       implementation 'org.jetbrains.kotlin:kotlin-stdlib:%kotlinVersion%'
-       implementation project(':test-processor')
-       ksp project(':test-processor')
-   }
-   ```
-
-   </tab>
-   </tabs>
-
-3. 运行 `./gradlew build`. 你可以在 `build/generated/ksp` 目录下看到生成的代码.
-
-下面是一个构建脚本示例, 它对工作程序使用 KSP plugin:
-
-<tabs group="build-script">
-<tab title="Kotlin" group-key="kotlin">
-
-```kotlin
-plugins {
-    id("com.google.devtools.ksp") version "%kspSupportedKotlinVersion%-%kspVersion%"
-    kotlin("jvm")
-}
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-    implementation(project(":test-processor"))
-    ksp(project(":test-processor"))
-}
-```
-
-</tab>
-<tab title="Groovy" group-key="groovy">
-
-```groovy
-plugins {
-    id 'com.google.devtools.ksp' version '%kspSupportedKotlinVersion%-%kspVersion%'
-    id 'org.jetbrains.kotlin.jvm' version '%kotlinVersion%'
-}
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:%kotlinVersion%'
-    implementation project(':test-processor')
-    ksp project(':test-processor')
-}
-```
-
-</tab>
-</tabs>
-
-## 向处理器传递选项 {id="pass-options-to-processors"}
-
-在 gradle 构建脚本中指定 `SymbolProcessorEnvironment.options` 中的处理器选项:
-
-```none
-ksp {
-    arg("option1", "value1")
-    arg("option2", "value2")
-    ...
-}
-```
-
-## 让 IDE 感知生成的代码 {id="make-ide-aware-of-generated-code"}
-
-> 从 KSP 1.8.0-1.0.9 开始, 生成的源代码文件会自动进行注册.
-> 如果你在使用 KSP 1.0.9 或更高版本, 但不需要让 IDE 感知生成的资源, 那么可以跳过这一章节.
+> 要查找 KSP 的最新版本, 请查看 GitHub [Releases](https://github.com/google/ksp/releases).
 >
-{style="note"}
+{style="tip"}
 
-默认情况下, IntelliJ IDEA 或其他 IDE 不知道生成的代码. 因此 IDE 会将生成的符号标记为无法解析.
-要让 IDE 能够理解生成的符号, 请将以下路径标记为生成的源代码根目录:
-
-```text
-build/generated/ksp/main/kotlin/
-build/generated/ksp/main/java/
-```
-
-如果你的 IDE 支持资源目录, 那么还需要标记下面的路径:
-
-```text
-build/generated/ksp/main/resources/
-```
-
-在你的 KSP 使用者模块的构建脚本中, 可能还需要配置这些目录:
+在最顶层的 `dependencies {}` 代码块中, 添加你想要使用的处理器.
+这个示例使用
+[Moshi](https://github.com/square/moshi?tab=readme-ov-file#codegen), 其他处理器的添加方式也是一样的:
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
-kotlin {
-    sourceSets.main {
-        kotlin.srcDir("build/generated/ksp/main/kotlin")
-    }
-    sourceSets.test {
-        kotlin.srcDir("build/generated/ksp/test/kotlin")
-    }
+// build.gradle.kts
+
+dependencies {
+    ksp("com.squareup.moshi:moshi-kotlin-codegen:1.15.2")
 }
 ```
 
@@ -368,64 +64,398 @@ kotlin {
 <tab title="Groovy" group-key="groovy">
 
 ```groovy
-kotlin {
-    sourceSets {
-        main.kotlin.srcDirs += 'build/generated/ksp/main/kotlin'
-        test.kotlin.srcDirs += 'build/generated/ksp/test/kotlin'
-    }
+// build.gradle
+
+dependencies {
+    ksp 'com.squareup.moshi:moshi-kotlin-codegen:1.15.2'
 }
 ```
 
 </tab>
 </tabs>
 
-如果你使用 IntelliJ IDEA, 并在 Gradle plugin 中使用 KSP, 那么上面的代码段会出现以下警告:
+## 创建你自己的处理器 {id="create-your-own-processor"}
+
+按照以下步骤, 你将创建一个简单的注解处理器, 它会生成一个 `helloWorld()` 函数.
+虽然在实际中用处不大, 但它演示了创建你自己的处理器和注解的基本方法.
+
+### 向项目添加 KSP {id="add-ksp-to-the-project"}
+
+创建一个新的 Kotlin 项目, 并添加 KSP plugin:
+
+1. 在 IntelliJ IDEA 中, 选择 **File** | **New** | **Project**.
+2. 在左侧列表中, 选择 **Kotlin**.
+3. 选择 **Gradle** 作为构建系统, 然后点击 **Create**.
+
+    ![创建新项目](ksp-new-project.png){width=700}
+
+4. 向 `build.gradle(.kts)` 文件添加 KSP plugin:
+
+    <tabs group="build-script">
+    <tab title="Kotlin" group-key="kotlin">
+
+    ```kotlin
+    // build.gradle.kts
+
+    plugins {
+        kotlin("jvm") version "%kotlinVersion%"
+        id("com.google.devtools.ksp") version "%kspVersion%" apply false
+    }
+    ```
+
+    </tab>
+    <tab title="Groovy" group-key="groovy">
+
+    ```groovy
+    // build.gradle
+
+    plugins {
+        id 'org.jetbrains.kotlin.jvm' version '%kotlinVersion%'
+        id 'com.google.devtools.ksp' version '%kspVersion%' apply false
+    }
+    ```
+
+    </tab>
+    </tabs>
+
+### 创建注解 {id="create-an-annotation"}
+
+在项目的根目录创建一个新模块, 并声明一个注解:
+
+1. 选择 **File** | **New** | **Module**.
+2. 在左侧列表中, 选择 **Kotlin**.
+3. 填写以下项目, 然后点击 **create**:
+
+    * **Name**: annotations
+    * **Build system**: Gradle
+
+    ![创建新模块](ksp-new-module.png){width=700}
+
+4. 在这个模块中, 创建 `HelloWorldAnnotation.kt` 文件, 并声明一个注解, 名为 `HelloWorldAnnotation`:
+
+    ```kotlin
+    // annotations/src/main/kotlin/com/example/annotations/HelloWorldAnnotation.kt
+
+    package com.example.annotations
+
+    annotation class HelloWorldAnnotation
+    ```
+
+### 创建并注册处理器 {id="create-and-register-a-processor"}
+
+1. 在项目的根目录创建另一个模块, 名为 **processor**.
+
+2. 在这个模块的 `build.gradle(.kts)` 文件中, 将 KSP API 和你声明的注解添加为依赖项:
+
+    <tabs group="build-script">
+    <tab title="Kotlin" group-key="kotlin">
+
+    ```kotlin
+    // processor/build.gradle.kts
+
+    plugins {
+        kotlin("jvm")
+    }
+
+    dependencies {
+        implementation(project(":annotations"))
+        implementation("com.google.devtools.ksp:symbol-processing-api:2.3.6")
+    }
+    ```
+
+    </tab>
+    <tab title="Groovy" group-key="groovy">
+
+    ```groovy
+    // processor/build.gradle
+
+    plugins {
+        id 'org.jetbrains.kotlin.jvm'
+    }
+
+    dependencies {
+        implementation project ':annotations'
+        implementation 'com.google.devtools.ksp:symbol-processing-api:2.3.6'
+    }
+    ```
+
+    </tab>
+    </tabs>
+
+3. 在 `processor` 模块中, 创建一个新的 `HelloWorldProcessor.kt` 文件, 添加以下代码:
+
+    ```kotlin
+    // processor/src/main/kotlin/HelloWorldProcessor.kt
+
+    class HelloWorldProcessor(val codeGenerator: CodeGenerator) : SymbolProcessor {
+        // 1️⃣ process() 函数
+        override fun process(resolver: Resolver): List<KSAnnotated> {
+            resolver
+                .getSymbolsWithAnnotation("com.example.annotations.HelloWorldAnnotation")
+                .filter { it.validate() }
+                .filterIsInstance<KSFunctionDeclaration>()
+                .forEach { it.accept(HelloWorldVisitor(), Unit) }
+
+           return emptyList()
+        }
+
+       // 2️⃣ 访问器(Visitor)
+       inner class HelloWorldVisitor : KSVisitorVoid() {
+           override fun visitFunctionDeclaration(function: KSFunctionDeclaration, data: Unit) {
+               createNewFileFrom(function).use { file ->
+                   file.write(
+                       """
+                           fun helloWorld(): Unit {
+                               println("Hello world from function generated by KSP")
+                           }
+                       """.trimIndent()
+                   )
+               }
+           }
+       }
+
+       // 3️⃣ createNewFileFrom() 函数
+       private fun createNewFileFrom(function: KSFunctionDeclaration): OutputStream {
+           return codeGenerator.createNewFile(
+              dependencies = createDependencyOn(function),
+              packageName = "",
+              fileName = "GeneratedHelloWorld"
+           )
+       }
+
+       // 3️⃣ createDependencyOn() 函数
+       private fun createDependencyOn(function: KSFunctionDeclaration): Dependencies {
+           return Dependencies(aggregating = false, function.containingFile!!)
+       }
+    }
+
+    // 工具函数, 用于将字符串写入 OutputStream
+    fun OutputStream.write(string: String): Unit {
+        this.write(string.toByteArray())
+    }
+    ```
+
+    添加 IDE 建议的 import 语句. 请确保从 `com.google.devtools.ksp.processing` 导入 `Resolver` 和 `Dependencies` 类.
+    或者, 将以下代码复制到 `HelloWorldProcessor.kt` 的顶部:
+
+    ```kotlin
+    // processor/src/main/kotlin/HelloWorldProcessor.kt
+
+    import com.google.devtools.ksp.processing.CodeGenerator
+    import com.google.devtools.ksp.processing.Dependencies
+    import com.google.devtools.ksp.processing.Resolver
+    import com.google.devtools.ksp.processing.SymbolProcessor
+    import com.google.devtools.ksp.symbol.KSAnnotated
+    import com.google.devtools.ksp.symbol.KSFunctionDeclaration
+    import com.google.devtools.ksp.symbol.KSVisitorVoid
+    import com.google.devtools.ksp.validate
+    import java.io.OutputStream
+    ```
+    {collapsible="true" collapsed-title="import 语句"}
+
+    我们来逐步了解这段代码:
+
+    * 1️⃣ `process()` 函数包含处理器的主逻辑.
+        它获取所有带有 `HelloWorldAnnotation` 注解的符号, 并为每个符号调用 `HelloWorldVisitor`.
+
+        `process()` 函数返回未处理的符号列表, 以便在后续轮次中进行处理.
+        在这个示例中, 它安全地返回 `emptyList()`. 详情请参见 [多轮处理](ksp-multi-round.md).
+
+    * 2️⃣ 处理器使用访问器(Visitor)遍历 KSP 对 Kotlin 抽象语法树 (Abstract Syntax Tree, AST) 的视图.
+        在 `HelloWorldPocessor` 类中, `HelloWorldVisitor` 类是访问器(Visitor).
+        由于 `HelloWorldAnnotation` 只用于函数, 因此只覆盖了 `visitFunctionDeclaration()`.
+
+        > `KSVisitorVoid` 是 KSP 提供的访问器类之一, 你可以覆盖并调整它.
+        > 你也可以实现 [`KSVisitor<D, R>` 接口](https://github.com/google/ksp/blob/main/api/src/main/kotlin/com/google/devtools/ksp/symbol/KSVisitor.kt),
+        > 创建你自己的访问器.
+        >
+        {style="tip"}
+
+    * 3️⃣ `createNewFileFrom()` 创建 KSP 生成代码的文件.
+        `createDependencyOn()` 使输出的文件依赖于使用注解的源代码文件.
+
+        > 关于 KSP 如何创建和管理文件的信息, 详情请参见
+        > [`CodeGenerator` 接口](https://github.com/google/ksp/blob/main/api/src/main/kotlin/com/google/devtools/ksp/processing/CodeGenerator.kt)
+        > 的源代码.
+        >
+        {style="tip"}
+
+4. 创建 `HelloWorldProcessorProvider.kt` 文件.
+   在这个文件中, 声明一个 `HelloWorldProcessorProvider` 类, 继承自 `SymbolProcessorProvider`:
+
+    ```kotlin
+    // processor/src/main/kotlin/HelloWorldProcessorProvider.kt
+
+    import com.google.devtools.ksp.processing.SymbolProcessor
+    import com.google.devtools.ksp.processing.SymbolProcessorEnvironment
+    import com.google.devtools.ksp.processing.SymbolProcessorProvider
+
+    class HelloWorldProcessorProvider : SymbolProcessorProvider {
+        override fun create(environment: SymbolProcessorEnvironment): SymbolProcessor {
+            return HelloWorldProcessor(environment.codeGenerator)
+        }
+    }
+    ```
+
+5. 注册处理器 Provider.
+  在 `resources/META-INF/services` 目录中, 创建 `com.google.devtools.ksp.processing.SymbolProcessorProvider` 文件,
+  并添加 Provider 的完全限定名称:
+
+    ```text
+    ## processor/src/main/resources/META-INF/services/com.google.devtools.ksp.processing.SymbolProcessorProvider
+
+    HelloWorldProcessorProvider
+    ```
+
+### 使用你的处理器 {id="use-your-processor"}
+
+现在你已经准备好, 可以测试你的处理器了.
+按照以下步骤创建客户端模块, 让你的处理器根据带有注解的元素生成代码:
+
+1. 在项目根目录创建一个模块, 名为 `app`.
+2. 在这个模块的 `build.gradle(.kts)` 文件中:
+
+    * 在 `plugins {}` 代码块中, 添加 KSP 插件.
+    * 在 `dependencies {}` 代码块中, 添加你的处理器和注解.
+
+    例如:
+
+    <tabs group="build-script">
+    <tab title="Kotlin" group-key="kotlin">
+
+    ```kotlin
+    // app/build.gradle.kts
+
+    plugins {
+        kotlin("jvm")
+        id("com.google.devtools.ksp")
+    }
+
+    dependencies {
+        implementation(project(":annotations"))
+        ksp(project(":processor"))
+    }
+    ```
+
+    </tab>
+    <tab title="Groovy" group-key="groovy">
+
+    ```groovy
+    // app/build.gradle
+
+    plugins {
+        id 'com.google.devtools.ksp'
+    }
+
+    dependencies {
+        implementation project (':annotations')
+        ksp project (':processor')
+    }
+    ```
+
+    </tab>
+    </tabs>
+
+3. 在项目级的 `settings.gradle(.kts)` 文件中, 确认所有子模块都已自动包含:
+
+    <tabs group="build-script">
+    <tab title="Kotlin" group-key="kotlin">
+
+    ```kotlin
+    // settings.gradle.kts
+
+    include("annotations")
+    include("app")
+    include("processor")
+    ```
+
+    </tab>
+    <tab title="Groovy" group-key="groovy">
+
+    ```groovy
+    // settings.gradle
+
+    include 'processor'
+    include 'annotations'
+    include 'app'
+    ```
+
+    </tab>
+    </tabs>
+
+4. 在 `app` 模块中, 创建 `Main.kt` 文件, 添加以下代码:
+
+    ```kotlin
+    // app/src/main/kotlin/Main.kt
+
+    import com.example.annotations.HelloWorldAnnotation
+
+    @HelloWorldAnnotation
+    fun main() {
+        helloWorld()
+    }
+    ```
+
+    > `main()` 函数调用了 `helloWorld()`, 尽管这个函数目前还不存在.
+    > 你的 IDE 会将 `helloWorld()` 高亮显示为未定义的引用.
+    > 这是预料中的行为: KSP 会在你构建和运行项目时生成 `helloWorld()` 函数.
+    >
+    {style="note"}
+
+5. 运行程序. 你会在控制台中看到 `helloWorld()` 函数的输出:
+
+    ```text
+    Hello world from function generated by KSP
+    ```
+
+    KSP 在 `GeneratedHelloWorld.kt` 文件中生成代码:
+
+    ```text
+    app/build/generated/ksp/main/kotlin/GeneratedHelloWorld.kt
+    ```
+
+### 查看项目结构 {id="explore-the-project-structure"}
+
+你的项目的最终文件结构应该如下所示:
 
 ```text
-Execution optimizations have been disabled for task ':publishPluginJar' to ensure correctness due to the following reasons:
-Gradle detected a problem with the following location: '../build/generated/ksp/main/kotlin'.
-Reason: Task ':publishPluginJar' uses this output of task ':kspKotlin' without declaring an explicit or implicit dependency.
+.
+├── app
+│   ├── build.gradle.kts
+│   └── src
+│       └── main
+│           └── kotlin
+│               └── Main.kt
+├── annotations
+│   ├── build.gradle.kts
+│   └── src
+│       └── main
+│           └── kotlin
+|				└── com
+|	                └── example
+|						└── annotations
+|							└── HelloWorldAnnotation.kt
+├── processor
+│   ├── build.gradle.kts
+│   └── src
+│       └── main
+│           ├── kotlin
+│           │   ├── HelloWorldProcessor.kt
+│           │   └── HelloWorldProcessorProvider.kt
+│           └── resources/META-INF/services
+|				└── com.google.devtools.ksp.processing.SymbolProcessorProvider
+├── build.gradle.kts
+└── settings.gradle.kts
+
 ```
+{collapsible="true" collapsed-title="项目结构"}
 
-这种情况下, 请改为使用下面的构建脚本:
+> 你可能还有其他文件和目录.
+>
+{style="tip"}
 
-<tabs group="build-script">
-<tab title="Kotlin" group-key="kotlin">
+## 下一步做什么? {id="whats-next"}
 
-```kotlin
-plugins {
-    // ...
-    idea
-}
-
-idea {
-    module {
-        // 由于 https://github.com/gradle/gradle/issues/8749, 不要使用 +=
-        sourceDirs = sourceDirs + file("build/generated/ksp/main/kotlin") // 或者 tasks["kspKotlin"].destination
-        testSourceDirs = testSourceDirs + file("build/generated/ksp/test/kotlin")
-        generatedSourceDirs = generatedSourceDirs + file("build/generated/ksp/main/kotlin") + file("build/generated/ksp/test/kotlin")
-    }
-}
-```
-
-</tab>
-<tab title="Groovy" group-key="groovy">
-
-```groovy
-plugins {
-    // ...
-    id 'idea'
-}
-
-idea {
-    module {
-        // 由于 https://github.com/gradle/gradle/issues/8749, 不要使用 +=
-        sourceDirs = sourceDirs + file('build/generated/ksp/main/kotlin') // 或者 tasks["kspKotlin"].destination
-        testSourceDirs = testSourceDirs + file('build/generated/ksp/test/kotlin')
-        generatedSourceDirs = generatedSourceDirs + file('build/generated/ksp/main/kotlin') + file('build/generated/ksp/test/kotlin')
-    }
-}
-```
-
-</tab>
-</tabs>
+* 在 [KSP 代码仓库](https://github.com/google/ksp/tree/main/examples/hello-world) 中, 查看这个示例的完整代码.
+* 在 [KSP 代码仓库](https://github.com/google/ksp/tree/main/examples) 中, 查看更加复杂的实际示例.
+* 查看 [KSP 支持的库](ksp-overview.md#supported-libraries) 列表.

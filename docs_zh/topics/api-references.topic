@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE topic SYSTEM "https://resources.jetbrains.com/writerside/1.0/xhtml-entities.dtd">
+<topic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+       id="api-references" title="API 参考文档">
+
+    <p>欢迎来到 Kotlin API 参考文档页面. 在这里你可以找到 Kotlin 官方库和工具的 API 文档链接.</p>
+
+    <list columns="2">
+        <li>
+            <a href="https://kotlinlang.org/api/core/kotlin-stdlib/"><b>标准库 (stdlib)</b></a>
+            <br/>
+            <p>Kotlin 标准库为 Kotlin 编程提供核心功能, 包括各种基本 API, 例如集合, 文本与字符串处理, 区间, 序列, 等等. 它扩展了平台特定的 API, 并提供优先支持 Kotlin 的 API 来处理它们.</p>
+            <img src="github.svg" width="18" alt="GitHub"/> <a href="https://github.com/JetBrains/kotlin">kotlin</a>
+            <br/>
+        </li>
+        <li>
+            <a href="https://kotlinlang.org/api/core/kotlin-test/"><b>测试库 (kotlin.test)</b></a>
+            <br/>
+            <p>一个跨平台的测试库, 提供通用的测试注解和工具函数. 它支持在各个平台上与流行的测试框架集成, 并在整个 Kotlin 生态系统中提供统一的测试体验.</p>
+            <img src="github.svg" width="18" alt="GitHub"/> <a href="https://github.com/JetBrains/kotlin">kotlin</a>
+            <br/>
+        </li>
+        <li>
+            <a href="https://kotlinlang.org/api/kotlinx.coroutines/"><b>协程 (kotlinx.coroutines)</b></a>
+            <br/>
+            <p>一个强大的库, 使用 Kotlin 协程进行异步编程. 它提供了各种工具, 支持结构化并发, 异步流, 互斥锁和信号量等同步原语, 测试, 等等.</p>
+            <img src="github.svg" width="18" alt="GitHub"/> <a href="https://github.com/Kotlin/kotlinx.coroutines">kotlinx.coroutines</a>
+            <br/>
+        </li>
+        <li>
+            <a href="https://kotlinlang.org/api/kotlinx.serialization/"><b>序列化 (kotlinx.serialization)</b></a>
+            <br/>
+            <p>一个跨平台的序列化库. 它提供了一种类型安全的, 编译时的机制, 实现 Kotlin 对象与多种格式之间相互转换, 例如 JSON, CBOR, 以及 Protocol Buffers.</p>
+            <img src="github.svg" width="18" alt="GitHub"/> <a href="https://github.com/Kotlin/kotlinx.serialization">kotlinx.serialization</a>
+            <br/>
+        </li>
+        <li>
+            <a href="https://kotlinlang.org/api/kotlinx-io/"><b>Kotlin I/O 库 (kotlinx-io)</b></a>
+            <br/>
+            <p>一个用于低级 I/O 操作的跨平台库. 它定义了从二进制流和缓冲区中读取和写入的抽象, 设计上高效且可跨所有 Kotlin 平台移植.</p>
+            <img src="github.svg" width="18" alt="GitHub"/> <a href="https://github.com/Kotlin/kotlinx-io">kotlinx-io</a>
+            <br/>
+        </li>
+        <li>
+            <a href="https://kotlinlang.org/api/kotlinx-datetime/"><b>日期与时间 (kotlinx-datetime)</b></a>
+            <br/>
+            <p>一个用于基于日历计算的跨平台库. 它提供日期值的表示, 并支持时区相关的操作.</p>
+            <img src="github.svg" width="18" alt="GitHub"/> <a href="https://github.com/Kotlin/kotlinx-datetime">kotlinx-datetime</a>
+            <br/>
+        </li>
+        <li>
+            <a href="https://kotlinlang.org/api/kotlin-gradle-plugin/"><b>Kotlin Gradle Plugin (kotlin-gradle-plugin)</b></a>
+            <br/>
+            <p>用于编译, 测试和打包 Kotlin 代码的 Kotlin Gradle Plugin. 这些插件简化了 JVM 和跨平台的构建, 管理依赖项, 并与 IDE 和 CI 系统集成.</p>
+            <img src="github.svg" width="18" alt="GitHub"/> <a href="https://github.com/JetBrains/kotlin/tree/master/libraries/tools/kotlin-gradle-plugin">kotlin-gradle-plugin</a>
+            <br/>
+        </li>
+        <li>
+            <a href="https://api.ktor.io/"><b>Ktor</b></a>
+            <br/>
+            <p>一个使用 Kotlin 在连接系统中构建异步客户端和服务器的框架. Ktor 专为可扩展性和灵活性而设计, 并与协程深度集成, 用于非阻塞 I/O 和结构化并发.</p>
+            <img src="github.svg" width="18" alt="GitHub"/> <a href="https://github.com/ktorio/ktor">ktor</a>
+            <br/>
+        </li>
+        <li>
+            <a href="https://kotlinlang.org/api/kotlinx-metadata-jvm/"><b>JVM 元数据(Metadata) (kotlin-metadata-jvm)</b></a>
+            <br/>
+            <p>一个用于读写存储在 JVM 类文件中的 Kotlin 元数据(Metadata)的库. 它主要由各种工具使用, 例如注解处理器, 静态分析器和编译器 plugin 等.</p>
+            <img src="github.svg" width="18" alt="GitHub"/> <a href="https://github.com/JetBrains/kotlin/tree/master/libraries/kotlinx-metadata">kotlinx-metadata</a>
+            <br/>
+        </li>
+        <li>
+            <a href="https://kotlinlang.org/api/compose-multiplatform/material3/"><b>Compose Multiplatform Material3</b></a>
+            <br/>
+            <p>一个使用 Material Design 3 组件构建 UI 的跨平台库. API 参考文档包含一个 Material 3 组件画廊, 你可以在其中预览各个可组合项.</p>
+            <img src="github.svg" width="18" alt="GitHub"/> <a href="https://github.com/JetBrains/compose-multiplatform-core/tree/jb-main/compose/material3">compose-material3</a>
+            <br/>
+        </li>
+    </list>
+</topic>

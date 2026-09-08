@@ -1,5 +1,7 @@
 [//]: # (title: Spring Boot 和 Kotlin 入门)
 
+<web-summary>Spring Boot 和 Kotlin 入门. 使用 Kotlin 创建一个 Spring Boot 应用程序.</web-summary>
+
 通过完成这个教程, 学习使用 Spring Boot 和 Kotlin:
 本教程将会带领你使用 Spring Boot 创建一个简单的应用程序, 并添加数据库来存储信息.
 
@@ -18,6 +20,8 @@
 首先, 使用 IntelliJ IDEA 和 Kotlin [创建一个 Spring Boot 项目](jvm-create-project-with-spring-boot.md).
 
 ### 参见 {id="see-also"}
+
+如果你想要与 AI Agent 一起工作, 请阅读我们的教程 [使用 Spring Boot 和 Claude 创建一个任务管理应用程序](spring-boot-claude.md).
 
 请阅读我们的 Java 到 Kotlin (J2K) 的互操作和迁移向导:
 

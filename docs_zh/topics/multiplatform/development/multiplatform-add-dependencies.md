@@ -40,11 +40,9 @@ kotlin {
 </tab>
 </tabs>
 
-或者, 你也可以 [在最顶层设置依赖项](gradle-configure-project.md#set-dependencies-at-top-level).
-
 ## 对 Kotlin 库的依赖项 {id="dependency-on-a-kotlin-library"}
 
-### 标准库
+### 标准库 {id="standard-library"}
 
 对每个源代码集(Source Set), 会自动添加对标准库 (`stdlib`) 的依赖项.
 标准库的版本与 `kotlin-multiplatform` 版本相同.
@@ -56,7 +54,7 @@ Kotlin Gradle plugin 会根据你的 Gradle 构建脚本的
 
 详情请参见 [如何改变默认设置](gradle-configure-project.md#dependency-on-the-standard-library).
 
-### 测试库
+### 测试库 {id="test-libraries"}
 
 对于跨平台的测试, 可以使用 [`kotlin.test`](https://kotlinlang.org/api/latest/kotlin.test/) API.
 当你创建跨平台项目时, 你可以在 `commonTest` 中使用一个依赖项, 对所有的源代码集添加测试依赖项:
@@ -94,7 +92,7 @@ kotlin {
 </tab>
 </tabs>
 
-## kotlinx 库
+## kotlinx 库 {id="kotlinx-libraries"}
 
 如果使用跨平台的库, 并且需要 [依赖共用代码](#library-shared-for-all-source-sets), 只需要在共用源代码集中一次性设置依赖项.
 请使用库的基本 artifact 名(base artifact name) – 比如 `kotlinx-coroutines-core`:
@@ -168,7 +166,7 @@ kotlin {
 </tab>
 </tabs>
 
-## 对 Kotlin 跨平台库的依赖项
+## 对 Kotlin 跨平台库的依赖项 {id="dependency-on-kotlin-multiplatform-libraries"}
 
 对于使用了 Kotlin Multiplatform 技术的库, 比如 [SQLDelight](https://github.com/cashapp/sqldelight),
 你可以将它添加为依赖项.
@@ -181,7 +179,7 @@ kotlin {
 ### 对所有源代码集共用的库 {id="library-shared-for-all-source-sets"}
 
 如果你想要在所有的源代码集中使用一个库, 你可以只在共通源代码集中添加它.
-Kotlin Multiplatform Mobile plugin 会对所有其他源代码集自动添加对应的依赖项.
+Kotlin Multiplatform Gradle plugin 会对所有其他源代码集自动添加对应的依赖项.
 
 > 在共通源代码集中, 不可以设置对平台相关库的依赖项.
 >
@@ -227,6 +225,11 @@ kotlin {
 
 </tab>
 </tabs>
+
+> 你也可以在最顶层的 `dependencies {}` 代码段中配置一个共通的库.
+> 详情请参见 [在最顶层设置依赖项](multiplatform-dsl-reference.md#configure-dependencies-at-the-top-level).
+>
+{style="tip"}
 
 ### 在特定源代码集中使用的库 {id="library-used-in-specific-source-sets"}
 
@@ -296,7 +299,7 @@ kotlin {
 </tab>
 </tabs>
 
-## 对其他跨平台项目的依赖项
+## 对其他跨平台项目的依赖项 {id="dependency-on-another-multiplatform-project"}
 
 你可以将一个跨平台项目作为另一个项目的依赖项. 要实现这个目的, 只需要简单的向需要的源代码集添加一个项目依赖项.
 如果你想要在所有源代码集中使用一个依赖项, 请将它添加到共通源代码集.
@@ -343,7 +346,7 @@ kotlin {
 </tab>
 </tabs>
 
-## 下一步做什么?
+## 下一步做什么? {id="what-s-next"}
 
 查看跨平台项目中添加依赖项的其他资料, 并学习以下内容:
 

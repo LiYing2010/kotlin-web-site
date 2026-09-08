@@ -23,9 +23,9 @@ fun addEntryToMap(baseMap: Map<String, Number>, additionalEntry: Pair<String, In
 根据 `putAll()` 和 `put()` 调用的类型信息, 编译器可以自动将 `buildMap()` 调用的类型参数推断为 `String` 和 `Number`.
 使用泛型构建器时, 构建器推断功能允许我们省略类型参数.
 
-## 编写你自己的构建器
+## 编写你自己的构建器 {id="writing-your-own-builders"}
 
-### 启用构建器推断的要求条件
+### 启用构建器推断的要求条件 {id="requirements-for-enabling-builder-inference"}
 
 > 在 Kotlin 1.7.0 以前, 对一个构建器函数启用构建器推断, 需要添加编译器选项 `-Xenable-builder-inference`.
 > 在 1.7.0 中, 这个选项会默认启用.
@@ -77,7 +77,7 @@ fun addEntryToMap(baseMap: Map<String, Number>, additionalEntry: Pair<String, In
    }
    ```
 
-### 支持的功能
+### 支持的功能 {id="supported-features"}
 
 构建器推断支持以下功能:
 * 推断多个类型参数
@@ -125,9 +125,9 @@ fun addEntryToMap(baseMap: Map<String, Number>, additionalEntry: Pair<String, In
   }
   ```
 
-## 构建器推断的工作原理
+## 构建器推断的工作原理 {id="how-builder-inference-works"}
 
-### 推迟类型变量(Postponed Type Variable)
+### 推迟类型变量(Postponed Type Variable) {id="postponed-type-variables"}
 
 构建器推断使用 _推迟类型变量(Postponed Type Variable)_, 在构建器推断分析时, 它出现在构建器的 Lambda 表达式之内.
 一个推迟类型变量的类型是类型参数中的一个, 具体类型还在推断过程中.
@@ -159,7 +159,7 @@ val result = buildList {
 
 注意, 你总是可以将推迟类型变量作为接受者, 调用 `equals()`, `hashCode()`, 和 `toString()` 函数.
 
-### 向构建器推断结果贡献信息
+### 向构建器推断结果贡献信息 {id="contributing-to-builder-inference-results"}
 
 构建器推断可以收集不同种类的类型信息, 这些信息都会贡献到分析结果.
 它会考虑以下信息:

@@ -1,8 +1,14 @@
 [//]: # (title: Kotlin 1.3 版中的新功能)
 
+<web-summary>阅读 Kotlin 1.3 发布说明, 包括新的语言特性, Kotlin Multiplatform, JVM, Native, JS 的更新, 以及对 Gradle 和 Maven 的构建工具支持.</web-summary>
+
 _发布日期: 2018/10/29_
 
-## 协程功能正式发布
+> 关于 Kotlin 的发布周期, 详情请参见 [Kotlin 发布过程](releases.md).
+>
+{style="tip"}
+
+## 协程功能正式发布 {id="coroutines-release"}
 
 经过长期广泛的实战测试之后, 协程功能终于正式发布了! 也就是说, 从 Kotlin 1.3 开始, 协程功能的语言级支持,
 以及 API 都进入 [完全稳定](components-stability.md) 状态.
@@ -10,11 +16,11 @@ _发布日期: 2018/10/29_
 
 Kotlin 1.3 引入了挂起函数的可调用的引用, 并在反射 API 中支持协程.
 
-## Kotlin/Native
+## Kotlin/Native {id="kotlinnative"}
 
 Kotlin 1.3 继续改进对原生程序开发的. 详情请参见 [Kotlin/Native 概述](native-overview.md).
 
-## 跨平台项目
+## 跨平台项目 {id="multiplatform-projects"}
 
 在 1.3 中, 我们完成了对跨平台项目模式的重构工作, 改进了表达能力和灵活性, 使得共用代码变得更加容易.
 而且, Kotlin/Native 现在也是我们支持的目标平台之一了!
@@ -29,9 +35,9 @@ Kotlin 1.3 继续改进对原生程序开发的. 详情请参见 [Kotlin/Native 
     你可以让某个源代码集只在 Android 和 iOS 平台中共用).
   * 现在支持 [发布跨平台的库](multiplatform-publish-lib-setup.md).
 
-更多详细信息, 请参见 [跨平台程序开发文档](multiplatform.topic).
+更多详细信息, 请参见 [跨平台程序开发文档](get-started.topic).
 
-## 契约(Contract)
+## 契约(Contract) {id="contracts"}
 
 Kotlin 编译器会进行大量的静态分析, 产生警告信息, 并减少样板代码.
 其中最值得注意的功能之一就是智能类型转换 — 根据已有的类型检查代码, 可以自动进行类型转换:
@@ -93,7 +99,7 @@ fun foo() {
 }
 ```
 
-### 标准库中的契约
+### 标准库中的契约 {id="contracts-in-stdlib"}
 
 `stdlib` 已经使用了契约, 用来改进上文介绍的编译器分析能力.
 这部分契约是 **稳定** 的, 也就是说你不必添加额外的编译选项, 也能得到编译器分析能力的提高:
@@ -113,7 +119,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-### 自定义的契约
+### 自定义的契约 {id="custom-contracts"}
 
 也可以为你自己的函数声明契约, 但这个功能还是 **实验性** 的, 因为契约目前的语法还处于早期原型阶段, 将来很可能会改变.
 而且请注意, 目前 Kotlin 编译器不会去验证契约的内容, 因此程序员需要自己负责编写正确而且完整的契约.
@@ -131,7 +137,7 @@ fun String?.isNullOrEmpty(): Boolean {
 
 关于契约的语法, 以及兼容性问题, 详情请参见 [KEEP](https://github.com/Kotlin/KEEP/blob/master/proposals/kotlin-contracts.md).
 
-## 将 when 语句的判定对象保存到变量中
+## 将 when 语句的判定对象保存到变量中 {id="capturing-when-subject-in-a-variable"}
 
 在 Kotlin 1.3 中, 可以将 `when` 语句的判定对象保存到变量中:
 
@@ -146,7 +152,7 @@ fun Request.getBody() =
 虽然我们可以在 `when` 语句之前抽取这个变量, 但 `when` 语句中的 `val` 变量的作用范围会被限定在 `when` 的语句体之内, 因此可以防止它扩散到更广的范围.
 [关于 `when` 语句的完整文档, 请阅读这里](control-flow.md#when-expressions-and-statements).
 
-## 对接口的同伴对象使用 @JvmStatic 和 @JvmField 注解
+## 对接口的同伴对象使用 @JvmStatic 和 @JvmField 注解 {id="jvmstatic-and-jvmfield-in-companions-of-interfaces"}
 
 在 Kotlin 1.3 中, 可以对接口的 `companion` 对象的成员标记 `@JvmStatic` 和 `@JvmField` 注解.
 在编译产生的类文件中, 这些成员会被提升到对应的接口内, 并变为 `static` 成员.
@@ -178,7 +184,7 @@ interface Foo {
 }
 ```
 
-## 注解类中的嵌套声明
+## 注解类中的嵌套声明 {id="nested-declarations-in-annotation-classes"}
 
 在 Kotlin 1.3 中, 注解可以拥有嵌套的类, 接口, 对象, 以及同伴对象:
 
@@ -195,7 +201,7 @@ annotation class Foo {
 }
 ```
 
-## 无参数的 main 函数
+## 无参数的 main 函数 {id="parameterless-main"}
 
 按照习惯, Kotlin 程序的入口是一个签名类似 `main(args: Array<String>)` 的函数,
 其中 `args` 表示传递给这个程序的命令行参数.
@@ -211,7 +217,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-## 带巨量参数的函数
+## 带巨量参数的函数 {id="functions-with-big-arity"}
 
 在 Kotlin 中, 函数类型被表达为一个泛型, 接受不同数量的参数: `Function0<R>`, `Function1<P0, R>`, `Function2<P0, P1, R>`, ...
 这种方案存在的一个问题就是, 参数个数是有限的, 目前只支持到 `Function22`.
@@ -240,7 +246,7 @@ Kotlin 非常关注稳定性, 以及源代码的向后兼容: Kotlin 的兼容�
 启用渐进模式可能会要求你重写某些代码, 但不会太多 — 渐进模式下启用的修正都经过仔细挑选, 检查, 并且提供了代码迁移的辅助工具.
 对于那些活跃开发中, 快速更新语言版本的代码库, 我们期望渐进模式能够成为一个好的选择.
 
-## 内联类
+## 内联类 {id="inline-classes"}
 
 > 内联类目前处于 [Alpha 阶段](components-stability.md).
 > 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issues/KT) 提供你的反馈意见.
@@ -272,7 +278,7 @@ fun main() {
 
 关于内联类的详情, 请参见 [参考文档](inline-classes.md).
 
-## 无符号整数
+## 无符号整数 {id="unsigned-integers"}
 
 > 无符号整数目前处于 [Beta 阶段](components-stability.md).
 > 具体实现已经基本稳定, 但将来可能会需要手工迁移你的代码.
@@ -316,7 +322,7 @@ println("x: $x, y: $y, z: $z, range: $range")
 
 详情请参见 [参考文档](unsigned-integer-types.md).
 
-## @JvmDefault 注解
+## @JvmDefault 注解 {id="jvmdefault"}
 
 > `@JvmDefault` 目前还处于[实验性阶段](components-stability.md).
 > 请注意, 只为评估和试验目的来使用这个功能.
@@ -343,9 +349,9 @@ interface Foo {
 >
 {style="warning"}
 
-## 标准库
+## 标准库 {id="standard-library"}
 
-### 跨平台的 `Random` 类
+### 跨平台的 `Random` 类 {id="multiplatform-random"}
 
 在 Kotlin 1.3 之前, 没有统一的方法在所有的平台上生成随机数 — 我们必须使用各种平台独自的解决方案, 比如在 JVM 上使用 `java.util.Random`.
 Kotlin 1.3 版引入 `kotlin.random.Random` 类, 解决了这个问题, 这个类可以在所有的平台上使用:
@@ -362,14 +368,14 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-### isNullOrEmpty 和 orEmpty 扩展函数
+### isNullOrEmpty 和 orEmpty 扩展函数 {id="isnullorempty-and-orempty-extensions"}
 
 标准库提供了对某些数据类型的 `isNullOrEmpty` 和 `orEmpty` 扩展函数.
 如果接受者是 `null`, 或内容为空, 那么 `isNullOrEmpty` 函数返回 `true`,
 如果接受者是 `null`, 那么 `orEmpty` 函数返回一个不为 `null`, 但内容为空的实例.
 Kotlin 1.3 对集合(Collection), Map, 以及对象数组, 都提供了类似的扩展函数.
 
-### 在两个既有的数组之间复制元素
+### 在两个既有的数组之间复制元素 {id="copy-elements-between-two-existing-arrays"}
 
 对既有的数组类型, 包括无符号整数数组, 提供了 `array.copyInto(targetArray, targetOffset, startIndex, endIndex)` 扩展函数,
 可以使用纯 Kotlin 代码, 更简单地实现基于数组的容器.
@@ -388,7 +394,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-### associateWith 函数
+### associateWith 函数 {id="associatewith"}
 
 已有一组 key 值, 希望将每一个 Key 与某个值关联起来, 创建一个 Map, 这是很常见的情况.
 以前, 使用 `associate { it to getValue(it) }` 函数, 也是可以做到的,
@@ -404,7 +410,7 @@ fun main() {
 }
 ```
 
-### ifEmpty 和 ifBlank 函数
+### ifEmpty 和 ifBlank 函数 {id="ifempty-and-ifblank-functions"}
 
 对于集合(Collection), Map, 对象数组, 字符序列, 以及值序列(equence), 现在有了 `ifEmpty` 函数,
 对于接受者对象内容为空的情况, 可以指定一个替代值:
@@ -439,25 +445,25 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-### 在反射中使用封闭类
+### 在反射中使用封闭类 {id="sealed-classes-in-reflection"}
 
 我们对 `kotlin-reflect` 添加了一个新的 API, 名为 `KClass.sealedSubclasses`, 可以用来得到 `sealed` 类的所有直接子类型.
 
-### 细微变更
+### 细微变更 {id="smaller-changes"}
 
 * `Boolean` 类型现在带有同伴对象.
 * `Any?.hashCode()` 扩展函数, 对 `null` 值返回 0.
 * `Char` 现在带有 `MIN_VALUE` 和 `MAX_VALUE` 常数.
 * 基本类型的同伴对象中增加了 `SIZE_BYTES` 和 `SIZE_BITS` 常数.
 
-## 工具
+## 工具 {id="tooling"}
 
-### 在 IDE 中支持代码风格
+### 在 IDE 中支持代码风格 {id="code-style-support-in-ide"}
 
 Kotlin 1.3 开始在 IntelliJ IDEA 中支持 [推荐的代码风格](coding-conventions.md).
 关于代码迁移的方法, 请参见 [参考文档](code-style-migration-guide.md).
 
-### kotlinx.serialization
+### kotlinx.serialization {id="kotlinxserialization"}
 
 [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization) 是一个库, 在 Kotlin 中跨平台支持对象的序列化和反序列化.
 以前它曾是一个独立的项目, 但从 Kotlin 1.3 起, 它和其他编译器 plugin 一样, 随 Kotlin 编译器一起发布.
@@ -469,7 +475,7 @@ Kotlin 1.3 开始在 IntelliJ IDEA 中支持 [推荐的代码风格](coding-conv
 >
 {style="warning"}
 
-### 脚本 API 升级
+### 脚本 API 升级 {id="scripting-update"}
 
 > 脚本是一个[实验性功能](components-stability.md), 这个功能随时可能会放弃或发生修改.
 > 请注意, 只为评估和试验目的来使用这个功能.
@@ -481,7 +487,7 @@ Kotlin 1.3 仍在持续改进脚本 API, 引入了一些实验性的功能, 支�
 
 详情请参见, [KEEP-75](https://github.com/Kotlin/KEEP/blob/master/proposals/scripting-support.md).
 
-### 支持草稿文件(Scratch File)
+### 支持草稿文件(Scratch File) {id="scratches-support"}
 
 Kotlin 1.3 开始支持可运行的 Kotlin *草稿文件(Scratch File)*.
 *草稿文件* 是一个扩展名为 .kts 的 Kotlin 脚本文件, 你可以直接在编辑器中运行这个文件, 并得到执行结果.

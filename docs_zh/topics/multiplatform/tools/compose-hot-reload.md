@@ -1,21 +1,26 @@
 [//]: # (title: Compose Hot Reload)
 
-<primary-label ref="alpha"/>
+Compose Hot Reload helps you visualize and experiment with UI changes while working on a Compose Multiplatform project.
+Unlike standard [Compose previews](compose-previews.md), which are helpful for viewing isolated components with test data,
+Compose Hot Reload directly applies your code changes to the running application.
 
-[Compose Hot Reload](https://github.com/JetBrains/compose-hot-reload) helps you visualize and experiment with UI changes while working on a Compose Multiplatform project.
+The bundled Compose Hot Reload Gradle plugin
+requires Kotlin 2.1.20+ and a JVM target compatible with Java 21 or earlier.
+To use the full functionality of Compose Hot Reload,
+we recommend installing the [Kotlin Multiplatform IDE plugin](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform),
+available for IntelliJ IDEA starting with version 2025.2.2 and Android Studio starting with Otter 2025.2.1.
 
-At the moment, Compose Hot Reload is only available when you include a desktop target in your multiplatform project. 
-We're exploring adding support for other targets in the future. In the meantime, using the desktop app as your sandbox
-lets you quickly experiment with UI changes in common code without interrupting your flow.
+While we explore adding support for other targets, you can already use the desktop app as your sandbox
+to quickly experiment with UI changes in common code without interrupting your flow.
 
-![Compose Hot Reload](compose-hot-reload.gif){width=500}
+<img src="KotlinConf-hot-reload.animated.gif" alt="Compose Hot Reload" width="600" preview-src="KotlinConf-hot-reload.png"/>
 
 ## Add Compose Hot Reload to your project
 
 Compose Hot Reload can be added in two ways, by:
 
 * [Creating a project from scratch in IntelliJ IDEA or Android Studio](#from-scratch)
-* [Adding it as a Gradle plugin  to an existing project](#to-an-existing-project)
+* [Adding a Gradle plugin to an existing project](#to-an-existing-project)
 
 ### From scratch
 
@@ -23,29 +28,44 @@ This section walks you through the steps to create a multiplatform project with 
 Android Studio. When your project is created, Compose Hot Reload is automatically added.
 
 1. In the [quickstart](quickstart.md), complete the instructions to [set up your environment for Kotlin Multiplatform development](quickstart.md#set-up-the-environment).
-2. In IntelliJ IDEA, select **File** | **New** | **Project**.
+2. In the IDE, select **File** | **New** | **Project**.
 3. In the panel on the left, select **Kotlin Multiplatform**.
-4. Specify the **Name**, **Group**, and **Artifact** fields in the **New Project** window
+4. Specify the **Name**, **Group**, and **Artifact** fields in the **New Project** window.
 5. Select the **Desktop** target and click **Create**.
-   ![Create multiplatform project with desktop target](create-desktop-project.png){width=700}
+   ![Create multiplatform project with desktop target](create-desktop-project.png){width=600 style="block"}
 
 ### To an existing project
 
-This section walks you through the steps to add Compose Hot Reload to an existing multiplatform project. The steps refer
-to the project from the [Create an app with shared logic and UI](compose-multiplatform-create-first-app.md) tutorial as a reference.
+Starting with Compose Multiplatform 1.10.0,
+the Compose Hot Reload plugin is [bundled](whats-new-compose-110.md#compose-hot-reload-integration)
+and enabled by default for all projects that include a **desktop target**.
 
-> To find the latest version of Compose Hot Reload, see [Releases](https://github.com/JetBrains/compose-hot-reload/releases).
-> 
-{style="tip"}
+If your project already includes a desktop target,
+you can upgrade to Compose Multiplatform version 1.10.0 or later and enjoy Compose Hot Reload functionality out-of-the-box.
 
-1. In your project, update the version catalog. In `gradle/libs.versions.toml`, add the following code:
-   ```kotlin
+While it is enabled by default,
+you can still explicitly declare the Compose Hot Reload plugin to use a specific older version.
+
+#### Earlier versions of Compose Multiplatform {initial-collapse-state="collapsed" collapsible="true"}
+
+For multiplatform projects using a Compose Multiplatform version earlier than 1.10.0,
+you must have a desktop target configured and then explicitly add the Compose Hot Reload plugin.
+The steps refer to the project from the [Create an app with shared logic and UI](compose-multiplatform-create-first-app.md) tutorial as a reference.
+
+1. Introduce the desktop target: create the `jvmMain` directory, define a `main()` function,
+   and provide the `actual` implementations.
+   If your project already includes a desktop target, you can skip this step.
+   For reference, see the sample in [Add a JVM entry point](migrate-from-android.md#optional-add-a-jvm-entry-point).
+
+2. Update the version catalog with the latest version of Compose Hot Reload (see [Releases](https://github.com/JetBrains/compose-hot-reload/releases)).
+   In `gradle/libs.versions.toml`, add the following code:
+   ```toml
    composeHotReload = { id = "org.jetbrains.compose.hot-reload", version.ref = "composeHotReload"}
    ```
 
    > To learn more about how to use a version catalog to centrally manage dependencies across your project, see our [Gradle best practices](https://kotlinlang.org/gradle-best-practices.html).
 
-2. In the `build.gradle.kts` of your parent project (`ComposeDemo/build.gradle.kts`), add the following code to your `plugins{}` block:
+3. In the `build.gradle.kts` of your parent project (`ComposeDemo/build.gradle.kts`), add the following code to your `plugins {}` block:
    ```kotlin
    plugins {
        alias(libs.plugins.composeHotReload) apply false
@@ -53,17 +73,23 @@ to the project from the [Create an app with shared logic and UI](compose-multipl
    ```
    This prevents the Compose Hot Reload plugin from being loaded multiple times in each of your subprojects.
 
-3. In the `build.gradle.kts` of the subproject containing your multiplatform application (`ComposeDemo/composeApp/build.gradle.kts`), add the following code to your `plugins{}` block:
+4. In the `build.gradle.kts` of the subproject containing your multiplatform application (`ComposeDemo/sharedUI/build.gradle.kts`), add the following code to your `plugins {}` block:
    ```kotlin
    plugins { 
        alias(libs.plugins.composeHotReload)
    }
    ```
 
-4. To use the full functionality of Compose Hot Reload, your project must run on [JetBrains Runtime](https://github.com/JetBrains/JetBrainsRuntime)
-   (JBR), an OpenJDK fork that supports enhanced class redefinition.
+5. Your project must run on [JetBrains Runtime](https://github.com/JetBrains/JetBrainsRuntime)(JBR), an OpenJDK fork that supports enhanced class redefinition.
    Compose Hot Reload can automatically provision a compatible JBR for your project.
-   To allow this, add the following Gradle plugin to your `settings.gradle.kts` file:
+
+   > The latest JetBrains Runtime supports only Java 21:
+   > if you add Compose Hot Reload to a project that is only compatible with Java 22 or newer,
+   > running the project results in a linkage error.
+   >
+   {style="warning"}
+
+   To allow automatic provisioning, add the following Gradle plugin to your `settings.gradle.kts` file:
 
    ```kotlin
    plugins {
@@ -71,11 +97,11 @@ to the project from the [Create an app with shared logic and UI](compose-multipl
    }
    ```
 
-5. Click the **Sync Gradle Changes** button to synchronize Gradle files: ![Synchronize Gradle files](gradle-sync.png){width=50}
+6. Click the **Sync Gradle Changes** button to synchronize Gradle files: ![Synchronize Gradle files](gradle-sync.png){width=50}
 
 ## Use Compose Hot Reload
 
-1. In the `desktopMain` directory, open the `main.kt` file and update the `main()` function:
+1. In the `jvmMain` directory, open the `main.kt` file and update the `main()` function:
    ```kotlin
    fun main() = application {
        Window(
@@ -90,7 +116,7 @@ to the project from the [Create an app with shared logic and UI](compose-multipl
    By setting the `alwaysOnTop` variable to `true`, the generated desktop app stays on top of all your windows, making it easier
    to edit your code and see changes live.
 
-2. In the `commonMain` directory, open the `App.kt` file and update the `Button` composable:
+2. Open the `App.kt` file and update the `Button` composable:
    ```kotlin
    Button(onClick = { showContent = !showContent }) {
        Column {
@@ -100,25 +126,29 @@ to the project from the [Create an app with shared logic and UI](compose-multipl
    ```
    Now, the text for the button is controlled by the `greet()` function.
 
-3. In the `commonMain` directory, open the `Greeting.kt` file and update the `greet()` function:
+3. Open the `Greeting.kt` file and update the `greet()` function:
    ```kotlin
     fun greet(): String {
         return "Hello!"
     }
    ```
 
-4.  In the `desktopMain` directory, open the `main.kt` file and click the **Run** icon in the gutter. 
-    Select **Run 'composeApp [desktop]' with Compose Hot Reload (Alpha)**.
+4.  Open the `main.kt` file and click the **Run** icon in the gutter.
+    Select **Run 'composeApp [jvm]' with Compose Hot Reload**.
 
     ![Run Compose Hot Reload from gutter](compose-hot-reload-gutter-run.png){width=350}
 
     ![First Compose Hot Reload on desktop app](compose-hot-reload-hello.png){width=500}
 
-5. Update the string returned from the `greet()` function and see the desktop app update automatically.
+5. Update the string returned from the `greet()` function, then save all files (<shortcut>⌘ S</shortcut> / <shortcut>Ctrl+S</shortcut>)
+   to see the desktop app update automatically.
 
-   ![Compose Hot Reload](compose-hot-reload.gif){width=500}
+   ![Compose Hot Reload](compose-hot-reload.gif){width=350}
 
-Congratulations! You've seen Compose Hot Reload in action. Now you can experiment with changing text, images, formatting, 
+   Alternatively, trigger the reload explicitly by pressing the assigned shortcut key or clicking the **Reload UI** button.
+   You can modify the trigger behavior on the **Settings | Tools | Compose Hot Reload** page.
+
+Congratulations! You've seen Compose Hot Reload in action. Now you can experiment with changing text, images, formatting,
 UI structure, and more, without having to restart the desktop run configuration after every change.
 
 ## Get help

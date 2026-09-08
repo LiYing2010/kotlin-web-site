@@ -12,6 +12,11 @@
 Kotlin/Native 提供了与 [CocoaPods 依赖管理器](https://cocoapods.org/) 的集成功能.
 你可以添加对 Pod 库的依赖项, 也可以使用 Kotlin 项目作为 CocoaPods 依赖项.
 
+> CocoaPods 集成方案,
+> 不能与 [直接集成](multiplatform-direct-integration.md) 所使用的 `embedAndSignAppleFrameworkForXcode` 机制共同使用.
+>
+{style="warning"}
+
 可以直接在 IntelliJ IDEA 或 Android Studio 中管理 Pod 依赖项, 并使用所有额外的功能特性, 比如代码高亮度和代码自动完成.
 可以使用 Gradle 来构建整个 Kotlin 项目, 而不必切换到 Xcode.
 
@@ -29,7 +34,7 @@ Kotlin/Native 提供了与 [CocoaPods 依赖管理器](https://cocoapods.org/) �
 2. 安装 Ruby. 你可以选择特定的版本:
 
     ```bash
-    rvm install ruby 3.0.0
+    rvm install ruby %rubyVersion%
     ```
 
 3. 安装 CocoaPods:
@@ -45,12 +50,13 @@ Kotlin/Native 提供了与 [CocoaPods 依赖管理器](https://cocoapods.org/) �
 2. 安装 Ruby. 你可以选择特定的版本:
 
     ```bash
-    rbenv install 3.0.0
+    rbenv install %rubyVersion%
     ```
+
 3. 对某个目录设置局部的 Ruby 版本, 或对整个机器设置全局的 Ruby 版本:
 
     ```bash
-    rbenv global 3.0.0
+    rbenv global %rubyVersion%
     ```
 
 4. 安装 CocoaPods:
@@ -97,53 +103,33 @@ sudo gem install cocoapods
 
 ## 创建项目 {id="create-a-project"}
 
-环境设置完成后, 你可以创建新的 Kotlin Multiplatform 项目.
-要创建项目, 可以使用 Kotlin Multiplatform Web 向导, 或使用 Android Studio 中的 Kotlin Multiplatform plugin.
+CocoaPods 环境设置完成后, 你可以配置你的 Kotlin Multiplatform 项目来使用 Pod.
+以下步骤演示如何在一个新生成的项目中进行配置:
 
-### 使用 Web 向导创建项目 {id="using-web-wizard"}
+1. 使用 [Kotlin Multiplatform IDE plugin](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform)
+   或 [Kotlin Multiplatform Web 向导](https://kmp.jetbrains.com), 为 Android 和 iOS 生成一个新项目.
+   如果使用 Web 向导, 请解开下载的压缩包, 并在你的 IDE 中导入项目.
+2. 将 Kotlin CocoaPods Gradle plugin 添加到版本目录(Version Catalog)
+   (`gradle/libs.versions.toml` 文件):
 
-要使用 Web 向导创建项目, 并配置与 CocoaPods 的集成, 请执行以下步骤:
-
-1. 打开 [Kotlin Multiplatform 向导](https://kmp.jetbrains.com), 并为你的项目选择编译目标平台.
-2. 点击 **Download** 按钮, 并解开下载后的压缩包.
-3. 在 Android Studio 中, 选择 **File | Open** 菜单.
-4. 浏览到解包后的项目文件夹, 并点击 **Open**.
-5. 将 Kotlin CocoaPods Gradle plugin 添加到版本目录(Version Catalog).
-   在 `gradle/libs.versions.toml` 文件中, 向 `[plugins]` 代码块添加以下声明:
-
-   ```text
+   ```toml
+   [plugins]
    kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
    ```
 
-6. 找到你的项目根目录中的 `build.gradle.kts` 文件, 向 `plugins {}` 代码块添加以下别名:
+3. 找到你的项目根目录中的 `build.gradle.kts` 文件, 向 `plugins {}` 代码块添加以下别名:
 
    ```kotlin
    alias(libs.plugins.kotlinCocoapods) apply false
    ```
 
-7. 打开你想要集成 CocoaPods 的模块, 例如 `composeApp` 模块, 向 `plugins {}` 代码块添加以下别名:
+4. 打开你想要集成 CocoaPods 的模块, 例如 `sharedLogic` 模块, 向 `build.gradle.kts` 文件的 `plugins {}` 代码块添加以下别名:
 
    ```kotlin
    alias(libs.plugins.kotlinCocoapods)
    ```
 
-现在你就可以 [在你的 Kotlin Multiplatform 项目中配置 CocoaPods 了](#configure-the-project).
-
-### 在 Android Studio 中创建项目 {id="in-android-studio"}
-
-要在 Android Studio 中创建项目, 并与 CocoaPods 集成, 请执行以下步骤:
-
-1. 在 Android Studio 中安装 [Kotlin Multiplatform plugin](https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform).
-2. 在 Android Studio 中, 选择 **File** | **New** | **New Project** 菜单.
-3. 在项目模板列表中, 选择 **Kotlin Multiplatform App**, 并点击 **Next**.
-4. 输入你的应用程序名称, 并点击 **Next**.
-5. 选择 **CocoaPods Dependency Manager** 作为 iOS 框架的发布选项.
-
-   ![包含 Kotlin Multiplatform plugin 的 Android Studio 向导](as-project-wizard.png){width=700}
-
-6. 所有其它选项都使用默认值. 点击 **Finish**.
-
-   plugin 会自动生成项目, 并设置与 CocoaPods 的集成.
+现在你就可以 [在你的 Kotlin Multiplatform 项目中配置 CocoaPods](#configure-the-project).
 
 ## 配置项目 {id="configure-the-project"}
 
@@ -151,8 +137,7 @@ sudo gem install cocoapods
 
 1. 在你的项目的共用模块的 `build.gradle(.kts)` 文件中, 应用 CocoaPods 插件和 Kotlin Multiplatform 插件.
 
-   > 如果你的项目是使用 [Web 向导](#using-web-wizard) 或
-   > [Android Studio 的 Kotlin Multiplatform plugin](#in-android-studio) 创建的, 那么请跳过这一步.
+   > 如果你的项目是 [使用 IDE plugin 或 Web 向导](#create-a-project) 创建的, 那么请跳过这一步.
    >
    {style="note"}
 
@@ -279,11 +264,8 @@ Ruby 1.9 或更高版本带有一个内建的 RubyGems 包管理框架, 可以�
 
 #### 版本兼容性 {id="version-compatibility"}
 
-我们推荐使用最新的 Kotlin 版本. 如果你目前的版本低于 1.7.0, 你还需要安装
-[`cocoapods-generate`](https://github.com/square/cocoapods-generate#installation") 插件.
-
-但是, `cocoapods-generate` 不兼容 Ruby 3.0.0 或更高版本.
-这种情况下, 请降级 Ruby, 或升级 Kotlin 到 1.7.0 或更高版本.
+我们推荐使用最新的 Kotlin 版本.
+这个 CocoaPods 设置所需要的最低版本为 1.7.0.
 
 ### 使用 Xcode 时的构建错误 {id="build-errors-when-using-xcode" initial-collapse-state="collapsed" collapsible="true"}
 
@@ -295,7 +277,7 @@ CocoaPods 的某些安装变体可能在 Xcode 中导致构建错误.
 
 * 如果你使用代码编辑器, 请向 `local.properties` 文件添加以下内容:
 
-    ```text
+    ```properties
     kotlin.apple.cocoapods.bin=/Users/Jane.Doe/.rbenv/shims/pod
     ```
 
@@ -403,6 +385,29 @@ pod("NearbyMessages") {
 
 详情请参见 [CocoaPods 文档](https://guides.cocoapods.org/).
 如果尝试过以上方法后, 仍然发生这个错误, 请到 [YouTrack](https://youtrack.jetbrains.com/newissue?project=kt) 报告问题.
+
+### 应用程序 bundle 中资源丢失 {id="missing-resources-in-the-app-bundle" initial-collapse-state="collapsed" collapsible="true"}
+
+如果你的 iOS App 构建成功, 但在启动时崩溃, 或者最终的 `.ipa` 包中丢失了自定义字体和图片等资源,
+这可能是 Pod 与你的项目的集成方式存在问题.
+
+**如何防止问题发生**: 不要直接运行 `pod install` 命令,
+改为使用 Kotlin CocoaPods Gradle plugin 提供的 Gradle `podInstall` task.
+这个 task 会为你创建需要的目录, 并完成所有配置:
+
+```bash
+./gradlew podInstall
+open iosApp/iosApp.xcworkspace
+```
+
+**问题发生的原因**: 当你在一个全新的项目上运行原生的 `pod install` 命令时
+(例如, 在克隆代码仓库之后, 或在 CI/CD 管道中工作时),
+资源目录还没有创建.
+Compose Multiplatform Gradle plugin 在生成的 `.podspec` 文件中指定了资源的位置:
+`spec.resources = ['build/compose/cocoapods/compose-resources']`,
+但这个路径只有在构建之后才会存在.
+因此, CocoaPods 会忽略不存在的目录, 并在没有这些资源的情况下配置 Xcode 项目.
+当项目构建完成并生成资源时, Xcode 不会将它们复制到最终的 bundle 中.
 
 ### 同步错误 {id="rsync-error" initial-collapse-state="collapsed" collapsible="true"}
 

@@ -97,7 +97,7 @@ fun Int.defaultDeserializer() = JsonOrXmlDeserializer({ ... }, { ... })
 ## 不要向既有的 API 函数添加参数 {id="avoid-adding-arguments-to-existing-api-functions"}
 
 向 public API 添加非默认的参数会同时破坏二进制兼容性和源代码兼容性, 因为使用者需要对一个函数调用提供比以前更多的信息.
-但是, 即使是添加 [默认参数](functions.md#default-arguments) 也可能破坏兼容性.
+但是, 即使是添加 [默认参数](functions.md#parameters-with-default-values) 也可能破坏兼容性.
 
 例如, 假设你在 `lib.kt` 中有下面的函数:
 
@@ -140,28 +140,31 @@ Exception in thread "main" java.lang.NoSuchMethodError: 'int LibKt.fib()'
 
 但是, 保持了源代码兼容性. 如果你重新编译两个文件, 程序就能够像以前一样运行.
 
-### 使用重载(overload)保持兼容性 {id="use-overloads-to-preserve-compatibility" initial-collapse-state="collapsed" collapsible="true"}
+### 使用重载(overload)保持二进制兼容性 {id="use-overloads-to-preserve-binary-compatibility" initial-collapse-state="collapsed" collapsible="true"}
 
-在针对 JVM 编写 Kotlin 代码时, 你可以对带有默认参数的函数使用 [`@JvmOverloads`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/) 注解.
-这样会产生这个函数的重载(overload), 对于每个带有默认值, 能够从参数列表最末尾省略的的参数, 都会生成一个对应的重载方法.
-通过这些分别生成的函数, 在参数列表的末尾添加一个新参数能够保持二进制兼容性, 因为它不会改变编译输出中任何原有的函数, 只是添加一个新的函数.
+在向公开的 API 添加可选的参数时, 你可以使用 [试验性](components-stability.md#stability-levels-explained) 的
+[`@IntroducedAt`](java-to-kotlin-interop.md#overloads-generation) 注解, 来保持二进制兼容性.
 
-例如, 上面的函数可以这样添加注解:
-
-```kotlin
-@JvmOverloads
-fun fib(input: Int = 0) = ...
-```
-
-这样, 在输出的字节码中会生成 2 个方法, 一个没有参数, 另一个有一个 `Int` 参数:
+向每个新增的可选参数添加这个注解, 并注明引入这个参数的版本.
+例如:
 
 ```kotlin
-public final static fib()I
-public final static fib(I)I
+@OptIn(ExperimentalVersionOverloading::class)
+fun fib(@IntroducedAt("1.1") input: Int = 0) = ...
 ```
 
-对于所有的 Kotlin 编译目标, 你可以选择为你的函数手动创建多个重载, 而不是接受默认参数的单个函数, 以保持二进制兼容性.
-在上面的示例中, 这就代表对希望接受 `Int` 参数的情况, 创建单独的 `fib` 函数:
+编译器使用这个信息, 相应的生成隐藏的重载(overload).
+
+在为 JVM 平台编写 Kotlin 代码时, 你也可以在带有默认参数的函数上使用
+[`@JvmOverloads`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/) 注解, 来生成重载(overload).
+
+> `@JvmOverloads` 注解对 Kotlin 调用者不保证二进制兼容性.
+> 相反, 在修改公开的 API 时, 要使用 `@IntroducedAt` 注解, 或者手动添加重载.
+>
+{style="warning"}
+
+你也可以手动创建重载, 而不是使用带有默认参数的单个函数.
+例如, 如果你希望 `fib()` 函数接受一个 `Int` 参数, 请创建单独的重载:
 
 ```kotlin
 fun fib() = ...

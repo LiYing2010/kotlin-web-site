@@ -1,5 +1,7 @@
 [//]: # (title: Java 和 Kotlin 中的集合(Collection))
-[//]: # (学习如何将 Java 的集合迁移到 Kotlin 集合. 这篇向导讨论 Kotlin 和 Java 中的这类数据结构, 包括 List, ArrayList, Map, Set, 等等)
+
+<web-summary>学习如何将 Java 的集合迁移到 Kotlin 集合.
+这篇向导讨论 Kotlin 和 Java 中的这类数据结构, 包括 List, ArrayList, Map, Set, 等等)</web-summary>
 
 _集合_ 是一组可变数量(可以为 0)的元素, 解决问题时起到重要作用, 而且经常被用到.
 本文解释并比较 Java 和 Kotlin 中集合的概念以及操作方式.
@@ -690,7 +692,7 @@ public void zip() {
 {id="zip-elements-java"}
 
 如果你希望做某些更加复杂的操作, 而不仅仅是将元素 pair 打印输出,
-你可以使用 [Record](https://blogs.oracle.com/javamagazine/post/records-come-to-java).
+你可以使用 [Record](https://docs.oracle.com/en/java/javase/17/language/records.html).
 在上面的示例中, Record 是 `record AnimalDescription(String animal, String color) {}`.
 
 在 Kotlin 中, 使用 [`zip()`](collection-transformations.md#zip) 函数可以完成相同的功能:
@@ -749,7 +751,7 @@ fun main() {
 
 * 访问 [Kotlin Koans](koans.md) – 完成练习, 学习 Kotlin 语法. 每个练习从一个失败的 unit test 开始, 你的任务是让测试通过.
 * 阅读其他的 [Kotlin 惯用法](idioms.md).
-* 学习如何使用 [Java 到 Kotlin 转换器](mixing-java-kotlin-intellij.md#converting-an-existing-java-file-to-kotlin-with-j2k),
+* 学习如何使用 [Java 到 Kotlin 转换器](mixing-java-kotlin-intellij.md#convert-java-files-to-kotlin),
   将既有的 Java 代码转换为 Kotlin .
 * 学习 [Kotlin 中的集合](collections-overview.md).
 

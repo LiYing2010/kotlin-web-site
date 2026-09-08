@@ -1,12 +1,6 @@
 [//]: # (title: Kotlin/Wasm)
 
-> Kotlin/Wasm 目前处于 [Alpha 阶段](components-stability.md).
-> 它随时有可能变更. 你可以将它用于正式产品之前的各种场景.
-> 希望你能通过 [YouTrack](https://youtrack.jetbrains.com/issue/KT-56492) 提供你的反馈意见.
->
-> [加入 Kotlin/Wasm 社区](https://slack-chats.kotlinlang.org/c/webassembly).
->
-{style="note"}
+<primary-label ref="beta"/> 
 
 Kotlin/Wasm 能够将你的 Kotlin 代码编译为 [WebAssembly (Wasm)](https://webassembly.org/) 格式.
 使用 Kotlin/Wasm, 你可以创建应用程序, 运行在不同的环境和设备上, 这些环境和设备要支持 Wasm, 并符合 Kotlin 的要求.
@@ -20,6 +14,14 @@ Wasm 为 Kotlin 和其他编程语言提供了编译目标.
 或浏览器之外的, 独立运行的 Wasm 虚拟机.
 对于浏览器之外的情况, [WebAssembly System Interface (WASI)](https://wasi.dev/) 提供了对平台 API 的访问能力, 可以供你使用.
 
+> 要在浏览器中运行 Kotlin/Wasm 构建的应用程序, 你的用户需要使用支持 WebAssembly 的垃圾收集和旧的异常处理协议的
+> [浏览器版本](wasm-configuration.md#browser-versions).
+> 关于各浏览器目前的支持状态, 请参见 [WebAssembly 路线图](https://webassembly.org/roadmap/).
+>
+{style="tip"}
+
+[//]: # (TODO KT-85415: For Kotlin/Wasm-compatible standalone runtimes, see Standalone runtimes).
+
 ## Kotlin/Wasm 与 Compose Multiplatform {id="kotlin-wasm-and-compose-multiplatform"}
 
 使用 Kotlin, 你能够构建应用程序, 并通过 Compose Multiplatform 和 Kotlin/Wasm,
@@ -32,15 +34,6 @@ Wasm 为 Kotlin 和其他编程语言提供了编译目标.
 针对 Web 平台, Compose Multiplatform 使用 Kotlin/Wasm 作为编译目标.
 使用 Kotlin/Wasm 和 Compose Multiplatform 构建的应用程序使用 `wasm-js` 编译目标, 运行在浏览器内.
 
-[查看我们在线演示, 这是一个使用 Compose Multiplatform 和 Kotlin/Wasm 构建的应用程序](https://zal.im/wasm/jetsnack/)
-
-![Kotlin/Wasm 演示](wasm-demo.png){width=700}
-
-> 要在浏览器中运行 Kotlin/Wasm 构建的应用程序, 你需要使用支持新的垃圾收集和旧的异常处理协议的浏览器版本.
-> 关于各浏览器目前的支持状态, 请参见 [WebAssembly 路线图](https://webassembly.org/roadmap/).
->
-{style="tip"}
-
 另外, 在 Kotlin/Wasm 中你还可以直接使用最流行的 Kotlin 库.
 和在其他的 Kotlin 和 Multiplatform 项目一样, 你可以在构建脚本中包含依赖项声明.
 详情请参见 [添加跨平台库依赖项](multiplatform-add-dependencies.md).
@@ -51,21 +44,34 @@ Wasm 为 Kotlin 和其他编程语言提供了编译目标.
 
 ## Kotlin/Wasm 与 WASI {id="kotlin-wasm-and-wasi"}
 
-Kotlin/Wasm 使用 [WebAssembly System Interface (WASI)](https://wasi.dev/) 来开发服务器端应用程序.
+Kotlin/Wasm 使用 [WebAssembly System Interface (WASI)](https://wasi.dev/) 来开发后端应用程序.
 使用 Kotlin/Wasm 和 WASI 构建的应用程序使用 Wasm-WASI 编译目标, 允许你调用 WASI API, 并在浏览器环境之外运行应用程序.
 
 Kotlin/Wasm 利用 WASI 来抽象与平台相关的细节, 允许相同的 Kotlin 代码在各种不同的平台上运行.
 这将 Kotlin/Wasm 扩展到 Web 应用程序之外, 而不必为每个运行环境进行自定义的处理.
 
-WASI 提供了一个安全的标准接口, 可以在不同的环境中运行编译为 WebAssembly 的 Kotlin 应用程序.
+WASI 提供了一个安全, 标准化的接口, 可以在不同的环境中运行编译为 WebAssembly 的 Kotlin 应用程序.
 
 > 关于 Kotlin/Wasm 和 WASI 的实际运用, 请参见 [Kotlin/Wasm 和 WASI 入门教程](wasm-wasi.md).
 >
 {style="tip"}
 
+### WebAssembly 组件模型 {id="webassembly-component-model"}
+<primary-label ref="experimental-general"/>
+
+WASI 0.2 构建于 [WebAssembly 组件模型](https://github.com/WebAssembly/component-model) 之上,
+这个模型定义了一种方式, 使用标准化的接口和类型, 从 Wasm 模块构建组件.
+通过这个模型, 你可以在应用程序或库中定义与编程语言无关的组件.
+你也可以将 Wasm 模块和现有的组件组合为新的组件.
+
+要探索 WebAssembly 组件模型与 Kotlin/Wasm 的能力, 请查看这个演示:
+[使用 `wasi:http` 构建的一个简单的服务器](https://github.com/Kotlin/sample-wasi-http-kotlin/).
+
+<img src="kotlin-wasm-wasi-http.gif" alt="Kotlin/Wasm with WebAssembly 组件模型" width="600"/>
+
 ## Kotlin/Wasm 的性能 {id="kotlin-wasm-performance"}
 
-尽管 Kotlin/Wasm 还处于 Alpha 阶段，但在 Kotlin/Wasm 上运行的 Compose Multiplatform 已经表现出令人鼓舞的性能特性.
+尽管 Kotlin/Wasm 还处于 Beta 阶段，但在 Kotlin/Wasm 上运行的 Compose Multiplatform 已经表现出令人鼓舞的性能特性.
 你可以看到, 它的执行速度超过了 JS, 接近于 JVM:
 
 ![Kotlin/Wasm 的性能](wasm-performance-compose.png){width=700}
@@ -77,7 +83,7 @@ WASI 提供了一个安全的标准接口, 可以在不同的环境中运行编�
 Kotlin/Wasm 的标准库提供了浏览器 API 的声明, 包括 DOM API.
 通过这些声明, 你可以直接使用 Kotlin API 来访问和使用浏览器的各种功能.
 例如, 在你的 Kotlin/Wasm 应用程序中, 你可以操作 DOM 元素, 访问 API, 而不需要从头开始定义这些声明.
-更多详情请参见我们的 [Kotlin/Wasm 浏览器示例](https://github.com/Kotlin/kotlin-wasm-examples/tree/main/browser-example).
+更多详情请参见我们的 [Kotlin/Wasm 浏览器示例](https://github.com/Kotlin/kotlin-wasm-browser-template).
 
 用于支持浏览器 API 的声明是通过 JavaScript [互操作能力](wasm-js-interop.md) 来定义的.
 你可以使用同样的功能来定义你自己的声明.

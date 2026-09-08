@@ -17,7 +17,7 @@
 >
 {style="note"}
 
-## 无符号整数的数组和值范围
+## 无符号整数的数组和值范围 {id="unsigned-arrays-and-ranges"}
 
 > 无符号整数的数组以及对这些数组的操作目前处于 [Beta](components-stability.md) 状态.
 > 随时可能发生不兼容的变化. 使用时需要明确同意(Opt-in)(详情请参见下文).
@@ -42,7 +42,7 @@
 为了支持 `UInt` 和 `ULong` 类型的 [值范围与数列](ranges.md) 功能,
 还提供了 `UIntRange`, `UIntProgression`, `ULongRange`, `ULongProgression` 类.
 
-## 无符号整数的字面值(literal)
+## 无符号整数的字面值(literal) {id="unsigned-integers-literals"}
 
 为了无符号整数使用的便利, 你可以在整数字面值上添加后缀, 来标记特定的无符号类型
 (与使用 `F` 后缀标记 `Float` 类型, 或使用 `L` 后缀标记 `Long` 类型的方式类似):
@@ -65,7 +65,7 @@
     val a = 1UL // 字面值类型为 ULong, 即使这里未指定期待的数据类型, 而且整数值可以存入 UInt 内
     ```
 
-## 使用场景
+## 使用场景 {id="use-cases"}
 
 无符号数值的主要使用场景, 是利用整数的完整的二进制范围来表达正的数值.
 比如, 要表达一个无法在有符号类型范围内表达的 16 进制常数, 例如 32 位 `AARRGGBB` 格式的颜色值:

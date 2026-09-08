@@ -1,5 +1,6 @@
 [//]: # (title: 为 Spring Boot 项目添加数据库支持)
-[//]: # (description: 使用 JDBC Template, 为使用 Kotlin 开发的 Sprint Boot 项目添加数据库支持.)
+
+<web-summary>使用 JDBC Template, 为使用 Kotlin 开发的 Sprint Boot 项目添加数据库支持.</web-summary>
 
 <tldr>
     <p>
@@ -31,7 +32,6 @@ package com.example.demo
 
 import org.springframework.stereotype.Service
 import org.springframework.jdbc.core.JdbcTemplate
-import java.util.*
 
 @Service
 class MessageService(private val db: JdbcTemplate) {
@@ -172,7 +172,6 @@ package com.example.demo
 
 import org.springframework.stereotype.Service
 import org.springframework.jdbc.core.JdbcTemplate
-import org.springframework.jdbc.core.query
 import java.util.UUID
 
 @Service
@@ -210,7 +209,7 @@ class MessageService(private val db: JdbcTemplate) {
 
 1. 在 `src/main/resources` 目录中创建 `schema.sql` 文件. 它将会保存数据库对象的定义:
 
-   ![创建数据库 Schema](create-database-schema.png){width=400}
+   ![创建数据库 Schema](create-database-schema.png){width=350}
 
 2. 更新 `src/main/resources/schema.sql` 文件, 内容如下:
 
@@ -226,7 +225,7 @@ class MessageService(private val db: JdbcTemplate) {
 
 3. 打开 `src/main/resources` 文件夹内的 `application.properties` 文件, 添加以下应用程序属性:
 
-   ```none
+   ```properties
    spring.application.name=demo
    spring.datasource.driver-class-name=org.h2.Driver
    spring.datasource.url=jdbc:h2:file:./data/testdb
@@ -237,7 +236,7 @@ class MessageService(private val db: JdbcTemplate) {
    ```
 
    这些设置会为 Spring Boot 应用程序启用数据库.
-   关于完整的应用程序属性列表, 请参见 [Spring 文档](https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html).
+   关于完整的应用程序属性列表, 请参见 [Spring 文档](https://docs.spring.io/spring-boot/appendix/application-properties/index.html).
 
 ## 通过 HTTP 请求, 向数据库添加 message {id="add-messages-to-database-via-http-request"}
 
@@ -281,11 +280,11 @@ class MessageService(private val db: JdbcTemplate) {
 3. 执行所有的 POST 请求. 使用请求声明侧栏中的绿色 **Run** 图标.
    这些请求会将消息写入到数据库:
 
-   ![执行 POST 请求](execute-post-requests.png)
+   ![执行 POST 请求](execute-post-requests.png){width=700}
 
 4. 执行 GET 请求, 并在 **Run** 工具窗口查看结果:
 
-   ![执行 GET 请求](execute-get-requests.png)
+   ![执行 GET 请求](execute-get-requests.png){width=700}
 
 ### 执行请求的其它方式 {id="alternative-way-to-execute-requests" initial-collapse-state="collapsed" collapsible="true"}
 
@@ -551,7 +550,7 @@ Spring 应用程序已经可以运行了:
 
 5. 执行 GET 请求, 并在 **Run** 工具窗口中查看结果:
 
-    ![根据 id 得到 message](retrieve-message-by-its-id.png){width=706}
+    ![根据 id 得到 message](retrieve-message-by-its-id.png){width=700}
 
 ## 下一步 {id="next-step"}
 

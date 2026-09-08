@@ -57,7 +57,7 @@ fun main(){
 ```
 {kotlin-runnable="true" id="kotlin-tour-object-declarations"}
 
-这个对象有一个成员函数, 名为 `takeParams`, 参数是 `username` 和 `password` 变量, 并打印一个字符串到控制台. 
+这个对象有一个成员函数, 名为 `takeParams`, 参数是 `username` 和 `password` 变量, 并打印一个字符串到控制台.
 只有在函数初次被调用时, `DoAuth` 对象才会被创建.
 
 > 对象可以从类和接口继承. 例如:

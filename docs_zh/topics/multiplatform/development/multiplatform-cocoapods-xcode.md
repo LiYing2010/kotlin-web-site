@@ -10,6 +10,11 @@
 你可以使用整个 Kotlin 项目作为一个 Pod 依赖项.
 要做到这一点, 你需要在你的项目的 Podfile 中, 指定它的名称和生成的 Podspec 文件的目录路径, 来包含这样的依赖项.
 
+> CocoaPods 集成方案,
+> 不能与 [直接集成](multiplatform-direct-integration.md) 所使用的 `embedAndSignAppleFrameworkForXcode` 机制共同使用.
+>
+{style="warning"}
+
 依赖项将会与项目一起自动构建(以及重构建).
 这样的方案可以简化 Kotlin Multiplatform 项目到 Xcode 的导入工作, 因为不再需要编写对应的 Gradle task 和 Xcode 构建步骤.
 

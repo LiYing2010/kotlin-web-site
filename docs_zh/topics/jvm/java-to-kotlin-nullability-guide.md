@@ -1,5 +1,7 @@
 [//]: # (title: Java 和 Kotlin 中的可空性(Nullability))
-[//]: # (description: 学习如何将 Java 的可空结构迁移到 Kotlin. 这篇向导讨论 Kotlin 中对可空类型的支持, Kotlin 如何处理来自 Java 的可空注解, 等等.)
+
+<web-summary>学习如何将 Java 的可空结构迁移到 Kotlin.
+这篇向导讨论 Kotlin 中对可空类型的支持, Kotlin 如何处理来自 Java 的可空注解, 等等.</web-summary>
 
 _可空性(Nullability)_ 是指一个变量能否为 `null` 值的能力.
 当变量值为 `null`, 使用这个变量指向的对象将会导致 `NullPointerException` 异常.
@@ -86,7 +88,7 @@ fun stringLength(a: String?): Int = if (a != null) a.length else 0
 
 你不进行这样的检查, 代码会编译失败, 错误信息如下:
 "Only [safe (?.)](null-safety.md#safe-call-operator) or [non-nullable asserted (!!.) calls](null-safety.md#not-null-assertion-operator) are allowed
-on a [nullable receiver](extensions.md#nullable-receiver) of type String?".
+on a [nullable receiver](extensions.md#nullable-receivers) of type String?".
 
 这段代码还可以写得更简短一些 – 使用 [安全调用操作符 ?. (If-not-null 的简写表达)](idioms.md#if-not-null-shorthand),
 可以将 null 检查和方法调用结合为一个操作符:
@@ -102,6 +104,7 @@ fun stringLength(a: String?): Int = a?.length ?: 0
 在 Java 中, 你可以使用注解来表示一个变量是否可以为 `null`.
 这些注解不是标准库的一部分, 但你可以分别添加这些注解.
 例如, 你可以使用 JetBrains 注解 `@Nullable` 和 `@NotNull` (来自 `org.jetbrains.annotations` 包),
+[JSpecify](https://jspecify.dev/) 的注解 (`org.jspecify.annotations` 包),
 或 Eclipse 的注解(`org.eclipse.jdt.annotation` 包).
 当你 [从 Kotlin 代码调用 Java 代码](java-interop.md#nullability-annotations) 时,
 Kotlin 能够识别这些注解, 并根据注解来处理这些类型.
@@ -213,7 +216,7 @@ findOrder()?.customer?.let(::processCustomer)
 
 ## 使用默认值代替 null {id="default-values-instead-of-null"}
 
-`null` 值检查通常用于对值为 `null` 的情况 [设置默认值](functions.md#default-arguments).
+`null` 值检查通常用于对值为 `null` 的情况 [设置默认值](functions.md#parameters-with-default-values).
 
 带有 null 检查的 Java 代码:
 
@@ -311,7 +314,7 @@ void main() {
 ```
 {id="casting-types-java"}
 
-在 Kotlin 中为了避免异常, 可以使用 [安全的转换操作符](typecasts.md#safe-nullable-cast-operator) `as?`, 它会在转换失败时返回 `null`:
+在 Kotlin 中为了避免异常, 可以使用 [安全的转换操作符](typecasts.md#unsafe-cast-operator) `as?`, 它会在转换失败时返回 `null`:
 
 ```kotlin
 // Kotlin
@@ -333,10 +336,54 @@ fun getStringLength(y: Any): Int {
 >
 {style="note"}
 
+在将 Java 代码迁移到 Kotlin 时, 你可能最初想要对可为 null 的类型使用常规的类型转换操作符 `as`, 以保留代码的原始语意.
+但是, 我们建议修改代码, 改为使用安全的类型转换操作符 `as?`, 这是更安全, 而且更符合 Kotlin 惯用法的方案.
+例如, 如果你的 Java 代码如下:
+
+```java
+public class UserProfile {
+    Object data;
+
+    public static String getUsername(UserProfile profile) {
+        if (profile == null) {
+            return null;
+        }
+        return (String) profile.data;
+    }
+}
+```
+
+使用 `as` 操作符将这段代码直接迁移, 结果是:
+
+```kotlin
+class UserProfile(var data: Any? = null)
+
+fun getUsername(profile: UserProfile?): String? {
+    if (profile == null) {
+        return null
+    }
+    return profile.data as String?
+}
+```
+
+其中, `profile.data` 会使用 `as String?`, 转换为可为 null 的字符串.
+
+我们建议更进一步, 使用 `as? String` 对值进行安全的类型转换. 这种方案会在失败时返回 `null`, 而不是抛出 `ClassCastException` 异常:
+
+```kotlin
+class UserProfile(var data: Any? = null)
+
+fun getUsername(profile: UserProfile?): String? =
+  profile?.data as? String
+```
+
+这个版本使用 [安全调用操作符](null-safety.md#safe-call-operator) `?.` 替代了 `if` 表达式,
+在试图进行类型转换之前, 会安全的访问数据属性.
+
 ## 下一步做什么? {id="what-s-next"}
 
 * 阅读其他的 [Kotlin 惯用法](idioms.md).
-* 学习如何使用 [Java-to-Kotlin (J2K) 转换器](mixing-java-kotlin-intellij.md#converting-an-existing-java-file-to-kotlin-with-j2k),
+* 学习如何使用 [Java-to-Kotlin (J2K) 转换器](mixing-java-kotlin-intellij.md#convert-java-files-to-kotlin),
   将既有的 Java 代码转换为 Kotlin.
 * 阅读其他的迁移向导:
   * [Java 和 Kotlin 中的字符串](java-to-kotlin-idioms-strings.md)

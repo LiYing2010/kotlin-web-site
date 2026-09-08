@@ -121,7 +121,7 @@ fun main() {
 {kotlin-runnable="true" id="kotlin-tour-scope-function-let-non-null"}
 
 这个示例中:
-* 创建一个变量, 名为 `address`.
+* 创建名为 `address` 和 `confirm` 的变量.
 * 在 `address` 变量上, 对 `let` 作用域函数使用一个安全调用.
 * 在 `let` 作用域函数之内, 创建一个临时作用域.
 * 将 `sendNotification()` 函数作为一个 Lambda 表达式, 传递给 `let` 作用域函数.
@@ -143,7 +143,10 @@ class Client() {
     var token: String? = null
     fun connect() = println("connected!")
     fun authenticate() = println("authenticated!")
-    fun getData(): String = "Mock data"
+    fun getData() : String {
+        println("getting data!")
+        return "Mock data"
+    }
 }
 
 val client = Client()
@@ -155,6 +158,7 @@ fun main() {
     client.authenticate()
     // 输出结果为: authenticated!
     client.getData()
+    // 输出结果为: getting data!
 }
 ```
 {kotlin-runnable="true" id="kotlin-tour-scope-function-apply-before"}
@@ -173,19 +177,23 @@ class Client() {
     var token: String? = null
     fun connect() = println("connected!")
     fun authenticate() = println("authenticated!")
-    fun getData(): String = "Mock data"
+    fun getData() : String {
+        println("getting data!")
+        return "Mock data"
+    }
 }
 //sampleStart
 val client = Client().apply {
     token = "asdf"
     connect()
+    // 输出结果为: connected!
     authenticate()
+    // 输出结果为: authenticated!
 }
 
 fun main() {
     client.getData()
-    // 输出结果为: connected!
-    // 输出结果为: authenticated!
+    // 输出结果为: getting data!
 }
 //sampleEnd
 ```
@@ -216,7 +224,10 @@ class Client() {
     var token: String? = null
     fun connect() = println("connected!")
     fun authenticate() = println("authenticated!")
-    fun getData(): String = "Mock data"
+    fun getData() : String {
+        println("getting data!")
+        return "Mock data"
+    }
 }
 
 //sampleStart
@@ -231,6 +242,7 @@ fun main() {
         authenticate()
         // 输出结果为: authenticated!
         getData()
+        // 输出结果为: getting data!
     }
 }
 //sampleEnd
@@ -281,7 +293,7 @@ fun main() {
 * 对 `medals` 变量使用 `.map()` 扩展函数.
 * 向 `.map()` 函数传递一个 Lambda 表达式, 它通过 `it` 关键字引用 `medals`, 并对它调用 `.uppercase()` 扩展函数.
 * 对 `medals` 变量使用 `.filter()` 扩展函数.
-* 向 `.filter()` 函数传递一个 Lambda 表达式, 作为判定条件, 它通过 `it` 关键字引用 `medals`, 并检查 `medals` 变量中包含的字符串长度是否超过 4 个字符.
+* 向 `.filter()` 函数传递一个 Lambda 表达式, 作为判定条件, 它通过 `it` 关键字引用 `medals`, 并检查列表中的元素是否超过 4 个字符.
 * 对 `medals` 变量使用 `.reversed()` 扩展函数.
 * 将结果赋值给 `reversedLongUpperCaseMedals` 变量.
 * 打印输出 `reversedLongUpperCaseMedals` 变量中包含的列表.
@@ -384,7 +396,7 @@ fun main() {
 {kotlin-runnable="true" id="kotlin-tour-scope-function-with-after"}
 
 这个示例中:
-* 使用 `with` 作用域函数, 将 `mainMonitorSecondaryBufferBackedCanvas` 实例作为接受者对象.
+* 使用 `with` 作用域函数, 将 `mainMonitorSecondaryBufferBackedCanvas` 实例作为接受者.
 * 在 `with` 作用域函数之内创建一个临时作用域, 因此在调用它的成员函数, 你不必明确的引用 `mainMonitorSecondaryBufferBackedCanvas` 实例.
 * 向 `with` 作用域函数传递一个 Lambda 表达式, 使用不同的函数参数调用一系列的成员函数.
 

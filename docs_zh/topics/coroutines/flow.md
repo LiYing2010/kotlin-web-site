@@ -3,7 +3,7 @@
 一个挂起函数可以异步地返回单个结果值, 但我们要如何才能返回多个异步计算的结果值?
 这就是 Kotlin 的异步数据流要解决的问题.
 
-## 多个值的表达
+## 多个值的表达 {id="representing-multiple-values"}
 
 在 Kotlin 中, 多个值可以使用 [集合] 表达.
 比如, 我们可以通过 `simple` 函数返回一个 [List], 其中包含 3 个数值,
@@ -32,7 +32,7 @@ fun main() {
 
 <!--- TEST -->
 
-### 序列(Sequence)
+### 序列(Sequence) {id="sequences"}
 
 如果我们需要通过某些非常消耗 CPU 的阻塞性代码来计算这些数值(每个数值的计算消耗 100ms),
 那么我们可以使用 [Sequence] 来表达这些数值:
@@ -63,7 +63,7 @@ fun main() {
 3
 -->
 
-### 挂起函数(Suspending function)
+### 挂起函数(Suspending function) {id="suspending-functions"}
 
 但是, 数值的计算过程会阻塞运行这段代码的主线程.
 如果这些数值由异步代码计算, 我们可以对 `simple` 函数添加 `suspend` 标记,
@@ -162,7 +162,7 @@ I'm not blocked 3
 >
 {style="note"}
 
-## 数据流(Flow)是 "冷的"(cold)
+## 数据流(Flow)是 "冷的"(cold) {id="flows-are-cold"}
 
 数据流类似于 sequence, 但它是 _"冷的"(cold)_ 流 &mdash;
 直到流中的数据被收集时, 才会执行[flow][_flow] 构建器之内的代码.
@@ -219,7 +219,7 @@ Flow started
 对 `simple()` 的调用本身会立即返回, 不会等待任何任务.
 数据流会在每次被收集的时候启动, 所以, 每次调用 `collect` 时我们都会再次看到 "Flow started" 消息的输出.
 
-## 简要介绍数据流的取消
+## 简要介绍数据流的取消 {id="flow-cancellation-basics"}
 
 数据流的取消使用协程通常的协作取消机制.
 和通常的机制一样, 如果数据流在一个可取消的挂起函数(比如 [delay])之内被挂起, 那么数据流的收集可以取消.
@@ -267,7 +267,7 @@ Done
 
 更多详情, 请参见 [检查数据流的取消](#flow-cancellation-checks) 小节.
 
-## 数据流构建器
+## 数据流构建器 {id="flow-builders"}
 
 前面的示例代码中使用的 `flow { ... }` 构建器是最基本的数据流构建器.
 还有其他一些构建器可以声明数据流:
@@ -300,7 +300,7 @@ fun main() = runBlocking<Unit> {
 3
 -->
 
-## 数据流的中间操作符(Intermediate flow operator)
+## 数据流的中间操作符(Intermediate flow operator) {id="intermediate-flow-operators"}
 
 数据流可以使用操作符进行变换, 与对集合(collection)和序列(sequence)进行变换的方式一样.
 中间操作符(Intermediate operator) 应用于上游的数据流(upstream flow), 然后返回一个下游数据流(downstream flow).
@@ -346,7 +346,7 @@ response 3
 
 <!--- TEST -->
 
-### 变换操作符(Transform operator)
+### 变换操作符(Transform operator) {id="transform-operator"}
 
 数据流的变换操作符中, 最常用的就是 [transform].
 它可以用来实现简单的变换, 比如 [map] 和 [filter], 也可以实现更复杂的变换.
@@ -394,7 +394,7 @@ response 3
 
 <!--- TEST -->
 
-### 限制大小操作符(Size-limiting operator)
+### 限制大小操作符(Size-limiting operator) {id="size-limiting-operators"}
 
 限制大小(Size-limiting) 的中间操作符, 比如 [take], 在达到相应的大小限制之后, 会取消数据流的执行.
 协程的取消总是通过抛出异常来实现的, 因此, 在协程取消时,
@@ -440,7 +440,7 @@ Finally in numbers
 
 <!--- TEST -->
 
-## 数据流的结束操作符(Terminal flow operator)
+## 数据流的结束操作符(Terminal flow operator) {id="terminal-flow-operators"}
 
 数据流上的结束操作符(Terminal operator)是 _挂起函数_, 它会开始收集数据流中的值.
 最基本的结束操作符是 [collect], 但还有其他结束操作符, 可以方便地实现以下功能:
@@ -478,7 +478,7 @@ fun main() = runBlocking<Unit> {
 
 <!--- TEST -->
 
-## 数据流的执行是顺序的(sequential)
+## 数据流的执行是顺序的(sequential) {id="flows-are-sequential"}
 
 数据流的每次单独的收集操作会顺序的执行, 除非使用了特殊的操作符, 比如对多个数据流进行操作.
 收集操作直接在调用结束操作符的协程内工作.
@@ -530,7 +530,7 @@ Filter 5
 
 <!--- TEST -->
 
-## 数据流的上下文(context)
+## 数据流的上下文(context) {id="flow-context"}
 
 数据流的收集工作总是会在调用收集函数的协程的上下文中执行.
 比如, 如果存在一个数据流 `simple`, 那么不管数据流 `simple` 的具体实现细节如何,
@@ -590,7 +590,7 @@ fun main() = runBlocking<Unit> {
 由于调用 `simple().collect` 的是主线程, `simple` 的数据流的代码体也由主线程调用.
 对于快速执行的代码, 或异步执行的代码, 如果不关心执行时的上下文, 并且不阻塞调用者, 这是非常完美的默认动作.
 
-### 使用 withContext 时的一个常见陷阱
+### 使用 withContext 时的一个常见陷阱 {id="a-common-pitfall-when-using-withcontext"}
 
 但是, 对于长时间运行, 非常消耗 CPU 的代码, 可能需要在 [Dispatchers.Default] 上下文内执行,
 而 UI 更新代码需要在 [Dispatchers.Main] 上下文内执行.
@@ -638,7 +638,7 @@ Exception in thread "main" java.lang.IllegalStateException: Flow invariant is vi
 
 <!--- TEST EXCEPTION -->
 
-### flowOn 操作符
+### flowOn 操作符 {id="flowon-operator"}
 
 这个异常告诉我们, 应该使用 [flowOn] 函数来切换发射数据时的上下文.
 我们在下面的示例程序中演示切换数据流上下文的正确方式,
@@ -690,7 +690,7 @@ fun main() = runBlocking<Unit> {
 而且发射协程在另一个线程内, 与收集协程并行执行.
 当上游数据流在它的上下文内需要切换 [CoroutineDispatcher] 时, [flowOn] 操作符为它创建了另一个协程.
 
-## 缓冲(Buffering)
+## 缓冲(Buffering) {id="buffering"}
 
 让数据流的不同部分在不同的协程中执行, 收集数据流所耗费的总时间可能会有所改进, 尤其是涉及长时间运行的异步操作的情况.
 比如, 假设 数据流 `simple` 的数据发射操作很慢, 每产生一个元素需要 100 ms;
@@ -791,7 +791,7 @@ Collected in 1071 ms
 >
 {style="note"}
 
-### 合并(Conflation)
+### 合并(Conflation) {id="conflation"}
 
 如果一个数据流只代表操作结果(或操作状态变更)的一部分, 可能没有必要处理每一个结果值,
 而可以只处理最近的一部分结果.
@@ -893,11 +893,11 @@ Collected in 741 ms
 
 <!--- TEST ARBITRARY_TIME -->
 
-## 多个数据流的组合
+## 多个数据流的组合 {id="composing-multiple-flows"}
 
 有很多种方法可以组合多个数据流.
 
-### Zip
+### Zip {id="zip"}
 
 就像 Kotlin 标准库中的 [Sequence.zip] 扩展函数一样,
 数据流也有一个 [zip] 操作符, 可以将两个数据流中相应的值组合在一起:
@@ -931,7 +931,7 @@ fun main() = runBlocking<Unit> {
 
 <!--- TEST -->
 
-### 结合(Combine)
+### 结合(Combine) {id="combine"}
 
 如果数据流代表一个变量的最近的值, 或者一个操作的最近的结果(参见相关小节 [合并(Conflation)](#conflation)),
 那么有可能需要根据相应的数据流中最近的值进行某种计算, 而且当某个上游数据流发射新值时, 又需要重新计算.
@@ -1010,7 +1010,7 @@ fun main() = runBlocking<Unit> {
 
 <!--- TEST ARBITRARY_TIME -->
 
-## 压平(Flatten)数据流
+## 压平(Flatten)数据流 {id="flattening-flows"}
 
 数据流代表异步接收的值序列, 因此很容易遇到这种的情况, 每个值触发一个请求, 得到另外一组值.
 比如, 假设我们有下面这样的函数, 它返回一个数据流, 发送 2 个字符串, 中间间隔 500ms:
@@ -1039,7 +1039,7 @@ fun requestFlow(i: Int): Flow<String> = flow {
 但是, 由于数据流的异步特性, 需要使用不同的 _模式(mode)_ 来进行压平(Flatten)处理,
 因此, 对于数据流, 存在一组压平(Flatten)操作符.
 
-### flatMapConcat
+### flatMapConcat {id="flatmapconcat"}
 
 将数据流的数据流串联(Concatenate)起来的功能, 由 [flatMapConcat] 和 [flattenConcat] 操作符提供.
 这两个操作符与序列的对应的操作符最类似.
@@ -1086,7 +1086,7 @@ fun main() = runBlocking<Unit> {
 
 <!--- TEST ARBITRARY_TIME -->
 
-### flatMapMerge
+### flatMapMerge {id="flatmapmerge"}
 
 另一种压平操作是, 同时收集所有的输入数据流, 然后将它们的值合并为单个数据流,
 因此能够尽可能快的发射最终结果值.
@@ -1140,7 +1140,7 @@ fun main() = runBlocking<Unit> {
 >
 {style="note"}
 
-### flatMapLatest
+### flatMapLatest {id="flatmaplatest"}
 
 在 ["处理最后的值"](#processing-the-latest-value) 小节中我们介绍过 [collectLatest] 操作符,
 与它类似, 有一个对应的 "Latest" 压平模式, 每次发射新的数据流, 对之前的数据流的收集(如果未完成)就会被取消.
@@ -1190,12 +1190,12 @@ fun main() = runBlocking<Unit> {
 >
 {style="note"}
 
-## 数据流的异常
+## 数据流的异常 {id="flow-exceptions"}
 
 如果发射器或操作符之内的代码抛出异常, 数据流的收集就会异常结束.
 有几种方法来处理这些异常.
 
-### 在收集器中使用 try/catch
+### 在收集器中使用 try/catch {id="collector-try-and-catch"}
 
 收集器可以使用 Kotlin 的 [`try/catch`][exceptions] 代码段来处理异常:
 
@@ -1242,7 +1242,7 @@ Caught java.lang.IllegalStateException: Collected 2
 
 <!--- TEST -->
 
-### 一切异常都会被捕获
+### 一切异常都会被捕获 {id="everything-is-caught"}
 
 前面的示例程序实际上会捕获任何异常, 包括发射器之内, 任何中间操作符之内, 以及结束操作符之内发生的一切异常.
 比如, 我们来修改一下代码, 将发射的值 [映射(map)][map] 为字符串,
@@ -1291,7 +1291,7 @@ Caught java.lang.IllegalStateException: Crashed on 2
 
 <!--- TEST -->
 
-## 异常的透明性(transparency)
+## 异常的透明性(transparency) {id="exception-transparency"}
 
 但是数据流发射器的代码要怎么样才能封装它自己的异常处理逻辑呢?
 
@@ -1347,7 +1347,7 @@ Emitting 2
 Caught java.lang.IllegalStateException: Crashed on 2
 -->
 
-### 透明捕获(Transparent catch)
+### 透明捕获(Transparent catch) {id="transparent-catch"}
 
 [catch] 中间操作符遵守异常透明性规则, 只捕获上游数据流中的异常
 (也就是在 `catch` 之前的所有操作符中发生的异常, 但不包含 `catch` 之后的).
@@ -1393,7 +1393,7 @@ Exception in thread "main" java.lang.IllegalStateException: Collected 2
 
 <!--- TEST EXCEPTION -->
 
-### 声明式异常捕捉
+### 声明式异常捕捉 {id="catching-declaratively"}
 
 我们能够将 [catch] 操作符的声明式特性, 与处理所有的异常的需求结合在一起,
 方法是将 [collect] 操作符的代码体移动到 [onEach] 之内, 并放在 `catch` 操作符之前.
@@ -1439,12 +1439,12 @@ Caught java.lang.IllegalStateException: Collected 2
 
 <!--- TEST EXCEPTION -->
 
-## 数据流的完成
+## 数据流的完成 {id="flow-completion"}
 
 当数据流的收集完成时 (无论是正常完成, 还是异常完成), 它可能会需要执行某种操作.
 你可能以及注意到了, 可以通过两种方式实现: 命令式, 或声明式.
 
-### 命令式的 finally 代码块
+### 命令式的 finally 代码块 {id="imperative-finally-block"}
 
 除了 `try`/`catch` 之外, 收集器还可以使用 `finally` 代码块, 在 `collect` 完成时执行某种操作.
 
@@ -1481,7 +1481,7 @@ Done
 
 <!--- TEST  -->
 
-### 声明式的完成处理
+### 声明式的完成处理 {id="declarative-handling"}
 
 对于声明风格的方式, 数据流有 [onCompletion] 中间操作符, 当数据流收集完成时会调用它.
 
@@ -1556,7 +1556,7 @@ Caught exception
 从上面的示例我们可以看到, 异常仍然会流向下游.
 它会被发送到更远的 `onCompletion` 操作符, 也可以由使用 `catch` 操作符来处理.
 
-### 数据流的成功完成
+### 数据流的成功完成 {id="successful-completion"}
 
 与 [catch] 操作符的另一个不同在于, [onCompletion] 可以收到所有的异常,
 而且只有在上游数据流成功完成(没有取消, 也没有失败)的情况下, 才会收到一个 `null` 的异常 .
@@ -1594,14 +1594,14 @@ Exception in thread "main" java.lang.IllegalStateException: Collected 2
 
 <!--- TEST EXCEPTION -->
 
-## 命令式 vs 声明式
+## 命令式 vs 声明式 {id="imperative-versus-declarative"}
 
 现在我们知道了如何收集数据流, 以及如何通过命令式和声明式方式, 处理它的完成事件和异常.
 下面自然要问, 通常应该使用哪种方式, 为什么?
 作为一个库, 我们并不具体的主张使用哪一种方式, 而是相信这两种选择都有价值,
 应该按照你自己的偏好和代码风格来进行选择.
 
-## 启动数据流
+## 启动数据流 {id="launching-flow"}
 
 很容易使用数据流来表达从某个来源得到的异步的事件.
 这种情况下, 我们需要某种类似 `addEventListener` 函数的机制,
@@ -1777,7 +1777,7 @@ Exception in thread "main" kotlinx.coroutines.JobCancellationException: Blocking
 
 <!--- TEST EXCEPTION -->
 
-#### 让繁忙的循环代码变得可以取消
+#### 让繁忙的循环代码变得可以取消 {id="making-busy-flow-cancellable"}
 
 如果你的协程中存在繁忙的循环, 那么就必须明确的检查协程是否被取消.
 你可以添加代码 `.onEach { currentCoroutineContext().ensureActive() }`,
@@ -1813,7 +1813,7 @@ Exception in thread "main" kotlinx.coroutines.JobCancellationException: Blocking
 
 <!--- TEST EXCEPTION -->
 
-## 数据流与响应式(Reactive) Stream
+## 数据流与响应式(Reactive) Stream {id="flow-and-reactive-streams"}
 
 很多开发者已经熟悉了 [响应式(Reactive) Stream](https://www.reactive-streams.org/), 或者其他响应式(Reactive)框架, 比如 RxJava 和 Project Reactor,
 对这些开发者来说, 数据流的设计看起来应该非常熟悉.

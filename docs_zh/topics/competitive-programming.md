@@ -12,10 +12,10 @@
 因此程序员既能够像使用动态类型(dynamically-typed)脚本语言那样高效率的读写代码,
 同时又拥有静态类型(statically-typed)语言提供的工具支持和性能优势.
 
-关于如何设置 Kotlin 开发环境, 请参见 [Kotlin/JVM 入门](jvm-get-started.md).
+关于如何在 IntelliJ IDEA 中创建 Kotlin 项目, 请参见教程 [创建控制台应用程序](jvm-get-started.md).
 在编程竞赛中, 通常会创建单个项目, 然后每个问题的解答会在单个源代码文件中编写.
 
-## 简单的示例: 可达数(Reachable Number)问题
+## 简单的示例: 可达数(Reachable Number)问题 {id="simple-example-reachable-numbers-problem"}
 
 下面我们来看一个具体的例子.
 
@@ -145,7 +145,7 @@ private fun readInt() = readStr().toInt() // 读取单个整数
 虽然可见度修饰符的概念与编程竞赛无关,
 但通过使用它, 你可以从相同的代码模板创建多个解答文件, 而不会由于相同的包内存在多个同名的 public 声明而出现编译错误.
 
-## 函数式操作符示例: 长数(Long Number)问题
+## 函数式操作符示例: 长数(Long Number)问题 {id="functional-operators-example-long-number-problem"}
 
 对于更复杂的问题, Kotlin 对集合的函数式操作的扩展库可以很便利的减少样板代码,
 让代码变成自顶向下的线性结构, 以及从左向右的数据变换管道.
@@ -251,7 +251,7 @@ val fl = readInts()
 对输入数据使用与题目描述中相同的名称会比较简单.
 但是, 更加复杂的问题要求更多的代码, 因此需要变量和函数的名称更长, 而且含义清晰.
 
-## 更多提示和技巧
+## 更多提示和技巧 {id="more-tips-and-tricks"}
 
 编程竞赛题目的输入通常类似如下:
 
@@ -280,7 +280,7 @@ Kotlin 被设计为能够与 JVM 的库良好交互, 因此在 Kotlin 中使用�
 println(a.joinToString("\n")) // 数组/列表的每个元素成为单独的行
 ```
 
-## 学习 Kotlin
+## 学习 Kotlin {id="learning-kotlin"}
 
 Kotlin 很容易学习, 尤其是对于那些已经熟悉 Java 的程序员.
 针对软件开发者的 Kotlin 基本语法简短介绍, 请参见在本站参考文档: [基本语法](basic-syntax.md).

@@ -11,8 +11,7 @@ Kotlin 编译器及相关工具能够正确处理这些外部声明.
 ## 内联 JavaScript {id="inline-javascript"}
 
 使用 [`js()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.js/js.html) 函数,
-你可以将 JavaScript 代码内联到你的 Kotlin 代码中.
-比如:
+你可以将 JavaScript 代码内联到你的 Kotlin 代码中:
 
 ```kotlin
 fun jsTypeOf(o: Any): String {
@@ -20,25 +19,41 @@ fun jsTypeOf(o: Any): String {
 }
 ```
 
-由于 `js` 函数的参数会在编译时解析, 然后原样的("as-is")翻译为 JavaScript 代码, 因此参数必须是字符串常量.
+JavaScript 代码内联功能完全支持 [ES2015 的全部功能](js-project-setup.md#support-for-es2015-features), 包括:
+
+* `const` 和 `let` 变量声明
+* ES 类
+* 生成器(Generator)
+* Lambda ([箭头函数](whatsnew21.md#support-for-generating-es2015-arrow-functions))
+* 展开(Spread)和剩余(Rest) 操作符
+* 模版字符串
+
+由于 `js` 函数的参数会在编译时解析, 然后原样的("as-is")翻译为 JavaScript 代码, 因此参数必须是字符串常数.
 所以, 以下代码是不正确的:
 
 ```kotlin
 fun jsTypeOf(o: Any): String {
-    return js(getTypeof() + " o") // 这里会出错
+    return js(getTypeof() + " o") // 错误: 参数必须是字符串常数
+    // 编译器无法计算字符串拼接操作
 }
 
 fun getTypeof() = "typeof"
 ```
 
-> 由于 JavaScript 代码是由 Kotlin 编译器解析的, 因此可能不支持所有的 ECMAScript 功能.
-> 对于这样的情况, 你可能会遇到编译错误.
+相反, 例如要内联剩余(Rest) 操作符, 请使用字符串常数:
+
+```kotlin
+fun runSumExample() {
+    val sum = js("(...nums) => nums.reduce((a, b) => a + b, 0)")
+    println(sum(1, 2, 3, 4))
+}
+```
+
+> 调用 `js()` 返回 [`dynamic`](dynamic-type.md) 类型的值, 这个类型在编译时不保证任何类型安全性.
 >
 {style="note"}
 
-注意, 调用 `js()` 返回的值是 [`dynamic`](dynamic-type.md) 类型, 这个类型在编译时不保证任何类型安全性.
-
-## external 修饰符 {id="external-modifier"}
+## `external` 修饰符 {id="external-modifier"}
 
 你可以对某个声明使用 `external` 修饰符, 来告诉 Kotlin 它是由纯 JavaScript 编写的.
 编译器看到这样的声明后, 它会假定对应的类, 函数, 或属性的实现, 会由外部提供
@@ -92,9 +107,9 @@ external class MyClass {
 }
 ```
 
-### 声明可选的参数 {id="declare-optional-parameters"}
+### 声明带默认值的参数 {id="declare-parameters-with-default-values"}
 
-如果一个 JavaScript 函数带有可选的参数, 那么编写外部声明时请使用 `definedExternally`.
+如果一个 JavaScript 函数包含带默认值的参数, 那么编写外部声明时请使用 `definedExternally`.
 这个设置会将参数默认值的生成委托给 JavaScript 函数自身:
 
 ```kotlin
@@ -133,7 +148,7 @@ class Bar : Foo() {
 但存在以下限制:
 
 - 如果 `external` 基类的函数已存在不同参数签名的重载版本, 那么你就不能在后代类中覆盖这个函数.
-- 带默认参数的函数不能覆盖.
+- 如果函数包含带默认值的参数, 不能覆盖.
 - `external` 类不能扩展非 `external` 类.
 
 ### external 接口 {id="external-interfaces"}
@@ -238,9 +253,9 @@ fun main() {
     val value1 = name.substring(0, 1)
     val value2 = name.substring(0, 1)
 
-    println(if (value1 === value2) "yes" else "no")
-    // 在 Kotlin/JS 平台, 输出结果为 'yes'
-    // 在其他平台, 输出结果为 'no'
+    println(value1 === value2)
+    // 在 Kotlin/JS 平台, 输出结果为 'true'
+    // 在其他平台, 输出结果为 'false'
 }
 ```
 

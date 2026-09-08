@@ -1,5 +1,13 @@
 [//]: # (title: 教程 - 使用 C interop 和 libcurl 创建应用程序)
 
+> C 库导入功能目前是 [Beta 版](native-lib-import-stability.md#stability-of-c-and-objective-c-library-import).
+> cinterop 工具从 C 库生成的所有 Kotlin 声明都应该标注 `@ExperimentalForeignApi` 注解.
+>
+> Kotlin/Native 自带的原生平台库 (例如 Foundation, UIKit, 和 POSIX),
+> 只对一部分 API 需要使用者明确同意(Opt-in).
+>
+{style="note"}
+
 本教程演示如何使用 IntelliJ IDEA 创建一个命令行应用程序.
 你将学习如何创建一个简单的 HTTP 客户端程序, 它使用 Kotlin/Native 和 libcurl 库, 可以作为原生程序运行在指定的平台上.
 
@@ -34,20 +42,15 @@ Kotlin/Native 能够通过 [Kotlin Multiplatform plugin](gradle-configure-projec
    请特别注意构建脚本文件中的以下内容:
 
     ```kotlin
-    kotlin {
-        val hostOs = System.getProperty("os.name")
-        val isArm64 = System.getProperty("os.arch") == "aarch64"
-        val isMingwX64 = hostOs.startsWith("Windows")
-        val nativeTarget = when {
-            hostOs == "Mac OS X" && isArm64 -> macosArm64("native")
-            hostOs == "Mac OS X" && !isArm64 -> macosX64("native")
-            hostOs == "Linux" && isArm64 -> linuxArm64("native")
-            hostOs == "Linux" && !isArm64 -> linuxX64("native")
-            isMingwX64 -> mingwX64("native")
-            else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
-        }
+    import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
-        nativeTarget.apply {
+    kotlin {
+        macosArm64()
+        linuxArm64()
+        linuxX64()
+        mingwX64()
+
+        targets.withType<KotlinNativeTarget>().configureEach {
             binaries {
                 executable {
                     entryPoint = "main"
@@ -57,7 +60,7 @@ Kotlin/Native 能够通过 [Kotlin Multiplatform plugin](gradle-configure-projec
     }
     ```
 
-   * 针对 macOS, Linux, 和 Windows 的编译目标分别通过 `macosArm64`, `macosX64`, `linuxArm64`, `linuxX64`, 和 `mingwX64` 定义.
+   * 针对 macOS, Linux, 和 Windows 的编译目标分别通过 `macosArm64`, `linuxArm64`, `linuxX64`, 和 `mingwX64` 定义.
      关于所有支持的平台, 请参见 [支持的平台](native-target-support.md).
    * `binaries {}` 代码块定义二进制文件如何生成, 以及应用程序的入口点. 这些可以使用默认值.
    * 与 C 的交互使用构建中的一个额外步骤来配置. 默认情况下, 来自 C 的所有符号会被导入到 `interop` 包.
@@ -124,7 +127,7 @@ Kotlin/Native 带有一组预构建的 [平台库](native-platform-libs.md), 提
 要做到这一点, 请向 `build.gradle.kts` 文件添加下面的 `compilations {}` 代码块:
 
 ```kotlin
-nativeTarget.apply {
+targets.withType<KotlinNativeTarget>().configureEach {
     compilations.getByName("main") {
         cinterops {
             val libcurl by creating
@@ -187,10 +190,11 @@ fun main(args: Array<String>) {
 
 ## 编译并运行应用程序 {id="compile-and-run-the-application"}
 
-1. 编译应用程序. 方法是, 在 task 列表中运行 Gradle task `runDebugExecutableNative`, 或者在终端运行以下命令:
+1. 要编译应用程序, 请在 task 列表中运行 Gradle task `runDebugExecutable<YourTargetName>`,
+   或在你的终端中使用控制台命令, 例如::
 
     ```bash
-    ./gradlew runDebugExecutableNative
+    ./gradlew runDebugExecutableMacosArm64
     ```
 
    这里, 由 cinterop 生成的部分, 会隐含的包含在构建中.
@@ -205,10 +209,10 @@ fun main(args: Array<String>) {
 你可以看到实际的输出, 因为调用 `curl_easy_perform` 会将结果打印到标准输出.
 你可以使用 `curl_easy_setopt` 隐藏这些信息.
 
-> 你可以在我们的 [GitHub 代码仓库](https://github.com/Kotlin/kotlin-hands-on-intro-kotlin-native) 得到完整的项目代码.
+> 你可以在我们的 [GitHub 代码仓库](https://github.com/kotlin-hands-on/intro-kotlin-native) 得到完整的项目代码.
 >
 {style="note"}
 
-## 下一步做什么
+## 下一步做什么 {id="whats-next"}
 
 学习 [Kotlin 与 C 代码交互的功能](native-c-interop.md).

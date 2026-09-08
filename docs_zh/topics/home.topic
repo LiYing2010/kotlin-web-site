@@ -21,18 +21,18 @@
         </primary>
         <secondary>
             <title>Kotlin Multiplatform</title>
-            <a href="multiplatform.topic" summary="学习 Kotlin Multiplatform 技术, 在你的应用程序中共用代码">Kotlin Multiplatform 概述</a>
-            <a href="https://kmp.jetbrains.com/" summary="快速创建并下载跨平台项目模板">Kotlin Multiplatform Wizard</a>
-            <a href="https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-create-first-app.html" summary="创建一个同时在 Android 和 iOS 上运行的移动应用程序">Kotlin Multiplatform 入门</a>
-            <a href="https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-create-first-app.html" summary="使用 Compose Multiplatform 实现一个在所有平台上运行的用户界面">Compose Multiplatform 入门</a>
+            <a href="quickstart.md" summary="设置你的第一个 KMP 项目">Kotlin Multiplatform 快速入门</a>
+            <a href="kmp-overview.md" summary="学习 Kotlin Multiplatform 的功能与优点">Kotlin Multiplatform 是什么</a>
+            <a href="https://kotlinlang.org/docs/multiplatform/compose-multiplatform-create-first-app.html" summary="使用 Compose Multiplatform 创建一个应用程序, 在 Android, iOS, 和 Desktop 平台共用 UI">使用 Compose Multiplatform, 共用业务逻辑与 UI</a>
+            <a href="https://kotlinlang.org/docs/multiplatform/multiplatform-create-first-app.html" summary="使用 Kotlin Multiplatform 创建一个同时在 Android 和 iOS 上运行的移动应用程序">共用业务逻辑, 但使用原生 UI</a>
         </secondary>
         <misc>
             <cards narrow="false">
                 <title>关于 Kotlin 的各种功能</title>
-                <a href="whatsnew22.md" summary="新的实验性功能和稳定版功能, 性能改进, 以及 Bug 修正">Kotlin 2.2.0 版中的新功能</a>
-                <a href="releases.md" summary="最新的 Kotlin 发布版本, 以及如何更新到这些版本">Kotlin 的发布版本</a>
+                <a href="whatsnew24.md" summary="新的实验性功能和稳定版功能, 性能改进, 以及 Bug 修正">Kotlin 2.4.0 版中的新功能</a>
                 <a href="https://kotlinlang.org/api/latest/jvm/stdlib/" summary="Kotlin 日常工作必须的各种功能: IO, 文件, 线程, 集合, 等等">标准库 API 文档</a>
-                <a href="basic-types.md" summary="Kotlin 的类型系统: 数值, 字符串, 数组, 以及其他内建的数据类型">基本类型</a>
+                <a href="gradle.md" summary="学习 Gradle 构建工具, 自动化和管理你的项目构建">Gradle</a>
+                <a href="maven.md" summary="学习 Maven 构建工具, 自动化和管理你的项目构建">Maven</a>
                 <a href="collections-overview.md" summary="集合(Collection): List, Set, 和 Map">集合</a>
                 <a href="coroutines-overview.md" summary="并发: 协程(Coroutine), 数据流(Flow), 通道(Channel)">协程</a>
 

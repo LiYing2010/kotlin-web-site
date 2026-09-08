@@ -1,5 +1,7 @@
 [//]: # (title: 使用 Kotlin 创建 Spring Boot 项目)
 
+<web-summary>使用 Kotlin 和 IntelliJ IDEA 创建一个 Spring Boot 应用程序.</web-summary>
+
 <tldr>
     <p>
         这是 <strong>Spring Boot 和 Kotlin 入门</strong> 教程的第 1 部分:
@@ -20,19 +22,19 @@
 
 ## 开始之前的准备 {id="before-you-start"}
 
-下载并安装 [IntelliJ IDEA Ultimate Edition](https://www.jetbrains.com/idea/download/index.html) 的最新版.
+下载并安装 [IntelliJ IDEA](https://www.jetbrains.com/idea/download/) 的最新版, 并使用 Ultimate 订阅.
 
-> 如果你使用的是 IntelliJ IDEA Community Edition 或其他 IDE,
-> 你可以使用 [基于 web 页面的项目生成器](https://start.spring.io/#!language=kotlin&type=gradle-project-kotlin) 来生成 Spring Boot 项目.
+> 如果你使用的是没有 Ultimate 订阅的 IntelliJ IDEA, 或使用其他 IDE,
+> 你可以使用 [基于 Web 页面的项目生成器](https://start.spring.io/#!language=kotlin&type=gradle-project-kotlin) 来生成 Spring Boot 项目.
 >
 {style="tip"}
 
 ## 创建 Spring Boot 项目 {id="create-a-spring-boot-project"}
 
-使用 IntelliJ IDEA Ultimate Edition 中的 Project Wizard, 创建新的使用 Kotlin 的 Spring Boot 项目:
+使用 IntelliJ IDEA 中的 Project Wizard, 创建新的使用 Kotlin 的 Spring Boot 项目:
 
 1. 在 IntelliJ IDEA 中, 选择 **File** | **New** | **Project**.
-2. 在左侧面板中, 选择 **New Project** | **Spring Boot**.
+2. 在左侧面板中, 选择 **Generators** 中的 **Spring Boot**.
 3. 在 **New Project** 窗口中, 指定以下项目和选项:
 
    * **Name**: demo
@@ -57,7 +59,7 @@
      >
      {style="tip"}
 
-   ![创建 Spring Boot 项目](create-spring-boot-project.png){width=800}
+   ![创建 Spring Boot 项目](create-spring-boot-project.png){width=700}
 
 4. 确认填写了所有的项目, 然后点击 **Next**.
 
@@ -67,7 +69,7 @@
    * **SQL | Spring Data JDBC**
    * **SQL | H2 Database**
 
-   ![设置 Spring Boot 项目](set-up-spring-boot-project.png){width=800}
+   ![设置 Spring Boot 项目](set-up-spring-boot-project.png){width=700}
 
 6. 点击 **Create**, 生成并设置项目.
 
@@ -114,19 +116,21 @@ repositories {
 }
 
 dependencies {
+    implementation("org.springframework.boot:spring-boot-h2console")
     implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin") // Jackson 的 Kotlin 扩展, 用于使用 JSON
+    implementation("org.springframework.boot:spring-boot-starter-webmvc")
     implementation("org.jetbrains.kotlin:kotlin-reflect") // Kotlin 反射库, 使用 Spring 时需要
+    implementation("tools.jackson.module:jackson-module-kotlin") // Jackson 的 Kotlin 扩展, 用于使用 JSON
     runtimeOnly("com.h2database:h2")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-data-jdbc-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 kotlin {
     compilerOptions {
-        freeCompilerArgs.addAll("-Xjsr305=strict") // `-Xjsr305=strict` 对 JSR-305 注解启用 strict 模式
+        freeCompilerArgs.addAll("-Xjsr305=strict", "-Xannotation-default-target=param-property") // `-Xjsr305=strict` 对 JSR-305 注解启用 strict 模式
     }
 }
 
@@ -139,14 +143,14 @@ tasks.withType<Test> {
 
 1. 在 `plugins` 代码段中, 有 2 个 Kotlin 库:
 
-   * `kotlin("jvm")` – 这个 plugin 定义在项目中使用的 Kotlin 版本
-   * `kotlin("plugin.spring")` – Kotlin Spring 编译器 plugin, 用于向 Kotlin 类添加 `open` 修饰符,
-     使它们能够与 Spring Framework 中的功能兼容
+   * `kotlin("jvm")` plugin, 定义在项目中使用的 Kotlin 版本.
+   * Kotlin Spring 编译器 plugin, `kotlin("plugin.spring")`,
+     向 Kotlin 类添加 `open` 修饰符, 使它们能够与 Spring Framework 中的功能兼容.
 
 2. 在 `dependencies` 代码段中, 有几个 Kotlin 相关的模块:
 
-   * `com.fasterxml.jackson.module:jackson-module-kotlin` – 这个模块支持Kotlin 类和数据类的序列化和反序列化
-   * `org.jetbrains.kotlin:kotlin-reflect` – Kotlin 反射库
+   * `tools.jackson.module:jackson-module-kotlin` 模块, 支持Kotlin 类和数据类的序列化和反序列化.
+   * `org.jetbrains.kotlin:kotlin-reflect` 是一个 Kotlin 反射库, 包括对 [反射功能](reflection.md) 的完整支持.
 
 3. 在依赖项之后, 你可以看到 `kotlin` plugin 配置模块.
    在这里你可以向编译器添加额外的参数, 来启用或禁用某些语言特性.
@@ -183,10 +187,10 @@ fun main(args: Array<String>) {
    </def>
    <def title="@SpringBootApplication 注解">
       <p>
-        <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.using-the-springbootapplication-annotation"><code>@SpringBootApplication 注解</code></a>
+        <a href="https://docs.spring.io/spring-boot/reference/using/using-the-springbootapplication-annotation.html#using.using-the-springbootapplication-annotation"><code>@SpringBootApplication 注解</code></a>
         在 Spring Boot 应用程序中是一个很方便的注解.
         它会启用 Spring Boot 的
-        <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.auto-configuration">自动配置</a>,
+        <a href="https://docs.spring.io/spring-boot/reference/using/auto-configuration.html#using.auto-configuration">自动配置</a>,
         <a href="https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/context/annotation/ComponentScan.html">组件扫描</a>,
         而且可以对 "应用程序类" 定义额外的配置.".
       </p>
@@ -218,7 +222,6 @@ fun main(args: Array<String>) {
       </p>
    </def>
 </deflist>
-
 
 ## 创建 Controller {id="create-a-controller"}
 
@@ -306,7 +309,7 @@ Spring 应用程序现在可以运行了:
 
 1. 在 `DemoApplication.kt` 文件中, 点击 `main()` 方法侧栏中的绿色 **Run** 图标:
 
-    ![运行 Spring Boot 应用程序](run-spring-boot-application.png){width=706}
+    ![运行 Spring Boot 应用程序](run-spring-boot-application.png){width=700}
 
     > 你也可以在终端窗口运行 `./gradlew bootRun` 命令.
     >
@@ -322,7 +325,7 @@ Spring 应用程序现在可以运行了:
 
     你会看到输出的结果 "Hello, John!":
 
-    ![Spring 应用程序的应答](spring-application-response.png){width=706}
+    ![Spring 应用程序的应答](spring-application-response.png){width=700}
 
 ## 下一步 {id="next-step"}
 

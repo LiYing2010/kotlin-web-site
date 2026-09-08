@@ -95,6 +95,6 @@ class MPSCQueueTest {
 >
 {style="note"}
 
-## 下一步
+## 下一步 {id="next-step"}
 
 学次如何使用模型检查策略来 [检查你的算法的进度保证](progress-guarantees.md).

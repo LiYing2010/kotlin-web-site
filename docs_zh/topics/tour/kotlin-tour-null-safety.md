@@ -159,7 +159,7 @@ fun main() {
 
 ## 实际练习 {id="practice"}
 
-### 习题 {initial-collapse-state="collapsed" collapsible="true"}
+### 习题 {id="exercise" initial-collapse-state="collapsed" collapsible="true"}
 
 你有一个 `employeeById` 函数, 可以用来访问一个公司的员工数据库.
 但是, 这个函数返回 `Employee?` 类型的值, 因此结果可能为 `null`.

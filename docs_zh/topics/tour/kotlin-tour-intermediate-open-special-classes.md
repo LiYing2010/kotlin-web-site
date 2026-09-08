@@ -20,17 +20,10 @@
 方法是, 在你的类声明之前使用 `open` 关键字:
 
 ```kotlin
-open class Vehicle
+open class Vehicle(val make: String, val model: String)
 ```
 
-要创建一个从另一个类继承的类, 请在你的类头部之后添加一个冒号, 然后调用你想要继承的父类的构造器:
-
-```kotlin
-class Car : Vehicle
-```
-{validate="false"}
-
-这个示例中, `Car` 类继承 `Vehicle` 类:
+要创建一个从另一个类继承的类, 请在你的类头部之后添加一个冒号, 然后调用你想要继承的父类的构造器. 这个示例中, `Car` 类继承 `Vehicle` 类:
 
 ```kotlin
 open class Vehicle(val make: String, val model: String)
@@ -223,8 +216,8 @@ fun main() {
 在这个示例中:
 
 * 有一个封闭类 `Mammal`, 构造器参数为 `name`.
-* `Cat` 类继承 `Mammal` 封闭类, 并使用来自 `Mammal` 类的 `name` 参数, 作为它自己的构造器中的 `catName` 参数.
-* `Human` 类继承 `Mammal` 封闭类, 并使用来自 `Mammal` 类的 `name` 参数, 作为它自己的构造器中的 `humanName` 参数.
+* `Cat` 类继承 `Mammal` 封闭类, 并使用它自己的构造器中的 `catName` 参数, 作为 `Mammal` 类的 `name` 参数.
+* `Human` 类继承 `Mammal` 封闭类, 并使用它自己的构造器中的 `humanName` 参数, 作为 `Mammal` 类的 `name` 参数.
   它的构造器中还有 `job` 参数.
 * `greetMammal()` 函数接受 `Mammal` 类型的参数, 并返回一个字符串.
 * 在 `greetMammal()` 的函数 body 部, 有一个 `when` 表达式, 使用 [`is` 操作符](typecasts.md#is-and-is-operators) 检查 `mammal` 的类型, 决定执行哪个动作.
@@ -379,8 +372,8 @@ fun main() {
 * `Email` 是一个内联的值类, 在类的 header 部有一个属性: `address`.
 * `sendEmail()` 函数接受 `Email` 类型的对象作为参数, 并向标准输出打印一个字符串.
 * `main()` 函数:
-    * 创建 `Email` 类的一个实例 `email`.
-    * 对 `email` 对象调用 `sendEmail()` 函数.
+    * 创建 `Email` 类的一个实例 `myEmail`.
+    * 对 `myEmail` 对象调用 `sendEmail()` 函数.
 
 通过使用内联的值类, 你让你的类成为内联的, 可以在代码中直接使用它, 而不必创建对象.
 这样可以显著的减少内存使用量, 并改善你的代码的运行时性能.

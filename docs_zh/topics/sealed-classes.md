@@ -154,7 +154,7 @@ open class CustomError(): Error
 
 ### 跨平台项目中的继承 {id="inheritance-in-multiplatform-projects"}
 
-在 [跨平台项目](multiplatform.topic)中还存在一种继承限制:
+在 [跨平台项目](get-started.topic) 中还存在一种继承限制:
 封闭类的直接子类必须放在同一个 [源代码集(Source Set)](multiplatform-discover-project.md#source-sets) 中.
 这个限制适用于没有使用 [`expect` 和 `actual` 修饰符](multiplatform-expect-actual.md) 的封闭类.
 

@@ -1,7 +1,7 @@
 [//]: # (title: 压力测试与模型检查)
 
 Lincheck 提供了 2 种测试策略: 压力测试与模型检查.
-下面我们使用 [前一章](introduction.md) 中在 `BasicCounterTest.kt` 文件中编写的 `Counter`, 来学习这 2 种策略的内部机制:
+下面我们使用 [前一章](lincheck-getting-started.md) 中在 `BasicCounterTest.kt` 文件中编写的 `Counter`, 来学习这 2 种策略的内部机制:
 
 ```kotlin
 class Counter {
@@ -13,9 +13,9 @@ class Counter {
 }
 ```
 
-## 压力测试
+## 压力测试 {id="stress-testing"}
 
-### 编写一个压力测试
+### 编写一个压力测试 {id="write-a-stress-test"}
 
 我们为 `Counter` 创建一个并发压力测试, 步骤如下:
 
@@ -47,7 +47,7 @@ class CounterTest {
 }
 ```
 
-### 压力测试的工作原理 {initial-collapse-state="collapsed" collapsible="true"}
+### 压力测试的工作原理 {id="how-stress-testing-works" initial-collapse-state="collapsed" collapsible="true"}
 
 首先, Lincheck 使用标注了 `@Operation` 注解的操作生成一组并发场景.
 然后, 它启动原生的线程, 开始时同步这些线程, 以保证操作同时发生.
@@ -64,7 +64,7 @@ class CounterTest {
 
 模型检查测试的构建方式与压力测试一样. 只需要将指定测试策略的 `StressOptions()` 替换为 `ModelCheckingOptions()`.
 
-### 编写一个模型检查测试
+### 编写一个模型检查测试 {id="write-a-model-checking-test"}
 
 要将压力测试策略修改为模型检查策略, 请将你的测试中的 `StressOptions()` 替换为 `ModelCheckingOptions()`:
 
@@ -88,7 +88,7 @@ class CounterTest {
 }
 ```
 
-### 模型检查的工作原理 {initial-collapse-state="collapsed" collapsible="true"}
+### 模型检查的工作原理 {id="how-model-checking-works" initial-collapse-state="collapsed" collapsible="true"}
 
 要重现复杂并发算法中的大多数 bug, 可以使用典型的数据冲突, 同时将代码的执行切换从一个线程切换到另一个线程.
 此外, 对于弱内存模型的模型检查器非常复杂,
@@ -102,10 +102,10 @@ class CounterTest {
 为了插入切换点, Lincheck 会使用 ASM 框架, 在运行过程中转换测试代码, 对已有的代码添加内部函数调用.
 
 由于模型检查策略会控制执行过程, Lincheck 能够对导致错误数据冲突的情况提供追踪信息, 实际运用中这些信息会非常有用.
-在 [使用 Lincheck 编写你的第一个测试](introduction.md#trace-the-invalid-execution) 教程中,
+在 [使用 Lincheck 编写你的第一个测试](lincheck-getting-started.md#write-your-first-test) 教程中,
 你可以看到对 `Counter` 的不正确执行的追踪信息的示例.
 
-## 哪个测试策略更好?
+## 哪个测试策略更好? {id="which-testing-strategy-is-better"}
 
 _模型检查策略_ 更适合在循序一致性内存模型下查找 bug, 因为它能够确保更好的覆盖率, 并在找到错误时提供执行失败的追踪信息.
 
@@ -113,7 +113,7 @@ _模型检查策略_ 更适合在循序一致性内存模型下查找 bug, 因�
 对于那些需要大量上下文切换才能重现的少见 bug, 压力测试也非常有用,
 而模型检查策略, 由于目前的限制, 还无法分析这类 bug.
 
-## 配置测试策略
+## 配置测试策略 {id="configure-the-testing-strategy"}
 
 要配置测试策略, 请在 `<TestingMode>Options` 类中设置选项.
 
@@ -166,7 +166,7 @@ _模型检查策略_ 更适合在循序一致性内存模型下查找 bug, 因�
 
 你也可以通过同样的方式来配置模型检查测试.
 
-## 场景最小化
+## 场景最小化 {id="scenario-minimization"}
 
 你可能已经注意到了, 检测到的错误通常代表的场景比在测试配置中指定的场景要小.
 Lincheck 会尝试对错误进行最小化, 努力删除操作, 同时又确保测试失败.
@@ -185,7 +185,7 @@ Lincheck 会尝试对错误进行最小化, 努力删除操作, 同时又确保�
 由于对更小的场景更容易分析, 因此默认会启用场景最小化.
 要关闭这个功能, 请对 `[Stress, ModelChecking]Options` 配置添加 `minimizeFailedScenario(false)` 选项.
 
-## 对数据结构状态输出日志
+## 对数据结构状态输出日志 {id="logging-data-structure-states"}
 
 对于调试 bug 另一个非常有用的功能是 _状态日志_.
 在分析导致错误的数据冲突时, 你通常会在纸上画出数据结构变化图, 在每个事件后修改它的状态.
@@ -254,11 +254,11 @@ Lincheck 会尝试对错误进行最小化, 努力删除操作, 同时又确保�
 
 对于压力测试的情况, Lincheck 会在场景的并行运行部分之前和之后打印状态信息, 还会在结束时打印.
 
-> * 查看 [这些示例的完整代码](https://github.com/JetBrains/lincheck/tree/master/src/jvm/test-lincheck-integration/org/jetbrains/lincheck_test/guide/CounterTest.kt)
-> * 查看更多 [测试示例](https://github.com/JetBrains/lincheck/tree/master/src/jvm/test-lincheck-integration/org/jetbrains/lincheck_test/guide)
+> * 查看 [这些示例的完整代码](https://github.com/JetBrains/lincheck/tree/master/integration-test/lincheck/src/main/org/jetbrains/lincheck_test/guide/CounterTest.kt)
+> * 查看更多 [测试示例](https://github.com/JetBrains/lincheck/tree/master/integration-test/lincheck/src/main/org/jetbrains/lincheck_test/guide)
 >
 {style="note"}
 
-## 下一步
+## 下一步 {id="next-step"}
 
 学习如何 [配置传递给操作的参数](operation-arguments.md), 以及在什么情况下需要如此.

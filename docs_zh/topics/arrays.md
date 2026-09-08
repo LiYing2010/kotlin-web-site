@@ -8,7 +8,7 @@ Kotlin 中最常见的数组类型是对象类型的数组, 使用 [`Array`](htt
 >
 {style="note"}
 
-## 什么时候使用数组
+## 什么时候使用数组 {id="when-to-use-arrays"}
 
 当你需要满足某些特殊的低层级要求时, 可以在 Kotlin 中使用数组.
 例如, 如果你的性能需求超过了通常的应用程序的需求, 或者需要构建自定义数据结构的情况.
@@ -39,7 +39,7 @@ Kotlin 中最常见的数组类型是对象类型的数组, 使用 [`Array`](htt
 
 关于集合, 详情请参见 [集合概述](collections-overview.md).
 
-## 创建数组
+## 创建数组 {id="create-arrays"}
 
 在 Kotlin 中要创建数组, 你可以使用:
 * 函数, 例如 [`arrayOf()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/array-of.html), [`arrayOfNulls()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/array-of-nulls.html#kotlin$arrayOfNulls(kotlin.Int))
@@ -115,7 +115,7 @@ fun main() {
 >
 {style="note"}
 
-### 嵌套的数组
+### 嵌套的数组 {id="nested-arrays"}
 
 数组可以相互嵌套, 创建多维数组:
 
@@ -140,7 +140,7 @@ fun main() {
 >
 {style="note"}
 
-## 访问和修改元素
+## 访问和修改元素 {id="access-and-modify-elements"}
 
 数组永远是可以修改的. 要访问和修改数组中的元素, 请使用 [下标访问操作符](operator-overloading.md#indexed-access-operator)`[]`:
 
@@ -165,12 +165,12 @@ fun main() {
 Kotlin 中的数组是 _不可变的(invariant)_. 这意味着 Kotlin 不允许你将一个 `Array<String>` 赋值给一个 `Array<Any>`, 以防止发生运行时错误.
 相反, 你可以使用 `Array<out Any>`. 更多详情请参见, [类型投射](generics.md#type-projections).
 
-## 使用数组
+## 使用数组 {id="work-with-arrays"}
 
 在 Kotlin 中, 你可以使用数组, 向一个函数传递不定数量的参数, 或对数组元素本身执行操作.
 例如, 比较数组, 变换数组内容, 或转换为集合.
 
-### 向一个函数传递不定数量的参数
+### 向一个函数传递不定数量的参数 {id="pass-variable-number-of-arguments-to-a-function"}
 
 在 Kotlin 中, 你可以通过 [`vararg`](functions.md#variable-number-of-arguments-varargs) 参数, 向一个函数传递不定数量的参数.
 如果你不能预先知道参数的数量, 这个功能是很有用的, 例如格式化消息, 或者创建 SQL 查询的情况.
@@ -227,13 +227,13 @@ fun main() {
 >
 {style="warning"}
 
-### 变换数组
+### 变换数组 {id="transform-arrays"}
 
 Kotlin 有很多有用的函数, 可以对数组进行变换.
 这篇文档重点介绍少数几个函数, 但并不是完整的功能列表.
 关于所有函数的完整列表, 请参见我们的 [API 参考文档](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/).
 
-#### 求和
+#### 求和 {id="sum"}
 
 要得到一个数组中所有元素的和, 请使用 [`.sum()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/sum.html)
 函数:
@@ -255,7 +255,7 @@ fun main() {
 >
 {style="note"}
 
-#### 随机打乱
+#### 随机打乱 {id="shuffle"}
 
 要随机打乱数组中的元素, 请使用 [`.shuffle()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/shuffle.html)
 函数:
@@ -277,12 +277,12 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="arrays-shuffle-array-kotlin"}
 
-### 将数组转换为集合
+### 将数组转换为集合 {id="convert-arrays-to-collections"}
 
 如果你同时使用不同的 API, 其中一些使用数组, 另一些使用集合, 那么你可以将数组转换为 [集合](collections-overview.md),
 也可以反过来将集合转换为数组.
 
-#### 转换为 List 或 Set
+#### 转换为 List 或 Set {id="convert-to-list-or-set"}
 
 要将数组转换为 `List` 或 `Set`, 请使用 [`.toList()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/to-list.html)
 和 [`.toSet()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/to-set.html) 函数.
@@ -304,7 +304,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="arrays-convert-list-set-kotlin"}
 
-#### 转换为 Map
+#### 转换为 Map {id="convert-to-map"}
 
 要将数组转换为 `Map`, 请使用 [`.toMap()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/to-map.html)
 函数.
@@ -372,8 +372,8 @@ fun main() {
 >
 {style="note"}
 
-## 下一步做什么?
+## 下一步做什么? {id="whats-next"}
 
 * 为什么对大多数使用场景我们推荐使用集合, 请阅读我们的 [集合概述](collections-overview.md).
-* 学习其他 [基本类型](basic-types.md).
+* 学习其他 [基本类型](types-overview.md).
 * 如果你是 Java 开发者, 请阅读我们的 Java 到 Kotlin 迁移向导, 关于 [集合](java-to-kotlin-collections-guide.md) 的部分.

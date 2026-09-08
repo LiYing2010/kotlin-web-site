@@ -42,6 +42,7 @@ Gradle 编译脚本中跨平台项目配置的顶级代码块是 `kotlin {}`.
 | `targets`            | 列出项目的所有编译目标.                                                                 |
 | `sourceSets`         | 为项目设置预定义的源代码集, 并声明自定义 [源代码集](#source-sets).                                  |
 | `compilerOptions`    | 指定共通的扩展级(Extension Level) [编译器选项](#compiler-options), 对所有的编译目标和共用的源代码集用作默认值. |
+| `dependencies`       | 配置 [共通依赖项](#configure-dependencies-at-the-top-level). (实验性功能)                |
 
 ## 编译目标 {id="targets"}
 
@@ -52,7 +53,7 @@ Kotlin 对每个平台提供了编译目标, 让你能够指示 Kotlin 对指定
 每个编译目标可以包含一个或多个 [编译任务(compilation)](#compilations).
 除了用于测试和产品的默认的编译任务之外, 你还可以 [创建自定义的编译任务](multiplatform-configure-compilations.md#create-a-custom-compilation).
 
-跨平台项目的编译目标通过 `kotlin {}` 之内的相应代码块进行描述, 比如, `jvm`, `androidTarget`, `iosArm64`.
+跨平台项目的编译目标通过 `kotlin {}` 之内的相应代码块进行描述, 比如, `jvm`, `android`, `iosArm64`.
 可选的编译目标如下:
 
 <table>
@@ -96,9 +97,9 @@ Kotlin 对每个平台提供了编译目标, 让你能够指示 Kotlin 对指定
     </tr>
     <tr>
         <td>Android 应用程序和库</td>
-        <td><code>androidTarget</code></td>
+        <td><code>android</code></td>
         <td>
-            <p>手动应用 Android Gradle plugin: <code>com.android.application</code> 或 <code>com.android.library</code>.</p>
+            <p>手动应用 Android Gradle plugin: <code>com.android.application</code> 或 <code>com.android.kotlin.multiplatform.library</code>.</p>
             <p>对每个 Gradle 子项目, 只能创建一个 Android 编译目标.</p>
         </td>
     </tr>
@@ -112,7 +113,7 @@ Kotlin 对每个平台提供了编译目标, 让你能够指示 Kotlin 对指定
 kotlin {
     jvm()
     iosArm64()
-    macosX64()
+    macosArm64()
     js().browser()
 }
 ```
@@ -239,16 +240,17 @@ kotlin {
 
 对于二进制文件的配置, 可以设置的参数包括:
 
-| **名称**        | **解释**                                                                              |
-|---------------|-------------------------------------------------------------------------------------|
-| `compilation` | 用于构建二进制文件的编译任务. 默认情况下, `test` 二进制文件 由 `test` 编译任务构建, 其他 二进制文件由 `main` 编译任务构建.       |
-| `linkerOpts`  | 构建二进制文件时, 传递给操作系统链接程序(linker)的选项.                                                   |
-| `baseName`    | 对输出文件自定义它的基本名称(base name). 最终的完整文件名会在这个基本名称之上加上相应系统的前缀和后缀.                          |
-| `entryPoint`  | 可执行二进制文件的入口点(entry point) 函数. 默认情况下, 是顶层包中的 `main()` 函数.                            |
-| `outputFile`  | 用于访问输出文件.                                                                           |
-| `linkTask`    | 用于访问链接任务.                                                                           |
-| `runTask`     | 用于访问可执行二进制文件的运行任务. 对于 `linuxX64`, `macosX64`, 或 `mingwX64` 之外的编译目标, 这个属性的值为 `null`. |
-| `isStatic`    | 用于 Objective-C 框架. 包含静态库(static library), 而不是动态库(dynamic library).                  |
+| **名称**               | **解释**                                                                                                                             |
+|----------------------|------------------------------------------------------------------------------------------------------------------------------------|
+| `compilation`        | 用于构建二进制文件的编译任务. 默认情况下, `test` 二进制文件 由 `test` 编译任务构建, 其他 二进制文件由 `main` 编译任务构建.                                                      |
+| `linkerOpts`         | 构建二进制文件时, 传递给操作系统链接程序(linker)的选项.                                                                                                  |
+| `baseName`           | 对输出文件自定义它的基本名称(base name). 最终的完整文件名会在这个基本名称之上加上相应系统的前缀和后缀.                                                                         |
+| `entryPoint`         | 可执行二进制文件的入口点(entry point) 函数. 默认情况下, 是顶层包中的 `main()` 函数.                                                                           |
+| `outputFile`         | 用于访问输出文件.                                                                                                                          |
+| `linkTask`           | 用于访问链接任务.                                                                                                                          |
+| `runTask`            | 用于访问可执行二进制文件的运行任务. 对于 `linuxX64`, `macosArm64`, 或 `mingwX64` 之外的编译目标, 这个属性的值为 `null`.                                              |
+| `isStatic`           | 用于 Objective-C 框架. 包含静态库(static library), 而不是动态库(dynamic library).                                                                 |
+| `disableNativeCache` | <p>禁用编译缓存. 只在特殊情况下使用, 因为这会增加编译时间.</p><p>必须包含被禁用缓存的 Kotlin `version`, 以及 `reason`. 可以选择性地指定 `issue` URL, 指向你的 Bug 追踪系统中的 issue.</p> |
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
@@ -282,6 +284,13 @@ binaries {
     framework("my_framework" listOf(RELEASE)) {
         // 在框架中包含静态库而不是动态库.
         isStatic = true
+
+        // 为这个二进制文件禁用编译缓存
+        disableNativeCache(
+            version = DisableCacheInKotlinVersion.2_3_0,
+            reason = "Cache bug",
+            issue = URI("https://youtrack.com/YY-1111")
+        )
     }
 }
 ```
@@ -318,6 +327,13 @@ binaries {
     framework('my_framework' [RELEASE]) {
         // 在框架中包含静态库而不是动态库.
         isStatic = true
+
+        // 为这个二进制文件禁用编译缓存
+        disableNativeCache(
+            version = DisableCacheInKotlinVersion.2_3_0,
+            reason = 'Cache bug',
+            issue = URI('https://youtrack.com/YY-1111')
+        )
     }
 }
 ```
@@ -332,14 +348,14 @@ binaries {
 `cinterops` 用于描述与原生库的交互.
 要与一个库交互, 请添加一个 `cinterops` 代码块, 并定义它的参数, 如下:
 
-| **名称**           | **解释**                |
-|------------------|-----------------------|
-| `definitionFile` | 描述原生 API 的 `.def` 文件. |
-| `packageName`    | 生成 Kotlin API 时的包前缀.  |
+| **名称**         | **解释**                         |
+|------------------|----------------------------------|
+| `definitionFile` | 描述原生 API 的 `.def` 文件.     |
+| `packageName`    | 生成 Kotlin API 时的包前缀.      |
 | `compilerOpts`   | cinterop 工具传递给编译器的选项. |
-| `includeDirs`    | 用于查找头文件的目录.           |
+| `includeDirs`    | 用于查找头文件的目录.            |
 | `header`         | 绑定中需要包含的头文件.          |
-| `headers`        | 绑定中需要包含的头文件列表.        |
+| `headers`        | 绑定中需要包含的头文件列表.      |
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
@@ -420,7 +436,7 @@ kotlin {
 
 ### Android 编译目标 {id="android-targets"}
 
-Kotlin Multiplatform plugin 提供了一个专有的函数,
+Kotlin Multiplatform Gradle plugin 提供了一个专有的函数,
 帮助你针为 Android 编译目标设置 [构建变体(build variants)](https://developer.android.com/build/build-variants):
 
 | **名称**                     | **解释**                                                                                            |
@@ -429,7 +445,7 @@ Kotlin Multiplatform plugin 提供了一个专有的函数,
 
 ```kotlin
 kotlin {
-    androidTarget {
+    android {
         publishLibraryVariants("release")
     }
 }
@@ -437,7 +453,7 @@ kotlin {
 
 详情请参见 [针对 Android 的编译](multiplatform-configure-compilations.md#compilation-for-android).
 
-> `kotlin {}` 代码块之内的 `androidTarget` 配置, 不会替代任何 Android 项目的编译配置.
+> `kotlin {}` 代码块之内的 `android` 配置, 不会替代任何 Android 项目的编译配置.
 > 关于如何为 Android 项目编写编译脚本, 详情请参见 [Android 开发文档](https://developer.android.com/studio/build).
 >
 {style="note"}
@@ -1002,16 +1018,23 @@ kotlin {
 
 除此之外, 源代码集之间还可以相互依赖, 形成一种层级结构. 这种情况下, 应该使用 [`dependsOn()`](#source-set-parameters) 关系.
 
-在编译脚本的最顶层 `dependencies {}` 代码块中, 也可以声明源代码集的依赖项目.
-这种情况下, 依赖项目声明需要使用 `<sourceSetName><DependencyKind>` 格式, 比如, `commonMainApi`.
+### 在顶层配置依赖项 {id="configure-dependencies-at-the-top-level"}
+<primary-label ref="Experimental"/>
+
+你可以使用顶层的 `dependencies {}` 代码块, 来配置共通的依赖项.
+在这里声明的依赖项, 相当于将依赖项添加到 `commonMain` 或 `commonTest` 源代码集.
+
+要使用顶层的 `dependencies {}` 代码块, 请在代码块前添加 `@OptIn(ExperimentalKotlinGradlePluginApi::class)` 注解, 表示使用者同意(Opt-in):
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
-dependencies {
-    "commonMainApi"("com.example:foo-common:1.0")
-    "jvm6MainApi"("com.example:foo-jvm6:1.0")
+kotlin {
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    dependencies {
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:%coroutinesVersion%")
+    }
 }
 ```
 
@@ -1019,14 +1042,19 @@ dependencies {
 <tab title="Groovy" group-key="groovy">
 
 ```groovy
-dependencies {
-    commonMainApi 'com.example:foo-common:1.0'
-    jvm6MainApi 'com.example:foo-jvm6:1.0'
+kotlin {
+    dependencies {
+        implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:%coroutinesVersion%'
+    }
 }
 ```
 
 </tab>
 </tabs>
+
+在 `sourceSets {}` 代码块中, 为相应的编译目标添加平台相关的依赖项.
+
+关于这个功能, 可以在 [YouTrack](https://youtrack.jetbrains.com/issue/KT-76446) 中分享你的反馈意见.
 
 ## 语言设置 {id="language-settings"}
 
@@ -1052,8 +1080,8 @@ dependencies {
 kotlin {
     sourceSets.all {
         languageSettings.apply {
-            languageVersion = "%languageVersion%" // 可选的值: "1.8", "1.9", "2.0", "2.1"
-            apiVersion = "%apiVersion%" // 可选的值: "1.8", "1.9", "2.0", "2.1"
+            languageVersion = "%languageVersion%" // 可选的值: "2.0", "2.1", "2.2", "2.3", "2.4", "2.5" (实验性功能)
+            apiVersion = "%apiVersion%" // 可选的值: "2.0", "2.1", "2.2", "2.3", "2.4", "2.5" (实验性功能)
             enableLanguageFeature("InlineClasses") // 这里请使用语言特性的名称
             optIn("kotlin.ExperimentalUnsignedTypes") // 这里请使用注解的完全限定名称
             progressiveMode = true // 默认值为 false
@@ -1069,8 +1097,8 @@ kotlin {
 kotlin {
     sourceSets.all {
         languageSettings {
-            languageVersion = '%languageVersion%' // 可选的值: '1.8', '1.9', '2.0', '2.1'
-            apiVersion = '%apiVersion%' // 可选的值: '1.8', '1.9', '2.0', '2.1'
+            languageVersion = '%languageVersion%' // 可选的值: '2.0', '2.1', '2.2', '2.3', '2.4', '2.5' (实验性功能)
+            apiVersion = '%apiVersion%' // 可选的值: '2.0', '2.1', '2.2', '2.3', '2.4', '2.5' (实验性功能)
             enableLanguageFeature('InlineClasses') // 这里请使用语言特性的名称
             optIn('kotlin.ExperimentalUnsignedTypes') // 这里请使用注解的完全限定名称
             progressiveMode = true // 默认值为 false

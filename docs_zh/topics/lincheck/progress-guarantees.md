@@ -108,6 +108,6 @@ class ConcurrentSkipListMapTest {
 >
 {style="note"}
 
-## 下一步
+## 下一步 {id="next-step"}
 
 学习如何对被测试的算法明确的 [指定顺序规格](sequential-specification.md), 增加 Lincheck 测试的健壮性.

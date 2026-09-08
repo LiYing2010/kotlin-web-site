@@ -5,7 +5,14 @@
 <tabs group="build-script">
 <tab title="Gradle Kotlin DSL" group-key="kotlin">
 
-在你的项目的根构建脚本中应用 Gradle plugin for Dokka:
+> 这篇向导适用于 Dokka Gradle plugin (DGP) v2 模式. DGP v1 模式不再支持.
+> 要从 v1 模式升级到 v2 模式, 请遵循 [迁移向导](dokka-migration.md).
+>
+{style="note"}
+
+**应用 Gradle Dokka plugin**
+
+在你的项目的根构建脚本中应用 Dokka Gradle plugin (DGP):
 
 ```kotlin
 plugins {
@@ -13,29 +20,58 @@ plugins {
 }
 ```
 
-如果要对
-[多项目(multi-project)](https://docs.gradle.org/current/userguide/multi_project_builds.html)
-构建生成文档, 你还需要对各个子项目应用 Gradle plugin:
+**对多项目(multi-project)构建生成文档**
 
-```kotlin
-subprojects {
-    apply(plugin = "org.jetbrains.dokka")
-}
-```
+如果要对
+[多项目(multi-project)构建](https://docs.gradle.org/current/userguide/multi_project_builds.html)
+生成文档, 你需要对想要生成文档的每个子项目应用 plugin.
+通过以下任何一种方法, 在子项目之间共用 Dokka 配置:
+
+* 使用 Convention plugin
+* 如果你没有使用 Convention plugin, 在各个子项目中直接配置
+
+关于在多项目构建中共用 Dokka 配置, 详情请参见 [多项目配置](dokka-gradle.md#multi-project-configuration).
+
+**生成文档**
 
 要生成文档, 需要运行以下 Gradle task:
 
-* `dokkaHtml`: 用于单项目构建
-* `dokkaHtmlMultiModule`: 用于多项目构建
+```bash
+./gradlew :dokkaGenerate
+```
 
-输出目录默认设置为 `/build/dokka/html` 和 `/build/dokka/htmlMultiModule`.
+这个 task 可以用于单项目构建, 也可以用于多项目构建.
 
-关于如何在 Gradle 中使用 Dokka, 更多详情请参见 [Gradle](dokka-gradle.md).
+在聚合项目中运行 `dokkaGenerate` task 时, 请对 task 加上项目路径(`:`)前缀. 例如:
+
+```bash
+./gradlew :dokkaGenerate
+
+// 或
+
+./gradlew :aggregatingProject:dokkaGenerate
+```
+
+不要运行 `./gradlew dokkaGenerate`, 应该运行 `./gradlew :dokkaGenerate` 或 `./gradlew :aggregatingProject:dokkaGenerate`.
+task 没有项目路径(`:`)前缀时, Gradle 会试图运行整个构建中所有的 `dokkaGenerate` task, 这样可能导致不必要的额外工作.
+
+你可以使用不同的 task 来生成 [HTML 格式](dokka-html.md), [Javadoc 格式](dokka-javadoc.md) 的输出,
+或同时生成 [HTML 和 Javadoc 格式](dokka-gradle.md#configure-documentation-output-format) 的输出.
+
+> 关于如何在 Gradle 中使用 Dokka, 详情请参见 [Gradle](dokka-gradle.md).
+{style="tip"}
 
 </tab>
 <tab title="Gradle Groovy DSL" group-key="groovy">
 
-在你的项目的根构建脚本中应用 Gradle plugin for Dokka:
+> 这篇向导适用于 Dokka Gradle plugin (DGP) v2 模式. DGP v1 模式不再支持.
+> 要从 v1 模式升级到 v2 模式, 请遵循 [迁移向导](dokka-migration.md).
+>
+{style="note"}
+
+**应用 Gradle Dokka plugin**
+
+在你的项目的根构建脚本中应用 Dokka Gradle plugin (DGP):
 
 ```groovy
 plugins {
@@ -43,24 +79,46 @@ plugins {
 }
 ```
 
-如果要对
-[多项目(multi-project)](https://docs.gradle.org/current/userguide/multi_project_builds.html)
-构建生成文档, 你还需要对各个子项目应用 Gradle plugin:
+**对多项目(multi-project)构建生成文档**
 
-```groovy
-subprojects {
-    apply plugin: 'org.jetbrains.dokka'
-}
-```
+如果要对
+[多项目(multi-project)构建](https://docs.gradle.org/current/userguide/multi_project_builds.html)
+生成文档, 你需要对想要生成文档的每个子项目应用 plugin.
+通过以下任何一种方法, 在子项目之间共用 Dokka 配置:
+
+* 使用 Convention plugin
+* 如果你没有使用 Convention plugin, 在各个子项目中直接配置
+
+关于在多项目构建中共用 Dokka 配置, 详情请参见 [多项目配置](dokka-gradle.md#multi-project-configuration).
+
+**生成文档**
 
 要生成文档, 需要运行以下 Gradle task:
 
-* `dokkaHtml`: 用于单项目构建
-* `dokkaHtmlMultiModule`: 用于多项目构建
+```bash
+./gradlew :dokkaGenerate
+```
 
-输出目录默认设置为 `/build/dokka/html` 和 `/build/dokka/htmlMultiModule`.
+这个 task 可以用于单个项目的构建, 也可以用于多项目构建.
 
-关于如何在 Gradle 中使用 Dokka, 更多详情请参见 [Gradle](dokka-gradle.md).
+在聚合项目中运行 `dokkaGenerate` task 时, 请对 task 加上项目路径(`:`)前缀. 例如:
+
+```bash
+./gradlew :dokkaGenerate
+
+// 或
+
+./gradlew :aggregatingProject:dokkaGenerate
+```
+
+不要运行 `./gradlew dokkaGenerate`, 应该运行 `./gradlew :dokkaGenerate` 或 `./gradlew :aggregatingProject:dokkaGenerate`.
+task 没有项目路径(`:`)前缀时, Gradle 会试图运行整个构建中所有的 `dokkaGenerate` task, 这样可能导致不必要的额外工作.
+
+你可以使用不同的 task 来生成 [HTML 格式](dokka-html.md), [Javadoc 格式](dokka-javadoc.md) 的输出,
+或同时生成 [HTML 和 Javadoc 格式](dokka-gradle.md#configure-documentation-output-format) 的输出.
+
+> 关于如何在 Gradle 中使用 Dokka, 详情请参见 [Gradle](dokka-gradle.md).
+{style="tip"}
 
 </tab>
 <tab title="Maven" group-key="mvn">
@@ -95,13 +153,3 @@ subprojects {
 
 </tab>
 </tabs>
-
-> 在 Dokka 2.0.0 中, 使用 Dokka 的一些步骤和任务有了变更, 包括:
->
-> * [配置多项目构建](dokka-migration.md#share-dokka-configuration-across-modules)
-> * [使用变更后的任务生成文档](dokka-migration.md#generate-documentation-with-the-updated-task)
-> * [指定输出目录](dokka-migration.md#output-directory)
->
-> 关于更多详情, 以及完整的变更列表, 请参见 [迁移向导](dokka-migration.md).
->
-{style="note"}

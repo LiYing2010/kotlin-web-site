@@ -1,16 +1,40 @@
 [//]: # (title: HTML)
 
-HTML 是 Dokka 的默认并且推荐的输出格式. 目前处于 Beta 版, 正在接近稳定发布版.
+> 这篇向导适用于 Dokka Gradle plugin (DGP) v2 模式. DGP v1 模式不再支持.
+> 要从 v1 模式升级到 v2 模式, 请遵循 [迁移向导](dokka-migration.md).
+>
+{style="note"}
 
-你可以浏览
-[kotlinx.coroutines](https://kotlinlang.org/api/kotlinx.coroutines/)
-的文档, 看看 HTML 输出的示例.
+HTML 是 Dokka 的默认并且推荐的输出格式.
+它支持 Kotlin Multiplatform, Android, 以及 Java 项目.
+此外, 你可以使用 HTML 格式, 对单项目构建和多项目构建生成文档.
+
+关于输出格式的示例, 请查看以下文档:
+* [kotlinx.coroutines](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines/)
+* [Bitmovin](https://cdn.bitmovin.com/player/android/3/docs/index.html)
+* [Hexagon](https://hexagontk.com/stable/api/)
+* [Ktor](https://api.ktor.io/)
+* [OkHttp](https://square.github.io/okhttp/5.x/okhttp/okhttp3/)
+* [Gradle](https://docs.gradle.org/current/kotlin-dsl/index.html)
 
 ## 生成 HTML 文档 {id="generate-html-documentation"}
 
 所有的运行器都支持 HTML 输出格式. 要生成 HTML 文档, 请根据你的构建工具和运行器, 执行以下步骤:
 
-* 对于 [Gradle](dokka-gradle.md#generate-documentation), 运行 `dokkaHtml` 或 `dokkaHtmlMultiModule` task.
+* 对于 [Gradle](dokka-gradle.md#generate-documentation), 可以运行以下 task:
+    * `dokkaGenerate`:
+      生成文档, 使用 [应用的插件支持的所有可用格式](dokka-gradle.md#configure-documentation-output-format).
+      这是对大多数用户推荐使用的 task. 在 IntelliJ IDEA 中使用这个 task 时, 它会输出一个可点击的链接.
+    * `dokkaGeneratePublicationHtml`:
+      生成文档, 只使用 HTML 格式. 这个 task 将输出目录作为 `@OutputDirectory` 公开.
+      当你需要在其它 Gradle task 中使用生成的文件时, 例如上传到服务器, 移动到 GitHub Pages 目录, 或打包到 `javadoc.jar` 之内, 请使用这个 task.
+      这个 task 特意没有列入 Gradle task 组, 因为它并不用于日常的使用场景.
+
+      > 如果你在使用 IntelliJ IDEA, 你可能会看到 `dokkaGenerateHtml` Gradle task.
+      > 这个 task 只是 `dokkaGeneratePublicationHtml` 的别名. 这两个 task 执行完全相同的操作.
+      >
+      {style="tip"}
+
 * 对于 [Maven](dokka-maven.md#generate-documentation), 运行 `dokka:dokka` goal.
 * 对于 [CLI 运行器](dokka-cli.md#generate-documentation), 运行 HTML 依赖项集合.
 
@@ -25,82 +49,43 @@ HTML 是 Dokka 的默认并且推荐的输出格式. 目前处于 Beta 版, 正�
 
 ## 配置 {id="configuration"}
 
-HTML 格式是 Dokka 的基本格式, 因此它可以通过 `DokkaBase` 和 `DokkaBaseConfiguration` 类配置:
+HTML 格式是 Dokka 的基本格式. 你可以使用以下选项对它进行配置:
 
 <tabs group="build-script">
-<tab title="Kotlin" group-key="kotlin">
-
-通过类型安全的 Kotlin DSL:
+<tab title="Gradle Kotlin DSL" group-key="kotlin">
 
 ```kotlin
-import org.jetbrains.dokka.base.DokkaBase
-import org.jetbrains.dokka.gradle.DokkaTask
-import org.jetbrains.dokka.base.DokkaBaseConfiguration
+// build.gradle.kts
 
-buildscript {
-    dependencies {
-        classpath("org.jetbrains.dokka:dokka-base:%dokkaVersion%")
+dokka {
+    pluginsConfiguration.html {
+        customAssets.from("logo.png")
+        customStyleSheets.from("styles.css")
+        footerMessage.set("(c) Your Company")
+        separateInheritedMembers.set(false)
+        templatesDir.set(file("dokka/templates"))
+        mergeImplicitExpectActualDeclarations.set(false)
     }
-}
-
-tasks.withType<DokkaTask>().configureEach {
-    pluginConfiguration<DokkaBase, DokkaBaseConfiguration> {
-        customAssets = listOf(file("my-image.png"))
-        customStyleSheets = listOf(file("my-styles.css"))
-        footerMessage = "(c) 2022 MyOrg"
-        separateInheritedMembers = false
-        templatesDir = file("dokka/templates")
-        mergeImplicitExpectActualDeclarations = false
-    }
-}
-```
-
-通过 JSON:
-
-```kotlin
-import org.jetbrains.dokka.gradle.DokkaTask
-
-tasks.withType<DokkaTask>().configureEach {
-    val dokkaBaseConfiguration = """
-    {
-      "customAssets": ["${file("assets/my-image.png")}"],
-      "customStyleSheets": ["${file("assets/my-styles.css")}"],
-      "footerMessage": "(c) 2022 MyOrg",
-      "separateInheritedMembers": false,
-      "templatesDir": "${file("dokka/templates")}",
-      "mergeImplicitExpectActualDeclarations": false
-    }
-    """
-    pluginsMapConfiguration.set(
-        mapOf(
-            // plugin 的完整限定名称, to, json 配置
-            "org.jetbrains.dokka.base.DokkaBase" to dokkaBaseConfiguration
-        )
-    )
 }
 ```
 
 </tab>
-<tab title="Groovy" group-key="groovy">
+<tab title="Gradle Groovy DSL" group-key="groovy">
 
 ```groovy
-import org.jetbrains.dokka.gradle.DokkaTask
+// build.gradle
 
-tasks.withType(DokkaTask.class) {
-    String dokkaBaseConfiguration = """
-    {
-      "customAssets": ["${file("assets/my-image.png")}"],
-      "customStyleSheets": ["${file("assets/my-styles.css")}"],
-      "footerMessage": "(c) 2022 MyOrg"
-      "separateInheritedMembers": false,
-      "templatesDir": "${file("dokka/templates")}",
-      "mergeImplicitExpectActualDeclarations": false
+dokka {
+    pluginsConfiguration {
+        html {
+            customAssets.from("logo.png")
+            customStyleSheets.from("styles.css")
+            footerMessage.set("(c) Your Company")
+            separateInheritedMembers.set(false)
+            templatesDir.set(file("dokka/templates"))
+            mergeImplicitExpectActualDeclarations.set(false)
+        }
     }
-    """
-    pluginsMapConfiguration.set(
-        // plugin 的完整限定名称, :, json 配置
-        ["org.jetbrains.dokka.base.DokkaBase": dokkaBaseConfiguration]
-    )
 }
 ```
 
@@ -165,7 +150,7 @@ java -jar dokka-cli-%dokkaVersion%.jar \
 
 ### 配置选项 {id="configuration-options"}
 
-下表包括所有可以使用的配置选项, 以及它们的用途.
+下表包括所有可以使用的配置选项, 以及它们的用途:
 
 | **选项**                                  | **描述**                                                                                                                                                                                                   |
 |-----------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -203,6 +188,13 @@ Dokka 所有样式表的源代码, 请参见
 你可以使用 `customAssets` [配置选项](#configuration), 提供你自己的绑定到文档的图片.
 
 这些文件会被复制到 `<output>/images` 目录.
+
+对 `customAssets` 属性, 可以使用文件集合
+([`FileCollection`](https://docs.gradle.org/8.10/userguide/lazy_configuration.html#working_with_files_in_lazy_properties)):
+
+```kotlin
+customAssets.from("example.png", "example2.png")
+```
 
 可以通过提供相同名称的文件来覆盖 Dokka 的图片和图标.
 最重要的是 `logo-icon.svg`, 它是用于页头的图片. 其他主要是图标.
@@ -263,7 +255,7 @@ Dokka 会在指定的目录搜索指定的模板名称. 如果无法找到用户
 | `${pathToRoot}`    | 从当前页面到根的路径. 可以用于定位资源, 只能在 `template_cmd` 命令内使用.                                                                                 |
 
 变量 `projectName` 和 `pathToRoot` 只能在 `template_cmd` 命令内使用,
-因为它们需要更多的上下文信息, 因此需要在更晚的阶段由 [MultiModule](dokka-gradle.md#multi-project-builds) task 解析:
+因为它们需要更多的上下文信息, 因此需要在更晚的阶段解析:
 
 ```html
 <@template_cmd name="projectName">
@@ -275,8 +267,8 @@ Dokka 会在指定的目录搜索指定的模板名称. 如果无法找到用户
 
 你也可以使用下面这些由 Dokka 定义的 [命令](https://freemarker.apache.org/docs/ref_directive_userDefined.html):
 
-| **变量**          | **描述**                                                                                                                                                                |
-|-----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `<@content/>`   | 主页面内容.                                                                                                                                                                |
-| `<@resources/>` | 资源, 例如脚本和样式表.                                                                                                                                                         |
-| `<@version/>`   | 从配置得到的模块版本. 如果应用了 [versioning plugin](https://github.com/Kotlin/dokka/tree/%dokkaVersion%/dokka-subprojects/plugin-versioning), 它会被替换为一个版本导航器. |
+| **变量**          | **描述**                                                                                                                                          |
+|-----------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| `<@content/>`   | 主页面内容.                                                                                                                                          |
+| `<@resources/>` | 资源, 例如脚本和样式表.                                                                                                                                   |
+| `<@version/>`   | 从配置得到的子项目版本. 如果应用了 [versioning plugin](https://github.com/Kotlin/dokka/tree/%dokkaVersion%/dokka-subprojects/plugin-versioning), 它会被替换为一个版本导航器. |

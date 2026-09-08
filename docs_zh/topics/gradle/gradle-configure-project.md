@@ -47,20 +47,19 @@ plugins {
 配置你的项目时, 请检查 Kotlin Gradle plugin (KGP) 是否兼容于你的 Gradle 版本.
 下表是, Kotlin **完全支持** 的 Gradle 和 Android Gradle plugin (AGP) 最低和最高版本:
 
-| KGP 版本        | Gradle 最低和最高版本                        | AGP 最低和最高版本                                         |
-|---------------|---------------------------------------|-----------------------------------------------------|
-| 2.2.0         | %minGradleVersion%–%maxGradleVersion% | %minAndroidGradleVersion%–%maxAndroidGradleVersion% |
-| 2.1.20-2.1.21 | 7.6.3–8.12.1                          | 7.3.1–8.7.2                                         |
-| 2.1.0–2.1.10  | 7.6.3–8.10*                           | 7.3.1–8.7.2                                         |
-| 2.0.20–2.0.21 | 6.8.3–8.8*                            | 7.1.3–8.5                                           |
-| 2.0.0         | 6.8.3–8.5                             | 7.1.3–8.3.1                                         |
-| 1.9.20–1.9.25 | 6.8.3–8.1.1                           | 4.2.2–8.1.0                                         |
-| 1.9.0–1.9.10  | 6.8.3–7.6.0                           | 4.2.2–7.4.0                                         |
-| 1.8.20–1.8.22 | 6.8.3–7.6.0                           | 4.1.3–7.4.0                                         |
-| 1.8.0–1.8.11  | 6.8.3–7.3.3                           | 4.1.3–7.2.1                                         |
-| 1.7.20–1.7.22 | 6.7.1–7.1.1                           | 3.6.4–7.0.4                                         |
-| 1.7.0–1.7.10  | 6.7.1–7.0.2                           | 3.4.3–7.0.2                                         |
-| 1.6.20–1.6.21 | 6.1.1–7.0.2                           | 3.4.3–7.0.2                                         |
+| KGP 版本          | Gradle 最低和最高版本                        | AGP 最低和最高版本                                         |
+|-----------------|---------------------------------------|-----------------------------------------------------|
+| 2.4.0           | %minGradleVersion%–%maxGradleVersion% | %minAndroidGradleVersion%–%maxAndroidGradleVersion% |
+| 2.3.20–2.3.21   | 7.6.3–9.3.0                           | 8.2.2–9.0.0                                         |
+| 2.3.10          | 7.6.3–9.0.0                           | 8.2.2–9.0.0                                         |
+| 2.3.0           | 7.6.3–9.0.0                           | 8.2.2–8.13.0                                        |
+| 2.2.20–2.2.21   | 7.6.3–8.14                            | 7.3.1–8.11.1                                        |
+| 2.2.0–2.2.10    | 7.6.3–8.14                            | 7.3.1–8.10.0                                        |
+| 2.1.20–2.1.21   | 7.6.3–8.12.1                          | 7.3.1–8.7.2                                         |
+| 2.1.0–2.1.10    | 7.6.3–8.10*                           | 7.3.1–8.7.2                                         |
+| 2.0.20–2.0.21   | 6.8.3–8.8*                            | 7.1.3–8.5                                           |
+| 2.0.0           | 6.8.3–8.5                             | 7.1.3–8.3.1                                         |
+| 1.9.20–1.9.25   | 6.8.3–8.1.1                           | 4.2.2–8.1.0                                         |
 
 > Kotlin 2.0.20–2.0.21 和 Kotlin 2.1.0–2.1.10 完全兼容 Gradle 8.6 或以下版本.
 > 也支持 Gradle 版本 8.7 到 8.10, 但有一个例外: 如果你使用 Kotlin Multiplatform Gradle plugin,
@@ -70,13 +69,24 @@ plugins {
 {style="warning"}
 
 你也可以使用最新版本之前的 Gradle 和 AGP 版本, 但如果你这样做,
-请注意, 你可能会遇到弃用警告, 或者某些新功能可能无法正常工作.
+请注意, 你可能会遇到废弃警告, 或者某些新功能可能无法正常工作.
 
 例如, Kotlin Gradle plugin 和 `kotlin-multiplatform` plugin %kotlinVersion%
 最低需要 Gradle 版本 %minGradleVersion% 才能编译你的项目.
 
 类似的, 完全支持的最高版本是 %maxGradleVersion%.
 这个版本不包含已废弃的 Gradle 方法和属性, 并且支持目前所有的 Gradle 功能特性.
+
+### 较早的 KGP 版本 {id="earlier-kgp-versions" initial-collapse-state="collapsed" collapsible="true"}
+
+| KGP 版本        | Gradle 最低和最高版本 | AGP 最低和最高版本 |
+|---------------|----------------|-------------|
+| 1.9.0–1.9.10  | 6.8.3–7.6.0    | 4.2.2–7.4.0 |
+| 1.8.20–1.8.22 | 6.8.3–7.6.0    | 4.1.3–7.4.0 |
+| 1.8.0–1.8.11  | 6.8.3–7.3.3    | 4.1.3–7.2.1 |
+| 1.7.20–1.7.22 | 6.7.1–7.1.1    | 3.6.4–7.0.4 |
+| 1.7.0–1.7.10  | 6.7.1–7.0.2    | 3.4.3–7.0.2 |
+| 1.6.20–1.6.21 | 6.1.1–7.0.2    | 3.4.3–7.0.2 |
 
 ### Kotlin Gradle plugin 在项目中的数据 {id="kotlin-gradle-plugin-data-in-a-project"}
 
@@ -545,8 +555,6 @@ tasks.named("compileJava", JavaCompile.class) {
 
 ### 其他细节 {id="other-details"}
 
-详情请参见 [Kotlin/JVM](jvm-get-started.md).
-
 #### 在编译任务中禁用 artifact {id="disable-use-of-artifact-in-compilation-task"}
 
 在某些罕见的情况下, 你可能会遇到循环依赖错误导致的构建失败.
@@ -571,7 +579,7 @@ Circular dependency between the following tasks:
 
 要在编译任务中禁用 artifact, 请向你的 `gradle.properties` 文件添加以下内容:
 
-```kotlin
+```properties
 kotlin.build.archivesTaskOutputAsFriendModule=false
 ```
 
@@ -593,7 +601,7 @@ tasks.jar(type: Jar) {
 
 ## 编译到多个目标平台 {id="targeting-multiple-platforms"}
 
-编译到 [多个目标平台](multiplatform-dsl-reference.md#targets) 的项目, 称为 [跨平台项目](multiplatform.topic),
+编译到 [多个目标平台](multiplatform-dsl-reference.md#targets) 的项目, 称为 [跨平台项目](get-started.topic),
 需要使用 `kotlin-multiplatform` 插件.
 
 > `kotlin-multiplatform` 插件要求 Gradle %minGradleVersion% 或更高版本.
@@ -621,18 +629,34 @@ plugins {
 </tab>
 </tabs>
 
-详情请参见 [在不同的平台使用 Kotlin Multiplatform](multiplatform.topic) 和
-[在 iOS 和 Android 平台使用 Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-getting-started.html).
+详情请参见 [在不同的平台使用 Kotlin Multiplatform](get-started.topic) 和
+[在 iOS 和 Android 平台使用 Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform/multiplatform-getting-started.html).
 
 ## 编译到 Android 平台 {id="targeting-android"}
 
 建议使用 Android Studio 来创建 Android 应用程序.
 详情请参见 [如何使用 Android Gradle plugin](https://developer.android.com/studio/releases/gradle-plugin).
 
-## 编译到 JavaScript {id="targeting-javascript"}
+## 编译到 Web 平台 {id="targeting-the-web"}
 
-如果编译目标平台为 JavaScript, 也可以使用 `kotlin-multiplatform` 插件.
-详情请阅读 [如何设置 Kotlin/JS 项目](js-project-setup.md):
+Kotlin 通过 Kotlin Multiplatform, 为 Web 开发提供两种方案:
+
+* 基于 JavaScript 的方案 (使用 Kotlin/JS 编译器)
+* 基于 WebAssembly 的方案 (使用 Kotlin/Wasm 编译器)
+
+两种方案都使用 Kotlin Multiplatform plugin, 但支持不同的使用场景.
+以下章节介绍如何在 Gradle 构建中配置每种编译目标, 以及何时使用它们.
+
+### 编译到 JavaScript {id="targeting-javascript"}
+
+Kotlin/JS 适合于以下目标:
+
+* 与 JavaScript/TypeScript 代码库共用业务逻辑
+* 使用 Kotlin 构建不可共用的 Web 应用程序
+
+更多详情请参见 [Web 开发](web-overview.md#kotlin-js).
+
+如果编译目标平台为 JavaScript, 请使用 `kotlin-multiplatform` plugin:
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
@@ -655,9 +679,84 @@ plugins {
 </tab>
 </tabs>
 
-### JavaScript 项目的 Kotlin 源代码与 Java 源代码 {id="kotlin-and-java-sources-for-javascript"}
+指定在浏览器还是 Node.js 环境中运行, 配置 JavaScript 编译目标:
 
-这个 plugin 只能编译 Kotlin 源代码文件, 因此推荐将 Kotlin 和 Java 源代码文件放在不同的文件夹内(如果工程内包含 Java 文件的话).
+```kotlin
+kotlin {
+    js().browser {  // 或 js().nodejs
+        /* ... */
+    }
+}
+```
+
+> 详情请参见 [针对 JavaScript 的 Gradle 配置详情](multiplatform-dsl-reference.md#web-targets), 以及 [如何设置 Kotlin/JS 项目](js-project-setup.md).
+>
+{style="note"}
+
+### 编译到 WebAssembly {id="targeting-webassembly"}
+
+如果你希望在多个平台之间共用逻辑和 UI, 请使用 Kotlin/Wasm.
+更多详情请参见 [Web 开发](web-overview.md#kotlin-wasm).
+
+与 JavaScript 一样, 编译目标为 WebAssembly (Wasm) 时, 也使用 `kotlin-multiplatform` plugin:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+plugins {
+    kotlin("multiplatform") version "%kotlinVersion%"
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+plugins {
+    id 'org.jetbrains.kotlin.multiplatform' version '%kotlinVersion%'
+}
+```
+
+</tab>
+</tabs>
+
+根据你的需求, 可以选择以下编译目标:
+
+* **`wasmJs`**: 用于在浏览器或 Node.js 中运行
+* **`wasmWasi`**: 用于在支持 [WASI (WebAssembly System Interface)](https://wasi.dev/) 的 Wasm 环境中运行, 例如 Wasmtime, WasmEdge, 等等.
+
+对浏览器或 Node.js, 请配置 `wasmJs` 编译目标:
+
+```kotlin
+kotlin {
+    wasmJs {
+        browser { // 或 nodejs
+            /* ... */
+        }
+    }
+}
+```
+
+对于 WASI 环境, 请配置 `wasmWasi` 编译目标:
+
+```kotlin
+kotlin {
+    wasmWasi {
+        nodejs {
+            /* ... */
+        }
+    }
+}
+```
+
+> 详情请参见 [针对 Wasm 的 Gradle 配置详情](multiplatform-dsl-reference.md#web-targets).
+>
+{style="note"}
+
+### Web 编译目标的 Kotlin 源代码与 Java 源代码 {id="kotlin-and-java-sources-for-the-web-target"}
+
+KGP 只能编译 Kotlin 源代码文件, 因此推荐将 Kotlin 和 Java 源代码文件放在不同的文件夹内(如果工程内包含 Java 文件的话).
 如果不将源代码分开存放, 请在 `sourceSets{}` 代码段中指定源代码文件夹:
 
 <tabs group="build-script">
@@ -755,7 +854,44 @@ kotlin {
 </tab>
 </tabs>
 
-或者, 你也可以 [在最顶层设置依赖项](#set-dependencies-at-top-level).
+### 在最顶层配置依赖项 {id="configure-dependencies-at-the-top-level"}
+<primary-label ref="experimental-opt-in"/>
+
+你可以在跨平台项目中, 使用最顶层的 `dependencies {}` 代码块, 配置共通依赖项.
+在这里声明的依赖项, 其行为相当于添加到 `commonMain` 或 `commonTest` 源代码集.
+
+要使用最顶层的 `dependencies {}` 代码块, 请在代码块前添加 `@OptIn(ExperimentalKotlinGradlePluginApi::class)` 注解,
+来表示使用者同意(Opt-in):
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+kotlin {
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    dependencies {
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:%coroutinesVersion%")
+    }
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+kotlin {
+    dependencies {
+        implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:%coroutinesVersion%'
+    }
+}
+```
+
+</tab>
+</tabs>
+
+在对应的编译目标的 `sourceSets {}` 代码块中, 添加平台相关的依赖项.
+
+关于这个功能, 可以在 [YouTrack](https://youtrack.jetbrains.com/issue/KT-76446) 中分享你的反馈意见.
 
 ### 依赖项的类型 {id="dependency-types"}
 
@@ -808,7 +944,7 @@ Kotlin Gradle plugin 会根据你的 Gradle 构建脚本的 `compilerOptions.jvm
 
 如果你完全不需要标准库, 可以在你的 `gradle.properties` 文件中添加以下 Gradle 属性:
 
-```none
+```properties
 kotlin.stdlib.default.dependency=false
 ```
 
@@ -824,7 +960,7 @@ kotlin.stdlib.default.dependency=false
 详情请参见 [`kotlin-stdlib-jdk7` 与 `kotlin-stdlib-jdk8` 合并到 `kotlin-stdlib`](whatsnew18.md#updated-jvm-compilation-target).
 你可以在你的 `gradle.properties` 文件中使用 Gradle 属性 `kotlin.stdlib.jdk.variants.version.alignment` 来禁用这个动作:
 
-```none
+```properties
 kotlin.stdlib.jdk.variants.version.alignment=false
 ```
 
@@ -973,7 +1109,7 @@ Kotlin/Native 编译目标已经内建了 `kotlin.test` API 的实现, 不需要
 kotlin {
     sourceSets {
         commonTest.dependencies {
-             implementation(kotlin("test")) // 这个设置会自动引入对应平台的所有依赖项
+            implementation(kotlin("test")) // 这个设置会自动引入对应平台的所有依赖项
         }
     }
 }
@@ -1093,7 +1229,7 @@ test {
 JVM 变体的自动解析有时可能会对你的配置造成一些问题.
 这种情况下, 你可以明确指定需要的框架, 并向项目的 `gradle.properties` 文件添加以下内容, 关闭自动解析:
 
-```text
+```properties
 kotlin.test.infer.jvm.variant=false
 ```
 
@@ -1169,33 +1305,6 @@ kotlin {
 </tab>
 </tabs>
 
-### 在最顶层设置依赖项 {id="set-dependencies-at-top-level"}
-
-另一种做法是, 可以在最顶层指定依赖项, 方法是使用 `<sourceSetName><DependencyType>` 格式的配置名称.
-对于某些 Gradle 内建的依赖项, 比如 `gradleApi()`, `localGroovy()`, 或 `gradleTestKit()`, 这种方法会很有用,
-这些依赖项在 Source Set 依赖项 DSL 中是不能使用的.
-
-<tabs group="build-script">
-<tab title="Kotlin" group-key="kotlin">
-
-```kotlin
-dependencies {
-    "commonMainImplementation"("com.example:my-library:1.0")
-}
-```
-
-</tab>
-<tab title="Groovy" group-key="groovy">
-
-```groovy
-dependencies {
-    commonMainImplementation 'com.example:my-library:1.0'
-}
-```
-
-</tab>
-</tabs>
-
 ## 声明仓库 {id="declare-repositories"}
 
 你可以声明一个可公开访问的仓库, 使用它的 open source 依赖项.
@@ -1257,6 +1366,47 @@ dependencyResolutionManagement {
 
 在子项目中声明的任何仓库, 都会覆盖集中声明的仓库.
 关于如何控制这种行为, 有什么解决办法, 详情请参见 [Gradle 的文档](https://docs.gradle.org/current/userguide/declaring_repositories.html#sub:centralized-repository-declaration).
+
+## 注册生成的源代码 {id="register-generated-sources"}
+<primary-label ref="experimental-general"/>
+
+注册生成的源代码, 可以帮助 IDE, 第三方 plugin, 和其他工具区分生成的代码与普通的源代码文件.
+这有助于 IDE 等工具在 UI 中以不同的方式高亮显示生成的代码, 以及在导入项目时触发生成任务.
+请使用 [`KotlinSourceSet`](https://kotlinlang.org/api/kotlin-gradle-plugin/kotlin-gradle-plugin-api/org.jetbrains.kotlin.gradle.plugin/-kotlin-source-set/)
+接口来注册生成的源代码.
+
+要注册包含 Kotlin 文件的目录, 请在你的 `build.gradle.kts` 文件中,
+使用 [`generatedKotlin`](https://kotlinlang.org/api/kotlin-gradle-plugin/kotlin-gradle-plugin-api/org.jetbrains.kotlin.gradle.plugin/-kotlin-source-set/generated-kotlin.html) 属性,
+这个属性的类型为 [`SourceDirectorySet`](https://docs.gradle.org/current/kotlin-dsl/gradle/org.gradle.api.file/-source-directory-set/index.html).
+例如:
+
+```kotlin
+val generatorTask = project.tasks.register("generator") {
+    val outputDirectory = project.layout.projectDirectory.dir("src/main/kotlinGen")
+    outputs.dir(outputDirectory)
+    doLast {
+        outputDirectory.file("generated.kt").asFile.writeText(
+            // language=kotlin
+            """
+            fun printHello() {
+                println("hello")
+            }
+            """.trimIndent()
+        )
+    }
+}
+
+kotlin.sourceSets.getByName("main").generatedKotlin.srcDir(generatorTask)
+```
+
+这个示例创建一个新的 task `generator`, 它的输出目录为 `"src/main/kotlinGen"`.
+task 运行时, `doLast {}` 动作会在输出目录中创建一个 `generated.kt` 文件.
+最后, 这个示例将 task 的输出注册为生成的源代码.
+
+如果你在开发 Gradle 插件, 可以使用 [`allKotlinSources`](https://kotlinlang.org/api/kotlin-gradle-plugin/kotlin-gradle-plugin-api/org.jetbrains.kotlin.gradle.plugin/-kotlin-source-set/all-kotlin-sources.html) 属性,
+来访问在
+[`KotlinSourceSet.kotlin`](https://kotlinlang.org/api/kotlin-gradle-plugin/kotlin-gradle-plugin-api/org.jetbrains.kotlin.gradle.plugin/-kotlin-source-set/kotlin.html)
+和 `KotlinSourceSet.generatedKotlin` 属性中注册的所有源代码.
 
 ## 下一步做什么? {id="what-s-next"}
 

@@ -56,7 +56,7 @@ Maven plugin for Dokka 默认使用 [HTML](dokka-html.md) 输出格式构建文�
 其他所有输出格式都以 [Dokka plugin](dokka-plugins.md) 的形式实现.
 要使用你需要的格式来生成文档, 你需要在配置中以 Dokka plugin 的形式添加这种格式.
 
-例如, 要使用试验性的 [GFM](dokka-markdown.md#gfm) 格式, 你需要添加 `gfm-plugin` artifact:
+例如, 要使用试验性的 [GFM](https://github.com/Kotlin/dokka/tree/master/dokka-subprojects/plugin-gfm#readme) 格式, 你需要添加 `gfm-plugin` artifact:
 
 ```xml
 <plugin>
@@ -186,6 +186,9 @@ Dokka 有很多配置选项, 可以用来定制你和你的读者的体验.
             <file>/path/to/dir</file>
             <file>/path/to/file</file>
         </suppressedFiles>
+        <suppressAnnotatedWith>
+            <annotation>com.example.SuppressMe</annotation>
+        </suppressAnnotatedWith>
         <jdkVersion>8</jdkVersion>
         <languageVersion>1.7</languageVersion>
         <apiVersion>1.7</apiVersion>
@@ -292,7 +295,7 @@ Dokka 有很多配置选项, 可以用来定制你和你的读者的体验.
         </p>
         <p>
             将这个选项设置为 <code>true</code>, 某些情况下可以显著提高构建速度, 但也会降低文档质量和用户体验.
-            例如, 可以不解析来自你的依赖项的类/成员的链接, 包括标准库.
+            例如, 可能无法解析来自你的依赖项的类/成员的链接, 包括标准库.
         </p>
         <p>
             注意: 你可以将已取得的文件缓存到本地, 并通过本地路径提供给 Dokka.
@@ -329,7 +332,7 @@ Dokka 有很多配置选项, 可以用来定制你和你的读者的体验.
     </def>
     <def title="reportUndocumented">
         <p>
-            是否对可见的、无文档的声明输出警告,
+            是否对可见的, 无文档的声明输出警告,
             这是指经过 <code>documentedVisibilities</code> 和其他过滤器过滤之后, 需要输出文档, 但没有 KDocs 的声明.
         </p>
         <p>
@@ -365,6 +368,12 @@ Dokka 有很多配置选项, 可以用来定制你和你的读者的体验.
     <def title="suppressedFiles">
         <p>
             需要禁止输出的目录或单独的文件, 意思是说, 对于来自这些目录和文件的声明, 不会生成文档.
+        </p>
+    </def>
+    <def title="suppressAnnotatedWith">
+        <p>注解的完全限定名称 (Fully Qualified Name, FQN) 列表, 用来压制带有这些注解的声明.</p>
+        <p>
+            对于带有这些注解之一的任何声明, 都不会生成文档.
         </p>
     </def>
     <def title="jdkVersion">
@@ -639,7 +648,7 @@ Dokka 有很多配置选项, 可以用来定制你和你的读者的体验.
     </def>
     <def title="reportUndocumented">
         <p>
-            是否对可见的、无文档的声明输出警告,
+            是否对可见的, 无文档的声明输出警告,
             这是指经过 <code>documentedVisibilities</code> 和其他过滤器过滤之后, 需要输出文档, 但没有 KDocs 的声明.
         </p>
         <p>
@@ -653,7 +662,7 @@ Dokka 有很多配置选项, 可以用来定制你和你的读者的体验.
 
 ### 完整的配置 {id="complete-configuration"}
 
-下面的例子中, 你可以看到同时使用了所有的配置选项.
+下面是同时使用了所有配置选项的示例:
 
 ```xml
 <plugin>

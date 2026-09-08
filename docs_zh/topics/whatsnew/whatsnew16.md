@@ -1,12 +1,18 @@
 [//]: # (title: Kotlin 1.6.0 版中的新功能)
 
-_[发布日期: 2021/11/16](releases.md#release-details)_
+<web-summary>阅读 Kotlin 1.6.0 发布说明, 包括新的语言特性, Kotlin Multiplatform, JVM, Native, JS 的更新, 以及对 Gradle 和 Maven 的构建工具支持.</web-summary>
+
+_[发布日期: 2021/11/16](releases.md#release-history)_
 
 Kotlin 1.6.0 引入了新的语言功能, 优化并改进了现有的功能, 并对 Kotlin 标准库进行了大量的改进.
 
 关于这个版本的变更概要, 也可以查看 [release blog](https://blog.jetbrains.com/kotlin/2021/11/kotlin-1-6-0-is-released/).
 
-## 语言
+> 关于 Kotlin 的发布周期, 详情请参见 [Kotlin 发布过程](releases.md).
+>
+{style="tip"}
+
+## 语言功能 {id="language"}
 
 在以前的 1.5.30 版中引入的一些语言功能的预览版, 在 Kotlin 1.6.0 中已变为稳定版:
 * [对 enum, 封闭类 和 Boolean 值的穷尽式(exhaustive) when 语句 (稳定版)](#stable-exhaustive-when-statements-for-enum-sealed-and-boolean-subjects)
@@ -170,7 +176,7 @@ class Box<@BoxContent T> {}
 从 Kotlin 1.6.0 开始, 我们将会支持 3 个版本之前的 API, 而不是 2 个版本, 再加上当前的稳定版 API.
 目前我们支持 1.3, 1.4, 1.5 版, 以及 1.6 版.
 
-## Kotlin/JVM
+## Kotlin/JVM {id="kotlinjvm"}
 
 对于 Kotlin/JVM, 从 1.6.0 开始, 编译器使用 JVM 17 字节码版本生成类.
 新的语言版本还包括代理属性优化和可重复注解, 我们已将这些功能添加到路线图中:
@@ -236,7 +242,7 @@ Kotlin 不再生成 `content$delegate` field.
 
 更多详情请参见 [代理属性](delegated-properties.md).
 
-## Kotlin/Native
+## Kotlin/Native {id="kotlinnative"}
 
 Kotlin/Native 有了很多改进, 以及组件更新, 其中一部分还处于预览状态:
 * [新的内存管理器 (预览版)](#preview-of-the-new-memory-manager)
@@ -377,7 +383,7 @@ Kotlin/Native 运行期会使用一个未被处理的异常调用这些 hook,
 从 `main()` 中逃逸的异常, 以及跨越互操作边界的异常,
 总是会终止程序, 即使 hook 没有调用 `terminateWithUnhandledException()`.
 
-## Kotlin/JS
+## Kotlin/JS {id="kotlinjs"}
 
 我们正在继续改进 Kotlin/JS 编译器的 IR 后端的稳定性.
 Kotlin/JS 现在有一个 [用于关闭 Node.js 和 Yarn 下载的选项](#option-to-use-pre-installed-node-js-and-yarn).
@@ -436,7 +442,7 @@ Kotlin/JS 现在有一个 [用于关闭 Node.js 和 Yarn 下载的选项](#optio
     </tab>
     </tabs>
 
-## Kotlin Gradle plugin
+## Kotlin Gradle plugin {id="kotlin-gradle-plugin"}
 
 在 Kotlin 1.6.0 中, 我们将 `KotlinGradleSubplugin` 类的描述级别改为 'ERROR'.
 这个类以前被用来编写编译器 plugin. 在以后的发布版中, 我们将会删除这个类.
@@ -447,7 +453,7 @@ Kotlin/JS 现在有一个 [用于关闭 Node.js 和 Yarn 下载的选项](#optio
 
 更多详情请参见 Kotlin Gradle plugin [目前支持的编译器选项](gradle-compiler-options.md).
 
-## 标准库
+## 标准库 {id="standard-library"}
 
 新的标准库 1.6.0 版本稳定了实验性功能, 引入了新的功能, 并在各个平台统一了库的行为:
 
@@ -592,10 +598,10 @@ fun main() {
   ```
   {kotlin-runnable="true" kotlin-min-compiler-version="1.5" validate="false"}
 
-  我们建议将之前引入的伴随函数, 比如 `Duration.seconds(Int)`, 以及已被废弃的顶级扩展, 比如 `Int.seconds`,
+  我们建议将之前引入的同伴函数, 比如 `Duration.seconds(Int)`, 以及已被废弃的顶级扩展, 比如 `Int.seconds`,
   替换为 `Duration.Companion` 中的新的扩展函数.
 
-  > 这样的替换可能导致旧的顶级扩展与新的伴随扩展之间的歧义.
+  > 这样的替换可能导致旧的顶级扩展与新的同伴扩展之间的歧义.
   > 在进行自动迁移之前, 请确认对 kotlin.time 包使用了通配符 import  – `import kotlin.time.*`.
   >
   {style="note"}
@@ -702,13 +708,13 @@ fun main() {
 
 在 Kotlin 1.6.0 中, 对某些仅限于 JS 的标准库 API, 我们开始了它的废弃周期, 会提示警告.
 
-#### String 的 concat(), match(), 和 matches() 函数
+#### String 的 concat(), match(), 和 matches() 函数 {id="concat-match-and-matches-string-functions"}
 
 * 要拼接一个字符串与另一个给定对象的字符串表达, 请使用 `plus()` 函数, 而不是 `concat()` 函数.
 * 要在输入字符串中查找一个正规表达式的所有匹配, 请使用 Regex 类的 `findAll()` 函数, 而不是 `String.match(regex: String)` 函数.
 * 要检查正规表达式是否匹配整个输入字符串, 请使用 Regex 类的 `matches()`函数, 而不是 `String.matches(regex: String)` 函数.
 
-#### 使用比较函数的数组 sort() 函数
+#### 使用比较函数的数组 sort() 函数 {id="sort-on-arrays-taking-comparison-functions"}
 
 我们废弃了 `Array<out T>.sort()` 函数,
 以及 inline 函数 `ByteArray.sort()`, `ShortArray.sort()`, `IntArray.sort()`,
@@ -718,9 +724,9 @@ fun main() {
 
 详情请参见 [集合排序](collection-ordering.md).
 
-## 工具
+## 工具 {id="tools"}
 
-### Kover – 用于 Kotlin 的代码覆盖率工具
+### Kover – 用于 Kotlin 的代码覆盖率工具 {id="kover-a-code-coverage-tool-for-kotlin"}
 
 > Kover Gradle plugin 还处于实验阶段.
 > 欢迎通过 [GitHub](https://github.com/Kotlin/kotlinx-kover/issues) 提供你的反馈意见.
@@ -737,7 +743,7 @@ fun main() {
 
 <video src="https://www.youtube.com/v/jNu5LY9HIbw" title="Kover – 代码覆盖率 Plugin"/>
 
-## 协程 1.6.0-RC 版
+## 协程 1.6.0-RC 版 {id="coroutines-160-rc"}
 
 `kotlinx.coroutines` [1.6.0-RC](https://github.com/Kotlin/kotlinx.coroutines/releases/tag/1.6.0-RC) 已发布了,
 包括很多新功能和改进:
@@ -762,6 +768,5 @@ IntelliJ IDEA 和 Android Studio 会建议你将 Kotlin plugin 更新到 1.6.0.
 
 新的命令行编译器可以通过 [GitHub 发布页面](https://github.com/JetBrains/kotlin/releases/tag/v1.6.0) 下载.
 
-Kotlin 1.6.0 是一个 [功能发布版](kotlin-evolution-principles.md#language-and-tooling-releases)
-因此可能带来一些变化, 造成与你使用以前版本编写的代码不兼容.
+Kotlin 1.6.0 是一个功能发布版, 因此可能带来一些变化, 造成与你使用以前版本编写的代码不兼容.
 关于这些不兼容的变化, 详情请参见 [Kotlin 1.6 兼容性指南](compatibility-guide-16.md).

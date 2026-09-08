@@ -4,7 +4,7 @@
 
 本教程假定你已经具备了 [协程](coroutines-guide.md) 和 [Kotlin 数据流(Flow)](flow.md#flows) 的相关知识.
 
-## 创建 Kotlin 数据流
+## 创建 Kotlin 数据流 {id="create-a-kotlin-flow"}
 
 创建一个 Kotlin
 [数据流(Flow)](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/flow.html),
@@ -92,7 +92,7 @@
 
     ![构建应用程序](flow-build-project.png)
 
-## 调试协程
+## 调试协程 {id="debug-the-coroutine"}
 
 1. 在调用 `emit()` 函数的代码行设置一个断点:
 
@@ -117,7 +117,7 @@
 
     ![调试协程](flow-debug-2.png)
 
-### 被优化的变量
+### 被优化的变量 {id="optimized-out-variables"}
 
 如果你使用 `suspend` 函数, 那么在调试器中, 你可能会在变量名称旁边看到 "was optimized out" 文字:
 
@@ -131,7 +131,7 @@
 >
 {style="warning"}
 
-## 添加一个并发运行的协程
+## 添加一个并发运行的协程 {id="add-a-concurrently-running-coroutine"}
 
 1. 打开 `src/main/kotlin` 中的 `main.kt` 文件.
 
@@ -154,7 +154,7 @@
 
 3. 点击 **Build Project**, 构建代码.
 
-## 调试有 2 个协程的 Kotlin 数据流
+## 调试有 2 个协程的 Kotlin 数据流 {id="debug-a-kotlin-flow-with-two-coroutines"}
 
 1. 在 `println(value)` 处设置一个新断点.
 

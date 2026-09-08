@@ -12,13 +12,13 @@
         <img src="icon-9-todo.svg" width="20" alt="Ninth step" /> <a href="kotlin-tour-intermediate-libraries-and-apis.md">库与 API</a></p>
 </tldr>
 
-在这一章中, 你将学习在另一种函数类型 Lambda 表达式中如何使用接受者对象,
+在这一章中, 你将学习在另一种函数类型 Lambda 表达式中如何使用接受者,
 以及它们如何帮助你创建一个特定领域专用语言(Domain-Specific Language, DSL).
 
 ## 带接受者的 Lambda 表达式 {id="lambda-expressions-with-receiver"}
 
 在初学者教程中, 你已经学习了如何使用 [Lambda 表达式](kotlin-tour-functions.md#lambda-expressions). Lambda 表达式也可以带有接受者.
-这种情况下, Lambda 表达式能够访问接受者对象的任何成员函数或属性, 而不必每次都明确的指明接受者对象.
+这种情况下, Lambda 表达式能够访问接受者的任何成员函数或属性, 而不必每次都明确的指明接受者.
 没有了这些额外的引用, 你的代码会变得更加易于阅读和维护.
 
 > 带接受者的 Lambda 表达式也叫做带接受者的函数字面值.
@@ -26,7 +26,7 @@
 {style="tip"}
 
 带接受者的 Lambda 表达式的语法与定义函数类型时不同.
-首先, 请写下你想要扩展的接受者类型. 之后, 是一个 `.` 号, 之后写下你的函数类型定义的其它部分.
+首先, 请写下你想要扩展的接受者. 之后, 是一个 `.` 号, 之后写下你的函数类型定义的其它部分.
 例如:
 
 ```kotlin
@@ -35,37 +35,50 @@ MutableList<Int>.() -> Unit
 
 这个函数类型:
 
-* 接受者类型是 `MutableList<Int>`.
+* 接受者是 `MutableList<Int>`.
 * 括号 `()` 之内没有函数参数.
 * 没有返回值: `Unit`.
 
-我们来看看下面的实例, 它扩展 `StringBuilder` 类:
+我们来看看下面的实例, 它在画布上绘制图形:
 
 ```kotlin
-fun main() {
-    // 带接受者的 Lambda 表达式定义
-    val appendText: StringBuilder.() -> Unit = { append("Hello!") }
+class Canvas {
+    fun drawCircle() = println("🟠 Drawing a circle")
+    fun drawSquare() = println("🟥 Drawing a square")
+}
 
+// 带接受者的 Lambda 表达式定义
+fun render(block: Canvas.() -> Unit): Canvas {
+    val canvas = Canvas()
     // 使用带接受者的 Lambda 表达式
-    val stringBuilder = StringBuilder()
-    stringBuilder.appendText()
-    println(stringBuilder.toString())
-    // 输出结果为: Hello!
+    canvas.block()
+    return canvas
+}
+
+fun main() {
+    render {
+        drawCircle()
+        // 输出结果为: 🟠 Drawing a circle
+        drawSquare()
+        // 输出结果为: 🟥 Drawing a square
+    }
 }
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-intermediate-tour-lambda-expression-with-receiver"}
 
 在这个示例中:
 
-* 接受者类型是 `StringBuilder` 类.
-* Lambda 表达式的函数类型没有函数参数 `()`, 也没有返回值 `Unit`.
-* Lambda 表达式调用 `StringBuilder` 类的 `append()` 成员函数, 使用字符串 `"Hello!"` 作为函数参数.
-* 创建了 `StringBuilder` 类的一个实例.
-* Lambda 表达式赋值给变量 `appendText`, 并在 `stringBuilder` 实例上调用.
-* 使用 `toString()` 函数, `stringBuilder` 实例被转换为字符串, 并通过 `println()` 函数打印输出.
+* `Canvas` 类有 2 个函数, 模拟绘制圆形和正方形.
+* `render()` 函数接受一个 `block` 参数, 返回一个 `Canvas` 类的实例.
+* `block` 参数是一个带接受者的 Lambda 表达式, 其中 `Canvas` 类是接受者.
+* `render()` 函数创建一个 `Canvas` 类的实例, 并使用它作为接受者, 在 `canvas` 实例上调用 `block()` Lambda 表达式.
+* `main()` 函数调用 `render()` 函数, 使用 Lambda 表达式, 传递给 `block` 参数.
+* 在传递给 `render()` 函数的 Lambda 表达式内, 程序会在 `Canvas` 类的实例上调用 `drawCircle()` 和 `drawSquare()` 函数.
+
+  由于 `drawCircle()` 和 `drawSquare()` 函数是在带接受者的 Lambda 表达式之内调用, 因此可以象在 `Canvas` 类之内一样调用它们.
 
 如果你想要创建一个特定领域专用语言(Domain-Specific Language, DSL), 带接受者的 Lambda 表达式会非常有用.
-因为你可以访问接受者对象的成员函数和属性, 而不必明确引用接受者, 你的代码会变得更加精简.
+因为你可以访问接受者的成员函数和属性, 而不必明确引用接受者, 你的代码会变得更加精简.
 
 为了演示这一点, 我们来考虑一个配置菜单中项目的示例.
 我们从一个 `MenuItem` 类和一个 `Menu` 类开始, `Menu` 类包含一个向菜单中添加项目的函数, 名为 `item()`,
@@ -83,8 +96,7 @@ class Menu(val name: String) {
 }
 ```
 
-我们使用一个带接受者的 Lambda 表达式, 将它作为函数参数 (`init`) 传递给 `menu()` 函数, 这个函数构建一个菜单, 作为开始点.
-你会注意到, 这段代码使用了与前面的 `StringBuilder` 类的示例类似的方案:
+我们使用一个带接受者的 Lambda 表达式, 将它作为函数参数 (`init`) 传递给 `menu()` 函数, 这个函数构建一个菜单, 作为开始点:
 
 ```kotlin
 fun menu(name: String, init: Menu.() -> Unit): Menu {
@@ -306,6 +318,6 @@ fun main() {
 ```
 {initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-lambda-receivers-solution-3"}
 
-## 下一步
+## 下一步 {id="next-step"}
 
 [中级教程: 类与接口](kotlin-tour-intermediate-classes-interfaces.md)

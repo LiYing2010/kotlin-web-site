@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE topic SYSTEM "https://resources.jetbrains.com/writerside/1.0/html-entities.dtd">
+
+<topic
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/topic.v2.xsd"
+	title="Kotlin Multiplatform 入门" id="get-started">
+
+    <section-starting-page>
+        <title>Kotlin Multiplatform 入门</title>
+        <description>
+            使用 Compose Multiplatform 共用 UI, 还是保持原生 UI? 从零开始, 还是从现有的 Android 应用程序迁移? 都可以按照你的方式来进行!
+        </description>
+        <spotlight>
+            <a href="quickstart.md" type="cross-platform" summary="设置并运行你的第一个 KMP 项目">Kotlin Multiplatform 快速入门</a>
+            <a href="kmp-overview.md" summary="了解 Kotlin Multiplatform 的功能与优点" type="idea">Kotlin Multiplatform 是什么</a>
+        </spotlight>
+        <primary>
+            <title>常见的使用场景</title>
+            <a href="compose-multiplatform-create-first-app.md" summary="使用 Compose Multiplatform 创建一个应用程序, 在 Android, iOS, 和桌面平台共用 UI">共用业务逻辑与 UI</a>
+            <a href="multiplatform-create-first-app.md" summary="了解 Kotlin Multiplatform, 并在 Android Studio 中创建同时在 Android 和 iOS 上运行的移动应用程序">共用业务逻辑, 但保持原生 UI</a>
+            <a href="multiplatform-ktor-sqldelight.md" summary="创建一个跨平台应用程序, 在 Android 和 iOS 之间共用数据访问层">共用部分逻辑</a>
+            <a href="multiplatform-integrate-in-existing-app.md" summary="将你的 Android 应用程序迁移到支持 Android 和 iOS 的 Kotlin Multiplatform">让你的应用程序支持跨平台</a>
+        </primary>
+        <secondary>
+            <title>Kotlin Multiplatform 技术</title>
+            <a href="kmp-overview.md" summary="KMP 是什么, 有哪些优点和使用场景">为什么选择 Kotlin Multiplatform</a>
+            <a href="multiplatform-discover-project.md" summary="了解基础知识: 共通代码和平台相关代码, 编译目标, 以及源代码集">项目结构的核心概念</a>
+            <a href="multiplatform-expect-actual.md" summary="使用预期声明与实际声明来访问平台相关 API">预期声明与实际声明</a>
+            <a href="multiplatform-ios-integration-overview.md" summary="将 Kotlin Multiplatform 共用模块集成到你的 iOS 应用程序中">设置 iOS 集成</a>
+        </secondary>
+        <misc>
+            <links narrow="true">
+                <group>
+                    <title>教程和示例</title>
+                    <a href="quickstart.md" summary="设置并运行你的第一个 KMP 项目">设置并运行你的第一个 KMP 项目</a>
+                    <a href="multiplatform-integrate-in-existing-app.md" summary="让你的 Android 应用程序在 iOS 上运行">让你的应用程序程序支持跨平台</a>
+                    <a href="multiplatform-run-tests.md" summary="了解如何创建和测试 Kotlin Multiplatform 应用程序">测试你的跨平台应用程序</a>
+                    <a href="multiplatform-samples.md" summary="Kotlin Multiplatform 示例">查看精选项目列表</a>
+                    <a href="https://github.com/topics/kotlin-multiplatform-sample" summary="GitHub &quot;kotlin-multiplatform&quot; 主题">在 GitHub 上查找更多项目</a>
+                </group>
+                <group>
+                    <title>工具</title>
+                    <a href="https://plugins.jetbrains.com/plugin/14936-kotlin-multiplatform" summary="用于 IntelliJ IDEA 和 Android Studio 的 Kotlin Multiplatform plugin">Kotlin Multiplatform IDE plugin</a>
+                    <a href="compose-hot-reload.md" summary="使用 Compose Hot Reload 快速迭代你的 UI">Compose Hot Reload</a>
+                    <a href="multiplatform-dsl-reference.md" summary="为 Kotlin Multiplatform 项目配置 Gradle 构建脚本">Gradle DSL 参考</a>
+                    <a href="https://klibs.io/" summary="由 JetBrains 开发的 Kotlin Multiplatform 库的搜索平台(实验性)">库的搜索平台</a>
+                    <a href="https://kmp.jetbrains.com/" summary="快速生成并下载一个跨平台项目模板">新建项目向导</a>
+                    <a href="amper.md" summary="使用 Kotlin 工具链进行项目配置">Kotlin 工具链配置工具</a>
+                </group>
+                <group>
+                    <title>社区和帮助</title>
+                    <a href="https://kotlinlang.slack.com/archives/C3PQML5NU" summary="Kotlin Slack">加入我们的 Slack 频道</a>
+                    <a href="https://stackoverflow.com/questions/tagged/kotlin-multiplatform" summary="订阅 kotlin-multiplatform 标签">订阅我们在 StackOverflow 上的标签</a>
+                    <a href="https://youtrack.jetbrains.com/newIssue?project=KT" summary="Kotlin 问题跟踪系统">在 YouTrack 中报告问题</a>
+                </group>
+            </links>
+        </misc>
+    </section-starting-page>
+</topic>

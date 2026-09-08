@@ -1,7 +1,17 @@
 [//]: # (title: 注解)
 
-注解是用来为代码添加元数据(metadata)的一种手段.
-要声明一个注解, 需要在类之前添加 `annotation` 修饰符:
+注解是一种标签, 可以用来向你的代码中的元素添加元数据(metadata).
+工具和框架会在编译期间和运行期间处理这些元数据, 并根据元数据执行不同的操作.
+
+你可以注解你的代码, 来简化和自动化一些常见任务, 例如生成样板代码, 强制执行代码规范, 或编写文档.
+
+> 如果你想开发自己的注解处理器, 可以使用 [Kotlin 符号处理(Kotlin Symbol Processing, KSP)](ksp-overview.md) API.
+>
+{style="tip"}
+
+## 声明 {id="declaration"}
+
+注解是一种特殊的类. 要声明一个注解, 请在类的声明之前使用 `annotation` 关键字:
 
 ```kotlin
 annotation class Fancy
@@ -173,7 +183,7 @@ Kotlin 支持的所有注解使用目标如下:
   * `property` (使用这个目标的注解, 在 Java 中无法访问)
   * `get` (属性的 get 方法)
   * `set` (属性的 set 方法)
-  * `all` (实验性功能, 用于属性的目标, 关于它的目的和使用方法, 请参见 [下文](#all-meta-target))
+  * `all` (针对属性的元目标(meta-target), 详情请参见 [`all` 元目标(meta-target)](#all-meta-target) 小节)
   * `receiver` (扩展函数或扩展属性的接受者参数)
 
     要对扩展函数的接受者参数添加注解, 请使用以下语法:
@@ -188,12 +198,14 @@ Kotlin 支持的所有注解使用目标如下:
 
 ### 没有指定使用目标时的默认值 {id="defaults-when-no-use-site-targets-are-specified"}
 
-如果不指定注解的使用目标, 那么将会根据这个注解的 `@Target` 注解来自动选定使用目标.
-如果存在多个可用的目标, 将会使用以下列表中的第一个:
+如果不指定注解的使用目标, 那么编译器将会根据你对这个注解使用的 `@Target` 注解来自动选定使用目标.
+如果存在多个可用的目标, 编译器将会按照以下顺序, 选择一个或多个:
 
-* `param`
-* `property`
-* `field`
+* 构造器参数目标(`param`).
+* 属性目标(`property`).
+* 如果域变量目标(`field`)可以使用, 而且属性目标(`property`)不能使用, 则使用域变量目标(`field`).
+
+如果 `param`, `property`, 或 `field` 都不可使用, 那么注解不正确, 你需要明确的指定使用目标.
 
 我们来使用 [Jakarta Bean Validation 中的 `@Email` 注解](https://jakarta.ee/specifications/bean-validation/3.0/apidocs/jakarta/validation/constraints/email):
 
@@ -206,25 +218,6 @@ public @interface Email { }
 
 ```kotlin
 data class User(val username: String,
-                // 这里的 @Email 等于 @param:Email
-                @Email val email: String) {
-    // 这里的 @Email 等于 @field:Email
-    @Email val secondaryEmail: String? = null
-}
-```
-
-Kotlin 2.2.0 引入了实验性的默认规则, 使向参数, 域变量, 以及属性传播注解更加可预测.
-
-根据新的规则, 如果存在多个可用的目标, 会按照下面的方式选择一个或多个:
-
-* 如果构造器参数目标 (`param`)可以使用, 则使用它.
-* 如果属性目标 (`property`)可以使用, 则使用它.
-* 如果域变量目标 (`field`)可以使用, 而 `property` 不可以使用, 则使用 `field`.
-
-对于同一个示例:
-
-```kotlin
-data class User(val username: String,
                 // 这里的 @Email 现在会等于 @param:Email @field:Email
                 @Email val email: String) {
     // 这里的 @Email 继续等于 @field:Email
@@ -232,36 +225,17 @@ data class User(val username: String,
 }
 ```
 
-如果存在多个目标, 并且 `param`, `property`, 或 `field` 都不可使用, 那么注解无效.
+在这个示例中, 对于 `email` 属性, `@Email` 注解同时应用于构造器参数目标和域变量目标, 因为这个属性:
 
-要启用新的默认规则, 请在你的 Gradle 配置中使用以下设置:
+* 声明在主构造器中.
+* 没有自定义的 get 方法和 set 方法, 因此编译器会生成后端域变量(Backing Field).
 
-```kotlin
-// build.gradle.kts
-kotlin {
-    compilerOptions {
-        freeCompilerArgs.add("-Xannotation-default-target=param-property")
-    }
-}
-```
+对于 `secondaryEmail` 属性, `@Email` 注解只应用于域变量目标, 因为这个属性:
 
-如果想要使用旧的行为, 你可以:
+* 没有声明在主构造器中.
+* 没有自定义的 get 方法和 set 方法, 因此编译器会生成后端域变量(Backing Field).
 
-* 在特定的情况下, 明确指定需要的目标, 例如, 使用 `@param:Annotation`, 而不是 `@Annotation`.
-* 对整个项目, 在你的 Gradle 构建文件中使用以下设置:
-
-    ```kotlin
-    // build.gradle.kts
-    kotlin {
-        compilerOptions {
-            freeCompilerArgs.add("-Xannotation-default-target=first-only")
-        }
-    }
-    ```
-
-### `all` meta-target {id="all-meta-target"}
-
-<primary-label ref="experimental-opt-in"/>
+### `all` 元目标(meta-target) {id="all-meta-target"}
 
 `all` 目标可以更容易的将同一个注解不仅应用于参数和属性或域变量, 而且应用于对应的 get 方法和 set 方法.
 
@@ -310,25 +284,6 @@ data class User(
     val x: Int = 5
     ```
 * 它不能用于 [委托属性](delegated-properties.md).
-
-#### 如何启用 {id="how-to-enable"}
-
-要在你的项目中启用 `all` 目标, 请在命令行中使用以下编译器选项:
-
-```Bash
--Xannotation-target-all
-```
-
-或者, 添加到你的 Gradle 构建文件的 `compilerOptions {}` 代码段:
-
-```kotlin
-// build.gradle.kts
-kotlin {
-    compilerOptions {
-        freeCompilerArgs.add("-Xannotation-target-all")
-    }
-}
-```
 
 ## Java 注解 {id="java-annotations"}
 
@@ -456,7 +411,7 @@ annotation class Tag(val name: String)
 // 编译器生成名为 @Tag.Container 的容器注解
 ```
 
-你可以对容器注解设置自定义的名称, 方法是使用 [`@kotlin.jvm.JvmRepeatable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvmrepeatable/) 元注解(meta-annotation),
+你可以对容器注解设置自定义的名称, 方法是使用 [`@kotlin.jvm.JvmRepeatable`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-repeatable/) 元注解(meta-annotation),
 指定一个明确声明的容器注解类作为参数:
 
 ```kotlin

@@ -12,7 +12,7 @@ Kotlin 只在它的标准库中提供了最少量的低层 API, 让其它库来�
 为了使用协程功能, 以及本文档中的各种示例程序, 你需要添加 `kotlinx-coroutines-core` 依赖项,
 详细方法请参见 [项目的 README 文件](https://github.com/Kotlin/kotlinx.coroutines/blob/master/README.md#using-in-your-projects).
 
-## 章节目录
+## 章节目录 {id="table-of-contents"}
 
 * [协程的基本概念](coroutines-basics.md)
 * [教程: 协程与通道(Channel)简介](coroutines-and-channels.md)
@@ -27,7 +27,7 @@ Kotlin 只在它的标准库中提供了最少量的低层 API, 让其它库来�
 * [教程: 使用 IntelliJ IDEA 调试协程](debug-coroutines-with-idea.md)
 * [教程: 使用 IntelliJ IDEA 调试 Kotlin 数据流(Flow)](debug-flow-with-idea.md)
 
-## 其他参考文档
+## 其他参考文档 {id="additional-references"}
 
 * [使用协程进行 UI 编程向导](https://github.com/Kotlin/kotlinx.coroutines/blob/master/ui/coroutines-guide-ui.md)
 * [协程功能设计文档 (KEEP)](https://github.com/Kotlin/KEEP/blob/master/proposals/coroutines.md)

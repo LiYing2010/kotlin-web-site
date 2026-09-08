@@ -1,12 +1,12 @@
 [//]: # (title: 与 Swift/Objective-C 代码交互)
 
-> Objective-C 库的导入是 [实验性功能](components-stability.md#stability-levels-explained).
+> Objective-C 库的导入功能处于 [Beta 阶段](native-lib-import-stability.md#stability-of-c-and-objective-c-library-import).
 > cinterop 工具从 Objective-C 库生成的所有 Kotlin 声明都应该标注 `@ExperimentalForeignApi` 注解.
 >
 > Kotlin/Native 自带的原生平台库 (例如 Foundation, UIKit, 和 POSIX),
 > 只对一部分 API 需要使用者明确同意(Opt-in).
 >
-{style="warning"}
+{style="note"}
 
 Kotlin/Native 提供了通过 Objective-C 与 Swift 间接交互的能力.
 本章介绍如何在 Swift/Objective-C 代码中使用 Kotlin 声明, 以及如何在 Kotlin 代码中使用 Objective-C 声明.
@@ -38,10 +38,7 @@ Kotlin 模块可以在 Swift/Objective-C 代码中使用, 只需要编译成一�
 
 ### 对 Objective-C 和 Swift 隐藏 Kotlin 声明 {id="hide-kotlin-declarations-from-objective-c-and-swift"}
 
-> `@HiddenFromObjC` 注解是 [实验性功能](components-stability.md#stability-levels-explained),
-> 需要 [使用者同意(Opt-in)](opt-in-requirements.md).
->
-{style="warning"}
+<primary-label ref="experimental-opt-in"/>
 
 要让你的 Kotlin 代码更加易于在 Swift/Objective-C 中使用, 请使用 `@HiddenFromObjC` 注解,
 对 Objective-C 和 Swift 隐藏一些 Kotlin 声明. 这个注解会禁止函数或属性导出到 Objective-C.
@@ -53,10 +50,7 @@ Kotlin 模块可以在 Swift/Objective-C 代码中使用, 只需要编译成一�
 
 ### 在 Swift 中使用润色(Refine) {id="use-refining-in-swift"}
 
-> `@ShouldRefineInSwift` 注解是 [实验性功能](components-stability.md#stability-levels-explained),
-> 需要 [使用者同意(Opt-in)](opt-in-requirements.md).
->
-{style="warning"}
+<primary-label ref="experimental-opt-in"/>
 
 `@ShouldRefineInSwift` 可以将一个 Kotlin 声明替换为 Swift 编写的一个封装(Wrapper).
 这个注解会在生成的 Objective-C API 中, 将一个函数或属性标记为 `swift_private`.
@@ -70,10 +64,7 @@ Kotlin 模块可以在 Swift/Objective-C 代码中使用, 只需要编译成一�
 
 ### 修改声明的名称 {id="change-declaration-names"}
 
-> `@ObjCName` 注解是 [实验性功能](components-stability.md#stability-levels-explained),
-> 需要 [使用者同意(Opt-in)](opt-in-requirements.md).
->
-{style="warning"}
+<primary-label ref="experimental-opt-in"/>
 
 如果要避免对 Kotlin 声明的重新命名, 请使用 `@ObjCName` 注解.
 这个注解会指示 Kotlin 编译器对标注了注解的类, 接口, 以及其他 Kotlin 元素使用自定义的 Objective-C 和 Swift 名称:
@@ -97,7 +88,7 @@ let index = array.index(of: "element")
 要理解任何 API, 文档是必须的.
 为共用的 Kotlin API 提供文档, 可以让你与 API 使用者更好的沟通, 例如使用时的注意实现, 应该做什么, 不应该做什么, 等等.
 
-默认情况下, 在生成 Objective-C 头文件时, [KDocs](kotlin-doc.md) 注释不会被翻译为头文件中对应的注释.
+在生成 Objective-C 头文件时, Kotlin 代码的 [KDoc](kotlin-doc.md) 注释会被翻译为对应的 Objective-C 注释.
 例如, 以下带 KDoc 文档的 Kotlin 代码:
 
 ```kotlin
@@ -108,40 +99,7 @@ let index = array.index(of: "element")
 fun printSum(a: Int, b: Int) = println(a.toLong() + b)
 ```
 
-会生成 Objective-C 声明, 没有任何注释:
-
-```objc
-+ (void)printSumA:(int32_t)a b:(int32_t)b __attribute__((swift_name("printSum(a:b:)")));
-```
-
-要启用 KDoc 注释导出功能, 请在你的 `build.gradle(.kts)` 添加以下编译器选项:
-
-<tabs group="build-script">
-<tab title="Kotlin" group-key="kotlin">
-
-```kotlin
-kotlin {
-    targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
-        compilations.get("main").compilerOptions.options.freeCompilerArgs.add("-Xexport-kdoc")
-    }
-}
-```
-
-</tab>
-<tab title="Groovy" group-key="groovy">
-
-```groovy
-kotlin {
-    targets.withType(org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget) {
-        compilations.get("main").compilerOptions.options.freeCompilerArgs.add("-Xexport-kdoc")
-    }
-}
-```
-
-</tab>
-</tabs>
-
-这样设置之后, Objective-C 头文件将包含对应的注释:
+会生成包含对应注释的 Objective-C 头文件:
 
 ```objc
 /**
@@ -151,21 +109,34 @@ kotlin {
 + (void)printSumA:(int32_t)a b:(int32_t)b __attribute__((swift_name("printSum(a:b:)")));
 ```
 
-你将能够在自动完成中看到类和方法上的注释,
-例如, 在 Xcode 中, 如果你跳转到 函数的定义 (在 `.h` 文件中), 你会看到 `@param`, `@return` 等等上的注释.
+KDoc 注释会嵌入到 klib 中, 并从 klib 提取到生成的 Apple 框架中.
+因此, 在自动完成时, 例如在 Xcode 中, 能够看到类和方法上的注释.
+如果你跳转到`.h` 文件中的函数定义, 你会看到 `@param`, `@return` 以及类似标记上的注释.
 
 已知的限制:
 
-> KDoc 注释导出到生成的 Objective-C 头文件是 [实验性功能](components-stability.md).
-> 它随时有可能变更或被删除.
-> 需要使用者同意(Opt-in) (详情见下文), 而且你应该只为评估目的来使用这个功能.
-> 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-38600) 提供你的反馈意见.
->
-{style="warning"}
+* 依赖项的文档不会导出, 除非它也使用 `-Xexport-kdoc` 选项来编译.
+  使用这个编译器选项编译的库, 可能与其他编译器版本不兼容.
+* 绝大多数 KDoc 注释会保持原状导出, 但很多 KDoc 块标记不支持, 例如 `@property`.
 
-* 依赖项的文档不会导出, 除非它本身也使用 `-Xexport-kdoc` 选项来编译.
-  这个功能还是实验性功能, 因此使用这个选项编译的库可能与其他编译器版本不兼容.
-* 绝大多数 KDoc 注释会保持原状导出. 很多 KDoc 功能还不支持, 例如 `@property`.
+如果需要, 可以在你的 Gradle 构建文件的 `binaries {}` 代码块中, 禁用从 klib 导出 KDoc 注释到生成的 Apple 框架的功能:
+
+```kotlin
+// build.gradle.kts
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+
+kotlin {
+    iosArm64 {
+        binaries {
+            framework {
+                baseName = "sdk"
+                @OptIn(ExperimentalKotlinGradlePluginApi::class)
+                exportKdoc.set(false)
+            }
+        }
+    }
+}
+```
 
 ## 映射 {id="mappings"}
 
@@ -362,11 +333,7 @@ switch color {
 
 ### 挂起函数 {id="suspending-functions"}
 
-> 从 Swift 代码中 以 `async` 方式调用 `suspend`函数是 [实验性功能](components-stability.md).
-> 它随时有可能变更或被删除. 请注意, 只为评估和试验目的来使用这个功能.
-> 希望你能通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-47610) 提供你的反馈意见.
->
-{style="warning"}
+<primary-label ref="experimental-opt-in"/>
 
 Kotlin 的 [挂起函数](coroutines-basics.md) (`suspend`) 在生成的 Objective-C 头文件中表达为带有回调的函数,
 或用 Swift/Objective-C 术语称为 [completion handlers](https://developer.apple.com/documentation/swift/calling_objective-c_apis_asynchronously).
@@ -444,7 +411,7 @@ MyClass.Companion.shared
 参见 Kotlin-Swift interopedia 中的更多示例:
 
 * [如何使用 `shared` 访问 Kotlin 对象](https://github.com/kotlin-hands-on/kotlin-swift-interopedia/blob/main/docs/classesandinterfaces/Objects.md)
-* [如何在 Swift 中 访问 Kotlin 伴随对象的成员](https://github.com/kotlin-hands-on/kotlin-swift-interopedia/blob/main/docs/classesandinterfaces/Companion%20objects.md).
+* [如何在 Swift 中 访问 Kotlin 同伴对象的成员](https://github.com/kotlin-hands-on/kotlin-swift-interopedia/blob/main/docs/classesandinterfaces/Companion%20objects.md).
 
 ### 基本类型 {id="primitive-types"}
 
@@ -522,7 +489,7 @@ Swift/Objective-C 集合类型映射到 Kotlin 集合类型的方式参见 [对�
 
 ### Function 类型 {id="function-types"}
 
-Kotlin 的函数类型对象 (比如 Lambda 表达式) 会被转换为 Swift 的函数, 或 Objective-C 的代码段(block).
+Kotlin 的函数类型对象 (比如 Lambda 表达式) 会被转换为 Swift 的闭包(closure), 或 Objective-C 的代码段(block).
 [参见 Kotlin-Swift interopedia 中带 Lambda 表达式的 Kotlin 函数的示例](https://github.com/kotlin-hands-on/kotlin-swift-interopedia/blob/main/docs/functionsandproperties/Functions%20returning%20function%20type.md).
 
 但是, 在翻译函数和函数类型时, 对于参数类型和返回值类型的映射方法存在区别.
@@ -545,12 +512,47 @@ func foo(block: (KotlinInt) -> KotlinUnit)
 
 你可以这样调用它:
 
-```kotlin
+```swift
 foo {
     bar($0 as! Int32)
     return KotlinUnit()
 }
 ```
+
+#### Objective-C 代码段(block) 类型中的明确的参数名称 {id="explicit-parameter-names-in-objective-c-block-types"}
+
+<primary-label ref="experimental-opt-in"/>
+
+对导出的 Objective-C 头文件, 你可以向 Kotlin 的函数类型添加明确的参数名称.
+在 Objective-C 代码段(block)中调用 Objective-C 函数时, Xcode 的自动完成功能会建议使用这些名称.
+这样有助于避免在生成的代码段中出现 Clang 警告.
+
+要启用明确的参数名称, 请向你的 `gradle.properties` 文件添加以下 [二进制选项](native-binary-options.md):
+
+```properties
+kotlin.native.binary.objcExportBlockExplicitParameterNames=true
+```
+
+例如, 对下面的 Kotlin 代码:
+
+```kotlin
+// Kotlin:
+fun greetUser(block: (name: String) -> Unit) = block("John")
+```
+
+Kotlin 会将参数名称从 Kotlin 函数类型传递到 Objective-C 代码段类型, 使得 Xcode 能够在代码提示中使用这些名称:
+
+```objc
+// Objective-C:
+greetUserBlock:^(NSString *name) {
+    // ...
+};
+```
+
+> 这个选项只影响 Objective-C 代码交互. 它适用于在 Xcode 中从 Objective-C 代码调用生成的 Objective-C 代码的情况,
+> 而且一般不会影响从 Swift 代码的调用.
+>
+{style="note"}
 
 ### 泛型 {id="generics"}
 
@@ -603,7 +605,7 @@ class Sample<T : Any>() {
 
 #### 类型变异(Variance) {id="variance"}
 
-Objective-C 允许泛型声明为协变(covariant), 或反向类型变异(contravariant).
+Objective-C 允许泛型声明为协变(covariant), 或逆变(contravariant).
 Swift 不支持类型变异(Variance).
 如果需要, 对来自 Objective-C 的泛型类, 可以进行强制类型转换.
 
@@ -685,14 +687,21 @@ fun test() {
 
 ## 在映射的类型之间进行变换 {id="casting-between-mapped-types"}
 
-编写 Kotlin 代码时, 对象可能需要从 Kotlin 类型转换为等价的 Swift/Objective-C 类型 (或者反过来).
-这种情况下, 可以直接使用传统的 Kotlin 类型转换, 例如:
+编写 Kotlin 代码时, 对象可能需要从 Kotlin 类型转换为等价的 Swift/Objective-C 类型, 或者反过来.
+这种情况下, 可以使用 [`as` 转换](typecasts.md#unsafe-cast-operator), 例如:
 
 ```kotlin
-val nsArray = listOf(1, 2, 3) as NSArray
-val string = nsString as String
+@file:Suppress("CAST_NEVER_SUCCEEDS")
+import platform.Foundation.*
+
 val nsNumber = 42 as NSNumber
+val nsArray = listOf(1, 2, 3) as NSArray
+val nsString = "Hello" as NSString
+val string = nsString as String
 ```
+
+IDEs 可能错误的提示 "This cast can never succeed" 警告.
+这种情况下, 请使用 `@Suppress("CAST_NEVER_SUCCEEDS")` 注解.
 
 ## 类继承 {id="subclassing"}
 

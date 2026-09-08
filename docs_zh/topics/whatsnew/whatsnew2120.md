@@ -1,6 +1,8 @@
 [//]: # (title: Kotlin 2.1.20 中的新功能)
 
-_[发布日期: 2025/03/20](releases.md#release-details)_
+<web-summary>阅读 Kotlin 2.1.20 发布说明, 包括新的语言特性, Kotlin Multiplatform, JVM, Native, JS, 和 Wasm 的更新, 以及对 Gradle 和 Maven 的构建工具支持.</web-summary>
+
+_[发布日期: 2025/03/20](releases.md#release-history)_
 
 Kotlin 2.1.20 已经发布了! 以下是它的一些最重要的功能:
 
@@ -11,11 +13,15 @@ Kotlin 2.1.20 已经发布了! 以下是它的一些最重要的功能:
 * **Gradle 支持**: [兼容 Gradle 的隔离项目(Isolated Project)和自定义发布变体(Publication Variant)](#gradle)
 * **标准库**: [共通的原子类型, UUID 支持的改进, 以及新的时间追踪功能](#standard-library)
 * **Compose 编译器**: [放宽了 `@Composable` 函数的限制, 以及其它更新](#compose-compiler)
-* **文档**: [Kotlin 文档的一些重要改进](#documentation-updates).
+* **文档**: [Kotlin 文档的重要改进](#documentation-updates)
+
+> 关于 Kotlin 的发布周期, 详情请参见 [Kotlin 发布过程](releases.md).
+>
+{style="tip"}
 
 ## IDE 支持 {id="ide-support"}
 
-最新版的 IntelliJ IDEA 和 Android Studio 中绑定了支持 2.1.20 的 Kotlin plugin.
+最新版的 IntelliJ IDEA 和 Android Studio 中捆绑了支持 2.1.20 的 Kotlin plugin.
 你不需要在你的 IDE 中更新 Kotlin plugin.
 你需要做的只是在你的构建脚本中将 Kotlin 版本修改为 2.1.20.
 
@@ -43,7 +49,7 @@ JetBrains 开发组早在 Kotlin 1.9.20 中就发布了与 K2 编译器配合工
 
 方法是, 向你的项目的 `gradle.properties` 文件添加以下选项:
 
-```kotlin
+```properties
 kapt.use.k2=false
 ```
 
@@ -262,7 +268,7 @@ Kotlin Gradle plugin 插件支持的 Gradle 的隔离项目功能, 可以用于�
 特别是对于跨平台项目, 如果升级后在你的 Gradle 构建中发现问题,
 你可以选择关闭新的 Kotlin Gradle plugin 行为, 方法是添加以下设定:
 
-```none
+```properties
 kotlin.kmp.isolated-projects.support=disable
 ```
 
@@ -448,8 +454,8 @@ fun main() {
 从 Kotlin 2.1.20 开始, 标准库提供了表示某个时刻的功能.
 这个功能只存在于 [`kotlinx-datetime`](https://kotlinlang.org/api/kotlinx-datetime/) 中, 这是一个官方的 Kotlin 库.
 
-[`kotlinx.datetime.Clock`](https://kotlinlang.org/api/kotlinx-datetime/kotlinx-datetime/kotlinx.datetime/-clock/) 接口现在引入到标准库中, 成为 `kotlin.time.Clock`,
-[`kotlinx.datetime.Instant`](https://kotlinlang.org/api/kotlinx-datetime/kotlinx-datetime/kotlinx.datetime/-instant/) 类成为 `kotlin.time.Instant`.
+`kotlinx.datetime.Clock` 接口现在引入到标准库中, 成为 [`kotlin.time.Clock`](https://kotlinlang.org/api/core/2.1/kotlin-stdlib/kotlin.time/-clock/),
+`kotlinx.datetime.Instant` 类成为 [`kotlin.time.Instant`](https://kotlinlang.org/api/core/2.1/kotlin-stdlib/kotlin.time/-instant/).
 这些概念自然的与标准库中的 `time` 包保持一致, 因为它们只关注某个时刻, 更复杂的日历和时区功能继续保留在 `kotlinx-datetime` 中.
 
 如果你需要精确的时间追踪, 而不考虑时区或日期, `Instant` 和 `Clock` 会非常有用.
@@ -457,9 +463,9 @@ fun main() {
 
 为了提供与其它语言的交互能力, 还提供了额外的转换函数:
 
-* `.toKotlinInstant()` 将一个时间值转换为 `kotlin.time.Instant` 的实例.
-* `.toJavaInstant()` 将 `kotlin.time.Instant` 值转换为 `java.time.Instant` 值.
-* `Instant.toJSDate()` 将 `kotlin.time.Instant` 值转换为 JS `Date` 类的实例.
+* [`.toKotlinInstant()`](https://kotlinlang.org/api/core/2.1/kotlin-stdlib/kotlin.time/to-kotlin-instant.html) 将一个时间值转换为 `kotlin.time.Instant` 的实例.
+* [`.toJavaInstant()`](https://kotlinlang.org/api/core/2.1/kotlin-stdlib/kotlin.time/to-java-instant.html) 将 `kotlin.time.Instant` 值转换为 `java.time.Instant` 值.
+* [`Instant.toJSDate()`](https://kotlinlang.org/api/core/2.1/kotlin-stdlib/kotlin.time/to-j-s-date.html) 将 `kotlin.time.Instant` 值转换为 JS `Date` 类的实例.
   这个转换并不精确; JS 使用毫秒精度表示日期, 而 Kotlin 可以使用纳秒精度.
 
 标准库的新的时间功能还是 [实验性功能](components-stability.md#stability-levels-explained).
@@ -491,14 +497,14 @@ fun main() {
 在 2.1.20 中, Compose 编译器放宽了之前版本中引入的 `@Composable` 函数的一些限制.
 此外, Compose 编译器 Gradle plugin 默认设置为包含源代码信息, 使所有平台的行为与 Android 保持一致.
 
-### 支持 open 的 `@Composable` 函数中的默认参数 {id="support-for-default-arguments-in-open-composable-functions"}
+### 支持 open 的 `@Composable` 函数中带默认值的参数 {id="support-for-parameters-with-default-values-in-open-composable-functions"}
 
-之前, 编译器限制了 open 的 `@Composable` 函数中的默认参数, 原因是编译器输出不正确, 会导致运行期崩溃.
-底层的问题现在已经解决, 在与 Kotlin 2.1.20 或更高版本一起使用时, 完全支持默认参数.
+之前, 编译器限制了 open 的 `@Composable` 函数中的带默认值的参数, 原因是编译器输出不正确, 会导致运行期崩溃.
+底层的问题现在已经解决, 在与 Kotlin 2.1.20 或更高版本一起使用时, 完全支持带默认值的参数.
 
-Compose 编译器在 [版本 1.5.8](https://developer.android.com/jetpack/androidx/releases/compose-compiler#1.5.8) 之前, 允许使用 open 的函数中的默认参数, 因此这种支持依赖于项目配置:
+Compose 编译器在 [版本 1.5.8](https://developer.android.com/jetpack/androidx/releases/compose-compiler#1.5.8) 之前, 允许使用 open 的函数中的带默认值的参数, 因此这种支持依赖于项目配置:
 
-* 如果一个 open 的 composable 函数使用 Kotlin version 2.1.20 或更高版本编译, 编译器会为默认参数生成正确的包装器.
+* 如果一个 open 的 composable 函数使用 Kotlin version 2.1.20 或更高版本编译, 编译器会为带默认值的参数生成正确的包装器.
   包括与 1.5.8 之前版本二进制文件兼容的包装器, 这就意味着下游库也能够使用这个 open 函数.
 * 如果 open 的 composable 函数使用 Kotlin 2.1.20 之前的版本编译, Compose 会使用兼容模式, 可能导致运行期崩溃.
   使用兼容模式时, 编译器会发出警告, 标记出潜在的问题.
@@ -534,7 +540,7 @@ Compose 编译器 Gradle plugin 在 Android 中已经默认启用了 [包含源�
 * 为了让 Kotlin Multiplatform 与 Gradle 中即将推出的变更保持一致, 我们会逐步废弃 `withJava()` 函数.
   [现在会默认创建 Java 源代码集](multiplatform-compatibility-guide.md#java-source-sets-created-by-default).
   如果你使用 [Java test fixtures](https://docs.gradle.org/current/userguide/java_testing.html#sec:java_test_fixtures) Gradle plugin,
-  请直接升级到 [Kotlin 2.1.21](releases.md#release-details), 以免发生兼容性问题.
+  请直接升级到 [Kotlin 2.1.21](releases.md#release-history), 以免发生兼容性问题.
 * JetBrains 开发组正在逐步废弃 `kotlin-android-extensions` plugin.
   如果试图在你的项目中使用它, 现在会发生配置错误, 不会执行任何 plugin 代码.
 * 旧的 `kotlin.incremental.classpath.snapshot.enabled` 属性已从 Kotlin Gradle plugin 中删除.
@@ -551,9 +557,9 @@ Kotlin 文档有了一些重要更新:
   – 查看 Kotlin 在语言和生态系统演化方面的优先事项最新列表.
 * [Gradle 最佳实践](gradle-best-practices.md) 页面
   – 学习关于优化 Gradle 构建和改善性能的基本的最佳实践.
-* [Compose Multiplatform 与 Jetpack Compose](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-and-jetpack-compose.html)
+* [Compose Multiplatform 与 Jetpack Compose](https://kotlinlang.org/docs/multiplatform/compose-multiplatform-and-jetpack-compose.html)
   – 关于这两个 UI 框架之间关系的概述.
-* [Kotlin Multiplatform 与 Flutter](https://www.jetbrains.com/help/kotlin-multiplatform-dev/kotlin-multiplatform-flutter.html)
+* [Kotlin Multiplatform 与 Flutter](https://kotlinlang.org/docs/multiplatform/kotlin-multiplatform-flutter.html)
   – 查看这两个流行的跨平台框架的比较.
 * [与 C 代码交互](native-c-interop.md)
   – 探索 Kotlin 与 C 交互的细节.
@@ -562,7 +568,7 @@ Kotlin 文档有了一些重要更新:
 
 ### 新的和更新的教程 {id="new-and-updated-tutorials"}
 
-* [将你的库发布到 Maven Central](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-publish-libraries.html)
+* [将你的库发布到 Maven Central](https://kotlinlang.org/docs/multiplatform/multiplatform-publish-libraries.html)
   – 学习如何将 KMP 库 artifact 发布到最流行的 Maven 仓库.
 * [使用 Kotlin/Native 开发动态库](native-dynamic-libraries.md)
   – 创建动态 Kotlin 库.

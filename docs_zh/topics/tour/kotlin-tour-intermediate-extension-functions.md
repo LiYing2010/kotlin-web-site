@@ -18,23 +18,20 @@
 ## 扩展函数 {id="extension-functions"}
 
 在软件开发中, 你经常需要修改一个程序的行为, 但又不能修改原来的源代码.
-例如, 在你的项目中, 你可能想要向一个来自第三方库的类添加额外的功能.
+例如, 你可能想要向一个来自第三方库的类添加额外的功能.
 
-扩展函数让你能够向一个类扩展额外的功能. 你可以通过调用一个类的成员函数同样的方式来调用扩展函数.
+你可以通过添加 _扩展函数_ 来扩展一个类.
+调用扩展函数的方式与调用类的成员函数一样, 使用点号 `.`.
 
-在介绍扩展函数的语法之前, 你需要理解术语 **接受者类型(Receiver Type)** 和 **接受者对象(Receiver Object)**.
-
-接受者对象(Receiver Object)是指函数对哪个对象调用. 换句话说, 接受者就是共享信息的来源.
+在介绍扩展函数的完整语法之前, 你需要理解什么是 **接受者(Receiver)**.
+接受者(Receiver)是指函数对哪个对象调用. 换句话说, 接受者就是共享信息的来源.
 
 ![发送者和接受者的示例](receiver-highlight.png){width="500"}
 
-在这个示例中, `main()` 函数调用 [`.first()`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/first.html) 函数.
+在这个示例中, `main()` 函数调用 [`.first()`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/first.html) 函数, 得到列表中的第 1 个元素.
 `.first()` 函数 **对** `readOnlyShapes` 变量调用, 因此 `readOnlyShapes` 变量就是接受者.
 
-接受者对象有 **类型**, 因此编译器能够知道函数在什么时候能够使用.
-
-这个示例使用标准库的 `.first()` 函数来返回列表中的第一个元素.
-要创建你自己的扩展函数, 请写下你想要扩展的类名称, 之后是一个 `.` 号, 之后是你的函数名称.
+要创建扩展函数, 请写下你想要扩展的类名称, 之后是一个 `.` 号, 之后是你的函数名称.
 后面是函数声明的其余部分, 包括它的参数和返回类型.
 
 例如:
@@ -43,7 +40,7 @@
 fun String.bold(): String = "<b>$this</b>"
 
 fun main() {
-    // "hello" 是接受者对象
+    // "hello" 是接受者
     println("hello".bold())
     // 输出结果为: <b>hello</b>
 }
@@ -52,11 +49,11 @@ fun main() {
 
 在这个示例中:
 
-* `String` 是被扩展的类, 也叫做接受者类型.
+* `String` 是被扩展的类.
 * `bold` 是扩展函数的名称.
 * `.bold()` 扩展函数的返回类型是 `String`.
-* `"hello"`, 一个 `String` 实例, 是接受者对象.
-* 在函数的 body 部, 访问接受者对象时使用了 [关键字](keyword-reference.md): `this`.
+* `"hello"`, 一个 `String` 实例, 是接受者.
+* 在函数的 body 部, 访问接受者时使用了 [关键字](keyword-reference.md): `this`.
 * 使用了字符串模板 (`$`) 来访问 `this` 的值.
 * `.bold()` 扩展函数接受一个字符串, 并将它包含在 `<b>` HTML 元素内返回, 用于显示粗体文字.
 
@@ -65,7 +62,7 @@ fun main() {
 你可以在任何地方定义扩展函数, 因此可以创建面向扩展的设计.
 这样的设计将核心功能与便利但并非必须的功能分离开, 让你的代码易于阅读和维护.
 
-一个很好的例子是 Ktor 库的 [`HttpClient`](https://api.ktor.io/ktor-client/ktor-client-core/io.ktor.client/-http-client/index.html) 类, 它帮助你执行网络请求.
+一个很好的例子是 Ktor 库的 [`HttpClient`](https://api.ktor.io/ktor-client-core/io.ktor.client/-http-client/index.html) 类, 它帮助你执行网络请求.
 它的核心功能是单个函数 `request()`, 它的参数是一个 HTTP 请求需要的所有信息 :
 
 ```kotlin
@@ -87,8 +84,9 @@ fun HttpClient.post(url: String): HttpResponse = request("POST", url, emptyMap()
 ```
 {validate="false"}
 
-这些 `.get()` 和 `.post()` 函数使用正确的 HTTP 方法调用 `request()` 函数, 因此你就不必自己调用了.
-这些函数简化了你的代码, 让代码更加易于理解:
+这些 `.get()` 和 `.post()` 函数扩展了 `HttpClient` 类.
+由于它们是在 `HttpClient` 类的实例上调用的, 也就是使用 `HttpClient` 类的实例作为接受者, 因此它们可以直接使用来自 `HttpClient` 类的 `request()` 函数.
+你可以通过这些扩展函数, 使用适当的 HTTP 方法调用 `request()` 函数, 这样可以简化你的代码, 让代码更加易于理解:
 
 ```kotlin
 class HttpClient {
@@ -107,6 +105,7 @@ fun main() {
     val getResponseWithMember = client.request("GET", "https://example.com", emptyMap())
 
     // 使用 get() 扩展函数, 发起 GET 请求
+    // client 实例是接受者
     val getResponseWithExtension = client.get("https://example.com")
 }
 ```

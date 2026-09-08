@@ -145,7 +145,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-`windowed()` 通过可选的参数, 可以实现更加灵活的控制:
+`windowed()` 通过带默认值的参数, 提供了更加灵活的控制:
 
 * `step` 参数指定两个相邻窗口的起始元素之间的距离.
   这个参数默认值是 1, 因此返回结果会包含每个元素开始的窗口.

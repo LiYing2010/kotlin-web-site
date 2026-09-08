@@ -55,7 +55,7 @@ fun main() {
 | 字符     | `Char`                             | `val separator: Char = ','`                                   |
 | 字符串    | `String`                           | `val message: String = "Hello, world!"`                       |
 
-关于基本类型和它们的属性, 详情请参见 [基本类型](basic-types.md).
+关于基本类型和它们的属性, 详情请参见 [类型概述](types-overview.md).
 
 有了这些知识之后, 你可以声明变量, 并初始化这些变量.
 只要变量在第一次读取之前初始化, Kotlin 就能够正确处理这些变量.
@@ -100,7 +100,7 @@ fun main() {
 
 现在你已经知道了如何声明基本类型, 下面我们来学习 [集合(Collection)](kotlin-tour-collections.md).
 
-## 实际练习
+## 实际练习 {id="practice"}
 
 ### 习题 {id="exercise" initial-collapse-state="collapsed" collapsible="true"}
 
@@ -132,6 +132,6 @@ fun main() {
 ```
 {initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-basic-types-solution"}
 
-## 下一步
+## 下一步 {id="next-step"}
 
 [集合(Collection)](kotlin-tour-collections.md)

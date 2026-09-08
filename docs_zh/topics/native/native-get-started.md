@@ -26,7 +26,6 @@
 ## 使用 IDE {id="in-ide"}
 
 在本节中, 你将学习如何使用 IntelliJ IDEA 创建一个 Kotlin/Native 应用程序.
-你可以使用 Community 版和 Ultimate 版.
 
 ### 创建项目 {id="create-the-project"}
 
@@ -42,7 +41,7 @@
    要创建 Kotlin/Native 应用程序, 你需要使用与 Kotlin 相同版本的 Kotlin Multiplatform Gradle plugin.
    请确认使用了 Kotlin 的最新版本:
 
-   ```none
+   ```toml
    [versions]
    kotlin = "%kotlinVersion%"
    ```
@@ -63,17 +62,17 @@
 
 按下侧栏中的绿色图标, 运行代码:
 
-![运行应用程序](native-run-gutter.png){width=478}
+![运行应用程序](native-run-gutter.png){width=450}
 
 IntelliJ IDEA 会使用 Gradle 任务运行代码, 并在 **Run** Tab 中输出运行结果:
 
-![应用程序的输出](native-output-gutter-1.png){width=331}
+![应用程序的输出](native-output-gutter-1.png){width=450}
 
 初次运行之后, IDE 会在顶栏中创建对应的运行配置:
 
-![Gradle 运行配置](native-run-config.png){width=503}
+![Gradle 运行配置](native-run-config.png){width=500}
 
-> IntelliJ IDEA Ultimate 用户可以安装
+> IntelliJ IDEA 的 Ultimate 订阅版用户可以安装
 > [Native Debugging Support](https://plugins.jetbrains.com/plugin/12775-native-debugging-support) plugin,
 > 这个 plugin 可以调试编译后的原生可执行文件, 还可以为导入的 Kotlin/Native 项目自动创建运行配置.
 >
@@ -109,18 +108,18 @@ IntelliJ IDEA 会自动对项目执行增量构建(Incremental Build).
    ```kotlin
    kotlin {
        // ...
-       nativeTarget.apply {
+       targets.withType<KotlinNativeTarget>().configureEach {
            binaries {
                executable {
                    entryPoint = "main"
-                   runTask?.standardInput = System.`in`
+                   runTaskProvider?.configure { standardInput = System.`in` }
                }
            }
        }
        // ...
    }
    ```
-   {initial-collapse-state="collapsed" collapsible="true" collapsed-title="runTask?.standardInput = System.`in`"}
+   {initial-collapse-state="collapsed" collapsible="true" collapsed-title="runTaskProvider?.configure { standardInput = System.`in` }"}
 
 3. 删除空白字符, 计算字母数量:
 
@@ -145,7 +144,7 @@ IntelliJ IDEA 会自动对项目执行增量构建(Incremental Build).
 4. 运行应用程序.
 5. 输入你的名字, 查看结果:
 
-   ![应用程序的输出](native-output-gutter-2.png){width=422}
+   ![应用程序的输出](native-output-gutter-2.png){width=500}
 
 下面我们来计算你的名字中不重复的字母数量:
 
@@ -181,12 +180,21 @@ IntelliJ IDEA 会自动对项目执行增量构建(Incremental Build).
 3. 运行应用程序.
 4. 输入你的名字, 查看结果:
 
-   ![应用程序的输出](native-output-gutter-3.png){width=422}
+   ![应用程序的输出](native-output-gutter-3.png){width=500}
 
 ## 使用 Gradle {id="using-gradle"}
 
 在本节中, 你将学习如何使用 [Gradle](https://gradle.org), 手动创建 Kotlin/Native 应用程序.
 它是 Kotlin/Native 和 Kotlin Multiplatform 项目的默认构建系统, 也普遍使用于 Java, Android, 和其它生态系统.
+
+在构建 Kotlin/Native 项目时, Kotlin Gradle plugin 会下载以下 artifact:
+
+* Kotlin/Native 主 bundle, 包含各种工具, 例如 `konanc`, `cinterop`, 和 `jsinterop`.
+  默认情况下, Kotlin/Native bundle 会作为一个简单的 Gradle 依赖项,
+  从 [Maven Central](https://repo1.maven.org/maven2/org/jetbrains/kotlin/kotlin-native-prebuilt/) 仓库下载.
+* `konanc` 自身所需要的依赖项, 例如 `llvm`. 它们会通过自定义逻辑, 从 JetBrains CDN 下载.
+
+你可以在你的 Gradle 构建脚本的 `repositories {}` 代码段中, 修改主 bundle 的下载源.
 
 ### 创建项目文件 {id="create-project-files"}
 
@@ -200,18 +208,24 @@ IntelliJ IDEA 会自动对项目执行增量构建(Incremental Build).
 
    ```kotlin
    // build.gradle.kts
+   import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+
    plugins {
        kotlin("multiplatform") version "%kotlinVersion%"
    }
 
    repositories {
+       // 指定主 bundle 的下载源
+       // 默认使用 Maven Central
        mavenCentral()
    }
 
    kotlin {
-       macosArm64("native") {  // 用于 macOS
-       // linuxArm64("native") // 用于 Linux
-       // mingwX64("native")   // 用于 Windows
+       macosArm64()    // 用于 macOS
+       // linuxArm64() // 用于 Linux
+       // mingwX64()   // 用于 Windows
+
+       targets.withType<KotlinNativeTarget>().configureEach {
            binaries {
                executable()
            }
@@ -229,18 +243,24 @@ IntelliJ IDEA 会自动对项目执行增量构建(Incremental Build).
 
    ```groovy
    // build.gradle
+   import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+
    plugins {
        id 'org.jetbrains.kotlin.multiplatform' version '%kotlinVersion%'
    }
 
    repositories {
+       // 指定主 bundle 的下载源
+       // 默认使用 Maven Central
        mavenCentral()
    }
 
    kotlin {
-       macosArm64('native') {  // 用于 macOS
-       // linuxArm64('native') // 用于 Linux
-       // mingwX64('native')   // 用于 Windows
+       macosArm64()    // 用于 macOS
+       // linuxArm64() // 用于 Linux
+       // mingwX64()   // 用于 Windows
+
+       targets.withType(KotlinNativeTarget).configureEach {
            binaries {
                executable()
            }
@@ -256,10 +276,8 @@ IntelliJ IDEA 会自动对项目执行增量构建(Incremental Build).
    </tab>
    </tabs>
 
-   你可以使用各种 [编译目标名称](native-target-support.md), 例如 `macosArm64`, `iosArm64` `linuxArm64`,
-   和 `mingwX64`, 来定义编译你的代码所针对的目标平台.
-   这些编译目标名称接受一个可选的参数, 表示平台名称, 在这个例子中是 `native`.
-   平台名称用来生成项目中的源代码路径和 task 名.
+   你可以使用各种 [编译目标名称](native-target-support.md), 例如 `macosArm64`, `iosArm64` `linuxArm64`, 和 `mingwX64`, 来定义编译你的代码所针对的目标平台.
+   编译目标名称用来生成项目中的源代码路径和 task 名.
 
 3. 在项目目录中创建一个空的 `settings.gradle(.kts)` 文件.
 4. 创建一个 `src/nativeMain/kotlin` 目录, 将 `hello.kt` 文件放在这个目录中, 内容如下:
@@ -270,26 +288,26 @@ IntelliJ IDEA 会自动对项目执行增量构建(Incremental Build).
    }
    ```
 
-根据一般约定, 所有的源代码放在 `src/<target name>[Main|Test]/kotlin` 目录中, 其中 `Main` 放置产品代码, `Test` 放置测试代码.
-`<target name>` 对应于构建文件中指定的目标平台 (在这个示例中是, `native`).
+根据一般约定, 所有的源代码放在 `src/<platform name>[Main|Test]/kotlin` 目录中, 其中 `Main` 放置产品代码, `Test` 放置测试代码.
+在这个示例中, `<platform name>` 是 `native`.
 
 ### 构建并运行项目 {id="build-and-run-the-project"}
 
-1. 在项目的根目录中, 运行构建命令:
+1. 在项目的根目录中, 针对你的编译目标, 运行 `<yourTargetName>Binaries` 构建命令, 例如:
 
    ```bash
-   ./gradlew nativeBinaries
+   ./gradlew macosArm64Binaries
    ```
 
-   这个命令会创建 `build/bin/native` 目录, 其中包含 2 个子目录: `debugExecutable` 和 `releaseExecutable`.
+   这个命令会创建 `build/bin/<yourTargetName>` 目录, 其中包含 2 个子目录: `debugExecutable` 和 `releaseExecutable`.
    分别包含对应的二进制文件.
 
    默认情况下, 二进制文件的名称与项目目录相同.
 
-2. 要运行项目, 请执行以下命令:
+2. 要运行项目, 请针对你的编译目标, 执行 `build/bin/<yourTargetName>/debugExecutable/<project_name>.kexe` 命令, 例如:
 
    ```bash
-   build/bin/native/debugExecutable/<project_name>.kexe
+   build/bin/macosArm64/DebugExecutable/hello.kexe
    ```
 
 终端会打印输出 "Hello, Kotlin/Native!".
@@ -312,9 +330,9 @@ IntelliJ IDEA 会自动对项目执行增量构建(Incremental Build).
 
 要安装编译器:
 
-1. 访问 Kotlin 的 [GitHub 发布页面](%kotlinLatestUrl%).
+1. 访问 Kotlin 的 [GitHub 发布页面](%kotlinLatestUrl%), 并滚动到 **Assets** 部分.
 2. 寻找名称中包含 `kotlin-native` 的文件, 下载适合你的操作系统的文件,
-   例如 `kotlin-native-prebuilt-linux-x86_64-2.0.21.tar.gz`.
+   例如 `kotlin-native-prebuilt-linux-x86_64-%kotlinVersion%.tar.gz`.
 3. 在你选择的目录解开它的压缩包.
 4. 打开你的 shell 的 profile 文件, 并将编译器的 `/bin` 目录路径添加到 `PATH` 环境变量中:
 

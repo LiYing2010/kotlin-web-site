@@ -184,32 +184,19 @@ fun main() {
 ```
 
 ### 在 metadata 中写入和读取注解 {id="write-and-read-annotations-in-metadata"}
-<primary-label ref="experimental-general"/>
 
-你可以在 Kotlin metadata 中存储注解, 并使用 `kotlin-metadata-jvm` 库访问它们.
-这样就不再需要通过签名来匹配注解, 使对重载的声明的访问更加可靠.
+Kotlin 会将注解同时保存到字节码和 Kotlin metadata 中.
+如果你使用 `kotlin-metadata-jvm` 库来读取或写入注解, 你操作的是它们的 metadata 表达.
 
-要让注解在你的编译后的文件的 metadata 中可以使用, 请添加以下编译器选项:
+> Kotlin 从 2.4.0 版开始将注解保存到 Kotlin metadata 中.
+> 如果你检查使用 Kotlin 更早版本编译的类文件, 注解不会出现在 metadata 中.
+>
+{style="note"}
 
-```kotlin
--Xannotations-in-metadata
-```
+如果你修改 metadata 中的注解, 请确保它们与字节码中保存的注解保持一致.
+如果这两处的注解没有同步, 依赖于反射或字节码分析的工具, 与读取 Kotlin metadata 的工具, 二者可能会报告不同的结果.
 
-或者, 添加到你的 Gradle 构建文件的 `compilerOptions {}` 代码段:
-
-```kotlin
-// build.gradle.kts
-kotlin {
-    compilerOptions {
-        freeCompilerArgs.add("-Xannotations-in-metadata")
-    }
-}
-```
-
-当你启用这个选项时, Kotlin 编译器会将注解与 JVM 字节码一起写入 metadata,
-使 `kotlin-metadata-jvm` 库能够访问它们.
-
-这个库提供了以下 API 来访问注解:
+`kotlin-metadata-jvm` 库提供了以下 API 来访问注解:
 
 * `KmClass.annotations`
 * `KmFunction.annotations`
@@ -223,14 +210,9 @@ kotlin {
 * `KmProperty.delegateFieldAnnotations`
 * `KmEnumEntry.annotations`
 
-这些 API 是 [实验性功能](components-stability.md#stability-levels-explained).
-要选择使用者同意(Opt-in), 请使用 `@OptIn(ExperimentalAnnotationsInMetadata::class)` 注解.
-
 下面是一个从 Kotlin metadata 读取注解的示例:
 
 ```kotlin
-@file:OptIn(ExperimentalAnnotationsInMetadata::class)
-
 import kotlin.metadata.ExperimentalAnnotationsInMetadata
 import kotlin.metadata.jvm.KotlinClassMetadata
 
@@ -246,14 +228,6 @@ fun main() {
     // 输出结果为: [@Label(value = StringValue("Message class"))]
 }
 ```
-
-> 如果在你的项目中使用 `kotlin-metadata-jvm` 库, 我们推荐更新并测试你的代码, 以支持注解.
-> 否则, 如果在未来的 Kotlin 版本中, metadata 中的注解变为 [默认启用](https://youtrack.jetbrains.com/issue/KT-75736),
-> 你的项目可能会生成不正确的或不完整的 metadata.
->
-> 如果你遇到任何问题, 请报告到我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-31857).
->
-{style="warning"}
 
 ### 从字节码提取 metadata  {id="extract-metadata-from-bytecode"}
 
@@ -493,7 +467,7 @@ fun main() {
 > 
 {style="tip"}
 
-## 下一步做什么 {id="what-s-next"}
+## 下一步做什么? {id="what-s-next"}
 
 * [查看 Kotlin Metadata JVM 库的 API 参考文档](https://kotlinlang.org/api/kotlinx-metadata-jvm/).
 * [查看 Kotlin Metadata JVM 的 GitHub 代码仓库](https://github.com/JetBrains/kotlin/tree/master/libraries/kotlinx-metadata/jvm).

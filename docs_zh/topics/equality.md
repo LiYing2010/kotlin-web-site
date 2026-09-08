@@ -34,7 +34,7 @@ fun main() {
     // 输出结果为 true
 }
 ```
-{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" validate="false"}
 
 注意, 当明确地与 `null` 进行比较时, 没有必要优化代码:
 `a == null` 将会自动转换为 `a === null`.
@@ -98,7 +98,7 @@ fun main() {
     // 输出结果为 true
 }
 ```
-{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" validate="false"}
 
 对于运行时期表达为基本类型的那些值(比如, `Int`), `===` 判断等价于 `==` 判断.
 
@@ -106,7 +106,7 @@ fun main() {
 >
 {style="tip"}
 
-## 浮点数值的相等比较
+## 浮点数值的相等比较 {id="floating-point-numbers-equality"}
 
 如果相等比较的操作数类型可以静态地判定为 `Float` 或 `Double` (无论可否为 null),
 那么相等判断将使用 [IEEE 754 浮点数运算标准](https://en.wikipedia.org/wiki/IEEE_754).
@@ -119,9 +119,9 @@ fun main() {
 * `NaN` 认为大于任何其他元素 (包括 `POSITIVE_INFINITY`)
 * `-0.0` 不等于 `0.0`
 
-详情请参见: [浮点值的比较](numbers.md#floating-point-numbers-comparison).
+详情请参见: [浮点值的比较](numbers.md#floating-point-number-comparison).
 
-## 数组的相等比较
+## 数组的相等比较 {id="array-equality"}
 
 要比较两个数组是否包含相同顺序的相同元素, 请使用 [`contentEquals()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/content-equals.html).
 

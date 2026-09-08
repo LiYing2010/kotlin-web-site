@@ -56,8 +56,6 @@ fun main() {
 
 ## 嵌套的类型别名 {id="nested-type-aliases"}
 
-<primary-label ref="beta"/>
-
 在 Kotlin 中, 你可以在其他声明之内定义类型别名, 只要不从它们的外部类捕获类型参数:
 
 ```kotlin
@@ -98,22 +96,3 @@ class Graph<Node> {
   你可以在类的内部定义嵌套的类型别名, 它们会隐藏所有同名的父类型别名, 因为它们不会覆盖.
 * 嵌套的类型别名可以标注为 `internal` 或 `private`, 来限制它们的可见度.
 * Kotlin Multiplatform 的 [`expect/actual` 声明](multiplatform-expect-actual.md) 中不支持嵌套的类型别名.
-
-### 如何启用嵌套的类型别名 {id="how-to-enable-nested-type-aliases"}
-
-要在你的项目中启用嵌套的类型别名, 请在命令行中使用以下编译器选项:
-
-```bash
--Xnested-type-aliases
-```
-
-或者, 添加到你的 Gradle 构建文件的 `compilerOptions {}` 代码段:
-
-```kotlin
-// build.gradle.kts
-kotlin {
-    compilerOptions {
-        freeCompilerArgs.add("-Xnested-type-aliases")
-    }
-}
-```

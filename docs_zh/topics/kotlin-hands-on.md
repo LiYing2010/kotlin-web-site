@@ -3,11 +3,11 @@
 这里是一系列动手教程, 你可以使用 Kotlin 中各种不同的技术, 针对多种平台, 创建应用程序.
 练习题分解为一系列的步骤, 引导你完成每个步骤.
 
-## 使用 Kotlin coroutine 和 RSocket 创建响应式(Reactive) Spring Boot 应用程序 {id="building-reactive-spring-boot-applications-with-kotlin-coroutines-and-rsocket"}
+## 使用 Spring Boot 和 Kotlin 创建一个 Web 应用程序 {id="creating-a-web-app-with-spring-boot-and-kotlin"}
 
-使用 Spring Boot 和 Kotlin 创建一个简单的聊天应用程序, 从语法的角度, 学习 Kotlin 用于服务器端开发的好处.
+使用 Spring Boot 和 Kotlin 创建一个简单的带有数据库功能的应用程序, 从语法的角度, 学习 Kotlin 用于后端开发的好处.
 
-[**开始**](https://spring.io/guides/tutorials/spring-webflux-kotlin-rsocket/)
+[**开始**](jvm-get-started-spring-boot.md)
 
 ## 使用 React 和 Kotlin/JS 创建 Web 应用程序 {id="building-web-applications-with-react-and-kotlin-js"}
 
@@ -55,10 +55,10 @@
 
 学习如何使用 Kotlin Multiplatform, Ktor 以及 SQLDelight, 为 Android 和 iOS 创建移动应用程序.
 
-[**开始**](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-ktor-sqldelight.html)
+[**开始**](https://kotlinlang.org/docs/multiplatform/multiplatform-ktor-sqldelight.html)
 
 ## 使用 Kotlin Multiplatform 针对 iOS 和 Android 平台的开发 {id="targeting-ios-and-android-with-kotlin-multiplatform"}
 
 学习如何使用 Kotlin Multiplatform 创建移动应用程序, 能够同时在 iOS 和 Android 上运行.
 
-[**开始**](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-create-first-app.html)
+[**开始**](https://kotlinlang.org/docs/multiplatform/multiplatform-create-first-app.html)

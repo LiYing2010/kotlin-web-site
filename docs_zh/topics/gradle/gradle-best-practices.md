@@ -23,7 +23,7 @@
 使用 `libs.versions.toml` 文件中的版本目录, 集中管理依赖项.
 这样你就可以在整个项目中, 一致的定义和重用版本, 库, 以及 plugin.
 
-```kotlin
+```toml
 [versions]
 kotlinxCoroutines = "%coroutinesVersion%"
 
@@ -46,11 +46,11 @@ dependencies {
 <primary-label ref="advanced"/>
 
 使用约定 plugin, 在多个构建文件中封装和重用共通的构建逻辑.
-Moving a shared 配置 into a plugin helps simplify and modularize 你的 构建 脚本.
+把共用的配置移动到 plugin 内, 有助于简化和模块化你的构建脚本.
 
 尽管初期设置可能会很耗时, 但完成之后, 维护和添加新的构建逻辑会很容易.
 
-详情请参见 Gradle 文档: [约定 plugin](https://docs.gradle.org/current/userguide/custom_plugins.html#sec:convention_plugins).
+详情请参见 Gradle 文档: [约定 plugin](https://docs.gradle.org/current/userguide/plugins.html#sec:convention_plugins).
 
 ## 优化 {id="optimize"}
 
@@ -66,14 +66,18 @@ Moving a shared 配置 into a plugin helps simplify and modularize 你的 构建
 
 > 配置缓存目前还不支持所有的核心 Gradle plugin.
 > 最新信息请参见 Gradle 文档:
-> [支持的 plugin 列表](https://docs.gradle.org/current/userguide/configuration_cache.html#config_cache:plugins:core).
+> [支持的 plugin 列表](https://docs.gradle.org/current/userguide/configuration_cache_status.html#config_cache:plugins:core).
 >
 {style="note"}
 
 使用配置缓存, 可以缓存配置阶段的结果, 并在之后的构建中重用, 这样能够显著改善构建性能.
 如果 Gradle 检测到构建配置或相关的依赖项没有变化, 它会跳过配置阶段.
 
-详情请参见 Gradle 文档: [配置缓存](https://docs.gradle.org/current/userguide/configuration_cache.html).
+配置缓存还可以在单个项目中并行执行独立的任务, 这样可以进一步改善构建性能.
+此外, 它还会隐含的启用 `org.gradle.parallel` 属性, 允许跨越多个项目的任务
+[并行执行](https://docs.gradle.org/current/userguide/performance.html#sec:enable_parallel_execution).
+
+关于配置缓存, 更多详情请参见 [Gradle 文档](https://docs.gradle.org/current/userguide/configuration_cache.html).
 
 ### 对多编译目标改善构建时间 {id="improve-build-times-for-multiple-targets"}
 

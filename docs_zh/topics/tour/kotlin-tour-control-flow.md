@@ -14,7 +14,7 @@
 这样的代码片段称为 **条件表达式**.
 Kotlin 还能够创建循环, 并在循环上迭代.
 
-## 条件表达式
+## 条件表达式 {id="conditional-expressions"}
 
 Kotlin 提供了 `if` 和 `when` 来检测条件表达式.
 
@@ -26,7 +26,7 @@ Kotlin 提供了 `if` 和 `when` 来检测条件表达式.
 >
 {style="note"}
 
-### If
+### If {id="if"}
 
 要使用 `if`, 请将条件表达式放在小括号 `()` 之内, 当调节表达式的结果为 true 时要做的操作放在大括号 `{}` 之内:
 
@@ -65,7 +65,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-if-expression"}
 
-### When
+### When {id="when"}
 
 如果你的条件表达式存在多个分支, 请使用 `when`.
 
@@ -173,7 +173,7 @@ fun main() {
 当你对 `when` 表达式使用判定对象时, 也有助于 Kotlin 检查是否覆盖了所有的可能情况.
 否则, 如果你对 `when` 表达式不使用判定对象, 你就需要添加一个 else 分支.
 
-## 条件表达式的实际练习
+## 条件表达式的实际练习 {id="conditional-expressions-practice"}
 
 ### 习题 1 {initial-collapse-state="collapsed" collapsible="true" id="conditional-expressions-exercise-1"}
 
@@ -260,7 +260,7 @@ fun main() {
 ```
 {initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-control-flow-conditional-solution-2"}
 
-## 值范围
+## 值范围 {id="ranges"}
 
 在讨论循环之前, 有必要了解如何构造一个作为循环迭代对象的值范围.
 
@@ -270,10 +270,10 @@ fun main() {
 要声明一个值范围, 不包含它的终端值, 请使用 `..<` 操作符.
 例如, `1..<4` 相当于 `1, 2, 3`.
 
-要声明一个相反顺序的值范围, 请使用 `downTo`.
+要声明一个相反顺序的值范围, 请使用 [`downTo`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.ranges/down-to.html).
 例如, `4 downTo 1` 相当于 `4, 3, 2, 1`.
 
-要声明一个值范围, 递增步长不为 1, 请使用 `step` 指定你希望的递增步长值.
+要声明一个值范围, 递增步长不为 1, 请使用 [`step`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.ranges/step.html) 指定你希望的递增步长值.
 例如, `1..5 step 2` 相当于 `1, 3, 5`.
 
 你也可以对 `Char` 的值范围进行相同的操作:
@@ -281,13 +281,13 @@ fun main() {
 * `'a'..'d'` 相当于 `'a', 'b', 'c', 'd'`
 * `'z' downTo 's' step 2` 相当于 `'z', 'x', 'v', 't'`
 
-## 循环
+## 循环 {id="loops"}
 
 在编程中两种最常见的循环结构是 `for` 和 `while`.
 使用 `for` 可以对一个值范围进行遍历, 并执行某个操作.
 使用 `while` 可以反复执行某个操作, 直到满足某个条件为止.
 
-### for
+### for {id="for"}
 
 使用关于值范围的新知识, 你可以创建一个 `for` 循环, 对数字 1 到 5 进行遍历, 并打印每个数字.
 
@@ -325,7 +325,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-for-collection-loop"}
 
-### while
+### while {id="while"}
 
 `while` 有两种使用方式:
 
@@ -391,7 +391,7 @@ fun main() {
 
 现在你已经直到了 Kotlin 控制流的基本知识, 下面我们来学习如何编写你自己的 [函数](kotlin-tour-functions.md).
 
-## 循环的实际练习
+## 循环的实际练习 {id="loops-practice"}
 
 ### 习题 1 {initial-collapse-state="collapsed" collapsible="true" id="loops-exercise-1"}
 
@@ -533,6 +533,6 @@ fun main() {
 ```
 {initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-control-flow-loops-solution-3"}
 
-## 下一步
+## 下一步 {id="next-step"}
 
 [函数](kotlin-tour-functions.md)

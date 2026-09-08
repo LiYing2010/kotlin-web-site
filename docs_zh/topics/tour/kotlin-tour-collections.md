@@ -23,7 +23,7 @@ Kotlin 有以下集合来组织数据元素:
 
 每个集合类型都可以是可变的, 或只读的.
 
-## List
+## List {id="list"}
 
 列表按照元素添加的顺序保存它们, 而且允许重复的元素.
 
@@ -147,7 +147,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-list-add-remove"}
 
-## Set
+## Set {id="set"}
 
 List 包含有顺序的元素, 并且允许元素重复, Set 则是 **无顺序的**, 并且只保存 **唯一的** 元素.
 
@@ -234,7 +234,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-set-add-remove"}
 
-## Map
+## Map {id="map"}
 
 Map 将元素保存为键值对(key-value pair). 你通过引用键(Key)来访问值(Value).
 你可以将 Map 想象为好像一个食品菜单.
@@ -422,9 +422,9 @@ fun main() {
 
 现在你已经知道了基本类型, 以及如何管理集合, 下面我们来看看在你的程序中能够使用的 [控制流](kotlin-tour-control-flow.md).
 
-## 实际练习
+## 实际练习 {id="practice"}
 
-### 习题 1 {initial-collapse-state="collapsed" collapsible="true"}
+### 习题 1 {id="exercise-1" initial-collapse-state="collapsed" collapsible="true"}
 
 你有一个 “绿色” 数字的 List, 和一个 “红色” 数字的 List.
 完成下面的代码, 打印这两个 List 中总共有多少个数字.
@@ -450,7 +450,7 @@ fun main() {
 ```
 {initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-collections-solution-1"}
 
-### 习题 2 {initial-collapse-state="collapsed" collapsible="true"}
+### 习题 2 {id="exercise-2" initial-collapse-state="collapsed" collapsible="true"}
 
 你有一个 Set, 其中包含你的服务器支持的协议. 一个用户要求使用某个协议.
 完成下面的程序, 检查用户要求使用的协议是否支持 (`isSupported` 必须是 Boolean 值).
@@ -483,7 +483,7 @@ fun main() {
 ```
 {initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-collections-solution-2"}
 
-### 习题 3 {initial-collapse-state="collapsed" collapsible="true"}
+### 习题 3 {id="exercise-3" initial-collapse-state="collapsed" collapsible="true"}
 
 定义一个 Map, 将 1 到 3 的数字对应到它们的拼写.
 使用这个 Map 来拼写指定的数字.
@@ -492,7 +492,7 @@ fun main() {
 fun main() {
     val number2word = // 在这里编写你的代码
     val n = 2
-    println("$n is spelt as '${< 在这里编写你的代码 >}'")
+    println("$n is spelled as '${< 在这里编写你的代码 >}'")
 }
 ```
 {validate="false" kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-collections-exercise-3"}
@@ -502,11 +502,11 @@ fun main() {
 fun main() {
     val number2word = mapOf(1 to "one", 2 to "two", 3 to "three")
     val n = 2
-    println("$n is spelt as '${number2word[n]}'")
+    println("$n is spelled as '${number2word[n]}'")
 }
 ```
 {initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-collections-solution-3"}
 
-## 下一步
+## 下一步 {id="next-step"}
 
 [控制流](kotlin-tour-control-flow.md)

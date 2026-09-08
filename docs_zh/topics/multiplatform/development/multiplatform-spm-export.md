@@ -10,7 +10,7 @@
 [选择最适合你的集成方法](multiplatform-ios-integration-overview.md)
 </tldr>
 
-你可以将 Kotlin/Native 对 Apple 编译目标的输出, 设置为可以作为 Swift 包管理器 (Swift Package Manager, SPM) 依赖项来使用.
+你可以将 Kotlin/Native 对 Apple 编译目标的输出, 设置为可以作为 Swift 包管理器 (Swift Package Manager, SwiftPM) 依赖项来使用.
 
 例如, 有一个 Kotlin Multiplatform 项目, 带有 iOS 编译目标.
 你可能想要让这个 iOS 二进制文件, 可以在 iOS 开发者的原生 Swift 项目中作为依赖项使用.
@@ -18,7 +18,7 @@
 
 本教程演示如何使用 Kotlin Gradle plugin 构建 [XCFrameworks](multiplatform-build-native-binaries.md#build-xcframeworks) 来实现这样的功能.
 
-## 设置远程集成
+## 设置远程集成 {id="set-up-remote-integration"}
 
 要让你的框架可供别人使用, 你需要上传 2 个文件:
 
@@ -27,7 +27,7 @@
   请选择最容易与你的工作流程集成的方案.
 * 描述包的 `Package.swift` 文件. 你需要将它推送到一个单独的 Git 仓库.
 
-#### 项目配置选项 {initial-collapse-state="collapsed" collapsible="true"}
+#### 项目配置选项 {id="project-configuration-options" initial-collapse-state="collapsed" collapsible="true"}
 
 在本教程中, 你会将你的 XCFramework 作为一个二进制文件, 存储到你的喜欢的文件存储器中,
 并将 `Package.swift` 文件存储到一个单独的 Git 仓库中.
@@ -39,17 +39,17 @@
   这是我们推荐的方案: 它能够扩展, 而且通常更易于维护.
 * 将 `Package.swift` 文件和你的 Kotlin Multiplatform 代码放在一起.
   这是更加直接的方案, 但请注意, 在这种情况下, Swift 包和代码将使用相同的版本.
-  SPM 使用 Git tag 来确定包的版本, 可以与你的项目使用的 tag 发生冲突.
+  SwiftPM 使用 Git tag 来确定包的版本, 可以与你的项目使用的 tag 发生冲突.
 * 将 `Package.swift` 文件放在消费者项目的仓库中.
   这种方法有助于避免版本控制和维护方面的问题.
-  但是, 这种方法可能导致消费者项目中与多仓库 SPM 设置的问题, 以及进一步自动化的问题:
+  但是, 这种方法可能导致消费者项目中与多仓库 SwiftPM 设置的问题, 以及进一步自动化的问题:
 
   * 在一个包含多个包的项目中, 只有一个消费者包可以依赖外部模块 (以避免项目内的依赖项冲突).
     因此, 依赖于你的 Kotlin Multiplatform 模块的全部逻辑 都应该封装在一个特定的消费者包中.
   * 如果你使用自动化的 CI 过程来发布 Kotlin Multiplatform 项目, 这个 CI 过程需要包括将更新后的 `Package.swift` 文件发布到消费者仓库.
     这可能导致发生消费者仓库更新冲突, 因此 CI 中的这个阶段可能会难以维护.
 
-### 配置你的跨平台项目
+### 配置你的跨平台项目 {id="configure-your-multiplatform-project"}
 
 在下面的示例中, Kotlin Multiplatform 项目中的共用的代码保存在本地的 `shared` 模块中.
 如果你的项目结构不同, 请将示例代码中的 "shared" 和示例路径替换为你的模块的名称.
@@ -69,7 +69,6 @@
        val xcf = XCFramework(xcframeworkName)
 
        listOf(
-           iosX64(),
            iosArm64(),
            iosSimulatorArm64(),
        ).forEach { 
@@ -97,10 +96,10 @@
    > 如果你使用 Compose Multiplatform 项目, 请使用下面的 Gradle task:
    >
    > ```shell
-   > ./gradlew :composeApp:assembleSharedXCFramework
+   > ./gradlew :sharedUI:assembleSharedXCFramework
    > ```
    >
-   > 你可以在 `composeApp/build/XCFrameworks/release/Shared.xcframework` 文件夹中找到产生的框架.
+   > 你可以在 `sharedUI/build/XCFrameworks/release/Shared.xcframework` 文件夹中找到产生的框架.
    >
    {style="tip"}
 
@@ -173,26 +172,26 @@
 
 7. 将 `Package.swift` 文件推送到你的远程仓库. 要确保创建并推送一个表示包的语义版本的 Git tag.
 
-### 添加包依赖项
+### 添加包依赖项 {id="add-the-package-dependency"}
 
 现在这两个文件都可以访问了, 你可以将你创建的包作为依赖项添加到既有的客户端 iOS 项目, 也可以创建新的项目.
 要添加包的依赖项, 请执行以下步骤:
 
 1. 在 Xcode 中, 选择 **File | Add Package Dependencies**.
-2. 在 search 栏, 输入包含 `Package.swift` 文件的 Git 仓库的 URL:
+2. 在 Search 栏, 输入包含 `Package.swift` 文件的 Git 仓库的 URL:
 
    ![指定包含包文件的仓库](multiplatform-spm-url.png)
 
-3. 按下 **Add package** 按钮, 然后为包选择产品和对应的编译目标.
+3. 点击 **Add package** 按钮, 然后为包选择产品和对应的编译目标.
 
-   > 如果你在创建 Swift 包, 对话框会和上面不同. 这种情况下, 请按下 **Copy package** 按钮.
+   > 如果你在创建 Swift 包, 对话框会和上面不同. 这种情况下, 请点击 **Copy package** 按钮.
    > 这样会将 `.package` 复制到你的剪贴板. 请将这行内容粘贴到你的自己的 `Package.swift` 文件的
    > [Package.Dependency](https://developer.apple.com/documentation/packagedescription/package/dependency) 代码块中,
    > 并向适当的 `Target.Dependency` 代码块添加必要的产品.
    >
    {style="tip"}
 
-### 检查你的设置
+### 检查你的设置 {id="check-your-setup"}
 
 要检查设置是否正确, 请在 Xcode 中测试导入:
 
@@ -224,7 +223,7 @@
 
 3. 确认预览被更新为新的文本.
 
-## 将多个模块导出为一个 XCFramework
+## 将多个模块导出为一个 XCFramework {id="exporting-multiple-modules-as-an-xcframework"}
 
 要让多个 Kotlin Multiplatform 模块的代码能够作为一个 iOS 二进制文件使用, 请将这些模块结合为一个总体模块(Umbrella Module).
 然后, 构建并导出这个总体模块(Umbrella Module)的 XCFramework.
@@ -239,7 +238,6 @@
         val xcf = XCFramework(frameworkName)
 
         listOf(
-            iosX64(),
             iosArm64(),
             iosSimulatorArm64()
         ).forEach { iosTarget ->
@@ -268,11 +266,10 @@
 
     ```kotlin
     kotlin {
-        androidTarget {
+        android {
             // ...
         }
 
-        iosX64()
         iosArm64()
         iosSimulatorArm64()
 

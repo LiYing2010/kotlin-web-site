@@ -22,7 +22,7 @@ fun demo(source: List<Int>) {
 }
 ```
 
-## Get 和 Set 方法
+## Get 和 Set 方法 {id="getters-and-setters"}
 
 符合 Java 的 Get 和 Set 方法规约的方法(无参数, 名称以 `get` 开头, 或单个参数, 名称以 `set` 开头) 在 Kotlin 中会被识别为属性.
 这些属性也被称为 _合成属性(Synthetic Property)_.
@@ -48,7 +48,7 @@ fun calendarDemo() {
 注意, 如果 Java 类中只有 set 方法, 那么在 Kotlin 中不会被识别为属性,
 因为 Kotlin 不支持只写(set-only) 的属性.
 
-## Java 合成属性(Synthetic Property)的引用
+## Java 合成属性(Synthetic Property)的引用 {id="java-synthetic-property-references"}
 
 > 这个功能是 [实验性功能](components-stability.md#stability-levels-explained).
 > 它随时有可能变更或被删除.
@@ -129,13 +129,13 @@ tasks
 >
 {style="note"}
 
-## 返回值为 void 的方法
+## 返回值为 void 的方法 {id="methods-returning-void"}
 
 如果一个 Java 方法返回值为 `void`, 那么在 Kotlin 中调用时将返回 `Unit`.
 如果, 在 Kotlin 中使用了返回值, 那么会由 Kotlin 编译器在调用处赋值,
 因为返回值已经预先知道了(等于 `Unit`).
 
-## 当 Java 标识符与 Kotlin 关键字重名时的转义处理
+## 当 Java 标识符与 Kotlin 关键字重名时的转义处理 {id="escaping-for-java-identifiers-that-are-keywords-in-kotlin"}
 
 某些 Kotlin 关键字在 Java 中是合法的标识符: `in`, `object`, `is`, 等等.
 如果 Java 类库中使用 Kotlin 的关键字作为方法名, 你仍然可以调用这个方法,
@@ -185,14 +185,14 @@ val notNull: String = item // 允许, 但在运行时刻可能失败
 总之, 编译器会尽可能地防止 null 值错误在程序中扩散,
 然而, 有些时候由于泛型的存在, 不可能完全消除这种错误.
 
-### 对平台数据类型的注解
+### 对平台数据类型的表示法 {id="notation-for-platform-types"}
 
 上文中我们提到, 平台数据类型无法在程序中明确指出, 因此在 Kotlin 语言中没有专门的语法来表示这种类型.
 然而, 有时编译器和 IDE 仍然需要表示这些类型(比如, 在错误消息中, 在参数信息中),
-因此, 有一种助记用的注解:
+因此, 有一种助记用的表示法:
 
 * `T!` 代表 "`T` 或者 `T?`",
-* `(Mutable)Collection<T>!` 代表 "元素类型为 `T` 的Java 集合, 内容可能可变, 也可能不可变, 值可能允许为 null, 也可能不允许为 null",
+* `(Mutable)Collection<T>!` 代表 "元素类型为 `T` 的 Java 集合, 内容可能可变, 也可能不可变, 值可能允许为 null, 也可能不允许为 null",
 * `Array<(out) T>!` 代表 "元素类型为 `T` (或 `T` 的子类型)的 Java 数组, 值可能允许为 null, 也可能不允许为 null"
 
 ### 可否为 null(Nullability) 注解 {id="nullability-annotations"}
@@ -203,26 +203,52 @@ val notNull: String = item // 允许, 但在运行时刻可能失败
 
   * [JetBrain](https://www.jetbrains.com/idea/help/nullable-and-notnull-annotations.html)
     (`org.jetbrains.annotations` 包中定义的 `@Nullable` 和 `@NotNull` 注解)
-  * [JSpecify](https://jspecify.dev/) (`org.jspecify.annotations`)
+  * [JSpecify](#jspecify-support) (`org.jspecify.annotations`)
   * Android (`com.android.annotations` 和 `android.support.annotations`)
-  * JSR-305 (`javax.annotation`, 详情请参见下文)
+  * [JSR-305](#jsr-305-support) (`javax.annotation`)
   * FindBugs (`edu.umd.cs.findbugs.annotations`)
   * Eclipse (`org.eclipse.jdt.annotation`)
-  * Lombok (`lombok.NonNull`)
+  * [Lombok](lombok.md) (`lombok.NonNull`)
   * RxJava 3 (`io.reactivex.rxjava3.annotations`)
+  * [Vert.x](https://vertx.io/) (`io.vertx.codegen.annotations`)
 
-根据指定的可否为 null(Nullability) 注解信息, 编译器可以发现可否为 null(Nullability) 的设定不匹配错误,
-你可以指定编译器是否报告这种错误.
-请使用编译器选项 `-Xnullability-annotations=@<package-name>:<report-level>`.
-在选项的参数中, 请指定可否为 null(Nullability) 注解的完整限定包名称, 以及以下错误报告等级:
+你可以使用以下编译器选项, 让编译器对指定的可否为 null(Nullability) 注解, 报告可否为 null(Nullability) 的设定不匹配错误:
+
+```bash
+-Xnullability-annotations=@<package-name>:<report-level>
+``` 
+
+指定可否为 null(Nullability) 注解的完整限定包名称, 以及以下错误报告等级:
+
 * `ignore`, 忽略可否为 null(Nullability) 设定的不匹配错误
 * `warn`, 报告为警告 to report warnings
 * `strict`, 报告为错误.
 
-Koltin 支持的可否为 null(Nullability) 注解的完整列表请参见
-[Kotlin 编译器源代码](https://github.com/JetBrains/kotlin/blob/master/core/compiler.common.jvm/src/org/jetbrains/kotlin/load/java/JvmAnnotationNames.kt).
+> [JSpecify](#jspecify-support) 是支持的变体中, 唯一默认使用 `strict` 报告等级的.
+> 使用它时, 会对可否为 null(Nullability) 注解报告错误, 不需要额外配置.
+>
+{style="note"}
 
-### 对类型参数添加注解
+Kotlin 支持的可否为 null(Nullability) 注解的完整列表,
+请参见 [Kotlin 编译器源代码](https://github.com/JetBrains/kotlin/blob/master/core/compiler.common.jvm/src/org/jetbrains/kotlin/load/java/JvmAnnotationNames.kt).
+
+### 可变性(Mutability)注解 {id="mutability-annotations"}
+
+你可以对 Java 声明添加可变性(Mutability)注解, 指定返回的集合在 Kotlin 中是只读的还是可变的.
+如果你把这个值赋值给具有不同可变性的集合类型, 编译器会报告类型不匹配错误.
+这个诊断信息的严重程度取决于具体的可变性注解.
+
+编译器支持几种可变性注解, 包括:
+
+* `kotlin.annotations.jvm.ReadOnly`
+* `kotlin.annotations.jvm.Mutable`
+* `org.jetbrains.annotations.Unmodifiable`
+* `org.jetbrains.annotations.UnmodifiableView`
+
+支持的可变性注解的完整列表,
+请参见 [Kotlin 编译器源代码](https://github.com/JetBrains/kotlin/blob/master/core/compiler.common.jvm/src/org/jetbrains/kotlin/load/java/JvmAnnotationNames.kt).
+
+### 对类型参数添加注解 {id="annotating-type-arguments-and-type-parameters"}
 
 你也可以对泛型类型参数的实参(Type argument)和形参(Type parameter)添加注解, 标记它可否为 null.
 
@@ -230,7 +256,7 @@ Koltin 支持的可否为 null(Nullability) 注解的完整列表请参见
 >
 {style="note"}
 
-#### 类型参数实参(Type argument)
+#### 类型参数实参(Type Argument) {id="type-arguments"}
 
 比如, 在 Java 中添加这些注解:
 
@@ -251,7 +277,7 @@ fun toSet(elements: (Mutable)Collection<String>) : (Mutable)Set<String> { ... }
 fun toSet(elements: (Mutable)Collection<String!>) : (Mutable)Set<String!> { ... }
 ```
 
-Kotlin 还会考虑基类和接口的类型参数上的 可否为 null 注解.
+Kotlin 还会考虑基类和接口的类型参数上的可否为 null 注解.
 比如, 有 2 个 Java 类, 定义如下:
 
 ```java
@@ -276,10 +302,10 @@ fun main() {
 
 更多详情请参考 [在 Kotlin 中使用 Java 的泛型](#java-generics-in-kotlin).
 
-#### 类型参数形参(Type parameter)
+#### 类型参数形参(Type Parameter) {id="type-parameters"}
 
-默认情况下, 通常的类型参数形参(Type parameter)可否为 null, 在 Kotlin 和 Java 中都没有定义.
-在 Java 中, 你可以使用 可否为 null 注解来指定.
+默认情况下, 通常的类型参数形参(Type Parameter)可否为 null, 在 Kotlin 和 Java 中都没有定义.
+在 Java 中, 你可以使用可否为 null 注解来指定.
 我们来为 `Base` 类的类型参数形参添加注解:
 
 ```java
@@ -320,7 +346,65 @@ class BaseWithBound<T : Number> {}
 >
 {style="note"}
 
-### 对 JSR-305 规范的支持
+### 对 JSpecify 的支持 {id="jspecify-support"}
+
+Kotlin 支持 [JSpecify](https://jspecify.dev/) 可否为 null 注解, 这是一组统一的 Java 可否为 null 注解.
+JSpecify 让你能够对 Java 声明提供详细的可否为 null 信息, 帮助 Kotlin 在与 Java 代码交互时保持 null 值安全性.
+
+Kotlin 支持 `org.jspecify.annotations` 包中的以下注解:
+
+* `@Nullable`, 标记一个类型可以为 null.
+* `@NonNull`, 标记一个类型不为 null.
+* `@NullMarked`, 将一个范围(例如一个类或一个包)内的所有类型, 标记为默认不为 null, 除非有其它注解.
+
+  这个注解不适用于局部变量和 [类型变量 (范型)](https://jspecify.dev/docs/user-guide/#using-type-variables-in-generic-types).
+  在提供具体的可为 null 或不可为 null 类型之前, 类型变量保持 "不知是否为 null" 状态.
+
+* `@NullUnmarked`, 反转 `@NullMarked` 的效果, 将一个范围内的所有类型, 标记为 [平台类型](#null-safety-and-platform-types).
+
+请看以下带有 JSpecify 注解的 Java 类:
+
+```java
+// Java
+import org.jspecify.annotations.*;
+
+@NullMarked
+public class InventoryService {
+    public String notNull() { return ""; }
+    public @Nullable String nullable() { return null; }
+}
+```
+
+在 Kotlin 中, 这些类型会被当作通常的可为 null 和不可为 null 类型, 而不是 [平台类型](#null-safety-and-platform-types):
+
+```kotlin
+// Kotlin
+fun test(inventory: InventoryService) {
+   inventory.notNull().length // OK
+   inventory.nullable().length // 错误: 只能使用安全调用 (?.) 或非 null 断言调用 (!!)
+}
+```
+
+默认情况下, Kotlin 编译器对 JSpecify 注解的可否为 null 不匹配, 报告为错误.
+你可以使用以下编译器选项, 自定义 JSpecify 可否为 null 诊断的严重等级:
+
+```bash
+-Xjspecify-annotations=<report-level>
+```
+
+可用的报告等级是:
+
+| 等级       | 描述                        |
+|----------|---------------------------|
+| `strict` | 对可否为 null 不匹配报告错误 (默认设定). |
+| `warn`   | 报告警告.                     |
+| `ignore` | 忽略可否为 null 不匹配.           |
+
+> 关于 JSpecify 注解, 详情请参见 [JSpecify 用户指南](https://jspecify.dev/docs/user-guide).
+>
+{type="tip"}
+
+### 对 JSR-305 规范的支持 {id="jsr-305-support"}
 
 [JSR-305 规范](https://jcp.org/en/jsr/detail?id=305) 中定义了
 [`@Nonnull`](https://www.javadoc.io/doc/com.google.code.findbugs/jsr305/latest/javax/annotation/Nonnull.html) 注解.
@@ -336,7 +420,7 @@ Kotlin 编译器可以从库中读取 JSR-305 规范的注解, 而不需要这�
 此外还支持 [自定义可空限定符 (KEEP-79)](https://github.com/Kotlin/KEEP/blob/master/proposals/jsr-305-custom-nullability-qualifiers.md)
 (详情请见下文).
 
-#### 类型限定符别名(Type qualifier nickname)
+#### 类型限定符别名(Type Qualifier Nickname) {id="type-qualifier-nicknames"}
 
 如果一个注解, 同时标注了
 [`@TypeQualifierNickname`](https://www.javadoc.io/doc/com.google.code.findbugs/jsr305/latest/javax/annotation/meta/TypeQualifierNickname.html)
@@ -365,7 +449,7 @@ interface A {
 }
 ```
 
-#### 类型限定符默认值(Type qualifier default)
+#### 类型限定符默认值(Type Qualifier Default) {id="type-qualifier-defaults"}
 
 [`@TypeQualifierDefault`](https://www.javadoc.io/doc/com.google.code.findbugs/jsr305/latest/javax/annotation/meta/TypeQualifierDefault.html)
 用来定义一个注解, 当使用这个注解时, 可以在被标注的元素的范围内, 定义默认的可否为 null 设定.
@@ -466,7 +550,7 @@ public class Test {}
 * `-Xjsr305={strict|warn|ignore}` 用来设置非 `@UnderMigration` 注解的行为.
 自定义的可否为空注解, 尤其是 `@TypeQualifierDefault`, 已经大量出现在很多知名的库中,
 当使用者升级到支持 JSR-305 Kotlin 版本时, 可能会需要平滑地迁移这些库.
-从 Kotlin 1.1.60 开始, 这个设置值影响 非 `@UnderMigration` 的注解.
+从 Kotlin 1.1.60 开始, 这个设置值影响非 `@UnderMigration` 的注解.
 
 * `-Xjsr305=under-migration:{strict|warn|ignore}` 用来覆盖 `@UnderMigration` 注解的行为.
 对于库的迁移状态, 库的使用者可能会存在不用的看法:
@@ -501,16 +585,16 @@ Kotlin 会对某些 Java 类型进行特殊处理. 这些类型会被从 Java �
 映射过程只会在编译时发生, 运行时的数据表达不会发生变化.
 Java 的基本数据类型会被映射为对应的 Kotlin 类型(但请注意 [平台数据类型](#null-safety-and-platform-types) 问题):
 
-| **Java 类型** | **Kotlin 类型**  |
-|---------------|------------------|
-| `byte`        | `kotlin.Byte`    |
-| `short`       | `kotlin.Short`   |
-| `int`         | `kotlin.Int`     |
-| `long`        | `kotlin.Long`    |
-| `char`        | `kotlin.Char`    |
-| `float`       | `kotlin.Float`   |
-| `double`      | `kotlin.Double`  |
-| `boolean`     | `kotlin.Boolean` |
+| **Java 类型** | **Kotlin 类型**    |
+|-------------|------------------|
+| `byte`      | `kotlin.Byte`    |
+| `short`     | `kotlin.Short`   |
+| `int`       | `kotlin.Int`     |
+| `long`      | `kotlin.Long`    |
+| `char`      | `kotlin.Char`    |
+| `float`     | `kotlin.Float`   |
+| `double`    | `kotlin.Double`  |
+| `boolean`   | `kotlin.Boolean` |
 
 有些内建类虽然不是基本类型, 也会被映射为对应的 Kotlin 类型:
 
@@ -528,16 +612,16 @@ Java 的基本数据类型会被映射为对应的 Kotlin 类型(但请注意 [�
 
 Java 中的装箱的基本类型(boxed primitive type), 会被映射为 Kotlin 的可为 null 类型:
 
-| **Java 类型**           | **Kotlin 类型**  |
-|-------------------------|------------------|
-| `java.lang.Byte`        | `kotlin.Byte?`   |
-| `java.lang.Short`       | `kotlin.Short?`  |
-| `java.lang.Integer`     | `kotlin.Int?`    |
-| `java.lang.Long`        | `kotlin.Long?`   |
-| `java.lang.Character`   | `kotlin.Char?`   |
-| `java.lang.Float`       | `kotlin.Float?`  |
-| `java.lang.Double`      | `kotlin.Double?`  |
-| `java.lang.Boolean`     | `kotlin.Boolean?` |
+| **Java 类型**           | **Kotlin 类型**     |
+|-----------------------|-------------------|
+| `java.lang.Byte`      | `kotlin.Byte?`    |
+| `java.lang.Short`     | `kotlin.Short?`   |
+| `java.lang.Integer`   | `kotlin.Int?`     |
+| `java.lang.Long`      | `kotlin.Long?`    |
+| `java.lang.Character` | `kotlin.Char?`    |
+| `java.lang.Float`     | `kotlin.Float?`   |
+| `java.lang.Double`    | `kotlin.Double?`  |
+| `java.lang.Boolean`   | `kotlin.Boolean?` |
 
 注意, 装箱的基本类型用作类型参数时, 会被映射为平台类型:
 比如, `List<java.lang.Integer>` 在 Kotlin 中会变为 `List<Int!>`.
@@ -545,16 +629,16 @@ Java 中的装箱的基本类型(boxed primitive type), 会被映射为 Kotlin �
 集合类型在 Kotlin 中可能是只读的, 也可能是内容可变的,
 因此 Java 的集合会被映射为以下类型(下表中所有的 Kotlin 类型都属于 `kotlin.collections` 包):
 
-| **Java 类型** | **Kotlin 只读类型**  | **Kotlin 内容可变类型** | **被装载的平台数据类型** |
-|---------------|----------------------------|-------------------------|--------------------------|
-| `Iterator<T>`        | `Iterator<T>`        | `MutableIterator<T>`            | `(Mutable)Iterator<T>!`            |
-| `Iterable<T>`        | `Iterable<T>`        | `MutableIterable<T>`            | `(Mutable)Iterable<T>!`            |
-| `Collection<T>`      | `Collection<T>`      | `MutableCollection<T>`          | `(Mutable)Collection<T>!`          |
-| `Set<T>`             | `Set<T>`             | `MutableSet<T>`                 | `(Mutable)Set<T>!`                 |
-| `List<T>`            | `List<T>`            | `MutableList<T>`                | `(Mutable)List<T>!`                |
-| `ListIterator<T>`    | `ListIterator<T>`    | `MutableListIterator<T>`        | `(Mutable)ListIterator<T>!`        |
-| `Map<K, V>`          | `Map<K, V>`          | `MutableMap<K, V>`              | `(Mutable)Map<K, V>!`              |
-| `Map.Entry<K, V>`    | `Map.Entry<K, V>`    | `MutableMap.MutableEntry<K,V>` | `(Mutable)Map.(Mutable)Entry<K, V>!` |
+| **Java 类型**       | **Kotlin 只读类型**   | **Kotlin 内容可变类型**              | **被装载的平台数据类型**                       |
+|-------------------|-------------------|--------------------------------|--------------------------------------|
+| `Iterator<T>`     | `Iterator<T>`     | `MutableIterator<T>`           | `(Mutable)Iterator<T>!`              |
+| `Iterable<T>`     | `Iterable<T>`     | `MutableIterable<T>`           | `(Mutable)Iterable<T>!`              |
+| `Collection<T>`   | `Collection<T>`   | `MutableCollection<T>`         | `(Mutable)Collection<T>!`            |
+| `Set<T>`          | `Set<T>`          | `MutableSet<T>`                | `(Mutable)Set<T>!`                   |
+| `List<T>`         | `List<T>`         | `MutableList<T>`               | `(Mutable)List<T>!`                  |
+| `ListIterator<T>` | `ListIterator<T>` | `MutableListIterator<T>`       | `(Mutable)ListIterator<T>!`          |
+| `Map<K, V>`       | `Map<K, V>`       | `MutableMap<K, V>`             | `(Mutable)Map<K, V>!`                |
+| `Map.Entry<K, V>` | `Map.Entry<K, V>` | `MutableMap.MutableEntry<K,V>` | `(Mutable)Map.(Mutable)Entry<K, V>!` |
 
 Java 数据的映射如下, 详情参见 [下文](#java-arrays):
 
@@ -647,7 +731,7 @@ if (i in array.indices) { // 等价于 (i >= 0 && i < array.size)
 }
 ```
 
-## Java 的可变长参数(Varargs)
+## Java 的可变长参数(Varargs) {id="java-varargs"}
 
 Java 类的方法声明有时会对 indices 使用可变长的参数定义(varargs):
 
@@ -668,13 +752,13 @@ val array = intArrayOf(0, 1, 2, 3)
 javaObj.removeIndicesVarArg(*array)
 ```
 
-## 操作符
+## 操作符 {id="operators"}
 
 由于 Java 中无法将方法标记为操作符重载方法, Kotlin 允许我们使用任何的 Java 方法,
 只要方法名称和签名定义满足操作符重载的要求, 或者满足其他规约(`invoke()` 等等.)
 使用中缀调用语法来调用 Java 方法是不允许的.
 
-## 受控异常(Checked Exception)
+## 受控异常(Checked Exception) {id="checked-exceptions"}
 
 在 Kotlin 中, [所有的异常都是不受控的(unchecked)](exceptions.md),
 也就是说编译器不会强制要求你捕获任何异常.
@@ -688,24 +772,66 @@ fun render(list: List<*>, to: Appendable) {
 }
 ```
 
-## Object 类的方法
+## Object 类的方法 {id="object-methods"}
 
 当 Java 类型导入 Kotlin 时, 所有 `java.lang.Object` 类型的引用都会被转换为 `Any` 类型.
 由于 `Any` 类与具体的实现平台无关, 因此它声明的成员方法只有 `toString()`, `hashCode()` 和 `equals()`,
 所以, 为了补足 `java.lang.Object` 中的其他方法,
 Kotlin 使用了 [扩展函数](extensions.md).
 
-### wait()/notify()
+### `wait()` 和 `notify()` {id="wait-and-notify"}
 
 对 `Any` 类型的引用不能使用 `wait()` 和 `notify()` 方法,
 通常也不建议使用这些方法, 而应该改用 `java.util.concurrent` 中的功能来替代.
-如果你确实需要调用这些方法, 那么可以先将它变换为 `java.lang.Object` 类型:
+
+如果你必须调用这些方法, 请通过 Java Object 访问它们, 并压制 `PLATFORM_CLASS_MAPPED_TO_KOTLIN` 警告:
 
 ```kotlin
+import java.util.LinkedList
+
+class SimpleBlockingQueue<T>(private val capacity: Int) {
+    private val queue = LinkedList<T>()
+
+    // 使用 java.lang.Object 来访问 wait() 和 notify()
+    // 在 Kotlin 中, 标准的 'Any' 类型没有公开这些方法.
+    @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
+    private val lock = Object()
+
+    fun put(item: T) {
+        synchronized(lock) {
+            while (queue.size >= capacity) {
+                lock.wait()
+            }
+            queue.add(item)
+            println("Produced: $item")
+
+            lock.notifyAll()
+        }
+    }
+
+    fun take(): T {
+        synchronized(lock) {
+            while (queue.isEmpty()) {
+                lock.wait()
+            }
+            val item = queue.removeFirst()
+            println("Consumed: $item")
+
+            lock.notifyAll()
+            return item
+        }
+    }
+}
+```
+
+或者明确的转换为 `java.lang.Object`, 并压制 `PLATFORM_CLASS_MAPPED_TO_KOTLIN` 警告:
+
+```kotlin
+@Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
 (foo as java.lang.Object).wait()
 ```
 
-### getClass()
+### `getClass()` {id="getclass"}
 
 要得到一个对象的 Java Class 信息, 可以使用 [类引用](reflection.md#class-references) 的 `java` 扩展属性:
 
@@ -721,7 +847,7 @@ val fooClass = foo::class.java
 val fooClass = foo.javaClass
 ```
 
-### clone()
+### `clone()` {id="clone"}
 
 要覆盖 `clone()` 方法, 你的类需要实现 `kotlin.Cloneable` 接口:
 
@@ -734,7 +860,7 @@ class Example : Cloneable {
 别忘了 [Effective Java, 第 3 版](https://www.oracle.com/technetwork/java/effectivejava-136174.html),
 第 13 条: *要正确地覆盖 clone 方法*.
 
-### finalize()
+### `finalize()` {id="finalize"}
 
 要覆盖 `finalize()` 方法, 你只需要声明它即可, 不必使用 `override` 关键字:
 
@@ -752,7 +878,7 @@ class C {
 
 Kotlin 类的超类中, 最多只能指定一个 Java 类(Java 接口的数量没有限制).
 
-## 访问静态成员(static member)
+## 访问静态成员(static member) {id="accessing-static-members"}
 
 Java 类的静态成员(static member)构成这些类的"同伴对象(companion object)".
 你不能将这样的"同伴对象" 当作值来传递, 但可以明确地访问它的成员, 比如:
@@ -764,7 +890,7 @@ if (Character.isLetter(a)) { ... }
 当一个 Java 类型[映射](#mapped-types)为一个 Kotlin 类型时,
 如果要访问其中的静态成员, 需要使用 Java 类型的完整限定名: `java.lang.Integer.bitCount(foo)`.
 
-## Java 的反射
+## Java 的反射 {id="java-reflection"}
 
 Java 的反射在 Kotlin 类中也可以使用, 反过来也是如此.
 我们在上文中讲到, 你可以使用 `instance::class.java`, `ClassName::class.java`, 或者 `instance.javaClass`,
@@ -832,7 +958,7 @@ var myProperty: String
 
 这段代码会创建两个函数 `getMyProperty` 和 `setMyProperty`, 并且都标记为 `external`.
 
-## 在 Kotlin 中使用 Lombok 生成的声明
+## 在 Kotlin 中使用 Lombok 生成的声明 {id="using-lombok-generated-declarations-in-kotlin"}
 
 在 Kotlin 代码中你可以使用 Java 代码由 Lombok 生成的声明.
 如果你需要在 Java/Kotlin 代码混合的同一个模块中生成并使用这些声明,

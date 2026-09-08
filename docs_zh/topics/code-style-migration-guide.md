@@ -1,30 +1,30 @@
 [//]: # (title: 迁移到 Kotlin 编码风格)
 
+> 从 Kotlin 1.4.0 开始, 官方的编码风格格式化在 IntelliJ IDEA 中对所有项目默认启用.
+>
+{style="note"}
+
 ## Kotlin 编码规约与 IntelliJ IDEA 源代码格式化 {id="kotlin-coding-conventions-and-intellij-idea-formatter"}
 
 关于如何编写符合 Kotlin 习惯的代码, [Kotlin 编码规约](coding-conventions.md) 讲到了很多方面的内容,
 其中还包括一些代码格式化方面的建议, 以便提高 Kotlin 代码的可读性.
 
-不幸的是, 在本文档发布之前很长时间, IntelliJ IDEA 内建的源代码格式化工具就已经开始工作了,
-因此它目前默认的设置与现在推荐的代码格式化规则存在一些不同.
+IntelliJ IDEA 内建的源代码格式化工具过去曾采用过一种默认的设置, 它产生的代码格式化结果与现在推荐的规则存在一些不同.
 
-符合逻辑的做法似乎是切换 IntelliJ IDEA 默认设置, 消除这些不一致, 让格式化规则与 Kotlin 编码规约保持一致.
-但是这就意味着, Kotlin plugin 安装的那一刻, 所有现存的 Kotlin 项目都会使用新的代码风格.
-这并不是我们更新 Kotlin plugin 时期待的结果, 对不对?
+我们希望切换 IntelliJ IDEA 默认设置, 消除这些不一致, 让格式化规则与 Kotlin 编码规约保持一致.
+所以我们实施了下面的迁移计划:
 
-所以我们制定了下面的迁移计划:
-
-* 从 Kotlin 1.3 开始, 默认启用官方的代码风格格式化设置, 而且只用于新项目
-  (旧的格式化设置可以手工启用)
-* 既有项目的作者可以选择迁移到 Kotlin 编码规约
+* 从 Kotlin 1.3.0 开始, 默认启用官方的代码风格格式化设置, 而且只用于新项目
+  (旧的格式化设置可以手工启用).
+* 既有项目的作者可以选择迁移到 Kotlin 编码规约.
 * 既有项目的作者可以在某个项目内明确指定使用旧的代码风格格式化设置
-  (这样, 将来切换到默认设置时项目不会受影响)
-* 在 Kotlin 1.4 中切换到默认的格式化设置, 并使它与 Kotlin 编码规约一致
+  (这样, 将来切换到默认设置时项目不会受影响).
+* 从 Kotlin 1.4.0 开始, 默认的格式化设置对所有项目启用, 使它与 Kotlin 编码规约一致
 
 ## "Kotlin 编码规约" 与 "IntelliJ IDEA 默认代码风格" 之间的不同 {id="differences-between-kotlin-coding-conventions-and-intellij-idea-default-code-style"}
 
 最大的变化就是连续缩进规则. 使用双倍缩进来表示一个多行的表达式在前一行还未结束, 这是很好的.
-这是一个非常简单而且非常通行的规则, 但是这样格式化之后, 有些 Kotlin 构造器看起来会有点奇怪.
+这是一个简单而且通行的规则, 但是这样格式化之后, 有些 Kotlin 构造器看起来会有点奇怪.
 在 Kotlin 编码规约中推荐使用单倍缩进, 而以前会强制使用很长的连续缩进.
 
 <img src="code-formatting-diff.png" alt="代码格式化的不同" width="700"/>
@@ -34,7 +34,7 @@
 ## 关于迁移到新的代码风格的讨论 {id="migration-to-a-new-code-style-discussion"}
 
 采用一种新的代码风格, 对于一个新的项目来说也许是非常自然的步骤, 因为并没有源代码是使用旧的规则格式化的.
-因此从 1.3 版开始, Kotlin IntelliJ Plugin 创建项目时,
+因此从 1.3.0 版开始, Kotlin IntelliJ Plugin 创建项目时,
 默认使用与 [Kotlin 编码规约](coding-conventions.md)一致的代码格式化规则.
 
 对一个已有的项目改变它的代码格式化规则就是一件费力得多的工作了, 而且应该先在整个开发团队中就此进行讨论.

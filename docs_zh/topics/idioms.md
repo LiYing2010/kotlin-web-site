@@ -2,7 +2,7 @@
 
 本章介绍 Kotlin 中的一些常见的习惯用法. 如果你有自己的好的经验, 可以将它贡献给我们. 你可以将你的修正提交到 git, 并创建一个 Pull Request.
 
-## 创建 DTO 类(或者叫 POJO/POCO 类)
+## 创建 DTO 类(或者叫 POJO/POCO 类) {id="create-dtos-pojospocos"}
 
 ```kotlin
 data class Customer(val name: String, val email: String)
@@ -17,7 +17,7 @@ data class Customer(val name: String, val email: String)
 * `copy()` 函数
 * 所有属性的 `component1()`, `component2()`, ...  函数(参见 [数据类](data-classes.md))
 
-## 对函数参数指定默认值
+## 对函数参数指定默认值 {id="default-values-for-function-parameters"}
 
 ```kotlin
 fun foo(a: Int = 0, b: String = "") { ... }
@@ -37,7 +37,7 @@ val positives = list.filter { it > 0 }
 
 详情请参见 [Java 与 Kotlin 过滤处理的区别](java-to-kotlin-collections-guide.md#filter-elements).
 
-## 在集合中检查元素是否存在
+## 在集合中检查元素是否存在 {id="check-the-presence-of-an-element-in-a-collection"}
 
 ```kotlin
 if ("john@example.com" in emailsList) { ... }
@@ -45,7 +45,7 @@ if ("john@example.com" in emailsList) { ... }
 if ("jane@example.com" !in emailsList) { ... }
 ```
 
-## 在字符串内插入变量值
+## 在字符串内插入变量值 {id="string-interpolation"}
 
 ```kotlin
 println("Name $name")
@@ -53,7 +53,7 @@ println("Name $name")
 
 详情请参见 [Java 与 Kotlin 字符串拼接处理的区别](java-to-kotlin-idioms-strings.md#concatenate-strings).
 
-## 安全的读取标准输入
+## 安全的读取标准输入 {id="read-standard-input-safely"}
 
 ```kotlin
 // 读取一个字符串, 如果输入不能转换为整数, 返回 null. 例如: Hi there!
@@ -69,7 +69,7 @@ println(correctInt)
 
 详情请参见 [读取标准输入](read-standard-input.md).
 
-## 类型实例检查
+## 类型实例检查 {id="instance-checks"}
 
 ```kotlin
 when (x) {
@@ -98,7 +98,7 @@ println(map["key"])
 map["key"] = value
 ```
 
-## 使用成对变量来遍历 Map, 或遍历 Pair 组成的 List
+## 使用成对变量来遍历 Map, 或遍历 Pair 组成的 List {id="traverse-a-map-or-a-list-of-pairs"}
 
 ```kotlin
 for ((k, v) in map) {
@@ -108,7 +108,7 @@ for ((k, v) in map) {
 
 上例中的 `k`, `v` 可以使用任何方便的变量名, 比如 `name` 和 `age`.
 
-## 在数值范围中遍历
+## 在数值范围中遍历 {id="iterate-over-a-range"}
 
 ```kotlin
 for (i in 1..100) { ... }  // 终端封闭的(closed-ended)数值范围: 包括 100
@@ -118,7 +118,7 @@ for (x in 10 downTo 1) { ... }
 (1..10).forEach { ... }
 ```
 
-## 延迟计算(Lazy)属性
+## 延迟计算(Lazy)属性 {id="lazy-property"}
 
 ```kotlin
 val p: String by lazy { // 只在第一次访问时计算属性值
@@ -126,7 +126,7 @@ val p: String by lazy { // 只在第一次访问时计算属性值
 }
 ```
 
-## 扩展函数
+## 扩展函数 {id="extension-functions"}
 
 ```kotlin
 fun String.spaceToCamelCase() { ... }
@@ -134,7 +134,7 @@ fun String.spaceToCamelCase() { ... }
 "Convert this to camelcase".spaceToCamelCase()
 ```
 
-## 创建单例(Singleton)
+## 创建单例(Singleton) {id="create-a-singleton"}
 
 ```kotlin
 object Resource {
@@ -142,7 +142,7 @@ object Resource {
 }
 ```
 
-## 使用内联的值类(Inline value class) 创建类型安全的值
+## 使用内联的值类(Inline value class) 创建类型安全的值 {id="use-inline-value-classes-for-type-safe-values"}
 
 ```kotlin
 @JvmInline
@@ -158,7 +158,7 @@ value class CustomerId(private val id: String)
 >
 {style="note"}
 
-## 为抽象类(Abstract Class)创建实例
+## 为抽象类(Abstract Class)创建实例 {id="instantiate-an-abstract-class"}
 
 ```kotlin
 abstract class MyAbstractClass {
@@ -210,7 +210,7 @@ val values = ...
 val email = values["email"] ?: throw IllegalStateException("Email is missing!")
 ```
 
-## 从可能为空的集合中取得第一个元素
+## 从可能为空的集合中取得第一个元素 {id="get-first-item-of-a-possibly-empty-collection"}
 
 ```kotlin
 val emails = ... // 可能为空
@@ -229,7 +229,7 @@ value?.let {
 }
 ```
 
-## 当值不为 null 时, 进行映射变换
+## 当值不为 null 时, 进行映射变换 {id="map-nullable-value-if-not-null"}
 
 ```kotlin
 val value = ...
@@ -238,7 +238,7 @@ val mapped = value?.let { transformValue(it) } ?: defaultValue
 // 如果 value 为 null, 会 transform 处理结果为 null, 则返回 defaultValue
 ```
 
-## 在函数的 return 语句中使用 when 语句
+## 在函数的 return 语句中使用 when 语句 {id="return-on-when-statement"}
 
 ```kotlin
 fun transform(color: String): Int {
@@ -251,7 +251,7 @@ fun transform(color: String): Int {
 }
 ```
 
-## 将 try-catch 用作一个表达式
+## 将 try-catch 用作一个表达式 {id="try-catch-expression"}
 
 ```kotlin
 fun test() {
@@ -265,7 +265,7 @@ fun test() {
 }
 ```
 
-## 将 if 用作一个表达式
+## 将 if 用作一个表达式 {id="if-expression"}
 
 ```kotlin
 fun foo(param: Int) {
@@ -279,7 +279,7 @@ fun foo(param: Int) {
 }
 ```
 
-## 返回值为 Unit 类型的多个方法, 可以通过 Builder 风格的方式来串联调用
+## 返回值为 Unit 类型的多个方法, 可以通过 Builder 风格的方式来串联调用 {id="builder-style-usage-of-methods-that-return-unit"}
 
 ```kotlin
 fun arrayOfMinusOnes(size: Int): IntArray {
@@ -287,7 +287,7 @@ fun arrayOfMinusOnes(size: Int): IntArray {
 }
 ```
 
-## 使用单个表达式来定义一个函数
+## 使用单个表达式来定义一个函数 {id="single-expression-functions"}
 
 ```kotlin
 fun theAnswer() = 42
@@ -312,7 +312,7 @@ fun transform(color: String): Int = when (color) {
 }
 ```
 
-## 在同一个对象实例上调用多个方法(with 函数)
+## 在同一个对象实例上调用多个方法(with 函数) {id="call-multiple-methods-on-an-object-instance-with"}
 
 ```kotlin
 class Turtle {
@@ -333,7 +333,7 @@ with(myTurtle) { // 描绘一个边长 100 像素的正方形
 }
 ```
 
-## 配置对象属性 (apply 函数)
+## 配置对象属性 (apply 函数) {id="configure-properties-of-an-object-apply"}
 
 ```kotlin
 val myRectangle = Rectangle().apply {
@@ -345,7 +345,7 @@ val myRectangle = Rectangle().apply {
 
 这种方法可以非常方便地配置对象构造函数参数以外的那些属性.
 
-## 类似 Java 7 中针对资源的 try 语句
+## 类似 Java 7 中针对资源的 try 语句 {id="java-7s-try-with-resources"}
 
 ```kotlin
 val stream = Files.newInputStream(Paths.get("/some/file.txt"))
@@ -354,7 +354,7 @@ stream.buffered().reader().use { reader ->
 }
 ```
 
-## 需要泛型类型信息的泛型函数
+## 需要泛型类型信息的泛型函数 {id="generic-function-that-requires-the-generic-type-information"}
 
 ```kotlin
 //  public final class Gson {
@@ -365,7 +365,7 @@ stream.buffered().reader().use { reader ->
 inline fun <reified T: Any> Gson.fromJson(json: JsonElement): T = this.fromJson(json, T::class.java)
 ```
 
-## 交换两个变量的值
+## 交换两个变量的值 {id="swap-two-variables"}
 
 ```kotlin
 var a = 1
@@ -373,7 +373,7 @@ var b = 2
 a = b.also { b = a }
 ```
 
-## 将代码标记为未完成 (TODO)
+## 将代码标记为未完成 (TODO) {id="mark-code-as-incomplete-todo"}
 
 Kotlin 标准库有一个 `TODO()` 函数, 它永远会抛出一个 `NotImplementedError`.
 这个函数的返回值是 `Nothing`, 因此无论代码中需要的返回类型是什么, 都可以使用这个函数.
@@ -385,7 +385,7 @@ fun calcTaxes(): BigDecimal = TODO("Waiting for feedback from accounting")
 
 IntelliJ IDEA 的 Kotlin 插件能够理解 `TODO()` 函数的意义, 并会在 TODO 工具窗口中自动添加一条 TODO 项.
 
-## 下一步做什么?
+## 下一步做什么? {id="whats-next"}
 
 * 使用 Kotlin 的编程风格来解决 [Advent of Code 谜题](advent-of-code.md).
 * 学习如何执行 [Java 与 Kotlin 中常见的字符串处理任务](java-to-kotlin-idioms-strings.md).

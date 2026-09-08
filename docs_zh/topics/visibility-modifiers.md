@@ -43,7 +43,7 @@ public var bar: Int = 5 // 这个属性在任何地方都可以访问
 internal val baz = 6    // 在同一个模块(module)内可以访问
 ```
 
-## 类成员
+## 类成员 {id="class-members"}
 
 对于类内部声明的成员:
 
@@ -108,7 +108,7 @@ class C private constructor(a: Int) { ... }
 对于封闭类(Sealed Class), 构造器默认为 `protected` 的.
 更多详情请参见 [封闭类(Sealed Class)](sealed-classes.md#constructors).
 
-### 局部声明
+### 局部声明 {id="local-declarations"}
 
 局部变量, 局部函数, 以及局部类, 都不能指定可见度修饰符.
 
@@ -120,4 +120,3 @@ class C private constructor(a: Int) { ... }
 * 一个 IntelliJ IDEA 模块.
 * 一个 Maven 工程.
 * 一个 Gradle 源代码集(source set) (`test` 源代码集例外, 它可以访问 `main` 中的 `internal` 声明).
-* 通过 `<kotlinc>` Ant 任务的一次调用编译的一组文件.

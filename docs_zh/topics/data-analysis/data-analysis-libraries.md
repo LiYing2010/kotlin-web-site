@@ -6,7 +6,7 @@
 通过这种互操作能力, 可以利用经过实践验证的 Java 库的整个生态系统, 而且性能优异.
 有了这些能力, 你可以在 [Kotlin 数据项目](data-analysis-overview.md) 中非常容易的使用 Kotlin 或 Java 库.
 
-## Kotlin 库
+## Kotlin 库 {id="kotlin-libraries"}
 
 <table>
   <tr>
@@ -139,7 +139,7 @@
     </td>
     <td>
       <list>
-        <li>在 <a href="https://www.jetbrains.com/kotlin-multiplatform/">Kotlin Multiplatform</a> (JVM, JS, Native, 和 Wasm) 中处理数学抽象的模块化库</li>
+        <li>在 <a href="https://kotlinlang.org/multiplatform/">Kotlin Multiplatform</a> (JVM, JS, Native, 和 Wasm) 中处理数学抽象的模块化库</li>
         <li>用于代数结构, 数学表达式, 直方图, 和流操作的 API</li>
         <li>可以既有的 Java 和 Kotlin 库互换的包装, 包括 <a href="https://github.com/eclipse/deeplearning4j/tree/master/nd4j">ND4J</a>, <a href="https://commons.apache.org/proper/commons-math/">Apache Commons Math</a>, 和 <a href="https://github.com/Kotlin/multik">Multik</a></li>
         <li>受 Python 的 <a href="https://numpy.org/">NumPy</a> 启发, 但添加了其它功能, 例如类型安全</li>
@@ -165,7 +165,7 @@
   </tr>
 </table>
 
-## Java 库
+## Java 库 {id="java-libraries"}
 
 由于 Kotlin 提供了与 Java 一流的互操作性, 你可以在你的 Kotlin 代码中使用 Java 的数据任务库.
 下面是这些库的一些例子:

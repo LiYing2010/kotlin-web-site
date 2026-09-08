@@ -11,7 +11,7 @@
 如果你想要同时针对 Android 和 iOS 用户, 那么这些因素尤其重要. 对你的某个项目来说, 使用哪种移动开发策略才是最好的, 可能会很难决定.
 为了帮助你在原生和跨平台 App 开发之间进行选择, 我们创建了一个列表, 包括值得注意的 6 个基本因素.
 
-## 什么是原生移动 App 开发?
+## 什么是原生移动 App 开发? {id="what-is-native-mobile-app-development"}
 
 原生移动开发意思是说, 你针对某个移动操作系统来创建一个 App – 大多数情况下是 Android 或 iOS.
 开发原生应用程序时, 开发者会使用特定的编程语言和工具.
@@ -26,7 +26,7 @@
 | **能够使用特定设备的全部功能.** 针对特定操作系统创建的原生 App 能够直接访问设备的硬件, 例如摄像头, 麦克风, 以及 GPS 定位功能.                                | **代码中的错误更多.** 更多行数的代码意味着更多 bug 存在的风险.                                                                                                   |
 |                                                                                                                   | **在 Android 和 iOS App 中存在业务逻辑差异的风险.** 使用原生 App 开发方案, 针对一个移动平台编写的代码无法在另一个平台上使用. 例如, 由于折扣计算方式的错误, Android 和 iOS App 可能对同一个商品显出不同的价格. |
 
-## 什么是跨平台 App 开发?
+## 什么是跨平台 App 开发? {id="what-is-cross-platform-app-development"}
 
 跨平台 App 开发, 也叫做多平台开发, 意思是说创建兼容多个操作系统的移动 App.
 移动开发工程师能够在多个平台之间共用一部分, 甚至全部的源代码, 而不是为 iOS 和 Android 创建不同的应用程序.
@@ -47,13 +47,13 @@
 这只是跨平台 App 开发的优势中很少的一部分. 关于它的优势, 以及在全球各大公司的使用场景, 请参见我们关于 [跨平台移动开发](cross-platform-mobile-development.md) 的文章.
 关于这个方案的问题 – 我们在下面的章节中进行讨论.
 
-### 关于跨平台 App 开发的一些常见的误解
+### 关于跨平台 App 开发的一些常见的误解 {id="debugging-some-popular-myths-about-cross-platform-app-development"}
 
 跨平台技术一直在持续演进. 有些跨平台开发框架, 例如
 [Kotlin Multiplatform Mobile](https://kotlinlang.org/lp/multiplatform/)
 提供了构建跨平台和原生 App 两种方案的优势, 解决了跨平台方案的一些常见限制.
 
-#### 1. 跨平台 App 的性能低于原生 App.
+#### 1. 跨平台 App 的性能低于原生 App. {id="1-cross-platform-apps-provide-poorer-performance-than-native-apps"}
 
 性能低下长期被认为是多平台应用程序的主要劣势. 但是, 你的产品的性能和质量 很大程度上依赖于你用来构建 App 的工具.
 最新的跨平台框架提供了开发出类似于原生程序一样的用户体验的 App 所需要的所有工具.
@@ -62,35 +62,35 @@
 – 在 Android 平台是 JVM 字节码, 在 iOS 平台是原生二进制代码.
 因此, 你的共用代码的性能, 和你使用原生代码编写它们是一样的.
 
-#### 2. 跨平台框架不安全.
+#### 2. 跨平台框架不安全. {id="2-cross-platform-frameworks-are-unsafe"}
 
 有一个常见的误解是, 原生 App 更加安全更加可靠. 但是, 现代化的跨平台开发工具可以帮助开发者创建安全的 App, 提供可靠的数据保护.
 移动开发工程师只需要 [添加额外的指标来提升他们的 App 的安全性](https://appstronauts.co/blog/are-cross-platform-apps-as-fast-and-secure-as-native-apps/#:~:text=Unsecurity%20of%20cross%2Dplatform%20apps,a%20cross%2Dplatform%20app%27s%20code.).
 
-#### 3. 跨平台 App 不能访问移动设备的全部原生功能.
+#### 3. 跨平台 App 不能访问移动设备的全部原生功能. {id="3-cross-platform-apps-dont-have-access-to-all-native-functions-of-mobile-devices"}
 
 的确, 并不是所有的跨平台框架都能允许你创建 App 来访问设备的全部功能. 但是, 有些现代化的多平台框架能够帮助你解决这个问题.
 例如, Kotlin Multiplatform Mobile 可以很容易的访问 Android 和 iOS SDK.
 它提供了一个 [Kotlin 预期声明与实际声明(expected and actual declarations) 机制](multiplatform-expect-actual.md),
 可以帮助你访问设备的功能特性.
 
-#### 4. 管理跨平台项目很困难.
+#### 4. 管理跨平台项目很困难. {id="4-it-can-often-be-difficult-to-manage-cross-platform-projects"}
 
 实际上, 恰恰相反. 跨平台解决方案能够帮助你更加有效的管理资源. 你的开发团队可以学习如何编写和复用共用的代码.
 Android 和 iOS 开发者通过互相沟通和分享知识, 可以达到很高的效率和高度的信息透明.
 
-## 帮助你在跨平台 App 开发和原生方案之间作出选择的 6 个关键因素
+## 帮助你在跨平台 App 开发和原生方案之间作出选择的 6 个关键因素 {id="6-key-aspects-to-consider-when-choosing-between-cross-platform-and-native-app-development"}
 
 下面, 我们来看看你为移动 App 开发选择原生和跨平台解决方案时需要考虑的一些重要因素.
 
-#### 1. 你未来的 App 的类型和目的
+#### 1. 你未来的 App 的类型和目的 {id="1-the-type-and-purpose-of-your-future-app"}
 
 第一步应该是理解你要创建什么样的 App, 包括它的功能和目的. 一个带有很多功能的复杂的应用程序需要很多编程工作, 尤其是如果它是一个全新的 App、没有太多现成的模板可以借鉴.
 
 你的 App 的用户界面有多重要? 你想要非常漂亮的视觉效果吗, 或者 UI 并不重要? 它是否需要任何特定的硬件功能, 是否需要访问摄像头和 GPS 定位功能?
 你需要确保你选择的移动开发策略提供了必要的工具来构建你需要的 App, 而且提供了很好的用户体验.
 
-#### 2. 你的团队在编程语言和工具方面的经验
+#### 2. 你的团队在编程语言和工具方面的经验 {id="2-your-teams-experience-in-programming-languages-and-tools"}
 
 你团队中的开发者需要具有足够的经验和专业技能来使用某个特定的框架. 需要仔细考虑开发工具需要什么样的编程技能和编程语言.
 
@@ -98,16 +98,16 @@ Android 和 iOS 开发者通过互相沟通和分享知识, 可以达到很高�
 跨平台框架 Flutter 需要懂得 Dart 知识.
 如果你使用 Kotlin Multiplatform Mobile, 对 iOS 开发者来说 Kotlin 语法是很容易学习的, 因为它遵循与 Swift 相似的概念.
 
-#### 3. 各种技术在未来是否能够长期存在
+#### 3. 各种技术在未来是否能够长期存在 {id="3-long-term-viability"}
 
 选择不同的方案和框架时, 你需要确信平台供应商能够在未来长期支持它. 你可以挖掘供应商的细节, 他们的开发社区规模, 被全球各大公司采用的程度.
 例如, Kotlin Multiplatform Mobile 的开发者是 JetBrains, Flutter 的开发者是 Google, React Native 的开发者是 Facebook.
 
-#### 4. 开发成本和你的预算
+#### 4. 开发成本和你的预算 {id="4-development-cost-and-your-budget"}
 
 上面提到过, 不同的移动开发解决方案和工具会带来不同的开支. 根据你的预算灵活度, 你可以为你的项目选择适当的解决方案.
 
-#### 5. 业内采用的广泛度
+#### 5. 业内采用的广泛度 {id="5-adoption-in-the-industry"}
 
 你总是能够找到技术社区的其他专家们对各种不同方案的意见. Reddit, StackOverflow, 以及 Google Trends 是几个不错的消息源.
 请看看以下两个词语的搜索趋势: "原生移动开发" vs "跨平台移动开发".
@@ -119,13 +119,13 @@ Android 和 iOS 开发者通过互相沟通和分享知识, 可以达到很高�
 
 如果一种技术被专业人士广泛使用, 它会拥有一个很强的生态环境, 大量的库, 以及技术社区的最佳实践, 这些都可以让你的开发工作更加快速.
 
-#### 6. 流行度与学习资源
+#### 6. 流行度与学习资源 {id="6-visibility-and-learning-resources"}
 
 如果你在考虑试用跨平台 App 开发, 你需要考虑的一个因素是, 找到各个多平台框架的学习资料的难易程度.
 请查看它们的官方文档, 书籍, 以及课程.
 请确认它们提供了带有长期计划的 [产品路线图](https://blog.jetbrains.com/kotlin/2022/06/what-to-expect-from-the-kotlin-team-in-202223/).
 
-## 什么情况下你应该选择跨平台 App 开发?
+## 什么情况下你应该选择跨平台 App 开发? {id="when-should-you-choose-cross-platform-app-development"}
 
 在针对 Android 和 iOS 构建应用程序时, 为移动 App 开发的跨平台解决方案可以节省你的时间和工作.
 
@@ -142,7 +142,7 @@ Android 和 iOS 开发者通过互相沟通和分享知识, 可以达到很高�
 >
 {style="note"}
 
-## 什么情况下你应该选择跨平台原生 App 开发?
+## 什么情况下你应该选择跨平台原生 App 开发? {id="when-should-you-choose-native-app-development"}
 
 对少数集中情况, 选择原生移动开发会更加合适. 对于下面的情况, 你应该选择这个方案:
 
@@ -150,7 +150,7 @@ Android 和 iOS 开发者通过互相沟通和分享知识, 可以达到很高�
 * 用户界面对你的应用程序非常重要. 但是, 即使你采用原生方案, 你也可以尝试使用多平台移动 App 开发方案, 它可以允许你对你的项目共用 App 的业务逻辑, 但不共用 UI.
 * 你的团队拥有极高技能的 Android 和 iOS 开发者, 但你没有时间来学习新的技术.
 
-### 结束语
+### 结束语 {id="takeaways"}
 
 请关注上面介绍的各种因素, 你的项目的目标, 以及最终用户. 无论你喜欢原生开发还是跨平台开发, 都取决于你独特的需求.
 每个解决方案都有它的长处, 也有它的弱点.

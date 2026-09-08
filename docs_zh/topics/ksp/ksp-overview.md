@@ -1,11 +1,18 @@
 [//]: # (title: Kotlin 符号处理(Kotlin Symbol Processing) API)
 
-Kotlin 符号处理(Kotlin Symbol Processing, _KSP_) 是一组 API, 你可以使用它开发轻量的编译器插件.
-KSP 提供一组简化的编译器插件 API, 利用 Kotlin 的能力, 同时保持最小的学习曲线.
-与 [kapt](kapt.md) 相比, 使用 KSP 的注解处理器运行速度可以快 2 倍.
+Kotlin 符号处理(Kotlin Symbol Processing, KSP) 是一个针对 Kotlin 的源代码生成框架.
+通过 KSP API, 你可以创建处理器, 根据源代码中的 [注解](annotations.md) 生成代码.
 
-* 关于 KSP 与 kapt 与比较, 详情请参见 [为什么需要 KSP](ksp-why-ksp.md).
-* 要开始编写 KSP 处理器, 请参见 [KSP 快速入门](ksp-quickstart.md).
+KSP 的目的是简化轻量级编译器 plugin 的开发工作.
+它拥有定义良好的 API, 隐藏了编译器的变更, 因此你不需要耗费大量精力来维护你的处理器. 但是, 这种方案也有一些代价.
+例如, 基于 KSP 的处理器不能分析表达式或语句, 也不能修改源代码.
+
+基于 KSP 的 plugin 的典型使用场景包括:
+* 依赖注入 ([Dagger](https://dagger.dev/dev-guide/ksp))
+* 序列化 ([Moshi](https://github.com/square/moshi))
+* 数据库管理 ([Room](https://developer.android.com/jetpack/androidx/releases/room#2.3.0-beta02))
+
+关于如何创建你的第一个基于 KSP 的处理器, 请参见 [KSP 快速入门](ksp-quickstart.md).
 
 ## 概述 {id="overview"}
 
@@ -13,7 +20,7 @@ KSP API 按照语言习惯来处理 Kotlin 程序. KSP 理解 Kotlin 专有的�
 比如扩展函数, 声明处类型变异(declaration-site variance), 以及局部函数.
 它还明确的对类型建立模型, 并提供基本类型检查, 比如相等性, 以及赋值兼容性.
 
-API 根据 [Kotlin 语法](https://kotlinlang.org/docs/reference/grammar.html), 在符号层面对 Kotlin 程序结构建立模型.
+API 根据 [Kotlin 语法](https://kotlinlang.org/grammar/), 在符号层面对 Kotlin 程序结构建立模型.
 当基于 KSP 的插件处理源程序时, 处理器可以访问各种结构, 比如类, 类成员, 函数, 以及关联的参数, 而 `if` 代码段和 `for` 循环之类则不可以访问.
 
 概念上来讲, KSP 类似于 Kotlin 反射中的 [KType](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.reflect/-k-type/).
@@ -112,7 +119,7 @@ interface SymbolProcessor {
 ```kotlin
 class HelloFunctionFinderProcessor : SymbolProcessor() {
     // ...
-    val functions = mutableListOf<KSClassDeclaration>()
+    val functions = mutableListOf<KSFunctionDeclaration>()
     val visitor = FindFunctionsVisitor()
 
     override fun process(resolver: Resolver) {
@@ -150,7 +157,7 @@ class HelloFunctionFinderProcessor : SymbolProcessor() {
 * [增量式处理](ksp-incremental.md)
 * [多轮处理](ksp-multi-round.md)
 * [在跨平台项目中使用 KSP](ksp-multiplatform.md)
-* [在命令行运行 KSP](ksp-command-line.md)
+* [在命令行运行 KSP](https://github.com/google/ksp/blob/main/docs/ksp2cmdline.md)
 * [FAQ](ksp-faq.md)
 
 ## 支持的库 {id="supported-libraries"}
@@ -176,6 +183,7 @@ class HelloFunctionFinderProcessor : SymbolProcessor() {
 | SealedX          | [官方支持](https://github.com/skydoves/sealedx)                                              |
 | Ktorfit          | [官方支持](https://github.com/Foso/Ktorfit)                                                  |
 | Mockative        | [官方支持](https://github.com/mockative/mockative)                                           |
+| Kotest           | [官方支持](https://github.com/kotest/kotest)                                                 |
 | DeeplinkDispatch | [通过 airbnb/DeepLinkDispatch#323 支持](https://github.com/airbnb/DeepLinkDispatch/pull/323) |
 | Dagger           | [Alpha](https://dagger.dev/dev-guide/ksp)                                                |
 | Motif            | [Alpha](https://github.com/uber/motif)                                                   |

@@ -268,7 +268,7 @@ fun main() {
 [`Appendable`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-appendable/index.html)
 对象中.
 
-如果使用默认参数调用这些函数, 返回的结果与对集合调用 `toString()` 函数类似:
+如果使用参数的默认值调用这些函数, 返回的结果与对集合调用 `toString()` 函数类似:
 由各个元素的字符串表达组成的 `String`, 元素之间以逗号加空格分隔.
 
 ```kotlin

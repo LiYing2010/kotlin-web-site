@@ -15,7 +15,7 @@
 Kotlin Notebook 需要使用 [Kotlin Notebook plugin](https://plugins.jetbrains.com/plugin/16340-kotlin-notebook),
 IntelliJ IDEA 默认捆绑并启用了这个插件.
 
-要使用 Kotlin Notebook, 请下载并安装最新版本的 [IntelliJ IDEA](https://www.jetbrains.com/idea/download/index.html).
+要使用 Kotlin Notebook, 请下载并安装最新版本的 [IntelliJ IDEA](https://www.jetbrains.com/idea/download/).
 
 如果无法使用 Kotlin Notebook 功能, 请确认启用了 plugin:
 

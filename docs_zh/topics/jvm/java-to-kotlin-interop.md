@@ -422,11 +422,72 @@ var x: Int = 23
 ## 重载函数(Overload)的生成 {id="overloads-generation"}
 
 通常, 如果在 Kotlin 中定义一个函数, 并指定了参数默认值, 这个方法在 Java 中只会存在带所有参数的版本.
-如果你希望 Java 端的使用者看到不同参数的多个重载方法,
-那么可以使用 [`@JvmOverloads`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html) 注解.
+
+你可以使用 [`@IntroducedAt`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-introduced-at/) 注解,
+或 [`@JvmOverloads`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html) 注解,
+为可选测参数生成重载函数.
+
+如果对公开的 API 添加新的可选参数, 并且希望生成的重载函数反映各个参数引入时所属的版本, 请使用 `@IntroducedAt`.
+编译器会使用这个信息, 自动生成对应的隐藏重载函数.
+
+这个功能为你提供了基于版本的重载函数生成能力, 对使用你的库的旧版本编译的 API 调用者, 有助于保持二进制兼容性.
+
+> `@IntroducedAt` 注解是 [实验性功能](components-stability.md#stability-levels-explained).
+> 要表示使用者同意, 请使用 `@OptIn(ExperimentalVersionOverloading::class)` 注解.
+>
+{style="warning"}
+
+下面是一个示例, 其中 `Button()` 函数在多个 API 版本中收到多个可选参数:
+
+```kotlin
+@OptIn(ExperimentalVersionOverloading::class)
+fun Button(
+    label: String = "",
+    color: Color = DefaultColor,
+    @IntroducedAt("1.1") borderColor: Color = DefaultBorderColor,
+    @IntroducedAt("1.2") borderStyle: Style = DefaultBorderStyle,
+    @IntroducedAt("1.2") borderWidth: Int = 1,
+    onClick: () -> Unit
+) {
+    // 函数体
+}
+```
+
+基于这些版本, 编译器对原始的 API, 以及对引入新的可选参数的各个 API 版本, 生成隐藏的重载函数:
+
+```kotlin
+// 原始的 API
+Button(
+    label: String,
+    color: Color,
+    onClick: () -> Unit
+)
+
+// 版本 1.1
+Button(
+    label: String,
+    color: Color,
+    borderColor: Color,
+    onClick: () -> Unit
+)
+
+// 版本 1.2
+Button(
+    label: String,
+    color: Color,
+    borderColor: Color,
+    borderStyle: Style,
+    borderWidth: Int,
+    onClick: () -> Unit
+)
+```
+
+如果你想要 Java 端的使用者看到不同参数的多个重载方法,
+也可以使用 [`@JvmOverloads`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html) 注解.
 
 这个注解也可以用于构造器, 静态方法, 等等.
 但不能用于抽象方法, 包括定义在接口内的方法.
+例如, 对于带有默认参数值的 `Circle` 类:
 
 ```kotlin
 class Circle @JvmOverloads constructor(centerX: Int, centerY: Int, radius: Double = 1.0) {
@@ -447,6 +508,10 @@ void draw(String label, int lineWidth, String color) { }
 void draw(String label, int lineWidth) { }
 void draw(String label) { }
 ```
+
+由于 `@IntroducedAt` 和 `@JvmOverloads` 注解都会生成重载方法, 因此同时使用这两个注解会导致重载方法冲突.
+如果同时使用这两个注解, 编译器会报告警告.
+如果压制这个警告, 编译器会优先采用由 `@IntroducedAt` 注解生成的重载方法.
 
 注意, 在 [次级构造器](classes.md#secondary-constructors) 中介绍过,
 如果一个类的构造器方法参数全部都指定了默认值, 那么会对这个类生成一个 public 的无参数构造器.
@@ -533,7 +598,7 @@ Base unboxBase(Box<? extends Base> box) { ... }
 
 为了让 Kotlin 的 API 可以在 Java 中正常使用, 如果一个类*被用作函数参数*,
 那么对于定义了类型参数协变的 `Box` 类, 编译器会将 `Box<Super>` 生成为 Java 的 `Box<? extends Super>`
-(对于定义了类型参数反向协变的 `Foo` 类, 会生成为 Java 的 `Foo<? super Bar>`).
+(对于定义了类型参数逆变的 `Foo` 类, 会生成为 Java 的 `Foo<? super Bar>`).
 当类被用作返回值时, 编译器不会生成类型通配符,
 否则 Java 端的使用者就不得不处理这些类型通配符(而且这是违反通常的 Java 编程风格的).
 因此, 我们上面例子中的函数真正的输出结果是这样的:
@@ -585,7 +650,7 @@ fun emptyList(): List<Nothing> = listOf()
 // List emptyList() { ... }
 ```
 
-### 内联的值类(Inline Value Class) {id="inline-value-classes"}
+## 内联的值类(Inline Value Class) {id="inline-value-classes"}
 
 <primary-label ref="experimental-general"/>
 
@@ -640,3 +705,29 @@ MyInt output = ExampleKt.timesTwoBoxed(input);
 
 要将这个行为应用于模块中所有的内联值类, 以及所有使用它们的函数, 请使用 `-Xjvm-expose-boxed` 选项编译这个模块.
 使用这个选项进行编译, 效果等于模块中所有的声明都带有 `@JvmExposeBoxed` 注解.
+
+### 继承的函数 {id="inherited-functions"}
+
+`@JvmExposeBoxed` 注解不会为继承的函数自动生成装箱表达形式.
+
+要为继承的函数生成必要的装箱表达形式, 请在实现类或扩展类中覆盖(override) 它:
+
+```kotlin
+interface IdTransformer {
+    fun transformId(rawId: UInt): UInt = rawId
+}
+
+// 不会为 transformId() 函数生成装箱表达形式
+@OptIn(ExperimentalStdlibApi::class)
+@JvmExposeBoxed
+class LightweightTransformer : IdTransformer
+
+// 会为 transformId() 函数生成装箱表达形式
+@OptIn(ExperimentalStdlibApi::class)
+@JvmExposeBoxed
+class DefaultTransformer : IdTransformer {
+    override fun transformId(rawId: UInt): UInt = super.transformId(rawId)
+}
+```
+
+关于 Kotlin 中的继承, 以及如何使用 `super` 关键字调用父类中的实现, 请参见 [继承](inheritance.md#calling-the-superclass-implementation).

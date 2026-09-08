@@ -21,12 +21,12 @@ val box: Box<Int> = Box<Int>(1)
 val box = Box(1) // 1 的类型为 Int, 因此编译器知道类型为 Box<Int>
 ```
 
-## 类型变异(Variance)
+## 类型变异(Variance) {id="variance"}
 
 Java 的类型系统中, 最微妙最难于理解和使用的部分之一, 就是它的通配符类型(wildcard type) (参见 [Java 泛型 FAQ](http://www.angelikalanger.com/GenericsFAQ/JavaGenericsFAQ.html)).
 Kotlin 中不存在这样的通配符类型. 而是使用声明处类型变异(declaration-site variance), 以及类型投射(type projection).
 
-### Java 中的类型变异(Variance)和通配符(Wildcard)
+### Java 中的类型变异(Variance)和通配符(Wildcard) {id="variance-and-wildcards-in-java"}
 
 让我们思考一下为什么 Java 需要这些神秘的通配符类型.
 首先, Java 中的泛型类型是 _不可变的(invariant)_, 也就是说 `List<String>` _不是_ `List<Object>` 的子类型.
@@ -91,7 +91,7 @@ interface Collection<E> ... {
 反过来, 如果你只能向集合 _放入_ 元素, 那么就可以使用一个 `Object` 组成的集合, 并向其中放入 `String`:
 在 Java 中有 `List<? super String>`, 它可以接受 `String`, 或 `String` 的任何父类型.
 
-上面的后一种情况称为 _反向类型变异(contravariance)_,
+上面的后一种情况称为 _逆变(contravariance)_,
 对于 `List<? super String>`, 你只能调用那些接受 `String` 类型参数的方法
 (比如, 可以调用 `add(String)`, 或 `set(int, String)`),
 如果你对 `List<T>` 调用返回类型为 `T` 的方法时, 你得到的返回值将不会是 `String` 类型, 而是 `Object` 类型.
@@ -114,7 +114,7 @@ Joshua Bloch 在他的 [Effective Java, 第 3 版](http://www.oracle.com/technet
 >
 {style="note"}
 
-### 声明处的类型变异(Declaration-site variance)
+### 声明处的类型变异(Declaration-site variance) {id="declaration-site-variance"}
 
 假设有一个泛型接口 `Source<T>`, 其中不存在任何接受 `T` 作为参数的方法, 仅有返回值为 `T` 的方法:
 
@@ -167,8 +167,8 @@ _out_ 修饰符称为 _协变注解(variance annotation)_, 而且, 由于这个�
 这种方案与 Java 中的 _使用处类型变异(use-site variance)_ 刚好相反, 在 Java 中, 是类型使用处的通配符产生了类型的协变.
 
 除了 `out` 之外, Kotlin 还提供了另一种类型变异注解: `in`.
-这个注解导致类型参数 `反向类型变异(contravariant)`: 也就是说这个类型将只能被消费, 而不能被生产.
-反向类型变异的一个很好的例子是 `Comparable`:
+这个注解导致类型参数 `逆变(contravariant)`: 也就是说这个类型将只能被消费, 而不能被生产.
+逆变的一个很好的例子是 `Comparable`:
 
 ```kotlin
 interface Comparable<in T> {
@@ -204,7 +204,7 @@ class Array<T>(val size: Int) {
 }
 ```
 
-这个类对于类型参数 `T` 既不能协变, 也不能反向协变. 这就带来很大的不便. 我们来看看下面的函数:
+这个类对于类型参数 `T` 既不能协变, 也不能逆变. 这就带来很大的不便. 我们来看看下面的函数:
 
 ```kotlin
 fun copy(from: Array<Any>, to: Array<Any>) {
@@ -248,7 +248,7 @@ fun fill(dest: Array<in String>, value: String) { ... }
 `Array<in String>` 与 Java 的 `Array<? super String>` 相同.
 也就是说, 你可以使用 `String`, `CharSequence` 或 `Object` 的数组作为 `fill()` 函数的参数.
 
-### 星号投射(Star-projection)
+### 星号投射(Star-projection) {id="star-projections"}
 
 有些时候, 你可能想表示你并不知道类型参数的任何信息, 但是仍然希望能够安全地使用它.
 这里所谓"安全地使用"是指, 对泛型类型定义一个类型投射, 要求这个泛型类型的所有的实体实例, 都是这个投射的子类型.
@@ -257,7 +257,7 @@ fun fill(dest: Array<in String>, value: String) { ... }
 
 - 假如类型定义为 `Foo<out T : TUpper>`, 其中 `T` 是一个协变的类型参数, 上界(Upper Bound)为 `TUpper`, `Foo<*>` 等价于 `Foo<out TUpper>`.
   它表示, 当 `T` 未知时, 你可以安全地从 `Foo<*>` 中 _读取_ `TUpper` 类型的值.
-- 假如类型定义为 `Foo<in T>`, 其中 `T` 是一个反向协变的类型参数, `Foo<*>` 等价于 `Foo<in Nothing>`.
+- 假如类型定义为 `Foo<in T>`, 其中 `T` 是一个逆变的类型参数, `Foo<*>` 等价于 `Foo<in Nothing>`.
   它表示, 当 `T` 未知时, 你不能安全地向 `Foo<*>` _写入_ 任何东西.
 - 假如类型定义为 `Foo<T : TUpper>`, 其中 `T` 是一个协变的类型参数, 上界(Upper Bound)为 `TUpper`,
   对于读取值的场合, `Foo<*>` 等价于 `Foo<out TUpper>`, 对于写入值的场合, 等价于 `Foo<in Nothing>`.
@@ -273,7 +273,7 @@ fun fill(dest: Array<in String>, value: String) { ... }
 >
 {style="note"}
 
-## 泛型函数
+## 泛型函数 {id="generic-functions"}
 
 不仅类可以有类型参数. 函数一样可以有类型参数. 类型参数放在函数名称 _之前_:
 
@@ -299,7 +299,7 @@ val l = singletonList<Int>(1)
 val l = singletonList(1)
 ```
 
-## 泛型约束(Generic constraint)
+## 泛型约束(Generic constraint) {id="generic-constraints"}
 
 对于一个给定的类型参数, 所允许使用的类型, 可以通过 _泛型约束(generic constraint)_ 来限制.
 
@@ -367,7 +367,7 @@ interface ArcadeGame<T1> : Game<T1> {
 如果只使用 Kotlin, 那么你不太可能需要明确的声明确定不为 null 的类型,
 因为 Kotlin 的类型推断功能会帮你解决这个问题.
 
-## 类型擦除
+## 类型擦除 {id="type-erasure"}
 
 对使用泛型声明的代码, Kotlin 在编译期进行类型安全性检查.
 在运行期, 泛型类型的实例不保存关于其类型参数的任何信息.
@@ -432,7 +432,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-### 未检查的类型转换
+### 未检查的类型转换 {id="unchecked-casts"}
 
 将类型转换为带有实际类型参数的泛型类型, 例如 `foo as List<String>`, 在运行期也无法进行检查.
 如果不能由编译器直接推断得到类型安全, 但通过高层的程序逻辑能够保证, 那么可以使用这种未检查的类型转换.
@@ -481,7 +481,7 @@ inline fun <reified T> List<*>.asListOfType(): List<T>? =
 >
 {style="note"}
 
-## 对类型参数的下划线操作符
+## 对类型参数的下划线操作符 {id="underscore-operator-for-type-arguments"}
 
 可以对类型参数使用下划线操作符 `_`. 当其他类型已经明确指定时, 使用下划线操作符可以自动推断一个参数的类型:
 

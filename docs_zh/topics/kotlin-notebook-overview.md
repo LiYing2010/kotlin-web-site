@@ -1,9 +1,13 @@
 [//]: # (title: Kotlin Notebook)
+[//]: # (description: 在 IntelliJ IDEA 中创建和编辑交互式 Kotlin Notebook, 运行代码, 可视化数据, 验证原型构想, 以及共享结果.)
 
-Kotlin Notebook 提供了一个交互式环境, 用于创建和编辑 notebook, 能够充分发挥 Kotlin 的全部能力.
-
+Kotlin Notebook 提供了一个交互式环境, 用于创建和编辑 Notebook, 能够充分发挥 Kotlin 的全部能力.
 Kotlin Notebook 需要使用 [Kotlin Notebook plugin](https://plugins.jetbrains.com/plugin/16340-kotlin-notebook),
 [IntelliJ IDEA 默认捆绑并启用了这个插件](kotlin-notebook-set-up-env.md).
+
+Notebook 是一个交互式文档, 你可以在这个文档中混合可执行的 Kotlin 代码, 文本, 结果, 以及可视化内容.
+你可以将它看作一种增强的 Kotlin REPL, 可以将代码组织成 cell, 使用 Markdown 编写文档,
+并在紧邻代码的地方立即显示输出结果(支持各种格式, 从文本到图表).
 
 你可以得到无缝的编码体验, 可以使用 Kotlin 代码进行开发和试验, 立即得到输出结果,
 并在 IntelliJ IDEA 生态系统中将代码, 视图, 和文本集成在一起.
@@ -22,12 +26,14 @@ Kotlin Notebook plugin 包含 [很多功能特性](https://www.jetbrains.com/hel
 * 通过错误消息和异常追溯, 获得用于调试的信息
 
 Kotlin Notebook 基于我们的 [用于 Jupyter Notebook 的 Kotlin Kernel](https://github.com/Kotlin/kotlin-jupyter?tab=readme-ov-file#kotlin-kernel-for-ipythonjupyter),
-因此它很容易和我们的 [Kotlin notebook 解决方案](data-analysis-overview.md#notebooks) 集成.
+因此它很容易和我们的 [Kotlin Notebook 解决方案](data-analysis-overview.md#notebooks) 集成.
 你可以很容易的在 Kotlin Notebook [Datalore](https://datalore.jetbrains.com/), 和 [Kotlin-Jupyter Notebook](https://github.com/Kotlin/kotlin-jupyter), 之间共用你的工作, 没有兼容性问题.
 
 通过这些能力, 你可以完成各种任务, 从简单的代码试验, 到复杂的数据项目.
 
-请深入阅读下面的章节, 了解使用 Kotlin Notebook 能够实现哪些功能!
+请继续深入, 了解使用 Kotlin Notebook 能够实现哪些功能!
+
+<a href="get-started-with-kotlin-notebooks.md"><img src="notebook-get-started-button.svg" width="600" alt="Get started with Kotlin Notebook" style="block"/></a>
 
 ## 数据分析与可视化 {id="data-analytics-and-visualization"}
 
@@ -39,10 +45,11 @@ Kotlin Notebook 基于我们的 [用于 Jupyter Notebook 的 Kotlin Kernel](http
 对于分析相关的任务, [Kotlin DataFrame](https://kotlin.github.io/dataframe/overview.html) 库提供了强大的解决方案.
 这个库能够便利的装载, 创建, 过滤, 以及清理结构化的数据.
 
-Kotlin DataFrame 还支持无缝的连接 SQL 数据库, 以及直接在 IDE 中从各种文件格式读取数据, 包括 CSV, JSON, 和 TXT.
+Kotlin DataFrame 还支持无缝的连接 SQL 数据库, 以及直接在 IDE 中从各种数据源读取数据, 包括 CSV, JSON, 和 TXT.
+关于所有支持的格式, 详情请参见 [DataFrame 文档](https://kotlin.github.io/dataframe/data-sources.html).
 
 [Kandy](https://kotlin.github.io/kandy/welcome.html), 一个开源的 Kotlin 库, 能够各种类型的创建图表.
-Kandy 的 符合惯用法, 易读, 并且类型安全的功能, 能够帮助你高效的可视化数据, 并获取有价值的信息.
+Kandy 具有符合惯用法, 易读, 并且类型安全的功能特性, 能够帮助你高效的可视化数据, 并获取有价值的信息.
 
 ![数据分析与可视化](data-analysis-kandy-example.png){width=700}
 
@@ -85,6 +92,16 @@ Kotlin Notebook 提供了在 cell 内调用 API, 以及使用 OpenAPI 之类的�
 它能够便利的共享, 运行, 以及编辑 Notebook, 并包含很多高级功能, 例如安排 Notebook 的运行时刻.
 
 ![通过 Datalore 共享 Kotlin Notebook](kotlin-notebook-sharing-datalore.png){width=700}
+
+或者, 你也可以通过 [GitHub Gist](https://gist.github.com/) 的方式, 快速共享你目前的 Notebook.
+请点击工具栏的 **Create Gist** 按钮.
+
+![notebook-github-gist](notebook-github-gist.png){width=400}
+
+IntelliJ IDEA 会将你的 Notebook 导出到你的 GitHub 账号的一个 Gist,
+并提供一个 URL, 用来共享, 阅读, 以及下载这个 Notebook.
+
+Gist 以 JSON 格式保存你的 Notebook 的所有代码, 输出, 以及 Markdown, GitHub 能够渲染这些内容, 用于预览.
 
 ## 下一步做什么 {id="what-s-next"}
 

@@ -6,8 +6,8 @@
 * [对 Gradle 配置缓存的支持](#gradle-configuration-cache-support)
 * [Kotlin daemon 及其在 Gradle 中的使用](#the-kotlin-daemon-and-how-to-use-it-with-gradle)
 * [回退到以前的编译器](#rolling-back-to-the-previous-compiler)
-* [定义 Kotlin 编译器执行策略](#defining-kotlin-compiler-execution-strategy)
-* [Kotlin 编译器的 fallback 策略](#kotlin-compiler-fallback-strategy)
+* [定义 Kotlin 编译器执行策略](compiler-execution-strategy.md)
+* [Kotlin 编译器的 fallback 策略](compiler-execution-strategy.md#fallback-strategy)
 * [试用最新的语言版本](#trying-the-latest-language-version)
 * [构建报告](#build-reports)
 
@@ -72,7 +72,7 @@ Kotlin plugin 使用 [Gradle 配置缓存](https://docs.gradle.org/current/userg
 
 ## Kotlin daemon 及其在 Gradle 中的使用 {id="the-kotlin-daemon-and-how-to-use-it-with-gradle"}
 
-Kotlin daemon 会:
+[Kotlin daemon](kotlin-daemon.md) 会:
 * 与 Gradle daemon 共同运行来编译项目.
 * 当你使用 IntelliJ IDEA 内建的构建系统来编译项目时, 它会在 Gradle daemon 之外单独运行.
 
@@ -97,13 +97,13 @@ Kotlin daemon 使用与 Gradle daemon 相同的 JDK.
 但会使用对 Kotlin daemon 直接指定的任何 JVM 参数覆盖继承得到的参数.
 例如, 如果你在 `gradle.properties` 文件中添加以下 JVM 参数:
 
-```none
+```properties
 org.gradle.jvmargs=-Xmx1500m -Xms500m -XX:MaxMetaspaceSize=1g
 ```
 
 这些参数之后会被添加到 Kotlin daemon 的 JVM 参数:
 
-```none
+```properties
 -Xmx1500m -XX:ReservedCodeCacheSize=320m -XX:MaxMetaspaceSize=1g -XX:UseParallelGC -ea -XX:+UseCodeCacheFlushing -XX:+HeapDumpOnOutOfMemoryError -Djava.awt.headless=true -Djava.rmi.server.hostname=127.0.0.1 --add-exports=java.base/sun.nio.ch=ALL-UNNAMED
 ```
 
@@ -115,7 +115,7 @@ org.gradle.jvmargs=-Xmx1500m -Xms500m -XX:MaxMetaspaceSize=1g
 
 如果 Gradle daemon 的 JVM 参数包含 `kotlin.daemon.jvm.options` 系统属性 – 请在 `gradle.properties` 文件中指定:
 
-```none
+```properties
 org.gradle.jvmargs=-Dkotlin.daemon.jvm.options=-Xmx1500m,Xms500m
 ```
 
@@ -137,14 +137,14 @@ org.gradle.jvmargs=-Dkotlin.daemon.jvm.options=-Xmx1500m,Xms500m
 
 你可以在 `gradle.properties` 文件中添加 `kotlin.daemon.jvmargs` 属性:
 
-```none
+```properties
 kotlin.daemon.jvmargs=-Xmx1500m -Xms500m
 ```
 
 注意, 如果在这里, 或在 Gradle 的 JVM 参数中, 你没有指定 `ReservedCodeCacheSize` 参数,
 Kotlin Gradle plugin 会使用默认值 `320m`:
 
-```none
+```properties
 -Xmx1500m -XX:ReservedCodeCacheSize=320m -Xms500m
 ```
 
@@ -250,125 +250,6 @@ Kotlin daemon 具有以下默认 JVM 参数:
 
 关于 K2 编译器的优点, 请参见 [K2 编译器迁移向导](k2-compiler-migration-guide.md).
 
-## 定义 Kotlin 编译器执行策略 {id="defining-kotlin-compiler-execution-strategy"}
-
-_Kotlin 编译器执行策略_ 定义 Kotlin 编译器在哪里执行, 以及各种情况下是否支持增量编译.
-
-有 3 种编译器执行策略:
-
-| 策略             | Kotlin 编译器在哪里执行          | 增量编译 | 其它特征, 以及注意事项                                                                                                                                                                 |
-|----------------|--------------------------|------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Daemon         | 在 Kotlin 自己的 daemon 进程之内 | 是    | _默认的, 而且最快的策略_. 可以在不同的 Gradle daemon, 以及多个并行编译之间共用.                                                                                                                          |
-| In process     | 在 Gradle daemon 进程之内     | 否    | 可以与 Gradle daemon 共用 heap. "In process" 执行策略比 "Daemon" 执行策略 _更慢_. 每个 [worker](https://docs.gradle.org/current/userguide/worker_api.html) 会为每个编译创建单独的 Kotlin 编译器 classloader. |
-| Out of process | 对每个编译都在单独的进程内            | 否    | 这是最慢的执行策略. 与 "In process" 类似, 但还会为每个编译在 Gradle worker 内创建单独的 Java 进程.                                                                                                        |
-
-要定义一个 Kotlin 编译器执行策略, 你可以使用以下属性之一:
-* Gradle 属性 `kotlin.compiler.execution.strategy`.
-* Compile Task 属性 `compilerExecutionStrategy`.
-
-Task 属性 `compilerExecutionStrategy` 的优先级高于 Gradle 属性 `kotlin.compiler.execution.strategy`.
-
-`kotlin.compiler.execution.strategy` 属性可以使用的值是:
-1. `daemon` (默认值)
-2. `in-process`
-3. `out-of-process`
-
-在 `gradle.properties` 中使用 Gradle 属性 `kotlin.compiler.execution.strategy`:
-
-```none
-kotlin.compiler.execution.strategy=out-of-process
-```
-
-Task 属性 `compilerExecutionStrategy` 可以使用的值是:
-1. `org.jetbrains.kotlin.gradle.tasks.KotlinCompilerExecutionStrategy.DAEMON` (默认值)
-2. `org.jetbrains.kotlin.gradle.tasks.KotlinCompilerExecutionStrategy.IN_PROCESS`
-3. `org.jetbrains.kotlin.gradle.tasks.KotlinCompilerExecutionStrategy.OUT_OF_PROCESS`
-
-在你的构建脚本中使用 Task 属性 `compilerExecutionStrategy`:
-
-<tabs group="build-script">
-<tab title="Kotlin" group-key="kotlin">
-
-```kotlin
-import org.jetbrains.kotlin.gradle.tasks.CompileUsingKotlinDaemon
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompilerExecutionStrategy
-
-// ...
-
-tasks.withType<CompileUsingKotlinDaemon>().configureEach {
-    compilerExecutionStrategy.set(KotlinCompilerExecutionStrategy.IN_PROCESS)
-}
-```
-
-</tab>
-<tab title="Groovy" group-key="groovy">
-
-```groovy
-import org.jetbrains.kotlin.gradle.tasks.CompileUsingKotlinDaemon
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompilerExecutionStrategy
-
-// ...
-
-tasks.withType(CompileUsingKotlinDaemon)
-    .configureEach {
-        compilerExecutionStrategy = KotlinCompilerExecutionStrategy.IN_PROCESS
-    }
-```
-
-</tab>
-</tabs>
-
-## Kotlin 编译器的 fallback 策略 {id="kotlin-compiler-fallback-strategy"}
-
-Kotlin 编译器的 fallback 策略是指, 如果 daemon 因为某种原因失败, 则在 Kotlin daemon 之外运行编译任务.
-如果 Gradle daemon 启动, 编译器会使用 ["In process" 策略](#defining-kotlin-compiler-execution-strategy).
-如果 Gradle daemon 没有启动, 编译器会使用 "Out of process" 策略.
-
-当 fallback 发生时, 在你的 Gradle 构建输出中会收到以下警告信息:
-
-```none
-Failed to compile with Kotlin daemon: java.lang.RuntimeException: Could not connect to Kotlin compile daemon
-[exception stacktrace]
-Using fallback strategy: Compile without Kotlin daemon
-Try ./gradlew --stop if this issue persists.
-```
-
-但是, 静默的 fallback 到其他策略, 会消耗大量的系统资源, 或导致不确定的构建结果.
-关于这个问题, 请参见这个 [YouTrack issue](https://youtrack.jetbrains.com/issue/KT-48843/Add-ability-to-disable-Kotlin-daemon-fallback-strategy).
-要避免这个问题, 有一个 Gradle 属性 `kotlin.daemon.useFallbackStrategy`, 默认值为 `true`.
-当它的值设置为 `false` 时, daemon 启动或通信时问题会导致构建失败.
-请在 `gradle.properties` 文件中声明这个属性:
-
-```none
-kotlin.daemon.useFallbackStrategy=false
-```
-
-在 Kotlin 编译任务中也有一个 `useDaemonFallbackStrategy` 属性, 如果同时使用, 它的优先级会高于 Gradle 属性.
-
-<tabs group="build-script">
-<tab title="Kotlin" group-key="kotlin">
-
-```kotlin
-tasks {
-    compileKotlin {
-        useDaemonFallbackStrategy.set(false)
-    }
-}
-```
-
-</tab>
-<tab title="Groovy" group-key="groovy">
-
-```groovy
-tasks.named("compileKotlin").configure {
-    useDaemonFallbackStrategy = false
-}
-```
-</tab>
-</tabs>
-
-如果运行编译所需要的内存不足, 你会在 log 中看到相关信息.
-
 ## 试用最新的语言版本 {id="trying-the-latest-language-version"}
 
 从 Kotlin 2.0.0 开始, 要试用最新的语言版本, 请在你的 `gradle.properties` 文件中设置 `kotlin.experimental.tryNext` 属性.
@@ -407,7 +288,7 @@ Gradle Build Scan 中的粒度只是单个 Gradle Task.
 
 要启用构建报告, 请在 `gradle.properties` 中指定构建报告输出的保存位置:
 
-```none
+```properties
 kotlin.build.report.output=file
 ```
 
@@ -423,13 +304,13 @@ kotlin.build.report.output=file
 
 下面是 `kotlin.build.report` 的选项列表:
 
-```none
+```properties
 # 需要的报告输出格式. 可以任意组合
 kotlin.build.report.output=file,single_file,http,build_scan,json
 
 # 如果使用 single_file 输出, 则必须设置. 表示报告的输出位置
 # 请使用这个设定, 代替已废弃的 `kotlin.internal.single.build.metrics.file` 属性
-kotlin.build.report.single_file=some_filename
+kotlin.build.report.single_file=my/directory/path/some_filename
 
 # 如果使用 json 输出, 则必须设置. 表示报告的输出位置
 kotlin.build.report.json.directory=my/directory/path
@@ -443,7 +324,7 @@ kotlin.build.report.label=some_label
 
 只适用于 HTTP 输出的选项:
 
-```none
+```properties
 # 必须设置. 基于 HTTP(S) 的报告的 POST 地址
 kotlin.build.report.http.url=http://127.0.0.1:8080
 
@@ -474,7 +355,7 @@ Maximum number of custom values (1,000) exceeded
 
 要减少 Kotlin plugin 产生的 custom value 数量, 你可以在 `gradle.properties` 文件中使用以下属性:
 
-```none
+```properties
 kotlin.build.report.build_scan.custom_values_limit=500
 ```
 
@@ -494,3 +375,4 @@ HTTP 构建统计 log 可能包含某些项目和系统属性. 这些属性可�
 学习:
 * [Gradle 的基本概念与详细信息](https://docs.gradle.org/current/userguide/userguide.html).
 * [对 Gradle plugin 变体的支持](gradle-plugin-variants.md).
+* [编译器执行策略](compiler-execution-strategy.md)

@@ -34,7 +34,7 @@
 
 ```kotlin
 class Contact(val id: Int, var email: String) {
-    val category: String = ""
+    var category: String = ""
 }
 ```
 
@@ -42,7 +42,7 @@ class Contact(val id: Int, var email: String) {
 
 ```kotlin
 class Contact(val id: Int, var email: String) {
-    val category: String = ""
+    var category: String = ""
         get() = field
         set(value) {
             field = value
@@ -86,7 +86,7 @@ fun main() {
     // 这里会发生错误: Exception in thread "main" java.lang.StackOverflowError
 }
 ```
-{validate ="false" kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-properties-stackoverflow"}
+{validate="false" kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-properties-stackoverflow"}
 
 要解决这个问题, 可以在你的 `set()` 函数中改为通过 `field` 关键字引用后端域变量:
 
@@ -118,7 +118,7 @@ fun main() {
 此外, 没有后端域变量也意味着扩展属性不能保存任何状态.
 
 要声明一个扩展属性, 请在你想要扩展的类的名称之后加上 `.`, 再加上属性的名称.
-和通常的类属性一样, 你需要为你的属性声明接受者类型.
+和通常的类属性一样, 你需要为你的属性声明类型.
 例如:
 
 ```kotlin
@@ -127,7 +127,7 @@ val String.lastChar: Char
 {validate="false"}
 
 当你想要属性包含计算得到的值, 而不使用继承时, 扩展属性是很有用的.
-你可以将扩展属性想象为一个函数, 只有一个参数: 接受者对象.
+你可以将扩展属性想象为一个函数, 只有一个参数: 接受者.
 
 例如, 假设你有一个数据类 `Person`, 它有 2 个属性: `firstName` 和 `lastName`.
 
@@ -195,7 +195,7 @@ operator fun setValue(thisRef: Any?, property: KProperty<*>, value: String) {}
 * `operator` 关键字将这些函数标记为操作符函数, 允许它们覆盖 `get()` 和 `set()` 函数.
 * `thisRef` 参数表示 **包含** 委托属性的对象. 默认情况下, 类型设置为 `Any?`, 但你可能需要声明更具体的类型.
 * `property` 参数表示值正在被访问或被修改的那个属性. 你可以使用这个参数来获取属性信息, 例如属性的名称或类型.
-  默认情况下, 类型设置为 `KProperty<*>`. 在你的代码中, 不必进行修改.
+  默认情况下, 类型设置为 `KProperty<*>`, 但你也可以使用 `Any?`. 在你的代码中, 不必进行修改.
 
 `getValue()` 函数的返回类型默认为 `String`, 但如果你需要, 可以调整这个类型.
 

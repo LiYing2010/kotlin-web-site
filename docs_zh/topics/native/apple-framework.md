@@ -1,12 +1,12 @@
 [//]: # (title: 教程 - 使用 Kotlin/Native 开发 Apple Framework)
 
-> Objective-C 库导入 [实验性功能](components-stability.md#stability-levels-explained).
+> Objective-C 库导入功能目前是 [Beta 版](native-lib-import-stability.md#stability-of-c-and-objective-c-library-import).
 > cinterop 工具从 Objective-C 库生成的所有 Kotlin 声明都应该标注 `@ExperimentalForeignApi` 注解.
 >
 > Kotlin/Native 自带的原生平台库 (例如 Foundation, UIKit, 和 POSIX),
 > 只对一部分 API 需要使用者明确同意(Opt-in).
 >
-{style="warning"}
+{style="note"}
 
 Kotlin/Native 提供了与 Swift/Objective-C 的双向交互能力.
 你可以在 Kotlin 代码中使用 Objective-C Framework 和库, 也可以在 Swift/Objective-C 代码中使用 Kotlin 模块.
@@ -80,6 +80,8 @@ Kotlin/Native 编译器可以从 Kotlin 代码生成 macOS 和 iOS 的 Framework
    <tab title="Kotlin" group-key="kotlin">
 
    ```kotlin
+   import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+
    plugins {
        kotlin("multiplatform") version "%kotlinVersion%"
    }
@@ -89,7 +91,11 @@ Kotlin/Native 编译器可以从 Kotlin 代码生成 macOS 和 iOS 的 Framework
    }
 
    kotlin {
-       iosArm64("native") {
+       iosArm64()
+       // macosArm64()
+       // iosSimulatorArm64()
+
+       targets.withType<KotlinNativeTarget>().configureEach {
            binaries {
                framework {
                    baseName = "Demo"
@@ -108,6 +114,8 @@ Kotlin/Native 编译器可以从 Kotlin 代码生成 macOS 和 iOS 的 Framework
    <tab title="Groovy" group-key="groovy">
 
    ```groovy
+   import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+
    plugins {
        id 'org.jetbrains.kotlin.multiplatform' version '%kotlinVersion%'
    }
@@ -117,7 +125,11 @@ Kotlin/Native 编译器可以从 Kotlin 代码生成 macOS 和 iOS 的 Framework
    }
 
    kotlin {
-       iosArm64("native") {
+       iosArm64()
+       // macosArm64()
+       // iosSimulatorArm64()
+
+       targets.withType(KotlinNativeTarget).configureEach {
            binaries {
                framework {
                    baseName = "Demo"
@@ -137,28 +149,27 @@ Kotlin/Native 编译器可以从 Kotlin 代码生成 macOS 和 iOS 的 Framework
 
    `binaries {}` 代码块配置项目, 生成一个动态库或共用库.
 
-   Kotlin/Native 对 iOS 支持 `iosArm64`, `iosX64`, 和 `iosSimulatorArm64` 编译目标, 对 macOS 支持 `macosX64` 和 `macosArm64` 编译目标.
+   Kotlin/Native 对 iOS 支持 `iosArm64` 和 `iosSimulatorArm64` 编译目标, 对 macOS 支持 `macosArm64` 编译目标.
    因此, 你可以将 `iosArm64()` 替换为针对你的目标平台的对应的 Gradle 函数:
 
-   | 编译目标平台/设备         | Gradle 函数             |
-   |------------------------|-----------------------|
-   | macOS x86_64           | `macosX64()`          |
+   | 编译目标/设备               | Gradle 函数             |
+   |-----------------------|-----------------------|
    | macOS ARM64           | `macosArm64()`        |
    | iOS ARM64             | `iosArm64()`          |
-   | iOS Simulator (x86_64) | `iosX64()`            |
-   | iOS Simulator (ARM64)  | `iosSimulatorArm64()` |
+   | iOS Simulator (ARM64) | `iosSimulatorArm64()` |
 
    关于支持的其他 Apple 目标平台, 请参见 [Kotlin/Native 支持的目标平台](native-target-support.md).
 
-3. 在 IDE 中运行 `linkDebugFrameworkNative` Gradle task, 或在你的终端中使用以下控制台命令, 来构建 Framework:
+3. 要构建 Framework, 请在你的 IDE 中运行 `linkDebugFramework<YourTargetName>` Gradle task,
+   或在你的终端中使用控制台命令, 例如:
 
    ```bash
-   ./gradlew linkDebugFrameworkNative
+   ./gradlew linkDebugFrameworkIosArm64
    ```
 
-构建会在 `build/bin/native/debugFramework` 目录中生成 Framework.
+构建会在 `build/bin/<yourTargetName>/debugFramework` 目录中生成 Framework.
 
-> 你也可以使用 `linkNative` Gradle task, 同时生成 Framework 的 `debug` 和 `release` 变体.
+> 你也可以使用通用的 `link<YourTargetName>` Gradle task, 同时生成 Framework 的 `debug` 和 `release` 变体.
 >
 {style="tip"}
 
@@ -170,7 +181,7 @@ Kotlin/Native 编译器可以从 Kotlin 代码生成 macOS 和 iOS 的 Framework
 
 ### Kotlin/Native 运行期声明 {id="kotlin-native-runtime-declarations"}
 
-在 `build/bin/native/debugFramework/Demo.framework/Headers` 目录中, 打开 `Demo.h` 头文件.
+在 `build/bin/<yourTargetName>/debugFramework/Demo.framework/Headers` 目录中, 打开 `Demo.h` 头文件.
 我们来看看 Kotlin 运行期声明:
 
 ```objc

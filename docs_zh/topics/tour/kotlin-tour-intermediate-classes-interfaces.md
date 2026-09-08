@@ -262,85 +262,182 @@ fun main() {
 
 ## 委托 {id="delegation"}
 
-接口是很有用的, 但如果你的接口包含很多函数, 子类可能会出现大量的样板代码.
-当你只想覆盖父类的一小部分行为时, 你就需要大量的重复代码.
+接口是很有用的, 但如果你的接口包含很多函数, 它的子类可能会出现大量样板代码.
+如果你只想覆盖一个类的一小部分行为时, 你就需要大量的重复代码.
 
 > 样板代码是指一块代码在软件项目的多个部分中重复使用, 只有很少的修改, 或根本没有修改.
 > 
 {style="tip"}
 
-例如, 假设你有一个接口 `Drawable`, 包含很多函数和一个属性 `color`:
+例如, 假设你有一个接口 `DrawingTool`, 包含很多函数和一个属性 `color`:
 
 ```kotlin
-interface Drawable {
-    fun draw()
-    fun resize()
-    val color: String?
+interface DrawingTool {
+    val color: String
+    fun draw(shape: String)
+    fun erase(area: String)
+    fun getToolInfo(): String
 }
 ```
 
-你创建了一个类 `Circle`, 实现 `Drawable` 接口, 为它的所有成员提供实现:
+你创建了一个类 `PenTool`, 实现 `DrawingTool` 接口, 为它的所有成员提供实现:
 
 ```kotlin
-class Circle : Drawable {
-    override fun draw() {
-        TODO("An example implementation")
-    }
-    
-    override fun resize() {
-        TODO("An example implementation")
+class PenTool : DrawingTool {
+    override val color: String = "black"
+
+    override fun draw(shape: String) {
+        println("Drawing $shape using a pen in $color")
     }
 
-    override val color = null
+    override fun erase(area: String) {
+        println("Erasing $area with pen tool")
+    }
+
+    override fun getToolInfo(): String {
+        return "PenTool(color=$color)"
+    }
 }
 ```
 
-如果你想要创建 `Circle` 类的子类, 具有相同的行为, **唯一的例外** 是 `color` 属性的值不同,
-你仍然需要为 `Circle` 类的每个成员函数添加实现:
+你想要创建与 `PenTool` 类似的类, 保持相同的行为, 只是 `color` 值不同.
+一种方案是创建一个新的类, 接受一个实现了 `DrawingTool` 接口的对象作为参数, 例如一个 `PenTool` 类实例.
+然后, 在这个类之内, 你可以覆盖 `color` 属性.
+
+但在这种情况下, 你需要为 `DrawingTool` 接口的每个成员添加实现:
 
 ```kotlin
-class RedCircle(val circle: Circle) : Circle {
-    // 样板代码开始
-    override fun draw() {
-        circle.draw()
+interface DrawingTool {
+    val color: String
+    fun draw(shape: String)
+    fun erase(area: String)
+    fun getToolInfo(): String
+}
+
+class PenTool : DrawingTool {
+    override val color: String = "black"
+
+    override fun draw(shape: String) {
+        println("Drawing $shape using a pen in $color")
     }
 
-    override fun resize() {
-        circle.resize()
+    override fun erase(area: String) {
+        println("Erasing $area with pen tool")
     }
-    // 样板代码结束
 
-    override val color = "red"
+    override fun getToolInfo(): String {
+        return "PenTool(color=$color)"
+    }
+}
+//sampleStart
+class CanvasSession(val tool: DrawingTool) : DrawingTool {
+    override val color: String = "blue"
+
+    override fun draw(shape: String) {
+        tool.draw(shape)
+    }
+
+    override fun erase(area: String) {
+        tool.erase(area)
+    }
+
+    override fun getToolInfo(): String {
+        return tool.getToolInfo()
+    }
+}
+//sampleEnd
+fun main() {
+    val pen = PenTool()
+    val session = CanvasSession(pen)
+
+    println("Pen color: ${pen.color}")
+    // 输出结果为: Pen color: black
+
+    println("Session color: ${session.color}")
+    // 输出结果为: Session color: blue
+
+    session.draw("circle")
+    // 输出结果为: Drawing circle with pen in black
+
+    session.erase("top-left corner")
+    // 输出结果为: Erasing top-left corner with pen tool
+
+    println(session.getToolInfo())
+    // 输出结果为: PenTool(color=black)
 }
 ```
+{kotlin-runnable="true" id="kotlin-tour-interface-non-delegation"}
 
-你会看出, 如果在 `Drawable` 接口中有大量的成员函数, `RedCircle` 类中的样板代码数量会变得非常巨大.
+你会看出, 如果在 `DrawingTool` 接口中有大量的成员函数, `CanvasSession` 类中的样板代码数量会变得很大.
 但是, 还有另一种选择.
 
-在 Kotlin 中, 可以使用委托, 将接口实现委托给一个类的实例.
-例如, 你可以创建 `Circle` 类的一个实例, 并将 `Drawable` 接口的成员函数的实现委托给这个实例.
-要实现这一点, 请使用 `by` 关键字. 例如:
+在 Kotlin 中, 可以使用 `by` 关键字, 将接口实现委托给一个类的实例. 例如:
 
 ```kotlin
-class RedCircle(param: Circle) : Drawable by param
+class CanvasSession(val tool: DrawingTool) : DrawingTool by tool
 ```
 
-其中, `param` 是 `Circle` 类实例的名称, 成员函数的实现委托给它.
+其中, `tool` 是 `PenTool` 类的实例名称, 成员函数的实现委托给它.
 
-现在你不必为 `RedCircle` 类中的成员函数添加实现了.
-编译器会自动通过 `Circle` 类为你完成这些. 这样可以为你避免编写大量样板代码的麻烦.
+现在你不必为 `CanvasSession` 类中的成员函数添加实现了.
+编译器会自动通过 `PenTool` 类为你完成这些. 这样可以为你避免编写大量样板代码的麻烦.
 你只需要对子类中想要修改的行为添加代码即可.
 
 例如, 如果你想要修改 `color` 属性的值:
 
 ```kotlin
-class RedCircle(param : Circle) : Drawable by param {
+interface DrawingTool {
+    val color: String
+    fun draw(shape: String)
+    fun erase(area: String)
+    fun getToolInfo(): String
+}
+
+class PenTool : DrawingTool {
+    override val color: String = "black"
+
+    override fun draw(shape: String) {
+        println("Drawing $shape using a pen in $color")
+    }
+
+    override fun erase(area: String) {
+        println("Erasing $area with pen tool")
+    }
+
+    override fun getToolInfo(): String {
+        return "PenTool(color=$color)"
+    }
+}
+
+//sampleStart
+class CanvasSession(val tool: DrawingTool) : DrawingTool by tool {
     // 没有样板代码!
-    override val color = "red"
+    override val color: String = "blue"
+}
+//sampleEnd
+fun main() {
+    val pen = PenTool()
+    val session = CanvasSession(pen)
+
+    println("Pen color: ${pen.color}")
+    // 输出结果为: Pen color: black
+
+    println("Session color: ${session.color}")
+    // 输出结果为: Session color: blue
+
+    session.draw("circle")
+    // 输出结果为: Drawing circle with pen in black
+
+    session.erase("top-left corner")
+    // 输出结果为: Erasing top-left corner with pen tool
+
+    println(session.getToolInfo())
+    // 输出结果为: PenTool(color=black)
 }
 ```
+{kotlin-runnable="true" id="kotlin-tour-interface-delegation"}
 
-如果你想要, 你也可以在 `RedCircle` 类中覆盖继承的成员函数的行为,
+如果你想要, 你也可以在 `CanvasSession` 类中覆盖继承的成员函数的行为,
 但现在你不必为每个继承的成员函数添加新代码.
 
 详情请参见 [委托](delegation.md).

@@ -6,7 +6,7 @@ Kotlin 标准库提供了大量的函数用来在集合上进行各种操作.
 
 ## 扩展函数与成员函数 {id="extension-and-member-functions"}
 
-标准库中定义的操作有两类: 集合接口的 [成员函数](classes.md#class-members), 以及 [扩展函数](extensions.md#extension-functions).
+标准库中定义的操作有两类: 集合接口的 [成员函数](classes.md), 以及 [扩展函数](extensions.md#extension-functions).
 
 成员函数定义了的集合类型的基本操作. 比如,
 [`Collection`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-collection/index.html)

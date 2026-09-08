@@ -21,16 +21,30 @@
 ```kotlin
 // 请将 libraryName 替换为你想要添加的库依赖项
 %use libraryName
+// 如果需要, 指定版本
+%use libraryName(version)
+// 添加 v= , 可以触发代码自动完成
+%use libraryName(v=version)
+// 例如: kotlinx.datetime:0.7.1
+%use datetime(v=0.7.1)
 ```
 
 你也可以在 Kotlin Notebook 中使用自动完成功能, 快速找到可用的库:
 
 ![Kotlin Notebook 中的自动完成功能](autocompletion-feature-notebook.png){width=700}
 
+> Kotlin Notebook 包含一组集成的库, 可以执行各种任务, 从深度学习到 HTTP 网络通信.
+> 详情请参见 [导入支持的库](https://www.jetbrains.com/help/idea/kotlin-notebook.html#import-libraries).
+>
+> 你也可以添加和使用目前还没有集成到 Kotlin Notebook 的库.
+> 详情请参见 [集成新的库](https://www.jetbrains.com/help/idea/kotlin-notebook.html#Integrate-new-libraries).
+>
+{style="note"}
+
 ## 向你的 Kotlin Notebook 添加 Kotlin DataFrame 和 Kandy 库 {id="add-kotlin-dataframe-and-kandy-libraries-to-your-kotlin-notebook"}
 
 我们来向你的 Kotlin Notebook 添加两个常用的 Kotlin 库依赖项:
-* [Kotlin DataFrame 库](https://kotlin.github.io/dataframe/gettingstarted.html) 让你能够在你的 Kotlin 项目中操纵数据.
+* [Kotlin DataFrame 库](https://kotlin.github.io/dataframe/home.html) 让你能够在你的 Kotlin 项目中操纵数据.
   你可以使用它 从 [API](data-analysis-work-with-api.md), [SQL 数据库](data-analysis-connect-to-db.md), 以及 [各种文件格式](data-analysis-work-with-data-sources.md)(例如 CSV 或 JSON) 获取数据.
 * [Kandy 库](https://kotlin.github.io/kandy/welcome.html) 为 [创建图表](data-analysis-visualization.md) 提供了一种强大而且灵活的 DSL.
 

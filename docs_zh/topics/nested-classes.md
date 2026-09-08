@@ -44,7 +44,7 @@ val demo = Outer().Inner().foo() // == 1
 
 在内部类中使用 `this` 关键字会产生歧义, 关于如何消除这种歧义, 请参见 [带限定符的 `this` 表达式](this-expressions.md).
 
-## 匿名内部类(Anonymous inner class)
+## 匿名内部类(Anonymous inner class) {id="anonymous-inner-classes"}
 
 匿名内部类的实例使用 [对象表达式(object expression)](object-declarations.md#object-expressions) 来创建:
 

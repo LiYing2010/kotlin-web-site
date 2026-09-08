@@ -1,29 +1,37 @@
 [//]: # (title: 参加 Kotlin EAP 项目)
 
-<!--
 <tldr>
-    <p>Kotlin EAP 的最新发布版本: <strong>%kotlinEapVersion%</strong></p>
+    <p>目前没有预览版.</p>
+    <!--<p>Kotlin EAP 的最新发布版本: <strong>%kotlinEapVersion%</strong></p>-->
 </tldr>
--->
 
 你可以参加 Kotlin 早期预览(EAP) 项目, 试用 Kotlin 还未发布的最新功能.
 
-在每个语言发布版 (_2.x.0_) 和工具发布版 (_2.x.20_)之前, 我们会发布少量的 Beta (_Beta_) 和 Release Candidate (_RC_) 版本.
+在每个语言发布版 (_2.x.0_) 和工具发布版 (_2.x.20_)之前,
+我们会发布早期预览(Early Access Preview, EAP) 版, 你可以在真实的项目中试用, 并分享你的反馈意见.
+Kotlin EAP 版通常包含以下几个阶段:
 
-如果你发现并报告 bug 到我们的问题追踪系统 [YouTrack](https://kotl.in/issue), 我们非常感谢.
-我们很可能会在最终发布版之前修正这些 bug, 因此为了解决你的问题, 不需要等到 Kotlin 的下个发布版.
+| EAP 版本    | 描述                                                                             |
+|-----------|--------------------------------------------------------------------------------|
+| **Beta1** | 首次推出新的功能特性, 改进, 以及其它重大变更. 让你有机会尽早试用新的功能, 并提供反馈意见.                              |
+| **Beta2** | 通常会根据我们收到的反馈意见, 添加新的功能特性和改进. 这个版本已经包含完整的功能特性, 并继续预览即将发布的版本, 对之前引入的功能特性进一步进行完善. |
+| **RC**    | 第一个发布候选版. 主要集中于稳定 Beta1 和 Beta2 种引入的变更, 以及修复测试过程中发现的回归问题.                      |
+| **RC2**   | 包含重要的修复, 确定最终发布版的内容, 确认准备就绪.                                                   |
+
+
+如果你将发现的 bug 报告到我们的问题追踪系统 [YouTrack](https://kotl.in/issue), 我们非常感谢.
+大多数情况下, 我们会在最终发布版之前修正这些 bug, 因此为了解决你的问题, 不需要等到 Kotlin 的下个发布版.
 
 参加早期预览(EAP) 项目并报告 bug, 你可以向 Kotlin 作出贡献, 帮助我们改进它,
 为 [不断增长的 Kotlin 社区](https://kotlinlang.org/community/) 每个成员带来利益.
-我们非常感谢你的帮助!
 
-如果你有任何问题, 希望参与讨论, 欢迎加入 [Kotlin Slack 的 #eap 频道](https://app.slack.com/client/T09229ZC6/C0KLZSCHF).
+如果你有任何问题, 或者希望参与讨论, 欢迎加入 [Kotlin Slack 的 #eap 频道](https://app.slack.com/client/T09229ZC6/C0KLZSCHF).
 在这个频道中, 你还可以收到关于新的 EAP 版本的通知.
 
 **[针对 Kotlin EAP 版配置你的项目](configure-build-for-eap.md)**
 
 > 参与 EAP 项目, 表示你明确了解 EAP 版本并不可靠, 可能不会像期待的那样正常工作, 并且可能包含错误.
-> 请注意, 对于 EAP 和某些版本的最终发布版之间兼容性, 我们并不提供任何保证.
+> 我们并不保证 EAP 版和同一版本的最终发布版之间的兼容性.
 >
 {style="note"}
 
@@ -62,14 +70,14 @@ _目前没有预览版._
         <th>重要功能</th>
     </tr>
     <tr>
-        <td><strong>2.2.0-RC3</strong>
-            <p>发布日期: <strong>2025/06/16</strong></p>
-            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v2.2.0-RC3" target="_blank">GitHub 上的 Release 页面</a></p>
+        <td><strong>2.4.0-RC2</strong>
+            <p>发布日期: <strong>2026/05/07</strong></p>
+            <p><a href="https://github.com/JetBrains/kotlin/releases/tag/v2.4.0-RC2" target="_blank">GitHub 上的 Release 页面</a></p>
         </td>
         <td>
-            <p>一个语言发布版, 包括新功能特性和工具更新的预览.</p>
-            <p>更多详情请参见 <a href="https://github.com/JetBrains/kotlin/releases/tag/v2.2.0-RC3">changelog</a>
-               或 <a href="whatsnew-eap.md">Kotlin 2.2.0-RC3 版中的新功能</a>.</p>
+            <p>一个语言发布版, 包括语言和工具重大变更.</p>
+            <p>更多详情请参见 <a href="https://github.com/JetBrains/kotlin/releases/tag/v2.4.0-RC2">changelog</a>
+               或 <a href="whatsnew-eap.md">2.4.0-RC2 版中的新功能</a>.</p>
         </td>
     </tr>
 </table>

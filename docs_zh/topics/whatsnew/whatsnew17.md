@@ -1,10 +1,12 @@
 [//]: # (title: Kotlin 1.7.0 版中的新功能)
 
+<web-summary>阅读 Kotlin 1.7.0 发布说明, 包括新的语言特性, Kotlin Multiplatform, JVM, Native, JS 的更新, 以及对 Gradle 和 Maven 的构建工具支持.</web-summary>
+
 <tldr>
    <p>IDE 从 IntelliJ IDEA 2021.2, 2021.3, 和 2022.1 开始支持 Kotlin 1.7.0.</p>
 </tldr>
 
-_[发布日期: 2022/06/09](releases.md#release-details)_
+_[发布日期: 2022/06/09](releases.md#release-history)_
 
 Kotlin 1.7.0 已经发布了. 它公布了新的 Kotlin/JVM K2 编译器的 Alpha 版,
 发布了语言功能的稳定版, 并为 JVM, JS, 和 Native 平台带来了性能改进.
@@ -25,6 +27,10 @@ Kotlin 1.7.0 已经发布了. 它公布了新的 Kotlin/JVM K2 编译器的 Alph
 关于这个版本的变更概要, 请参见以下视频:
 
 <video src="https://www.youtube.com/v/54WEfLKtCGk" title="Kotlin 1.7.0 版中的新功能"/>
+
+> 关于 Kotlin 的发布周期, 详情请参见 [Kotlin 发布过程](releases.md).
+>
+{style="tip"}
 
 ## JVM 平台的新的 Kotlin K2 编译器 (Alpha 版) {id="new-kotlin-k2-compiler-for-the-jvm-in-alpha"}
 
@@ -67,7 +73,7 @@ Kotlin 的下一个发布版本将会改进 K2 编译器的稳定性, 并提供�
 
 如果你使用 Kotlin K2 编译器时遇到任何性能问题, 请 [向我们的问题追踪系统提交报告](https://kotl.in/issue).
 
-## 语言功能
+## 语言功能 {id="language"}
 
 Kotlin 1.7.0 引入的新的语言功能, 支持通过代理实现接口, 以及新的类型参数的下划线操作符.
 此外, 对于以前版本中引入的几个语言功能预览版, Kotlin 1.7.0 还发布了它们的稳定版:
@@ -183,7 +189,7 @@ fun main() {
 关于明确非 null 类型, 详情请参见
 [这个 KEEP](https://github.com/Kotlin/KEEP/blob/master/proposals/definitely-non-nullable-types.md).
 
-## Kotlin/JVM
+## Kotlin/JVM {id="kotlinjvm"}
 
 这个发布版带来了对 Kotlin/JVM 编译器的性能改进, 以及一个新的编译器 选项.
 此外, 对函数式接口构造器的可调用引用升级为稳定版.
@@ -234,10 +240,10 @@ Kotlin 1.7.0 添加了新的编译器选项, `-Xjdk-release`.
 关于如何更新 JVM 编译目标版本, 请参见:
 
 * [Gradle](gradle-compiler-options.md#attributes-specific-to-jvm)
-* [Maven](maven.md#attributes-specific-to-jvm)
+* [Maven](maven-kotlin-compiler.md#attributes-specific-to-jvm)
 * [命令行编译器](compiler-reference.md#jvm-target-version)
 
-## Kotlin/Native
+## Kotlin/Native {id="kotlinnative"}
 
 Kotlin 1.7.0 包括 与 Objective-C 和 Swift 交互性的变更, 并且将以前的发布版中引入的功能升级为稳定版.
 还带来了对新的内存管理器的性能改进, 以及其他更新:
@@ -339,7 +345,7 @@ Kotlin 1.7.0 修正了这个问题, 现在这样的情况会导致程序终止.
 
 默认的起始 URL 是 `https://download.jetbrains.com/kotlin/native/builds`, 如果要修改, 请使用以下 Gradle 属性:
 
-```none
+```properties
 kotlin.native.distribution.baseDownloadUrl=https://example.com
 ```
 
@@ -347,7 +353,7 @@ kotlin.native.distribution.baseDownloadUrl=https://example.com
 >
 {style="note"}
 
-## Kotlin/JS
+## Kotlin/JS {id="kotlinjs"}
 
 Kotlin/JS 包括对 [JS IR 编译器后端](js-ir-compiler.md) 的更多改进, 以及改善你的开发体验的其他更新:
 
@@ -424,7 +430,7 @@ kotlin {
 }
 ```
 
-## 标准库
+## 标准库 {id="standard-library"}
 
 在 Kotlin 1.7.0 中, 标准库有了大量的变更和改进.
 引入了新的功能, 将实验性功能升级到稳定版,
@@ -501,7 +507,7 @@ fun main() {
 
 在 Kotlin 1.7.0 中, 我们支持 3 个版本前的语言和 API 版本, 而不是 2 个.
 因此使用 Kotlin 1.7.0 支持开发库, 最低供 Kotlin 1.4.0 版本使用.
-关于向后兼容性, 详情请参见 [兼容性模式](compatibility-modes.md).
+关于向后兼容性, 详情请参见 [兼容性选项](kotlin-evolution-principles.md#compatibility-options).
 
 ### 通过反射访问注解 {id="access-to-annotations-via-reflection"}
 
@@ -644,7 +650,7 @@ println(list)
 [`MatchGroupCollection.get()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/get.html),
 参数是组的名称.
 
-#### 通过名称获取匹配的组的值
+#### 通过名称获取匹配的组的值 {id="retrieve-matched-group-value-by-name"}
 
 我们来看看这个示例, 它匹配城市的座标. 要得到正规表达式匹配的组的集合,
 请使用 [`groups`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/-match-result/groups.html).
@@ -661,7 +667,7 @@ fun main() {
 }
 ```
 
-#### 命名的反向引用
+#### 命名的反向引用 {id="named-backreferencing"}
 
 你现在还可以在反向引用组时使用组的名称. 反向引用会匹配在前面曾经被一个捕获组匹配过的相同的文字.
 要使用这个功能, 请在你的正规表达式中使用 `\k<name>` 语法:
@@ -675,7 +681,7 @@ fun backRef() {
 }
 ```
 
-#### 在替换表达式中使用命名的组
+#### 在替换表达式中使用命名的组 {id="named-groups-in-replacement-expressions"}
 
 命名的组引用可以与替换表达式一起使用.
 比如
@@ -697,7 +703,7 @@ fun dateReplace() {
 }
 ```
 
-## Gradle
+## Gradle {id="gradle"}
 
 这个发布版引入了新的构建报告功能, 支持 Gradle plugin 变体(Variant), 在 kapt 中的新的统计功能, 以及其他很多功能:
 
@@ -731,7 +737,7 @@ fun dateReplace() {
 
 要试用这个新方案, 请在你的 `gradle.properties` 中设置以下选项:
 
-```none
+```properties
 kotlin.incremental.useClasspathSnapshot=true
 ```
 
@@ -770,7 +776,7 @@ Kotlin 1.7.0 引入了构建报告功能, 帮助追踪编译器的性能.
 
 要启用构建报告, 请在 `gradle.properties` 中声明构建报告输出的保存位置:
 
-```none
+```properties
 kotlin.build.report.output=file
 ```
 
@@ -913,7 +919,7 @@ plugins {
 
 * 在你的 `gradle.properties` 中, 将 `kapt.verbose` Gradle 属性设置为 `true` :
 
-  ```none
+  ```properties
   kapt.verbose=true
   ```
 
@@ -945,16 +951,16 @@ Kotlin 1.6.20 中引入了 [新的属性来定义 Kotlin 编译器的执行策�
 这个属性将在将来的发布版中删除. 如果要保留旧的行为, 请将系统属性替换为相同名称的 Gradle 属性.
 你在 `gradle.properties` 中可以这样做, 比如:
 
-```none
+```properties
 kotlin.compiler.execution.strategy=out-of-process
 ```
 
 你也可以使用编译任务属性 `compilerExecutionStrategy`.
-详情请参见 [Gradle 章节](gradle-compilation-and-caches.md#defining-kotlin-compiler-execution-strategy).
+详情请参见 [编译器执行策略 章节](compiler-execution-strategy.md).
 
 ### 删除了废弃的选项, 方法, 和 plugin {id="removal-of-deprecated-options-methods-and-plugins"}
 
-#### 删除了 useExperimentalAnnotation 方法
+#### 删除了 useExperimentalAnnotation 方法 {id="removal-of-the-useexperimentalannotation-method"}
 
 在 Kotlin 1.7.0 中, 我们完成了 Gradle 方法 `useExperimentalAnnotation` 的废弃周期.
 如果使用一个模块中的一个 API 需要使用者的同意, 请改用 `optIn()`.
@@ -971,7 +977,7 @@ sourceSets {
 
 详情请参见 Kotlin 中的 [明确要求使用者同意的功能(Opt-in Requirement)](opt-in-requirements.md).
 
-#### 删除了废弃的编译器选项
+#### 删除了废弃的编译器选项 {id="removal-of-deprecated-compiler-options"}
 
 我们完成了几个编译器选项废弃周期:
 
@@ -985,7 +991,7 @@ sourceSets {
 >
 {style="note"}
 
-#### 删除了废弃的 plugin
+#### 删除了废弃的 plugin {id="removal-of-deprecated-plugins"}
 
 在 Kotlin 1.4.0 中, `kotlin2js` 和 `kotlin-dce-plugin` plugin 已被废弃, 并在这个发布版中删除.
 请使用新的 `org.jetbrains.kotlin.js` plugin 代替 `kotlin2js`.
@@ -1000,15 +1006,15 @@ sourceSets {
 >
 {style="tip"}
 
-#### 删除了废弃的 coroutines DSL 选项和属性
+#### 删除了废弃的 coroutines DSL 选项和属性 {id="removal-of-the-deprecated-coroutines-dsl-option-and-property"}
 
 我们删除了废弃的 Gradle DSL 选项 `kotlin.experimental.coroutines` 和 `gradle.properties` 中使用的属性 `kotlin.coroutines`.
-现在你可以直接使用 _[suspending 函数](coroutines-basics.md#extract-function-refactoring)_
+现在你可以直接使用 _[suspending 函数](coroutines-basics.md)_
 或向你的构建脚本 [添加 `kotlinx.coroutines` 依赖项](gradle-configure-project.md#set-a-dependency-on-a-kotlinx-library).
 
 关于协程, 详情请参见 [协程指南](coroutines-guide.md).
 
-#### 删除了工具链扩展方法中的类型转换
+#### 删除了工具链扩展方法中的类型转换 {id="removal-of-the-type-cast-in-the-toolchain-extension-method"}
 
 在 Kotlin 1.7.0 之前, 在使用 Kotlin DSL 配置 Gradle 工具链时, 你必须将它类型转换为 `JavaToolchainSpec` 类:
 
@@ -1043,7 +1049,7 @@ IntelliJ IDEA 2022.1 和 Android Studio Chipmunk (212) 会自动建议将 Kotlin
 
 新的命令行编译器可以在 [GitHub 发布页面](https://github.com/JetBrains/kotlin/releases/tag/v1.7.0) 下载.
 
-### 将既有的项目迁移到 Kotlin 1.7.0, 或使用 Kotlin 1.7.0 创建新的项目
+### 将既有的项目迁移到 Kotlin 1.7.0, 或使用 Kotlin 1.7.0 创建新的项目 {id="migrate-existing-or-start-a-new-project-with-kotlin-170"}
 
 * 要将既有的项目迁移到 Kotlin 1.7.0, 请将 Kotlin 版本修改为 `1.7.0`, 然后重新导入你的 Gradle 或 Maven 项目.
   详情请参见 [如何更新到 Kotlin 1.7.0](releases.md#update-to-a-new-kotlin-version).
@@ -1051,8 +1057,7 @@ IntelliJ IDEA 2022.1 和 Android Studio Chipmunk (212) 会自动建议将 Kotlin
 * 要使用 Kotlin 1.7.0 创建一个新项目, 请更新 Kotlin plugin, 然后通过 **File** | **New** |
   **Project**, 运行项目向导.
 
-### Kotlin 1.7.0 兼容性指南
+### Kotlin 1.7.0 兼容性指南 {id="compatibility-guide-for-kotlin-170"}
 
-Kotlin 1.7.0 是一个 [功能发布版](kotlin-evolution-principles.md#language-and-tooling-releases),
-因此可能带来一些变更, 与你为更早的语言版本编写的代码不能兼容.
+Kotlin 1.7.0 是一个功能发布版, 因此可能带来一些变更, 与你为更早的语言版本编写的代码不能兼容.
 关于这样的变更, 详情请参见 [Kotlin 1.7.0 兼容性指南](compatibility-guide-17.md).

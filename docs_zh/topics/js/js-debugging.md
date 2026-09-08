@@ -33,7 +33,7 @@ Kotlin Multiplatform Gradle plugin 会为它构建的项目自动生成代码映
 
 ## 在 IDE 中调试 {id="debug-in-the-ide"}
 
-[IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/) 提供了强大的工具用于开发时调试代码.
+Ultimate 订阅版的 [IntelliJ IDEA](https://www.jetbrains.com/idea/) 提供了强大的工具, 用于开发时调试代码.
 
 要在 IntelliJ IDEA 中调试 Kotlin/JS, 你需要一个 **JavaScript Debug** 配置.
 要添加一个这样的调试配置, 请执行以下步骤:

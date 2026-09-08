@@ -5,7 +5,7 @@
 <a name="moving-fast"/>
 
 *   **快速变化 (Moving fast, MF)**:
-    即使在 [增量发布](kotlin-evolution-principles.md#language-and-tooling-releases) 之间也不保证任何兼容性,
+    即使在增量发布之间也不保证任何兼容性,
     可能在没有警告的情况下增加, 删除, 或改变任何功能.
 
 *   **包括新功能的增量发布 (Additions in Incremental Releases, AIR)**:
@@ -13,7 +13,7 @@
 
 *   **稳定的增量发布 (Stable Incremental Releases, SIR)**:
     增量发布保证完全兼容, 只进行代码优化和 bug 修正.
-    任何其他变化都应该通过 [语言发布](kotlin-evolution-principles.md#language-and-tooling-releases) 来进行.
+    任何其他变化都应该通过语言发布来进行.
 
 <a name="fully-stable"/>
 *   **完全稳定 (Fully Stable, FS)**: 增量发布保证完全兼容, 只进行代码优化和 bug 修正. 功能发布保证向后兼容.

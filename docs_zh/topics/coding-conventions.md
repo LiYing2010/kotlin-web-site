@@ -3,27 +3,29 @@
 对任何编程语言来说, 都需要一种广为人知, 并且易于遵守的编码规约.
 这里我们对使用 Kotlin 的项目, 给出一些编码规约和代码组织的指导原则.
 
-## 在 IDE 中配置代码规则
+## 在 IDE 中配置代码规则 {id="configure-style-in-ide"}
 
 最流行的2个 Kotlin IDE - [IntelliJ IDEA](https://www.jetbrains.com/idea/) 和 [Android Studio](https://developer.android.com/studio/)
 对代码规则提供了强大的支持.
 你可以配置代码规则来自动格式化你的代码, 是代码符合统一的规则.
 
-### 应用代码规则
+### 应用代码规则 {id="apply-the-style-guide"}
 
 1. 进入设置界面 **Settings/Preferences | Editor | Code Style | Kotlin**.
 2. 点击 **Set from...**.
 3. 选择 **Kotlin style guide** .
 
-### 验证你的代码是否符合代码规则
+### 验证你的代码是否符合代码规则 {id="verify-that-your-code-follows-the-style-guide"}
 
 1. 进入设置界面 **Settings/Preferences | Editor | Inspections | General**.
 2. 选中检查项 **Incorrect formatting**.
 对于本编码规约中提到的其他问题 (比如命名规约), 相应的检查项目默认已经启用了.
 
-## 源代码组织
+详情请参见 [使用 IntelliJ IDEA 迁移到 Kotlin 编码风格](code-style-migration-guide.md) 向导.
 
-### 目录结构
+## 源代码组织 {id="source-code-organization"}
+
+### 目录结构 {id="directory-structure"}
 
 在纯 Kotlin 语言的项目中, 建议源代码文件的目录结构遵循包的结构, 但省略共通的源代码根目录.
 比如, 如果项目内的所有源代码都在 `org.example.kotlin` 包及其子包之下, 那么 `org.example.kotlin` 包对应的文件应该直接保存到源代码的根目录下,
@@ -45,7 +47,7 @@
 
 文件的名称应该描述其中包含的代码的功能. 因此, 应该避免在文件名中使用无意义的单词, 比如 `Util`.
 
-#### 跨平台项目
+#### 跨平台项目 {id="multiplatform-projects"}
 
 在跨平台项目中, 在平台相关源代码集中, 带有顶级(top-level)声明的文件应该带有后缀, 后缀关联到源代码集名称.
 例如:
@@ -57,7 +59,7 @@
 对于 common 源代码集, 带有顶级声明的文件不应该带有后缀.
 例如, `commonMain/kotlin/Platform.kt`.
 
-##### 技术细节 {initial-collapse-state="collapsed" collapsible="true"}
+##### 技术细节 {id="technical-details" initial-collapse-state="collapsed" collapsible="true"}
 
 我们推荐在跨平台项目中遵循这样的文件命名风格, 是因为 JVM 的限制: 它不允许存在顶层成员 (函数, 属性).
 
@@ -88,7 +90,7 @@ root
 >
 {style="tip"}
 
-### 源代码文件的组织
+### 源代码文件的组织 {id="source-file-organization"}
 
 如果多个声明 (类, 顶级函数, 或顶级属性) 在语义上相互之间相关密切, 并且文件大小合理(不超过几百行的规模),
 那么我们鼓励将这些放在同一个 Kotlin 源代码文件中.
@@ -97,7 +99,7 @@ root
 如果定义的扩展函数, 只对特定的使用者有意义, 请将它们放在这个使用者的代码之后.
 不要仅仅为了保存某个类的所有扩展函数而创建一个单独的源代码文件.
 
-### 类的布局
+### 类的布局 {id="class-layout"}
 
 类的内容按以下顺序排列:
 
@@ -112,16 +114,16 @@ root
 
 将嵌套类放在使用它的代码之后. 如果嵌套类是为了供外部使用, 没有被类内部的代码使用, 那么请将它放在最后, 放在同伴对象之后.
 
-### 接口实现类的布局
+### 接口实现类的布局 {id="interface-implementation-layout"}
 
 实现一个接口时, 将实现类中的成员方法顺序, 保持与接口中的声明顺序一致
 (如果需要的话, 中间可以插入被实现方法用到的其它私有方法).
 
-### 重载方法的布局
+### 重载方法的布局 {id="overload-layout"}
 
 将同一个类中的同名重载方法放在一起.
 
-## 命名规约
+## 命名规约 {id="naming-rules"}
 
 Kotlin 中的包和类的命名规则非常简单:
 
@@ -156,7 +158,7 @@ class FooImpl : Foo { /*...*/ }
 fun Foo(): Foo { return FooImpl() }
 ```
 
-### 测试方法名称
+### 测试方法名称 {id="names-for-test-methods"}
 
 在测试代码中 (而且**只有**在测试代码中), 可以使用由反引号括起的, 带空格的方法名.
 注意, 对于 Android 运行环境, 这样的方法名只在 API level 30 才开始支持.
@@ -170,7 +172,7 @@ class MyTestCase {
 }
 ```
 
-### 属性名称
+### 属性名称 {id="property-names"}
 
 对于常数 (标记了 `const` 的属性, 或不存在自定义的 `get` 函数的顶级 `val` 属性, 或对象的 `val` 属性, 并且其值是深层不可变数据),
 应该使用下划线分隔的全大写名称, 遵循 [吼叫式蛇形大小写](https://en.wikipedia.org/wiki/Snake_case) 规则:
@@ -195,7 +197,7 @@ val PersonComparator: Comparator<Person> = /*...*/
 对于枚举常数, 可以使用下划线分隔的全大写([吼叫式蛇形大小写](https://en.wikipedia.org/wiki/Snake_case)) 名称
 (`enum class Color { RED, GREEN }`), 也可以使用首字母大写的驼峰式大小写名称, 由你的具体用法来决定.
 
-### 后端属性名称
+### 后端属性名称 {id="names-for-backing-properties"}
 
 如果类拥有两个属性, 它们在概念上是相同的, 但其中一个是公开 API 的一部分, 而另一个属于内部的实现细节, 此时请使用下划线作为私有属性名的前缀:
 
@@ -204,11 +206,11 @@ class C {
     private val _elementList = mutableListOf<Element>()
 
     val elementList: List<Element>
-         get() = _elementList
+        get() = _elementList
 }
 ```
 
-### 选择好的名称
+### 选择好的名称 {id="choose-good-names"}
 
 类的名称通常使用名词, 或名词短语, 要能够解释这个类 _是_ 什么: `List`, `PersonReader`.
 
@@ -223,9 +225,9 @@ class C {
 * 对于只包含 2 个字母的缩写, 请全部使用大写. 例如, `IOStream`.
 * 对于超过 2 个字母的缩写, 请将首字母大写, 其他字母小写. 例如, `XmlFormatter` 或 `HttpInputStream`.
 
-## 代码格式化
+## 代码格式化 {id="formatting"}
 
-### 缩进
+### 缩进 {id="indentation"}
 
 缩进时使用 4 个空格. 不要使用 tab.
 
@@ -244,7 +246,7 @@ if (elements != null) {
 >
 {style="note"}
 
-### 水平空格
+### 水平空格 {id="horizontal-whitespace"}
 
 * 二元运算符前后应该加入空格 (`a + b`). 例外情况是: 不要在 "值范围" 运算符前后加入空格 (`0..i`).
 * 一元运算符前后不要加入空格 (`a++`)
@@ -270,7 +272,7 @@ fun bar() {
 
 一般来说, 不要进行任何形式的水平对齐. 如果将一个标识符改为不同长度的名称, 不应该影响到它的任何声明, 以及任何使用的格式.
 
-### 冒号
+### 冒号 {id="colon"}
 
 以下场景, 要在 `:` 之前加入空格:
 
@@ -294,7 +296,7 @@ class FooImpl : Foo() {
 }
 ```
 
-### 类头部
+### 类头部 {id="class-headers"}
 
 如果类的主构造器只有少量参数, 可以写成单独的一行:
 
@@ -353,7 +355,7 @@ class MyFavouriteVeryLongClassHolder :
 对构造器的参数, 使用通常的缩进(4 个空格).
 这是为了让主构造器中声明的属性, 与类主体部分声明的属性的缩进保持一致.
 
-### 修饰符顺序
+### 修饰符顺序 {id="modifiers-order"}
 
 如果一个声明带有多个修饰符, 修饰符一定要按照下面的顺序排列:
 
@@ -385,7 +387,7 @@ private val foo: Foo
 
 除非你在开发一个库, 否则应该省略多余的修饰符(比如 `public`).
 
-### 注解(Annotation)
+### 注解(Annotation) {id="annotations"}
 
 注解放在它修饰的声明之前, 放在单独的行中, 使用相同的缩进:
 
@@ -407,7 +409,7 @@ var x: String
 @Test fun foo() { /*...*/ }
 ```
 
-### 文件注解
+### 文件注解 {id="file-annotations"}
 
 文件注解放在文件注释之后(如果存在的话), 在 `package` 语句之前,
 与 `package` 语句之间用空行隔开 (为了强调注解的对象是文件, 而不是包).
@@ -419,7 +421,7 @@ var x: String
 package foo.bar
 ```
 
-### 函数
+### 函数 {id="functions"}
 
 如果函数签名无法排列在一行之内, 请使用下面的语法:
 
@@ -445,7 +447,7 @@ fun foo(): Int {     // 这是不好的风格
 fun foo() = 1        // 这是好的风格
 ```
 
-### 表达式体
+### 函数体表达式 {id="expression-bodies"}
 
 如果函数体表达式太长, 它的第一行无法与函数声明放在同一行之内, 那么应该将 `=` 符号放在第一行,
 然后表达式函数体放在下一行, 缩进 4 个空格.
@@ -455,7 +457,7 @@ fun f(x: String, y: String, z: String) =
     veryLongFunctionCallWithManyWords(andLongParametersToo(), x, y, z)
 ```
 
-### 属性
+### 属性 {id="properties"}
 
 对于简单的只读属性, 应该使用单行格式:
 
@@ -477,7 +479,7 @@ private val defaultCharset: Charset? =
     EncodingRegistry.getInstance().getDefaultCharsetForPropertiesFiles(file)
 ```
 
-### 控制流语句
+### 控制流语句 {id="control-flow-statements"}
 
 如果 `if` 或 `when` 语句的条件部分有多行代码, 一定要将主体部分用大括号括起.
 将条件部分的每一个子句, 从语句开始的位置缩进 4 个空格.
@@ -533,7 +535,7 @@ when (foo) {
 }
 ```
 
-### 方法调用
+### 方法调用 {id="method-calls"}
 
 如果参数列表很长, 请在开括号之后换行. 参数缩进 4 个空格.
 关系紧密的多个参数放在同一行中.
@@ -548,7 +550,7 @@ drawSquare(
 
 在 `=` 前后加入空格, 将参数名与参数值分隔开.
 
-### 链式调用(chained call)的换行
+### 链式调用(chained call)的换行 {id="wrap-chained-calls"}
 
 对链式调用(chained call)换行时, 将 `.` 字符或 `?.` 操作符放在下一行, 使用单倍缩进:
 
@@ -592,10 +594,10 @@ appendCommaSeparated(properties) { prop ->
 
 ```kotlin
 foo {
-   context: Context,
-   environment: Env
-   ->
-   context.configureEnv(environment)
+    context: Context,
+    environment: Env
+    ->
+    context.configureEnv(environment)
 }
 ```
 
@@ -623,7 +625,7 @@ Kotlin 编码风格向导鼓励在声明处使用尾随逗号, 在调用处则�
 要在 IntelliJ IDEA 的代码格式化工具中启用尾随逗号, 请进入设置界面 **Settings/Preferences | Editor | Code Style | Kotlin**,
 打开 **Other** 页, 然后选中 **Use trailing comma** 选项.
 
-#### 枚举 {initial-collapse-state="collapsed" collapsible="true"}
+#### 枚举 {id="enumerations" initial-collapse-state="collapsed" collapsible="true"}
 
 ```kotlin
 enum class Direction {
@@ -634,7 +636,7 @@ enum class Direction {
 }
 ```
 
-#### 值参数 {initial-collapse-state="collapsed" collapsible="true"}
+#### 值参数 {id="value-arguments" initial-collapse-state="collapsed" collapsible="true"}
 
 ```kotlin
 fun shift(x: Int, y: Int) { /*...*/ }
@@ -649,7 +651,7 @@ val colors = listOf(
 )
 ```
 
-#### 类的属性和参数 {initial-collapse-state="collapsed" collapsible="true"}
+#### 类的属性和参数 {id="class-properties-and-parameters" initial-collapse-state="collapsed" collapsible="true"}
 
 ```kotlin
 class Customer(
@@ -662,7 +664,7 @@ class Customer(
 )
 ```
 
-#### 函数值参数 {initial-collapse-state="collapsed" collapsible="true"}
+#### 函数值参数 {id="function-value-parameters" initial-collapse-state="collapsed" collapsible="true"}
 
 ```kotlin
 fun powerOf(
@@ -679,7 +681,7 @@ fun print(
 ) {}
 ```
 
-#### 带有可选类型的参数 (包括属性的 set 函数) {initial-collapse-state="collapsed" collapsible="true"}
+#### 带有可选类型的参数 (包括属性的 set 函数) {id="parameters-with-optional-type-including-setters" initial-collapse-state="collapsed" collapsible="true"}
 
 ```kotlin
 val sum: (Int, Int, Int) -> Int = fun(
@@ -692,7 +694,7 @@ val sum: (Int, Int, Int) -> Int = fun(
 println(sum(8, 8, 8))
 ```
 
-#### 下标后缀 {initial-collapse-state="collapsed" collapsible="true"}
+#### 下标后缀 {id="indexing-suffix" initial-collapse-state="collapsed" collapsible="true"}
 
 ```kotlin
 class Surface {
@@ -731,7 +733,7 @@ fun isReferenceApplicable(myReference: KClass<*>) = when (myReference) {
 }
 ```
 
-#### 集合字面值 (在注解中) {initial-collapse-state="collapsed" collapsible="true"}
+#### 集合字面值 (在注解中) {id="collection-literals-in-annotations" initial-collapse-state="collapsed" collapsible="true"}
 
 ```kotlin
 annotation class ApplicableFor(val services: Array<String>)
@@ -744,7 +746,7 @@ annotation class ApplicableFor(val services: Array<String>)
 fun run() {}
 ```
 
-#### 类型参数(Type argument) {initial-collapse-state="collapsed" collapsible="true"}
+#### 类型参数(Type argument) {id="type-arguments" initial-collapse-state="collapsed" collapsible="true"}
 
 ```kotlin
 fun <T1, T2> foo() {}
@@ -757,7 +759,7 @@ fun main() {
 }
 ```
 
-#### 类型参数(Type parameter) {initial-collapse-state="collapsed" collapsible="true"}
+#### 类型参数(Type parameter) {id="type-parameters" initial-collapse-state="collapsed" collapsible="true"}
 
 ```kotlin
 class MyMap<
@@ -766,7 +768,7 @@ class MyMap<
         > {}
 ```
 
-#### 解构声明 {initial-collapse-state="collapsed" collapsible="true"}
+#### 解构声明 {id="destructuring-declarations" initial-collapse-state="collapsed" collapsible="true"}
 
 ```kotlin
 data class Car(val manufacturer: String, val model: String, val year: Int)
@@ -791,7 +793,7 @@ fun printMeanValue() {
 printMeanValue()
 ```
 
-## 文档注释
+## 文档注释 {id="documentation-comments"}
 
 对于比较长的文档注释, 请将开头的 `/**` 放在单独的行, 后面的每一行都用星号开始:
 
@@ -829,12 +831,12 @@ fun abs(number: Int): Int { /*...*/ }
 fun abs(number: Int): Int { /*...*/ }
 ```
 
-## 避免冗余的结构
+## 避免冗余的结构 {id="avoid-redundant-constructs"}
 
 通常来说, 如果 Kotlin 代码中的某个语法结构是可省略的, 并且被 IDE 标记显示为可省略的, 那么你就应该在代码中省略这部分.
 不要仅仅"为了解释清楚", 就在代码中留下不必须的语法元素.
 
-### Unit 返回类型
+### Unit 返回类型 {id="unit-return-type"}
 
 如果函数的返回值为 Unit 类型, 那么返回值的类型声明应当省略:
 
@@ -844,11 +846,11 @@ fun foo() { // 此处省略了 ": Unit"
 }
 ```
 
-### 分号
+### 分号 {id="semicolons"}
 
 尽可能省略分号.
 
-### 字符串模板
+### 字符串模板 {id="string-templates"}
 
 向字符串模板中插入简单变量时, 不要使用大括号. 只有对比较长的表达式, 才应该使用大括号:
 
@@ -862,17 +864,17 @@ println("$name has ${children.size} children")
 ```kotlin
 val KClass<*>.jsonSchema : String
     get() = $$"""
-    {
-      "$schema": "https://json-schema.org/draft/2020-12/schema",
-      "$id": "https://example.com/product.schema.json",
-      "$dynamicAnchor": "meta",
-      "title": "$${simpleName ?: qualifiedName ?: "unknown"}",
-      "type": "object"
-    }
-    """
+        {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$id": "https://example.com/product.schema.json",
+            "$dynamicAnchor": "meta",
+            "title": "$${simpleName ?: qualifiedName ?: "unknown"}",
+            "type": "object"
+        }
+        """
 ```
 
-## 各种语言特性的惯用法
+## 各种语言特性的惯用法 {id="idiomatic-use-of-language-features"}
 
 ### 数据的不可变性 {id="immutability"}
 
@@ -896,7 +898,7 @@ val allowedValues = arrayListOf("a", "b", "c")
 val allowedValues = listOf("a", "b", "c")
 ```
 
-### 参数默认值
+### 参数默认值 {id="default-parameter-values"}
 
 尽可能使用带默认值的参数来声明函数, 而不是声明多个不同参数的重载函数.
 
@@ -909,7 +911,7 @@ fun foo(a: String) { /*...*/ }
 fun foo(a: String = "a") { /*...*/ }
 ```
 
-### 类型别名
+### 类型别名 {id="type-aliases"}
 
 如果你的某个函数类型, 或者某个带类型参数的类型, 在代码中多次用到, 那么应该尽量为它定义一个类型别名:
 
@@ -933,7 +935,7 @@ typealias PersonIndex = Map<String, Person>
 
 在 Lambda 表达式中, 不要使用带标签的返回语句作为最后一条语句.
 
-### 命名参数
+### 命名参数 {id="named-arguments"}
 
 如果一个方法接受同一种基本类型的多个参数, 或者如果参数为 `Boolean` 类型,
 除非通过代码的上下文, 可以非常清楚地确定所有参数的含义, 否则此时应该使用命名参数语法.
@@ -942,7 +944,7 @@ typealias PersonIndex = Map<String, Person>
 drawSquare(x = 10, y = 10, width = 100, height = 100, fill = true)
 ```
 
-### 条件语句
+### 条件语句 {id="conditional-statements"}
 
 尽量使用 `try`, `if` 以及 `when` 的表达式形式.
 
@@ -973,7 +975,7 @@ when(x) {
 }
 ```
 
-### if 和 when
+### if 和 when {id="if-versus-when"}
 
 对于二元的条件分支, 尽量使用 `if` 而不是 `when`.
 比如, 这里应该用 `if`:
@@ -1011,18 +1013,18 @@ when (status) {
 }
 ```
 
-### 在条件中使用可为 null 的 Boolean 值
+### 在条件中使用可为 null 的 Boolean 值 {id="nullable-boolean-values-in-conditions"}
 
 如果需要在条件语句中使用可为空的 `Boolean`, 请使用 `if (value == true)` 或者 `if (value == false)` 进行判断.
 
-### 循环
+### 循环 {id="loops"}
 
 尽量使用高阶函数(`filter`, `map` 等等.) 来进行循环处理. 例外情况: `forEach` (应该尽量使用通常的 `for` 循环,
 除非 `forEach` 函数的接受者对象可能为空, 或者 `forEach` 是一个很长的链式调用的一部分).
 
 应该使用多个高阶函数组成的复杂表达式, 还是应该使用一个循环语句, 选择之前应该理解这两种操作各自的代价, 并且注意考虑性能问题.
 
-### 在数值范围上循环
+### 在数值范围上循环 {id="loops-on-ranges"}
 
 对于终端开放(open-ended)的值范围(不包含其末尾元素), 那么应该使用 `..<` 操作符进行循环:
 
@@ -1071,7 +1073,7 @@ fun main() {
 
 详情请参见 [Java 与 Kotlin 的多行字符串的区别](java-to-kotlin-idioms-strings.md#use-multiline-strings).
 
-### 函数 vs 属性
+### 函数 vs 属性 {id="functions-vs-properties"}
 
 有些场景下, 无参数的函数可以与只读属性相互替代.
 虽然它们在语义上是相似的, 但从编程风格上的角度看, 存在一些规约来决定在什么时候应该使用函数, 什么时候应该使用属性.
@@ -1082,20 +1084,20 @@ fun main() {
 * 计算过程消费的资源不多(或者在初次运行时缓存了计算结果).
 * 对象状态没有发生变化时, 多次调用会返回相同的结果.
 
-### 扩展函数
+### 扩展函数 {id="extension-functions"}
 
 应该尽量多的使用扩展函数. 如果你的某个函数主要是为某个对象服务, 应该考虑将它转变为这个对象的一个扩展函数.
 为了尽量减小 API 污染, 应该将扩展函数的可见度尽量限制在合理的程度.
 如果需要, 尽量使用局部扩展函数, 成员扩展函数, 或者可见度为 private 的顶级扩展函数.
 
-### 中缀函数
+### 中缀函数 {id="infix-functions"}
 
 如果一个函数服务于两个参数, 而且这两个参数的角色很类似, 只有这种情况下才应该将函数声明为 `infix` 函数.
 好的例子比如: `and`, `to`, `zip`. 坏的例子比如: `add`.
 
 如果方法会变更它的接受者对象, 那么不应该将它声明为 `infix` 方法.
 
-### 工厂函数
+### 工厂函数 {id="factory-functions"}
 
 如果你为一个类声明一个工厂方法, 请不要使用与类相同的名称. 尽量使用一个不同的名称, 解释清楚工厂函数的行为有什么不同之处.
 只有当工厂函数的确实不存在什么特殊意义的时候, 这时你才可以使用与类相同的名称作为函数名.
@@ -1111,7 +1113,7 @@ class Point(val x: Double, val y: Double) {
 如果某个对象拥有多个不同参数的重载构造器, 这些构造器不会调用超类中的不同的构造器,
 而且无法缩减成带默认值参数的单个构造器, 这时应该将这些构造器改为工厂函数.
 
-### 平台数据类型
+### 平台数据类型 {id="platform-types"}
 
 对于 public 的函数或方法, 如果返回一个平台类型的表达式, 那么应该明确声明它在 Kotlin 中的类型:
 
@@ -1136,7 +1138,7 @@ fun main() {
 }
 ```
 
-### 作用域函数(Scope Function): `apply`, `with`, `run`, `also`, `let`
+### 作用域函数(Scope Function): `apply`, `with`, `run`, `also`, `let` {id="scope-functions-apply-with-run-also-let"}
 
 Kotlin 提供了一组函数, 用来在某个指定的对象上下文中执行一段代码, 这些函数包括: `let`, `run`, `with`, `apply`, 以及 `also`.
 对于具体的问题, 应该如何选择正确的作用域函数, 详情请参见 [作用域函数(Scope Function)](scope-functions.md).

@@ -1,6 +1,6 @@
 [//]: # (title: Kotlin 的演化原则)
 
-## 务实的演化原则
+## 务实的演化原则 {id="principles-of-pragmatic-evolution"}
 
 > _语言设计就像用石头做雕像,_
 >
@@ -38,7 +38,7 @@ Kotlin 被设计为一种为程序员服务的务实的工具. 当语言发生�
   这些功能还没有稳定下来, 随时都可能改变, 使用者需要明确地指明自己确定要使用这些未稳定功能, 以及自己愿意面对未来可能发生的迁移问题.
   这些使用者会在使用过程中向我们提供宝贵的反馈信息, 我们收集这些反馈信息后, 会将他们的意见反映到后面的设计中, 并确定最终的功能设计.
 
-## 不兼容的变更
+## 不兼容的变更 {id="incompatible-changes"}
 
 如果由于从一个版本更新到另一个版本, 导致过去曾经正确工作的代码不再正确,
 那么成为语言的 _不兼容变更_ (有时也称作 "破坏性变更").
@@ -76,7 +76,7 @@ Kotlin 被设计为一种为程序员服务的务实的工具. 当语言发生�
 实际引用中, 某些变更在编译期可能无法精确地检测出来, 因此无法提示警告信息,
 但至少在版本 A 的发布公告中我们会通知使用者, 在版本 B 中会发生某个变更.
 
-### 处理编译器 bug
+### 处理编译器 bug {id="dealing-with-compiler-bugs"}
 
 编译器是个非常复杂的软件, 尽管开发者们付出了最大的努力, 但是编译器还是会有 bug.
 有些 bug 会导致编译器本身崩溃, 或者报告不正确的编译错误, 或者编译产生明显不正确的代码, 这样的 bug 尽管很烦人, 而且很丢脸,
@@ -87,7 +87,7 @@ Kotlin 被设计为一种为程序员服务的务实的工具. 当语言发生�
 我们的意见是, 这也符合 "语言版本升级平滑便利" 原则, 因为可以让更少的使用者遇到这些问题.
 当然, 这只适用于正式发布版中出现的 bug 很快被发现的情况.
 
-## 决策方式
+## 决策方式 {id="decision-making"}
 
 Kotlin 的原始创建者, [JetBrains 公司](https://jetbrains.com), 在开发者社区的帮助下,
 并通过与 [Kotlin 基金会](https://kotlinfoundation.org/) 的协调, 正在不断推动 Kotlin 的开发.
@@ -102,24 +102,23 @@ Kotlin 编程语言的所有变更都在[首席语言设计师](https://kotlinfo
 语言委员会最终决定作出哪些不兼容的变更, 应该采取哪些步骤让使用者平滑地升级.
 在作出这些决策时, 语言委员会依靠一组 [语言委员会指导原则](https://kotlinfoundation.org/language-committee-guidelines/).
 
-## 语言发布版(Language Release)与工具发布版(Tooling Release) {id="language-and-tooling-releases"}
+## 语言功能特性的交付 {id="language-feature-delivery"}
 
-稳定发布版, 例如 2.0.0, 等等. 通常是一次 _语言发布版(Language Release)_, 带来大的语言变更.
-通常, 在语言发布版之间, 我们会发布一些 _工具发布版(Tooling Release)_, 版本号 x.x.**20**.
+在 [Kotlin 发布过程](releases.md) 中我们介绍过, 语言功能特性在 _语言发布版(Language Release)_ (2._x_._0_) 中,
+或者在随后的 _工具发布版(Tooling Release)_ (2._x_._20_)中发布.
 
-工具发布版会带来工具更新(通常包含新功能), 性能改进, 以及 bug 修正.
-我们会努力让这些版本之间相互兼容, 因此编译器的变更通常只是代码优化, 警告信息的增加/删除.
+我们会努力让这些语言发布版与工具发布版相互兼容, 因此编译器的变更通常只是代码优化, 警告信息的增加/删除.
 未稳定的功能随时可能会增加, 删除, 或变更.
 
-语言发布版通常会增加新的功能, 也可能会删除或变更以前废弃掉的功能.
-某个功能从未稳定状态升级到稳定状态, 也会发生在语言发布版中.
+语言发布版通常会增加新的功能, 将未稳定的功能提升到稳定版, 也可能会删除或变更以前废弃掉的功能.
 
-### 早期预览版(Early Access Program (EAP))
+### 早期预览版(Early Access Program (EAP)) {id="eap-builds"}
 
-在发布语言发布版和工具发布版的稳定版本之前, 我们会发布许多个预览版, 称为早期预览版 (Early Access Program (EAP)),
+在发布语言发布版和工具发布版的稳定版本之前, 我们会发布许多个预览版, 称为 _早期预览版_ (Early Access Program (EAP)),
 我们使用这种方式来更加快速地迭代我们的版本, 并从开发者社区收集使用者的反馈信息.
 语言发布版的 EAP 输出的二进制文件, 通常会被将来的稳定版编译器拒绝, 以保证预览版输出的二进制文件中可能存在的 bug 不会长期存在.
-最终的发布候选版(Final Release Candidate)通常不会存在这个限制.
+最终的发布候选版(Final Release Candidate, RC), 例如 RC2 或 RC3, 通常不会存在这个限制.
+详情请参见 [参加 Kotlin EAP 项目](eap.md).
 
 ### 未稳定功能 {id="pre-stable-features"}
 
@@ -148,7 +147,7 @@ Kotlin 的一个语言功能, 可能是以下几种状态:
   我们期望你对这个功能的使用体验提供反馈, 包括将它集成到你的代码块是否容易,
   它与既有的代码如何交互, 以及 IDE 支持的任何问题, 或者你的建议.
   根据使用者的反馈, 功能的设计可能发生很大变化, 或者可能完全废弃.
-  当一个功能处于 _预览中_ 时, 它就已经有了 [稳定性级别](components-stability.md#stability-levels-explained).
+  当一个功能处于 _预览中_ 时, 它的 [稳定性级别](components-stability.md#stability-levels-explained) 就已经达到了试验性或 Beta.
 
 * **稳定**.
   这个语言功能在 Kotlin 语言中现在已经是 "一等公民" 了.
@@ -160,7 +159,7 @@ Kotlin 的一个语言功能, 可能是以下几种状态:
 
 [参见 Kotlin 语言提案列表和它们的状态](kotlin-language-features-and-proposals.md).
 
-### 各部分组件的稳定性状态
+### 各部分组件的稳定性状态 {id="status-of-different-components"}
 
 请参见 [Kotlin 中各部分组件的稳定性状态](components-stability.md),
 例如 Kotlin/JVM, JS, Native 编译器, 以及各种库.
@@ -193,31 +192,35 @@ Kotlin 的一个语言功能, 可能是以下几种状态:
 对稳定的平台的 Kotlin 标准库 (`kotlin-stdlib`), 我们按照上述原则进行维护.
 对标准库的 API 的变更, 需要经过与语言变更相同的流程.
 
-## 编译器选项
+## 编译器选项 {id="compiler-options"}
 
 编译器接受的命令行选项也是一种 public API, 因此对它们也适用同样的原则.
 编译器支持的选项(不带 "-X" 前缀或 "-XX" 前缀的那些) 只能在语言发布版中增加, 而且在删除之前, 需要先标记为废弃.
 "-X" 和 "-XX" 选项是实验性的, 随时可以添加, 删除.
 
-## 兼容性工具
+## 兼容性工具 {id="compatibility-tools"}
 
 由于遗留的旧功能被删除, bug 被修复, 因此源代码的语言变更时, 如果旧的源代码没有适当地迁移, 可能会无法正确编译.
 通常的废弃流程使得使用者可以有一个平滑的代码迁移期间,
 即使这个期间结束后, 语言的不兼容性变更已经随稳定版发布了, 我们仍然有办法可以编译未迁移的旧代码.
 
-### 兼容性选项
+### 兼容性选项 {id="compatibility-options"}
 
-我们提供了 `-language-version X.Y` 和 `-api-version X.Y` 选项,
-用来让 Kotlin 的新版本模拟旧版本的行为, 以便维持兼容性.
-为了给你留下更多的代码迁移时间, 除最新的稳定版之外, 我们还
-[支持](compatibility-modes.md) 语言和 API 的前 3 个旧版本.
+我们提供了兼容性选项, 用来让 Kotlin 的新版本模拟旧版本的行为, 以便维持兼容性:
+
+* `-language-version X.Y` -
+  针对 Kotlin 语言版本 X.Y 的兼容性模式, 对这个版本之后的所有语言功能报告错误.
+* `-api-version X.Y` -
+  针对 Kotlin API 版本 X.Y 的兼容性模式, 所有使用 Kotlin 标准库中新版本 API 代码报告错误(包括由编译器生产的代码).
+
+为了给你留下更多的代码迁移时间, 除最新的稳定版之外, 我们还支持语言和 API 的至少前 3 个旧版本.
 
 活跃维护中的代码库可以尽快升级到 bug 修复后的版本, 而不必等待整个升级周期完成.
 目前, 这样的项目可以启用 `-progressive` 选项, 这样即使在工具发布版中, 也可以让这些 bug 修复有效.
 
-所有这些选项都可以在命令行中使用, 也可以在 [Gradle](gradle-compiler-options.md) 和 [Maven](maven.md#specify-compiler-options) 中使用.
+所有这些选项都可以在 IDE 中, 命令行中, 以及在 [Gradle](gradle-compiler-options.md) 和 [Maven](maven-kotlin-compiler.md#specify-compiler-options) 中使用.
 
-### 二进制格式的演化
+### 二进制格式的演化 {id="evolving-the-binary-format"}
 
 即使在最糟糕的情况下, 源代码中的问题也可以手工修复, 但二进制文件的迁移就要困难得多了,
 因此, 对二进制文件来说, 保证向后兼容是非常重要的.
@@ -235,7 +238,7 @@ Kotlin 的一个语言功能, 可能是以下几种状态:
 
 请注意, 并不是所有目标平台的稳定性都达到了这个程度, 但 Kotlin/JVM 已经达到了.
 
-#### Kotlin klib 二进制文件
+#### Kotlin klib 二进制文件 {id="kotlin-klib-binaries"}
 
 在 Kotlin 1.9.20 中, Kotlin klib 二进制文件已经达到了 [稳定](components-stability.md#stability-levels-explained) 版.
 但是, 还是有一些兼容性问题的细节需要注意:

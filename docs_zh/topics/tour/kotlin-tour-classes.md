@@ -20,7 +20,7 @@ Kotlin 通过类和对象支持面向对象的编程.
 class Customer
 ```
 
-## 属性
+## 属性 {id="properties"}
 
 可以在属性中声明一个类的对象的特性. 你可以为一个类声明属性:
 
@@ -52,7 +52,7 @@ class Contact(val id: Int, var email: String = "example@gmail.com") {
 }
 ```
 
-## 创建实例
+## 创建实例 {id="create-instance"}
 
 要从一个类创建一个对象, 你需要使用 **构造器(Constructor)**, 声明一个类的 **实例**.
 
@@ -76,9 +76,9 @@ fun main() {
 * `id` 和 `email` 和默认构造器一起, 用来创建 `contact`.
 
 Kotlin 类可以有多个构造器, 包括你自己定义的构造器.
-关于如何声明多个构造器, 详情请参见 [构造器](classes.md#constructors).
+关于如何声明多个构造器, 详情请参见 [构造器](classes.md#constructors-and-initializer-blocks).
 
-## 访问属性
+## 访问属性 {id="access-properties"}
 
 要访问一个实例的属性, 请在实例名称之后加上点号 `.`, 然后写上属性名称:
 
@@ -110,7 +110,7 @@ fun main() {
 >
 {style="tip"}
 
-## 成员函数
+## 成员函数 {id="member-functions"}
 
 除了声明属性作为一个对象的特性之外, 你还可以通过成员函数来定义一个对象的行为.
 
@@ -135,7 +135,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-member-function"}
 
-## 数据类
+## 数据类 {id="data-classes"}
 
 Kotlin 有 **数据类(Data Class)**, 非常适合于存储数据.
 数据类有和普通类一样的功能, 但它们还自动带有一些额外的成员函数.
@@ -248,9 +248,9 @@ fun main() {
 
 本教程的最后一章是介绍 Kotlin 的 [Null 值安全性](kotlin-tour-null-safety.md).
 
-## 实际练习
+## 实际练习 {id="practice"}
 
-### 习题 1 {initial-collapse-state="collapsed" collapsible="true"}
+### 习题 1 {id="exercise-1" initial-collapse-state="collapsed" collapsible="true"}
 
 定义一个数据类 `Employee`, 带有两个属性: 一个是姓名, 一个是工资.
 请确保工资的属性是可变的, 否则你在年底就不可能涨工资了!
@@ -282,7 +282,7 @@ fun main() {
 ```
 {initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-classes-solution-1"}
 
-### 习题 2 {initial-collapse-state="collapsed" collapsible="true"}
+### 习题 2 {id="exercise-2" initial-collapse-state="collapsed" collapsible="true"}
 
 为了让下面的代码能够编译, 声明所需要的数据类.
 
@@ -319,7 +319,7 @@ fun main() {
 ```
 {initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-classes-solution-2"}
 
-### 习题 3 {initial-collapse-state="collapsed" collapsible="true"}
+### 习题 3 {id="exercise-3" initial-collapse-state="collapsed" collapsible="true"}
 
 为了测试你的代码, 你需要一个生成器, 它能够创建随机的员工数据.
 定义一个 `RandomEmployeeGenerator` 类, 其中包括可用的姓名的固定列表 (包含在类的 body 部之内).
@@ -390,6 +390,6 @@ fun main() {
 ```
 {initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-classes-solution-2"}
 
-## 下一步
+## 下一步 {id="next-step"}
 
 [Null 值安全性](kotlin-tour-null-safety.md)

@@ -21,9 +21,9 @@ class OrdersList: IndexedContainer {
 }
 ```
 
-## 一元操作符
+## 一元操作符 {id="unary-operations"}
 
-### 一元前缀操作符
+### 一元前缀操作符 {id="unary-prefix-operators"}
 
 | 表达式  | 翻译为              |
 |------|------------------|
@@ -39,7 +39,7 @@ class OrdersList: IndexedContainer {
 * 如果这个函数不存在, 或者找到多个, 则认为是编译错误.
 * 如果这个函数存在, 并且返回值类型为 `R`, 则表达式 `+a` 的类型为 `R`.
 
-> 这些操作符, 以其其它所有操作符, 都对 [基本类型](basic-types.md) 进行了优化
+> 这些操作符, 以其其它所有操作符, 都对 [基本类型](types-overview.md) 进行了优化,
 > 因此不会发生函数调用, 并由此产生性能损耗.
 >
 {style="note"}
@@ -88,9 +88,9 @@ fun main() {
 * 将 `a.inc()` 的结果赋值给 `a`.
 * 返回 `a` 的新值, 作为表达式的计算结果值.
 
-## 二元操作符
+## 二元操作符 {id="binary-operations"}
 
-### 算数操作符
+### 算数操作符 {id="arithmetic-operators"}
 
 | 表达式     | 翻译为               |
 |---------|-------------------|
@@ -179,14 +179,15 @@ data class Counter(val dayIndex: Int) {
 | `a != b` | `!(a?.equals(b) ?: (b === null))` |
 
 这些操作符是通过 [`equals(other: Any?): Boolean`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/equals.html) 函数来实现的,
-可以重载这个函数, 来实现自定义的相等判断. 同名但不同参数的任何其他函数 (比如 `equals(other: Foo)`) 都不会被调用.
+你可以重载这个函数, 来实现自定义的相等判断.
+同名但不同参数的任何其他函数 (比如 `equals(other: Foo)`) 都会被忽略.
+
+当 `==` 表达式中的两个操作数都不直接与 `null` 比较, 而且不是对两个浮点类型进行比较时, Kotlin 会调用 `.equals()`.
+其它情况下, 对直接与 `null` 的比较, Kotlin 会使用 `===`, 对非 null 的浮点值, 会按数值进行比较.
 
 > `===` 和 `!==` (同一性检查) 操作符不允许重载, 因此对这两个操作符不存在约定.
 >
 {style="note"}
-
-`==` 操作符是特殊的: 它被翻译为一个复杂的表达式, 其中包括对 `null` 值的处理.
-`null == null` 的判断结果永远为 `true`, 对于非 null 的 `x`, `x == null` 永远为 `false`, 并且不会调用 `x.equals()`.
 
 ### 比较操作符 {id="comparison-operators"}
 
@@ -199,10 +200,10 @@ data class Counter(val dayIndex: Int) {
 
 所有的比较操作符都被翻译为对 `compareTo` 函数的调用, 这个函数的返回值必须是 `Int` 类型.
 
-### 属性委托操作符
+### 属性委托操作符 {id="property-delegation-operators"}
 
 关于 `provideDelegate`, `getValue` 和 `setValue` 操作符函数, 请参见 [委托属性](delegated-properties.md).
 
-## 对命名函数的中缀式调用
+## 对命名函数的中缀式调用 {id="infix-calls-for-named-functions"}
 
 使用 [中缀式函数调用](functions.md#infix-notation), 你可以模拟自定义的中缀操作符.

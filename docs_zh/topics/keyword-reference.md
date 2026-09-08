@@ -7,7 +7,7 @@
  * `as`
      - 用于 [类型转换](typecasts.md#unsafe-cast-operator).
      - [为 import 指定一个别名](packages.md#imports).
- * `as?` 用于 [安全的类型转换](typecasts.md#safe-nullable-cast-operator).
+ * `as?` 用于 [安全的类型转换](typecasts.md#unsafe-cast-operator).
  * `break` [结束一个循环](returns.md).
  * `class` 声明一个 [类](classes.md).
  * `continue` [跳转到最内层循环的下一次执行](returns.md).
@@ -24,7 +24,7 @@
        [定义了 'contains' 方法](operator-overloading.md#in-operator)
        的实体.
      - 在 [when 表达式](control-flow.md#when-expressions-and-statements) 中做同样的判断.
-     - 将一个类型参数标记为 [反向类型变异](generics.md#declaration-site-variance).
+     - 将一个类型参数标记为 [逆变](generics.md#declaration-site-variance).
  * `!in`
      - 用作操作符, 判断一个值是否 **不属于** [一个值范围](ranges.md),
        或者是否 **不属于** 一个集合, 或者是否 **不属于** 其他
@@ -47,7 +47,7 @@
      - [在次级构造器中调用超类构造器](classes.md#inheritance).
  * `this`
      - 引用 [当前接受者](this-expressions.md).
-     - [在次级构造器中调用同一个类的另一个构造器](classes.md#constructors).
+     - [在次级构造器中调用同一个类的另一个构造器](classes.md#constructors-and-initializer-blocks).
  * `throw` [抛出一个异常](exceptions.md).
  * `true` 指定 [布尔类型](booleans.md) 的 'true' 值.
  * `try` [开始一个异常处理代码段](exceptions.md).
@@ -67,22 +67,24 @@
      - [将一个接口的实现委托给另一个对象](delegation.md).
      - [将一个属性的访问器函数实现委托给另一个对象](delegated-properties.md).
  * `catch` 开始一个 [处理特定的异常类型](exceptions.md) 的代码段.
- * `constructor` 声明一个 [主构造器, 或次级构造器](classes.md#constructors).
+ * `constructor` 声明一个 [主构造器, 或次级构造器](classes.md#constructors-and-initializer-blocks).
  * `delegate` 用作一种 [注解的使用目标(target)](annotations.md#annotation-use-site-targets).
  * `dynamic` 在 Kotlin/JS 代码中引用一个 [动态类型](dynamic-type.md).
- * `field` 用作一种 [注解的使用目标(target)](annotations.md#annotation-use-site-targets).
+ * `field`
+     - 声明一个 [明确的后端域变量(Backing Field)](properties.md#explicit-backing-fields).
+     - 用作一种 [注解的使用目标(target)](annotations.md#annotation-use-site-targets).
  * `file` 用作一种 [注解的使用目标(target)](annotations.md#annotation-use-site-targets).
  * `finally` 开始一个 [try 代码段结束时始终会被执行](exceptions.md) 的代码段.
  * `get`
-     - 声明 [属性的取值方法](properties.md#getters-and-setters).
+     - 声明 [属性的取值方法](properties.md).
      - 用作一种 [注解的使用目标(target)](annotations.md#annotation-use-site-targets).
  * `import` [从另一个包中将一个声明导入到当前源代码文件](packages.md).
- * `init` 开始一个 [初始化代码段](classes.md#constructors).
+ * `init` 开始一个 [初始化代码段](classes.md#constructors-and-initializer-blocks).
  * `param` 用作一种 [注解的使用目标(target)](annotations.md#annotation-use-site-targets).
  * `property` 用作一种 [注解的使用目标(target)](annotations.md#annotation-use-site-targets).
  * `receiver` 用作一种 [注解的使用目标(target)](annotations.md#annotation-use-site-targets).
  * `set`
-     - 声明 [属性的设值方法](properties.md#getters-and-setters).
+     - 声明 [属性的设值方法](properties.md).
      - 用作一种 [注解的使用目标(target)](annotations.md#annotation-use-site-targets).
  * `setparam` 用作一种 [注解的使用目标(target)](annotations.md#annotation-use-site-targets).
  * `value` 与 `class` 关键字一起使用, 声明一个 [内联类(inline class)](inline-classes.md).
@@ -144,10 +146,10 @@ Kotlin 支持以下操作符与特殊符号:
      - `*` 也被用来 [向一个不定数量参数传递数组](functions.md#variable-number-of-arguments-varargs).
  * `=`
      - 赋值操作符.
-     - 用来指定 [参数的默认值](functions.md#default-arguments).
+     - 用来指定 [参数的默认值](functions.md#parameters-with-default-values).
  * `+=`, `-=`, `*=`, `/=`, `%=` - [计算并赋值](operator-overloading.md#augmented-assignments).
  * `++`, `--` - [递增与递减操作符](operator-overloading.md#increments-and-decrements).
- * `&&`, `||`, `!` - '与', '或', '非' 逻辑运算符 (用于位运算, 使用对应的 [中缀函数](numbers.md#operations-on-numbers)).
+ * `&&`, `||`, `!` - '与', '或', '非' 逻辑运算符 (用于位运算, 请使用对应的 [中缀函数](numbers.md#bitwise-operations)).
  * `==`, `!=` - [相等和不等比较操作符](operator-overloading.md#equality-and-inequality-operators)
     (对非基本类型, 会翻译为对 `equals()` 函数的调用).
  * `===`, `!==` - [引用相等比较操作符](equality.md#referential-equality).
@@ -178,4 +180,4 @@ Kotlin 支持以下操作符与特殊符号:
      - 在 [lambda 表达式](lambdas.md#underscore-for-unused-variables) 中代替未使用的参数.
      - 在 [解构声明](destructuring-declarations.md#underscore-for-unused-variables) 中代替未使用的参数.
 
-关于操作符优先顺序, 请参见 Kotlin 语法中的 [这一章节](https://kotlinlang.org/docs/reference/grammar.html#expressions) .
+关于操作符优先顺序, 请参见 Kotlin 语法中的 [这一章节](https://kotlinlang.org/grammar/#expressions) .

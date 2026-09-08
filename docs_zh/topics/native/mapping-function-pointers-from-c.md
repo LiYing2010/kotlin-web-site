@@ -9,13 +9,13 @@
     </p>
 </tldr>
 
-> C 库导入是 [实验性功能](components-stability.md#stability-levels-explained).
+> C 库导入功能目前是 [Beta 版](native-lib-import-stability.md#stability-of-c-and-objective-c-library-import).
 > cinterop 工具从 C 库生成的所有 Kotlin 声明都应该标注 `@ExperimentalForeignApi` 注解.
 >
 > Kotlin/Native 自带的原生平台库 (例如 Foundation, UIKit, 和 POSIX),
 > 只对一部分 API 需要使用者明确同意(Opt-in).
 >
-{style="warning"}
+{style="note"}
 
 我们来看看在 Kotlin/Native 中可以访问 C 的哪些函数指针,
 并研究 Kotlin/Native 和 [跨平台](gradle-configure-project.md#targeting-multiple-platforms) Gradle 构建的与 C 互操作相关的高级使用场景.
@@ -157,11 +157,11 @@ fun main() {
 }
 ```
 
-为了验证是否一切正确, 请 [在你的 IDE 中](native-get-started.md#build-and-run-the-application) 运行 `runDebugExecutableNative` Gradle task,
-或使用以下命令, 运行代码:
+为了验证是否一切正确, 请 [在你的 IDE 中](native-get-started.md#build-and-run-the-application) 运行 `runDebugExecutable<YourTargetName>` Gradle task,
+或在你的终端中使用控制台命令, 例如:
 
 ```bash
-./gradlew runDebugExecutableNative
+./gradlew runDebugExecutableMacosArm64
 ```
 
 ## 下一步 {id="next-step"}

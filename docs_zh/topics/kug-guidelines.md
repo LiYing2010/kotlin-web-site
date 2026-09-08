@@ -46,3 +46,8 @@ Kotlin User Group, 简称 KUG, 是一个专注于 Kotlin 的开发社区, 你可
 * 关于 Kotlin 官方活动和促销的信息.
 * Kotlin 贴纸.
 * 帮助你的活动招募 Kotlin 演讲者.
+
+> **免责声明**: JetBrains 提供的支持 和/或 任何帮助, 都由 JetBrains 自行决定,
+> 并且接受者必须遵守监管要求和相关法律.
+>
+{style="warning"}

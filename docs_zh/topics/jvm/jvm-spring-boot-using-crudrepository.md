@@ -1,5 +1,6 @@
 [//]: # (title: 使用 Spring Data CrudRepository 进行数据库访问)
-[//]: # (description: 在 Kotlin 编写的 Spring Boot 项目中使用 Spring Data.)
+
+<web-summary>在 Kotlin 编写的 Spring Boot 项目中使用 Spring Data 接口.</web-summary>
 
 <tldr>
     <p>
@@ -98,13 +99,12 @@ _CrudRepository_ 是一个 Spring Data 接口, 可以指定类型的仓库进行
        </def>
        <def title="CrudRepository save() 函数">
           <p>
-            <a href="https://docs.spring.io/spring-data/jdbc/docs/current/reference/html/#jdbc.entity-persistence">这个函数的工作方式</a> 是假定新的对象在数据库中没有 id.
+            <a href="https://docs.spring.io/spring-data/relational/reference/#jdbc.entity-persistence">这个函数的工作方式</a> 是假定新的对象在数据库中没有 id.
             因此, 对 insertion 操作, id <b>需要为 null</b>.
           </p>
           <p>
             如果 id 不是 <i>null</i>, <code>CrudRepository</code> 假定对象在数据库中已经存在, 并且这是一个 <i>update</i> 操作, 而不是 <i>insert</i> 操作.
             在 insert 操作之后, <code>id</code> 会由数据库生成, 并反过来赋值给 <code>Message</code> 实例.
-            这就是 <code>id</code> 属性需要使用 <code>var</code> 关键字来声明的原因.
           </p>
        </def>
     </deflist>
@@ -121,7 +121,7 @@ _CrudRepository_ 是一个 Spring Data 接口, 可以指定类型的仓库进行
 
 5. 更新 `src/main/resources` 文件夹中的 `application.properties` 文件内的数据库名称:
 
-   ```none
+   ```properties
    spring.application.name=demo
    spring.datasource.driver-class-name=org.h2.Driver
    spring.datasource.url=jdbc:h2:file:./data/testdb2
@@ -242,9 +242,6 @@ class MessageController(private val service: MessageService) {
    <img src="get-kotlin-language-map.png" width="700" alt="得到 Kotlin 语言导航地图" style="block"/>
 </a>
 
-* 学习如何 [在 Kotlin 中调用 Java 代码](java-interop.md) 和 [在 Java 中调用 Kotlin 代码](java-to-kotlin-interop.md).
-* 学习如何使用 [Java 到 Kotlin 转换器](mixing-java-kotlin-intellij.md#converting-an-existing-java-file-to-kotlin-with-j2k) 将既有的 Java 代码转换为 Kotlin.
-* 阅读我们的 Java 代码向 Kotlin 迁移指南:
-  * [Java 和 Kotlin 中的字符串](java-to-kotlin-idioms-strings.md).
-  * [Java 和 Kotlin 中的集合(Collection)](java-to-kotlin-collections-guide.md).
-  * [Java 和 Kotlin 中的可空性(Nullability)](java-to-kotlin-nullability-guide.md).
+* 阅读 [Spring Framework](https://docs.spring.io/spring-framework/reference/) 文档.
+* 学习教程 [Securing a web application](https://spring.io/guides/gs/securing-web), 创建一个带有受保护资源的简单 Web 应用程序.
+* 完成教程 [使用 Spring Boot 和 Kotlin 创建 Web 应用程序](https://spring.io/guides/tutorials/spring-boot-kotlin).

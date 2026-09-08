@@ -14,11 +14,9 @@
 这种情况下, 这个项目在某些平台上可以使用你的库, 但对其它平台则需要实现单独的解决方案,
 或者, 他们会完全选择另一个支持他们所有平台的替代库.
 
-为了提高 artifact 的生成效率, 你可以试用实验性的 [交叉编译(Cross-Compilation)](multiplatform-publish-lib-setup.md#host-requirements) 功能,
+为了提高 artifact 的生成效率, 可以使用 [交叉编译(Cross-Compilation)](multiplatform-publish-lib-setup.md#host-requirements) 功能,
 从任何主机发布 Kotlin Multiplatform 库.
 这个功能让你能够生成针对 Apple 编译目标的 `.klib` artifact, 而不需要使用 Apple 机器.
-我们计划在将来稳定这个功能, 并进一步改善库的发布.
-请在我们的问题追踪系统 [YouTrack](https://youtrack.jetbrains.com/issue/KT-71290) 中留下你关于这个功能的反馈意见.
 
 > 对于 Kotlin/Native 编译目标, 请考虑使用 [分层方案](native-target-support.md#for-library-authors) 来支持所有可能的编译目标.
 >

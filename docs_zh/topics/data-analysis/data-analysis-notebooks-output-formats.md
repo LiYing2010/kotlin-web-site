@@ -193,7 +193,7 @@ kotlinMascot
 
 使用 Kotlin Notebook, 你可以通过数据帧可视化结构化的数据:
 
-1. 向你的 Notebook 添加 [Kotlin DataFrame](https://kotlin.github.io/dataframe/gettingstarted.html) 库:
+1. 向你的 Notebook 添加 [Kotlin DataFrame](https://kotlin.github.io/dataframe/home.html) 库:
 
    ```none
    %use dataframe

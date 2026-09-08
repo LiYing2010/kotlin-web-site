@@ -31,7 +31,7 @@ Kotlin 编译器以源代码作为输入, 生成一组平台相关的二进制�
 ![共通代码](common-code-diagram.svg){width=700}
 
 并不是每一段 Kotlin 代码都能够编译到所有的平台.
-Kotlin 编译器会阻止你在共用代码中使用平台相关的函数或类, 因为这样的代码不能编译到不同的平台.
+如果共通代码不能编译到不同的平台, Kotlin 编译器会阻止你在共通代码中使用平台相关的函数或类.
 
 例如, 你不能在共通代码中使用 `java.io.File` 依赖项.
 它是 JDK 的一部分, 而共通代码还会被编译为原生代码, 这种情况下就不能使用 JDK 的类:
@@ -80,6 +80,13 @@ kotlin {
 
 要理解哪部分代码会被编译到特定的平台, 你可以将编译目标看作附加在 Kotlin 源代码文件上的标签.
 Kotlin 使用这些标签来决定如何编译你的代码, 生成哪个二进制文件, 以及代码中允许使用哪些语言结构和依赖项.
+
+> 如果你的项目只有单个编译目标 (例如, JVM),
+> 那么可以在共通代码中通过适当的可见度访问编译目标相关的符号.
+> 但是, 只要你添加了第 2 个编译目标, 在共通代码中就不再能够访问编译目标相关的符号.
+> 在迁移时, 以及项目的其它过渡状态时, 请注意这个限制.
+>
+{style="note"}
 
 如果你还想将 `greeting.kt` 文件编译到 `.js`, 你只需要声明 JS 编译目标.
 `commonMain` 中的代码就会得到新的 `js` 标签, 对应于 JS 编译目标, 它会指示 Kotlin 生成 `.js` 文件:
@@ -197,11 +204,11 @@ Kotlin 为共通代码创建 `commonMain` 源代码集, 并为特点的编译目
 
 ```kotlin
 kotlin {
-    androidTarget()
-    iosArm64()   // 64 位 iPhone 设备
-    macosArm64() // 现代的基于 Apple Silicon 的 Macs
-    watchosX64() // 现代的 64 位 Apple Watch 设备
-    tvosArm64()  // 现代的 Apple TV 设备
+    android()
+    iosArm64()      // 64 位 iPhone 设备
+    macosArm64()    // 现代的基于 Apple Silicon 的 Macs
+    watchosArm64()  // 现代的 64 位 Apple Watch 设备
+    tvosArm64()     // 现代的 Apple TV 设备
 }
 ```
 
@@ -220,7 +227,7 @@ fun randomUuidString(): String {
 `commonMain` 会编译到所有声明的编译目标, 包括 Android, 但 `platform.Foundation.NSUUID` 是一个 Apple 专用的 API, 在 Android 上无法使用.
 如果你想要在 `commonMain` 中访问 `NSUUID`, Kotlin 会提示错误.
 
-你可以将这段代码复制粘贴到每个 Apple 相关的源代码集: `iosArm64Main`, `macosArm64Main`, `watchosX64Main`, 和 `tvosArm64Main`.
+你可以将这段代码复制粘贴到每个 Apple 相关的源代码集: `iosArm64Main`, `macosArm64Main`, `watchosArm64Main`, 和 `tvosArm64Main`.
 但不推荐这样的方法, 因为这种重复的代码很容易导致错误.
 
 为了解决这个问题, 你可以使用 _中间源代码集_.
@@ -263,17 +270,16 @@ Kotlin 默认创建一些中间源代码集.
   对于 iOS, 目前只有 1 个 设备编译目标: `iosArm64`.
 * **模拟器编译目标** 用于为你的机器上启动的 iOS 模拟器生成二进制文件.
   如果你使用基于 Apple silicon 的 Mac 计算机, 请选择 `iosSimulatorArm64` 作为模拟器编译目标.
-  如果你使用基于 Intel 的 Mac 计算机, 请使用 `iosX64` 作为模拟器编译目标.
 
 如果你只声明 `iosArm64` 设备编译目标, 那么你将无法在你的本地机器上运行和调试你的应用程序和测试程序.
 
-平台相关的源代码集, 例如 `iosArm64Main`, `iosSimulatorArm64Main`, 和 `iosX64Main`, 通常是空的,
+平台相关的源代码集, 例如 `iosArm64Main` 和 `iosSimulatorArm64Main`, 通常是空的,
 因为 Kotlin 用于 iOS 设备和模拟器的代码通常在同一处.
 你可以只使用 `iosMain` 中间源代码集, 对所有这些平台共用代码.
 
 对于其他非 Mac Apple 的编译目标也是如此.
 例如, 如果你有 `tvosArm64` 设备编译目标, 用于 Apple TV,
-以及 `tvosSimulatorArm64` 和 `tvosX64` 模拟器编译目标, 分别用于基于 Apple silicon 和基于 Intel 的设备上的 Apple TV 模拟器,
+以及 `tvosSimulatorArm64` 模拟器编译目标, 用于 Apple silicon 设备上的 Apple TV 模拟器,
 你可以对所有这些编译目标使用 `tvosMain` 中间源代码集.
 
 ## 与测试集成 {id="integration-with-tests"}

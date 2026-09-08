@@ -10,7 +10,7 @@ Compose 编译器通过一个 Gradle plugin 来补充, 它会简化设置, 并�
 要在你的项目中使用新的 Compose 编译器 plugin, 请对使用 Compose 的每个模块应用这个 plugin.
 请阅读如何 [迁移 Jetpack Compose 项目](#migrating-a-jetpack-compose-project) 的详细信息.
 对 Compose Multiplatform 项目,
-请参见 [跨平台迁移指南](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-compiler.html#migrating-a-compose-multiplatform-project).
+请参见 [跨平台迁移指南](https://kotlinlang.org/docs/multiplatform/compose-compiler.html#migrating-a-compose-multiplatform-project).
 
 ## 迁移 Jetpack Compose 项目 {id="migrating-a-jetpack-compose-project"}
 
@@ -23,7 +23,7 @@ Compose 编译器通过一个 Gradle plugin 来补充, 它会简化设置, 并�
 
 1. 将 Compose 编译器 Gradle plugin 添加到 [Gradle 版本目录](https://docs.gradle.org/current/userguide/platforms.html#sub:conventional-dependencies-toml):
 
-   ```
+   ```toml
    [versions]
    # ...
    kotlin = "%kotlinVersion%"
@@ -33,6 +33,10 @@ Compose 编译器通过一个 Gradle plugin 来补充, 它会简化设置, 并�
    org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
    compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
    ```
+
+   > 如果你使用 AGP 9.0.0 或之后版本, 那么不再需要 `org-jetbrains-kotlin-android` plugin, 因为 AGP 已经内置包含了 Kotlin 支持.
+   >
+   {style ="note"}
 
 2. 将 Gradle plugin 添加到根 `build.gradle.kts` 文件:
 
@@ -68,4 +72,4 @@ Compose 编译器通过一个 Gradle plugin 来补充, 它会简化设置, 并�
 
 * 请参见关于 Compose 编译器移动到 Kotlin 代码仓库的
   [Google 公告](https://android-developers.googleblog.com/2024/04/jetpack-compose-compiler-moving-to-kotlin-repository.html).
-* 如果你使用 Jetpack Compose 来构建 Android App, 请阅读 [我们的关于如何让它成为跨平台 App 的指南](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-integrate-in-existing-app.html).
+* 如果你使用 Jetpack Compose 来构建 Android App, 请阅读 [我们的关于如何让它成为跨平台 App 的指南](https://kotlinlang.org/docs/multiplatform/multiplatform-integrate-in-existing-app.html).

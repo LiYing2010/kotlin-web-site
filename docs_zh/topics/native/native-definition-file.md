@@ -74,7 +74,7 @@ Kotlin/Native 允许你使用 C 和 Objective-C 库, 你可以在 Kotlin 中使�
 | [`excludedFunctions`](#ignore-specific-functions)                                   | 需要忽略的函数名称列表, 使用空格分隔.                                                                                              |                                              
 | [`staticLibraries`](#include-a-static-library)                                      | [实验性功能](components-stability.md#stability-levels-explained). 将静态库包含到 `.klib` 中.                                   |
 | [`libraryPaths`](#include-a-static-library)                                         | [实验性功能](components-stability.md#stability-levels-explained). 目录列表, 使用空格分隔, cinterop 工具会在这些目录中搜索需要包含到 `.klib` 中的库. |
-| `packageName`                                                                       | 生成的 Kotlin API 的包名称前缀.                                                                                            |
+| `package`                                                                           | 生成的 Kotlin API 的包名称前缀.                                                                                            |
 | [`headerFilter`](#filter-headers-by-globs)                                          | 使用 glob 过滤头文件, 在导入一个库时只包含这些头文件.                                                                                   |
 | [`excludeFilter`](#exclude-headers)                                                 | 在导入一个库时排除指定的头文件, 优先度高于 `headerFilter`.                                                                            |
 | [`strictEnums`](#configure-enums-generation)                                        | 需要生成为 [Kotlin 枚举](enum-classes.md)的枚举值列表, 使用空格分隔.                                                                 |
@@ -170,11 +170,7 @@ compilerOpts.macos_x64 = -DFOO=foo2
 
 ### 包含一个静态库 {id="include-a-static-library"}
 
-> 这个功能是 [实验性功能](components-stability.md#stability-levels-explained).
-> 它随时有可能变更或被删除.
-> 请注意, 只为评估目的来使用这个功能.
->
-{style="warning"}
+<primary-label ref="experimental-general"/>
 
 有些时候, 发布你的程序时附带上所需要的静态库, 而不是假定它在用户的环境中已经存在了, 这样会更便利一些.
 如果需要在 `.klib` 中包含静态库, 请使用 `staticLibrary` 和 `libraryPaths` 属性:

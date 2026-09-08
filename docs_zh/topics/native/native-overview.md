@@ -3,7 +3,7 @@
 Kotlin/Native 是一种代码编译技术, 可以将 Kotlin 代码编译为原生二进制代码(native binary), 脱离 VM 运行.
 它包含一个基于 [LLVM](https://llvm.org/) 的后端, 用于编译 Kotlin 源代码, 以及一个原生代码实现的 Kotlin 运行库.
 
-## 为什么要使用 Kotlin/Native?
+## 为什么要使用 Kotlin/Native? {id="why-kotlinnative"}
 
 Kotlin/Native 的主要设计目的是, 用来编译 Kotlin 代码, 使其能够运行在那些不应该使用 _虚拟机_ ,
 或无法使用 _虚拟机_ 的平台上, 比如嵌入式设备, 或 iOS.
@@ -29,14 +29,14 @@ Kotlin/Native 支持以下平台:
   >
   {style="note"}
 
-[请参见所有支持的目标平台](native-target-support.md).
+[请参见所有支持的目标平台和主机](native-target-support.md).
 
-## 互操作性
+## 互操作性 {id="interoperability"}
 
 Kotlin/Native 支持与各种操作系统的原生编程语言之间的双向互操作.
 编译器能够创建各种平台的可执行文件, 静态或动态的 C 库, 以及 Swift/Objective-C 框架.
 
-### 与 C 的交互能力
+### 与 C 的交互能力 {id="interoperability-with-c"}
 
 Kotlin/Native 提供了 [与 C 的交互能力](native-c-interop.md).
 在 Kotlin 代码中, 你可以直接使用既有的 C 库.
@@ -47,24 +47,24 @@ Kotlin/Native 提供了 [与 C 的交互能力](native-c-interop.md).
 * [学习 C 类型如何映射到 Kotlin](mapping-primitive-data-types-from-c.md)
 * [使用 C interop 和 libcurl 创建一个原生的 HTTP 客户端](native-app-with-c-and-libcurl.md)
 
-### 与 Swift/Objective-C 的交互能力
+### 与 Swift/Objective-C 的交互能力 {id="interoperability-with-swiftobjective-c"}
 
 Kotlin/Native 提供了 [与 Swift 和 Objective-C 的交互能力](native-objc-interop.md).
 你可以在 macOS 和 iOS 平台的 Swift/Objective-C 应用程序中直接使用 Kotlin 代码.
 
 要了解更多详情, 请完成 [使用 Kotlin/Native 开发 Apple Framework](apple-framework.md) 教程.
 
-## 在不同的平台上共享代码
+## 在不同的平台上共享代码 {id="sharing-code-between-platforms"}
 
 Kotlin/Native 包含一组预构建的 [平台库](native-platform-libs.md), 能够帮助你在项目之间共用 Kotlin 代码.
 POSIX, gzip, OpenGL, Metal, Foundation, 以及很多其它流行的库和 Apple 框架都已预先导入,
 并作为 Kotlin/Native 库包含在编译器包中.
 
-Kotlin/Native 是 [Kotlin Multiplatform](multiplatform.topic) 技术的一部分,
+Kotlin/Native 是 [Kotlin Multiplatform](get-started.topic) 技术的一部分,
 Kotlin Multiplatform 能够帮助你在多个不同的平台上共用代码, 包括 Android, iOS, JVM, Web, 以及原生平台.
 跨平台库为共通的 Kotlin 代码提供了必要的 API, 帮助我们用 Kotlin 代码编写项目中共通的部分, 这些代码只需要编写一次.
 
-## 内存管理器
+## 内存管理器 {id="memory-manager"}
 
 Kotlin/Native 使用一个自动化的 [内存管理器](native-memory-manager.md), 与 JVM 和 Go 类似.
 它有自己的追踪垃圾收集器, 并与 Swift/Objective-C 的 ARC 集成.

@@ -30,7 +30,7 @@ fun main() {
 函数是一组指令, 执行特定的任务. 创建一个函数后, 你就可以在需要执行这个任务时使用这个函数, 而不必反复编写这些指令.
 函数会在后面的各章中详细介绍. 在此之前, 所有的示例程序都使用 `main()` 函数.
 
-## 变量
+## 变量 {id="variables"}
 
 所有的程序都需要存储数据, 变量可以帮助你实现这个目的. 在 Kotlin 中, 你可以:
 
@@ -68,12 +68,13 @@ fun main() {
 
 由于 `customers` 是可变的变量, 可以在变量声明之后对它重新赋值.
 
-> 我们建议你默认将所有变量都声明为只读(`val`)变量.
-> 只有在需要的时候才声明可变的(`var`)变量.
+> 我们建议默认将所有变量都声明为只读(`val`)变量.
+> 只有在真正需要的时候才使用可变的(`var`)变量.
+> 通过这种方式, 可以尽量避免意外的修改本来不应该修改的内容.
 >
 {style="note"}
 
-## 字符串模板
+## 字符串模板 {id="string-templates"}
 
 确定的知道变量内容如何打印到标准输出将会很有用处. 你可以使用 **字符串模板** 做到这一点.
 你可以使用模板表达式来访问存储在变量和其它对象中的数据, 并将它们转换为字符串.
@@ -102,9 +103,9 @@ fun main() {
 你会注意到, 上面的示例中没有为变量声明类型. Kotlin 自己会推断它的类型: `Int`.
 这个教程会在 [下一章](kotlin-tour-basic-types.md) 中解释 Kotlin 各种不同的基本类型, 以及如何声明这些类型.
 
-## 实际练习
+## 实际练习 {id="practice"}
 
-### 习题 {initial-collapse-state="collapsed" collapsible="true"}
+### 习题 {id="exercise" initial-collapse-state="collapsed" collapsible="true"}
 
 完成以下代码, 让程序打印 `"Mary is 20 years old"` 到标准输出:
 
@@ -128,6 +129,6 @@ fun main() {
 ```
 {initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-hello-world-solution"}
 
-## 下一步
+## 下一步 {id="next-step"}
 
 [基本类型](kotlin-tour-basic-types.md)
