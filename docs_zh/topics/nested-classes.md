@@ -27,9 +27,9 @@ class OuterClass {
 }
 ```
 
-## 内部类(Inner class) {id="inner-classes"}
+## 内部类(Inner Class) {id="inner-classes"}
 
-嵌套类可以使用 `inner` 关键字来标记, 然后就可以访问它的外部类(outer class)的成员. 内部类会保存一个引用, 指向外部类的对象实例:
+嵌套类可以使用 `inner` 关键字来标记, 然后就可以访问它的外部类(Outer Class)的成员. 内部类会保存一个引用, 指向外部类的对象实例:
 
 ```kotlin
 class Outer {
@@ -44,7 +44,7 @@ val demo = Outer().Inner().foo() // == 1
 
 在内部类中使用 `this` 关键字会产生歧义, 关于如何消除这种歧义, 请参见 [带限定符的 `this` 表达式](this-expressions.md).
 
-## 匿名内部类(Anonymous inner class)
+## 匿名内部类(Anonymous inner class) {id="anonymous-inner-classes"}
 
 匿名内部类的实例使用 [对象表达式(object expression)](object-declarations.md#object-expressions) 来创建:
 

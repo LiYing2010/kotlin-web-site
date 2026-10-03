@@ -18,7 +18,10 @@ class Derived(b: Base) : Base by b
 
 fun main() {
     val base = BaseImpl(10)
-    Derived(base).print()
+    val derived = Derived(base)
+
+    derived.print()
+    // 输出结果为: 10
 }
 ```
 {kotlin-runnable="true"}
@@ -26,7 +29,7 @@ fun main() {
 `Derived` 类声明的基类列表中的 `by` 子句表示, `b` 将被保存在 `Derived` 的对象实例内部,
 而且编译器将会生成继承自 `Base` 接口的所有方法, 并将调用转发给 `b`.
 
-## 覆盖由委托实现的接口成员
+## 覆盖由委托实现的接口成员 {id="overriding-a-member-of-an-interface-implemented-by-delegation"}
 
 函数和属性的 [覆盖](inheritance.md#overriding-methods) 会如你预期的那样工作:
 编译器将会使用你的 `override` 实现, 而不会使用委托对象中的实现.
@@ -45,13 +48,17 @@ class BaseImpl(val x: Int) : Base {
 }
 
 class Derived(b: Base) : Base by b {
-    override fun printMessage() { print("abc") }
+    override fun printMessage() { println("abc") }
 }
 
 fun main() {
     val base = BaseImpl(10)
-    Derived(base).printMessage()
-    Derived(base).printMessageLine()
+    val derived = Derived(base)
+
+    derived.printMessage()
+    // 输出结果为: abc
+    derived.printMessageLine()
+    // 输出结果为: 10
 }
 ```
 {kotlin-runnable="true"}
@@ -71,15 +78,18 @@ class BaseImpl(x: Int) : Base {
 }
 
 class Derived(b: Base) : Base by b {
-    // 在 b 的 `print` 方法实现中无法访问这个属性
+    // 在 b 的 `print()` 方法实现中无法访问这个属性
     override val message = "Message of Derived"
 }
 
 fun main() {
-    val b = BaseImpl(10)
-    val derived = Derived(b)
+    val base = BaseImpl(10)
+    val derived = Derived(base)
+
     derived.print()
+    // 输出结果为: BaseImpl: x = 10
     println(derived.message)
+    // 输出结果为: Message of Derived
 }
 ```
 {kotlin-runnable="true"}

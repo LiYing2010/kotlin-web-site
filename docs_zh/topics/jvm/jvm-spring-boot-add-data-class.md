@@ -1,17 +1,6 @@
 [//]: # (title: 向 Spring Boot 项目添加数据类)
 
-<tldr>
-    <p>
-         这是 <strong>Spring Boot 和 Kotlin 入门</strong> 教程的第 2 部分.
-         开始这一部分之前, 请确认你已经完成了前面的步骤:
-    </p><br/>
-    <p>
-         <img src="icon-1-done.svg" width="20" alt="第 1 步"/> <a href="jvm-create-project-with-spring-boot.md">使用 Kotlin 创建 Spring Boot 项目</a><br/>
-         <img src="icon-2.svg" width="20" alt="第 2 步"/> <strong>向 Spring Boot 项目添加数据类</strong><br/>
-         <img src="icon-3-todo.svg" width="20" alt="第 3 步"/> 为 Spring Boot 项目添加数据库支持<br/>
-         <img src="icon-4-todo.svg" width="20" alt="第 4 步"/> 使用 Spring Data CrudRepository 进行数据库访问
-    </p>
-</tldr>
+<web-summary>向 Spring Boot 项目添加 Kotlin 数据类.</web-summary>
 
 在教程的这个部分, 你将会向应用程序添加更多功能, 并学会 Kotlin 语言的更多功能, 例如数据类.
 我们需要修改 `MessageController` 类, 来返回 JSON 格式的应答, 其中包含一组序列化的对象.
@@ -107,11 +96,11 @@
           </p>
           <p>
             本教程中, 你使用了
-            <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/list-of.html"><code>listOf()</code></a>
+            <a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/list-of.html"><code>listOf()</code></a>
             函数来创建 <code>Message</code> 对象的 List.
             这是用来创建对象的 <i>只读</i> List 的工厂函数: 你不能向 List 添加或删除元素.<br/>
             如果需要对 List 执行写操作, 请调用
-            <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/mutable-list-of.html"><code>mutableListOf()</code></a>
+            <a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/mutable-list-of.html"><code>mutableListOf()</code></a>
             函数来创建一个可变的 List 实例.
           </p>
        </def>
@@ -134,7 +123,7 @@
 `MessageController` 的应答现在是一个 JSON 文档, 其中包含 `Message` 对象的集合.
 
 > 如果 Jackson 库存在于类路径中, 那么 Spring 应用程序中的所有 Controller 都会默认输出 JSON 格式的应答.
-> 由于你 [在 `build.gradle.kts` 文件中指定了 `spring-boot-starter-web` 依赖项](jvm-create-project-with-spring-boot.md#explore-the-project-gradle-build-file), 你会通过 _传递(transitive)_ 依赖项的方式得到 Jackson.
+> 由于你 [在 `build.gradle.kts` 文件中指定了 `spring-boot-starter-webmvc` 依赖项](jvm-create-project-with-spring-boot.md#explore-the-project-gradle-build-file), 你会通过 _传递(transitive)_ 依赖项的方式得到 Jackson.
 > 因此, 如果 endpoint 返回一个能够被序列化为 JSON 的数据结构, 应用程序就会应答一个 JSON 文档.
 >
 {style="note"}
@@ -200,10 +189,17 @@ Spring 应用程序已经可以运行了:
 
     你将会看到一个页面, 包含 JSON 格式的 message 集合:
 
-    ![运行应用程序](messages-in-json-format.png){width=800}
+    ![运行应用程序](messages-in-json-format.png){width=700}
 
 ## 下一步 {id="next-step"}
 
 本教程的下一部分中, 你将会向你的项目添加并配置一个数据库, 并发送 HTTP 请求.
 
-**[阅读下一章](jvm-spring-boot-add-db-support.md)**
+<list columns="2" id="tour-nav">
+  <li>
+    <a as="button" href="jvm-create-project-with-spring-boot.md" mode="outline" icon="arrow-left" icon-position="left">上一步</a>
+  </li>
+  <li>
+    <a as="button" href="jvm-spring-boot-add-db-support.md" mode="classic" icon="arrow-right" icon-position="right">下一步</a>
+  </li>
+</list>

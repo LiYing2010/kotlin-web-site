@@ -9,7 +9,7 @@
 >
 {style="note"}
 
-## 从通道中选择
+## 从通道中选择 {id="selecting-from-channels"}
 
 假设我们有两个 string 值的生产者: `fizz` 和 `buzz`. 其中 `fizz` 每 500ms 产生一个 "Fizz" 字符串:
 
@@ -114,7 +114,7 @@ buzz -> 'Fizz!'
 
 <!--- TEST -->
 
-## 在通道关闭时选择
+## 在通道关闭时选择 {id="selecting-on-close"}
 
 如果通道已关闭, 那么 `select` 表达式的 [onReceive][ReceiveChannel.onReceive] 子句会失败,
 并导致 `select` 表达式抛出一个异常.
@@ -216,7 +216,7 @@ Channel 'a' is closed
 
 第 2 个现象是, 当通道被关闭时, 会立即选择 [onReceiveCatching][ReceiveChannel.onReceiveCatching] 子句.
 
-## 发送时选择
+## 发送时选择 {id="selecting-to-send"}
 
 选择表达式也可以使用 [onSend][SendChannel.onSend] 子句, 它可以与选择表达式的偏向性结合起来, 起到很好的作用.
 
@@ -293,7 +293,7 @@ Done consuming
 
 <!--- TEST -->
 
-## 选择延迟的值
+## 选择延迟的值 {id="selecting-deferred-values"}
 
 可以使用 [onAwait][Deferred.onAwait] 子句来选择延迟的值(Deferred value).
 我们先从一个异步函数开始, 它会延迟一段随机长度的时间, 然后返回一个延迟的字符串值:
@@ -366,7 +366,7 @@ Deferred 4 produced answer 'Waited for 128 ms'
 
 <!--- TEST -->
 
-## 在延迟值的通道上切换
+## 在延迟值的通道上切换 {id="switch-over-a-channel-of-deferred-values"}
 
 下面我们来编写一个通道生产者函数, 它从一个通道得到延迟的字符串值, 等待每一个接收到的值,
 但如果下一个延迟值到达, 或者通道被关闭, 就不再等待了.

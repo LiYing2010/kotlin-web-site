@@ -376,11 +376,11 @@ fun main() {
 
 下表是各个平台的默认单调时间源:
 
-| 平台                  | 时间源                                                                 |
+| 平台                | 时间源                                                              |
 |---------------------|---------------------------------------------------------------------|
 | Kotlin/JVM          | `System.nanoTime()`                                                 |
 | Kotlin/JS (Node.js) | `process.hrtime()`                                                  |
-| Kotlin/JS (browser) | `window.performance.now()` 或 `Date.now()`                           |
+| Kotlin/JS (browser) | `window.performance.now()` 或 `Date.now()`                          |
 | Kotlin/Native       | `std::chrono::high_resolution_clock` or `std::chrono::steady_clock` |
 
 ### 创建时间源 {id="create-time-source"}

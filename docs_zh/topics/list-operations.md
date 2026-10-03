@@ -132,7 +132,7 @@ fun main() {
 #### 使用比较器(Comparator)进行折半查找(Binary Search) {id="comparator-binary-search"}
 
 如果 list 元素不是 `Comparable` 对象, 那么在进行折半查找(Binary Search)时, 需要提供一个
-[`Comparator`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-comparator.html).
+[`Comparator`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-comparator/).
 list 中的元素必须按这个 `Comparator` 比较的结果升序排列. 下面我们来看看示例程序:
 
 ```kotlin

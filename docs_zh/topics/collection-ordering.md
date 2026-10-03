@@ -99,10 +99,10 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-由于根据多个条件排序是常见的场景, Kotlin 标准库提供了 [`thenBy()`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.comparisons/then-by.html) 函数,
+由于根据多个条件排序是常见的场景, Kotlin 标准库提供了 [`.thenBy()`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.comparisons/then-by.html) 函数,
 你可以用来添加第二个排序规则.
 
-例如, 你可以将 `compareBy()` 和 `thenBy()` 组合起来, 首先按字符串长度排序, 然后按字母顺序排序, 规则和前面的示例一样:
+例如, 你可以将 `compareBy()` 和 `.thenBy()` 组合起来, 首先按字符串长度排序, 然后按字母顺序排序, 规则和前面的示例一样:
 
 ```kotlin
 fun main() {
@@ -126,9 +126,9 @@ Kotlin 集合包提供了用于集合排序的各种函数, 可以使用自然�
 ## 使用自然顺序排序 {id="natural-order"}
 
 最基本的
-[`sorted()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/sorted.html)
+[`.sorted()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/sorted.html)
 和
-[`sortedDescending()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/sorted-descending.html)
+[`.sortedDescending()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/sorted-descending.html)
 函数, 返回新的集合, 其中的元素分别使用自然顺序的正序和逆序排序.
 这些函数适用于 `Comparable` 元素组成的集合.
 
@@ -147,9 +147,9 @@ fun main() {
 ## 使用自定义顺序排序 {id="custom-orders"}
 
 如果要使用自定义顺序排序, 或者对不可比较的对象排序, 可以使用
-[`sortedBy()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/sorted-by.html)
+[`.sortedBy()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/sorted-by.html)
 和
-[`sortedByDescending()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/sorted-by-descending.html)
+[`.sortedByDescending()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/sorted-by-descending.html)
 函数.
 这些函数的参数是一个选择器函数, 负责将集合元素变换为 `Comparable` 值, 然后再按照这些 `Comparable` 值的自然顺序对集合进行排序.
 
@@ -169,8 +169,8 @@ fun main() {
 
 要对集合排序指定一个自定义顺序, 你可以提供一个自己的 `Comparator`.
 为了实现这个目的, 可以调用
-[`sortedWith()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/sorted-with.html)
-函数, 并使用你的 `Comparator` 作为参数.
+[`.sortedWith()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/sorted-with.html)
+扩展函数, 并使用你的 `Comparator` 作为参数.
 使用这个函数对字符串按照长度排序的示例如下:
 
 ```kotlin
@@ -183,14 +183,70 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
+## 检查是否排序 {id="check-sorted-order"}
+
+你可以使用以下扩展函数, 检查元素是否符合某个指定的顺序:
+
+* `.isSorted()`
+* `.isSortedDescending()`
+* `.isSortedWith(comparator)`
+* `.isSortedBy(selector)`
+* `.isSortedByDescending(selector)`
+
+如果元素已经按照指定的顺序排序, 或者元素少于 2 个, 这些扩展函数会返回 `true`.
+如果函数找到 1 对不符合顺序的元素, 会立即返回 `false` 并停止检查.
+
+对于不保证迭代顺序的集合, 例如 `HashSet`, 每次调用的结果可能会不同.
+对于不能以固定顺序生成元素的序列(Sequence), 也是如此.
+为了确保每次调用得到一致的结果, 请只在能够保证迭代顺序的集合上使用这些函数, 例如 `List`.
+
+在检查 `Double` 和 `Float` 值时, 这些函数将 `NaN` 看作大于其它任何值, 将 `-0.0` 看作小于 `0.0`.
+此外, `.isSortedBy()` 和 `.isSortedByDescending()` 函数将 `selector` 返回的 `null` 结果, 看作小于其它任何值.
+
+当你对一个序列(Sequence)调用这些函数时, 操作是终止性的(Terminal).
+它会消耗这个序列, 产生一个 `Boolean` 结果, 而不是返回另一个序列.
+
+> 这些顺序检查函数也可以用于数组, 基本类型数组, 以及无符号值数组.
+> 无符号值数组以及对它们的操作, 是 [实验性功能](components-stability.md#stability-levels-explained),
+> 需要通过 `@ExperimentalUnsignedTypes` 注解标注使用者同意(Opt-in).
+>
+{style="note"}
+
+下面是一个示例, 使用 `.isSorted()` 和 `.isSortedBy()` 函数检查排序顺序:
+
+```kotlin
+data class User(val name: String, val age: Int)
+
+fun main() {
+//sampleStart
+    val numbers = listOf(1, 2, 3, 4)
+    println(numbers.isSorted())
+    // 输出结果为: true
+
+    val users = listOf(
+        User("Alice", 24),
+        User("Bob", 31),
+        User("Charlie", 29),
+    )
+    println(users.isSortedBy(User::age))
+    // 输出结果为: false
+
+    val descending = listOf(4, 3, 2, 1)
+    println(descending.isSortedDescending())
+    // 输出结果为: true
+   
+//sampleEnd
+}
+```
+{kotlin-runnable="true" kotlin-min-compiler-version="2.4"}
+
 ## 逆序集合 {id="reverse-order"}
 
 可以按照相反的顺序访问集合, 方法是使用
-[`reversed()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/reversed.html)
+[`.reversed()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/reversed.html)
 函数.
 
 ```kotlin
-
 fun main() {
 //sampleStart
     val numbers = listOf("one", "two", "three", "four")
@@ -200,13 +256,13 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-`reversed()` 函数的返回值是一个新的集合, 其中复制了原集合中的所有元素.
-因此, 如果之后改变了原元集合的内容, 不会影响到之前通过 `reversed()` 函数得到的结果.
+`.reversed()` 扩展函数的返回值是一个新的集合, 其中复制了原集合中的所有元素.
+因此, 如果之后改变了原元集合的内容, 不会影响到之前通过 `.reversed()` 函数得到的结果.
 
 另一个逆序函数 -
-[`asReversed()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/as-reversed.html) -
+[`.asReversed()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/as-reversed.html) -
 返回原 List 的一个逆序的视图(view),
-因此, 如果原 List 不会改变, 那么这个函数可能比 `reversed()` 函数更轻量, 更适用.
+因此, 如果原 List 不会改变, 那么这个函数可能比 `.reversed()` 函数更轻量, 更适用.
 
 ```kotlin
 fun main() {
@@ -235,12 +291,12 @@ fun main() {
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 但是, 如果不知道 List 是否可变, 或者原集合根本不是 List,
-那么更适用使用 `reversed()` 函数, 因为它的结果是原集合的一个复制, 内容不会随原集合一起改变.
+那么更适用使用 `.reversed()` 函数, 因为它的结果是原集合的一个复制, 内容不会随原集合一起改变.
 
 ## 随机排序 {id="random-order"}
 
 最后, 还有一个函数, 它返回一个新的 `List`, 其中的元素按照随机顺序排列 -
-[`shuffled()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/shuffled.html)
+[`.shuffled()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/shuffled.html)
 函数.
 调用时可以不带参数, 或指定一个
 [`Random`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.random/-random/index.html)

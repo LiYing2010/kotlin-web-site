@@ -1,6 +1,8 @@
 [//]: # (title: Kotlin 1.8.0 版中的新功能)
 
-_[发布日期: 2022/12/28](releases.md#release-details)_
+<web-summary>阅读 Kotlin 1.8.0 发布说明, 包括新的语言特性, Kotlin Multiplatform, JVM, Native, JS 的更新, 以及对 Gradle 和 Maven 的构建工具支持.</web-summary>
+
+_[发布日期: 2022/12/28](releases.md#release-history)_
 
 Kotlin 1.8.0 已经发布了, 以下是它的一些最重要的功能:
 
@@ -11,7 +13,11 @@ Kotlin 1.8.0 已经发布了, 以下是它的一些最重要的功能:
 * [与 Objective-C/Swift 交互能力的改进](#improved-objective-c-swift-interoperability)
 * [兼容 Gradle 7.3](#gradle)
 
-## IDE 支持
+> 关于 Kotlin 的发布周期, 详情请参见 [Kotlin 发布过程](releases.md).
+>
+{style="tip"}
+
+## IDE 支持 {id="ide-support"}
 
 以下 IDE 可以使用支持 1.8.0 的 Kotlin plugin:
 
@@ -27,7 +33,7 @@ Kotlin 1.8.0 已经发布了, 以下是它的一些最重要的功能:
 >
 {style="note"}
 
-## Kotlin/JVM
+## Kotlin/JVM {id="kotlinjvm"}
 
 从 1.8.0 版开始, 编译器可以生成字节码版本对应于 JVM 19 的类.
 新的语言版本还包括以下功能:
@@ -80,7 +86,7 @@ Kotlin 1.8.0 添加了一个新的 `-Xdebug` 编译器选项, 它会禁止代码
 
 参见 [如何配置 Lombok 编译器插件](lombok.md#gradle).
 
-## Kotlin/Native
+## Kotlin/Native {id="kotlinnative"}
 
 Kotlin 1.8.0 包含对 Objective-C 和 Swift 交互能力的改进, 支持 Xcode 14.1, 以及对 CocoaPods Gradle plugin 改进:
 
@@ -161,7 +167,7 @@ kotlin {
 
 详情请参见, [CocoaPods Gradle plugin DSL 参考文档](multiplatform-cocoapods-dsl-reference.md).
 
-## Kotlin Multiplatform: 新的 Android 源代码集布局
+## Kotlin Multiplatform: 新的 Android 源代码集布局 {id="kotlin-multiplatform-a-new-android-source-set-layout"}
 
 Kotlin 1.8.0 引入了新的 Android 源代码集布局, 替换了以前的目录命名方式, 旧方式容易造成很多误解.
 
@@ -177,7 +183,7 @@ Kotlin 1.8.0 引入了新的 Android 源代码集布局, 替换了以前的目�
 为了解决这些问题, 以及其他一些问题, 我们引入了一种新的 Android 源代码集布局.
 以下是两种布局的一些关键差别:
 
-#### KotlinSourceSet 命名方式
+#### KotlinSourceSet 命名方式 {id="kotlinsourceset-naming-schema"}
 
 | 当前的源代码集布局                        | 新的源代码集布局                  |
 |----------------------------------------|---------------------------------|
@@ -191,7 +197,7 @@ Kotlin 1.8.0 引入了新的 Android 源代码集布局, 替换了以前的目�
 | test         | androidTest               | android<b>Unit</b>Test         |
 | androidTest  | android<b>Android</b>Test | android<b>Instrumented</b>Test |
 
-#### SourceDirectories
+#### SourceDirectories {id="sourcedirectories"}
 
 | 当前源代码集布局                           | 新的源代码集布局                                                    |
 |-------------------------------------------|-------------------------------------------------------------------|
@@ -205,7 +211,7 @@ Kotlin 1.8.0 引入了新的 Android 源代码集布局, 替换了以前的目�
 | test        | src/androidTest/kotlin, src/test/kotlin, src/test/java     | src/android<b>Unit</b>Test/kotlin, src/test/kotlin, src/test/java                              |
 | androidTest | src/android<b>Android</b>Test/kotlin, src/androidTest/java | src/android<b>Instrumented</b>Test/kotlin, src/androidTest/java, <b>src/androidTest/kotlin</b> |
 
-#### AndroidManifest.xml 文件的位置
+#### AndroidManifest.xml 文件的位置 {id="the-location-of-the-androidmanifestxml-file"}
 
 | 当前源代码集布局                                         | 新的源代码集布局                                         |
 |--------------------------------------------------------|-------------------------------------------------------|
@@ -218,7 +224,7 @@ Kotlin 1.8.0 引入了新的 Android 源代码集布局, 替换了以前的目�
 | main  | src/main/AndroidManifest.xml  | src/<b>android</b>Main/AndroidManifest.xml  |
 | debug | src/debug/AndroidManifest.xml | src/<b>android</b>Debug/AndroidManifest.xml |
 
-#### Android 测试与 common 测试之间的关系
+#### Android 测试与 common 测试之间的关系 {id="the-relation-between-android-and-common-tests"}
 
 新的 Android 源代码集布局改变了 Android-instrumented 测试 (在新的布局中名称变更为 `androidInstrumentedTest`)
 与 common 测试之间的关系.
@@ -245,7 +251,7 @@ kotlin {
 }
 ```
 
-#### 对 Android flavor 的支持
+#### 对 Android flavor 的支持 {id="support-for-android-flavors"}
 
 在以前的版本中, Kotlin Gradle plugin 会在很早的阶段创建对应于 `debug` 和 `release` 构建类型的 Android 源代码集,
 或对应于自定义 flavor 的 Android 源代码集, 例如 `demo` 和 `full`.
@@ -265,11 +271,11 @@ kotlin {
 }
 ```
 
-### 配置与设置
+### 配置与设置 {id="configuration-and-setup"}
 
 在未来的发布版中, 将会默认使用新的布局. 你可以使用以下 Gradle 选项来启用它:
 
-```none
+```properties
 kotlin.mpp.androidSourceSetLayoutVersion=2
 ```
 
@@ -280,11 +286,11 @@ kotlin.mpp.androidSourceSetLayoutVersion=2
 现在不再鼓励使用以前的 Android 风格目录布局. Kotlin 1.8.0 开始启动了旧布局的废弃周期, 会对当前的布局提示警告信息.
 你可以使用以下 Gradle 属性来禁止这个警告:
 
-```none
+```properties
 kotlin.mpp.androidSourceSetLayoutVersion1.nowarn=true
 ```
 
-## Kotlin/JS
+## Kotlin/JS {id="kotlinjs"}
 
 Kotlin 1.8.0 发布了 JS IR 编译器后端的稳定版, 并对 JavaScript 相关的 Gradle 构建脚本带来了新的功能特性:
 * [JS IR 编译器后端的稳定版](#stable-js-ir-compiler-backend)
@@ -301,7 +307,7 @@ Kotlin 1.8.0 发布了 JS IR 编译器后端的稳定版, 并对 JavaScript 相�
 
 对于 JS IR 编译器的稳定版, 增量编译会默认启用.
 
-如果你还在使用旧的编译器, 请将你的项目切换到新的后端, 具体方法请参见我们的 [迁移指南](js-ir-migration.md).
+如果你还在使用旧的编译器, 请将你的项目切换到新的后端.
 
 ### 新的设置, 用于报告 yarn.lock 文件已被更新 {id="new-settings-for-reporting-that-yarn-lock-has-been-updated"}
 
@@ -342,7 +348,7 @@ rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlu
 
 例如, 在你的 Gradle property 文件中, 以下代码将会对所有模块, 在 Firefox 和 Safari 中运行测试:
 
-```none
+```properties
 kotlin.js.browser.karma.browsers=firefox,safari
 ```
 
@@ -377,7 +383,7 @@ browser {
 }
 ```
 
-## Gradle
+## Gradle {id="gradle"}
 
 Kotlin 1.8.0 **完全** 支持 Gradle 7.2 和 7.3. 你也可以使用 Gradle 的最新版本,
 但如果你这样做, 请注意, 你可能会遇到 deprecation 警告, 或者 Gradle 的某些新功能可能不能工作.
@@ -447,7 +453,7 @@ Kotlin 1.8.0 **完全** 支持 Gradle 7.2 和 7.3. 你也可以使用 Gradle 的
 >
 {style="note"}
 
-#### 限制
+#### 限制 {id="limitations"}
 
 > `kotlinOptions` task 输入和 `kotlinOptions{...}` task DSL 现在处于支持模式, 将会在未来的发布版中被废弃.
 > 我们只会对 `compilerOptions` 和 `toolOptions` 进行功能改进.
@@ -486,7 +492,7 @@ Gradle 将会为
 Kotlin 编译器的 fallback 策略是, 如果 Kotlin daemon 因为某种原因失败, 那么会在 daemon 之外运行编译任务.
 如果 Gradle daemon 已启动, 编译器会使用 "In process" 策略.
 如果 Gradle daemon 没有启动, 编译器会使用 "Out of process" 策略.
-详情请参见 [执行策略的相关文档](gradle-compilation-and-caches.md#defining-kotlin-compiler-execution-strategy).
+详情请参见 [编译器执行策略](compiler-execution-strategy.md).
 注意, 静默的 fallback 到其他策略, 会消耗大量的系统资源, 或导致不确定的构建结果;
 关于这个问题, 详情请参见这个
 [YouTrack issue](https://youtrack.jetbrains.com/issue/KT-48843/Add-ability-to-disable-Kotlin-daemon-fallback-strategy).
@@ -500,7 +506,7 @@ Kotlin 编译器的 fallback 策略是, 如果 Kotlin daemon 因为某种原因�
 (详情请参见 [`kotlin-stdlib-jdk7` 和 `kotlin-stdlib-jdk8` 合并到 `kotlin-stdlib`](#updated-jvm-compilation-target)).
 你可以使用 `kotlin.stdlib.jdk.variants.version.alignment` Gradle 属性禁用这个行为:
 
-```none
+```properties
 kotlin.stdlib.jdk.variants.version.alignment=false
 ```
 
@@ -572,9 +578,9 @@ dependencies {
   从 Kotlin 1.3.70 开始, 默认情况下, [kapt 使用 Gradle worker](kapt.md#run-kapt-tasks-in-parallel),
   我们建议使用这种方法.
 * 在 Kotlin 1.7.0 中, 我们 [宣布了 `kotlin.compiler.execution.strategy` 属性的废弃周期开始](whatsnew17.md#deprecation-of-the-kotlin-compiler-execution-strategy-system-property).
-  在这个发布版中, 我们删除了这个属性. 详情请参见 [如何使用其它方式定义 Kotlin 编译器执行策略](gradle-compilation-and-caches.md#defining-kotlin-compiler-execution-strategy).
+  在这个发布版中, 我们删除了这个属性. 详情请参见 [如何使用其它方式定义 Kotlin 编译器执行策略](compiler-execution-strategy.md).
 
-## 标准库
+## 标准库 {id="standard-library"}
 
 在 Kotlin 1.8.0 中:
 * 更新了 [JVM 编译目标](#updated-jvm-compilation-target).
@@ -600,7 +606,7 @@ Kotlin 1.8.0 不再支持 JVM 1.6 和 1.7 编译目标. 因此, 你不再需要�
 注意, 混合使用 stdlib 库文件的不同版本可能导致类重复, 或类缺失.
 为了避免这种问题, Kotlin Gradle plugin 可以帮助你 [对齐 stdlib 版本](#usage-of-the-latest-kotlin-stdlib-version-in-transitive-dependencies).
 
-### cbrt()
+### cbrt() {id="cbrt"}
 
 `cbrt()` 函数, 可以计算一个 `double` 或 `float` 值的 real 三次方根, 现在进入稳定版.
 
@@ -709,7 +715,7 @@ fun main() {
 
 要实现文件备份功能, 这些函数会非常有用.
 
-#### 错误处理
+#### 错误处理 {id="error-handling"}
 
 使用 `copyToRecursively()` 函数时, 你可以覆盖 `onError` lambda 函数, 来定义在复制过程中发生异常时, 应该如何处理:
 
@@ -725,7 +731,7 @@ sourceRoot.copyToRecursively(destinationRoot, followLinks = false,
 当你使用 `deleteRecursively()` 时, 如果在删除一个文件或目录时发生异常, 那么这个文件或目录会被跳过.
 删除过程结束后, `deleteRecursively()` 会抛出 `IOException`, 其中包含删除过程中发生的所有异常.
 
-#### 文件覆盖
+#### 文件覆盖 {id="file-overwrite"}
 
 如果 `copyToRecursively()` 发现一个文件在目标目录中已经存在, 那么会发生异常.
 如果你想要覆盖文件, 请使用这个函数带有 `overwrite` 参数的重载版本, 并将这个参数设置为 `true`:
@@ -741,7 +747,7 @@ fun setUpEnvironment(projectDirectory: Path, fixtureName: String) {
 ```
 {validate="false"}
 
-#### 自定义复制行为
+#### 自定义复制行为 {id="custom-copying-action"}
 
 要定义你自己的复制逻辑, 请使用这个函数的带有额外参数 `copyAction` 的覆盖版本.
 使用 `copyAction`, 你可以提供一个 lambda 函数, 指定你想要的复制动作:
@@ -773,11 +779,11 @@ sourceRoot.copyToRecursively(destinationRoot, followLinks = false) { source, tar
 以前我们只缓存 `KClass`, 现在我们还可以缓存 `KType` 和 `KDeclarationContainer`.
 这些变更带来了调用 `typeOf()` 时的显著的性能改善.
 
-## 文档更新
+## 文档更新 {id="documentation-updates"}
 
 Kotlin 文档有了很大的变更:
 
-### 文档的改进和新增
+### 文档的改进和新增 {id="revamped-and-new-pages"}
 
 * [Gradle 概述](gradle.md) –
   学习如何使用 Gradle 构建系统配置和构建一个 Kotlin 项目, 可用的编译器选项, 编译, 以及 Kotlin Gradle plugin 中的缓存.
@@ -786,7 +792,7 @@ Kotlin 文档有了很大的变更:
 * [Lincheck 指南](lincheck-guide.md) –
   学习如何设置和使用 Lincheck 框架, 在 JVM 平台上测试并发算法.
 
-### 教程的改进和新增
+### 教程的改进和新增 {id="new-and-updated-tutorials"}
 
 * [Gradle 与 Kotlin/JVM 入门](get-started-with-jvm-gradle-project.md) –
   使用 IntelliJ IDEA 和 Gradle 创建一个控制台应用程序.
@@ -812,6 +818,5 @@ Android Studios 的后续更新会带有 Kotlin plugin 的 1.8.0 版本.
 
 ## Kotlin 1.8.0 的兼容性指南 {id="compatibility-guide-for-kotlin-1-8-0"}
 
-Kotlin 1.8.0 是一个 [功能性发布版(Feature Release)](kotlin-evolution-principles.md#language-and-tooling-releases),
-因此可能带来一些变更, 与你针对旧版本编写的代码不兼容.
+Kotlin 1.8.0 是一个功能发布版, 因此可能带来一些变更, 与你针对旧版本编写的代码不兼容.
 关于这些不兼容的变更, 详情请参见 [Kotlin 1.8.0 兼容性指南](compatibility-guide-18.md).

@@ -1,14 +1,14 @@
-[//]: # (title: 设置 Kotlin/JS 工程(Project))
+[//]: # (title: 设置 Kotlin/JS 项目)
 
-Kotlin JavaScript 工程(Project) 使用 Gradle 进行编译.
-为了方便开发者管理 Kotlin JavaScript 工程, 我们提供了 `kotlin.multiplatform` Gradle 插件, 其中包括工程配置工具,
+Kotlin JavaScript 项目使用 Gradle 进行编译.
+为了方便开发者管理 Kotlin JavaScript 项目, 我们提供了 `kotlin.multiplatform` Gradle 插件, 其中包括项目配置工具,
 以及对 JavaScript 开发中常见业务进行自动化处理的帮助性任务.
 
 这个插件会在后台使用 [npm](https://www.npmjs.com/) 或 [Yarn](https://yarnpkg.com/) 包管理器下载 npm 依赖项,
-并使用 [webpack](https://webpack.js.org/) 将 Kotlin 工程编译为 JavaScript bundle  .
+并使用 [webpack](https://webpack.js.org/) 将 Kotlin 项目编译为 JavaScript bundle  .
 依赖项管理和配置调整大部分可以直接在 Gradle 构建脚本文件中完成, 还可以通过选项覆盖自动生成的配置, 获得完全的控制能力.
 
-你可以在 Gradle 工程的 `build.gradle(.kts)` 文件中手动的应用 `org.jetbrains.kotlin.multiplatform` 插件:
+你可以在 Gradle 项目的 `build.gradle(.kts)` 文件中手动的应用 `org.jetbrains.kotlin.multiplatform` 插件:
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
@@ -31,7 +31,7 @@ plugins {
 </tab>
 </tabs>
 
-通过 Kotlin Multiplatform Gradle 插件, 你可以在编译脚本的 `kotlin` 节中管理工程的各方面设置.
+通过 Kotlin Multiplatform Gradle 插件, 你可以在编译脚本的 `kotlin` 节中管理项目的各方面设置.
 
 ```groovy
 kotlin {
@@ -43,23 +43,25 @@ kotlin {
 
 * [目标执行环境](#execution-environments): 浏览器, 或 Node.js
 * [支持 ES2015 功能](#support-for-es2015-features): 类, 模块, 和生成器
-* [工程的依赖项目管理](#dependencies): Maven 或 npm
+* [配置输出粒度](#configure-output-granularity)
+* [生成 TypeScript 声明文件](#generation-of-typescript-declaration-files-d-ts)
+* [项目的依赖项目管理](#dependencies): Maven 或 npm
 * [运行配置(configuration)](#run-task)
 * [测试配置(configuration)](#test-task)
-* 对于浏览器工程的 [打包(Bundling)](#webpack-bundling) 和 [CSS 支持](#css)
+* 对于浏览器项目的 [打包(Bundling)](#webpack-bundling) 和 [CSS 支持](#css)
 * [目标目录](#distribution-target-directory) 和 [模块名称](#module-name)
-* [工程的 `package.json` 文件](#package-json-customization)
+* [项目的 `package.json` 文件](#package-json-customization)
 
 ## 执行环境 {id="execution-environments"}
 
-Kotlin/JS 工程可以运行于两种不同的执行环境:
+Kotlin/JS 项目可以运行于两种不同的执行环境:
 
 * 浏览器环境, 用于浏览器内运行的客户端脚本
 * [Node.js](https://nodejs.org/), 在浏览器之外运行 JavaScript 代码, 比如, 运行服务器端脚本.
 
-要为 Kotlin/JS 工程定义目标运行环境, 需要添加 `js {}` 代码段, 其中包含 `browser {}` 或 `nodejs {}`:
+要为 Kotlin/JS 项目定义目标运行环境, 需要添加 `js {}` 代码段, 其中包含 `browser {}` 或 `nodejs {}`:
 
-```groovy
+```kotlin
 kotlin {
     js {
         browser {
@@ -79,23 +81,24 @@ kotlin {
 
 Kotlin Multiplatform 插件会针对选定的运行环境, 自动配置它的编译任务.
 包括下载并安装应用程序运行和测试所需要的环境和依赖项目,
-因此开发者可以编译, 运行, 以及测试简单的工程, 而无需再添加更多配置.
-对于编译目标为 Node.js 的项目, 还有一个选项可以使用本地已安装的 Node.js.
+因此开发者可以编译, 运行, 以及测试简单的项目, 而无需再添加更多配置.
+还有一个选项可以使用本地已有的安装.
 详情请参见 [使用已安装的 Node.js](#use-pre-installed-node-js).
 
 ## 支持 ES2015 功能 {id="support-for-es2015-features"}
 
-Kotlin 对以下 ES2015 功能提供了 [实验性](components-stability.md#stability-levels-explained) 的支持:
+Kotlin 支持 ES2015 功能, 包括:
 
 * 模块: 简化你的代码库, 提高可维护性的.
 * 类: 可以结合 OOP 原则, 产生更清晰, 更直观的代码.
 * 用于编译 [挂起函数](composing-suspending-functions.md) 的生成器: 能够改善最终 bundle 的大小, 并帮助进行调试.
+* [内联 JavaScript 代码](js-interop.md#inline-javascript).
 
 你可以向你的 `build.gradle(.kts)` 文件添加 `es2015` 编译目标, 一次性启用所有支持的 ES2015 功能:
 
 ```kotlin
 tasks.withType<KotlinJsCompile>().configureEach {
-    kotlinOptions {
+    compilerOptions {
         target = "es2015"
     }
 }
@@ -103,32 +106,61 @@ tasks.withType<KotlinJsCompile>().configureEach {
 
 [关于 ES2015 (ECMAScript 2015, ES6), 更多详情请参见官方文档](https://262.ecma-international.org/6.0/).
 
-## 依赖项目 {id="dependencies"}
+## 配置输出粒度 {id="configure-output-granularity"}
 
-与其他 Gradle 工程一样, Kotlin/JS 工程编译脚本的 `dependencies {}` 代码段内, 支持添加传统的 Gradle [依赖项目声明](https://docs.gradle.org/current/userguide/declaring_dependencies.html):
+你可以选择让编译器在你的项目中如何输出 `.js` 文件:
 
-<tabs group="build-script">
-<tab title="Kotlin" group-key="kotlin">
+* **对每个模块输出 `.js` 文件**. 默认情况下, JS 编译器的编译结果是对项目的每个模块输出单独的 `.js` 文件.
+* **对每个项目输出 `.js` 文件**. 你也可以将整个项目编译为单个 `.js` 文件, 方法是向 `gradle.properties` 文件添加以下设置:
+
+  ```properties
+  kotlin.js.ir.output.granularity=whole-program // 默认值是 'per-module'
+  ```
+
+* **对每个文件输出 `.js` 文件**. 你也可以设置更加细粒度的输出, 为每个 Kotlin 文件生成 1 个 JavaScript 文件
+  (如果 Kotlin 文件包含导出的声明, 则会生成 2 个 JavaScript 文件). 启用这个模式的方法如下:
+  1. 将 [编译目标](#support-for-es2015-features) 设置为 `es2015`,
+     在你的项目中支持 ES2015 功能.
+  2. 将以下内容添加到 `gradle.properties` 文件:
+     ```properties
+     kotlin.js.ir.output.granularity=per-file // 默认值是 'per-module'
+     ```
+
+## 生成 TypeScript 声明文件 (`d.ts`) {id="generation-of-typescript-declaration-files-d-ts"}
+<primary-label ref="experimental-opt-in"/>
+
+Kotlin/JS 编译器能够从你的 Kotlin 代码生成 TypeScript 定义.
+在开发混合 App(Hybrid App)时, JavaScript 工具和 IDE 可以使用这些定义实现以下功能:
+
+* 提供代码自动完成
+* 支持静态分析
+* 简化在 JavaScript 和 TypeScript 项目中添加 Kotlin 代码的过程
+
+生成 TypeScript 定义对于 [共用业务逻辑的使用场景](js-overview.md#use-cases-for-kotlin-js) 尤其有用.
+
+编译器会收集所有标注了 [`@JsExport`](js-to-kotlin-interop.md#jsexport-annotation) 注解的顶级声明,
+并自动在一个 `.d.ts` 文件中生成 TypeScript 定义.
+
+要生成 TypeScript 定义, 请在你的 Gradle 构建文件中明确进行配置.
+请在你的 `build.gradle.kts` 文件的 [`js {}` 代码段](js-project-setup.md#execution-environments)
+中添加 `generateTypeScriptDefinitions()` 函数:
 
 ```kotlin
-dependencies {
-    implementation("org.example.myproject", "1.1.0")
+kotlin {
+    js {
+        binaries.executable()
+        browser {
+        }
+        generateTypeScriptDefinitions()
+    }
 }
 ```
 
-</tab>
-<tab title="Groovy" group-key="groovy">
+这些声明位于 `build/js/packages/<package_name>/kotlin` 目录中, 与相应的未经 webpack 处理的 JavaScript 代码在一起.
 
-```groovy
-dependencies {
-    implementation 'org.example.myproject:1.1.0'
-}
-```
+## 依赖项目 {id="dependencies"}
 
-</tab>
-</tabs>
-
-Kotlin Multiplatform Gradle 插件也支持在编译脚本的 `kotlin {}` 代码段中添加特定源代码集合(source set)的依赖项目声明:
+要声明依赖项, 请在你的 `build.gradle(.kts)` 文件的 `jsMain` 源代码集中使用 `dependencies {}` 代码段:
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
@@ -136,7 +168,7 @@ Kotlin Multiplatform Gradle 插件也支持在编译脚本的 `kotlin {}` 代码
 ```kotlin
 kotlin {
     sourceSets {
-        val jsMain by getting {
+        jsMain {
             dependencies {
                 implementation("org.example.myproject:1.1.0")
             }
@@ -163,10 +195,15 @@ kotlin {
 </tab>
 </tabs>
 
-> 并不是 Kotlin 编程语言中所有可用的库在 JavaScript 平台都可用:
-> 只有那些包含针对 Kotlin/JS 的 artifact 的库才能使用.
->
-{style="note"}
+只有那些包含针对 Kotlin/JS 的 artifact 的库才能作为依赖项使用.
+要解析依赖项, 请在你的 `build.gradle(.kts)` 文件的 `repositories {}` 代码段中声明 Gradle 应该查找依赖项的仓库.
+例如:
+
+```kotlin
+repositories {
+    mavenCentral()
+}
+```
 
 如果你添加的库依赖于 [来自 npm 的包](#npm-dependencies), Gradle 也会自动解析这些传递性依赖项.
 
@@ -223,8 +260,14 @@ kotlin {
 <tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
-dependencies {
-    implementation(npm("react", "> 14.0.0 <=16.9.0"))
+kotlin {
+    sourceSets {
+        jsMain {
+            dependencies {
+                implementation(npm("core-js", "^3.38.1"))
+            }
+        }
+    }
 }
 ```
 
@@ -232,8 +275,14 @@ dependencies {
 <tab title="Groovy" group-key="groovy">
 
 ```groovy
-dependencies {
-    implementation npm('react', '> 14.0.0 <=16.9.0')
+kotlin {
+    sourceSets {
+        jsMain {
+            dependencies {
+                implementation npm('core-js', '^3.38.1')
+            }
+        }
+    }
 }
 ```
 
@@ -246,7 +295,7 @@ dependencies {
 你也可以通过 [npm](https://www.npmjs.com/) 包管理器直接使用 npm 依赖项.
 要使用 npm 作为你的包管理器, 请在你的 `gradle.properties` 文件中, 设置以下属性:
 
-```none
+```properties
 kotlin.js.yarn=false
 ```
 
@@ -261,15 +310,15 @@ kotlin.js.yarn=false
 
 ## run 任务 {id="run-task"}
 
-Kotlin Multiplatform Gradle 插件提供了一个 `jsBrowserDevelopmentRun` 任务, 它可以运行你的纯 Kotlin/JS 工程, 无需额外的配置.
+Kotlin Multiplatform Gradle 插件提供了一个 `jsBrowserDevelopmentRun` 任务, 它可以运行你的纯 Kotlin/JS 项目, 无需额外的配置.
 
-对于在浏览器内运行 Kotlin/JS 工程的情况, 这个是 `browserDevelopmentRun` 任务的一个别名(在 Kotlin 跨平台项目也可以使用).
+对于在浏览器内运行 Kotlin/JS 项目的情况, 这个是 `browserDevelopmentRun` 任务的一个别名(在 Kotlin 跨平台项目也可以使用).
 它使用 [webpack DevServer](https://webpack.js.org/configuration/dev-server/) 来提供你的 JavaScript artifact.
 如果你想要自定义 DevServer 的配置, 例如, 改变端口号, 请使用 [webpack 配置文件](#webpack-bundling).
 
 对于在 Node.js 平台运行 Kotlin/JS 项目的情况, 请使用 `jsNodeDevelopmentRun` 任务, 它是 `nodeRun` 任务的别名.
 
-要运行一个工程, 请执行 Gradle 编译周期(lifecycle)中标准的 `jsBrowserDevelopmentRun` 任务, 或者运行它作为别名对应的真实的任务:
+要运行一个项目, 请执行 Gradle 编译周期(lifecycle)中标准的 `jsBrowserDevelopmentRun` 任务, 或者运行它作为别名对应的真实的任务:
 
 ```bash
 ./gradlew jsBrowserDevelopmentRun
@@ -288,12 +337,14 @@ Kotlin Multiplatform Gradle 插件提供了一个 `jsBrowserDevelopmentRun` 任�
 ./gradlew jsBrowserDevelopmentRun -t
 ```
 
-工程构建成功后, `webpack-dev-server` 会自动刷新浏览器页面.
+项目构建成功后, `webpack-dev-server` 会自动刷新浏览器页面.
 
 ## test 任务 {id="test-task"}
 
-Kotlin Multiplatform Gradle 插件会为工程自动设置测试环境. 对于浏览器工程, 它会下载并安装测试运行器 [Karma](https://karma-runner.github.io/), 以及相关的依赖项目;
-对于 Node.js 项目, 会使用 [Mocha](https://mochajs.org/) 测试框架.
+Kotlin Multiplatform Gradle 插件会为项目自动设置测试环境. 它会下载和安装需要的测试运行器和其他依赖项.
+
+对于浏览器项目, 你可以选择使用 [Karma](#karma) 测试运行器, 或新的 [浏览器测试 DSL](#dsl-for-browser-testing).
+对于 Node.js 项目, 可以使用 [Mocha](#node-js) 测试框架.
 
 插件还提供了很多有用的测试功能, 比如:
 
@@ -301,11 +352,18 @@ Kotlin Multiplatform Gradle 插件会为工程自动设置测试环境. 对于�
 * 生成测试报告(Test report)
 * 在控制台输出测试运行结果
 
-为了运行浏览器中的测试, 插件会默认使用
-[Headless Chrome](https://chromium.googlesource.com/chromium/src/+/lkgr/headless/README.md).
-你也可以选择其他浏览器来运行测试, 方法是在编译脚本的 `useKarma {}` 代码段中添加相应的设置:
+### Karma {id="karma"}
 
-```groovy
+> Karma 项目已经 [废弃](https://github.com/karma-runner/karma#karma). 预计不会再提供新功能或 bug 修复.
+> 作为浏览器测试的替代方案, 请尝试新的 [浏览器测试 DSL](#dsl-for-browser-testing).
+>
+{style="warning"}
+
+要配置 [Karma](https://karma-runner.github.io/) 测试运行器, 请在你的 `build.gradle(.kts)` 文件中,
+在浏览器 `testTask` 内, 添加 `useKarma {}` 代码段.
+例如, 要针对特定的浏览器运行测试, 请使用以下配置:
+
+```kotlin
 kotlin {
     js {
         browser {
@@ -328,44 +386,82 @@ kotlin {
 }
 ```
 
-或者你也可以在 `gradle.properties` 文件中添加测试的目标浏览器:
+或者, 你也可以在 `gradle.properties` 文件中添加测试的目标浏览器:
 
-```text
+```properties
 kotlin.js.browser.karma.browsers=firefox,safari
 ```
 
-通过这种方法, 你可以为所有的模块定义一组浏览器, 然后在某些模块的构建脚本中添加特定的浏览器.
+这样可以为所有的模块定义一组浏览器, 然后在特定模块的构建文件中添加特定的浏览器.
 
-请注意, Kotlin Multiplatform Gradle 插件不会为你自动安装这些浏览器, 而只是使用那些在它的运行环境中可用的浏览器.
-比如说, 如果在一个持续集成服务器上运行 Kotlin/JS 测试, 请注意确保安装了你需要测试的浏览器.
+在构建时, Kotlin Multiplatform Gradle 插件会自动生成 Karma 配置文件 `build/js/packages/projectName-test/karma.conf.js`.
+这个文件包含你在构建文件的 `useKarma {}` 代码段中的设置.
 
-如果想要跳过测试, 可以在 `testTask {}` 代码段中添加 `enabled = false` 设置.
+你也可以在项目根目录的 `karma.config.d` 目录中放置额外的配置文件.
+在构建时, 这个目录中的所有 `.js` 配置文件都会被读取, 自动合并到生成的 `karma.conf.js` 文件中.
 
-```groovy
+关于 Karma 的配置, 详情请参见 [Karma 文档](https://karma-runner.github.io/6.4/config/configuration-file.html).
+
+### 浏览器测试 DSL {id="dsl-for-browser-testing"}
+<primary-label ref="experimental-opt-in"/>
+
+Kotlin 提供了实验性 DSL, 用于在浏览器环境中运行 Kotlin/JS 测试.
+它的设计主旨是不依赖于特定的技术. 当前的实现使用以下工具:
+
+* [Playwright](https://playwright.dev/) 作为浏览器驱动程序和发布管理器, 支持 Chromium, Firefox 和 WebKit (Safari) 浏览器引擎.
+* [Mocha](https://mochajs.org/) 作为测试运行器.
+* [webpack](https://webpack.js.org/) 作为打包器 (将在 [未来版本](https://youtrack.jetbrains.com/issue/KT-48308/) 中替换为 [Vite](https://vite.dev/)).
+
+要试用新的浏览器测试 DSL, 请在你的 Kotlin/JS 目标的 `browser {}` 内添加 opt-in `test {}` 代码段:
+
+```kotlin
+import org.jetbrains.kotlin.gradle.ExperimentalJsTestDsl
+import kotlin.time.Duration.Companion.seconds
+
 kotlin {
     js {
         browser {
-            testTask {
-                enabled = false
+            @OptIn(ExperimentalJsTestDsl::class)
+            test {
+                // 使用 kotlin.Duration 配置所有运行器的默认超时设定
+                timeout = 30.seconds
+                // 使用 Gradle providers 配置无头模式
+                headless = providers
+                    .environmentVariable("IS_IN_CI")
+                    .map { it.toBoolean() }
+                    .orElse(false)
+                // 启用并配置自定义 Chromium 运行器
+                chromium("chromium-no-webgl2") {
+                    // 为这个运行器覆盖默认的超时设定
+                    timeout = 10.seconds
+
+                    // Chromium 专用的额外启动参数
+                    launchArgs.add("--disable-webgl2")
+                }
+                // 启用 Firefox 运行器
+                firefox()
+                // 启用 WebKit (Safari) 测试运行器
+                webkit()
+                // 启用并配置自定义 WebKit 运行器
+                webkit("headful") {
+                    headless = false
+                }
             }
         }
-        binaries.executable()
-        // ...
     }
 }
 ```
 
-要运行测试, 请执行 Gradle 编译周期(lifecycle)中标准的 `check` 任务:
+关于新浏览器测试 DSL 的配置, 详情请参见 [在 Kotlin/JS 中运行测试](js-running-tests.md#advanced-configuration).
 
-```bash
-./gradlew check
-```
+### Node.js {id="node-js-test-task"}
 
-如果要指定你的 Node.js 测试运行器使用的环境变量
-(比如, 向你的测试代码传递外部信息, 或对包的解析进行微调),
-可以在你的构建脚本的 `testTask {}` 代码段中使用 `environment()` 函数, 参数是键-值对:
+对于 Node.js 项目, Kotlin Multiplatform Gradle 插件会自动设置 [Mocha](https://mochajs.org/) 测试框架.
 
-```groovy
+要指定 Node.js 测试运行器使用的环境变量, (例如, 向你的测试传递外部信息, 或微调包解析),
+请在你的构建文件的 `testTask {}` 代码段中使用 `environment()` 函数, 参数是键-值对:
+
+```kotlin
 kotlin {
     js {
         nodejs {
@@ -377,45 +473,56 @@ kotlin {
 }
 ```
 
-## 配置 Karma {id="karma-configuration"}
+### 运行测试 {id="run-tests"}
 
-Kotlin Multiplatform Gradle 插件会在构建时自动生成 Karma 配置文件,
-其中包括你的 `build.gradle(.kts)` 文件中的 [`kotlin.js.browser.testTask.useKarma {}` 代码段](#test-task) 中的设置.
-你可以在 `build/js/packages/projectName-test/karma.conf.js` 找到这个文件.
-要调整 Karma 所使用的配置, 请将你的额外配置文件  放在你的项目根目录的 `karma.config.d` 目录之下.
-在构建时, 这个目录下的所有 `.js` 配置文件都会被读取, 并自动合并到生成的 `karma.conf.js` 文件中.
+默认情况下, Kotlin Multiplatform Gradle 插件使用 [Headless Chrome](https://chromium.googlesource.com/chromium/src/+/lkgr/headless/README.md)
+运行浏览器测试. 插件不捆绑任何浏览器; 如果缺少浏览器, 不同的测试运行器会以不同的方式处理:
 
-Karma 配置的详细功能请参见 Karma 的 [文档](https://karma-runner.github.io/5.0/config/configuration-file.html).
+* 使用 [Karma](#karma) 时, 其他浏览器必须已安装在你的机器上, 让插件能够使用它们运行测试.
+  例如, 在持续集成服务器上运行 Kotlin/JS 测试时, 请确保已经安装了你想要进行测试的浏览器.
+* 使用新的 [浏览器测试 DSL](#dsl-for-browser-testing) 时, 初次运行时,
+  插件会使用 [`playwright install`](https://playwright.dev/docs/browsers#install-browsers) 命令, 安装需要的浏览器.
+  Playwright 会管理这些浏览器的位置, 不使用本地已安装的浏览器.
+
+要运行测试, 请执行 Gradle 编译周期(lifecycle)中标准的 `check` 任务:
+
+```bash
+./gradlew check
+```
+
+如果要跳过测试, 请在你的构建文件的 `testTask {}` 代码段中禁用它们:
+
+```kotlin
+kotlin {
+    js {
+        browser {
+            testTask {
+                enabled.set(false)
+            }
+        }
+        binaries.executable()
+        // ...
+    }
+}
+```
 
 ## webpack 打包(Bundling) {id="webpack-bundling"}
 
 如果编译目标为浏览器环境, Kotlin Multiplatform Gradle 插件使用大家都熟悉的 [webpack](https://webpack.js.org/) 来打包模块.
 
-### webpack 版本 {id="webpack-version"}
-
-Kotlin Multiplatform 插件使用 webpack %webpackMajorVersion%.
-
-如果你的项目通过 plugin  1.5.0 以前版本创建,
-那么可以在你的项目的 `gradle.properties` 文件中添加以下设置,
-临时切换回这些版本使用的 webpack %webpackPreviousMajorVersion%:
-
-```none
-kotlin.js.webpack.major.version=%webpackPreviousMajorVersion%
-```
-
 ### webpack 任务 {id="webpack-task"}
 
 在 Gradle 编译脚本的 `kotlin.js.browser.webpackTask {}` 配置代码段中, 可以直接调整最常见的 webpack 配置:
-* `outputFileName` - webpack 的输出文件名称.
-  执行webpack 任务之后, 这个文件将生成在 `<projectDir>/build/dist/<targetName>` 文件夹内.
-  默认值是工程名称.
-* `output.libraryTarget` - 用于 webpack 输出文件的模块系统.
-  详情请参见 [Kotlin/JS 工程可用的模块系统](js-modules.md).
+* `mainOutputFileName` − webpack 的输出文件名称.
+  执行 webpack 任务后, 这个文件会生成在 `<projectDir>/build/kotlin-webpack/<targetName>/<binaryName>` 目录内.
+  默认值是项目名称.
+* `output.libraryTarget` − 用于 webpack 输出文件的模块系统.
+  详情请参见 [Kotlin/JS 项目可用的模块系统](js-modules.md).
   默认值是 `umd`.
 
 ```groovy
 webpackTask {
-    outputFileName = "mycustomfilename.js"
+    mainOutputFileName = "mycustomfilename.js"
     output.libraryTarget = "commonjs2"
 }
 ```
@@ -427,8 +534,8 @@ webpackTask {
 Kotlin Multiplatform Gradle plugin 在构建时会自动生成一个标准的 webpack 配置文件.
 位置是 `build/js/packages/projectName/webpack.config.js`.
 
-如果还想对 webpack 配置进行进一步的调整, 请将你的额外的配置文件放在你的工程的 `webpack.config.d` 目录内.
-编译你的工程时, 所有的 `.js` 配置文件都会被自动合并到 `build/js/packages/projectName/webpack.config.js` 文件内.
+如果还想对 webpack 配置进行进一步的调整, 请将你的额外的配置文件放在你的项目的 `webpack.config.d` 目录内.
+编译你的项目时, 所有的 `.js` 配置文件都会被自动合并到 `build/js/packages/projectName/webpack.config.js` 文件内.
 比如, 如果要添加一个新的 [webpack loader](https://webpack.js.org/loaders/),
 请要把以下内容添加到 `webpack.config.d` 目录内的一个 `.js` 中:
 
@@ -448,23 +555,30 @@ config.module.rules.push({
 ### 构建可执行文件 {id="building-executables"}
 
 要通过 webpack 编译可执行的 JavaScript artifact, Kotlin Multiplatform Gradle 插件包含 Gradle 任务
-`browserDevelopmentWebpack` 和 `browserProductionWebpack`.
+`jsBrowserDevelopmentWebpack` 和 `jsBrowserProductionWebpack`.
 
-* `browserDevelopmentWebpack` 创建开发模式的 artifact, 文件尺寸会比较大, 但构建时间比较短.
-因此, 在活跃开发阶段请使用 `browserDevelopmentWebpack` 任务.
-
-* `browserProductionWebpack` 会执行死代码消除,
+* `jsBrowserDevelopmentWebpack` 创建开发模式的 artifact, 文件尺寸会比较大, 但构建时间比较短.
+因此, 在活跃开发阶段请使用 `jsBrowserDevelopmentWebpack` 任务.
+* `jsBrowserProductionWebpack` 会执行死代码清除,
 生成 artifact 文件, 并对输出结果的 JavaScript 文件最小化, 构建时间更长, 但生成的可执行文件尺寸更小.
-因此, 在构建你的项目用于生成目的时, 请使用 `browserProductionWebpack` 任务.
+因此, 在构建你的项目用于生成目的时, 请使用 `jsBrowserProductionWebpack` 任务.
 
 执行这两个任务可以分别得到开发模式和生产模式的 artifact 文件.
-生成的文件会在 `build/dist` 目录下, 除非 [另有设置](#distribution-target-directory).
+生成的文件会在 `build/kotlin-webpack` 目录下, 除非 [另有设置](#distribution-target-directory).
 
 ```bash
-./gradlew browserProductionWebpack
+./gradlew jsBrowserProductionWebpack
 ```
 
 注意, 只有在你的编译目标设置为生成可执行文件 (通过 `binaries.executable()`) 时, 这些任务才可用.
+
+要在 `build/dist/<targetName>/<binaryName>` 目录中生成发布的文件, 请改为运行 `jsBrowserDistribution` 任务:
+
+```bash
+./gradlew jsBrowserDistribution
+```
+
+这个任务会生成可直接使用的发布文件, 其中包含项目资源.
 
 ## CSS {id="css"}
 
@@ -475,7 +589,7 @@ Kotlin Multiplatform Gradle 创建还支持 webpack 的
 虽然所有的选项都可以直接修改构建你的项目的 [webpack 配置文件](#webpack-bundling), 但最常用的方法是使用 `build.gradle(.kts)` 中直接可用的设定.
 
 要在你的项目中打开 CSS 支持, 请在 Gradle 构建文件的 `commonWebpackConfig {}` 代码段中设置 `cssSupport.enabled` 选项.
-通过 IDE 向导创建新工程时, 这个配置也会默认启用.
+通过 IDE 向导创建新项目时, 这个配置也会默认启用.
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
@@ -579,18 +693,19 @@ browser {
 对于编译到 Node.js 的 Kotlin/JS 项目, plugin 会在主机上自动下载并安装 Node.js 环境.
 如果已经安装过 Node.js, 你也可以使用已经存在的 Node.js.
 
-### 配置 Node.js 的设置 {id="configuring-node-js-settings"}
-
 你可以对各个子项目配置 Node.js 的设置, 也可以对整个项目进行设置.
 
-例如, 要对某个子项目设置 Node.js 版本, 请在你的 `build.gradle(.kts)` 文件中, 向它的 Gradle 代码块添加以下内容:
+### 更改 Node.js 版本 {id="change-node-js-version"}
+
+Node.js 的默认版本现在是 24.16.0, 但可以为特定的子项目使用其他版本.
+请在你的子项目的 `build.gradle(.kts)` 文件中添加以下内容, 例如:
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
 
 ```kotlin
 project.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin> {
-    project.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec>().version = "你的 Node.js 版本"
+    project.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec>().version = "26.2.0"
 }
 ```
 
@@ -599,14 +714,14 @@ project.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlu
 
 ```groovy
 project.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin) {
-    project.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec).version = "你的 Node.js 版本"
+    project.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec).version = "26.2.0"
 }
 ```
 
 </tab>
 </tabs>
 
-要对整个项目设置版本, 包括所有的子项目, 请将同样的代码添加到 `allProjects {}` 代码块:
+要对整个项目设置版本, 包括所有的子项目, 请将同样的代码添加到 `allprojects {}` 代码块. 例如:
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
@@ -614,7 +729,7 @@ project.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlu
 ```kotlin
 allprojects {
     project.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin> {
-        project.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec>().version = "你的 Node.js 版本"
+        project.the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec>().version = "26.2.0"
     }
 }
 ```
@@ -625,16 +740,13 @@ allprojects {
 ```groovy
 allprojects {
     project.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlugin) {
-        project.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec).version = "你的 Node.js 版本"
+        project.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsEnvSpec).version = "26.2.0"
+    }
 }
 ```
 
 </tab>
 </tabs>
-
-> 使用 `NodeJsRootPlugin` 类对整个项目配置 Node.js 设置, 这个功能已被废弃, 将来会停止支持.
->
-{style="note"}
 
 ### 使用已安装的 Node.js {id="use-pre-installed-node-js"}
 
@@ -673,10 +785,10 @@ project.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsPlu
 
 ### Yarn 的更多功能: .yarnrc {id="additional-yarn-features-yarnrc"}
 
-如果要配置 Yarn 的更多功能, 请将一个 `.yarnrc` 文件放在你的工程根目录.
+如果要配置 Yarn 的更多功能, 请将一个 `.yarnrc` 文件放在你的项目根目录.
 编译时, 会自动使用它.
 
-比如, 如果要对 npm 包使用一个自定义的仓库, 请将以下内容添加到工程根目录下的一个 `.yarnrc` 文件中:
+比如, 如果要对 npm 包使用一个自定义的仓库, 请将以下内容添加到项目根目录下的一个 `.yarnrc` 文件中:
 
 ```text
 registry "http://my.registry/api/npm/"
@@ -696,7 +808,7 @@ registry "http://my.registry/api/npm/"
 
 ```kotlin
 rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin> {
-    rootProject.the<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension>().download = false
+    rootProject.the<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootEnvSpec>().download = false
     // 默认设置为 "true"
 }
 ```
@@ -706,7 +818,7 @@ rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlu
 
 ```groovy
 rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin) {
-    rootProject.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootExtension).download = false
+    rootProject.extensions.getByType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnRootEnvSpec).download = false
 }
 
 ```
@@ -715,10 +827,6 @@ rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlu
 </tabs>
 
 ### 通过 kotlin-js-store 锁定版本 {id="version-locking-via-kotlin-js-store"}
-
-> 通过 `kotlin-js-store` 锁定版本, 这个功能从 Kotlin 1.6.10 开始可用.
->
-{style="note"}
 
 项目根目录下的 `kotlin-js-store` 目录 由 Kotlin Multiplatform Gradle 插件自动生成, 存储 `yarn.lock` 文件, 这个文件用来锁定版本.
 lock 文件完全由 Yarn plugin 管理, 并在 Gradle 任务 `kotlinNpmInstall` 执行时被更新.
@@ -812,10 +920,6 @@ rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlu
 
 ### 默认使用 --ignore-scripts 安装 npm 依赖项 {id="installing-npm-dependencies-with-ignore-scripts-by-default"}
 
-> 默认使用 `--ignore-scripts` 安装 npm 依赖项, 这个功能从 Kotlin 1.6.10 开始可用.
->
-{style="note"}
-
 如果 npm 包被攻击, 其中可能包含恶意代码, 为了减少执行这种恶意代码的可能性,
 Kotlin Multiplatform Gradle 插件在安装 npm 依赖项时默认会禁止执行
 [Life Cycle 脚本](https://docs.npmjs.com/cli/v8/using-npm/scripts#life-cycle-scripts).
@@ -845,15 +949,11 @@ rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlu
 
 ## 设置发布目录 {id="distribution-target-directory"}
 
-默认设置下, Kotlin/JS 工程编译的输出在工程根目录下的 `/build/dist/<targetName>/<binaryName>` 目录内.
+默认设置下, Kotlin/JS 项目编译的输出在项目根目录下的 `/build/dist/<targetName>/<binaryName>` 目录内.
 
-> 在 Kotlin 1.9.0 以前, 默认的发布目录为 `/build/distributions`.
->
-{style="note"}
-
-如果要为工程设置另外的发布位置, 请在编译脚本的 `browser {}` 代码段内, 添加 `distribution {}` 代码段,
+如果要为项目设置另外的发布位置, 请在编译脚本的 `browser {}` 代码段内, 添加 `distribution {}` 代码段,
 在这里使用 `set()` 方法为 `outputDirectory` 属性设置一个值.
-当你运行工程的构建任务时, Gradle 会将输出的 bundle 文件和工程的资源文件一起, 保存到这个位置.
+当你运行项目的构建任务时, Gradle 会将输出的 bundle 文件和项目的资源文件一起, 保存到这个位置.
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
@@ -895,11 +995,13 @@ kotlin {
 ## 模块名称 {id="module-name"}
 
 如果要调整 JavaScript _模块(module)_ 名称 (模块将被生成在 `build/js/packages/myModuleName` 路径),
-包括对应的 `.js` 和 `.d.ts` 文件名称, 请使用 `moduleName` 选项:
+包括对应的 `.js` 和 `.d.ts` 文件名称, 请使用 `outputModuleName` 选项:
 
-```groovy
-js {
-    moduleName = "myModuleName"
+```kotlin
+kotlin {
+    js {
+        outputModuleName = "myModuleName"
+    }
 }
 ```
 
@@ -911,13 +1013,13 @@ js {
 常用的包登记系统, 比如 npm, 要求所有发布的包带有这个文件.
 包登记系统会使用这个文件来追踪和管理包的发布.
 
-对 Kotlin/JS 工程, Kotlin Multiplatform Gradle 插件在构建时会自动生成 `package.json`.
+对 Kotlin/JS 项目, Kotlin Multiplatform Gradle 插件在构建时会自动生成 `package.json`.
 这个文件默认会包含最基本的数据: 名称, 版本, 许可证, 依赖项目, 以及包的一些其他属性.
 
 除了基本的包属性之外, `package.json` 还可以定义 JavaScript 包应该如何动作,
 比如, 标识可以运行的脚本.
 
-你可以通过 Gradle DSL 向工程的 `package.json` 文件添加自定义的内容.
+你可以通过 Gradle DSL 向项目的 `package.json` 文件添加自定义的内容.
 要添加自定义的项目到你的 `package.json` 文件, 可以在编译任务的 `packageJson` 代码段中使用 `customField()` 函数:
 
 ```kotlin
@@ -930,7 +1032,7 @@ kotlin {
 }
 ```
 
-构建工程时, 这段代码会向 `package.json` 文件添加以下内容:
+构建项目时, 这段代码会向 `package.json` 文件添加以下内容:
 
 ```json
 "hello": {

@@ -1,21 +1,19 @@
 [//]: # (title: 设置环境)
 
-<tldr>
-   <p>本章是 <strong>Kotlin Notebook 入门</strong> 教程的第 1 部分:</p>
-   <p><img src="icon-1.svg" width="20" alt="第 1 步"/> <strong>设置环境</strong><br/>
-      <img src="icon-2-todo.svg" width="20" alt="第 2 步"/> 创建 Kotlin Notebook<br/>
-      <img src="icon-3-todo.svg" width="20" alt="第 3 步"/> 向 Kotlin Notebook 添加依赖项<br/>
-  </p>
-</tldr>
+> 从 IntelliJ IDEA 2026.2 开始, Kotlin Notebook 不再捆绑在 IDE 之内, JetBrains 也不再提供官方支持.
+> 源代码继续通过 [GitHub](https://github.com/Kotlin/kotlin-notebook) 提供.
+>
+> 详情请参见 [blog](https://blog.jetbrains.com/idea/2026/06/kotlin-notebook-sunset/).
+>
+{style="note"}
 
 在创建你的第一个 [Kotlin Notebook](kotlin-notebook-overview.md) 之前, 你需要设置环境.
 
 ## 设置环境 {id="set-up-the-environment"}
 
-Kotlin Notebook 需要使用 [Kotlin Notebook plugin](https://plugins.jetbrains.com/plugin/16340-kotlin-notebook),
-IntelliJ IDEA 默认捆绑并启用了这个插件.
+Kotlin Notebook 需要使用 [Kotlin Notebook plugin](https://plugins.jetbrains.com/plugin/16340-kotlin-notebook).
 
-要使用 Kotlin Notebook, 请下载并安装最新版本的 [IntelliJ IDEA](https://www.jetbrains.com/idea/download/index.html).
+要使用 Kotlin Notebook, 请下载并安装 [IntelliJ IDEA 2026.1 或更早版本](https://www.jetbrains.com/idea/download/other/).
 
 如果无法使用 Kotlin Notebook 功能, 请确认启用了 plugin:
 
@@ -30,4 +28,8 @@ IntelliJ IDEA 默认捆绑并启用了这个插件.
 
 在本教程的下一部分, 你将会学习如何创建一个 Kotlin Notebook.
 
-**[进入下一章](kotlin-notebook-create.md)**
+<list id="tour-nav">
+  <li>
+    <a as="button" href="kotlin-notebook-create.md" mode="classic" icon="arrow-right" icon-position="right">下一步</a>
+  </li>
+</list>

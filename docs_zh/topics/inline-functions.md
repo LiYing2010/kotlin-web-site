@@ -142,7 +142,7 @@ fun processList(elements: List<Int>): Boolean {
 }
 ```
 
-## 实体化的类型参数(Reified type parameter) {id="reified-type-parameters"}
+## 实体化的类型参数(Reified Type Parameter) {id="reified-type-parameters"}
 
 有些时候你需要访问作为参数传递来的类型:
 

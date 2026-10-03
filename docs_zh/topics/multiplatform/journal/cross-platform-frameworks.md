@@ -15,20 +15,20 @@ Google 搜索趋势图显示, 自从 2010 以来, 开发者对跨平台方案的
 为了帮助你找到正确的工具, 我们整理了一份列表, 包括 6 个最好的跨平台 App 开发框架, 以及它们各自的优秀功能.
 在本文的最后, 你将看到为你的业务选择多平台开发框架时值得注意的几个关键因素.
 
-## 什么是跨平台 App 开发框架?
+## 什么是跨平台 App 开发框架? {id="what-is-a-cross-platform-app-development-framework"}
 
 移动开发工程师使用跨平台移动开发框架, 为多个平台(例如 Android 和 iOS)构建外观类似原生程序的应用程序, 只需要单个代码库.
 与原生 App 开发相比, 代码共用是这种方案的关键优势之一.
 只需要单个代码库意味着移动开发工程师不必为每个操作系统编写代码, 因此可以节省时间, 加快开发速度.
 
-## 流行的跨平台 App 开发框架
+## 流行的跨平台 App 开发框架 {id="popular-cross-platform-app-development-frameworks"}
 
 这里列出的并不包括所有的框架; 现在市场上还有很多其他选择.
 值得注意的是, 不存在完美的万能工具能够适合所有人. 对框架的选择 很大程度上取决于你的具体项目, 你的目标, 以及其他因素, 我们会在本文末尾进行介绍.
 
 总之, 我们尽力列举出跨平台移动开发的一部分最好的框架, 作为你进行决策的参考.
 
-### Flutter
+### Flutter {id="flutter"}
 
 2017 年由 Google 发布, Flutter 是一个流行的框架, 可以使用单一代码库来构建移动 App, Web App, 以及桌面 App.
 要使用 Flutter 构建应用程序, 你需要使用 Google 的编程语言 Dart.
@@ -48,7 +48,7 @@ Flutter 拥有遍及全世界、相对活跃的用户社区, 并被很多开发�
 根据 [Stack Overflow Trends](https://insights.stackoverflow.com/trends?tags=flutter%2Creact-native),
 由于相应的 tag 的使用量不断增加, 可以看出 Flutter 的使用随着时间的推移呈增加趋势.
 
-### React Native
+### React Native {id="react-native"}
 
 一个开源 UI 软件框架, React Native 2015 年 (比 Flutter 稍早) 由 Meta Platforms 开发, 以前叫做 Facebook.
 它基于 Facebook 的 JavaScript 库 React, 允许开发者构建原生渲染的跨平台移动 App.
@@ -68,7 +68,7 @@ Flutter 拥有遍及全世界、相对活跃的用户社区, 并被很多开发�
 React Native 是最流行的跨平台 App 开发框架之一, 它拥有强大的开发者社区, 分享他们的技术知识.
 感谢这些社区的存在, 你在使用这个框架构建移动 App 时可以得到你需要的支持.
 
-### Kotlin Multiplatform
+### Kotlin Multiplatform {id="kotlin-multiplatform"}
 
 Kotlin Multiplatform (KMP) 是由 JetBrains 提供的开源技术, 它允许跨平台共用代码, 同时又保留原生编程的优点.
 它允许开发者尽可能多的重用代码, 如果需要也可以编写原生代码, 并能够将共用的 Kotlin 代码无缝的集成到任何项目中.
@@ -98,7 +98,7 @@ Kotlin Multiplatform (KMP) 是由 JetBrains 提供的开源技术, 它允许跨�
 >
 {style="note"}
 
-### Ionic
+### Ionic {id="ionic"}
 
 Ionic 是一个开源的移动 UI 工具库, 于 2013 发布.
 它帮助开发者通过单一代码库创建跨平台移动应用程序, 它使用 Web 技术,
@@ -116,7 +116,7 @@ Ionic 是一个开源的移动 UI 工具库, 于 2013 发布.
 
 拥有持续活跃的 Ionic Framework 论坛, 社区成员在这里交流知识, 相互帮助, 解决他们在开发中遇到的问题.
 
-### .NET MAUI
+### .NET MAUI {id="net-maui"}
 
 .NET Multi-platform App UI (.NET MAUI) 是一个跨平台框架, 2022年5月发布, 由 Microsoft 拥有.
 它允许开发者使用 C# 和 XAML 创建原生的移动应用程序和桌面应用程序.
@@ -135,7 +135,7 @@ Ionic 是一个开源的移动 UI 工具库, 于 2013 发布.
 尽管 .NET MAUI 仍然是一个相对比较新的框架,
 它已经得到了开发人员的关注, 并在 Stack Overflow 和 Microsoft Q&A 拥有活跃的社区.
 
-### NativeScript
+### NativeScript {id="nativescript"}
 
 这个开源的移动应用程序开发框架初次发布于 2014 年.
 NativeScript 可以帮助你构建 Android 和 iOS 移动 App, 使用的语言是 JavaScript, 或能够翻译到 JavaScript 的其他语言, 例如 TypeScript,
@@ -155,25 +155,25 @@ NativeScript 可以帮助你构建 Android 和 iOS 移动 App, 使用的语言�
 NativeScript 基于广泛流行的 Web 技术, 例如 JavaScript 和 Angular, 这是很多开发者选择这个框架的原因.
 然而, 它通常由小公司或初创企业采用.
 
-## 你应该如何为你的项目选择正确的跨平台 App 开发框架?
+## 你应该如何为你的项目选择正确的跨平台 App 开发框架? {id="how-do-you-choose-the-right-cross-platform-app-development-framework-for-your-project"}
 
 除了上面列举的之外, 还有其它跨平台框架, 而且新的工具还会不断出现.
 有了这么多的选择, 你怎么样才能为你的下一个项目找到正确的方案? 第一步是要理解你的项目的需求和目标, 清楚的理解你希望你的 App 是怎么样的.
 然后, 你需要考虑下面这些重要因素, 然后你就可以决定哪个方案最适合于你的业务.
 
-#### 1. 你的开发团队的专长
+#### 1. 你的开发团队的专长 {id="1-the-expertise-of-your-team"}
 
 不同的跨平台移动开发框架基于不同的编程语言. 在采用一个框架之前, 首先要确认它要求的技能, 确认你的移动开发工程师团队具备了足够的知识和经验开使用这个框架.
 
 例如, 如果你的开发团队拥有高度技能的 JavaScript 开发者, 而且你没有足够的资源来采用新的技术,
 那么可能应该选择使用这个语言的框架, 例如 React Native.
 
-#### 2. 开发商的可靠程度和支持程度
+#### 2. 开发商的可靠程度和支持程度 {id="2-vendor-reliability-and-support"}
 
 要确认框架的维护者未来还会长期支持它, 这是很重要的问题.
 对于你正在考虑的框架, 应该了解开发和支持它的公司, 还要调查一下使用这些框架创建的移动 App 有哪些.
 
-#### 3. UI 定制
+#### 3. UI 定制 {id="3-ui-customization"}
 
 根据 UI 对于你的 App 的重要性不同, 你可能需要了解使用某个框架时定制 UI 的难易程度.
 例如, 通过 [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/), 由 JetBrains 创建的一个现代化的声明式跨平台 UI 框架,
@@ -184,19 +184,19 @@ Kotlin Multiplatform 提供了完全的代码共用灵活性.
 >
 {style="note"}
 
-#### 4. 框架成熟度
+#### 4. 框架成熟度 {id="4-framework-maturity"}
 
 要了解某个框架的 Public API 和工具的更新频度.
 例如, 对原生操作系统组件的某些变更会破坏内部的跨平台行为.
 使用移动 App 开发框架时, 最好了解你可能遇到的问题.
 你也可以查看 GitHub, 看看这个框架目前还有多少 bug, 以及维护者如何处理这些 bug.
 
-#### 5. 框架的能力
+#### 5. 框架的能力 {id="5-framework-capabilities"}
 
 每个框架都有它自己的能力和缺陷. 了解框架提供了什么样的功能特性和工具, 对于寻找最好的解决方案是至关重要的.
 它是否拥有代码分析和单元测试框架? 你在构建, 调试, 以及测试你的 App 时, 有多快, 有多容易?
 
-#### 6. 安全性
+#### 6. 安全性 {id="6-security"}
 
 在为商业创建重要的移动 App 时, 安全性和隐私是非常重要的, 例如, 包含支付系统的银行和电子商务 App.
 根据 [OWASP Mobile Top 10](https://owasp.org/www-project-mobile-top-10/),
@@ -205,14 +205,14 @@ Kotlin Multiplatform 提供了完全的代码共用灵活性.
 你需要确认你选择的多平台移动开发框架提供了必要的安全等级.
 一种方法是, 如果框架拥有可供公共查看的问题追踪系统, 那么可以去查看其中的安全性问题.
 
-#### 7. 教学资料
+#### 7. 教学资料 {id="7-educational-materials"}
 
 关于一个框架的学习资源的数量和质量, 也可以帮助你理解在使用这个框架时的体验会如何.
 复杂的官方 [文档](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html),
 线上和线下的会议, 以及教学课程是很好的迹象,
 表示在你需要的时候, 你能够找到关于这个产品的足够的必要信息.
 
-## 结束语
+## 结束语 {id="key-takeaways"}
 
 不考虑这些因素, 选择最适合你的特定需求的跨平台移动开发框架, 那将会很困难.
 应该仔细考察你的应用程序的需求, 并以此为根据来评估各个框架的能力.

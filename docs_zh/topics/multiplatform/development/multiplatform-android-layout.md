@@ -7,12 +7,12 @@ Kotlin 1.8.0 引入了 Android 源代码集布局, 并在 1.9.0 中成为默认�
 >
 {style="tip"}
 
-## 检查兼容性
+## 检查兼容性 {id="check-the-compatibility"}
 
 新的布局需要 Android Gradle plugin 7.0 或更高版本, 而且需要使用 Android Studio 2022.3 或更高版本.
 请检查你的 Android Gradle plugin 版本, 如果需要的话, 请更新到新的版本.
 
-## 重命名 Kotlin 源代码集
+## 重命名 Kotlin 源代码集 {id="rename-kotlin-source-sets"}
 
 如果需要, 请重命名你的项目中的源代码集, 遵循下面的模式:
 
@@ -28,7 +28,7 @@ Kotlin 1.8.0 引入了 Android 源代码集布局, 并在 1.9.0 中成为默认�
 | test        | androidTest                | android<b>Unit</b>Test         |
 | androidTest | android<b>Android</b>Test  | android<b>Instrumented</b>Test |
 
-## 移动源代码文件
+## 移动源代码文件 {id="move-source-files"}
 
 如果需要, 请将你的源代码文件移动到新的目录, 遵循下面的模式:
 
@@ -44,7 +44,7 @@ Kotlin 1.8.0 引入了 Android 源代码集布局, 并在 1.9.0 中成为默认�
 | test        | src/androidTest/kotlin<br/>src/test/kotlin<br/>src/test/java  | src/android<b>Unit</b>Test/kotlin<br/>src/test/kotlin<br/>src/test/java                           |
 | androidTest | src/android<b>Android</b>Test/kotlin<br/>src/androidTest/java | src/android<b>Instrumented</b>Test/kotlin<br/>src/androidTest/java, <b>src/androidTest/kotlin</b> |
 
-## 移动 AndroidManifest.xml 文件
+## 移动 AndroidManifest.xml 文件 {id="move-the-androidmanifestxml-file"}
 
 如果你的项目中有 `AndroidManifest.xml` 文件, 请移动到新的目录, 遵循下面的模式:
 
@@ -59,7 +59,7 @@ Kotlin 1.8.0 引入了 Android 源代码集布局, 并在 1.9.0 中成为默认�
 | main  | src/main/AndroidManifest.xml  | src/<b>android</b>Main/AndroidManifest.xml  |
 | debug | src/debug/AndroidManifest.xml | src/<b>android</b>Debug/AndroidManifest.xml |
 
-## 检查 Android 测试和 common 测试之间的关系
+## 检查 Android 测试和 common 测试之间的关系 {id="check-the-relationship-between-android-and-common-tests"}
 
 新的 Android 源代码集布局改变了 Android 设备测试(Instrumented Test) (在新的布局中改名为 `androidInstrumentedTest`)
 与 common 测试之间的关系.
@@ -86,7 +86,7 @@ kotlin {
 }
 ```
 
-## 调整 Android flavor 的实现
+## 调整 Android flavor 的实现 {id="adjust-the-implementation-of-android-flavors"}
 
 在以前的版本中, Kotlin Gradle plugin 会在很早的阶段创建对应于 `debug` 和 `release` 构建类型的 Android 源代码集,
 或对应于自定义 flavor 的 Android 源代码集, 例如 `demo` 和 `full`.

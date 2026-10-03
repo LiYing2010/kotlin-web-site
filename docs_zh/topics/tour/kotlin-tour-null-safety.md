@@ -1,15 +1,5 @@
 [//]: # (title: Null 值安全性)
 
-<tldr>
-    <p><img src="icon-1-done.svg" width="20" alt="第 1 步" /> <a href="kotlin-tour-hello-world.md">Hello world</a><br />
-        <img src="icon-2-done.svg" width="20" alt="第 2 步" /> <a href="kotlin-tour-basic-types.md">基本类型</a><br />
-        <img src="icon-3-done.svg" width="20" alt="第 3 步" /> <a href="kotlin-tour-collections.md">集合(Collection)</a><br />
-        <img src="icon-4-done.svg" width="20" alt="第 4 步" /> <a href="kotlin-tour-control-flow.md">控制流</a><br />
-        <img src="icon-5-done.svg" width="20" alt="第 5 步" /> <a href="kotlin-tour-functions.md">函数</a><br />
-        <img src="icon-6-done.svg" width="20" alt="第 6 步" /> <a href="kotlin-tour-classes.md">类</a><br />
-        <img src="icon-7.svg" width="20" alt="第 7 步" /> <strong>Null 值安全性</strong><br /></p>
-</tldr>
-
 在 Kotlin 中, 可以使用 `null` 值. Kotlin 使用 `null` 值表示某些值不存在, 或者还未确定的情况.
 在 [集合](kotlin-tour-collections.md#kotlin-tour-map-no-key) 章节中,
 你已经看到了 Kotlin 返回 `null` 值的例子, 那就是当你使用 Map 中不存在的 key 来访问一个键值对(key-value pair) 的情况.
@@ -157,9 +147,9 @@ fun main() {
 
 关于 Kotlin 中的 Null 值安全性, 更多详情请参见 [Null 值安全性](null-safety.md).
 
-## 实际练习 {id="practice"}
+## 实际练习 {completion-point="true" id="practice"}
 
-### 习题 {initial-collapse-state="collapsed" collapsible="true"}
+### 习题 {id="exercise" initial-collapse-state="collapsed" collapsible="true"}
 
 你有一个 `employeeById` 函数, 可以用来访问一个公司的员工数据库.
 但是, 这个函数返回 `Employee?` 类型的值, 因此结果可能为 `null`.
@@ -205,8 +195,13 @@ fun main() {
 ```
 {initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-null-safety-solution"}
 
-## 下一步做什么? {id="what-s-next"}
+<seealso></seealso>
 
-恭喜! 现在你已经完成了我们的 Kotlin 观光之旅的初级教程, 下面请阅读我们的中级教程, 更加深入的理解 Kotlin:
-
-<a href="kotlin-tour-intermediate-extension-functions.md"><img src="start-intermediate-tour.svg" width="700" alt="开始 Kotlin 中级教程" style="block"/></a>
+<list columns="2" id="tour-nav">
+  <li>
+    <a as="button" href="kotlin-tour-classes.md" mode="outline" icon="arrow-left" icon-position="left">上一步</a>
+  </li>
+  <li>
+    <a as="button" href="kotlin-tour-intermediate-extension-functions.md" mode="classic" icon="arrow-right" icon-position="right">开始 Kotlin 观光之旅中级教程</a>
+  </li>
+</list>

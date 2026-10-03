@@ -1,5 +1,9 @@
 [//]: # (title: 教程 - 协程(Coroutine)与通道(Channel))
 
+> 后续的更新会修订这篇教程. 目前, 作为了解协程入门信息的最新指南, 请阅读 [协程的基本概念](coroutines-basics.md).
+>
+{style="note"}
+
 在这篇教程中, 你将学习如何在 IntelliJ IDEA 中使用协程(Coroutine)执行网络请求, 而不阻塞底层的线程, 也不使用回调.
 
 > 本教程不需要事先了解协程(Coroutine)的知识, 但你需要熟悉基本的 Kotlin 语法.
@@ -250,7 +254,7 @@ interface GitHubService {
     通过调用 `SwingUtilities.invokeLater`, 你可以确保更新结果的 `updateResults()` 调用,
     发生在主 UI 线程 (AWT 的事件派发线程) 上.
 
-但是, 如果你尝试使用 `BACKGROUND` 选项加载贡献者 , 你会看到列表被更新, 但没有任何变化.
+但是, 如果你尝试使用 `BACKGROUND` 选项加载贡献者 , 你会看到列表被更新, 但 UI 没有任何变化.
 
 ### 任务 2 {id="task-2"}
 

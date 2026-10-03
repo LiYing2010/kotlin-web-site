@@ -9,13 +9,14 @@
 > 
 {style="tip"}
 
-从 2.2.0 版开始, Kotlin Gradle plugin 支持二进制兼容性验证.
-启用这个功能之后, 它会根据当前代码生成应用程序二进制接口(Application Binary Interface, ABI) dump, 并与之前的 dump 比较, 以便突出显示差异.
+Kotlin Gradle plugin 支持二进制兼容性验证.
+这个 plugin 会根据当前代码生成应用程序二进制接口(Application Binary Interface, ABI) dump, 并与之前的 dump 比较, 以便突出显示差异.
 你可以审核这些变更, 找出任何潜在的二进制不兼容的修改, 并采取进一步措施解决这些问题.
 
 ## 如何启用 {id="how-to-enable"}
 
-要启用二进制兼容性验证, 请在你的 `build.gradle.kts` 文件中添加以下 `kotlin{}` 代码段:
+要启用二进制兼容性验证, 请在你的 `build.gradle.kts` 文件中, 添加 `abiValidation {}` 代码段.
+如果你没有自定义的配置, 那么可以改为使用 `abiValidation()` 函数:
 
 <tabs group="build-script">
 <tab title="Kotlin" group-key="kotlin">
@@ -23,48 +24,46 @@
 ```kotlin
 kotlin {
     @OptIn(org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation::class)
-    abiValidation {
-        // 使用 set() 函数, 确保与旧的 Gradle 版本兼容
-        enabled.set(true)
-    }
+    abiValidation()
 }
 ```
 
 </tab>
 <tab title="Groovy" group-key="groovy">
 
-```kotlin
+```groovy
 kotlin {
-    abiValidation {
-        enabled = true
-    }
+    abiValidation()
 }
 ```
 
 </tab>
 </tabs>
 
+KGP 会创建必要的 Gradle task.
 如果你的项目存在多个模块, 想要检查二进制兼容性, 请对每个模块单独配置.
 
 ## 检查二进制兼容性问题 {id="check-for-binary-compatibility-issues"}
 
-在修改你的代码之后, 要检查潜在的二进制不兼容问题, 请在 IntelliJ IDEA 中运行 `checkLegacyAbi` Gradle 任务,
+在修改你的代码之后, 要检查潜在的二进制不兼容问题, 请在 IntelliJ IDEA 中运行 `checkKotlinAbi` Gradle 任务,
 或在你的项目目录中使用以下命令:
 
 ```bash
-./gradlew checkLegacyAbi
+./gradlew checkKotlinAbi
 ```
 
 这个 Gradle 任务会比较 ABI dump, 并将检测到的差异作为错误打印输出.
 请仔细查看输出, 检查是否需要修改代码来保持二进制兼容性.
 
+默认情况下, 如果你的项目 [启用了二进制兼容性验证](#how-to-enable), 那么在你运行 `check` task 时, Gradle 也会运行 `checkKotlinAbi` task.
+
 ## 更新参考 ABI dump {id="update-reference-abi-dump"}
 
-Gradle 检查你的最新变更时会使用参考 ABI dump, 如果要更新它, 请在 IntelliJ IDEA 中运行 `updateLegacyAbi` 任务,
+Gradle 检查你的最新变更时会使用参考 ABI dump, 如果要更新它, 请在 IntelliJ IDEA 中运行 `updateKotlinAbi` 任务,
 或在你的项目目录中使用以下命令:
 
 ```bash
-./gradlew updateLegacyAbi
+./gradlew updateKotlinAbi
 ```
 
 只有在你确信你的变更保持了与之前版本的二进制兼容性时, 才更新参考 dump.
@@ -116,7 +115,7 @@ kotlin {
 </tab>
 <tab title="Groovy" group-key="groovy">
 
-```kotlin
+```groovy
 kotlin {
     abiValidation {
         filters {
@@ -162,9 +161,7 @@ kotlin {
 kotlin {
     @OptIn(org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation::class)
     abiValidation {
-        klib {
-            keepUnsupportedTargets.set(false)
-        }
+        keepLocallyUnsupportedTargets.set(false)
     }
 }
 ```
@@ -172,12 +169,10 @@ kotlin {
 </tab>
 <tab title="Groovy" group-key="groovy">
 
-```kotlin
+```groovy
 kotlin {
     abiValidation {
-        klib {
-            keepUnsupportedTargets = false
-        }
+        keepLocallyUnsupportedTargets = false
     }
 }
 ```
@@ -185,5 +180,44 @@ kotlin {
 </tab>
 </tabs>
 
-如果一个目标平台不被支持, 而且推断功能已被禁用, `checkLegacyAbi` task 会失败, 因为它不能生成一个完整的 ABI dump.
+如果一个目标平台不被支持, 而且推断功能已被禁用, `checkKotlinAbi` task 会失败, 因为它不能生成一个完整的 ABI dump.
 如果你倾向于让任务失败, 而不是冒遗漏一个二进制不兼容的修改的风险, 那么这个行为可能是有用的.
+
+## 包含来自 `maven-publish` plugin 的发布内容 {id="include-publications-from-the-maven-publish-plugin"}
+
+默认情况下, 二进制兼容性验证使用 Kotlin 编译的输出结果来生成 ABI dump.
+因此, 生成的 ABI dump 可能不能反映最终发布的 artifact 内容.
+例如, 如果你使用 [`maven-publish` plugin](https://docs.gradle.org/current/userguide/publishing_maven.html),
+后续的处理步骤, 例如重定位(relocation), 可能会在编译之后修改 artifact.
+
+为了确保 ABI dump 精确的反映由 `maven-publish` plugin 发布的 artifact 内容, 请向你的 `build.gradle.kts` 文件添加以下内容:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+kotlin {
+    @OptIn(org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation::class)
+    abiValidation {
+        binariesSource.set(MAVEN_PUBLICATIONS)
+    }
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+kotlin {
+    abiValidation {
+        binariesSource = MAVEN_PUBLICATIONS
+    }
+}
+```
+
+</tab>
+</tabs>
+
+> 由于 Kotlin/Android 项目, 以及包含 Android 编译目标的跨平台项目, 不会发布 JAR 文件, 因此这个功能不能用于这些项目.
+>
+{style="warning"}

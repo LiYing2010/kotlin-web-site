@@ -1,21 +1,12 @@
 [//]: # (title: 教程 - 映射 C 语言的字符串)
 
-<tldr>
-    <p>这是 <strong>Kotlin 与 C 映射</strong> 教程系列的最后部分. 在继续阅读之前, 请确认你完成了之前的教程.</p>
-    <p><img src="icon-1-done.svg" width="20" alt="First step"/> <a href="mapping-primitive-data-types-from-c.md">映射 C 语言的基本数据类型</a><br/>
-        <img src="icon-2-done.svg" width="20" alt="Second step"/> <a href="mapping-struct-union-types-from-c.md">映射 C 语言的结构(Struct)和联合(Union)类型</a><br/>
-      <img src="icon-3-done.svg" width="20" alt="Third step"/> <a href="mapping-function-pointers-from-c.md">映射 C 语言的函数指针(Function Pointer)</a><br/>
-      <img src="icon-4.svg" width="20" alt="Fourth step"/> <strong>映射 C 语言的字符串</strong><br/>
-    </p>
-</tldr>
-
-> C 库导入是 [实验性功能](components-stability.md#stability-levels-explained).
+> C 库导入功能目前是 [Beta 版](native-lib-import-stability.md#stability-of-c-and-objective-c-library-import).
 > cinterop 工具从 C 库生成的所有 Kotlin 声明都应该标注 `@ExperimentalForeignApi` 注解.
 >
 > Kotlin/Native 自带的原生平台库 (例如 Foundation, UIKit, 和 POSIX),
 > 只对一部分 API 需要使用者明确同意(Opt-in).
 >
-{style="warning"}
+{style="note"}
 
 在这个教程系列的最后部分, 我们来看看在 Kotlin/Native 中如何处理 C 字符串.
 
@@ -226,12 +217,18 @@ fun main() {
 }
 ```
 
-为了验证是否一切正确, 请 [在你的 IDE 中](native-get-started.md) 运行 `runDebugExecutableNative` Gradle task,
-或使用以下命令, 运行代码:
+为了验证是否一切正确, 请 [在你的 IDE 中](native-get-started.md) 运行 `runDebugExecutable<YourTargetName>` Gradle task,
+或在你的终端中使用控制台命令, 例如:
 
 ```bash
-./gradlew runDebugExecutableNative
+./gradlew runDebugExecutableMacosArm64
 ```
+
+<list id="tour-nav">
+  <li>
+    <a as="button" href="mapping-function-pointers-from-c.md" mode="outline" icon="arrow-left" icon-position="left">上一步</a>
+  </li>
+</list>
 
 ## 下一步 {id="what-s-next"}
 

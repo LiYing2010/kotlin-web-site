@@ -3,6 +3,9 @@
 你可以将你的 Kotlin 工程编译为 JavaScript 模块(module), 支持几种常见的 JavaScript 模块系统.
 目前我们支持以下几种 JavaScript 模块设置:
 
+- [ES 模块](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules),
+  这是在 JavaScript 中声明模块的标准方法(使用 JavaScript 的 `import/export` 语法).
+  如果 `target` 设置为 `es2015`, 会默认使用这种方式.
 - [统一模块定义(Unified Module Definitions (UMD))](https://github.com/umdjs/umd),
   这种方式同时兼容于 *AMD* 和 *CommonJS*,
   没有导入, 或者不存在模块系统时, UMD 模块也可以执行.
@@ -66,7 +69,7 @@ compileKotlinJs.compilerOptions.moduleKind = org.jetbrains.kotlin.gradle.dsl.JsM
 </tab>
 </tabs>
 
-这里可以设置的值是: `umd` (默认设定), `commonjs`, `amd`, `plain`.
+这里可以设置的值是: `umd` (默认设定), `es`, `commonjs`, `amd`, `plain`.
 
 > 这种方法与修改 `webpackTask.output.libraryTarget` 不同.
 > 库的输出目标设定, 改变的是 _webpack 库文件生成_ 的输出(在你的代码经过 Kotlin 编译之后).
@@ -74,12 +77,14 @@ compileKotlinJs.compilerOptions.moduleKind = org.jetbrains.kotlin.gradle.dsl.JsM
 >
 {style="note"}
 
-在 Kotlin Gradle DSL 中, 设置 CommonJS 模块类型可以简写为:
+在 Kotlin Gradle DSL 中, CommonJS 和 ESM 模块类型的设置可以简写为:
 
 ```kotlin
 kotlin {
     js {
         useCommonJs()
+        // 或者
+        useEsModules()
         // ...
     }
 }

@@ -12,7 +12,7 @@ Kotlin Multiplatform Gradle plugin 会为它构建的项目自动生成代码映
 
 要在浏览器中调试 Kotlin/JS, 请执行以下步骤:
 
-1. 执行 Gradle 的某个 _run_ 任务来运行项目, 比如, 跨平台项目内的 `browserDevelopmentRun` 或 `jsBrowserDevelopmentRun`.
+1. 执行 Gradle 的某个 _run_ 任务来运行项目, 比如, `jsBrowserDevelopmentRun`.
    详情请参见 [运行 Kotlin/JS](running-kotlin-js.md#run-the-browser-target).
 2. 在浏览器中访问页面, 并启动浏览器的开发者工具(比如, 点击鼠标右键, 选择 **Inspect** 菜单项).
    详情请参见在流行的浏览器中 [如何找到开发者工具](https://balsamiq.com/support/faqs/browserconsole/).
@@ -33,7 +33,7 @@ Kotlin Multiplatform Gradle plugin 会为它构建的项目自动生成代码映
 
 ## 在 IDE 中调试 {id="debug-in-the-ide"}
 
-[IntelliJ IDEA Ultimate](https://www.jetbrains.com/idea/) 提供了强大的工具用于开发时调试代码.
+Ultimate 订阅版的 [IntelliJ IDEA](https://www.jetbrains.com/idea/) 提供了强大的工具, 用于开发时调试代码.
 
 要在 IntelliJ IDEA 中调试 Kotlin/JS, 你需要一个 **JavaScript Debug** 配置.
 要添加一个这样的调试配置, 请执行以下步骤:
@@ -50,7 +50,7 @@ Kotlin Multiplatform Gradle plugin 会为它构建的项目自动生成代码映
 
 现在你可以调试你的项目了!
 
-1. 执行 Gradle 的某个 _run_ 任务来运行项目, 比如, 跨平台项目的 `browserDevelopmentRun` 或 `jsBrowserDevelopmentRun`.
+1. 执行 Gradle 的某个 _run_ 任务来运行项目, 比如, `jsBrowserDevelopmentRun`.
    详情请参见 [运行 Kotlin/JS](running-kotlin-js.md#run-the-browser-target).
 2. 运行你前面创建的 JavaScript 调试配置, 启动调试会话:
 

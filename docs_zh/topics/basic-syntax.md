@@ -1,4 +1,4 @@
-[//]: # (title: 基本语法)
+[//]: # (title: 基本语法概述)
 
 本章会通过示例程序向你介绍 Kotlin 的一系列基本语法元素.
 在各节的末尾, 你可以找到各个专题详细信息的页面链接.
@@ -558,12 +558,13 @@ fun main() {
 
 当一个引用可能为 `null` 值时, 对应的类型声明必须明确地标记为可为 null.
 类型名称末尾带 `?` 符号表示可为 null 值.
+例如, `Int?`.
 
 当 `str` 中的字符串内容不是一个整数时, 返回 `null`:
 
 ```kotlin
 fun parseInt(str: String): Int? {
-    // ...
+    return str.toIntOrNull()
 }
 ```
 
@@ -693,7 +694,7 @@ fun main() {
 //sampleStart
 fun getStringLength(obj: Any): Int? {
     // 在 `&&` 运算符的右侧, `obj` 的类型会被自动转换为 `String`
-    if (obj is String && obj.length > 0) {
+    if (obj is String && obj.length >= 0) {
         return obj.length
     }
 

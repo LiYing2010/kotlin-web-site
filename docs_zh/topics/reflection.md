@@ -10,7 +10,7 @@ _反射_ 是语言与库中的一组功能, 允许你在运行时刻获取程序
 >
 {style="note"}
 
-## JVM 依赖项
+## JVM 依赖项 {id="jvm-dependency"}
 
 在 JVM 平台上, Kotlin 编译器包含了使用反射功能所需要的运行时组件,
 它是一个单独的 JAR 文件 `kotlin-reflect.jar`.
@@ -53,8 +53,8 @@ _反射_ 是语言与库中的一组功能, 允许你在运行时刻获取程序
     ```
 
 如果你没有使用 Gradle 或 Maven, 请注意将 `kotlin-reflect.jar` 添加到你的项目的 classpath 中.
-对于其他支持的场景(使用命令行编译器, 或 Ant 的 IntelliJ IDEA 项目), 这个 jar 文件默认会加入到 classpath 中.
-在命令行编译器和 Ant 中, 你可以使用 `-no-reflect` 编译选项, 从 classpath 中删除 `kotlin-reflect.jar`.
+对于其他支持的场景(使用命令行编译器的 IntelliJ IDEA 项目), 这个 jar 文件默认会加入到 classpath 中.
+在命令行编译器中, 你可以使用 `-no-reflect` 编译选项, 从 classpath 中删除 `kotlin-reflect.jar`.
 
 ## 类引用(Class Reference) {id="class-references"}
 
@@ -152,7 +152,7 @@ val predicate: (String) -> Boolean = ::isOdd   // 指向 isOdd(x: String) 函数
 val isEmptyStringList: List<String>.() -> Boolean = List<String>::isEmpty
 ```
 
-#### 示例: 函数组合
+#### 示例: 函数组合 {id="example-function-composition"}
 
 我们来看看下面的函数:
 
@@ -254,7 +254,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-### 与 Java 反射功能的互操作性
+### 与 Java 反射功能的互操作性 {id="interoperability-with-java-reflection"}
 
 在 Java 平台上, Kotlin 的标准库包含了针对反射类的扩展函数,
 这些反射类提供了与 Java 反射对象的相互转换功能(参见包 `kotlin.reflect.jvm`).
@@ -358,7 +358,7 @@ fun main() {
 
 你不需要指定 `this` 接收者: `this::foo` 可以简写为 `::foo`.
 
-### 与实例绑定的构造器引用
+### 与实例绑定的构造器引用 {id="bound-constructor-references"}
 
 (译注: 内部类与普通类不同, 在创建内部类实例时, 需要绑定到一个具体的外部类实例.)
 通过指定一个外部类的实例, 可以得到与这个外部类实例绑定的 [内部类 (inner class)](nested-classes.md#inner-classes) 的构造器引用:

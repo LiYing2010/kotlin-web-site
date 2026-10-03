@@ -281,7 +281,7 @@ graph TD
 因此, 内存管理器不会相应的调整 GC 行为, 有些情况下可能造成问题.
 要改变这个行为, 请向你的 `gradle.properties` 添加下面的 [实验性](components-stability.md) 二进制选项:
 
-```none
+```properties
 kotlin.native.binary.appStateTracking=enabled
 ```
 

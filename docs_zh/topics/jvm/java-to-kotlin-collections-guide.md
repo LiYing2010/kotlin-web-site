@@ -1,5 +1,7 @@
 [//]: # (title: Java 和 Kotlin 中的集合(Collection))
-[//]: # (学习如何将 Java 的集合迁移到 Kotlin 集合. 这篇向导讨论 Kotlin 和 Java 中的这类数据结构, 包括 List, ArrayList, Map, Set, 等等)
+
+<web-summary>学习如何将 Java 的集合迁移到 Kotlin 集合.
+这篇向导讨论 Kotlin 和 Java 中的这类数据结构, 包括 List, ArrayList, Map, Set, 等等)</web-summary>
 
 _集合_ 是一组可变数量(可以为 0)的元素, 解决问题时起到重要作用, 而且经常被用到.
 本文解释并比较 Java 和 Kotlin 中集合的概念以及操作方式.
@@ -23,71 +25,71 @@ _集合_ 是一组可变数量(可以为 0)的元素, 解决问题时起到重�
 
 ### 对 List, Set, Queue, 和 Deque 的操作 {id="operations-on-lists-sets-queues-and-deques"}
 
-| 描述               | 共通操作                          | Kotlin 中的更多选择                                                                                                                      |
-|------------------|-------------------------------|------------------------------------------------------------------------------------------------------------------------------------|
-| 添加一个或多个元素        | `add()`, `addAll()`           | 使用 [`加然后赋值(plusAssign)`(`+=`) 操作符](collection-plus-minus.md): `collection += element`, `collection += anotherCollection`.          |
-| 检查集合是否包含一个或多个元素  | `contains()`, `containsAll()` | 使用 [`in` 关键字](collection-elements.md#check-element-existence) 以操作符的形式调用 `contains()` 函数: `element in collection`.                  |
-| 检查集合是否为空         | `isEmpty()`                   | 使用 [`isNotEmpty()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/is-not-empty.html) 检查集合是否为非空.                  |
-| 指定条件删除           | `removeIf()`                  |                                                                                                                                    |
-| 只保留指定的元素         | `retainAll()`                 |                                                                                                                                    |
-| 从集合删除所有元素        | `clear()`                     |                                                                                                                                    |
-| 从集合得到一个 Stream   | `stream()`                    | Kotlin 有自己的方式来处理 Stream: [序列(Sequence)](#sequences), 以及方法, 比如 [`map()`](collection-filtering.md) 和 [`filter()`](#filter-elements). |
-| 从集合得到一个 Iterator | `iterator()`                  |                                                                                                                                    |
+| 描述                           | 共通操作                      | Kotlin 中的更多选择                                                                                                                                  |
+|--------------------------------|-------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 添加一个或多个元素             | `add()`, `addAll()`           | 使用 [`加然后赋值(plusAssign)`(`+=`) 操作符](collection-plus-minus.md): `collection += element`, `collection += anotherCollection`.                  |
+| 检查集合是否包含一个或多个元素 | `contains()`, `containsAll()` | 使用 [`in` 关键字](collection-elements.md#check-element-existence) 以操作符的形式调用 `contains()` 函数: `element in collection`.                    |
+| 检查集合是否为空               | `isEmpty()`                   | 使用 [`isNotEmpty()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/is-not-empty.html) 检查集合是否为非空.                         |
+| 指定条件删除                   | `removeIf()`                  |                                                                                                                                                      |
+| 只保留指定的元素               | `retainAll()`                 |                                                                                                                                                      |
+| 从集合删除所有元素             | `clear()`                     |                                                                                                                                                      |
+| 从集合得到一个 Stream          | `stream()`                    | Kotlin 有自己的方式来处理 Stream: [序列(Sequence)](#sequences), 以及方法, 比如 [`map()`](collection-filtering.md) 和 [`filter()`](#filter-elements). |
+| 从集合得到一个 Iterator        | `iterator()`                  |                                                                                                                                                      |
 
 ### 对 Map 的操作 {id="operations-on-maps"}
 
-| 描述                 | 共通操作                                    | Kotlin 中的更多选择                                                                                                                                                                     |
-|--------------------|-----------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 添加一个或多个元素          | `put()`, `putAll()`, `putIfAbsent()`    | 在 Kotlin 中, 赋值操作 `map[key] = value` 的效果与 `put(key, value)` 相同. 你还可以使用 [`加然后赋值(plusAssign)`(`+=`) 操作符](collection-plus-minus.md): `map += Pair(key, value)` 或 `map += anotherMap`. |
-| 替换一个或多个元素          | `put()`, `replace()`, `replaceAll()`    | 使用下标访问操作符 `map[key] = value`, 而不是 `put()` 和 `replace()`.                                                                                                                          |
-| 得到元素               | `get()`                                 | 使用下标访问操作符得到元素: `map[index]`.                                                                                                                                                      |
-| 检查 Map 是否包含一个或多个元素 | `containsKey()`, `containsValue()`      | 使用 [`in` 关键字](collection-elements.md#check-element-existence) 以操作符形式调用 `contains()` 函数: `element in map`.                                                                         |
-| 检查 Map 是否为空        | `isEmpty()`                             | 使用 [`isNotEmpty()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/is-not-empty.html) 检查 Map 是否为非空.                                                              |
-| 删除元素               | `remove(key)`, `remove(key, value)`     | 使用 [`减然后赋值(minusAssign)`(`-=`) 操作符](collection-plus-minus.md): `map -= key`.                                                                                                       |
-| 从 Map 删除所有元素       | `clear()`                               |                                                                                                                                                                                   |
-| 从 Map 得到一个 Stream  | entries, keys, 或 values 的 `stream()` 函数 |                                                                                                                                                                                   |
+| 描述                            | 共通操作                                    | Kotlin 中的更多选择                                                                                                                                                                                          |
+|---------------------------------|---------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 添加一个或多个元素              | `put()`, `putAll()`, `putIfAbsent()`        | 在 Kotlin 中, 赋值操作 `map[key] = value` 的效果与 `put(key, value)` 相同. 你还可以使用 [`加然后赋值(plusAssign)`(`+=`) 操作符](collection-plus-minus.md): `map += Pair(key, value)` 或 `map += anotherMap`. |
+| 替换一个或多个元素              | `put()`, `replace()`, `replaceAll()`        | 使用下标访问操作符 `map[key] = value`, 而不是 `put()` 和 `replace()`.                                                                                                                                        |
+| 得到元素                        | `get()`                                     | 使用下标访问操作符得到元素: `map[index]`.                                                                                                                                                                    |
+| 检查 Map 是否包含一个或多个元素 | `containsKey()`, `containsValue()`          | 使用 [`in` 关键字](collection-elements.md#check-element-existence) 以操作符形式调用 `contains()` 函数: `element in map`.                                                                                     |
+| 检查 Map 是否为空               | `isEmpty()`                                 | 使用 [`isNotEmpty()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/is-not-empty.html) 检查 Map 是否为非空.                                                                                |
+| 删除元素                        | `remove(key)`, `remove(key, value)`         | 使用 [`减然后赋值(minusAssign)`(`-=`) 操作符](collection-plus-minus.md): `map -= key`.                                                                                                                       |
+| 从 Map 删除所有元素             | `clear()`                                   |                                                                                                                                                                                                              |
+| 从 Map 得到一个 Stream          | entries, keys, 或 values 的 `stream()` 函数 |                                                                                                                                                                                                              |
 
 ### 只对 List 有效的操作 {id="operations-that-exist-only-for-lists"}
 
-| 描述                       |共通操作 | Kotlin 中的更多选择                                               |
-|--------------------------|-----------|-------------------------------------------------------------|
-| 得到元素下标                   | `indexOf()` |                                                             |
-| 得到元素的最后下标                | `lastIndexOf()` |                                                             |
-| 得到元素                     | `get()` | 使用下标访问操作符得到元素: `list[index]`.                               |
-| 获取一个子 List | `subList()` |                                                             |
-| 替换一个或多个元素               | `set()`,  `replaceAll()` | 使用下标访问操作符, 而不是 `set()`: `list[index] = value`. |
+| 描述               | 共通操作                 | Kotlin 中的更多选择                                        |
+|--------------------|--------------------------|------------------------------------------------------------|
+| 得到元素下标       | `indexOf()`              |                                                            |
+| 得到元素的最后下标 | `lastIndexOf()`          |                                                            |
+| 得到元素           | `get()`                  | 使用下标访问操作符得到元素: `list[index]`.                 |
+| 获取一个子 List    | `subList()`              |                                                            |
+| 替换一个或多个元素 | `set()`,  `replaceAll()` | 使用下标访问操作符, 而不是 `set()`: `list[index] = value`. |
 
 ## 略有不同的操作 {id="operations-that-differ-a-bit"}
 
 ### 对任何集合类型都有效的操作 {id="operations-on-any-collection-type"}
 
-| 描述                        | Java                                                                                                               | Kotlin                                                                                                                                              |
-|---------------------------|--------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
-| 得到集合的大小                   | `size()`                                                                                                           | `count()`, `size`                                                                                                                                   |
-| 平展访问(Flat Access) 嵌套的集合元素 | `collectionOfCollections.forEach(flatCollection::addAll)` 或 `collectionOfCollections.stream().flatMap().collect()` | [`flatten()`](collection-transformations.md#flatten) 或 [`flatMap()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/flat-map.html) |
-| 对每个元素使用指定的函数              | `stream().map().collect()`                                                                                         | [`map()`](collection-filtering.md)                                                                                                                  |
-| 对集合元素顺序的使用指定的操作, 并返回累积的结果 | `stream().reduce()`                                                                                                | [`reduce()`, `fold()`](collection-aggregate.md#fold-and-reduce)                                                                                     |
-| 通过一个分类器对元素分组, 并统计         | `stream().collect(Collectors.groupingBy(classifier, counting()))`                                                  | [`eachCount()`](collection-grouping.md)                                                                                                             |
-| 根据条件过滤                    | `stream().filter().collect()`                                                                                      | [`filter()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/filter.html)                                                           |
-| 检查集合元素是否满足条件              | `stream().noneMatch()`, `stream().anyMatch()`, `stream().allMatch()`                                               | [`none()`, `any()`, `all()`](collection-filtering.md)                                                                                               |
-| 对元素排序                     | `stream().sorted().collect()`                                                                                      | [`sorted()`](collection-ordering.md#natural-order)                                                                                                  |
-| 获取前 N 个元素                 | `stream().limit(N).collect()`                                                                                      | [`take(N)`](collection-parts.md#take-and-drop)                                                                                                      |
-| 指定条件获取元素                  | `stream().takeWhile().collect()`                                                                                   | [`takeWhile()`](collection-parts.md#take-and-drop)                                                                                                  |
-| 跳过前 N 个元素                 | `stream().skip(N).collect()`                                                                                       | [`drop(N)`](collection-parts.md#take-and-drop)                                                                                                      |
-| 指定条件跳过元素                  | `stream().dropWhile().collect()`                                                                                   | [`dropWhile()`](collection-parts.md#take-and-drop)                                                                                                  |
-| 构建从集合元素到关联值的 Map         | `stream().collect(toMap(keyMapper, valueMapper))`                                                                  | [`associate()`](collection-transformations.md#associate)                                                                                            |
+| 描述                                             | Java                                                                                                                | Kotlin                                                                                                                                               |
+|--------------------------------------------------|---------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 得到集合的大小                                   | `size()`                                                                                                            | `count()`, `size`                                                                                                                                    |
+| 平展访问(Flat Access) 嵌套的集合元素             | `collectionOfCollections.forEach(flatCollection::addAll)` 或 `collectionOfCollections.stream().flatMap().collect()` | [`flatten()`](collection-transformations.md#flatten) 或 [`flatMap()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/flat-map.html) |
+| 对每个元素使用指定的函数                         | `stream().map().collect()`                                                                                          | [`map()`](collection-filtering.md)                                                                                                                   |
+| 对集合元素顺序的使用指定的操作, 并返回累积的结果 | `stream().reduce()`                                                                                                 | [`reduce()`, `fold()`](collection-aggregate.md#fold-and-reduce)                                                                                      |
+| 通过一个分类器对元素分组, 并统计                 | `stream().collect(Collectors.groupingBy(classifier, counting()))`                                                   | [`eachCount()`](collection-grouping.md)                                                                                                              |
+| 根据条件过滤                                     | `stream().filter().collect()`                                                                                       | [`filter()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/filter.html)                                                            |
+| 检查集合元素是否满足条件                         | `stream().noneMatch()`, `stream().anyMatch()`, `stream().allMatch()`                                                | [`none()`, `any()`, `all()`](collection-filtering.md)                                                                                                |
+| 对元素排序                                       | `stream().sorted().collect()`                                                                                       | [`sorted()`](collection-ordering.md#natural-order)                                                                                                   |
+| 获取前 N 个元素                                  | `stream().limit(N).collect()`                                                                                       | [`take(N)`](collection-parts.md#take-and-drop)                                                                                                       |
+| 指定条件获取元素                                 | `stream().takeWhile().collect()`                                                                                    | [`takeWhile()`](collection-parts.md#take-and-drop)                                                                                                   |
+| 跳过前 N 个元素                                  | `stream().skip(N).collect()`                                                                                        | [`drop(N)`](collection-parts.md#take-and-drop)                                                                                                       |
+| 指定条件跳过元素                                 | `stream().dropWhile().collect()`                                                                                    | [`dropWhile()`](collection-parts.md#take-and-drop)                                                                                                   |
+| 构建从集合元素到关联值的 Map                     | `stream().collect(toMap(keyMapper, valueMapper))`                                                                   | [`associate()`](collection-transformations.md#associate)                                                                                             |
 
 要对 Map 执行上述所有操作, 你首先需要得到 Map 的 `entrySet` .
 
 ### 对 List 的操作 {id="operations-on-lists"}
 
-| 描述                      | Java | Kotlin                                                                                        |
-|-------------------------|------|-----------------------------------------------------------------------------------------------|
-| 按照自然顺序排序 List           | `sort(null)` | `sort()`                                                                                      |
-| 按照逆序排序 List             | `sort(comparator)` | `sortDescending()`                                                                            |
-| 从 List 删除元素             | `remove(index)`, `remove(element)`| `removeAt(index)`, `remove(element)` 或 [`collection -= element`](collection-plus-minus.md) |
-| 将 List 的所有元素填充为指定的值     | `Collections.fill()` | [`fill()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/fill.html)         |
-| 从 List 得到不重复的元素 | `stream().distinct().toList()` | [`distinct()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/distinct.html) |
+| 描述                             | Java                               | Kotlin                                                                                        |
+|----------------------------------|------------------------------------|-----------------------------------------------------------------------------------------------|
+| 按照自然顺序排序 List            | `sort(null)`                       | `sort()`                                                                                      |
+| 按照逆序排序 List                | `sort(comparator)`                 | `sortDescending()`                                                                            |
+| 从 List 删除元素                 | `remove(index)`, `remove(element)` | `removeAt(index)`, `remove(element)` 或 [`collection -= element`](collection-plus-minus.md)   |
+| 将 List 的所有元素填充为指定的值 | `Collections.fill()`               | [`fill()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/fill.html)         |
+| 从 List 得到不重复的元素         | `stream().distinct().toList()`     | [`distinct()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/distinct.html) |
 
 ## 在 Java 标准库中不存在的操作 {id="operations-that-don-t-exist-in-java-s-standard-library"}
 
@@ -438,20 +440,23 @@ if (list.size() > 0) {
 ```
 {id="list-get-first-last-java"}
 
-对 [`Deque`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Deque.html)
-和它的后代类, 你还可以使用
-[`getFirst()`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Deque.html#getFirst())
+在 JDK 21 及之后的版本中, 还可以使用
+[`SequencedCollection`](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/SequencedCollection.html)
+的所有实现提供的
+[`getFirst()`](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/SequencedCollection.html#getFirst())
 和
-[`getLast()`](https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/util/Deque.html#getLast())
-函数:
+[`getLast()`](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/SequencedCollection.html#getLast())
+方法.
+包括 `List` 的所有实现, 以及其他集合, 例如 `LinkedHashSet` 等.
+例如, 对于 `ArrayList`:
 
 ```java
-// Java
-var deque = new ArrayDeque<>();
+// Java 代码
+var list = new ArrayList<>();
 //...
-if (deque.size() > 0) {
-    System.out.println(deque.getFirst());
-    System.out.println(deque.getLast());
+if (!list.isEmpty()) {
+    System.out.println(list.getFirst());
+    System.out.println(list.getLast());
 }
 ```
 {id="deque-get-first-last-java"}
@@ -690,7 +695,7 @@ public void zip() {
 {id="zip-elements-java"}
 
 如果你希望做某些更加复杂的操作, 而不仅仅是将元素 pair 打印输出,
-你可以使用 [Record](https://blogs.oracle.com/javamagazine/post/records-come-to-java).
+你可以使用 [Record](https://docs.oracle.com/en/java/javase/17/language/records.html).
 在上面的示例中, Record 是 `record AnimalDescription(String animal, String color) {}`.
 
 在 Kotlin 中, 使用 [`zip()`](collection-transformations.md#zip) 函数可以完成相同的功能:
@@ -749,7 +754,7 @@ fun main() {
 
 * 访问 [Kotlin Koans](koans.md) – 完成练习, 学习 Kotlin 语法. 每个练习从一个失败的 unit test 开始, 你的任务是让测试通过.
 * 阅读其他的 [Kotlin 惯用法](idioms.md).
-* 学习如何使用 [Java 到 Kotlin 转换器](mixing-java-kotlin-intellij.md#converting-an-existing-java-file-to-kotlin-with-j2k),
+* 学习如何使用 [Java 到 Kotlin 转换器](mixing-java-kotlin-intellij.md#convert-java-files-to-kotlin),
   将既有的 Java 代码转换为 Kotlin .
 * 学习 [Kotlin 中的集合](collections-overview.md).
 

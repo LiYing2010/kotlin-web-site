@@ -1,5 +1,10 @@
 [//]: # (title: Dokka Plugin)
 
+> 这篇向导适用于 Dokka Gradle plugin (DGP) v2 模式. DGP v1 模式不再支持.
+> 要从 v1 模式升级到 v2 模式, 请遵循 [迁移向导](dokka-migration.md).
+>
+{style="note"}
+
 Dokka 的设计思想是易于扩展, 而且高度可定制化,
 因此对于 Dokka 缺少的, 或者没有默认提供的细节功能, 社区开发者可以实现 plugin.
 
@@ -27,48 +32,41 @@ Dokka plugin 作为单独的 artifact 发布, 因此要应用一个 Dokka plugin
 我们来看看在你的项目中如何应用 [mathjax plugin](https://github.com/Kotlin/dokka/tree/%dokkaVersion%/dokka-subprojects/plugin-mathjax):
 
 <tabs group="build-script">
-<tab title="Kotlin" group-key="kotlin">
+<tab title="Gradle Kotlin DSL" group-key="kotlin">
 
 Gradle plugin for Dokka 会创建便利的依赖项配置, 你可以对全局应用 plugin, 或只对特定的输出格式应用 plugin.
 
 ```kotlin
+plugins {
+    id("org.jetbrains.dokka") version "%dokkaVersion%"
+}
+
 dependencies {
-    // 对全局应用
-    dokkaPlugin("org.jetbrains.dokka:mathjax-plugin:%dokkaVersion%")
-
-    // 只对单模块的 dokkaHtml task 应用
-    dokkaHtmlPlugin("org.jetbrains.dokka:kotlin-as-java-plugin:%dokkaVersion%")
-
-    // 对多项目构建中的 HTML 格式应用
-    dokkaHtmlPartialPlugin("org.jetbrains.dokka:kotlin-as-java-plugin:%dokkaVersion%")
+    dokkaPlugin("org.jetbrains.dokka:mathjax-plugin")
 }
 ```
 
-> 在对 [多项目](dokka-gradle.md#multi-project-builds) 构建生成文档时,
-> 你需要同时对子项目和它们的父项目应用 Dokka plugin.
+> * 内置的 plugin (例如 HTML 和 Javadoc) 总是会自动应用. 你只需要配置它们, 不需要声明对它们的依赖项.
+>
+> * 在对多模块项目(多项目构建)生成文档时, 你需要 [在子项目之间共用 Dokka 配置和 plugin](dokka-gradle.md#multi-project-configuration).
 >
 {style="note"}
 
 </tab>
-<tab title="Groovy" group-key="groovy">
-
-Gradle plugin for Dokka 会创建便利的依赖项配置, 你可以对全局应用 plugin, 或只对特定的输出格式应用 plugin.
+<tab title="Gradle Groovy DSL" group-key="groovy">
 
 ```groovy
+plugins {
+    id 'org.jetbrains.dokka' version '%dokkaVersion%'
+}
+
 dependencies {
-    // 对全局应用
-    dokkaPlugin 'org.jetbrains.dokka:mathjax-plugin:%dokkaVersion%'
-
-    // 只对单模块的 dokkaHtml task 应用
-    dokkaHtmlPlugin 'org.jetbrains.dokka:kotlin-as-java-plugin:%dokkaVersion%'
-
-    // 对多项目构建中的 HTML 格式应用
-    dokkaHtmlPartialPlugin 'org.jetbrains.dokka:kotlin-as-java-plugin:%dokkaVersion%'
+    dokkaPlugin 'org.jetbrains.dokka:mathjax-plugin'
 }
 ```
 
-> 在对 [多项目](dokka-gradle.md#multi-project-builds) 构建生成文档时,
-> 你需要同时对子项目和它们的父项目应用 Dokka plugin.
+> 在对 [多项目](dokka-gradle.md#multi-project-configuration) 构建生成文档时,
+> 你需要 [在子项目之间共用 Dokka 配置和 plugin](dokka-gradle.md#multi-project-configuration).
 >
 {style="note"}
 
@@ -129,78 +127,43 @@ Dokka plugin 应该在 `pluginsClasspath` 之下指定.
 Dokka plugin 也可以带有它们自己的配置选项.
 要查看有哪些选项可以使用, 请参考你使用的 plugin 的文档.
 
-我们来看看如何配置 `DokkaBase` plugin, 它负责生成 [HTML](dokka-html.md) 文档.
-我们向 assets 添加自定义的图片(使用 `customAssets` 选项),
+我们来看看如何配置内置的 HTML plugin, 我们向 assets 添加自定义的图片(使用 `customAssets` 选项),
 添加自定义的样式表 (使用 `customStyleSheets` 选项),
 修改页脚文字 (使用 `footerMessage` 选项):
 
 <tabs group="build-script">
-<tab title="Kotlin" group-key="kotlin">
+<tab title="Gradle Kotlin DSL" group-key="kotlin">
 
-Gradle 的 Kotlin DSL 可以使用类型安全的 plugin 配置.
-做法是, 在 `buildscript` 代码段, 向 classpath 依赖项添加 plugin 的 artifact,
-然后导入 plugin 和配置的类:
+要通过类型安全的方式配置 Dokka plugins, 请使用 `dokka.pluginsConfiguration {}` 代码段:
 
 ```kotlin
-import org.jetbrains.dokka.base.DokkaBase
-import org.jetbrains.dokka.gradle.DokkaTask
-import org.jetbrains.dokka.base.DokkaBaseConfiguration
-
-buildscript {
-    dependencies {
-        classpath("org.jetbrains.dokka:dokka-base:%dokkaVersion%")
-    }
-}
-
-tasks.withType<DokkaTask>().configureEach {
-    pluginConfiguration<DokkaBase, DokkaBaseConfiguration> {
-        customAssets = listOf(file("my-image.png"))
-        customStyleSheets = listOf(file("my-styles.css"))
-        footerMessage = "(c) 2022 MyOrg"
+dokka {
+    pluginsConfiguration.html {
+        customAssets.from("logo.png")
+        customStyleSheets.from("styles.css")
+        footerMessage.set("(c) Your Company")
     }
 }
 ```
 
-另一种方法是, plugin 可以通过 JSON 进行配置. 通过这种方法, 不需要添加额外的依赖项.
+关于 Dokka plugin 配置的例子, 请参见
+[Dokka 的 versioning plugin](https://github.com/Kotlin/dokka/tree/master/examples/gradle-v2/versioning-multimodule-example).
 
-```kotlin
-import org.jetbrains.dokka.gradle.DokkaTask
-
-tasks.withType<DokkaTask>().configureEach {
-    val dokkaBaseConfiguration = """
-    {
-      "customAssets": ["${file("assets/my-image.png")}"],
-      "customStyleSheets": ["${file("assets/my-styles.css")}"],
-      "footerMessage": "(c) 2022 MyOrg"
-    }
-    """
-    pluginsMapConfiguration.set(
-        mapOf(
-            // plugin 的完整限定名称, to, json 配置
-            "org.jetbrains.dokka.base.DokkaBase" to dokkaBaseConfiguration
-        )
-    )
-}
-```
+Dokka 允许你通过 [配置自定义 plugin](https://github.com/Kotlin/dokka/blob/v2.2.0/examples/gradle-v2/custom-dokka-plugin-example/demo-library/build.gradle.kts)
+来扩展它的功能, 并修改文档生成过程.
 
 </tab>
-<tab title="Groovy" group-key="groovy">
+<tab title="Gradle Groovy DSL" group-key="groovy">
 
 ```groovy
-import org.jetbrains.dokka.gradle.DokkaTask
-
-tasks.withType(DokkaTask.class) {
-    String dokkaBaseConfiguration = """
-    {
-      "customAssets": ["${file("assets/my-image.png")}"],
-      "customStyleSheets": ["${file("assets/my-styles.css")}"],
-      "footerMessage": "(c) 2022 MyOrg"
+dokka {
+    pluginsConfiguration {
+        html {
+            customAssets.from("logo.png")
+            customStyleSheets.from("styles.css")
+            footerMessage.set("(c) Your Company")
+        }
     }
-    """
-    pluginsMapConfiguration.set(
-        // plugin 的完整限定名称, :, json 配置
-        ["org.jetbrains.dokka.base.DokkaBase": dokkaBaseConfiguration]
-    )
 }
 ```
 
@@ -274,6 +237,8 @@ java -jar dokka-cli-%dokkaVersion%.jar \
 | [MermaidJS HTML plugin](https://github.com/glureau/dokka-mermaid)                                                                  | 输出 KDocs 中出现的 [MermaidJS](https://mermaid-js.github.io/mermaid/#/) 图和视觉效果 |
 | [Mathjax HTML plugin](https://github.com/Kotlin/dokka/tree/%dokkaVersion%/dokka-subprojects/plugin-mathjax)                        | 美化输出 KDocs 中出现的数学公式                                                       |
 | [Kotlin as Java plugin](https://github.com/Kotlin/dokka/tree/%dokkaVersion%/dokka-subprojects/plugin-kotlin-as-java)               | 以 Java 视角输出 Kotlin 签名                                                     |
+| [GFM plugin](https://github.com/Kotlin/dokka/tree/master/dokka-subprojects/plugin-gfm)                                             | 支持以 GitHub Flavoured Markdown 格式生成文档                                      |
+| [Jekyll plugin](https://github.com/Kotlin/dokka/tree/master/dokka-subprojects/plugin-jekyll)                                       | 支持以 Jekyll Flavoured Markdown 格式生成文档                                      |
 
 如果你是 Dokka plugin 的开发者, 希望将你的 plugin 添加到这个列表,
 请通过 [Slack](dokka-introduction.md#community) 或 [GitHub](https://github.com/Kotlin/dokka/) 联系维护者.

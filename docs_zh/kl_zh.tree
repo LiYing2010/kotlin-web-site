@@ -3,11 +3,16 @@
 <instance-profile id="kl_zh" name="kotlinx-lincheck" start-page="lincheck-guide.md">
     <snippet id="lincheck">
         <toc-element topic="lincheck-guide.md"/>
-        <toc-element topic="introduction.md"/>
-        <toc-element toc-title="测试策略" topic="testing-strategies.md"/>
-        <toc-element topic="operation-arguments.md"/>
-        <toc-element topic="constraints.md"/>
-        <toc-element topic="progress-guarantees.md"/>
-        <toc-element topic="sequential-specification.md"/>
+        <toc-element topic="lincheck-getting-started.md" accepts-web-file-names="introduction.html"/>
+        <toc-element topic="lincheck-testing-arbitrary-code.md"/>
+        <toc-element toc-title="测试数据结构">
+            <toc-element topic="lincheck-how-to-test-data-structures.md"/>
+            <toc-element toc-title="测试策略" topic="lincheck-testing-strategies.md" accepts-web-file-names="testing-strategies.html"/>
+            <toc-element topic="lincheck-testing-strategies-options.md"/>
+            <toc-element topic="lincheck-argument-generation-constraints.md" accepts-web-file-names="operation-arguments.html"/>
+            <toc-element topic="lincheck-operation-execution-options.md" accepts-web-file-names="constraints.html"/>
+            <toc-element topic="lincheck-progress-guarantees.md" accepts-web-file-names="progress-guarantees.html"/>
+            <toc-element topic="lincheck-results-validation.md" accepts-web-file-names="sequential-specification.html"/>
+        </toc-element>
     </snippet>
 </instance-profile>

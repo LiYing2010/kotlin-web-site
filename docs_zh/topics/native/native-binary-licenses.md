@@ -28,7 +28,7 @@
         <td><a href="https://kotlinlang.org/">Kotlin</a></td>
         <td rowspan="4">
          <list>
-            <li><a href="https://github.com/JetBrains/kotlin/blob/master/license/LICENSE.txt">Apache license 2.0</a></li>
+            <li><a href="https://github.com/JetBrains/kotlin/blob/master/license/LICENSE.txt">Apache License 2.0</a></li>
             <li><a href="https://github.com/JetBrains/kotlin/blob/master/kotlin-native/licenses/third_party/harmony_NOTICE.txt">Apache Harmony 版权声明</a></li>
          </list>
         </td>
@@ -65,8 +65,8 @@
 
 `mingwX64` 编译目标还要求额外的许可证文件:
 
-| 项目                                                               | 需要包含的文件                                                                                                                                                                                                                                                                                                              |
-|-----------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 项目                                                     | 需要包含的文件                                                                                                                                                                                                                                                                                                                 |
+|----------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [MinGW-w64 头文件和运行时库](https://www.mingw-w64.org/) | <list><li><a href="https://sourceforge.net/p/mingw-w64/mingw-w64/ci/master/tree/COPYING.MinGW-w64-runtime/COPYING.MinGW-w64-runtime.txt">MinGW-w64 运行时许可证</a></li><li><a href="https://sourceforge.net/p/mingw-w64/mingw-w64/ci/master/tree/mingw-w64-libraries/winpthreads/COPYING">Winpthreads license</a></li></list> |
 
 > 注意, 这些库要求你分发的 Kotlin/Native 二进制文件开源.

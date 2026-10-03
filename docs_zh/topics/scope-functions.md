@@ -65,14 +65,14 @@ fun main() {
 
 为了帮助你选择适合需要的作用域函数, 我们整理了这张表, 总结这些函数之间的关键区别.
 
-| 函数                                                                       | 上下文对象的引用方式 | 返回值    | 是否扩展函数              |
-|---------------------------------------------------------------------------|--------|---------------------|--------------------------|
-| [`let`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/let.html)     | `it`   | Lambda 表达式的结果值 | 是                        |
-| [`run`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/run.html)     | `this` | Lambda 表达式的结果值 | 是                        |
-| [`run`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/run.html)     | -      | Lambda 表达式的结果值 | 不是: 不使用上下文对象来调用. |
-| [`with`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/with.html)   | `this` | Lambda 表达式的结果值 | 不是: 上下文对象作为参数传递. |
-| [`apply`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/apply.html) | `this` | 上下文对象本身        | 是                        |
-| [`also`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/also.html)   | `it`   | 上下文对象本身        | 是                        |
+| 函数                                                                      | 上下文对象的引用方式 | 返回值                | 是否扩展函数                  |
+|---------------------------------------------------------------------------|----------------------|-----------------------|-------------------------------|
+| [`let`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/let.html)     | `it`                 | Lambda 表达式的结果值 | 是                            |
+| [`run`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/run.html)     | `this`               | Lambda 表达式的结果值 | 是                            |
+| [`run`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/run.html)     | -                    | Lambda 表达式的结果值 | 不是: 不使用上下文对象来调用. |
+| [`with`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/with.html)   | `this`               | Lambda 表达式的结果值 | 不是: 上下文对象作为参数传递. |
+| [`apply`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/apply.html) | `this`               | 上下文对象本身        | 是                            |
+| [`also`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/also.html)   | `it`                 | 上下文对象本身        | 是                            |
 
 这些函数的详情会在本章的后续小节中专门介绍.
 

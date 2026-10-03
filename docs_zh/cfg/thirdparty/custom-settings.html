@@ -1,0 +1,44 @@
+<style>
+    /* Tour navigation: remove list bullets */
+    #tour-nav li::before {
+        content: none !important;
+    }
+</style>
+
+<script>
+    function translateLastModified() {
+        // translate "Last modified:" to Chinese
+        document.querySelectorAll('span.sub-title__edit-info span').forEach(function(spanLastDate) {
+            const text = spanLastDate.textContent;
+            if (text.includes('Last modified')) {
+                spanLastDate.textContent = text.replace('Last modified', '最终更新');
+            }
+        });
+    }
+
+    function initTranslateLastModified() {
+        // Use MutationObserver to detect when Writerside's app.js writes "Last modified:"
+        // into the DOM (both on initial load and after SPA navigation), then replace it
+        // immediately. Debounce prevents redundant calls during rapid DOM updates.
+        let debounceTimer = null;
+        const observer = new MutationObserver(function() {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(translateLastModified, 100);
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+    }
+
+    function initUI() {
+        initTranslateLastModified();
+    }
+
+    function init() {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initUI);
+        } else {
+            initUI();
+        }
+    }
+
+    init();
+</script>

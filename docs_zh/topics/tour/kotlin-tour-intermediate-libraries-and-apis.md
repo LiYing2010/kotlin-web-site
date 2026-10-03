@@ -1,16 +1,4 @@
-[//]: # (title: 中级教程: 库与 API)
-
-<tldr>
-    <p><img src="icon-1-done.svg" width="20" alt="First step" /> <a href="kotlin-tour-intermediate-extension-functions.md">扩展函数</a><br />
-        <img src="icon-2-done.svg" width="20" alt="Second step" /> <a href="kotlin-tour-intermediate-scope-functions.md">作用域函数</a><br />
-        <img src="icon-3-done.svg" width="20" alt="Third step" /> <a href="kotlin-tour-intermediate-lambdas-receiver.md">带接受者的 Lambda 表达式</a><br />
-        <img src="icon-4-done.svg" width="20" alt="Fourth step" /> <a href="kotlin-tour-intermediate-classes-interfaces.md">类与接口</a><br />
-        <img src="icon-5-done.svg" width="20" alt="Fifth step" /> <a href="kotlin-tour-intermediate-objects.md">对象</a><br />
-        <img src="icon-6-done.svg" width="20" alt="Sixth step" /> <a href="kotlin-tour-intermediate-open-special-classes.md">开放类与特殊类</a><br />
-        <img src="icon-7-done.svg" width="20" alt="Seventh step" /> <a href="kotlin-tour-intermediate-properties.md">属性</a><br />
-        <img src="icon-8-done.svg" width="20" alt="Eighth step" /> <a href="kotlin-tour-intermediate-null-safety.md">Null 值安全性</a><br />
-        <img src="icon-9.svg" width="20" alt="Ninth step" /> <strong>库与 API</strong><br /></p>
-</tldr>
+[//]: # (title: 库与 API)
 
 为了更加充分的利用 Kotlin, 请使用既有的库和 API, 这样你就可以将更多的时间用来编码, 花更少的时间来重新发明轮子.
 
@@ -174,7 +162,7 @@ fun main() {
 这是选择使用者同意(Opt-in)的最简单的方法, 但也有其它方法.
 详情请参见 [明确要求使用者同意的功能](opt-in-requirements.md).
 
-## 实际练习 {id="practice"}
+## 实际练习 {completion-point="true" id="practice"}
 
 ### 习题 1 {initial-collapse-state="collapsed" collapsible="true" id="libraries-exercise-1"}
 
@@ -299,9 +287,19 @@ fun main() {
 
 ## 下一步做什么? {id="what-s-next"}
 
-恭喜你! 你已经完成了中级教程! 下一步, 请查看我们针对流行的 Kotlin 应用程序的教程:
+恭喜你! 你已经完成了中级教程! 欢迎 [分享你的阅读体验](https://surveys.hotjar.com/bf4ce865-99ce-4fc1-b107-e9b16bc31592).
+
+下一步, 请查看我们针对流行的 Kotlin 应用程序的教程:
 
 * [使用 Spring Boot 和 Kotlin 创建一个后端应用程序](jvm-create-project-with-spring-boot.md)
 * 从头创建一个针对 Android 和 iOS 的跨平台应用程序, 并且:
-    * [共用业务逻辑, 但使用原生 UI](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-create-first-app.html)
-    * [共用业务逻辑和 UI](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-multiplatform-create-first-app.html)
+    * [共用业务逻辑, 但使用原生 UI](https://kotlinlang.org/docs/multiplatform/multiplatform-create-first-app.html)
+    * [共用业务逻辑与 UI](https://kotlinlang.org/docs/multiplatform/compose-multiplatform-create-first-app.html)
+
+<seealso></seealso>
+
+<list id="tour-nav">
+  <li>
+    <a as="button" href="kotlin-tour-intermediate-null-safety.md" mode="outline" icon="arrow-left" icon-position="left">上一步</a>
+  </li>
+</list>

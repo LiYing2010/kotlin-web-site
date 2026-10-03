@@ -19,7 +19,7 @@
   [KTX 扩展](https://developer.android.com/kotlin/ktx) 为既有的 Android 库添加了 Kotlin 语言特性, 比如协程(Coroutine), 扩展函数(extension function), Lambda 表达式, 以及命名参数(named parameter).
 
 * **支持跨平台(multiplatform)开发**.
-  使用 Kotlin Multiplatform, 不仅可以开发 Android 应用程序, 而且还可以开发 [iOS](https://kotlinlang.org/lp/multiplatform/) 应用程序, 后端服务, 以及 Web 应用程序.
+  使用 Kotlin Multiplatform, 不仅可以开发 Android 应用程序, 还可以开发 [iOS](https://kotlinlang.org/multiplatform/) 应用程序, 后端服务, 以及 Web 应用程序.
   [有些 Jetpack 库](https://developer.android.com/kotlin/multiplatform) 已经可以支持跨平台(multiplatform).
   [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/) 是 JetBrains 的声明式 UI 框架,
   它基于 Kotlin 和 Jetpack Compose, 可以在多个平台共用 UI – iOS, Android, Desktop, 以及 Web.
@@ -42,4 +42,4 @@
 
 要开始使用 Kotlin, 你可以阅读以下资料:
 * 关于 Android 开发, 请阅读 [Google 关于使用 Kotlin 开发 Android App 的文档](https://developer.android.com/kotlin/get-started).
-* 关于跨平台移动应用程序开发, 请阅读 [创建一个共用代码逻辑和原生 UI 的App](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-create-first-app.html).
+* 关于跨平台移动应用程序开发, 请阅读 [创建一个共用代码逻辑和原生 UI 的App](https://kotlinlang.org/docs/multiplatform/multiplatform-create-first-app.html).

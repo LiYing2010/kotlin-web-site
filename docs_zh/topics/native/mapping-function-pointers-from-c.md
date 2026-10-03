@@ -1,21 +1,12 @@
 [//]: # (title: 教程 - 映射 C 语言的函数指针(Function Pointer))
 
-<tldr>
-    <p>这是 <strong>Kotlin 与 C 映射</strong> 教程系列的第 3 部分. 在继续阅读之前, 请确认你完成了之前的教程.</p>
-    <p><img src="icon-1-done.svg" width="20" alt="First step"/> <a href="mapping-primitive-data-types-from-c.md">映射 C 语言的基本数据类型</a><br/>
-        <img src="icon-2-done.svg" width="20" alt="Second step"/> <a href="mapping-struct-union-types-from-c.md">映射 C 语言的结构(Struct)和联合(Union)类型</a><br/>
-        <img src="icon-3.svg" width="20" alt="Third step"/> <strong>映射 C 语言的函数指针(Function Pointer)</strong><br/>
-        <img src="icon-4-todo.svg" width="20" alt="Fourth step"/> <a href="mapping-strings-from-c.md">映射 C 语言的字符串</a><br/>
-    </p>
-</tldr>
-
-> C 库导入是 [实验性功能](components-stability.md#stability-levels-explained).
+> C 库导入功能目前是 [Beta 版](native-lib-import-stability.md#stability-of-c-and-objective-c-library-import).
 > cinterop 工具从 C 库生成的所有 Kotlin 声明都应该标注 `@ExperimentalForeignApi` 注解.
 >
 > Kotlin/Native 自带的原生平台库 (例如 Foundation, UIKit, 和 POSIX),
 > 只对一部分 API 需要使用者明确同意(Opt-in).
 >
-{style="warning"}
+{style="note"}
 
 我们来看看在 Kotlin/Native 中可以访问 C 的哪些函数指针,
 并研究 Kotlin/Native 和 [跨平台](gradle-configure-project.md#targeting-multiple-platforms) Gradle 构建的与 C 互操作相关的高级使用场景.
@@ -157,18 +148,25 @@ fun main() {
 }
 ```
 
-为了验证是否一切正确, 请 [在你的 IDE 中](native-get-started.md#build-and-run-the-application) 运行 `runDebugExecutableNative` Gradle task,
-或使用以下命令, 运行代码:
+为了验证是否一切正确, 请 [在你的 IDE 中](native-get-started.md#build-and-run-the-application) 运行 `runDebugExecutable<YourTargetName>` Gradle task,
+或在你的终端中使用控制台命令, 例如:
 
 ```bash
-./gradlew runDebugExecutableNative
+./gradlew runDebugExecutableMacosArm64
 ```
 
 ## 下一步 {id="next-step"}
 
 在这个教程系列的下一部分, 你将学习在 Kotlin 和 C 之间如何映射字符串:
 
-**[继续下一部分](mapping-strings-from-c.md)**
+<list columns="2" id="tour-nav">
+  <li>
+    <a as="button" href="mapping-struct-union-types-from-c.md" mode="outline" icon="arrow-left" icon-position="left">上一步</a>
+  </li>
+  <li>
+    <a as="button" href="mapping-strings-from-c.md" mode="classic" icon="arrow-right" icon-position="right">下一步</a>
+  </li>
+</list>
 
 ### 参见 {id="see-also"}
 

@@ -34,7 +34,7 @@ Plugin 会根据你项目中指定的编译目标, 自动设置这些源代码�
 
 ```kotlin
 kotlin {
-    androidTarget()
+    android()
     iosArm64()
     iosSimulatorArm64()
 }
@@ -45,7 +45,7 @@ kotlin {
 
 ```groovy
 kotlin {
-    androidTarget()
+    android()
     iosArm64()
     iosSimulatorArm64()
 }
@@ -54,8 +54,8 @@ kotlin {
 </tab>
 </tabs>
 
-当你在你的代码中声明编译目标 `androidTarget`, `iosArm64`, 和 `iosSimulatorArm64` 时,
-Kotlin Gradle plugin 会从模板中找到合适的共享源代码集, 并为你创建这些源代码集.
+当你在你的代码中声明编译目标 `android`, `iosArm64`, 和 `iosSimulatorArm64` 时,
+Kotlin Gradle plugin 会从模板中找到合适的共用源代码集, 并为你创建这些源代码集.
 最后产生的层级结构类似下图:
 
 ![使用默认的层级结构模板的示例](default-hierarchy-example.svg)
@@ -76,7 +76,7 @@ Kotlin Gradle plugin 会为来自默认层级结构模板的所有源代码集�
 
 ```kotlin
 kotlin {
-    androidTarget()
+    android()
     iosArm64()
     iosSimulatorArm64()
 
@@ -95,7 +95,7 @@ kotlin {
 
 ```groovy
 kotlin {
-    androidTarget()
+    android()
     iosArm64()
     iosSimulatorArm64()
 
@@ -224,7 +224,7 @@ Learn more about hierarchy templates: https://kotl.in/hierarchy-template
 
 **问题场景**.
 你已经有了源代码集, 名字与模板生成的源代码集完全相同, 但在你的项目中的一些不同的编译目标之间共用.
-例如, 一个 `nativeMain` 源代码集, 只在桌面专用的编译目标之间共用: `linuxX64`, `mingwX64`, 和 `macosX64`.
+例如, 一个 `nativeMain` 源代码集, 只在桌面专用的编译目标之间共用: `linuxX64`, `mingwX64`, 和 `macosArm64`.
 
 **解决方案**.
 目前没有办法修改模板的源代码集之间的默认的 `dependsOn` 关系.
@@ -261,12 +261,12 @@ Learn more about hierarchy templates: https://kotl.in/hierarchy-template
 
 你可以在源代码集结构中手动的引入中间源代码集. 它包含多个编译目标之间的共用代码.
 
-例如, 如果你想要在 Linux 原生环境, Windows, 和 macOS 编译目标 (`linuxX64`, `mingwX64`, 和 `macosX64`) 之间共用代码,
+例如, 如果你想要在 Linux 原生环境, Windows, 和 macOS 编译目标 (`linuxX64`, `mingwX64`, 和 `macosArm64`) 之间共用代码,
 你可以这样做:
 
-1. 在共用模块的 `build.gradle(.kts)` 文件中, 添加中间源代码集 `desktopMain`, 包含用于这些编译目标的共用逻辑.
+1. 在共用模块的 `build.gradle(.kts)` 文件中, 添加中间源代码集 `myDesktopMain`, 包含用于这些编译目标的共用逻辑.
 2. 使用 `dependsOn` 关系, 设置源代码集的层级结构.
-   将 `commonMain` 与 `desktopMain` 连接起来, 再将 `desktopMain` 与各个编译目标源代码集连接起来:
+   将 `commonMain` 与 `myDesktopMain` 连接起来, 再将 `myDesktopMain` 与各个编译目标源代码集连接起来:
 
     <tabs group="build-script">
     <tab title="Kotlin" group-key="kotlin">
@@ -275,16 +275,16 @@ Learn more about hierarchy templates: https://kotl.in/hierarchy-template
     kotlin {
         linuxX64()
         mingwX64()
-        macosX64()
+        macosArm64()
 
         sourceSets {
-            val desktopMain by creating {
+            val myDesktopMain by creating {
                 dependsOn(commonMain.get())
             }
 
-            linuxX64Main.get().dependsOn(desktopMain)
-            mingwX64Main.get().dependsOn(desktopMain)
-            macosX64Main.get().dependsOn(desktopMain)
+            linuxX64Main.get().dependsOn(myDesktopMain)
+            mingwX64Main.get().dependsOn(myDesktopMain)
+            macosArm64Main.get().dependsOn(myDesktopMain)
         }
     }
     ```
@@ -296,20 +296,20 @@ Learn more about hierarchy templates: https://kotl.in/hierarchy-template
     kotlin {
         linuxX64()
         mingwX64()
-        macosX64()
+        macosArm64()
 
         sourceSets {
-            desktopMain {
+            myDesktopMain {
                 dependsOn(commonMain.get())
             }
             linuxX64Main {
-                dependsOn(desktopMain)
+                dependsOn(myDesktopMain)
             }
             mingwX64Main {
-                dependsOn(desktopMain)
+                dependsOn(myDesktopMain)
             }
-            macosX64Main {
-                dependsOn(desktopMain)
+            macosArm64Main {
+                dependsOn(myDesktopMain)
             }
         }
     }
@@ -324,10 +324,10 @@ Learn more about hierarchy templates: https://kotl.in/hierarchy-template
 
 对以下编译目标组合, 可以共用源代码集:
 
-* JVM 或 Android + JS + Native
+* JVM 或 Android + Web + Native
 * JVM 或 Android + Native
-* JS + Native
-* JVM 或 Android + JS
+* Web + Native
+* JVM 或 Android + Web
 * Native
 
 对以下编译目标组合, Kotlin 目前不支持共用源代码集:

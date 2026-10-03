@@ -33,7 +33,7 @@ interface KSTypeReference : KSAnnotated, KSModifierListOwner {
 一个 `KSTypeReference` 可以解析为一个 `KSType`, 它引用到 Kotlin 类型系统中的一个类型.
 
 一个`KSTypeReference` 拥有一个 `KSReferenceElement`, 它是 Kotlin 程序结构的数据模型: 也就是, 类型引用是如何编写的.
-它对应于 Kotlin 语法中的 [`type`](https://kotlinlang.org/docs/reference/grammar.html#type) 元素.
+它对应于 Kotlin 语法中的 [`type`](https://kotlinlang.org/grammar/#type) 元素.
 
 一个 `KSReferenceElement` 可以是一个 `KSClassifierReference` 或 `KSCallableReference`, 其中包含很多不需要解析的有用信息.
 比如,

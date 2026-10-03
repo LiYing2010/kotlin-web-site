@@ -1,5 +1,7 @@
 [//]: # (title: Java 和 Kotlin 中的字符串)
-[//]: # (description: 学习如何将 Java 字符串迁移到 Kotlin 字符串. 这篇向导讨论 Java StringBuilder, 字符串拼接和切分, 多行字符串, 流, 以及其它问题.)
+
+<web-summary>学习如何将 Java 字符串迁移到 Kotlin 字符串.
+这篇向导讨论 Java StringBuilder, 字符串拼接和切分, 多行字符串, 流, 以及其它问题.)</web-summary>
 
 这篇向导通过示例程序演示如何在 Java 和 Kotlin 中进行通常的字符串处理.
 将会帮助你从 Java 迁移到 Kotlin, 并以 Kotlin 的方式来编写代码.
@@ -368,7 +370,7 @@ fun main() {
 ## 下一步做什么? {id="what-s-next"}
 
 * 学习 [Kotlin 惯用法](idioms.md).
-* 学习如何使用 [Java 到 Kotlin 的转换器](mixing-java-kotlin-intellij.md#converting-an-existing-java-file-to-kotlin-with-j2k),
+* 学习如何使用 [Java 到 Kotlin 的转换器](mixing-java-kotlin-intellij.md#convert-java-files-to-kotlin),
   将既有的 Java 代码转换为 Kotlin .
 
 如果你有喜欢的惯用法, 欢迎提交一个 pull request, 共享给大家.

@@ -14,27 +14,51 @@
 还有一个函数
 [`getValue()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/get-value.html),
 它的功能略有不同: 在 map 中未找到键(key)时它会抛出异常.
-此外, 还有另外两个选择, 可以对键(key)不存在的情况进行处理:
+此外, 还有更多选择, 可以对键(key)不存在的情况进行处理:
 
 * [`getOrElse()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/get-or-else.html)
   与 list 中的同名函数一样: 对于不存在的键(key), 值(value)由指定的 lambda 函数返回.
 * [`getOrDefault()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/get-or-default.html):
   如果键(key)不存在, 则返回指定的默认值(value).
 
-```kotlin
+对于值(value)可能为 null 的 map, 请改为使用以下函数, 它们能够明确地处理键(key)缺失和值为 `null` 的情况:
 
+* `getOrElseIfNull()`, 如果键(key)不存在或其值(value)为 `null`, 则返回指定的默认值的结果.
+* `getOrElseIfMissing()`, 如果键(key)不存在, 则返回指定的默认值的结果.
+
+下面的示例演示这些函数之间的区别:
+
+```kotlin
+@OptIn(ExperimentalStdlibApi::class)
 fun main() {
 //sampleStart
     val numbersMap = mapOf("one" to 1, "two" to 2, "three" to 3)
     println(numbersMap.get("one"))
+    // 输出结果为: 1
+
     println(numbersMap["one"])
+    // 输出结果为: 1
+
     println(numbersMap.getOrDefault("four", 10))
-    println(numbersMap["five"])               // 得到 null
-    //numbersMap.getValue("six")      // 抛出异常!
+    // 输出结果为: 10
+
+    println(numbersMap["five"])
+    // 输出结果为: null
+    
+    val nullableMap = mapOf("one" to 1, "two" to null)
+    println(nullableMap.getOrElseIfNull("two") { 0 })
+    // 输出结果为: 0
+
+    println(nullableMap.getOrElseIfMissing("two") { 0 })
+    // 输出结果为: null
+
+    // 抛出异常, 因为 "six" 不在 map 中
+    // numbersMap.getValue("six")
+
 //sampleEnd
 }
 ```
-{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
+{kotlin-runnable="true" kotlin-min-compiler-version="2.4"}
 
 如果需要对 map 的所有键(key)或所有值(value)进行操作, 可以分别通过 `keys` 属性和  `values` 属性得到它们.
 `keys` 是 map 的所有键(key)构成的 set, `values` 是 map 所有值(value)构成的集合.
@@ -223,6 +247,44 @@ fun main() {
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
 如果调用时使用 map 中已存在的键(key), 这些操作符会覆盖对应条目(entry)中的值(value).
+
+#### 为缺失的条目(entry)添加默认值 {id="add-default-values-for-missing-entries"}
+
+如果要返回已存在的值(value), 或对值(value)不存在的情况添加默认的值, 请使用 [`.getOrPut()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/get-or-put.html) 扩展函数.
+如果键(key)不存在, 或对应的值(value)为 `null`, `.getOrPut()` 会保存默认的值, 并返回它.
+
+对于值(value)可能为 null 的 map, 你可以使用 `.getOrPutIfNull()` 和 `.getOrPutIfMissing()` 函数, 来控制如何处理 `null` 值:
+
+* `getOrPutIfNull()` 与 `getOrPut()` 行为相同, 如果键(key)不存在, 或对应的值(value)为 `null`, 则使用默认值.
+* `getOrPutIfMissing()` 只在键(key)不存在时使用默认值.
+
+`getOrPutIfNull()` 和 `getOrPutIfMissing()` 函数处于 [实验阶段](components-stability.md#stability-levels-explained).
+要表示使用者同意, 请使用 `@OptIn(ExperimentalStdlibApi::class)` 注解.
+
+下面是一个示例:
+
+```kotlin
+@OptIn(ExperimentalStdlibApi::class)
+fun main() {
+//sampleStart
+    val mapForNull = mutableMapOf<String, Int?>("one" to null)
+    val mapForMissing = mutableMapOf<String, Int?>("one" to null)
+
+    // 替换 "one" 的值, 因为 "one" 的值为 null 
+    mapForNull.getOrPutIfNull("one") { 1 }
+
+    println(mapForNull)
+    // 输出结果为: {one=1}
+
+    // 保留 null 值, 因为 "one" 存在于 map 中
+    mapForMissing.getOrPutIfMissing("one") { 1 }
+
+    println(mapForMissing)
+    // 输出结果为: {one=null}
+//sampleEnd
+}
+```
+{kotlin-runnable="true" kotlin-min-compiler-version="2.4"}
 
 ### 删除条目(entry) {id="remove-entries"}
 

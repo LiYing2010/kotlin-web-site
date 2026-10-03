@@ -22,7 +22,7 @@ concepts behind React may help you understand some sample code, but it is not st
 
 ## Before you start
 
-1. Download and install the latest version of [IntelliJ IDEA](https://www.jetbrains.com/idea/download/index.html).
+1. Download and install the latest version of [IntelliJ IDEA](https://www.jetbrains.com/idea/download/).
 2. Clone the [project template](https://github.com/kotlin-hands-on/web-app-react-kotlin-js-gradle) and open it in IntelliJ
    IDEA. The template includes a basic Kotlin Multiplatform Gradle project with all required configurations and dependencies
 
@@ -622,7 +622,7 @@ React makes sure that props can only be passed from a parent component to its ch
 being hard-wired together.
 
 If a component wants to change state of a sibling component, it needs to do so via its parent.
-At that point, state also no longer belongs to any of the child components but to the overarching parent component.
+At that point, the state also no longer belongs to any of the child components but to the overarching parent component.
 
 The process of migrating state from components to their parents is called _lifting state_. For your app, add `currentVideo`
 as state to the `App` component:
@@ -702,7 +702,7 @@ Remember that in Kotlin, variables can have the [type of a function](lambdas.md#
 
 4. Repeat the previous step for the watched videos list.
 
-Switch back to your browser and make sure that when selecting a video the selection jumps between the two lists without duplication.
+Switch back to your browser and make sure that when selecting a video, the selection jumps between the two lists without duplication.
 
 ## Add more components
 

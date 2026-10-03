@@ -82,7 +82,7 @@ Kotlin 使用函数类型(Function Type), 比如 `(Int) -> String` .
   `A.(B) -> C` 表示一个可以对类型为 `A` 的接受者调用的函数, 参数类型为`B`, 返回值类型为 `C`.
   对这种函数类型, 我们经常使用 [带接受者的函数字面值](#function-literals-with-receiver).
 
-* [挂起函数(Suspending function)](coroutines-basics.md#extract-function-refactoring) 是一种特殊类型的函数,
+* [挂起函数(Suspending function)](coroutines-basics.md) 是一种特殊类型的函数,
   它的声明带有一个特殊的 *suspend* 修饰符, 比如: `suspend () -> Unit`, 或者: `suspend A.(B) -> C`.
 
 函数类型的声明也可以指定函数参数的名称: `(x: Int, y: Int) -> Point`.
@@ -190,7 +190,7 @@ fun main() {
 ```
 {kotlin-runnable="true"}
 
-### 内联函数(Inline Function)
+### 内联函数(Inline Function) {id="inline-functions"}
 
 有些时候, 使用 [内联函数](inline-functions.md) 可以为高阶函数实现更加灵活的控制流程.
 
@@ -210,6 +210,13 @@ max(strings, { a, b -> a.length < b.length })
 
 ```kotlin
 fun compare(a: String, b: String): Boolean = a.length < b.length
+```
+
+你也可以使用 `suspend` 关键字创建一个 _挂起的 Lambda 表达式_.
+挂起的 Lambda 表达式的函数类型是 `suspend () -> Unit`, 它可以调用其它挂起函数:
+
+```kotlin
+val suspendingTask = suspend { doSuspendingWork() }
 ```
 
 ### Lambda 表达式的语法 {id="lambda-expression-syntax"}
@@ -294,7 +301,7 @@ strings.filter { it.length == 5 }.sortedBy { it }.map { it.uppercase() }
 map.forEach { (_, value) -> println("$value!") }
 ```
 
-### 在 Lambda 表达式中使用解构声明
+### 在 Lambda 表达式中使用解构声明 {id="destructuring-in-lambdas"}
 
 关于在 Lambda 表达式中使用解构声明,
 请参见 [解构声明(destructuring declaration)](destructuring-declarations.md#destructuring-in-lambdas).
@@ -339,7 +346,7 @@ Lambda 表达式与匿名函数之间的另一个区别是,
 也就是说, Lambda 表达式内的 `return` 将会从包含这个 Lambda 表达式的函数中返回,
 而匿名函数内的 `return` 只会从匿名函数本身返回.
 
-### 闭包(Closure)
+### 闭包(Closure) {id="closures"}
 
 Lambda 表达式, 匿名函数 (此外还有 [局部函数](functions.md#local-functions), [对象表达式](object-declarations.md#object-expressions)) 可以访问它的 _闭包_,
 也就是, 定义在外层范围中的变量. 闭包中捕获的变量在 Lambda 表达式内是可以修改的:

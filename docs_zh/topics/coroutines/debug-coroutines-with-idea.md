@@ -4,7 +4,7 @@
 
 本教程假定你已经了解了 [协程](coroutines-guide.md) 的基本概念.
 
-## 创建协程
+## 创建协程 {id="create-coroutines"}
 
 1. 在 IntelliJ IDEA 中打开一个 Kotlin 项目. 如果你没有项目, 请 [创建一个项目](jvm-get-started.md#create-an-application).
 
@@ -64,7 +64,7 @@
 
     ![构建一个应用程序](flow-build-project.png)
 
-## 调试协程
+## 调试协程 {id="debug-coroutines"}
 
 1. 在 `println()` 函数调用的行设置断点:
 
@@ -102,7 +102,7 @@
 
 使用 IntelliJ IDEA 调试器, 你可以深入挖掘各个协程的信息, 调试你的代码.
 
-### 被优化的变量
+### 被优化的变量 {id="optimized-out-variables"}
 
 如果你使用 `suspend` 函数, 那么在调试器中, 你可能会在变量名称旁边看到 "was optimized out" 文字:
 

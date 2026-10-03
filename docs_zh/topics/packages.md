@@ -1,74 +1,139 @@
-[//]: # (title: 包(Package)与导入(Import))
+[//]: # (title: 包与导入)
 
-源代码文件的开始部分可以是包声明:
+在 Kotlin 项目中, 使用包和导入来组织代码:
+
+* **包** 是一个或多个 Kotlin 文件的容器. 文件通过 `package` 头关联到包.
+* **导入** 是一种指令, 让当前文件可以使用其他包中的实体.
+
+## 包头 {id="package-headers"}
+
+源文件可以以包头开始:
 
 ```kotlin
 package org.example
 
 fun printMessage() { /*...*/ }
-class Message { /*...*/ }
-
-// ...
+class Message(val text: String) { /*...*/ }
 ```
 
-源代码内的所有内容, 比如类, 函数, 全部都包含在所声明的包之内.
-因此, 上面的示例代码中, `printMessage()` 函数的完整名称将是 `org.example.printMessage`,
-`Message` 类的完整名称将是 `org.example.Message`.
+源文件中的所有内容, 例如类和函数, 都属于这个包.
+包名称和实体名称组合成它们的完全限定名称(Fully Qualified Name).
+在这个示例中:
 
-如果没有指定包, 那么源代码文件中的内容将属于 _默认_ 包, 这个包没有名称.
+* `printMessage()` 的完全限定名称是 `org.example.printMessage`.
+* `Message` 的完全限定名称是 `org.example.Message`.
 
-## 默认导入
+如果文件没有包头, 那么它的内容属于根包(Root Package).
 
-以下各个包会被默认导入到每一个 Kotlin 源代码文件:
+## 导入 {id="imports"}
 
-- [kotlin.*](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/index.html)
-- [kotlin.annotation.*](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.annotation/index.html)
-- [kotlin.collections.*](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/index.html)
-- [kotlin.comparisons.*](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.comparisons/index.html)
-- [kotlin.io.*](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.io/index.html)
-- [kotlin.ranges.*](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.ranges/index.html)
-- [kotlin.sequences.*](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.sequences/index.html)
-- [kotlin.text.*](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.text/index.html)
+要使用其他包中的文件中的实体, 请使用 `import` 指令.
+除了默认导入外, 每个文件还可以声明自己的导入.
 
-根据编译的目标平台不同, 还会导入以下包:
+### 导入单个实体 {id="import-a-single-entity"}
 
-- JVM 平台:
-  - java.lang.*
-  - [kotlin.jvm.*](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/index.html)
-
-- JavaScript 平台:
-  - [kotlin.js.*](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.js/index.html)
-
-## 导入(Import) {id="imports"}
-
-除默认导入(Import)的内容之外, 各源代码可以包含自己独自的 `import` 指令.
-
-我们可以导入一个单独的名称:
+导入特定实体, 然后就可使用它, 不需要限定名称:
 
 ```kotlin
-import org.example.Message // 导入后 Message 就可以直接访问, 不必指定完整的限定符
+// 可以访问 Message, 不需要限定名称
+import org.example.Message
+
+fun main() {
+    val message = Message("Hello")
+    println(message.text)
+}
 ```
 
-也可以导入某个范围之内所有可访问的内容, 比如包, 类, 对象, 等等:
+### 导入作用域的内容 {id="import-the-contents-of-a-scope"}
+
+星号导入, 以星号 `*` 结尾, 会导入相应的作用域中的所有命名实体:
 
 ```kotlin
-import org.example.* // 导入后 'org.example' 内的一切都可以访问了
+// 可以访问 org.example 中的所有内容
+import org.example.*
+
+fun main() {
+    printMessage()
+    val message = Message("Hi")
+}
 ```
 
-如果发生了名称冲突, 你可以使用 `as` 关键字, 给重名实体指定新的名称(新名称仅在当前范围内有效):
+如果对一个实体同时使用星号导入和明确导入, 在重载解析时, 明确导入具有更高优先级.
+
+### 使用别名解决名称冲突 {id="resolve-name-clashes-with-aliases"}
+
+如果导入的两个实体具有相同名称, 请使用 `as` 关键字, 在本地对其中一个重新命名:
 
 ```kotlin
-import org.example.Message // 导入后 Message 可以访问了
-import org.test.Message as TestMessage // 可以使用新名称 TestMessage 来访问 'org.test.Message'
+// Message 指向 org.example.Message
+import org.example.Message
+
+// TestMessage 指向 org.test.Message
+import org.test.Message as TestMessage
+
+fun main() {
+    val a = Message("from example")
+    val b = TestMessage("from test")
+}
 ```
 
-`import` 关键字不仅可以用来导入类; 还可以用来导入其他声明:
+### 可以导入的内容 {id="what-you-can-import"}
 
-  * 顶级(top-level) 函数和属性
-  * [对象声明](object-declarations.md#object-declarations-overview) 中定义的函数和属性
-  * [枚举常数](enum-classes.md)
+`import` 关键字不仅限于类. 你可以导入以下任何实体, 无论它们来自包, 类, 对象, 还是枚举:
 
-## 顶级(top-level) 声明的可见度
+* 直接在包中声明的顶层函数和属性:
+    ```kotlin
+    import org.example.printMessage // 顶层函数
+    import org.example.VERSION      // 顶层属性
+    ```
+* [对象声明](object-declarations.md#object-declarations-overview) 中的函数和属性:
+    ```kotlin
+    import org.example.Config.DEFAULT_TIMEOUT // 对象中的属性
+    import org.example.Config.loadSettings    // 对象中的函数
+    ```
+* [同伴对象](object-declarations.md#companion-objects) 的成员, 通过包含它的类名引用:
+    ```kotlin
+    import org.example.MyClass.create // 指向 MyClass.Companion.create
+    ```
+* [枚举常量](enum-classes.md):
+    ```kotlin
+    import org.example.Color.RED
+    import org.example.Color.GREEN
+    ```
+* 嵌套类:
+    ```kotlin
+    import org.example.Outer.Nested
+    ```
 
-如果一个顶级(top-level) 声明被标注为 `private`, 它将成为私有的,
-只有在它所属的文件内可以访问(参见 [可见度修饰符](visibility-modifiers.md)).
+## 默认导入 {id="default-imports"}
+
+Kotlin 默认包含以下导入:
+
+* [kotlin.*](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/index.html)
+* [kotlin.annotation.*](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.annotation/index.html)
+* [kotlin.collections.*](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/index.html)
+* [kotlin.comparisons.*](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.comparisons/index.html)
+* [kotlin.io.*](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.io/index.html)
+* [kotlin.ranges.*](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.ranges/index.html)
+* [kotlin.sequences.*](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.sequences/index.html)
+* [kotlin.text.*](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.text/index.html)
+* [kotlin.math.*](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.math/index.html)
+
+Kotlin 还会根据目标平台额外导入以下包:
+
+* JVM:
+  * [java.lang.*](https://docs.oracle.com/javase/8/docs/api/java/lang/package-summary.html)
+  * [kotlin.jvm.*](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/index.html)
+
+* JS:
+  * [kotlin.js.*](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.js/index.html)
+
+## 可见度与导入 {id="visibility-and-imports"}
+
+能否导入一个实体, 取决于它的 [可见度修饰符](visibility-modifiers.md):
+
+* `public` 实体可以在任何位置导入.
+* `internal` 实体只能在同一模块内导入.
+* `protected` 实体无法导入.
+* 顶层 `private` 实体只能在声明它们的文件中访问.
+* 其他 `private` 实体无法导入.

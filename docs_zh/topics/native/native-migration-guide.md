@@ -35,7 +35,7 @@
 
 ## 更新依赖项 {id="update-dependencies"}
 
-<deflist style="medium">
+<deflist type="medium">
     <def title="kotlinx.coroutines">
         <p>
             更新到 1.6.0 或更高版本. 不要使用带 <code>native-mt</code> 后缀的版本.

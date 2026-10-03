@@ -1,15 +1,5 @@
 [//]: # (title: 函数)
 
-<tldr>
-    <p><img src="icon-1-done.svg" width="20" alt="第 1 步" /> <a href="kotlin-tour-hello-world.md">Hello world</a><br />
-        <img src="icon-2-done.svg" width="20" alt="第 2 步" /> <a href="kotlin-tour-basic-types.md">基本类型</a><br />
-        <img src="icon-3-done.svg" width="20" alt="第 3 步" /> <a href="kotlin-tour-collections.md">集合(Collection)</a><br />
-        <img src="icon-4-done.svg" width="20" alt="第 4 步" /> <a href="kotlin-tour-control-flow.md">控制流</a><br />
-        <img src="icon-5.svg" width="20" alt="第 5 步" /> <strong>函数</strong><br />
-        <img src="icon-6-todo.svg" width="20" alt="第 6 步" /> <a href="kotlin-tour-classes.md">类</a><br />
-        <img src="icon-7-todo.svg" width="20" alt="第 7 步" /> <a href="kotlin-tour-null-safety.md">Null 值安全性</a></p>
-</tldr>
-
 在 Kotlin 中, 你可以使用 `fun` 关键字声明你自己的函数.
 
 ```kotlin
@@ -217,10 +207,16 @@ fun main() {
 
 写一个名为 `circleArea` 的函数, 接受一个整数参数, 表示圆的半径, 输出圆的面积大小.
 
-> 在这个习题中, 你会导入一个包, 以便通过 `PI` 来访问 pi 值.
+> 在这个习题中, 你会导入一个包, 以便通过 `PI` 来访问 <math>π</math> 值.
 > 关于包的导入, 更多详情请参见 [包与导入](packages.md).
 >
 {style="tip"}
+
+<deflist collapsible="true" id="kotlin-tour-functions-exercise-1-hint">
+    <def title="提示">
+        圆面积的计算公式是 <math>πr^2</math>, 其中 <math>r</math> 是半径.
+    </def>
+</deflist>
 
 |---|---|
 ```kotlin
@@ -394,10 +390,11 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-lambda-filter"}
 
-`.filter()` 函数接受一个 Lambda 表达式, 作为判定条件:
+`.filter()` 函数接受一个 Lambda 表达式作为判定条件, 并将它应用于列表的每个元素.
+只有在判定条件返回 `true` 时, 元素才会保留:
 
-* `{ x -> x > 0 }` 接受 List 中的每个元素, 只返回正数.
-* `{ x -> x < 0 }` 接受 List 中的每个元素, 只返回负数.
+* `{ x -> x > 0 }`, 如果元素为正数, 则返回 `true`.
+* `{ x -> x < 0 }`, 如果元素为负数, 则返回 `true`.
 
 这个示例演示了将 Lambda 表达式传递给函数的两种方式:
 
@@ -416,7 +413,7 @@ fun main() {
 >
 {style="note"}
 
-另一个好的例子是, 使用 [`.map()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/map.html)
+另一个很好的例子是, 使用 [`.map()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/map.html)
 函数, 对集合中的元素进行变换:
 
 ```kotlin
@@ -550,7 +547,7 @@ fun main() {
 
 本教程的下一章是学习 Kotlin 中的 [类](kotlin-tour-classes.md).
 
-## Lambda 表达式的实际练习 {id="lambda-expressions-practice"}
+## Lambda 表达式的实际练习 {completion-point="true" id="lambda-expressions-practice"}
 
 ### 习题 1 {initial-collapse-state="collapsed" collapsible="true" id="lambdas-exercise-1"}
 
@@ -615,6 +612,13 @@ fun main() {
 ```
 {initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-lambdas-solution-2"}
 
-## 下一步 {id="next-step"}
+<seealso></seealso>
 
-[类](kotlin-tour-classes.md)
+<list columns="2" id="tour-nav">
+  <li>
+    <a as="button" href="kotlin-tour-control-flow.md" mode="outline" icon="arrow-left" icon-position="left">上一步</a>
+  </li>
+  <li>
+    <a as="button" href="kotlin-tour-classes.md" mode="classic" icon="arrow-right" icon-position="right">下一步</a>
+  </li>
+</list>

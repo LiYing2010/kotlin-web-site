@@ -1,16 +1,4 @@
-[//]: # (title: 中级教程: Null 值安全性)
-
-<tldr>
-    <p><img src="icon-1-done.svg" width="20" alt="First step" /> <a href="kotlin-tour-intermediate-extension-functions.md">扩展函数</a><br />
-        <img src="icon-2-done.svg" width="20" alt="Second step" /> <a href="kotlin-tour-intermediate-scope-functions.md">作用域函数</a><br />
-        <img src="icon-3-done.svg" width="20" alt="Third step" /> <a href="kotlin-tour-intermediate-lambdas-receiver.md">带接受者的 Lambda 表达式</a><br />
-        <img src="icon-4-done.svg" width="20" alt="Fourth step" /> <a href="kotlin-tour-intermediate-classes-interfaces.md">类与接口</a><br />
-        <img src="icon-5-done.svg" width="20" alt="Fifth step" /> <a href="kotlin-tour-intermediate-objects.md">对象</a><br />
-        <img src="icon-6-done.svg" width="20" alt="Sixth step" /> <a href="kotlin-tour-intermediate-open-special-classes.md">开放类与特殊类</a><br />
-        <img src="icon-7-done.svg" width="20" alt="Seventh step" /> <a href="kotlin-tour-intermediate-properties.md">属性</a><br />
-        <img src="icon-8.svg" width="20" alt="Eighth step" /> <strong>Null 值安全性</strong><br />
-        <img src="icon-9-todo.svg" width="20" alt="Ninth step" /> <a href="kotlin-tour-intermediate-libraries-and-apis.md">库与 API</a></p>
-</tldr>
+[//]: # (title: Null 值安全性)
 
 在初学者教程中, 你已经学习了如何在代码中处理 `null` 值.
 这一章介绍 Null 值安全性功能的常见使用场景, 以及如何充分利用这些功能.
@@ -187,7 +175,6 @@ fun main() {
 
 Kotlin 还提供了一些函数, 可以在集合中查找值. 如果值没有找到, 这些函数会返回 `null` 值, 而不是发生错误:
 
-* [`singleOrNull()`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/single-or-null.html) 根据确定的值, 只查找一个元素. 如果值不存在, 或者相同的值存在多个元素, 返回 `null` 值.
 * [`maxOrNull()`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/max-or-null.html) 查找最大值. 如果不存在, 返回 `null` 值.
 * [`minOrNull()`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/min-or-null.html) 查找最小值. 如果不存在, 返回 `null` 值.
 
@@ -198,11 +185,6 @@ fun main() {
 //sampleStart
     // 一周的温度记录
     val temperatures = listOf(15, 18, 21, 21, 19, 17, 16)
-
-    // 检查是否存在某一天的温度为 30 度
-    val singleHotDay = temperatures.singleOrNull()
-    println("Single hot day with 30 degrees: ${singleHotDay ?: "None"}")
-    // 输出结果为: Single hot day with 30 degrees: None
 
     // 查找一周中的最高温度
     val maxTemperature = temperatures.maxOrNull()
@@ -220,14 +202,37 @@ fun main() {
 
 这个示例中, 如果函数返回 `null` 值, 则使用 Elvis 操作符 `?:` 返回打印输出语句.
 
-> `singleOrNull()`, `maxOrNull()`, 和 `minOrNull()` 函数只能用于 **不** 包含 `null` 值的集合.
+> `maxOrNull()`, 和 `minOrNull()` 函数只能用于 **不** 包含 `null` 值的集合.
 > 否则, 你就无法区分: 函数找不到需要的值? 还是它找到了 `null` 值?
+>
+{style="note"}
+
+你可以使用 [`singleOrNull()`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/single-or-null.html) 函数,
+以 Lambda 表达式作为参数, 来查找匹配条件的单个元素.
+如果值不存在, 或者相同的值存在多个元素, 这个函数返回 `null` 值.
+
+```kotlin
+fun main() {
+//sampleStart
+    // 一周的温度记录
+    val temperatures = listOf(15, 18, 21, 21, 19, 17, 16)
+
+    // 检查是否恰好有 1 天的温度为 30 度
+    val singleHotDay = temperatures.singleOrNull{ it == 30 }
+    println("Single hot day with 30 degrees: ${singleHotDay ?: "None"}")
+    // 输出结果为: Single hot day with 30 degrees: None
+//sampleEnd
+}
+```
+{kotlin-runnable="true" id="kotlin-tour-null-safety-singleornull"}
+
+> `singleOrNull()` 函数只能用于 **不** 包含 `null` 值的集合.
 >
 {style="note"}
 
 有些函数使用 Lambda 表达式来转换集合, 如果无法实现目的, 则返回 `null` 值.
 
-例如, 要使用 Lambda 表达式转换集合, 并返回第一个值非 `null` 的值, 请使用 [`firstNotNullOfOrNull()`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/first-not-null-of-or-null.html) 函数.
+要使用 Lambda 表达式转换集合, 并返回第一个值非 `null` 的值, 请使用 [`firstNotNullOfOrNull()`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/first-not-null-of-or-null.html) 函数.
 如果不存在这样的值, 函数返回 `null` 值:
 
 ```kotlin
@@ -249,7 +254,7 @@ fun main() {
 ```
 {kotlin-runnable="true" id="kotlin-tour-null-safety-firstnotnullofornull"}
 
-要使用 Lambda 函数顺序的处理每个集合元素, 并创建一个累计的值 (或者如果集合为空, 返回 `null` 值),
+要使用 Lambda 表达式顺序的处理每个集合元素, 并创建一个累计的值 (或者如果集合为空, 返回 `null` 值),
 请使用 [`reduceOrNull()`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.collections/reduce-or-null.html) 函数:
 
 ```kotlin
@@ -354,7 +359,7 @@ fun getNumberOfFriends(users: Map<Int, User>, userId: Int): Int {
 
 关于如何在代码中使用 `return`, 详情请参见 [返回与跳转](returns.md).
 
-## 实际练习 {id="practice"}
+## 实际练习 {completion-point="true" id="practice"}
 
 ### 习题 1 {initial-collapse-state="collapsed" collapsible="true" id="null-safety-exercise-1"}
 
@@ -596,7 +601,8 @@ fun main() {
 ```kotlin
 data class User(val username: String, val isActive: Boolean)
 
-fun getActiveUsernames(users: List<User>): List<String> = users.mapNotNull { user -> user.username.takeIf { user.isActive } }
+fun getActiveUsernames(users: List<User>): List<String> =
+    users.mapNotNull { user -> user.username.takeIf { user.isActive } }
 
 fun main() {
     val allUsers = listOf(
@@ -667,6 +673,13 @@ fun main() {
 ```
 {initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-null-safety-solution-4"}
 
-## 下一步 {id="next-step"}
+<seealso></seealso>
 
-[中级教程: 库与 API](kotlin-tour-intermediate-libraries-and-apis.md)
+<list columns="2" id="tour-nav">
+  <li>
+    <a as="button" href="kotlin-tour-intermediate-properties.md" mode="outline" icon="arrow-left" icon-position="left">上一步</a>
+  </li>
+  <li>
+    <a as="button" href="kotlin-tour-intermediate-libraries-and-apis.md" mode="classic" icon="arrow-right" icon-position="right">下一步</a>
+  </li>
+</list>

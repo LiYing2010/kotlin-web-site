@@ -40,7 +40,7 @@ class Group<T>(val name: String) {
 }
 ```
 
-### 块标签(Block Tag)
+### 块标签(Block Tag) {id="block-tags"}
 
 KDoc 目前支持以下块标签:
 
@@ -103,7 +103,7 @@ KDoc 目前支持以下块标签:
 >
 {style="note"}
 
-## 内联标记(Inline Markup)
+## 内联标记(Inline Markup) {id="inline-markup"}
 
 对于内联标记(inline markup), KDoc 使用通常的
 [Markdown](https://daringfireball.net/projects/markdown/syntax)
@@ -138,7 +138,7 @@ KDoc 目前支持以下块标签:
 由于 Kotlin 的文档生成工具会将所有重载函数的文档放在同一个页面之内,
 因此不必明确指定某一个具体的重载函数, 链接也可以正常工作.
 
-### 外部链接
+### 外部链接 {id="external-links"}
 
 要添加外部链接, 请使用通常的 Markdown 语法:
 
@@ -146,6 +146,6 @@ KDoc 目前支持以下块标签:
 关于 KDoc 语法的更多详情, 请参见 [KDoc](<example-URL>).
 ```
 
-## 下一步做什么?
+## 下一步做什么? {id="whats-next"}
 
 学习如何使用 Kotlin 的文档生成工具: [Dokka](dokka-introduction.md).

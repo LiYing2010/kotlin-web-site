@@ -1,15 +1,5 @@
 [//]: # (title: 基本类型)
 
-<tldr>
-    <p><img src="icon-1-done.svg" width="20" alt="第 1 步" /> <a href="kotlin-tour-hello-world.md">Hello world</a><br />
-        <img src="icon-2.svg" width="20" alt="第 2 步" /> <strong>基本类型</strong><br />
-        <img src="icon-3-todo.svg" width="20" alt="第 3 步" /> <a href="kotlin-tour-collections.md">集合(Collection)</a><br />
-        <img src="icon-4-todo.svg" width="20" alt="第 4 步" /> <a href="kotlin-tour-control-flow.md">控制流</a><br />
-        <img src="icon-5-todo.svg" width="20" alt="第 5 步" /> <a href="kotlin-tour-functions.md">函数</a><br />
-        <img src="icon-6-todo.svg" width="20" alt="第 6 步" /> <a href="kotlin-tour-classes.md">类</a><br />
-        <img src="icon-7-todo.svg" width="20" alt="第 7 步" /> <a href="kotlin-tour-null-safety.md">Null 值安全性</a></p>
-</tldr>
-
 在 Kotlin 中, 每个变量和数据结构都有一个类型.
 类型很重要, 因为它告诉编译器你可以对这个变量或数据结构做什么样的操作.
 也就是说, 这个变量或数据结构有什么函数和属性.
@@ -46,16 +36,16 @@ fun main() {
 
 总的来说, Kotlin 有以下数据类型:
 
-| **类别** | **基本类型**                           | **示例代码**                                                      |
-|--------|------------------------------------|---------------------------------------------------------------|
-| 整数     | `Byte`, `Short`, `Int`, `Long`     | `val year: Int = 2020`                                        |
-| 无符号整数  | `UByte`, `UShort`, `UInt`, `ULong` | `val score: UInt = 100u`                                      |
-| 浮点数    | `Float`, `Double`                  | `val currentTemp: Float = 24.5f`, `val price: Double = 19.99` |
-| 布尔值    | `Boolean`                          | `val isEnabled: Boolean = true`                               |
-| 字符     | `Char`                             | `val separator: Char = ','`                                   |
-| 字符串    | `String`                           | `val message: String = "Hello, world!"`                       |
+| **类别**                                  | **基本类型**                       | **示例代码**                                                      |
+|-------------------------------------------|------------------------------------|-------------------------------------------------------------------|
+| [整数](numbers.md#integer-types)          | `Byte`, `Short`, `Int`, `Long`     | `val year: Int = 2020`<br/> `val amount: Long = 350_000_000`      |
+| [无符号整数](unsigned-integer-types.md)   | `UByte`, `UShort`, `UInt`, `ULong` | `val score: UInt = 100u`                                          |
+| [浮点数](numbers.md#floating-point-types) | `Float`, `Double`                  | `val currentTemp: Float = 24.5f`<br/> `val price: Double = 19.99` |
+| [布尔值](booleans.md)                     | `Boolean`                          | `val isEnabled: Boolean = true`                                   |
+| [字符](characters.md)                     | `Char`                             | `val separator: Char = ','`                                       |
+| 字符串                                    | `String`                           | `val message: String = "Hello, world!"`                           |
 
-关于基本类型和它们的属性, 详情请参见 [基本类型](basic-types.md).
+关于基本类型和它们的属性, 详情请参见 [类型概述](types-overview.md).
 
 有了这些知识之后, 你可以声明变量, 并初始化这些变量.
 只要变量在第一次读取之前初始化, Kotlin 就能够正确处理这些变量.
@@ -100,7 +90,7 @@ fun main() {
 
 现在你已经知道了如何声明基本类型, 下面我们来学习 [集合(Collection)](kotlin-tour-collections.md).
 
-## 实际练习
+## 实际练习 {completion-point="true" id="practice"}
 
 ### 习题 {id="exercise" initial-collapse-state="collapsed" collapsible="true"}
 
@@ -132,6 +122,13 @@ fun main() {
 ```
 {initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-basic-types-solution"}
 
-## 下一步
+<seealso></seealso>
 
-[集合(Collection)](kotlin-tour-collections.md)
+<list columns="2" id="tour-nav">
+  <li>
+    <a as="button" href="kotlin-tour-hello-world.md" mode="outline" icon="arrow-left" icon-position="left">上一步</a>
+  </li>
+  <li>
+    <a as="button" href="kotlin-tour-collections.md" mode="classic" icon="arrow-right" icon-position="right">下一步</a>
+  </li>
+</list>

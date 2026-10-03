@@ -34,6 +34,28 @@
 **行为兼容性** 是指, 库的新版本不会修改原有的功能, Bug 修正除外.
 功能特性是相同的, 语义也是相同的.
 
+## 选择兼容的语言版本和 API 版本 {id="choose-compatible-language-and-api-versions"}
+
+在发布库时, 要同时考虑它的编译期间和运行期间的兼容性:
+
+* [语言版本](compiler-reference.md#language-version-version) 决定哪些 Kotlin 编译器版本能够编译直接使用你的库的代码.
+* [API 版本](compiler-reference.md#api-version-version) 决定在运行期间需要的 Kotlin 标准库最低版本.
+
+大多数情况下, 请使用相同的语言版本和 API 版本.
+
+如果对你的库设置更高的语言版本, 会要求你的使用者使用更高的 Kotlin 编译版本:
+
+* 在 JVM 上, 使用者可以使用这个语言版本之前一个版本以上的任何编译器版本.
+  例如, 如果你的库使用语言版本 2.2, 使用者可以使用编译器版本 2.1.x, 2.2.x 或更高版本.
+* 在其它平台上, 使用者可以使用与库配置的语言版本相同或以上的任何编译器版本.
+  如果使用者无法立即升级他们的编译器, 这个要求可能导致他们延缓升级到你的库的新版本.
+
+你的使用者还需要提供至少不低于你的库配置的 API 版本的 Kotlin 标准库版本.
+如果运行期环境不受使用者控制, 并且难以提供更高的标准库版本时, 例如在 Gradle 中, 或在 IDE plugin 中, 这个要求可能导致升级更加困难.
+
+请选择最适合你的库的语言版本和 API 版本. 更高的版本让你能够使用最新的 Kotlin 功能特性, 而更低的版本可以帮助更多的使用者使用你的库.
+最好的选择取决于你的库的使用场景, 以及依赖它的使用者数量.
+
 ## 使用二进制兼容性验证器 {id="use-the-binary-compatibility-validator"}
 
 JetBrains 提供了一个 [二进制兼容性验证器](https://github.com/Kotlin/binary-compatibility-validator) 工具,
@@ -97,7 +119,7 @@ fun Int.defaultDeserializer() = JsonOrXmlDeserializer({ ... }, { ... })
 ## 不要向既有的 API 函数添加参数 {id="avoid-adding-arguments-to-existing-api-functions"}
 
 向 public API 添加非默认的参数会同时破坏二进制兼容性和源代码兼容性, 因为使用者需要对一个函数调用提供比以前更多的信息.
-但是, 即使是添加 [默认参数](functions.md#default-arguments) 也可能破坏兼容性.
+但是, 即使是添加 [默认参数](functions.md#parameters-with-default-values) 也可能破坏兼容性.
 
 例如, 假设你在 `lib.kt` 中有下面的函数:
 
@@ -140,28 +162,31 @@ Exception in thread "main" java.lang.NoSuchMethodError: 'int LibKt.fib()'
 
 但是, 保持了源代码兼容性. 如果你重新编译两个文件, 程序就能够像以前一样运行.
 
-### 使用重载(overload)保持兼容性 {id="use-overloads-to-preserve-compatibility" initial-collapse-state="collapsed" collapsible="true"}
+### 使用重载(overload)保持二进制兼容性 {id="use-overloads-to-preserve-binary-compatibility" initial-collapse-state="collapsed" collapsible="true"}
 
-在针对 JVM 编写 Kotlin 代码时, 你可以对带有默认参数的函数使用 [`@JvmOverloads`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/) 注解.
-这样会产生这个函数的重载(overload), 对于每个带有默认值, 能够从参数列表最末尾省略的的参数, 都会生成一个对应的重载方法.
-通过这些分别生成的函数, 在参数列表的末尾添加一个新参数能够保持二进制兼容性, 因为它不会改变编译输出中任何原有的函数, 只是添加一个新的函数.
+在向公开的 API 添加可选的参数时, 你可以使用 [试验性](components-stability.md#stability-levels-explained) 的
+[`@IntroducedAt`](java-to-kotlin-interop.md#overloads-generation) 注解, 来保持二进制兼容性.
 
-例如, 上面的函数可以这样添加注解:
-
-```kotlin
-@JvmOverloads
-fun fib(input: Int = 0) = ...
-```
-
-这样, 在输出的字节码中会生成 2 个方法, 一个没有参数, 另一个有一个 `Int` 参数:
+向每个新增的可选参数添加这个注解, 并注明引入这个参数的版本.
+例如:
 
 ```kotlin
-public final static fib()I
-public final static fib(I)I
+@OptIn(ExperimentalVersionOverloading::class)
+fun fib(@IntroducedAt("1.1") input: Int = 0) = ...
 ```
 
-对于所有的 Kotlin 编译目标, 你可以选择为你的函数手动创建多个重载, 而不是接受默认参数的单个函数, 以保持二进制兼容性.
-在上面的示例中, 这就代表对希望接受 `Int` 参数的情况, 创建单独的 `fib` 函数:
+编译器使用这个信息, 相应的生成隐藏的重载(overload).
+
+在为 JVM 平台编写 Kotlin 代码时, 你也可以在带有默认参数的函数上使用
+[`@JvmOverloads`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/) 注解, 来生成重载(overload).
+
+> `@JvmOverloads` 注解对 Kotlin 调用者不保证二进制兼容性.
+> 相反, 在修改公开的 API 时, 要使用 `@IntroducedAt` 注解, 或者手动添加重载.
+>
+{style="warning"}
+
+你也可以手动创建重载, 而不是使用带有默认参数的单个函数.
+例如, 如果你希望 `fib()` 函数接受一个 `Int` 参数, 请创建单独的重载:
 
 ```kotlin
 fun fib() = ...

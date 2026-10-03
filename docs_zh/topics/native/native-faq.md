@@ -110,6 +110,19 @@ kotlin {
 如果你在使用旧版本的 Xcode, 但想要升级到 Kotlin 2.0.20 或更高版本,
 请在你的 Xcode 项目中禁用 Bitcode 内嵌功能.
 
+## 怎样获得更详细的 iOS 崩溃报告? {id="how-do-i-get-better-crash-reports-for-ios"}
+
+当未处理的 Kotlin 异常传递到 iOS 代码时, 崩溃报告工具可能会显示一条含糊的报告, 提示存在 Kotlin/Native 内部问题, 而不是指出抛出异常的实际代码行.
+出现这种情况的原因是, 在记录崩溃时, 原始的 Kotlin 栈追踪(Stacktrace)信息已经丢失了.
+
+你可以使用第三方解决方案来规避这个问题, 例如 [NSExceptionKt](https://github.com/rickclephas/NSExceptionKt),
+
+它会将未捕获的 Kotlin 异常 转换为 `NSException` 实例, 让你的崩溃报告工具能够捕获正确的栈追踪信息.
+它针对主流的崩溃报告工具提供了专门的集成支持:
+
+* [Bugsnag](https://github.com/rickclephas/NSExceptionKt/blob/master/NSExceptionKtBugsnag/README.md)
+* [Firebase Crashlytics](https://github.com/rickclephas/NSExceptionKt/blob/master/NSExceptionKtCrashlytics/README.md)
+
 ## 怎样在不同的协程中安全的引用对象? {id="how-do-i-reference-objects-safely-from-different-coroutines"}
 
 在 Kotlin/Native 中, 要在多个协程之间安全的访问或更新对象, 请考虑使用并发安全的构造, 例如 `@Volatile` 和 `AtomicReference`.

@@ -68,7 +68,7 @@
 
 通过 KDoc 文档格式, 你可以在你的文档注释中 [使用 Markdown 实现内联的标记](kotlin-doc.md#inline-markup).
 要在注释中使用内联的代码片段来演示 API 的使用方法.
-相关的示例, 请参见协程库的测试调度器的 [源代码](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-test/common/src/TestCoroutineDispatchers.kt) 和 [展示的文档](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-test/kotlinx.coroutines.test/-unconfined-test-dispatcher.html).
+相关的示例, 请参见协程库的测试派发器的 [源代码](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-test/common/src/TestCoroutineDispatchers.kt) 和 [展示的文档](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-test/kotlinx.coroutines.test/-unconfined-test-dispatcher.html).
 
 提供这样的示例, 可以不必编写冗长的描述文字, 来解释期望的输入, 可能的输出, 以及失败模式.
 但是, 每个示例的上下文, 以及它相关的情况, 都必须清晰.

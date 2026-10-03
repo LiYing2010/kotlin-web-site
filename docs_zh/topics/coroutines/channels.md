@@ -5,7 +5,7 @@
 延迟产生的数据提供了一种方便的方式可以在协程之间传递单个值.
 而通道则提供了另一种方式, 可以在协程之间传递数值的流.
 
-## 通道的基本概念
+## 通道的基本概念 {id="channel-basics"}
 
 [Channel] 在概念上非常类似于 `BlockingQueue`. 关键的不同是,
 它没有阻塞的 `put` 操作, 而是提供挂起的 [send][SendChannel.send] 操作,
@@ -48,7 +48,7 @@ Done!
 
 <!--- TEST -->
 
-## 通道的关闭与迭代
+## 通道的关闭与迭代 {id="closing-and-iteration-over-channels"}
 
 与序列不同, 通道可以关闭, 表示不会再有更多数据从通道传来了.
 在通道的接收端可以使用 `for` 循环很方便地从通道中接收数据.
@@ -88,7 +88,7 @@ fun main() = runBlocking {
 Done!
 -->
 
-## 构建通道的生产者(Producer)
+## 构建通道的生产者(Producer) {id="building-channel-producers"}
 
 在协程中产生一个数值序列, 这是很常见的模式.
 这是并发代码中经常出现的 _生产者(producer)/消费者(consumer)_ 模式的一部分.
@@ -129,7 +129,7 @@ fun main() = runBlocking {
 Done!
 -->
 
-## 管道(Pipeline)
+## 管道(Pipeline) {id="pipelines"}
 
 管道也是一种设计模式, 比如某个协程可能会产生出无限多个值:
 
@@ -199,7 +199,7 @@ Done!
 >
 {style="note"}
 
-## 使用管道寻找质数
+## 使用管道寻找质数 {id="prime-numbers-with-pipeline"}
 
 下面我们来编写一个示例程序, 使用协程的管道来生成质数, 来演示一下管道的极端用法.
 首先我们产生无限的整数序列.
@@ -293,7 +293,7 @@ fun CoroutineScope.filter(numbers: ReceiveChannel<Int>, prime: Int) = produce<In
 而且这些管道不能使用 `sequence`/`iterator` 来构建,
 因为这些函数不能允许任意的挂起, 而不像 `produce` 函数, 是完全异步的.
 
-## 扇出(Fan-out)
+## 扇出(Fan-out) {id="fan-out"}
 
 多个协程可能会从同一个通道接收数据, 并将计算工作分配给这多个协程.
 我们首先来创建一个生产者协程, 它定时产生整数(每秒 10 个整数):
@@ -379,7 +379,7 @@ Processor #3 received 10
 如果某个数据处理协程失败, 其他数据处理协程还会继续处理通道中的数据,
 而使用 `consumeEach` 编写的数据处理协程, 无论正常结束还是异常结束, 总是会消费(取消) 它的通道.
 
-## 扇入(Fan-in)
+## 扇入(Fan-in) {id="fan-in"}
 
 多个协程也可以向同一个通道发送数据.
 比如, 我们有一个字符串的通道, 还有一个挂起函数, 不断向通道发送特定的字符串, 然后暂停一段时间:
@@ -440,7 +440,7 @@ BAR!
 
 <!--- TEST -->
 
-## 带缓冲区的通道
+## 带缓冲区的通道 {id="buffered-channels"}
 
 到目前为止我们演示的通道都没有缓冲区. 无缓冲区的通道只会在发送者与接收者相遇时(也叫做会合(rendezvous))传输数据.
 如果先调用了发送操作, 那么它会挂起, 直到调用接收操作,
@@ -490,7 +490,7 @@ Sending 4
 
 前 4 个数据会被添加到缓冲区中, 然后在试图发送第 5 个数据时, 发送者协程会挂起.
 
-## 通道是平等的
+## 通道是平等的 {id="channels-are-fair"}
 
 如果从多个协程中调用通道的发送和接收操作, 从调用发生的顺序来看, 这些操作是 _平等的_.
 通道对这些方法以先进先出(first-in first-out)的顺序进行服务,
@@ -545,7 +545,7 @@ pong Ball(hits=4)
 注意, 由于使用的执行器(executor)的性质, 有时通道的运行结果可能看起来不是那么平等.
 详情请参见 [这个 issue](https://github.com/Kotlin/kotlinx.coroutines/issues/111).
 
-## 定时器(Ticker)通道
+## 定时器(Ticker)通道 {id="ticker-channels"}
 
 定时器(Ticker)通道是一种特别的会合通道(rendezvous channel), 每次通道中的数据耗尽之后, 它会延迟一个固定的时间, 并产生一个 `Unit`.
 虽然它单独看起来好像毫无用处, 但它是一种很有用的零件,

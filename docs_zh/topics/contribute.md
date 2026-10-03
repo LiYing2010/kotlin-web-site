@@ -40,7 +40,7 @@ Kotlin IDE plugin 是 [IntelliJ IDEA 代码仓库](https://github.com/JetBrains/
 
 然后按照各个库和工具的文档中的步骤进行, 比如
 [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization/blob/master/CONTRIBUTING.md),
-[ktor](https://github.com/ktorio/ktor/blob/master/CONTRIBUTING.md)
+[ktor](https://github.com/ktorio/ktor/blob/master/CONTRIBUTING.md),
 等等.
 
 如果你有一个库, 可能对其他开发者很有用, 请通过 <feedback@kotlinlang.org> 联系我们.

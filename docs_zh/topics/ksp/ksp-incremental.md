@@ -1,74 +1,147 @@
-[//]: # (title: 增量式处理(Incremental Processing))
+[//]: # (title: 增量处理(Incremental Processing))
 
-增量式处理是一种处理技术, 尽可能的避免重新处理源代码.
-增量式处理的主要目的是减少典型的修改-编译-测试循环的处理时间.
-请参见 Wikipedia 词条 [增量计算](https://en.wikipedia.org/wiki/Incremental_computing).
+KSP 支持增量处理(Incremental Processing): 只有当文件的一个或多个依赖项发生变化时, KSP 才会重新处理这个文件.
+这样可以避免不必要的重复处理, 缩短编译时间.
 
-为了检测哪个源代码是 _脏的(dirty)_ (也就是需要重新处理), KSP 需要处理器的帮助, 确定哪个输入源代码对应到哪个生成的输出.
-为了改善这种经常很累赘, 而且容易出错的处理,
-KSP 设计目标是 只需要处理器使用的最少量的 _根源代码_, 作为起点来浏览代码结构.
-也就是说, 如果 `KSNode` 从以下方式得到, 那么处理器需要将一个输出关联到对应的 `KSNode` 的源代码:
-* `Resolver.getAllFiles`
-* `Resolver.getSymbolsWithAnnotation`
-* `Resolver.getClassDeclarationByName`
-* `Resolver.getDeclarationsFromPackage`
+增量处理默认启用. 在排查问题时, 或需要强制执行完整重新构建时, 可以关闭这个功能.
+要关闭增量处理, 请在 `gradle.properties` 文件中添加以下内容:
 
-目前增量式处理会默认启用. 要关闭它, 请设置 Gradle 属性 `ksp.incremental=false`.
-要为依赖项和输出对应的脏文件集启用 log, 请使用 `ksp.incremental.log=true`.
-你可以在 `build` 输出目录中找到这些 log 文件, 扩展名为 `.log`.
+```properties
+ksp.incremental=false
+```
 
-在 JVM 平台, 默认会追踪 classpath 中的变更, 以及 Kotlin 和 Java 源代码的变更.
-如果要只追踪 Kotlin 和 Java 源代码的变更, 请设置 Gradle 属性 `ksp.incremental.intermodule=false`, 关闭对 classpath 中变更的追踪.
+## 脏文件 {id="dirty-files"}
 
-## 聚集(Aggregating) vs 隔离(Isolating) {id="aggregating-vs-isolating"}
+如果文件直接由开发者修改, 或受到其他脏文件变更的间接影响, 这个文件就被视为 _脏文件(Dirty File)_ (需要重新处理).
 
-与 [Gradle 注解处理](https://docs.gradle.org/current/userguide/java_plugin.html#sec:incremental_annotation_processing) 中的概念类似,
-KSP 支持 _聚集(Aggregating)_ 和 _隔离(Isolating)_ 模式. 注意, 与 Gradle 注解处理不同,
-KSP 将每个输出分类为聚集或隔离, 而不是对整个处理器分类.
+为了确定哪些源文件是脏文件, KSP 依赖处理器, 来建立生成的输出与对应的输入源文件之间的关联.
+发生变更时, KSP 利用这些关联来确定需要重新处理的源文件.
 
-聚集输出潜在的可以被任何输入变更影响, 不影响其他文件的删除文件除外.
-意思就是说, 任何输入变更都会导致一次所有聚集输出的重构建,
-因此, 会重新处理所有对应的注册过的, 新增的和修改的源代码文件.
+KSP 只要求最少量的根源文件(Root Source). 处理器使用这些文件作为入口, 浏览代码结构.
 
-例如, 收集带有一个特定注解的所有符号的输出, 会被认为是一个聚集输出.
+如果一个源文件中的符号是通过以下方法之一直接获取的, 这个文件就是根源文件:
 
-隔离输出只依赖于特定的源代码. 对其他源代码的变更不会影响隔离输出.
-注意, 与 Gradle 注解处理不同, 你可以对一个指定的输出定义多个源代码文件.
+* `Resolver.getAllFiles()`
+* `Resolver.getSymbolsWithAnnotation()`
+* `Resolver.getClassDeclarationByName()`
+* `Resolver.getDeclarationsFromPackage()`
 
-例如, 针对一个接口生成的实现类, 会被认为是隔离输出.
+处理器可以解析根源文件中的信息, 从其他源文件获取更多符号. KSP 会自动追踪这些依赖关系.
 
-总结来说, 如果一个输出 可能依赖于新的或任何变更过的源代码, 那么它被认为是聚集输出.
-否则, 是隔离输出.
+生成输出时, 处理器必须声明对这个输出有贡献的根源文件.
+KSP 会根据这些根源文件, 以及它的已追踪的依赖关系, 判断何时需要重新生成输出.
 
-下面是针对熟悉 Java 注解处理的读者的总结:
-* 在一个隔离的 Java 注解处理器中, KSP 中所有的输出都是隔离的.
-* 在一个聚集的 Java 注解处理器中, KSP 中有些输出可以是隔离的, 有些可以是聚集的.
+> 请使用 `CodeGenerator` 接口创建输出文件, 并将输入与输出关联起来.
+> 详情请参见 [源码中的 `CodeGenerator.kt`](https://github.com/google/ksp/blob/main/api/src/main/kotlin/com/google/devtools/ksp/processing/CodeGenerator.kt).
+>
+{style="tip"}
 
-### 实现细节 {id="how-it-is-implemented"}
+### 聚集输出(Aggregating Output)与隔离输出(Isolating Output) {id="aggregating-and-isolating-outputs"}
 
-依赖关系通过输入和输出文件的关联来计算, 而不是通过注解.
-这是一个多对多的关系.
+KSP 将生成的输出分为两类: 聚集输出(Aggregating Output)和隔离输出(Isolating Output).
 
-由输入-输出关联导致的脏文件传递规则是:
-1. 如果一个输入文件有变更, 它一定会被重新处理.
-2. 如果一个输入文件有变更, 而且它关联到一个输出, 那么关联到同一个输出的所有其他输入文件也会被重新处理.
-   这个规则是传递性的, 也就是说, 文件无效会重复发生, 直到没有新的脏文件.
-3. 关联到一个或多个聚集输出的所有输入文件都会被重新处理.
-   也就是说, 如果一个输入文件没有关联到任何聚集输出, 它不会被重新处理(除非它符合上面讲的规则 1 或 规则2).
+> 与 Gradle 的注解处理不同, KSP 对每个输出单独分类, 而不是对整个处理器分类.
+>
+{style="note"}
 
-原因如下:
-1. 如果一个输入有变更, 可能会引入新的信息, 因此处理器需要对这个输入再次运行.
-2. 一个输出由一组输入产生. 处理器可能需要所有的输入才能重新产生输出.
-3. `aggregating=true` 代表, 一个输出可能潜在的依赖于新的信息, 可能来自新的文件, 或者既有的但被变更的文件.
-   `aggregating=false` 代表, 处理器确定它的信息只来自特定的输入文件, 不会来自其它文件或新的文件.
+<deflist collapsible="true">
+<def title="聚集输出(Aggregating Output)">
 
-## 示例 1 {id="example-1"}
+聚集输出可能受到任何源文件中的变更的影响, 但不影响其他文件的删除除外.
 
-一个处理器读取 `A.kt` 中的类 `A` 和 `B.kt` 中的类 `B`, 其中 `A` 继承 `B`, 然后生成 `outputForA`.
-处理器通过 `Resolver.getSymbolsWithAnnotation` 得到 `A`,
-然后从 `A` 使用 `KSClassDeclaration.superTypes` 得到 `B`.
-因为 包含 `B` 是由于 `A` 造成的, 在 `outputForA` 的 `dependencies` 中不需要指定 `B.kt`.
-这种情况下你仍然可以指定 `B.kt`, 但不是必须的.
+任何输入变更都会触发所有聚集输出的重新构建, 并重新处理所有相应的, 已注册的, 新增的, 或修改的源文件.
+
+例如, 收集带有特定注解的所有符号的输出, 属于聚集输出.
+
+</def>
+<def title="隔离输出(Isolating Output)">
+
+隔离输出只依赖于指定的源文件.
+
+其他源文件的变更不会影响这个输出. 一个输出可以关联多个源文件.
+
+例如, 专门为某个接口生成的实现类, 属于隔离输出.
+
+</def>
+</deflist>
+
+### 脏状态的传播 {id="dirtiness-propagation"}
+
+KSP 通过以下方式传播脏状态:
+
+1. 通过 **解析追踪**:
+   类型解析是从一个文件访问另一个文件的唯一方式. 当处理器(明确的或隐含的)解析类型引用时,
+   KSP 会认为包含类型引用的文件, 与定义了影响解析结果的符号的所有文件之间存在依赖关系.
+   因此, 被解析符号的变更可能使引用它的文件变为脏文件.
+
+2. 通过 **输入与输出的对应关系**:
+   如果某个源文件发生变更或受到影响, 与它共用生成的输出的所有其他源文件也会被标记为受影响.
+   这样, 根据共用的输出, 相关的文件会被归入同一等价类中.
+
+> 规则 (1) 和 (2) 可能反复的相互触发.
+> 例如, 规则 (1) 可以触发规则 (2), 然后规则 (2) 又可以触发规则 (1).
+>
+{style="tip"}
+
+## 实现方式 {id="implementation"}
+
+依赖关系由输入和输出文件之间的多对多关系决定.
+
+KSP 按以下规则确定需要重新处理的文件:
+
+* 如果输入文件发生变更, 它一定会被重新处理.
+
+   **为什么?** 输入变更可能产生新的信息. 处理器需要使用这个输入文件再次运行.
+
+* 如果输入文件发生变更, 并且关联了某个输出, 那么关联同一个输出的所有其他输入文件也会被重新处理.
+  这一过程会反复进行, 直到没有新的脏文件.
+
+   **为什么?** 输出由一组输入生成. 处理器可能需要所有的输入, 才能重新生成这个输出.
+
+* 如果输入文件没有发生变更, 也没有关联到任何聚集输出, 它不会被重新处理.
+
+   **为什么?** 这个文件没有变更, 也没有关联聚集输出, 因此不会影响任何输出.
+   除非符合上述的某条规则, 否则它不会被重新处理.
+
+例如, 假设一个项目的结构如下:
+
+```none
+.
+├── src
+│   ├── sourceA.kt
+│   └── sourceB.kt
+└── generated
+    ├── outputA
+    └── outputB
+```
+
+处理器执行以下步骤:
+
+1. 读取 `sourceA`.
+
+2. 生成 `outputA`.
+
+3. 读取 `sourceB`.
+
+4. 生成 `outputB`.
+
+当 `sourceA` 发生变更时:
+
+* 如果 `outputB` 是聚集输出, KSP 会重新处理 `sourceA` 和 `sourceB`.
+
+* 如果 `outputB` 是隔离输出, KSP 只会重新处理 `sourceA`.
+
+如果新增了 `sourceC`:
+
+* 如果 `outputB` 是聚集输出, KSP 会重新处理 `sourceC` 和 `sourceB`.
+
+* 如果 `outputB` 是隔离输出, KSP 只会重新处理 `sourceC`.
+
+如果 `sourceA` 或 `sourceB` 被删除, KSP 不需要重新处理任何文件.
+
+## 处理器示例 {id="example-processor"}
+
+以下项目包含类 `A` 和 `B`, 其中 `A` 继承 `B`:
 
 ```kotlin
 // A.kt
@@ -83,7 +156,7 @@ class Example1Processor : SymbolProcessor {
     override fun process(resolver: Resolver) {
         val declA = resolver.getSymbolsWithAnnotation("Interesting").first() as KSClassDeclaration
         val declB = declA.superTypes.first().resolve().declaration
-        // B.kt 不是必须的, 因为它可以被 KSP 推断为一个依赖项
+        // 不需要声明 B.kt, 因为 KSP 可以将它推断为依赖项
         val dependencies = Dependencies(aggregating = true, declA.containingFile!!)
         // outputForA.kt
         val outputName = "outputFor${declA.simpleName.asString()}"
@@ -96,46 +169,51 @@ class Example1Processor : SymbolProcessor {
 }
 ```
 
-## 示例 2 {id="example-2"}
+为了生成 `outputForA`, 处理器会执行以下步骤:
 
-一个处理器读取 `sourceB`, 然后读取 `sourceA` 和 `outputB`, 然后生成 `outputA`.
+1. 调用 `Resolver.getSymbolsWithAnnotation`, 获取 `A`.
 
-如果修改了 `sourceA`:
-* 如果 `outputB` 是聚集的, 那么 `sourceA` 和 `sourceB` 都会被重新处理.
-* 如果 `outputB` 是隔离的, 那么只有 `sourceA` 会被重新处理.
+2. 对 `A` 调用 `KSClassDeclaration.superTypes`, 获取 `B`.
 
-如果添加了 `sourceC`:
-* 如果 `outputB` 是聚集的, 那么 `sourceC` 和 `sourceB` 都会被重新处理.
-* 如果 `outputB` 是隔离的, 那么只有 `sourceC` 会被重新处理.
+KSP 通过解析追踪来记录这一关系, 并自动将 `B` 记录为 `A` 的依赖项.
+因此, 不需要明确声明 `B.kt` 是 `outputForA` 的依赖项.
 
-如果删除了 `sourceA`, 那么没有任何代码需要重新处理.
+## 报告 Bug {id="reporting-bugs"}
 
-如果删除了 `sourceB`, 那么没有任何代码需要重新处理.
+如果遇到只在启用增量处理时才出现的错误, 请在 [GitHub 仓库](https://github.com/google/ksp/issues) 中创建 issue, 并附上相关的日志文件.
 
-## 如何判断文件是否为脏 {id="how-file-dirtiness-is-determined"}
+1. 在 `gradle.properties` 中添加以下内容, 启用增量处理的日志:
 
-一个脏文件 要么直接被用户 _修改_, 或者间接被其他脏文件 _影响_.
-KSP 通过 2 个步骤传播文件的变更:
-* 通过 _解析追踪(Resolution Tracing)_ 传播:
-  (隐含的或明确的)解析一个类型引用, 是从一个文件浏览到另一个文件的唯一方式.
-  处理器解析一个类型引用时, 如果在一个被修改或被影响的文件中包含变更, 可能影响到解析结果, 那么这个变更将会影响包含这个引用的文件.
-* 通过 _输入-输出对应关系(Input-Output Correspondence)_ 传播:
-  一个源代码文件被修改或被影响时, 如果其他源代码文件与这个文件存在共同的输出, 那么其他源代码文件也都会被影响.
+   ```properties
+   ksp.incremental.log=true
+   ```
 
-注意, 这 2 个步骤都是传递性的, 第 2 种会形成等价类(Equivalence Class).
+2. 执行一次成功完成的干净构建.
 
-## 报告 bug {id="reporting-bugs"}
+3. 将生成的日志文件复制到其他位置保存:
 
-要报告一个 bug, 请设置 Gradle 属性 `ksp.incremental=true` 和 `ksp.incremental.log=true`,
-然后执行一次 clean 构建.
-这个构建会产生 2 个 log 文件:
+   * `build/kspCaches/<source set>/logs/kspDirtySet.log`
+   * `build/kspCaches/<source set>/logs/kspSourceToOutputs.log`
 
-* `build/kspCaches/<source set>/logs/kspDirtySet.log`
-* `build/kspCaches/<source set>/logs/kspSourceToOutputs.log`
+4. 修改会触发问题的源文件, 然后再次运行构建.
 
-然后你可以运行有 bug 的增量构建, 会生成 2 个新的 log 文件:
+5. 在 GitHub issue 中附上成功构建和重现问题的构建所生成的日志文件.
 
-* `build/kspCaches/<source set>/logs/kspDirtySetByDeps.log`
-* `build/kspCaches/<source set>/logs/kspDirtySetByOutputs.log`
+### 可视化符号依赖图 {id="visualizing-the-symbol-dependency-graph"}
 
-这些 log 包含源代码和输出的文件名, 以及这些构建的时间戳.
+为了帮助调试增量处理, KSP 可以生成 Graphviz DOT 文件, 将从指定的符号开始的符号依赖图可视化.
+
+启用增量处理日志, 并指定用做可视化依赖图的起点的符号的 [完全限定名称](packages.md#package-headers):
+
+```properties
+ksp.incremental.log=true
+ksp.incremental.log.graph.origin=<fully-qualified-name>
+```
+
+如果通过命令行使用 KSP, 请添加以下选项:
+
+```bash
+-incremental-log=true -incremental-log.graph.origin=<fully-qualified-name>
+```
+
+DOT 文件会生成在 `logs` 目录中.

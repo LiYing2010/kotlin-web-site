@@ -31,7 +31,7 @@
 如果你目前在使用 CocoaPods plugin 来连接你的 Kotlin 框架, 首先请进行迁移.
 如果你的项目没有 CocoaPods 依赖项, [请跳过这一步](#connect-the-framework-to-your-project).
 
-### 从 CocoaPods plugin 迁移
+### 从 CocoaPods plugin 迁移 {id="migrate-from-the-cocoapods-plugin"}
 
 要从 CocoaPods plugin 迁移, 请进行以下步骤:
 
@@ -58,21 +58,34 @@
 
    ![添加运行脚本阶段](xcode-run-script-phase-1.png){width=700}
 
-5. 调整下面的脚本, 并粘贴到运行脚本(Run Script)栏:
+5. 调整下面的脚本, 并粘贴到新建的 Phase 的脚本(Script)文本栏:
 
    ```bash
+   if [ "YES" = "$OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED" ]; then
+       echo "Skipping Gradle build task invocation due to OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED environment variable set to \"YES\""
+       exit 0
+   fi
    cd "<跨平台项目的根目录路径>"
    ./gradlew :<共用的模块名称>:embedAndSignAppleFrameworkForXcode
    ```
 
    * 在 `cd` 命令中, 指定你的 Kotlin Multiplatform 项目的根目录路径, 例如, `$SRCROOT/..`.
-   * 在 `./gradlew` 命令中, 指定共用的模块名称, 例如, `:shared` 或 `:composeApp`.
+   * 在 `./gradlew` 命令中, 指定共用的模块名称, 例如, `:shared` 或 `:sharedUI`.
 
-   ![Add the script](xcode-run-script-phase-2.png){width=700}
+   当你启动 iOS 运行配置时, IntelliJ IDEA 和 Android Studio 会在启动 Xcode 构建之前构建 Kotlin 框架依赖项,
+   并将 `OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED` 环境变量设置为 "YES".
+   上面提供的 Shell 脚本会检查这个变量, 防止在 Xcode 中再次构建 Kotlin 框架.
+
+   > 当你对不支持 iOS 的项目启动 iOS 运行配置时, IDE 会建议设置构建防护 (Build Guard)来修正这个问题.
+   >
+   {style="note"}
 
 6. 禁用 **Based on dependency analysis** 选项.
 
+   ![Add the script](xcode-run-script-phase-2.png){width=700}
+
    这样会确保 Xcode 在每次构建期间运行脚本, 而且不会每次都警告缺少输出的依赖项.
+
 7. 将 **Run Script** 阶段移动到更高的位置, 放在 **Compile Sources** 阶段之前.
 
    ![拖动 Run Script 阶段](xcode-run-script-phase-3.png){width=700}

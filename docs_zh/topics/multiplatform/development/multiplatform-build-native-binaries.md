@@ -232,7 +232,7 @@ kotlin {
             api("org.example:not-exported-library:1.0")
         }
     }
-    macosX64("macos").binaries {
+    macosArm64("macos").binaries {
         framework {
             export(project(":dependency"))
             export("org.example:exported-library:1.0")
@@ -260,7 +260,7 @@ kotlin {
             api 'org.example:not-exported-library:1.0'
         }
     }
-    macosX64("macos").binaries {
+    macosArm64("macos").binaries {
         framework {
             export project(':dependency')
             export 'org.example:exported-library:1.0'
@@ -285,7 +285,7 @@ kotlin {
 
 当你导出一个依赖项, 它的所有 API 到会包含框架 API 中.
 编译器会向框架添加这个依赖项的代码, 即使你只使用了它的一小部分.
-这就使得对导出的依赖项 (以及某种程度上对它的依赖项) 死代码消除功能不再有效.
+这就使得对导出的依赖项 (以及某种程度上对它的依赖项) 死代码清除功能不再有效.
 
 默认情况下, 导出是非传递性的(non-transitively).
 也就是说, 如果你导出的库 `foo` 依赖于库 `bar`, 只有 `foo` 中的方法会被添加到输出的框架中.
@@ -425,7 +425,7 @@ plugins {
 
 kotlin {
     val xcf = XCFramework()
-    val iosTargets = listOf(iosX64(), iosArm64(), iosSimulatorArm64())
+    val iosTargets = listOf(iosArm64(), iosSimulatorArm64())
 
     iosTargets.forEach {
         it.binaries.framework {
@@ -448,7 +448,7 @@ plugins {
 
 kotlin {
     def xcf = new XCFrameworkConfig(project)
-    def iosTargets = [iosX64(), iosArm64(), iosSimulatorArm64()]
+    def iosTargets = [iosArm64(), iosSimulatorArm64()]
 
     iosTargets.forEach {
         it.binaries.framework {

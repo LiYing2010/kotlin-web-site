@@ -7,6 +7,7 @@
 * 参见示例项目: [带有多个目标平台的 Xcode 项目, 依赖于 Kotlin 库](https://github.com/Kotlin/kmp-with-cocoapods-multitarget-xcode-sample).
 
 </tldr>
+<show-structure for="chapter,procedure" depth="3"/>
 
 Kotlin CocoaPods Gradle plugin 是一个用来创建 Podspec 文件的工具.
 将你的 Kotlin 项目与 [CocoaPods 依赖项管理器](https://cocoapods.org/) 集成时, 会需要这些文件.
@@ -58,7 +59,6 @@ plugin 版本与 [Kotlin 发布版本](releases.md) 相同. 最新的稳定版�
 | iOS                 | macOS        | tvOS                 | watchOS                 |
 |---------------------|--------------|----------------------|-------------------------|
 | `iosArm64`          | `macosArm64` | `tvosArm64`          | `watchosArm64`          |
-| `iosX64`            | `macosX64`   | `tvosX64`            | `watchosX64`            |
 | `iosSimulatorArm64` |              | `tvosSimulatorArm64` | `watchosSimulatorArm64` |
 |                     |              |                      | `watchosArm32`          |
 |                     |              |                      | `watchosDeviceArm64`    |

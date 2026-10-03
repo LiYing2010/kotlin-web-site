@@ -1,6 +1,8 @@
 [//]: # (title: Kotlin 1.5.30 版中的新功能)
 
-_[发布日期: 2021/08/24](releases.md#release-details)_
+<web-summary>阅读 Kotlin 1.5.30 发布说明, 包括新的语言特性, Kotlin Multiplatform, JVM, Native, JS 的更新, 以及对 Gradle 和 Maven 的构建工具支持.</web-summary>
+
+_[发布日期: 2021/08/24](releases.md#release-history)_
 
 Kotlin 1.5.30 带来语言更新, 包括功能变更的预览, 平台支持与工具方面的大量改进, 以及新的标准库函数.
 
@@ -15,7 +17,11 @@ Kotlin 1.5.30 带来语言更新, 包括功能变更的预览, 平台支持与�
 
 <video src="https://www.youtube.com/v/rNbb3A9IdOo" title="Kotlin 1.5.30"/>
 
-## 语言功能
+> 关于 Kotlin 的发布周期, 详情请参见 [Kotlin 发布过程](releases.md).
+>
+{style="tip"}
+
+## 语言功能 {id="language-features"}
 
 Kotlin 1.5.30 提供了未来的语言功能变更的预览, 并带来了要求使用者同意的功能(Opt-in Requirement)和类型推断的改进:
 * [针对封闭类或布尔值的穷尽式(exhaustive) when 语句](#exhaustive-when-statements-for-sealed-and-boolean-subjects)
@@ -280,7 +286,7 @@ val map = buildMap {
 
 你还可以通过 `-language-version 1.6` 编译器选项启用这个功能.
 
-## Kotlin/JVM
+## Kotlin/JVM {id="kotlinjvm"}
 
 在 Kotlin 1.5.30 版中, Kotlin/JVM 新增了以下功能:
 * [创建注解类的实例](#instantiation-of-annotation-classes)
@@ -338,13 +344,13 @@ Kotlin 编译器可以读取多种类型的 [可否为 null(Nullability) 注解]
 `-Xnullability-annotations=@io.reactivex.rxjava3.annotations:strict`.
 注意, 所有这些可否为 null 不匹配, 默认设置为警告.
 
-## Kotlin/Native
+## Kotlin/Native {id="kotlinnative"}
 
 Kotlin/Native 包含以下变更和改进:
 * [支持 Apple Silicon](#apple-silicon-support)
 * [CocoaPods Gradle plugin 的 Kotlin DSL 的改进](#improved-kotlin-dsl-for-the-cocoapods-gradle-plugin)
 * [与 Swift 5.5 async/await 的交互(实验性功能)](#experimental-interoperability-with-swift-5-5-async-await)
-* [对象和伴随对象到 Swift/Objective-C 的映射的改进](#improved-swift-objective-c-mapping-for-objects-and-companion-objects)
+* [对象和同伴对象到 Swift/Objective-C 的映射的改进](#improved-swift-objective-c-mapping-for-objects-and-companion-objects)
 * [对 MinGW 编译目标废弃无导入库的 DLL 链接](#deprecation-of-linkage-against-dlls-without-import-libraries-for-mingw-targets)
 
 ### 支持 Apple Silicon {id="apple-silicon-support"}
@@ -370,7 +376,7 @@ Kotlin 1.5.30 引入了对 [Apple Silicon](https://support.apple.com/en-us/HT211
 
 ### CocoaPods Gradle plugin 的 Kotlin DSL 的改进 {id="improved-kotlin-dsl-for-the-cocoapods-gradle-plugin"}
 
-#### Kotlin/Native Framework 的新参数
+#### Kotlin/Native Framework 的新参数 {id="new-parameters-for-kotlinnative-frameworks"}
 
 Kotlin 1.5.30 带来了 CocoaPods Gradle plugin DSL 关于 Kotlin/Native Framework 的改进.
 除了 Framework 名称之外, 你还可以在 Pod 配置中指定其他参数:
@@ -399,7 +405,7 @@ cocoapods {
 }
 ```
 
-#### 对 Xcode 配置支持自定义名称
+#### 对 Xcode 配置支持自定义名称 {id="support-custom-names-for-xcode-configuration"}
 
 Kotlin CocoaPods Gradle plugin 在 Xcode 构建配置中支持自定义名称.
 如果你在 Xcode 中为构建配置使用了特殊的名称, 比如 `Staging`, 这个功能也可以帮助你.
@@ -439,9 +445,9 @@ cocoapods {
 目前来说, 我们提供这个功能的一个预览版, 带有一些限制, 我们期待得到你的意见反馈.
 请在 [这个 YouTrack issue](https://youtrack.jetbrains.com/issue/KT-47610) 中查看这个功能目前的状态, 并留下你的反馈意见.
 
-### 对象和伴随对象到 Swift/Objective-C 的映射的改进 {id="improved-swift-objective-c-mapping-for-objects-and-companion-objects"}
+### 对象和同伴对象到 Swift/Objective-C 的映射的改进 {id="improved-swift-objective-c-mapping-for-objects-and-companion-objects"}
 
-对于原生 iOS 开发者来说, 现在可以通过更加符合直觉的方式得到对象和伴随对象. 比如, 如果在 Kotlin 中你有以下对象:
+对于原生 iOS 开发者来说, 现在可以通过更加符合直觉的方式得到对象和同伴对象. 比如, 如果在 Kotlin 中你有以下对象:
 
 ```kotlin
 object MyObject {
@@ -476,7 +482,7 @@ MyClass.Companion.shared
 
 关于转换到 LLD 浏览器, 请在 [这个 YouTrack issue](https://youtrack.jetbrains.com/issue/KT-47605) 中提供你的反馈意见.
 
-## Kotlin Multiplatform
+## Kotlin Multiplatform {id="kotlin-multiplatform"}
 
 1.5.30 对于 Kotlin Multiplatform 带来了以下重要更新:
 * [在共用的原生代码中可以使用自定义 `cinterop` 库](#ability-to-use-custom-cinterop-libraries-in-shared-native-code)
@@ -491,7 +497,7 @@ Kotlin Multiplatform 提供了一个 [选项](multiplatform-share-on-platforms.m
 从 1.5.30 开始, 你可以使用你自定义的 `cinterop` 库.
 要启用这个功能, 请在你的 `gradle.properties` 中添加 `kotlin.mpp.enableCInteropCommonization=true` 属性:
 
-```none
+```properties
 kotlin.mpp.enableGranularSourceSetsMetadata=true
 kotlin.native.enableDependencyPropagation=false
 kotlin.mpp.enableCInteropCommonization=true
@@ -582,7 +588,7 @@ kotlin {
 
 当你声明 XCFramework 时, 会注册这些新的 Gradle task:
 * `assembleXCFramework`
-* `assembleDebugXCFramework` (debug 用 artifact, [包含 dSYMs](native-ios-symbolication.md))
+* `assembleDebugXCFramework` (debug 用 artifact, [包含 dSYMs](native-debugging.md#debug-ios-applications))
 * `assembleReleaseXCFramework`
 
 关于 XCFramework, 详情请参见 [这个 WWDC 视频](https://developer.apple.com/videos/play/wwdc2019/416/).
@@ -603,7 +609,7 @@ Kotlin 1.5.30 引入了一个新的默认发布设置:
 如果要关闭这个功能, 并对所有变体保持构建类型属性, 你可以设置这个 Gradle 属性:
 `kotlin.android.buildTypeAttribute.keep=true`.
 
-## Kotlin/JS
+## Kotlin/JS {id="kotlinjs"}
 
 在 1.5.30 中, Kotlin/JS 有 2 个主要改进:
 * [JS IR 编译器后端升级为 Beta 版](#js-ir-compiler-backend-reaches-beta)
@@ -614,7 +620,7 @@ Kotlin 1.5.30 引入了一个新的默认发布设置:
 1.4.0 版引入了 Kotlin/JS 的 [基于 IR 的编译器后端](whatsnew14.md#unified-backends-and-extensibility),
 当时是 [Alpha 版](components-stability.md), 现在升级为 Beta 版.
 
-以前, 我们发布了 [移植到 JS IR 后端的向导](js-ir-migration.md), 来帮助你将你的项目移植到新的后端.
+以前, 我们发布了迁移到 JS IR 后端的向导, 来帮助你将你的项目移植到新的后端.
 现在我们提供 [Kotlin/JS Inspection Pack](https://plugins.jetbrains.com/plugin/17183-kotlin-js-inspection-pack/) IDE plugin,
 它可以直接在 IntelliJ IDEA 中显示需要哪些修改.
 
@@ -623,9 +629,9 @@ Kotlin 1.5.30 引入了一个新的默认发布设置:
 Kotlin 1.5.30 带来了对 Kotlin/JS IR 后端的 JavaScript 源代码映射生成功能.
 这个功能可以改善启用 IR 后端时的 Kotlin/JS 调试体验, 支持所有的调试功能, 包括断点, 单步执行, 以及易读的调用栈信息, 带有正确的源代码引用.
 
-详情请参见 [如何在浏览器中或在 IntelliJ IDEA Ultimate 中调试 Kotlin/JS](js-debugging.md).
+详情请参见 [如何在浏览器中或在 IntelliJ IDEA 中调试 Kotlin/JS](js-debugging.md).
 
-## Gradle
+## Gradle {id="gradle"}
 
 为了 [改进 Kotlin Gradle plugin 使用者体验](https://youtrack.jetbrains.com/issue/KT-45778), 我们实现了以下功能:
 * [支持 Java 工具链](#support-for-java-toolchains), 包括 [可以使用 `UsesKotlinJavaToolchain` 接口对 Gradle 旧版本指定 JDK Home](#ability-to-specify-jdk-home-with-useskotlinjavatoolchain-interface)
@@ -820,7 +826,7 @@ project.tasks
 
 关于 Kotlin Daemon, 详情请参见 [Kotlin Daemon 以及它在 Gradle 中的使用](gradle-compilation-and-caches.md#the-kotlin-daemon-and-how-to-use-it-with-gradle).
 
-## 标准库
+## 标准库 {id="standard-library"}
 
 Kotlin 1.5.30 包括对标准库的 `Duration` 和 `Regex` API 的改进:
 * [改变了 `Duration.toString()` 的输出](#changing-duration-tostring-output)
@@ -1006,7 +1012,7 @@ fun main(){
 ```
 {kotlin-runnable="false"}
 
-## Serialization 的 1.3.0-RC 版
+## Serialization 的 1.3.0-RC 版 {id="serialization-130-rc"}
 
 发布了 `kotlinx.serialization` [1.3.0-RC](https://github.com/Kotlin/kotlinx.serialization/releases/tag/v1.3.0-RC) 版,
 包括新的 JSON 序列化功能:

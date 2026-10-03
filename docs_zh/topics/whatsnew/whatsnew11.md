@@ -1,8 +1,10 @@
 [//]: # (title: Kotlin 1.1 版中的新功能)
 
+<web-summary>阅读 Kotlin 1.1 发布说明, 包括新的语言特性, Kotlin/JVM, JS 的更新, 以及对 Gradle 和 Maven 的构建工具支持.</web-summary>
+
 _发布日期: 2016/02/15_
 
-## 目录
+## 目录 {id="table-of-contents"}
 
 * [协程(coroutine)](#coroutines-experimental)
 * [语言层的其他特性](#other-language-features)
@@ -10,7 +12,11 @@ _发布日期: 2016/02/15_
 * [JVM 环境(JVM Backend)](#jvm-backend)
 * [JavaScript 环境(JavaScript Backend)](#javascript-backend)
 
-## JavaScript
+> 关于 Kotlin 的发布周期, 详情请参见 [Kotlin 发布过程](releases.md).
+>
+{style="tip"}
+
+## JavaScript {id="javascript"}
 
 从 Kotlin 1.1 开始, JavaScript 编译环境不再是实验性的功能了. 目前已支持 Kotlin 语言的所有功能,
 而且有了很多新的工具, 可以实现与前端开发环境的集成. 关于这部分变化的详情, 请阅读[下文](#javascript-backend).
@@ -20,7 +26,7 @@ _发布日期: 2016/02/15_
 Kotlin 1.1 中关键性的新特性就是 *协程(coroutine)*, 这个特性可以支持 `async`/`await`, `yield` 等等类似的编程模式. Kotlin 的设计特性是, 协程的运行由库来实现, 而不是语言的一部分, 因此你不会被局限到某个特定的编程模式, 或者某个特定的并发库.
 
 一个协程实际上是一个轻量级的线程, 它可以被暂停, 然后在以后的某个时刻恢复运行.
-协程的支持依赖于 _[挂起函数(suspending function)](coroutines-basics.md#extract-function-refactoring)_:
+协程的支持依赖于 _[挂起函数(suspending function)](coroutines-basics.md)_:
 对函数的调用有可能导致一个协程挂起(suspend), 要启动一个新的协程我们通常使用匿名的挂起函数 (也就是. 挂起 lambda 表达式).
 
 我们来看一看 `async`/`await` 函数, 它们实现在一个外部库中, [kotlinx.coroutines](https://github.com/kotlin/kotlinx.coroutines):
@@ -76,7 +82,7 @@ fun main(args: Array<String>) {
 
 ## 语言层的其他特性 {id="other-language-features"}
 
-### 类型别名(Type alias)
+### 类型别名(Type alias) {id="type-aliases"}
 
 类型别名(type alias)功能允许你为已经存在的数据类型定义一个不同的名称.
 这个功能对于泛型类型非常有用, 比如集合, 对于函数类型也很有用.
@@ -115,7 +121,7 @@ fun main(args: Array<String>) {
 
 关于这个功能的详情, 请参见 [类型别名相关文档](type-aliases.md) 以及 [KEEP 文档](https://github.com/Kotlin/KEEP/blob/master/proposals/type-aliases.md).
 
-### 与对象实例绑定的可调用的引用
+### 与对象实例绑定的可调用的引用 {id="bound-callable-references"}
 
 现在你可以使用 `::` 操作符来得到一个 [成员的引用](reflection.md#function-references), 指向一个具体的对象实例的方法或属性.
 从前这样的功能只能通过 lambda 表达式来实现.
@@ -135,7 +141,7 @@ fun main(args: Array<String>) {
 
 关于这个功能的详情, 请参见 [参考文档](reflection.md) 以及 [KEEP 文档](https://github.com/Kotlin/KEEP/blob/master/proposals/bound-callable-references.md).
 
-### 封闭类(sealed class)与数据类(data class)
+### 封闭类(sealed class)与数据类(data class) {id="sealed-and-data-classes"}
 
 Kotlin 1.1 中删除了 Kotlin 1.0 中对封闭类(sealed class)与数据类(data class)的一些限制.
 过去, 封闭类的子类只能声明为封闭类的内嵌类(nested class), 现在这一限制已经删除, 你可以在同一个源代码文件的顶级(top level)位置定义顶级封闭类(top-level sealed class)的子类.
@@ -168,7 +174,7 @@ fun main(args: Array<String>) {
 或参见 [封闭类(sealed class)](https://github.com/Kotlin/KEEP/blob/master/proposals/sealed-class-inheritance.md)
 以及 [数据类(data class)](https://github.com/Kotlin/KEEP/blob/master/proposals/data-class-inheritance.md) 的 KEEP 文档.
 
-### 在 lambda 表达式中使用解构声明
+### 在 lambda 表达式中使用解构声明 {id="destructuring-in-lambdas"}
 
 现在你可以使用 [解构声明](destructuring-declarations.md) 语法, 将对象解构为多个值, 然后作为参数传递给 lambda 表达式.
 示例代码如下:
@@ -192,7 +198,7 @@ fun main(args: Array<String>) {
 关于这个功能的详情, 请参见 [解构声明相关文档](destructuring-declarations.md)
 以及 [KEEP 文档](https://github.com/Kotlin/KEEP/blob/master/proposals/destructuring-in-parameters.md).
 
-### 使用下划线代替未使用的参数
+### 使用下划线代替未使用的参数 {id="underscores-for-unused-parameters"}
 
 对于接受多个参数的 lambda 表达式, 你可以使用 `_` 来代替你不使用的参数:
 
@@ -225,7 +231,7 @@ fun main(args: Array<String>) {
 
 关于这个功能的详情, 请参见 [KEEP 文档](https://github.com/Kotlin/KEEP/blob/master/proposals/underscore-for-unused-parameters.md).
 
-### 在数字字面值中使用下划线
+### 在数字字面值中使用下划线 {id="underscores-in-numeric-literals"}
 
 与 Java 8 一样, Kotlin 现在也允许在数字字面值中使用下划线, 将数字分隔为多个部分, 以便阅读:
 
@@ -246,7 +252,7 @@ fun main(args: Array<String>) {
 
 关于这个功能的详情, 请参见 [KEEP 文档](https://github.com/Kotlin/KEEP/blob/master/proposals/underscores-in-numeric-literals.md).
 
-### 更加简短的属性语法
+### 更加简短的属性语法 {id="shorter-syntax-for-properties"}
 
 如果一个属性的取值方法的函数体是一个表达式, 属性类型现在可以省略:
 
@@ -263,7 +269,7 @@ fun main(args: Array<String>) {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-### 内联的属性访问函数
+### 内联的属性访问函数 {id="inline-property-accessors"}
 
 如果属性不存在后端域变量(backing field), 那么你可以使用 `inline` 修饰符来标记属性的访问器方法.
 这样的访问器方法将会以 [内联函数](inline-functions.md) 相同的方式来编译.
@@ -287,7 +293,7 @@ fun main(args: Array<String>) {
 关于这个功能的详情, 请参见 [内联函数相关文档](inline-functions.md#inline-properties)
 以及 [KEEP 文档](https://github.com/Kotlin/KEEP/blob/master/proposals/inline-properties.md).
 
-### 局部的委托属性
+### 局部的委托属性 {id="local-delegated-properties"}
 
 你现在可以对局部变量使用 [委托属性](delegated-properties.md) 语法.
 这个功能可以用来定义一个延迟计算的局部变量:
@@ -316,7 +322,7 @@ fun main(args: Array<String>) {
 
 关于这个功能的详情, 请参见 [KEEP 文档](https://github.com/Kotlin/KEEP/blob/master/proposals/local-delegated-properties.md).
 
-### 委托属性绑定的拦截
+### 委托属性绑定的拦截 {id="interception-of-delegated-property-binding"}
 
 对于 [委托属性](delegated-properties.md), 现在可以使用 `provideDelegate` 操作符来拦截委托到属性的绑定.
 比如, 如果我们希望在绑定之前检查属性名称, 我们可以编写以下代码:
@@ -343,7 +349,7 @@ class MyUI {
 
 关于这个功能的详情, 请参见 [参考文档](delegated-properties.md).
 
-### 枚举值访问的通用方式
+### 枚举值访问的通用方式 {id="generic-enum-value-access"}
 
 现在可以使用泛型方式来列举一个枚举类(enum class)的所有值.
 
@@ -362,7 +368,7 @@ fun main(args: Array<String>) {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-### 对 DSL 中的隐含接受者, 控制其范围
+### 对 DSL 中的隐含接受者, 控制其范围 {id="scope-control-for-implicit-receivers-in-dsls"}
 
 [`@DslMarker`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-dsl-marker/index.html) 注解
 可以限制从 DSL 上下文的外部范围(outer scope)来访问接受者.
@@ -386,13 +392,13 @@ table {
 关于这个功能的详情, 请参见 [类型安全的构建器相关文档](type-safe-builders.md)
 以及 [KEEP 文档](https://github.com/Kotlin/KEEP/blob/master/proposals/scope-control-for-implicit-receivers.md).
 
-### rem 操作符
+### rem 操作符 {id="rem-operator"}
 
 `mod` 操作符现在已被废弃, 改为使用 `rem` 操作符. 关于这个变更的原因, 请参见 [这个问题](https://youtrack.jetbrains.com/issue/KT-14650).
 
 ## 标准库 {id="standard-library"}
 
-### 字符串到数值的转换
+### 字符串到数值的转换 {id="string-to-number-conversions"}
 
 对于 String 类, 新增了许多扩展函数, 用来将字符串转换为数值, 并且对不正确的数值不会抛出异常:
 `String.toIntOrNull(): Int?`, `String.toDoubleOrNull(): Double?` 等等.
@@ -404,7 +410,7 @@ val port = System.getenv("PORT")?.toIntOrNull() ?: 80
 同样也增加了整数的转换函数, 比如 `Int.toString()`, `String.toInt()`, `String.toIntOrNull()`,
 这些函数都有带 `radix` 参数的重载版本, 这个参数可用来指定转换时使用的底数(base)(允许使用的底数为 2 到 36 之间).
 
-### onEach()
+### onEach() {id="oneach"}
 
 对于集合和序列来说, `onEach` 是一个小的, 但非常有用的扩展函数, 这个函数可以对集合或序列中的所有元素来执行相同的操作,
 这个操作可能会带有副作用(side effect). 这个函数能够以操作链(chain of operation)的形式来使用.
@@ -418,7 +424,7 @@ inputDir.walk()
         .forEach { moveFile(it, File(outputDir, it.toRelativeString(inputDir))) }
 ```
 
-### also(), takeIf() 和 takeUnless()
+### also(), takeIf() 和 takeUnless() {id="also-takeif-and-takeunless"}
 
 新增了3个多用途的扩展函数, 可以用于任意类型的接受者.
 
@@ -502,7 +508,7 @@ fun main(args: Array<String>) {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-### groupingBy()
+### groupingBy() {id="groupingby"}
 
 这个 API 可以用来对一个集合按照某个 key 进行分组, 并同时合并所有的组. 比如, 可以用来计算一段文字中以各个字母开头的单词数量:
 
@@ -522,7 +528,7 @@ fun main(args: Array<String>) {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-### Map.toMap() 和 Map.toMutableMap()
+### Map.toMap() 和 Map.toMutableMap() {id="maptomap-and-maptomutablemap"}
 
 这两个函数可以用来简化 Map 的复制处理:
 
@@ -532,7 +538,7 @@ class ImmutablePropertyBag(map: Map<String, Any>) {
 }
 ```
 
-### Map.minus(key)
+### Map.minus(key) {id="mapminuskey"}
 
 `plus` 操作符提供了一个方法, 可以将键-值对(key-value pair)添加到一个只读的 map, 构造出一个新的 map,
 但是没有简单的办法进行相反的操作: 为了从 map 中删除一个 key, 你必须使用不那么直观的办法,
@@ -553,7 +559,7 @@ fun main(args: Array<String>) {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-### minOf() 和 maxOf()
+### minOf() 和 maxOf() {id="minof-and-maxof"}
 
 这些函数可用于在2个或3个给定的值中查找最小值和最大值, 查找对象必须是原始类型的数值, 或者是 `Comparable` 对象.
 这些函数还有一个重载版本, 可以接受一个额外的 `Comparator` 实例作为参数,
@@ -574,7 +580,7 @@ fun main(args: Array<String>) {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-### 类似数组风格的 List 创建函数
+### 类似数组风格的 List 创建函数 {id="array-like-list-instantiation-functions"}
 
 与 `Array` 的参见函数类似, 现在新增了用来创建 `List` 和 `MutableList` 实例的函数, 并且会通过调用 lambda 表达式来初始化列表中的元素:
 
@@ -591,7 +597,7 @@ fun main(args: Array<String>) {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-### Map.getValue()
+### Map.getValue() {id="mapgetvalue"}
 
 `Map` 的这个扩展函数会接受一个 key 作为参数, 如果这个 key 对应的值已经存在, 则返回这个值, 否则抛出一个异常, 表示没有找到这个 key.
 如果 Map 在创建时使用了 `withDefault`, 那么对于未找到的 key, 这个函数将会返回默认值, 而不会抛出异常.
@@ -616,14 +622,14 @@ fun main(args: Array<String>) {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-### 抽象的集合类
+### 抽象的集合类 {id="abstract-collections"}
 
 实现 Kotlin 集合类时, 可以使用这些抽象类作为基类.
 为了实现只读集合, 可以使用的基类有 `AbstractCollection`, `AbstractList`, `AbstractSet` 以及 `AbstractMap`,
 对于可变的集合, 可以使用的基类有 `AbstractMutableCollection`, `AbstractMutableList`, `AbstractMutableSet` 以及 `AbstractMutableMap`.
 在 JVM 环境中, 这些可变集合的抽象类的大多数功能, 通过继承 JDK 的集合抽象类得到.
 
-### 数组处理函数
+### 数组处理函数 {id="array-manipulation-functions"}
 
 标准库现在提供了一系列函数, 用于逐个元素的数组操作: 比较函数
 (`contentEquals` 和 `contentDeepEquals`), hash code 计算函数 (`contentHashCode` 和 `contentDeepHashCode`),
@@ -644,7 +650,7 @@ fun main(args: Array<String>) {
 
 ### 对 Java 8 字节码的支持 {id="java-8-bytecode-support"}
 
-Kotlin 现在增加了编译选项, 可以编译产生 Java 8 字节码(使用命令行选项 `-jvm-target 1.8`, 或 Ant/Maven/Gradle 中的对应选项).
+Kotlin 现在增加了编译选项, 可以编译产生 Java 8 字节码(使用命令行选项 `-jvm-target 1.8`, 或 Maven/Gradle 中的对应选项).
 这个选项目前不会改变字节码的语义(具体来说, 接口内的默认方法以及 lambda 表达式的编译输出方式会与 Kotlin 1.0 中完全相同),
 但我们将来计划对这个选项做更多的改进.
 
@@ -654,21 +660,21 @@ Kotlin 的标准库目前存在不同的版本, 分别支持 Java 7 和 8 中新
 如果你需要使用新的 API, 请不要使用标准的 Maven artifact `kotlin-stdlib`, 改用 `kotlin-stdlib-jre7` 和 `kotlin-stdlib-jre8`.
 这些 artifact 在 `kotlin-stdlib` 之上进行了微小的扩展, 而且会将 `kotlin-stdlib` 以传递依赖的方式引入到你的项目中.
 
-### 字节码中的参数名称
+### 字节码中的参数名称 {id="parameter-names-in-the-bytecode"}
 
 Kotlin 现在支持在字节码中保存参数名称. 可以使用命令行参数 `-java-parameters` 打开这个功能.
 
-### 常数内联(Constant inlining)
+### 常数内联(Constant inlining) {id="constant-inlining"}
 
 编译器现在可以将 `const val` 属性的值内联到这些属性被使用的地方.
 
-### 可变的闭包变量(Mutable closure variable)
+### 可变的闭包变量(Mutable closure variable) {id="mutable-closure-variables"}
 
 用于捕获 lambda 中的可变的闭包变量的封装类(box class) 不再拥有可变的域变量.
 这个变化改进了性能, 但在某些罕见的使用场景下, 可能会导致新的竞争条件(race condition).
 如果你受到这个问题的影响, 那么你在访问这些变量时, 需要自行实现同步控制.
 
-### 对 javax.script 的支持
+### 对 javax.script 的支持 {id="javaxscript-support"}
 
 Kotlin 目前集成了 [javax.script API](https://docs.oracle.com/javase/8/docs/api/javax/script/package-summary.html) (JSR-223).
 这个 API 可以在运行期执行代码片段:
@@ -681,7 +687,7 @@ println(engine.eval("x + 2"))  // 输出结果为: 5
 
 [这里](https://github.com/JetBrains/kotlin/tree/1.1.0/libraries/examples/kotlin-jsr223-local-example) 是使用这个 API 的一个更详细的示例工程.
 
-### kotlin.reflect.full
+### kotlin.reflect.full {id="kotlinreflectfull"}
 
 作为 [支持 Java 9 的准备工作](https://blog.jetbrains.com/kotlin/2017/01/kotlin-1-1-whats-coming-in-the-standard-library/),
 `kotlin-reflect.jar` 库中的扩展函数和扩属性已被移动到 `kotlin.reflect.full` 包内.
@@ -690,18 +696,18 @@ println(engine.eval("x + 2"))  // 输出结果为: 5
 
 ## JavaScript 环境(JavaScript Backend) {id="javascript-backend"}
 
-### 统一的标准库
+### 统一的标准库 {id="unified-standard-library"}
 
 编译为 JavaScript 的 Kotlin 代码, 现在可以访问 Kotlin 标准库中更多的部分了.
 具体来说, 许多关键性的类, 比如集合(`ArrayList`, `HashMap` 等等.),
 异常(`IllegalArgumentException` 等等.) 以及其他一些类(`StringBuilder`, `Comparator`) 现在被定义在 `kotlin` 包之下.
 在 JVM 环境中, 这些名称是指向对应的 JDK 类的类型别名, 在 JS 环境中, 这些类在 Kotlin 标准库中实现.
 
-### 更好的代码生成能力
+### 更好的代码生成能力 {id="better-code-generation"}
 
 JavaScript 环境生成的代码现在更容易进行静态检查了, 因此对于 JS 的代码处理工具更加友好, 比如代码压缩器(minifier), 优化器(optimiser), 校验检查器(linter), 等等.
 
-### external 修饰符
+### external 修饰符 {id="the-external-modifier"}
 
 如果你需要在 Kotlin 中以类型安全的方式来访问一个 JavaScript 中实现的类, 你可以使用 `external` 修饰符编写一个 Kotlin 声明. (在 Kotlin 1.0 中, 使用的是 `@native` 注解.)
 与 JVM 编译对象不同, JS 编译对象允许对类和属性使用 `external` 修饰符.
@@ -719,7 +725,7 @@ external class Node {
 }
 ```
 
-### import 处理的改进
+### import 处理的改进 {id="improved-import-handling"}
 
 现在你可以更加精确地指定需要从 JavaScript 模块中导入哪些声明.
 如果你将 `@JsModule("<module-name>")` 注解添加到一个外部声明上, 那么在编译过程中它就会被正确地导入模块系统中(无论是 CommonJS 还是 AMD).

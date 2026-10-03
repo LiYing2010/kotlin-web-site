@@ -1,14 +1,19 @@
 [//]: # (title: Kotlin 1.4.20 版中的新功能)
 
-_[发布日期: 2020/11/23](releases.md#release-details)_
+<web-summary>阅读 Kotlin 1.4.20 发布说明, 包括新的语言特性, Kotlin Multiplatform, JVM, Native, JS 的更新, 以及对 Gradle 和 Maven 的构建工具支持.</web-summary>
+
+_[发布日期: 2020/11/23](releases.md#release-history)_
 
 Kotlin 1.4.20 带来了很多新的实验性功能特性, 并对既有的提供了功能特性很多 bug 修正和改进,
 包括 1.4.0 中添加的那些新功能特性.
 
 关于新功能特性, 也可以阅读 [这篇 Blog](https://blog.jetbrains.com/kotlin/2020/11/kotlin-1-4-20-released/), 其中包含很多示例.
 
+> 关于 Kotlin 的发布周期, 详情请参见 [Kotlin 发布过程](releases.md).
+>
+{style="tip"}
 
-## Kotlin/JVM
+## Kotlin/JVM {id="kotlinjvm"}
 
 Kotlin/JVM 改进的目标是为了让它跟上现代 Java 版本的功能特性:
 
@@ -40,7 +45,7 @@ Kotlin/JVM 改进的目标是为了让它跟上现代 Java 版本的功能特性
 - `indy`: 对字符串执行 `invokedynamic` 拼接, 使用 [StringConcatFactory.makeConcat()](https://docs.oracle.com/javase/9/docs/api/java/lang/invoke/StringConcatFactory.html#makeConcat-java.lang.invoke.MethodHandles.Lookup-java.lang.String-java.lang.invoke.MethodType-).
 - `inline`: 切换回原来的拼接方法, 使用 `StringBuilder.append()`.
 
-## Kotlin/JS
+## Kotlin/JS {id="kotlinjs"}
 
 Kotlin/JS 还在继续快速演进, 在 1.4.20 中你会看到很多实验性的功能特性和改进:
 
@@ -53,7 +58,7 @@ Kotlin/JS 还在继续快速演进, 在 1.4.20 中你会看到很多实验性的
 Kotlin/JS 的 Gradle DSL 有了很多更新, 可以简化项目的配置和自定义.
 这些更新包括 webpack 配置的调整, 自动生成的 `package.json` 文件的修正, 以及对传递依赖的控制的改进.
 
-#### 对 webpack 配置的单点控制
+#### 对 webpack 配置的单点控制 {id="single-point-for-webpack-configuration"}
 
 对浏览器编译目标可以使用新的配置代码段 `commonWebpackConfig`.
 在这个代码段内, 可以集中在一处调整共通设置, 而不必对 `webpackTask`, `runTask`, 和 `testTask` 任务进行重复配置.
@@ -71,7 +76,7 @@ browser {
 
 更多详情请参见 [webpack 打包(Bundling)配置](js-project-setup.md#webpack-bundling).
 
-#### 通过 Gradle 自定义 package.json 文件
+#### 通过 Gradle 自定义 package.json 文件 {id="packagejson-customization-from-gradle"}
 
 要对你的 Kotlin/JS 包的管理和发布进行更加精确的控制, 现在可以通过 Gradle DSL 向项目文件 [`package.json`](https://nodejs.dev/learn/the-package-json-guide) 添加属性.
 
@@ -89,7 +94,7 @@ kotlin {
 
 更多详情请参见 [自定义 `package.json` 文件](js-project-setup.md#package-json-customization).
 
-#### 可选择的 yarn 依赖项解析
+#### 可选择的 yarn 依赖项解析 {id="selective-yarn-dependency-resolutions"}
 
 > 可选择的 yarn 依赖项解析是 [实验性功能](components-stability.md). 这个功能随时可能抛弃或改变.
 > 请注意, 只为评估和试验目的来使用这个功能.
@@ -116,7 +121,7 @@ rootProject.plugins.withType<YarnPlugin> {
 这里, 你的 _所有_ 需要 `react` 的 npm 依赖项都将得到版本 `16.0.0`,
 而 `processor` 对它的依赖项 `decamelize` 将会得到版本 `3.0.0`.
 
-#### 禁用粗粒度 workspace
+#### 禁用粗粒度 workspace {id="disabling-granular-workspaces"}
 
 > 禁用粗粒度 workspace 是 [实验性功能](components-stability.md). 这个功能随时可能抛弃或改变.
 > 请注意, 只为评估和试验目的来使用这个功能.
@@ -169,7 +174,7 @@ Kotlin/JS 的 [IR 编译器](js-ir-compiler.md) 有一个新的实验性模式 -
 
 [更多详情请参见 Kotlin/JS IR 编译器](js-ir-compiler.md).
 
-## Kotlin/Native
+## Kotlin/Native {id="kotlinnative"}
 
 在 1.4.20 中, Kotlin/Native 的优先任务是改进性能, 以及改进既有的功能特性.
 值得注意的改进包括:
@@ -180,7 +185,7 @@ Kotlin/JS 的 [IR 编译器](js-ir-compiler.md) 有一个新的实验性模式 -
 - [CocoaPods plugin 改进](#cocoapods-plugin-improvements)
 - [支持 Xcode 12 库](#support-for-xcode-12-libraries)
 
-### 逃逸分析(Escape analysis)
+### 逃逸分析(Escape analysis) {id="escape-analysis"}
 
 > 逃逸分析机制是 [实验性功能](components-stability.md). 这个功能随时可能抛弃或改变.
 > 请注意, 只为评估和试验目的来使用这个功能.
@@ -269,16 +274,16 @@ CocoaPods plugin 的任务执行流程有改进. 比如, 如果你添加一个�
 
 对随 Xcode 12 一起发布的新库, 我们添加了支持. 现在你可以在 Kotlin 代码中使用这些库.
 
-## Kotlin Multiplatform
+## Kotlin Multiplatform {id="kotlin-multiplatform"}
 
-### 跨平台库发布的结构更新
+### 跨平台库发布的结构更新 {id="updated-structure-of-multiplatform-library-publications"}
 
 从 Kotlin 1.4.20 开始, 不再有单独的元数据发布. 元数据 artifact 现在包含在 _root_ 发布之内,
 它代表整个库, 并且在添加为共通源代码集的依赖项时, 会自动解析为适当的平台相关 artifact.
 
 更多详情请参见 [发布跨平台库](multiplatform-publish-lib-setup.md).
 
-#### 与以前版本的兼容性
+#### 与以前版本的兼容性 {id="compatibility-with-earlier-versions"}
 
 这样的结构变化, 破坏了使用 [层级项目结构](multiplatform-share-on-platforms.md#share-code-on-similar-platforms) 的项目之间的兼容性.
 如果一个跨平台项目和它依赖的一个库都使用了层级项目结构, 那么你需要将它们同步更新到 Kotlin 1.4.20 或更高版本.
@@ -286,7 +291,7 @@ CocoaPods plugin 的任务执行流程有改进. 比如, 如果你添加一个�
 
 不使用层级项目结构的项目和库仍然保持兼容.
 
-## 标准库
+## 标准库 {id="standard-library"}
 
 Kotlin 1.4.20 的标准库提供了一些用来处理文件的新的扩展, 并改进了性能.
 
@@ -321,7 +326,7 @@ val kotlinFiles: List<Path> = Path("/home/user").listDirectoryEntries("*.kt")
 `String.replace()` 的新实现提高了这个函数的执行速度.
 大小写相关的版本使用一种基于 `indexOf` 的手动替换循环, 大小写无关的版本使用正规表达式匹配.
 
-## Kotlin Android Extensions
+## Kotlin Android Extensions {id="kotlin-android-extensions"}
 
 在 1.4.20 中, Kotlin Android Extensions plugin 已废弃, `Parcelable` 实现代码生成器移动到了一个单独的 plugin 中.
 

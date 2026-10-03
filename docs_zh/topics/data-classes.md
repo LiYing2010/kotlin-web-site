@@ -14,7 +14,7 @@ data class User(val name: String, val age: Int)
 * `toString()` 函数, 输出格式为 `"User(name=John, age=42)"`.
 * [`componentN()` 函数群](destructuring-declarations.md),
   这些函数与类的属性对应, 函数名中的数字 1 到 N, 与属性的声明顺序一致.
-* `copy()` 函数 (详情见下文).
+* [`copy()` 函数](#copying).
 
 为了保证自动生成的代码的行为一致, 并且有意义, 数据类必须满足以下所有要求:
 
@@ -34,7 +34,7 @@ data class User(val name: String, val age: Int)
 数据类可以继承其他类 (示例请参见 [封闭类(Sealed class)](sealed-classes.md)).
 
 > 在 JVM 平台, 如果自动生成的类需要拥有一个无参数的构造器, 那么需要为属性指定默认值
-> (参见 [构造器](classes.md#constructors)):
+> (参见 [构造器](classes.md#constructors-and-initializer-blocks)):
 >
 > ```kotlin
 > data class User(val name: String = "", val age: Int = 0)
@@ -42,7 +42,7 @@ data class User(val name: String, val age: Int)
 >
 {style="note"}
 
-## 在类主体部声明的属性
+## 在类主体部声明的属性 {id="properties-declared-in-the-class-body"}
 
 编译器对自动生成的函数, 只使用主构造器中定义的属性.
 如果想要在自动生成的函数实现中排除某个属性, 你可以将它声明在类的主体部:
@@ -83,7 +83,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-## 对象复制
+## 对象复制 {id="copying"}
 
 使用 `copy()` 函数来复制对象, 可以修改 _一部分_ 属性值, 但保持其他属性不变.
 对于前面示例中的 `User` 类, 函数的实现将会是下面这样:
@@ -99,7 +99,32 @@ val jack = User(name = "Jack", age = 1)
 val olderJack = jack.copy(age = 2)
 ```
 
-## 数据类中成员数据的解构
+`copy()` 函数会创建实例的 _浅_ 拷贝. 也就是说, 它不会递归的复制对象组件的内容.
+因此, 会继续使用对其它对象的相同的引用.
+
+例如, 如果一个属性保存了一个可变的 List, 通过 "原来的" 值进行的变更, 也会反映到拷贝中,
+反过来, 通过拷贝进行的变更, 也会反映到原来的值中:
+
+```kotlin
+data class Employee(val name: String, val roles: MutableList<String>)
+
+fun main() {
+    val original = Employee("Jamie", mutableListOf("developer"))
+    val duplicate = original.copy()
+
+    duplicate.roles.add("team lead")
+
+    println(original)
+    // 输出结果为: Employee(name=Jamie, roles=[developer, team lead])
+    println(duplicate)
+    // 输出结果为: Employee(name=Jamie, roles=[developer, team lead])
+}
+```
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
+
+你可以看到, 修改 `duplicate.roles` 属性时, 也会修改 `original.roles` 属性, 因为这 2 个属性使用相同的 List 引用.
+
+## 数据类中成员数据的解构 {id="data-classes-and-destructuring-declarations"}
 
 编译器会为数据类生成 _组件函数(Component function)_, 有了这些组件函数,
 就可以在 [解构声明(destructuring declaration)](destructuring-declarations.md) 中使用数据类:
@@ -111,7 +136,7 @@ println("$name, $age years of age")
 // 输出结果为 Jane, 35 years of age
 ```
 
-## 标准库中的数据类
+## 标准库中的数据类 {id="standard-data-classes"}
 
 Kotlin 的标准库提供了 `Pair` 和 `Triple` 类可供使用.
 但大多数情况下, 使用有具体名称的数据类是一种更好的设计方式,

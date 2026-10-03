@@ -4,7 +4,7 @@
 
 * [发布到本地 Maven 仓库](#publishing-to-a-local-maven-repository)
 * 发布到 Maven Central 仓库.
-  请参见 [我们的教程 tutorial](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-publish-libraries.html),
+  请参见 [我们的教程](multiplatform-publish-libraries-to-maven.md),
   学习如何设置帐号凭据, 自定义库的 metadata, 以及配置发布 plugin.
 * 发布到 GitHub 仓库.
   详情请参见, GitHub 的 [GitHub packages](https://docs.github.com/en/packages) 文档.
@@ -57,7 +57,6 @@ version = "1.0"
 
 kotlin {
     jvm()
-    iosX64()
     iosArm64()
 }
 ```
@@ -67,7 +66,6 @@ kotlin {
 **目标平台相关的发布(Target-specific Publication)**
 
 * 对于 `jvm` 目标:`test:lib-jvm:1.0`
-* 对于 `iosX64` 目标: `test:lib-iosx64:1.0`
 * 对于 `iosArm64` 目标:`test:lib-iosarm64:1.0`
 
 每个目标平台相关的发布都是独立的. 例如, 运行 `publishJvmPublicationTo<MavenRepositoryName>`
@@ -127,77 +125,94 @@ kotlin {
 ## 对主机的要求 {id="host-requirements"}
 
 Kotlin/Native 支持交叉编译(cross-compilation), 可以在任何主机上生成必要的 `.klib` artifact.
-但是, 还是有一些细节问题你需要注意.
+但是, 还是有一些限制你需要注意.
 
 ### 针对 Apple 目标平台的编译 {id="compilation-for-apple-targets"}
-<secondary-label ref="Experimental"/>
 
-要对 Apple 目标平台的项目生成 artifact, 你通常需要 Apple 机器.
-但是, 如果你希望使用其它主机, 请在你的 `gradle.properties` 文件中设置这个选项:
+你可以使用任何主机对带有 Apple 目标平台的项目生成 artifact.
+但是, 以下情况仍然需要使用 Mac 机器:
 
-```none
-kotlin.native.enableKlibsCrossCompilation=true
-```
-
-交叉编译(cross-compilation) 目前是实验性功能, 存在一些限制.
-对于以下情况, 你仍然需要使用 Mac 机器:
-
-* 你的库存在 [cinterop 依赖项](native-c-interop.md).
+* 你的库或依赖的模块存在 [cinterop 依赖项](native-c-interop.md).
 * 你的项目设置了 [CocoaPods 集成](multiplatform-cocoapods-overview.md).
 * 你需要为 Apple 目标平台构建或测试 [最终二进制文件](multiplatform-build-native-binaries.md).
 
 ### 重复发布 {id="duplicating-publications"}
 
-为了避免发布期间发生问题, 应该只从一个主机发布所有的 artifact, 以免在仓库中重复发布.
-例如, Maven Central, 明确禁止重复发布, 并会让发布过程失败.
-<!-- TBD: add the actual error -->
+为了避免在仓库中重复发布, 应该只从一个主机发布所有的 artifact.
+例如, Maven Central 明确禁止重复发布, 如果出现重复, 就会让发布过程失败.
 
 ## 发布 Android 库 {id="publish-an-android-library"}
 
 要发布一个 Android 库, 需要一些额外的配置.
-
 默认情况下, 没有任何 Android 库的 artifact 会发布.
-要发布一组 Android [构建变体(variant)](https://developer.android.com/build/build-variants)
-生成的 artifact, 需要在 `shared/build.gradle.kts` 文件的 Android 编译目标代码段内指定编译变体名称:
 
-```kotlin
-kotlin {
-    androidTarget {
-        publishLibraryVariants("release")
-    }
-}
-```
-
-上面的示例适用于没有 [产品风格(Product Flavor)](https://developer.android.com/build/build-variants#product-flavors) 的 Android 库.
-对于存在产品风格(Product Flavor)的库, 编译变体名称还需要包含产品风格名称, 比如 `fooBarDebug` 或 `fooBarRelease`.
-
-默认的发布设置如下:
-* 如果发布的编译变体是相同的构建类型 (比如, 都是 `release` 或 `debug`),
-  那么它们将兼容任意的使用者构建类型.
-* 如果发布的编译变体是不同的构建类型, 那么只有 release 变体兼容于与发布的编译变体不同的使用者构建类型.
-  所有的其他编译变体 (比如 `debug`) 只会与使用者的相同构建类型匹配,
-  除非使用者项目指定了
-  [匹配回退(Matching Fallback)](https://developer.android.com/reference/tools/gradle-api/4.2/com/android/build/api/dsl/BuildType).
-
-如果你希望让所有发布的 Android 变体都只兼容于库的使用者的相同构建类型,
-请设置 Gradle 属性: `kotlin.android.buildTypeAttribute.keep=true`.
-
-也可以将各个编译变体以产品风格为单位分组发布, 使得不同的编译类型的输出文件可以放在同一个模块内,
-编译类型成为 artifact 中的一个分类符 (release 编译类型的结果发布时仍然不带分类符).
-这种发布模式默认是关闭的, 如果要启用, 请在 `shared/build.gradle.kts` 文件中使用以下设置:
-
-```kotlin
-kotlin {
-    androidTarget {
-        publishLibraryVariantsGroupedByFlavor = true
-    }
-}
-```
-
-> 如果不同的编译变体存在不同的依赖项, 那么不推荐以产品风格为单位分组发布编译变体,
-> 因为它们的依赖项会组合在一起, 成为一个庞大的依赖项列表.
+> 本节假定你使用 Android Gradle Library Plugin.
+> 关于如何设置这个 plugin, 或者如何从旧版的 `com.android.library` plugin 迁移,
+> 请参见 Android 文档中的 [设置 Android Gradle Library Plugin](https://developer.android.com/kotlin/multiplatform/plugin#migrate) 页面.
 >
 {style="note"}
+
+要发布 artifact, 请向 `shared/build.gradle.kts` 文件添加 `androidLibrary {}` 代码块,
+并使用 KMP DSL 配置发布. 例如:
+
+```kotlin
+kotlin {
+    androidLibrary {
+        namespace = "org.example.library"
+        compileSdk = libs.versions.android.compileSdk.get().toInt()
+        minSdk = libs.versions.android.minSdk.get().toInt()
+
+        // 启用 Java 编译支持.
+        // 当不需要 Java 编译时, 这样可以提高构建速度
+        withJava()
+
+        compilations.configureEach {
+            compilerOptions.configure {
+                jvmTarget.set(
+                    JvmTarget.JVM_11
+                )
+            }
+        }
+    }
+}
+```
+
+注意, Android Gradle Library plugin 不支持产品风格(Product Flavor)和构建变体(Build Variant), 从而简化了配置.
+因此, 你需要使用者同意(Opt-in)来创建测试源代码集和测试配置. 例如:
+
+```kotlin
+kotlin {
+    androidLibrary {
+        // ...
+
+        // 使用者同意(Opt-in), 启用和配置宿主端(Host-side)测试(单元测试)
+        withHostTestBuilder {}.configure {}
+
+        // 使用者同意(Opt-in), 启用设备测试, 并指定源代码集名称
+        withDeviceTestBuilder {
+            sourceSetTreeName = "test"
+        }
+
+        // ...
+    }
+}
+```
+
+之前, 例如在 GitHub Action 中运行测试时, 需要分别指定 debug 和 release 变体:
+
+```yaml
+- target: testDebugUnitTest
+  os: ubuntu-latest
+- target: testReleaseUnitTest
+  os: ubuntu-latest
+```
+
+使用 Android Gradle Library plugin 之后, 只需要指定带有源代码集名称的通用目标:
+
+```yaml
+- target: testAndroidHostTest
+  os: ubuntu-latest
+```
 
 ## 禁用源代码的发布 {id="disable-sources-publication"}
 
@@ -241,28 +256,15 @@ Kotlin Multiplatform Gradle plugin 默认会对所有指定的编译目标发布
   }
   ```
 
-## 禁用 JVM 环境属性的发布 {id="disable-jvm-environment-attribute-publication"}
-
-从 Kotlin 2.0.0 开始, Gradle 属性 [`org.gradle.jvm.environment`](https://docs.gradle.org/current/userguide/variant_attributes.html#sub:jvm_default_attributes)
-会自动随所有的 Kotlin 变体一起发布, 以便帮助区分 Kotlin Multiplatform 库的 JVM 和 Android 变体.
-这个属性指明哪个库变体适用于哪个 JVM 环境, Gradle 使用这个信息在你的项目中进行依赖项解析.
-目标环境可以是 "android", "standard-jvm", 或 "no-jvm".
-
-你可以禁用这个属性的发布, 方法是向你的 `gradle.properties` 文件添加以下 Gradle 属性:
-
-```none
-kotlin.publishJvmEnvironmentAttribute=false
-```
-
 ## 推广你的库 {id="promote-your-library"}
 
-你的库可以在 [JetBrains 的检索平台](https://klibs.io/) 上展示.
+你的库可以在 [JetBrains 的跨平台库目录](https://klibs.io/) 上展示.
 它的目标是为了让使用者便利的根据目标平台查找 Kotlin Multiplatform 库.
 
 符合标准的库会被自动添加进来.
-关于如何添加你的库, 详情请参见 [FAQ](https://klibs.io/faq).
+关于如何确保你的库出现在目录中, 详情请参见 [FAQ](https://klibs.io/faq).
 
 ## 下一步做什么 {id="what-s-next"}
 
-* [学习如何将你的 Kotlin Multiplatform 库发布到 Maven Central 仓库](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-publish-libraries.html)
+* [学习如何将你的 Kotlin Multiplatform 库发布到 Maven Central 仓库](multiplatform-publish-libraries-to-maven.md)
 * [阅读库开发者指南, 了解为 Kotlin Multiplatform 设计库的最佳实践和技巧](api-guidelines-build-for-multiplatform.md)

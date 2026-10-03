@@ -4,16 +4,15 @@
 能够帮助你开发针对 Android, iOS, Desktop, 和 Web 的跨平台应用程序.
 请确认你安装了这个 plugin 最新发布版本, 以便使用 Kotlin Multiplatform 项目.
 
-> IDE plugin 目前只能用于 macOS, 未来会支持 Windows 和 Linux.
->
-{style="note"}
+这个 plugin 兼容 IntelliJ IDEA 和 Android Studio:
+* IntelliJ IDEA 的 macOS 版从 2025.1.1.1 开始支持这个 plugin,
+  Windows 和 Linux 版从 2025.2.2 开始支持.
+* Android Studio 的 macOS 版从 Narwhal 2025.1.1 开始支持这个 plugin,
+  Windows 和 Linux 版从 Otter 2025.2.1 开始支持.
 
-这个 plugin 兼容 IntelliJ IDEA (2025.1.1.1 之后版本) 和 Android Studio ( Narwhal 2025.1.1 之后版本).
+关于 Kotlin Multiplatform Gradle plugin, 更多详情请参见它的 [DSL 参考文档](multiplatform-dsl-reference.md)
+和 [兼容性指南](multiplatform-compatibility-guide.md).
 
-> 关于 Kotlin Multiplatform Gradle plugin, 更多详情请参见它的 [DSL 参考文档](multiplatform-dsl-reference.md)
-> 和 [兼容性指南](multiplatform-compatibility-guide.md).
->
-{style="tip"}
 
 ## 更新到最新发布版 {id="update-to-the-latest-release"}
 
@@ -64,7 +63,7 @@ Kotlin Multiplatform plugin 已经彻底重建:
 * 预先检查环境, 有助于发现和解决设置问题, 包括 Java, Android, Xcode, 和 Gradle.
 * 对所有支持的平台自动生成运行配置, 并带有用于 iOS 和 Android 的设备选择器.
 * 跨语言支持: 针对 Swift 和 Kotlin 的跨语言导航和调试, 以及 Swift 语法高亮和快速文档.
-* Compose Multiplatform 支持: Kotlin Multiplatform plugin 现在支持 Compose Multiplatform 资源,
+* Compose Multiplatform 支持: Kotlin Multiplatform IDE plugin 现在支持 Compose Multiplatform 资源,
   自动完成, 以及共通代码的 UI 预览
   (可以安全的删除 [以前的 Compose Multiplatform plugin](https://plugins.jetbrains.com/plugin/16541-compose-multiplatform-ide-support)).
 * Compose 热重载(Hot Reload): 不需要重启 App, 即可立即查看 UI 的变更 (使用 Desktop JVM 目标平台).

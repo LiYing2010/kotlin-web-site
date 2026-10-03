@@ -32,7 +32,7 @@ fun fixLastModified(htmlFile: File) {
     }
 
     val oldText = htmlFile.readText(charset = UTF_8)
-    val newText = oldHtmlCode.replace(oldText, newHtmlCode)
+    val newText = oldText.replace(oldHtmlCode, newHtmlCode)
 
     htmlFile.writeText(newText, charset = UTF_8)
 }

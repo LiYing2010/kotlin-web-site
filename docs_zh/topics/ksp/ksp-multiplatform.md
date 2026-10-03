@@ -1,57 +1,210 @@
 [//]: # (title: 在 Kotlin Multiplatform 中使用 KSP)
+[//]: # (description: 在 Kotlin Multiplatform 项目中添加 KSP)
 
-作为一个快速入门的示例, 可以参见 [Kotlin Multiplatform 示例项目](https://github.com/google/ksp/tree/main/examples/multiplatform),
-其中定义了 KSP 处理器.
+本文介绍如何在 Kotlin Multiplatform 项目中使用 Kotlin 符号处理 (Kotlin Symbol Processing, KSP).
+如需快速上手, 请参见 [源代码仓库](https://github.com/google/ksp/tree/main/examples/multiplatform) 中的示例 Multiplatform 项目,
+这个示例项目在多个编译目标中使用 KSP, 示例项目中的处理器会生成项目使用的 `Foo` 类.
 
-从 KSP 1.0.1 开始, 在跨平台项目中使用 KSP, 与在单一平台的 JVM 项目中类似.
-主要区别是, 在依赖项中不是编写 `ksp(...)` 配置,
-而是使用 `add(ksp<Target>)` 或 `add(ksp<SourceSet>)`, 指定哪个编译目标在编译之前需要符号处理.
+## 在跨平台项目中添加 KSP {id="add-ksp-to-a-multiplatform-project"}
+
+在客户端模块(使用处理器的模块)的 `build.gradle.kts` 文件中, 为需要符号处理的每个编译目标, 添加相应的 KSP 处理器依赖项:
 
 ```kotlin
-plugins {
-    kotlin("multiplatform")
-    id("com.google.devtools.ksp")
-}
-
-kotlin {
-    jvm()
-    linuxX64 {
-        binaries {
-            executable()
-        }
-    }
-}
-
 dependencies {
-    add("kspCommonMainMetadata", project(":test-processor"))
-    add("kspJvm", project(":test-processor"))
-    add("kspJvmTest", project(":test-processor")) // 不会进行任何处理, 因为对 JVM 平台没有测试代码
-    // 对于 Linux x64 的 main 源代码集没有任何处理, 因为没有指定 kspLinuxX64
-    // add("kspLinuxX64Test", project(":test-processor"))
+    add("ksp<Target>", <processor>)
 }
 ```
 
+* `<Target>` 是跨平台项目使用的编译目标之一.
+
+  > 关于完整的编译目标列表, 请参见 [Multiplatform Gradle DSL 参考文档](multiplatform-dsl-reference.md#targets)
+  > 和 [Kotlin/Native 支持的编译目标](native-target-support.md).
+  >
+  {style="tip"}
+
+* `<processor>` 是 Gradle 项目路径. 它可以是:
+
+  * 项目中包含符号处理器逻辑的特定目录:
+
+      ```kotlin
+      add("kspJvm", project(":local-processor"))
+      ```
+
+  * 外部处理器, 例如 Room:
+
+      ```kotlin
+      add("kspJvm", "androidx.room:room-compiler:2.6.1")
+      ```
+
+> 从 KSP 2 开始, 适用于所有编译目标的 `ksp(...)` 配置已废弃.
+> 请对每个编译目标明确进行配置, 避免在不需要的编译目标上运行处理器.
+>
+{style="warning"}
+
+### 在单个编译目标中使用多个处理器 {id="use-multiple-processors-in-a-single-target"}
+
+可以为一个编译目标添加多个处理器:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+add("kspAndroid", project(":test-processor"))
+add("kspAndroid", "androidx.room:room-compiler:2.6.1")
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```Groovy
+add('kspAndroid', project(':test-processor'))
+add('kspAndroid', 'androidx.room:room-compiler:2.6.1')
+```
+
+</tab>
+</tabs>
+
+### 在多个编译目标中使用同一个处理器 {id="use-the-same-processor-in-multiple-targets"}
+
+可以为多个编译目标添加同一个处理器:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+add("kspIosX64", project(":test-processor"))
+add("kspIosArm64", project(":test-processor"))
+add("kspIosSimulatorArm64", project(":test-processor"))
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```Groovy
+add('kspIosX64', project(':test-processor'))
+add('kspIosArm64', project(':test-processor'))
+add('kspIosSimulatorArm64', project(':test-processor'))
+```
+
+</tab>
+</tabs>
+
+如果有多个 iOS 编译目标, 可以使用循环, 避免重复编写配置:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+kotlin.targets.filter { it.name.startsWith("ios") }.forEach { target ->
+    add(
+        "ksp${target.name.replaceFirstChar { it.uppercaseChar() }}",
+        project(":test-processor")
+    )
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```Groovy
+kotlin.targets.filter { it.name.startsWith("ios") }.forEach { target ->
+    add(
+        "ksp${target.name.replaceFirstChar { it.uppercaseChar() }}",
+        project(":test-processor")
+    )
+}
+```
+
+</tab>
+</tabs>
+
+### 为测试编译配置 KSP {id="configure-ksp-for-test-compilations"}
+
+要在测试编译期间运行 KSP, 请将处理器添加到相应的测试配置中:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+add("kspJvmTest", project(":test-processor"))
+add("kspJsTest", project(":test-processor"))
+add("kspIosX64Test", project(":test-processor"))
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```Groovy
+add('kspJvmTest', project(':test-processor'))
+add('kspJsTest', project(':test-processor'))
+add('kspIosX64Test', project(':test-processor'))
+```
+
+</tab>
+</tabs>
+
+对于 Android 主机测试和设备测试, KSP 根据对应的源代码集名称生成配置名称:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+add("kspAndroidHostTest", project(":test-processor"))
+add("kspAndroidDeviceTest", project(":test-processor"))
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```Groovy
+add('kspAndroidHostTest', project(':test-processor'))
+add('kspAndroidDeviceTest', project(':test-processor'))
+```
+
+</tab>
+</tabs>
+
+## 查找 KSP 配置名称 {id="find-ksp-configuration-names"}
+
+KSP 根据 Kotlin Multiplatform 源代码集生成配置名称.
+要查看某个模块的 KSP 配置的完整列表, 请运行以下命令:
+
+```Bash
+./gradlew :<your-module-name>:dependencies | grep ksp
+```
+
+在输出中查找与编译目标源代码集对应的配置名称.
+
 ## 编译与处理 {id="compilation-and-processing"}
 
-在跨平台项目中, 对每个平台 Kotlin 编译可能发生多次 (`main`, `test`, 或其他构建配置).
-符号处理也是如此.
-每存在一个 Kotlin 编译 task, 并且指定了对应的 `ksp<Target>` 或 `ksp<SourceSet>` 配置, 就会创建一个符号处理 task.
+在跨平台项目中, Kotlin 会为每个编译目标和源代码集分别创建 [编译任务](multiplatform-advanced-project-structure.md#compilations),
+例如 `main` 和 `test`.
+对于配置了一个或多个 KSP 处理器的每个 Kotlin 编译任务, KSP 都会创建相应的符号处理任务.
 
-比如, 在上面的 `build.gradle.kts` 中, 有 4 个编译 task: common/metadata, JVM main, Linux x64 main, Linux x64 test,
-以及 3 个符号处理 task: common/metadata, JVM main, Linux x64 test.
+[示例项目](https://github.com/google/ksp/tree/main/examples/multiplatform) 定义了 6 个编译目标.
+每个编译目标都有 `main` 和 `test` 编译任务, 因此会产生以下编译任务和符号处理任务:
 
-## 在 KSP 1.0.1+ 中不再使用 ksp(...) 配置 {id="avoid-the-ksp-configuration-on-ksp-1-0-1"}
+* **JVM**: `jvmMain` 和 `jvmTest`
 
-在 KSP 1.0.1 之前, 只有唯一一个, 统一的 `ksp(...)` 配置可以使用.
-因此, 处理器要么对所有的编译目标适用, 要么不对任何编译目标适用.
-注意, 即使是在传统的非跨平台项目中, `ksp(...)` 配置不仅适用于 main 源代码集, 如果存在 test 源代码集的话, 也会适用.
-这就对构建时间带来了不必要的负担.
+* **JS**: `jsMain` 和 `jsTest`
 
-从 KSP 1.0.1 开始, 提供了对各个编译目标分别进行配置的功能, 如上面的示例所示. 将来:
-1. 对于跨平台项目, `ksp(...)` 配置将被废弃, 并删除.
-2. 对于单一平台项目, `ksp(...)` 配置将只适用于 main, 默认编译 task.
-   其他编译目标, 比如 `test`, 将需要指定 `kspTest(...)` 来适用处理器.
+* **LinuxX64**: `linuxX64Main` 和 `linuxX64Test`
 
-从 KSP 1.0.1 开始, 有一个早期预览版的 flag `-DallowAllTargetConfiguration=false`, 可以切换到更加高效率的模式.
-如果目前的模式造成了性能问题, 请试用这个 flag.
-在 KSP 2.0 中, 这个 flag 的默认值将会从 `true` 切换到 `false`.
+* **AndroidNativeX64**: `androidNativeX64Main` 和 `androidNativeX64Test`
+
+* **AndroidNativeArm64**: `androidNativeArm64Main` 和 `androidNativeArm64Test`
+
+* **MingwX64**: `mingwX64Main` 和 `mingwX64Test`
+
+在示例项目的 `workload/build.gradle.kts` 文件中, 为以下配置声明了 KSP 依赖项:
+
+* `kspJvm` 和 `kspJvmTest`
+* `kspJs` 和 `kspJsTest`
+* `kspAndroidNativeX64` 和 `kspAndroidNativeX64Test`
+* `kspAndroidNativeArm64` 和 `kspAndroidNativeArm64Test`
+* `kspLinuxX64`
+* `kspMingwX64`
+
+对于每个声明了 KSP 依赖项的配置, KSP 都会创建一个符号处理任务.
+在这个示例中, 项目创建了至少 12 个 Kotlin 编译任务和 10 个符号处理任务.
+其余的编译任务没有对应的 KSP 任务, 因为没有为它们配置 KSP.

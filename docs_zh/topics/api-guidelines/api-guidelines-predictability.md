@@ -4,7 +4,7 @@
 要遵循那些关于默认设置, 错误处理, 以及状态管理的最佳实践, 确保使用者获得无缝的使用体验,
 同时保持库的完整性和质量.
 
-## 默认完整正确的功能
+## 默认完整正确的功能 {id="do-the-right-thing-by-default"}
 
 你的库应该对各种使用场景预见到 "幸福路径(happy path)", 并提供相应的默认设置.
 要让库正常工作, 使用者应该不需要提供默认的值.
@@ -22,7 +22,7 @@ val response: HttpResponse = client.get("https://ktor.io/")
 如果对于一个使用场景, 没有明显的 "幸福路径(happy path)", 或者参数应该有默认值, 但不存在没有争议的选项,
 那么可能说明需求分析存在问题.
 
-## 提供扩展能力
+## 提供扩展能力 {id="allow-opportunities-for-extension"}
 
 如果无法预见正确的选择, 那么应该允许使用者指定他们喜欢的方案.
 你的库还应该允许使用者提供他们自己的方案, 或者使用第三方扩展.
@@ -46,7 +46,7 @@ val client = HttpClient(CIO) {
 作为库的开发者, 你可以 [在设计时考虑扩展](api-guidelines-readability.md#use-extension-functions-and-properties),
 并确保你的库的类型具有清晰的核心概念, 让使用者的扩展更加容易.
 
-## 防止不期望的和不正确的扩展
+## 防止不期望的和不正确的扩展 {id="prevent-unwanted-and-invalid-extensions"}
 
 使用者不应该能够以违反原来设计的方式, 或者问题域的规则所不允许的方式, 扩展你的库.
 
@@ -69,7 +69,7 @@ object JsonNull : JsonElement
 
 封闭类型还能够让编译器确保你的 `when` 表达式穷尽了所有的可能分支, 因此不需要提供 `else` 语句, 这样就提高了可读性和一致性.
 
-## 不要暴露可变的状态
+## 不要暴露可变的状态 {id="avoid-exposing-mutable-state"}
 
 在管理可变的值时, 只要有可能, 你的 API 就应该接受并返回只读的集合.
 可变的集合是线程不安全的, 并且会对你的库带来复杂性和不可预测性.
@@ -105,7 +105,7 @@ fun main() {
 }
 ```
 
-## 校验输入和状态
+## 校验输入和状态 {id="validate-inputs-and-state"}
 
 在实现代码执行之前, 要校验输入和既存的状态, 确保使用者正确的使用你的库.
 可以使用 [`require`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/require.html) 函数来校验输入, 使用 [`check`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/check.html) 函数来校验既存的状态.
@@ -153,7 +153,7 @@ class ShoppingCart {
 }
 ```
 
-## 下一步
+## 下一步 {id="next-step"}
 
 在本向导的下一部分, 你将学习可调试性.
 

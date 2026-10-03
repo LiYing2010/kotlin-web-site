@@ -1,17 +1,6 @@
 [//]: # (title: 为 Spring Boot 项目添加数据库支持)
-[//]: # (description: 使用 JDBC Template, 为使用 Kotlin 开发的 Sprint Boot 项目添加数据库支持.)
 
-<tldr>
-    <p>
-        这是 <strong>Spring Boot 和 Kotlin 入门</strong> 教程的第 3 部分.
-        开始这一部分之前, 请确认你已经完成了前面的步骤:
-    </p><br/>
-    <p>
-        <img src="icon-1-done.svg" width="20" alt="第 1 步"/> <a href="jvm-create-project-with-spring-boot.md">使用 Kotlin 创建 Spring Boot 项目</a><br/>
-        <img src="icon-2-done.svg" width="20" alt="第 2 步"/> <a href="jvm-spring-boot-add-data-class.md">向 Spring Boot 项目添加数据类</a><br/>
-        <img src="icon-3.svg" width="20" alt="第 3 步"/> <strong>为 Spring Boot 项目添加数据库支持</strong><br/>
-        <img src="icon-4-todo.svg" width="20" alt="第 4 步"/> 使用 Spring Data CrudRepository 进行数据库访问</p>
-</tldr>
+<web-summary>使用 JDBC Template, 为使用 Kotlin 开发的 Sprint Boot 项目添加数据库支持.</web-summary>
 
 在教程的这个部分, 你将会使用 _Java 数据库连接_ (Java Database Connectivity, JDBC) 向你的项目添加并配置一个数据库.
 在 JVM 应用程序中, 你要使用 JDBC 来操作数据库.
@@ -31,7 +20,6 @@ package com.example.demo
 
 import org.springframework.stereotype.Service
 import org.springframework.jdbc.core.JdbcTemplate
-import java.util.*
 
 @Service
 class MessageService(private val db: JdbcTemplate) {
@@ -172,7 +160,6 @@ package com.example.demo
 
 import org.springframework.stereotype.Service
 import org.springframework.jdbc.core.JdbcTemplate
-import org.springframework.jdbc.core.query
 import java.util.UUID
 
 @Service
@@ -210,7 +197,7 @@ class MessageService(private val db: JdbcTemplate) {
 
 1. 在 `src/main/resources` 目录中创建 `schema.sql` 文件. 它将会保存数据库对象的定义:
 
-   ![创建数据库 Schema](create-database-schema.png){width=400}
+   ![创建数据库 Schema](create-database-schema.png){width=350}
 
 2. 更新 `src/main/resources/schema.sql` 文件, 内容如下:
 
@@ -226,7 +213,7 @@ class MessageService(private val db: JdbcTemplate) {
 
 3. 打开 `src/main/resources` 文件夹内的 `application.properties` 文件, 添加以下应用程序属性:
 
-   ```none
+   ```properties
    spring.application.name=demo
    spring.datasource.driver-class-name=org.h2.Driver
    spring.datasource.url=jdbc:h2:file:./data/testdb
@@ -237,7 +224,7 @@ class MessageService(private val db: JdbcTemplate) {
    ```
 
    这些设置会为 Spring Boot 应用程序启用数据库.
-   关于完整的应用程序属性列表, 请参见 [Spring 文档](https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html).
+   关于完整的应用程序属性列表, 请参见 [Spring 文档](https://docs.spring.io/spring-boot/appendix/application-properties/index.html).
 
 ## 通过 HTTP 请求, 向数据库添加 message {id="add-messages-to-database-via-http-request"}
 
@@ -281,11 +268,11 @@ class MessageService(private val db: JdbcTemplate) {
 3. 执行所有的 POST 请求. 使用请求声明侧栏中的绿色 **Run** 图标.
    这些请求会将消息写入到数据库:
 
-   ![执行 POST 请求](execute-post-requests.png)
+   ![执行 POST 请求](execute-post-requests.png){width=700}
 
 4. 执行 GET 请求, 并在 **Run** 工具窗口查看结果:
 
-   ![执行 GET 请求](execute-get-requests.png)
+   ![执行 GET 请求](execute-get-requests.png){width=700}
 
 ### 执行请求的其它方式 {id="alternative-way-to-execute-requests" initial-collapse-state="collapsed" collapsible="true"}
 
@@ -551,10 +538,17 @@ Spring 应用程序已经可以运行了:
 
 5. 执行 GET 请求, 并在 **Run** 工具窗口中查看结果:
 
-    ![根据 id 得到 message](retrieve-message-by-its-id.png){width=706}
+    ![根据 id 得到 message](retrieve-message-by-its-id.png){width=700}
 
 ## 下一步 {id="next-step"}
 
 本教程的最后部分会向你演示, 如何使用更加流行的数据库操作方式 Spring Data.
 
-**[阅读下一章](jvm-spring-boot-using-crudrepository.md)**
+<list columns="2" id="tour-nav">
+  <li>
+    <a as="button" href="jvm-spring-boot-add-data-class.md" mode="outline" icon="arrow-left" icon-position="left">上一步</a>
+  </li>
+  <li>
+    <a as="button" href="jvm-spring-boot-using-crudrepository.md" mode="classic" icon="arrow-right" icon-position="right">下一步</a>
+  </li>
+</list>
