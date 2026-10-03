@@ -15,7 +15,7 @@ interface MyInterface {
 }
 ```
 
-## 实现接口
+## 实现接口 {id="implementing-interfaces"}
 
 类或者对象可以实现一个或多个接口
 
@@ -27,7 +27,7 @@ class Child : MyInterface {
 }
 ```
 
-## 接口中的属性
+## 接口中的属性 {id="properties-in-interfaces"}
 
 你可以在接口中定义属性. 接口中声明的属性要么是抽象的, 要么提供访问器的自定义实现.
 接口中声明的属性不能拥有后端域变量(backing field),
@@ -50,7 +50,7 @@ class Child : MyInterface {
 }
 ```
 
-## 接口的继承
+## 接口的继承 {id="interfaces-inheritance"}
 
 接口也可以继承其他接口, 因此它可以对父接口中的成员提供实现, 同时又声明新的函数和属性.
 很自然的, 类在实现这样的接口时, 只需要实现缺少的函数和属性:
@@ -75,7 +75,7 @@ data class Employee(
 ) : Person
 ```
 
-## 解决覆盖冲突(overriding conflict)
+## 解决覆盖冲突(overriding conflict) {id="resolving-overriding-conflicts"}
 
 如果你为一个类指定了多个超类, 可能会导致对同一个方法继承得到了多个实现:
 

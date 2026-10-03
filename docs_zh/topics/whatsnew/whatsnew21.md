@@ -1,6 +1,8 @@
 [//]: # (title: Kotlin 2.1.0 中的新功能)
 
-_[发布日期: 2024/11/27](releases.md#release-details)_
+<web-summary>阅读 Kotlin 2.1.0 发布说明, 包括新的语言特性, Kotlin Multiplatform, JVM, Native, JS, 和 Wasm 的更新, 以及对 Gradle 和 Maven 的构建工具支持.</web-summary>
+
+_[发布日期: 2024/11/27](releases.md#release-history)_
 
 Kotlin 2.1.0 已经发布了! 以下是它的一些最重要的功能:
 
@@ -15,6 +17,10 @@ Kotlin 2.1.0 已经发布了! 以下是它的一些最重要的功能:
   以及 [对 Kotlin Gradle plugin API 的更新](#new-api-for-kotlin-gradle-plugin-extensions).
 * **文档**: [Kotlin 文档的重大改进](#documentation-updates).
 
+> 关于 Kotlin 的发布周期, 详情请参见 [Kotlin 发布过程](releases.md).
+>
+{style="tip"}
+
 ## IDE 支持 {id="ide-support"}
 
 最新版的 IntelliJ IDEA 和 Android Studio 中绑定了支持 2.1.0 的 Kotlin plugin.
@@ -28,7 +34,7 @@ Kotlin 2.1.0 已经发布了! 以下是它的一些最重要的功能:
 在发布了包含 K2 编译器的 Kotlin 2.0.0 之后, JetBrains 开发组致力于通过新的功能特性来改进语言.
 在这个发布版中, 我们很高兴的宣布语言设计方面的几项新改进.
 
-这些功能特性目前是预览版, 我们鼓励你试用这些功能, 并分享你的反馈:
+这些功能特性目前是预览版, 我们鼓励你试用这些功能, 并分享你的反馈意见:
 
 * [带主语(Subject)的 `when` 中的保护条件(Guard Condition)](#guard-conditions-in-when-with-a-subject)
 * [非局部的(non-local) `break` 和 `continue`](#non-local-break-and-continue)
@@ -293,7 +299,7 @@ fun test(kvs: KeyValueStore<String, Int>) {
 当泛型类型的函数参数根据另一个参数的信息无法接受 Lambda 函数时, 编译器可以丢弃一个可能的重载.
 这个变更让成员函数和扩展函数的行为保持一致, 而且在 Kotlin 2.1.0 中默认启用.
 
-### 改进了使用封闭类的 when 表达式的穷尽检查 {id="improved-exhaustiveness-checks-for-when-expressions-with-sealed-classes"}
+### 改进了使用封闭类的 when 表达式的穷尽检查(Exhaustiveness Check) {id="improved-exhaustiveness-checks-for-when-expressions-with-sealed-classes"}
 
 在 Kotlin 的以前版本中, 对于带有封闭上限(Sealed Upper Bound)的类型参数的 `when` 表达式,
 即使已经覆盖了 `sealed class` 层级结构中的所有情况, 编译器仍然会要求 `else` 分支.
@@ -440,7 +446,7 @@ kotlin {
 要使用新的 K2 kapt plugin 实现, 启用它的方法与以前的 K2 kapt plugin 相同.
 请向你的项目的 `gradle.properties` 文件添加以下选项:
 
-```kotlin
+```properties
 kapt.use.k2=true
 ```
 
@@ -590,7 +596,7 @@ Gradle 中的隔离项目(Isolated Project) 功能, 通过"隔离" 各个 Gradle
   要在不启用隔离项目功能的情况下, 检查 Kotlin Gradle plugin 的新模型的兼容性,
   请在你的项目的 `gradle.properties` 文件中, 添加以下 Gradle 属性:
 
-  ```none
+  ```properties
   # gradle.properties
   kotlin.kmp.isolated-projects.support=enable
   ```
@@ -667,7 +673,7 @@ Swift 导出目前可以适用于这样的项目.
 
 1. 向你的 `gradle.properties` 文件添加以下 Gradle 选项:
 
-   ```none
+   ```properties
    # gradle.properties
    kotlin.experimental.swift-export.enabled=true
    ```
@@ -701,14 +707,14 @@ Kotlin 编译器会为发布 Kotlin 库生成 `.klib` artifact.
 这对针对 iOS, macOS, tvOS, 以及 watchOS 目标平台的 Kotlin Multiplatform 项目造成了特殊的限制.
 
 Kotlin 2.1.0 消除了这个限制, 增加了对交叉编译的支持.
-现在你可以使用任何主机来生成 `.klib` artifact,
+现在你可以使用任何 [支持的主机](native-target-support.md#hosts) 来生成 `.klib` artifact,
 这样能够大大简化 Kotlin 和 Kotlin Multiplatform 库的发布过程.
 
 #### 如何启用从任何主机发布库的功能 {id="how-to-enable-publishing-libraries-from-any-host"}
 
 要在你的项目中试用交叉编译, 请向你的 `gradle.properties` 文件添加以下选项:
 
-```none
+```properties
 # gradle.properties
 kotlin.native.enableKlibsCrossCompilation=true
 ```
@@ -801,7 +807,7 @@ Kotlin 2.1.0 包含一个 [对 `iosArm64` 编译目标的支持的更新](#iosar
 
 ### iosArm64 提升为第 1 层 {id="iosarm64-promoted-to-tier-1"}
 
-对 [Kotlin Multiplatform](multiplatform.topic) 开发至关重要的 `iosArm64` 编译目标, 已经提升到了第 1 层. 这是 Kotlin/Native 编译器中最高的支持层级.
+对 [Kotlin Multiplatform](get-started.topic) 开发至关重要的 `iosArm64` 编译目标, 已经提升到了第 1 层. 这是 Kotlin/Native 编译器中最高的支持层级.
 
 这意味着这个编译目标在 CI 环境进行过常规测试, 保证能够编译和运行.
 我们还对这个编译目标提供编译器发布版之间的源代码和二进制兼容性.
@@ -857,7 +863,7 @@ Kotlin/Wasm 有了多个更新, 并 [支持增量编译](#support-for-incrementa
 在目前的设置中, 增量编译对 Wasm 编译目标默认禁用.
 要启用增量编译, 请向你的项目的 `local.properties` 或 `gradle.properties` 文件添加以下内容:
 
-```none
+```properties
 # gradle.properties
 kotlin.incremental.wasm=true
 ```
@@ -1550,10 +1556,8 @@ Kotlin 文档有了一些重要更新:
 
 * 新的 [构建跨平台的 Kotlin 库](api-guidelines-build-for-multiplatform.md) 章节 –
   学习如何设计支持 Kotlin Multiplatform 的 Kotlin 库.
-* 新的 [Kotlin Multiplatform 简介](multiplatform.topic) 章节 –
+* 新的 [Kotlin Multiplatform 简介](get-started.topic) 章节 –
   学习 Kotlin Multiplatform 的核心概念, 依赖项, 库, 等等.
-* 更新了 [Kotlin Multiplatform 概述](multiplatform.topic) 章节 –
-  了解 Kotlin Multiplatform 的基本内容和常见使用场景.
 * 新的 [iOS 集成](multiplatform-ios-integration-overview.md) 章节 –
   学习如何将 Kotlin Multiplatform 的共用模块集成到 你的 iOS App.
 * 新的 [Kotlin/Native 定义文件](native-definition-file.md) 章节 –

@@ -3,7 +3,7 @@
 除了 [测试你的库](api-guidelines-consistency.md#maintain-conventions-and-quality) 之外,
 还要确保使用你的库的代码也能够进行测试.
 
-## 避免使用全局状态和有状态的顶层函数
+## 避免使用全局状态和有状态的顶层函数 {id="avoid-global-state-and-stateful-top-level-functions"}
 
 你的库不应该依赖于全局变量中保存的状态, 也不应该在公开 API 中提供有状态的顶层函数.
 这样的变量和函数使用库的代码难以进行测试, 因为测试需要找到一种方法来控制这些全局的值.
@@ -27,7 +27,7 @@ println(instant)
 
 因此库的使用者能够将一个 `Clock` 实例注入到他们自己的类中, 并在测试中使用假的实现来替换真正的实现.
 
-## 下一步做什么
+## 下一步做什么 {id="whats-next"}
 
 如果你还没有读过, 请阅读下面这些章节:
 

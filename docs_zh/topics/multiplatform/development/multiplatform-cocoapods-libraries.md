@@ -13,6 +13,11 @@
 每个依赖项都需要单独调用这个函数.
 可以在函数的配置代码中对依赖项指定参数.
 
+> CocoaPods 集成方案,
+> 不能与 [直接集成](multiplatform-direct-integration.md) 所使用的 `embedAndSignAppleFrameworkForXcode` 机制共同使用.
+>
+{style="warning"}
+
 * 添加新的依赖项, 并在你的 IDE 中重新导入项目之后, 库会自动连接进来.
 * 要让你的 Kotlin 项目与 Xcode 协同工作, 首先请 [修改项目的 Podfile 文件](multiplatform-cocoapods-overview.md#update-podfile-for-xcode).
 

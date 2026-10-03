@@ -1,0 +1,149 @@
+<style>
+
+/* !!! 如果官方支持 "<a as="button" ...>...</a>", 需要删除下面的 work-around !!! */
+
+/* Tour navigation: remove list bullets, use flex layout */
+#tour-nav {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 16px;
+  margin: 24px 0;
+  width: 80%;
+}
+
+#tour-nav > .list__item {
+  flex: 1;
+  min-width: 0;
+}
+
+#tour-nav li::before {
+  content: none !important;
+}
+
+#tour-nav > .list__item > p {
+  margin: 0;
+}
+
+#tour-nav a[as="button"] {
+  width: 100%;
+  justify-content: center;
+}
+
+/* Base button styling for a[as="button"] */
+a[as="button"] {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 24px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 24px;
+  text-decoration: none !important;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+  box-sizing: border-box;
+}
+
+/* classic mode: filled primary color */
+a[as="button"][mode="classic"] {
+  background-color: var(--wh-color-primary, #307FFF);
+  color: #ffffff !important;
+  border: 1.5px solid transparent;
+}
+
+a[as="button"][mode="classic"]:hover {
+  background-color: #1a6ae6;
+}
+
+/* rock mode: near-black background */
+a[as="button"][mode="rock"] {
+  background-color: #19191c;
+  color: #ffffff !important;
+  border: 1.5px solid transparent;
+}
+
+a[as="button"][mode="rock"]:hover {
+  background-color: rgba(25, 25, 28, 0.8);
+}
+
+/* outline mode: transparent with border */
+a[as="button"][mode="outline"] {
+  background-color: transparent;
+  color: var(--wh-color-primary, #307FFF) !important;
+  border: 1.5px solid var(--wh-color-primary, #307FFF);
+}
+
+a[as="button"][mode="outline"]:hover {
+  background-color: rgba(48, 127, 255, 0.08);
+}
+
+/* SVG icon inside buttons */
+a[as="button"] > svg {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+  display: block;
+}
+
+@media screen and (max-width: 640px) {
+  #tour-nav {
+    flex-flow: column nowrap;
+    gap: 12px;
+    width: 100%;
+  }
+}
+</style>
+<script>
+(function () {
+  // SVG paths extracted from custom-frontend-app/app.js
+  var ICONS = {
+    'arrow-right': {viewBox: '0 0 24 24', d: 'M14.446 10.978V11H1.996v2h12.45v5.034l6.547-6.039-6.547-6.144v5.127z'},
+    'arrow-left':  {viewBox: '0 0 24 24', d: 'M9.547 5.967L3 12.005l6.547 6.145V13h12.451v-2H9.547V5.967z'}
+  };
+
+  function makeSVG(iconName) {
+    var info = ICONS[iconName];
+    if (!info) return null;
+    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', info.viewBox);
+    svg.setAttribute('aria-hidden', 'true');
+    var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', info.d);
+    path.setAttribute('fill', 'currentColor');
+    svg.appendChild(path);
+    return svg;
+  }
+
+  function applyTourButtons() {
+    document.querySelectorAll('a[as="button"]').forEach(function (a) {
+      if (a.dataset.tourButton) return;
+      a.dataset.tourButton = '1';
+
+      var icon = a.getAttribute('icon');
+      var iconPos = a.getAttribute('icon-position') || 'right';
+      if (!icon) return;
+
+      var svg = makeSVG(icon);
+      if (!svg) return;
+
+      if (iconPos === 'left') {
+        a.insertBefore(svg, a.firstChild);
+      } else {
+        a.appendChild(svg);
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', applyTourButtons);
+  } else {
+    applyTourButtons();
+  }
+})();
+</script>

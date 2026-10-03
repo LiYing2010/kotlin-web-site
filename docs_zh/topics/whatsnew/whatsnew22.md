@@ -1,6 +1,8 @@
 [//]: # (title: Kotlin 2.2.0 中的新功能)
 
-_[发布日期: 2025/06/23](releases.md#release-details)_
+<web-summary>阅读 Kotlin 2.2.0 发布说明, 包括新的语言特性, Kotlin Multiplatform, JVM, Native, JS, 和 Wasm 的更新, 以及对 Gradle 和 Maven 的构建工具支持.</web-summary>
+
+_[发布日期: 2025/06/23](releases.md#release-history)_
 
 Kotlin 2.2.0 已经发布了! 以下是它的一些最重要的功能:
 
@@ -15,11 +17,19 @@ Kotlin 2.2.0 已经发布了! 以下是它的一些最重要的功能:
 * **Kotlin/JS**: [修正了为 `@JsPlainObject` 接口生成的 `copy()` 方法](#fix-for-copy-in-jsplainobject-interfaces).
 * **Gradle**: [Kotlin Gradle plugin 中的二进制兼容性验证](#binary-compatibility-validation-included-in-kotlin-gradle-plugin).
 * **标准库**: [Base64 和 HexFormat API 进入稳定版](#stable-base64-encoding-and-decoding).
-* **文档**: 开放了我们的 [文档调查](https://surveys.jetbrains.com/s3/Kotlin-Docs-2025), 以及 [对 Kotlin 文档进行了显著的改善](#documentation-updates).
+* **文档**: [对 Kotlin 文档进行了重要改进](#documentation-updates).
+
+你也可以观看这个视频, 内容是 Kotlin 语言演进开发组讨论新的功能特性, 并回答问题:
+
+<video src="https://www.youtube.com/watch?v=jne3923lWtw" title="Kotlin 2.2.0 中的新功能"/>
+
+> 关于 Kotlin 的发布周期, 详情请参见 [Kotlin 发布过程](releases.md).
+>
+{style="tip"}
 
 ## IDE 支持 {id="ide-support"}
 
-最新版的 IntelliJ IDEA 和 Android Studio 中绑定了支持 2.2.0 的 Kotlin plugin.
+最新版的 IntelliJ IDEA 和 Android Studio 中捆绑了支持 2.2.0 的 Kotlin plugin.
 你不需要在你的 IDE 中更新 Kotlin plugin.
 你需要做的只是在你的构建脚本中 [修改 Kotlin 版本](configure-build-for-eap.md#adjust-the-kotlin-version) 为 2.2.0.
 
@@ -121,6 +131,10 @@ kotlin {
 <primary-label ref="experimental-general"/>
 
 Kotlin 2.2.0 引入了预览版功能, 上下文敏感的解析(Context-Sensitive Resolution)功能.
+
+关于这个功能特性的概要介绍, 你可以观看这个视频:
+
+<video src="https://www.youtube.com/v/aF8RYQrJI8Q" title="Context-sensitive resolution in Kotlin 2.2.0"/>
 
 之前, 即使类型能够通过上下文推断得到, 你也必须写明枚举值或封闭类成员的完整名称.
 例如:
@@ -227,7 +241,7 @@ data class User(
 
 * **`get`**: get 方法.
 
-* **`set_param`**: set 方法的参数, 如果属性定义为 `var`.
+* **`setparam`**: set 方法的参数, 如果属性定义为 `var`.
 
 * **`RECORD_COMPONENT`**: 如果类是一个 `@JvmRecord`, 注解应用于 [Java 记录组件(Record Component)](#improved-support-for-annotating-jvm-records).
   这个行为模仿 Java 对记录组件上的注解的处理方式.
@@ -241,10 +255,10 @@ data class User(
     val username: String,
 
     // 将 @Email 应用于 `param`, `property`, `field`,
-    // `get`, 以及 `set_param` (如果是 `var`)
+    // `get`, 以及 `setparam` (如果是 `var`)
     @all:Email val email: String,
 ) {
-    // 将 @Email 应用于 `property`, `field`, 以及 `getter`
+    // 将 @Email 应用于 `property`, `field`, 以及 `get`
     // (不应用于 `param`, 因为这个属性声明不在构造器中)
     @all:Email val secondaryEmail: String? = null
 }
@@ -328,6 +342,12 @@ kotlin {
 ### 支持嵌套的类型别名 {id="support-for-nested-type-aliases"}
 <primary-label ref="beta"/>
 
+Kotlin 2.2.0 新增了在其它声明之内定义类型别名的支持.
+
+关于这个功能特性的概要介绍, 你可以观看这个视频:
+
+<video src="https://www.youtube.com/v/1W6d45IOwWk" title="Nested type aliases in Kotlin 2.2.0"/>
+
 之前, 你只能在 Kotlin 文件的顶层声明 [类型别名](type-aliases.md).
 这就意味着, 即使是内部的, 或特定领域相关的类型别名, 也必须位于使用它们的类之外.
 
@@ -376,9 +396,9 @@ kotlin {
 在 Kotlin 2.1.0 中, 引进了几个新的语言功能特性的预览版.
 我们很高兴的宣布, 在这个发布版中, 以下语言功能特性现在进入 [稳定版](components-stability.md#stability-levels-explained):
 
-* [在带主语(Subject)的 `when` 中的保护条件(Guard Condition)](whatsnew21.md#guard-conditions-in-when-with-a-subject)
-* [非局部的 `break` 和 `continue`](whatsnew21.md#non-local-break-and-continue)
-* [多 $ 符号字符串插值: 改进了字符串字面值中的 `$` 处理](whatsnew21.md#multi-dollar-string-interpolation)
+* [在带主语(Subject)的 `when` 中的保护条件(Guard Condition)](control-flow.md#guard-conditions-in-when-expressions)
+* [非局部的 `break` 和 `continue`](inline-functions.md#break-and-continue)
+* [多 $ 符号字符串插值: 改进了字符串字面值中的 `$` 处理](strings.md#multi-dollar-string-interpolation)
 
 [查看完整的 Kotlin 语言设计的功能特性和提案列表](kotlin-language-features-and-proposals.md).
 
@@ -562,6 +582,10 @@ fun main() {
 
 Kotlin 2.2.0 引入一个新的实验性注解: [`@JvmExposeBoxed`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-expose-boxed/).
 这个注解可以让在 Java 中使用 [内联的值类](inline-classes.md) 变得更加容易.
+
+关于这个功能特性的概要介绍, 你可以观看这个视频:
+
+<video src="https://www.youtube.com/v/KSvq7jHr1lo" title="Exposed inline value classes for Java in Kotlin 2.2.0"/>
 
 默认情况下, Kotlin 会将内联的值类编译为使用 **未装箱的表达形式(Unboxed Representation)**,
 这样性能更高, 但在 Java 中使用会很困难, 甚至无法使用.
@@ -860,7 +884,7 @@ typealias SomeClass = Any
 
 ### 支持跨平台的 `expect` 声明中的 `@JsExport` {id="support-for-jsexport-in-multiplatform-expect-declarations"}
 
-之前, 在 Kotlin Multiplatform 项目中使用 [`expect/actual` 机制](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-expect-actual.html) 时,
+之前, 在 Kotlin Multiplatform 项目中使用 [`expect/actual` 机制](multiplatform-expect-actual.md) 时,
 无法对共通代码中的 `expect` 声明使用 `@JsExport` 注解.
 
 从这个发布版开始, 可以直接对 `expect` 声明使用 `@JsExport`:
@@ -1081,7 +1105,7 @@ JetBrains 的 Kotlin 开发组已经在 Kotlin Gradle plugin (KGP) 和 `kotlin-m
 
 ```properties
 kotlin.compiler.runViaBuildToolsApi=true
-```   
+```
 
 * 在 Maven 中, 你不需要做任何事. 它默认启用.
 
@@ -1095,7 +1119,7 @@ BTA 现在还不能为 Maven plugin 带来直接的益处, 但它为更快的开
 
 ### 改进了 "in process" 编译器执行策略 {id="improved-in-process-compiler-execution-strategy"}
 
-KGP 支持 3 种 [Kotlin 编译器执行策略](gradle-compilation-and-caches.md#defining-kotlin-compiler-execution-strategy).
+KGP 支持 3 种 [Kotlin 编译器执行策略](compiler-execution-strategy.md).
 "in-process" 策略, 在 Gradle daemon 进程内运行编译器, 之前不支持增量编译.
 
 现在, 使用 BTA, "in-process" 策略 **能够** 支持增量编译.
@@ -1146,7 +1170,7 @@ Kotlin 开发组计划在未来的 Kotlin 发布版中解决这类问题.
 
 请通过这些 plugin 试用 BTA, 并在 [KGP](https://youtrack.jetbrains.com/issue/KT-56574) 和 [Maven plugin](https://youtrack.jetbrains.com/issue/KT-73012) 的 YouTrack ticket 中, 告诉我们你的反馈意见.
 
-## Kotlin 标准库 {id="kotlin-standard-library"}
+## 标准库 {id="standard-library"}
 
 在 Kotlin 2.2.0 中, [`Base64` API](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.io.encoding/-base64/) 和 [`HexFormat` API](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.text/-hex-format/) 现在成为 [稳定版](components-stability.md#stability-levels-explained).
 
@@ -1290,11 +1314,12 @@ composeCompiler {
 本节重点介绍值得注意的重要破坏性变更和废弃.
 关于这个发布版中所有的破坏性变更和废弃, 请参见我们的 [兼容性指南](compatibility-guide-22.md).
 
-* 从 Kotlin 2.2.0 开始, 对 [](ant.md) 构建系统的支持已废弃.
+* 从 Kotlin 2.2.0 开始, 编译器 [不再支持 `-language-version=1.6` 或 `-language-version=1.7`](compatibility-guide-22.md#drop-support-in-language-version-for-1-6-and-1-7).
+  以前版本的语言功能特性集不再支持, 但语言本身仍然保持与 Kotlin 1.0 完全向后兼容.
+
+* 对 Ant 构建系统的支持已废弃.
   Kotlin 对 Ant 的支持已经很长时间没有积极的开发, 而且没有计划继续维护, 因为使用者数量相对比较少.
-  
-  我们计划在 2.3.0 中删除对 Ant 的支持. 但是, Kotlin 仍然欢迎你进行 [贡献](contribute.md).
-  如果你有兴趣成为 Ant 的外部维护者, 请在 [这个 YouTrack issue](https://youtrack.jetbrains.com/issue/KT-75875/) 中留言, 并设置为 "jetbrains-team" 可见.
+  我们计划在 2.3.0 中删除对 Ant 的支持.
 
 * Kotlin 2.2.0 将 [Gradle 中的 `kotlinOptions{}` 代码段的废弃级别提升为错误](compatibility-guide-22.md#deprecate-kotlinoptions-dsl).
   请改为使用 `compilerOptions{}` 代码段. 关于如何更新你的构建脚本, 详情请参见 [从 `kotlinOptions{}` 迁移到 `compilerOptions{}`](gradle-compiler-options.md#migrate-from-kotlinoptions-to-compileroptions).
@@ -1339,16 +1364,9 @@ composeCompiler {
 
 ## 文档更新 {id="documentation-updates"}
 
-这个发布版带来了显著的文档变更, 包括 Kotlin Multiplatform 文档迁移到 [KMP 门户站](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html).
-此外, 我们发起了一个文档调查, 创建了新的页面和教程, 还修改了现有的页面和教程.
+这个发布版带来了显著的文档变更, 包括 Kotlin Multiplatform 文档迁移到 [KMP 门户站](https://kotlinlang.org/docs/multiplatform/get-started.html).
 
-### Kotlin 文档调查 {id="kotlin-s-documentation-survey"}
-
-为了改进 Kotlin 文档, 我们正在寻求真实的反馈意见.
-
-调查大约需要花费 15 分钟完成, 你的回答将会有助于塑造 Kotlin 文档的未来.
-
-[请在这里参加调查](https://surveys.jetbrains.com/s3/Kotlin-Docs-2025).
+此外, 我们创建了新的页面和教程, 还修改了现有的页面和教程.
 
 ### 新增和修改的教程 {id="new-and-revamped-tutorials"}
 
@@ -1362,11 +1380,11 @@ composeCompiler {
   学习如何在 Kotlin  C 之间映射各种类型和结构.
 * [使用 C interop 和 libcurl 创建一个应用程序](native-app-with-c-and-libcurl.md) –
   使用 libcurl C 库, 创建一个能够原生运行的简单的 HTTP 客户端.
-* [创建你的 Kotlin Multiplatform 库](https://www.jetbrains.com/help/kotlin-multiplatform-dev/create-kotlin-multiplatform-library.html) –
+* [创建你的 Kotlin Multiplatform 库](https://kotlinlang.org/docs/multiplatform/create-kotlin-multiplatform-library.html) –
   学习如何使用 IntelliJ IDEA 创建和发布一个跨平台库.
 * [使用 Ktor 和 Kotlin Multiplatform 构建一个全栈应用程序](https://ktor.io/docs/full-stack-development-with-kotlin-multiplatform.html) –
   这个教程现在使用 IntelliJ IDEA 而不是 Fleet, 以及 Material 3, Ktor 和 Kotlin 的最新版本.
-* [在你的 Compose Multiplatform 应用程序中管理本地资源环境](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-resource-environment.html) –
+* [在你的 Compose Multiplatform 应用程序中管理本地资源环境](https://kotlinlang.org/docs/multiplatform/compose-resource-environment.html) –
   学习如何管理应用程序的资源环境, 例如应用程序内的主题和语言.
 
 ### 新增和修改的页面 {id="new-and-revamped-pages"}
@@ -1380,10 +1398,10 @@ composeCompiler {
 * [CocoaPods 集成](multiplatform-cocoapods-overview.md) –
   通过教程和示例项目, 学习如何设置环境, 添加 Pod 依赖项, 或使用 Kotlin 项目作为 CocoaPod 依赖项.
 * 新增页面, 关于 Compose Multiplatform 支持 iOS 功能的稳定发布版:
-    * 特别是 [导航](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-navigation.html) 和 [深度链接](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-navigation-deep-links.html).
-    * [在 Compose 中实现布局](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-layout.html).
-    * [本地化字符串](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-localize-strings.html), 以及其他 i18n 页面, 例如支持 RTL 语言.
-* [Compose 热重载(Hot Reload)](https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-hot-reload.html) –
+    * 特别是 [导航](https://kotlinlang.org/docs/multiplatform/compose-navigation.html) 和 [深度链接](https://kotlinlang.org/docs/multiplatform/compose-navigation-deep-links.html).
+    * [在 Compose 中实现布局](https://kotlinlang.org/docs/multiplatform/compose-layout.html).
+    * [本地化字符串](https://kotlinlang.org/docs/multiplatform/compose-localize-strings.html), 以及其他 i18n 页面, 例如支持 RTL 语言.
+* [Compose 热重载(Hot Reload)](https://kotlinlang.org/docs/multiplatform/compose-hot-reload.html) –
   学习如何在你的 Desktop 编译目标中使用 Compose 热重载(Hot Reload)功能, 以及如何将这个功能添加到既有的项目.
 * [Exposed 迁移](https://www.jetbrains.com/help/exposed/migrations.html) –
   学习 Exposed 提供的工具, 用于管理数据库 schema 变更.

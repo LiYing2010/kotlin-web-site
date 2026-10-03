@@ -1,6 +1,8 @@
 [//]: # (title: Kotlin 2.0.0 中的新功能)
 
-_[发布日期: 2024/05/21](releases.md#release-details)_
+<web-summary>阅读 Kotlin 2.0.0 发布说明, 包括新的语言特性, Kotlin Multiplatform, JVM, Native, JS, 和 Wasm 的更新, 以及对 Gradle 和 Maven 的构建工具支持.</web-summary>
+
+_[发布日期: 2024/05/21](releases.md#release-history)_
 
 Kotlin 2.0.0 已经发布了, 并且 [新的 Kotlin K2 编译器](#kotlin-k2-compiler) 已经进入稳定版!
 此外, 还有以下重要功能:
@@ -22,6 +24,10 @@ Kotlin 2.0 对于 JetBrains 开发组来说是一个巨大的里程碑.
 请观看我们的开幕主题演讲, 我们宣布了激动人心的更新, 并讨论了我们对 Kotlin 语言的最新工作:
 
 <video src="https://www.youtube.com/v/Ar73Axsz2YA" title="KotlinConf'24 - Keynote"/>
+
+> 关于 Kotlin 的发布周期, 详情请参见 [Kotlin 发布过程](releases.md).
+>
+{style="tip"}
 
 ## IDE 支持 {id="ide-support"}
 
@@ -1270,7 +1276,7 @@ Gradle 属性默认会和所有的 Kotlin 变体一起发布.
 如果必要, 你可以禁止发布这个属性.
 要做到这一点, 请向你的 `gradle.properties` 文件添加以下 Gradle 选项:
 
-```none
+```properties
 kotlin.publishJvmEnvironmentAttribute=false
 ```
 
@@ -1452,7 +1458,7 @@ Gradle 总是会在 [配置阶段](https://docs.gradle.org/current/userguide/bui
 
 如果你遇到与这个新行为相关的任何问题, 你可以向你的 `gradle.properties` 文件添加以下 Gradle 属性, 暂时切换回之前的行为:
 
-```none
+```properties
 kotlin.native.toolchain.enabled=false
 ```
 
@@ -1463,7 +1469,7 @@ kotlin.native.toolchain.enabled=false
 
 你可以在你的 `gradle.properties` 文件中设置以下 Gradle 属性, 暂时切换到以前的行为:
 
-```none
+```properties
 kotlin.native.distribution.downloadFromMaven=false
 ```
 
@@ -1547,10 +1553,10 @@ kotlin.native.distribution.downloadFromMaven=false
 
 要为你的构建报告配置 JSON 输出格式, 请在你的 `gradle.properties` 文件中声明以下属性:
 
-```none
+```properties
 kotlin.build.report.output=json
 
-// 用来存储你的构建报告的目录
+# 用来存储你的构建报告的目录
 kotlin.build.report.json.directory=my/directory/path
 ```
 

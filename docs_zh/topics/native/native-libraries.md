@@ -1,195 +1,194 @@
 [//]: # (title: Kotlin/Native 库)
 
-## Kotlin 编译器使用方法 {id="kotlin-compiler-specifics"}
+## 库的编译 {id="library-compilation"}
 
-要通过 Kotlin/Native 编译器编译产生库文件, 请使用 `-produce library` 或 `-p library` 参数.
-例如:
+你可以使用你的项目的构建文件, 或 Kotlin/Native 编译器, 来为你的库产生 `*.klib` 文件.
 
-```bash
-$ kotlinc-native foo.kt -p library -o bar
-```
+### 使用 Gradle 构建文件 {id="using-gradle-build-file"}
 
-这个命令会编译源代码文件 `foo.kt`, 输出为库文件 `bar.klib`.
+你可以在你的 Gradle 构建文件中指定一个 [Kotlin/Native 编译目标](native-target-support.md), 来编译 `*.klib` 库文件:
 
-要链接一个库, 请使用 `-library <name>` 或 `-l <name>` 参数.
-例如:
+1. 在你的 `build.gradle(.kts)` 文件中, 声明至少 1 个 Kotlin/Native 编译目标. 例如:
 
-```bash
-$ kotlinc-native qux.kt -l bar
-```
+   ```kotlin
+   // build.gradle.kts
+   plugins {
+       kotlin("multiplatform") version "%kotlinVersion%"
+   }
+ 
+   kotlin {
+       macosArm64()    // 用于 macOS
+       // linuxArm64() // 用于 Linux
+       // mingwX64()   // 用于 Windows
+   }
+   ```
 
-这个命令会编译源代码文件 `qux.kt`, 与库文件 `bar.klib` 链接, 输出为 `program.kexe`.
+2. 运行 `<target>Klib` task. 例如:
 
-## cinterop 工具使用方法 {id="cinterop-tool-specifics"}
+   ```bash
+   ./gradlew macosArm64Klib
+   ```
 
-**cinterop** 工具会对原生的库文件生成 `.klib` 格式的包装.
-比如, 可以使用 Kotlin/Native 发布中附带的简单的 `libgit2.def` 原生库定义文件
+Gradle 会自动对这个编译目标编译源代码文件, 并在项目的 `build/libs` 目录中生成 `.klib` 文件.
 
-```bash
-$ cinterop -def samples/gitchurn/src/nativeInterop/cinterop/libgit2.def -compiler-option -I/usr/local/include -o libgit2
-```
+### 使用 Kotlin/Native 编译器 {id="using-kotlin-native-compiler"}
 
-我们可以得到 `libgit2.klib` 文件.
+要通过 Kotlin/Native 编译器编译产生库文件, 请执行以下步骤:
 
-详情请参见 [与 C 代码交互](native-c-interop.md).
+1. [下载并安装 Kotlin/Native 编译器](native-get-started.md#download-and-install-the-compiler).
+2. 要将一个 Kotlin/Native 源代码文件编译为一个库, 请使用 `-produce library` 或 `-p library` 选项:
+
+   ```bash
+   kotlinc-native foo.kt -p library -o bar
+   ```
+
+   这个命令将 `foo.kt` 文件的内容编译为名为 `bar` 的库, 产生 `bar.klib` 文件.
+
+3. 要将另一个文件链接到一个库, 请使用 `-library <name>` 或 `-l <name>` 选项. 例如:
+
+   ```bash
+   kotlinc-native qux.kt -l bar
+   ```
+
+   这个命令编译 `qux.kt` 源代码文件和 `bar.klib` 库的内容, 产生最终的可执行文件 `program.kexe`.
 
 ## klib 工具 {id="klib-utility"}
 
-**klib** 库管理工具可以用来查看和安装库.
-
-可用的命令如下:
-
-* `content` – 列出库的内容:
-
-  ```bash
-  $ klib contents <name>
-  ```
-
-* `info` – 查看库的内容细节:
-
-  ```bash
-  $ klib info <name>
-  ```
-
-* `install` – 要把库安装到默认的位置, 可以使用:
-
-  ```bash
-  $ klib install <name>
-  ```
-
-* `remove` – 从默认的仓库中删除一个库, 可以使用:
-
-  ```bash
-  $ klib remove <name>
-  ```
-
-以上所有命令都可以接受一个 `-repository <directory>` 参数, 用来指定默认值以外的仓库位置.
+**klib** 库管理工具可以用来查看库, 使用以下语法:
 
 ```bash
-$ klib <command> <name> -repository <directory>
+klib <command> <library path> [<option>]
 ```
 
-## 几个例子 {id="several-examples"}
+目前可用的命令如下:
 
-首先我们来创建一个库.
-把我们这个小小的库的源代码放在 `kotlinizer.kt` 文件内:
+| 命令                            | 描述                                                                                                                                                     |
+|-------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `info`                        | 库的一般信息.                                                                                                                                                |
+| `dump-abi`                    | 导出 ABI 快照库. 快照中的每 1 行对应 1 个声明. 如果某个声明发生 ABI 不兼容的变化, 这个变化会出现在快照对应的行中.                                                                                   |
+| `dump-ir`                     | 导出库声明的中间表达形式(Intermediate Representation, IR). 请只在调试中使用.                                                                                               |
+| `dump-ir-signatures`          | 对库的所有非 private 声明, 以及这个库使用的所有非 private 声明, 导出 IR 签名(输出为 2 个单独的文件). 这个命令完全依赖于 IR 中的数据.                                                                  |
+| `dump-ir-inlinable-functions` | 导出库中可内联的函数的 IR. 请只在调试中使用.                                                                                                                              |
+| `dump-metadata`               | 导出所有库声明的元数据. 请只在调试中使用.                                                                                                                                 |
+| `dump-metadata-signatures`    | 根据库的元数据, 导出所有非 private 库声明的 IR 签名. 大多数情况下, 输出与 `dump-ir-signatures` 命令(它根据 IR 生成签名) 相同. 但是, 如果在编译期间使用了 IR 变换编译器 plugin (例如 Compose), 修改后的声明可能会具有不同的签名. |
 
-```kotlin
-package kotlinizer
-val String.kotlinized
-    get() = "Kotlin $this"
-```
+上面所有的导出(dump)命令都接受一个额外的 `-signature-version {N}` 参数, 告诉 klib 工具在导出签名时使用哪个 IR 签名版本.
+如果没有指定这个参数, 它会使用库支持的最新版本. 例如:
 
 ```bash
-$ kotlinc-native kotlinizer.kt -p library -o kotlinizer
+klib dump-metadata-signatures mylib.klib -signature-version 1
 ```
 
-库会被创建到当前目录下:
+此外, the `dump-metadata` 命令可以使用 `-print-signatures {true|false}` 参数,
+告诉 klib 工具为每个声明打印 IR 签名.
 
-```bash
-$ ls kotlinizer.klib
-kotlinizer.klib
-```
+## 创建和使用一个库 {id="creating-and-using-a-library"}
 
-现在我们来看看库的内容:
+1. 创建一个库, 首先将源代码放在 `kotlinizer.kt` 文件内:
 
-```bash
-$ klib contents kotlinizer
-```
+   ```kotlin
+   package kotlinizer
 
-你可以将 `kotlinizer` 库安装到默认的仓库中:
+   val String.kotlinized
+       get() = "Kotlin $this"
+   ```
 
-```bash
-$ klib install kotlinizer
-```
+2. 将库编译为一个 `.klib` 文件:
 
-然后在当前目录中删除它的一切痕迹:
+   ```bash
+   kotlinc-native kotlinizer.kt -p library -o kotlinizer
+   ```
 
-```bash
-$ rm kotlinizer.klib
-```
+3. 在当前目录中查看创建的库:
 
-编写一个很短的程序, 放在 `use.kt` 文件中:
+   ```bash
+   ls kotlinizer.klib
+   ```
 
-```kotlin
-import kotlinizer.*
+4. 查看库的一般信息:
 
-fun main(args: Array<String>) {
-    println("Hello, ${"world".kotlinized}!")
-}
-```
+   ```bash
+   klib info kotlinizer.klib
+   ```
 
-然后编译这个程序, 并链接你刚才创建的库:
+5. 在 `use.kt` 文件中编写一段小程序:
 
-```bash
-$ kotlinc-native use.kt -l kotlinizer -o kohello
-```
+   ```kotlin
+   import kotlinizer.*
 
-然后运行这个程序:
+   fun main(args: Array<String>) {
+       println("Hello, ${"world".kotlinized}!")
+   }
+   ```
 
-```bash
-$ ./kohello.kexe
-Hello, Kotlin world!
-```
+6. 编译这个程序, 将 `use.kt` 源代码文件链接到你的库:
 
-祝你玩得开心!
+   ```bash
+   kotlinc-native use.kt -l kotlinizer -o kohello
+   ```
 
-## 高级问题 {id="advanced-topics"}
+7. 运行程序:
 
-### 库的查找顺序 {id="library-search-sequence"}
+   ```bash
+   ./kohello.kexe
+   ```
 
-当我们指定 `-library foo` 参数时, 编译器会按照以下顺序查找 `foo` 库:
+你会在输出中看到 `Hello, Kotlin world!`.
 
-* 当前编译目录, 或一个绝对路径.
-* 通过 `-repo` 参数指定的所有仓库.
-* 默认仓库中安装的所有库.
+## 库的查找顺序 {id="library-search-sequence"}
 
-   > 默认仓库是 `~/.konan`. You can change it 你可以设置 Gradle 属性 `kotlin.data.dir` 来修改这个值.
+> 库的搜索机制很快会发生变更. 请注意本节的更新, 不要依赖于已废弃的选项.
+>
+{style="note"}
+
+当我们指定 `-library foo` 选项时, 编译器会按照以下顺序查找 `foo` 库:
+
+1. 当前编译目录, 或一个绝对路径.
+2. 默认仓库中安装的所有库.
+
+   > 默认仓库是 `~/.konan`. 你可以设置 Gradle 属性 `konan.data.dir` 来修改这个值.
    >
    > 或者, 也可以使用 `-Xkonan-data-dir` 编译器选项, 通过 `cinterop` 和  `konanc` 工具来配置你的的自定义目录路径.
    >
    {style="note"}
 
-* `$installation/klib` 目录中安装的所有库.
+3. `$installation/klib` 目录中安装的所有库.
 
-### 库文件的格式 {id="library-format"}
+## 库文件的格式 {id="library-format"}
 
 Kotlin/Native 库是 zip 文件, 包含预定义的目录结构, 如下:
 
 `foo.klib` 解压缩到 `foo/` 目录后会得到以下内容:
 
 ```text
-  - foo/
-    - $component_name/
-      - ir/
-        - 序列化后的 Kotlin IR.
-      - targets/
-        - $platform/
-          - kotlin/
-            - Kotlin 编译产生的 LLVM bitcode 文件.
-          - native/
-            - 其他原生对象的 bitcode 文件.
-        - $another_platform/
-          - 可能存在几组平台相关的目录, 其中都包含 kotlin 和 native 目录.
-      - linkdata/
-        - 一组 ProtoBuf 文件, 包含序列化链接元数据(serialized linkage metadata).
-      - resources/
-        - 一般资源文件, 比如图像文件. (暂时没有使用).
-      - manifest - 库的描述文件, 使用 java property 格式.
+- foo/
+  - $component_name/
+    - ir/
+      - 序列化后的 Kotlin IR.
+    - targets/
+      - $platform/
+        - kotlin/
+          - Kotlin 编译产生的 LLVM bitcode 文件.
+        - native/
+          - 其他原生对象的 bitcode 文件.
+      - $another_platform/
+        - 可能存在几组平台相关的目录, 其中都包含 kotlin 和 native 目录.
+    - linkdata/
+      - 一组 ProtoBuf 文件, 包含序列化链接元数据(serialized linkage metadata).
+    - resources/
+      - 一般资源文件, 比如图像文件. (暂时没有使用).
+    - manifest - 库的描述文件, 使用 java property 格式.
 ```
 
-在你的 Kotlin/Native 环境的 `klib/stdlib` 目录下可以找到这些库文件结构的例子.
+在你的 Kotlin/Native 编译器安装的 `klib/common/stdlib` 目录中, 可以找到库文件结构的例子.
 
-### 在 klib 中使用相对路径 {id="using-relative-paths-in-klibs"}
-
-> klib 中的相对路径功能从 Kotlin 1.6.20 开始可用.
->
-{style="note"}
+## 在 klib 中使用相对路径 {id="using-relative-paths-in-klibs"}
 
 源代码文件的序列化后的 IR 表达是一个 `klib` 库的[一部分](#library-format).
 其中包含文件路径, 用于生成正确的调试信息.
 默认情况下, 存储的路径是绝对路径.
-使用 `-Xklib-relative-path-base` , 你可以修改库的格式, 在 artifact 中只使用相对路径.
+
+使用编译器选项 `-Xklib-relative-path-base` , 你可以修改库的格式, 在 artifact 中只使用相对路径.
 要让这个功能有效, 需要向编译器选项的参数传递一个或多个源代码文件基准路径:
 
 <tabs group="build-script">
@@ -222,3 +221,7 @@ tasks.named('compileKotlin', KotlinCompilationTask) {
 
 </tab>
 </tabs>
+
+## 下一步做什么? {id="what-s-next"}
+
+[学习如何使用 cinterop 工具来产生 `*.klib` 文件](native-definition-file.md)

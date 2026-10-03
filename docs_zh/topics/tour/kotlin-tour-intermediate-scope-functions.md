@@ -1,16 +1,4 @@
-[//]: # (title: 中级教程: 作用域函数(Scope Function))
-
-<tldr>
-    <p><img src="icon-1-done.svg" width="20" alt="First step" /> <a href="kotlin-tour-intermediate-extension-functions.md">扩展函数</a><br />
-        <img src="icon-2.svg" width="20" alt="Second step" /> <strong>作用域函数</strong><br />
-        <img src="icon-3-todo.svg" width="20" alt="Third step" /> <a href="kotlin-tour-intermediate-lambdas-receiver.md">带接受者的 Lambda 表达式</a><br />
-        <img src="icon-4-todo.svg" width="20" alt="Fourth step" /> <a href="kotlin-tour-intermediate-classes-interfaces.md">类与接口</a><br />
-        <img src="icon-5-todo.svg" width="20" alt="Fifth step" /> <a href="kotlin-tour-intermediate-objects.md">对象</a><br />
-        <img src="icon-6-todo.svg" width="20" alt="Sixth step" /> <a href="kotlin-tour-intermediate-open-special-classes.md">开放类与特殊类</a><br />
-        <img src="icon-7-todo.svg" width="20" alt="Seventh step" /> <a href="kotlin-tour-intermediate-properties.md">属性</a><br />
-        <img src="icon-8-todo.svg" width="20" alt="Eighth step" /> <a href="kotlin-tour-intermediate-null-safety.md">Null 值安全性</a><br />
-        <img src="icon-9-todo.svg" width="20" alt="Ninth step" /> <a href="kotlin-tour-intermediate-libraries-and-apis.md">库与 API</a></p>
-</tldr>
+[//]: # (title: 作用域函数(Scope Function))
 
 在这一章中, 你在对扩展函数的理解的基础之上, 学习如何使用作用域函数来编写更加符合 Kotlin 惯用法的代码.
 
@@ -121,7 +109,7 @@ fun main() {
 {kotlin-runnable="true" id="kotlin-tour-scope-function-let-non-null"}
 
 这个示例中:
-* 创建一个变量, 名为 `address`.
+* 创建名为 `address` 和 `confirm` 的变量.
 * 在 `address` 变量上, 对 `let` 作用域函数使用一个安全调用.
 * 在 `let` 作用域函数之内, 创建一个临时作用域.
 * 将 `sendNotification()` 函数作为一个 Lambda 表达式, 传递给 `let` 作用域函数.
@@ -143,7 +131,10 @@ class Client() {
     var token: String? = null
     fun connect() = println("connected!")
     fun authenticate() = println("authenticated!")
-    fun getData(): String = "Mock data"
+    fun getData() : String {
+        println("getting data!")
+        return "Mock data"
+    }
 }
 
 val client = Client()
@@ -155,6 +146,7 @@ fun main() {
     client.authenticate()
     // 输出结果为: authenticated!
     client.getData()
+    // 输出结果为: getting data!
 }
 ```
 {kotlin-runnable="true" id="kotlin-tour-scope-function-apply-before"}
@@ -173,19 +165,23 @@ class Client() {
     var token: String? = null
     fun connect() = println("connected!")
     fun authenticate() = println("authenticated!")
-    fun getData(): String = "Mock data"
+    fun getData() : String {
+        println("getting data!")
+        return "Mock data"
+    }
 }
 //sampleStart
 val client = Client().apply {
     token = "asdf"
     connect()
+    // 输出结果为: connected!
     authenticate()
+    // 输出结果为: authenticated!
 }
 
 fun main() {
     client.getData()
-    // 输出结果为: connected!
-    // 输出结果为: authenticated!
+    // 输出结果为: getting data!
 }
 //sampleEnd
 ```
@@ -216,7 +212,10 @@ class Client() {
     var token: String? = null
     fun connect() = println("connected!")
     fun authenticate() = println("authenticated!")
-    fun getData(): String = "Mock data"
+    fun getData() : String {
+        println("getting data!")
+        return "Mock data"
+    }
 }
 
 //sampleStart
@@ -231,6 +230,7 @@ fun main() {
         authenticate()
         // 输出结果为: authenticated!
         getData()
+        // 输出结果为: getting data!
     }
 }
 //sampleEnd
@@ -281,7 +281,7 @@ fun main() {
 * 对 `medals` 变量使用 `.map()` 扩展函数.
 * 向 `.map()` 函数传递一个 Lambda 表达式, 它通过 `it` 关键字引用 `medals`, 并对它调用 `.uppercase()` 扩展函数.
 * 对 `medals` 变量使用 `.filter()` 扩展函数.
-* 向 `.filter()` 函数传递一个 Lambda 表达式, 作为判定条件, 它通过 `it` 关键字引用 `medals`, 并检查 `medals` 变量中包含的字符串长度是否超过 4 个字符.
+* 向 `.filter()` 函数传递一个 Lambda 表达式, 作为判定条件, 它通过 `it` 关键字引用 `medals`, 并检查列表中的元素是否超过 4 个字符.
 * 对 `medals` 变量使用 `.reversed()` 扩展函数.
 * 将结果赋值给 `reversedLongUpperCaseMedals` 变量.
 * 打印输出 `reversedLongUpperCaseMedals` 变量中包含的列表.
@@ -384,7 +384,7 @@ fun main() {
 {kotlin-runnable="true" id="kotlin-tour-scope-function-with-after"}
 
 这个示例中:
-* 使用 `with` 作用域函数, 将 `mainMonitorSecondaryBufferBackedCanvas` 实例作为接受者对象.
+* 使用 `with` 作用域函数, 将 `mainMonitorSecondaryBufferBackedCanvas` 实例作为接受者.
 * 在 `with` 作用域函数之内创建一个临时作用域, 因此在调用它的成员函数, 你不必明确的引用 `mainMonitorSecondaryBufferBackedCanvas` 实例.
 * 向 `with` 作用域函数传递一个 Lambda 表达式, 使用不同的函数参数调用一系列的成员函数.
 
@@ -396,17 +396,17 @@ fun main() {
 你可以将这个表作为一个快速参考.
 需要注意的是, 要在你的代码中使用这些函数, 你并不需要完全理解它们如何工作.
 
-| 函数      | 访问 `x` 的方式 | 返回值           | 使用场景                               |
-|---------|------------|---------------|------------------------------------|
-| `let`   | `it`       | Lambda 表达式的结果 | 在你的代码中执行 null 值检查, 然后对返回的对象执行后续操作. |
-| `apply` | `this`     | `x`           | 在创建时初始化对象.                         |
-| `run`   | `this`     | Lambda 表达式的结果 | 在创建时初始化对象, **并** 计算一个结果.           |
-| `also`  | `it`       | `x`           | 在返回对象之前进行额外的操作 .                   |
-| `with`  | `this`     | Lambda 表达式的结果 | 在一个对象上调用多个函数 .                     |
+| 函数    | 访问 `x` 的方式 | 返回值              | 使用场景                                                    |
+|---------|-----------------|---------------------|-------------------------------------------------------------|
+| `let`   | `it`            | Lambda 表达式的结果 | 在你的代码中执行 null 值检查, 然后对返回的对象执行后续操作. |
+| `apply` | `this`          | `x`                 | 在创建时初始化对象.                                         |
+| `run`   | `this`          | Lambda 表达式的结果 | 在创建时初始化对象, **并** 计算一个结果.                    |
+| `also`  | `it`            | `x`                 | 在返回对象之前进行额外的操作 .                              |
+| `with`  | `this`          | Lambda 表达式的结果 | 在一个对象上调用多个函数 .                                  |
 
 关于作用域函数, 详情请参见 [作用域函数](scope-functions.md).
 
-## 实际练习 {id="practice"}
+## 实际练习 {completion-point="true" id="practice"}
 
 ### 习题 1 {initial-collapse-state="collapsed" collapsible="true" id="scope-functions-exercise-1"}
 
@@ -527,6 +527,13 @@ fun main() {
 ```
 {initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-scope-functions-solution-2"}
 
-## 下一步 {id="next-step"}
+<seealso></seealso>
 
-[中级教程: 带接受者的 Lambda 表达式](kotlin-tour-intermediate-lambdas-receiver.md)
+<list columns="2" id="tour-nav">
+  <li>
+    <a as="button" href="kotlin-tour-intermediate-extension-functions.md" mode="outline" icon="arrow-left" icon-position="left">上一步</a>
+  </li>
+  <li>
+    <a as="button" href="kotlin-tour-intermediate-lambdas-receiver.md" mode="classic" icon="arrow-right" icon-position="right">下一步</a>
+  </li>
+</list>

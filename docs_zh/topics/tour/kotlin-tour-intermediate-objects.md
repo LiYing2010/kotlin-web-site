@@ -1,16 +1,4 @@
-[//]: # (title: 中级教程: 对象)
-
-<tldr>
-    <p><img src="icon-1-done.svg" width="20" alt="First step" /> <a href="kotlin-tour-intermediate-extension-functions.md">扩展函数</a><br />
-        <img src="icon-2-done.svg" width="20" alt="Second step" /> <a href="kotlin-tour-intermediate-scope-functions.md">作用域函数</a><br />
-        <img src="icon-3-done.svg" width="20" alt="Third step" /> <a href="kotlin-tour-intermediate-lambdas-receiver.md">带接受者的 Lambda 表达式</a><br /> 
-        <img src="icon-4-done.svg" width="20" alt="Fourth step" /> <a href="kotlin-tour-intermediate-classes-interfaces.md">类与接口</a><br /> 
-        <img src="icon-5.svg" width="20" alt="Fourth step" /> <strong>对象</strong><br />
-        <img src="icon-6-todo.svg" width="20" alt="Sixth step" /> <a href="kotlin-tour-intermediate-open-special-classes.md">开放类与特殊类</a><br />
-        <img src="icon-7-todo.svg" width="20" alt="Seventh step" /> <a href="kotlin-tour-intermediate-properties.md">属性</a><br />
-        <img src="icon-8-todo.svg" width="20" alt="Eighth step" /> <a href="kotlin-tour-intermediate-null-safety.md">Null 值安全性</a><br />
-        <img src="icon-9-todo.svg" width="20" alt="Ninth step" /> <a href="kotlin-tour-intermediate-libraries-and-apis.md">库与 API</a></p>
-</tldr>
+[//]: # (title: 对象)
 
 在这一章中, 你将探索对象声明, 扩展对类的理解.
 这些知识将帮助你高效的管理整个项目的行为.
@@ -57,7 +45,7 @@ fun main(){
 ```
 {kotlin-runnable="true" id="kotlin-tour-object-declarations"}
 
-这个对象有一个成员函数, 名为 `takeParams`, 参数是 `username` 和 `password` 变量, 并打印一个字符串到控制台. 
+这个对象有一个成员函数, 名为 `takeParams`, 参数是 `username` 和 `password` 变量, 并打印一个字符串到控制台.
 只有在函数初次被调用时, `DoAuth` 对象才会被创建.
 
 > 对象可以从类和接口继承. 例如:
@@ -155,7 +143,7 @@ fun main() {
 
 详情请参见 [](object-declarations.md#companion-objects).
 
-## 实际练习 {id="practice"}
+## 实际练习 {completion-point="true" id="practice"}
 
 ### 习题 1 {initial-collapse-state="collapsed" collapsible="true" id="objects-exercise-1"}
 
@@ -296,50 +284,77 @@ fun main() {
 
 ### 习题 3 {initial-collapse-state="collapsed" collapsible="true" id="objects-exercise-3"}
 
-你有一个 App, 你想要用它记录温度. 类本身使用摄氏单位保存信息, 但你想要提供一个简单方法, 创建华氏单位的实例.
+你在为一个 App 构建用户注册模块. 你想要将 EMail 验证逻辑与 `User` 类关联起来,
+但如果 EMail 地址无效, 不想创建不必要的 `User` 实例.
+
+在这个习题中, 如果 EMail 地址同时包含 `@` 和 `.`, 则认为有效.
 请完成数据类, 让 `main()` 函数中的以下代码成功运行:
 
 <deflist collapsible="true">
     <def title="提示">
-        使用同伴对象.
+        在 `User` 类的同伴对象中添加 EMail 验证函数, 这样就可以直接在 `User` 类上调用函数.
     </def>
 </deflist>
 
 |---|---|
 ```kotlin
-data class Temperature(val celsius: Double) {
-    val fahrenheit: Double = celsius * 9 / 5 + 32
-
+data class User(val name: String, val email: String) {
     // 请在这里编写你的代码
 }
 
 fun main() {
-    val fahrenheit = 90.0
-    val temp = Temperature.fromFahrenheit(fahrenheit)
-    println("${temp.celsius}°C is $fahrenheit °F")
-    // 输出结果为: 32.22222222222222°C is 90.0 °F
+    val candidates = listOf(
+        Pair("Alice", "alice@example.com"),
+        Pair("Bob", "bob2example-com")
+    )
+
+    for ((name, email) in candidates) {
+        if (User.isValidEmail(email)) {
+            val user = User(name, email)
+            println("Registered: ${user.name}, ${user.email}")
+            // 输出结果为: Registered: Alice, alice@example.com
+        } else {
+            println("Error: '${email}' is not valid. The email should contain '@' and '.'")
+            // 输出结果为: Error: 'bob2example-com' is not valid. The email should contain '@' and '.'
+        }
+    }
 }
 ```
 {validate="false" kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-objects-exercise-3"}
 
 |---|---|
 ```kotlin
-data class Temperature(val celsius: Double) {
-    val fahrenheit: Double = celsius * 9 / 5 + 32
-
+data class User(val name: String, val email: String) {
     companion object {
-        fun fromFahrenheit(fahrenheit: Double): Temperature = Temperature((fahrenheit - 32) * 5 / 9)
+        fun isValidEmail(email: String): Boolean =
+            email.contains('@') && email.contains('.')
     }
 }
 
 fun main() {
-    val fahrenheit = 90.0
-    val temp = Temperature.fromFahrenheit(fahrenheit)
-    println("${temp.celsius}°C is $fahrenheit °F")
-    // 输出结果为: 32.22222222222222°C is 90.0 °F
+    val candidates = listOf(
+        Pair("Alice", "alice@example.com"),
+        Pair("Bob", "bob2example-com")
+    )
+
+    for ((name, email) in candidates) {
+        if (User.isValidEmail(email)) {
+            val user = User(name, email)
+            println("Registered: ${user.name}, ${user.email}")
+            // 输出结果为: Registered: Alice, alice@example.com
+        } else {
+            println("Error: '${email}' is not valid. The email should contain '@' and '.'")
+            // 输出结果为: Error: 'bob2example-com' is not valid. The email should contain '@' and '.'
+        }
+    }
 }
 ```
 {initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-objects-solution-3"}
+
+> 作为这个习题的延伸, 请尝试使用同伴对象中的函数, 作为工厂方法来构造类的实例.
+> 关于这种模式的示例和更多详情, 请参见 [](object-declarations.md#companion-objects).
+>
+{style="tip"}
 
 ## 下一步 {id="next-step"}
 

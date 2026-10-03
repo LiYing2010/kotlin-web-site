@@ -1,10 +1,12 @@
 [//]: # (title: Kotlin 1.7.20 版中的新功能)
 
+<web-summary>阅读 Kotlin 1.7.20 发布说明, 包括新的语言特性, Kotlin Multiplatform, JVM, Native, JS 的更新, 以及对 Gradle 和 Maven 的构建工具支持.</web-summary>
+
 <tldr>
    <p>IDE 从 IntelliJ IDEA 2021.3, 2022.1, 和 2022.2 开始支持 Kotlin 1.7.20.</p>
 </tldr>
 
-_[发布日期: 2022/09/29](releases.md#release-details)_
+_[发布日期: 2022/09/29](releases.md#release-history)_
 
 Kotlin 1.7.20 已经发布了! 以下是它的一些重要功能:
 
@@ -16,6 +18,10 @@ Kotlin 1.7.20 已经发布了! 以下是它的一些重要功能:
 关于这个版本的变更概要, 请参见以下视频:
 
 <video src="https://www.youtube.com/v/OG9npowJgE8" title="Kotlin 1.7.20 版中的新功能"/>
+
+> 关于 Kotlin 的发布周期, 详情请参见 [Kotlin 发布过程](releases.md).
+>
+{style="tip"}
 
 ## 对 Kotlin K2 编译器 plugin 的支持 {id="support-for-kotlin-k2-compiler-plugins"}
 
@@ -43,7 +49,7 @@ K2 仍然在 **Alpha** 阶段
 * [通往新 Kotlin 编译器之路](https://www.youtube.com/watch?v=iTdJJq_LyoY)
 * [K2 编译器: 概要介绍](https://www.youtube.com/watch?v=db19VFLZqJM)
 
-### 如何启用 Kotlin K2 编译器
+### 如何启用 Kotlin K2 编译器 {id="how-to-enable-the-kotlin-k2-compiler"}
 
 要启用并测试 Kotlin K2 编译器, 请使用以下编译器选项:
 
@@ -75,7 +81,7 @@ compileKotlin {
 
 你可以在你的 JVM 项目中查看性能提升, 并与旧编译器的性能进行比较.
 
-### 留下你对于新 K2 编译器的反馈意见
+### 留下你对于新 K2 编译器的反馈意见 {id="leave-your-feedback-on-the-new-k2-compiler"}
 
 我们非常感谢你任何形式的反馈意见:
 * 在 Kotlin Slack 中直接向 K2 开发者提供你的反馈意见: [得到邀请](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up?_gl=1*ju6cbn*_ga*MTA3MTk5NDkzMC4xNjQ2MDY3MDU4*_ga_9J976DJZ68*MTY1ODMzNzA3OS4xMDAuMS4xNjU4MzQwODEwLjYw),
@@ -84,7 +90,7 @@ compileKotlin {
 * [开启 **Send usage statistics** 选项](https://www.jetbrains.com/help/idea/settings-usage-statistics.html),
   允许 JetBrains 收集关于 K2 使用情况的匿名统计数据.
 
-## 语言功能
+## 语言功能 {id="language"}
 
 Kotlin 1.7.20 引入了一些新的语言功能特性的预览版, 并对构建器类型推断增加了一些限制:
 
@@ -117,11 +123,11 @@ when (value) {
 ```
 {validate="false"}
 
-#### 标准库 API 的变更
+#### 标准库 API 的变更 {id="standard-library-api-changes"}
 
 在共通的 Kotlin 标准库的 `kotlin.ranges` 包中, 将会引入以下新的类型和操作:
 
-##### 新的 OpenEndRange&lt;T&gt; 接口
+##### 新的 OpenEndRange&lt;T&gt; 接口 {id="new-openendrangelttgt-interface"}
 
 用于表达终止端开放的值范围的新接口与已有的 `ClosedRange<T>` 接口非常类似:
 
@@ -137,7 +143,7 @@ interface OpenEndRange<T : Comparable<T>> {
 ```
 {validate="false"}
 
-##### 在既有的可遍历的值范围中实现 OpenEndRange
+##### 在既有的可遍历的值范围中实现 OpenEndRange {id="implementing-openendrange-in-the-existing-iterable-ranges"}
 
 现在, 如果开发者需要得到一个带开放的上界的值范围, 他们可以使用相同的值, 通过 `until` 函数等效的产生一个封闭的可遍历的值范围.
 为了让这样的值范围能够用于接受 `OpenEndRange<T>` 的新 API, 我们希望在既有的可遍历的值范围中实现这个接口,
@@ -153,12 +159,12 @@ class IntRange : IntProgression(...), ClosedRange<Int>, OpenEndRange<Int> {
 ```
 {validate="false"}
 
-##### 用于标准类型的 rangeUntil 操作符
+##### 用于标准类型的 rangeUntil 操作符 {id="rangeuntil-operators-for-the-standard-types"}
 
 对于目前由 `rangeTo` 操作符定义的类型及其组合, 还会提供 `rangeUntil` 操作符.
 作为原型, 我们以扩展函数的形式提供这些操作符, 但为了保持一致性, 在终止端开放的值范围 API 的稳定版发布之前, 我们计划让它们成为类的成员.
 
-#### 如何启用 ..&lt; 操作符
+#### 如何启用 ..&lt; 操作符 {id="how-to-enable-the-lt-operator"}
 
 要使用 `..<` 操作符, 或为你自己的类型实现这个操作符, 你需要启用 `-language-version 1.8` 编译器选项.
 
@@ -209,7 +215,7 @@ fun main() {
 }
 ```
 
-#### 如何启用 data object
+#### 如何启用 data object {id="how-to-enable-data-objects"}
 
 要在你的代码中使用 data object 声明, 请启用 `-language-version 1.9` 编译器选项.
 在 Gradle 项目中, 你可以在你的 `build.gradle(.kts)` 文件中添加以下代码:
@@ -334,7 +340,7 @@ Kotlin 1.7.20 对 [构建器类型推断](using-builders-with-builder-inference.
 
 关于构建器推断的这次更新, 详情请参见这个 [YouTrack issue](https://youtrack.jetbrains.com/issue/KT-53797).
 
-## Kotlin/JVM
+## Kotlin/JVM {id="kotlinjvm"}
 
 Kotlin 1.7.20 引入了泛型的内联类(Generic Inline Class), 对委托属性增加了更多的字节码优化,
 还在 kapt stub 生成 task 中支持 IR, 因此可以在 kapt 中使用 Kotlin 的所有最新功能:
@@ -433,13 +439,13 @@ fun compute(s: UserId<String>) {} // 编译器生成 fun compute-<hashcode>(s: A
 
 要在 kapt 中使用 IR 后端, 请在你的 `gradle.properties` 文件中添加以下选项:
 
-```none
+```properties
 kapt.use.jvm.ir=true
 ```
 
 欢迎你通过我们的 [问题追踪系统](https://youtrack.jetbrains.com/issue/KT-49682) 提供你的反馈意见.
 
-## Kotlin/Native
+## Kotlin/Native {id="kotlinnative"}
 
 Kotlin 1.7.20 开始默认使用新的 Kotlin/Native 内存管理器, 并提供了选项来定制 `Info.plist` 文件:
 
@@ -458,7 +464,7 @@ Kotlin 1.7.20 开始默认使用新的 Kotlin/Native 内存管理器, 并提供�
 关于新内存管理器的更多益处, 请参见我们关于预览版的 [Blog 文章](https://blog.jetbrains.com/kotlin/2021/08/try-the-new-kotlin-native-memory-manager-development-preview/).
 关于更多技术细节, 请参见这篇 [文档](native-memory-manager.md).
 
-#### 配置与设置
+#### 配置与设置 {id="configuration-and-setup"}
 
 从 Kotlin 1.7.20 开始, 默认使用新的内存管理器. 不需要额外的设置.
 
@@ -468,7 +474,7 @@ Kotlin 1.7.20 开始默认使用新的 Kotlin/Native 内存管理器, 并提供�
 如果需要, 你可以在你的 `gradle.properties` 文件中使用 `kotlin.native.binary.memoryModel=strict` 选项, 切换回原来的内存管理器.
 但是, 对于原来的内存管理器, 编译器缓存支持就不再可用了, 因此编译时间会恶化.
 
-#### 冻结(Freezing)
+#### 冻结(Freezing) {id="freezing"}
 
 在新的内存管理器中, 冻结(Freezing)已被废弃. 请不要使用它, 除非你需要你的代码在原来的内存管理器中工作 (旧内存管理器中继续需要冻结).
 对于需要继续支持原来的内存管理器的库开发者, 或开发者在使用新的内存管理器时遇到问题, 想要退回到旧内存管理器的情况, 这个功能可能有帮助.
@@ -480,7 +486,7 @@ Kotlin 1.7.20 开始默认使用新的 Kotlin/Native 内存管理器, 并提供�
 * 在 Gradle 中对所有的 Kotlin 源代码集使用 `languageSettings.optIn("kotlin.native.FreezingIsDeprecated")`.
 * 传递编译器选项 `-opt-in=kotlin.native.FreezingIsDeprecated`.
 
-#### 在 Swift/Objective-C 中调用 Kotlin suspending 函数
+#### 在 Swift/Objective-C 中调用 Kotlin suspending 函数 {id="calling-kotlin-suspending-functions-from-swiftobjective-c"}
 
 对于从 Swift 和 Objective-C 的主线程以外的线程调用 Kotlin `suspend` 函数的情况, 新的内存管理器还存在限制,
 但你可以使用一个新的 Gradle 选项来解决.
@@ -492,7 +498,7 @@ Kotlin 1.7.20 开始默认使用新的 Kotlin/Native 内存管理器, 并提供�
 由于这个原因, 我们决定在新的内存管理器中继续保留这个限制, 同时引入一个选项, 允许你关闭这个限制.
 要关闭它, 请向你的 `gradle.properties` 文件添加以下选项:
 
-```none
+```properties
 kotlin.native.binary.objcExportSuspendFunctionLaunchThreadRestriction=none
 ```
 
@@ -503,7 +509,7 @@ kotlin.native.binary.objcExportSuspendFunctionLaunchThreadRestriction=none
 
 Kotlin 开发组非常感谢 [Ahmed El-Helw](https://github.com/ahmedre) 实现了这个选项.
 
-#### 留下你的反馈意见
+#### 留下你的反馈意见 {id="leave-your-feedback"}
 
 对我们的生态系统来说, 这是一个重大的变更. 如果你能够留下反馈意见, 帮助继续改善它, 我们将会非常感谢.
 
@@ -525,16 +531,16 @@ Kotlin 开发组非常感谢 [Ahmed El-Helw](https://github.com/ahmedre) 实现�
 
 Kotlin 开发组非常感谢 Mads Ager 实现了这个功能.
 
-## Kotlin/JS
+## Kotlin/JS {id="kotlinjs"}
 
 Kotlin/JS 有了一些功能增强, 改进了开发者体验, 并提升了性能:
 
 * 由于依赖项装载的性能改进, 在增量构建和完全构建中, Klib 的生成都更加快速了.
 * 重新实现了 [对开发阶段二进制文件的增量编译](js-ir-compiler.md#incremental-compilation-for-development-binaries) 功能,
   实现了完全构建时的很大改进, 更快的增量构建, 以及稳定性提升.
-* 我们对内嵌对象, 封闭类, 以及构造器中的可选参数, 改进了 `.d.ts` 文件的生成.
+* 我们对内嵌对象, 封闭类, 以及构造器中的带默认值参数, 改进了 `.d.ts` 文件的生成.
 
-## Gradle
+## Gradle {id="gradle"}
 
 Kotlin Gradle plugin 的更新主要是兼容新的 Gradle 功能和最新的 Gradle 版本.
 
@@ -543,7 +549,7 @@ Kotlin 1.7.20 包含的变更是支持 Gradle 7.1.
 
 但是, 存在一些潜在的不兼容的变更, 需要你注意:
 
-### 编译目标的配置
+### 编译目标的配置 {id="target-configuration"}
 
 * `org.jetbrains.kotlin.gradle.dsl.SingleTargetExtension` 现在有一个泛型参数, `SingleTargetExtension<T : KotlinTarget>`.
 * `kotlin.targets.fromPreset()` convention 已被废弃.
@@ -554,7 +560,7 @@ Kotlin 1.7.20 包含的变更是支持 Gradle 7.1.
 
   注意, 对 `kotlin.targets` 的情况, 这些访问器仍然可以使用, 比如对 `kotlin.targets.linuxX64`.
 
-### 源代码目录的配置
+### 源代码目录的配置 {id="source-directories-configuration"}
 
 Kotlin Gradle plugin 对 Java `SourceSet` 组添加了 Kotlin `SourceDirectorySet`, 作为一个 `kotlin` 扩展.
 因此可以在 `build.gradle.kts` 文件内, 以类似于对
@@ -586,7 +592,7 @@ kotlin {
 }
 ```
 
-### JVM toolchain 配置的新方法
+### JVM toolchain 配置的新方法 {id="new-method-for-jvm-toolchain-configuration"}
 
 这个发布版提供了一个新的 `jvmToolchain()` 方法, 用来启用 [JVM toolchain 功能](gradle-configure-project.md#gradle-java-toolchains-support).
 如果你不需要任何额外的 [配置设定](https://docs.gradle.org/current/javadoc/org/gradle/jvm/toolchain/JavaToolchainSpec.html),
@@ -609,7 +615,7 @@ kotlin {
 }
 ```
 
-## 标准库
+## 标准库 {id="standard-library"}
 
 Kotlin 1.7.20 对 `java.nio.file.Path` 类提供了新的 [扩展函数](extensions.md#extension-functions), 可以用来遍历文件树:
 
@@ -730,32 +736,32 @@ Kotlin 1.7.20 对 `java.nio.file.Path` 类提供了新的 [扩展函数](extensi
 [visit 扩展函数](https://youtrack.jetbrains.com/issue/KT-52910),
 我们期待你能通过 YouTrack 提供返回意见.
 
-## 文档更新
+## 文档更新 {id="documentation-updates"}
 
 从上一次发布之后, Kotlin 文档有了很大的变更:
 
-### 文档的改进和新增
+### 文档的改进和新增 {id="revamped-and-improved-pages"}
 
-* [基本类型概述](basic-types.md) –
+* [基本类型概述](types-overview.md) –
   学习 Kotlin 中使用的基本类型: 数值, Booleans, 字符, 字符串, 数组, 以及无符号整数.
 * [Kotlin 开发使用的 IDE](kotlin-ide.md) –
   查看带有官方 Kotlin 支持的 IDE, 以及带有社区支持的 plugin 的工具.
 
-### Kotlin Multiplatform 期刊中的新文章
+### Kotlin Multiplatform 期刊中的新文章 {id="new-articles-in-the-kotlin-multiplatform-journal"}
 
 * [原生(Native)应用程序开发与跨平台(cross-platform)移动应用程序开发: 如何选择?](native-and-cross-platform.md) –
   阅读我们的概述, 以及跨平台(cross-platform)应用程序开发和原生(Native)方案各自的优势.
 * [跨平台应用程序开发最流行的 6 种框架](cross-platform-frameworks.md) –
   查看各个框架的关键要素, 帮助你为跨平台项目选择正确的框架.
 
-### 教程的改进和新增
+### 教程的改进和新增 {id="new-and-updated-tutorials"}
 
 * [Kotlin Multiplatform 入门](https://www.jetbrains.com/help/kotlin-multiplatform-dev/multiplatform-create-first-app.html)
   – 学习使用 Kotlin 进行跨平台移动应用程序开发, 并创建一个可以同时运行于 Android 和 iOS 平台的应用程序.
 * [使用 React 和 Kotlin/JS 创建 Web 应用程序](js-react.md)
   – 创建一个浏览器应用程序, 学习一个典型的 React 程序中用到的 Kotlin 的 DSL 和功能特性.
 
-### Kotlin 的发布版本文档的变更
+### Kotlin 的发布版本文档的变更 {id="changes-in-release-documentation"}
 
 我们不再对各个发布版提供推荐的 kotlinx 库列表.
 这个列表只包含推荐的版本, 以及 Kotlin 本身测试过的版本.

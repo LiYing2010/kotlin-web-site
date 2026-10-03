@@ -8,7 +8,7 @@ Kotlin/Native 使用一个现代化的内存管理器, 类似于 JVM, Go, 以及
 ## 垃圾收集器 {id="garbage-collector"}
 
 Kotlin/Native 的垃圾收集 (Garbage Collector, GC) 算法一直在持续演进.
-目前使用的算法是 Stop-the-World Mark 和 Concurrent Sweep 收集器,
+目前使用的算法是并发标记和清除 (Concurrent Mark and Sweep, CMS) 收集器,
 它不会把堆(heap)分为不同的代(generation).
 
 GC 在单独的线程中执行, 根据内存压力启动, 或由定时器启动.
@@ -16,7 +16,8 @@ GC 在单独的线程中执行, 根据内存压力启动, 或由定时器启动.
 
 GC 并行处理多个线程中的标记队列, 包括应用程序线程, GC 线程, 以及可选的标记线程(Marker Thread).
 应用程序线程, 以及至少一个 GC 线程, 共同参与标记过程.
-默认情况下, 当 GC 正在标记堆(heap)中的对象时, 应用程序线程必须暂停.
+默认情况下, 标记阶段与应用程序的线程并行运行, 这样可以减少 GC 的暂停时间.
+你可以通过 [GC log](#monitor-gc-performance) 监控 GC 的性能.
 
 > 你可以使用 `kotlin.native.binary.gcMarkSingleThreaded=true` 编译选项, 禁用标记阶段的并行处理.
 > 但是, 这样做可能会增加垃圾收集器在大 heap 上的暂停时间.
@@ -26,7 +27,12 @@ GC 并行处理多个线程中的标记队列, 包括应用程序线程, GC 线�
 当标记阶段完成时, GC 会处理弱引用(Weak Reference), 并将指向未标记对象的引用(Unmarked Object)设置为 null.
 默认情况下, 会并行的处理弱引用, 以减少 GC 的暂停时间.
 
-详情参见, 如何 [监测](#monitor-gc-performance) 和 [优化](#optimize-gc-performance) 垃圾收集.
+如果你遇到与 CMS 相关的问题, 请切换回并行标记并发清除 (Parallel Mark Concurrent Sweep, PMCS) 设置.
+方法是, 在你的 `gradle.properties` 文件中设置以下 [二进制选项](native-binary-options.md):
+
+```properties
+kotlin.native.binary.gc=pmcs
+```
 
 ### 手动启动垃圾收集 {id="enable-garbage-collection-manually"}
 
@@ -51,7 +57,7 @@ Signpost 允许在你的 App 中自定义 log, 因此你可以检查应用程序
 
 1. 要启动这个功能, 请在你的 `gradle.properties` 文件中设置以下编译选项:
 
-   ```none
+   ```properties
    kotlin.native.binary.enableSafepointSignposts=true
    ```
 
@@ -65,24 +71,12 @@ Signpost 允许在你的 App 中自定义 log, 因此你可以检查应用程序
 
    这里, 最下方图表上的每个蓝色斑点表示一个 signpost 事件, 也就是一个 GC 暂停.
 
-### 优化 GC 性能 {id="optimize-gc-performance"}
-
-要改善 GC 性能, 你可以启用并行的标记处理来减少 GC 暂停时间.
-这样可以让垃圾收集的标记阶段与应用程序的线程同时运行.
-
-这个功能目前是 [实验性功能](components-stability.md#stability-levels-explained).
-要启用这个功能, 请在你的 `gradle.properties` 文件中设置以下编译选项:
-
-```none
-kotlin.native.binary.gc=cms
-```
-
 ### 禁用垃圾收集 {id="disable-garbage-collection"}
 
 我们推荐启用 GC. 但是, 某些情况下你也可以禁用它, 例如, 为了测试目的, 或者你遇到问题, 而且程序的生存周期很短.
 要禁用 GC, 请在你的 `gradle.properties` 文件中设置以下二进制选项:
 
-```none
+```properties
 kotlin.native.binary.gc=noop
 ```
 
@@ -192,7 +186,7 @@ Kotlin 的内存占用量会用标识符标记, 可以通过 Xcode Instruments �
 
 要禁用这个功能, 请在你的 `gradle.properties` 文件中设置以下选项:
 
-```none
+```properties
 kotlin.native.binary.pagedAllocator=false
 ```
 

@@ -66,7 +66,7 @@
 * **本地(Local)集成**:
   使用一段特别的脚本, 直接连接你的跨平台项目和 Xcode 项目, 或对涉及本地 Pod 依赖项的设置, 使用 CocoaPods
   依赖项管理器.
-* **远程(Remote)集成**: 使用 XCFrameworks 设置 SPM 依赖项, 或通过 CocoaPods 发布共用模块.
+* **远程(Remote)集成**: 使用 XCFrameworks 设置 SwiftPM 依赖项, 或通过 CocoaPods 发布共用模块.
 
 关于这个问题, 详情请参见 [与 iOS 集成的方法](multiplatform-ios-integration-overview.md).
 

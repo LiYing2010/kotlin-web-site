@@ -205,13 +205,14 @@ int version = C.VERSION;
 
 ## 静态方法(Static Method) {id="static-methods"}
 
-上文中提到, Kotlin 会将包级函数编译为静态方法.
-此外, 如果你对函数添加 [`@JvmStatic`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-static/index.html) 注解,
-Kotlin 也可以为命名对象或同伴对象中定义的函数生成静态方法.
-如果使用这个注解, 编译器既会在对象所属的类中生成静态方法, 同时也会在对象中生成实例方法.
-比如:
+Kotlin 会将包级函数编译为静态方法.
+对命名对象或同伴对象中定义的函数, 如果添加 [`@JvmStatic`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin.jvm/-jvm-static/) 注解,
+也可以这类函数生成静态方法.
+
+如果对同伴对象中的函数使用 `@JvmStatic`, 编译器既会在包含同伴对象的类中生成静态方法, 同时也会在同伴对象中生成实例方法:
 
 ```kotlin
+// Kotlin 代码
 class C {
     companion object {
         @JvmStatic fun callStatic() {}
@@ -220,36 +221,37 @@ class C {
 }
 ```
 
-现在, `callStatic()` 在 Java 中是一个静态方法, 而 `callNonStatic()` 不是:
+在 Java 中, 可以通过包含同伴对象的类和同伴对象调用 `callStatic()`, 而 `callNonStatic()` 只能通过同伴对象调用:
 
 ```java
-C.callStatic(); // 正确
-C.callNonStatic(); // 错误: 不是静态方法
-C.Companion.callStatic(); // 实例上的方法仍然存在
-C.Companion.callNonStatic(); // 这个方法只能通过实例来调用
+// Java 代码
+C.callStatic();              // 成功
+C.callNonStatic();           // 错误: 不是静态方法
+C.Companion.callStatic();    // 实例上的方法仍然存在
+C.Companion.callNonStatic(); // 成功
 ```
 
-与此类似, 对于命名对象:
+对于命名对象(单例), `@JvmStatic` 会将函数变成这个对象的类的静态方法, 但不会生成单独的实例方法:
 
 ```kotlin
+// Kotlin 代码
 object Obj {
     @JvmStatic fun callStatic() {}
     fun callNonStatic() {}
 }
 ```
 
-在 Java 中:
+在 Java 中, 可以通过命名对象调用 `callStatic()`, 而 `callNonStatic()` 只能通过单例的实例调用:
 
 ```java
-Obj.callStatic(); // 正确
-Obj.callNonStatic(); // 错误
-Obj.INSTANCE.callNonStatic(); // 正确, 这是对单体实例的一个方法调用
-Obj.INSTANCE.callStatic(); // 也正确
+// Java
+Obj.callStatic();             // 成功
+Obj.callNonStatic();          // 错误: 不是静态方法
+Obj.INSTANCE.callNonStatic(); // 成功, 调用通过单例的实例进行
 ```
 
-从 Kotlin 1.3 开始, 接口的同伴对象中定义的函数也可以使用 `@JvmStatic` 注解.
-这类函数会被编译为接口中的静态方法. 注意, 从 Java 1.8 才开始支持接口中的静态方法,
-因此注意编译时需要选择正确的 JVM 目标平台.
+也可以对接口的同伴对象中的函数添加 `@JvmStatic` 注解.
+这类函数会被编译为接口中的静态方法:
 
 ```kotlin
 interface ChatBot {
@@ -354,15 +356,20 @@ Kotlin 提供了 3 种模式来控制接口中的函数如何编译为 JVM 默�
 
 Kotlin 中的可见度修饰符与 Java 的对应规则如下:
 
-* `private` 成员会被编译为 Java 中的 `private` 成员.
-* `private` 顶级声明会被编译为 Java 中的 `private` 顶级声明.
-   如果从类的内部访问, 那么还会包含包的 `private` 访问器(Package-private accessor).
-* `protected` 成员在 Java 中仍然是 `protected` 不变.
-   (注意, Java 允许从同一个包内的其他类访问 protected 成员, 但 Kotlin 不允许, 因此 Java 类中将拥有更大的访问权限.)
-* `internal` 声明会被编译为 Java 中的 `public`.
-  `internal` 类的成员名称会被混淆, 以降低在 Java 代码中意外访问到这些成员的可能性,
-   并以此来实现那些根据 Kotlin 的规则相互不可见, 但是其签名完全相同的函数重载.
-* `public` 在 Java 中仍然是 `public` 不变.
+* `private` 成员在 Java 中仍然是 `private`.
+* `private` 顶级声明会成为 Java 中的 `private` 顶级声明.
+  如果从类的内部访问, 还会包含包的 `private` 访问器(Package-private accessor).
+* `protected` 成员在 Java 中仍然是 `protected`.
+
+  注意, Java 允许从同一个包内的其他类访问 `protected` 成员, 而 Kotlin 不允许.
+* `internal` 声明在 Java 中会成为 `public`.
+
+  Kotlin 编译器会对字节码中 `internal` 成员的名称进行混淆.
+  这样可以防止意外的跨模块覆盖成员, 例如, 在 Java 中扩展 Kotlin 类的情况,
+  还能够允许对具有相同签名的成员进行重载.
+
+  注意, `internal` 类的 `public` 成员的名称不会被混淆, 仍然可以从 Java 调用.
+* `public` 成员在 Java 中仍然是 `public`.
 
 ## KClass {id="kclass"}
 
@@ -422,11 +429,72 @@ var x: Int = 23
 ## 重载函数(Overload)的生成 {id="overloads-generation"}
 
 通常, 如果在 Kotlin 中定义一个函数, 并指定了参数默认值, 这个方法在 Java 中只会存在带所有参数的版本.
-如果你希望 Java 端的使用者看到不同参数的多个重载方法,
-那么可以使用 [`@JvmOverloads`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html) 注解.
+
+你可以使用 [`@IntroducedAt`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-introduced-at/) 注解,
+或 [`@JvmOverloads`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html) 注解,
+为可选测参数生成重载函数.
+
+如果对公开的 API 添加新的可选参数, 并且希望生成的重载函数反映各个参数引入时所属的版本, 请使用 `@IntroducedAt`.
+编译器会使用这个信息, 自动生成对应的隐藏重载函数.
+
+这个功能为你提供了基于版本的重载函数生成能力, 对使用你的库的旧版本编译的 API 调用者, 有助于保持二进制兼容性.
+
+> `@IntroducedAt` 注解是 [实验性功能](components-stability.md#stability-levels-explained).
+> 要表示使用者同意, 请使用 `@OptIn(ExperimentalVersionOverloading::class)` 注解.
+>
+{style="warning"}
+
+下面是一个示例, 其中 `Button()` 函数在多个 API 版本中收到多个可选参数:
+
+```kotlin
+@OptIn(ExperimentalVersionOverloading::class)
+fun Button(
+    label: String = "",
+    color: Color = DefaultColor,
+    @IntroducedAt("1.1") borderColor: Color = DefaultBorderColor,
+    @IntroducedAt("1.2") borderStyle: Style = DefaultBorderStyle,
+    @IntroducedAt("1.2") borderWidth: Int = 1,
+    onClick: () -> Unit
+) {
+    // 函数体
+}
+```
+
+基于这些版本, 编译器对原始的 API, 以及对引入新的可选参数的各个 API 版本, 生成隐藏的重载函数:
+
+```kotlin
+// 原始的 API
+Button(
+    label: String,
+    color: Color,
+    onClick: () -> Unit
+)
+
+// 版本 1.1
+Button(
+    label: String,
+    color: Color,
+    borderColor: Color,
+    onClick: () -> Unit
+)
+
+// 版本 1.2
+Button(
+    label: String,
+    color: Color,
+    borderColor: Color,
+    borderStyle: Style,
+    borderWidth: Int,
+    onClick: () -> Unit
+)
+```
+
+如果你想要 Java 端的使用者看到不同参数的多个重载方法,
+也可以使用 [`@JvmOverloads`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html) 注解.
 
 这个注解也可以用于构造器, 静态方法, 等等.
 但不能用于抽象方法, 包括定义在接口内的方法.
+例如, 对于带有默认参数值的 `Circle` 类:
 
 ```kotlin
 class Circle @JvmOverloads constructor(centerX: Int, centerY: Int, radius: Double = 1.0) {
@@ -447,6 +515,10 @@ void draw(String label, int lineWidth, String color) { }
 void draw(String label, int lineWidth) { }
 void draw(String label) { }
 ```
+
+由于 `@IntroducedAt` 和 `@JvmOverloads` 注解都会生成重载方法, 因此同时使用这两个注解会导致重载方法冲突.
+如果同时使用这两个注解, 编译器会报告警告.
+如果压制这个警告, 编译器会优先采用由 `@IntroducedAt` 注解生成的重载方法.
 
 注意, 在 [次级构造器](classes.md#secondary-constructors) 中介绍过,
 如果一个类的构造器方法参数全部都指定了默认值, 那么会对这个类生成一个 public 的无参数构造器.
@@ -533,7 +605,7 @@ Base unboxBase(Box<? extends Base> box) { ... }
 
 为了让 Kotlin 的 API 可以在 Java 中正常使用, 如果一个类*被用作函数参数*,
 那么对于定义了类型参数协变的 `Box` 类, 编译器会将 `Box<Super>` 生成为 Java 的 `Box<? extends Super>`
-(对于定义了类型参数反向协变的 `Foo` 类, 会生成为 Java 的 `Foo<? super Bar>`).
+(对于定义了类型参数逆变的 `Foo` 类, 会生成为 Java 的 `Foo<? super Bar>`).
 当类被用作返回值时, 编译器不会生成类型通配符,
 否则 Java 端的使用者就不得不处理这些类型通配符(而且这是违反通常的 Java 编程风格的).
 因此, 我们上面例子中的函数真正的输出结果是这样的:
@@ -585,7 +657,7 @@ fun emptyList(): List<Nothing> = listOf()
 // List emptyList() { ... }
 ```
 
-### 内联的值类(Inline Value Class) {id="inline-value-classes"}
+## 内联的值类(Inline Value Class) {id="inline-value-classes"}
 
 <primary-label ref="experimental-general"/>
 
@@ -640,3 +712,29 @@ MyInt output = ExampleKt.timesTwoBoxed(input);
 
 要将这个行为应用于模块中所有的内联值类, 以及所有使用它们的函数, 请使用 `-Xjvm-expose-boxed` 选项编译这个模块.
 使用这个选项进行编译, 效果等于模块中所有的声明都带有 `@JvmExposeBoxed` 注解.
+
+### 继承的函数 {id="inherited-functions"}
+
+`@JvmExposeBoxed` 注解不会为继承的函数自动生成装箱表达形式.
+
+要为继承的函数生成必要的装箱表达形式, 请在实现类或扩展类中覆盖(override) 它:
+
+```kotlin
+interface IdTransformer {
+    fun transformId(rawId: UInt): UInt = rawId
+}
+
+// 不会为 transformId() 函数生成装箱表达形式
+@OptIn(ExperimentalStdlibApi::class)
+@JvmExposeBoxed
+class LightweightTransformer : IdTransformer
+
+// 会为 transformId() 函数生成装箱表达形式
+@OptIn(ExperimentalStdlibApi::class)
+@JvmExposeBoxed
+class DefaultTransformer : IdTransformer {
+    override fun transformId(rawId: UInt): UInt = super.transformId(rawId)
+}
+```
+
+关于 Kotlin 中的继承, 以及如何使用 `super` 关键字调用父类中的实现, 请参见 [继承](inheritance.md#calling-the-superclass-implementation).

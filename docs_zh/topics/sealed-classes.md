@@ -121,7 +121,7 @@ sealed class IOError {
 ## 继承 {id="inheritance"}
 
 封闭类和接口的直接子类必须定义在同一个包之内. 可以是顶级位置, 也可以嵌套在任意多的其他有名称的类, 有名称的接口, 或有名称的对象之内.
-子类可以设置为任意的 [可见度](visibility-modifiers.md), 只要它们符合 Kotlin 中通常的类继承规则.
+子类可以设置为任意的 [可见度](visibility-modifiers.md), 只要它们符合 Kotlin 中通常的类继承规则, 包括 [属性覆盖](inheritance.md#overriding-properties) 的规则.
 
 封闭类的子类必须拥有一个适当的限定名称. 不能是局部对象或匿名对象.
 
@@ -154,7 +154,7 @@ open class CustomError(): Error
 
 ### 跨平台项目中的继承 {id="inheritance-in-multiplatform-projects"}
 
-在 [跨平台项目](multiplatform.topic)中还存在一种继承限制:
+在 [跨平台项目](get-started.topic) 中还存在一种继承限制:
 封闭类的直接子类必须放在同一个 [源代码集(Source Set)](multiplatform-discover-project.md#source-sets) 中.
 这个限制适用于没有使用 [`expect` 和 `actual` 修饰符](multiplatform-expect-actual.md) 的封闭类.
 
@@ -358,3 +358,7 @@ fun main() {
     println(userNotFoundResponse)
 }
 ```
+
+## 下一步做什么 {id="whats-next"}
+
+了解 [Kotlin 中的继承](inheritance.md).

@@ -142,7 +142,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.3"}
 
-`any()` 和 `none()` 函数也可以不指定判定条件: 这种情况下它们只检查集合是否为空.
+`any()` 和 `none()` 函数也可以不指定判定条件: 这种情况下, 它们只检查集合是否为空.
 如果集合中存在元素, 则 `any()` 返回 `true`, 集合中没有元素, 则 `false`; `none()` 的返回值刚好与此相反.
 
 ```kotlin

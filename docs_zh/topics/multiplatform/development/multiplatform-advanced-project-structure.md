@@ -42,7 +42,7 @@
 4. `A` 继承 `B` 的所有的常规依赖项.
 
 `dependsOn` 关系会创建一个树形结构, 也叫做源代码集层级.
-下面是一个通常的移动开发项目的例子, 针对的目标平台是 `androidTarget`, `iosArm64` (iPhone 设备),
+下面是一个通常的移动开发项目的例子, 针对的目标平台是 `android`, `iosArm64` (iPhone 设备),
 和 `iosSimulatorArm64` (Apple Silicon Mac 上的 iPhone 模拟器):
 
 ![DependsOn 关系树结构](dependson-tree-diagram.svg){width=700}
@@ -74,7 +74,7 @@ kotlin {
 例如, 你不能设置 `commonMain` 依赖于 `kotlinx-coroutines-core` 库的 `commonMain`,
 也不能调用 `commonTest.dependsOn(commonMain)`.
 
-### 声明自定义的源代码集
+### 声明自定义的源代码集 {id="declaring-custom-source-sets"}
 
 有些情况下, 在你的项目中可能需要自定义的中间源代码集.
 考虑一个项目, 编译到 JVM, JS, 和 Linux 平台, 你想要只在 JVM 和 JS 平台之间共用一些源代码.
@@ -174,7 +174,7 @@ kotlin {
 
 ```kotlin
 kotlin {
-    androidTarget()     // Android
+    android()           // Android
     iosArm64()          // iPhone 设备
     iosSimulatorArm64() // Apple Silicon Mac 上的 iPhone 模拟器
 
@@ -191,7 +191,7 @@ kotlin {
 1. 跨平台依赖项会沿着 `dependsOn` 结构向下传播.
    如果你对 `commonMain` 添加一个依赖项, 它会自动添加到声明了对 `commonMain` 直接或间接的 `dependsOn` 关系的所有源代码集.
 
-   在这个例子中, 依赖项实际会被自动添加到所有的 `*Main` 源代码集: `iosMain`, `jvmMain`, `iosSimulatorArm64Main`, 和 `iosX64Main`.
+   在这个例子中, 依赖项实际会被自动添加到所有的 `*Main` 源代码集: `iosMain`, `jvmMain`, `iosSimulatorArm64Main`, 和 `iosArm64Main`.
    所有这些源代码集会从 `commonMain` 源代码集继承 `kotlin-coroutines-core` 依赖项,
    因此你不需要将依赖项手动的复制粘贴到这些源代码集中:
 
@@ -219,23 +219,24 @@ kotlin {
    这个集合中的每个依赖项源代码集必须拥有 _兼容的编译目标_.
    依赖项源代码集拥有兼容的编译目标是指, 它至少编译到 _与使用它的源代码集相同的编译目标_.
 
-   例如, 示例项目中的 `commonMain` 编译到 `androidTarget`, `iosX64`, 和 `iosSimulatorArm64`:
+   例如, 示例项目中的 `commonMain` 编译到 `android`, `iosArm64`, 和 `iosSimulatorArm64`:
 
    * 首先, 它解析到一个对 `kotlinx-coroutines-core.commonMain` 的依赖项.
      因为 `kotlinx-coroutines-core` 编译到所有可能的 Kotlin 编译目标.
-     因此, 它的 `commonMain` 会编译到所有可能的编译目标, 包括这里要求的 `androidTarget`, `iosX64`, 和 `iosSimulatorArm64`.
+     因此, 它的 `commonMain` 会编译到所有可能的编译目标, 包括这里要求的 `android`, `iosArm64`, 和 `iosSimulatorArm64`.
    * 其次, `commonMain` 依赖 `kotlinx-coroutines-core.concurrentMain`.
      因为 `kotlinx-coroutines-core` 中的 `concurrentMain` 编译到除 JS 之外的所有的编译目标,
      它匹配使用它的项目中的 `commonMain` 的编译目标.
 
-   但是, coroutines 中的 `iosX64Main` 之类的源代码集, 不兼容于使用它的 `commonMain` 源代码集.
-   即使 `iosX64Main` 编译到 `commonMain` 的编译目标之一, 也就是, `iosX64`, 但是它不编译到 `androidTarget` 或 `iosSimulatorArm64`.
+   但是, coroutines 中的 `iosArm64Main` 之类的源代码集, 不兼容于使用它的 `commonMain` 源代码集.
+   即使 `iosArm64Main` 编译到 `commonMain` 的编译目标之一, 也就是, `iosArm64`,
+   但是它不编译到 `android` 或 `iosSimulatorArm64`.
 
    依赖解析的结果直接影响可以访问 `kotlinx-coroutines-core` 中的哪些代码:
 
    ![在共通代码中使用 JVM 专用 API 的错误](dependency-resolution-error.png){width=700}
 
-### 对齐跨源代码集的共通依赖项的版本
+### 对齐跨源代码集的共通依赖项的版本 {id="aligning-versions-of-common-dependencies-across-source-sets"}
 
 在 Kotlin Multiplatform 项目中, 共通源代码集会被编译多次, 生成 klib,
 并成为配置的每个 [编译](multiplatform-configure-compilations.md) 的一部分.
@@ -264,7 +265,7 @@ Kotlin Gradle plugin 会帮助我们对齐这些依赖项, 确保每个源代码
 
 ![Test 源代码集与 main 源代码集会分别解析依赖项](test-main-source-set-dependency-alignment.svg)
 
-## 编译
+## 编译 {id="compilations"}
 
 与单一平台的项目不同, Kotlin Multiplatform 项目需要多次编译器运行来构建所有的 artifact.
 每次编译器运行都是一个 _Kotlin 编译_.

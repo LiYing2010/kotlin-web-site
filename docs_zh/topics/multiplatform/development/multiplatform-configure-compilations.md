@@ -149,12 +149,12 @@ kotlin {
                         /* ... */
                     }
                 }
+            }
 
-                // 创建 test 任务来运行这个编译任务产生的测试
-                testRuns.create("integration") {
-                    // 配置 test 任务
-                    setExecutionSourceFrom(integrationTest)
-                }
+            // 创建 test 任务来运行这个编译任务产生的测试
+            testRuns.create("integration") {
+                // 配置 test 任务
+                setExecutionSourceFrom(integrationTest)
             }
         }
     }
@@ -177,12 +177,12 @@ kotlin {
                     /* ... */
                 }
             }
+        }
 
-            // 创建 test 任务来运行这个编译任务产生的测试
-            testRuns.create('integration') {
-                // 配置 test 任务
-                setExecutionSourceFrom(compilations.integrationTest)
-            }
+        // 创建 test 任务来运行这个编译任务产生的测试
+        testRuns.create('integration') {
+            // 配置 test 任务
+            setExecutionSourceFrom(compilations.integrationTest)
         }
     }
 }
@@ -196,14 +196,14 @@ kotlin {
 对于其他情况也需要自定义编译任务. 比如, 如果希望在你的最终 artifact 中对不同的 JVM 版本组合编译任务,
 或者已经在 Gradle 中设置过源代码集, 希望迁移到跨平台项目.
 
-> 要对 [`androidTarget`](#compilation-for-android) 创建自定义编译任务,
+> 要对 [`android`](#compilation-for-android) 创建自定义编译任务,
 > 请通过 [Android Gradle plugin](https://developer.android.com/build/build-variants) 设置构建变体(build variant).
 >
 {style="tip"}
 
 ## JVM 编译 {id="compilation-for-jvm"}
 
-当你在你的跨平台项目中声明 `jvm` 编译目标时, Kotlin Multiplatform plugin 会自动创建 Java 源代码集,
+当你在你的跨平台项目中声明 `jvm` 编译目标时, Kotlin Multiplatform Gradle plugin 会自动创建 Java 源代码集,
 并将它们包含到 JVM 编译目标的编译任务中.
 
 共通源代码集不能包含 Java 资源, 因此你应该将它们放在你的跨平台项目的相应的子目录中.
@@ -211,7 +211,7 @@ kotlin {
 
 ![Java 源代码文件](java-source-paths.png){width=200}
 
-目前, Kotlin Multiplatform plugin 会替换 Java plugin 配置的某些任务:
+目前, Kotlin Multiplatform Gradle plugin 会替换 Java plugin 配置的某些任务:
 
 * JAR 任务: 不使用标准的 `jar` 任务, 而是使用基于 artifact 名称的, 编译目标相关的任务,
   例如, 对 `jvm()` 编译目标声明, 使用 `jvmJar`, 对 `jvm("desktop")`, 使用 `desktopJar`.
@@ -280,7 +280,7 @@ kotlin {
 </tab>
 </tabs>
 
-这个编译目标由 Kotlin Multiplatform plugin 发布, 而且不需要 Java plugin 相关的设置步骤.
+这个编译目标由 Kotlin Multiplatform Gradle plugin 发布, 而且不需要 Java plugin 相关的设置步骤.
 
 ## 配置与原生语言的交互 {id="configure-interop-with-native-languages"}
 
@@ -381,7 +381,7 @@ kotlin {
 
 然后, 对每个构建变体编译的每个 [Android 源代码集](https://developer.android.com/build/build-variants#sourcesets),
 会创建 Kotlin 源代码集, 名称是 Android 源代码集名前面加上编译目标名,
-比如, 对于 Kotlin 编译目标 `androidTarget`, 以及 Android 源代码集 `debug`, 对应的 Kotlin 源代码集名为 `androidDebug`.
+比如, 对于 Android 源代码集 `debug`, 以及 Kotlin 编译目标 `android`, 对应的 Kotlin 源代码集名为 `androidDebug`.
 这些 Kotlin 源代码集会被添加到对应的构建变体的编译任务中.
 
 默认的源代码集 `commonMain` 会被添加到所有的产品构建变体(无论是应用程序还是库) 的编译任务中.
@@ -393,7 +393,7 @@ kotlin {
 
 ```kotlin
 kotlin {
-    androidTarget { /* ... */ }
+    android { /* ... */ }
 }
 
 dependencies {

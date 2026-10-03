@@ -1,12 +1,14 @@
 [//]: # (title: 与 JavaScript 交互)
 
+<primary-label ref="beta"/> 
+
 Kotlin/Wasm 允许你在 Kotlin 中使用 JavaScript 代码, 也允许你在 JavaScript 中使用 Kotlin 代码.
 
 和 [Kotlin/JS](js-overview.md) 一样, Kotlin/Wasm 编译器也具有与 JavaScript 互操作的能力.
 如果你熟悉 Kotlin/JS 的互操作能力, 你会注意到 Kotlin/Wasm 的互操作能力与此类似.
 然而, 还是存在一些关键的差异需要注意.
 
-> Kotlin/Wasm 功能处于 [Alpha 阶段](components-stability.md). 它随时有可能变更.
+> Kotlin/Wasm 功能处于 [Beta 阶段](components-stability.md). 它随时有可能变更.
 > 请不要将这个功能用于正式产品.
 > 希望你能通过 [YouTrack](https://youtrack.jetbrains.com/issue/KT-56492) 提供你的反馈意见.
 >
@@ -149,6 +151,34 @@ external object Counter : JsAny {
 与通常的类和接口相似, 你可以让外部声明扩展其他的外部类, 实现外部接口.
 但是, 你不能在同一个类型层次结构中混合使用外部声明和非外部声明.
 
+#### 带有 `@nativeInvoke` 的可调用 JavaScript 对象 {id="callable-javascript-objects-with-nativeinvoke"}
+<primary-label ref="experimental-opt-in"/>
+
+对于一个 `external` 声明(类或接口), 你可以在它的 Kotlin 成员函数上使用 `@nativeInvoke` 注解,
+使得它能够象 JavaScript 函数一样调用.
+
+添加这个注解之后, 在 Kotlin 中对函数的每次调用, 会被直接翻译为对 JavaScript 对象的调用:
+
+```kotlin
+import kotlin.js.nativeInvoke
+
+@OptIn(ExperimentalWasmJsInterop::class)
+external class JsAction {
+    @nativeInvoke
+    operator fun invoke(data: String)
+}
+
+fun main() {
+    val action = JsAction()
+    action("Run task")
+}
+```
+
+> `@nativeInvoke` 注解是一个临时方案, 直到我们作出稳定的互操作性设计为止.
+> 目前, 你在使用 `@nativeInvoke` 时, 编译器会报告警告.
+>
+> {style="note"}
+
 ### 带有 JavaScript 代码的 Kotlin 函数 {id="kotlin-functions-with-javascript-code"}
 
 你可以定义一个函数, 函数体为 `= js("code")` 形式, 这样就可以将 JavaScript 代码段添加到 Kotlin/Wasm 代码中:
@@ -186,7 +216,7 @@ Kotlin 编译器会生成 JavaScript 文件, 将代码字符串放入函数中, 
 Kotlin 编译器不会验证这些 JavaScript 代码段.
 如果存在 JavaScript 语法错误, 这些错误会在你运行 JavaScript 代码时报告.
 
-> `@JsFun` 注解的功能与此类似, 可能会被弃用.
+> `@JsFun` 注解的功能与此类似, 可能会被废弃.
 >
 {style="note"}
 
@@ -261,7 +291,7 @@ import org.khronos.webgl.*
     val jsInt32Array: Int32Array = intArray.toInt32Array()
     
     // 使用 toIntArray() 将 JavaScript 的 Int32Array 转换回 Kotlin 的 IntArray
-    val kotlnIntArray: IntArray = jsInt32Array.toIntArray()
+    val kotlinIntArray: IntArray = jsInt32Array.toIntArray()
 ```
 
 ## 在 JavaScript 中使用 Kotlin 代码 {id="use-kotlin-code-in-javascript"}
@@ -319,7 +349,7 @@ kotlin {
 在与 JavaScript 交互的声明中, Kotlin/Wasm 只允许使用某些类型.
 对于使用 `external`, `= js("code")` 或 `@JsExport` 的声明, 这些限制是统一的.
 
-下面是 Kotlin 类型对应的 Javascript 类型:
+下面是 Kotlin 类型对应的 JavaScript 类型:
 
 | Kotlin                                                     | JavaScript                           |
 |------------------------------------------------------------|--------------------------------------|
@@ -398,29 +428,18 @@ external fun <T : JsAny> processData(data: JsArray<T>): T
 
 ## 异常处理 {id="exception-handling"}
 
-你可以使用 Kotlin 的 `try-catch` 表达式捕获 JavaScript 的异常.
-但是, 在 Kotlin/Wasm 中默认不能访问被抛出的值的详细信息.
+在 Kotlin/Wasm 中, 你可以使用 Kotlin 的 `try-catch` 表达式捕获 JavaScript 的异常.
+异常处理的工作方式如下:
 
-你可以配置 `JsException` 类型, 让它包含来自 JavaScript 的原始错误消息和栈追踪(Stack Trace)信息.
-方法是向你的 `build.gradle.kts` 文件添加以下编译器选项:
+* 从 JavaScript 抛出的异常:
+  在 Kotlin 端, 可以访问详细信息.
+  如果这样的异常传播回 JavaScript, 它不再被封装在 WebAssembly 中.
 
-```kotlin
-kotlin {
-    wasmJs {
-        compilerOptions {
-            freeCompilerArgs.add("-Xwasm-attach-js-exception")
-        }
-    }
-}
-```
+* 从 Kotlin 抛出的异常:
+  在 JavaScript 端, 可以作为通常的 JS Error 捕获.
 
-这个行为依赖于 `WebAssembly.JSTag` API, 这个 API 只能在特定的浏览器中使用:
 
-* **Chrome:** 从版本 115 开始支持
-* **Firefox:** 从版本 129 开始支持
-* **Safari:** 目前还不支持
-
-下面的示例演示这个行为:
+下面的示例演示在 Kotlin 端捕获 JavaScript 异常:
 
 ```kotlin
 external object JSON {
@@ -446,11 +465,12 @@ fun main() {
 }
 ```
 
-启用 `-Xwasm-attach-js-exception` 编译器选项后, `JsException` 类型会提供来自 JavaScript 错误的详细信息.
-如果不启用这个编译器选项, `JsException` 只包含粗略的信息, 表示在运行 JavaScript 代码时抛出了异常.
+在支持 [`WebAssembly.JSTag`](https://webassembly.github.io/exception-handling/js-api/#dom-webassembly-jstag)
+功能的现代浏览器中, 这种异常处理功能能够自动生效:
 
-如果你使用 JavaScript 的 `try-catch` 表达式来捕获 Kotlin/Wasm 的异常,
-那么捕获的异常会像是一个普通的 `WebAssembly.Exception`, 没有可以直接访问的错误消息和数据.
+* Chrome 115+
+* Firefox 129+
+* Safari 18.4+
 
 ## Kotlin/Wasm 互操作功能与 Kotlin/JS 互操作功能的区别 {id="kotlin-wasm-and-kotlin-js-interoperability-differences"}
 

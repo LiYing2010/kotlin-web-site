@@ -4,21 +4,21 @@
 它将 [R 的 ggplot2 库](https://ggplot2.tidyverse.org/) 移植到 Kotlin.
 LPK 将功能丰富的 ggplot2 API 带入 Kotlin 生态系统, 适合于需要复杂的数据可视化功能的科学家和统计学家.
 
-LPK 可用于各种平台, 包括 [Kotlin Notebooks](data-analysis-overview.md#notebooks), [Kotlin/JS](js-overview.md), [JVM 的 Swing](https://docs.oracle.com/javase/8/docs/technotes/guides/swing/), [JavaFX](https://openjfx.io/), 以及 [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/).
+LPK 可用于各种平台, 包括 [Kotlin/JS](js-overview.md), [JVM 的 Swing](https://docs.oracle.com/javase/8/docs/technotes/guides/swing/), [JavaFX](https://openjfx.io/), 以及 [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/).
 此外, LPK 还能与 [IntelliJ](https://www.jetbrains.com/idea/), [DataGrip](https://www.jetbrains.com/datagrip/), [DataSpell](https://www.jetbrains.com/dataspell/), 和 [PyCharm](https://www.jetbrains.com/pycharm/) 无缝集成.
 
 ![Lets-Plot](lets-plot-overview.png){width=700}
 
-本教程演示如何在 IntelliJ IDEA 中, 通过 Kotlin Notebook,
-使用 LPK 和 [Kotlin DataFrame](https://kotlin.github.io/dataframe/gettingstarted.html) 库创建各种类型的绘图.
+本教程演示如何在 IntelliJ IDEA 中, 使用 LPK 和 [Kotlin DataFrame](https://kotlin.github.io/dataframe/home.html) 库创建各种类型的绘图.
 
 ## 开始前的准备工作 {id="before-you-start"}
 
-Kotlin Notebook 需要使用 [Kotlin Notebook plugin](https://plugins.jetbrains.com/plugin/16340-kotlin-notebook),
-IntelliJ IDEA 默认捆绑并启用了这个插件.
-
-如果无法使用 Kotlin Notebook 功能, 请确认启用了 plugin.
-详情请参见 [设置环境](kotlin-notebook-set-up-env.md).
+> 从 IntelliJ IDEA 2026.2 开始, Kotlin Notebook 不再捆绑在 IDE 之内, JetBrains 也不再提供官方支持.
+> 源代码继续通过 [GitHub](https://github.com/Kotlin/kotlin-notebook) 提供.
+>
+> 详情请参见 [blog](https://blog.jetbrains.com/idea/2026/06/kotlin-notebook-sunset/).
+>
+{style="note"}
 
 创建一个新的 Kotlin Notebook, 来使用 Lets-Plot:
 
@@ -30,12 +30,15 @@ IntelliJ IDEA 默认捆绑并启用了这个插件.
     %use dataframe
     ```
 
+要遵循本教程进行操作, 你也可以将 DataFrame 作为
+[Gradle](https://kotlin.github.io/dataframe/setupgradle.html) 或 [Maven](https://kotlin.github.io/dataframe/setupmaven.html) 依赖项来使用.
+
 ## 准备数据 {id="prepare-the-data"}
 
 我们来创建一个 DataFrame, 存储 3 个城市月平均气温的模拟数字: 柏林, 马德里, 和加拉加斯.
 
 使用 Kotlin DataFrame 库的 [`dataFrameOf()`](https://kotlin.github.io/dataframe/createdataframe.html#dataframeof) 函数生成 DataFrame.
-在你的 Kotlin Notebook中, 粘贴并运行下面的代码片段:
+请粘贴并运行下面的代码片段:
 
 ```kotlin
 // months 变量保存一年中 12 个月份的列表
@@ -77,7 +80,7 @@ val data = df.toMap()
 
 ## 创建散点图(Scatter Plot) {id="create-a-scatter-plot"}
 
-我们在 Kotlin Notebook 中使用 LPK 库创建一个散点图.
+我们使用 LPK 库创建一个散点图.
 
 有了 `Map` 格式的数据之后, 请使用 LPK 库的 [`geomPoint()`](https://lets-plot.org/kotlin/api-reference/-lets--plot--kotlin/org.jetbrains.letsPlot.geom/geom-point/index.html) 函数生成散点图.
 你可以为 X 轴和 Y 轴指定值, 并定义分组, 以及分组的颜色.
@@ -128,10 +131,7 @@ boxPlot
    import org.apache.commons.math3.distribution.MultivariateNormalDistribution
    ```
 
-   > 关于对 Kotlin Notebook 导入依赖项, 详情请参见 [Kotlin Notebook 文档](https://www.jetbrains.com/help/idea/kotlin-notebook.html#add-dependencies).
-   > {style="tip"}
-
-2. 在你的 Kotlin Notebook 中, 粘贴并运行下面的代码片段, 创建一组 2D 数据点:
+2. 粘贴并运行下面的代码片段, 创建一组 2D 数据点:
 
    ```kotlin
    // 为三个分布定义协方差矩阵
@@ -200,4 +200,3 @@ densityPlot
 * 查看 [Lets-Plot for Kotlin 的文档](https://lets-plot.org/kotlin/charts.html) 中的更多绘图示例.
 * 阅读 Lets-Plot for Kotlin 的 [API 参考文档](https://lets-plot.org/kotlin/api-reference/).
 * 阅读 [Kotlin DataFrame](https://kotlin.github.io/dataframe/info.html) 和 [Kandy](https://kotlin.github.io/kandy/welcome.html) 库的文档, 学习如何使用 Kotlin 进行数据转换和可视化.
-* 阅读 [Kotlin Notebook 的使用方法和主要功能](https://www.jetbrains.com/help/idea/kotlin-notebook.html) 的更多信息.

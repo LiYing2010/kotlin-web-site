@@ -36,17 +36,17 @@ java -jar dokka-cli-%dokkaVersion%.jar -sourceSet -help
 
 对于所有的输出格式, 你所需要的依赖项如下:
 
-| **Group**             | **Artifact**                  | **版本**         | **链接**                                                                                                                                             |
-|-----------------------|-------------------------------|----------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
-| `org.jetbrains.dokka` | `dokka-base`                  | %dokkaVersion% | [下载](https://repo1.maven.org/maven2/org/jetbrains/dokka/dokka-base/%dokkaVersion%/dokka-base-%dokkaVersion%.jar)                                   |
-| `org.jetbrains.dokka` | `analysis-kotlin-descriptors` | %dokkaVersion% | [下载](https://repo1.maven.org/maven2/org/jetbrains/dokka/analysis-kotlin-descriptors/%dokkaVersion%/analysis-kotlin-descriptors-%dokkaVersion%.jar) |
+| **Group**             | **Artifact**              | **版本**       | **链接**                                                                                                                                             |
+|-----------------------|---------------------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `org.jetbrains.dokka` | `dokka-base`              | %dokkaVersion% | [下载](https://repo1.maven.org/maven2/org/jetbrains/dokka/dokka-base/%dokkaVersion%/dokka-base-%dokkaVersion%.jar)                                   |
+| `org.jetbrains.dokka` | `analysis-kotlin-symbols` | %dokkaVersion% | [下载](https://repo1.maven.org/maven2/org/jetbrains/dokka/analysis-kotlin-descriptors/%dokkaVersion%/analysis-kotlin-descriptors-%dokkaVersion%.jar) |
 
 对于 [HTML](dokka-html.md) 输出格式, 你需要的额外的依赖项如下:
 
 | **Group**               | **Artifact**       | **版本** | **链接**                                                                                                       |
-|-------------------------|--------------------|--------|--------------------------------------------------------------------------------------------------------------|
-| `org.jetbrains.kotlinx` | `kotlinx-html-jvm` | 0.8.0  | [下载](https://repo1.maven.org/maven2/org/jetbrains/kotlinx/kotlinx-html-jvm/0.8.0/kotlinx-html-jvm-0.8.0.jar) |
-| `org.freemarker`        | `freemarker`       | 2.3.31 | [下载](https://repo1.maven.org/maven2/org/freemarker/freemarker/2.3.31/freemarker-2.3.31.jar)                  |
+|-------------------------|--------------------|----------|----------------------------------------------------------------------------------------------------------------|
+| `org.jetbrains.kotlinx` | `kotlinx-html-jvm` | 0.8.0    | [下载](https://repo1.maven.org/maven2/org/jetbrains/kotlinx/kotlinx-html-jvm/0.8.0/kotlinx-html-jvm-0.8.0.jar) |
+| `org.freemarker`        | `freemarker`       | 2.3.31   | [下载](https://repo1.maven.org/maven2/org/freemarker/freemarker/2.3.31/freemarker-2.3.31.jar)                  |
 
 
 ### 使用命令行选项运行 {id="run-with-command-line-options"}
@@ -61,7 +61,7 @@ java -jar dokka-cli-%dokkaVersion%.jar -sourceSet -help
 
 ```bash
 java -jar dokka-cli-%dokkaVersion%.jar \
-     -pluginsClasspath "./dokka-base-%dokkaVersion%.jar;./analysis-kotlin-descriptors-%dokkaVersion%.jar;./kotlinx-html-jvm-0.8.0.jar;./freemarker-2.3.31.jar" \
+     -pluginsClasspath "./dokka-base-%dokkaVersion%.jar;./analysis-kotlin-symbols-%dokkaVersion%.jar;./kotlinx-html-jvm-0.8.0.jar;./freemarker-2.3.31.jar" \
      -sourceSet "-src /home/myCoolProject/src/main/kotlin" \
      -outputDir "./dokka/html"
 ```
@@ -98,7 +98,7 @@ java -jar dokka-cli-%dokkaVersion%.jar dokka-configuration.json
   "pluginsClasspath": [
     "./dokka-base-%dokkaVersion%.jar",
     "./kotlinx-html-jvm-0.8.0.jar",
-    "./analysis-kotlin-descriptors-%dokkaVersion%.jar",
+    "./analysis-kotlin-symbols-%dokkaVersion%.jar",
     "./freemarker-2.3.31.jar"
   ]
 }
@@ -113,7 +113,7 @@ java -jar dokka-cli-%dokkaVersion%.jar dokka-configuration.json
 其他所有输出格式都以 [Dokka plugin](dokka-plugins.md) 的形式实现.
 要使用这些格式, 你需要将它们添加到 plugin classpath.
 
-例如, 如果你想要使用试验性的 [GFM](dokka-markdown.md#gfm) 输出格式生成文档,
+例如, 如果你想要使用试验性的 [GFM](https://github.com/Kotlin/dokka/blob/master/dokka-subprojects/plugin-gfm/README.md) 输出格式生成文档,
 你需要下载 gfm-plugin 的 JAR 文件 ([下载](https://repo1.maven.org/maven2/org/jetbrains/dokka/gfm-plugin/%dokkaVersion%/gfm-plugin-%dokkaVersion%.jar)),
 并将它传递给 `pluginsClasspath` 配置选项.
 
@@ -141,7 +141,7 @@ java -jar dokka-cli-%dokkaVersion%.jar \
 
 通过传递给 `pluginsClasspath` 的 GFM plugin, CLI 运行器会使用 GFM 输出格式生成文档.
 
-更多详情, 请参见 [Markdown](dokka-markdown.md) 和 [Javadoc](dokka-javadoc.md#generate-javadoc-documentation) 章节.
+更多详情, 请参见 [GFM](https://github.com/Kotlin/dokka/blob/master/dokka-subprojects/plugin-gfm/README.md) 和 [Javadoc](dokka-javadoc.md#generate-javadoc-documentation) 章节.
 
 ## 命令行选项 {id="command-line-options"}
 
@@ -153,26 +153,26 @@ java -jar dokka-cli-%dokkaVersion%.jar -help
 
 简单的总结如下:
 
-| 选项                           | 描述                                                                                                                            |
-|------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| `moduleName`                 | 项目/模块名称.                                                                                                                      |
-| `moduleVersion`              | 需要生成文档的版本.                                                                                                                    |
-| `outputDir`                  | 输出目录路径, 默认值为 `./dokka`.                                                                                                       |
-| `sourceSet`                  | 对 Dokka 源代码集的配置. 包含嵌套的配置选项.                                                                                                   |
-| `pluginsConfiguration`       | 对 Dokka plugin 的配置.                                                                                                           |
-| `pluginsClasspath`           | Dokka plugin 以及它们的依赖项的 jar 文件列表. 可以接受多个路径, 以分号分隔.                                                                             |
-| `offlineMode`                | 是否通过网络来解析远程的文件/链接.                                                                                                            |
-| `failOnWarning`              | 如果 Dokka 输出警告或错误, 是否让文档生成任务失败.                                                                                                |
-| `delayTemplateSubstitution`  | 是否延迟替换某些元素. 用于多模块项目的增量构建.                                                                                                     |
-| `noSuppressObviousFunctions` | 是否禁止输出那些显而易见的函数, 例如继承自 `kotlin.Any` 和 `java.lang.Object` 的函数.                                                                 |
-| `includes`                   | 包含模块和包的文档的 Markdown 文件. 可以接受多个值, 以分号分隔.                                                                                       |
-| `suppressInheritedMembers`   | 是否禁止输出在指定的类中继承得到的而且没有显式覆盖的成员.                                                                                                 |
+| 选项                         | 描述                                                                                                                                                   |
+|------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `moduleName`                 | 项目/模块名称.                                                                                                                                         |
+| `moduleVersion`              | 需要生成文档的版本.                                                                                                                                    |
+| `outputDir`                  | 输出目录路径, 默认值为 `./dokka`.                                                                                                                      |
+| `sourceSet`                  | 对 Dokka 源代码集的配置. 包含嵌套的配置选项.                                                                                                           |
+| `pluginsConfiguration`       | 对 Dokka plugin 的配置.                                                                                                                                |
+| `pluginsClasspath`           | Dokka plugin 以及它们的依赖项的 jar 文件列表. 可以接受多个路径, 以分号分隔.                                                                            |
+| `offlineMode`                | 是否通过网络来解析远程的文件/链接.                                                                                                                     |
+| `failOnWarning`              | 如果 Dokka 输出警告或错误, 是否让文档生成任务失败.                                                                                                     |
+| `delayTemplateSubstitution`  | 是否延迟替换某些元素. 用于多模块项目的增量构建.                                                                                                        |
+| `noSuppressObviousFunctions` | 是否禁止输出那些显而易见的函数, 例如继承自 `kotlin.Any` 和 `java.lang.Object` 的函数.                                                                  |
+| `includes`                   | 包含模块和包的文档的 Markdown 文件. 可以接受多个值, 以分号分隔.                                                                                        |
+| `suppressInheritedMembers`   | 是否禁止输出在指定的类中继承得到的而且没有显式覆盖的成员.                                                                                              |
 | `globalPackageOptions`       | 全局的包配置选项列表, 格式为 `"matchingRegex,-deprecated,-privateApi,+warnUndocumented,+suppress;+visibility:PUBLIC;..."`. 可以接受多个值, 以分号分隔. |
-| `globalLinks`                | 全局的外部文档链接, 格式为 `{url}^{packageListUrl}`. 可以接受多个值, 以 `^^` 分隔.                                                                  |
-| `globalSrcLink`              | 源代码目录与用于浏览源代码的 Web Service 之间的全局的对应. 可以接受多个路径, 以分号分隔.                                                                         |
-| `helpSourceSet`              | 对嵌套的 `-sourceSet` 配置输出帮助信息.                                                                                                   |
-| `loggingLevel`               | 日志级别, 可以设置的值: `DEBUG, PROGRESS, INFO, WARN, ERROR`.                                                                           |
-| `help, h`                    | 关于使用方法的帮助信息.                                                                                                                  |
+| `globalLinks`                | 全局的外部文档链接, 格式为 `{url}^{packageListUrl}`. 可以接受多个值, 以 `^^` 分隔.                                                                     |
+| `globalSrcLink`              | 源代码目录与用于浏览源代码的 Web Service 之间的全局的对应. 可以接受多个路径, 以分号分隔.                                                               |
+| `helpSourceSet`              | 对嵌套的 `-sourceSet` 配置输出帮助信息.                                                                                                                |
+| `loggingLevel`               | 日志级别, 可以设置的值: `DEBUG, PROGRESS, INFO, WARN, ERROR`.                                                                                          |
+| `help, h`                    | 关于使用方法的帮助信息.                                                                                                                                |
 
 ### 源代码集选项 {id="source-set-options"}
 
@@ -184,29 +184,30 @@ java -jar dokka-cli-%dokkaVersion%.jar -sourceSet -help
 
 简单的总结如下:
 
-| 选项                           | 描述                                                                                                       |
-|------------------------------|----------------------------------------------------------------------------------------------------------|
-| `sourceSetName`              | 源代码集名称.                                                                                                  |
-| `displayName`                | 源代码集的显示名称, 这个名称会在内部和外部使用.                                                                                |
-| `classpath`                  | 对示例进行分析和交互时的类路径. 可以接受多个路径, 以分号分隔.                                                                        |
-| `src`                        | 需要分析并生成文档的源代码根目录. 可以接受多个路径, 以分号分隔.                                                                       |
+| 选项                         | 描述                                                                                                                             |
+|------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| `sourceSetName`              | 源代码集名称.                                                                                                                    |
+| `displayName`                | 源代码集的显示名称, 这个名称会在内部和外部使用.                                                                                  |
+| `classpath`                  | 对示例进行分析和交互时的类路径. 可以接受多个路径, 以分号分隔.                                                                    |
+| `src`                        | 需要分析并生成文档的源代码根目录. 可以接受多个路径, 以分号分隔.                                                                  |
 | `dependentSourceSets`        | 依赖的源代码集名称, 格式为 `moduleName/sourceSetName`. 可以接受多个值, 以分号分隔.                                               |
-| `samples`                    | 包含示例函数的目录或文件的列表. 可以接受多个路径, 以分号分隔.                                                                        |
+| `samples`                    | 包含示例函数的目录或文件的列表. 可以接受多个路径, 以分号分隔.                                                                    |
 | `includes`                   | <p id="includes-cli">包含 [模块和包文档](dokka-module-and-package-docs.md) 的 Markdown 文件. 可以接受多个路径, 以分号分隔.</p>   |
-| `documentedVisibilities`     | 需要生成文档的成员可见度. 可以接受多个值, 以分号分隔. 可以设置的值: `PUBLIC`, `PRIVATE`, `PROTECTED`, `INTERNAL`, `PACKAGE`.           |
-| `reportUndocumented`         | 是否对无文档的声明输出警告.                                                                                           |
-| `noSkipEmptyPackages`        | 是否对空的包创建页面.                                                                                              |
-| `skipDeprecated`             | 是否跳过废弃的声明.                                                                                               |
-| `jdkVersion`                 | 生成 JDK Javadoc 链接时使用的 JDK 版本.                                                                            |
-| `languageVersion`            | 设置代码分析和示例环境时使用的 Kotlin 语言版本.                                                                             |
-| `apiVersion`                 | 设置代码分析和示例环境时使用的 Kotlin API 版本.                                                                           |
-| `noStdlibLink`               | 是否生成指向 Kotlin 标准库的链接.                                                                                    |
-| `noJdkLink`                  | 是否生成指向 JDK Javadoc 的链接.                                                                                  |
+| `documentedVisibilities`     | 需要生成文档的成员可见度. 可以接受多个值, 以分号分隔. 可以设置的值: `PUBLIC`, `PRIVATE`, `PROTECTED`, `INTERNAL`, `PACKAGE`.     |
+| `reportUndocumented`         | 是否对无文档的声明输出警告.                                                                                                      |
+| `noSkipEmptyPackages`        | 是否对空的包创建页面.                                                                                                            |
+| `skipDeprecated`             | 是否跳过废弃的声明.                                                                                                              |
+| `jdkVersion`                 | 生成 JDK Javadoc 链接时使用的 JDK 版本.                                                                                          |
+| `languageVersion`            | 设置代码分析和示例环境时使用的 Kotlin 语言版本.                                                                                  |
+| `apiVersion`                 | 设置代码分析和示例环境时使用的 Kotlin API 版本.                                                                                  |
+| `noStdlibLink`               | 是否生成指向 Kotlin 标准库的链接.                                                                                                |
+| `noJdkLink`                  | 是否生成指向 JDK Javadoc 的链接.                                                                                                 |
 | `suppressedFiles`            | 需要禁止输出的文件路径. 可以接受多个路径, 以分号分隔.                                                                            |
-| `analysisPlatform`           | 设置代码分析环境时使用的平台.                                                                                          |
+| `suppressAnnotatedWith`      | 需要禁止输出的声明所标注的注解的完全限定名称(Fully Qualified Name, FQN). 可以接受多个值, 以分号分隔.                             |
+| `analysisPlatform`           | 设置代码分析环境时使用的平台.                                                                                                    |
 | `perPackageOptions`          | 包源代码集配置列表, 格式为 `matchingRegexp,-deprecated,-privateApi,+warnUndocumented,+suppress;...`. 可以接受多个值, 以分号分隔. |
-| `externalDocumentationLinks` | 外部文档链接, 格式为 `{url}^{packageListUrl}`. 可以接受多个值, 以 `^^` 分隔.                                                |
-| `srcLink`                    | 源代码目录与用于浏览源代码的 Web Service 之间的对应. 可以接受多个路径, 以分号分隔.                                                       |
+| `externalDocumentationLinks` | 外部文档链接, 格式为 `{url}^{packageListUrl}`. 可以接受多个值, 以 `^^` 分隔.                                                     |
+| `srcLink`                    | 源代码目录与用于浏览源代码的 Web Service 之间的对应. 可以接受多个路径, 以分号分隔.                                               |
 
 ## JSON 配置 {id="json-configuration"}
 
@@ -242,7 +243,7 @@ java -jar dokka-cli-%dokkaVersion%.jar -sourceSet -help
   "pluginsClasspath": [
     "./dokka-base-%dokkaVersion%.jar",
     "./kotlinx-html-jvm-0.8.0.jar",
-    "./analysis-kotlin-descriptors-%dokkaVersion%.jar",
+    "./analysis-kotlin-symbols-%dokkaVersion%.jar",
     "./freemarker-2.3.31.jar"
   ]
 }
@@ -469,7 +470,7 @@ java -jar dokka-cli-%dokkaVersion%.jar -sourceSet -help
             需要生成文档的可见度修饰符集合.
         </p>
         <p>
-            如果你想要对 <code>protected</code>/<code>internal</code>/<code>private</code> 声明声明生成文档,
+            如果你想要对 <code>protected</code>/<code>internal</code>/<code>private</code> 声明生成文档,
             以及如果你想要排除 <code>public</code> 声明, 只为 internal API 生成文档,
             这个选项会很有用.
         </p>
@@ -491,7 +492,7 @@ java -jar dokka-cli-%dokkaVersion%.jar -sourceSet -help
     </def>
     <def title="reportUndocumented">
         <p>
-            是否对可见的、无文档的声明输出警告, 这是指经过 <code>documentedVisibilities</code> 和其他过滤器过滤之后, 需要输出文档, 但没有 KDocs 的声明.
+            是否对可见的, 无文档的声明输出警告, 这是指经过 <code>documentedVisibilities</code> 和其他过滤器过滤之后, 需要输出文档, 但没有 KDocs 的声明.
         </p>
         <p>
             这个设置可以与 <code>failOnWarning</code> 选项配合工作.
@@ -539,13 +540,13 @@ java -jar dokka-cli-%dokkaVersion%.jar -sourceSet -help
     <def title="languageVersion">
         <p>
             设置代码分析和 <a href="kotlin-doc.md#sample-identifier">@sample</a> 环境时使用的
-            <a href="compatibility-modes.md">Kotlin 语言版本</a>.
+            <a href="kotlin-evolution-principles.md">Kotlin 语言版本</a>.
         </p>
     </def>
     <def title="apiVersion">
         <p>
             设置代码分析和 <a href="kotlin-doc.md#sample-identifier">@sample</a> 环境时使用的
-            <a href="compatibility-modes.md">Kotlin API 版本</a>.
+            <a href="kotlin-evolution-principles.md">Kotlin API 版本</a>.
         </p>
     </def>
     <def title="noStdlibLink">
@@ -619,6 +620,14 @@ java -jar dokka-cli-%dokkaVersion%.jar -sourceSet -help
     <def title="suppressedFiles">
         <p>
             需要禁止生成文档的文件.
+        </p>
+    </def>
+    <def title="suppressAnnotatedWith">
+        <p>
+            注解的完全限定名称 (Fully Qualified Name, FQN)列表, 对标注了这些注解的声明, 禁止生成文档.
+        </p>
+        <p>
+            标注了这些注解之一的所有声明, 不会出现在生成的文档中.
         </p>
     </def>
     <def title="sourceLinks">
@@ -752,7 +761,7 @@ java -jar dokka-cli-%dokkaVersion%.jar -sourceSet -help
     </def>
     <def title="reportUndocumented">
         <p>
-            是否对可见的、无文档的声明输出警告,
+            是否对可见的, 无文档的声明输出警告,
             这是指经过 <code>documentedVisibilities</code> 和其他过滤器过滤之后, 需要输出文档, 但没有 KDocs 的声明.
         </p>
         <p>
@@ -833,7 +842,7 @@ java -jar dokka-cli-%dokkaVersion%.jar -sourceSet -help
 
 ### 完整的配置 {id="complete-configuration"}
 
-下面的例子中, 你可以看到同时使用了所有的配置选项.
+下面是同时使用了所有配置选项的示例:
 
 ```json
 {
@@ -844,6 +853,9 @@ java -jar dokka-cli-%dokkaVersion%.jar -sourceSet -help
   "suppressObviousFunctions": true,
   "suppressInheritedMembers": false,
   "offlineMode": false,
+  "suppressAnnotatedWith": [
+    "com.example.SuppressMe"
+  ],
   "sourceLinks": [
     {
       "localDirectory": "src/main/kotlin",
@@ -909,6 +921,9 @@ java -jar dokka-cli-%dokkaVersion%.jar -sourceSet -help
       "suppressedFiles": [
         "src/main/kotlin/org/jetbrains/dokka/Suppressed.kt"
       ],
+      "suppressAnnotatedWith": [
+        "com.example.SuppressMe"
+      ],
       "sourceLinks": [
         {
           "localDirectory": "src/main/kotlin",
@@ -940,7 +955,7 @@ java -jar dokka-cli-%dokkaVersion%.jar -sourceSet -help
   "pluginsClasspath": [
     "./dokka-base-%dokkaVersion%.jar",
     "./kotlinx-html-jvm-0.8.0.jar",
-    "./analysis-kotlin-descriptors-%dokkaVersion%.jar",
+    "./analysis-kotlin-symbols-%dokkaVersion%.jar",
     "./freemarker-2.3.31.jar"
   ],
   "pluginsConfiguration": [

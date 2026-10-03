@@ -358,7 +358,7 @@ annotation class MyDateTime
 * [retention](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.annotation/-retention/)
   设置为 `BINARY` 或 `RUNTIME`.
 * [target](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.annotation/-target/)
-  中包含 `EXPRESSION`, `FILE`, `TYPE`, 或 `TYPE_PARAMETER` .
+  不包含 `EXPRESSION`, `FILE`, `TYPE`, 或 `TYPE_PARAMETER`.
 * 没有参数.
 
 对用户同意要求的严重 [级别](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-requires-opt-in/-level/) 可以是以下两种之一:

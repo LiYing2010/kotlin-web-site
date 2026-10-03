@@ -64,26 +64,26 @@ Kotlin/Native 允许你使用 C 和 Objective-C 库, 你可以在 Kotlin 中使�
 下面是你可以在定义文件中使用的属性的完整列表, 你可以通过这些属性来调整生成的二进制文件的内容.
 更多详情, 请参见下面的小节.
 
-| **属性**                                                                              | **描述**                                                                                                            |
-|-------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
-| [`headers`](#import-headers)                                                        | 绑定中将会包含的库的头文件列表.                                                                                                  |
-| [`modules`](#import-modules)                                                        | 绑定中将会包含的 Objective-C 库的 Clang 模块列表.                                                                               |
-| `language`                                                                          | 指定语言. 默认使用 C; 如果需要, 请修改为 `Objective-C`.                                                                           |
-| [`compilerOpts`](#pass-compiler-and-linker-options)                                 | cinterop 工具传递给 C 编译器的编译器选项.                                                                                       |
-| [`linkerOpts`](#pass-compiler-and-linker-options)                                   | cinterop 工具传递给链接器的链接器选项.                                                                                          |
-| [`excludedFunctions`](#ignore-specific-functions)                                   | 需要忽略的函数名称列表, 使用空格分隔.                                                                                              |                                              
-| [`staticLibraries`](#include-a-static-library)                                      | [实验性功能](components-stability.md#stability-levels-explained). 将静态库包含到 `.klib` 中.                                   |
-| [`libraryPaths`](#include-a-static-library)                                         | [实验性功能](components-stability.md#stability-levels-explained). 目录列表, 使用空格分隔, cinterop 工具会在这些目录中搜索需要包含到 `.klib` 中的库. |
-| `packageName`                                                                       | 生成的 Kotlin API 的包名称前缀.                                                                                            |
-| [`headerFilter`](#filter-headers-by-globs)                                          | 使用 glob 过滤头文件, 在导入一个库时只包含这些头文件.                                                                                   |
-| [`excludeFilter`](#exclude-headers)                                                 | 在导入一个库时排除指定的头文件, 优先度高于 `headerFilter`.                                                                            |
-| [`strictEnums`](#configure-enums-generation)                                        | 需要生成为 [Kotlin 枚举](enum-classes.md)的枚举值列表, 使用空格分隔.                                                                 |
-| [`nonStrictEnums`](#configure-enums-generation)                                     | 需要生成为整数的枚举值列表, 使用空格分隔.                                                                                            |
-| [`noStringConversion`](#set-up-string-conversion)                                   | 函数列表, 使用空格分隔, 这些函数的 `const char*` 参数不要自动转换为 Kotlin 的 `String`.                                                    |
-| `allowedOverloadsForCFunctions`                                                     | 默认情况下, 会假定 C 函数具有唯一的名称. 如果有一些函数使用了相同的名称, 那么只会选择其中一个. 但是, 你可以在 `allowedOverloadsForCFunctions` 中指定这些函数, 修改这个动作.    |
-| [`disableDesignatedInitializerChecks`](#allow-calling-a-non-designated-initializer) | 禁用不允许将非指定的 Objective-C 初始化器作为 `super()` 构造器调用的编译器检查.                                                              |
-| [`foreignExceptionMode`](#handle-objective-c-exceptions)                            | 将 Objective-C 代码中的异常封装为 `ForeignException` 类型的 Kotlin 异常.                                                         |
-| [`userSetupHint`](#help-resolve-linker-errors)                                      | 添加一个自定义消息, 例如, 帮助使用者解决链接器错误.                                                                                      |
+| **属性**                                                                            | **描述**                                                                                                                                                                    |
+|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [`headers`](#import-headers)                                                        | 绑定中将会包含的库的头文件列表.                                                                                                                                             |
+| [`modules`](#import-modules)                                                        | 绑定中将会包含的 Objective-C 库的 Clang 模块列表.                                                                                                                           |
+| `language`                                                                          | 指定语言. 默认使用 C; 如果需要, 请修改为 `Objective-C`.                                                                                                                     |
+| [`compilerOpts`](#pass-compiler-and-linker-options)                                 | cinterop 工具传递给 C 编译器的编译器选项.                                                                                                                                   |
+| [`linkerOpts`](#pass-compiler-and-linker-options)                                   | cinterop 工具传递给链接器的链接器选项.                                                                                                                                      |
+| [`excludedFunctions`](#ignore-specific-functions)                                   | 需要忽略的函数名称列表, 使用空格分隔.                                                                                                                                       |                                              
+| [`staticLibraries`](#include-a-static-library)                                      | [实验性功能](components-stability.md#stability-levels-explained). 将静态库包含到 `.klib` 中.                                                                                |
+| [`libraryPaths`](#include-a-static-library)                                         | [实验性功能](components-stability.md#stability-levels-explained). 目录列表, 使用空格分隔, cinterop 工具会在这些目录中搜索需要包含到 `.klib` 中的库.                         |
+| [`package`](#set-the-package-name)                                                  | 生成的 Kotlin API 的包名称前缀.                                                                                                                                             |
+| [`headerFilter`](#filter-headers-by-globs)                                          | 使用 glob 过滤头文件, 在导入一个库时只包含这些头文件.                                                                                                                       |
+| [`excludeFilter`](#exclude-headers)                                                 | 在导入一个库时排除指定的头文件, 优先度高于 `headerFilter`.                                                                                                                  |
+| [`strictEnums`](#configure-enums-generation)                                        | 需要生成为 [Kotlin 枚举](enum-classes.md)的枚举值列表, 使用空格分隔.                                                                                                        |
+| [`nonStrictEnums`](#configure-enums-generation)                                     | 需要生成为整数的枚举值列表, 使用空格分隔.                                                                                                                                   |
+| [`noStringConversion`](#set-up-string-conversion)                                   | 函数列表, 使用空格分隔, 这些函数的 `const char*` 参数不要自动转换为 Kotlin 的 `String`.                                                                                     |
+| `allowedOverloadsForCFunctions`                                                     | 默认情况下, 会假定 C 函数具有唯一的名称. 如果有一些函数使用了相同的名称, 那么只会选择其中一个. 但是, 你可以在 `allowedOverloadsForCFunctions` 中指定这些函数, 修改这个动作. |
+| [`disableDesignatedInitializerChecks`](#allow-calling-a-non-designated-initializer) | 禁用不允许将非指定的 Objective-C 初始化器作为 `super()` 构造器调用的编译器检查.                                                                                             |
+| [`foreignExceptionMode`](#handle-objective-c-exceptions)                            | 将 Objective-C 代码中的异常封装为 `ForeignException` 类型的 Kotlin 异常.                                                                                                    |
+| [`userSetupHint`](#help-resolve-linker-errors)                                      | 添加一个自定义消息, 例如, 帮助使用者解决链接器错误.                                                                                                                         |
 
 <!-- | `excludedMacros`                                                                    |                                                                                                                                                                                                                          |
 | `objcClassesIncludingCategories`                                                    |                                                                                                                                                                                                                          | -->
@@ -139,6 +139,20 @@ excludeFilter = SomeLibrary/time.h
 modules = UIKit
 ```
 
+### 设置包名称 {id="set-the-package-name"}
+
+使用 `package` 属性, 为生成的 Kotlin API 指定包前缀:
+
+```none
+package = png
+```
+
+如果你不指定这个属性, 编译器会在根包中生成声明.
+
+> `kotlin` 和 `kotlinx.cinterop` 是保留的名称, 不能用作包前缀.
+>
+{style="note"}
+
 ### 传递编译器和链接器选项 {id="pass-compiler-and-linker-options"}
 
 请使用 `compilerOpts` 属性向 C 编译器传递选项, 底层会使用 C 编译器分析头文件.
@@ -170,11 +184,7 @@ compilerOpts.macos_x64 = -DFOO=foo2
 
 ### 包含一个静态库 {id="include-a-static-library"}
 
-> 这个功能是 [实验性功能](components-stability.md#stability-levels-explained).
-> 它随时有可能变更或被删除.
-> 请注意, 只为评估目的来使用这个功能.
->
-{style="warning"}
+<primary-label ref="experimental-general"/>
 
 有些时候, 发布你的程序时附带上所需要的静态库, 而不是假定它在用户的环境中已经存在了, 这样会更便利一些.
 如果需要在 `.klib` 中包含静态库, 请使用 `staticLibrary` 和 `libraryPaths` 属性:

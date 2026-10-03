@@ -1,6 +1,8 @@
 [//]: # (title: Kotlin 2.0.20 中的新功能)
 
-_[发布日期: 2024/08/22](releases.md#release-details)_
+<web-summary>阅读 Kotlin 2.0.20 发布说明, 包括新的语言特性, Kotlin Multiplatform, JVM, Native, JS, 和 Wasm 的更新, 以及对 Gradle 和 Maven 的构建工具支持.</web-summary>
+
+_[发布日期: 2024/08/22](releases.md#release-history)_
 
 Kotlin 2.0.20 已经发布了!
 在 Kotlin 2.0.0 中我们宣布了 Kotlin K2 编译器的稳定版, Kotlin 2.0.20 版包含针对 Kotlin 2.0.0 的性能改善和 bug 修正.
@@ -14,6 +16,10 @@ Kotlin 2.0.20 已经发布了!
 * [添加了新选项, 可以在 Gradle 项目间以类文件形式共用 JVM artifact](#option-to-share-jvm-artifacts-between-projects-as-class-files)
 * [更新了 Compose 编译器](#compose-compiler)
 * [对 UUID 的支持添加到了共通的 Kotlin 标准库](#support-for-uuids-in-the-common-kotlin-standard-library)
+
+> 关于 Kotlin 的发布周期, 详情请参见 [Kotlin 发布过程](releases.md).
+>
+{style="tip"}
 
 ## IDE 支持 {id="ide-support"}
 
@@ -336,7 +342,7 @@ Kotlin/Native 改进了垃圾收集器, 以及从 Swift/Objective-C 代码中调
 这个功能目前是 [实验性功能](components-stability.md#stability-levels-explained).
 要启用它, 请在你的 `gradle.properties` 文件中设置以下选项:
 
-```none
+```properties
 kotlin.native.binary.gc=cms
 ```
 
@@ -557,7 +563,7 @@ Kotlin 2.0.20 完全兼容于 Gradle 6.8.3 到 8.6 版本.
 
 要试用这个新方案, 请向你的 `gradle.properties` 文件添加以下属性:
 
-```none
+```properties
 kotlin.jvm.addClassesVariant=true
 ```
 
@@ -627,7 +633,7 @@ Circular dependency between the following tasks:
 要在编译 task 中禁止使用 artifact, 使得不需要 task 依赖项,
 请在你的 `gradle.properties` 文件中添加以下内容:
 
-```kotlin
+```properties
 kotlin.build.archivesTaskOutputAsFriendModule=false
 ```
 
@@ -910,7 +916,7 @@ Kotlin 文档有了一些重要的更新:
   学习性能改善, 与 Kotlin 库的兼容性, 以及如何处理你的自定义编译器 plugin.
 * 改进了 [异常 章节](exceptions.md) -
   学习异常, 如何抛出和捕获它们.
-* 改进了 [在 JVM 中使用 JUnit 测试代码 - 教程](jvm-test-using-junit.md) -
+* 改进了 [教程 - 使用 Kotlin 和 JUnit 测试 Java 代码](jvm-test-using-junit.md) -
   学习如何使用 JUnit 创建测试.
 * 改进了 [Interoperability with Swift/Objective-C 章节](native-objc-interop.md) -
   学习如何在 Swift/Objective-C 代码中使用 Kotlin 声明, 以及如何在 Kotlin 代码中使用 Objective-C 声明.

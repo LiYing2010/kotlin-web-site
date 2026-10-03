@@ -99,7 +99,7 @@ fun main() {
 
 在通常的代码中, Kotlin 编译器会对每个内联类保留一个 *包装*.
 内联类的实例在运行期可以表达为这个包装, 也可以表达为它的底层类型.
-类似于 `Int` 可以 [表达](numbers.md#boxing-and-caching-numbers-on-the-java-virtual-machine) 为基本类型 `int`,
+类似于 `Int` 可以 [表达](numbers.md#boxing-and-caching-numbers-on-the-jvm) 为基本类型 `int`,
 也可以表达为包装类 `Integer`.
 
 Kotlin 编译器会优先使用底层类型而不是包装类, 这样可以产生最优化的代码, 运行时的性能也会最好.
@@ -147,7 +147,7 @@ fun compute(s: UserId<String>) {} // 编译器生成的代码是 fun compute-<ha
 
 ### 函数名称混淆 {id="mangling"}
 
-由于内联类被编译为它的底层类型, 因此可能会导致一些令人难以理解的错误, 比如, 意料不到的平台签名冲突:
+由于内联类被编译为它的底层类型, 因此可能会导致一些令人难以理解的错误, 例如, 意料不到的平台签名冲突:
 
 ```kotlin
 @JvmInline

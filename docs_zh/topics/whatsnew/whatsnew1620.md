@@ -1,6 +1,8 @@
 [//]: # (title: Kotlin 1.6.20 版中的新功能)
 
-_[发布日期: 2022/04/04](releases.md#release-details)_
+<web-summary>阅读 Kotlin 1.6.20 发布说明, 包括新的语言特性, Kotlin Multiplatform, JVM, Native, JS 的更新, 以及对 Gradle 和 Maven 的构建工具支持.</web-summary>
+
+_[发布日期: 2022/04/04](releases.md#release-history)_
 
 Kotlin 1.6.20 带来了一些未来语言功能的预览版, 对跨平台项目默认使用层级结构, 还带来了对其它组件的改进.
 
@@ -8,7 +10,11 @@ Kotlin 1.6.20 带来了一些未来语言功能的预览版, 对跨平台项目�
 
 <video src="https://www.youtube.com/v/8F19ds109-o" title="Kotlin 1.6.20 版中的新功能"/>
 
-## 语言功能
+> 关于 Kotlin 的发布周期, 详情请参见 [Kotlin 发布过程](releases.md).
+>
+{style="tip"}
+
+## 语言功能 {id="language"}
 
 在 Kotlin 1.6.20 中, 你可以试用 2 个新的语言功能:
 
@@ -125,7 +131,7 @@ kotlin {
 关于明确非 null 类型, 详情请参见
 [KEEP](https://github.com/Kotlin/KEEP/blob/master/proposals/definitely-non-nullable-types.md).
 
-## Kotlin/JVM
+## Kotlin/JVM {id="kotlinjvm"}
 
 Kotlin 1.6.20 引入了以下变更:
 
@@ -251,7 +257,7 @@ fun Printer(...) {...}
 
 请使用编译器选项 `-XXLanguage:+KotlinFunInterfaceConstructorReference` 来启用这个功能.
 
-## Kotlin/Native
+## Kotlin/Native {id="kotlinnative"}
 
 Kotlin/Native 1.6.20 继续更新了它的新组件. 我们进一步改善了 Kotlin 在各个平台的体验一致性:
 
@@ -328,7 +334,7 @@ Kotlin/Native 1.6.20 继续更新了它的新组件. 我们进一步改善了 Ko
 
 为了避免破坏已有的代码, 我们引入一个 Gradle 属性, 让编译器将返回 `Unit` 的挂起函数, 翻译为 Swift 中的 `Void` 返回类型的 `async` 函数:
 
-```none
+```properties
 # gradle.properties
 kotlin.native.binary.unitSuspendFunctionObjCExport=proper
 ```
@@ -421,7 +427,7 @@ Uncaught Kotlin exception: kotlin.IllegalStateException:
 
 要使用 libbacktrace 输出更好的栈追踪信息, 请在 `gradle.properties` 中添加以下内容:
 
-```none
+```properties
 # gradle.properties
 kotlin.native.binary.sourceInfoType=libbacktrace
 ```
@@ -485,7 +491,7 @@ Kotlin 1.6.20 带来了一些性能改进和 bug 修正, 影响到 Kotlin 生成
 这个发布版对 Xcode 13 携带的库有了完全的支持.
 你可以在你的 Kotlin 代码的任何地方使用这些库.
 
-## Kotlin Multiplatform
+## Kotlin Multiplatform {id="kotlin-multiplatform"}
 
 1.6.20 版中, Kotlin Multiplatform 有了以下重要更新:
 
@@ -537,14 +543,14 @@ Kotlin 工具链会提供正确的默认依赖项, 比如 Kotlin/Native 标准�
 而且, Kotlin 工具链会自动判断出在库使用者的源代码集中能够使用哪些 API , 并密切注意不安全的使用, 比如在 JS 代码中使用针对 JVM 的 API.
 详情请参见 [在库中共用代码](multiplatform-share-on-platforms.md#share-code-in-libraries).
 
-#### 配置与设置
+#### 配置与设置 {id="configuration-and-setup"}
 
 从 Kotlin 1.6.20 开始, 你所有的新的跨平台项目都将使用层级项目结构. 不需要额外的设置.
 
 * 如果你已经进行了 [手工转换](multiplatform-share-on-platforms.md#share-code-on-similar-platforms),
   你可以从 `gradle.properties` 中删除废弃的选项:
 
-  ```none
+  ```properties
   # gradle.properties
   kotlin.mpp.enableGranularSourceSetsMetadata=true
   kotlin.native.enableDependencyPropagation=false // 或 'true', 取决于你以前的设置
@@ -555,18 +561,18 @@ Kotlin 工具链会提供正确的默认依赖项, 比如 Kotlin/Native 标准�
 
 * 你可以也选择性禁用(opt out)这个功能. 要禁用层级结构支持, 请在 `gradle.properties` 中设置以下选项:
 
-  ```none
+  ```properties
   # gradle.properties
   kotlin.mpp.hierarchicalStructureSupport=false
   ```
 
-#### 提供你的反馈意见
+#### 提供你的反馈意见 {id="leave-your-feedback"}
 
 这是对整个生态系统的一个重大变更. 我们期望你能提供反馈意见, 帮助我们继续完善这个功能.
 
 请开始试用这个功能, 并向 [我们的问题追踪系统](https://kotl.in/issue) 报告你遇到的任何问题.
 
-### Kotlin CocoaPods Gradle plugin
+### Kotlin CocoaPods Gradle plugin {id="kotlin-cocoapods-gradle-plugin"}
 
 为了简化与 CocoaPods 的集成, Kotlin 1.6.20 发布了以下功能:
 
@@ -601,7 +607,7 @@ kotlin {
 
 关于 Kotlin CocoaPods Gradle plugin 的完整信息, 请参见 [DSL 参考文档](multiplatform-cocoapods-dsl-reference.md).
 
-## Kotlin/JS
+## Kotlin/JS {id="kotlinjs"}
 
 在 1.6.20 中, Kotlin/JS 的改进主要涉及 IR 编译器:
 
@@ -623,7 +629,7 @@ kotlin {
 
 要对开发阶段二进制文件启用增量编译, 请向项目的 `gradle.properties` 文件添加以下内容:
 
-```none
+```properties
 # gradle.properties
 kotlin.incremental.js.ir=true // 默认为 false
 ```
@@ -665,7 +671,7 @@ val a = run {
 
 编译项目为单个的 `.js` 文件, 现在可以通过以下 Gradle 属性来使用:
 
-```none
+```properties
 # gradle.properties
 kotlin.js.ir.output.granularity=whole-program // 默认值为 `per-module`
 ```
@@ -686,7 +692,7 @@ kotlin.js.ir.output.granularity=whole-program // 默认值为 `per-module`
 ### 导出功能的改进, 对 TypeScript 声明生成的改进 {id="improvements-to-export-and-typescript-declaration-generation"}
 
 Kotlin 1.6.20 带来了很多修正, 并改进了导出机制([`@JsExport`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.js/-js-export/) 注解),
-包括 [TypeScript 声明 (`.d.ts`) 的生成](js-ir-compiler.md#preview-generation-of-typescript-declaration-files-d-ts).
+包括 [TypeScript 声明 (`.d.ts`) 的生成](js-project-setup.md#generation-of-typescript-declaration-files-d-ts).
 我们添加了导出接口和枚举的功能, 我们还修正了以前报告给我们的, 某些边界情况下的不正确的导出行为.
 详情请参见 [YouTrack 中导出功能的改进](https://youtrack.jetbrains.com/issues?q=Project:%20Kotlin%20issue%20id:%20KT-45434,%20KT-44494,%20KT-37916,%20KT-43191,%20KT-46961,%20KT-40236).
 
@@ -700,7 +706,7 @@ Kotlin 1.6.20 确保 [`@AfterTest`](https://kotlinlang.org/api/latest/kotlin.tes
 编译器现在能够将 `@AfterTest` 函数的执行调度到对应的
 [`then()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.js/-promise/then.html) 回调.
 
-## 安全性
+## 安全性 {id="security"}
 
 Kotlin 1.6.20 包含了一些功能, 改进你的代码的安全性:
 
@@ -827,7 +833,7 @@ rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlu
 
 详情请参见 [Kotlin/JS Gradle 项目的 npm 依赖项](js-project-setup.md#npm-dependencies).
 
-## Gradle
+## Gradle {id="gradle"}
 
 Kotlin 1.6.20 包含对 Kotlin Gradle Plugin 的以下变更 :
 
@@ -864,7 +870,7 @@ Kotlin 1.6.20 引入一个相同名称的 Gradle 属性, `kotlin.compiler.execut
 
 在 `gradle.properties` 中, 使用 Gradle 属性 `kotlin.compiler.execution.strategy`:
 
-```none
+```properties
 # gradle.properties
 kotlin.compiler.execution.strategy=out-of-process
 ```

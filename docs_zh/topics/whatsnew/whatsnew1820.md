@@ -1,6 +1,8 @@
 [//]: # (title: Kotlin 1.8.20 版中的新功能)
 
-_[发布日期: 2023/04/25](releases.md#release-details)_
+<web-summary>阅读 Kotlin 1.8.20 发布说明, 包括新的语言特性, Kotlin Multiplatform, JVM, Native, JS, 和 Wasm 的更新, 以及对 Gradle 和 Maven 的构建工具支持.</web-summary>
+
+_[发布日期: 2023/04/25](releases.md#release-history)_
 
 Kotlin 1.8.20 已经发布了, 其中一些重要更新如下:
 
@@ -16,6 +18,10 @@ Kotlin 1.8.20 已经发布了, 其中一些重要更新如下:
 关于本次更新的概要介绍, 你可以观看以下视频:
 
 <video src="https://www.youtube.com/v/R1JpkpPzyBU" title="Kotlin 1.8.20 版中的新功能"/>
+
+> 关于 Kotlin 的发布周期, 详情请参见 [Kotlin 发布过程](releases.md).
+>
+{style="tip"}
 
 ## IDE 支持 {id="ide-support"}
 
@@ -86,7 +92,7 @@ kotlin {
 * [启用 **Send usage statistics** 选项](https://www.jetbrains.com/help/idea/settings-usage-statistics.html),
   允许 JetBrains 收集关于 K2 使用状况的匿名数据.
 
-## 语言
+## 语言 {id="language"}
 
 随着 Kotlin 的不断演化, 我们在 1.8.20 中引入了新的语言功能的预览版:
 
@@ -126,7 +132,7 @@ fun findByRgb(rgb: String): Color? = Color.entries.find { it.rgb == rgb }
 ```
 {validate="false"}
 
-#### 如何启用 entries 属性
+#### 如何启用 entries 属性 {id="how-to-enable-the-entries-property"}
 
 要试用这个功能, 请使用 `@OptIn(ExperimentalStdlibApi)` 注解标注使用者同意(Opt-in), 并启用 `-language-version 1.9` 编译器选项.
 在 Gradle 项目中, 可以在你的 `build.gradle(.kts)` 文件中添加以下代码:
@@ -201,12 +207,12 @@ fun main() {
 }
 ```
 
-#### 数据对象的语义
+#### 数据对象的语义 {id="semantics-of-data-objects"}
 
 从 [Kotlin 1.7.20](whatsnew1720.md#improved-string-representations-for-singletons-and-sealed-class-hierarchies-with-data-objects) 中的第一个预览版之后, 数据对象的语义有了一些改进.
 编译器现在会自动为它们生成一些便利的函数:
 
-##### toString
+##### toString {id="tostring"}
 
 数据对象的 `toString()` 函数返回对象的简单名称:
 
@@ -220,7 +226,7 @@ fun main() {
 }
 ```
 
-##### equals 和 hashCode
+##### equals 和 hashCode {id="equals-and-hashcode"}
 
 `data object` 的 `equals()` 函数会保证你的 `data object` 的所有对象都被看作相等.
 大多数情况下, 你的数据对象在运行期只会存在单个实例(毕竟, `data object` 声明的就是一个单子(singleton)).
@@ -260,7 +266,7 @@ fun createInstanceViaReflection(): MySingleton {
 
 编译器生成的 `hashCode()` 函数的行为与 `equals()` 函数保持一致, 因此一个 `data object` 的所有运行期实例都拥有相同的 hash 值.
 
-##### 数据对象没有 copy 和 componentN 函数
+##### 数据对象没有 copy 和 componentN 函数 {id="no-copy-and-componentn-functions-for-data-objects"}
 
 尽管 `data object` 和 `data class` 声明经常一起使用, 而且很相似, 但对于 `data object` 有一些函数没有生成:
 
@@ -273,7 +279,7 @@ fun createInstanceViaReflection(): MySingleton {
 
 关于这个功能, 希望你能通过 [YouTrack](https://youtrack.jetbrains.com/issue/KT-4107) 提供你的反馈意见.
 
-#### 如何启用数据对象的预览版
+#### 如何启用数据对象的预览版 {id="how-to-enable-the-data-objects-preview"}
 
 要试用这个功能, 请启用 `-language-version 1.9` 编译器选项.
 在 Gradle 项目中, 可以在你的 `build.gradle(.kts)` 文件中添加以下代码:
@@ -346,7 +352,7 @@ value class Person(private val fullName: String) {
 }
 ```
 
-#### 如何启用有 body 的次级构造器
+#### 如何启用有 body 的次级构造器 {id="how-to-enable-secondary-constructors-with-bodies"}
 
 要试用这个功能, 请启用 `-language-version 1.9` 编译器选项.
 在 Gradle 项目中, 可以在你的 `build.gradle(.kts)` 文件中添加以下代码:
@@ -477,7 +483,7 @@ kotlin {
 </tab>
 </tabs>
 
-### 留下你对于 Kotlin/Wasm 的反馈意见
+### 留下你对于 Kotlin/Wasm 的反馈意见 {id="leave-your-feedback-on-kotlinwasm"}
 
 如果你能提供你的反馈意见, 我们将会非常感谢!
 
@@ -526,15 +532,15 @@ Kotlin 允许你使用 `person.age`, 其中 `age` 是一个合成属性.
 
 ```kotlin
 val persons = listOf(Person("Jack", 11), Person("Sofie", 12), Person("Peter", 11))
-    persons
-        // 调用 Java 合成属性的引用:
-        .sortedBy(Person::age)
-        // 通过 Kotlin 的属性语法, 调用 Java 取值方法:
-        .forEach { person -> println(person.name) }
+persons
+    // 调用 Java 合成属性的引用:
+    .sortedBy(Person::age)
+    // 通过 Kotlin 的属性语法, 调用 Java 取值方法:
+    .forEach { person -> println(person.name) }
 ```
 {validate="false"}
 
-#### 如何启用 Java 合成属性的引用
+#### 如何启用 Java 合成属性的引用 {id="how-to-enable-java-synthetic-property-references"}
 
 要试用这个功能, 请启用 `-language-version 1.9` 编译器选项.
 在 Gradle 项目中, 你可以对你的 `build.gradle(.kts)` 文件添加以下内容:
@@ -563,7 +569,7 @@ tasks
     .configureEach {
         compilerOptions.languageVersion =
             org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_1_9
-}
+    }
 ```
 
 </tab>
@@ -607,7 +613,7 @@ Kotlin 开发组决定重新审查 Kotlin/Native 支持的目标平台,
 对于剩下的目标平台, 根据 Kotlin/Native 编译器中支持和测试程度的不同, 现在分为 3 个支持层级.
 一个目标平台可能被移动到不同的层级.
 例如, 将来我们会尽最大努力对 `iosArm64` 提供完全的支持, 因为它对
-[Kotlin Multiplatform](multiplatform.topic) 非常重要.
+[Kotlin Multiplatform](get-started.topic) 非常重要.
 
 如果你是库的作者, 这 3 个支持层级能够帮助你决定在 CI 工具中测试哪些目标平台, 略过哪些目标平台.
 Kotlin 开发组在 Kotlin 官方库的开发中也使用这个方案, 例如 [kotlinx.coroutines](coroutines-guide.md).
@@ -729,7 +735,7 @@ Kotlin 1.8.20 开始了 `useLibraries()` 函数的废弃周期, 这个函数用�
 
 关于框架和 XCFramework, 更多详情请参见 [构建最终的原生二进制文件](multiplatform-build-native-binaries.md).
 
-## Kotlin Multiplatform
+## Kotlin Multiplatform {id="kotlin-multiplatform"}
 
 Kotlin 1.8.20 致力于改善开发者体验, 对 Kotlin Multiplatform 进行了以下更新:
 
@@ -752,7 +758,7 @@ Kotlin 1.8.20 提供了一种新的方式, 在你的跨平台项目中设置源�
 默认的编译目标层级结构背后的理念非常简单: 你要明确声明你的项目所有编译目标,
 Kotlin Gradle plugin 会根据指定的编译目标自动创建共用的源代码集.
 
-#### 设置你的项目
+#### 设置你的项目 {id="set-up-your-project"}
 
 以下面这个简单的跨平台移动应用程序为例子:
 
@@ -813,7 +819,7 @@ Kotlin Gradle plugin 会从模板中找到合适的共用源代码集, 并为你
 由于这个编译目标集是固定的, Kotlin Gradle plugin 对默认配置的变更, 对于生态系统造成的影响应该会显著减少,
 并且提供工具辅助的迁移将会更加容易.
 
-#### 如何启用默认的层级结构
+#### 如何启用默认的层级结构 {id="how-to-enable-the-default-hierarchy"}
 
 这个新功能是 [实验性功能](components-stability.md#stability-levels-explained).
 对于 Kotlin Gradle 构建脚本,
@@ -821,7 +827,7 @@ Kotlin Gradle plugin 会从模板中找到合适的共用源代码集, 并为你
 
 更多详情请参见 [层级项目结构](multiplatform-hierarchy.md#default-hierarchy-template).
 
-#### 留下你的反馈意见
+#### 留下你的反馈意见 {id="leave-feedback"}
 
 这是跨平台项目的重大变更. 希望你能提供你的 [反馈意见](https://kotl.in/issue), 帮助然它变得更好.
 
@@ -840,7 +846,7 @@ Kotlin Gradle plugin 会从模板中找到合适的共用源代码集, 并为你
 Kotlin 1.8.20 包含了对复合构建支持的改进(预览版), 应该能够适用于更多种类的项目.
 要试用这个功能, 请向你的 `gradle.properties` 添加以下选项:
 
-```none
+```properties
 kotlin.mpp.import.enableKgpDependencyResolution=true
 ```
 
@@ -848,7 +854,7 @@ kotlin.mpp.import.enableKgpDependencyResolution=true
 除了支持复合构建, 它还提供了跨平台项目中更流畅的导入体验,
 因为我们包含了一些重大的 Bug 修复和改进, 使得导入功能更加稳定.
 
-#### 已知的问题
+#### 已知的问题 {id="known-issues"}
 
 这个功能仍然是预览版, 需要继续改进稳定性, 在此过程中你可能遇到一些与导入相关的问题.
 下面是一些已知的问题, 我们计划在 Kotlin 1.8.20 最终发布之前修复:
@@ -875,7 +881,7 @@ kotlin.mpp.import.enableKgpDependencyResolution=true
 例如 `embedAndSignAppleFrameworkForXcode`, 它能够将 iOS 框架从你的跨平台应用程序连接到 Xcode 中的 iOS 应用程序.
 也可以使用 `kotlin.native.useXcodeMessageStyle` Gradle 属性来启用 (或关闭).
 
-## Kotlin/JavaScript
+## Kotlin/JavaScript {id="kotlinjavascript"}
 
 Kotlin 1.8.20 修改了 TypeScript 定义的生成方式. 还包含了一个变更, 改善你的调试体验:
 
@@ -954,7 +960,7 @@ kotlin {
 >
 {style="warning"}
 
-## Gradle
+## Gradle {id="gradle"}
 
 除 [Multiplatform plugin 中的一些特殊情况](https://youtrack.jetbrains.com/issue/KT-55751) 外, Kotlin 1.8.20 与 Gradle 6.8 到 7.6 完全兼容.
 你也可以使用最新的 Gradle 版本,
@@ -1003,11 +1009,11 @@ Kotlin 1.8.20 也采用了这个方案.
 这个优化是实验性功能.
 要启用这个功能, 请向 `gradle.properties` 文件添加 `kotlin.compiler.preciseCompilationResultsBackup` Gradle 属性:
 
-```none
+```properties
 kotlin.compiler.preciseCompilationResultsBackup=true
 ```
 
-#### JetBrains 使用精确备份的例子 {initial-collapse-state="collapsed" collapsible="true"}
+#### JetBrains 使用精确备份的例子 {id="example-of-precise-backup-usage-in-jetbrains" initial-collapse-state="collapsed" collapsible="true"}
 
 在下面的图表中, 你可以看到使用精确备份与完整备份相对比的示例:
 
@@ -1033,12 +1039,12 @@ kotlin.compiler.preciseCompilationResultsBackup=true
 * 哪些模块受到变更的影响, 以及这些模块有多大.
 * 是 ABI 变更还是非 ABI 变更.
 
-#### 使用构建报告来评估优化 {initial-collapse-state="collapsed" collapsible="true"}
+#### 使用构建报告来评估优化 {id="evaluating-optimizations-with-build-reports" initial-collapse-state="collapsed" collapsible="true"}
 
 要对你的项目和场景, 评估优化在你的计算机上的影响, 你可以使用 [Kotlin 构建报告](gradle-compilation-and-caches.md#build-reports).
 请向你的 `gradle.properties` 文件添加下面的属性, 启用文本文件格式的构建报告:
 
-```none
+```properties
 kotlin.build.report.output=file
 ```
 
@@ -1104,7 +1110,7 @@ tasks.jar(type: Jar) {
 
 希望你能通过 [YouTrack](https://youtrack.jetbrains.com/issue/KT-55323/) 提供你的反馈意见.
 
-## 标准库
+## 标准库 {id="standard-library"}
 
 Kotlin 1.8.20 添加了很多新的功能, 包括一些对 Kotlin/Native 开发非常有用的功能:
 
@@ -1181,7 +1187,7 @@ fun writeBooksTo(writer: XMLWriter) {
 如果你使用 `Base64.Mime` 实例, 所有的编码函数会对每 76 个字符插入 1 个行分隔符.
 对于解码的情况, 所有的非法字符会被跳过, 不抛出异常.
 
-> `Base64.Default` 实例 `Base64` 类的是伴随对象.
+> `Base64.Default` 实例 `Base64` 类的是同伴对象.
 > 因此, 你可以通过 `Base64.encode()` 和 `Base64.decode()` 的方式调用它的函数,
 > 而不必写为 `Base64.Default.encode()` 和 `Base64.Default.decode()`.
 >
@@ -1228,7 +1234,7 @@ Base64.UrlSafe.decode("Zm9vYmFy") // 结果等于 foobarBytes
 
 在 1.8.20 中, 我们引入了一个共通的注解, `kotlin.concurrent.Volatile`, 你可以在 JVM 和 Kotlin/Native 中使用.
 
-#### 如何启用
+#### 如何启用 {id="how-to-enable"}
 
 要试用这个功能, 请使用 `@OptIn(ExperimentalStdlibApi)` 标注使用者同意(Opt-in),
 并启用 `-language-version 1.9` 编译器选项.
@@ -1270,10 +1276,10 @@ tasks
 在 1.8.20 中, 已经解决了这个问题.
 更多详情, 请参见 [KT-46211](https://youtrack.jetbrains.com/issue/KT-46211).
 
-## 序列化的更新
+## 序列化的更新 {id="serialization-updates"}
 
 Kotlin 1.8.20 包含 [对 Kotlin K2 编译器的 Alpha 支持](#prototype-serialization-compiler-plugin-for-kotlin-k2-compiler),
-以及 [禁止通过伴随对象定制序列化器](#prohibit-implicit-serializer-customization-via-companion-object).
+以及 [禁止通过同伴对象定制序列化器](#prohibit-implicit-serializer-customization-via-companion-object).
 
 ### 对 Kotlin K2 编译器的序列化编译器 plugin (Prototype) {id="prototype-serialization-compiler-plugin-for-kotlin-k2-compiler"}
 
@@ -1285,10 +1291,10 @@ Kotlin 1.8.20 包含 [对 Kotlin K2 编译器的 Alpha 支持](#prototype-serial
 从 1.8.20 开始, 序列化编译器 plugin 可以与 Kotlin K2 编译器一起使用.
 请试用它, 并 [向我们提供你的反馈意见](#leave-your-feedback-on-the-new-k2-compiler)!
 
-### 禁止通过伴随对象隐含的定制序列化器 {id="prohibit-implicit-serializer-customization-via-companion-object"}
+### 禁止通过同伴对象隐含的定制序列化器 {id="prohibit-implicit-serializer-customization-via-companion-object"}
 
 目前, 可以使用 `@Serializable` 注解将一个类声明为可序列化,
-同时还可以在它的伴随对象上, 使用 `@Serializer` 注解声明一个自定义的序列化器.
+同时还可以在它的同伴对象上, 使用 `@Serializer` 注解声明一个自定义的序列化器.
 
 例如:
 
@@ -1324,7 +1330,7 @@ class Foo(val a: Int) {
 }
 ```
 
-如果这个方案, 可以很清楚的看到, `Foo` 类使用了伴随对象中声明的自定义的序列化器.
+如果这个方案, 可以很清楚的看到, `Foo` 类使用了同伴对象中声明的自定义的序列化器.
 更多详情, 请参见我们的 [YouTrack ticket](https://youtrack.jetbrains.com/issue/KT-54441).
 
 > 在 Kotlin 2.0 中, 我们计划将编译警告升级为编译错误.
@@ -1332,7 +1338,7 @@ class Foo(val a: Int) {
 >
 {style="tip"}
 
-## 文档更新
+## 文档更新 {id="documentation-updates"}
 
 Kotlin 文档有了一些重要变更:
 
@@ -1342,9 +1348,9 @@ Kotlin 文档有了一些重要变更:
   了解如何使用标准库中有用的作用域函数来简化代码.
 * [CocoaPods 集成](multiplatform-cocoapods-overview.md) – 设置使用 CocoaPods 的环境.
 
-## 安装 Kotlin 1.8.20
+## 安装 Kotlin 1.8.20 {id="install-kotlin-1820"}
 
-### 检查 IDE 版本
+### 检查 IDE 版本 {id="check-the-ide-version"}
 
 [IntelliJ IDEA](https://www.jetbrains.com/idea/download/) 2022.2 和 2022.3 会自动建议将 Kotlin plugin 更新到 1.8.20.
 IntelliJ IDEA 2023.1 会包含 Kotlin plugin 1.8.20.

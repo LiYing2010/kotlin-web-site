@@ -1,21 +1,12 @@
 [//]: # (title: 教程 - 映射 C 语言的结构(Struct)和联合(Union)类型)
 
-<tldr>
-    <p>这是 <strong>Kotlin 与 C 映射</strong> 教程系列的第 2 部分. 在继续阅读之前, 请确认你完成了之前的教程.</p>
-    <p><img src="icon-1-done.svg" width="20" alt="First step"/> <a href="mapping-primitive-data-types-from-c.md">映射 C 语言的基本数据类型</a><br/>
-       <img src="icon-2.svg" width="20" alt="Second step"/> <strong>映射 C 语言的结构(Struct)和联合(Union)类型</strong><br/>
-       <img src="icon-3-todo.svg" width="20" alt="Third step"/> <a href="mapping-function-pointers-from-c.md">映射 C 语言的函数指针(Function Pointer)</a><br/>
-       <img src="icon-4-todo.svg" width="20" alt="Fourth step"/> <a href="mapping-strings-from-c.md">映射 C 语言的字符串</a><br/>
-    </p>
-</tldr>
-
-> C 库导入是 [实验性功能](components-stability.md#stability-levels-explained).
+> C 库导入功能目前是 [Beta 版](native-lib-import-stability.md#stability-of-c-and-objective-c-library-import).
 > cinterop 工具从 C 库生成的所有 Kotlin 声明都应该标注 `@ExperimentalForeignApi` 注解.
 >
 > Kotlin/Native 自带的原生平台库 (例如 Foundation, UIKit, 和 POSIX),
 > 只对一部分 API 需要使用者明确同意(Opt-in).
 >
-{style="warning"}
+{style="note"}
 
 我们来看看在 Kotlin/Native 中可以访问 C 的哪些结构(Struct)和联合(Union)类型声明,
 并研究 Kotlin/Native 和 [跨平台](gradle-configure-project.md#targeting-multiple-platforms)
@@ -87,11 +78,12 @@ void union_by_pointer(MyUnion* u) {}
 
     ```kotlin
     kotlin {
-        macosArm64("native") {    // 用于 Apple Silicon 的 macOS 环境
-        // macosX64("native") {   // 用于 x86_64 平台的 macOS 环境
-        // linuxArm64("native") { // 用于 ARM64 平台的 Linux 环境
-        // linuxX64("native") {   // 用于 x86_64 平台的 Linux 环境
-        // mingwX64("native") {   // 用于 Windows 环境
+        macosArm64()    // 用于 Apple Silicon 的 macOS 环境
+        // linuxArm64() // 用于 ARM64 平台的 Linux 环境
+        // linuxX64()   // 用于 x86_64 平台的 Linux 环境
+        // mingwX64()   // 用于 Windows 环境
+
+        targets.withType<KotlinNativeTarget>().configureEach {
             val main by compilations.getting
             val interop by main.cinterops.creating {
                 definitionFile.set(project.file("src/nativeInterop/cinterop/interop.def"))
@@ -109,11 +101,12 @@ void union_by_pointer(MyUnion* u) {}
 
     ```groovy
     kotlin {
-        macosArm64("native") {    // 用于 Apple Silicon 的 macOS 环境
-        // macosX64("native") {   // 用于 x86_64 平台的 macOS 环境
-        // linuxArm64("native") { // 用于 ARM64 平台的 Linux 环境
-        // linuxX64("native") {   // 用于 x86_64 平台的 Linux 环境
-        // mingwX64("native") {   // 用于 Windows 环境
+        macosArm64()    // 用于 Apple Silicon 的 macOS 环境
+        // linuxArm64() // 用于 ARM64 平台的 Linux 环境
+        // linuxX64()   // 用于 x86_64 平台的 Linux 环境
+        // mingwX64()   // 用于 Windows 环境
+
+        targets.withType(KotlinNativeTarget).configureEach {
             compilations.main.cinterops {
                 interop {
                     definitionFile = project.file('src/nativeInterop/cinterop/interop.def')
@@ -339,18 +332,25 @@ fun main() {
 }
 ```
 
-为了验证是否一切正确, 请 [在你的 IDE 中](native-get-started.md#build-and-run-the-application) 运行 `runDebugExecutableNative` Gradle task,
-或使用以下命令, 运行代码:
+为了验证是否一切正确, 请 [在你的 IDE 中](native-get-started.md#build-and-run-the-application) 运行 `runDebugExecutable<YourTargetName>` Gradle task,
+或在你的终端中使用控制台命令, 例如:
 
 ```bash
-./gradlew runDebugExecutableNative
+./gradlew runDebugExecutableMacosArm64
 ```
 
 ## 下一步 {id="next-step"}
 
 在这个教程系列的下一部分, 你将学习在 Kotlin 和 C 之间如何映射函数指针(Function Pointer):
 
-**[继续下一部分](mapping-function-pointers-from-c.md)**
+<list columns="2" id="tour-nav">
+  <li>
+    <a as="button" href="mapping-primitive-data-types-from-c.md" mode="outline" icon="arrow-left" icon-position="left">上一步</a>
+  </li>
+  <li>
+    <a as="button" href="mapping-function-pointers-from-c.md" mode="classic" icon="arrow-right" icon-position="right">下一步</a>
+  </li>
+</list>
 
 ### 参见 {id="see-also"}
 

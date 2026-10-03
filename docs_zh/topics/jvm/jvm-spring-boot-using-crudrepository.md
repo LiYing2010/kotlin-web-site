@@ -1,18 +1,6 @@
 [//]: # (title: 使用 Spring Data CrudRepository 进行数据库访问)
-[//]: # (description: 在 Kotlin 编写的 Spring Boot 项目中使用 Spring Data.)
 
-<tldr>
-    <p>
-        这是 <strong>Spring Boot 和 Kotlin 入门</strong> 教程的最后部分.
-        开始这一部分之前, 请确认你已经完成了前面的步骤:
-    </p><br/>
-    <p>
-        <img src="icon-1-done.svg" width="20" alt="第 1 步"/> <a href="jvm-create-project-with-spring-boot.md">使用 Kotlin 创建 Spring Boot 项目</a><br/>
-        <img src="icon-2-done.svg" width="20" alt="第 2 步"/> <a href="jvm-spring-boot-add-data-class.md">向 Spring Boot 项目添加数据类</a><br/>
-        <img src="icon-3-done.svg" width="20" alt="第 3 步"/> <a href="jvm-spring-boot-add-db-support.md">为 Spring Boot 项目添加数据库支持</a><br/>
-        <img src="icon-4.svg" width="20" alt="第 4 步"/> <strong>使用 Spring Data CrudRepository 进行数据库访问</strong>
-    </p>
-</tldr>
+<web-summary>在 Kotlin 编写的 Spring Boot 项目中使用 Spring Data 接口.</web-summary>
 
 在这一章中, 你将会迁移服务层, 使用 [Spring Data](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/CrudRepository.html)
 `CrudRepository` 进行数据库访问, 而不是原来的 `JdbcTemplate` .
@@ -98,13 +86,12 @@ _CrudRepository_ 是一个 Spring Data 接口, 可以指定类型的仓库进行
        </def>
        <def title="CrudRepository save() 函数">
           <p>
-            <a href="https://docs.spring.io/spring-data/jdbc/docs/current/reference/html/#jdbc.entity-persistence">这个函数的工作方式</a> 是假定新的对象在数据库中没有 id.
+            <a href="https://docs.spring.io/spring-data/relational/reference/#jdbc.entity-persistence">这个函数的工作方式</a> 是假定新的对象在数据库中没有 id.
             因此, 对 insertion 操作, id <b>需要为 null</b>.
           </p>
           <p>
             如果 id 不是 <i>null</i>, <code>CrudRepository</code> 假定对象在数据库中已经存在, 并且这是一个 <i>update</i> 操作, 而不是 <i>insert</i> 操作.
             在 insert 操作之后, <code>id</code> 会由数据库生成, 并反过来赋值给 <code>Message</code> 实例.
-            这就是 <code>id</code> 属性需要使用 <code>var</code> 关键字来声明的原因.
           </p>
        </def>
     </deflist>
@@ -121,7 +108,7 @@ _CrudRepository_ 是一个 Spring Data 接口, 可以指定类型的仓库进行
 
 5. 更新 `src/main/resources` 文件夹中的 `application.properties` 文件内的数据库名称:
 
-   ```none
+   ```properties
    spring.application.name=demo
    spring.datasource.driver-class-name=org.h2.Driver
    spring.datasource.url=jdbc:h2:file:./data/testdb2
@@ -233,18 +220,18 @@ class MessageController(private val service: MessageService) {
 现在你可以从 `requests.http` 文件 [运行 POST 和 GET HTTP 请求](jvm-spring-boot-add-db-support.md#add-messages-to-database-via-http-request),
 并得到相同的结果.
 
+<list id="tour-nav">
+  <li>
+    <a as="button" href="jvm-spring-boot-add-db-support.md" mode="outline" icon="arrow-left" icon-position="left">上一步</a>
+  </li>
+</list>
 
 ## 下一步做什么 {id="what-s-next"}
 
 得到你个人的语言导航地图, 它可以帮助你浏览 Kotlin 的功能特性, 并追踪你学习语言的进度:
 
-<a href="https://resources.jetbrains.com/storage/products/kotlin/docs/Kotlin_Language_Features_Map.pdf">
-   <img src="get-kotlin-language-map.png" width="700" alt="得到 Kotlin 语言导航地图" style="block"/>
-</a>
+<a as="button" href="https://resources.jetbrains.com/storage/products/kotlin/docs/Kotlin_Language_Features_Map.pdf" mode="rock" icon="arrow-right" icon-position="right">得到 Kotlin 语言导航地图</a>
 
-* 学习如何 [在 Kotlin 中调用 Java 代码](java-interop.md) 和 [在 Java 中调用 Kotlin 代码](java-to-kotlin-interop.md).
-* 学习如何使用 [Java 到 Kotlin 转换器](mixing-java-kotlin-intellij.md#converting-an-existing-java-file-to-kotlin-with-j2k) 将既有的 Java 代码转换为 Kotlin.
-* 阅读我们的 Java 代码向 Kotlin 迁移指南:
-  * [Java 和 Kotlin 中的字符串](java-to-kotlin-idioms-strings.md).
-  * [Java 和 Kotlin 中的集合(Collection)](java-to-kotlin-collections-guide.md).
-  * [Java 和 Kotlin 中的可空性(Nullability)](java-to-kotlin-nullability-guide.md).
+* 阅读 [Spring Framework](https://docs.spring.io/spring-framework/reference/) 文档.
+* 学习教程 [Securing a web application](https://spring.io/guides/gs/securing-web), 创建一个带有受保护资源的简单 Web 应用程序.
+* 完成教程 [使用 Spring Boot 和 Kotlin 创建 Web 应用程序](https://spring.io/guides/tutorials/spring-boot-kotlin).

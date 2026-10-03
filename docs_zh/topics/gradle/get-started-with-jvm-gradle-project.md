@@ -2,7 +2,7 @@
 
 本教程演示如何使用 IntelliJ IDEA 和 Gradle 来创建一个 JVM 控制台应用程序.
 
-开始之前, 首先请下载并安装最新版本的 [IntelliJ IDEA](https://www.jetbrains.com/idea/download/index.html).
+开始之前, 首先请下载并安装最新版本的 [IntelliJ IDEA](https://www.jetbrains.com/idea/download/).
 
 ## 创建项目 {id="create-a-project"}
 
@@ -24,11 +24,6 @@
 
 6. 选择 **Kotlin** 作为 Gradle DSL.
 7. 启用 **Add sample code** 选项, 创建一个文件, 其中包含 `"Hello World!"` 示例程序.
-
-   > 你也可以启用 **Generate code with onboarding tips** 选项, 向你的示例代码添加一些有用的注释.
-   >
-   {style="tip"}
-
 8. 点击 **Create**.
 
 这样你就成功的创建了 Gradle 项目!
@@ -57,8 +52,8 @@ plugins {
     kotlin("jvm") version "%kotlinVersion%" // 使用的 Kotlin 版本
 }
 
-group = "org.example" // 公司名, 比如, `org.jetbrains`
-version = "1.0-SNAPSHOT" // 构建后的 artifact 的版本
+group = "org.example" // 公司名, 例如, `org.jetbrains.kotlin`
+version = "1.0-SNAPSHOT" // 构建的 artifact 的版本
 
 repositories { // 依赖项的下载源仓库. 参见 1️⃣
     mavenCentral() // Maven Central Repository. 参见 2️⃣
@@ -69,8 +64,12 @@ dependencies { // 你想要使用的所有库. 参见 3️⃣
     testImplementation(kotlin("test")) // Kotlin test 库
 }
 
-tasks.test { // 参见 4️⃣
-    useJUnitPlatform() // 用于测试的 JUnitPlatform. 参见 5️⃣
+kotlin { // 生成的 JVM 工具链的配置. 参见 4️⃣
+    jvmToolchain(25) // 用于编译项目的 JDK.
+}
+
+tasks.test { // 测试 task 的配置. 参见 5️⃣
+    useJUnitPlatform() // 用于测试的 JUnitPlatform. 参见 6️⃣
 }
 ```
 
@@ -79,10 +78,11 @@ tasks.test { // 参见 4️⃣
   也可以使用 [Google 的 Maven repository](https://maven.google.com/),
   或你的公司的私有仓库.
 * 3️⃣ 参见 [声明依赖项](https://docs.gradle.org/current/userguide/declaring_dependencies.html).
-* 4️⃣ 参见 [构建任务(Task)](https://docs.gradle.org/current/dsl/org.gradle.api.Task.html).
-* 5️⃣ [用于测试的 JUnitPlatform](https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/testing/Test.html#useJUnitPlatform).
+* 4️⃣ 参见 [Java 工具链支持](gradle-configure-project.md#gradle-java-toolchains-support).
+* 5️⃣ 参见 [构建任务(Task)](https://docs.gradle.org/current/dsl/org.gradle.api.Task.html).
+* 6️⃣ [用于测试的 JUnitPlatform](https://docs.gradle.org/current/javadoc/org/gradle/api/tasks/testing/Test.html#useJUnitPlatform).
 
-你可以看到, Gradle 构建文件中还添加了几个 Kotlin 相关的 artifact:
+在 Gradle 构建文件中有几个 Kotlin 相关的 artifact:
 
 1. 在 `plugins {}` 代码段中, 有 `kotlin("jvm")` artifact.
    这个 plugin 定义项目中使用的 Kotlin 版本.
@@ -94,9 +94,9 @@ tasks.test { // 参见 4️⃣
 
 1. 选择 **View** | **Tool Windows** | **Gradle**, 打开 Gradle 窗口:
 
-   ![带有 main fun 的 Main.kt ](jvm-gradle-view-build.png){width=700}
+   ![带有 main fun 的 Main.kt ](jvm-gradle-view-build.png){width=450}
 
-2. 执行 `Tasks\build\` 中的 **build** Gradle 任务. 在 **Build** 窗口中, 会出现 `BUILD SUCCESSFUL` 消息,
+2. 执行 `Tasks/build` 中的 **build** Gradle 任务. 在 **Build** 窗口中, 会出现 `BUILD SUCCESSFUL` 消息,
    表示 Gradle 成功的构建了应用程序.
 
 3. 在 `src/main/kotlin` 中, 打开 `Main.kt` 文件:
@@ -109,7 +109,7 @@ tasks.test { // 参见 4️⃣
 
 你可以在 **Run** 工具窗口看到结果:
 
-![程序运行的输出结果](jvm-output-gradle.png){width=600}
+![程序运行的输出结果](jvm-output-gradle.png){width=700}
 
 恭喜! 你成功的运行了你的第一个 Kotlin 应用程序.
 

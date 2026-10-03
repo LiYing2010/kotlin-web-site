@@ -80,6 +80,6 @@ Kotlin/Native 提供了在不同的平台上广泛使用的各种流行的原生
 >
 {style="tip"}
 
-## 下一步做什么
+## 下一步做什么 {id="whats-next"}
 
 [学习与 Swift/Objective-C 代码交互](native-objc-interop.md)

@@ -1,16 +1,4 @@
-[//]: # (title: 中级教程: 属性)
-
-<tldr>
-    <p><img src="icon-1-done.svg" width="20" alt="First step" /> <a href="kotlin-tour-intermediate-extension-functions.md">扩展函数</a><br />
-        <img src="icon-2-done.svg" width="20" alt="Second step" /> <a href="kotlin-tour-intermediate-scope-functions.md">作用域函数</a><br />
-        <img src="icon-3-done.svg" width="20" alt="Third step" /> <a href="kotlin-tour-intermediate-lambdas-receiver.md">带接受者的 Lambda 表达式</a><br />
-        <img src="icon-4-done.svg" width="20" alt="Fourth step" /> <a href="kotlin-tour-intermediate-classes-interfaces.md">类与接口</a><br />
-        <img src="icon-5-done.svg" width="20" alt="Fifth step" /> <a href="kotlin-tour-intermediate-objects.md">对象</a><br />
-        <img src="icon-6-done.svg" width="20" alt="Sixth step" /> <a href="kotlin-tour-intermediate-open-special-classes.md">开放类与特殊类</a><br />
-        <img src="icon-7.svg" width="20" alt="Seventh step" /> <strong>属性</strong><br />
-        <img src="icon-8-todo.svg" width="20" alt="Eighth step" /> <a href="kotlin-tour-intermediate-null-safety.md">Null 值安全性</a><br />
-        <img src="icon-9-todo.svg" width="20" alt="Ninth step" /> <a href="kotlin-tour-intermediate-libraries-and-apis.md">库与 API</a></p>
-</tldr>
+[//]: # (title: 属性)
 
 在初学者教程中, 你已经学习了如何使用属性来声明类实例的特征, 以及如何访问属性.
 在这一章中, 我们进一步深入介绍 Kotlin 中的属性如何工作, 并探索在代码中使用属性的其它方式.
@@ -34,7 +22,7 @@
 
 ```kotlin
 class Contact(val id: Int, var email: String) {
-    val category: String = ""
+    var category: String = ""
 }
 ```
 
@@ -42,7 +30,7 @@ class Contact(val id: Int, var email: String) {
 
 ```kotlin
 class Contact(val id: Int, var email: String) {
-    val category: String = ""
+    var category: String = ""
         get() = field
         set(value) {
             field = value
@@ -86,7 +74,7 @@ fun main() {
     // 这里会发生错误: Exception in thread "main" java.lang.StackOverflowError
 }
 ```
-{validate ="false" kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-properties-stackoverflow"}
+{validate="false" kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-tour-properties-stackoverflow"}
 
 要解决这个问题, 可以在你的 `set()` 函数中改为通过 `field` 关键字引用后端域变量:
 
@@ -118,7 +106,7 @@ fun main() {
 此外, 没有后端域变量也意味着扩展属性不能保存任何状态.
 
 要声明一个扩展属性, 请在你想要扩展的类的名称之后加上 `.`, 再加上属性的名称.
-和通常的类属性一样, 你需要为你的属性声明接受者类型.
+和通常的类属性一样, 你需要为你的属性声明类型.
 例如:
 
 ```kotlin
@@ -127,7 +115,7 @@ val String.lastChar: Char
 {validate="false"}
 
 当你想要属性包含计算得到的值, 而不使用继承时, 扩展属性是很有用的.
-你可以将扩展属性想象为一个函数, 只有一个参数: 接受者对象.
+你可以将扩展属性想象为一个函数, 只有一个参数: 接受者.
 
 例如, 假设你有一个数据类 `Person`, 它有 2 个属性: `firstName` 和 `lastName`.
 
@@ -195,7 +183,7 @@ operator fun setValue(thisRef: Any?, property: KProperty<*>, value: String) {}
 * `operator` 关键字将这些函数标记为操作符函数, 允许它们覆盖 `get()` 和 `set()` 函数.
 * `thisRef` 参数表示 **包含** 委托属性的对象. 默认情况下, 类型设置为 `Any?`, 但你可能需要声明更具体的类型.
 * `property` 参数表示值正在被访问或被修改的那个属性. 你可以使用这个参数来获取属性信息, 例如属性的名称或类型.
-  默认情况下, 类型设置为 `KProperty<*>`. 在你的代码中, 不必进行修改.
+  默认情况下, 类型设置为 `KProperty<*>`, 但你也可以使用 `Any?`. 在你的代码中, 不必进行修改.
 
 `getValue()` 函数的返回类型默认为 `String`, 但如果你需要, 可以调整这个类型.
 
@@ -412,7 +400,7 @@ fun main() {
 
 详情请参见 [可观察属性](delegated-properties.md#observable-properties).
 
-## 实际练习 {id="practice"}
+## 实际练习 {completion-point="true" id="practice"}
 
 ### 习题 1 {initial-collapse-state="collapsed" collapsible="true" id="properties-exercise-1"}
 
@@ -653,6 +641,13 @@ fun main() {
 ```
 {initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-properties-solution-4"}
 
-## 下一步 {id="next-step"}
+<seealso></seealso>
 
-[中级教程: Null 值安全性](kotlin-tour-intermediate-null-safety.md)
+<list columns="2" id="tour-nav">
+  <li>
+    <a as="button" href="kotlin-tour-intermediate-open-special-classes.md" mode="outline" icon="arrow-left" icon-position="left">上一步</a>
+  </li>
+  <li>
+    <a as="button" href="kotlin-tour-intermediate-null-safety.md" mode="classic" icon="arrow-right" icon-position="right">下一步</a>
+  </li>
+</list>

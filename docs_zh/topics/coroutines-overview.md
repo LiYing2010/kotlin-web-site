@@ -17,7 +17,7 @@
 如果你是 Kotlin 协程的初学者, 请先阅读 [协程的基本概念](coroutines-basics.md) 向导, 然后在深入了解更复杂的内容.
 这篇向导通过简单的示例, 介绍一些关键概念, 包括挂起函数, 协程构建器, 以及结构化并发:
 
-<a href="coroutines-basics.md"><img src="get-started-coroutines.svg" width="700" alt="协程入门" style="block"/></a>
+<a href="coroutines-basics.md" as="button" mode="rock" icon="arrow-right" icon-position="right">协程入门</a>
 
 > 查看示例项目 [KotlinConf App](https://github.com/JetBrains/kotlinconf-app), 了解协程的具体使用.
 >
@@ -55,7 +55,7 @@ Kotlin 中的协程以挂起函数为基础, 挂起函数能够让代码暂停�
   处理未被捕获的异常.
 
 这些元素, 以及其他可能的元素, 共同构成 [_协程的上下文(Context)_](coroutine-context-and-dispatchers.md), 默认从协程的父协程继承得到.
-这个上下文构成一个层级结构, 实现结构化并发, 在结构化并发中, 相关的协程能够一起 [取消](cancellation-and-timeouts.md),
+这个上下文构成一个层级结构, 实现结构化并发, 在结构化并发中, 相关的协程能够一起 [取消](coroutines-cancellation.md),
 或者作为一个组来 [处理异常](exception-handling.md).
 
 ### 异步的数据流(Asynchronous Flow), 以及共享的可变状态 {id="asynchronous-flow-and-shared-mutable-state"}
@@ -78,7 +78,7 @@ Kotlin 提供了几种方式来实现协程的通信.
 之后, 你就可以在一个协程中更新数据, 并在其他协程中获取它的最新值.
 <!-- Learn more in [Shared mutable state and concurrency](shared-mutable-state-and-concurrency.md). -->
 
-详情请参见 [异步的数据流(Asynchronous Flow)](flow.md), [通道(Channel)](channels.md), 以及 [协程(Coroutine)与通道(Channel)教程](coroutines-and-channels.md).
+详情请参见 [数据流(Asynchronous Flow)](coroutines-flow.md), [通道(Channel)](channels.md), 以及 [协程(Coroutine)与通道(Channel)教程](coroutines-and-channels.md).
 
 ## 下一步做什么 {id="what-s-next"}
 

@@ -122,7 +122,7 @@ fun main() {
 终止操作的例子, 比如 [`toList()`](constructing-collections.md#copy) 或 [`sum()`](collection-aggregate.md).
 只有执行终止操作后, 才能取得序列中的元素.
 
-序列元素可以多次遍历; 序列的某些实现类可能造成限制, 使得它只能遍历一次. 这样的限制会在这些序列的文档中明确说明.
+序列元素可以多次遍历; 但是, 序列的某些实现类可能造成限制, 使得它只能遍历一次. 这样的限制会在这些序列的文档中明确说明.
 
 ## 序列处理的示例 {id="sequence-processing-example"}
 

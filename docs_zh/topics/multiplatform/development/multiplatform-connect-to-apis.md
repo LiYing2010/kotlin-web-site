@@ -29,7 +29,7 @@ IDE 提供了工具帮助你创建缺少的实际声明.
 
 详情请参见 [添加平台相关库的依赖项](multiplatform-add-dependencies.md).
 
-## 示例
+## 示例 {id="examples"}
 
 为了简单起见, 以下示例使用简化的编译目标名称, 比如 iOS 和 Android.
 但是, 在你的 Gradle 构建文件中, 你需要使用 [支持的编译目标](multiplatform-dsl-reference.md#targets) 中的一个确切的编译目标名称.
@@ -68,7 +68,7 @@ import platform.Foundation.NSUUID
 actual fun randomUUID(): String = NSUUID().UUIDString()
 ```
 
-#### 实现一个 log 框架
+#### 实现一个 log 框架 {id="example-implement-a-log-framework"}
 
 另一个例子, 在一个极简化的 log 框架中, 演示如何编写共通代码, 并实现共通代码与平台逻辑之间的交互,
 这个例子中的平台是 JS 和 JVM:
@@ -106,7 +106,7 @@ internal actual fun writeLogMessage(message: String, logLevel: LogLevel) {
 }
 ```
 
-#### 通过 WebSocket 发送和接收消息
+#### 通过 WebSocket 发送和接收消息 {id="example-send-and-receive-messages-via-websocket"}
 
 假设你在使用 Kotlin Multiplatform Mobile 为 iOS 和 Android 开发一个聊天平台.
 我们来看看如何实现通过 WebSocket 发送和接收消息的功能.
@@ -329,7 +329,7 @@ class AppSocket(url: String) {
 }
 ```
 
-## 预期声明与实际声明的规则
+## 预期声明与实际声明的规则 {id="rules-for-expected-and-actual-declarations"}
 
 关于预期声明与实际声明的主要规则是:
 * 预期声明使用关键字 `expect` 标记; 实际声明使用关键字 `actual` 标记.

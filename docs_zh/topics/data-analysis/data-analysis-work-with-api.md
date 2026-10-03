@@ -1,64 +1,54 @@
 [//]: # (title: 从 Web 数据源和 API 获取数据)
 
-[Kotlin Notebook](kotlin-notebook-overview.md) 提供了强大的平台, 能够从各种 Web 数据源和 API 访问和操作数据.
-它提供了一个交互环境, 在这个环境中每个步骤都能够可视化, 清晰可见, 因此简化了数据抽取和分析任务.
-这样的功能使得它非常适合于探索那些你不熟悉的 API.
+使用 [Kotlin DataFrame 库](https://kotlin.github.io/dataframe/home.html), 你可以访问和处理来自各种网络来源和 API 的数据.
+它还能帮助你重塑这些数据, 用于全面的分析和可视化.
 
-Kotlin Notebook 在与 [Kotlin DataFrame 库](https://kotlin.github.io/dataframe/gettingstarted.html) 结合使用时,
-不仅能让你连接到 API, 从 API 获取 JSON 数据, 还能帮助你重塑这些数据, 用于全面的分析和可视化.
-
-> 关于 Kotlin Notebook 的示例, 请参见 [GitHub 上的 DataFrame 示例](https://github.com/Kotlin/dataframe/blob/master/examples/notebooks/youtube/Youtube.ipynb).
-> 
-{style="tip"}
+请查看 [GitHub 上的 DataFrame 示例](https://github.com/Kotlin/dataframe/tree/master/examples/projects).
 
 ## 开始前的准备工作 {id="before-you-start"}
 
-Kotlin Notebook 需要使用 [Kotlin Notebook plugin](https://plugins.jetbrains.com/plugin/16340-kotlin-notebook),
-IntelliJ IDEA 默认捆绑并启用了这个插件.
-
-如果无法使用 Kotlin Notebook 功能, 请确认启用了 plugin.
-详情请参见 [设置环境](kotlin-notebook-set-up-env.md).
+> 从 IntelliJ IDEA 2026.2 开始, Kotlin Notebook 不再捆绑在 IDE 之内, JetBrains 也不再提供官方支持.
+> 源代码继续通过 [GitHub](https://github.com/Kotlin/kotlin-notebook) 提供.
+>
+> 详情请参见 [blog](https://blog.jetbrains.com/idea/2026/06/kotlin-notebook-sunset/).
+>
+{style="note"}
 
 创建一个新的 Kotlin Notebook:
 
 1. 选择 **File** | **New** | **Kotlin Notebook**.
-2. 在 Kotlin Notebook 中, 运行以下命令, 导入 Kotlin DataFrame 库:
+ 
+2. 运行以下命令, 导入 Kotlin DataFrame 库:
 
    ```kotlin
    %use dataframe
    ```
 
+要遵循本教程进行操作, 你也可以将 DataFrame 作为
+[Gradle](https://kotlin.github.io/dataframe/setupgradle.html) 或 [Maven](https://kotlin.github.io/dataframe/setupmaven.html) 依赖项来使用.
+
 ## 从 API 获取数据 {id="fetch-data-from-an-api"}
 
-使用 Kotlin Notebook 和 Kotlin DataFrame 库从 API 获取数据,  是通过 [`.read()`](https://kotlin.github.io/dataframe/read.html) 
-函数完成的, 类似于 [从文件获取数据](data-analysis-work-with-data-sources.md#retrieve-data-from-a-file), 例如 CSV 或 JSON.
+使用 Kotlin DataFrame 库从 API 获取数据,  是通过 [`.read()`](https://kotlin.github.io/dataframe/read.html) 
+函数完成的, 类似于 [从文件获取数据](data-analysis-work-with-data-sources.md#retrieve-data), 例如 CSV 或 JSON.
 但是, 在使用基于 Web 的数据源时, 你可能需要额外的格式化处理, 来将原始的 API 数据转换为结构化的格式.
 
 我们来看一个从 [YouTube 数据 API](https://console.cloud.google.com/apis/library/youtube.googleapis.com) 获取数据的示例:
 
-1. 打开你的 Kotlin Notebook 文件 (`.ipynb`).
-
-2. 导入 Kotlin DataFrame 库, 数据处理任务需要使用它.
-   在一个代码单元(Code Cell)中运行以下命令:
-
-   ```kotlin
-   %use dataframe
-   ```
-
-3. 在一个新的代码单元中安全的添加你的 API Key, 这个 Key 用来对 YouTube 数据 API 请求进行认证.
+1. 在一个新的代码单元中安全的添加你的 API Key, 这个 Key 用来对 YouTube 数据 API 请求进行认证.
    你可以从 [credentials 页面](https://console.cloud.google.com/apis/credentials) 得到你的 API Key:
 
    ```kotlin
    val apiKey = "YOUR-API_KEY"
    ```
 
-4. 创建一个 load 函数, 参数是一个表示 path 的字符串, 并使用 DataFrame 的 `.read()` 函数, 从 YouTube 数据 API 获取数据:
+2. 创建一个 load 函数, 参数是一个表示 path 的字符串, 并使用 DataFrame 的 `.read()` 函数, 从 YouTube 数据 API 获取数据:
 
    ```kotlin
    fun load(path: String): AnyRow = DataRow.read("https://www.googleapis.com/youtube/v3/$path&key=$apiKey")
    ```
 
-5. 将获取的数据组织为行, 并通过 `nextPageToken` 处理 YouTube API 的分页.
+3. 将获取的数据组织为行, 并通过 `nextPageToken` 处理 YouTube API 的分页.
    这可以保证你能够得到跨越多页的数据:
 
    ```kotlin
@@ -87,7 +77,7 @@ IntelliJ IDEA 默认捆绑并启用了这个插件.
    }
    ```
 
-6. 在一个新的代码单元中, 使用前面定义的 `load()` 函数, 获取数据并创建一个 DataFrame.
+4. 在一个新的代码单元中, 使用前面定义的 `load()` 函数, 获取数据并创建一个 DataFrame.
    这个示例会获取数据, 这里是关于 Kotlin 的视频, 每页最大 50 条结果, 最大 5 页.
    结果保存在 `df` 变量中:
 
@@ -96,7 +86,7 @@ IntelliJ IDEA 默认捆绑并启用了这个插件.
    df
    ```
 
-7. 最后, 从 DataFrame 抽取元素, 并拼接在一起:
+5. 最后, 从 DataFrame 抽取元素, 并拼接在一起:
 
    ```kotlin
    val items = df.items.concat()
@@ -106,7 +96,7 @@ IntelliJ IDEA 默认捆绑并启用了这个插件.
 ## 清理和优化(Refine)数据 {id="clean-and-refine-data"}
 
 准备你的数据集用于分析时, 清理和优化(Refine)数据是关键步骤.
-[Kotlin DataFrame 库](https://kotlin.github.io/dataframe/gettingstarted.html) 为这些任务提供了强大的功能.
+[Kotlin DataFrame 库](https://kotlin.github.io/dataframe/home.html) 为这些任务提供了强大的功能.
 [`move`](https://kotlin.github.io/dataframe/move.html), 
 [`concat`](https://kotlin.github.io/dataframe/concatdf.html), [`select`](https://kotlin.github.io/dataframe/select.html), 
 [`parse`](https://kotlin.github.io/dataframe/parse.html), 和 [`join`](https://kotlin.github.io/dataframe/join.html) 
@@ -152,11 +142,11 @@ IntelliJ IDEA 默认捆绑并启用了这个插件.
    ```
 
 这个示例演示了如何使用 Kotlin DataFrame 的各种函数清理, 重组织, 并增强你的数据集.
-每个步骤都是为了优化数据, 使得它更适合于 [深入分析](#analyze-data-in-kotlin-notebook).
+每个步骤都是为了优化数据, 使得它更适合于深入分析.
 
 ## 在 Kotlin Notebook 中分析数据 {id="analyze-data-in-kotlin-notebook"}
 
-在你成功的使用 [Kotlin DataFrame 库](https://kotlin.github.io/dataframe/gettingstarted.html) 的函数
+在你成功的使用 [Kotlin DataFrame 库](https://kotlin.github.io/dataframe/home.html) 的函数
 [获取](#fetch-data-from-an-api) 并 [清理和优化你的数据](#clean-and-refine-data) 之后,
 下一步是分析这个准备好的数据集, 抽取有意义的信息.
 
@@ -210,10 +200,10 @@ IntelliJ IDEA 默认捆绑并启用了这个插件.
 
 ![分析结果](kotlin-analysis.png){width=700}
 
-关于更多高级技术, 请参见 [Kotlin DataFrame 文档](https://kotlin.github.io/dataframe/gettingstarted.html).
+关于更多高级技术, 请参见 [Kotlin DataFrame 文档](https://kotlin.github.io/dataframe/home.html).
 
 ## 下一步做什么 {id="what-s-next"}
 
 * 学习使用 [Kandy 库](https://kotlin.github.io/kandy/examples.html) 进行数据可视化
-* 阅读 [在 Kotlin Notebook 中使用 Kandy 进行数据可视化](data-analysis-visualization.md), 学习数据可视化的更多知识
+* 阅读 [使用 Kandy 进行数据可视化](data-analysis-visualization.md), 学习数据可视化的更多知识
 * 关于 Kotlin 中用于数据科学和分析的工具和资源的广泛的概述, 请参见 [用于数据分析的 Kotlin 和 Java 库](data-analysis-libraries.md)

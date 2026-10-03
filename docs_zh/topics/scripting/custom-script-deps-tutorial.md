@@ -48,7 +48,7 @@ print(
 
 ## 开始前的准备工作 {id="before-you-start"}
 
-下载并安装 [IntelliJ IDEA](https://www.jetbrains.com/idea/download/index.html) 的最新版.
+下载并安装 [IntelliJ IDEA](https://www.jetbrains.com/idea/download/) 的最新版.
 
 ## 创建一个项目 {id="create-a-project"}
 

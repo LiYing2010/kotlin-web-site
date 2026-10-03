@@ -1,4 +1,4 @@
-[//]: # (title: Kotlin 1.4 兼容性指南)
+[//]: # (title: Kotlin 1.4.x 兼容性指南)
 
 _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版本升级平滑便利](kotlin-evolution-principles.md)_
 是 Kotlin 语言设计时的基本原则之一.
@@ -8,7 +8,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 尽管语言的大多数变化都通过其他途径进行了通知, 比如每次更新时的变更日志, 以及编译器的警告信息,
 但我们还是在本文档中对这些变化进行一个总结, 提供一个 Kotlin 1.3 从迁移到 Kotlin 1.4 时的完整的参考列表.
 
-## 基本术语
+## 基本术语 {id="basic-terms"}
 
 在本文档中, 我们介绍几种类型的兼容性:
 
@@ -19,9 +19,9 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 请记住, 这些兼容性定义只针对纯 Kotlin 程序.
 从其他语言(比如, Java)的观点来看 Kotlin 代码的兼容性如何, 本文档不予讨论.
 
-## 语言与标准库
+## 语言与标准库 {id="language-and-stdlib"}
 
-### in 中缀操作符与 ConcurrentHashMap 的不正常行为
+### in 中缀操作符与 ConcurrentHashMap 的不正常行为 {id="unexpected-behavior-with-in-infix-operator-and-concurrenthashmap"}
 
 > **Issue**: [KT-18053](https://youtrack.jetbrains.com/issue/KT-18053)
 >
@@ -37,7 +37,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > - &gt;= 1.4: 将这个警告提升为错误,
 > 可以暂时使用 `-XXLanguage:-ProhibitConcurrentHashMapContains` 回退到 1.4 以前的行为
 
-### 禁止访问 public inline 成员之内的 protected 成员
+### 禁止访问 public inline 成员之内的 protected 成员 {id="prohibit-access-to-protected-members-inside-public-inline-members"}
 
 > **Issue**: [KT-21178](https://youtrack.jetbrains.com/issue/KT-21178)
 >
@@ -53,7 +53,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > - 1.4: 将这个警告提升为错误,
 >  可以暂时使用 `-XXLanguage:-ProhibitProtectedCallFromInline` 回退到 1.4 以前的行为
 
-### 带隐含接受者的调用的契约(Contract)
+### 带隐含接受者的调用的契约(Contract) {id="contracts-on-calls-with-implicit-receivers"}
 
 > **Issue**: [KT-28672](https://youtrack.jetbrains.com/issue/KT-28672)
 >
@@ -69,7 +69,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > - &gt;= 1.4: 行为有变化,
 >  可以暂时使用 `-XXLanguage:-ContractsOnCallsWithImplicitReceiver` 回退到 1.4 以前的行为
 
-### 浮点数比较的行为不一致
+### 浮点数比较的行为不一致 {id="inconsistent-behavior-of-floating-point-number-comparisons"}
 
 > **Issues**: [KT-22723](https://youtrack.jetbrains.com/issue/KT-22723)
 >
@@ -85,7 +85,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > - &gt;= 1.4: 行为有变化,
 >  可以暂时使用 `-XXLanguage:-ProperIeee754Comparisons` 回退到 1.4 以前的行为
 
-### 在泛型 Lambda 表达式中, 最后一条表达式没有智能类型转换
+### 在泛型 Lambda 表达式中, 最后一条表达式没有智能类型转换 {id="no-smart-cast-on-the-last-expression-in-a-generic-lambda"}
 
 > **Issue**: [KT-15020](https://youtrack.jetbrains.com/issue/KT-15020)
 >
@@ -102,7 +102,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > 可以暂时使用 `-XXLanguage:-NewInference` 回退到 1.4 以前的行为.
 > 注意, 这个标记还会同时关闭其他几个新语言特性.
 
-### 不再根据 Lambda 表达式参数的顺序将类型强制解释为 Unit
+### 不再根据 Lambda 表达式参数的顺序将类型强制解释为 Unit {id="do-not-depend-on-the-order-of-lambda-arguments-to-coerce-result-to-unit"}
 
 > **Issue**: [KT-36045](https://youtrack.jetbrains.com/issue/KT-36045)
 >
@@ -119,7 +119,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > 可以暂时使用 `-XXLanguage:-NewInference` 回退到 1.4 以前的行为.
 > 注意, 这个标记还会同时关闭其他几个新语言特性.
 
-### raw 和 integer 字面类型的共通超类型错误, 导致代码错误
+### raw 和 integer 字面类型的共通超类型错误, 导致代码错误 {id="wrong-common-supertype-between-raw-and-integer-literal-type-leads-to-unsound-code"}
 
 > **Issue**: [KT-35681](https://youtrack.jetbrains.com/issue/KT-35681)
 >
@@ -136,7 +136,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > 可以暂时使用 `-XXLanguage:-NewInference` 回退到 1.4 以前的行为.
 > 注意, 这个标记还会同时关闭其他几个新语言特性.
 
-### 类型安全性问题: 几个相等类型的变量被初始化为不同的类型
+### 类型安全性问题: 几个相等类型的变量被初始化为不同的类型 {id="type-safety-problem-because-several-equal-type-variables-are-instantiated-with-a-different-types"}
 
 > **Issue**: [KT-35679](https://youtrack.jetbrains.com/issue/KT-35679)
 >
@@ -153,7 +153,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > 可以暂时使用 `-XXLanguage:-NewInference` 回退到 1.4 以前的行为.
 > 注意, 这个标记还会同时关闭其他几个新语言特性.
 
-### 类型安全性问题: 对于类型交集, 子类型不正确
+### 类型安全性问题: 对于类型交集, 子类型不正确 {id="type-safety-problem-because-of-incorrect-subtyping-for-intersection-types"}
 
 > **Issues**: [KT-22474](https://youtrack.jetbrains.com/issue/KT-22474)
 >
@@ -170,7 +170,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > 可以暂时使用 `-XXLanguage:-NewInference` 回退到 1.4 以前的行为.
 > 注意, 这个标记还会同时关闭其他几个新语言特性.
 
-### 在 Lambda 表达式之内的空 when 表达式没有类型不匹配
+### 在 Lambda 表达式之内的空 when 表达式没有类型不匹配 {id="no-type-mismatch-with-an-empty-when-expression-inside-lambda"}
 
 > **Issue**: [KT-17995](https://youtrack.jetbrains.com/issue/KT-17995)
 >
@@ -187,7 +187,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > 可以暂时使用 `-XXLanguage:-NewInference` 回退到 1.4 以前的行为.
 > 注意, 这个标记还会同时关闭其他几个新语言特性.
 
-### 如果 Lambda 表达式可能的返回值之一是使用 integer 字面类型的提前返回, 推断的 Lambda 表达式返回类型为 Any
+### 如果 Lambda 表达式可能的返回值之一是使用 integer 字面类型的提前返回, 推断的 Lambda 表达式返回类型为 Any {id="return-type-any-inferred-for-lambda-with-early-return-with-integer-literal-in-one-of-possible-return-values"}
 
 > **Issue**: [KT-20226](https://youtrack.jetbrains.com/issue/KT-20226)
 >
@@ -204,7 +204,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > 可以暂时使用 `-XXLanguage:-NewInference` 回退到 1.4 以前的行为.
 > 注意, 这个标记还会同时关闭其他几个新语言特性.
 
-### 正确的捕捉带递归类型的星号投射(star projection)
+### 正确的捕捉带递归类型的星号投射(star projection) {id="proper-capturing-of-star-projections-with-recursive-types"}
 
 > **Issue**: [KT-33012](https://youtrack.jetbrains.com/issue/KT-33012)
 >
@@ -221,7 +221,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > 可以暂时使用 `-XXLanguage:-NewInference` 回退到 1.4 以前的行为.
 > 注意, 这个标记还会同时关闭其他几个新语言特性.
 
-### 不完整类型(non-proper type)与灵活类型(flexible type)的共通超类型计算导致错误的结果
+### 不完整类型(non-proper type)与灵活类型(flexible type)的共通超类型计算导致错误的结果 {id="common-supertype-calculation-with-non-proper-type-and-flexible-one-leads-to-incorrect-results"}
 
 > **Issue**: [KT-37054](https://youtrack.jetbrains.com/issue/KT-37054)
 >
@@ -238,7 +238,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > 可以暂时使用 `-XXLanguage:-NewInference` 回退到 1.4 以前的行为.
 > 注意, 这个标记还会同时关闭其他几个新语言特性.
 
-### 类型安全性问题: 可 null 的类型参数未能正确转换为捕获的类型
+### 类型安全性问题: 可 null 的类型参数未能正确转换为捕获的类型 {id="type-safety-problem-because-of-lack-of-captured-conversion-against-nullable-type-argument"}
 
 > **Issue**: [KT-35487](https://youtrack.jetbrains.com/issue/KT-35487)
 >
@@ -255,7 +255,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > 可以暂时使用 `-XXLanguage:-NewInference` 回退到 1.4 以前的行为.
 > 注意, 这个标记还会同时关闭其他几个新语言特性.
 
-### 对协变(covariant)类型, 在未检测的类型转换之后, 保留交叉类型(intersection type)
+### 对协变(covariant)类型, 在未检测的类型转换之后, 保留交叉类型(intersection type) {id="preserve-intersection-type-for-covariant-types-after-unchecked-cast"}
 
 > **Issue**: [KT-37280](https://youtrack.jetbrains.com/issue/KT-37280)
 >
@@ -273,7 +273,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > 可以暂时使用 `-XXLanguage:-NewInference` 回退到 1.4 以前的行为.
 > 注意, 这个标记还会同时关闭其他几个新语言特性.
 
-### 使用 this 表达式导致构造器推断中缺少类型变量
+### 使用 this 表达式导致构造器推断中缺少类型变量 {id="type-variable-leaks-from-builder-inference-because-of-using-this-expression"}
 
 > **Issue**: [KT-32126](https://youtrack.jetbrains.com/issue/KT-32126)
 >
@@ -290,7 +290,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > 可以暂时使用 `-XXLanguage:-NewInference` 回退到 1.4 以前的行为.
 > 注意, 这个标记还会同时关闭其他几个新语言特性.
 
-### 对带有可 null 类型参数的反向类型变异(contravariant)类型的 overload 解析结果错误
+### 对带有可 null 类型参数的逆变(contravariant)类型的 overload 解析结果错误 {id="wrong-overload-resolution-for-contravariant-types-with-nullable-type-arguments"}
 
 > **Issue**: [KT-31670](https://youtrack.jetbrains.com/issue/KT-31670)
 >
@@ -298,7 +298,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 >
 > **不兼容性类型**: 源代码级
 >
-> **概述**: 从 Kotlin 1.4 开始, 如果一个函数的 2 个 overload, 接受反向类型变异(contravariant)类型参数,
+> **概述**: 从 Kotlin 1.4 开始, 如果一个函数的 2 个 overload, 接受逆变(contravariant)类型参数,
 >  区别只有类型可否为 null (比如 `In<T>` 和 `In<T?>`), 这时将认为可 null 类型是更明确的 overload 解析结果.
 >
 > **废弃周期**:
@@ -308,7 +308,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > 可以暂时使用 `-XXLanguage:-NewInference` 回退到 1.4 以前的行为.
 > 注意, 这个标记还会同时关闭其他几个新语言特性.
 
-### 带有非嵌套的递归约束的构造器推断
+### 带有非嵌套的递归约束的构造器推断 {id="builder-inference-with-non-nested-recursive-constraints"}
 
 > **Issue**: [KT-34975](https://youtrack.jetbrains.com/issue/KT-34975)
 >
@@ -326,7 +326,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > 可以暂时使用 `-XXLanguage:-NewInference` 回退到 1.4 以前的行为.
 > 注意, 这个标记还会同时关闭其他几个新语言特性.
 
-### 类型变量的固定在及早计算(eager)模式下会导致矛盾的约束系统
+### 类型变量的固定在及早计算(eager)模式下会导致矛盾的约束系统 {id="eager-type-variable-fixation-leads-to-a-contradictory-constraint-system"}
 
 > **Issue**: [KT-25175](https://youtrack.jetbrains.com/issue/KT-25175)
 >
@@ -344,7 +344,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > 可以暂时使用 `-XXLanguage:-NewInference` 回退到 1.4 以前的行为.
 > 注意, 这个标记还会同时关闭其他几个新语言特性.
 
-### 对 open 函数禁止使用 tailrec 标识符
+### 对 open 函数禁止使用 tailrec 标识符 {id="prohibit-tailrec-modifier-on-open-functions"}
 
 > **Issue**: [KT-18541](https://youtrack.jetbrains.com/issue/KT-18541)
 >
@@ -359,7 +359,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > - < 1.4: 对同时存在 `open` 和 `tailrec` 标识符的函数报告警告 (渐进模式(progressive mode) 下会报告错误).
 > - &gt;= 1.4: 将这个警告提升为错误.
 
-### 同伴对象的 INSTANCE 域可见度超过同伴对象的类本身
+### 同伴对象的 INSTANCE 域可见度超过同伴对象的类本身 {id="the-instance-field-of-a-companion-object-more-visible-than-the-companion-object-class-itself"}
 
 > **Issue**: [KT-11567](https://youtrack.jetbrains.com/issue/KT-11567)
 >
@@ -374,7 +374,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > - < 1.4: 编译器生成对象的 `INSTANCE` 带有废弃标记
 > - &gt;= 1.4: 同伴对象的 `INSTANCE` 域带有正确的可见度
 
-### 插入在 return 之前的外层 finally 代码段, 没有从不带 finally 的内层 try 代码段的 catch 分支中排除
+### 插入在 return 之前的外层 finally 代码段, 没有从不带 finally 的内层 try 代码段的 catch 分支中排除 {id="outer-finally-block-inserted-before-return-is-not-excluded-from-the-catch-interval-of-the-inner-try-block-without-finally"}
 
 > **Issue**: [KT-31923](https://youtrack.jetbrains.com/issue/KT-31923)
 >
@@ -390,7 +390,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > - &gt;= 1.4: 行为有变化,
 > 可以暂时使用 `-XXLanguage:-ProperFinally` 回退到 1.4 以前的行为
 
-### 对协变(covariant)和泛型专用的(generic-specialized)覆盖, 在返回类型位置的内联类(inline class)会使用装箱(box)版本
+### 对协变(covariant)和泛型专用的(generic-specialized)覆盖, 在返回类型位置的内联类(inline class)会使用装箱(box)版本 {id="use-the-boxed-version-of-an-inline-class-in-return-type-position-for-covariant-and-generic-specialized-overrides"}
 
 > **Issues**: [KT-30419](https://youtrack.jetbrains.com/issue/KT-30419)
 >
@@ -406,7 +406,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > - < 1.4: 旧行为 (详情请参见 issue)
 > - &gt;= 1.4: 行为有变化
 
-### 委托到 Kotlin 接口时, 在 JVM 字节码中不声明受控异常(Checked Exception)
+### 委托到 Kotlin 接口时, 在 JVM 字节码中不声明受控异常(Checked Exception) {id="do-not-declare-checked-exceptions-in-jvm-bytecode-when-using-delegation-to-kotlin-interfaces"}
 
 > **Issue**: [KT-35834](https://youtrack.jetbrains.com/issue/KT-35834)
 >
@@ -422,7 +422,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > - &gt;= 1.4: 行为有变化,
 > 可以暂时使用 `-XXLanguage:-DoNotGenerateThrowsForDelegatedKotlinMembers` 回退到 1.4 以前的行为
 
-### 对于带有单个不定数量参数(vararg parameter)的方法, 签名多态(signature-polymorphic)调用的行为有变化, 以避免将参数包装入另一个数组
+### 对于带有单个不定数量参数(vararg parameter)的方法, 签名多态(signature-polymorphic)调用的行为有变化, 以避免将参数包装入另一个数组 {id="changed-behavior-of-signature-polymorphic-calls-to-methods-with-a-single-vararg-parameter-to-avoid-wrapping-the-argument-into-another-array"}
 
 > **Issue**: [KT-35469](https://youtrack.jetbrains.com/issue/KT-35469)
 >
@@ -437,7 +437,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > - < 1.4: 旧行为 (详情请参见 issue)
 > - &gt;= 1.4: 行为有变化
 
-### 当 KClass 用作泛型参数时, 注解中的泛型签名错误
+### 当 KClass 用作泛型参数时, 注解中的泛型签名错误 {id="incorrect-generic-signature-in-annotations-when-kclass-is-used-as-a-generic-parameter"}
 
 > **Issue**: [KT-35207](https://youtrack.jetbrains.com/issue/KT-35207)
 >
@@ -452,7 +452,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > - < 1.4: 旧行为 (详情请参见 issue)
 > - &gt;= 1.4: 行为有变化
 
-### 在签名多态(signature-polymorphic) 调用中禁止展开(spread)
+### 在签名多态(signature-polymorphic) 调用中禁止展开(spread) {id="forbid-spread-operator-in-signature-polymorphic-calls"}
 
 > **Issue**: [KT-35226](https://youtrack.jetbrains.com/issue/KT-35226)
 >
@@ -468,7 +468,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > - &gt;= 1.5: 将这个警告提升为错误,
 > 可以暂时使用 `-XXLanguage:-ProhibitSpreadOnSignaturePolymorphicCall` 回退到 1.4 以前的行为
 
-### 对尾递归(tail-recursive)优化函数, 默认值的初始化顺序变更
+### 对尾递归(tail-recursive)优化函数, 默认值的初始化顺序变更 {id="change-initialization-order-of-default-values-for-tail-recursive-optimized-functions"}
 
 > **Issue**: [KT-31540](https://youtrack.jetbrains.com/issue/KT-31540)
 >
@@ -484,7 +484,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > - &gt;= 1.4: 行为有变化,
 > 可以暂时使用 `-XXLanguage:-ProperComputationOrderOfTailrecDefaultParameters` 回退到 1.4 以前的行为
 
-### 对非 const 的 val, 不生成 ConstantValue 属性
+### 对非 const 的 val, 不生成 ConstantValue 属性 {id="do-not-generate-constantvalue-attribute-for-non-const-vals"}
 
 > **Issue**: [KT-16615](https://youtrack.jetbrains.com/issue/KT-16615)
 >
@@ -500,7 +500,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > - &gt;= 1.4: 行为有变化,
 > 可以暂时使用 `-XXLanguage:-NoConstantValueAttributeForNonConstVals` 回退到 1.4 以前的行为
 
-### 对 open 方法上的 @JvmOverloads 生成的 overload 应该是 final
+### 对 open 方法上的 @JvmOverloads 生成的 overload 应该是 final {id="generated-overloads-for-jvmoverloads-on-open-methods-should-be-final"}
 
 > **Issue**: [KT-33240](https://youtrack.jetbrains.com/issue/KT-33240)
 >
@@ -516,7 +516,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > - &gt;= 1.4: 行为有变化,
 > 可以暂时使用 `-XXLanguage:-GenerateJvmOverloadsAsFinal` 回退到 1.4 以前的行为
 
-### 返回 kotlin.Result 的 Lambda 表达式, 现在会返回装箱(box)的值, 而不是未装箱(unbox)的值
+### 返回 kotlin.Result 的 Lambda 表达式, 现在会返回装箱(box)的值, 而不是未装箱(unbox)的值 {id="lambdas-returning-kotlinresult-now-return-boxed-value-instead-of-unboxed"}
 
 > **Issue**: [KT-39198](https://youtrack.jetbrains.com/issue/KT-39198)
 >
@@ -531,7 +531,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > - < 1.4: 旧行为 (详情请参见 issue)
 > - &gt;= 1.4: 行为有变化
 
-### 统一 null 检查的相关异常
+### 统一 null 检查的相关异常 {id="unify-exceptions-from-null-checks"}
 
 > **Issue**: [KT-22275](https://youtrack.jetbrains.com/issue/KT-22275)
 >
@@ -548,7 +548,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > - &gt;= 1.4: all 运行时 null 检查抛出 `java.lang.NullPointerException` 异常.
 > 可以暂时使用 `-Xno-unified-null-checks` 回退到 1.4 以前的行为
 
-### 在 array/list 的 contains, indexOf, lastIndexOf 操作中的浮点值比较: 使用 IEEE 754 标准还是全顺序(total order)标准
+### 在 array/list 的 contains, indexOf, lastIndexOf 操作中的浮点值比较: 使用 IEEE 754 标准还是全顺序(total order)标准 {id="comparing-floating-point-values-in-arraylist-operations-contains-indexof-lastindexof-ieee-754-or-total-order"}
 
 > **Issue**: [KT-28753](https://youtrack.jetbrains.com/issue/KT-28753)
 >
@@ -564,7 +564,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > - < 1.4: 旧行为 (详情请参见 issue)
 > - &gt;= 1.4: 行为有变化
 
-### 将集合的 min 和 max 函数返回类型逐渐改变为非 null
+### 将集合的 min 和 max 函数返回类型逐渐改变为非 null {id="gradually-change-the-return-type-of-collection-min-and-max-functions-to-non-nullable"}
 
 > **Issue**: [KT-38854](https://youtrack.jetbrains.com/issue/KT-38854)
 >
@@ -580,7 +580,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > - 1.5.x: 将受影响的 API 的废弃级别提升为错误
 > - &gt;=1.6: 重新引入受影响的 API, 但返回类型为非 null
 
-### 废弃 appendln, 改为使用 appendLine
+### 废弃 appendln, 改为使用 appendLine {id="deprecate-appendln-in-favor-of-appendline"}
 
 > **Issue**: [KT-38754](https://youtrack.jetbrains.com/issue/KT-38754)
 >
@@ -595,7 +595,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > - 1.4: 引入 `appendLine` 函数, 替代 `appendln`, 并废弃 `appendln`
 > - &gt;=1.5: 将废弃级别提升为错误
 
-### 废弃浮点类型向 Short 和 Byte 的转换
+### 废弃浮点类型向 Short 和 Byte 的转换 {id="deprecate-conversions-of-floating-point-types-to-short-and-byte"}
 
 > **Issue**: [KT-30360](https://youtrack.jetbrains.com/issue/KT-30360)
 >
@@ -610,7 +610,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > - 1.4: 废弃 `Double.toShort()/toByte()` 和 `Float.toShort()/toByte()`, 并提供替代函数
 > - &gt;=1.5: 将废弃级别提升为错误
 
-### 在 Regex.findAll 中使用不正确的 startIndex 时快速失败
+### 在 Regex.findAll 中使用不正确的 startIndex 时快速失败 {id="fail-fast-in-regexfindall-on-an-invalid-startindex"}
 
 > **Issue**: [KT-28356](https://youtrack.jetbrains.com/issue/KT-28356)
 >
@@ -626,7 +626,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > - < 1.4: 旧行为 (详情请参见 issue)
 > - &gt;= 1.4: 行为有变化
 
-### 删除废弃的 kotlin.coroutines.experimental
+### 删除废弃的 kotlin.coroutines.experimental {id="remove-deprecated-kotlincoroutinesexperimental"}
 
 > **Issue**: [KT-36083](https://youtrack.jetbrains.com/issue/KT-36083)
 >
@@ -642,7 +642,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > - &gt;= 1.4: `kotlin.coroutines.experimental` 被从标准库删除.
 >     在 JVM 平台, 提供了一个单独的兼容库(详情请参见 issue).
 
-### 删除废弃的 mod 操作符
+### 删除废弃的 mod 操作符 {id="remove-deprecated-mod-operator"}
 
 > **Issue**: [KT-26654](https://youtrack.jetbrains.com/issue/KT-26654)
 >
@@ -657,7 +657,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > - < 1.4: `mod` 被废弃, 级别为 `ERROR`
 > - &gt;= 1.4: `mod` 被从标准库删除
 
-### 隐藏 Throwable.addSuppressed 成员函数, 改为使用扩展函数
+### 隐藏 Throwable.addSuppressed 成员函数, 改为使用扩展函数 {id="hide-throwableaddsuppressed-member-and-prefer-extension-instead"}
 
 > **Issue**: [KT-38777](https://youtrack.jetbrains.com/issue/KT-38777)
 >
@@ -672,7 +672,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > - < 1.4: 旧行为 (详情请参见 issue)
 > - &gt;= 1.4: 行为有变化
 
-### capitalize 应该将二合字母(Digraph)转换为标题格式(title case)
+### capitalize 应该将二合字母(Digraph)转换为标题格式(title case) {id="capitalize-should-convert-digraphs-to-title-case"}
 
 > **Issue**: [KT-38817](https://youtrack.jetbrains.com/issue/KT-38817)
 >
@@ -688,9 +688,9 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > - < 1.4: 二合字母的首字母大写转换结果为: 大写格式(upper case) (`Ǆ`)
 > - &gt;= 1.4: 二二合字母的首字母大写转换结果为: 标题格式(title case) (`ǅ`)
 
-## 工具
+## 工具 {id="tools"}
 
-### 在 Windows 上, 带分隔字符的编译器参数必须使用双引号括起
+### 在 Windows 上, 带分隔字符的编译器参数必须使用双引号括起 {id="compiler-arguments-with-delimiter-characters-must-be-passed-in-double-quotes-on-windows"}
 
 > **Issue**: [KT-41309](https://youtrack.jetbrains.com/issue/KT-41309)
 >
@@ -706,7 +706,7 @@ _[保证语言的现代化](kotlin-evolution-principles.md)_ 以及 _[语言版�
 > - < 1.4: 所有的编译器参数都不使用引号
 > - &gt;= 1.4: 包含分隔字符的编译器参数 (空格, `=`, `;`, `,`) 需要双引号(`"`)括起
 
-### KAPT: 属性的合成 $annotations() 方法名称有变化
+### KAPT: 属性的合成 $annotations() 方法名称有变化 {id="kapt-names-of-synthetic-annotations-methods-for-properties-have-changed"}
 
 > **Issue**: [KT-36926](https://youtrack.jetbrains.com/issue/KT-36926)
 >

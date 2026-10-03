@@ -1,11 +1,17 @@
 [//]: # (title: Kotlin 1.4.30 版中的新功能)
 
-_[发布日期: 2021/02/03](releases.md#release-details)_
+<web-summary>阅读 Kotlin 1.4.30 发布说明, 包括新的语言特性, Kotlin Multiplatform, JVM, Native, JS 的更新, 以及对 Gradle 和 Maven 的构建工具支持.</web-summary>
+
+_[发布日期: 2021/02/03](releases.md#release-history)_
 
 Kotlin 1.4.30 提供了新的语言功能的预览版, 将 Kotlin/JVM 编译器的新的 IR 后端升级到 Beta,
 并带来了很多性能和功能的改进.
 
-关于这个版本的变更概要, 可以查看 [这篇 blog](https://blog.jetbrains.com/kotlin/2021/01/kotlin-1-4-30-released/).
+关于这个版本的变更概要, 可以查看 [这篇 blog](https://blog.jetbrains.com/kotlin/2021/02/kotlin-1-4-30-released/).
+
+> 关于 Kotlin 的发布周期, 详情请参见 [Kotlin 发布过程](releases.md).
+>
+{style="tip"}
 
 ## 语言功能 {id="language-features"}
 
@@ -20,7 +26,7 @@ Kotlin 1.5.0 将会发布一些新的语言功能 – 支持 JVM 记录类(Recor
 要通过预览模式启用这些新功能和新改进, 你需要添加特定的编译器选项, 来表示你明确同意使用.
 详情请阅读下面的章节.
 
-关于新功能预览, 详情请参见 [这篇 blog](https://blog.jetbrains.com/kotlin/2021/01/new-language-features-preview-in-kotlin-1-4-30).
+关于新功能预览, 详情请参见 [这篇 blog](https://blog.jetbrains.com/kotlin/2021/02/new-language-features-preview-in-kotlin-1-4-30/).
 
 ### 支持 JVM 记录类(Record) {id="jvm-records-support"}
 
@@ -181,9 +187,9 @@ Kotlin 1.4.30 将内联类升级为 Beta 版, 我们计划在未来的发布版�
 
 更多详情请参见 [内联类](inline-classes.md).
 
-## Kotlin/JVM
+## Kotlin/JVM {id="kotlinjvm"}
 
-### JVM IR 编译器后端升级为 Beta 版
+### JVM IR 编译器后端升级为 Beta 版 {id="jvm-ir-compiler-backend-reaches-beta"}
 
 Kotlin/JVM 的 [基于 IR 的编译器后端](whatsnew14.md#unified-backends-and-extensibility),
 在 1.4.0 版引入时是 [Alpha 版](components-stability.md), 现在升级为 Beta 版.
@@ -227,26 +233,26 @@ Kotlin/JVM 的 [基于 IR 的编译器后端](whatsnew14.md#unified-backends-and
   </configuration>
   ```
 
-关于 JVM IR 后端的变更, 更多详情请参见 [这篇 blog](https://blog.jetbrains.com/kotlin/2021/01/the-jvm-backend-is-in-beta-let-s-make-it-stable-together).
+关于 JVM IR 后端的变更, 更多详情请参见 [这篇 blog](https://blog.jetbrains.com/kotlin/2021/02/the-jvm-backend-is-in-beta-let-s-make-it-stable-together/).
 
-## Kotlin/Native
+## Kotlin/Native {id="kotlinnative"}
 
-### 性能改善
+### 性能改善 {id="performance-improvements"}
 
 在 1.4.30 中, Kotlin/Native 有了很多性能改善, 使得编译速度更加提升.
 比如, 在 [使用 Kotlin Multiplatform Mobile 开发的网络和数据存储](https://github.com/kotlin-hands-on/kmm-networking-and-data-storage/tree/final) 示例项目中,
 重新构建框架所需要的时间从 9.5 秒 (1.4.10 版) 减少到了 4.5 秒 (1.4.30 版).
 
-### Apple watchOS 64-bit 模拟器编译目标
+### Apple watchOS 64-bit 模拟器编译目标 {id="apple-watchos-64-bit-simulator-target"}
 
 从 watchOS 版本 7.0 开始, x86 模拟器编译目标已被废弃.
 为与 watchOS 的最新版本保持一致, Kotlin/Native 增加了新的编译目标 `watchosX64` , 用于在 64-bit 架构运行模拟器.
 
-### 支持 Xcode 12.2 库
+### 支持 Xcode 12.2 库 {id="support-for-xcode-122-libraries"}
 
 我们增加了对随 Xcode 12.2 发布的新的库的支持. 你现在可以在 Kotlin 代码中使用这些库了.
 
-## Kotlin/JS
+## Kotlin/JS {id="kotlinjs"}
 
 ### 顶级属性(top-level property)的延迟初始化(Lazy initialization) {id="lazy-initialization-of-top-level-properties"}
 
@@ -269,7 +275,7 @@ Kotlin/JS 的 [IR 后端](js-ir-compiler.md) 有了顶级属性(top-level proper
 
 ## Gradle 项目的改进 {id="gradle-project-improvements"}
 
-### 支持 Gradle 配置缓存
+### 支持 Gradle 配置缓存 {id="support-the-gradle-configuration-cache"}
 
 从 1.4.30 开始, Kotlin Gradle plugin 支持 [配置缓存](https://docs.gradle.org/current/userguide/configuration_cache.html)
 功能. 这个功能会提高构建过程的速度: 一旦你执行命令, Gradle 会执行配置过程, 并计算任务图(task graph).
@@ -278,9 +284,9 @@ Gradle 会缓存计算结果, 并在以后的构建中重用这些结果.
 要启用这个功能, 你可以 [使用 Gradle 命令](https://docs.gradle.org/current/userguide/configuration_cache.html#config_cache:usage)
 或 [设置 IntelliJ based IDE]( https://docs.gradle.org/current/userguide/configuration_cache.html#config_cache:ide:intellij).
 
-## 标准库
+## 标准库 {id="standard-library"}
 
-### 针对大写/小写文字的 Locale 无关 API
+### 针对大写/小写文字的 Locale 无关 API {id="locale-agnostic-api-for-upperlowercasing-text"}
 
 > Locale 无关 API 功能是 [实验性功能](components-stability.md). 它随时有可能变更或被删除.
 > 请注意, 只为评估和试验目的来使用这个功能.
@@ -326,7 +332,7 @@ Kotlin 1.4.30 提供了以下替代函数:
 
 关于文字处理函数的所有变更, 请参见 [KEEP](https://github.com/Kotlin/KEEP/blob/master/proposals/stdlib/locale-agnostic-string-conversions.md).
 
-### 明确的 "字符到代码" 和 "字符到数值" 转换
+### 明确的 "字符到代码" 和 "字符到数值" 转换 {id="clear-char-to-code-and-char-to-digit-conversions"}
 
 > 意义明确的 `Char` 转换 API 是 [实验性功能](components-stability.md). 它随时有可能变更或被删除.
 > 请注意, 只为评估和试验目的来使用这个功能.
@@ -367,7 +373,7 @@ Kotlin 1.4.30 提供了以下替代函数:
 
 更多详情请参见 [KEEP](https://github.com/Kotlin/KEEP/blob/master/proposals/stdlib/char-int-conversions.md).
 
-## 序列化库的更新
+## 序列化库的更新 {id="serialization-updates"}
 
 随 Kotlin 1.4.30 一起, 我们还发布了 `kotlinx.serialization` [1.1.0-RC](https://github.com/Kotlin/kotlinx.serialization/releases/tag/v1.1.0-RC),
 其中包含一些新功能:
@@ -375,7 +381,7 @@ Kotlin 1.4.30 提供了以下替代函数:
 * 支持内联类的序列化
 * 支持无符号基本类型(Unsigned Primitive Type)的序列化
 
-### 支持内联类的序列化
+### 支持内联类的序列化 {id="inline-classes-serialization-support"}
 
 从 Kotlin 1.4.30 开始, 你可以让内联类 [可序列化](serialization.md):
 
@@ -392,7 +398,7 @@ inline class Color(val rgb: Int)
 
 更多详情请参见 `kotlinx.serialization` 的 [文档](https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/inline-classes.md#serializable-inline-classes).
 
-### 支持无符号基本类型(Unsigned Primitive Type)的序列化
+### 支持无符号基本类型(Unsigned Primitive Type)的序列化 {id="unsigned-primitive-type-serialization-support"}
 
 从 1.4.30 开始, 你可以对无符号基本类型(Unsigned Primitive Type): `UInt`, `ULong`, `UByte`, 和 `UShort`,
 使用

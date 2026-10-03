@@ -1,12 +1,12 @@
 [//]: # (title: 与 C 代码交互)
 
-> C 库的导入是 [实验性功能](components-stability.md#stability-levels-explained).
+> C 库的导入功能目前是 [Beta 版](native-lib-import-stability.md#stability-of-c-and-objective-c-library-import).
 > cinterop 工具从 C 库生成的所有 Kotlin 声明都应该标注 `@ExperimentalForeignApi` 注解.
 >
 > Kotlin/Native 自带的原生平台库 (例如 Foundation, UIKit, 和 POSIX),
 > 只对一部分 API 需要使用者明确同意(Opt-in).
 >
-{style="warning"}
+{style="note"}
 
 这篇文档涵盖 Kotlin 与 C 互操作功能的一般方面.
 Kotlin/Native 附带一个 cinterop 工具, 在与外部的 C 库交互时, 你可以使用它快速生成所需要的一切内容.
@@ -133,18 +133,11 @@ val originalPtr = longValue.toCPointer<T>()
 可以使用 `NativePlacement` 接口来分配原生内存, 例如:
 
 ```kotlin
+@file:OptIn(ExperimentalForeignApi::class)
 import kotlinx.cinterop.*
 
-@OptIn(ExperimentalForeignApi::class)
+val placement: NativePlacement = // 参见下文的 placement 示例
 val byteVar = placement.alloc<ByteVar>()
-```
-
-或者:
-
-```kotlin
-import kotlinx.cinterop.*
-
-@OptIn(ExperimentalForeignApi::class)
 val bytePtr = placement.allocArray<ByteVar>(5)
 ```
 
@@ -153,9 +146,9 @@ val bytePtr = placement.allocArray<ByteVar>(5)
 另外还提供了 `.free()` 操作来释放已分配的内存:
 
 ```kotlin
+@file:OptIn(ExperimentalForeignApi::class)
 import kotlinx.cinterop.*
 
-@OptIn(kotlinx.cinterop.ExperimentalForeignApi::class)
 fun main() {
     val size: Long = 0
     val buffer = nativeHeap.allocArray<ByteVar>(size)
@@ -176,10 +169,10 @@ fun main() {
 例如, 如果一个 C 函数, 使用指针参数返回值, 可以用下面这种方式来使用这个函数:
 
 ```kotlin
+@file:OptIn(ExperimentalForeignApi::class)
 import kotlinx.cinterop.*
 import platform.posix.*
 
-@OptIn(ExperimentalForeignApi::class)
 val fileSize = memScoped {
     val statBuf = alloc<stat>()
     val error = stat("/", statBuf.ptr)
@@ -515,7 +508,10 @@ fun test() {
 
 完成以下教程, 学习类型, 函数, 以及字符串, 如何在 Kotlin 和 C 之间映射:
 
-* [映射 C 语言的基本数据类型](mapping-primitive-data-types-from-c.md)
-* [映射 C 语言的结构(Struct)和联合(Union)类型](mapping-struct-union-types-from-c.md)
-* [映射 C 语言的函数指针(Function Pointer)](mapping-function-pointers-from-c.md)
-* [映射 C 语言的字符串](mapping-strings-from-c.md)
+<p><img src="icon-1.svg" width="20" alt="第 1 步"/> <a href="mapping-primitive-data-types-from-c.md">映射 C 语言的基本数据类型</a><br/>
+   <img src="icon-2.svg" width="20" alt="第 2 步"/> <a href="mapping-struct-union-types-from-c.md">映射 C 语言的结构(Struct)和联合(Union)类型</a><br/>
+   <img src="icon-3.svg" width="20" alt="第 3 步"/> <a href="mapping-function-pointers-from-c.md">映射 C 语言的函数指针(Function Pointer)</a><br/>
+   <img src="icon-4.svg" width="20" alt="第 4 步"/> <a href="mapping-strings-from-c.md">映射 C 语言的字符串</a><br/>
+</p>
+
+<a href="mapping-primitive-data-types-from-c.md" as="button" mode="classic" icon="arrow-right" icon-position="right">开始</a>

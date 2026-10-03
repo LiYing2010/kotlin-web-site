@@ -1,7 +1,60 @@
 [//]: # (title: 浏览器与 DOM API)
 
-Kotlin/JS 标准库允许你使用 `kotlinx.browser` 包访问浏览器专有的功能, 包括典型的顶级对象, 比如 `document` 和 `window`.
-标准库对这些对象的功能尽可能提供了类型安全的封装. 对于无法支持的情况, 为了与不能正确映射到 Kotlin 类型系统的函数交互, 会使用 `dynamic` 类型.
+[`kotlinx-browser`](https://github.com/Kotlin/kotlinx-browser) 库让你能够访问浏览器专有的功能.
+它包括常见的顶级对象, 比如 `document` 和 `window`, 并对它们的功能尽可能提供了类型安全的封装.
+
+对于无法支持的情况, 可以使用 `dynamic` 类型, 访问不能正确映射到 Kotlin 类型系统的函数.
+
+要使用浏览器和 DOM API, 请向你的项目的 `build.gradle(.kts)` 文件, 添加 `kotlinx-browser` 库作为依赖项:
+
+<tabs group="build-script">
+<tab title="Kotlin" group-key="kotlin">
+
+```kotlin
+repositories {
+    mavenCentral()
+}
+
+kotlin {
+    js {
+        browser()
+    }
+
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-browser:%kotlinxBrowserVersion%")
+            }
+        }
+    }
+}
+```
+
+</tab>
+<tab title="Groovy" group-key="groovy">
+
+```groovy
+repositories {
+    mavenCentral()
+}
+
+kotlin {
+    js {
+        browser()
+    }
+
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation 'org.jetbrains.kotlinx:kotlinx-browser:%kotlinxBrowserVersion%'
+            }
+        }
+    }
+}
+```
+
+</tab>
+</tabs>
 
 ## 与 DOM 交互 {id="interaction-with-the-dom"}
 
@@ -34,5 +87,7 @@ email.value = "hadi@jetbrains.com"
 ```
 
 与访问这个 `input` 元素类似, 你也可以访问页面中的其他元素, 并转换为正确的类型.
+
+## 下一步做什么? {id="what-s-next"}
 
 关于如何使用简洁的方式创建和组织 DOM 中的元素, 请参见 [类型安全的 HTML DSL](typesafe-html-dsl.md).

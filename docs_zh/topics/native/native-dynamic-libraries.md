@@ -71,85 +71,94 @@ Kotlin/Native 编译器能够从 Kotlin 代码生成一个动态库.
 
 2. 将你的 `build.gradle(.kts)` Gradle 构建文件更新为以下内容:
 
-   <tabs group="build-script">
-   <tab title="Kotlin" group-key="kotlin">
-   
-   ```kotlin
-   plugins {
-       kotlin("multiplatform") version "%kotlinVersion%"
-   }
+    <tabs group="build-script">
+    <tab title="Kotlin" group-key="kotlin">
 
-   repositories {
-       mavenCentral()
-   }
+    ```kotlin
+    import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
-   kotlin {
-       macosArm64("native") {    // Apple Silicon 平台的 macOS
-       // macosX64("native") {   // x86_64 平台的 macOS
-       // linuxArm64("native") { // ARM64 平台的 Linux
-       // linuxX64("native") {   // x86_64 平台的 Linux
-       // mingwX64("native") {   // Windows
-           binaries {
-               sharedLib {
-                   baseName = "native"       // macOS 和 Linux
-                   // baseName = "libnative" // Windows
-               }
-           }
-       }
-   }
+    plugins {
+        kotlin("multiplatform") version "%kotlinVersion%"
+    }
 
-   tasks.wrapper {
-       gradleVersion = "%gradleVersion%"
-       distributionType = Wrapper.DistributionType.ALL
-   }
-   ```
-   
-   </tab>
-   <tab title="Groovy" group-key="groovy">
+    repositories {
+        mavenCentral()
+    }
 
-   ```groovy
-   plugins {
-       id 'org.jetbrains.kotlin.multiplatform' version '%kotlinVersion%'
-   }
+    kotlin {
+        macosArm64()    // Apple Silicon 平台的 macOS
+        // linuxArm64() // ARM64 平台的 Linux
+        // linuxX64()   // x86_64 平台的 Linux
+        // mingwX64()   // Windows
 
-   repositories {
-       mavenCentral()
-   }
+        targets.withType<KotlinNativeTarget>().configureEach {
+            binaries {
+                sharedLib {
+                    baseName = "native"       // macOS
+                    // baseName = "native"    // Linux
+                    // baseName = "libnative" // Windows
+                }
+            }
+        }
+    }
 
-   kotlin {
-       macosArm64("native") {    // Apple Silicon 平台的 macOS
-       // macosX64("native") {   // x86_64 平台的 macOS
-       // linuxArm64("native") { // ARM64 平台的 Linux
-       // linuxX64("native") {   // x86_64 平台的 Linux
-       // mingwX64("native") {   // Windows
-           binaries {
-               sharedLib {
-                   baseName = "native"       // macOS 和 Linux
-                   // baseName = "libnative" // Windows
-               }
-           }
-       }
-   }
+    tasks.wrapper {
+        gradleVersion = "%gradleVersion%"
+        distributionType = Wrapper.DistributionType.ALL
+    }
+    ```
 
-   wrapper {
-       gradleVersion = "%gradleVersion%"
-       distributionType = "ALL"
-   }
-   ```
+    </tab>
+    <tab title="Groovy" group-key="groovy">
 
-   </tab>
-   </tabs>
+    ```groovy
+    import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+
+    plugins {
+        id 'org.jetbrains.kotlin.multiplatform' version '%kotlinVersion%'
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    kotlin {
+        macosArm64()    // Apple Silicon 平台的 macOS
+        // linuxArm64() // ARM64 平台的 Linux
+        // linuxX64()   // x86_64 平台的 Linux
+        // mingwX64()   // Windows
+
+        targets.withType(KotlinNativeTarget).configureEach {
+            binaries {
+                sharedLib {
+                    baseName = "native"       // macOS
+                    // baseName = "native"    // Linux
+                    // baseName = "libnative" // Windows
+                }
+            }
+        }
+    }
+
+    wrapper {
+        gradleVersion = "%gradleVersion%"
+        distributionType = "ALL"
+    }
+    ```
+
+    </tab>
+    </tabs>
 
    * `binaries {}` 代码块配置项目, 生成一个动态库或共用库.
    * `libnative` 用作库名称, 以及生成的头文件名称前缀. 它还是头文件中所有声明的前缀.
 
-3. 在 IDE 中运行 `linkDebugSharedNative` Gradle task, 或在你的终端中使用以下控制台命令, 来构建库:
+3. 要构建库, 请在你的 IDE 中运行 `linkDebugShared<YourTargetName>` Gradle task,
+   或在你的终端中使用控制台命令, 例如:
 
    ```bash
-   ./gradlew linkDebugSharedNative
+   ./gradlew linkDebugSharedMacosArm64
    ```
 
-构建会在 `build/bin/native/debugShared` 目录中生成库, 包含以下文件:
+构建会在 `build/bin/<yourTargetName>/debugShared` 目录中生成库, 包含以下文件:
 
 * macOS: `libnative_api.h` 和 `libnative.dylib`
 * Linux: `libnative_api.h` 和 `libnative.so`
@@ -166,7 +175,7 @@ Kotlin/Native 编译器对所有平台生成 `.h` 文件时, 使用相同的规�
 
 我们来看看 Kotlin/Native 声明如何映射为 C 函数.
 
-在 `build/bin/native/debugShared` 目录中, 打开 `libnative_api.h` 头文件.
+在 `build/bin/<yourTargetName>/debugShared` 目录中, 打开 `libnative_api.h` 头文件.
 第一部分包含标准的 C/C++ 代码头部和尾部:
 
 ```c

@@ -3,6 +3,10 @@
 在创建 Kotlin 库时, 请考虑构建和 [发布支持 Kotlin Multiplatform 的库](multiplatform-publish-lib-setup.md).
 这样可以扩大你的库的目标受众, 使它兼容于针对多个平台的项目.
 
+> 你可以在 [klibs.io](https://klibs.io/) 找到已有的 Kotlin Multiplatform 库, 适用于各种使用场景和目标平台.
+>
+{style="tip"}
+
 以下章节提供一份指南, 帮助你高效的构建 Kotlin Multiplatform 库.
 
 ## 尽可能扩大你的覆盖范围 {id="maximize-your-reach"}
@@ -14,11 +18,9 @@
 这种情况下, 这个项目在某些平台上可以使用你的库, 但对其它平台则需要实现单独的解决方案,
 或者, 他们会完全选择另一个支持他们所有平台的替代库.
 
-为了提高 artifact 的生成效率, 你可以试用实验性的 [交叉编译(Cross-Compilation)](multiplatform-publish-lib-setup.md#host-requirements) 功能,
+为了提高 artifact 的生成效率, 可以使用 [交叉编译(Cross-Compilation)](multiplatform-publish-lib-setup.md#host-requirements) 功能,
 从任何主机发布 Kotlin Multiplatform 库.
 这个功能让你能够生成针对 Apple 编译目标的 `.klib` artifact, 而不需要使用 Apple 机器.
-我们计划在将来稳定这个功能, 并进一步改善库的发布.
-请在我们的问题追踪系统 [YouTrack](https://youtrack.jetbrains.com/issue/KT-71290) 中留下你关于这个功能的反馈意见.
 
 > 对于 Kotlin/Native 编译目标, 请考虑使用 [分层方案](native-target-support.md#for-library-authors) 来支持所有可能的编译目标.
 >
@@ -90,8 +92,7 @@ Kotlin Multiplatform 在它支持的目标平台上平台, 提供了与原生 AP
 
 ## 推广你的库 {id="promote-your-library"}
 
-你的库可以在 [JetBrains 的检索平台](https://klibs.io/) 上展示.
-它的目标是为了让使用者便利的根据目标平台查找 Kotlin Multiplatform 库.
+你可以在 [klibs.io](https://klibs.io/) 上展示你的库, 这是一个供开发者发现和评估 Kotlin Multiplatform 库的检索平台.
 
-符合标准的库会被自动添加进来.
-关于如何添加你的库, 详情请参见 [FAQ](https://klibs.io/faq).
+[klibs.io](https://klibs.io/) 会自动列出符合收录标准的库.
+要检查你的库是否符合标准, 请参见 [FAQ](https://klibs.io/faq).

@@ -1,4 +1,6 @@
-[//]: # (title: 异常(Exception))
+[//]: # (title: 异常(Exception) 与错误处理)
+
+<web-summary>学习 Kotlin 如何使用异常来处理运行期错误.</web-summary>
 
 异常能够让你的代码运行更加可预测, 即使发生可能中断程序执行的运行期错误.
 Kotlin 默认将所有异常看作 _不受控的(unchecked)_ 异常.
@@ -24,7 +26,7 @@ Kotlin 默认将所有异常看作 _不受控的(unchecked)_ 异常.
 
 你可以使用 `throw` 关键字, 手动抛出异常.
 抛出一个异常, 表示在代码中发生了一个意外的运行期错误.
-异常是 [对象](classes.md#creating-instances-of-classes), 抛出异常会创建一个异常类的一个实例.
+异常是 [对象](classes.md#creating-instances), 抛出异常会创建一个异常类的一个实例.
 
 你可以抛出一个没有任何参数的异常:
 
@@ -48,7 +50,7 @@ if (userInput < 0) {
 你可以创建自定义的错误消息, 并保留异常的原始原因(`cause`),
 `cause` 会被包含在 [栈追踪(stack trace)](#stack-trace) 中.
 
-### 使用前提条件的检查函数抛出异常
+### 使用前提条件的检查函数抛出异常 {id="throw-exceptions-with-precondition-functions"}
 
 Kotlin 提供了另一种方式, 使用前提条件的检查函数自动抛出异常.
 前提条件的检查函数包括以下几种:
@@ -225,6 +227,31 @@ fun count(): Int {
 ```
 {kotlin-runnable="true"}
 
+你可以在不使用异常实例的情况下处理异常.
+例如, 你可以在 `catch` 代码段中提供一个回退值, 或者一个通用的错误信息.
+
+请使用下划线 (`_`) 而不是异常参数名, 表示有意的忽略了异常实例:
+
+```kotlin
+import java.io.File
+import java.io.IOException
+
+//sampleStart
+fun main() {
+    val userSettings = try {
+        File("user-settings.json").readText()
+    
+    // 捕获 IOException, 但不使用异常实例
+    } catch (_: IOException) {
+        // 如果文件加载失败, 则使用回退值
+        "{}"
+    }
+
+    println(userSettings)
+}
+//sampleEnd
+```
+{kotlin-runnable="true"}
 
 你可以对同一个 `try` 代码段使用多个 `catch` 处理块.
 你可以根据需要添加任意数量的 `catch` 代码段, 分别处理不同的异常.
@@ -273,7 +300,7 @@ fun main() {
 ### finally 代码段 {id="the-finally-block"}
 
 `finally` 代码段包含的代码始终会执行, 无论 `try` 代码段成功结束, 还是抛出一个异常.
-使用 `finally` 代码段, 你可以在 `try` 和 `catch` 代码段的执行之后清理代码.
+通过使用 `finally` 代码段, 你可以在 `try` 和 `catch` 代码段的执行之后清理代码.
 在处理文件或网络连接这样的资源时, 这是非常重要的, 因为 `finally` 可以保证它们被正确的关闭或释放.
 
 共同使用 `try-catch-finally` 代码段的方法通常如下:
@@ -331,8 +358,8 @@ fun main() {
 >
 > ```kotlin
 > FileWriter("test.txt").use { writer ->
-> writer.write("some text") 
-> // 在这个代码段之后, .use 函数会自动调用 writer.close(), 与 finally 代码段类似
+>     writer.write("some text")
+>     // 在这个代码段之后, .use 函数会自动调用 writer.close(), 与 finally 代码段类似
 > }
 > ```
 >
@@ -443,10 +470,10 @@ fun main() {
 在具有多种错误场景的应用程序中, 创建异常类的层级可以让代码更加清晰, 更加具体.
 要做到这一点, 你可以使用一个 [抽象类](classes.md#abstract-classes) 或一个
 [封闭类](sealed-classes.md#constructors) 作为基类, 实现共通的异常功能, 并为详细的异常类型创建具体的子类.
-此外, 带有可选参数的自定义异常提供一种灵活性, 能够使用不同的消息进行初始化, 实现更加精细的错误处理.
+此外, 带默认值参数的自定义异常提供了一种灵活性, 能够使用不同的消息进行初始化, 实现更加精细的错误处理.
 
 我们来看一个示例, 它使用封闭类 `AccountException` 作为异常类层级的基类,
-以及子类 `APIKeyExpiredException` , 演示使用可选参数实现更高级的异常详细信息:
+以及子类 `APIKeyExpiredException` , 演示使用带默认值的参数实现更高级的异常详细信息:
 
 ```kotlin
 //sampleStart

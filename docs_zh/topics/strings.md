@@ -145,7 +145,7 @@ fun main() {
 
 在多行字符串(Multiline String)和转义字符串(Escaped String)中都可以使用模板.
 但是, 多行字符串不支持反斜线转义表达方式.
-如果要在多行字符串中的任何可以用作 [标识符](https://kotlinlang.org/docs/reference/grammar.html#identifiers) 开始字符的符号之前插入美元符号 `$` 本身, 请使用以下语法:
+如果要在多行字符串中的任何可以用作 [标识符](https://kotlinlang.org/grammar/#identifiers) 开始字符的符号之前插入美元符号 `$` 本身, 请使用以下语法:
 
 ```kotlin
 val price = """

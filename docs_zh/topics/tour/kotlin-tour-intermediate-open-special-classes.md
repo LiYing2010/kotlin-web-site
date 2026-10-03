@@ -1,16 +1,4 @@
-[//]: # (title: 中级教程: 开放类与特殊类)
-
-<tldr>
-    <p><img src="icon-1-done.svg" width="20" alt="First step" /> <a href="kotlin-tour-intermediate-extension-functions.md">扩展函数</a><br />
-        <img src="icon-2-done.svg" width="20" alt="Second step" /> <a href="kotlin-tour-intermediate-scope-functions.md">作用域函数</a><br />
-        <img src="icon-3-done.svg" width="20" alt="Third step" /> <a href="kotlin-tour-intermediate-lambdas-receiver.md">带接受者的 Lambda 表达式</a><br />
-        <img src="icon-4-done.svg" width="20" alt="Fourth step" /> <a href="kotlin-tour-intermediate-classes-interfaces.md">类与接口</a><br />
-        <img src="icon-5-done.svg" width="20" alt="Fifth step" /> <a href="kotlin-tour-intermediate-objects.md">对象</a><br />
-        <img src="icon-6.svg" width="20" alt="Fourth step" /> <strong>开放类与特殊类</strong><br />
-        <img src="icon-7-todo.svg" width="20" alt="Seventh step" /> <a href="kotlin-tour-intermediate-properties.md">属性</a><br />
-        <img src="icon-8-todo.svg" width="20" alt="Eighth step" /> <a href="kotlin-tour-intermediate-null-safety.md">Null 值安全性</a><br />
-        <img src="icon-9-todo.svg" width="20" alt="Ninth step" /> <a href="kotlin-tour-intermediate-libraries-and-apis.md">库与 API</a></p>
-</tldr>
+[//]: # (title: 开放类与特殊类)
 
 在这一章中, 你将学习开放类, 它们如何与接口一起工作, 以及 Kotlin 中其他特殊类型的类.
 
@@ -20,17 +8,10 @@
 方法是, 在你的类声明之前使用 `open` 关键字:
 
 ```kotlin
-open class Vehicle
+open class Vehicle(val make: String, val model: String)
 ```
 
-要创建一个从另一个类继承的类, 请在你的类头部之后添加一个冒号, 然后调用你想要继承的父类的构造器:
-
-```kotlin
-class Car : Vehicle
-```
-{validate="false"}
-
-这个示例中, `Car` 类继承 `Vehicle` 类:
+要创建一个从另一个类继承的类, 请在你的类头部之后添加一个冒号, 然后调用你想要继承的父类的构造器. 这个示例中, `Car` 类继承 `Vehicle` 类:
 
 ```kotlin
 open class Vehicle(val make: String, val model: String)
@@ -223,8 +204,8 @@ fun main() {
 在这个示例中:
 
 * 有一个封闭类 `Mammal`, 构造器参数为 `name`.
-* `Cat` 类继承 `Mammal` 封闭类, 并使用来自 `Mammal` 类的 `name` 参数, 作为它自己的构造器中的 `catName` 参数.
-* `Human` 类继承 `Mammal` 封闭类, 并使用来自 `Mammal` 类的 `name` 参数, 作为它自己的构造器中的 `humanName` 参数.
+* `Cat` 类继承 `Mammal` 封闭类, 并使用它自己的构造器中的 `catName` 参数, 作为 `Mammal` 类的 `name` 参数.
+* `Human` 类继承 `Mammal` 封闭类, 并使用它自己的构造器中的 `humanName` 参数, 作为 `Mammal` 类的 `name` 参数.
   它的构造器中还有 `job` 参数.
 * `greetMammal()` 函数接受 `Mammal` 类型的参数, 并返回一个字符串.
 * 在 `greetMammal()` 的函数 body 部, 有一个 `when` 表达式, 使用 [`is` 操作符](typecasts.md#is-and-is-operators) 检查 `mammal` 的类型, 决定执行哪个动作.
@@ -379,15 +360,15 @@ fun main() {
 * `Email` 是一个内联的值类, 在类的 header 部有一个属性: `address`.
 * `sendEmail()` 函数接受 `Email` 类型的对象作为参数, 并向标准输出打印一个字符串.
 * `main()` 函数:
-    * 创建 `Email` 类的一个实例 `email`.
-    * 对 `email` 对象调用 `sendEmail()` 函数.
+    * 创建 `Email` 类的一个实例 `myEmail`.
+    * 对 `myEmail` 对象调用 `sendEmail()` 函数.
 
 通过使用内联的值类, 你让你的类成为内联的, 可以在代码中直接使用它, 而不必创建对象.
 这样可以显著的减少内存使用量, 并改善你的代码的运行时性能.
 
 关于内联的值类, 详情请参见 [内联的值类](inline-classes.md).
 
-## 实际练习 {id="practice"}
+## 实际练习 {completion-point="true" id="practice"}
 
 ### 习题 1 {initial-collapse-state="collapsed" collapsible="true" id="special-classes-exercise-1"}
 
@@ -560,6 +541,14 @@ fun main() {
 ```
 {initial-collapse-state="collapsed" collapsible="true" collapsed-title="参考答案" id="kotlin-tour-special-classes-solution-2"}
 
-## 下一步 {id="next-step"}
 
-[中级教程: 属性](kotlin-tour-intermediate-properties.md)
+<seealso></seealso>
+
+<list columns="2" id="tour-nav">
+  <li>
+    <a as="button" href="kotlin-tour-intermediate-objects.md" mode="outline" icon="arrow-left" icon-position="left">上一步</a>
+  </li>
+  <li>
+    <a as="button" href="kotlin-tour-intermediate-properties.md" mode="classic" icon="arrow-right" icon-position="right">下一步</a>
+  </li>
+</list>

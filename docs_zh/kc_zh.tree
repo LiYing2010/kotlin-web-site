@@ -4,16 +4,22 @@
     <snippet id="coroutines">
         <toc-element topic="coroutines-guide.md"/>
         <toc-element accepts-web-file-names="basics.html,coroutines-basic-jvm.html" topic="coroutines-basics.md"/>
+        <toc-element accepts-web-file-names="cancellation-and-timeouts.html" topic="coroutines-cancellation.md" toc-title="取消"/>
+        <toc-element toc-title="数据流">
+            <toc-element accepts-web-file-names="flow.html" toc-title="概述" topic="coroutines-flow.md"/>
+            <toc-element topic="coroutines-flow-operators.md"/>
+        </toc-element>
         <toc-element topic="coroutines-and-channels.md"/>
-        <toc-element topic="cancellation-and-timeouts.md"/>
         <toc-element topic="composing-suspending-functions.md"/>
         <toc-element topic="coroutine-context-and-dispatchers.md"/>
-        <toc-element topic="flow.md"/>
         <toc-element topic="channels.md"/>
         <toc-element topic="exception-handling.md"/>
         <toc-element topic="shared-mutable-state-and-concurrency.md"/>
         <toc-element topic="select-expression.md"/>
-        <toc-element topic="debug-coroutines-with-idea.md"/>
-        <toc-element topic="debug-flow-with-idea.md"/>
+        <toc-element toc-title="协程的调试">
+            <toc-element topic="coroutines-debugging.md" />
+            <toc-element topic="debug-coroutines-with-idea.md"/>
+            <toc-element topic="debug-flow-with-idea.md"/>
+        </toc-element>
     </snippet>
 </instance-profile>

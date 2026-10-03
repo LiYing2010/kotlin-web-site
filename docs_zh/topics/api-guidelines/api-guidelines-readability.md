@@ -6,14 +6,14 @@
 利用特定领域专用语言(Domain-Specific Language, DSL) 实现简洁而且表现力强大的设置,
 以及使用扩展函数和属性实现清晰而且易维护的代码.
 
-## 优先使用明确的可组合能力
+## 优先使用明确的可组合能力 {id="prefer-explicit-composability"}
 
 库通常会提供一些高级操作, 用于进行自定义.
 例如, 某个操作可能允许使用者提供他们自己的数据结构, 网络通道, 计时器, 或生存周期观察器.
 但是, 通过额外的函数参数引入这些自定义选项, 可能显著的增加 API 的复杂度.
 
 除了添加更多参数用于自定义之外, 设计一个 API, 让不同的行为可以组合在一起, 这样的方式会更加有效.
-例如, 在协程的 Flow API 中, [buffering](flow.md#buffering) 和 [conflation](flow.md#conflation) 都实现为单独的函数.
+例如, 在协程的 Flow API 中, [buffering 和 conflation](coroutines-flow-operators.md#concurrent-processing-operators) 都实现为单独的函数.
 这些函数可以与更加基础的操作连接在一起, 例如 [`filter`](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/filter.html) 和 [`map`](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/map.html),
 而不是每个基础操作接受参数来控制缓冲和合并.
 
@@ -35,7 +35,7 @@ Box(
 }
 ```
 
-## 使用 DSL
+## 使用 DSL {id="use-dsls"}
 
 一个 Kotlin 库能够通过提供构建器 DSL, 显著的增强可读性.
 使用 DSL 让你能够 以简洁的方式重复进行特定领域专用数据的声明.
@@ -129,7 +129,7 @@ inline fun CharSequence.trimStart(predicate: (Char) -> Boolean): CharSequence {
 应该考虑将计算得到的属性和一般的方法声明为扩展.
 默认情况下, 只有常规属性, 覆盖, 以及重载操作符, 才应该声明为成员.
 
-## 不要使用 boolean 类型作为参数
+## 不要使用 boolean 类型作为参数 {id="avoid-using-the-boolean-type-as-an-argument"}
 
 考虑下面的函数:
 
@@ -172,7 +172,7 @@ fun <T, R> Iterable<T>.map(
 另一种好的方案是使用 `enum` 类定义不同的操作模式.
 如果存在多种操作模式, 或者你期望这些模式未来会随着时间的推移发生变化, 那么这种方案会很有用.
 
-## 适当使用数字类型
+## 适当使用数字类型 {id="use-numeric-types-appropriately"}
 
 Kotlin 定义了一组数字类型, 你可以使用它们作为你的 API 的一部分.
 下面是正确使用数字类型的方法:
@@ -192,7 +192,7 @@ Kotlin 定义了一组数字类型, 你可以使用它们作为你的 API 的一
   这些类型适合于需要的值超过有符号类型数值范围的情况, 或与原生库交互的的情况.
   但是, 对于领域问题只需要 [无符号整数](unsigned-integer-types.md#non-goals) 的情况, 不要使用这些类型.
 
-## 下一步
+## 下一步 {id="next-step"}
 
 在本向导的下一部分, 你将学习一致性.
 

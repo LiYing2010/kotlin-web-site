@@ -1,5 +1,12 @@
 [//]: # (title: Kotlin Notebook 支持的输出格式)
 
+> 从 IntelliJ IDEA 2026.2 开始, Kotlin Notebook 不再捆绑在 IDE 之内, JetBrains 也不再提供官方支持.
+> 源代码继续通过 [GitHub](https://github.com/Kotlin/kotlin-notebook) 提供.
+>
+> 详情请参见 [blog](https://blog.jetbrains.com/idea/2026/06/kotlin-notebook-sunset/).
+>
+{style="note"}
+
 [Kotlin Notebook](kotlin-notebook-overview.md) 支持很多种输出类型, 包括文本, HTML, 和图片.
 通过使用外部库, 你可以选择更多的输出类型, 并使用图表, 电子表格, 等等形式, 可视化你的数据.
 
@@ -193,7 +200,7 @@ kotlinMascot
 
 使用 Kotlin Notebook, 你可以通过数据帧可视化结构化的数据:
 
-1. 向你的 Notebook 添加 [Kotlin DataFrame](https://kotlin.github.io/dataframe/gettingstarted.html) 库:
+1. 向你的 Notebook 添加 [Kotlin DataFrame](https://kotlin.github.io/dataframe/home.html) 库:
 
    ```none
    %use dataframe

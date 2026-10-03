@@ -24,7 +24,7 @@ Kotlin/Native 编译器正在不断更新, 并改善它的性能.
 
 在容器(比如 Docker)内或者使用持续集成系统(Continuous Integration)构建时, 编译器可能在每次构建时都需要重新创建 `~/.konan` 目录.
 为了避免这样的步骤, 请配置你的环境, 使其在多次构建之间保留 `~/.konan`.
-比如, 使用 Gradle 属性 `kotlin.data.dir` 来重新定义它的位置.
+比如, 使用 Gradle 属性 `konan.data.dir` 来重新定义它的位置.
 
 或者, 也可以使用 `-Xkonan-data-dir` 编译器选项, 通过 `cinterop` 和  `konanc` 工具来配置你的的自定义目录路径.
 
@@ -91,11 +91,35 @@ Kotlin/Native 支持 2 种构建模式, [调试版(Debug)和发布版(Release)](
 >
 {style="tip"}
 
-### 不要禁用 Gradle daemon {id="don-t-disable-gradle-daemon"}
+### 对发布版二进制文件启用缓存 {id="enable-caches-for-release-binaries"}
+<primary-label ref="experimental-opt-in"/>
 
-如果没有重要的原因, 请不要禁用 [Gradle daemon](https://docs.gradle.org/current/userguide/gradle_daemon.html).
-默认情况下 [Kotlin/Native 从 Gradle daemon 启动](https://blog.jetbrains.com/kotlin/2020/03/kotlin-1-3-70-released/#kotlin-native).
-Gradle daemon 启用时, 会使用相同的 JVM 进程, 因此不必为每次编译重新最准备.
+默认情况下, Kotlin/Native 使用链接期优化(Link-Time Optimization, LTO) 模式编译发布版二进制文件: 所有模块会被一起编译和优化.
+这样可以让发布版二进制文件在运行期执行更快, 但会显著增加编译时间.
+
+如果你希望优先选择更快的编译速度, 而不是某些编译器优化, 你可以在发布模式中启用缓存.
+要启用缓存, 请向你的 `gradle.properties` 文件添加以下两个选项:
+
+```properties
+# 允许编译器在发布模式中使用缓存
+kotlin.native.binary.enableReleaseBinaryCache=true
+# 让 Kotlin Gradle 插件使用 `-Xauto-cache-from` 和相关选项调用编译器
+kotlin.internal.native.enableReleaseBinaryCache=true
+```
+
+> 这个功能正在积极开发中, 因此运行期性能仍然存在提升空间.
+> 我们计划在未来的 Kotlin 发布版中进行性能优化.
+>
+{style="warning"}
+
+### 减少发布版的二进制文件大小 {id="reduce-the-size-of-release-binaries"}
+<primary-label ref="experimental-opt-in"/>
+
+要减少发布版的二进制文件大小, 并改善构建时间, 请尝试 [启用二进制选项](native-binary-options.md#how-to-enable)
+`smallBinary`.
+
+它会在 LLVM 编译阶段对编译器将 `-Oz` 设置为默认的优化参数.
+这个选项目前还是 [实验性功能](components-stability.md#stability-levels-explained), 某些情况下可能会影响运行时性能.
 
 ### 不要使用传递导出(Transitive Export) {id="don-t-use-transitive-export"}
 
@@ -121,8 +145,11 @@ Gradle daemon 启用时, 会使用相同的 JVM 进程, 因此不必为每次编
 
 ### 使用 Gradle 的配置缓存 {id="use-gradle-configuration-cache"}
 
-要使用 Gradle 的 [配置缓存](https://docs.gradle.org/current/userguide/configuration_cache.html),
-请向你的 `gradle.properties` 文件添加 `org.gradle.configuration-cache=true`.
+Gradle [配置缓存](https://docs.gradle.org/current/userguide/configuration_cache.html) 通过缓存配置阶段的结果来改善构建性能.
+它还能够在单个项目内并行执行相互独立的任务, 并会隐含的启用 `org.gradle.parallel` 属性,
+允许跨越多个项目的任务 [并行执行](https://docs.gradle.org/current/userguide/performance.html#sec:enable_parallel_execution).
+
+要使用 Gradle 的配置缓存, 请向你的 `gradle.properties` 文件添加 `org.gradle.configuration-cache=true` 属性.
 
 > 配置缓存也会启用 `link*` task 的并发运行, 可能造成机器负荷很高, 尤其是有很多 CPU 核的情况.
 > 这个问题将在 [KT-70915](https://youtrack.jetbrains.com/issue/KT-70915) 中解决.
@@ -131,24 +158,29 @@ Gradle daemon 启用时, 会使用相同的 JVM 进程, 因此不必为每次编
 
 ### 启用以前禁用的功能 {id="enable-previously-disabled-features"}
 
-有些 Kotlin/Native 属性会禁用 Gradle daemon 和编译器缓存:
+为了绕过构建问题, 你可能在过去禁用了 Kotlin/Native 的一些功能. 例如:
 
 * `kotlin.native.disableCompilerDaemon=true`
-* `kotlin.native.cacheKind=none`
-* `kotlin.native.cacheKind.$target=none`,
-  其中 `$target` 是一个 Kotlin/Native 编译目标, 例如 `iosSimulatorArm64`.
+  禁用 [Gradle daemon](https://docs.gradle.org/current/userguide/gradle_daemon.html).
+* `disableNativeCache`
+  禁用 [编译缓存](multiplatform-dsl-reference.md#binaries).
 
-如果你过去曾遇到与这些功能相关的问题, 并向你的 `gradle.properties` 文件或 Gradle 命令行添加过这些参数,
-请删除这些参数, 再次检查构建是否成功.
-有可能以前添加过这些属性来绕过某些问题, 但这些问题现在已经解决了.
+过去需要这些变通方案的问题, 现在可能已经解决了.
+如果你的 `gradle.properties` 文件或 Gradle 构建文件包含这些设置, 请删除, 并检查构建能够成功.
 
-### 尝试使用klib artifact 的增量编译功能 {id="try-incremental-compilation-of-klib-artifacts"}
+### 尝试使用 klib artifact 的增量编译功能 {id="try-incremental-compilation-of-klib-artifacts"}
+<primary-label ref="beta"/>
 
 使用增量编译时, 如果项目模块产生的 `klib` artifact 只发生了部分变更,
 那么只有 `klib` 的一部分会被重新编译为二进制文件.
 
-这个功能是 [实验性功能](components-stability.md#stability-levels-explained).
-要启用这个功能, 请向你的 `gradle.properties` 文件添加 `kotlin.incremental.native=true` 选项.
+这个功能处于 [Beta 阶段](components-stability.md#stability-levels-explained).
+要启用这个功能, 请向你的 `gradle.properties` 文件添加以下选项:
+
+```properties
+kotlin.incremental.native=true
+```
+
 如果你遇到问题, 请 [在 YouTrack 中创建 issue](https://kotl.in/issue).
 
 ## Windows 配置 {id="windows-configuration"}
@@ -156,3 +188,8 @@ Gradle daemon 启用时, 会使用相同的 JVM 进程, 因此不必为每次编
 Windows Security 可能会让 Kotlin/Native 编译器变慢.
 为了避免这样的情况, 你可以将 `.konan` 目录添加到 Windows Security 的排除项目, 这个目录默认在 `%\USERPROFILE%` 下.
 详情请参见 [添加 Windows Security 的排除项目](https://support.microsoft.com/en-us/windows/add-an-exclusion-to-windows-security-811816c0-4dfd-af4a-47e4-c301afe13b26).
+
+## LLVM 配置 {id="llvm-configuration"}
+<primary-label ref="advanced"/>
+
+如果上述建议未能改善编译时间, 可以考虑 [自定义 LLVM 后端](native-llvm-passes.md).

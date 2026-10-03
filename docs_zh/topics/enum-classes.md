@@ -20,7 +20,7 @@ enum class Color(val rgb: Int) {
 }
 ```
 
-## 匿名类
+## 匿名类 {id="anonymous-classes"}
 
 枚举常数可以定义它自己的匿名类, 这些匿名类可以拥有各自的方法, 也可以覆盖基类的方法:
 
@@ -40,7 +40,7 @@ enum class ProtocolState {
 
 如果枚举类中定义了任何成员, 需要用分号将枚举常数的定义与枚举类的成员定义分隔开.
 
-## 在枚举类中实现接口
+## 在枚举类中实现接口 {id="implementing-interfaces-in-enum-classes"}
 
 枚举类也可以实现接口 (但不能继承其他类), 对于接口的成员函数,
 可以为所有的枚举常数提供一个共同的实现, 也可以在不同的枚举常数的匿名类中提供不同的实现.
@@ -77,7 +77,7 @@ fun main() {
 枚举常数值的大小顺序, 等于它在枚举类中的定义顺序.
 详情请参见 [排序(Ordering)](collection-ordering.md).
 
-## 使用枚举常数
+## 使用枚举常数 {id="working-with-enum-constants"}
 
 Kotlin 中的枚举类拥有编译器添加的合成的(synthetic)属性和方法, 可以列出枚举类中定义的所有枚举常数值, 可以通过枚举常数值的名称字符串得到对应的枚举常数值.
 这些方法的签名如下(这里假设枚举类名称为 `EnumClass`):

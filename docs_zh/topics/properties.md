@@ -1,66 +1,131 @@
 [//]: # (title: 属性(Property))
 
-## 声明属性
+在 Kotlin 中, 属性可以用来存储和管理数据, 而不需要编写用于访问或修改数据的函数.
+你可以在 [类](classes.md), [接口](interfaces.md), [对象](object-declarations.md), [同伴对象](object-declarations.md#companion-objects) 中使用属性,
+甚至可以在这些结构之外, 以顶级属性的形式使用.
 
-Kotlin 类的属性可以使用 `var` 关键字声明为可变(mutable)属性, 也可以使用 `val` 关键字声明为只读属性.
+每个属性都有一个名称, 一个类型, 以及自动生成的 `get()` 函数, 称为 getter.
+你可以使用 getter 来读取属性的值.
+如果属性是可变的, 它还有一个 `set()` 函数, 称为 setter, 可以修改属性的值.
+
+> getter 和 setter 统称为 _访问器(accessor)_.
+>
+{style="tip"}
+
+## 声明属性 {id="declaring-properties"}
+
+属性可以是可变属性(`var`), 或只读属性(`val`).
+你可以在 `.kt` 文件中将它们声明为顶级属性. 顶级属性可以看作一个属于包的全局变量:
+
+```kotlin
+// 文件: Constants.kt
+package my.app
+
+val pi = 3.14159
+var counter = 0
+```
+
+也可以在类, 接口或对象内声明属性:
+
+```kotlin
+// 包含属性的类
+class Address {
+    var name: String = "Holmes, Sherlock"
+    var street: String = "Baker"
+    var city: String = "London"
+}
+
+// 包含属性的接口
+interface ContactInfo {
+    val email: String
+}
+
+// 包含属性的对象
+object Company {
+    var name: String = "Detective Inc."
+    val country: String = "UK"
+}
+
+// 实现接口的类
+class PersonContact : ContactInfo {
+    override val email: String = "sherlock@example.com"
+}
+```
+
+使用属性时, 只需通过属性名来引用它:
 
 ```kotlin
 class Address {
     var name: String = "Holmes, Sherlock"
     var street: String = "Baker"
     var city: String = "London"
-    var state: String? = null
-    var zip: String = "123456"
 }
-```
 
-使用属性时, 只需要简单地通过属性名来参照它:
+interface ContactInfo {
+    val email: String
+}
 
-```kotlin
+object Company {
+    var name: String = "Detective Inc."
+    val country: String = "UK"
+}
+
+class PersonContact : ContactInfo {
+    override val email: String = "sherlock@example.com"
+}
+
+//sampleStart
 fun copyAddress(address: Address): Address {
-    val result = Address() // Kotlin 中没有 'new' 关键字
-    result.name = address.name // 将会调用属性的访问器方法
+    val result = Address()
+    // 访问 result 实例的属性
+    result.name = address.name
     result.street = address.street
-    // ...
+    result.city = address.city
     return result
 }
+
+fun main() {
+    val sherlockAddress = Address()
+    val copy = copyAddress(sherlockAddress)
+    // 访问 copy 实例的属性
+    println("Copied address: ${copy.name}, ${copy.street}, ${copy.city}")
+    // 输出结果为: Copied address: Holmes, Sherlock, Baker, London
+
+    // 访问 Company 对象的属性
+    println("Company: ${Company.name} in ${Company.country}")
+    // 输出结果为: Company: Detective Inc. in UK
+
+    val contact = PersonContact()
+    // 访问 contact 实例的属性
+    println("Email: ${contact.email}")
+    // 输出结果为: Email: sherlock@email.com
+}
+//sampleEnd
 ```
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-access-properties"}
 
-## 取值方法(Getter)与设值方法(Setter) {id="getters-and-setters"}
+在 Kotlin 中, 我们推荐在声明属性的同时进行初始化, 以保证代码的安全性和可读性.
+但是, 在某些特殊情况下, 可以 [延迟初始化](#late-initialized-properties-and-variables).
 
-声明属性的完整语法是:
+如果编译器能够从初始化代码或 getter 的返回类型推断出属性的类型, 那么可以省略属性类型的声明:
 
 ```kotlin
-var <propertyName>[: <PropertyType>] [= <property_initializer>]
-    [<getter>]
-    [<setter>]
+var initialized = 1 // 推断类型为 Int
+var allByDefault    // 错误: 属性必须初始化.
 ```
+{validate="false"}
 
-其中的初始化器(initializer), 取值方法(getter), 以及设值方法(setter)都是可选的.
-如果属性类型可以通过初始化器自动推断得到, 或者可以通过取值方法的返回值类型推断得到, 则属性类型的声明也可以省略,
-示例如下:
+## 自定义 getter 与 setter {id="custom-getters-and-setters"}
 
-```kotlin
-var initialized = 1 // 属性类型为 Int, 使用默认的取值方法和设值方法
-// var allByDefault: Int? // 错误: 需要明确指定初始化器, 此处会隐含地使用默认的取值方法和设值方法
-```
+默认情况下, Kotlin 会自动生成 getter 和 setter.
+如果你需要额外的逻辑, 例如校验, 格式化, 或根据其他属性进行计算, 可以定义自定义访问器.
 
-只读属性声明的完整语法与可变属性有两点不同: 由 `val` 开头, 而不是 `var`, 并且不允许指定设值方法:
-
-```kotlin
-val simple: Int? // 属性类型为 Int, 使用默认的取值方法, 属性值必须在构造器中初始化
-val inferredType = 1 // 属性类型为 Int, 使用默认的取值方法
-```
-
-你可以为属性定义自定义的访问方法.
-如果定义一个自定义取值方法(Getter), 那么每次读取属性值时都会调用这个方法
-(因此你可以用这种方式实现一个计算得到的属性).
-下面是一个自定义取值方法的示例:
+自定义 getter 在每次访问属性时执行:
 
 ```kotlin
 //sampleStart
 class Rectangle(val width: Int, val height: Int) {
-    val area: Int // 属性类型是可选的, 因为可以从取值方法的返回类型推断得到
+    val area: Int
         get() = this.width * this.height
 }
 //sampleEnd
@@ -69,158 +134,389 @@ fun main() {
     println("Width=${rectangle.width}, height=${rectangle.height}, area=${rectangle.area}")
 }
 ```
-{kotlin-runnable="true"}
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-custom-getter"}
 
-如果能够从取值方法(Getter)推断得到属性类型, 那么可以省略:
+如果编译器能够从 getter 推断出属性类型, 则可以省略类型:
 
 ```kotlin
 val area get() = this.width * this.height
 ```
 
-如果你定义一个自定义设值方法(Setter), 那么每次向属性赋值时都会调用这个方法, 属性初始化时除外.
-自定义设值方法的示例如下:
+自定义 setter 在每次向属性赋值时执行, 初始化时除外.
+按照惯例, setter 的参数名称为 `value`, 但你也可以选择不同的名称:
 
 ```kotlin
-var stringRepresentation: String
-    get() = this.toString()
-    set(value) {
-        setDataFromString(value) // 解析字符串内容, 并将解析得到的值赋给对应的其他属性
+class Point(var x: Int, var y: Int) {
+    var coordinates: String
+        get() = "$x,$y"
+        set(value) {
+            val parts = value.split(",")
+            x = parts[0].toInt()
+            y = parts[1].toInt()
+        }
+}
+
+fun main() {
+    val location = Point(1, 2)
+    println(location.coordinates)
+    // 输出结果为: 1,2
+
+    location.coordinates = "10,20"
+    println("${location.x}, ${location.y}")
+    // 输出结果为: 10, 20
+}
+```
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-custom-setter"}
+
+### 修改可见度或添加注解 {id="changing-visibility-or-adding-annotations"}
+
+在 Kotlin 中, 你可以修改访问器的可见度, 或者添加 [注解](annotations.md), 而不需要替换默认实现.
+这些修改不必在方法 body 部 `{}` 内进行.
+
+要修改访问器的可见度, 请在 `get` 或 `set` 关键字之前使用可见度修饰符:
+
+```kotlin
+class BankAccount(initialBalance: Int) {
+    var balance: Int = initialBalance
+        // 只有类自身能够修改 balance
+        private set
+
+    fun deposit(amount: Int) {
+        if (amount > 0) balance += amount
     }
+
+    fun withdraw(amount: Int) {
+        if (amount > 0 && amount <= balance) balance -= amount
+    }
+}
+
+fun main() {
+    val account = BankAccount(100)
+    println("Initial balance: ${account.balance}")
+    // 输出结果为: 100
+
+    account.deposit(50)
+    println("After deposit: ${account.balance}")
+    // 输出结果为: 150
+
+    account.withdraw(70)
+    println("After withdrawal: ${account.balance}")
+    // 输出结果为: 80
+
+    // account.balance = 1000
+    // 错误: 无法赋值, 因为 setter 的可见度是 private
+}
 ```
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-private-setter"}
 
-Kotlin 的编程惯例是, 设值方法的参数名称为 `value`, 但如果你喜欢, 也可以选择使用不同的名称.
-
-如果你需要对属性访问方法添加注解, 或者需要改变其可见度, 但又不想修改它的默认实现,
-你可以定义这个方法, 但不定义它的实现体:
+要对访问器添加注解, 请在 `get` 或 `set` 关键字之前使用注解:
 
 ```kotlin
-var setterVisibility: String = "abc"
-    private set // 设值方法的可见度为 private, 并使用默认实现
+// 定义一个可应用于 getter 的注解
+@Target(AnnotationTarget.PROPERTY_GETTER)
+annotation class Inject
 
-var setterWithAnnotation: Any? = null
-    @Inject set // 对设值方法添加 Inject 注解
+class Service {
+    var dependency: String = "Default Service"
+        // 对 getter 添加注解
+        @Inject get
+}
+
+fun main() {
+    val service = Service()
+    println(service.dependency)
+    // 输出结果为: Default service
+    println(service::dependency.getter.annotations)
+    // 输出结果为: [@Inject()]
+    println(service::dependency.setter.annotations)
+    // 输出结果为: []
+}
 ```
+{validate="false"}
 
-### 属性的后端域变量(Backing Field) {id="backing-fields"}
+这个示例使用 [反射](reflection.md) 来显示 getter 和 setter 上存在的注解.
 
-在 Kotlin 中, 只有需要将域变量(field)作为属性的一部分, 在内存中保存属性值的时候, 才会使用域变量(field).
-域变量不能直接声明. 但是, 如果属性需要一个后端域变量(Backing Field), Kotlin 会自动提供.
-在属性的取值方法或设值方法中, 使用 `field` 标识符可以引用这个后端域变量:
+## 后端域变量(Backing Field) {id="backing-fields"}
+
+如果属性的值需要存储在内存中, 编译器会自动为属性生成后端域变量(Backing Field).
+
+例如, 当你使用默认的 `get()` 和 `set()` 函数时, 编译器会创建后端域变量, 因为它们需要读写存储的值:
 
 ```kotlin
-var counter = 0 // 这里的初始化代码直接赋值给后端域变量
-    set(value) {
-        if (value >= 0)
+var count = 0
+```
+
+在 [自定义 `get()` 或 `set()` 函数](#custom-getters-and-setters) 中, 可以使用 `field` 关键字来访问后端域变量.
+例如, 可以向 getter 或 setter 中添加额外的逻辑, 或者在属性发生变化时触发额外的操作.
+
+在下面的示例中, `score` 属性在 `set()` 函数中使用后端域变量, 使得更新值时同时触发一个日志事件:
+
+```kotlin
+class Scoreboard {
+    var score: Int = 0
+        set(value) {
             field = value
-            // counter = value // 此处会发生栈溢出错误: 使用属性名称 'counter' 会导致设值方法(setter)无限递归调用
-    }
+            // 更新值时添加日志
+            println("Score updated to $field")
+        }
+}
+
+fun main() {
+    val board = Scoreboard()
+    board.score = 10
+    // 输出结果为: Score updated to 10
+    board.score = 20
+    // 输出结果为: Score updated to 20
+}
 ```
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-backing-field"}
 
-`field` 标识符只允许在属性的访问器函数内使用.
-
-如果属性 get/set 方法中的任何一个使用了默认实现, 或者在 get/set 方法的自定义实现中通过 `field` 标识符访问属性, 那么编译器就会为属性自动生成后端域变量.
-
-比如, 下面的示例代码中不会存在后端域变量:
+并不是所有属性都会默认创建后端域变量, 因为有些属性可能不需要.
+例如, `isEmpty` 属性没有后端域变量, 因为每次访问时, 它的值都会从 `size` 属性计算得到:
 
 ```kotlin
 val isEmpty: Boolean
     get() = this.size == 0
 ```
 
-### 后端属性(Backing Property)
+### 明确的后端域变量(Explicit Backing Field) {id="explicit-backing-fields"}
 
-如果你希望实现的功能无法通过这种 _隐含的后端域变量_ 方案来解决, 你可以使用 _后端属性(backing property)_ 作为替代方案:
+有时你可能需要更多的灵活性. 例如, 如果你有一个 API, 希望能够在内部修改属性, 但不允许外部修改.
+这种情况下, 可以使用 _明确的后端域变量(Explicit Backing Field)_.
+
+在下面的示例中, `ShoppingCart` 类有一个 `items` 属性, 代表购物车中的所有商品.
+这个类将 `items` 属性公开为只读的字符串列表, 但在内部通过明确的后端域变量, 将数据存储在一个可变的列表中:
 
 ```kotlin
-private var _table: Map<String, Int>? = null
-public val table: Map<String, Int>
-    get() {
-        if (_table == null) {
-            _table = HashMap() // 类型参数可以自动推断得到, 不必指定
-        }
-        return _table ?: throw AssertionError("Set to null by another thread")
-    }
-```
+class ShoppingCart {
+    // 使用明确的后端域变量的公开只读视图
+    val items: List<String>
+        field = mutableListOf()
 
-> 对于 JVM 平台: 如果私有属性的取值方法与设值方法都使用默认实现, 那么对这个属性的访问将被编译器优化,
-> 变为直接读写后端域变量, 以避免不必要的函数调用造成性能损失.
+    fun addItem(item: String) {
+        items.add(item)
+    }
+
+    fun removeItem(item: String) {
+        items.remove(item)
+    }
+}
+
+fun main() {
+    val cart = ShoppingCart()
+    cart.addItem("Apple")
+    cart.addItem("Banana")
+
+    println(cart.items)
+    // 输出结果为: [Apple, Banana]
+
+    cart.removeItem("Apple")
+    println(cart.items)
+    // 输出结果为: [Banana]
+}
+```
+{kotlin-runnable="true" kotlin-min-compiler-version="2.4" id="kotlin-explicit-backing-field"}
+
+在这个示例中, 编译器从 `mutableListOf()` 调用推断后端域变量的类型: `MutableList<String>`.
+你也可以明确的声明后端域变量的类型:
+
+```kotlin
+val items: List<String>
+    // 具有明确类型的明确后端域变量
+    field: MutableList<String> = mutableListOf()
+```
+{validate="false"}
+
+在 `ShoppingCart` 类的示例中, 编译器将 `items` 属性智能转换(smart cast)为 `MutableList<String>` 类型,
+因此类可以通过 `add()` 和 `remove()` 函数向购物车中添加和删除商品.
+在类的外部, 编译器使用公开的属性类型 `List<String>`, 因此 API 使用者只能读取 `items` 列表中的内容.
+
+#### 限制 {id="limitations"}
+
+使用明确的后端域变量时, 属性和后端域变量本身必须遵循一定的规则.
+属性要使用明确的后端域变量, 必须满足以下条件:
+
+* 没有自定义 getter.
+* 是只读属性(`val`).
+* 不是 `open` 的.
+* 不是 [委托属性](delegated-properties.md).
+* 不是 [编译期常数值](#compile-time-constants).
+
+此外, 后端域变量的类型必须是属性类型的子类型, 且必须具有 [`private` 可见度](visibility-modifiers.md).
+
+要绕过这些限制, 可以改为使用后端属性.
+
+### 后端属性(Backing Property) {id="backing-properties"}
+
+如果明确的后端域变量不适合你的使用场景, 你可以尝试使用一种名为 _后端属性(Backing Property)_ 的编程模式.
+
+例如, 如果你的属性需要自定义 getter:
+
+```kotlin
+class UserDirectory {
+    private val _users = mutableListOf(
+        "sarah",
+        "mike",
+        "emma"
+    )
+
+    val users: List<String>
+        get() = _users.sorted()
+
+    fun addUser(username: String) {
+        _users.add(username)
+    }
+}
+
+fun main() {
+    val directory = UserDirectory()
+
+    directory.addUser("alex")
+    println(directory.users)
+    // 输出结果为: [alex, emma, mike, sarah]
+}
+```
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-backing-property-custom-getter"}
+
+> 命名后端属性时, 请使用下划线前缀, 以符合 Kotlin [编码规约](coding-conventions.md#names-for-backing-properties).
 >
-{style="note"}
+{style="tip"}
+
+在这个示例中, `UserDirectory` 类有一个只读属性 `users`, 列出目录中的所有用户.
+`_users` 变量是 private 的后端属性, 包含真实的列表.
+public 属性 `users` 的 getter 先对列表进行排序, 然后返回结果.
 
 ## 编译期常数值 {id="compile-time-constants"}
 
-如果只读属性的值在编译期间就能确定, 请使用 `const` 修饰符, 将它标记为 _编译期常数值(compile time constant)_.
-这类属性必须满足以下所有条件:
+如果只读属性的值在编译期间就能确定, 请使用 `const` 修饰符, 将它标记为 _编译期常数值(Compile-Time Constant)_.
+编译期常数值会在编译时内联(inline), 因此每处引用都会被替换为实际的值. 由于不会调用 getter, 因此访问效率更高:
 
-* 必须是顶级属性(Top-level Property), 或者是一个 [`object` 声明](object-declarations.md#object-declarations-overview) 的成员,
-  或者是一个 _[同伴对象(Companion object)](object-declarations.md#companion-objects) 的成员.
-* 值必须初始化为 `String` 类型, 或基本类型(primitive type)
-* 不存在自定义的取值方法
+```kotlin
+// 文件: AppConfig.kt
+package com.example
 
-编译器会对常数的使用进行内联(inline), 将对常数的引用替换为常数的实际值. 但是, 常数对应的域变量不会被删除, 因此可以通过使用 [反射](reflection.md) 与它进行交互.
+// 编译期常数值
+const val MAX_LOGIN_ATTEMPTS = 3
+```
 
-这类属性也可以用在注解内:
+编译期常数值必须满足以下所有条件:
+
+* 必须是顶级属性, 或者是 [`object` 声明](object-declarations.md#object-declarations-overview) 的成员, 或者是 [同伴对象](object-declarations.md#companion-objects) 的成员.
+* 值必须初始化为 `String` 类型或 [基本类型](types-overview.md).
+* 不能有自定义 getter.
+
+编译期常数值仍然有后端域变量, 因此你可以使用 [反射](reflection.md) 与它进行交互.
+
+这类属性也可以在注解内使用:
 
 ```kotlin
 const val SUBSYSTEM_DEPRECATED: String = "This subsystem is deprecated"
 
-@Deprecated(SUBSYSTEM_DEPRECATED) fun foo() { ... }
+@Deprecated(SUBSYSTEM_DEPRECATED) fun processLegacyOrders() { ... }
 ```
 
 ## 延迟初始化的(Late-Initialized)属性和变量 {id="late-initialized-properties-and-variables"}
 
-通常, 如果属性声明为非 null 数据类型, 那么属性值必须在构造器内初始化.
-但是, 这种限制很多时候会带来一些不便.
-比如, 属性值可以通过依赖注入来进行初始化, 或者在单元测试代码的 setup 方法中初始化.
-这种情况下, 你就无法在构造器中为属性编写一段非 null 值的初始化代码,
-但你仍然希望在类内参照这个属性时能够避免 null 值检查.
+通常, 属性必须在构造器中进行初始化. 但是, 并不总是方便这样做.
+例如, 你可能通过依赖注入来初始化属性, 或者在单元测试的 setup 方法中初始化属性.
 
-要解决这个问题, 你可以为属性添加一个 `lateinit` 修饰符:
+要处理这些情况, 请为属性添加 `lateinit` 修饰符:
 
 ```kotlin
-public class MyTest {
-    lateinit var subject: TestSubject
+public class OrderServiceTest {
+    lateinit var orderService: OrderService
 
     @SetUp fun setup() {
-        subject = TestSubject()
+        orderService = OrderService()
     }
 
-    @Test fun test() {
-        subject.method()  // 直接访问属性
+    @Test fun processesOrderSuccessfully() {
+        // 直接调用 orderService, 无需检查 null, 或初始化状态
+        orderService.processOrder()
     }
 }
 ```
 
-这个修饰符可以用于类主体部分之内声明的 `var` 属性,
-(不是主构造器中声明的属性, 而且属性没有自定义的取值方法和设值方法).
-也可以用于顶级(top-level)属性和局部变量.
-属性或变量的类型必须是非 null 的, 而且不能是基本类型.
+你可以对以下声明为 `var` 的属性使用 `lateinit` 修饰符:
 
-在一个 `lateinit` 属性被初始化之前访问它, 会抛出一个特别的异常, 这个异常将会指明被访问的属性, 以及它没有被初始化这一错误.
+* 顶级属性.
+* 局部变量.
+* 类 body 部之内的属性.
 
-### 检查 lateinit var 是否已完成初始化
+对于类属性:
 
-为了检查一个 `lateinit var` 是否已经初始化完成,
-可以对 [属性的引用](reflection.md#property-references) 调用 `.isInitialized`:
+* 不能在主构造器中声明.
+* 不能有自定义 getter 或 setter.
+
+在所有情况下, 属性或变量的类型必须是非 null 的, 而且不能是 [基本类型](types-overview.md).
+
+如果在初始化之前访问 `lateinit` 属性, Kotlin 会抛出一个特定的异常, 指明被访问的属性未初始化:
 
 ```kotlin
-if (foo::bar.isInitialized) {
-    println(foo.bar)
+class ReportGenerator {
+    lateinit var report: String
+
+    fun printReport() {
+        // 在初始化之前访问, 会抛出异常
+        println(report)
+    }
+}
+
+fun main() {
+    val generator = ReportGenerator()
+    generator.printReport()
+    // 发生错误: Exception in thread "main" kotlin.UninitializedPropertyAccessException: lateinit property report has not been initialized
 }
 ```
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-lateinit-property" validate="false"}
 
-这种检查只能用于当前代码可以访问到的属性, 因此属性必须定义在当前代码的同一个类中,
-或当前代码的外部类中, 或者是同一个源代码文件中的顶级属性.
+要检查 `lateinit var` 是否已完成初始化, 请对 [属性的引用](reflection.md#property-references) 使用
+[`isInitialized`](https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/is-initialized.html) 属性:
 
-## 属性的覆盖
+```kotlin
+class WeatherStation {
+    lateinit var latestReading: String
 
-参见 [属性的覆盖](inheritance.md#overriding-properties)
+    fun printReading() {
+        // 检查属性是否已初始化
+        if (this::latestReading.isInitialized) {
+            println("Latest reading: $latestReading")
+        } else {
+            println("No reading available")
+        }
+    }
+}
 
-## 委托属性(Delegated Property)
+fun main() {
+    val station = WeatherStation()
 
-最常见的属性只是简单地读取(也有可能会写入)一个后端域变量.
-但是, 通过使用自定义的取值方法和设值方法也可以访问属性, 因此可以实现属性的任意复杂的行为.
-在第一种极简单的情况与第二种极复杂的情况之间, 还存在一些常见的属性工作模式.
-比如: 属性值的延迟加载, 通过指定的键值(key)从 map 中读取数据, 访问数据库, 属性被访问时通知监听器.
+    station.printReading()
+    // 输出结果为: No reading available
+    station.latestReading = "22°C, sunny"
+    station.printReading()
+    // 输出结果为: Latest reading: 22°C, sunny
+}
+```
+{kotlin-runnable="true" kotlin-min-compiler-version="1.3" id="kotlin-lateinit-property-check-initialization"}
 
-这些常见行为可以使用[_委托属性(delegated property)_](delegated-properties.md), 以库的形式实现.
+只有在代码中已经可以访问某个属性时, 才能对这个属性使用 `isInitialized`.
+该属性必须声明在同一个类中, 在外部类中, 或者是同一文件中的顶级属性.
+
+## 属性的覆盖 {id="overriding-properties"}
+
+参见 [属性的覆盖](inheritance.md#overriding-properties).
+
+## 委托属性(Delegated Property) {id="delegated-properties"}
+
+为了重用逻辑并减少代码重复, 你可以将获取和设置属性的任务委托给另一个单独的对象.
+
+将访问器的行为委托出去, 能使属性的访问器逻辑集中化, 更易于重用.
+这种方案在实现以下行为时很有用:
+
+* 延迟计算属性值.
+* 通过指定的键值从 map 中读取数据.
+* 访问数据库.
+* 在属性被访问时通知监听器.
+
+你可以自己在库中实现这些常见行为, 也可以使用外部库提供的现有委托.
+详情请参见 [委托属性](delegated-properties.md).

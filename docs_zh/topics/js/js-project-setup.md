@@ -43,6 +43,8 @@ kotlin {
 
 * [目标执行环境](#execution-environments): 浏览器, 或 Node.js
 * [支持 ES2015 功能](#support-for-es2015-features): 类, 模块, 和生成器
+* [配置输出粒度](#configure-output-granularity)
+* [生成 TypeScript 声明文件](#generation-of-typescript-declaration-files-d-ts)
 * [工程的依赖项目管理](#dependencies): Maven 或 npm
 * [运行配置(configuration)](#run-task)
 * [测试配置(configuration)](#test-task)
@@ -85,23 +87,76 @@ Kotlin Multiplatform 插件会针对选定的运行环境, 自动配置它的编
 
 ## 支持 ES2015 功能 {id="support-for-es2015-features"}
 
-Kotlin 对以下 ES2015 功能提供了 [实验性](components-stability.md#stability-levels-explained) 的支持:
+Kotlin 支持 ES2015 功能, 包括:
 
 * 模块: 简化你的代码库, 提高可维护性的.
 * 类: 可以结合 OOP 原则, 产生更清晰, 更直观的代码.
 * 用于编译 [挂起函数](composing-suspending-functions.md) 的生成器: 能够改善最终 bundle 的大小, 并帮助进行调试.
+* [内联 JavaScript 代码](js-interop.md#inline-javascript).
 
 你可以向你的 `build.gradle(.kts)` 文件添加 `es2015` 编译目标, 一次性启用所有支持的 ES2015 功能:
 
 ```kotlin
 tasks.withType<KotlinJsCompile>().configureEach {
-    kotlinOptions {
+    compilerOptions {
         target = "es2015"
     }
 }
 ```
 
 [关于 ES2015 (ECMAScript 2015, ES6), 更多详情请参见官方文档](https://262.ecma-international.org/6.0/).
+
+## 配置输出粒度 {id="configure-output-granularity"}
+
+你可以选择让编译器在你的项目中如何输出 `.js` 文件:
+
+* **对每个模块输出 `.js` 文件**. 默认情况下, JS 编译器的编译结果是对项目的每个模块输出单独的 `.js` 文件.
+* **对每个项目输出 `.js` 文件**. 你也可以将整个项目编译为单个 `.js` 文件, 方法是向 `gradle.properties` 文件添加以下设置:
+
+  ```properties
+  kotlin.js.ir.output.granularity=whole-program // 默认值是 'per-module'
+  ```
+
+* **对每个文件输出 `.js` 文件**. 你也可以设置更加细粒度的输出, 为每个 Kotlin 文件生成 1 个 JavaScript 文件
+  (如果 Kotlin 文件包含导出的声明, 则会生成 2 个 JavaScript 文件). 启用这个模式的方法如下:
+  1. 将 [编译目标](#support-for-es2015-features) 设置为 `es2015`,
+     在你的项目中支持 ES2015 功能.
+  2. 将以下内容添加到 `gradle.properties` 文件:
+     ```properties
+     kotlin.js.ir.output.granularity=per-file // 默认值是 'per-module'
+     ```
+
+## 生成 TypeScript 声明文件 (`d.ts`) {id="generation-of-typescript-declaration-files-d-ts"}
+<primary-label ref="experimental-opt-in"/>
+
+Kotlin/JS 编译器能够从你的 Kotlin 代码生成 TypeScript 定义.
+在开发混合 App(Hybrid App)时, JavaScript 工具和 IDE 可以使用这些定义实现以下功能:
+
+* 提供代码自动完成
+* 支持静态分析
+* 简化在 JavaScript 和 TypeScript 项目中添加 Kotlin 代码的过程
+
+生成 TypeScript 定义对于 [共用业务逻辑的使用场景](js-overview.md#use-cases-for-kotlin-js) 尤其有用.
+
+编译器会收集所有标注了 [`@JsExport`](js-to-kotlin-interop.md#jsexport-annotation) 注解的顶级声明,
+并自动在一个 `.d.ts` 文件中生成 TypeScript 定义.
+
+要生成 TypeScript 定义, 请在你的 Gradle 构建文件中明确进行配置.
+请在你的 `build.gradle.kts` 文件的 [`js {}` 代码段](js-project-setup.md#execution-environments)
+中添加 `generateTypeScriptDefinitions()` 函数:
+
+```kotlin
+kotlin {
+    js {
+        binaries.executable()
+        browser {
+        }
+        generateTypeScriptDefinitions()
+    }
+}
+```
+
+这些声明位于 `build/js/packages/<package_name>/kotlin` 目录中, 与相应的未经 webpack 处理的 JavaScript 代码在一起.
 
 ## 依赖项目 {id="dependencies"}
 
@@ -246,7 +301,7 @@ dependencies {
 你也可以通过 [npm](https://www.npmjs.com/) 包管理器直接使用 npm 依赖项.
 要使用 npm 作为你的包管理器, 请在你的 `gradle.properties` 文件中, 设置以下属性:
 
-```none
+```properties
 kotlin.js.yarn=false
 ```
 
@@ -330,7 +385,7 @@ kotlin {
 
 或者你也可以在 `gradle.properties` 文件中添加测试的目标浏览器:
 
-```text
+```properties
 kotlin.js.browser.karma.browsers=firefox,safari
 ```
 
@@ -399,7 +454,7 @@ Kotlin Multiplatform 插件使用 webpack %webpackMajorVersion%.
 那么可以在你的项目的 `gradle.properties` 文件中添加以下设置,
 临时切换回这些版本使用的 webpack %webpackPreviousMajorVersion%:
 
-```none
+```properties
 kotlin.js.webpack.major.version=%webpackPreviousMajorVersion%
 ```
 
@@ -895,11 +950,11 @@ kotlin {
 ## 模块名称 {id="module-name"}
 
 如果要调整 JavaScript _模块(module)_ 名称 (模块将被生成在 `build/js/packages/myModuleName` 路径),
-包括对应的 `.js` 和 `.d.ts` 文件名称, 请使用 `moduleName` 选项:
+包括对应的 `.js` 和 `.d.ts` 文件名称, 请使用 `outputModuleName` 选项:
 
 ```groovy
 js {
-    moduleName = "myModuleName"
+    outputModuleName = "myModuleName"
 }
 ```
 

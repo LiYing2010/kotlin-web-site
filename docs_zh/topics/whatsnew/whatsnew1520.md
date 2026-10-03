@@ -1,6 +1,8 @@
 [//]: # (title: Kotlin 1.5.20 版中的新功能)
 
-_[发布日期: 2021/06/24](releases.md#release-details)_
+<web-summary>阅读 Kotlin 1.5.20 发布说明, 包括新的语言特性, Kotlin Multiplatform, JVM, Native, JS 的更新, 以及对 Gradle 和 Maven 的构建工具支持.</web-summary>
+
+_[发布日期: 2021/06/24](releases.md#release-history)_
 
 Kotlin 1.5.20 修复了在 1.5.0 新功能中发现的问题, 还包含很多工具改进.
 
@@ -9,7 +11,11 @@ Kotlin 1.5.20 修复了在 1.5.0 新功能中发现的问题, 还包含很多工
 
 <video src="https://www.youtube.com/v/SV8CgSXQe44" title="Kotlin 1.5.20"/>
 
-## Kotlin/JVM
+> 关于 Kotlin 的发布周期, 详情请参见 [Kotlin 发布过程](releases.md).
+>
+{style="tip"}
+
+## Kotlin/JVM {id="kotlinjvm"}
 
 Kotlin 1.5.20 包含 JVM 平台上的以下更新:
 * [通过动态调用拼接字符串](#string-concatenation-via-invokedynamic)
@@ -26,7 +32,7 @@ Kotlin 1.5.20 在 JVM 9+ 以上的目标平台, 将字符串拼接编译为 [动
 要切换回以前版本中使用的 [`StringBuilder.append()`](https://docs.oracle.com/javase/9/docs/api/java/lang/StringBuilder.html#append-java.lang.String-)
 拼接模式, 请添加编译器选项 `-Xstring-concat=inline`.
 
-关于如何添加编译器选项, 请参见 [Gradle](gradle-compiler-options.md), [Maven](maven.md#specify-compiler-options), 和 [命令行编译器](compiler-reference.md#compiler-options) 文档.
+关于如何添加编译器选项, 请参见 [Gradle](gradle-compiler-options.md), [Maven](maven-kotlin-compiler.md#specify-compiler-options), 和 [命令行编译器](compiler-reference.md#compiler-options) 文档.
 
 ### 支持 JSpecify 的可否为 null 注解 {id="support-for-jspecify-nullness-annotations"}
 
@@ -92,7 +98,7 @@ Lombok 注解 只能用于 Java 源代码, 如果你在 Kotlin 代码中使用, 
 
 参见 [如何配置 Lombok 编译器插件](lombok.md#gradle).
 
-## Kotlin/Native
+## Kotlin/Native {id="kotlinnative"}
 
 Kotlin/Native 1.5.20 提供了新功能的预览, 以及工具的改进:
 
@@ -181,16 +187,16 @@ UTF [surrogate pair](https://en.wikipedia.org/wiki/Universal_Character_Set_chara
 当 copy 的来源与目标是同一个数组时, 我们改进了 `Array.copyInto()` 的工作方式.
 由于对这种场景的内存管理进行了优化, 现在这样的操作速度提高了 20 倍 (具体数字取决与复制的对象数量).
 
-## Kotlin/JS
+## Kotlin/JS {id="kotlinjs"}
 
 1.5.20 版中, 我们发布了一个指南, 帮助你将项目迁移到 Kotlin/JS 的新的 [基于 IR 的编译器后端](js-ir-compiler.md).
 
-### 针对 JS IR 编译器后端的迁移指南
+### 针对 JS IR 编译器后端的迁移指南 {id="migration-guide-for-the-js-ir-backend"}
 
-新的 [针对 JS IR 编译器后端的迁移指南](js-ir-migration.md) 列举了你在迁移过程中可能遇到的问题, 并提供了解决方案.
+新的针对 JS IR 编译器后端的迁移指南, 列举了你在迁移过程中可能遇到的问题, 并提供了解决方案.
 如果你发现了迁移指南中未提到的其他问题, 请到我们的 [问题追踪系统](http://kotl.in/issue) 提交报告.
 
-## Gradle
+## Gradle {id="gradle"}
 
 Kotlin 1.5.20 增加了以下功能, 改进 Gradle 的使用体验:
 
@@ -210,7 +216,7 @@ Kotlin 1.5.20 增加了以下功能, 改进 Gradle 的使用体验:
 
 要启用这个功能, 请在你的 `gradle.properties` 文件中添加以下属性:
 
-```none
+```properties
 # 正数值会启用缓存功能
 # 请在这里指定与使用 kapt 的模块数相同的数字
 kapt.classloaders.cache.size=5
@@ -229,7 +235,7 @@ kapt.include.compile.classpath=false
 你不再需要使用 `kotlin.parallel.tasks.in.project` 属性.
 这个属性已被废弃, 并将在下一个主发布版中删除.
 
-## 标准库
+## 标准库 {id="standard-library"}
 
 Kotlin 1.5.20 修改了与字符相关的几个函数的平台相关实现, 因此统一了各个平台上的结果:
 * [在 Kotlin/Native 和 Kotlin/JS 平台, Char.digitToInt() 函数支持所有的 Unicode 数字](#support-for-all-unicode-digits-in-char-digittoint-in-kotlin-native-and-kotlin-js).

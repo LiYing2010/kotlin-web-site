@@ -1,5 +1,10 @@
 [//]: # (title: 继承)
 
+> 在创建类的继承层级结构之前, 请考虑使用 [抽象类](classes.md#abstract-classes) 或 [接口](interfaces.md).
+> 默认情况下, 你可以从抽象类和接口继承. 它们的目的就是为了让其它类能够继承并实现它们的成员.
+>
+{style="tip"}
+
 Kotlin 中所有的类都有一个共同的超类 `Any`, 如果类声明时没有指定超类, 则默认为 `Any`:
 
 ```kotlin
@@ -15,6 +20,8 @@ class Example // 隐含地继承自 Any
 open class Base // 这个类现在是 open 的, 可以被继承
 
 ```
+
+[详情请参见 `open` 关键字](#open-keyword).
 
 要明确声明类的超类, 要在类的头部添加一个冒号, 冒号之后指定超类:
 
@@ -35,6 +42,60 @@ class MyView : View {
     constructor(ctx: Context) : super(ctx)
 
     constructor(ctx: Context, attrs: AttributeSet) : super(ctx, attrs)
+}
+```
+
+## `open` 关键字 {id="open-keyword"}
+
+在 Kotlin 中, `open` 关键字表示一个类或一个成员 (函数或属性) 在子类中能够被覆盖.
+默认情况下, Kotlin 类及其成员都是 _final_ 的,
+也就是说, 除非你明确的将它们标记为 `open`, 否则类不能被继承, 成员不能被覆盖:
+
+```kotlin
+// 带有 open 关键字的基类, 允许继承
+open class Person(
+    val name: String,
+) {
+    // open 的函数, 在子类中能够被覆盖
+    open fun introduce() {
+        println("Hello, my name is $name.")
+    }
+}
+
+// 子类继承自 Person, 并覆盖 introduce() 函数
+class Student(
+    name: String,
+    val school: String,
+) : Person(name) {
+    override fun introduce() {
+        println("Hi, I'm $name, and I study at $school.")
+    }
+}
+```
+
+如果你覆盖基类的一个成员, 那么覆盖后的成员默认也是 open 的.
+如果你想要修改这个行为, 禁止你的类的子类覆盖你的实现, 你可以将覆盖后的成员明确的标记为 `final`:
+
+```kotlin
+// 带有 open 关键字的基类, 允许继承
+open class Person(
+    val name: String,
+) {
+    // open 的函数, 在子类中能够被覆盖
+    open fun introduce() {
+        println("Hello, my name is $name.")
+    }
+}
+
+// 子类继承自 Person, 并覆盖 introduce() 函数
+class Student(
+    name: String,
+    val school: String,
+) : Person(name) {
+    // final 关键字禁止子类中进一步覆盖
+    final override fun introduce() {
+        println("Hi, I'm $name, and I study at $school.")
+    }
 }
 ```
 
@@ -196,7 +257,7 @@ fun main() {
 ```
 {kotlin-runnable="true"}
 
-## 覆盖的规则
+## 覆盖的规则 {id="overriding-rules"}
 
 在 Kotlin 中, 类继承中的方法实现问题, 遵守以下规则: 如果一个类从它的直接超类中继承了同一个成员的多个实现,
 那么这个子类必须覆盖这个成员, 并提供一个自己的实现(可以使用继承得到的多个实现中的某一个).

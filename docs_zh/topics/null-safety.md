@@ -324,7 +324,7 @@ fun main() {
 
 ## 可为 null 的接受者 {id="nullable-receiver"}
 
-你可以使用带有 [可为 null 的接受者类型](extensions.md#nullable-receiver) 的扩展函数,
+你可以使用带有 [可为 null 的接受者类型](extensions.md#nullable-receivers) 的扩展函数,
 这样就允许对可能为 `null` 的变量调用这些函数.
 
 通过对可为 null 的接受者类型定义扩展函数, 你可以在函数内部处理 `null` 值, 而不必在每次调用函数的时候检查 `null` 值.
@@ -454,7 +454,7 @@ fun main() {
 ```
 {kotlin-runnable="true"}
 
-## 下一步做什么?
+## 下一步做什么? {id="whats-next"}
 
 * 学习 [在 Java 和 Kotlin 中如何处理可空性(nullability)](java-to-kotlin-nullability-guide.md).
 * 学习 [确定不含 null 值的泛型](generics.md#definitely-non-nullable-types).

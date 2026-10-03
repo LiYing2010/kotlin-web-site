@@ -1,11 +1,17 @@
 [//]: # (title: Kotlin 1.4.0 版中的新功能)
 
-_[发布日期: 2020/08/17](releases.md#release-details)_
+<web-summary>阅读 Kotlin 1.4.0 发布说明, 包括新的语言特性, Kotlin Multiplatform, JVM, Native, JS 的更新, 以及对 Gradle 和 Maven 的构建工具支持.</web-summary>
+
+_[发布日期: 2020/08/17](releases.md#release-history)_
 
 在 Kotlin 1.4.0 中, 我们对所有组件发布了许多改进, [专注于改善质量和性能](https://blog.jetbrains.com/kotlin/2020/08/kotlin-1-4-released-with-a-focus-on-quality-and-performance/).
 下文详细介绍 Kotlin 1.4.0 中最重要的变化.
 
-## 语言方面的新功能和改进
+> 关于 Kotlin 的发布周期, 详情请参见 [Kotlin 发布过程](releases.md).
+>
+{style="tip"}
+
+## 语言方面的新功能和改进 {id="language-features-and-improvements"}
 
 Kotlin 1.4.0 包含很多语言方面的新功能和改进.
 包括:
@@ -136,7 +142,7 @@ fun reformat(
 reformat("This is a String!", uppercaseFirstLetter = false , '-')
 ```
 
-### 尾随逗号(trailing comma)
+### 尾随逗号(trailing comma) {id="trailing-comma"}
 
 在 Kotlin 1.4 中, 可以在各种列举中添加尾随逗号,
 比如: 实际参数, 参数声明, `when` 语句的分支条件, 以及解构声明的元素.
@@ -167,14 +173,14 @@ val colors = listOf(
 
 Kotlin 1.4 对于可调用引用的使用, 支持更多情况:
 
-* 对带默认参数值的函数的引用
+* 对带默认值参数的函数的引用
 * 在返回值为 `Unit` 的函数内使用函数引用
 * 根据函数参数个数适用的引用
 * 对可调用引用的挂起转换
 
-#### 对带默认参数值的函数的引用
+#### 对带默认值参数的函数的引用 {id="references-to-functions-that-include-parameters-with-default-values"}
 
-现在, 你可以使用带默认参数值的函数的可调用引用.
+现在, 你可以使用带默认值参数的函数的可调用引用.
 如果对函数 `foo` 的可调用引用没有参数, 那么会使用默认值 `0`.
 
 ```kotlin
@@ -188,14 +194,14 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.4"}
 
-在以前, 必须对函数 `apply` 编写额外的重载(overload)版, 才能使用默认参数值.
+在以前, 必须对 `apply` 或 `foo` 函数编写一个额外的重载版(overload).
 
 ```kotlin
 // 一些新的重载版本
 fun applyInt(func: (Int) -> String): String = func(0)
 ```
 
-#### 在返回值为 Unit 的函数内使用函数引用
+#### 在返回值为 Unit 的函数内使用函数引用 {id="function-references-in-unit-returning-functions"}
 
 在 Kotlin 1.4 中, 在返回 `Unit` 的函数内, 可以使用返回任何类型的函数的可调用引用.
 在 Kotlin 1.4 之前, 这种情况下只能使用 Lambda 参数. 现在既可以使用 Lambda 参数也可以使用可调用引用.
@@ -210,7 +216,7 @@ fun main() {
 }
 ```
 
-#### 根据函数参数个数适用的引用
+#### 根据函数参数个数适用的引用 {id="references-that-adapt-based-on-the-number-of-arguments-in-a-function"}
 
 当传递可变数量的参数(`vararg`)时, 现在可以适用函数的可调用引用.
 在传递的参数列表的最后, 可以传递任意数量的相同类型参数.
@@ -229,7 +235,7 @@ fun test() {
 }
 ```
 
-#### 对可调用引用的挂起转换
+#### 对可调用引用的挂起转换 {id="suspend-conversion-on-callable-references"}
 
 除了对 Lambda 表达式的挂起转换之外, 从 1.4.0 版开始, Kotlin 现在还支持对可调用引用的挂起转换.
 
@@ -280,7 +286,7 @@ fun test(xs: List<Int>) {
 
 `when` 之内的跳过(fall-through)行为, 我们留待未来的设计解决.
 
-## IDE 中的新工具
+## IDE 中的新工具 {id="new-tools-in-the-ide"}
 
 在 Kotlin 1.4 中, 可以在 IntelliJ IDEA 中使用新工具来简化 Kotlin 开发:
 
@@ -349,7 +355,7 @@ Kotlin 项目向导只会显示你选择的项目模板支持的构建系统.
 关于协程调试, 更多信息请参见 [这篇 Blog](https://blog.jetbrains.com/kotlin/2020/07/kotlin-1-4-rc-debugging-coroutines/)
 以及 [IntelliJ IDEA 文档](https://www.jetbrains.com/help/idea/debug-kotlin-coroutines.html).
 
-## 新编译器
+## 新编译器 {id="new-compiler"}
 
 Kotlin 的新编译器将会非常快; 它还能统一所有支持的平台, 并为编译器扩展提供 API.
 这是一个长期的项目, 在 Kotlin 1.4.0 中我们已经完成了一些部分:
@@ -535,7 +541,7 @@ Kotlin/Native 基于一种新的基础架构, 它对 Kotlin 代码使用一种�
 我们鼓励你使用我们的新 [JVM IR](#new-jvm-ir-backend) 和 [JS IR](#new-js-ir-backend) 后端,
 它们还处于 Alpha 阶段, 希望你能向我们反馈意见.
 
-## Kotlin/JVM
+## Kotlin/JVM {id="kotlinjvm"}
 
 Kotlin 1.4.0 包含很多针对 JVM 的改进, 比如:
 
@@ -628,7 +634,7 @@ class A {
 }
 ```
 
-## Kotlin/JS
+## Kotlin/JS {id="kotlinjs"}
 
 对 JS 平台, Kotlin 1.4.0 提供了以下改进:
 
@@ -674,13 +680,13 @@ kotlin {
 关于如何配置新的编译器后端, 更多详情请阅读 [Kotlin/JS IR 编译器文档](js-ir-compiler.md).
 
 使用新的 [@JsExport](js-to-kotlin-interop.md#jsexport-annotation) 注解,
-以及 **从 Kotlin 代码 [生成 TypeScript 定义](js-ir-compiler.md#preview-generation-of-typescript-declaration-files-d-ts)** 的能力,
+以及 **从 Kotlin 代码 [生成 TypeScript 定义](js-project-setup.md#generation-of-typescript-declaration-files-d-ts)** 的能力,
 Kotlin/JS IR 编译器后端改进了与 JavaScript & TypeScript 的交互能力.
 也使得 Kotlin/JS 代码更容易与既有的工具集成, 来创建 **混合应用程序**, 并在跨平台项目利用代码共用功能.
 
 [关于 Kotlin/JS IR 编译器后端的详细功能特性, 请阅读这篇文档](js-ir-compiler.md).
 
-## Kotlin/Native
+## Kotlin/Native {id="kotlinnative"}
 
 在 1.4.0 中, Kotlin/Native 有了大量的新功能和改进, 包括:
 
@@ -766,7 +772,7 @@ kotlin {
 }
 ```
 
-[关于应用程序崩溃报告的符号化, 请阅读这篇文档](native-ios-symbolication.md).
+[关于应用程序崩溃报告的符号化, 请阅读这篇文档](native-debugging.md#debug-ios-applications).
 
 ### 性能改进 {id="performance-improvements"}
 
@@ -811,7 +817,7 @@ Kotlin/Native 完成了很多性能改进, 提高了开发速度, 也提高了�
 
 [关于如何添加依赖项, 请阅读这篇文档](multiplatform-cocoapods-libraries.md).
 
-## Kotlin Multiplatform
+## Kotlin Multiplatform {id="kotlin-multiplatform"}
 
 > 跨平台项目功能现在处于 [Alpha](components-stability.md) 阶段.
 > 在未来的 Kotlin 版本中, 这个功能的兼容性可能会改变, 需要手工迁移.
@@ -819,7 +825,7 @@ Kotlin/Native 完成了很多性能改进, 提高了开发速度, 也提高了�
 >
 {style="warning"}
 
-[Kotlin Multiplatform](multiplatform.topic) 可以减少对 [不同的平台](multiplatform-dsl-reference.md#targets) 编写和维护相同代码的时间,
+[Kotlin Multiplatform](get-started.topic) 可以减少对 [不同的平台](multiplatform-dsl-reference.md#targets) 编写和维护相同代码的时间,
 又能同时保持原生程序开发的灵活性便利. 我们一直在努力开发各种跨平台的新功能特性和改进:
 
 * [使用层级项目结构在多个编译目标中共用代码](#sharing-code-in-several-targets-with-the-hierarchical-project-structure)
@@ -981,7 +987,7 @@ kotlin {
 
 [关于配置依赖项, 请阅读这篇文档](gradle-configure-project.md#configure-dependencies).
 
-## Gradle 项目的改进
+## Gradle 项目的改进 {id="gradle-project-improvements"}
 
 除了 [Kotlin Multiplatform](#kotlin-multiplatform), [Kotlin/JVM](#kotlin-jvm),
 [Kotlin/Native](#kotlin-native), 和 [Kotlin/JS](#kotlin-js) 的 Gradle 项目功能特性和改进之外,
@@ -1046,7 +1052,7 @@ Kotlin Gradle plugin 会根据你的 Gradle build 脚本中的 `kotlinOptions.jv
 现在 Gradle Daemon 直接返回错误的所有信息, 并显示到 Build 工具窗口.
 这个改进可以节省你很多时间和精力.
 
-## 标准库
+## 标准库 {id="standard-library"}
 
 Kotlin 标准库 1.4.0 中最重要的变化如下:
 
@@ -1074,7 +1080,7 @@ Kotlin 标准库 1.4.0 中最重要的变化如下:
 
 ### 用于数组和集合的新函数 {id="new-functions-for-arrays-and-collections"}
 
-#### 集合
+#### 集合 {id="collections"}
 
 在 1.4.0 中, 标准库包括一组有用的函数, 可用于处理 **collections**:
 
@@ -1219,7 +1225,7 @@ Kotlin 标准库 1.4.0 中最重要的变化如下:
 
 * `removeFirst()` 和 `removeLast()` 便捷函数, 从可变列表中删除元素, 以及这些函数的 `*orNull()` 版本.
 
-#### 数组
+#### 数组 {id="arrays"}
 
 为了在使用不同的容器类型时提供一致的体验, 我们还为 **数组** 添加了新的函数:
 
@@ -1265,7 +1271,7 @@ fun main() {
 ```
 {kotlin-runnable="true" kotlin-min-compiler-version="1.4"}
 
-#### ArrayDeque
+#### ArrayDeque {id="arraydeque"}
 
 我们还添加了 `ArrayDeque` 类 – 双端队列(double-ended queue) 的一个实现.
 对双端队列, 既可以从队列头部也可以从队列尾部添加或删除元素, 操作的平摊时间固定(amortized
@@ -1425,19 +1431,19 @@ Kotlin 1.4.0 对标准库的默认 artifact 添加了 `module-info.java` 模块�
 
 ### 废弃的功能 {id="deprecations"}
 
-#### Double 和 Float 的 toShort() 和 toByte() 函数
+#### Double 和 Float 的 toShort() 和 toByte() 函数 {id="toshort-and-tobyte-of-double-and-float"}
 
 我们废弃了 `Double` 和 `Float` 的 `toShort()` 和 `toByte()` 函数, 原因是, 由于变量的取值范围变小, 这些函数可能产生预料之外的结果.
 
 要将浮点数转换为 `Byte` 或 `Short`, 请使用二步转换: 首先, 转换为 `Int`, 然后再转换为目标类型.
 
-#### 浮点数数组的 contains(), indexOf(), 和 lastIndexOf() 函数
+#### 浮点数数组的 contains(), indexOf(), 和 lastIndexOf() 函数 {id="contains-indexof-and-lastindexof-on-floating-point-arrays"}
 
 我们废弃了 `FloatArray` 和 `DoubleArray` 的 `contains()`, `indexOf()`, 和 `lastIndexOf()` 扩展函数,
 因为它们使用 [IEEE 754](https://en.wikipedia.org/wiki/IEEE_754) 标准的相等比较,
 在一些极端情况下会与全顺序相等性(total order equality)矛盾. 详情请参见 [这个 issue](https://youtrack.jetbrains.com/issue/KT-28753).
 
-#### 集合的 min() 和 max() 函数
+#### 集合的 min() 和 max() 函数 {id="min-and-max-collection-functions"}
 
 我们废弃了集合函数 `min()` 和 `max()`, 改用 `minOrNull()` 和 `maxOrNull()`,
 新的函数名更能反映它们的行为 – 对空集合返回 `null`.
@@ -1451,7 +1457,7 @@ Kotlin 1.4.0 对标准库的默认 artifact 添加了 `module-info.java` 模块�
 其中包含所有的实验性协程 API.
 我们已经将它发布到了 Maven, 而且在 Kotlin 发布版中, 除标准库之外也包括了这个库.
 
-## JSON 序列化的稳定版
+## JSON 序列化的稳定版 {id="stable-json-serialization"}
 
 在 Kotlin 1.4.0 中, 我们发布了 [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization)
 的第一个稳定版本 - 1.0.0-RC.
@@ -1470,7 +1476,7 @@ Kotlin 1.4.0 对标准库的默认 artifact 添加了 `module-info.java` 模块�
 >
 {style="note"}
 
-## 脚本与 REPL
+## 脚本与 REPL {id="scripting-and-repl"}
 
 在 1.4.0 中, Kotlin 脚本有了很多功能和性能的改进, 以及其他更新.
 下面是一些关键性的改变:
@@ -1529,6 +1535,5 @@ Kotlin plugin 的迁移工具, 可以帮助你将项目从更早的 Kotlin 版�
 
 ![迁移审查](migration-inspection-wn.png)
 
-Kotlin 1.4.0 是一个 [功能性发布版(Feature Release)](kotlin-evolution-principles.md#language-and-tooling-releases),
-因此会对语言带来一些不兼容的变更.
+Kotlin 1.4.0 是一个功能发布版, 因此会对语言带来一些不兼容的变更.
 关于这些变更的详情, 请参见 **[Kotlin 1.4 兼容性指南](compatibility-guide-14.md)**.
